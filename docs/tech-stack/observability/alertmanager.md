@@ -10,9 +10,24 @@
 
 说明：本文是基于 Prometheus/Alertmanager 官方文档整理的原创中文教程，不复制官方全文。
 
+## 为什么要学
+
+Prometheus 能判断告警是否触发，但真正值班痛苦往往来自“告警太多、重复告警、无效告警、该通知的人没收到”。Alertmanager 解决的是告警进入人之前的整理、降噪和路由。
+
+对 AIOps 来说，Alertmanager 是告警治理的第一道关口。后面的告警聚类、事件摘要、自动化 runbook、LLM 解释告警，都需要更干净的告警输入。
+
 ## 是什么
 
 Alertmanager 是 Prometheus 生态里的告警处理组件。Prometheus 负责判断“告警是否触发”，Alertmanager 负责处理“告警发给谁、怎么合并、什么时候静默、哪些告警互相抑制”。
+
+## 它解决什么问题
+
+- 把同类告警分组，避免同一故障发出大量通知。
+- 对重复告警去重，减少通知风暴。
+- 按标签把告警路由给不同团队或渠道。
+- 在维护窗口使用 silence 静默告警。
+- 用 inhibition 抑制由上游故障引发的下游噪声。
+- 通过 webhook 把告警接入自动化和 AIOps 分析服务。
 
 ## 核心原理
 
@@ -148,6 +163,30 @@ inhibit_rules:
 - 检查 matcher。
 - 检查 route 顺序。
 - 检查标签是否存在。
+
+## 学习检查清单
+
+- [ ] 我能解释 Prometheus alert rules 和 Alertmanager 的分工。
+- [ ] 我能写一个最小 `alertmanager.yml`。
+- [ ] 我能解释 route、receiver、matcher 的关系。
+- [ ] 我能配置 `group_by`、`group_wait`、`repeat_interval`。
+- [ ] 我能解释 grouping、deduplication、silence、inhibition。
+- [ ] 我能用 webhook 接收告警 JSON。
+- [ ] 我能排查告警没收到、告警太多、路由不匹配问题。
+- [ ] 我能说明 Alertmanager 在 AIOps 告警降噪中的位置。
+
+## 面试题
+
+1. Prometheus 和 Alertmanager 分别负责什么？
+2. `group_by` 设计过细会带来什么问题？
+3. silence 和 inhibition 有什么区别？
+4. Alertmanager route 为什么是树形结构？
+5. 告警没发送到预期接收器时怎么排查？
+6. 为什么整机宕机时要抑制同机器上的服务告警？
+7. webhook 接收到的告警 JSON 里哪些字段最重要？
+8. `group_wait` 和 `repeat_interval` 分别控制什么？
+9. Alertmanager 如何帮助 AIOps 告警降噪？
+10. 什么样的告警适合进入自动化 runbook？
 
 ## 学习证据
 

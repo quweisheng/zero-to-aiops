@@ -19,7 +19,7 @@
 | 0 | Prometheus、Grafana、Docker Compose | 已完成 | 第一批示范级文章 |
 | 1 | Linux、Git、GitHub、Markdown、VitePress、Python、Shell/PowerShell、systemd、网络基础 | 已完成 | 已补齐为什么学、解决问题、检查清单、面试题 |
 | 2 | Docker、Kubernetes、Helm、NGINX/Ingress | 已完成 | 已补齐为什么学、解决问题、检查清单、面试题 |
-| 3 | Alertmanager、OpenTelemetry、Loki、Elasticsearch | 待改造 | 可观测性补齐 |
+| 3 | Alertmanager、OpenTelemetry、Loki、Elasticsearch | 已完成 | 已补齐告警治理、遥测采集、日志检索和搜索分析精讲补充 |
 | 4 | Ansible、Terraform、GitHub Actions、CI/CD、Runbook Automation | 待改造 | 自动化与交付 |
 | 5 | MySQL、Redis、Kafka、pandas、scikit-learn、FastAPI、LLM、RAG、向量数据库 | 待改造 | 数据与 AI |
 | 6 | SLI/SLO/SLA、告警治理、事件响应、Runbook、RCA、变更管理、AIOps 闭环 | 待改造 | SRE/AIOps 方法论 |

@@ -11,6 +11,12 @@
 
 说明：本文是基于 OpenTelemetry 官方文档的原创中文学习教程，不复制官方全文。
 
+## 为什么要学
+
+传统监控经常是指标一套、日志一套、链路一套，采集方式和字段命名都不统一。OpenTelemetry 的价值是提供统一的遥测标准和 Collector 管道，让不同应用和后端之间更容易连接。
+
+对 AIOps 来说，根因分析最怕数据割裂。只有指标、日志、链路能通过 service、trace_id、span、resource 等上下文关联起来，才能更快判断故障发生在哪个服务、哪个依赖、哪个请求路径。
+
 ## 是什么
 
 OpenTelemetry 是开放的可观测性框架，用来生成、采集、处理和导出遥测数据。它支持三类核心信号：
@@ -18,6 +24,15 @@ OpenTelemetry 是开放的可观测性框架，用来生成、采集、处理和
 - Traces：链路追踪。
 - Metrics：指标。
 - Logs：日志。
+
+## 它解决什么问题
+
+- 统一应用产生 metrics、logs、traces 的方式。
+- 通过 Collector 把采集、处理、导出从应用里解耦。
+- 支持自动 instrumentation 和代码埋点。
+- 用 OTLP 协议连接不同后端。
+- 让服务名、环境、实例、trace 上下文等字段更一致。
+- 为跨服务根因分析提供数据基础。
 
 ## 核心原理
 
@@ -158,6 +173,30 @@ docker run --rm \
 
 - 先用 `debug` exporter 验证 Collector 是否收到数据。
 - 再检查 exporter 配置。
+
+## 学习检查清单
+
+- [ ] 我能解释 metrics、logs、traces 三类信号。
+- [ ] 我能说明 SDK、auto instrumentation、Collector 的关系。
+- [ ] 我能写一个最小 Collector 配置。
+- [ ] 我能解释 receiver、processor、exporter、pipeline。
+- [ ] 我能区分 OTLP gRPC 4317 和 OTLP HTTP 4318。
+- [ ] 我能先用 debug exporter 验证数据是否进入 Collector。
+- [ ] 我能说明 OpenTelemetry 如何减少后端绑定。
+- [ ] 我能解释它在 AIOps 根因分析中的作用。
+
+## 面试题
+
+1. OpenTelemetry 解决了什么问题？
+2. metrics、logs、traces 分别适合回答什么问题？
+3. OpenTelemetry Collector 的 receiver、processor、exporter 分别做什么？
+4. 为什么建议应用先把遥测数据发给 Collector？
+5. OTLP 是什么？常见端口有哪些？
+6. auto instrumentation 和手动埋点有什么区别？
+7. trace_id 对日志和链路关联有什么价值？
+8. 后端没有数据时为什么先用 debug exporter 排查？
+9. OpenTelemetry 和 Prometheus 是竞争关系吗？
+10. OpenTelemetry 如何帮助 AIOps 做根因分析？
 
 ## 学习证据
 
