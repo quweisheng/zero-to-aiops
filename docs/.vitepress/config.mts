@@ -3,6 +3,7 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: 'To Be Better AIOps Engineer',
   description: 'AIOps 学习路线、实战项目、面试准备和天津求职记录',
+  base: '/zero-to-aiops/',
   themeConfig: {
     nav: [
       { text: '学习路线', link: '/roadmap/README' },
