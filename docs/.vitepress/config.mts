@@ -19,6 +19,12 @@ export default defineConfig({
         ]
       },
       {
+        text: '教程',
+        items: [
+          { text: '从 0 开始', link: '/tutorials/0001-start-from-zero' }
+        ]
+      },
+      {
         text: '路线',
         items: [
           { text: '学习路线', link: '/roadmap/README' },

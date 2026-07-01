@@ -19,5 +19,6 @@
 
 1. [学习路线](./roadmap/README.md)
 2. [能力地图](./roadmap/00-skill-map.md)
-3. [实战项目](./projects/README.md)
-4. [天津求职](./job-search/tianjin.md)
+3. [纯小白从 0 开始](./tutorials/0001-start-from-zero.md)
+4. [实战项目](./projects/README.md)
+5. [天津求职](./job-search/tianjin.md)
