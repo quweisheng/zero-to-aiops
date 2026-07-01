@@ -2,6 +2,16 @@
 
 这个目录记录我从 0 学 AIOps 过程中会接触到的技术栈。它不是一次性背诵清单，而是一个长期学习地图：每学一项，就补充理解、配置、实验和踩坑记录。
 
+## 精讲写作标准
+
+后续每个技术栈文件都会按 [技术栈精讲写作标准](./writing-standard.md) 补齐内容：官方资料、是什么、原理、架构、配置、实验、排障、面试题和学习证据。
+
+第一批示范级文章：
+
+- [Prometheus 精讲](./observability/prometheus.md)
+- [Grafana 精讲](./observability/grafana.md)
+- [Docker Compose 精讲](./cloud-native/docker-compose.md)
+
 ## 学习优先级
 
 - P0：必须先学。没有它，后面的项目做不起来。

@@ -2,6 +2,16 @@
 
 目标：每个技术栈一个 Markdown 文件，并且每个文件都按“官方资料、是什么、原理、架构、配置、入门实验、排障、学习证据”的结构写成原创中文教程。
 
+## 精讲示范
+
+当前已经按 [技术栈精讲写作标准](./writing-standard.md) 完成第一批示范文章：
+
+| 技术栈 | 文件 | 示范重点 |
+|---|---|---|
+| Prometheus | [prometheus.md](./observability/prometheus.md) | 指标模型、抓取配置、PromQL、告警、AIOps 数据链路 |
+| Grafana | [grafana.md](./observability/grafana.md) | 数据源、dashboard、panel、变量、AIOps 值班视图 |
+| Docker Compose | [docker-compose.md](./cloud-native/docker-compose.md) | 多容器实验环境、服务名网络、卷挂载、Prometheus + Grafana 实验 |
+
 ## 已完成
 
 | 分类 | 技术栈 | 文件 |

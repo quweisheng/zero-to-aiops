@@ -30,6 +30,7 @@ export default defineConfig({
         text: '技术栈',
         items: [
           { text: '总清单', link: '/tech-stack/README' },
+          { text: '精讲写作标准', link: '/tech-stack/writing-standard' },
           { text: '拆分进度', link: '/tech-stack/progress' }
         ]
       },
