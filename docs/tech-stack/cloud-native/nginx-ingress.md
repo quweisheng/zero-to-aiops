@@ -11,9 +11,24 @@
 
 说明：本文是基于 NGINX 和 Kubernetes 官方文档整理的原创中文教程，不复制官方全文。
 
+## 为什么要学
+
+很多线上访问问题发生在入口层：域名能解析但服务 404、后端 Pod 正常但外部 502、应用慢导致 504、证书或路由配置错误导致 HTTPS 失败。NGINX 和 Ingress 是理解这些问题的关键。
+
+对 AIOps 来说，入口层日志能提供请求量、状态码、耗时、上游地址，是告警、SLO、根因分析和容量判断的重要数据源。
+
 ## 是什么
 
 NGINX 是 Web 服务器、反向代理和负载均衡器。Ingress 是 Kubernetes 里管理 HTTP/HTTPS 外部访问的 API 对象。Ingress Controller 负责读取 Ingress 规则并实际配置代理。
+
+## 它解决什么问题
+
+- 把外部 HTTP/HTTPS 请求路由到内部服务。
+- 用反向代理隐藏后端服务细节。
+- 对多个后端做负载均衡。
+- 统一处理 Host、Path、Header、超时和 TLS。
+- 通过 access log 暴露状态码、耗时、上游地址等排障数据。
+- 在 Kubernetes 中用 Ingress 规则管理七层入口。
 
 ## 核心原理
 
@@ -159,6 +174,30 @@ upstream_addr
 - 后端响应是否超时。
 - `proxy_read_timeout` 是否过短。
 - 应用是否卡在数据库或下游依赖。
+
+## 学习检查清单
+
+- [ ] 我能解释反向代理和负载均衡。
+- [ ] 我能写一个最小 NGINX upstream 配置。
+- [ ] 我能解释 `proxy_pass` 和 `proxy_set_header` 的作用。
+- [ ] 我能写一个最小 Kubernetes Ingress。
+- [ ] 我能说明 Ingress 和 Ingress Controller 的区别。
+- [ ] 我能用 `kubectl get endpoints` 判断 Service 是否有后端。
+- [ ] 我能根据 404、502、504 判断优先排查方向。
+- [ ] 我能解释 access log 中 `request_time` 和 `upstream_response_time` 的价值。
+
+## 面试题
+
+1. NGINX 反向代理解决什么问题？
+2. 正向代理和反向代理有什么区别？
+3. Ingress 和 Ingress Controller 有什么区别？
+4. 为什么 Kubernetes 里只有 Ingress 规则还不能真正转发流量？
+5. 404、502、504 分别优先查哪里？
+6. Service endpoints 为空通常说明什么？
+7. `proxy_read_timeout` 配置过短会导致什么问题？
+8. NGINX access log 中哪些字段适合做 AIOps 分析？
+9. 如何判断是入口层问题还是后端应用问题？
+10. 如何把一次 502 排障过程写成 GitHub 学习证据？
 
 ## 学习证据
 

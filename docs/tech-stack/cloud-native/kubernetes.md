@@ -13,9 +13,24 @@
 
 说明：本文是基于 Kubernetes 官方文档整理的原创中文教程，不复制官方全文。
 
+## 为什么要学
+
+现在很多运维、SRE、DevOps、AIOps 岗位都围绕 Kubernetes 展开。服务发布、扩缩容、故障自愈、服务发现、配置管理、资源限制、事件告警，都可以在 Kubernetes 里看到。
+
+如果 Docker 解决的是“一个应用如何容器化”，Kubernetes 解决的就是“大量容器如何在集群中稳定运行”。AIOps 要做告警治理、根因分析、容量预测和自动化恢复，Kubernetes 的 Pod、Node、Event、Deployment、Service 都是关键数据源。
+
 ## 是什么
 
 Kubernetes 是容器编排平台，用来自动化部署、扩缩容、服务发现、滚动发布、自愈和配置管理。它解决的问题是：当服务变多、实例变多、机器变多时，如何用声明式方式管理它们。
+
+## 它解决什么问题
+
+- 管理多台机器上的容器调度。
+- 保持应用副本数符合期望状态。
+- 提供 Service 实现稳定访问入口。
+- 支持滚动发布、回滚和自愈。
+- 管理 ConfigMap、Secret、资源限制和健康检查。
+- 提供事件和状态，帮助 AIOps 做故障分析。
 
 ## 核心原理
 
@@ -264,6 +279,30 @@ env:
 - selector 是否匹配 Pod label。
 - targetPort 是否正确。
 - Pod 是否 Ready。
+
+## 学习检查清单
+
+- [ ] 我能解释期望状态和控制循环。
+- [ ] 我能说出控制平面和节点组件的职责。
+- [ ] 我能写一个 Deployment YAML。
+- [ ] 我能写一个 Service YAML。
+- [ ] 我能用 `kubectl get/describe/logs/exec` 排查问题。
+- [ ] 我能解释 Pod、Deployment、ReplicaSet、Service 的关系。
+- [ ] 我能区分 Pending、CrashLoopBackOff、ImagePullBackOff。
+- [ ] 我能把一个 K8s demo 部署记录提交到 GitHub。
+
+## 面试题
+
+1. Kubernetes 解决了什么问题？
+2. 什么是期望状态？什么是控制循环？
+3. Pod 为什么是 Kubernetes 的最小调度单元？
+4. Deployment 和 ReplicaSet 是什么关系？
+5. Service 为什么能提供稳定访问入口？
+6. ConfigMap 和 Secret 有什么区别？
+7. Pod Pending 常见原因有哪些？
+8. CrashLoopBackOff 和 ImagePullBackOff 分别怎么排查？
+9. readinessProbe 和 livenessProbe 有什么区别？
+10. Kubernetes 哪些数据适合用于 AIOps 根因分析？
 
 ## 学习证据
 

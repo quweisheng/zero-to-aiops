@@ -11,9 +11,24 @@
 
 说明：本文是基于 Helm 官方文档整理的原创中文教程，不复制官方全文。
 
+## 为什么要学
+
+Kubernetes YAML 多了以后，手工复制和修改很容易出错。Helm 把一组 YAML 模板、配置值和版本记录打包成 Chart，让应用安装、升级、回滚更像“包管理”。
+
+在 AIOps 学习里，很多可观测性组件都常用 Helm 安装，比如 kube-prometheus-stack、Grafana、Loki、OpenTelemetry Collector。掌握 Helm，能让你更接近真实生产环境的部署方式。
+
 ## 是什么
 
 Helm 是 Kubernetes 的包管理器。它把一组 Kubernetes YAML 模板、默认值和元数据打包成 Chart，并用 release 管理安装后的实例。
+
+## 它解决什么问题
+
+- 管理一组相关 Kubernetes YAML。
+- 用 values 区分 dev、test、prod 配置。
+- 支持安装、升级、回滚和卸载。
+- 复用社区 Chart 快速搭建实验环境。
+- 把部署配置纳入 Git 版本控制。
+- 记录 release 历史，方便变更追踪。
 
 ## 核心原理
 
@@ -171,6 +186,30 @@ helm rollback demo 1
 - `helm history` 查看版本。
 - `helm rollback` 回滚。
 - 对比两次 values。
+
+## 学习检查清单
+
+- [ ] 我能解释 Chart、Release、Repository、values 的关系。
+- [ ] 我能用 `helm repo add/update/search` 查找 Chart。
+- [ ] 我能用 `helm install` 安装应用。
+- [ ] 我能用 `helm template` 查看渲染后的 YAML。
+- [ ] 我能用 `helm lint` 检查 Chart。
+- [ ] 我能用 values 文件覆盖默认配置。
+- [ ] 我能用 `helm upgrade` 和 `helm rollback` 管理版本。
+- [ ] 我能把自定义 Chart 和 values 文件提交到 GitHub。
+
+## 面试题
+
+1. Helm 解决了 Kubernetes YAML 管理中的什么问题？
+2. Chart 和 Release 有什么区别？
+3. `values.yaml` 的作用是什么？
+4. `helm template` 为什么适合排障？
+5. `helm install` 和 `helm upgrade` 有什么区别？
+6. 升级失败后如何回滚？
+7. 为什么生产环境 values 文件要纳入版本控制？
+8. Helm 和 Kustomize 的思路有什么不同？
+9. 安装 kube-prometheus-stack 这类组件为什么常用 Helm？
+10. Helm release 历史如何帮助 AIOps 做变更关联？
 
 ## 学习证据
 

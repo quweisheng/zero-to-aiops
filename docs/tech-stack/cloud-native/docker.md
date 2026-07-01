@@ -10,9 +10,24 @@
 
 说明：本文是基于 Docker 官方文档的原创中文学习教程，不复制官方全文。
 
+## 为什么要学
+
+AIOps 学习会频繁搭建实验环境：Prometheus、Grafana、Loki、OpenTelemetry Collector、FastAPI demo、MySQL、Redis、Kafka。Docker 能让这些组件以容器方式运行，减少“我电脑上能跑、别人跑不起来”的问题。
+
+对运维转 AIOps 来说，Docker 还是理解 Kubernetes 的前置知识。Pod 里跑的是容器，镜像构建、端口映射、卷、网络、日志和资源限制，都是后续排查 K8s 问题的基础。
+
 ## 是什么
 
 Docker 是开发、打包、分发、运行应用的平台。它把应用和依赖打包成镜像，再用容器运行。
+
+## 它解决什么问题
+
+- 把应用和依赖打包成可分发镜像。
+- 让开发、测试、学习环境尽量一致。
+- 快速启动 Prometheus、Grafana、数据库、中间件等实验组件。
+- 通过镜像 tag 管理版本。
+- 通过网络和卷管理容器通信与数据持久化。
+- 为 Kubernetes 和云原生部署打基础。
 
 ## 核心原理
 
@@ -197,6 +212,30 @@ docker inspect <container>
 - 使用 slim 基础镜像。
 - 合并无意义层。
 - 使用 `.dockerignore`。
+
+## 学习检查清单
+
+- [ ] 我能解释 image 和 container 的区别。
+- [ ] 我能写一个最小 Dockerfile。
+- [ ] 我能用 `docker build` 构建镜像。
+- [ ] 我能用 `docker run -p` 映射端口。
+- [ ] 我能用 `docker logs` 和 `docker inspect` 排查容器。
+- [ ] 我能解释 volume 和 bind mount 的区别。
+- [ ] 我能说明容器为什么要监听 `0.0.0.0`。
+- [ ] 我能把一个 Python demo 服务容器化并提交到 GitHub。
+
+## 面试题
+
+1. Docker 解决了什么问题？
+2. 镜像和容器有什么区别？
+3. Dockerfile 中 `RUN` 和 `CMD` 有什么区别？
+4. 为什么镜像是分层的？
+5. `-p 8000:8000` 左右两边分别代表什么？
+6. volume 和 bind mount 有什么区别？
+7. 为什么容器内应用只监听 `127.0.0.1` 会导致外部访问失败？
+8. 如何排查容器启动后马上退出？
+9. Docker 和 Kubernetes 的关系是什么？
+10. Docker 在 AIOps 实验环境中有什么作用？
 
 ## 学习证据
 
