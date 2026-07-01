@@ -29,6 +29,22 @@
 5. [自动化与 CI/CD](./04-automation-ci.md)：把重复动作变成流程。
 6. [数据与 AI](./05-data-ai.md)：用数据做异常检测、告警降噪、智能助手。
 
+## 一技术一文件
+
+新的详细教程会逐步拆成“一项技术一个 Markdown 文件”。当前拆分进度见：[技术栈拆分进度](./progress.md)。
+
+第一批已完成：
+
+- [Linux](./foundation/linux.md)
+- [Git](./foundation/git.md)
+- [Python](./foundation/python.md)
+- [Shell / PowerShell](./foundation/shell-powershell.md)
+- [Docker](./cloud-native/docker.md)
+- [Docker Compose](./cloud-native/docker-compose.md)
+- [Prometheus](./observability/prometheus.md)
+- [Grafana](./observability/grafana.md)
+- [OpenTelemetry](./observability/opentelemetry.md)
+
 ## 每个技术栈都按这个模板记录
 
 ```md

@@ -29,12 +29,34 @@ export default defineConfig({
         text: '技术栈',
         items: [
           { text: '总清单', link: '/tech-stack/README' },
-          { text: '基础工具', link: '/tech-stack/01-foundation' },
-          { text: '可观测性', link: '/tech-stack/02-observability' },
-          { text: '云原生', link: '/tech-stack/03-cloud-native' },
-          { text: '自动化与 CI/CD', link: '/tech-stack/04-automation-ci' },
-          { text: '数据与 AI', link: '/tech-stack/05-data-ai' },
-          { text: 'SRE/AIOps 实践', link: '/tech-stack/06-sre-aiops-practices' }
+          { text: '拆分进度', link: '/tech-stack/progress' }
+        ]
+      },
+      {
+        text: '基础工具',
+        items: [
+          { text: 'Linux', link: '/tech-stack/foundation/linux' },
+          { text: 'Git', link: '/tech-stack/foundation/git' },
+          { text: 'Python', link: '/tech-stack/foundation/python' },
+          { text: 'Shell / PowerShell', link: '/tech-stack/foundation/shell-powershell' },
+          { text: '基础工具总览', link: '/tech-stack/01-foundation' }
+        ]
+      },
+      {
+        text: '可观测性',
+        items: [
+          { text: 'Prometheus', link: '/tech-stack/observability/prometheus' },
+          { text: 'Grafana', link: '/tech-stack/observability/grafana' },
+          { text: 'OpenTelemetry', link: '/tech-stack/observability/opentelemetry' },
+          { text: '可观测性总览', link: '/tech-stack/02-observability' }
+        ]
+      },
+      {
+        text: '云原生',
+        items: [
+          { text: 'Docker', link: '/tech-stack/cloud-native/docker' },
+          { text: 'Docker Compose', link: '/tech-stack/cloud-native/docker-compose' },
+          { text: '云原生总览', link: '/tech-stack/03-cloud-native' }
         ]
       },
       {
