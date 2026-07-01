@@ -48,6 +48,9 @@ export default defineConfig({
           { text: 'Prometheus', link: '/tech-stack/observability/prometheus' },
           { text: 'Grafana', link: '/tech-stack/observability/grafana' },
           { text: 'OpenTelemetry', link: '/tech-stack/observability/opentelemetry' },
+          { text: 'Alertmanager', link: '/tech-stack/observability/alertmanager' },
+          { text: 'Loki', link: '/tech-stack/observability/loki' },
+          { text: 'Elasticsearch', link: '/tech-stack/observability/elasticsearch' },
           { text: '可观测性总览', link: '/tech-stack/02-observability' }
         ]
       },
@@ -56,7 +59,19 @@ export default defineConfig({
         items: [
           { text: 'Docker', link: '/tech-stack/cloud-native/docker' },
           { text: 'Docker Compose', link: '/tech-stack/cloud-native/docker-compose' },
+          { text: 'Kubernetes', link: '/tech-stack/cloud-native/kubernetes' },
+          { text: 'Helm', link: '/tech-stack/cloud-native/helm' },
+          { text: 'NGINX / Ingress', link: '/tech-stack/cloud-native/nginx-ingress' },
           { text: '云原生总览', link: '/tech-stack/03-cloud-native' }
+        ]
+      },
+      {
+        text: '自动化',
+        items: [
+          { text: 'Ansible', link: '/tech-stack/automation/ansible' },
+          { text: 'Terraform', link: '/tech-stack/automation/terraform' },
+          { text: 'GitHub Actions', link: '/tech-stack/automation/github-actions' },
+          { text: '自动化总览', link: '/tech-stack/04-automation-ci' }
         ]
       },
       {

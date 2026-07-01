@@ -41,9 +41,18 @@
 - [Shell / PowerShell](./foundation/shell-powershell.md)
 - [Docker](./cloud-native/docker.md)
 - [Docker Compose](./cloud-native/docker-compose.md)
+- [Kubernetes](./cloud-native/kubernetes.md)
+- [Helm](./cloud-native/helm.md)
+- [NGINX / Ingress](./cloud-native/nginx-ingress.md)
 - [Prometheus](./observability/prometheus.md)
 - [Grafana](./observability/grafana.md)
 - [OpenTelemetry](./observability/opentelemetry.md)
+- [Alertmanager](./observability/alertmanager.md)
+- [Loki](./observability/loki.md)
+- [Elasticsearch](./observability/elasticsearch.md)
+- [Ansible](./automation/ansible.md)
+- [Terraform](./automation/terraform.md)
+- [GitHub Actions](./automation/github-actions.md)
 
 ## 每个技术栈都按这个模板记录
 
