@@ -12,9 +12,23 @@
 
 说明：本文是基于 VitePress 官方文档整理的原创中文教程，不复制官方全文。
 
+## 为什么要学
+
+GitHub 仓库能保存学习记录，但文档站能让别人更舒服地阅读你的学习路线、技术栈和项目。VitePress 可以把 Markdown 变成网站，让你的 AIOps 学习过程像一本在线教程一样展示出来。
+
+对转岗求职来说，VitePress 的价值是把零散笔记整理成可访问、可导航、可搜索的作品集入口。
+
 ## 是什么
 
 VitePress 是静态文档站生成器。它读取 Markdown 文件，生成静态 HTML、CSS、JS，适合做技术知识库、项目文档和学习记录站。
+
+## 它解决什么问题
+
+- 把 Markdown 目录变成可浏览的网站。
+- 提供导航栏、侧边栏、路由和主题。
+- 支持 GitHub Pages 静态部署。
+- 让学习笔记从“仓库文件”升级为“公开知识库”。
+- 让面试官能快速按路线阅读你的内容。
 
 ## 核心原理
 
@@ -168,6 +182,30 @@ jobs:
 - 查看 Actions 是否成功。
 - Settings -> Pages 是否选择 GitHub Actions。
 - workflow artifact 路径是否是 `docs/.vitepress/dist`。
+
+## 学习检查清单
+
+- [ ] 我能解释 VitePress 如何把 Markdown 构建成静态站点。
+- [ ] 我能配置 `package.json` 的 docs scripts。
+- [ ] 我能修改 `docs/.vitepress/config.mts`。
+- [ ] 我能理解文件路由和链接规则。
+- [ ] 我能本地运行 `npm run docs:dev`。
+- [ ] 我能运行 `npm run docs:build` 并理解构建产物路径。
+- [ ] 我能用 GitHub Actions 发布到 GitHub Pages。
+- [ ] 我能排查 dead link、Pages source、artifact path 问题。
+
+## 面试题
+
+1. VitePress 是什么？和普通 Markdown 仓库有什么区别？
+2. 静态站点生成器的基本流程是什么？
+3. `docs/index.md` 和 `docs/.vitepress/config.mts` 分别负责什么？
+4. VitePress 文件路由如何工作？
+5. 为什么 GitHub Pages 部署需要正确设置 `base`？
+6. `npm run docs:build` 生成的产物在哪里？
+7. GitHub Actions 发布 VitePress 需要哪些权限？
+8. 构建失败提示 dead link 时怎么排查？
+9. 为什么文档站适合作为 AIOps 作品集入口？
+10. 如何设计一个适合长期维护的技术知识库导航？
 
 ## 学习证据
 

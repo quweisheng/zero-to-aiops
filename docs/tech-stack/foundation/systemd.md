@@ -11,9 +11,23 @@
 
 说明：本文是基于 systemd 官方手册和发行版文档整理的原创中文教程，不复制官方全文。
 
+## 为什么要学
+
+很多 Linux 服务不是手工在终端里启动的，而是由 systemd 托管。服务能否开机自启、是否反复重启、日志写在哪里、依赖什么网络或挂载点，systemd 都是关键入口。
+
+对 AIOps 来说，systemd 是连接“服务运行状态、日志、自动化恢复”的基础层。很多 runbook 的第一步就是 `systemctl status` 和 `journalctl`。
+
 ## 是什么
 
 systemd 是 Linux 系统和服务管理器。它通常作为 PID 1 启动，负责启动系统服务、管理依赖、记录日志、处理服务重启。
+
+## 它解决什么问题
+
+- 统一管理 Linux 服务启动、停止、重启和开机自启。
+- 用 unit 文件描述服务命令、依赖和重启策略。
+- 通过 journald 提供服务日志查询入口。
+- 在服务异常退出后按策略自动重启。
+- 让自动化脚本可以用统一命令检查服务状态。
 
 ## 核心原理
 
@@ -135,6 +149,30 @@ journalctl -u demo -n 100
 - 检查权限。
 - 检查应用日志。
 - 检查 Restart 配置。
+
+## 学习检查清单
+
+- [ ] 我能解释 systemd 为什么通常是 PID 1。
+- [ ] 我能说出 `.service`、`.timer`、`.mount` unit 的区别。
+- [ ] 我能写一个最小 `.service` 文件。
+- [ ] 我能使用 `systemctl status/start/stop/restart/enable`。
+- [ ] 我能修改 unit 后执行 `daemon-reload`。
+- [ ] 我能用 `journalctl -u` 查看服务日志。
+- [ ] 我能解释 `After`、`Requires`、`Wants` 的区别。
+- [ ] 我能排查服务启动失败和反复重启。
+
+## 面试题
+
+1. systemd 在 Linux 中负责什么？
+2. unit 是什么？常见 unit 类型有哪些？
+3. `.service` 文件的 `[Unit]`、`[Service]`、`[Install]` 分别做什么？
+4. `After` 和 `Requires` 有什么区别？
+5. 修改 unit 文件后为什么要执行 `systemctl daemon-reload`？
+6. 如何查看某个服务最近 100 行日志？
+7. `Restart=always` 适合所有服务吗？
+8. 服务一直重启时你会怎么排查？
+9. systemd 和 AIOps runbook 自动化有什么关系？
+10. 如何把 systemd 服务状态作为学习项目证据？
 
 ## 学习证据
 

@@ -10,9 +10,23 @@
 
 说明：本文是基于官方 Git Book 的原创中文学习教程，不复制官方全文。
 
+## 为什么要学
+
+AIOps 学习不是只看视频和记笔记，而是要持续留下工程证据。Git 能记录你每次学习、实验、配置和项目改动，让别人看到你是怎样一步步从运维走向 AIOps 的。
+
+如果不会 Git，就很难管理 Prometheus 配置、Grafana dashboard、Kubernetes YAML、Python 脚本和学习笔记；会 Git，才能把学习过程变成可追踪、可回滚、可展示的作品集。
+
 ## 是什么
 
 Git 是分布式版本控制系统。它记录文件变化，让你知道什么时候改了什么、为什么改、如何回退、如何协作。
+
+## 它解决什么问题
+
+- 记录文件每次变化，避免学习笔记和配置丢失。
+- 让每次修改都有提交说明，方便复盘。
+- 支持回退错误修改。
+- 支持本地仓库和 GitHub 远程仓库同步。
+- 支持分支、合并、协作和代码评审。
 
 ## 核心原理
 
@@ -189,6 +203,30 @@ git status
 git diff
 git diff --staged
 ```
+
+## 学习检查清单
+
+- [ ] 我能解释 Working Tree、Staging Area、Local Repository、Remote Repository。
+- [ ] 我能用 `git status` 判断文件状态。
+- [ ] 我能用 `git add` 和 `git commit` 创建一次清晰提交。
+- [ ] 我能用 `git diff` 和 `git diff --staged` 查看改动。
+- [ ] 我能把本地提交 push 到 GitHub。
+- [ ] 我能解释 commit 和 push 的区别。
+- [ ] 我能说明分支是指向 commit 的指针。
+- [ ] 我能写出适合学习仓库的 commit message。
+
+## 面试题
+
+1. Git 和 GitHub 有什么区别？
+2. Git 为什么说自己记录的是快照而不是简单差异？
+3. `git add`、`git commit`、`git push` 分别做什么？
+4. 工作区、暂存区、本地仓库、远程仓库分别是什么？
+5. 如何查看未提交改动？
+6. 分支的本质是什么？
+7. merge 和 rebase 的区别是什么？学习阶段应该先掌握哪个？
+8. 推送 GitHub 时为什么不能用账号密码？
+9. 如果误提交了敏感信息，应该怎么处理？
+10. 如何用 Git 提交历史证明自己的学习过程？
 
 ## 学习证据
 

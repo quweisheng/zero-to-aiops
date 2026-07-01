@@ -11,9 +11,23 @@
 
 说明：本文是基于 CommonMark、Markdown Guide 和 GitHub Docs 整理的原创中文教程，不复制官方全文。
 
+## 为什么要学
+
+AIOps 学习会产生大量知识资产：技术笔记、runbook、故障复盘、配置说明、实验步骤、面试故事。Markdown 是这些内容最适合的记录格式，因为它简单、可读、容易提交到 GitHub，也能被 VitePress 渲染成网站。
+
+对你来说，Markdown 不是“排版工具”，而是把运维经验沉淀成工程知识库的基础能力。
+
 ## 是什么
 
 Markdown 是轻量标记语言。它用普通文本表示标题、列表、链接、代码块、表格等结构，然后由 GitHub、VitePress 等工具渲染成 HTML。
+
+## 它解决什么问题
+
+- 用普通文本写结构化文档。
+- 让学习笔记适合 Git 版本控制。
+- 让 README、runbook、复盘和教程格式统一。
+- 让 GitHub 和 VitePress 可以直接渲染内容。
+- 降低分享和维护知识库的成本。
 
 ## 核心原理
 
@@ -182,6 +196,30 @@ docs/learning-records/markdown-first-note.md
 - 相对路径是否正确。
 - 文件名大小写是否一致。
 - VitePress 里目录链接尽量指向具体文件。
+
+## 学习检查清单
+
+- [ ] 我能写标题、列表、链接、代码块和表格。
+- [ ] 我能写 GitHub task list。
+- [ ] 我能解释 Markdown 为什么适合版本控制。
+- [ ] 我能写一篇结构清晰的技术学习笔记。
+- [ ] 我能写一个 runbook 模板。
+- [ ] 我能写一篇事故复盘模板。
+- [ ] 我能排查表格、代码块、相对链接渲染问题。
+- [ ] 我能用 Markdown 把实验过程提交到 GitHub。
+
+## 面试题
+
+1. Markdown 相比 Word 文档有什么优势？
+2. 为什么技术知识库适合用 Markdown 管理？
+3. README、runbook、事故复盘的结构有什么不同？
+4. Markdown 表格渲染错通常是什么原因？
+5. 如何在 Markdown 中写代码块？
+6. GitHub Flavored Markdown 有哪些常用特性？
+7. 为什么学习记录要包含命令、输出和结论？
+8. 如何让 Markdown 文档更适合 VitePress 渲染？
+9. 一篇好的故障复盘应该包含哪些部分？
+10. Markdown 如何帮助你把运维经验变成求职作品集？
 
 ## 学习证据
 

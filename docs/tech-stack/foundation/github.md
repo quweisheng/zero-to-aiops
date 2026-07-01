@@ -12,9 +12,24 @@
 
 说明：本文是基于 GitHub 官方文档整理的原创中文教程，不复制官方全文。
 
+## 为什么要学
+
+GitHub 是你转向 AIOps 时最重要的公开作品集。简历上写“学习 Prometheus、Kubernetes、Python”很容易，但 GitHub 能展示真实提交、文档站、配置文件、实验截图、自动化 workflow 和项目演进。
+
+对求职来说，GitHub 可以把你的运维经验转成看得见的工程资产；对学习来说，它能逼迫你把“我看懂了”变成“我写下来了、跑通了、提交了”。
+
 ## 是什么
 
 GitHub 是基于 Git 的代码托管和协作平台。对你的 AIOps 学习来说，它既是作品集，也是学习轨迹，也是未来面试时能展示的工程证据。
+
+## 它解决什么问题
+
+- 托管学习笔记、项目代码、配置文件和文档站。
+- 通过 README 展示学习路线和项目成果。
+- 通过 Issues 管理学习任务。
+- 通过 Actions 自动构建和部署。
+- 通过 Pages 发布公开知识库。
+- 通过 token、权限和仓库设置管理安全访问。
 
 ## 核心原理
 
@@ -139,6 +154,30 @@ git log --oneline
 - workflow 是否在 `.github/workflows/`。
 - 默认分支是否匹配。
 - YAML 是否语法正确。
+
+## 学习检查清单
+
+- [ ] 我能解释 GitHub 和 Git 的关系。
+- [ ] 我能创建仓库并写清楚 README。
+- [ ] 我能把本地提交推送到 GitHub。
+- [ ] 我能解释 Issue、Pull Request、Actions、Pages 的作用。
+- [ ] 我能创建和使用 Personal Access Token。
+- [ ] 我知道 token 不能提交到仓库。
+- [ ] 我能用 GitHub Pages 发布 VitePress 文档站。
+- [ ] 我能把学习路线、技术栈和项目入口放在 README。
+
+## 面试题
+
+1. GitHub 在你的 AIOps 学习路径中承担什么角色？
+2. README 应该包含哪些信息？
+3. Issue 和 Pull Request 分别适合做什么？
+4. GitHub Actions 可以帮学习仓库做哪些自动化？
+5. GitHub Pages 的发布源有哪些常见方式？
+6. Personal Access Token 为什么要最小权限？
+7. token 泄露后应该怎么处理？
+8. 如何通过 GitHub 仓库证明自己有持续学习能力？
+9. 如何组织一个适合面试展示的 AIOps 仓库？
+10. 为什么配置文件和实验记录也应该纳入版本控制？
 
 ## 学习证据
 
