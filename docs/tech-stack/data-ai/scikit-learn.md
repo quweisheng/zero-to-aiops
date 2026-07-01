@@ -9,6 +9,18 @@
 
 > 学习说明：本篇围绕 AIOps 最常见的入门机器学习任务“异常检测”展开，重点学习 scikit-learn 的数据准备、训练、预测、评估和模型保存。
 
+## 为什么要学
+
+scikit-learn 是传统机器学习入门最实用的工具库。AIOps 里的异常检测、告警分类、聚类降噪、简单预测模型，都可以先用 scikit-learn 做原型。
+
+## 它解决什么问题
+
+- 训练分类、回归、聚类、异常检测模型。
+- 提供统一的 fit/predict/transform 接口。
+- 支持数据预处理、Pipeline 和交叉验证。
+- 让你快速验证“这个运维数据是否有可学习模式”。
+- 为后续更复杂模型提供基线。
+
 ## 是什么
 
 scikit-learn 是 Python 机器学习库，提供分类、回归、聚类、降维、特征处理、模型评估、异常检测等能力。
@@ -404,6 +416,26 @@ IsolationForest(contamination=0.05)
 
 `contamination` 越大，模型越容易判异常。
 
+## 学习检查清单
+
+- [ ] 我能解释 estimator、fit、predict、transform。
+- [ ] 我能划分训练集和测试集。
+- [ ] 我能使用 Pipeline 避免数据泄漏。
+- [ ] 我能训练一个 IsolationForest 或聚类模型。
+- [ ] 我能评估模型效果而不是只看训练结果。
+- [ ] 我能说明机器学习在 AIOps 中的边界。
+
+## 面试题
+
+1. scikit-learn 适合哪些 AIOps 原型？
+2. fit、predict、transform 分别做什么？
+3. 为什么要划分训练集和测试集？
+4. 什么是数据泄漏？
+5. Pipeline 有什么价值？
+6. 异常检测和分类有什么区别？
+7. 模型误报和漏报在告警场景中分别有什么风险？
+8. 为什么机器学习不能替代监控和 SRE 基础？
+
 ## 学习证据
 
 学完后，在 GitHub 留下：
@@ -413,4 +445,3 @@ IsolationForest(contamination=0.05)
 - 保存的模型文件，或说明如何生成模型。
 - `anomaly_review.csv`。
 - README 解释 IsolationForest 原理、特征含义和异常结果。
-

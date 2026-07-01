@@ -9,6 +9,18 @@
 
 > 学习说明：本篇按 pandas 官方“10 minutes to pandas”的主线，从 Series、DataFrame、选择、过滤、缺失值、分组、合并和读写文件开始，改造成 AIOps 数据分析练习。
 
+## 为什么要学
+
+pandas 是运维数据分析的入门工具。你可以用它读取 CSV、JSON、Prometheus 导出的指标、告警记录和工单表，然后做清洗、聚合、分组、时间窗口统计。
+
+## 它解决什么问题
+
+- 读取和清洗表格数据。
+- 按时间、服务、等级聚合告警。
+- 计算错误率、均值、分位数、移动窗口。
+- 为 scikit-learn 异常检测准备特征。
+- 把分析结果输出成 CSV、Markdown 或图表。
+
 ## 是什么
 
 pandas 是 Python 里最常用的数据分析库。它的核心数据结构是：
@@ -435,6 +447,26 @@ critical["is_critical"] = True
 - 只读取必要列。
 - 需要分布式再考虑 Spark / Flink。
 
+## 学习检查清单
+
+- [ ] 我能读取 CSV 和 JSON 数据。
+- [ ] 我能使用 DataFrame、Series、index。
+- [ ] 我能按 service、severity 分组聚合。
+- [ ] 我能处理缺失值和时间字段。
+- [ ] 我能计算滚动窗口统计。
+- [ ] 我能把告警分析结果保存为文件。
+
+## 面试题
+
+1. pandas 在 AIOps 中适合做什么？
+2. DataFrame 和 Series 有什么区别？
+3. `groupby` 适合解决什么问题？
+4. 如何处理缺失值？
+5. 时间序列分析为什么需要正确解析时间字段？
+6. rolling window 可以用于哪些异常检测特征？
+7. pandas 和 SQL 的关系是什么？
+8. 如何用 pandas 分析告警降噪效果？
+
 ## 学习证据
 
 学完后，在 GitHub 留下：
@@ -444,4 +476,3 @@ critical["is_critical"] = True
 - 自动生成的 `report.md`。
 - README 解释 `groupby`、`merge`、时间处理。
 - 至少一张分析结果截图。
-

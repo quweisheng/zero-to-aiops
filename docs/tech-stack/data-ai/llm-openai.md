@@ -9,6 +9,18 @@
 
 > 学习说明：本篇只参考 OpenAI 官方文档路线，重点学习 API key、Responses API、提示词、结构化输出、工具调用思路、embeddings，以及它们在 AIOps 中如何落地。
 
+## 为什么要学
+
+LLM 能把告警、日志、变更和 runbook 变成人更容易理解的摘要和建议。对运维转 AIOps 来说，LLM 的价值不是“自动替你判断一切”，而是作为解释层、总结层和交互层，提高排障效率。
+
+## 它解决什么问题
+
+- 把多源上下文生成事故摘要。
+- 把 PromQL、SQL、日志查询结果翻译成人话。
+- 根据 runbook 生成排障建议。
+- 生成结构化 JSON 供自动化系统继续处理。
+- 通过 embeddings 支持语义检索和 RAG。
+
 ## 是什么
 
 LLM 是大语言模型，OpenAI API 是把模型能力接入程序的一种方式。AIOps 里 LLM 不应该直接替代监控系统，而应该作为“分析、总结、解释、生成建议”的助手。
@@ -450,6 +462,26 @@ $env:OPENAI_API_KEY="你的 key"
 - 缓存重复告警。
 - 告警风暴时限流。
 
+## 学习检查清单
+
+- [ ] 我能安全管理 API key，不提交到 GitHub。
+- [ ] 我能发起一次最小 OpenAI API 调用。
+- [ ] 我能写清楚 system/developer/user 指令的边界。
+- [ ] 我能让模型输出结构化 JSON。
+- [ ] 我能解释 embeddings 的用途。
+- [ ] 我能设计一个告警摘要 prompt。
+
+## 面试题
+
+1. LLM 在 AIOps 中适合做什么，不适合做什么？
+2. 为什么不能让 LLM 直接无审批执行生产修复？
+3. API key 应该如何管理？
+4. 什么是结构化输出？为什么重要？
+5. embeddings 和普通文本生成有什么区别？
+6. 如何降低告警摘要的幻觉风险？
+7. LLM 如何结合 runbook automation？
+8. 如何评估一个 AIOps LLM 助手是否有用？
+
 ## 学习证据
 
 学完后，在 GitHub 留下：
@@ -459,4 +491,3 @@ $env:OPENAI_API_KEY="你的 key"
 - `.env.example`，不要提交真实 `.env`。
 - 一份模型输出样例，可脱敏后放入 `README.md`。
 - README 解释：输入事实、提示词、输出字段、安全边界。
-

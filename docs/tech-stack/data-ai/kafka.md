@@ -9,6 +9,18 @@
 
 > 学习说明：本篇按照 Kafka 官方 quickstart 的“启动服务、创建 topic、写事件、读事件”主线，结合 AIOps 场景整理成原创中文教程。
 
+## 为什么要学
+
+Kafka 是处理事件流和日志流的核心组件。AIOps 场景里，告警、日志、指标摘要、变更事件、用户操作都可以进入消息流，再由不同消费者做清洗、聚合、异常检测和通知。
+
+## 它解决什么问题
+
+- 解耦事件生产者和消费者。
+- 支持高吞吐日志和事件流。
+- 用 topic 和 partition 管理数据流。
+- 让多个消费者组独立消费同一批事件。
+- 为实时 AIOps 分析提供数据管道。
+
 ## 是什么
 
 Kafka 是分布式事件流平台。它把系统里发生的“事件”写入 topic，让多个消费者可以独立读取这些事件。
@@ -368,6 +380,26 @@ bin/kafka-topics.sh --create --topic aiops-alerts --bootstrap-server localhost:9
 - 增加 topic 分区。
 - 检查下游 MySQL / LLM / API 是否变慢。
 
+## 学习检查清单
+
+- [ ] 我能解释 topic、partition、offset、consumer group。
+- [ ] 我能启动一个本地 Kafka 实验。
+- [ ] 我能生产和消费一条 demo 告警事件。
+- [ ] 我能说明 partition 如何影响并行度。
+- [ ] 我能解释 consumer group 为什么能支持多套下游处理。
+- [ ] 我能说明 Kafka 在 AIOps 数据管道中的位置。
+
+## 面试题
+
+1. Kafka 解决了什么问题？
+2. topic 和 partition 分别是什么？
+3. offset 有什么作用？
+4. consumer group 如何实现并行消费？
+5. Kafka 如何解耦告警生产者和分析服务？
+6. 消费延迟变高可能是什么原因？
+7. Kafka 和 Redis 队列有什么区别？
+8. AIOps 中哪些数据适合进入 Kafka？
+
 ## 学习证据
 
 学完后，在 GitHub 留下：
@@ -378,4 +410,3 @@ bin/kafka-topics.sh --create --topic aiops-alerts --bootstrap-server localhost:9
 - 一份 JSONL 告警样例。
 - 截图证明事件可以写入和读取。
 - README 解释 partition、offset、consumer group。
-

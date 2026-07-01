@@ -10,6 +10,18 @@
 
 > 学习说明：本篇按 FastAPI 官方教程从第一个接口开始，扩展到 AIOps 常见的告警接收、异常检测接口、后台任务和健康检查。
 
+## 为什么要学
+
+FastAPI 能把 Python 脚本变成可被调用的 HTTP 服务。AIOps 项目里，告警 webhook、异常检测 API、runbook 推荐服务、LLM 摘要服务，都可以用 FastAPI 快速实现。
+
+## 它解决什么问题
+
+- 把 Python 分析逻辑封装成 API。
+- 接收 Alertmanager webhook 或前端请求。
+- 提供健康检查、参数校验和 OpenAPI 文档。
+- 让 AIOps 原型从脚本变成服务。
+- 方便容器化并接入 Prometheus/Grafana。
+
 ## 是什么
 
 FastAPI 是一个 Python Web API 框架。它适合快速构建 HTTP 接口，并自动生成 OpenAPI 文档。
@@ -432,6 +444,26 @@ fastapi dev main.py --port 8001
 
 不要在请求里执行长时间任务。把慢任务放到后台任务、队列或 worker。
 
+## 学习检查清单
+
+- [ ] 我能写一个最小 FastAPI 应用。
+- [ ] 我能定义 GET 和 POST 接口。
+- [ ] 我能使用 Pydantic 模型校验请求体。
+- [ ] 我能运行 Uvicorn 并访问 `/docs`。
+- [ ] 我能写健康检查接口。
+- [ ] 我能接收一条模拟 Alertmanager webhook。
+
+## 面试题
+
+1. FastAPI 在 AIOps 项目中适合做什么？
+2. FastAPI 和普通 Python 脚本有什么区别？
+3. Pydantic 在请求处理中有什么作用？
+4. `/docs` 页面来自哪里？
+5. 为什么 API 服务需要健康检查？
+6. 如何接收 Alertmanager webhook？
+7. FastAPI 服务如何容器化？
+8. 如何给 AIOps API 增加鉴权和限流？
+
 ## 学习证据
 
 学完后，在 GitHub 留下：
@@ -442,4 +474,3 @@ fastapi dev main.py --port 8001
 - `curl` 调用示例。
 - 一个 pytest 测试。
 - README 解释 FastAPI 在 AIOps 架构中的位置。
-

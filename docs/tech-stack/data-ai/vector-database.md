@@ -9,6 +9,18 @@
 
 > 学习说明：本篇以 Milvus 和 Chroma 官方文档为主，讲清楚向量数据库是什么、为什么 RAG 需要它、如何用它保存 runbook embedding 并做相似度检索。
 
+## 为什么要学
+
+向量数据库是 RAG 和语义检索的基础设施。AIOps 里，runbook、事故复盘、日志摘要、告警解释都可以向量化后存入向量数据库，用来做相似故障检索和知识问答。
+
+## 它解决什么问题
+
+- 存储文本、图片或其他对象的 embedding 向量。
+- 根据语义相似度检索相关文档。
+- 支持 RAG 的召回阶段。
+- 帮助查找相似告警、相似事故、相似 runbook。
+- 管理向量、原文 metadata 和过滤条件。
+
 ## 是什么
 
 向量数据库是专门存储、索引和检索向量的数据库。向量通常来自 embedding 模型，用一串浮点数表示文本、图片或其他对象的语义。
@@ -393,6 +405,26 @@ projects/vector-incident-search/
 - 对相同文本缓存 embedding。
 - 不要对同一文档反复全量入库。
 
+## 学习检查清单
+
+- [ ] 我能解释 embedding 和向量数据库的关系。
+- [ ] 我能说明相似度检索的基本思想。
+- [ ] 我能区分向量、metadata、collection/index。
+- [ ] 我能把 runbook 文本写入向量库。
+- [ ] 我能按服务名或标签过滤检索结果。
+- [ ] 我能说明向量数据库在 RAG 中的位置。
+
+## 面试题
+
+1. 向量数据库解决什么问题？
+2. embedding 是什么？
+3. 语义检索和关键词检索有什么区别？
+4. metadata 过滤为什么重要？
+5. 相似度检索有哪些常见指标？
+6. 向量库在 RAG 中属于哪一步？
+7. 如何避免检索到无关 runbook？
+8. 向量数据库如何帮助 AIOps 找相似故障？
+
 ## 学习证据
 
 学完后，在 GitHub 留下：
@@ -402,4 +434,3 @@ projects/vector-incident-search/
 - 一份 `incidents.jsonl` 样例。
 - README 解释 collection、embedding、metadata、top-k。
 - 至少 3 个检索问题和结果截图。
-
