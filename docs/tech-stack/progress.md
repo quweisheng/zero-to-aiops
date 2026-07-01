@@ -8,8 +8,13 @@
 |---|---|---|
 | 基础工具 | Linux | [linux.md](./foundation/linux.md) |
 | 基础工具 | Git | [git.md](./foundation/git.md) |
+| 基础工具 | GitHub | [github.md](./foundation/github.md) |
+| 基础工具 | Markdown | [markdown.md](./foundation/markdown.md) |
+| 基础工具 | VitePress | [vitepress.md](./foundation/vitepress.md) |
 | 基础工具 | Python | [python.md](./foundation/python.md) |
 | 基础工具 | Shell / PowerShell | [shell-powershell.md](./foundation/shell-powershell.md) |
+| 基础工具 | systemd | [systemd.md](./foundation/systemd.md) |
+| 基础工具 | 网络基础 | [networking.md](./foundation/networking.md) |
 | 云原生 | Docker | [docker.md](./cloud-native/docker.md) |
 | 云原生 | Docker Compose | [docker-compose.md](./cloud-native/docker-compose.md) |
 | 云原生 | Kubernetes | [kubernetes.md](./cloud-native/kubernetes.md) |
@@ -24,18 +29,13 @@
 | 自动化 | Ansible | [ansible.md](./automation/ansible.md) |
 | 自动化 | Terraform | [terraform.md](./automation/terraform.md) |
 | 自动化 | GitHub Actions | [github-actions.md](./automation/github-actions.md) |
+| 自动化 | CI/CD | [cicd.md](./automation/cicd.md) |
+| 自动化 | Runbook Automation | [runbook-automation.md](./automation/runbook-automation.md) |
 
 ## 待继续拆分
 
 | 分类 | 技术栈 | 目标文件 |
 |---|---|---|
-| 基础工具 | GitHub | `foundation/github.md` |
-| 基础工具 | Markdown | `foundation/markdown.md` |
-| 基础工具 | VitePress | `foundation/vitepress.md` |
-| 基础工具 | systemd | `foundation/systemd.md` |
-| 基础工具 | 网络基础 | `foundation/networking.md` |
-| 自动化 | CI/CD | `automation/cicd.md` |
-| 自动化 | Runbook Automation | `automation/runbook-automation.md` |
 | 数据与 AI | MySQL / SQL | `data-ai/mysql-sql.md` |
 | 数据与 AI | Redis | `data-ai/redis.md` |
 | 数据与 AI | Kafka | `data-ai/kafka.md` |

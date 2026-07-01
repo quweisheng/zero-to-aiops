@@ -37,8 +37,13 @@
 
 - [Linux](./foundation/linux.md)
 - [Git](./foundation/git.md)
+- [GitHub](./foundation/github.md)
+- [Markdown](./foundation/markdown.md)
+- [VitePress](./foundation/vitepress.md)
 - [Python](./foundation/python.md)
 - [Shell / PowerShell](./foundation/shell-powershell.md)
+- [systemd](./foundation/systemd.md)
+- [网络基础](./foundation/networking.md)
 - [Docker](./cloud-native/docker.md)
 - [Docker Compose](./cloud-native/docker-compose.md)
 - [Kubernetes](./cloud-native/kubernetes.md)
@@ -53,6 +58,8 @@
 - [Ansible](./automation/ansible.md)
 - [Terraform](./automation/terraform.md)
 - [GitHub Actions](./automation/github-actions.md)
+- [CI/CD](./automation/cicd.md)
+- [Runbook Automation](./automation/runbook-automation.md)
 
 ## 每个技术栈都按这个模板记录
 

@@ -37,8 +37,13 @@ export default defineConfig({
         items: [
           { text: 'Linux', link: '/tech-stack/foundation/linux' },
           { text: 'Git', link: '/tech-stack/foundation/git' },
+          { text: 'GitHub', link: '/tech-stack/foundation/github' },
+          { text: 'Markdown', link: '/tech-stack/foundation/markdown' },
+          { text: 'VitePress', link: '/tech-stack/foundation/vitepress' },
           { text: 'Python', link: '/tech-stack/foundation/python' },
           { text: 'Shell / PowerShell', link: '/tech-stack/foundation/shell-powershell' },
+          { text: 'systemd', link: '/tech-stack/foundation/systemd' },
+          { text: '网络基础', link: '/tech-stack/foundation/networking' },
           { text: '基础工具总览', link: '/tech-stack/01-foundation' }
         ]
       },
@@ -71,6 +76,8 @@ export default defineConfig({
           { text: 'Ansible', link: '/tech-stack/automation/ansible' },
           { text: 'Terraform', link: '/tech-stack/automation/terraform' },
           { text: 'GitHub Actions', link: '/tech-stack/automation/github-actions' },
+          { text: 'CI/CD', link: '/tech-stack/automation/cicd' },
+          { text: 'Runbook Automation', link: '/tech-stack/automation/runbook-automation' },
           { text: '自动化总览', link: '/tech-stack/04-automation-ci' }
         ]
       },
