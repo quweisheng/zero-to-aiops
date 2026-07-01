@@ -14,11 +14,11 @@
 | 类别 | 技术 | 优先级 | 学到什么程度 |
 |---|---|---:|---|
 | 基础工具 | Linux、systemd、网络、Git、GitHub、Markdown、VitePress、Python、Shell/PowerShell | P0 | 能排障、能写记录、能提交代码、能跑脚本 |
-| 可观测性 | Prometheus、Alertmanager、Grafana、OpenTelemetry、Loki、Elasticsearch | P1 | 能采集指标/日志/链路、能做仪表盘和告警 |
-| 云原生 | Docker、Kubernetes、Helm、NGINX/Ingress | P1 | 能容器化服务、理解 K8s 资源、能部署实验环境 |
-| 自动化与 CI/CD | Ansible、Terraform、GitHub Actions | P1-P2 | 能把手工操作写成自动化，能自动构建文档/项目 |
-| 数据与 AI | SQL/MySQL、Redis、Kafka、pandas、scikit-learn、FastAPI、LLM、RAG、向量数据库 | P1-P3 | 能处理运维数据、做异常检测、做智能运维助手 |
-| SRE/AIOps 实践 | SLI/SLO、告警治理、事件响应、Runbook、根因分析、变更管理 | P0-P1 | 能把工具能力转成稳定性结果和面试故事 |
+| 可观测性 | Prometheus、Alertmanager、Grafana、OpenTelemetry、Loki、Elasticsearch | P1 | 能采集指标、日志、链路，能做仪表盘和告警 |
+| 云原生 | Docker、Kubernetes、Helm、NGINX/Ingress | P1 | 能容器化服务，理解 K8s 资源，能部署实验环境 |
+| 自动化与 CI/CD | Ansible、Terraform、GitHub Actions、CI/CD、Runbook Automation | P1-P2 | 能把手工操作写成自动化流程，能自动构建文档和项目 |
+| 数据与 AI | MySQL/SQL、Redis、Kafka、pandas、scikit-learn、FastAPI、LLM/OpenAI API、RAG、向量数据库 | P1-P3 | 能处理运维数据，做异常检测、告警降噪和智能运维助手 |
+| SRE/AIOps 实践 | SLI/SLO、告警治理、事件响应、Runbook、RCA、变更管理、AIOps 闭环 | P0-P1 | 能把工具能力转成稳定性结果和面试故事 |
 
 ## 推荐学习顺序
 
@@ -31,9 +31,9 @@
 
 ## 一技术一文件
 
-新的详细教程会逐步拆成“一项技术一个 Markdown 文件”。当前拆分进度见：[技术栈拆分进度](./progress.md)。
+当前已经拆分为独立教程的技术：
 
-第一批已完成：
+### 基础工具
 
 - [Linux](./foundation/linux.md)
 - [Git](./foundation/git.md)
@@ -44,27 +44,63 @@
 - [Shell / PowerShell](./foundation/shell-powershell.md)
 - [systemd](./foundation/systemd.md)
 - [网络基础](./foundation/networking.md)
+
+### 云原生
+
 - [Docker](./cloud-native/docker.md)
 - [Docker Compose](./cloud-native/docker-compose.md)
 - [Kubernetes](./cloud-native/kubernetes.md)
 - [Helm](./cloud-native/helm.md)
 - [NGINX / Ingress](./cloud-native/nginx-ingress.md)
+
+### 可观测性
+
 - [Prometheus](./observability/prometheus.md)
 - [Grafana](./observability/grafana.md)
 - [OpenTelemetry](./observability/opentelemetry.md)
 - [Alertmanager](./observability/alertmanager.md)
 - [Loki](./observability/loki.md)
 - [Elasticsearch](./observability/elasticsearch.md)
+
+### 自动化
+
 - [Ansible](./automation/ansible.md)
 - [Terraform](./automation/terraform.md)
 - [GitHub Actions](./automation/github-actions.md)
 - [CI/CD](./automation/cicd.md)
 - [Runbook Automation](./automation/runbook-automation.md)
 
+### 数据与 AI
+
+- [MySQL / SQL](./data-ai/mysql-sql.md)
+- [Redis](./data-ai/redis.md)
+- [Kafka](./data-ai/kafka.md)
+- [pandas](./data-ai/pandas.md)
+- [scikit-learn](./data-ai/scikit-learn.md)
+- [FastAPI](./data-ai/fastapi.md)
+- [LLM / OpenAI API](./data-ai/llm-openai.md)
+- [RAG](./data-ai/rag.md)
+- [向量数据库](./data-ai/vector-database.md)
+
+### SRE/AIOps 实践
+
+- [SLI / SLO / SLA](./sre-aiops/sli-slo-sla.md)
+- [告警治理](./sre-aiops/alert-governance.md)
+- [事件响应](./sre-aiops/incident-response.md)
+- [Runbook](./sre-aiops/runbook.md)
+- [RCA 根因分析](./sre-aiops/rca.md)
+- [变更管理](./sre-aiops/change-management.md)
+- [AIOps 闭环](./sre-aiops/aiops-loop.md)
+
+完整拆分进度见：[技术栈拆分进度](./progress.md)。
+
 ## 每个技术栈都按这个模板记录
 
 ```md
 ## 技术名
+
+### 官方资料
+列出官网教程和参考文档。
 
 ### 是什么
 一句话定义它。
@@ -79,7 +115,7 @@
 它解决 AIOps 链路里的哪一段问题。
 
 ### 配置重点
-学习时必须知道哪些配置文件、端口、命令、参数。
+必须知道哪些配置文件、端口、命令、参数。
 
 ### 入门练习
 做一个能提交到 GitHub 的小实验。
@@ -97,12 +133,14 @@ Linux 服务
   -> Prometheus 指标
   -> Grafana 仪表盘
   -> Alertmanager 告警
-  -> Python 分析异常
-  -> Runbook 建议动作
+  -> Python / pandas 分析
+  -> scikit-learn 异常检测
+  -> FastAPI 暴露接口
+  -> LLM / RAG 生成排障建议
   -> GitHub 记录过程
 ```
 
-这条链路打通后，再补 Kubernetes、OpenTelemetry、Loki、Ansible、LLM/RAG。
+这条链路打通后，再补 Kubernetes、OpenTelemetry、Loki、Ansible、Kafka、向量数据库和更完整的 SRE 流程。
 
 ## 官方资料入口
 
@@ -118,6 +156,15 @@ Linux 服务
 - [Ansible](https://docs.ansible.com/projects/ansible/latest/index.html)
 - [Terraform](https://developer.hashicorp.com/terraform/docs)
 - [GitHub Actions](https://docs.github.com/actions)
+- [MySQL](https://dev.mysql.com/doc/refman/8.4/en/tutorial.html)
+- [Redis](https://redis.io/docs/latest/)
+- [Apache Kafka](https://kafka.apache.org/documentation/)
 - [pandas](https://pandas.pydata.org/docs/)
-- [scikit-learn IsolationForest](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.IsolationForest.html)
+- [scikit-learn](https://scikit-learn.org/stable/user_guide.html)
+- [FastAPI](https://fastapi.tiangolo.com/)
+- [OpenAI API](https://developers.openai.com/api/docs/quickstart)
+- [LangChain RAG](https://docs.langchain.com/oss/python/langchain/rag)
+- [Milvus](https://milvus.io/docs)
+- [Chroma](https://docs.trychroma.com/docs/overview/introduction)
 - [Google SRE Books](https://sre.google/books/)
+- [Microsoft Learn - AIOps and agentic operations](https://learn.microsoft.com/en-us/azure/azure-monitor/aiops/aiops-and-agentic-operations)

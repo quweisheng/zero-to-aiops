@@ -31,27 +31,26 @@
 | 自动化 | GitHub Actions | [github-actions.md](./automation/github-actions.md) |
 | 自动化 | CI/CD | [cicd.md](./automation/cicd.md) |
 | 自动化 | Runbook Automation | [runbook-automation.md](./automation/runbook-automation.md) |
+| 数据与 AI | MySQL / SQL | [mysql-sql.md](./data-ai/mysql-sql.md) |
+| 数据与 AI | Redis | [redis.md](./data-ai/redis.md) |
+| 数据与 AI | Kafka | [kafka.md](./data-ai/kafka.md) |
+| 数据与 AI | pandas | [pandas.md](./data-ai/pandas.md) |
+| 数据与 AI | scikit-learn | [scikit-learn.md](./data-ai/scikit-learn.md) |
+| 数据与 AI | FastAPI | [fastapi.md](./data-ai/fastapi.md) |
+| 数据与 AI | LLM / OpenAI API | [llm-openai.md](./data-ai/llm-openai.md) |
+| 数据与 AI | RAG | [rag.md](./data-ai/rag.md) |
+| 数据与 AI | 向量数据库 | [vector-database.md](./data-ai/vector-database.md) |
+| SRE/AIOps | SLI / SLO / SLA | [sli-slo-sla.md](./sre-aiops/sli-slo-sla.md) |
+| SRE/AIOps | 告警治理 | [alert-governance.md](./sre-aiops/alert-governance.md) |
+| SRE/AIOps | 事件响应 | [incident-response.md](./sre-aiops/incident-response.md) |
+| SRE/AIOps | Runbook | [runbook.md](./sre-aiops/runbook.md) |
+| SRE/AIOps | RCA 根因分析 | [rca.md](./sre-aiops/rca.md) |
+| SRE/AIOps | 变更管理 | [change-management.md](./sre-aiops/change-management.md) |
+| SRE/AIOps | AIOps 闭环 | [aiops-loop.md](./sre-aiops/aiops-loop.md) |
 
 ## 待继续拆分
 
-| 分类 | 技术栈 | 目标文件 |
-|---|---|---|
-| 数据与 AI | MySQL / SQL | `data-ai/mysql-sql.md` |
-| 数据与 AI | Redis | `data-ai/redis.md` |
-| 数据与 AI | Kafka | `data-ai/kafka.md` |
-| 数据与 AI | pandas | `data-ai/pandas.md` |
-| 数据与 AI | scikit-learn | `data-ai/scikit-learn.md` |
-| 数据与 AI | FastAPI | `data-ai/fastapi.md` |
-| 数据与 AI | LLM / OpenAI API | `data-ai/llm-openai.md` |
-| 数据与 AI | RAG | `data-ai/rag.md` |
-| 数据与 AI | 向量数据库 | `data-ai/vector-database.md` |
-| SRE/AIOps | SLI / SLO / SLA | `sre-aiops/sli-slo-sla.md` |
-| SRE/AIOps | 告警治理 | `sre-aiops/alert-governance.md` |
-| SRE/AIOps | 事件响应 | `sre-aiops/incident-response.md` |
-| SRE/AIOps | Runbook | `sre-aiops/runbook.md` |
-| SRE/AIOps | RCA 根因分析 | `sre-aiops/rca.md` |
-| SRE/AIOps | 变更管理 | `sre-aiops/change-management.md` |
-| SRE/AIOps | AIOps 闭环 | `sre-aiops/aiops-loop.md` |
+当前技术栈清单已经全部拆分完成。后续如果学习中新增技术，比如 VictoriaMetrics、Thanos、ClickHouse、Airflow、Flink、LangGraph、Argo CD，再继续按“一技术一文件”追加。
 
 ## 写作规则
 

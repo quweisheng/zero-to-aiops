@@ -82,6 +82,34 @@ export default defineConfig({
         ]
       },
       {
+        text: '数据与 AI',
+        items: [
+          { text: 'MySQL / SQL', link: '/tech-stack/data-ai/mysql-sql' },
+          { text: 'Redis', link: '/tech-stack/data-ai/redis' },
+          { text: 'Kafka', link: '/tech-stack/data-ai/kafka' },
+          { text: 'pandas', link: '/tech-stack/data-ai/pandas' },
+          { text: 'scikit-learn', link: '/tech-stack/data-ai/scikit-learn' },
+          { text: 'FastAPI', link: '/tech-stack/data-ai/fastapi' },
+          { text: 'LLM / OpenAI API', link: '/tech-stack/data-ai/llm-openai' },
+          { text: 'RAG', link: '/tech-stack/data-ai/rag' },
+          { text: '向量数据库', link: '/tech-stack/data-ai/vector-database' },
+          { text: '数据与 AI 总览', link: '/tech-stack/05-data-ai' }
+        ]
+      },
+      {
+        text: 'SRE/AIOps 实践',
+        items: [
+          { text: 'SLI / SLO / SLA', link: '/tech-stack/sre-aiops/sli-slo-sla' },
+          { text: '告警治理', link: '/tech-stack/sre-aiops/alert-governance' },
+          { text: '事件响应', link: '/tech-stack/sre-aiops/incident-response' },
+          { text: 'Runbook', link: '/tech-stack/sre-aiops/runbook' },
+          { text: 'RCA 根因分析', link: '/tech-stack/sre-aiops/rca' },
+          { text: '变更管理', link: '/tech-stack/sre-aiops/change-management' },
+          { text: 'AIOps 闭环', link: '/tech-stack/sre-aiops/aiops-loop' },
+          { text: 'SRE/AIOps 总览', link: '/tech-stack/06-sre-aiops-practices' }
+        ]
+      },
+      {
         text: '路线',
         items: [
           { text: '学习路线', link: '/roadmap/README' },
