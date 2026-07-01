@@ -11,9 +11,24 @@
 
 说明：本文是基于 HashiCorp 官方文档整理的原创中文教程，不复制官方全文。
 
+## 为什么要学
+
+很多故障和基础设施变更有关：安全组改错、负载均衡规则变化、实例规格调整、DNS 变更、Kubernetes 资源变更。Terraform 把基础设施写成代码，让这些变更可评审、可追踪、可回滚。
+
+对 AIOps 来说，Terraform 的 state、plan 和提交历史能为“变更导致故障”提供证据，也能让实验环境可重复创建和销毁。
+
 ## 是什么
 
 Terraform 是基础设施即代码工具。你用 HCL 配置文件描述基础设施，Terraform 通过 provider 调用平台 API 创建、修改、删除资源。
+
+## 它解决什么问题
+
+- 用代码描述基础设施期望状态。
+- 用 plan 在执行前预览变更。
+- 用 state 追踪真实资源和配置的映射。
+- 用 provider 管理云、Kubernetes、GitHub、监控等资源。
+- 用 module 复用基础设施配置。
+- 让基础设施变更进入 Git 和 CI/CD 流程。
 
 ## 核心原理
 
@@ -144,6 +159,30 @@ output "file_path" {
 - 多人协作时使用远程 state。
 - 启用 state lock。
 - 不要同时 apply。
+
+## 学习检查清单
+
+- [ ] 我能解释 Terraform 是基础设施即代码工具。
+- [ ] 我能写一个最小 `main.tf`。
+- [ ] 我能执行 `init`、`fmt`、`validate`、`plan`、`apply`。
+- [ ] 我能解释 provider、resource、data source、variable、output。
+- [ ] 我能说明 state 为什么重要。
+- [ ] 我知道 plan 显示删除大量资源时必须停下来。
+- [ ] 我能说明远程 state 和 state lock 的作用。
+- [ ] 我能把 Terraform 变更和故障时间线关联起来。
+
+## 面试题
+
+1. Terraform 解决了什么问题？
+2. Terraform 的核心工作流是什么？
+3. provider 和 resource 分别是什么？
+4. `plan` 为什么不能跳过？
+5. Terraform state 保存了什么？为什么重要？
+6. 为什么不能手动随便修改 state？
+7. 远程 state 和 state lock 解决什么问题？
+8. module 的价值是什么？
+9. Terraform 和 Ansible 的区别是什么？
+10. Terraform 如何帮助 AIOps 做变更关联分析？
 
 ## 学习证据
 

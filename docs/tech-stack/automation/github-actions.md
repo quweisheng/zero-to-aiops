@@ -11,9 +11,24 @@
 
 说明：本文是基于 GitHub Actions 官方文档整理的原创中文教程，不复制官方全文。
 
+## 为什么要学
+
+学习仓库如果只能手工构建和发布，迟早会忘记步骤。GitHub Actions 能让 push 后自动构建文档、运行测试、发布 GitHub Pages、检查代码和生成 artifact。
+
+对 AIOps 学习来说，Actions 是你接触 CI/CD 的入口，也是把“配置变更 -> 自动验证 -> 自动发布”串起来的第一条流水线。
+
 ## 是什么
 
 GitHub Actions 是 GitHub 内置的 CI/CD 和自动化平台。它可以在 push、pull request、手动触发、定时任务等事件发生时执行 workflow。
+
+## 它解决什么问题
+
+- 在 GitHub 事件发生时自动执行任务。
+- 自动构建文档站或项目。
+- 自动运行测试和检查。
+- 管理 secrets、artifact 和环境。
+- 用 workflow 记录可重复的交付流程。
+- 为 CI/CD、发布和回滚打基础。
 
 ## 核心原理
 
@@ -143,6 +158,30 @@ env:
 - 仓库 Settings -> Pages 是否选择 GitHub Actions。
 - workflow permissions 是否包含 pages/id-token。
 - artifact 路径是否正确。
+
+## 学习检查清单
+
+- [ ] 我能解释 workflow、event、job、runner、step、action。
+- [ ] 我能写一个最小 workflow。
+- [ ] 我能用 `workflow_dispatch` 手动触发。
+- [ ] 我能用 `actions/checkout` 和 `actions/setup-node`。
+- [ ] 我能读取 Actions 日志定位失败 step。
+- [ ] 我能区分 secret 和普通 env。
+- [ ] 我能说明 artifact 的用途。
+- [ ] 我能用 GitHub Actions 构建并部署 VitePress 文档。
+
+## 面试题
+
+1. GitHub Actions 是什么？
+2. workflow、job、step、runner 分别是什么？
+3. `on: push` 和 `workflow_dispatch` 有什么区别？
+4. 为什么敏感信息要放在 secrets？
+5. artifact 和 cache 有什么区别？
+6. Actions 失败时如何定位问题？
+7. 发布 GitHub Pages 需要哪些权限？
+8. 为什么 CI 要在 pull request 或 push 时自动运行？
+9. GitHub Actions 和传统 Jenkins 有什么异同？
+10. GitHub Actions 如何支撑 AIOps 学习仓库自动化？
 
 ## 学习证据
 

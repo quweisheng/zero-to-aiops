@@ -10,9 +10,24 @@
 
 说明：本文是基于 Ansible 官方文档整理的原创中文教程，不复制官方全文。
 
+## 为什么要学
+
+运维工作里很多动作会重复发生：检查磁盘、重启服务、批量修改配置、安装 agent、收集日志。Ansible 能把这些动作写成可审计的 YAML，让“手工操作”变成“可复用自动化”。
+
+对 AIOps 来说，Ansible 是 runbook automation 的常见执行层。告警触发后，系统可以先自动做低风险检查，再在人工确认后执行修复动作。
+
 ## 是什么
 
 Ansible 是自动化配置管理和运维编排工具。它能批量执行命令、安装软件、修改配置、管理服务、部署应用。
+
+## 它解决什么问题
+
+- 批量管理多台服务器。
+- 把操作步骤写成 playbook，减少手工误操作。
+- 通过模块实现幂等配置管理。
+- 用 inventory 管理主机分组。
+- 支持 check mode 预演变更。
+- 作为 runbook automation 的执行引擎。
 
 ## 核心原理
 
@@ -177,6 +192,30 @@ ansible-playbook --syntax-check playbook.yml
 - 检查是否使用了 `command`/`shell` 做非幂等动作。
 - 增加 `changed_when: false`。
 - 优先使用专用模块。
+
+## 学习检查清单
+
+- [ ] 我能解释 control node、inventory、managed node。
+- [ ] 我能写一个 inventory。
+- [ ] 我能执行 ad hoc 命令。
+- [ ] 我能写一个最小 playbook。
+- [ ] 我能解释 task、module、play、role。
+- [ ] 我能使用 `--check` 和 `--syntax-check`。
+- [ ] 我能说明幂等性为什么重要。
+- [ ] 我能把一个低风险 runbook 动作写成 Ansible playbook。
+
+## 面试题
+
+1. Ansible 解决了什么问题？
+2. Ansible 为什么通常不需要在被控节点安装 agent？
+3. inventory 和 playbook 分别是什么？
+4. ad hoc 命令和 playbook 有什么区别？
+5. 什么是幂等性？为什么自动化需要幂等？
+6. `command`、`shell` 和专用模块应该如何选择？
+7. `--check` 模式适合什么场景？
+8. 任务每次都显示 changed 应该怎么处理？
+9. Ansible 如何作为 AIOps runbook 的执行层？
+10. 哪些自动化动作必须加人工确认？
 
 ## 学习证据
 
