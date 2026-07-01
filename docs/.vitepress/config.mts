@@ -6,6 +6,7 @@ export default defineConfig({
   themeConfig: {
     nav: [
       { text: '学习路线', link: '/roadmap/README' },
+      { text: '技术栈', link: '/tech-stack/README' },
       { text: '实战项目', link: '/projects/README' },
       { text: '面试', link: '/interview/' },
       { text: '天津求职', link: '/job-search/tianjin' }
@@ -22,6 +23,18 @@ export default defineConfig({
         text: '教程',
         items: [
           { text: '从 0 开始', link: '/tutorials/0001-start-from-zero' }
+        ]
+      },
+      {
+        text: '技术栈',
+        items: [
+          { text: '总清单', link: '/tech-stack/README' },
+          { text: '基础工具', link: '/tech-stack/01-foundation' },
+          { text: '可观测性', link: '/tech-stack/02-observability' },
+          { text: '云原生', link: '/tech-stack/03-cloud-native' },
+          { text: '自动化与 CI/CD', link: '/tech-stack/04-automation-ci' },
+          { text: '数据与 AI', link: '/tech-stack/05-data-ai' },
+          { text: 'SRE/AIOps 实践', link: '/tech-stack/06-sre-aiops-practices' }
         ]
       },
       {

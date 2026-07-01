@@ -18,6 +18,7 @@
 
 - [学习路线](./docs/roadmap/README.md)：90 天入门到作品集，24 周转岗强化。
 - [能力地图](./docs/roadmap/00-skill-map.md)：AIOps 工程师需要掌握什么。
+- [技术栈总清单](./docs/tech-stack/README.md)：学习过程中涉及的技术栈、原理、架构、配置和练习。
 - [实战项目](./docs/projects/README.md)：用项目证明能力，而不是只堆关键词。
 - [面试准备](./docs/interview/README.md)：把运维经验讲成 AIOps 工程故事。
 - [天津求职](./docs/job-search/tianjin.md)：岗位关键词、投递策略、简历定位。
