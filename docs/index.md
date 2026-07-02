@@ -4,7 +4,9 @@
 
 ## 知识库精讲标准
 
-这个仓库会按“像教程一样讲清楚”的方式持续扩展。每个技术栈文件都尽量回答：为什么学、是什么、原理是什么、架构是什么、如何配置、如何做实验、出问题怎么查、面试怎么讲、学习证据怎么提交到 GitHub。
+这个仓库会按“像教程一样讲清楚”的方式持续扩展。写法参考了 [二哥的 Java 进阶之路](https://javabetter.cn/overview/what-is-java.html) 那种通俗、对话感强、循序拆解的讲法，但内容会围绕 AIOps 重新组织，不照搬人设、段子和原文。
+
+每个技术栈文件都尽量回答：为什么学、是什么、原理是什么、架构是什么、如何配置、如何做实验、出问题怎么查、面试怎么讲、学习证据怎么提交到 GitHub。
 
 第一批示范文章：
 
@@ -12,7 +14,7 @@
 - [Grafana 精讲](./tech-stack/observability/grafana.md)
 - [Docker Compose 精讲](./tech-stack/cloud-native/docker-compose.md)
 
-后续所有技术栈文章都会参考 [技术栈精讲写作标准](./tech-stack/writing-standard.md) 继续补充。
+后续所有技术栈文章都会参考 [技术栈精讲写作标准](./tech-stack/writing-standard.md) 继续补充，重点不是堆资料，而是让一个运维小白能跟着做、能复盘、能把学习过程沉淀到 GitHub。
 
 ## 当前目标
 

@@ -1,68 +1,211 @@
 # VitePress
 
-> 目标：能把 Markdown 学习笔记构建成文档站，并用 GitHub Actions 发布到 GitHub Pages。
+> 目标：能把 Markdown 学习笔记构建成可访问的文档站，理解 source directory、file-based routing、config、themeConfig、nav、sidebar、frontmatter、Markdown extensions、asset handling、base、build、preview、GitHub Actions 和 GitHub Pages 部署，并能排查 dead link、路径、构建和发布问题。
 
 ## 官方资料
 
-- [VitePress Getting Started](https://vitepress.dev/guide/getting-started)
-- [VitePress Routing](https://vitepress.dev/guide/routing)
-- [VitePress Markdown Extensions](https://vitepress.dev/guide/markdown)
-- [VitePress Site Config](https://vitepress.dev/reference/site-config)
-- [VitePress Deploy](https://vitepress.dev/guide/deploy)
+- [VitePress v1 Getting Started](https://vuejs.github.io/vitepress/v1/guide/getting-started)
+- [VitePress v1 Routing](https://vuejs.github.io/vitepress/v1/guide/routing)
+- [VitePress v1 Markdown Extensions](https://vuejs.github.io/vitepress/v1/guide/markdown)
+- [VitePress v1 Asset Handling](https://vuejs.github.io/vitepress/v1/guide/asset-handling)
+- [VitePress v1 Frontmatter](https://vuejs.github.io/vitepress/v1/guide/frontmatter)
+- [VitePress v1 Using Vue in Markdown](https://vuejs.github.io/vitepress/v1/guide/using-vue)
+- [VitePress v1 Default Theme Config](https://vuejs.github.io/vitepress/v1/reference/default-theme-config)
+- [VitePress v1 Site Config](https://vuejs.github.io/vitepress/v1/reference/site-config)
+- [VitePress v1 Deploy](https://vuejs.github.io/vitepress/v1/guide/deploy)
+- [VitePress current docs](https://vitepress.dev/)
 
-说明：本文是基于 VitePress 官方文档整理的原创中文教程，不复制官方全文。
+说明：本仓库当前 `package.json` 使用 `vitepress` `^1.6.4`，所以本文以 VitePress v1 官方文档为主要依据。VitePress 当前官网可能默认显示更新版本文档，学习时要注意版本匹配。
 
-## 为什么要学
+## 场景开场
 
-GitHub 仓库能保存学习记录，但文档站能让别人更舒服地阅读你的学习路线、技术栈和项目。VitePress 可以把 Markdown 变成网站，让你的 AIOps 学习过程像一本在线教程一样展示出来。
+“GitHub 仓库里文章不少，可别人点进来以后不知道从哪读起。”
 
-对转岗求职来说，VitePress 的价值是把零散笔记整理成可访问、可导航、可搜索的作品集入口。
+Markdown 文件能保存内容，但知识库还需要：
 
-## 是什么
+- 首页。
+- 导航栏。
+- 侧边栏。
+- 文档路由。
+- 目录。
+- 主题样式。
+- 构建检查。
+- 发布到 GitHub Pages。
 
-VitePress 是静态文档站生成器。它读取 Markdown 文件，生成静态 HTML、CSS、JS，适合做技术知识库、项目文档和学习记录站。
+VitePress 的作用，就是把一堆 Markdown 组织成一个可阅读、可导航、可分享的网站。对 AIOps 转岗来说，它把“我写了很多笔记”升级成“我有一个能打开的网站作品集”。
 
-## 它解决什么问题
+## 一句话人话版
 
-- 把 Markdown 目录变成可浏览的网站。
-- 提供导航栏、侧边栏、路由和主题。
-- 支持 GitHub Pages 静态部署。
-- 让学习笔记从“仓库文件”升级为“公开知识库”。
-- 让面试官能快速按路线阅读你的内容。
+VitePress 是基于 Vite 和 Vue 的静态文档站生成器：它读取 `docs` 目录里的 Markdown，按文件生成页面，再构建成可部署到 GitHub Pages 的静态网站。
 
-## 核心原理
+## 学习边界
 
-VitePress 使用文件路由。`docs/index.md` 会变成首页，`docs/tech-stack/linux.md` 会变成对应页面。
+这一篇重点讲 VitePress v1：
+
+- 项目目录和 `docs` source directory。
+- `package.json` scripts。
+- `docs/.vitepress/config.mts`。
+- 文件路由。
+- nav 和 sidebar。
+- frontmatter。
+- Markdown 扩展。
+- 静态资源。
+- base 配置。
+- build、preview、dead link。
+- GitHub Actions + GitHub Pages 部署。
+- 本仓库配置如何理解。
+
+不在这一篇深入讲：
+
+- 自定义 Vue 主题开发。
+- Vite 插件体系。
+- 搜索服务 Algolia 全配置。
+- VitePress 2.0 alpha 新能力。
+
+对你的知识库而言，先把默认主题、导航、构建、部署和排障掌握好，比一开始做复杂主题更重要。
+
+## 官方知识地图
+
+VitePress v1 官方文档可以按这棵树理解：
 
 ```text
-docs/*.md
-  -> VitePress
-  -> docs/.vitepress/dist
-  -> static site
-  -> GitHub Pages
+VitePress v1 docs
+  ├── Guide
+  │   ├── Getting Started
+  │   ├── Routing
+  │   ├── Deploy
+  │   ├── Markdown Extensions
+  │   ├── Asset Handling
+  │   ├── Frontmatter
+  │   ├── Using Vue in Markdown
+  │   └── i18n, sitemap, SSR compatibility
+  ├── Reference
+  │   ├── Site Config
+  │   ├── Default Theme Config
+  │   ├── Frontmatter Config
+  │   ├── Runtime API
+  │   └── CLI
+  └── Advanced
+      ├── extending default theme
+      ├── build hooks
+      └── custom theme
 ```
 
-## 项目结构
+本篇按学习顺序重排：
 
 ```text
-docs/
-  index.md
+先理解 VitePress 做什么
+  -> 再看目录和路由
+  -> 再看 config.mts
+  -> 再看 nav/sidebar
+  -> 再看 Markdown 扩展
+  -> 再看构建和部署
+  -> 最后看排障
+```
+
+## VitePress 在 AIOps 知识库中的位置
+
+```text
+Markdown docs
+  ├── Linux
+  ├── Docker
+  ├── Prometheus
+  ├── Grafana
+  ├── Runbook
+  └── Projects
+        |
+        v
+VitePress
+  ├── routes
+  ├── nav
+  ├── sidebar
+  ├── markdown rendering
+  ├── build checks
+  └── static output
+        |
+        v
+GitHub Pages
+        |
+        v
+public AIOps portfolio site
+```
+
+它在你的学习路径里承担三个角色：
+
+| 角色 | 说明 |
+|---|---|
+| 知识组织器 | 把零散 Markdown 变成有导航的网站 |
+| 构建检查器 | 构建时暴露 dead link、Markdown 和配置问题 |
+| 作品集入口 | 发布到 GitHub Pages 后可直接分享 |
+
+## VitePress 是什么
+
+VitePress 是静态站点生成器，主要面向文档站。
+
+它读取 Markdown：
+
+```text
+docs/index.md
+docs/tech-stack/foundation/linux.md
+docs/projects/README.md
+```
+
+生成静态文件：
+
+```text
+docs/.vitepress/dist/
+  index.html
+  assets/
   tech-stack/
-  .vitepress/
-    config.mts
-package.json
+  projects/
 ```
 
-## 安装
+这些静态文件可以部署到 GitHub Pages、Vercel、Netlify、Nginx 等静态托管环境。
 
-```bash
-npm install -D vitepress
+VitePress 的核心公式：
+
+```text
+VitePress = Markdown + Vite + Vue + Default Theme + Static Build
 ```
 
-`package.json`：
+## 静态站点生成流程
+
+```text
+source directory: docs/
+  |
+  +--> Markdown pages
+  +--> .vitepress/config.mts
+  +--> public assets
+        |
+        v
+vitepress build docs
+        |
+        v
+static output: docs/.vitepress/dist
+        |
+        v
+deploy to GitHub Pages
+```
+
+每一步的含义：
+
+| 步骤 | 说明 |
+|---|---|
+| source directory | 文档源码根目录，本仓库是 `docs` |
+| config file | 站点标题、base、导航、侧边栏等 |
+| Markdown pages | 每个 `.md` 文件通常对应一个页面 |
+| build | 把源码转换成静态站点 |
+| dist | 构建产物 |
+| deploy | 把 dist 发布到静态托管 |
+
+## 当前仓库配置
+
+本仓库 `package.json`：
 
 ```json
 {
+  "name": "zero-to-aiops",
+  "private": true,
   "type": "module",
   "scripts": {
     "docs:dev": "vitepress dev docs",
@@ -75,11 +218,110 @@ npm install -D vitepress
 }
 ```
 
-## 本地运行
+字段解释：
+
+| 字段 | 含义 |
+|---|---|
+| `type: module` | 使用 ESM 模块语法，配置文件可用 `import` |
+| `docs:dev` | 本地开发服务器 |
+| `docs:build` | 生产构建 |
+| `docs:preview` | 本地预览构建产物 |
+| `vitepress` | 文档站构建工具依赖 |
+
+本仓库 `docs/.vitepress/config.mts` 的关键点：
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  title: 'To Be Better AIOps Engineer',
+  description: 'AIOps 学习路线、实战项目、面试准备和天津求职记录',
+  base: '/zero-to-aiops/',
+  themeConfig: {
+    nav: [
+      { text: '学习路线', link: '/roadmap/README' },
+      { text: '技术栈', link: '/tech-stack/README' }
+    ],
+    sidebar: [
+      {
+        text: '基础工具',
+        items: [
+          { text: 'Linux', link: '/tech-stack/foundation/linux' }
+        ]
+      }
+    ]
+  }
+})
+```
+
+这里最重要的是：
+
+- `base: '/zero-to-aiops/'`：适配 GitHub Pages 仓库路径。
+- `themeConfig.nav`：顶部导航。
+- `themeConfig.sidebar`：侧边栏。
+- link 通常不写 `.md`，使用站点路由。
+
+## 项目结构
+
+一个 VitePress 文档站常见结构：
+
+```text
+zero-to-aiops/
+  package.json
+  package-lock.json
+  docs/
+    index.md
+    tech-stack/
+      README.md
+      foundation/
+        linux.md
+        vitepress.md
+    projects/
+      README.md
+    public/
+      images/
+    .vitepress/
+      config.mts
+      dist/
+```
+
+路径说明：
+
+| 路径 | 作用 |
+|---|---|
+| `docs/` | source directory |
+| `docs/index.md` | 首页 |
+| `docs/.vitepress/config.mts` | VitePress 配置 |
+| `docs/public/` | 静态资源目录，会复制到站点根路径 |
+| `docs/.vitepress/dist/` | build 产物，不应手写维护 |
+| `package.json` | scripts 和依赖 |
+
+注意：`dist/` 是构建产物，不是源码。一般不需要提交，除非你采用特殊部署方式。
+
+## 安装和命令
+
+安装依赖：
 
 ```bash
 npm install
+```
+
+如果已有 `package-lock.json`，CI 和复现环境更推荐：
+
+```bash
+npm ci
+```
+
+本地开发：
+
+```bash
 npm run docs:dev
+```
+
+默认会启动开发服务器，终端会显示本地访问地址，常见是：
+
+```text
+localhost:5173
 ```
 
 构建：
@@ -88,56 +330,502 @@ npm run docs:dev
 npm run docs:build
 ```
 
-预览：
+预览构建产物：
 
 ```bash
 npm run docs:preview
 ```
 
-## 配置文件
+三者区别：
 
-`docs/.vitepress/config.mts`：
+| 命令 | 做什么 | 什么时候用 |
+|---|---|---|
+| `docs:dev` | 启动开发服务器 | 写文档时实时预览 |
+| `docs:build` | 构建生产静态站点 | 提交前、CI 中 |
+| `docs:preview` | 预览构建产物 | 验证生产构建效果 |
+
+## CLI 字典
+
+### `vitepress dev docs`
+
+| 项 | 内容 |
+|---|---|
+| 作用 | 启动本地开发服务器 |
+| 输入 | source directory `docs` |
+| 输出 | 本地预览地址 |
+| AIOps 场景 | 写文档时预览导航和页面 |
+| 常见坑 | dev 能打开不代表 build 一定通过 |
+
+### `vitepress build docs`
+
+| 项 | 内容 |
+|---|---|
+| 作用 | 生产构建 |
+| 输入 | Markdown、config、资源 |
+| 输出 | `docs/.vitepress/dist` |
+| AIOps 场景 | 提交前检查文档站能否发布 |
+| 常见坑 | dead link、语法、资源路径问题会导致构建失败 |
+
+### `vitepress preview docs`
+
+| 项 | 内容 |
+|---|---|
+| 作用 | 本地预览生产构建结果 |
+| 前提 | 已运行 build |
+| AIOps 场景 | 发布前确认静态产物效果 |
+| 常见坑 | preview 看的是构建产物，不是源码热更新 |
+
+## 文件路由
+
+VitePress 使用文件路由。
+
+```text
+docs/index.md                         -> /
+docs/tech-stack/README.md             -> /tech-stack/
+docs/tech-stack/foundation/linux.md   -> /tech-stack/foundation/linux
+docs/projects/README.md               -> /projects/
+```
+
+理解规则：
+
+| 文件 | 路由 |
+|---|---|
+| `index.md` | 当前目录根路由 |
+| `README.md` | 当前目录根路由 |
+| `foo.md` | `/foo` |
+| `dir/foo.md` | `/dir/foo` |
+
+本仓库配置里有些 link 写成：
+
+```ts
+{ text: '技术栈', link: '/tech-stack/README' }
+```
+
+这能工作，但你也可以统一思考成“链接到技术栈入口页面”。后续如果想优化路由风格，可以逐步整理为目录入口。
+
+## 链接规则
+
+Markdown 中内部链接可以写相对路径：
+
+```markdown
+[Linux](./foundation/linux.md)
+```
+
+VitePress 配置中的链接通常写站点路径：
+
+```ts
+{ text: 'Linux', link: '/tech-stack/foundation/linux' }
+```
+
+两者区别：
+
+| 场景 | 写法 |
+|---|---|
+| Markdown 正文内部链接 | 相对 `.md` 路径更直观 |
+| `config.mts` nav/sidebar | 站点路由 |
+| 外部资料 | 完整 URL |
+
+排障重点：
+
+- 文件名大小写一致。
+- 路径存在。
+- 不要把本地示例地址写成裸链接让构建器检查。
+- 构建前运行 `npm run docs:build`。
+
+## Site Config
+
+`docs/.vitepress/config.mts` 是站点配置。
+
+最小例子：
 
 ```ts
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
-  title: 'To Be Better AIOps Engineer',
-  description: 'AIOps 学习记录',
-  themeConfig: {
-    nav: [
-      { text: '技术栈', link: '/tech-stack/README' }
-    ],
-    sidebar: [
-      {
-        text: '技术栈',
-        items: [
-          { text: '总清单', link: '/tech-stack/README' }
-        ]
-      }
-    ]
-  }
+  title: 'zero-to-aiops',
+  description: 'AIOps learning docs'
 })
 ```
 
-## 路由规则
+常用顶层字段：
+
+| 字段 | 作用 |
+|---|---|
+| `title` | 站点标题 |
+| `description` | 站点描述 |
+| `base` | 部署基础路径 |
+| `srcDir` | 源文件目录，少数项目会用 |
+| `outDir` | 构建输出目录 |
+| `cleanUrls` | 是否使用干净 URL |
+| `ignoreDeadLinks` | 是否忽略 dead link 检查 |
+| `themeConfig` | 默认主题配置 |
+| `markdown` | Markdown 解析配置 |
+| `vite` | 传给 Vite 的配置 |
+
+不建议一开始为了“省事”设置 `ignoreDeadLinks: true`。dead link 检查正好能帮助知识库保持质量。
+
+## `base`
+
+`base` 是部署路径的基础前缀。
+
+如果你的 GitHub Pages 地址类似：
 
 ```text
-docs/index.md                  -> /
-docs/tech-stack/README.md      -> /tech-stack/README
-docs/tech-stack/linux.md       -> /tech-stack/linux
+https://quweisheng.github.io/zero-to-aiops/
 ```
 
-## 在 AIOps 中的作用
+那么 `base` 应该是：
 
-- 把学习过程变成可分享网站。
-- 让技术栈教程有导航。
-- 让项目、runbook、面试记录集中展示。
-- 通过 GitHub Pages 形成公开作品集。
+```ts
+base: '/zero-to-aiops/'
+```
 
-## GitHub Pages 发布
+如果是自定义域名根路径，例如：
 
-基本 workflow：
+```text
+https://aiops.example.com/
+```
+
+则可以是：
+
+```ts
+base: '/'
+```
+
+`base` 配错的常见现象：
+
+- 首页能打开，但 CSS/JS 404。
+- 页面样式全丢。
+- 图片路径不对。
+- 刷新子页面 404。
+
+本仓库已经配置：
+
+```ts
+base: '/zero-to-aiops/'
+```
+
+这符合项目仓库 Pages 的常见部署路径。
+
+## `themeConfig`
+
+默认主题的主要配置都在 `themeConfig`。
+
+常用：
+
+```ts
+themeConfig: {
+  nav: [],
+  sidebar: [],
+  socialLinks: [],
+  outline: {},
+  search: {},
+  footer: {}
+}
+```
+
+对知识库最重要的是：
+
+- `nav`：顶部导航。
+- `sidebar`：侧边栏。
+- `outline`：页面右侧目录。
+- `search`：搜索。
+- `socialLinks`：GitHub 链接。
+
+## Nav
+
+nav 是顶部导航。
+
+```ts
+nav: [
+  { text: '学习路线', link: '/roadmap/README' },
+  { text: '技术栈', link: '/tech-stack/README' },
+  { text: '实战项目', link: '/projects/README' }
+]
+```
+
+nav 设计原则：
+
+| 原则 | 说明 |
+|---|---|
+| 少而清楚 | 顶部只放一级入口 |
+| 面向读者 | 让新读者知道先看哪里 |
+| 长期稳定 | 不要频繁改入口 |
+| 和 README 对齐 | 仓库首页和站点导航互相呼应 |
+
+AIOps 知识库建议 nav：
+
+- 学习路线。
+- 技术栈。
+- 实战项目。
+- 面试。
+- 求职记录。
+
+## Sidebar
+
+sidebar 是侧边栏，用于组织大量页面。
+
+本仓库使用数组形式：
+
+```ts
+sidebar: [
+  {
+    text: '基础工具',
+    items: [
+      { text: 'Linux', link: '/tech-stack/foundation/linux' },
+      { text: 'Git', link: '/tech-stack/foundation/git' }
+    ]
+  }
+]
+```
+
+字段解释：
+
+| 字段 | 作用 |
+|---|---|
+| `text` | 显示文字 |
+| `link` | 页面路由 |
+| `items` | 子项 |
+| `collapsed` | 是否默认折叠 |
+
+侧边栏设计原则：
+
+- 按学习路径排序，不按文件创建时间排序。
+- 每组数量不要无限膨胀。
+- 总览页放在每组开头或结尾。
+- 深讲文档之间保持命名一致。
+
+## Frontmatter
+
+Frontmatter 是页面级配置，写在 Markdown 文件顶部。
+
+```markdown
+---
+title: Docker 深讲
+description: 从零理解 Docker Engine、镜像、容器和 Dockerfile
+outline: deep
+---
+
+# Docker
+```
+
+常用字段：
+
+| 字段 | 作用 |
+|---|---|
+| `title` | 页面标题 |
+| `description` | 页面描述 |
+| `layout` | 页面布局 |
+| `outline` | 右侧目录深度 |
+| `sidebar` | 是否显示侧边栏 |
+| `prev` / `next` | 上一页下一页 |
+
+不是每篇都必须写 Frontmatter。对 SEO、目录控制、特殊页面有需要时再写。
+
+## Markdown Extensions
+
+VitePress 基于 markdown-it，并支持一些扩展。
+
+常见能力：
+
+| 能力 | 作用 |
+|---|---|
+| Header anchors | 标题自动生成锚点 |
+| Links | 内部链接处理 |
+| Frontmatter | 页面元数据 |
+| Tables | 表格 |
+| Emoji | 表情符号 |
+| Table of contents | 目录 |
+| Custom containers | 提示块 |
+| Syntax highlighting | 代码高亮 |
+| Line highlighting | 高亮代码行 |
+| Import code snippets | 导入代码片段 |
+
+### Custom containers
+
+VitePress 支持容器语法。
+
+```markdown
+::: tip
+先确认 `/targets` 是 UP，再排查 PromQL。
+:::
+```
+
+常见类型：
+
+```text
+tip
+warning
+danger
+details
+```
+
+使用原则：
+
+- 提示块用于真正需要强调的信息。
+- 不要把普通正文都塞进提示块。
+- 对新手文档，warning/danger 用于风险和破坏性操作。
+
+### Code line highlighting
+
+示例：
+
+````markdown
+```yaml{2}
+global:
+  scrape_interval: 15s
+```
+````
+
+这里 `{2}` 表示高亮第 2 行。
+
+适合讲配置字段时突出关键行。
+
+### Import code snippets
+
+VitePress 支持从文件导入代码片段。学习初期可以先不使用，等实验代码稳定后再考虑。
+
+它的价值是避免文档中的代码和实际文件不一致。
+
+## 静态资源
+
+VitePress 处理资源有几种方式。
+
+### 相对路径资源
+
+Markdown 附近的图片：
+
+```markdown
+![Prometheus targets](./images/prometheus-targets.png)
+```
+
+适合和文档强相关的截图。
+
+### public 目录
+
+`docs/public/` 中的文件会被复制到站点根路径。
+
+```text
+docs/public/images/logo.png
+```
+
+引用：
+
+```markdown
+![Logo](/images/logo.png)
+```
+
+注意：如果部署有 `base`，VitePress 会处理站点路径，但你要理解 public 文件最终在站点根路径下。
+
+### 图片排障
+
+图片不显示时看：
+
+- 文件是否存在。
+- 大小写是否一致。
+- 相对路径是否从当前 Markdown 文件出发。
+- 是否被 `.gitignore` 忽略。
+- 构建后路径是否带正确 `base`。
+
+## Vue in Markdown
+
+VitePress 允许在 Markdown 中使用 Vue 语法。
+
+例子：
+
+```markdown
+{{ 1 + 1 }}
+```
+
+会被 Vue 处理。对于普通技术文档，这是双刃剑：
+
+- 好处：可以做交互组件。
+- 风险：写普通大括号示例时可能被误解析。
+
+如果你只是写 AIOps 知识库，建议先少用 Vue 语法。需要展示模板语法时，用代码块包住。
+
+## 构建产物
+
+运行：
+
+```bash
+npm run docs:build
+```
+
+默认输出：
+
+```text
+docs/.vitepress/dist
+```
+
+dist 目录包含：
+
+```text
+index.html
+assets/
+tech-stack/
+projects/
+```
+
+构建通过说明：
+
+- Markdown 基本能解析。
+- 配置文件能加载。
+- 内部链接没有被 dead link 检查拦住。
+- 静态站点可以生成。
+
+构建通过不等于内容质量高。内容是否真的能教会小白，还要看文档深度、实验和排障。
+
+## Dead Link 检查
+
+VitePress build 会检查链接。
+
+常见失败：
+
+```text
+Found dead link http://localhost:8000/health
+```
+
+这种本地实验地址如果只是示例，不要写成裸链接。写成代码：
+
+```text
+localhost:8000/health
+```
+
+内部链接失败时：
+
+- 检查文件是否存在。
+- 检查大小写。
+- 检查链接是否指向正确路由。
+- 检查是否移动文件后没更新链接。
+
+不建议轻易关闭 dead link 检查。它是知识库质量门禁。
+
+## GitHub Pages 部署
+
+VitePress 官方支持多种部署方式。这个仓库最自然的是 GitHub Actions + GitHub Pages。
+
+流程：
+
+```text
+push to main
+  -> GitHub Actions
+  -> npm ci
+  -> npm run docs:build
+  -> upload docs/.vitepress/dist
+  -> deploy to GitHub Pages
+```
+
+关键点：
+
+- `base` 要匹配仓库路径。
+- Pages source 选择 GitHub Actions。
+- workflow 权限要允许 Pages 发布。
+- artifact path 要指向 `docs/.vitepress/dist`。
+
+## GitHub Actions Workflow
+
+示例：
 
 ```yaml
 name: Deploy VitePress site
@@ -151,64 +839,479 @@ permissions:
   pages: write
   id-token: write
 
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 20
           cache: npm
-      - run: npm ci
-      - run: npm run docs:build
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run docs:build
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/.vitepress/dist
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
 ```
 
-## 排障清单
+字段解释：
 
-### 构建失败提示 dead link
+| 字段 | 含义 |
+|---|---|
+| `on.push.branches` | main 分支 push 时部署 |
+| `permissions.pages` | 允许发布 Pages |
+| `setup-node` | 安装 Node |
+| `npm ci` | 按 lockfile 安装依赖 |
+| `npm run docs:build` | 构建 VitePress |
+| `upload-pages-artifact` | 上传静态产物 |
+| `deploy-pages` | 发布到 Pages |
 
-- 检查相对链接。
-- VitePress 中目录链接尽量写具体文件。
-- 本地先运行 `npm run docs:build`。
+## 配置 / 命令字典
 
-### 中文乱码
+### `package.json` scripts
 
-- 文件保存为 UTF-8。
-- 不要混用奇怪编码。
+| 项 | 内容 |
+|---|---|
+| 作用 | 给常用 VitePress 命令起名字 |
+| 示例 | `"docs:build": "vitepress build docs"` |
+| AIOps 场景 | 本地和 CI 使用同一命令 |
+| 常见坑 | 本地命令和 CI 命令不一致，导致结果不同 |
+
+### `defineConfig`
+
+| 项 | 内容 |
+|---|---|
+| 作用 | 定义 VitePress 配置并获得类型提示 |
+| 示例 | `export default defineConfig({ title: '...' })` |
+| AIOps 场景 | 管理知识库站点配置 |
+| 常见坑 | 配置文件语法错误会导致 build 失败 |
+
+### `title`
+
+| 项 | 内容 |
+|---|---|
+| 作用 | 站点标题 |
+| 示例 | `title: 'To Be Better AIOps Engineer'` |
+| AIOps 场景 | 浏览器标题和站点品牌 |
+| 常见坑 | 标题太泛，看不出仓库定位 |
+
+### `description`
+
+| 项 | 内容 |
+|---|---|
+| 作用 | 站点描述 |
+| 示例 | `description: 'AIOps 学习路线...'` |
+| AIOps 场景 | 说明站点内容 |
+| 常见坑 | 只写口号，不写具体方向 |
+
+### `base`
+
+| 项 | 内容 |
+|---|---|
+| 作用 | 设置部署基础路径 |
+| 示例 | `base: '/zero-to-aiops/'` |
+| AIOps 场景 | GitHub Pages 项目站点 |
+| 常见坑 | base 错导致资源 404、样式丢失 |
+
+### `themeConfig.nav`
+
+| 项 | 内容 |
+|---|---|
+| 作用 | 顶部导航 |
+| 示例 | `{ text: '技术栈', link: '/tech-stack/README' }` |
+| AIOps 场景 | 给读者主要入口 |
+| 常见坑 | 入口太多，读者不知道先看哪 |
+
+### `themeConfig.sidebar`
+
+| 项 | 内容 |
+|---|---|
+| 作用 | 侧边栏目录 |
+| 示例 | `{ text: 'Linux', link: '/tech-stack/foundation/linux' }` |
+| AIOps 场景 | 组织大量技术栈文档 |
+| 常见坑 | 新增文档后忘记加入 sidebar |
+
+### Frontmatter `title`
+
+| 项 | 内容 |
+|---|---|
+| 作用 | 页面级标题 |
+| 示例 | `title: Prometheus 精讲` |
+| AIOps 场景 | 特定页面 SEO 和展示 |
+| 常见坑 | Frontmatter 不在文件顶部会失效 |
+
+### `npm run docs:build`
+
+| 项 | 内容 |
+|---|---|
+| 作用 | 构建文档站 |
+| 输出 | `docs/.vitepress/dist` |
+| AIOps 场景 | 提交前质量检查 |
+| 常见坑 | dev 能跑但 build 因 dead link 失败 |
+
+### `docs/.vitepress/dist`
+
+| 项 | 内容 |
+|---|---|
+| 作用 | 静态站点构建产物 |
+| 来源 | `vitepress build docs` |
+| AIOps 场景 | GitHub Pages 发布内容 |
+| 常见坑 | 手动修改 dist，下一次 build 会覆盖 |
+
+## AIOps 知识库导航设计
+
+对 zero-to-aiops 这种知识库，导航应该服务学习路径。
+
+推荐结构：
+
+```text
+首页
+  -> 学习路线
+  -> 技术栈
+      -> 基础工具
+      -> 可观测性
+      -> 云原生
+      -> 自动化
+      -> 数据与 AI
+      -> SRE/AIOps 实践
+  -> 实战项目
+  -> 面试准备
+  -> 求职记录
+```
+
+首页要回答：
+
+- 这个站点是给谁看的？
+- 从 0 怎么开始？
+- 技术栈在哪里？
+- 项目在哪里？
+- 学习证据在哪里？
+
+侧边栏要回答：
+
+- 当前属于哪个大类？
+- 上一篇和下一篇是什么？
+- 总览页在哪里？
+- 深讲文档在哪里？
+
+## 入门实验：给知识库新增一页并构建
+
+### 第 1 步：创建页面
+
+```text
+docs/tutorials/vitepress-test.md
+```
+
+内容：
+
+```markdown
+# VitePress Test
+
+这是一个测试页面。
+
+```bash
+npm run docs:build
+```
+```
+
+注意：上面示例如果真的写进文档，要用四个反引号包住外层，避免代码块嵌套问题。
+
+### 第 2 步：加入 sidebar
+
+在 `docs/.vitepress/config.mts` 中找到对应分组：
+
+```ts
+{
+  text: '教程',
+  items: [
+    { text: '从 0 开始', link: '/tutorials/0001-start-from-zero' },
+    { text: 'VitePress Test', link: '/tutorials/vitepress-test' }
+  ]
+}
+```
+
+### 第 3 步：本地运行
+
+```bash
+npm run docs:dev
+```
+
+打开终端显示的本地地址，确认页面出现在侧边栏。
+
+### 第 4 步：构建
+
+```bash
+npm run docs:build
+```
+
+构建通过后，说明页面至少不会破坏文档站。
+
+### 第 5 步：提交
+
+```bash
+git add docs/tutorials/vitepress-test.md docs/.vitepress/config.mts
+git commit -m "docs: add vitepress test page"
+```
+
+## 常见故障排查
+
+### `npm run docs:dev` 启动失败
+
+检查：
+
+- 是否运行过 `npm install` 或 `npm ci`。
+- Node 版本是否兼容。
+- `package.json` scripts 是否存在。
+- 当前目录是否是仓库根目录。
+
+### `npm run docs:build` 提示 dead link
+
+处理顺序：
+
+1. 看构建日志指出的文件。
+2. 找到具体链接。
+3. 判断是内部链接、外部链接还是本地示例地址。
+4. 内部链接修路径。
+5. 本地示例地址改成代码文本。
+6. 再运行 build。
+
+### 页面 404
+
+常见原因：
+
+- 文件路径和路由不一致。
+- sidebar link 写错。
+- GitHub Pages base 配错。
+- 文件名大小写不一致。
+
+检查：
+
+```text
+docs/tech-stack/foundation/vitepress.md
+```
+
+对应 link：
+
+```ts
+link: '/tech-stack/foundation/vitepress'
+```
+
+### 样式丢失
+
+常见原因：`base` 配错。
+
+GitHub Pages 项目站点：
+
+```ts
+base: '/zero-to-aiops/'
+```
+
+自定义域名根路径：
+
+```ts
+base: '/'
+```
+
+### 新页面没出现在侧边栏
+
+原因：
+
+- VitePress 文件路由已经有页面，但 sidebar 不会自动收录。
+- 你需要在 `themeConfig.sidebar` 加 item。
+
+处理：
+
+```ts
+{ text: '新页面', link: '/path/to/page' }
+```
 
 ### GitHub Pages 没更新
 
-- 查看 Actions 是否成功。
-- Settings -> Pages 是否选择 GitHub Actions。
-- workflow artifact 路径是否是 `docs/.vitepress/dist`。
+检查：
+
+- Actions 是否成功。
+- Pages source 是否选择 GitHub Actions。
+- artifact path 是否是 `docs/.vitepress/dist`。
+- workflow 是否只在 main 分支触发。
+- 浏览器缓存。
+
+### GitHub Pages 打开后资源 404
+
+优先检查：
+
+- `base`。
+- workflow artifact path。
+- Pages URL 是否是项目站点还是用户站点。
+
+### Markdown 示例破坏页面
+
+如果你在文档中展示三反引号代码块，外层要用四反引号：
+
+`````markdown
+````markdown
+```bash
+npm run docs:build
+```
+````
+`````
+
+## 典型故障排查表
+
+| 现象 | 常见原因 | 检查方式 | 处理 |
+|---|---|---|---|
+| dev 启动失败 | 依赖没装、Node 版本不对 | 终端错误 | `npm ci`，检查 Node |
+| build 失败 | dead link、配置错误、Markdown 错 | build 日志 | 按文件定位 |
+| 页面 404 | 路由或 base 错 | 文件路径、config link | 修 link 或 base |
+| 样式丢失 | base 错 | 浏览器 Network | 修 `base` |
+| 新页不显示 | 未加入 sidebar | `config.mts` | 添加 sidebar item |
+| GitHub Pages 不更新 | Actions 失败或 Pages source 错 | Actions、Settings Pages | 修 workflow |
+| 图片不显示 | 路径错或资源没提交 | 文件路径、构建产物 | 修路径并提交 |
+| 本地能看 CI 失败 | Node/依赖/大小写差异 | Actions logs | 本地用 `npm ci` 复现 |
+
+## 学习路线
+
+### 第 1 阶段：跑起来
+
+- 理解 `docs` source directory。
+- 理解 `package.json` scripts。
+- 能运行 `npm run docs:dev`。
+
+学习证据：本地开发服务器截图。
+
+### 第 2 阶段：会配置导航
+
+- 修改 `config.mts`。
+- 理解 `title`、`description`、`base`。
+- 添加 nav 和 sidebar。
+
+学习证据：新增页面并出现在侧边栏。
+
+### 第 3 阶段：会构建
+
+- 运行 `npm run docs:build`。
+- 理解 `dist`。
+- 排查 dead link。
+
+学习证据：构建通过记录。
+
+### 第 4 阶段：会部署
+
+- 配置 GitHub Actions。
+- 发布 GitHub Pages。
+- 理解 `base`。
+
+学习证据：公开文档站 URL。
+
+### 第 5 阶段：会维护知识库
+
+- 按学习路径组织 sidebar。
+- 新增文档时同步导航。
+- PR 中跑构建。
+- 定期检查死链。
+
+学习证据：文档站持续可访问，Actions 持续通过。
+
+## 小白可能会问
+
+### 有 GitHub README 了，为什么还要文档站？
+
+README 是入口，适合介绍仓库。文档站适合承载大量系统化内容，有导航、侧边栏、目录和页面路由。AIOps 技术栈多，靠 README 很快会拥挤。
+
+### VitePress 的路由是怎么从文件变成页面的？
+
+`docs/index.md` 变成首页，`docs/tech-stack/foundation/linux.md` 变成 `/tech-stack/foundation/linux`。文件路径就是页面路径的基础。
+
+### 侧边栏会自动生成吗？
+
+默认主题需要你在 `themeConfig.sidebar` 中配置。文件存在不代表会自动出现在侧边栏。
+
+### 为什么 GitHub Pages 需要 `base`？
+
+项目站点通常部署在 `用户名.github.io/仓库名/` 下面，不是域名根路径。`base` 告诉 VitePress 静态资源应该从哪个路径加载。
+
+### dev 能跑，为什么 build 会失败？
+
+dev 偏开发预览，build 会做生产构建和链接检查。dead link、大小写路径、某些渲染问题可能在 build 时才暴露。
+
+## 面试怎么讲
+
+VitePress 是静态文档站生成器，它把 `docs` 目录里的 Markdown 按文件路由构建成静态网站，并通过 `docs/.vitepress/config.mts` 配置站点标题、base、导航和侧边栏。我的 AIOps 知识库用 VitePress 把技术栈深讲、实验项目、runbook 和面试材料组织成可访问的网站。开发时我用 `npm run docs:dev` 预览，提交前用 `npm run docs:build` 检查，部署时通过 GitHub Actions 把 `docs/.vitepress/dist` 发布到 GitHub Pages。排障时我会重点看 dead link、base、sidebar link、资源路径和 Actions 日志。
+
+## 面试题
+
+1. VitePress 是什么？解决什么问题？
+2. VitePress 和普通 Markdown 仓库有什么区别？
+3. 静态站点生成的流程是什么？
+4. `docs` 目录在本仓库中承担什么角色？
+5. `docs/.vitepress/config.mts` 负责什么？
+6. `vitepress dev`、`build`、`preview` 有什么区别？
+7. VitePress 文件路由如何工作？
+8. `README.md` 和 `index.md` 在路由上有什么特点？
+9. `themeConfig.nav` 和 `themeConfig.sidebar` 分别是什么？
+10. `base` 为什么对 GitHub Pages 很重要？
+11. `docs/.vitepress/dist` 是什么？
+12. Frontmatter 有什么作用？
+13. VitePress Markdown 扩展有哪些常见能力？
+14. Custom containers 适合写什么？
+15. 为什么 dev 能跑但 build 可能失败？
+16. dead link 怎么排查？
+17. GitHub Actions 部署 VitePress 的关键步骤是什么？
+18. Pages 发布后样式丢失通常是什么原因？
+19. 如何设计一个适合 AIOps 知识库的 nav/sidebar？
+20. 如何用 VitePress 证明你的学习成果？
 
 ## 学习检查清单
 
 - [ ] 我能解释 VitePress 如何把 Markdown 构建成静态站点。
-- [ ] 我能配置 `package.json` 的 docs scripts。
-- [ ] 我能修改 `docs/.vitepress/config.mts`。
-- [ ] 我能理解文件路由和链接规则。
-- [ ] 我能本地运行 `npm run docs:dev`。
-- [ ] 我能运行 `npm run docs:build` 并理解构建产物路径。
-- [ ] 我能用 GitHub Actions 发布到 GitHub Pages。
-- [ ] 我能排查 dead link、Pages source、artifact path 问题。
-
-## 面试题
-
-1. VitePress 是什么？和普通 Markdown 仓库有什么区别？
-2. 静态站点生成器的基本流程是什么？
-3. `docs/index.md` 和 `docs/.vitepress/config.mts` 分别负责什么？
-4. VitePress 文件路由如何工作？
-5. 为什么 GitHub Pages 部署需要正确设置 `base`？
-6. `npm run docs:build` 生成的产物在哪里？
-7. GitHub Actions 发布 VitePress 需要哪些权限？
-8. 构建失败提示 dead link 时怎么排查？
-9. 为什么文档站适合作为 AIOps 作品集入口？
-10. 如何设计一个适合长期维护的技术知识库导航？
+- [ ] 我能解释 source directory、config file、dist 的关系。
+- [ ] 我能读懂本仓库的 `package.json` docs scripts。
+- [ ] 我能读懂本仓库的 `docs/.vitepress/config.mts`。
+- [ ] 我能解释 `base: '/zero-to-aiops/'` 的作用。
+- [ ] 我能新增一个 Markdown 页面。
+- [ ] 我能把新页面加入 sidebar。
+- [ ] 我能运行 `npm run docs:dev`。
+- [ ] 我能运行 `npm run docs:build`。
+- [ ] 我能解释 VitePress 文件路由。
+- [ ] 我能使用 Frontmatter。
+- [ ] 我能解释 custom containers、代码高亮、资源路径。
+- [ ] 我能写 GitHub Actions workflow 部署 Pages。
+- [ ] 我能排查 dead link、404、样式丢失和 Pages 不更新。
 
 ## 学习证据
 
-- 本地 `npm run docs:build` 成功。
-- GitHub Pages 成功发布。
-- README 链接到文档站。
+学完这篇后，建议提交这些内容到 GitHub：
+
+- 一次成功的 `npm run docs:build` 记录。
+- 一个新增页面，例如 `docs/tutorials/vitepress-test.md`。
+- 对 `docs/.vitepress/config.mts` 的一次导航或侧边栏改动。
+- `.github/workflows/deploy-docs.yml`。
+- GitHub Pages 成功发布截图。
+- 一篇笔记：`VitePress 文件路由和 base 配置.md`。
+- 一篇排障记录：`VitePress dead link 和 GitHub Pages 404 怎么查.md`。
+
+如果别人能从 GitHub README 点进你的 VitePress 文档站，沿着导航读完整个 AIOps 学习路线，并且 Actions 每次都能构建通过，这个知识库就具备了真正的作品集形态。

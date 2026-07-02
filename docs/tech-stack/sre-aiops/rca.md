@@ -1,183 +1,376 @@
 # RCA 根因分析
 
+> 目标：不是写一句“根因是人为失误”，而是能基于时间线、指标、日志、变更、决策和用户影响做无责复盘，区分触发因素、直接原因、促成因素和系统性缺口，产出有 owner、截止时间和验证方式的行动项，并把 RCA 反哺告警、Runbook、变更流程和 AIOps 知识库。
+
 ## 官方资料
+
+优先读这些 Google SRE 官方资料：
 
 - [Google SRE Book - Postmortem Culture: Learning from Failure](https://sre.google/sre-book/postmortem-culture/)
 - [Google SRE Book - Example Postmortem](https://sre.google/sre-book/example-postmortem/)
+- [Google SRE Workbook - Postmortem Culture](https://sre.google/workbook/postmortem-culture/)
+- [Google SRE Book - Effective Troubleshooting](https://sre.google/sre-book/effective-troubleshooting/)
 - [Google SRE Workbook - Incident Response](https://sre.google/workbook/incident-response/)
 - [Google SRE Book - Monitoring Distributed Systems](https://sre.google/sre-book/monitoring-distributed-systems/)
 
-> 学习说明：本篇基于 Google SRE 的无责复盘文化，强调 RCA 不是追责，而是找到系统性改进点。
+说明：本文基于 Google SRE 的无责复盘文化和 postmortem 模板，强调 RCA 不是追责，而是找到系统性改进点。
 
-## 为什么要学
+## 场景开场
 
-RCA 的目标不是找人背锅，而是找出系统为什么允许故障发生，并推动改进。AIOps 做根因分析时，也必须建立在证据、时间线、变更、指标和日志之上。
+故障恢复了。
 
-## 它解决什么问题
-
-- 把“感觉原因”变成证据链。
-- 识别直接原因、促成因素和系统性问题。
-- 形成可执行改进行动项。
-- 为相似故障检测和知识库积累材料。
-- 帮助团队从故障中学习。
-
-## 是什么
-
-RCA 是 Root Cause Analysis，根因分析。它用于在事故恢复后，系统性分析为什么事故发生、为什么没有更早发现、为什么缓解不够快，以及如何降低再次发生概率。
-
-RCA 的目的：
-
-- 学习。
-- 改进系统。
-- 改进监控。
-- 改进流程。
-- 改进 runbook。
-- 减少重复事故。
-
-RCA 不是找人背锅。
-
-## 核心原理
-
-Google SRE 强调 postmortem 是学习机会，而不是惩罚。真正的根因往往不止一个：
+大家终于能喘口气，但如果只在群里说一句：
 
 ```text
-触发因素
-  + 系统缺陷
-  + 监控缺口
-  + 流程缺口
-  + 自动化缺口
-  + 文档缺口
-  -> incident
+原因是某个同学配置写错了，下次注意。
 ```
 
-不要停在“某人操作错了”。要继续问：
+下个月很可能还会再熬一次夜。
 
-- 为什么系统允许这个操作造成事故？
-- 为什么没有提前发现？
-- 为什么没有自动保护？
-- 为什么 runbook 没有覆盖？
-- 为什么变更流程没有拦住？
+RCA 真正要回答的不是“谁犯错了”，而是：
 
-## 架构
+- 系统为什么允许这个错误造成用户影响？
+- 为什么发布前没发现？
+- 为什么监控没有更早发现？
+- 为什么缓解不够快？
+- 为什么 runbook 没覆盖？
+- 下次怎样让同类问题更难发生、更容易发现、更快恢复？
 
-RCA 文档结构：
+## 一句话人话版
+
+RCA 是故障后的证据化学习：用时间线、影响、监控、日志、变更和现场决策，找到系统性改进点，而不是找人背锅。
+
+## 小白可能会问
+
+- RCA 和 postmortem 是一回事吗？
+- 根因是不是必须只有一个？
+- 为什么不能把根因写成“人为失误”？
+- 5 Whys 怎么用，什么时候会误导？
+- 促成因素和直接原因有什么区别？
+- 行动项怎么写才不是空话？
+- 什么样的故障必须做 postmortem？
+- RCA 怎么反哺 AIOps？
+
+## 官方知识地图
+
+Google SRE 的 postmortem 文化可以按这张地图理解：
 
 ```text
-summary
-  -> impact
-  -> timeline
-  -> detection
-  -> response
-  -> contributing factors
-  -> root causes
-  -> what went well
-  -> what went poorly
-  -> action items
-  -> owners and due dates
+Incident
+  -> service restored
+  -> collect evidence
+     -> timeline
+     -> metrics
+     -> logs
+     -> deploys
+     -> decisions
+     -> communications
+  -> postmortem
+     -> summary
+     -> impact
+     -> detection
+     -> response
+     -> timeline
+     -> root causes
+     -> contributing factors
+     -> what went well
+     -> what went poorly
+     -> where we got lucky
+     -> action items
+  -> learning
+     -> monitoring improvement
+     -> runbook update
+     -> CI/CD guardrail
+     -> automation
+     -> training
+     -> architecture change
+  -> AIOps feedback
+     -> root cause taxonomy
+     -> historical incident retrieval
+     -> alert enrichment
+     -> runbook recommendation
 ```
+
+初学路线：
+
+```text
+start from incident timeline
+  -> write impact
+  -> calculate detection and recovery times
+  -> identify direct cause
+  -> list contributing factors
+  -> ask why defenses failed
+  -> write action items
+  -> assign owner and due date
+  -> verify completion
+  -> update runbook and alerts
+```
+
+## RCA、Postmortem、复盘
+
+这些词常混用，但重点不同：
+
+| 名词 | 重点 |
+|---|---|
+| RCA | 分析为什么发生 |
+| Postmortem | 记录事故、影响、响应、原因和行动项 |
+| 复盘 | 团队学习和改进讨论 |
+
+好的 postmortem 包含 RCA，但不止 RCA。
+
+它还包括：
+
+- 用户影响。
+- 检测方式。
+- 响应过程。
+- 做得好的地方。
+- 做得不好的地方。
+- 行动项。
+
+## 无责复盘
+
+Google SRE 强调 postmortem 应该是学习文化的一部分，而不是惩罚工具。
+
+无责不是没有责任。
+
+无责的意思是：
+
+```text
+不把复杂系统故障简化成某个人的问题。
+把注意力放在系统为什么允许错误扩大。
+```
+
+坏写法：
+
+```text
+根因：开发人员配置错误。
+行动项：以后小心。
+```
+
+好写法：
+
+```text
+直接原因：新版本连接池 max connections 配置过低。
+促成因素：
+- CI 没有配置范围校验。
+- 灰度流量不足，没有暴露连接池耗尽。
+- 告警没有关联最近发布。
+- Runbook 没有配置 diff 检查步骤。
+```
+
+## 什么时候必须写 Postmortem
+
+不是每个小问题都要写长文档，但这些情况应该写：
+
+- SEV1 / SEV2。
+- 用户明显受影响。
+- SLO 错误预算消耗显著。
+- 数据丢失或安全风险。
+- 恢复时间超出预期。
+- 告警没发现，用户先发现。
+- 重复发生的问题。
+- 响应过程混乱。
+- 需要跨团队行动项。
+
+轻量事件可以写 mini-postmortem，但不能完全不沉淀。
+
+## RCA 的输入
+
+不要凭记忆写 RCA。先收集证据。
+
+| 输入 | 用途 |
+|---|---|
+| 告警 | 发现时间、触发条件 |
+| SLO / SLI | 用户影响和预算消耗 |
+| 指标 | 错误率、延迟、流量、饱和度 |
+| 日志 | 错误类型、异常堆栈 |
+| traces | 请求路径和依赖 |
+| 发布记录 | 最近变更 |
+| 配置 diff | 变更细节 |
+| incident 时间线 | 响应过程 |
+| 沟通记录 | 状态更新和决策 |
+| runbook 使用记录 | 文档是否有效 |
+| 工单和用户反馈 | 用户影响 |
+
+RCA 的质量上限取决于证据质量。
 
 ## Postmortem 模板
 
-```md
+````md
 # Postmortem: order-api HighErrorRate
 
 ## 摘要
 
-2026-07-01 09:10 至 09:35，order-api 5xx 错误率升高，导致部分用户下单失败。
+2026-07-02 09:10 至 09:42，order-api 5xx 错误率升高，导致部分用户下单失败。团队在 09:12 声明 SEV2，09:35 回滚新版本，09:42 指标恢复。
 
 ## 影响
 
 - 影响服务: order-api
 - 影响用户: 约 12% 下单请求失败
-- 影响时长: 25 分钟
+- 影响时长: 32 分钟
 - SEV: SEV2
-
-## 时间线
-
-| 时间 | 事件 |
-|---|---|
-| 09:02 | order-api 发布版本 2026.07.01.1 |
-| 09:10 | HighErrorRate 告警触发 |
-| 09:12 | 声明 SEV2 |
-| 09:20 | 确认新版本数据库连接池配置异常 |
-| 09:25 | 执行回滚 |
-| 09:35 | 错误率恢复 |
+- SLO 影响: 消耗 30 天错误预算约 3.2%
 
 ## 检测
 
-- 如何发现: Alertmanager HighErrorRate
-- 是否及时: 是，5 分钟内发现
-- 缺口: 告警描述缺少最近发布链接
+- 发现方式: Alertmanager OrderApiHighErrorRate
+- 告警触发时间: 09:10
+- Incident 声明时间: 09:12
+- 检测是否及时: 是
+- 检测缺口: 告警没有自动关联最近发布链接
 
 ## 响应
 
 - IC:
 - OL:
 - CL:
-- 缓解动作: 回滚 order-api
-- 有效性: 回滚后错误率恢复
+- Scribe:
+- 缓解动作: 回滚 order-api 到上一版本
+- 恢复时间: 09:42
+- 响应缺口: Runbook 缺少“检查配置 diff”步骤
 
-## 根因
+## 时间线
 
-直接原因：
-- 新版本数据库连接池 max connections 配置错误。
+| 时间 | 事件 | 证据 |
+|---|---|---|
+| 09:02 | order-api 发布 v2026.07.02.1 | GitHub Actions |
+| 09:10 | HighErrorRate 告警触发 | Alertmanager |
+| 09:12 | 声明 SEV2 incident | Incident channel |
+| 09:20 | 日志显示 database timeout 占 5xx 的 78% | Loki |
+| 09:25 | 确认连接池配置低于基线 | Config diff |
+| 09:35 | 执行回滚 | Deployment event |
+| 09:42 | 错误率恢复到基线 | Prometheus |
 
-促成因素：
-- 发布前没有配置校验。
-- 灰度阶段流量太小，没有暴露连接池问题。
-- Runbook 没有“检查最近发布配置 diff”的步骤。
+## 直接原因
+
+新版本将 order-api 数据库连接池 max connections 配置从 100 降到 20，在生产流量下连接池耗尽，导致请求出现 database timeout 和 5xx。
+
+## 促成因素
+
+- CI 没有校验连接池配置范围。
+- 灰度阶段流量太小，没有暴露连接池耗尽。
+- 告警通知没有展示最近发布。
+- Runbook 没有配置 diff 检查步骤。
 
 ## 做得好的地方
 
-- 错误率告警及时触发。
-- 团队快速声明 SEV2。
+- SLO 相关告警及时触发。
+- 团队 2 分钟内声明 SEV2。
 - 回滚流程可用。
 
 ## 做得不好的地方
 
-- 告警没有自动关联发布记录。
-- 配置校验缺失。
-- 灰度验证不充分。
+- 没有发布前配置校验。
+- Runbook 不完整。
+- 灰度验证没有覆盖真实峰值。
+
+## Where we got lucky
+
+- 故障发生在工作时间。
+- 回滚没有触发数据迁移兼容问题。
 
 ## 行动项
 
-| 行动项 | 类型 | Owner | 截止时间 |
-|---|---|---|---|
-| 为连接池配置增加 CI 校验 | prevention | team-order | 2026-07-08 |
-| 告警通知增加最近发布链接 | detection | platform | 2026-07-10 |
-| 更新 order-api runbook | response | team-order | 2026-07-05 |
-```
+| 行动项 | 类型 | Owner | 截止时间 | 验证方式 |
+|---|---|---|---|---|
+| 在 CI 中增加连接池配置范围校验 | prevention | team-order | 2026-07-09 | 错误配置 PR 被拦截 |
+| 告警通知增加最近发布链接 | detection | platform | 2026-07-10 | 告警消息包含 deploy_url |
+| 更新 order-api HighErrorRate runbook | response | team-order | 2026-07-05 | 演练通过 |
+| 灰度增加高峰流量回放检查 | prevention | platform | 2026-07-20 | 发布检查报告包含连接池指标 |
+````
 
-## 分析方法
+## 根因不是唯一一个
 
-### 5 Whys
+复杂系统事故通常不是单一原因，而是多个防线同时失效。
 
-问题：为什么 order-api 5xx 升高？
+可以分层：
+
+| 层级 | 示例 |
+|---|---|
+| 触发因素 | 新版本发布 |
+| 直接原因 | 连接池配置过低 |
+| 促成因素 | CI 未校验、灰度不足 |
+| 检测缺口 | 告警缺少发布上下文 |
+| 响应缺口 | Runbook 缺配置 diff 检查 |
+| 系统性问题 | 配置变更缺少自动化护栏 |
+
+不要为了文档简洁，把这些都压成“开发配置错误”。
+
+## 5 Whys
+
+5 Whys 是有用工具，但不要机械使用。
+
+示例：
 
 ```text
-1. 因为数据库连接失败。
-2. 为什么连接失败？连接池耗尽。
+问题：为什么 order-api 5xx 升高？
+1. 因为请求出现 database timeout。
+2. 为什么 timeout？连接池耗尽。
 3. 为什么连接池耗尽？新版本 max connections 配置过低。
 4. 为什么配置过低还能发布？CI 没有配置范围校验。
-5. 为什么没有校验？配置校验规则没有纳入发布流程。
+5. 为什么没有校验？配置项没有 owner 和策略基线。
 ```
 
-行动项不应该是“开发以后小心”，而是“配置范围校验进入 CI”。
-
-### 鱼骨图文字版
+行动项：
 
 ```text
-人员: 新人不熟悉连接池配置
+给连接池配置建立 owner、范围基线和 CI 校验。
+```
+
+注意：
+
+- 5 Whys 不一定正好 5 层。
+- 可能有多个分支。
+- 不要停在人为错误。
+- 每个 why 都要有证据。
+
+## 鱼骨图文字版
+
+可以按维度展开促成因素：
+
+```text
+人员: 新人不熟悉连接池配置风险
 流程: 发布前没有配置校验
 工具: CI 未检查配置范围
 监控: 告警没有关联发布信息
-架构: 灰度流量不足以暴露连接池问题
-文档: runbook 缺少配置 diff 检查
+架构: 灰度流量不足以暴露连接池耗尽
+文档: Runbook 缺少配置 diff 检查
+权限: 回滚审批路径清楚，未造成延迟
 ```
 
-## 行动项分类
+这能帮助团队看到系统性问题，而不是只盯一个技术点。
 
-好的 RCA 必须产出行动项。
+## 行动项质量
+
+好的行动项必须具体、可验证、有 owner、有截止时间。
+
+坏行动项：
+
+```text
+以后发布前仔细检查。
+```
+
+好行动项：
+
+```text
+在 CI 中增加连接池 max connections 范围校验，低于 80 时阻止合并。
+Owner: team-order
+截止时间: 2026-07-09
+验证方式: 提交错误配置 PR，CI 必须失败。
+```
+
+行动项字段：
+
+| 字段 | 说明 |
+|---|---|
+| 描述 | 具体要做什么 |
+| 类型 | prevention / detection / mitigation / documentation / training |
+| Owner | 单一负责人 |
+| 截止时间 | 明确日期 |
+| 验证方式 | 如何证明完成 |
+| 状态 | open / done / dropped |
+
+## 行动项分类
 
 | 类型 | 目标 | 示例 |
 |---|---|---|
@@ -185,89 +378,206 @@ summary
 | detection | 更早发现 | 增加 SLO burn alert |
 | mitigation | 更快缓解 | 一键回滚脚本 |
 | documentation | 改进知识 | 更新 runbook |
+| automation | 减少人工 | 自动关联发布记录 |
 | training | 提升能力 | 事件响应演练 |
+| architecture | 改系统设计 | 隔离连接池配置 |
 
-行动项必须有 owner 和截止时间。
+行动项不要全堆在 prevention。检测和缓解同样重要。
 
-## AIOps 中的作用
+## 度量指标
 
-RCA 是 AIOps 的反馈层：
+RCA 可以沉淀这些指标：
+
+| 指标 | 含义 |
+|---|---|
+| MTTD | 从故障开始到检测 |
+| MTTA | 从检测到确认 |
+| MTTR | 从检测到恢复 |
+| time to declare | 从检测到声明 incident |
+| time to mitigate | 从检测到缓解生效 |
+| error budget consumed | 消耗的错误预算 |
+| action item completion rate | 行动项完成率 |
+| repeat incident rate | 重复事故比例 |
+
+这些指标能帮助 AIOps 和 SRE 评估体系是否在进步。
+
+## RCA 与 AIOps
+
+RCA 是 AIOps 的反馈层。
 
 ```text
 incident
   -> postmortem
-  -> root causes
+  -> root cause taxonomy
   -> action items
-  -> updated rules / runbooks / models
+  -> updated alerts / runbooks / automation
   -> fewer repeat incidents
 ```
 
-可以用 AI 辅助整理时间线、聚类相似事故、生成复盘初稿，但最终结论必须由人确认。
+可抽取的数据：
 
-## 入门练习：写一次无责复盘
+| 字段 | 用途 |
+|---|---|
+| incident_id | 关联事件 |
+| service | 服务维度 |
+| root_cause_type | 根因分类 |
+| trigger | 触发因素 |
+| contributing_factors | 促成因素 |
+| detection_gap | 检测缺口 |
+| response_gap | 响应缺口 |
+| mitigation | 缓解动作 |
+| action_items | 后续改进 |
+| evidence_links | 证据链接 |
 
-目录建议：
+AIOps 应用：
+
+- 相似事故检索。
+- 根因候选推荐。
+- 告警自动补上下文。
+- Runbook 推荐。
+- Postmortem 草稿生成。
+- 重复事故识别。
+
+但模型不能替代证据。RCA 必须回到时间线和事实。
+
+## 入门练习：无责复盘
+
+用这个场景写一份 postmortem：
 
 ```text
-projects/rca-postmortem/
-  README.md
-  postmortem-order-api.md
-  action-items.csv
+09:02 order-api 发布新版本。
+09:10 5xx 错误率升高到 23%。
+09:12 声明 SEV2。
+09:20 日志显示 database timeout。
+09:25 确认连接池配置错误。
+09:35 回滚。
+09:42 恢复。
 ```
 
-场景使用前面的 order-api 事故。
+必须包含：
 
-要求：
-
-- 写清楚影响。
-- 写时间线。
-- 写直接原因和促成因素。
-- 至少 5 个行动项。
-- 每个行动项都有 owner、类型、截止时间。
+1. 摘要。
+2. 用户影响。
+3. 检测和响应。
+4. 时间线。
+5. 直接原因。
+6. 至少 3 个促成因素。
+7. 做得好的地方。
+8. 做得不好的地方。
+9. Where we got lucky。
+10. 至少 4 个行动项，每个有 owner、截止时间、验证方式。
 
 ## 常见错误
 
 ### 把根因写成“人为失误”
 
-人为失误只是现象。继续问系统为什么允许错误造成影响。
+这会阻止系统学习。继续问系统为什么允许这个错误造成事故。
+
+### 没有证据
+
+RCA 必须基于时间线、指标、日志、变更和决策记录。
+
+### 只有直接原因
+
+直接原因不等于全部根因。要写促成因素和系统性缺口。
 
 ### 没有行动项
 
-没有行动项的复盘只是故事。
+没有行动项的 RCA 只是事故故事。
 
 ### 行动项没有 owner
 
-没人负责就不会完成。
+没有 owner 和截止时间，行动项很容易消失。
 
-### 只关注技术，不关注发现和响应
+### 行动项不可验证
 
-RCA 要同时分析 detection、response、mitigation。
+“提高意识”不可验证。CI 校验、告警增强、runbook 更新可验证。
+
+### 只关注技术，不关注检测和响应
+
+为什么没早点发现、为什么恢复慢，同样重要。
+
+## 常用字段字典
+
+### direct cause
+
+直接导致故障表现的原因。
+
+### contributing factor
+
+让故障更容易发生、更难发现或更难恢复的因素。
+
+### detection gap
+
+检测缺口，例如没有告警、告警太慢、告警缺上下文。
+
+### response gap
+
+响应缺口，例如没有 runbook、角色混乱、回滚慢。
+
+### action item
+
+可执行改进项，必须有 owner、截止时间、验证方式。
+
+### MTTD
+
+Mean Time To Detect，平均检测时间。
+
+### MTTR
+
+Mean Time To Resolve / Recover，平均恢复时间。
+
+### blameless
+
+无责，不把复杂系统问题简化成个人问题。
+
+## 面试怎么讲
+
+RCA 的目标不是追责，而是从事故中学习并减少重复事故。我会先收集证据：告警、SLO 影响、指标、日志、发布记录、配置 diff、incident 时间线和沟通记录。然后在 postmortem 中写清楚摘要、影响、检测、响应、时间线、直接原因、促成因素、做得好的地方、做得不好的地方和行动项。
+
+我不会把根因写成“人为失误”。更好的分析是继续追问系统为什么允许这个错误发生、为什么没提前发现、为什么缓解不够快。行动项必须具体、可验证、有 owner 和截止时间，比如“在 CI 中增加连接池配置范围校验”。AIOps 中，RCA 是反馈层，可以沉淀根因分类、相似事故、检测缺口、runbook 更新和自动化候选，但所有结论都必须回到证据。
 
 ## 学习检查清单
 
-- [ ] 我能写清事故影响和时间线。
-- [ ] 我能区分直接原因和根本原因。
-- [ ] 我能用 5 Whys 或因果链分析问题。
-- [ ] 我能避免把 RCA 写成责备个人。
-- [ ] 我能写出有 owner 和 deadline 的行动项。
-- [ ] 我能把 RCA 材料变成 AIOps 知识库输入。
+- [ ] 我能解释 RCA、postmortem、复盘的关系。
+- [ ] 我能说明无责复盘的意义。
+- [ ] 我能列出 RCA 需要的证据。
+- [ ] 我能写 incident 摘要和影响。
+- [ ] 我能写时间线。
+- [ ] 我能区分直接原因和促成因素。
+- [ ] 我能用 5 Whys 找到系统性缺口。
+- [ ] 我能写高质量行动项。
+- [ ] 我能给行动项分 owner、截止时间、验证方式。
+- [ ] 我能解释 MTTD、MTTA、MTTR。
+- [ ] 我能说明 RCA 如何反哺 runbook、告警和 AIOps。
 
 ## 面试题
 
-1. RCA 的目的是什么？
-2. 根因分析为什么不能只停留在“某人操作错了”？
-3. 5 Whys 方法怎么用？
-4. 直接原因和根本原因有什么区别？
-5. 什么是无责复盘？
-6. 行动项应该如何写才可落地？
-7. RCA 如何帮助减少重复事故？
-8. AIOps 根因分析需要哪些数据证据？
+1. RCA 的目标是什么？
+2. 为什么 RCA 不是追责？
+3. Postmortem 应该包含哪些部分？
+4. 为什么不能把根因写成“人为失误”？
+5. 直接原因和促成因素有什么区别？
+6. 5 Whys 怎么用？
+7. 5 Whys 有什么风险？
+8. 什么样的行动项是高质量行动项？
+9. MTTD、MTTA、MTTR 分别是什么？
+10. 为什么检测缺口和响应缺口也要写进 RCA？
+11. RCA 如何更新 runbook？
+12. RCA 如何改进告警？
+13. RCA 如何成为 AIOps 知识库数据？
+14. 如何识别重复事故？
+15. 如何衡量行动项是否真的完成？
 
 ## 学习证据
 
-学完后，在 GitHub 留下：
+学完后，在 GitHub 留下这些证据：
 
-- 一份 postmortem。
-- 一份行动项表。
-- 一段 5 Whys 分析。
-- README 说明什么是无责复盘。
+- 一份完整 postmortem 文档。
+- 一条证据化时间线。
+- 至少 1 个直接原因。
+- 至少 3 个促成因素。
+- 至少 4 个行动项。
+- 每个行动项都有 owner、截止时间、验证方式。
+- 一份根因分类表。
+- README 说明这次 RCA 如何更新告警、runbook 和 AIOps 数据。
