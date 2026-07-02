@@ -3,68 +3,107 @@
 > 成为一名更好的 AIOps 工程师：从运维经验出发，用可观测性、自动化、数据分析和 AI 能力解决真实生产问题。
 
 [![Learning](https://img.shields.io/badge/learning-AIOps-2457a6?style=for-the-badge)](./docs/roadmap/)
-[![Ops](https://img.shields.io/badge/base-operations-1f7a5a?style=for-the-badge)](./docs/projects/)
-[![Tianjin](https://img.shields.io/badge/target-Tianjin-a64242?style=for-the-badge)](./docs/job-search/tianjin.md)
+[![Tech Stack](https://img.shields.io/badge/tech-stack-1f7a5a?style=for-the-badge)](./docs/tech-stack/README.md)
+[![Interview](https://img.shields.io/badge/interview-ready-a64242?style=for-the-badge)](./docs/interview/README.md)
 
 ## 为什么会有这个开源知识库
 
 我是一名 37 岁的运维工程师，想从传统运维走向 AIOps / SRE / DevOps / 智能运维方向，并争取在天津找到相关工作。
 
-这个仓库记录我的学习路线、实验项目、面试准备、求职复盘和每周学习记录。它借鉴了 [itwanger/toBeBetterJavaer](https://github.com/itwanger/toBeBetterJavaer) 的知识库组织方式：先讲清目标，再持续沉淀路线、文章、项目和求职材料。
+这个仓库记录我的学习路线、技术栈精讲、面试准备和公开学习沉淀。它借鉴了 [itwanger/toBeBetterJavaer](https://github.com/itwanger/toBeBetterJavaer) 的知识库组织方式：先讲清目标，再持续沉淀路线、文章和工程化证据。
 
 中文目标名：To Be Better AIOps Engineer。
 
 ## 知识库地图
 
-- [学习路线](./docs/roadmap/README.md)：90 天入门到作品集，24 周转岗强化。
+- [学习路线](./docs/roadmap/README.md)：从运维经验切入 AIOps 的长期路线。
 - [能力地图](./docs/roadmap/00-skill-map.md)：AIOps 工程师需要掌握什么。
 - [技术栈总清单](./docs/tech-stack/README.md)：学习过程中涉及的技术栈、原理、架构、配置和练习。
-- [实战项目](./docs/projects/README.md)：用项目证明能力，而不是只堆关键词。
 - [面试准备](./docs/interview/README.md)：把运维经验讲成 AIOps 工程故事。
-- [天津求职](./docs/job-search/tianjin.md)：岗位关键词、投递策略、简历定位。
-- [学习记录](./docs/learning-records/2026-07-01-start.md)：每周复盘和公开打卡。
 - [资料清单](./docs/resources.md)：优先官方文档和高可信资源。
+- [技术栈精讲写作标准](./docs/tech-stack/writing-standard.md)：每篇技术文章的统一写法。
 
-## 90 天主线
+## 技术栈入口
 
-### 第 1 阶段：把运维经验工程化
+### 基础工具
 
-- 复盘 3 个真实故障，提炼数据、告警、定位、处理动作。
-- 学 SRE 的 SLI/SLO、错误预算、toil、事件复盘。
-- 产出：`docs/learning-records/` 中至少 3 篇故障案例卡。
+- [基础工具总览](./docs/tech-stack/01-foundation.md)
+- [Linux](./docs/tech-stack/foundation/linux.md)
+- [Git](./docs/tech-stack/foundation/git.md)
+- [GitHub](./docs/tech-stack/foundation/github.md)
+- [Markdown](./docs/tech-stack/foundation/markdown.md)
+- [VitePress](./docs/tech-stack/foundation/vitepress.md)
+- [Python](./docs/tech-stack/foundation/python.md)
+- [Shell / PowerShell](./docs/tech-stack/foundation/shell-powershell.md)
+- [systemd](./docs/tech-stack/foundation/systemd.md)
+- [网络基础](./docs/tech-stack/foundation/networking.md)
 
-### 第 2 阶段：把数据流跑起来
+### 可观测性
 
-- 搭建 Prometheus + Grafana + OpenTelemetry Collector + 日志采集。
-- 设计一个服务的指标、日志、链路追踪和告警。
-- 产出：[可观测性实验室](./docs/projects/01-observability-lab.md)。
+- [可观测性总览](./docs/tech-stack/02-observability.md)
+- [Prometheus](./docs/tech-stack/observability/prometheus.md)
+- [Grafana](./docs/tech-stack/observability/grafana.md)
+- [OpenTelemetry](./docs/tech-stack/observability/opentelemetry.md)
+- [Alertmanager](./docs/tech-stack/observability/alertmanager.md)
+- [Loki](./docs/tech-stack/observability/loki.md)
+- [Elasticsearch](./docs/tech-stack/observability/elasticsearch.md)
 
-### 第 3 阶段：做第一个 AIOps 小项目
+### 云原生
 
-- 用历史指标或模拟数据做异常检测。
-- 对比阈值告警和 IsolationForest 等方法。
-- 产出：[指标异常检测器](./docs/projects/02-metric-anomaly-detector.md)。
+- [云原生总览](./docs/tech-stack/03-cloud-native.md)
+- [Docker](./docs/tech-stack/cloud-native/docker.md)
+- [Docker Compose](./docs/tech-stack/cloud-native/docker-compose.md)
+- [Kubernetes](./docs/tech-stack/cloud-native/kubernetes.md)
+- [Helm](./docs/tech-stack/cloud-native/helm.md)
+- [NGINX / Ingress](./docs/tech-stack/cloud-native/nginx-ingress.md)
 
-### 第 4 阶段：转成求职材料
+### 自动化与 CI/CD
 
-- 把项目写成 README、架构图、运行截图、复盘。
-- 准备 8 个面试故事：故障、自动化、监控、性能、容量、变更、协作、风险控制。
-- 产出：简历项目段、面试题库、天津岗位投递清单。
+- [自动化与 CI/CD 总览](./docs/tech-stack/04-automation-ci.md)
+- [Ansible](./docs/tech-stack/automation/ansible.md)
+- [Terraform](./docs/tech-stack/automation/terraform.md)
+- [GitHub Actions](./docs/tech-stack/automation/github-actions.md)
+- [CI/CD](./docs/tech-stack/automation/cicd.md)
+- [Runbook Automation](./docs/tech-stack/automation/runbook-automation.md)
 
-## 项目优先级
+### 数据与 AI
 
-1. 可观测性实验室：证明我能采集、展示、告警。
-2. 指标异常检测器：证明我能把运维数据转成可评估模型。
-3. 告警降噪器：证明我理解事件关联和一线值班痛点。
-4. Runbook 助手：证明我能把处理经验变成可审计自动化。
+- [数据与 AI 总览](./docs/tech-stack/05-data-ai.md)
+- [MySQL / SQL](./docs/tech-stack/data-ai/mysql-sql.md)
+- [Redis](./docs/tech-stack/data-ai/redis.md)
+- [Kafka](./docs/tech-stack/data-ai/kafka.md)
+- [pandas](./docs/tech-stack/data-ai/pandas.md)
+- [scikit-learn](./docs/tech-stack/data-ai/scikit-learn.md)
+- [FastAPI](./docs/tech-stack/data-ai/fastapi.md)
+- [LLM / OpenAI API](./docs/tech-stack/data-ai/llm-openai.md)
+- [RAG](./docs/tech-stack/data-ai/rag.md)
+- [向量数据库](./docs/tech-stack/data-ai/vector-database.md)
+
+### SRE/AIOps 实践
+
+- [SRE/AIOps 实践总览](./docs/tech-stack/06-sre-aiops-practices.md)
+- [SLI / SLO / SLA](./docs/tech-stack/sre-aiops/sli-slo-sla.md)
+- [告警治理](./docs/tech-stack/sre-aiops/alert-governance.md)
+- [事件响应](./docs/tech-stack/sre-aiops/incident-response.md)
+- [Runbook](./docs/tech-stack/sre-aiops/runbook.md)
+- [RCA 根因分析](./docs/tech-stack/sre-aiops/rca.md)
+- [变更管理](./docs/tech-stack/sre-aiops/change-management.md)
+- [AIOps 闭环](./docs/tech-stack/sre-aiops/aiops-loop.md)
+
+## 学习主线
+
+第一阶段先补基础工具和 SRE/AIOps 实践，保证能记录、复盘、提交和表达稳定性问题。
+
+第二阶段打通可观测性和云原生，把指标、日志、链路、容器和 Kubernetes 的基本链路跑起来。
+
+第三阶段学习自动化、数据与 AI，把人工排障经验沉淀成脚本、流水线、异常检测和智能助手。
 
 ## 更新节奏
 
-- 每周至少 1 篇学习记录。
-- 每两周至少 1 次项目提交。
-- 每个月复盘一次求职关键词和简历表达。
-- 每个项目必须有：问题背景、架构、运行方式、样例数据、效果评估、局限性。
+- 每次补一个技术栈，都要同时补“为什么学、是什么、原理、架构、配置、实验、排障、面试和学习证据”。
+- 每次更新后先本地构建文档，再提交并推送到 GitHub。
+- 重点不是堆资料，而是让一个运维小白能跟着做、能复盘、能把过程沉淀成公开作品。
 
 ## 从这里开始
 
-先读 [学习路线](./docs/roadmap/README.md)，再完成 [学习记录模板](./docs/templates/weekly-review.md)。第一周不要贪多，只做一件事：把一个真实故障写成 AIOps 案例卡。
+先读 [学习路线](./docs/roadmap/README.md) 和 [技术栈总清单](./docs/tech-stack/README.md)，再从 [Linux](./docs/tech-stack/foundation/linux.md)、[Git](./docs/tech-stack/foundation/git.md)、[Prometheus](./docs/tech-stack/observability/prometheus.md) 这几篇开始补基础。

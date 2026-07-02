@@ -8,32 +8,86 @@
 
 每个技术栈文件都尽量回答：为什么学、是什么、原理是什么、架构是什么、如何配置、如何做实验、出问题怎么查、面试怎么讲、学习证据怎么提交到 GitHub。
 
-第一批示范文章：
-
-- [Prometheus 精讲](./tech-stack/observability/prometheus.md)
-- [Grafana 精讲](./tech-stack/observability/grafana.md)
-- [Docker Compose 精讲](./tech-stack/cloud-native/docker-compose.md)
-
 后续所有技术栈文章都会参考 [技术栈精讲写作标准](./tech-stack/writing-standard.md) 继续补充，重点不是堆资料，而是让一个运维小白能跟着做、能复盘、能把学习过程沉淀到 GitHub。
 
 ## 当前目标
 
 - 从运维经验出发，补齐 SRE、可观测性、Kubernetes、Python 数据分析和自动化能力。
-- 用 3 到 4 个小项目证明“我能把生产问题转成数据和自动化方案”。
-- 围绕天津 AIOps / SRE / DevOps / 智能运维岗位准备简历和面试。
+- 把生产问题转成数据、告警、自动化、复盘和智能排障方案。
+- 围绕 AIOps / SRE / DevOps / 智能运维岗位准备简历和面试。
 
-## 第一周任务
+## 技术栈入口
 
-1. 写一张真实故障案例卡。
-2. 搭建本仓库并完成第一次提交。
-3. 阅读 SRE、OpenTelemetry、Prometheus 的入门资料。
-4. 把一个日常运维动作改写成“输入、判断、动作、回滚”的 runbook。
+### 基础工具
+
+- [基础工具总览](./tech-stack/01-foundation.md)
+- [Linux](./tech-stack/foundation/linux.md)
+- [Git](./tech-stack/foundation/git.md)
+- [GitHub](./tech-stack/foundation/github.md)
+- [Markdown](./tech-stack/foundation/markdown.md)
+- [VitePress](./tech-stack/foundation/vitepress.md)
+- [Python](./tech-stack/foundation/python.md)
+- [Shell / PowerShell](./tech-stack/foundation/shell-powershell.md)
+- [systemd](./tech-stack/foundation/systemd.md)
+- [网络基础](./tech-stack/foundation/networking.md)
+
+### 可观测性
+
+- [可观测性总览](./tech-stack/02-observability.md)
+- [Prometheus](./tech-stack/observability/prometheus.md)
+- [Grafana](./tech-stack/observability/grafana.md)
+- [OpenTelemetry](./tech-stack/observability/opentelemetry.md)
+- [Alertmanager](./tech-stack/observability/alertmanager.md)
+- [Loki](./tech-stack/observability/loki.md)
+- [Elasticsearch](./tech-stack/observability/elasticsearch.md)
+
+### 云原生
+
+- [云原生总览](./tech-stack/03-cloud-native.md)
+- [Docker](./tech-stack/cloud-native/docker.md)
+- [Docker Compose](./tech-stack/cloud-native/docker-compose.md)
+- [Kubernetes](./tech-stack/cloud-native/kubernetes.md)
+- [Helm](./tech-stack/cloud-native/helm.md)
+- [NGINX / Ingress](./tech-stack/cloud-native/nginx-ingress.md)
+
+### 自动化与 CI/CD
+
+- [自动化与 CI/CD 总览](./tech-stack/04-automation-ci.md)
+- [Ansible](./tech-stack/automation/ansible.md)
+- [Terraform](./tech-stack/automation/terraform.md)
+- [GitHub Actions](./tech-stack/automation/github-actions.md)
+- [CI/CD](./tech-stack/automation/cicd.md)
+- [Runbook Automation](./tech-stack/automation/runbook-automation.md)
+
+### 数据与 AI
+
+- [数据与 AI 总览](./tech-stack/05-data-ai.md)
+- [MySQL / SQL](./tech-stack/data-ai/mysql-sql.md)
+- [Redis](./tech-stack/data-ai/redis.md)
+- [Kafka](./tech-stack/data-ai/kafka.md)
+- [pandas](./tech-stack/data-ai/pandas.md)
+- [scikit-learn](./tech-stack/data-ai/scikit-learn.md)
+- [FastAPI](./tech-stack/data-ai/fastapi.md)
+- [LLM / OpenAI API](./tech-stack/data-ai/llm-openai.md)
+- [RAG](./tech-stack/data-ai/rag.md)
+- [向量数据库](./tech-stack/data-ai/vector-database.md)
+
+### SRE/AIOps 实践
+
+- [SRE/AIOps 实践总览](./tech-stack/06-sre-aiops-practices.md)
+- [SLI / SLO / SLA](./tech-stack/sre-aiops/sli-slo-sla.md)
+- [告警治理](./tech-stack/sre-aiops/alert-governance.md)
+- [事件响应](./tech-stack/sre-aiops/incident-response.md)
+- [Runbook](./tech-stack/sre-aiops/runbook.md)
+- [RCA 根因分析](./tech-stack/sre-aiops/rca.md)
+- [变更管理](./tech-stack/sre-aiops/change-management.md)
+- [AIOps 闭环](./tech-stack/sre-aiops/aiops-loop.md)
 
 ## 推荐阅读顺序
 
 1. [学习路线](./roadmap/README.md)
 2. [能力地图](./roadmap/00-skill-map.md)
-3. [纯小白从 0 开始](./tutorials/0001-start-from-zero.md)
-4. [AIOps 技术栈总清单](./tech-stack/README.md)
-5. [实战项目](./projects/README.md)
-6. [天津求职](./job-search/tianjin.md)
+3. [AIOps 技术栈总清单](./tech-stack/README.md)
+4. [基础工具总览](./tech-stack/01-foundation.md)
+5. [SRE/AIOps 实践总览](./tech-stack/06-sre-aiops-practices.md)
+6. [可观测性总览](./tech-stack/02-observability.md)

@@ -8,9 +8,8 @@ export default defineConfig({
     nav: [
       { text: '学习路线', link: '/roadmap/README' },
       { text: '技术栈', link: '/tech-stack/README' },
-      { text: '实战项目', link: '/projects/README' },
       { text: '面试', link: '/interview/' },
-      { text: '天津求职', link: '/job-search/tianjin' }
+      { text: '资料清单', link: '/resources' }
     ],
     sidebar: [
       {
@@ -18,12 +17,6 @@ export default defineConfig({
         items: [
           { text: '首页', link: '/' },
           { text: '资料清单', link: '/resources' }
-        ]
-      },
-      {
-        text: '教程',
-        items: [
-          { text: '从 0 开始', link: '/tutorials/0001-start-from-zero' }
         ]
       },
       {
@@ -119,19 +112,9 @@ export default defineConfig({
         ]
       },
       {
-        text: '项目',
+        text: '面试',
         items: [
-          { text: '项目总览', link: '/projects/README' },
-          { text: '可观测性实验室', link: '/projects/01-observability-lab' },
-          { text: '指标异常检测器', link: '/projects/02-metric-anomaly-detector' },
-          { text: '告警降噪器', link: '/projects/03-alert-noise-reducer' }
-        ]
-      },
-      {
-        text: '求职',
-        items: [
-          { text: '面试准备', link: '/interview/' },
-          { text: '天津求职', link: '/job-search/tianjin' }
+          { text: '面试准备', link: '/interview/' }
         ]
       }
     ]
