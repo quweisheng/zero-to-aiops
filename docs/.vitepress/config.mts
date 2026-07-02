@@ -2,7 +2,7 @@ import { defineConfig } from 'vitepress'
 
 export default defineConfig({
   title: 'To Be Better AIOps Engineer',
-  description: 'AIOps 学习路线、实战项目、面试准备和天津求职记录',
+  description: 'AIOps 学习路线、技术栈精讲、面试准备和学习资料',
   base: '/zero-to-aiops/',
   themeConfig: {
     nav: [
@@ -38,8 +38,7 @@ export default defineConfig({
           { text: 'Python', link: '/tech-stack/foundation/python' },
           { text: 'Shell / PowerShell', link: '/tech-stack/foundation/shell-powershell' },
           { text: 'systemd', link: '/tech-stack/foundation/systemd' },
-          { text: '网络基础', link: '/tech-stack/foundation/networking' },
-          { text: '基础工具总览', link: '/tech-stack/01-foundation' }
+          { text: '网络基础', link: '/tech-stack/foundation/networking' }
         ]
       },
       {
@@ -50,8 +49,7 @@ export default defineConfig({
           { text: 'OpenTelemetry', link: '/tech-stack/observability/opentelemetry' },
           { text: 'Alertmanager', link: '/tech-stack/observability/alertmanager' },
           { text: 'Loki', link: '/tech-stack/observability/loki' },
-          { text: 'Elasticsearch', link: '/tech-stack/observability/elasticsearch' },
-          { text: '可观测性总览', link: '/tech-stack/02-observability' }
+          { text: 'Elasticsearch', link: '/tech-stack/observability/elasticsearch' }
         ]
       },
       {
@@ -61,8 +59,7 @@ export default defineConfig({
           { text: 'Docker Compose', link: '/tech-stack/cloud-native/docker-compose' },
           { text: 'Kubernetes', link: '/tech-stack/cloud-native/kubernetes' },
           { text: 'Helm', link: '/tech-stack/cloud-native/helm' },
-          { text: 'NGINX / Ingress', link: '/tech-stack/cloud-native/nginx-ingress' },
-          { text: '云原生总览', link: '/tech-stack/03-cloud-native' }
+          { text: 'NGINX / Ingress', link: '/tech-stack/cloud-native/nginx-ingress' }
         ]
       },
       {
@@ -72,8 +69,7 @@ export default defineConfig({
           { text: 'Terraform', link: '/tech-stack/automation/terraform' },
           { text: 'GitHub Actions', link: '/tech-stack/automation/github-actions' },
           { text: 'CI/CD', link: '/tech-stack/automation/cicd' },
-          { text: 'Runbook Automation', link: '/tech-stack/automation/runbook-automation' },
-          { text: '自动化总览', link: '/tech-stack/04-automation-ci' }
+          { text: 'Runbook Automation', link: '/tech-stack/automation/runbook-automation' }
         ]
       },
       {
@@ -87,8 +83,7 @@ export default defineConfig({
           { text: 'FastAPI', link: '/tech-stack/data-ai/fastapi' },
           { text: 'LLM / OpenAI API', link: '/tech-stack/data-ai/llm-openai' },
           { text: 'RAG', link: '/tech-stack/data-ai/rag' },
-          { text: '向量数据库', link: '/tech-stack/data-ai/vector-database' },
-          { text: '数据与 AI 总览', link: '/tech-stack/05-data-ai' }
+          { text: '向量数据库', link: '/tech-stack/data-ai/vector-database' }
         ]
       },
       {
@@ -100,8 +95,7 @@ export default defineConfig({
           { text: 'Runbook', link: '/tech-stack/sre-aiops/runbook' },
           { text: 'RCA 根因分析', link: '/tech-stack/sre-aiops/rca' },
           { text: '变更管理', link: '/tech-stack/sre-aiops/change-management' },
-          { text: 'AIOps 闭环', link: '/tech-stack/sre-aiops/aiops-loop' },
-          { text: 'SRE/AIOps 总览', link: '/tech-stack/06-sre-aiops-practices' }
+          { text: 'AIOps 闭环', link: '/tech-stack/sre-aiops/aiops-loop' }
         ]
       },
       {

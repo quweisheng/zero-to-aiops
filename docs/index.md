@@ -20,7 +20,6 @@
 
 ### 基础工具
 
-- [基础工具总览](./tech-stack/01-foundation.md)
 - [Linux](./tech-stack/foundation/linux.md)
 - [Git](./tech-stack/foundation/git.md)
 - [GitHub](./tech-stack/foundation/github.md)
@@ -33,7 +32,6 @@
 
 ### 可观测性
 
-- [可观测性总览](./tech-stack/02-observability.md)
 - [Prometheus](./tech-stack/observability/prometheus.md)
 - [Grafana](./tech-stack/observability/grafana.md)
 - [OpenTelemetry](./tech-stack/observability/opentelemetry.md)
@@ -43,7 +41,6 @@
 
 ### 云原生
 
-- [云原生总览](./tech-stack/03-cloud-native.md)
 - [Docker](./tech-stack/cloud-native/docker.md)
 - [Docker Compose](./tech-stack/cloud-native/docker-compose.md)
 - [Kubernetes](./tech-stack/cloud-native/kubernetes.md)
@@ -52,7 +49,6 @@
 
 ### 自动化与 CI/CD
 
-- [自动化与 CI/CD 总览](./tech-stack/04-automation-ci.md)
 - [Ansible](./tech-stack/automation/ansible.md)
 - [Terraform](./tech-stack/automation/terraform.md)
 - [GitHub Actions](./tech-stack/automation/github-actions.md)
@@ -61,7 +57,6 @@
 
 ### 数据与 AI
 
-- [数据与 AI 总览](./tech-stack/05-data-ai.md)
 - [MySQL / SQL](./tech-stack/data-ai/mysql-sql.md)
 - [Redis](./tech-stack/data-ai/redis.md)
 - [Kafka](./tech-stack/data-ai/kafka.md)
@@ -74,7 +69,6 @@
 
 ### SRE/AIOps 实践
 
-- [SRE/AIOps 实践总览](./tech-stack/06-sre-aiops-practices.md)
 - [SLI / SLO / SLA](./tech-stack/sre-aiops/sli-slo-sla.md)
 - [告警治理](./tech-stack/sre-aiops/alert-governance.md)
 - [事件响应](./tech-stack/sre-aiops/incident-response.md)
@@ -88,6 +82,6 @@
 1. [学习路线](./roadmap/README.md)
 2. [能力地图](./roadmap/00-skill-map.md)
 3. [AIOps 技术栈总清单](./tech-stack/README.md)
-4. [基础工具总览](./tech-stack/01-foundation.md)
-5. [SRE/AIOps 实践总览](./tech-stack/06-sre-aiops-practices.md)
-6. [可观测性总览](./tech-stack/02-observability.md)
+4. [Linux](./tech-stack/foundation/linux.md)
+5. [Git](./tech-stack/foundation/git.md)
+6. [Prometheus](./tech-stack/observability/prometheus.md)

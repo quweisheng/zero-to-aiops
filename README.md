@@ -27,7 +27,6 @@
 
 ### 基础工具
 
-- [基础工具总览](./docs/tech-stack/01-foundation.md)
 - [Linux](./docs/tech-stack/foundation/linux.md)
 - [Git](./docs/tech-stack/foundation/git.md)
 - [GitHub](./docs/tech-stack/foundation/github.md)
@@ -40,7 +39,6 @@
 
 ### 可观测性
 
-- [可观测性总览](./docs/tech-stack/02-observability.md)
 - [Prometheus](./docs/tech-stack/observability/prometheus.md)
 - [Grafana](./docs/tech-stack/observability/grafana.md)
 - [OpenTelemetry](./docs/tech-stack/observability/opentelemetry.md)
@@ -50,7 +48,6 @@
 
 ### 云原生
 
-- [云原生总览](./docs/tech-stack/03-cloud-native.md)
 - [Docker](./docs/tech-stack/cloud-native/docker.md)
 - [Docker Compose](./docs/tech-stack/cloud-native/docker-compose.md)
 - [Kubernetes](./docs/tech-stack/cloud-native/kubernetes.md)
@@ -59,7 +56,6 @@
 
 ### 自动化与 CI/CD
 
-- [自动化与 CI/CD 总览](./docs/tech-stack/04-automation-ci.md)
 - [Ansible](./docs/tech-stack/automation/ansible.md)
 - [Terraform](./docs/tech-stack/automation/terraform.md)
 - [GitHub Actions](./docs/tech-stack/automation/github-actions.md)
@@ -68,7 +64,6 @@
 
 ### 数据与 AI
 
-- [数据与 AI 总览](./docs/tech-stack/05-data-ai.md)
 - [MySQL / SQL](./docs/tech-stack/data-ai/mysql-sql.md)
 - [Redis](./docs/tech-stack/data-ai/redis.md)
 - [Kafka](./docs/tech-stack/data-ai/kafka.md)
@@ -81,7 +76,6 @@
 
 ### SRE/AIOps 实践
 
-- [SRE/AIOps 实践总览](./docs/tech-stack/06-sre-aiops-practices.md)
 - [SLI / SLO / SLA](./docs/tech-stack/sre-aiops/sli-slo-sla.md)
 - [告警治理](./docs/tech-stack/sre-aiops/alert-governance.md)
 - [事件响应](./docs/tech-stack/sre-aiops/incident-response.md)
@@ -98,11 +92,6 @@
 
 第三阶段学习自动化、数据与 AI，把人工排障经验沉淀成脚本、流水线、异常检测和智能助手。
 
-## 更新节奏
-
-- 每次补一个技术栈，都要同时补“为什么学、是什么、原理、架构、配置、实验、排障、面试和学习证据”。
-- 每次更新后先本地构建文档，再提交并推送到 GitHub。
-- 重点不是堆资料，而是让一个运维小白能跟着做、能复盘、能把过程沉淀成公开作品。
 
 ## 从这里开始
 

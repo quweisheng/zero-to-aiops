@@ -34,12 +34,12 @@
 
 ## 推荐学习顺序
 
-1. [基础工具](./01-foundation.md)：先会记录、提交、跑命令、读系统状态。
-2. [SRE 与 AIOps 实践](./06-sre-aiops-practices.md)：先知道为什么学这些工具。
-3. [可观测性](./02-observability.md)：先把数据采集和展示跑通。
-4. [云原生](./03-cloud-native.md)：把服务放进容器和 K8s。
-5. [自动化与 CI/CD](./04-automation-ci.md)：把重复动作变成流程。
-6. [数据与 AI](./05-data-ai.md)：用数据做异常检测、告警降噪、智能助手。
+1. [Linux](./foundation/linux.md)：先会记录、提交、跑命令、读系统状态。
+2. [SLI / SLO / SLA](./sre-aiops/sli-slo-sla.md)：先知道为什么学这些工具。
+3. [Prometheus](./observability/prometheus.md)：先把数据采集跑通。
+4. [Docker](./cloud-native/docker.md)：把服务放进容器。
+5. [GitHub Actions](./automation/github-actions.md)：把重复动作变成流程。
+6. [pandas](./data-ai/pandas.md)：用数据做异常检测、告警降噪、智能助手。
 
 ## 一技术一文件
 
