@@ -1,6 +1,8 @@
 node_modules/
 .vitepress/cache/
 .vitepress/dist/
+docs/.vitepress/cache/
+docs/.vitepress/dist/
 dist/
 .DS_Store
 Thumbs.db
@@ -8,3 +10,4 @@ Thumbs.db
 .env.*
 !.env.example
 *.log
+*.tsbuildinfo

@@ -15,7 +15,7 @@
 - [VitePress v1 Deploy](https://vuejs.github.io/vitepress/v1/guide/deploy)
 - [VitePress current docs](https://vitepress.dev/)
 
-说明：本仓库当前 `package.json` 使用 `vitepress` `^1.6.4`，所以本文以 VitePress v1 官方文档为主要依据。VitePress 当前官网可能默认显示更新版本文档，学习时要注意版本匹配。
+说明：本仓库早期版本使用过 `vitepress` `^1.6.4`，所以本文以 VitePress v1 官方文档为主要依据。当前网站外壳已经迁移到 React、TypeScript 和 Vite，但这篇文章仍然保留为静态文档站学习材料。VitePress 当前官网可能默认显示更新版本文档，学习时要注意版本匹配。
 
 ## 场景开场
 

@@ -14,6 +14,16 @@
 
 中文目标名：To Be Better AIOps Engineer。
 
+## 本地运行
+
+这个网站现在使用 React、TypeScript 和 Vite 构建，Markdown 内容仍然保留在 `docs/` 目录。
+
+```bash
+npm install
+npm run dev
+npm run build
+```
+
 ## 知识库地图
 
 - [学习路线](./docs/roadmap/README.md)：从运维经验切入 AIOps 的长期路线。
