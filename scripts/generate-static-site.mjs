@@ -6,7 +6,8 @@ import {
   buildSitemapXml,
   injectRouteMeta,
   normalizeSiteUrl,
-  routeToOutputFiles
+  routeToCanonicalUrl,
+  routeToOutputFile
 } from './seo-utils.mjs'
 
 const siteUrl = normalizeSiteUrl(
@@ -38,13 +39,11 @@ for (const route of routes) {
     html: indexHtml,
     title: meta.title,
     description: meta.description,
-    canonicalUrl: `${siteUrl}${route === '/' ? '' : route.slice(1)}`
+    canonicalUrl: routeToCanonicalUrl(siteUrl, route)
   })
-  for (const outputFile of routeToOutputFiles(route)) {
-    const outputPath = resolve('dist', outputFile)
-    await mkdir(dirname(outputPath), { recursive: true })
-    await writeFile(outputPath, html, 'utf8')
-  }
+  const outputPath = resolve('dist', routeToOutputFile(route))
+  await mkdir(dirname(outputPath), { recursive: true })
+  await writeFile(outputPath, html, 'utf8')
 }
 
 await writeFile(

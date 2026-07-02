@@ -3,7 +3,7 @@ export function buildSitemapXml({ siteUrl, routes }) {
   const uniqueRoutes = [...new Set(routes)].sort((a, b) => a.localeCompare(b))
   const urls = uniqueRoutes
     .map((route) => {
-      const loc = `${base}${route === '/' ? '' : route.slice(1)}`
+      const loc = routeToCanonicalUrl(base, route)
       return `  <url>\n    <loc>${escapeXml(loc)}</loc>\n  </url>`
     })
     .join('\n')
@@ -21,10 +21,10 @@ export function routeToOutputFile(route) {
   return clean ? `${clean}/index.html` : 'index.html'
 }
 
-export function routeToOutputFiles(route) {
-  const indexFile = routeToOutputFile(route)
+export function routeToCanonicalUrl(siteUrl, route) {
+  const base = normalizeSiteUrl(siteUrl)
   const clean = route.replace(/^\/+|\/+$/g, '')
-  return clean ? [indexFile, `${clean}.html`] : [indexFile]
+  return clean ? `${base}${clean}/` : base
 }
 
 export function injectRouteMeta({ html, title, description, canonicalUrl }) {
