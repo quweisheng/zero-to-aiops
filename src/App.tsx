@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
 
-import { DocPage, getDocByRoute, navGroups, normalizeRoute } from './content'
+import { DocPage, getDocByRoute, loadDocByRoute, navGroups, normalizeRoute } from './content'
 import { renderMarkdown } from './markdown'
+import { fetchSearchIndex, searchDocs } from './search'
+import type { SearchDocument, SearchResult } from './search'
 
 type Theme = 'light' | 'dark'
 
@@ -126,6 +128,8 @@ function SiteHeader({ route, theme, onThemeChange, onNavigate }: HeaderProps) {
           ))}
         </nav>
 
+        <SearchBox onNavigate={onNavigate} />
+
         <div className="site-actions">
           <a className="source-pill" href="https://github.com/quweisheng/zero-to-aiops">
             GitHub
@@ -143,6 +147,98 @@ function SiteHeader({ route, theme, onThemeChange, onNavigate }: HeaderProps) {
         </div>
       </div>
     </header>
+  )
+}
+
+function SearchBox({ onNavigate }: { onNavigate: (route: string) => void }) {
+  const [query, setQuery] = useState('')
+  const [index, setIndex] = useState<SearchDocument[] | null>(null)
+  const [results, setResults] = useState<SearchResult[]>([])
+  const [status, setStatus] = useState<'idle' | 'loading' | 'ready' | 'error'>('idle')
+
+  useEffect(() => {
+    const trimmed = query.trim()
+    if (!trimmed) {
+      setResults([])
+      setStatus('idle')
+      return
+    }
+
+    let cancelled = false
+
+    async function runSearch() {
+      try {
+        setStatus('loading')
+        const nextIndex =
+          index ?? (await fetchSearchIndex(`${getBasePath()}search-index.json`))
+
+        if (cancelled) {
+          return
+        }
+
+        if (!index) {
+          setIndex(nextIndex)
+        }
+
+        setResults(searchDocs(trimmed, nextIndex))
+        setStatus('ready')
+      } catch {
+        if (!cancelled) {
+          setStatus('error')
+          setResults([])
+        }
+      }
+    }
+
+    void runSearch()
+
+    return () => {
+      cancelled = true
+    }
+  }, [index, query])
+
+  const hasQuery = query.trim().length > 0
+
+  return (
+    <div className="site-search">
+      <label className="visually-hidden" htmlFor="site-search-input">
+        搜索文章
+      </label>
+      <input
+        id="site-search-input"
+        value={query}
+        placeholder="搜索文章"
+        onChange={(event) => setQuery(event.target.value)}
+        autoComplete="off"
+      />
+      {hasQuery ? (
+        <div className="search-panel" role="status">
+          {status === 'loading' ? <p>正在搜索...</p> : null}
+          {status === 'error' ? <p>搜索索引加载失败。</p> : null}
+          {status === 'ready' && results.length === 0 ? <p>没有找到相关文章。</p> : null}
+          {results.length > 0 ? (
+            <div className="search-results">
+              {results.map((result) => (
+                <a
+                  key={result.route}
+                  href={hrefForRoute(result.route)}
+                  onClick={(event) => {
+                    event.preventDefault()
+                    setQuery('')
+                    setResults([])
+                    onNavigate(result.route)
+                  }}
+                >
+                  <span>{result.section}</span>
+                  <strong>{result.title}</strong>
+                  <small>{result.excerpt}</small>
+                </a>
+              ))}
+            </div>
+          ) : null}
+        </div>
+      ) : null}
+    </div>
   )
 }
 
@@ -279,8 +375,9 @@ function DocLayout({ doc, route, onNavigate }: DocLayoutProps) {
     let cancelled = false
     setHtml(null)
 
-    renderMarkdown(doc.raw, doc.route).then((nextHtml) => {
-      if (!cancelled) {
+    loadDocByRoute(doc.route).then(async (loadedDoc) => {
+      if (!cancelled && loadedDoc) {
+        const nextHtml = await renderMarkdown(loadedDoc.raw, loadedDoc.route)
         setHtml(nextHtml)
       }
     })

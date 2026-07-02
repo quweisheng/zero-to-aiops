@@ -12,14 +12,20 @@ export interface DocPage {
   path: string
   route: string
   title: string
+  section: string
+  excerpt: string
+}
+
+export interface LoadedDocPage extends DocPage {
   raw: string
 }
 
-const rawDocs = import.meta.glob('../docs/**/*.md', {
-  eager: true,
+import { generatedDocs } from './generated/content-index'
+
+const docLoaders = import.meta.glob(['../docs/**/*.md', '!../docs/superpowers/**/*.md'], {
   import: 'default',
   query: '?raw'
-}) as Record<string, string>
+}) as Record<string, () => Promise<string>>
 
 export const navGroups: NavGroup[] = [
   {
@@ -184,12 +190,9 @@ export function markdownLinkToRoute(href: string, currentRoute = '/'): string {
   return `${normalizeDocPath(`docs/${resolvedSegments.join('/')}`)}${hashSuffix}`
 }
 
-export const docs: DocPage[] = Object.entries(rawDocs)
-  .map(([path, raw]) => ({
-    path,
-    raw,
-    route: normalizeDocPath(path),
-    title: extractTitle(raw)
+export const docs: DocPage[] = generatedDocs
+  .map((doc) => ({
+    ...doc
   }))
   .sort((a, b) => a.route.localeCompare(b.route, 'zh-CN'))
 
@@ -198,26 +201,19 @@ export function getDocByRoute(route: string): DocPage | undefined {
   return docs.find((doc) => doc.route === normalized)
 }
 
-function extractTitle(raw: string): string {
-  let inFence = false
-
-  for (const originalLine of raw.replace(/^\uFEFF/, '').split(/\r?\n/)) {
-    const line = originalLine.trim()
-
-    if (line.startsWith('```') || line.startsWith('~~~')) {
-      inFence = !inFence
-      continue
-    }
-
-    if (inFence) {
-      continue
-    }
-
-    const match = line.match(/^#\s+(.+)$/)
-    if (match) {
-      return match[1].trim()
-    }
+export async function loadDocByRoute(route: string): Promise<LoadedDocPage | undefined> {
+  const doc = getDocByRoute(route)
+  if (!doc) {
+    return undefined
   }
 
-  return 'Untitled'
+  const loadRaw = docLoaders[doc.path]
+  if (!loadRaw) {
+    return undefined
+  }
+
+  return {
+    ...doc,
+    raw: await loadRaw()
+  }
 }

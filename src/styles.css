@@ -72,6 +72,15 @@ a {
   outline-offset: 3px;
 }
 
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
 .site-header {
   position: sticky;
   top: 0;
@@ -149,6 +158,88 @@ a {
 
 .site-actions {
   gap: 10px;
+}
+
+.site-search {
+  position: relative;
+  flex: 1 1 260px;
+  max-width: 360px;
+}
+
+.site-search input {
+  width: 100%;
+  min-height: 38px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--surface) 82%, transparent);
+  color: var(--ink);
+  padding: 0 12px;
+  font-size: 0.92rem;
+}
+
+.site-search input::placeholder {
+  color: var(--muted);
+}
+
+.search-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 25;
+  width: min(420px, calc(100vw - 32px));
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.search-panel p {
+  margin: 0;
+  padding: 14px;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.search-results {
+  display: grid;
+  max-height: min(420px, 70dvh);
+  overflow: auto;
+}
+
+.search-results a {
+  display: grid;
+  gap: 4px;
+  border-bottom: 1px solid var(--line);
+  padding: 13px 14px;
+}
+
+.search-results a:last-child {
+  border-bottom: 0;
+}
+
+.search-results a:hover {
+  background: var(--surface-2);
+}
+
+.search-results span {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.search-results strong {
+  line-height: 1.2;
+}
+
+.search-results small {
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 0.82rem;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
 .source-pill,
@@ -709,6 +800,10 @@ h3 {
     display: none;
   }
 
+  .site-search {
+    max-width: none;
+  }
+
   .hero {
     grid-template-columns: 1fr;
     min-height: auto;
@@ -744,6 +839,16 @@ h3 {
 
   .theme-button span:last-child {
     display: none;
+  }
+
+  .site-search {
+    order: 3;
+    flex-basis: 100%;
+  }
+
+  .site-header__inner {
+    flex-wrap: wrap;
+    padding: 10px 0;
   }
 
   .hero {

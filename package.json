@@ -3,9 +3,13 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "generate:content": "node scripts/generate-content.mjs",
+    "predev": "npm run generate:content",
     "dev": "vite",
-    "build": "tsc --noEmit && vite build && node scripts/copy-404.mjs",
+    "prebuild": "npm run generate:content",
+    "build": "tsc --noEmit && vite build && node scripts/generate-static-site.mjs",
     "preview": "vite preview",
+    "pretest": "npm run generate:content",
     "test": "vitest run",
     "test:watch": "vitest"
   },

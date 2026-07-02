@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { getDocByRoute, markdownLinkToRoute, normalizeDocPath } from './content'
+import { getDocByRoute, loadDocByRoute, markdownLinkToRoute, normalizeDocPath } from './content'
 
 describe('normalizeDocPath', () => {
   it('maps the docs index to the app root', () => {
@@ -48,6 +48,17 @@ describe('markdownLinkToRoute', () => {
 describe('getDocByRoute', () => {
   it('returns existing markdown documents by normalized route', () => {
     expect(getDocByRoute('/tech-stack/foundation/linux')?.title).toBe('Linux 深讲')
+  })
+
+  it('keeps document metadata lightweight until a page is opened', () => {
+    expect(getDocByRoute('/tech-stack/foundation/linux')).not.toHaveProperty('raw')
+  })
+
+  it('loads markdown content only for the requested route', async () => {
+    const doc = await loadDocByRoute('/tech-stack/foundation/linux')
+
+    expect(doc?.title).toBe('Linux 深讲')
+    expect(doc?.raw).toContain('学习目标')
   })
 
   it('accepts trailing slashes', () => {
