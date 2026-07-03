@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 
 import { DocPage, getDocByRoute, loadDocByRoute, navGroups, normalizeRoute } from './content'
-import { renderMarkdown } from './markdown'
+import { extractMarkdownHeadings, renderMarkdown, type MarkdownHeading } from './markdown'
 import { fetchSearchIndex, searchDocs } from './search'
 import type { SearchDocument, SearchResult } from './search'
 
@@ -60,10 +60,12 @@ export default function App() {
   const doc = getDocByRoute(route)
   const isHome = route === '/'
 
+  usePointerMotion()
   useRouteMeta(route, doc)
 
   return (
     <div className="app-shell">
+      <div className="cursor-trace" aria-hidden="true" />
       <SiteHeader
         route={route}
         theme={theme}
@@ -392,14 +394,23 @@ interface DocLayoutProps {
 
 function DocLayout({ doc, route, onNavigate }: DocLayoutProps) {
   const [html, setHtml] = useState<string | null>(null)
+  const [tocItems, setTocItems] = useState<MarkdownHeading[]>([])
 
   useEffect(() => {
     let cancelled = false
     setHtml(null)
+    setTocItems([])
 
     loadDocByRoute(doc.route).then(async (loadedDoc) => {
       if (!cancelled && loadedDoc) {
+        const nextTocItems = extractMarkdownHeadings(loadedDoc.raw)
         const nextHtml = await renderMarkdown(loadedDoc.raw, loadedDoc.route)
+
+        if (cancelled) {
+          return
+        }
+
+        setTocItems(nextTocItems)
         setHtml(nextHtml)
       }
     })
@@ -455,6 +466,32 @@ function DocLayout({ doc, route, onNavigate }: DocLayoutProps) {
           </div>
         )}
       </article>
+
+      <aside className="doc-toc" aria-label="文章目录">
+        <div className="doc-toc__inner">
+          <div className="doc-toc__label">目录</div>
+          {tocItems.length > 0 ? (
+            <nav aria-label="文章目录">
+              {tocItems.map((item) => (
+                <a
+                  key={item.id}
+                  className={`doc-toc__link doc-toc__link--depth-${item.depth}`}
+                  href={`#${item.id}`}
+                >
+                  {item.text}
+                </a>
+              ))}
+            </nav>
+          ) : (
+            <div className="doc-toc__skeleton" aria-hidden="true">
+              <span />
+              <span />
+              <span />
+              <span />
+            </div>
+          )}
+        </div>
+      </aside>
     </main>
   )
 }
@@ -508,6 +545,64 @@ function getInitialTheme(): Theme {
   }
 
   return window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+}
+
+function usePointerMotion() {
+  useEffect(() => {
+    const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)')
+    if (reducedMotion?.matches) {
+      return
+    }
+
+    const root = document.documentElement
+    const requestFrame =
+      window.requestAnimationFrame?.bind(window) ??
+      ((callback: FrameRequestCallback) => window.setTimeout(() => callback(Date.now()), 16))
+    const cancelFrame = window.cancelAnimationFrame?.bind(window) ?? window.clearTimeout.bind(window)
+    let frame: number | null = null
+    let currentX = window.innerWidth * 0.72
+    let currentY = window.innerHeight * 0.28
+    let targetX = currentX
+    let targetY = currentY
+
+    const applyPosition = () => {
+      root.style.setProperty('--pointer-x', `${currentX}px`)
+      root.style.setProperty('--pointer-y', `${currentY}px`)
+    }
+
+    const followPointer = () => {
+      currentX += (targetX - currentX) * 0.16
+      currentY += (targetY - currentY) * 0.16
+      applyPosition()
+
+      if (Math.abs(targetX - currentX) > 0.2 || Math.abs(targetY - currentY) > 0.2) {
+        frame = requestFrame(followPointer)
+      } else {
+        frame = null
+      }
+    }
+
+    const onPointerMove = (event: PointerEvent) => {
+      targetX = event.clientX
+      targetY = event.clientY
+
+      if (frame === null) {
+        frame = requestFrame(followPointer)
+      }
+    }
+
+    applyPosition()
+    window.addEventListener('pointermove', onPointerMove, { passive: true })
+
+    return () => {
+      window.removeEventListener('pointermove', onPointerMove)
+      if (frame !== null) {
+        cancelFrame(frame)
+      }
+      root.style.removeProperty('--pointer-x')
+      root.style.removeProperty('--pointer-y')
+    }
+  }, [])
 }
 
 function getStorage(): Storage | undefined {

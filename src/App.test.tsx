@@ -36,6 +36,11 @@ describe('App', () => {
     expect(
       screen.getByRole('navigation', { name: '文档导航' })
     ).toBeInTheDocument()
+    const toc = screen.getByRole('navigation', { name: '文章目录' })
+    expect(within(toc).getByRole('link', { name: '官方资料' })).toHaveAttribute(
+      'href',
+      '#官方资料'
+    )
     expect(document.title).toBe('Linux 深讲 | To Be Better AIOps Engineer')
     expect(document.head.querySelector('link[rel="canonical"]')).toHaveAttribute(
       'href',
