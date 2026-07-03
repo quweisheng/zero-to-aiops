@@ -51,7 +51,8 @@ describe('seo utilities', () => {
       html: '<html><head><title>Old</title></head><body></body></html>',
       title: 'Linux 深讲',
       description: 'Linux CPU 内存 网络排障',
-      canonicalUrl: 'https://quweisheng.github.io/zero-to-aiops/tech-stack/foundation/linux/'
+      canonicalUrl: 'https://quweisheng.github.io/zero-to-aiops/tech-stack/foundation/linux/',
+      type: 'article'
     })
 
     expect(html).toContain('<title>Linux 深讲</title>')
@@ -61,5 +62,11 @@ describe('seo utilities', () => {
     expect(html).toContain(
       '<link rel="canonical" href="https://quweisheng.github.io/zero-to-aiops/tech-stack/foundation/linux/">'
     )
+    expect(html).toContain('<meta property="og:title" content="Linux 深讲">')
+    expect(html).toContain(
+      '<meta property="og:description" content="Linux CPU 内存 网络排障">'
+    )
+    expect(html).toContain('<meta property="og:type" content="article">')
+    expect(html).toContain('<meta name="twitter:card" content="summary">')
   })
 })

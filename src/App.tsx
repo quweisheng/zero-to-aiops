@@ -41,7 +41,7 @@ export default function App() {
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme
-    window.localStorage.setItem('zero-to-aiops-theme', theme)
+    getStorage()?.setItem('zero-to-aiops-theme', theme)
   }, [theme])
 
   useEffect(() => {
@@ -54,11 +54,13 @@ export default function App() {
     const normalized = normalizeRoute(nextRoute)
     window.history.pushState({}, '', hrefForRoute(normalized))
     setRoute(normalized)
-    window.scrollTo({ top: 0 })
+    scrollToTop()
   }
 
   const doc = getDocByRoute(route)
   const isHome = route === '/'
+
+  useRouteMeta(route, doc)
 
   return (
     <div className="app-shell">
@@ -77,6 +79,26 @@ export default function App() {
       )}
     </div>
   )
+}
+
+function useRouteMeta(route: string, doc: DocPage | undefined) {
+  useEffect(() => {
+    const title = doc ? `${doc.title} | To Be Better AIOps Engineer` : 'To Be Better AIOps Engineer'
+    const description =
+      doc?.excerpt ?? 'AIOps 学习路线、技术栈精讲、面试准备和学习资料'
+    const canonicalUrl = canonicalUrlForRoute(route)
+
+    document.title = title
+    setMeta('description', description)
+    setMeta('og:title', title, 'property')
+    setMeta('og:description', description, 'property')
+    setMeta('og:type', doc ? 'article' : 'website', 'property')
+    setMeta('og:url', canonicalUrl, 'property')
+    setMeta('twitter:card', 'summary')
+    setMeta('twitter:title', title)
+    setMeta('twitter:description', description)
+    setCanonical(canonicalUrl)
+  }, [doc, route])
 }
 
 interface HeaderProps {
@@ -480,12 +502,20 @@ function handleMarkdownClick(
 }
 
 function getInitialTheme(): Theme {
-  const stored = window.localStorage.getItem('zero-to-aiops-theme')
+  const stored = getStorage()?.getItem('zero-to-aiops-theme')
   if (stored === 'light' || stored === 'dark') {
     return stored
   }
 
   return window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+}
+
+function getStorage(): Storage | undefined {
+  try {
+    return window.localStorage
+  } catch {
+    return undefined
+  }
 }
 
 function getRouteFromLocation(): string {
@@ -517,6 +547,50 @@ function hrefForRoute(route: string): string {
   return `${base.replace(/\/$/, '')}${normalized}`
 }
 
+function canonicalUrlForRoute(route: string): string {
+  const href = hrefForRoute(route)
+  const url = new URL(href, window.location.origin)
+
+  if (!url.pathname.endsWith('/')) {
+    url.pathname = `${url.pathname}/`
+  }
+
+  return url.toString()
+}
+
+function scrollToTop() {
+  try {
+    window.scrollTo({ top: 0 })
+  } catch {
+    // Some non-browser environments expose scrollTo but do not implement it.
+  }
+}
+
 function getBasePath(): string {
   return import.meta.env.BASE_URL || '/'
+}
+
+function setMeta(name: string, content: string, attribute: 'name' | 'property' = 'name') {
+  const selector = `meta[${attribute}="${name}"]`
+  let element = document.head.querySelector<HTMLMetaElement>(selector)
+
+  if (!element) {
+    element = document.createElement('meta')
+    element.setAttribute(attribute, name)
+    document.head.append(element)
+  }
+
+  element.content = content
+}
+
+function setCanonical(href: string) {
+  let element = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]')
+
+  if (!element) {
+    element = document.createElement('link')
+    element.rel = 'canonical'
+    document.head.append(element)
+  }
+
+  element.href = href
 }

@@ -27,24 +27,25 @@ export function routeToCanonicalUrl(siteUrl, route) {
   return clean ? `${base}${clean}/` : base
 }
 
-export function injectRouteMeta({ html, title, description, canonicalUrl }) {
+export function injectRouteMeta({ html, title, description, canonicalUrl, type = 'article' }) {
   const cleanDescription = description || 'AIOps 学习路线、技术栈精讲、面试准备和学习资料'
   const canonical = `<link rel="canonical" href="${escapeHtml(canonicalUrl)}">`
-  const descriptionMeta = `<meta name="description" content="${escapeHtml(cleanDescription)}">`
+  const escapedTitle = escapeHtml(title)
+  const escapedDescription = escapeHtml(cleanDescription)
 
   let nextHtml = html.replace(
     /<title>[\s\S]*?<\/title>/,
-    `<title>${escapeHtml(title)}</title>`
+    `<title>${escapedTitle}</title>`
   )
 
-  if (nextHtml.includes('name="description"')) {
-    nextHtml = nextHtml.replace(
-      /<meta\s+name="description"\s+content="[^"]*"\s*\/?>/,
-      descriptionMeta
-    )
-  } else {
-    nextHtml = nextHtml.replace('</head>', `  ${descriptionMeta}\n  </head>`)
-  }
+  nextHtml = upsertMeta(nextHtml, 'name', 'description', escapedDescription)
+  nextHtml = upsertMeta(nextHtml, 'property', 'og:title', escapedTitle)
+  nextHtml = upsertMeta(nextHtml, 'property', 'og:description', escapedDescription)
+  nextHtml = upsertMeta(nextHtml, 'property', 'og:type', type)
+  nextHtml = upsertMeta(nextHtml, 'property', 'og:url', escapeHtml(canonicalUrl))
+  nextHtml = upsertMeta(nextHtml, 'name', 'twitter:card', 'summary')
+  nextHtml = upsertMeta(nextHtml, 'name', 'twitter:title', escapedTitle)
+  nextHtml = upsertMeta(nextHtml, 'name', 'twitter:description', escapedDescription)
 
   if (nextHtml.includes('rel="canonical"')) {
     nextHtml = nextHtml.replace(/<link\s+rel="canonical"\s+href="[^"]*"\s*\/?>/, canonical)
@@ -53,6 +54,17 @@ export function injectRouteMeta({ html, title, description, canonicalUrl }) {
   }
 
   return nextHtml
+}
+
+function upsertMeta(html, attribute, key, escapedContent) {
+  const tag = `<meta ${attribute}="${key}" content="${escapedContent}">`
+  const pattern = new RegExp(`<meta\\s+${attribute}="${escapeRegExp(key)}"\\s+content="[^"]*"\\s*\\/?>`)
+
+  if (pattern.test(html)) {
+    return html.replace(pattern, tag)
+  }
+
+  return html.replace('</head>', `  ${tag}\n  </head>`)
 }
 
 export function normalizeSiteUrl(siteUrl) {
@@ -69,4 +81,8 @@ function escapeXml(value) {
 
 function escapeHtml(value) {
   return escapeXml(value)
+}
+
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }

@@ -17,7 +17,7 @@ export async function renderMarkdown(raw: string, currentRoute: string): Promise
   }
 
   const marked = new Marked({ renderer, gfm: true, breaks: false })
-  return marked.parse(raw)
+  return marked.parse(raw.replace(/^\uFEFF/, ''))
 }
 
 function escapeHtml(value: string): string {

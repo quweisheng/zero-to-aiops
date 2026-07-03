@@ -39,7 +39,8 @@ for (const route of routes) {
     html: indexHtml,
     title: meta.title,
     description: meta.description,
-    canonicalUrl: routeToCanonicalUrl(siteUrl, route)
+    canonicalUrl: routeToCanonicalUrl(siteUrl, route),
+    type: route === '/' ? 'website' : 'article'
   })
   const outputPath = resolve('dist', routeToOutputFile(route))
   await mkdir(dirname(outputPath), { recursive: true })

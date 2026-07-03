@@ -14,6 +14,13 @@ describe('renderMarkdown', () => {
     expect(html).toContain('<code class="language-bash">echo hello')
   })
 
+  it('strips a UTF-8 BOM before rendering the first heading', async () => {
+    const html = await renderMarkdown('\uFEFF# Prometheus 精讲\n\n正文。', '/tech-stack/observability/prometheus')
+
+    expect(html).toContain('<h1>Prometheus 精讲</h1>')
+    expect(html).not.toContain('﻿# Prometheus 精讲')
+  })
+
   it('rewrites markdown links to app routes', async () => {
     const html = await renderMarkdown(
       '阅读 [写作标准](../writing-standard.md) 和 [外部资料](https://example.com)。',
