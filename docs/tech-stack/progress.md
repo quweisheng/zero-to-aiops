@@ -47,7 +47,7 @@
 | 已完成第一版 | Kubernetes | [kubernetes.md](./cloud-native/kubernetes.md) | Kubernetes 官方概念地图、控制面、节点、API 对象模型、Pod、Deployment、ReplicaSet、Service、EndpointSlice、DNS、ConfigMap、Secret、requests/limits、调度、kubectl 字典、AIOps 排障实验 |
 | 已完成第一版 | Helm | [helm.md](./cloud-native/helm.md) | Helm 官方结构、Chart、Release、Revision、values、templates、内置对象、常用模板函数、install/upgrade/rollback、dependency、hooks、helm 命令字典、AIOps 发布诊断实验 |
 | 已完成第一版 | NGINX/Ingress | [nginx-ingress.md](./cloud-native/nginx-ingress.md) | NGINX 官方结构、反向代理、server/location/upstream/proxy_pass/proxy_set_header、日志字段、timeout、Kubernetes Ingress、IngressClass、Controller、TLS、annotations、404/502/503/504 排障 |
-| 已完成第一版 | 微服务 | [microservices.md](./cloud-native/microservices.md) | 服务边界、API、服务发现、配置、容错、数据一致性、异步消息、Kubernetes 发布、OpenTelemetry 链路、AIOps 服务拓扑和故障传播排障 |
+| 已完成第一版 | 微服务 | [microservices.md](./cloud-native/microservices.md) | Spring Boot / Spring Cloud 官方知识地图、Boot 应用模型、starter/自动配置、外部化配置、Actuator、Micrometer、tracing、服务发现、OpenFeign、LoadBalancer、Gateway、Circuit Breaker、数据一致性、AIOps 观测和排障 |
 | 已完成第一版 | Alertmanager | [alertmanager.md](./observability/alertmanager.md) | Prometheus Alertmanager 官方结构、alert labels/annotations、route tree、receiver、grouping、deduplication、silence、inhibition、notification template、webhook、API、amtool、AIOps 告警诊断实验 |
 | 已完成第一版 | OpenTelemetry | [opentelemetry.md](./observability/opentelemetry.md) | OpenTelemetry 官方结构、traces/metrics/logs、Trace/Span/Context、resource、semantic conventions、instrumentation、API/SDK、OTLP、Collector receiver/processor/exporter/pipeline、AIOps 遥测诊断实验 |
 | 已完成第一版 | Loki | [loki.md](./observability/loki.md) | Grafana Loki 官方结构、log stream、labels、cardinality、chunks、index、写入/查询路径、组件、storage schema、Alloy/Promtail EOL、LogQL、日志告警、AIOps 日志诊断实验 |

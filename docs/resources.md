@@ -56,6 +56,10 @@
   Kubernetes 包管理和 Chart 结构。
 - [NGINX reverse proxy](https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/)
   反向代理、负载均衡和网关排障基础。
+- [Spring Boot documentation](https://docs.spring.io/spring-boot/index.html)
+  Java 微服务单体应用启动、配置、Actuator、指标、链路追踪和生产化能力。
+- [Spring Cloud documentation](https://docs.spring.io/spring-cloud/docs/current/reference/html/)
+  分布式配置、服务发现、网关、负载均衡、服务调用、熔断和消息等微服务模式。
 - [microservices.io](https://microservices.io/patterns/microservices.html)
   微服务架构模式、服务边界、数据一致性和可靠性模式参考。
 - [CNCF Landscape](https://landscape.cncf.io/)

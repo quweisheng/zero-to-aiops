@@ -109,7 +109,7 @@ export const generatedDocs = [
     "route": "/tech-stack/cloud-native/microservices",
     "title": "微服务深讲",
     "section": "云原生",
-    "excerpt": "学习目标：理解微服务为什么出现，能讲清服务边界、API、服务发现、配置、容错、观测、发布和数据一致性，知道它和 Kubernetes、Ingress、Prometheus、OpenTelemetry、CI/CD、RabbitMQ / Kaf..."
+    "excerpt": "学习目标：不是只知道“把系统拆小”，而是能用 Spring Boot 和 Spring Cloud 的官方主线讲清一个 Java 微服务从创建、配置、暴露 API、服务调用、注册发现、网关路由、负载均衡、熔断限流、可观测性、容器化、发布、排..."
   },
   {
     "path": "../docs/tech-stack/cloud-native/nginx-ingress.md",
