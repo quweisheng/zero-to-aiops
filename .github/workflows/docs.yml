@@ -34,11 +34,20 @@ jobs:
   deploy:
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url || steps.deployment_retry.outputs.page_url }}
     needs: build
     runs-on: ubuntu-latest
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+        continue-on-error: true
         with:
-          timeout: 1800000
+          timeout: 600000
+      - name: Pause before retry
+        if: steps.deployment.outcome == 'failure'
+        run: sleep 30
+      - id: deployment_retry
+        if: steps.deployment.outcome == 'failure'
+        uses: actions/deploy-pages@v4
+        with:
+          timeout: 600000
