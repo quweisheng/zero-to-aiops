@@ -8,6 +8,7 @@
     "dev": "vite",
     "prebuild": "npm run generate:content",
     "build": "tsc --noEmit && vite build && node scripts/generate-static-site.mjs",
+    "docs:build": "npm run build",
     "preview": "vite preview",
     "pretest": "npm run generate:content",
     "test": "vitest run",

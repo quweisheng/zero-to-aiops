@@ -20,9 +20,9 @@
 |---|---|---|
 | 已升级开头和面试表达 | Prometheus、Grafana、Alertmanager、OpenTelemetry、Loki、Elasticsearch | 可观测性组已补通俗开场、人话版、小白追问和面试表达 |
 | 已升级开头和面试表达 | Linux、Git、GitHub、Markdown、VitePress、Python、Shell/PowerShell、systemd、网络基础 | 基础工具组已补通俗开场、人话版、小白追问和面试表达 |
-| 已升级开头和面试表达 | Docker、Docker Compose、Kubernetes、Helm、NGINX/Ingress | 云原生组已补通俗开场、人话版、小白追问和面试表达 |
+| 已升级开头和面试表达 | Docker、Docker Compose、Kubernetes、Helm、NGINX/Ingress、微服务 | 云原生组已补通俗开场、人话版、小白追问和面试表达 |
 | 已升级开头和面试表达 | Ansible、Terraform、GitHub Actions、CI/CD、Runbook Automation | 自动化组已补通俗开场、人话版、小白追问和面试表达 |
-| 已升级开头和面试表达 | MySQL、Redis、Kafka、pandas、scikit-learn、FastAPI、LLM、RAG、向量数据库 | 数据与 AI 组已补通俗开场、人话版、小白追问和面试表达 |
+| 已升级开头和面试表达 | MySQL、Redis、Kafka、RabbitMQ、pandas、scikit-learn、FastAPI、LLM、RAG、向量数据库 | 数据与 AI 组已补通俗开场、人话版、小白追问和面试表达 |
 | 已升级开头和面试表达 | SLI/SLO/SLA、告警治理、事件响应、Runbook、RCA、变更管理、AIOps 闭环 | SRE/AIOps 实践组已补通俗开场、人话版、小白追问和面试表达 |
 
 ## 深讲样板进度
@@ -47,6 +47,7 @@
 | 已完成第一版 | Kubernetes | [kubernetes.md](./cloud-native/kubernetes.md) | Kubernetes 官方概念地图、控制面、节点、API 对象模型、Pod、Deployment、ReplicaSet、Service、EndpointSlice、DNS、ConfigMap、Secret、requests/limits、调度、kubectl 字典、AIOps 排障实验 |
 | 已完成第一版 | Helm | [helm.md](./cloud-native/helm.md) | Helm 官方结构、Chart、Release、Revision、values、templates、内置对象、常用模板函数、install/upgrade/rollback、dependency、hooks、helm 命令字典、AIOps 发布诊断实验 |
 | 已完成第一版 | NGINX/Ingress | [nginx-ingress.md](./cloud-native/nginx-ingress.md) | NGINX 官方结构、反向代理、server/location/upstream/proxy_pass/proxy_set_header、日志字段、timeout、Kubernetes Ingress、IngressClass、Controller、TLS、annotations、404/502/503/504 排障 |
+| 已完成第一版 | 微服务 | [microservices.md](./cloud-native/microservices.md) | 服务边界、API、服务发现、配置、容错、数据一致性、异步消息、Kubernetes 发布、OpenTelemetry 链路、AIOps 服务拓扑和故障传播排障 |
 | 已完成第一版 | Alertmanager | [alertmanager.md](./observability/alertmanager.md) | Prometheus Alertmanager 官方结构、alert labels/annotations、route tree、receiver、grouping、deduplication、silence、inhibition、notification template、webhook、API、amtool、AIOps 告警诊断实验 |
 | 已完成第一版 | OpenTelemetry | [opentelemetry.md](./observability/opentelemetry.md) | OpenTelemetry 官方结构、traces/metrics/logs、Trace/Span/Context、resource、semantic conventions、instrumentation、API/SDK、OTLP、Collector receiver/processor/exporter/pipeline、AIOps 遥测诊断实验 |
 | 已完成第一版 | Loki | [loki.md](./observability/loki.md) | Grafana Loki 官方结构、log stream、labels、cardinality、chunks、index、写入/查询路径、组件、storage schema、Alloy/Promtail EOL、LogQL、日志告警、AIOps 日志诊断实验 |
@@ -59,6 +60,7 @@
 | 已完成第一版 | MySQL / SQL | [mysql-sql.md](./data-ai/mysql-sql.md) | MySQL 8.4 官方结构、client/server、database/table/row/column、数据类型、DDL/DML/DQL、SELECT/WHERE/GROUP BY/HAVING/JOIN/CTE、索引、EXPLAIN、事务、InnoDB、用户权限、备份、慢查询、AIOps 数据建模、命令字典和排障 |
 | 已完成第一版 | Redis | [redis.md](./data-ai/redis.md) | Redis 官方结构、内存数据结构服务器、key/TTL、String/Hash/List/Set/Sorted Set/Stream、缓存模式、限流、分布式锁边界、RDB/AOF、内存淘汰、复制、Sentinel、Cluster、安全 ACL、INFO/SLOWLOG、AIOps 告警去重和事件流实验 |
 | 已完成第一版 | Kafka | [kafka.md](./data-ai/kafka.md) | Apache Kafka 官方结构、event/record/message、topic、partition、offset、broker、producer、consumer、consumer group、replication、leader/replica/ISR、retention、log compaction、delivery semantics、Kafka Connect、Kafka Streams、配置、命令字典、AIOps 告警事件流实验 |
+| 已完成第一版 | RabbitMQ | [rabbitmq.md](./data-ai/rabbitmq.md) | RabbitMQ 官方结构、producer、exchange、queue、binding、routing key、ack、prefetch、durable、dead letter、TTL、management UI、监控指标、AIOps 告警队列实验和排障 |
 | 已完成第一版 | pandas | [pandas.md](./data-ai/pandas.md) | pandas 官方用户指南结构、Series/DataFrame/Index、dtype、IO、选择过滤、缺失值、时间处理、groupby、merge/merge_asof、pivot_table、resample、rolling、category、性能边界、API 字典、AIOps 告警日报实验 |
 | 已完成第一版 | scikit-learn | [scikit-learn.md](./data-ai/scikit-learn.md) | scikit-learn 官方结构、estimator API、X/y、fit/predict/transform、监督/无监督学习、异常检测、IsolationForest、特征工程、预处理、Pipeline、ColumnTransformer、训练/测试拆分、数据泄漏、模型评估、模型持久化、API 字典、AIOps 指标异常检测实验 |
 | 已完成第一版 | FastAPI | [fastapi.md](./data-ai/fastapi.md) | FastAPI 官方教程结构、ASGI、Starlette、Pydantic、Uvicorn、路径操作、参数解析、请求体、响应模型、依赖注入、异常处理、中间件、CORS、OpenAPI、APIRouter、配置、测试、部署、AIOps 告警接收和分析 API 实验 |
@@ -79,10 +81,10 @@
 |---|---|---|---|
 | 0 | Prometheus、Grafana、Docker Compose | 已完成 | 第一批示范级文章 |
 | 1 | Linux、Git、GitHub、Markdown、VitePress、Python、Shell/PowerShell、systemd、网络基础 | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
-| 2 | Docker、Kubernetes、Helm、NGINX/Ingress | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
+| 2 | Docker、Kubernetes、Helm、NGINX/Ingress、微服务 | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
 | 3 | Alertmanager、OpenTelemetry、Loki、Elasticsearch | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
 | 4 | Ansible、Terraform、GitHub Actions、CI/CD、Runbook Automation | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
-| 5 | MySQL、Redis、Kafka、pandas、scikit-learn、FastAPI、LLM、RAG、向量数据库 | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
+| 5 | MySQL、Redis、Kafka、RabbitMQ、pandas、scikit-learn、FastAPI、LLM、RAG、向量数据库 | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
 | 6 | SLI/SLO/SLA、告警治理、事件响应、Runbook、RCA、变更管理、AIOps 闭环 | 深讲第一版已完成 | 已补齐官方知识地图、机制、命令/API 字典、实验、排障和学习证据 |
 
 ## 已完成
@@ -103,6 +105,7 @@
 | 云原生 | Kubernetes | [kubernetes.md](./cloud-native/kubernetes.md) |
 | 云原生 | Helm | [helm.md](./cloud-native/helm.md) |
 | 云原生 | NGINX / Ingress | [nginx-ingress.md](./cloud-native/nginx-ingress.md) |
+| 云原生 | 微服务 | [microservices.md](./cloud-native/microservices.md) |
 | 可观测性 | Prometheus | [prometheus.md](./observability/prometheus.md) |
 | 可观测性 | Grafana | [grafana.md](./observability/grafana.md) |
 | 可观测性 | OpenTelemetry | [opentelemetry.md](./observability/opentelemetry.md) |
@@ -117,6 +120,7 @@
 | 数据与 AI | MySQL / SQL | [mysql-sql.md](./data-ai/mysql-sql.md) |
 | 数据与 AI | Redis | [redis.md](./data-ai/redis.md) |
 | 数据与 AI | Kafka | [kafka.md](./data-ai/kafka.md) |
+| 数据与 AI | RabbitMQ | [rabbitmq.md](./data-ai/rabbitmq.md) |
 | 数据与 AI | pandas | [pandas.md](./data-ai/pandas.md) |
 | 数据与 AI | scikit-learn | [scikit-learn.md](./data-ai/scikit-learn.md) |
 | 数据与 AI | FastAPI | [fastapi.md](./data-ai/fastapi.md) |

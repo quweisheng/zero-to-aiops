@@ -56,6 +56,8 @@
   Kubernetes 包管理和 Chart 结构。
 - [NGINX reverse proxy](https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/)
   反向代理、负载均衡和网关排障基础。
+- [microservices.io](https://microservices.io/patterns/microservices.html)
+  微服务架构模式、服务边界、数据一致性和可靠性模式参考。
 - [CNCF Landscape](https://landscape.cncf.io/)
   了解云原生生态，不要试图一次学完。
 
@@ -87,6 +89,8 @@
   缓存、数据结构、Stream、持久化和慢命令。
 - [Kafka documentation](https://kafka.apache.org/documentation/)
   topic、partition、broker、consumer group 和事件流。
+- [RabbitMQ documentation](https://www.rabbitmq.com/docs)
+  exchange、queue、binding、ack、死信和消息队列排障。
 
 ## LLM 与 RAG
 

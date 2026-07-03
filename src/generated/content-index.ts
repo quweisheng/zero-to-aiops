@@ -105,6 +105,13 @@ export const generatedDocs = [
     "excerpt": "目标：能理解 Kubernetes 为什么是容器编排系统，能按官方概念地图理解控制面、节点、Pod、Deployment、Service、ConfigMap、Secret、Namespace、调度、资源、健康检查和排障，能写出最小可运行的 ..."
   },
   {
+    "path": "../docs/tech-stack/cloud-native/microservices.md",
+    "route": "/tech-stack/cloud-native/microservices",
+    "title": "微服务深讲",
+    "section": "云原生",
+    "excerpt": "学习目标：理解微服务为什么出现，能讲清服务边界、API、服务发现、配置、容错、观测、发布和数据一致性，知道它和 Kubernetes、Ingress、Prometheus、OpenTelemetry、CI/CD、RabbitMQ / Kaf..."
+  },
+  {
     "path": "../docs/tech-stack/cloud-native/nginx-ingress.md",
     "route": "/tech-stack/cloud-native/nginx-ingress",
     "title": "NGINX / Ingress",
@@ -145,6 +152,13 @@ export const generatedDocs = [
     "title": "pandas",
     "section": "数据与 AI",
     "excerpt": "目标：不是只会 read csv 和 groupby ，而是能理解 pandas 的 Series、DataFrame、Index、dtype、选择、过滤、缺失值、合并、分组聚合、时间序列、窗口计算、IO、性能边界，并能用它分析 AIOps..."
+  },
+  {
+    "path": "../docs/tech-stack/data-ai/rabbitmq.md",
+    "route": "/tech-stack/data-ai/rabbitmq",
+    "title": "RabbitMQ 深讲",
+    "section": "数据与 AI",
+    "excerpt": "学习目标：理解 RabbitMQ 为什么适合做消息队列，能讲清 producer、exchange、queue、binding、routing key、consumer、ack、prefetch、durable、dead letter、re..."
   },
   {
     "path": "../docs/tech-stack/data-ai/rag.md",

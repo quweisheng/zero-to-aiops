@@ -75,7 +75,8 @@ export const navGroups: NavGroup[] = [
       { text: 'Docker Compose', route: '/tech-stack/cloud-native/docker-compose' },
       { text: 'Kubernetes', route: '/tech-stack/cloud-native/kubernetes' },
       { text: 'Helm', route: '/tech-stack/cloud-native/helm' },
-      { text: 'NGINX / Ingress', route: '/tech-stack/cloud-native/nginx-ingress' }
+      { text: 'NGINX / Ingress', route: '/tech-stack/cloud-native/nginx-ingress' },
+      { text: '微服务', route: '/tech-stack/cloud-native/microservices' }
     ]
   },
   {
@@ -94,6 +95,7 @@ export const navGroups: NavGroup[] = [
       { text: 'MySQL / SQL', route: '/tech-stack/data-ai/mysql-sql' },
       { text: 'Redis', route: '/tech-stack/data-ai/redis' },
       { text: 'Kafka', route: '/tech-stack/data-ai/kafka' },
+      { text: 'RabbitMQ', route: '/tech-stack/data-ai/rabbitmq' },
       { text: 'pandas', route: '/tech-stack/data-ai/pandas' },
       { text: 'scikit-learn', route: '/tech-stack/data-ai/scikit-learn' },
       { text: 'FastAPI', route: '/tech-stack/data-ai/fastapi' },

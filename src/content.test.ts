@@ -70,4 +70,13 @@ describe('getDocByRoute', () => {
       'Prometheus 精讲'
     )
   })
+
+  it('includes the new Microservices and RabbitMQ tech-stack documents', () => {
+    expect(getDocByRoute('/tech-stack/cloud-native/microservices')?.title).toBe(
+      '微服务深讲'
+    )
+    expect(getDocByRoute('/tech-stack/data-ai/rabbitmq')?.title).toBe(
+      'RabbitMQ 深讲'
+    )
+  })
 })

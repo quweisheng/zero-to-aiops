@@ -46,6 +46,7 @@
 - [Kubernetes](./tech-stack/cloud-native/kubernetes.md)
 - [Helm](./tech-stack/cloud-native/helm.md)
 - [NGINX / Ingress](./tech-stack/cloud-native/nginx-ingress.md)
+- [微服务](./tech-stack/cloud-native/microservices.md)
 
 ### 自动化与 CI/CD
 
@@ -60,6 +61,7 @@
 - [MySQL / SQL](./tech-stack/data-ai/mysql-sql.md)
 - [Redis](./tech-stack/data-ai/redis.md)
 - [Kafka](./tech-stack/data-ai/kafka.md)
+- [RabbitMQ](./tech-stack/data-ai/rabbitmq.md)
 - [pandas](./tech-stack/data-ai/pandas.md)
 - [scikit-learn](./tech-stack/data-ai/scikit-learn.md)
 - [FastAPI](./tech-stack/data-ai/fastapi.md)

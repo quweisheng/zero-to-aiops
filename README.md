@@ -63,6 +63,7 @@ npm run build
 - [Kubernetes](./docs/tech-stack/cloud-native/kubernetes.md)
 - [Helm](./docs/tech-stack/cloud-native/helm.md)
 - [NGINX / Ingress](./docs/tech-stack/cloud-native/nginx-ingress.md)
+- [微服务](./docs/tech-stack/cloud-native/microservices.md)
 
 ### 自动化与 CI/CD
 
@@ -77,6 +78,7 @@ npm run build
 - [MySQL / SQL](./docs/tech-stack/data-ai/mysql-sql.md)
 - [Redis](./docs/tech-stack/data-ai/redis.md)
 - [Kafka](./docs/tech-stack/data-ai/kafka.md)
+- [RabbitMQ](./docs/tech-stack/data-ai/rabbitmq.md)
 - [pandas](./docs/tech-stack/data-ai/pandas.md)
 - [scikit-learn](./docs/tech-stack/data-ai/scikit-learn.md)
 - [FastAPI](./docs/tech-stack/data-ai/fastapi.md)

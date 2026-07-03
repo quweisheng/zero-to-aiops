@@ -27,9 +27,9 @@
 |---|---|---:|---|
 | 基础工具 | Linux、systemd、网络、Git、GitHub、Markdown、VitePress、Python、Shell/PowerShell | P0 | 能排障、能写记录、能提交代码、能跑脚本 |
 | 可观测性 | Prometheus、Alertmanager、Grafana、OpenTelemetry、Loki、Elasticsearch | P1 | 能采集指标、日志、链路，能做仪表盘和告警 |
-| 云原生 | Docker、Kubernetes、Helm、NGINX/Ingress | P1 | 能容器化服务，理解 K8s 资源，能部署实验环境 |
+| 云原生 | Docker、Kubernetes、Helm、NGINX/Ingress、微服务 | P1 | 能容器化服务，理解 K8s 资源和服务拆分，能部署实验环境 |
 | 自动化与 CI/CD | Ansible、Terraform、GitHub Actions、CI/CD、Runbook Automation | P1-P2 | 能把手工操作写成自动化流程，能自动构建文档和项目 |
-| 数据与 AI | MySQL/SQL、Redis、Kafka、pandas、scikit-learn、FastAPI、LLM/OpenAI API、RAG、向量数据库 | P1-P3 | 能处理运维数据，做异常检测、告警降噪和智能运维助手 |
+| 数据与 AI | MySQL/SQL、Redis、Kafka、RabbitMQ、pandas、scikit-learn、FastAPI、LLM/OpenAI API、RAG、向量数据库 | P1-P3 | 能处理运维数据、消息队列和事件流，做异常检测、告警降噪和智能运维助手 |
 | SRE/AIOps 实践 | SLI/SLO、告警治理、事件响应、Runbook、RCA、变更管理、AIOps 闭环 | P0-P1 | 能把工具能力转成稳定性结果和面试故事 |
 
 ## 推荐学习顺序
@@ -64,6 +64,7 @@
 - [Kubernetes](./cloud-native/kubernetes.md)
 - [Helm](./cloud-native/helm.md)
 - [NGINX / Ingress](./cloud-native/nginx-ingress.md)
+- [微服务](./cloud-native/microservices.md)
 
 ### 可观测性
 
@@ -87,6 +88,7 @@
 - [MySQL / SQL](./data-ai/mysql-sql.md)
 - [Redis](./data-ai/redis.md)
 - [Kafka](./data-ai/kafka.md)
+- [RabbitMQ](./data-ai/rabbitmq.md)
 - [pandas](./data-ai/pandas.md)
 - [scikit-learn](./data-ai/scikit-learn.md)
 - [FastAPI](./data-ai/fastapi.md)
@@ -180,6 +182,8 @@ Linux 服务
 - [MySQL](https://dev.mysql.com/doc/refman/8.4/en/tutorial.html)
 - [Redis](https://redis.io/docs/latest/)
 - [Apache Kafka](https://kafka.apache.org/documentation/)
+- [RabbitMQ](https://www.rabbitmq.com/docs)
+- [Microservices.io](https://microservices.io/patterns/microservices.html)
 - [pandas](https://pandas.pydata.org/docs/)
 - [scikit-learn](https://scikit-learn.org/stable/user_guide.html)
 - [FastAPI](https://fastapi.tiangolo.com/)
