@@ -85,6 +85,10 @@
 
 - [MySQL Reference Manual](https://dev.mysql.com/doc/refman/8.4/en/)
   关系型数据、索引、事务、复制和慢查询。
+- [Oracle Database Documentation](https://docs.oracle.com/en/database/)
+  企业核心数据库、SQL、性能调优、备份恢复和高可用参考。
+- [PostgreSQL Documentation](https://www.postgresql.org/docs/current/)
+  开源关系型数据库、事务、索引、MVCC、WAL、监控和备份。
 - [Redis documentation](https://redis.io/docs/latest/)
   缓存、数据结构、Stream、持久化和慢命令。
 - [Kafka documentation](https://kafka.apache.org/documentation/)

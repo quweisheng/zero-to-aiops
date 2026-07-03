@@ -76,6 +76,8 @@ npm run build
 ### 数据与 AI
 
 - [MySQL / SQL](./docs/tech-stack/data-ai/mysql-sql.md)
+- [Oracle Database](./docs/tech-stack/data-ai/oracle.md)
+- [PostgreSQL](./docs/tech-stack/data-ai/postgresql.md)
 - [Redis](./docs/tech-stack/data-ai/redis.md)
 - [Kafka](./docs/tech-stack/data-ai/kafka.md)
 - [RabbitMQ](./docs/tech-stack/data-ai/rabbitmq.md)

@@ -59,6 +59,8 @@
 ### 数据与 AI
 
 - [MySQL / SQL](./tech-stack/data-ai/mysql-sql.md)
+- [Oracle Database](./tech-stack/data-ai/oracle.md)
+- [PostgreSQL](./tech-stack/data-ai/postgresql.md)
 - [Redis](./tech-stack/data-ai/redis.md)
 - [Kafka](./tech-stack/data-ai/kafka.md)
 - [RabbitMQ](./tech-stack/data-ai/rabbitmq.md)

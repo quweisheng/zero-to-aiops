@@ -147,11 +147,25 @@ export const generatedDocs = [
     "excerpt": "目标：不是只会写几条 SELECT ，而是能理解 MySQL Server、数据库、表、行、列、索引、事务、锁、InnoDB、执行计划、权限、备份、慢查询和 AIOps 数据建模之间的关系，并能用 SQL 回答真实运维问题。 官方资料 优先..."
   },
   {
+    "path": "../docs/tech-stack/data-ai/oracle.md",
+    "route": "/tech-stack/data-ai/oracle",
+    "title": "Oracle Database 深讲",
+    "section": "数据与 AI",
+    "excerpt": "学习目标：理解 Oracle Database 在企业核心系统中的位置，能讲清 instance、database、CDB/PDB、schema、tablespace、datafile、redo、undo、archivelog、optimi..."
+  },
+  {
     "path": "../docs/tech-stack/data-ai/pandas.md",
     "route": "/tech-stack/data-ai/pandas",
     "title": "pandas",
     "section": "数据与 AI",
     "excerpt": "目标：不是只会 read csv 和 groupby ，而是能理解 pandas 的 Series、DataFrame、Index、dtype、选择、过滤、缺失值、合并、分组聚合、时间序列、窗口计算、IO、性能边界，并能用它分析 AIOps..."
+  },
+  {
+    "path": "../docs/tech-stack/data-ai/postgresql.md",
+    "route": "/tech-stack/data-ai/postgresql",
+    "title": "PostgreSQL 深讲",
+    "section": "数据与 AI",
+    "excerpt": "学习目标：理解 PostgreSQL 为什么适合做 AIOps 后端数据底座，能讲清 database、schema、table、index、MVCC、WAL、vacuum、autovacuum、EXPLAIN、extension、repl..."
   },
   {
     "path": "../docs/tech-stack/data-ai/rabbitmq.md",

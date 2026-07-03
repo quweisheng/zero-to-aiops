@@ -79,4 +79,13 @@ describe('getDocByRoute', () => {
       'RabbitMQ 深讲'
     )
   })
+
+  it('includes Oracle and PostgreSQL tech-stack documents', () => {
+    expect(getDocByRoute('/tech-stack/data-ai/oracle')?.title).toBe(
+      'Oracle Database 深讲'
+    )
+    expect(getDocByRoute('/tech-stack/data-ai/postgresql')?.title).toBe(
+      'PostgreSQL 深讲'
+    )
+  })
 })

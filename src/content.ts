@@ -93,6 +93,8 @@ export const navGroups: NavGroup[] = [
     text: '数据与 AI',
     items: [
       { text: 'MySQL / SQL', route: '/tech-stack/data-ai/mysql-sql' },
+      { text: 'Oracle Database', route: '/tech-stack/data-ai/oracle' },
+      { text: 'PostgreSQL', route: '/tech-stack/data-ai/postgresql' },
       { text: 'Redis', route: '/tech-stack/data-ai/redis' },
       { text: 'Kafka', route: '/tech-stack/data-ai/kafka' },
       { text: 'RabbitMQ', route: '/tech-stack/data-ai/rabbitmq' },

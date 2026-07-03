@@ -22,7 +22,7 @@
 | 已升级开头和面试表达 | Linux、Git、GitHub、Markdown、VitePress、Python、Shell/PowerShell、systemd、网络基础 | 基础工具组已补通俗开场、人话版、小白追问和面试表达 |
 | 已升级开头和面试表达 | Docker、Docker Compose、Kubernetes、Helm、NGINX/Ingress、微服务 | 云原生组已补通俗开场、人话版、小白追问和面试表达 |
 | 已升级开头和面试表达 | Ansible、Terraform、GitHub Actions、CI/CD、Runbook Automation | 自动化组已补通俗开场、人话版、小白追问和面试表达 |
-| 已升级开头和面试表达 | MySQL、Redis、Kafka、RabbitMQ、pandas、scikit-learn、FastAPI、LLM、RAG、向量数据库 | 数据与 AI 组已补通俗开场、人话版、小白追问和面试表达 |
+| 已升级开头和面试表达 | MySQL、Oracle、PostgreSQL、Redis、Kafka、RabbitMQ、pandas、scikit-learn、FastAPI、LLM、RAG、向量数据库 | 数据与 AI 组已补通俗开场、人话版、小白追问和面试表达 |
 | 已升级开头和面试表达 | SLI/SLO/SLA、告警治理、事件响应、Runbook、RCA、变更管理、AIOps 闭环 | SRE/AIOps 实践组已补通俗开场、人话版、小白追问和面试表达 |
 
 ## 深讲样板进度
@@ -58,6 +58,8 @@
 | 已完成第一版 | CI/CD | [cicd.md](./automation/cicd.md) | GitHub Actions 官方 CI/CD 结构、持续集成/持续交付/持续部署边界、pipeline/stage/job/step/runner/artifact/environment、CI 阶段、CD 阶段、发布策略、回滚策略、质量门禁、DORA 指标、AIOps 变更关联、命令字典和排障 |
 | 已完成第一版 | Runbook Automation | [runbook-automation.md](./automation/runbook-automation.md) | AWS/Azure/Google SRE 官方结构、runbook/playbook/automation workflow 边界、触发器、输入参数、上下文补全、runbook 选择、风险分级、L0-L4 自动化、幂等和可重启、权限/审批/审计、安全护栏、LLM 边界、AIOps selector 实验、命令字典和排障 |
 | 已完成第一版 | MySQL / SQL | [mysql-sql.md](./data-ai/mysql-sql.md) | MySQL 8.4 官方结构、client/server、database/table/row/column、数据类型、DDL/DML/DQL、SELECT/WHERE/GROUP BY/HAVING/JOIN/CTE、索引、EXPLAIN、事务、InnoDB、用户权限、备份、慢查询、AIOps 数据建模、命令字典和排障 |
+| 已完成第一版 | Oracle Database | [oracle.md](./data-ai/oracle.md) | Oracle 官方结构、instance/database、CDB/PDB、schema、tablespace、datafile、redo、undo、archive log、optimizer、AWR、RAC、Data Guard、RMAN、慢 SQL 和表空间排障 |
+| 已完成第一版 | PostgreSQL | [postgresql.md](./data-ai/postgresql.md) | PostgreSQL 官方结构、database/schema/table、MVCC、WAL、vacuum、autovacuum、EXPLAIN、B-tree/GIN 索引、JSONB、复制、备份、AIOps 事件数据建模和排障 |
 | 已完成第一版 | Redis | [redis.md](./data-ai/redis.md) | Redis 官方结构、内存数据结构服务器、key/TTL、String/Hash/List/Set/Sorted Set/Stream、缓存模式、限流、分布式锁边界、RDB/AOF、内存淘汰、复制、Sentinel、Cluster、安全 ACL、INFO/SLOWLOG、AIOps 告警去重和事件流实验 |
 | 已完成第一版 | Kafka | [kafka.md](./data-ai/kafka.md) | Apache Kafka 官方结构、event/record/message、topic、partition、offset、broker、producer、consumer、consumer group、replication、leader/replica/ISR、retention、log compaction、delivery semantics、Kafka Connect、Kafka Streams、配置、命令字典、AIOps 告警事件流实验 |
 | 已完成第一版 | RabbitMQ | [rabbitmq.md](./data-ai/rabbitmq.md) | RabbitMQ 官方结构、producer、exchange、queue、binding、routing key、ack、prefetch、durable、dead letter、TTL、management UI、监控指标、AIOps 告警队列实验和排障 |
@@ -84,7 +86,7 @@
 | 2 | Docker、Kubernetes、Helm、NGINX/Ingress、微服务 | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
 | 3 | Alertmanager、OpenTelemetry、Loki、Elasticsearch | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
 | 4 | Ansible、Terraform、GitHub Actions、CI/CD、Runbook Automation | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
-| 5 | MySQL、Redis、Kafka、RabbitMQ、pandas、scikit-learn、FastAPI、LLM、RAG、向量数据库 | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
+| 5 | MySQL、Oracle、PostgreSQL、Redis、Kafka、RabbitMQ、pandas、scikit-learn、FastAPI、LLM、RAG、向量数据库 | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
 | 6 | SLI/SLO/SLA、告警治理、事件响应、Runbook、RCA、变更管理、AIOps 闭环 | 深讲第一版已完成 | 已补齐官方知识地图、机制、命令/API 字典、实验、排障和学习证据 |
 
 ## 已完成
@@ -118,6 +120,8 @@
 | 自动化 | CI/CD | [cicd.md](./automation/cicd.md) |
 | 自动化 | Runbook Automation | [runbook-automation.md](./automation/runbook-automation.md) |
 | 数据与 AI | MySQL / SQL | [mysql-sql.md](./data-ai/mysql-sql.md) |
+| 数据与 AI | Oracle Database | [oracle.md](./data-ai/oracle.md) |
+| 数据与 AI | PostgreSQL | [postgresql.md](./data-ai/postgresql.md) |
 | 数据与 AI | Redis | [redis.md](./data-ai/redis.md) |
 | 数据与 AI | Kafka | [kafka.md](./data-ai/kafka.md) |
 | 数据与 AI | RabbitMQ | [rabbitmq.md](./data-ai/rabbitmq.md) |
