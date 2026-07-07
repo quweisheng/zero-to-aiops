@@ -78,6 +78,10 @@
 
 - [pandas documentation](https://pandas.pydata.org/docs/)
   CSV、DataFrame、时间序列、分组聚合和窗口计算。
+- [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course)
+  机器学习基础、分类、回归、聚类和评估入门。
+- [Google ML classification metrics](https://developers.google.com/machine-learning/crash-course/classification/accuracy-precision-recall)
+  accuracy、precision、recall 等分类指标解释。
 - [scikit-learn outlier detection](https://scikit-learn.org/stable/modules/outlier_detection.html)
   novelty detection 和 outlier detection 的区别。
 - [scikit-learn IsolationForest](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.IsolationForest.html)
@@ -106,7 +110,11 @@
   LLM、结构化输出、embedding 和工具调用能力入口。
 - [OpenAI embeddings guide](https://platform.openai.com/docs/guides/embeddings)
   文本向量化和相似度检索。
-- [LangChain RAG tutorials](https://python.langchain.com/docs/tutorials/rag/)
+- [LangChain overview](https://docs.langchain.com/oss/python/langchain/overview)
+  agent、model、tools、prompt、middleware 和 LangSmith 入口。
+- [LangChain agents](https://docs.langchain.com/oss/python/langchain/agents)
+  agent loop、工具调用、结构化输出和会话状态。
+- [LangChain RAG tutorial](https://docs.langchain.com/oss/python/langchain/rag)
   检索增强生成的学习参考。
 - [Milvus documentation](https://milvus.io/docs)
   向量数据库和相似度检索。

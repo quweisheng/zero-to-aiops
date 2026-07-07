@@ -82,9 +82,11 @@ npm run build
 - [Kafka](./docs/tech-stack/data-ai/kafka.md)
 - [RabbitMQ](./docs/tech-stack/data-ai/rabbitmq.md)
 - [pandas](./docs/tech-stack/data-ai/pandas.md)
+- [机器学习](./docs/tech-stack/data-ai/machine-learning.md)
 - [scikit-learn](./docs/tech-stack/data-ai/scikit-learn.md)
 - [FastAPI](./docs/tech-stack/data-ai/fastapi.md)
 - [LLM / OpenAI API](./docs/tech-stack/data-ai/llm-openai.md)
+- [LangChain](./docs/tech-stack/data-ai/langchain.md)
 - [RAG](./docs/tech-stack/data-ai/rag.md)
 - [向量数据库](./docs/tech-stack/data-ai/vector-database.md)
 

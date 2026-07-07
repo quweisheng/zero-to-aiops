@@ -65,9 +65,11 @@
 - [Kafka](./tech-stack/data-ai/kafka.md)
 - [RabbitMQ](./tech-stack/data-ai/rabbitmq.md)
 - [pandas](./tech-stack/data-ai/pandas.md)
+- [机器学习](./tech-stack/data-ai/machine-learning.md)
 - [scikit-learn](./tech-stack/data-ai/scikit-learn.md)
 - [FastAPI](./tech-stack/data-ai/fastapi.md)
 - [LLM / OpenAI API](./tech-stack/data-ai/llm-openai.md)
+- [LangChain](./tech-stack/data-ai/langchain.md)
 - [RAG](./tech-stack/data-ai/rag.md)
 - [向量数据库](./tech-stack/data-ai/vector-database.md)
 

@@ -99,9 +99,11 @@ export const navGroups: NavGroup[] = [
       { text: 'Kafka', route: '/tech-stack/data-ai/kafka' },
       { text: 'RabbitMQ', route: '/tech-stack/data-ai/rabbitmq' },
       { text: 'pandas', route: '/tech-stack/data-ai/pandas' },
+      { text: '机器学习', route: '/tech-stack/data-ai/machine-learning' },
       { text: 'scikit-learn', route: '/tech-stack/data-ai/scikit-learn' },
       { text: 'FastAPI', route: '/tech-stack/data-ai/fastapi' },
       { text: 'LLM / OpenAI API', route: '/tech-stack/data-ai/llm-openai' },
+      { text: 'LangChain', route: '/tech-stack/data-ai/langchain' },
       { text: 'RAG', route: '/tech-stack/data-ai/rag' },
       { text: '向量数据库', route: '/tech-stack/data-ai/vector-database' }
     ]

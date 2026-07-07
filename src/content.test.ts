@@ -88,4 +88,13 @@ describe('getDocByRoute', () => {
       'PostgreSQL 深讲'
     )
   })
+
+  it('includes Machine Learning and LangChain tech-stack documents', () => {
+    expect(getDocByRoute('/tech-stack/data-ai/machine-learning')?.title).toBe(
+      '机器学习'
+    )
+    expect(getDocByRoute('/tech-stack/data-ai/langchain')?.title).toBe(
+      'LangChain'
+    )
+  })
 })

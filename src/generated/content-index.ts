@@ -133,11 +133,25 @@ export const generatedDocs = [
     "excerpt": "目标：不是只会启动一个 producer/consumer，而是能理解 Kafka 为什么是分布式事件流平台，掌握 event、topic、partition、offset、broker、producer、consumer、consumer..."
   },
   {
+    "path": "../docs/tech-stack/data-ai/langchain.md",
+    "route": "/tech-stack/data-ai/langchain",
+    "title": "LangChain",
+    "section": "数据与 AI",
+    "excerpt": "学习目标：能理解 LangChain 在 LLM 应用工程里的位置，能讲清 agent、model、message、tool、system prompt、structured output、memory、RAG、LangGraph、Lang..."
+  },
+  {
     "path": "../docs/tech-stack/data-ai/llm-openai.md",
     "route": "/tech-stack/data-ai/llm-openai",
     "title": "LLM / OpenAI API",
     "section": "数据与 AI",
     "excerpt": "目标：不是只会复制一次 OpenAI API 调用，而是能理解 LLM 在 AIOps 中的合理位置、Responses API 的请求/响应结构、模型选型、提示词合同、结构化输出、工具调用、Embeddings、上下文拼装、安全边界、成本..."
+  },
+  {
+    "path": "../docs/tech-stack/data-ai/machine-learning.md",
+    "route": "/tech-stack/data-ai/machine-learning",
+    "title": "机器学习",
+    "section": "数据与 AI",
+    "excerpt": "学习目标：能从 0 理解机器学习为什么能用于 AIOps，能讲清样本、特征、标签、训练、预测、评估、过拟合、数据泄漏和异常检测，能用一个最小 Python 实验把运维指标变成可评估的模型结果。 官方资料 优先读这些官方资料： Google ..."
   },
   {
     "path": "../docs/tech-stack/data-ai/mysql-sql.md",

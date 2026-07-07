@@ -29,7 +29,7 @@
 | 可观测性 | Prometheus、Alertmanager、Grafana、OpenTelemetry、Loki、Elasticsearch | P1 | 能采集指标、日志、链路，能做仪表盘和告警 |
 | 云原生 | Docker、Kubernetes、Helm、NGINX/Ingress、微服务 | P1 | 能容器化服务，理解 K8s 资源和服务拆分，能部署实验环境 |
 | 自动化与 CI/CD | Ansible、Terraform、GitHub Actions、CI/CD、Runbook Automation | P1-P2 | 能把手工操作写成自动化流程，能自动构建文档和项目 |
-| 数据与 AI | MySQL/SQL、Oracle、PostgreSQL、Redis、Kafka、RabbitMQ、pandas、scikit-learn、FastAPI、LLM/OpenAI API、RAG、向量数据库 | P1-P3 | 能处理运维数据、关系型数据库、消息队列和事件流，做异常检测、告警降噪和智能运维助手 |
+| 数据与 AI | MySQL/SQL、Oracle、PostgreSQL、Redis、Kafka、RabbitMQ、pandas、机器学习、scikit-learn、FastAPI、LLM/OpenAI API、LangChain、RAG、向量数据库 | P1-P3 | 能处理运维数据、关系型数据库、消息队列和事件流，做异常检测、告警降噪和智能运维助手 |
 | SRE/AIOps 实践 | SLI/SLO、告警治理、事件响应、Runbook、RCA、变更管理、AIOps 闭环 | P0-P1 | 能把工具能力转成稳定性结果和面试故事 |
 
 ## 推荐学习顺序
@@ -40,6 +40,8 @@
 4. [Docker](./cloud-native/docker.md)：把服务放进容器。
 5. [GitHub Actions](./automation/github-actions.md)：把重复动作变成流程。
 6. [pandas](./data-ai/pandas.md)：用数据做异常检测、告警降噪、智能助手。
+7. [机器学习](./data-ai/machine-learning.md)：理解样本、特征、标签、评估和异常检测边界。
+8. [LangChain](./data-ai/langchain.md)：把 LLM、RAG、工具调用和 runbook 查询组织成应用。
 
 ## 一技术一文件
 
@@ -92,9 +94,11 @@
 - [Kafka](./data-ai/kafka.md)
 - [RabbitMQ](./data-ai/rabbitmq.md)
 - [pandas](./data-ai/pandas.md)
+- [机器学习](./data-ai/machine-learning.md)
 - [scikit-learn](./data-ai/scikit-learn.md)
 - [FastAPI](./data-ai/fastapi.md)
 - [LLM / OpenAI API](./data-ai/llm-openai.md)
+- [LangChain](./data-ai/langchain.md)
 - [RAG](./data-ai/rag.md)
 - [向量数据库](./data-ai/vector-database.md)
 
@@ -159,9 +163,10 @@ Linux 服务
   -> Grafana 仪表盘
   -> Alertmanager 告警
   -> Python / pandas 分析
+  -> 机器学习建模
   -> scikit-learn 异常检测
   -> FastAPI 暴露接口
-  -> LLM / RAG 生成排障建议
+  -> LangChain / LLM / RAG 生成排障建议
   -> GitHub 记录过程
 ```
 
@@ -191,9 +196,11 @@ Linux 服务
 - [RabbitMQ](https://www.rabbitmq.com/docs)
 - [Microservices.io](https://microservices.io/patterns/microservices.html)
 - [pandas](https://pandas.pydata.org/docs/)
+- [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course)
 - [scikit-learn](https://scikit-learn.org/stable/user_guide.html)
 - [FastAPI](https://fastapi.tiangolo.com/)
 - [OpenAI API](https://developers.openai.com/api/docs/quickstart)
+- [LangChain](https://docs.langchain.com/oss/python/langchain/overview)
 - [LangChain RAG](https://docs.langchain.com/oss/python/langchain/rag)
 - [Milvus](https://milvus.io/docs)
 - [Chroma](https://docs.trychroma.com/docs/overview/introduction)
