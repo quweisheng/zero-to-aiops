@@ -50,6 +50,7 @@ npm run build
 ### 可观测性
 
 - [Prometheus](./docs/tech-stack/observability/prometheus.md)
+- [VictoriaMetrics](./docs/tech-stack/observability/victoriametrics.md)
 - [Grafana](./docs/tech-stack/observability/grafana.md)
 - [OpenTelemetry](./docs/tech-stack/observability/opentelemetry.md)
 - [Alertmanager](./docs/tech-stack/observability/alertmanager.md)
@@ -87,6 +88,7 @@ npm run build
 - [FastAPI](./docs/tech-stack/data-ai/fastapi.md)
 - [LLM / OpenAI API](./docs/tech-stack/data-ai/llm-openai.md)
 - [LangChain](./docs/tech-stack/data-ai/langchain.md)
+- [LangGraph](./docs/tech-stack/data-ai/langgraph.md)
 - [RAG](./docs/tech-stack/data-ai/rag.md)
 - [向量数据库](./docs/tech-stack/data-ai/vector-database.md)
 

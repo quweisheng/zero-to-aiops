@@ -33,6 +33,7 @@
 ### 可观测性
 
 - [Prometheus](./tech-stack/observability/prometheus.md)
+- [VictoriaMetrics](./tech-stack/observability/victoriametrics.md)
 - [Grafana](./tech-stack/observability/grafana.md)
 - [OpenTelemetry](./tech-stack/observability/opentelemetry.md)
 - [Alertmanager](./tech-stack/observability/alertmanager.md)
@@ -70,6 +71,7 @@
 - [FastAPI](./tech-stack/data-ai/fastapi.md)
 - [LLM / OpenAI API](./tech-stack/data-ai/llm-openai.md)
 - [LangChain](./tech-stack/data-ai/langchain.md)
+- [LangGraph](./tech-stack/data-ai/langgraph.md)
 - [RAG](./tech-stack/data-ai/rag.md)
 - [向量数据库](./tech-stack/data-ai/vector-database.md)
 

@@ -18,11 +18,11 @@
 
 | 状态 | 技术栈 | 说明 |
 |---|---|---|
-| 已升级开头和面试表达 | Prometheus、Grafana、Alertmanager、OpenTelemetry、Loki、Elasticsearch | 可观测性组已补通俗开场、人话版、小白追问和面试表达 |
+| 已升级开头和面试表达 | Prometheus、VictoriaMetrics、Grafana、Alertmanager、OpenTelemetry、Loki、Elasticsearch | 可观测性组已补通俗开场、人话版、小白追问和面试表达 |
 | 已升级开头和面试表达 | Linux、Git、GitHub、Markdown、VitePress、Python、Shell/PowerShell、systemd、网络基础 | 基础工具组已补通俗开场、人话版、小白追问和面试表达 |
 | 已升级开头和面试表达 | Docker、Docker Compose、Kubernetes、Helm、NGINX/Ingress、微服务 | 云原生组已补通俗开场、人话版、小白追问和面试表达 |
 | 已升级开头和面试表达 | Ansible、Terraform、GitHub Actions、CI/CD、Runbook Automation | 自动化组已补通俗开场、人话版、小白追问和面试表达 |
-| 已升级开头和面试表达 | MySQL、Oracle、PostgreSQL、Redis、Kafka、RabbitMQ、pandas、机器学习、scikit-learn、FastAPI、LLM、LangChain、RAG、向量数据库 | 数据与 AI 组已补通俗开场、人话版、小白追问和面试表达 |
+| 已升级开头和面试表达 | MySQL、Oracle、PostgreSQL、Redis、Kafka、RabbitMQ、pandas、机器学习、scikit-learn、FastAPI、LLM、LangChain、LangGraph、RAG、向量数据库 | 数据与 AI 组已补通俗开场、人话版、小白追问和面试表达 |
 | 已升级开头和面试表达 | SLI/SLO/SLA、告警治理、事件响应、Runbook、RCA、变更管理、AIOps 闭环 | SRE/AIOps 实践组已补通俗开场、人话版、小白追问和面试表达 |
 
 ## 深讲样板进度
@@ -52,6 +52,7 @@
 | 已完成第一版 | OpenTelemetry | [opentelemetry.md](./observability/opentelemetry.md) | OpenTelemetry 官方结构、traces/metrics/logs、Trace/Span/Context、resource、semantic conventions、instrumentation、API/SDK、OTLP、Collector receiver/processor/exporter/pipeline、AIOps 遥测诊断实验 |
 | 已完成第一版 | Loki | [loki.md](./observability/loki.md) | Grafana Loki 官方结构、log stream、labels、cardinality、chunks、index、写入/查询路径、组件、storage schema、Alloy/Promtail EOL、LogQL、日志告警、AIOps 日志诊断实验 |
 | 已完成第一版 | Elasticsearch | [elasticsearch.md](./observability/elasticsearch.md) | Elastic 官方结构、cluster/node/index/document、shards/replicas、cluster health、mapping、text vs keyword、analyzer、倒排索引、Query DSL、aggregations、data streams、templates、ingest pipeline、ILM、AIOps 搜索诊断实验 |
+| 已完成第一版 | VictoriaMetrics | [victoriametrics.md](./observability/victoriametrics.md) | VictoriaMetrics 官方结构、单机版/集群版、vmagent、vmalert、MetricsQL、remote write、retention、cardinality、Grafana 查询、AIOps 长期指标实验 |
 | 已完成第一版 | Ansible | [ansible.md](./automation/ansible.md) | Ansible 官方结构、control/managed node、inventory、patterns、ad hoc、modules、playbook/play/task、幂等性、variables、facts、handlers、templates、roles、collections、Vault、ansible.cfg、命令字典、AIOps 自动化实验 |
 | 已完成第一版 | Terraform | [terraform.md](./automation/terraform.md) | Terraform 官方结构、HCL、terraform block、providers、resources、data sources、variables、locals、outputs、state、backend、plan/apply、dependency graph、meta-arguments、lifecycle、modules、workspaces、drift、import、命令字典、AIOps IaC 诊断实验 |
 | 已完成第一版 | GitHub Actions | [github-actions.md](./automation/github-actions.md) | GitHub Actions 官方结构、event/workflow/job/runner/step/action、workflow syntax、triggers、contexts、expressions、env/vars/secrets、GITHUB_TOKEN/permissions、artifacts/cache、workflow commands、concurrency、environments、Pages 发布、AIOps runbook、命令字典、排障、安全边界 |
@@ -69,6 +70,7 @@
 | 已完成第一版 | FastAPI | [fastapi.md](./data-ai/fastapi.md) | FastAPI 官方教程结构、ASGI、Starlette、Pydantic、Uvicorn、路径操作、参数解析、请求体、响应模型、依赖注入、异常处理、中间件、CORS、OpenAPI、APIRouter、配置、测试、部署、AIOps 告警接收和分析 API 实验 |
 | 已完成第一版 | LLM / OpenAI API | [llm-openai.md](./data-ai/llm-openai.md) | OpenAI 官方 API 结构、Responses API、模型选型、instructions/input、提示词合同、结构化输出、function calling、Embeddings、RAG 关系、上下文拼装、安全边界、成本/延迟/降级、评估、AIOps 告警摘要助手实验 |
 | 已完成第一版 | LangChain | [langchain.md](./data-ai/langchain.md) | LangChain 官方结构、agent/model/tool/message/system prompt、structured output、memory、context engineering、RAG、LangGraph/LangSmith 边界、AIOps runbook 查询助手实验 |
+| 已完成第一版 | LangGraph | [langgraph.md](./data-ai/langgraph.md) | LangGraph 官方结构、StateGraph、state、node、edge、checkpoint、memory、interrupt、human-in-the-loop、streaming、AIOps 排障流程编排实验 |
 | 已完成第一版 | RAG | [rag.md](./data-ai/rag.md) | RAG 官方主线、离线入库、在线检索、chunk、metadata、embedding、向量库、关键词/向量/hybrid search、rerank、上下文拼装、prompt injection 防护、OpenAI File Search、自建 Runbook RAG 实验、检索和回答评估 |
 | 已完成第一版 | 向量数据库 | [vector-database.md](./data-ai/vector-database.md) | OpenAI embeddings、Chroma、Milvus、Qdrant 官方结构、embedding、维度、距离、top-k、collection/entity/point、metadata/payload、schema、向量索引、payload index、metadata filter、hybrid search、更新删除、权限、AIOps 相似故障检索实验 |
 | 已完成第一版 | SLI / SLO / SLA | [sli-slo-sla.md](./sre-aiops/sli-slo-sla.md) | Google SRE 官方结构、用户旅程、SLI/SLO/SLA 边界、good events / total events、延迟 SLI、错误预算、burn rate、多窗口告警、Prometheus recording/alerting rules、低流量服务、SLO 与 AIOps 告警治理实验 |
@@ -86,9 +88,9 @@
 | 0 | Prometheus、Grafana、Docker Compose | 已完成 | 第一批示范级文章 |
 | 1 | Linux、Git、GitHub、Markdown、VitePress、Python、Shell/PowerShell、systemd、网络基础 | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
 | 2 | Docker、Kubernetes、Helm、NGINX/Ingress、微服务 | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
-| 3 | Alertmanager、OpenTelemetry、Loki、Elasticsearch | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
+| 3 | Alertmanager、OpenTelemetry、Loki、Elasticsearch、VictoriaMetrics | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
 | 4 | Ansible、Terraform、GitHub Actions、CI/CD、Runbook Automation | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
-| 5 | MySQL、Oracle、PostgreSQL、Redis、Kafka、RabbitMQ、pandas、机器学习、scikit-learn、FastAPI、LLM、LangChain、RAG、向量数据库 | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
+| 5 | MySQL、Oracle、PostgreSQL、Redis、Kafka、RabbitMQ、pandas、机器学习、scikit-learn、FastAPI、LLM、LangChain、LangGraph、RAG、向量数据库 | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
 | 6 | SLI/SLO/SLA、告警治理、事件响应、Runbook、RCA、变更管理、AIOps 闭环 | 深讲第一版已完成 | 已补齐官方知识地图、机制、命令/API 字典、实验、排障和学习证据 |
 
 ## 已完成
@@ -116,6 +118,7 @@
 | 可观测性 | Alertmanager | [alertmanager.md](./observability/alertmanager.md) |
 | 可观测性 | Loki | [loki.md](./observability/loki.md) |
 | 可观测性 | Elasticsearch | [elasticsearch.md](./observability/elasticsearch.md) |
+| 可观测性 | VictoriaMetrics | [victoriametrics.md](./observability/victoriametrics.md) |
 | 自动化 | Ansible | [ansible.md](./automation/ansible.md) |
 | 自动化 | Terraform | [terraform.md](./automation/terraform.md) |
 | 自动化 | GitHub Actions | [github-actions.md](./automation/github-actions.md) |
@@ -133,6 +136,7 @@
 | 数据与 AI | FastAPI | [fastapi.md](./data-ai/fastapi.md) |
 | 数据与 AI | LLM / OpenAI API | [llm-openai.md](./data-ai/llm-openai.md) |
 | 数据与 AI | LangChain | [langchain.md](./data-ai/langchain.md) |
+| 数据与 AI | LangGraph | [langgraph.md](./data-ai/langgraph.md) |
 | 数据与 AI | RAG | [rag.md](./data-ai/rag.md) |
 | 数据与 AI | 向量数据库 | [vector-database.md](./data-ai/vector-database.md) |
 | SRE/AIOps | SLI / SLO / SLA | [sli-slo-sla.md](./sre-aiops/sli-slo-sla.md) |
@@ -145,7 +149,7 @@
 
 ## 待继续拆分
 
-当前技术栈清单已经全部拆分完成。后续如果学习中新增技术，比如 VictoriaMetrics、Thanos、ClickHouse、Airflow、Flink、LangGraph、Argo CD，再继续按“一技术一文件”追加。
+当前技术栈清单已经全部拆分完成。后续如果学习中新增技术，比如 Thanos、ClickHouse、Airflow、Flink、Argo CD，再继续按“一技术一文件”追加。
 
 ## 写作规则
 

@@ -37,6 +37,10 @@
   统一遥测标准，重点看 metrics、logs、traces、collector。
 - [Prometheus overview](https://prometheus.io/docs/introduction/overview/)
   指标采集、查询和告警基础。
+- [VictoriaMetrics quick start](https://docs.victoriametrics.com/victoriametrics/quick-start/)
+  Prometheus 兼容时序存储、长期指标保存和 Grafana 查询后端入门。
+- [VictoriaMetrics vmagent](https://docs.victoriametrics.com/victoriametrics/vmagent/)
+  指标采集、relabel、过滤和 remote write 转发参考。
 - [Grafana documentation](https://grafana.com/docs/)
   仪表盘、告警、日志和可观测性平台实践。
 - [Grafana Loki](https://grafana.com/docs/loki/latest/)
@@ -112,6 +116,10 @@
   文本向量化和相似度检索。
 - [LangChain overview](https://docs.langchain.com/oss/python/langchain/overview)
   agent、model、tools、prompt、middleware 和 LangSmith 入口。
+- [LangGraph overview](https://docs.langchain.com/oss/python/langgraph/overview)
+  有状态 agent、持久执行、人工介入和 AIOps 流程编排入口。
+- [LangGraph persistence](https://docs.langchain.com/oss/python/langgraph/persistence)
+  checkpoint、短期记忆、长期记忆和中断恢复参考。
 - [LangChain agents](https://docs.langchain.com/oss/python/langchain/agents)
   agent loop、工具调用、结构化输出和会话状态。
 - [LangChain RAG tutorial](https://docs.langchain.com/oss/python/langchain/rag)

@@ -140,6 +140,13 @@ export const generatedDocs = [
     "excerpt": "学习目标：能理解 LangChain 在 LLM 应用工程里的位置，能讲清 agent、model、message、tool、system prompt、structured output、memory、RAG、LangGraph、Lang..."
   },
   {
+    "path": "../docs/tech-stack/data-ai/langgraph.md",
+    "route": "/tech-stack/data-ai/langgraph",
+    "title": "LangGraph",
+    "section": "数据与 AI",
+    "excerpt": "学习目标：能理解 LangGraph 为什么适合编排长期运行的 AI Agent 和 AIOps 排障流程，能讲清 StateGraph、state、node、edge、conditional edge、checkpoint、memory、..."
+  },
+  {
     "path": "../docs/tech-stack/data-ai/llm-openai.md",
     "route": "/tech-stack/data-ai/llm-openai",
     "title": "LLM / OpenAI API",
@@ -320,6 +327,13 @@ export const generatedDocs = [
     "title": "Prometheus 精讲",
     "section": "可观测性",
     "excerpt": "学习目标：能启动 Prometheus，读懂 prometheus.yml ，理解数据模型、指标类型、抓取、TSDB、PromQL、recording rules、alerting rules、HTTP API 和 promtool ，并知..."
+  },
+  {
+    "path": "../docs/tech-stack/observability/victoriametrics.md",
+    "route": "/tech-stack/observability/victoriametrics",
+    "title": "VictoriaMetrics",
+    "section": "可观测性",
+    "excerpt": "学习目标：能理解 VictoriaMetrics 为什么适合作为 Prometheus 兼容的时序数据存储，能讲清单机版、集群版、vmagent、vmalert、MetricsQL、remote write、retention、cardin..."
   },
   {
     "path": "../docs/tech-stack/progress.md",

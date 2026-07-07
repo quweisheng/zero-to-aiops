@@ -97,4 +97,11 @@ describe('getDocByRoute', () => {
       'LangChain'
     )
   })
+
+  it('includes VictoriaMetrics and LangGraph tech-stack documents', () => {
+    expect(getDocByRoute('/tech-stack/observability/victoriametrics')?.title).toBe(
+      'VictoriaMetrics'
+    )
+    expect(getDocByRoute('/tech-stack/data-ai/langgraph')?.title).toBe('LangGraph')
+  })
 })
