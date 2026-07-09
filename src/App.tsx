@@ -572,6 +572,8 @@ function usePointerMotion() {
       root.style.setProperty('--pointer-y', `${currentY}px`)
       root.style.setProperty('--pointer-speed', pointerSpeed.toFixed(3))
       root.style.setProperty('--cursor-motion-scale', (1 + pointerSpeed * 0.08).toFixed(3))
+      root.style.setProperty('--cursor-tail-scale', (0.72 + pointerSpeed * 0.38).toFixed(3))
+      root.style.setProperty('--cursor-tail-dynamic-opacity', (0.18 + pointerSpeed * 0.46).toFixed(3))
     }
 
     const applyCursorState = (nextX: number, nextY: number, target: EventTarget | null) => {
@@ -630,6 +632,8 @@ function usePointerMotion() {
       root.style.removeProperty('--pointer-y')
       root.style.removeProperty('--pointer-speed')
       root.style.removeProperty('--cursor-motion-scale')
+      root.style.removeProperty('--cursor-tail-scale')
+      root.style.removeProperty('--cursor-tail-dynamic-opacity')
       delete root.dataset.cursor
     }
   }, [])

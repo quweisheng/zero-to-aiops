@@ -16,18 +16,20 @@
   --pointer-x: 72vw;
   --pointer-y: 28vh;
   --pointer-speed: 0;
-  --cursor-size: 46px;
-  --cursor-radius: 10px;
-  --cursor-fill: 0;
-  --cursor-border: 2px;
+  --cursor-size: 9px;
+  --cursor-halo-size: 30px;
+  --cursor-tail-length: 34px;
+  --cursor-tail-opacity: 0.38;
+  --cursor-tail-dynamic-opacity: 0.18;
+  --cursor-tail-scale: 0.72;
   --cursor-motion-scale: 1;
 }
 
 :root[data-cursor='hover'] {
-  --cursor-size: 72px;
-  --cursor-radius: 16px;
-  --cursor-fill: 1;
-  --cursor-border: 1px;
+  --cursor-size: 14px;
+  --cursor-halo-size: 42px;
+  --cursor-tail-length: 42px;
+  --cursor-tail-opacity: 0.5;
 }
 
 :root[data-theme='dark'] {
@@ -79,35 +81,55 @@ body {
   inset: 0;
   z-index: 80;
   pointer-events: none;
-  mix-blend-mode: difference;
 }
 
-.cursor-trace::before {
+.cursor-trace::before,
+.cursor-trace::after {
   position: fixed;
   left: var(--pointer-x);
   top: var(--pointer-y);
-  width: var(--cursor-size);
-  height: var(--cursor-size);
-  border: var(--cursor-border) solid white;
-  border-radius: var(--cursor-radius);
-  background: rgb(255 255 255 / var(--cursor-fill));
-  box-shadow: 0 0 0 1px rgb(255 255 255 / 14%);
   content: "";
   opacity: 1;
+  pointer-events: none;
+  will-change: transform, opacity, width, height;
+}
+
+.cursor-trace::before {
+  width: var(--cursor-size);
+  height: var(--cursor-size);
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 34% 32%, #ffffff 0 22%, #baffed 23% 44%, #35c99b 45% 100%);
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 34%),
+    0 0 16px rgb(56 201 158 / 70%),
+    0 0 var(--cursor-halo-size) rgb(53 201 155 / 28%);
   transform: translate(-50%, -50%) scale(var(--cursor-motion-scale));
-  transform-origin: 100% 100%;
   transition:
     width 180ms ease,
     height 180ms ease,
-    border-color 180ms ease,
-    border-radius 180ms ease,
-    border-width 180ms ease,
-    background 180ms ease,
+    box-shadow 180ms ease,
     opacity 180ms ease;
-  will-change: transform, width, height;
 }
 
-:root[data-cursor='hidden'] .cursor-trace::before {
+.cursor-trace::after {
+  width: var(--cursor-tail-length);
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, rgb(126 224 189 / 18%), rgb(255 255 255 / var(--cursor-tail-opacity)));
+  box-shadow:
+    0 0 10px rgb(56 201 158 / 42%),
+    0 0 24px rgb(126 224 189 / 20%);
+  opacity: var(--cursor-tail-dynamic-opacity);
+  transform: translate(calc(-100% - 8px), -50%) scaleX(var(--cursor-tail-scale));
+  transform-origin: 100% 50%;
+  transition:
+    width 180ms ease,
+    opacity 120ms ease;
+}
+
+:root[data-cursor='hidden'] .cursor-trace::before,
+:root[data-cursor='hidden'] .cursor-trace::after {
   opacity: 0;
 }
 
