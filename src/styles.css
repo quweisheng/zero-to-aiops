@@ -15,6 +15,9 @@
   --display: "IBM Plex Sans", "Microsoft YaHei UI", system-ui, sans-serif;
   --pointer-x: 72vw;
   --pointer-y: 28vh;
+  --pointer-angle: -28deg;
+  --cursor-tech: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M5 3L23 16L15 18L11 27L5 3Z' fill='%2338c99e' fill-opacity='.18' stroke='%2338c99e' stroke-width='1.7' stroke-linejoin='round'/%3E%3Cpath d='M14 17L21 25M18 8H27M23 4V12' stroke='%23baffea' stroke-width='1.4' stroke-linecap='round'/%3E%3Ccircle cx='24' cy='8' r='2' fill='%23baffea' fill-opacity='.75'/%3E%3C/svg%3E") 5 3, crosshair;
+  --cursor-tech-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M5 3L23 16L15 18L11 27L5 3Z' fill='%2338c99e' fill-opacity='.22' stroke='%2338c99e' stroke-width='1.8' stroke-linejoin='round'/%3E%3Cpath d='M14 17L21 25M18 8H27M23 4V12' stroke='%23baffea' stroke-width='1.5' stroke-linecap='round'/%3E%3Ccircle cx='24' cy='8' r='2.2' fill='%23baffea' fill-opacity='.85'/%3E%3C/svg%3E") 5 3, pointer;
 }
 
 :root[data-theme='dark'] {
@@ -53,6 +56,7 @@ body {
   font-size: 16px;
   line-height: 1.58;
   letter-spacing: 0;
+  cursor: var(--cursor-tech);
 }
 
 .app-shell {
@@ -68,16 +72,16 @@ body {
   pointer-events: none;
   background:
     radial-gradient(
-      420px circle at var(--pointer-x) var(--pointer-y),
-      color-mix(in srgb, var(--accent) 16%, transparent),
-      transparent 64%
+      220px circle at var(--pointer-x) var(--pointer-y),
+      color-mix(in srgb, var(--accent) 14%, transparent),
+      transparent 62%
     ),
     radial-gradient(
-      680px circle at calc(var(--pointer-x) - 18vw) calc(var(--pointer-y) + 18vh),
-      color-mix(in srgb, var(--warn) 9%, transparent),
-      transparent 68%
+      360px circle at calc(var(--pointer-x) - 8vw) calc(var(--pointer-y) + 10vh),
+      color-mix(in srgb, var(--warn) 5%, transparent),
+      transparent 72%
     );
-  opacity: 0.86;
+  opacity: 0.72;
   will-change: background;
 }
 
@@ -85,14 +89,43 @@ body {
   position: fixed;
   left: var(--pointer-x);
   top: var(--pointer-y);
-  width: 18px;
-  height: 18px;
-  border: 1px solid color-mix(in srgb, var(--accent) 56%, transparent);
-  border-radius: 4px;
-  box-shadow: 0 0 24px color-mix(in srgb, var(--accent) 20%, transparent);
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle, color-mix(in srgb, var(--accent-strong) 96%, white) 0 32%, transparent 36%),
+    radial-gradient(circle, color-mix(in srgb, var(--accent) 32%, transparent) 0 100%);
+  box-shadow:
+    0 0 10px color-mix(in srgb, var(--accent) 38%, transparent),
+    0 0 22px color-mix(in srgb, var(--accent) 20%, transparent);
+  content: "";
+  opacity: 0.78;
+  transform: translate(-50%, -50%);
+}
+
+.cursor-trace::after {
+  position: fixed;
+  left: var(--pointer-x);
+  top: var(--pointer-y);
+  width: 92px;
+  height: 2px;
+  border-radius: 999px;
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      color-mix(in srgb, var(--accent) 0%, transparent) 24%,
+      color-mix(in srgb, var(--accent) 28%, transparent) 68%,
+      color-mix(in srgb, var(--accent-strong) 82%, white) 100%
+    );
+  box-shadow:
+    0 0 12px color-mix(in srgb, var(--accent) 26%, transparent),
+    0 0 26px color-mix(in srgb, var(--accent) 12%, transparent);
   content: "";
   opacity: 0.48;
-  transform: translate(-50%, -50%) rotate(45deg);
+  transform: translate(-100%, -50%) rotate(var(--pointer-angle));
+  transform-origin: 100% 50%;
+  will-change: transform, opacity;
 }
 
 main {
@@ -113,6 +146,18 @@ input {
 button,
 a {
   -webkit-tap-highlight-color: transparent;
+}
+
+a,
+button,
+.button,
+.theme-button {
+  cursor: var(--cursor-tech-pointer);
+}
+
+input,
+textarea {
+  cursor: text;
 }
 
 :focus-visible {

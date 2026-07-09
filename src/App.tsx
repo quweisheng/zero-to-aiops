@@ -570,6 +570,15 @@ function usePointerMotion() {
       root.style.setProperty('--pointer-y', `${currentY}px`)
     }
 
+    const applyTrailAngle = (nextX: number, nextY: number) => {
+      const deltaX = nextX - targetX
+      const deltaY = nextY - targetY
+
+      if (Math.abs(deltaX) > 0.5 || Math.abs(deltaY) > 0.5) {
+        root.style.setProperty('--pointer-angle', `${Math.atan2(deltaY, deltaX)}rad`)
+      }
+    }
+
     const followPointer = () => {
       currentX += (targetX - currentX) * 0.16
       currentY += (targetY - currentY) * 0.16
@@ -583,6 +592,7 @@ function usePointerMotion() {
     }
 
     const onPointerMove = (event: PointerEvent) => {
+      applyTrailAngle(event.clientX, event.clientY)
       targetX = event.clientX
       targetY = event.clientY
 
@@ -601,6 +611,7 @@ function usePointerMotion() {
       }
       root.style.removeProperty('--pointer-x')
       root.style.removeProperty('--pointer-y')
+      root.style.removeProperty('--pointer-angle')
     }
   }, [])
 }
