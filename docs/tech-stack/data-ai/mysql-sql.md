@@ -512,25 +512,25 @@ WHERE id = 1;
 ### DQL
 
 ```sql
-SELECT service_name, COUNT(*) AS alert_count
-FROM alerts
-WHERE created_at >= NOW() - INTERVAL 1 DAY
-GROUP BY service_name
-HAVING COUNT(*) >= 10
-ORDER BY alert_count DESC
-LIMIT 10;
+SELECT service_name, COUNT(*) AS alert_count -- 取服务名，并统计每个服务有多少条告警，统计结果命名为 alert_count
+FROM alerts                                  -- 从 alerts 告警表中读取数据
+WHERE created_at >= NOW() - INTERVAL 1 DAY   -- 只统计最近 1 天的告警，避免把很久以前的历史告警也算进去
+GROUP BY service_name                        -- 按服务名分组，让每个服务单独形成一组
+HAVING COUNT(*) >= 10                        -- 分组后只保留告警数大于等于 10 的服务
+ORDER BY alert_count DESC                    -- 按告警数量从多到少排序，先看到最吵的服务
+LIMIT 10;                                    -- 只返回前 10 个服务，适合做告警治理 TopN
 ```
 
 查询逻辑顺序可以这样记：
 
 ```text
-FROM
-  -> WHERE
-  -> GROUP BY
-  -> HAVING
-  -> SELECT
-  -> ORDER BY
-  -> LIMIT
+FROM       -> 先决定从哪张表读数据，这里是 alerts 告警表
+  -> WHERE -> 再过滤原始行，只留下最近 1 天的告警
+  -> GROUP BY -> 然后按 service_name 分组，让每个服务单独统计
+  -> HAVING -> 分组后再过滤，只留下告警数不少于 10 的服务
+  -> SELECT -> 选择最终要展示的列，比如服务名和告警数量
+  -> ORDER BY -> 对结果排序，让告警最多的服务排在前面
+  -> LIMIT -> 限制返回数量，避免结果太多不好看
 ```
 
 虽然 SQL 写的时候 `SELECT` 在最前面，但理解查询时要从 `FROM` 开始。
@@ -1483,12 +1483,12 @@ CREATE TABLE feedback_labels (
 ### 最近 24 小时告警最多的服务
 
 ```sql
-SELECT service_name, COUNT(*) AS alert_count
-FROM alerts
-WHERE created_at >= NOW() - INTERVAL 1 DAY
-GROUP BY service_name
-ORDER BY alert_count DESC
-LIMIT 10;
+SELECT service_name, COUNT(*) AS alert_count -- 取服务名，并统计每个服务最近 24 小时的告警数量
+FROM alerts                                  -- 从 alerts 告警表里读取数据
+WHERE created_at >= NOW() - INTERVAL 1 DAY   -- 只保留最近 1 天创建的告警
+GROUP BY service_name                        -- 按服务名分组，做到每个服务一行统计结果
+ORDER BY alert_count DESC                    -- 按告警数量从多到少排序
+LIMIT 10;                                    -- 只展示前 10 个服务，方便快速定位告警最多的对象
 ```
 
 ### 平均恢复时长

@@ -146,7 +146,7 @@ command --help
 给出最小配置文件，并逐项解释。
 
 ```yaml
-key: value
+key: value # 解释这个字段控制什么，真实项目里什么时候需要修改它
 ```
 
 | 配置项 | 含义 | 新手容易错在哪里 |
@@ -156,11 +156,24 @@ key: value
 ## 常用命令
 
 ```bash
-command one
-command two
+command one # 解释这条命令在检查什么，正常会看到什么
+command two # 解释这条命令为什么接在上一条后面，失败时先看哪里
 ```
 
 每条命令后面补一句：它在检查什么、正常结果是什么、异常时先看哪里。
+
+如果是 SQL、PromQL、LogQL、Python、YAML、JSON 或配置示例，也必须逐行解释。能写注释的语法直接写行内中文注释；不能写注释的格式，比如 JSON，在代码块下面补“逐行解释”表格。
+
+SQL 示例：
+
+```sql
+SELECT service_name, COUNT(*) AS alert_count -- 取服务名，并统计每个服务的告警数量
+FROM alerts                                  -- 从 alerts 告警表中读取数据
+WHERE created_at >= NOW() - INTERVAL 1 DAY   -- 只统计最近 1 天的告警
+GROUP BY service_name                        -- 按服务名分组，做到每个服务单独统计
+ORDER BY alert_count DESC                    -- 按告警数量从多到少排序
+LIMIT 10;                                    -- 只取前 10 条，方便做 TopN 排查
+```
 
 ## 命令 / 配置 / API 字典
 
