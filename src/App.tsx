@@ -564,27 +564,36 @@ function usePointerMotion() {
     let currentY = window.innerHeight * 0.28
     let targetX = currentX
     let targetY = currentY
+    let pointerSpeed = 0
 
     const applyPosition = () => {
       root.style.setProperty('--pointer-x', `${currentX}px`)
       root.style.setProperty('--pointer-y', `${currentY}px`)
+      root.style.setProperty('--pointer-speed', pointerSpeed.toFixed(3))
+      root.style.setProperty('--pointer-core-opacity', (0.58 + pointerSpeed * 0.24).toFixed(3))
+      root.style.setProperty('--pointer-trail-opacity', (0.14 + pointerSpeed * 0.42).toFixed(3))
+      root.style.setProperty('--pointer-trail-scale', (0.56 + pointerSpeed * 0.44).toFixed(3))
     }
 
-    const applyTrailAngle = (nextX: number, nextY: number) => {
+    const applyTrailState = (nextX: number, nextY: number) => {
       const deltaX = nextX - targetX
       const deltaY = nextY - targetY
+      const distance = Math.hypot(deltaX, deltaY)
 
       if (Math.abs(deltaX) > 0.5 || Math.abs(deltaY) > 0.5) {
         root.style.setProperty('--pointer-angle', `${Math.atan2(deltaY, deltaX)}rad`)
       }
+
+      pointerSpeed = Math.max(pointerSpeed, Math.min(distance / 44, 1))
     }
 
     const followPointer = () => {
       currentX += (targetX - currentX) * 0.16
       currentY += (targetY - currentY) * 0.16
+      pointerSpeed *= 0.9
       applyPosition()
 
-      if (Math.abs(targetX - currentX) > 0.2 || Math.abs(targetY - currentY) > 0.2) {
+      if (Math.abs(targetX - currentX) > 0.2 || Math.abs(targetY - currentY) > 0.2 || pointerSpeed > 0.01) {
         frame = requestFrame(followPointer)
       } else {
         frame = null
@@ -592,7 +601,7 @@ function usePointerMotion() {
     }
 
     const onPointerMove = (event: PointerEvent) => {
-      applyTrailAngle(event.clientX, event.clientY)
+      applyTrailState(event.clientX, event.clientY)
       targetX = event.clientX
       targetY = event.clientY
 
@@ -612,6 +621,10 @@ function usePointerMotion() {
       root.style.removeProperty('--pointer-x')
       root.style.removeProperty('--pointer-y')
       root.style.removeProperty('--pointer-angle')
+      root.style.removeProperty('--pointer-speed')
+      root.style.removeProperty('--pointer-core-opacity')
+      root.style.removeProperty('--pointer-trail-opacity')
+      root.style.removeProperty('--pointer-trail-scale')
     }
   }, [])
 }
