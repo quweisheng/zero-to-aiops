@@ -39,11 +39,10 @@ payment-api,critical,DatabaseConnectionError,2026-07-01 10:12:00,2026-07-01 10:4
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>service,severity,alert_name,created_at,resolved_at</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>order-api,critical,HighErrorRate,2026-07-01 09:10:00,2026-07-01 09:25:00</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>order-api,warning,HighLatency,2026-07-01 10:05:00,</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>payment-api,critical,DatabaseConnectionError,2026-07-01 10:12:00,2026-07-01 10:40:00</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>service,severity,alert_name,created_at,resolved_at</code> | 这一行里的英文要这样读：`service` 是服务名称字段；`severity` 是告警严重级别字段；`alert_name` 是告警名称字段；`created_at` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`resolved_at` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 2 行 | <code>order-api,critical,HighErrorRate,2026-07-01 09:10:00,2026-07-01 09:25:00</code> | 这一行里的英文要这样读：`order-api` 里的 order 表示订单业务，api 表示接口服务，合起来通常指订单接口服务；`critical` 是严重级别；`HighErrorRate` 是高错误率告警名，通常表示某个服务的请求失败比例超过阈值。 |
+| 第 3 行 | <code>order-api,warning,HighLatency,2026-07-01 10:05:00,</code> | 这一行里的英文要这样读：`order-api` 里的 order 表示订单业务，api 表示接口服务，合起来通常指订单接口服务；`warning` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`HighLatency` 是高延迟告警名，通常表示请求耗时超过阈值。 |
+| 第 4 行 | <code>payment-api,critical,DatabaseConnectionError,2026-07-01 10:12:00,2026-07-01 10:40:00</code> | 这一行里的英文要这样读：`payment-api` 这个英文标识可以拆开理解为：应用程序接口；`critical` 是严重级别；`DatabaseConnectionError` 这个英文标识可以拆开理解为：数据库名称字段，连接方式，错误。 |
 
 值班复盘真正想知道的是：
 
@@ -141,62 +140,61 @@ pandas
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>pandas</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; Getting started</code> | 这一行要理解这些英文词：`Getting started` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>     -&gt; 10 minutes to pandas</code> | 这一行要理解这些英文词：`minutes to pandas` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 1 行 | <code>pandas</code> | 这一行里的英文要这样读：`pandas` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 2 行 | <code>  -&gt; Getting started</code> | 这一行要理解这些英文词：`Getting started` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>     -&gt; 10 minutes to pandas</code> | 这一行要理解这些英文词：`minutes to pandas` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 4 行 | <code>     -&gt; intro to data structures</code> | 这一行要理解这些英文词：`intro to data structures` 是data=数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; Core objects</code> | 这一行要理解这些英文词：`Core objects` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>     -&gt; Series</code> | 这一行要理解这些英文词：`Series` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>     -&gt; DataFrame</code> | 这一行要理解这些英文词：`DataFrame` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; Core objects</code> | 这一行要理解这些英文词：`Core objects` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>     -&gt; Series</code> | 这一行要理解这些英文词：`Series` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>     -&gt; DataFrame</code> | 这一行要理解这些英文词：`DataFrame` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 8 行 | <code>     -&gt; Index</code> | 这一行要理解这些英文词：`Index` 是索引或目录。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 9 行 | <code>     -&gt; dtype</code> | 这一行要理解这些英文词：`dtype` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 10 行 | <code>  -&gt; Basic operations</code> | 这一行要理解这些英文词：`Basic operations` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 11 行 | <code>     -&gt; head / tail / info / describe</code> | 这一行要理解这些英文词：`head` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`tail` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`info` 是信息类通知；`describe` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 12 行 | <code>     -&gt; select columns</code> | 这一行要理解这些英文词：`select columns` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 13 行 | <code>     -&gt; filter rows</code> | 这一行要理解这些英文词：`filter rows` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 14 行 | <code>     -&gt; assign new columns</code> | 这一行要理解这些英文词：`assign new columns` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 15 行 | <code>     -&gt; sort</code> | 这一行要理解这些英文词：`sort` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 16 行 | <code>  -&gt; Indexing</code> | 这一行要理解这些英文词：`Indexing` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 17 行 | <code>     -&gt; []</code> | 这一行只是层级缩进或连接符，本身不是知识点。 |
-| 第 18 行 | <code>     -&gt; loc</code> | 这一行要理解这些英文词：`loc` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 19 行 | <code>     -&gt; iloc</code> | 这一行要理解这些英文词：`iloc` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 20 行 | <code>     -&gt; boolean indexing</code> | 这一行要理解这些英文词：`boolean indexing` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 21 行 | <code>     -&gt; copy vs view</code> | 这一行要理解这些英文词：`copy vs view` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>     -&gt; dtype</code> | 这一行要理解这些英文词：`dtype` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>  -&gt; Basic operations</code> | 这一行要理解这些英文词：`Basic operations` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>     -&gt; head / tail / info / describe</code> | 这一行要理解这些英文词：`head` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`tail` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`info` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`describe` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 12 行 | <code>     -&gt; select columns</code> | 这一行要理解这些英文词：`select columns` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 13 行 | <code>     -&gt; filter rows</code> | 这一行要理解这些英文词：`filter rows` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 14 行 | <code>     -&gt; assign new columns</code> | 这一行要理解这些英文词：`assign new columns` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 15 行 | <code>     -&gt; sort</code> | 这一行要理解这些英文词：`sort` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 16 行 | <code>  -&gt; Indexing</code> | 这一行要理解这些英文词：`Indexing` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 17 行 | <code>     -&gt; []</code> | 这一行表示上一级主题下的子项“[]”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
+| 第 18 行 | <code>     -&gt; loc</code> | 这一行要理解这些英文词：`loc` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 19 行 | <code>     -&gt; iloc</code> | 这一行要理解这些英文词：`iloc` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 20 行 | <code>     -&gt; boolean indexing</code> | 这一行要理解这些英文词：`boolean indexing` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 21 行 | <code>     -&gt; copy vs view</code> | 这一行要理解这些英文词：`copy vs view` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 22 行 | <code>  -&gt; Missing data</code> | 这一行要理解这些英文词：`Missing data` 是data=数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 23 行 | <code>     -&gt; isna</code> | 这一行要理解这些英文词：`isna` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 24 行 | <code>     -&gt; fillna</code> | 这一行要理解这些英文词：`fillna` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 25 行 | <code>     -&gt; dropna</code> | 这一行要理解这些英文词：`dropna` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 26 行 | <code>     -&gt; nullable dtypes</code> | 这一行要理解这些英文词：`nullable dtypes` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 23 行 | <code>     -&gt; isna</code> | 这一行要理解这些英文词：`isna` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 24 行 | <code>     -&gt; fillna</code> | 这一行要理解这些英文词：`fillna` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 25 行 | <code>     -&gt; dropna</code> | 这一行要理解这些英文词：`dropna` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 26 行 | <code>     -&gt; nullable dtypes</code> | 这一行要理解这些英文词：`nullable dtypes` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 27 行 | <code>  -&gt; Combining data</code> | 这一行要理解这些英文词：`Combining data` 是data=数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 28 行 | <code>     -&gt; concat</code> | 这一行要理解这些英文词：`concat` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 29 行 | <code>     -&gt; merge</code> | 这一行要理解这些英文词：`merge` 是合并，把一个分支的变更合入另一个分支。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 30 行 | <code>     -&gt; join</code> | 这一行要理解这些英文词：`join` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 31 行 | <code>     -&gt; compare</code> | 这一行要理解这些英文词：`compare` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 32 行 | <code>  -&gt; Grouping and reshaping</code> | 这一行要理解这些英文词：`Grouping and reshaping` 是grouping=分组。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 33 行 | <code>     -&gt; groupby</code> | 这一行要理解这些英文词：`groupby` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 34 行 | <code>     -&gt; aggregate</code> | 这一行要理解这些英文词：`aggregate` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 35 行 | <code>     -&gt; transform</code> | 这一行要理解这些英文词：`transform` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 28 行 | <code>     -&gt; concat</code> | 这一行要理解这些英文词：`concat` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 29 行 | <code>     -&gt; merge</code> | 这一行要理解这些英文词：`merge` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 30 行 | <code>     -&gt; join</code> | 这一行要理解这些英文词：`join` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 31 行 | <code>     -&gt; compare</code> | 这一行要理解这些英文词：`compare` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 32 行 | <code>  -&gt; Grouping and reshaping</code> | 这一行要理解这些英文词：`Grouping and reshaping` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 33 行 | <code>     -&gt; groupby</code> | 这一行要理解这些英文词：`groupby` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 34 行 | <code>     -&gt; aggregate</code> | 这一行要理解这些英文词：`aggregate` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 35 行 | <code>     -&gt; transform</code> | 这一行要理解这些英文词：`transform` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 36 行 | <code>     -&gt; pivot_table</code> | 这一行要理解这些英文词：`pivot_table` 是table=表。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 37 行 | <code>     -&gt; stack / unstack</code> | 这一行要理解这些英文词：`stack` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`unstack` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 38 行 | <code>     -&gt; melt</code> | 这一行要理解这些英文词：`melt` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 39 行 | <code>  -&gt; Time series</code> | 这一行要理解这些英文词：`Time series` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 40 行 | <code>     -&gt; to_datetime</code> | 这一行要理解这些英文词：`to_datetime` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 41 行 | <code>     -&gt; DatetimeIndex</code> | 这一行要理解这些英文词：`DatetimeIndex` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 42 行 | <code>     -&gt; resample</code> | 这一行要理解这些英文词：`resample` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 43 行 | <code>     -&gt; rolling</code> | 这一行要理解这些英文词：`rolling` 是滚动更新，分批替换实例以降低发布风险。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 44 行 | <code>     -&gt; time zones</code> | 这一行要理解这些英文词：`time zones` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 45 行 | <code>  -&gt; IO</code> | 这一行要理解这些英文词：`IO` 是英文缩写或固定标识，结合本节上下文记住它代表的组件、命令或状态。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 46 行 | <code>     -&gt; CSV</code> | 这一行要理解这些英文词：`CSV` 是英文缩写或固定标识，结合本节上下文记住它代表的组件、命令或状态。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 47 行 | <code>     -&gt; JSON</code> | 这一行要理解这些英文词：`JSON` 是结构化数据格式。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 48 行 | <code>     -&gt; Excel</code> | 这一行要理解这些英文词：`Excel` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 37 行 | <code>     -&gt; stack / unstack</code> | 这一行要理解这些英文词：`stack` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`unstack` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 38 行 | <code>     -&gt; melt</code> | 这一行要理解这些英文词：`melt` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 39 行 | <code>  -&gt; Time series</code> | 这一行要理解这些英文词：`Time series` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 40 行 | <code>     -&gt; to_datetime</code> | 这一行要理解这些英文词：`to_datetime` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 41 行 | <code>     -&gt; DatetimeIndex</code> | 这一行要理解这些英文词：`DatetimeIndex` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 42 行 | <code>     -&gt; resample</code> | 这一行要理解这些英文词：`resample` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 43 行 | <code>     -&gt; rolling</code> | 这一行要理解这些英文词：`rolling` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 44 行 | <code>     -&gt; time zones</code> | 这一行要理解这些英文词：`time zones` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 45 行 | <code>  -&gt; IO</code> | 这一行要理解这些英文词：`IO` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 46 行 | <code>     -&gt; CSV</code> | 这一行要理解这些英文词：`CSV` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 47 行 | <code>     -&gt; JSON</code> | 这一行要理解这些英文词：`JSON` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 48 行 | <code>     -&gt; Excel</code> | 这一行要理解这些英文词：`Excel` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 49 行 | <code>     -&gt; SQL</code> | 这一行要理解这些英文词：`SQL` 是结构化查询语言。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 50 行 | <code>     -&gt; Parquet</code> | 这一行要理解这些英文词：`Parquet` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 51 行 | <code>  -&gt; Performance and scale</code> | 这一行要理解这些英文词：`Performance and scale` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 52 行 | <code>     -&gt; vectorization</code> | 这一行要理解这些英文词：`vectorization` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 53 行 | <code>     -&gt; categorical</code> | 这一行要理解这些英文词：`categorical` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 54 行 | <code>     -&gt; chunksize</code> | 这一行要理解这些英文词：`chunksize` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 55 行 | <code>     -&gt; memory usage</code> | 这一行要理解这些英文词：`memory usage` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 50 行 | <code>     -&gt; Parquet</code> | 这一行要理解这些英文词：`Parquet` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 51 行 | <code>  -&gt; Performance and scale</code> | 这一行要理解这些英文词：`Performance and scale` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 52 行 | <code>     -&gt; vectorization</code> | 这一行要理解这些英文词：`vectorization` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 53 行 | <code>     -&gt; categorical</code> | 这一行要理解这些英文词：`categorical` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 54 行 | <code>     -&gt; chunksize</code> | 这一行要理解这些英文词：`chunksize` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 55 行 | <code>     -&gt; memory usage</code> | 这一行要理解这些英文词：`memory usage` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 初学路线：
 
@@ -217,17 +215,16 @@ read data
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>read data</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 1 行 | <code>read data</code> | 这一行里的英文要这样读：`read data` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 | 第 2 行 | <code>  -&gt; inspect data</code> | 这一行要理解这些英文词：`inspect data` 是data=数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; fix dtypes</code> | 这一行要理解这些英文词：`fix dtypes` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; select/filter</code> | 这一行要理解这些英文词：`select` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`filter` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; handle missing values</code> | 这一行要理解这些英文词：`handle missing values` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; groupby aggregate</code> | 这一行要理解这些英文词：`groupby aggregate` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; merge with context tables</code> | 这一行要理解这些英文词：`merge with context tables` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>  -&gt; time window analysis</code> | 这一行要理解这些英文词：`time window analysis` 是analysis=分析。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 9 行 | <code>  -&gt; export report</code> | 这一行要理解这些英文词：`export report` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 10 行 | <code>  -&gt; prepare features for ML</code> | 这一行要理解这些英文词：`prepare features for ML` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 3 行 | <code>  -&gt; fix dtypes</code> | 这一行要理解这些英文词：`fix dtypes` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; select/filter</code> | 这一行要理解这些英文词：`select` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`filter` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; handle missing values</code> | 这一行要理解这些英文词：`handle missing values` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; groupby aggregate</code> | 这一行要理解这些英文词：`groupby aggregate` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; merge with context tables</code> | 这一行要理解这些英文词：`merge with context tables` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; time window analysis</code> | 这一行要理解这些英文词：`time window analysis` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>  -&gt; export report</code> | 这一行要理解这些英文词：`export report` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>  -&gt; prepare features for ML</code> | 这一行要理解这些英文词：`prepare features for ML` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 ## pandas 在 AIOps 链路中的位置
 
@@ -251,18 +248,17 @@ MySQL / CSV / JSONL / Kafka export / Prometheus export
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>MySQL / CSV / JSONL / Kafka export / Prometheus export</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; pandas</code> | 这一行要理解这些英文词：`pandas` 是Python 数据分析库，常用于清洗、统计和处理表格数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>      clean</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>      filter</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 5 行 | <code>      aggregate</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 6 行 | <code>      join</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 7 行 | <code>      time window</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 8 行 | <code>      feature engineering</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 9 行 | <code>  -&gt; report.md / CSV / Parquet</code> | 这一行要理解这些英文词：`report.md` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`CSV` 是英文缩写或固定标识，结合本节上下文记住它代表的组件、命令或状态；`Parquet` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 10 行 | <code>  -&gt; scikit-learn</code> | 这一行要理解这些英文词：`scikit-learn` 是Python 机器学习库，常用于分类、回归和异常检测。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 11 行 | <code>  -&gt; FastAPI / dashboard</code> | 这一行要理解这些英文词：`FastAPI` 是Python Web API 框架，常用来写模型服务或运维接口；`dashboard` 是仪表盘，用图表集中展示指标、状态和趋势。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 1 行 | <code>MySQL / CSV / JSONL / Kafka export / Prometheus export</code> | `MySQL / CSV / JSONL / Kafka export / Prometheus export` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 2 行 | <code>  -&gt; pandas</code> | 这一行要理解这些英文词：`pandas` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>      clean</code> | 这一行里的英文要这样读：`clean` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 4 行 | <code>      filter</code> | 这一行里的英文要这样读：`filter` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 5 行 | <code>      aggregate</code> | 这一行里的英文要这样读：`aggregate` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 6 行 | <code>      join</code> | 这一行里的英文要这样读：`join` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 7 行 | <code>      time window</code> | 这一行里的英文要这样读：`time window` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 8 行 | <code>      feature engineering</code> | 这一行里的英文要这样读：`feature engineering` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 9 行 | <code>  -&gt; report.md / CSV / Parquet</code> | 这一行要理解这些英文词：`report.md` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`CSV` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`Parquet` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>  -&gt; scikit-learn</code> | 这一行要理解这些英文词：`scikit-learn` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>  -&gt; FastAPI / dashboard</code> | 这一行要理解这些英文词：`FastAPI` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`dashboard` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 pandas 适合：
 
@@ -301,8 +297,7 @@ DataFrame = 带行索引和列名的二维表
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>DataFrame = 带行索引和列名的二维表</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>DataFrame = 带行索引和列名的二维表</code> | `DataFrame` 是主机、服务、告警或资源的示例名称；`DataFrame` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源，`带行索引和列名的二维表` 是这个字段的中文取值，已经直接说明了含义。 |
 
 DataFrame 不只是 list of dict。它还带有：
 
@@ -331,7 +326,6 @@ pip install pandas numpy tabulate sqlalchemy pymysql
 | 第 2 行 | <code>. .venv/bin/activate</code> | 执行 `.` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 3 行 | <code>pip install pandas numpy tabulate sqlalchemy pymysql</code> | 管理 Python 依赖包，通常用于安装实验需要的库。 |
 
-
 Windows PowerShell：
 
 ```powershell
@@ -348,7 +342,6 @@ pip install pandas numpy tabulate sqlalchemy pymysql
 | 第 2 行 | <code>.venv\Scripts\Activate.ps1</code> | 执行 `.venv\scripts\activate.ps1` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 3 行 | <code>pip install pandas numpy tabulate sqlalchemy pymysql</code> | 管理 Python 依赖包，通常用于安装实验需要的库。 |
 
-
 验证：
 
 ```bash
@@ -360,7 +353,6 @@ python -c "import pandas as pd; print(pd.__version__)"
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>python -c "import pandas as pd; print(pd.__version__)"</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
-
 
 常用导入：
 
@@ -375,7 +367,6 @@ import pandas as pd
 |---|---|---|
 | 第 1 行 | <code>import numpy as np</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
 | 第 2 行 | <code>import pandas as pd</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
-
 
 ## Series、DataFrame、Index
 
@@ -395,10 +386,8 @@ print(durations)
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>import pandas as pd</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 3 行 | <code>durations = pd.Series([15, None, 28, 5], name="duration_min")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 4 行 | <code>print(durations)</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 
 你会看到左侧是 index，右侧是值。
 
@@ -414,12 +403,8 @@ Name: duration_min, dtype: float64
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>0    15.0</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>1     NaN</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>2    28.0</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>3     5.0</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 5 行 | <code>Name: duration_min, dtype: float64</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 2 行 | <code>1     NaN</code> | 这一行里的英文要这样读：`NaN` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
+| 第 5 行 | <code>Name: duration_min, dtype: float64</code> | `Name` 是名称字段，冒号后面的 `duration_min, dtype: float64` 是这个字段的示例内容或模板表达式。 |
 
 为什么整数变成 float？因为 `None` / `NaN` 参与后，传统整数列不能表示缺失值，pandas 会转成浮点。
 
@@ -448,9 +433,7 @@ print(alerts)
 | 第 5 行 | <code>        {"service": "payment-api", "severity": "critical", "duration_min": 28},</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 6 行 | <code>    ]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 7 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 8 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 9 行 | <code>print(alerts)</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 
 DataFrame 由多列 Series 组成，每列可以有不同 dtype。
 
@@ -467,7 +450,6 @@ print(alerts.index)
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>print(alerts.index)</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 
 可以把时间设为 index：
 
@@ -487,7 +469,6 @@ alerts = alerts.set_index("created_at")
 | 第 3 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 4 行 | <code>alerts = alerts.set_index("created_at")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 
-
 时间索引适合做 resample、rolling 等时间序列分析。
 
 ## dtype
@@ -503,7 +484,6 @@ print(alerts.dtypes)
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>print(alerts.dtypes)</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 
 常见 dtype：
 
@@ -539,7 +519,6 @@ df = pd.read_csv("alerts.csv")
 |---|---|---|
 | 第 1 行 | <code>df = pd.read_csv("alerts.csv")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 
-
 常用参数：
 
 ```python
@@ -559,7 +538,6 @@ df = pd.read_csv(
 | 第 3 行 | <code>    encoding="utf-8",</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 4 行 | <code>    parse_dates=["created_at", "resolved_at"],</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 5 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 
 | 参数 | 作用 |
 |---|---|
@@ -583,7 +561,6 @@ df = pd.read_json("alerts.jsonl", lines=True)
 |---|---|---|
 | 第 1 行 | <code>df = pd.read_json("alerts.jsonl", lines=True)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 
-
 ### SQL
 
 ```python
@@ -598,10 +575,8 @@ df = pd.read_sql("SELECT * FROM alerts", engine)
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>from sqlalchemy import create_engine</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 3 行 | <code>engine = create_engine("mysql+pymysql://aiops:aiops_pwd@127.0.0.1:3306/aiops_lab")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 4 行 | <code>df = pd.read_sql("SELECT * FROM alerts", engine)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-
 
 建议 SQL 里先过滤时间范围：
 
@@ -629,7 +604,6 @@ df = pd.read_sql(
 | 第 7 行 | <code>    engine,</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 8 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
-
 不要把整库数据全读进 pandas 再过滤。
 
 ### Parquet
@@ -645,7 +619,6 @@ df = pd.read_parquet("alerts.parquet")
 |---|---|---|
 | 第 1 行 | <code>df.to_parquet("alerts.parquet", index=False)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 2 行 | <code>df = pd.read_parquet("alerts.parquet")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-
 
 Parquet 适合保存分析中间结果，通常比 CSV 更保留类型信息，也更适合大一些的数据。
 
@@ -673,7 +646,6 @@ print(df.describe(include="all"))
 | 第 5 行 | <code>print(df.info())</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
 | 第 6 行 | <code>print(df.describe(include="all"))</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
 
-
 每个命令看什么：
 
 | 命令 | 看什么 |
@@ -694,18 +666,6 @@ print(df.describe(include="all"))
 时间范围是什么？
 行数有多少？
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>字段是什么？</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>类型对不对？</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>有没有缺失？</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>时间范围是什么？</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 5 行 | <code>行数有多少？</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
-
 ## 选择和过滤
 
 ### 选择列
@@ -721,7 +681,6 @@ df[["service", "severity", "created_at"]]
 |---|---|---|
 | 第 1 行 | <code>df["service"]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 2 行 | <code>df[["service", "severity", "created_at"]]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 
 单列返回 Series，多列返回 DataFrame。
 
@@ -741,7 +700,6 @@ df.loc[df["severity"] == "critical", ["service", "alert_name"]]
 | 第 1 行 | <code>df.loc[:, ["service", "severity"]]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 2 行 | <code>df.loc[df["severity"] == "critical", ["service", "alert_name"]]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
-
 ### iloc
 
 `iloc` 按位置选择。
@@ -756,7 +714,6 @@ df.iloc[0:5, 0:3]
 |---|---|---|
 | 第 1 行 | <code>df.iloc[0:5, 0:3]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
-
 含义：前 5 行，前 3 列。
 
 ### 布尔过滤
@@ -770,7 +727,6 @@ critical = df[df["severity"] == "critical"]
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>critical = df[df["severity"] == "critical"]</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-
 
 多个条件：
 
@@ -790,7 +746,6 @@ critical_long = df[
 | 第 3 行 | <code>    &amp; (df["duration_min"] &gt; 10)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 4 行 | <code>]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
-
 注意：pandas 多条件要用 `&`、`|`，每个条件用括号包起来。
 
 ### isin
@@ -805,7 +760,6 @@ df[df["service"].isin(["order-api", "payment-api"])]
 |---|---|---|
 | 第 1 行 | <code>df[df["service"].isin(["order-api", "payment-api"])]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
-
 ### 字符串过滤
 
 ```python
@@ -817,7 +771,6 @@ df[df["alert_name"].str.contains("Error", na=False)]
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>df[df["alert_name"].str.contains("Error", na=False)]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 
 `na=False` 表示缺失值不匹配，避免报错。
 
@@ -835,7 +788,6 @@ df["is_critical"] = df["severity"] == "critical"
 |---|---|---|
 | 第 1 行 | <code>df["is_critical"] = df["severity"] == "critical"</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
-
 ### assign
 
 ```python
@@ -851,7 +803,6 @@ df = df.assign(
 | 第 1 行 | <code>df = df.assign(</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 2 行 | <code>    is_critical=lambda x: x["severity"] == "critical"</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 3 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 
 ### np.where
 
@@ -873,7 +824,6 @@ df["action"] = np.where(
 | 第 4 行 | <code>    "record",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 5 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
-
 ### map
 
 ```python
@@ -891,13 +841,11 @@ df["severity_score"] = df["severity"].map(severity_score)
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>severity_score = {</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 2 行 | <code>    "info": 1,</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 3 行 | <code>    "warning": 2,</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 4 行 | <code>    "critical": 3,</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 2 行 | <code>    "info": 1,</code> | `info` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`1` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
+| 第 3 行 | <code>    "warning": 2,</code> | `warning` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`2` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
+| 第 4 行 | <code>    "critical": 3,</code> | `critical` 是严重级别，`3` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
 | 第 5 行 | <code>}</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 6 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 7 行 | <code>df["severity_score"] = df["severity"].map(severity_score)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 
 这一步常用于机器学习特征。
 
@@ -917,7 +865,6 @@ df["resolved_at"] = pd.to_datetime(df["resolved_at"])
 | 第 1 行 | <code>df["created_at"] = pd.to_datetime(df["created_at"])</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 2 行 | <code>df["resolved_at"] = pd.to_datetime(df["resolved_at"])</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
-
 无法解析的值可以设为缺失：
 
 ```python
@@ -929,7 +876,6 @@ df["created_at"] = pd.to_datetime(df["created_at"], errors="coerce")
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>df["created_at"] = pd.to_datetime(df["created_at"], errors="coerce")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 
 ### 计算持续时间
 
@@ -946,7 +892,6 @@ df["duration_min"] = (
 | 第 1 行 | <code>df["duration_min"] = (</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 2 行 | <code>    df["resolved_at"] - df["created_at"]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 3 行 | <code>).dt.total_seconds() / 60</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 
 未恢复告警的 `duration_min` 会是缺失值。
 
@@ -966,7 +911,6 @@ df["weekday"] = df["created_at"].dt.day_name()
 | 第 2 行 | <code>df["date"] = df["created_at"].dt.date</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 3 行 | <code>df["weekday"] = df["created_at"].dt.day_name()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
-
 ### floor
 
 按小时归桶：
@@ -981,7 +925,6 @@ df["hour_bucket"] = df["created_at"].dt.floor("h")
 |---|---|---|
 | 第 1 行 | <code>df["hour_bucket"] = df["created_at"].dt.floor("h")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
-
 ### set_index
 
 ```python
@@ -993,7 +936,6 @@ time_df = df.set_index("created_at").sort_index()
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>time_df = df.set_index("created_at").sort_index()</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-
 
 时间索引后可以 resample：
 
@@ -1007,7 +949,6 @@ hourly = time_df.resample("1h").size().reset_index(name="alert_count")
 |---|---|---|
 | 第 1 行 | <code>hourly = time_df.resample("1h").size().reset_index(name="alert_count")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 
-
 ### rolling
 
 ```python
@@ -1019,7 +960,6 @@ hourly["rolling_3h_alerts"] = hourly["alert_count"].rolling(window=3).mean()
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>hourly["rolling_3h_alerts"] = hourly["alert_count"].rolling(window=3).mean()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 
 这可以生成异常检测特征：过去 3 小时平均告警量。
 
@@ -1036,7 +976,6 @@ df.isna().sum()
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>df.isna().sum()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 
 ### 缺失值的业务含义
 
@@ -1063,7 +1002,6 @@ df["owner"] = df["owner"].fillna("unowned")
 | 第 1 行 | <code>df["status"] = df["status"].fillna("unknown")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 2 行 | <code>df["owner"] = df["owner"].fillna("unowned")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
-
 ### 删除
 
 ```python
@@ -1075,7 +1013,6 @@ df = df.dropna(subset=["service", "created_at"])
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>df = df.dropna(subset=["service", "created_at"])</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-
 
 只删除关键字段缺失的行。
 
@@ -1093,7 +1030,6 @@ df["retry_count"] = df["retry_count"].astype("Int64")
 |---|---|---|
 | 第 1 行 | <code>df["retry_count"] = df["retry_count"].astype("Int64")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
-
 注意是大写 `Int64`，不是 NumPy 的 `int64`。
 
 ## 分组聚合
@@ -1110,10 +1046,9 @@ combine: 合并结果
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>split: 按 key 拆组</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>apply: 每组计算</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>combine: 合并结果</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>split: 按 key 拆组</code> | `split` 是split 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `按 key 拆组` 是这个字段的示例内容或模板表达式。 |
+| 第 2 行 | <code>apply: 每组计算</code> | `apply` 是apply 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `每组计算` 是这个字段的示例内容或模板表达式。 |
+| 第 3 行 | <code>combine: 合并结果</code> | `combine` 是combine 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `合并结果` 是这个字段的示例内容或模板表达式。 |
 
 ### 按服务统计告警数
 
@@ -1137,7 +1072,6 @@ service_counts = (
 | 第 5 行 | <code>      .sort_values("alert_count", ascending=False)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 6 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
-
 ### 按服务和级别统计
 
 ```python
@@ -1157,7 +1091,6 @@ by_service_severity = (
 | 第 3 行 | <code>      .size()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 4 行 | <code>      .reset_index(name="alert_count")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 5 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 
 ### 多聚合
 
@@ -1189,7 +1122,6 @@ summary = (
 | 第 9 行 | <code>      .reset_index()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 10 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
-
 ### transform
 
 `transform` 返回和原 DataFrame 同长度的结果。
@@ -1207,7 +1139,6 @@ df["service_alert_count"] = (
 | 第 1 行 | <code>df["service_alert_count"] = (</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 2 行 | <code>    df.groupby("service")["alert_name"].transform("count")</code> | 按字段分组统计，常用于按服务、告警名或时间窗口聚合数据。 |
 | 第 3 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 
 用途：给每一行补充所在服务的总告警数。
 
@@ -1239,7 +1170,6 @@ alerts = pd.DataFrame(
 | 第 5 行 | <code>    ]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 6 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
-
 服务负责人表：
 
 ```python
@@ -1262,7 +1192,6 @@ owners = pd.DataFrame(
 | 第 5 行 | <code>    ]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 6 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
-
 合并：
 
 ```python
@@ -1274,7 +1203,6 @@ enriched = alerts.merge(owners, on="service", how="left")
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>enriched = alerts.merge(owners, on="service", how="left")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-
 
 `how` 类似 SQL join：
 
@@ -1313,10 +1241,8 @@ with_deploy = pd.merge_asof(
 |---|---|---|
 | 第 1 行 | <code>alerts["created_at"] = pd.to_datetime(alerts["created_at"])</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 2 行 | <code>deployments["deployed_at"] = pd.to_datetime(deployments["deployed_at"])</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 3 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 4 行 | <code>alerts = alerts.sort_values("created_at")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 5 行 | <code>deployments = deployments.sort_values("deployed_at")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 6 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 7 行 | <code>with_deploy = pd.merge_asof(</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 8 行 | <code>    alerts,</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 9 行 | <code>    deployments,</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
@@ -1326,7 +1252,6 @@ with_deploy = pd.merge_asof(
 | 第 13 行 | <code>    direction="backward",</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 14 行 | <code>    tolerance=pd.Timedelta("30min"),</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 15 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 
 含义：对每条告警，找同服务在告警前 30 分钟内最近一次发布。
 
@@ -1347,7 +1272,6 @@ df = pd.concat(frames, ignore_index=True)
 |---|---|---|
 | 第 1 行 | <code>frames = [pd.read_csv(path) for path in ["alerts-0701.csv", "alerts-0702.csv"]]</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 2 行 | <code>df = pd.concat(frames, ignore_index=True)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-
 
 ## 透视和重塑
 
@@ -1377,7 +1301,6 @@ pivot = pd.pivot_table(
 | 第 7 行 | <code>    fill_value=0,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 8 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
-
 输出类似：
 
 ```text
@@ -1392,12 +1315,11 @@ payment-api         1     0        0
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>severity     critical  info  warning</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>service</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>gateway             0     1        0</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>order-api           1     0        1</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 5 行 | <code>payment-api         1     0        0</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>severity     critical  info  warning</code> | 这一行里的英文要这样读：`severity` 是告警严重级别字段；`critical` 是严重级别；`info` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`warning` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 2 行 | <code>service</code> | 这一行里的英文要这样读：`service` 是服务名称字段。 |
+| 第 3 行 | <code>gateway             0     1        0</code> | 这一行里的英文要这样读：`gateway` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 4 行 | <code>order-api           1     0        1</code> | 这一行里的英文要这样读：`order-api` 里的 order 表示订单业务，api 表示接口服务，合起来通常指订单接口服务。 |
+| 第 5 行 | <code>payment-api         1     0        0</code> | 这一行里的英文要这样读：`payment-api` 这个英文标识可以拆开理解为：应用程序接口。 |
 
 ### melt
 
@@ -1421,7 +1343,6 @@ long_df = pivot.reset_index().melt(
 | 第 4 行 | <code>    value_name="alert_count",</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 5 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
-
 很多画图和机器学习场景更喜欢长表。
 
 ## 排序、去重、采样
@@ -1437,7 +1358,6 @@ df.sort_values(["severity_score", "created_at"], ascending=[False, False])
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>df.sort_values(["severity_score", "created_at"], ascending=[False, False])</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 
 ### drop_duplicates
 
@@ -1457,7 +1377,6 @@ deduped = df.drop_duplicates(
 | 第 3 行 | <code>    keep="first",</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 4 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
-
 告警去重分析可以先定义 fingerprint 字段，再看重复率。
 
 ### sample
@@ -1471,7 +1390,6 @@ df.sample(10, random_state=42)
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>df.sample(10, random_state=42)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 
 用于抽样检查数据质量。
 
@@ -1491,7 +1409,6 @@ df["is_critical"] = df.apply(lambda row: row["severity"] == "critical", axis=1)
 |---|---|---|
 | 第 1 行 | <code>df["is_critical"] = df.apply(lambda row: row["severity"] == "critical", axis=1)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
-
 更好的向量化写法：
 
 ```python
@@ -1503,7 +1420,6 @@ df["is_critical"] = df["severity"] == "critical"
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>df["is_critical"] = df["severity"] == "critical"</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 
 原则：
 
@@ -1527,7 +1443,6 @@ df["status"] = df["status"].astype("category")
 | 第 1 行 | <code>df["severity"] = df["severity"].astype("category")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 2 行 | <code>df["status"] = df["status"].astype("category")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
-
 查看内存：
 
 ```python
@@ -1539,7 +1454,6 @@ df.info(memory_usage="deep")
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>df.info(memory_usage="deep")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 
 category 适合：
 
@@ -1569,7 +1483,6 @@ df = pd.read_csv("alerts.csv", usecols=["service", "severity", "created_at"])
 |---|---|---|
 | 第 1 行 | <code>df = pd.read_csv("alerts.csv", usecols=["service", "severity", "created_at"])</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 
-
 ### 分块读取
 
 ```python
@@ -1588,14 +1501,11 @@ result = pd.concat(parts).groupby(level=0).sum()
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>chunks = pd.read_csv("alerts.csv", chunksize=100_000)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 3 行 | <code>parts = []</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 4 行 | <code>for chunk in chunks:</code> | 循环处理一组数据，常用于逐条处理告警、日志或指标样本。 |
 | 第 5 行 | <code>    part = chunk.groupby("service").size()</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 6 行 | <code>    parts.append(part)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 7 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 8 行 | <code>result = pd.concat(parts).groupby(level=0).sum()</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-
 
 ### 先用 SQL 过滤
 
@@ -1612,7 +1522,6 @@ WHERE created_at >= NOW() - INTERVAL 7 DAY;
 | 第 1 行 | <code>SELECT *</code> | 选择最终要返回的字段或计算结果，是查询结果表头的来源。 |
 | 第 2 行 | <code>FROM alerts</code> | 指定从哪张表读取数据，是 SQL 逻辑执行的起点。 |
 | 第 3 行 | <code>WHERE created_at &gt;= NOW() - INTERVAL 7 DAY;</code> | 过滤原始数据行，只保留符合条件的记录。 |
-
 
 然后再读入 pandas。
 
@@ -1644,14 +1553,13 @@ projects/pandas-alert-report/
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>projects/pandas-alert-report/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  README.md</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>  requirements.txt</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>  alerts.csv</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 5 行 | <code>  deployments.csv</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 6 行 | <code>  analyze_alerts.py</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 7 行 | <code>  report.md</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>projects/pandas-alert-report/</code> | `projects/pandas-alert-report/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 2 行 | <code>  README.md</code> | `README.md` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 3 行 | <code>  requirements.txt</code> | `requirements.txt` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 4 行 | <code>  alerts.csv</code> | `alerts.csv` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 5 行 | <code>  deployments.csv</code> | `deployments.csv` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 6 行 | <code>  analyze_alerts.py</code> | `analyze_alerts.py` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 7 行 | <code>  report.md</code> | `report.md` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 ### requirements.txt
 
@@ -1664,9 +1572,8 @@ tabulate
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>pandas</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>tabulate</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>pandas</code> | 这一行里的英文要这样读：`pandas` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 2 行 | <code>tabulate</code> | 这一行里的英文要这样读：`tabulate` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 ### alerts.csv
 
@@ -1688,7 +1595,6 @@ alert_id,service,instance,severity,alert_name,created_at,resolved_at
 | 第 4 行 | <code>3,payment-api,10.0.2.21,critical,DatabaseConnectionError,2026-07-01 10:12:00,2026-07-01 10:40:00</code> | CSV 数据行，逗号分隔的每一列代表一个字段。 |
 | 第 5 行 | <code>4,gateway,10.0.0.8,info,TrafficSpike,2026-07-01 11:00:00,2026-07-01 11:05:00</code> | CSV 数据行，逗号分隔的每一列代表一个字段。 |
 
-
 ### deployments.csv
 
 ```csv
@@ -1704,7 +1610,6 @@ payment-api,2.1.0,def5678,2026-07-01 10:00:00
 | 第 1 行 | <code>service,version,commit_sha,deployed_at</code> | CSV 数据行，逗号分隔的每一列代表一个字段。 |
 | 第 2 行 | <code>order-api,1.4.2,abc1234,2026-07-01 08:55:00</code> | CSV 数据行，逗号分隔的每一列代表一个字段。 |
 | 第 3 行 | <code>payment-api,2.1.0,def5678,2026-07-01 10:00:00</code> | CSV 数据行，逗号分隔的每一列代表一个字段。 |
-
 
 ### analyze_alerts.py
 
@@ -1782,7 +1687,6 @@ with open("report.md", "w", encoding="utf-8") as f:
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>import pandas as pd</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 3 行 | <code>alerts = pd.read_csv(</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 4 行 | <code>    "alerts.csv",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 5 行 | <code>    parse_dates=["created_at", "resolved_at"],</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
@@ -1791,13 +1695,11 @@ with open("report.md", "w", encoding="utf-8") as f:
 | 第 8 行 | <code>    "deployments.csv",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 9 行 | <code>    parse_dates=["deployed_at"],</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 10 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 11 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 12 行 | <code>alerts["duration_min"] = (</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 13 行 | <code>    alerts["resolved_at"] - alerts["created_at"]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 14 行 | <code>).dt.total_seconds() / 60</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 15 行 | <code>alerts["is_critical"] = alerts["severity"] == "critical"</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 16 行 | <code>alerts["hour"] = alerts["created_at"].dt.floor("h")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 17 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 18 行 | <code>by_service = (</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 19 行 | <code>    alerts.groupby("service")</code> | 按字段分组统计，常用于按服务、告警名或时间窗口聚合数据。 |
 | 第 20 行 | <code>    .agg(</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
@@ -1808,16 +1710,13 @@ with open("report.md", "w", encoding="utf-8") as f:
 | 第 25 行 | <code>    .reset_index()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 26 行 | <code>    .sort_values("alert_count", ascending=False)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 27 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 28 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 29 行 | <code>by_hour = (</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 30 行 | <code>    alerts.groupby("hour")</code> | 按字段分组统计，常用于按服务、告警名或时间窗口聚合数据。 |
 | 第 31 行 | <code>    .size()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 32 行 | <code>    .reset_index(name="alert_count")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 33 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 34 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 35 行 | <code>alerts_sorted = alerts.sort_values("created_at")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 36 行 | <code>deployments_sorted = deployments.sort_values("deployed_at")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 37 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 38 行 | <code>with_deploy = pd.merge_asof(</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 39 行 | <code>    alerts_sorted,</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 40 行 | <code>    deployments_sorted,</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
@@ -1827,11 +1726,9 @@ with open("report.md", "w", encoding="utf-8") as f:
 | 第 44 行 | <code>    direction="backward",</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 45 行 | <code>    tolerance=pd.Timedelta("30min"),</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 46 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 47 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 48 行 | <code>open_alerts = alerts[alerts["resolved_at"].isna()][</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 49 行 | <code>    ["alert_id", "service", "severity", "alert_name", "created_at"]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 50 行 | <code>]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 51 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 52 行 | <code>with open("report.md", "w", encoding="utf-8") as f:</code> | 上下文管理语句，常用于安全打开文件或管理连接。 |
 | 第 53 行 | <code>    f.write("# 告警日报\n\n")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 54 行 | <code>    f.write("## 按服务统计\n\n")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
@@ -1848,7 +1745,6 @@ with open("report.md", "w", encoding="utf-8") as f:
 | 第 65 行 | <code>    )</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 66 行 | <code>    f.write("\n")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
-
 运行：
 
 ```bash
@@ -1862,7 +1758,6 @@ python analyze_alerts.py
 |---|---|---|
 | 第 1 行 | <code>pip install -r requirements.txt</code> | 管理 Python 依赖包，通常用于安装实验需要的库。 |
 | 第 2 行 | <code>python analyze_alerts.py</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
-
 
 学习点：
 
@@ -1907,9 +1802,7 @@ X = features[["alert_count", "critical_count", "avg_duration_min"]]
 | 第 8 行 | <code>    .fillna(0)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 9 行 | <code>    .reset_index()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 10 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 11 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 12 行 | <code>X = features[["alert_count", "critical_count", "avg_duration_min"]]</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-
 
 如果有分类列：
 
@@ -1922,7 +1815,6 @@ X = pd.get_dummies(features, columns=["service"], drop_first=False)
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>X = pd.get_dummies(features, columns=["service"], drop_first=False)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-
 
 pandas 的角色是把原始数据整理成“每行一个样本，每列一个特征”。
 
@@ -1940,7 +1832,6 @@ pd.read_csv("alerts.csv", parse_dates=["created_at"])
 |---|---|---|
 | 第 1 行 | <code>pd.read_csv("alerts.csv", parse_dates=["created_at"])</code> | 读取外部数据，AIOps 场景里常见来源是 CSV、数据库导出或日志文件。 |
 
-
 作用：读取 CSV。
 
 ### read_json
@@ -1955,7 +1846,6 @@ pd.read_json("alerts.jsonl", lines=True)
 |---|---|---|
 | 第 1 行 | <code>pd.read_json("alerts.jsonl", lines=True)</code> | 读取外部数据，AIOps 场景里常见来源是 CSV、数据库导出或日志文件。 |
 
-
 作用：读取 JSON Lines。
 
 ### read_sql
@@ -1969,7 +1859,6 @@ pd.read_sql("SELECT * FROM alerts", engine)
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>pd.read_sql("SELECT * FROM alerts", engine)</code> | 读取外部数据，AIOps 场景里常见来源是 CSV、数据库导出或日志文件。 |
-
 
 作用：读取 SQL 查询结果。
 
@@ -1989,7 +1878,6 @@ df.describe()
 | 第 2 行 | <code>df.info()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 3 行 | <code>df.describe()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
-
 作用：快速体检数据。
 
 ### loc / iloc
@@ -2006,7 +1894,6 @@ df.iloc[0:5, 0:3]
 | 第 1 行 | <code>df.loc[df["severity"] == "critical", ["service", "alert_name"]]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 2 行 | <code>df.iloc[0:5, 0:3]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
-
 作用：按标签或位置选择。
 
 ### to_datetime
@@ -2020,7 +1907,6 @@ pd.to_datetime(df["created_at"])
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>pd.to_datetime(df["created_at"])</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 
 作用：转时间类型。
 
@@ -2036,7 +1922,6 @@ df.groupby("service").size()
 |---|---|---|
 | 第 1 行 | <code>df.groupby("service").size()</code> | 按字段分组统计，常用于按服务、告警名或时间窗口聚合数据。 |
 
-
 作用：分组统计。
 
 ### agg
@@ -2050,7 +1935,6 @@ df.groupby("service").agg(alert_count=("alert_id", "count"))
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>df.groupby("service").agg(alert_count=("alert_id", "count"))</code> | 按字段分组统计，常用于按服务、告警名或时间窗口聚合数据。 |
-
 
 作用：多指标聚合。
 
@@ -2066,7 +1950,6 @@ alerts.merge(owners, on="service", how="left")
 |---|---|---|
 | 第 1 行 | <code>alerts.merge(owners, on="service", how="left")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
-
 作用：表关联。
 
 ### merge_asof
@@ -2080,7 +1963,6 @@ pd.merge_asof(alerts, deployments, left_on="created_at", right_on="deployed_at",
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>pd.merge_asof(alerts, deployments, left_on="created_at", right_on="deployed_at", by="service")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 
 作用：按时间找最近匹配。
 
@@ -2096,7 +1978,6 @@ pd.pivot_table(df, index="service", columns="severity", values="alert_id", aggfu
 |---|---|---|
 | 第 1 行 | <code>pd.pivot_table(df, index="service", columns="severity", values="alert_id", aggfunc="count")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
-
 作用：透视统计。
 
 ### resample
@@ -2111,7 +1992,6 @@ df.set_index("created_at").resample("1h").size()
 |---|---|---|
 | 第 1 行 | <code>df.set_index("created_at").resample("1h").size()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
-
 作用：按时间频率重采样。
 
 ### rolling
@@ -2125,7 +2005,6 @@ series.rolling(window=3).mean()
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>series.rolling(window=3).mean()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 
 作用：滚动窗口计算。
 
@@ -2142,7 +2021,6 @@ df.to_markdown(index=False)
 |---|---|---|
 | 第 1 行 | <code>df.to_csv("result.csv", index=False)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 2 行 | <code>df.to_markdown(index=False)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 
 作用：导出结果。
 

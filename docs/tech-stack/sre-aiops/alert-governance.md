@@ -28,8 +28,7 @@ DiskUsageHigh on node-17
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>DiskUsageHigh on node-17</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>DiskUsageHigh on node-17</code> | 这一行里的英文要这样读：`DiskUsageHigh on node-17` 这个英文标识可以拆开理解为：高，节点。 |
 
 你打开告警，发现：
 
@@ -107,42 +106,41 @@ Monitoring
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>Monitoring</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; metrics / logs / traces / black-box checks</code> | 这一行要理解这些英文词：`metrics` 是指标；`logs` 是日志；`traces` 是链路追踪；`black-box checks` 是黑盒检查，从用户视角探测接口、页面或端口是否可用。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; alerting rules</code> | 这一行要理解这些英文词：`alerting rules` 是告警规则，定义什么条件会触发告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>     -&gt; symptoms</code> | 这一行要理解这些英文词：`symptoms` 是现象。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>     -&gt; causes</code> | 这一行要理解这些英文词：`causes` 是原因。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>     -&gt; SLO burn rate</code> | 这一行要理解这些英文词：`SLO burn rate` 是SLO 消耗率，衡量错误预算被消耗得有多快。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>     -&gt; for / keep_firing_for</code> | 这一行要理解这些英文词：`for` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`keep_firing_for` 是Prometheus 告警参数，表示条件消失后告警继续保持触发多久。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>  -&gt; alert labels</code> | 这一行要理解这些英文词：`alert labels` 是告警标签，用键值对描述服务、级别、负责人等信息。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 1 行 | <code>Monitoring</code> | 这一行里的英文要这样读：`Monitoring` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
+| 第 2 行 | <code>  -&gt; metrics / logs / traces / black-box checks</code> | 这一行要理解这些英文词：`metrics` 是指标；`logs` 是日志；`traces` 是链路追踪；`black-box checks` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; alerting rules</code> | 这一行要理解这些英文词：`alerting rules` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>     -&gt; symptoms</code> | 这一行要理解这些英文词：`symptoms` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>     -&gt; causes</code> | 这一行要理解这些英文词：`causes` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>     -&gt; SLO burn rate</code> | 这一行要理解这些英文词：`SLO burn rate` 是slo=服务等级目标。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>     -&gt; for / keep_firing_for</code> | 这一行要理解这些英文词：`for` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`keep_firing_for` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; alert labels</code> | 这一行要理解这些英文词：`alert labels` 是alert=告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 9 行 | <code>     -&gt; service</code> | 这一行要理解这些英文词：`service` 是服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 10 行 | <code>     -&gt; severity</code> | 这一行要理解这些英文词：`severity` 是严重级别。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 11 行 | <code>     -&gt; owner</code> | 这一行要理解这些英文词：`owner` 是负责人。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>     -&gt; severity</code> | 这一行要理解这些英文词：`severity` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>     -&gt; owner</code> | 这一行要理解这些英文词：`owner` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 12 行 | <code>     -&gt; slo</code> | 这一行要理解这些英文词：`slo` 是服务等级目标。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 13 行 | <code>     -&gt; runbook_url</code> | 这一行要理解这些英文词：`runbook_url` 是runbook=故障处理手册，url=网页或接口地址。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 13 行 | <code>     -&gt; runbook_url</code> | 这一行要理解这些英文词：`runbook_url` 是runbook=故障处理手册。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 14 行 | <code>  -&gt; Alertmanager</code> | 这一行要理解这些英文词：`Alertmanager` 是Prometheus 生态里的告警管理器。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 15 行 | <code>     -&gt; grouping</code> | 这一行要理解这些英文词：`grouping` 是分组。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 16 行 | <code>     -&gt; routing</code> | 这一行要理解这些英文词：`routing` 是路由。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 17 行 | <code>     -&gt; inhibition</code> | 这一行要理解这些英文词：`inhibition` 是抑制规则。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 18 行 | <code>     -&gt; silence</code> | 这一行要理解这些英文词：`silence` 是静默。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 19 行 | <code>     -&gt; receivers</code> | 这一行要理解这些英文词：`receivers` 是接收器。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 20 行 | <code>  -&gt; response</code> | 这一行要理解这些英文词：`response` 是响应处理。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 21 行 | <code>     -&gt; page</code> | 这一行要理解这些英文词：`page` 是立即通知值班人员。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 22 行 | <code>     -&gt; ticket</code> | 这一行要理解这些英文词：`ticket` 是工单。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 23 行 | <code>     -&gt; info</code> | 这一行要理解这些英文词：`info` 是信息类通知。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 24 行 | <code>     -&gt; automation</code> | 这一行要理解这些英文词：`automation` 是自动化。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 25 行 | <code>  -&gt; review</code> | 这一行要理解这些英文词：`review` 是复盘或评审。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 26 行 | <code>     -&gt; noise</code> | 这一行要理解这些英文词：`noise` 是告警噪音。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 27 行 | <code>     -&gt; duplicates</code> | 这一行要理解这些英文词：`duplicates` 是重复项。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 28 行 | <code>     -&gt; flapping</code> | 这一行要理解这些英文词：`flapping` 是反复恢复又触发。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 29 行 | <code>     -&gt; missing runbooks</code> | 这一行要理解这些英文词：`missing runbooks` 是缺少处理手册，告警来了但没有明确操作步骤。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 30 行 | <code>     -&gt; bad ownership</code> | 这一行要理解这些英文词：`bad ownership` 是ownership=负责人归属。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 15 行 | <code>     -&gt; grouping</code> | 这一行要理解这些英文词：`grouping` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 16 行 | <code>     -&gt; routing</code> | 这一行要理解这些英文词：`routing` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 17 行 | <code>     -&gt; inhibition</code> | 这一行要理解这些英文词：`inhibition` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 18 行 | <code>     -&gt; silence</code> | 这一行要理解这些英文词：`silence` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 19 行 | <code>     -&gt; receivers</code> | 这一行要理解这些英文词：`receivers` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 20 行 | <code>  -&gt; response</code> | 这一行要理解这些英文词：`response` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 21 行 | <code>     -&gt; page</code> | 这一行要理解这些英文词：`page` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 22 行 | <code>     -&gt; ticket</code> | 这一行要理解这些英文词：`ticket` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 23 行 | <code>     -&gt; info</code> | 这一行要理解这些英文词：`info` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 24 行 | <code>     -&gt; automation</code> | 这一行要理解这些英文词：`automation` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 25 行 | <code>  -&gt; review</code> | 这一行要理解这些英文词：`review` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 26 行 | <code>     -&gt; noise</code> | 这一行要理解这些英文词：`noise` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 27 行 | <code>     -&gt; duplicates</code> | 这一行要理解这些英文词：`duplicates` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 28 行 | <code>     -&gt; flapping</code> | 这一行要理解这些英文词：`flapping` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 29 行 | <code>     -&gt; missing runbooks</code> | 这一行要理解这些英文词：`missing runbooks` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 30 行 | <code>     -&gt; bad ownership</code> | 这一行要理解这些英文词：`bad ownership` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 31 行 | <code>  -&gt; AIOps</code> | 这一行要理解这些英文词：`AIOps` 是智能运维。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 32 行 | <code>     -&gt; clustering</code> | 这一行要理解这些英文词：`clustering` 是聚类。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 33 行 | <code>     -&gt; dedup</code> | 这一行要理解这些英文词：`dedup` 是去重。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 34 行 | <code>     -&gt; enrichment</code> | 这一行要理解这些英文词：`enrichment` 是增强上下文。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 35 行 | <code>     -&gt; runbook recommendation</code> | 这一行要理解这些英文词：`runbook recommendation` 是runbook 推荐，根据告警上下文推荐处理手册。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 32 行 | <code>     -&gt; clustering</code> | 这一行要理解这些英文词：`clustering` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 33 行 | <code>     -&gt; dedup</code> | 这一行要理解这些英文词：`dedup` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 34 行 | <code>     -&gt; enrichment</code> | 这一行要理解这些英文词：`enrichment` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 35 行 | <code>     -&gt; runbook recommendation</code> | 这一行要理解这些英文词：`runbook recommendation` 是runbook=故障处理手册。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 初学路线：
 
@@ -161,15 +159,14 @@ inventory alerts
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>inventory alerts</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; classify page/ticket/info</code> | 这一行要理解这些英文词：`classify page` 是classify=分类，page=立即通知值班人员；`ticket` 是工单；`info` 是信息类通知。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; require owner and runbook</code> | 这一行要理解这些英文词：`require owner and runbook` 是要求负责人和处理手册，保证告警有人接、有步骤可查。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; prefer SLO/symptom pages</code> | 这一行要理解这些英文词：`prefer SLO` 是prefer=优先选择，slo=服务等级目标；`symptom pages` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; move cause alerts to ticket/dashboard</code> | 这一行要理解这些英文词：`move cause alerts to ticket` 是alerts=告警，ticket=工单；`dashboard` 是仪表盘，用图表集中展示指标、状态和趋势。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; configure Alertmanager grouping/routing/inhibition</code> | 这一行要理解这些英文词：`configure Alertmanager grouping` 是alertmanager=Prometheus 生态里的告警管理器，grouping=分组；`routing` 是路由；`inhibition` 是抑制规则。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; track alert quality metrics</code> | 这一行要理解这些英文词：`track alert quality metrics` 是跟踪告警质量指标，例如噪音率、重复率、误报率和响应时间。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>  -&gt; review weekly</code> | 这一行要理解这些英文词：`review weekly` 是review=复盘或评审。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 1 行 | <code>inventory alerts</code> | 这一行里的英文要这样读：`inventory alerts` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 2 行 | <code>  -&gt; classify page/ticket/info</code> | 这一行要理解这些英文词：`classify page` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`ticket` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`info` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; require owner and runbook</code> | 这一行要理解这些英文词：`require owner and runbook` 是runbook=故障处理手册。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; prefer SLO/symptom pages</code> | 这一行要理解这些英文词：`prefer SLO` 是slo=服务等级目标；`symptom pages` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; move cause alerts to ticket/dashboard</code> | 这一行要理解这些英文词：`move cause alerts to ticket` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`dashboard` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; configure Alertmanager grouping/routing/inhibition</code> | 这一行要理解这些英文词：`configure Alertmanager grouping` 是alertmanager=Prometheus 生态里的告警管理器；`routing` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`inhibition` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; track alert quality metrics</code> | 这一行要理解这些英文词：`track alert quality metrics` 是alert=告警，metrics=指标。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; review weekly</code> | 这一行要理解这些英文词：`review weekly` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 ## 告警不是监控
 
@@ -197,9 +194,8 @@ Google SRE 对 page 的要求很强：告警不应该因为“有点奇怪”就
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>所有 page 都应该来自监控。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>但不是所有监控都应该 page。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>所有 page 都应该来自监控。</code> | 这一行里的英文要这样读：`page` 是需要立即通知值班人员的告警级别。 |
+| 第 2 行 | <code>但不是所有监控都应该 page。</code> | 这一行里的英文要这样读：`page` 是需要立即通知值班人员的告警级别。 |
 
 ## 好告警的四个条件
 
@@ -243,11 +239,9 @@ Google SRE 对 page 的要求很强：告警不应该因为“有点奇怪”就
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>现在不处理，用户会明显受影响吗？</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>会 -&gt; page</code> | 这一行要理解这些英文词：`page` 是立即通知值班人员。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>不会但应该处理 -&gt; ticket</code> | 这一行要理解这些英文词：`ticket` 是工单。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>只是信息 -&gt; info</code> | 这一行要理解这些英文词：`info` 是信息类通知。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 2 行 | <code>会 -&gt; page</code> | 这一行要理解这些英文词：`page` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>不会但应该处理 -&gt; ticket</code> | 这一行要理解这些英文词：`ticket` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>只是信息 -&gt; info</code> | 这一行要理解这些英文词：`info` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 ## 症状 vs 原因
 
@@ -276,10 +270,9 @@ dashboard 保存更多原因指标。
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>page 优先症状告警。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>ticket 可以关注确定的原因告警。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>dashboard 保存更多原因指标。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>page 优先症状告警。</code> | 这一行里的英文要这样读：`page` 是需要立即通知值班人员的告警级别。 |
+| 第 2 行 | <code>ticket 可以关注确定的原因告警。</code> | 这一行里的英文要这样读：`ticket` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 3 行 | <code>dashboard 保存更多原因指标。</code> | 这一行里的英文要这样读：`dashboard` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 为什么？
 
@@ -311,11 +304,10 @@ Saturation 接近用户影响 -> ticket or page
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>Errors / Latency 伤害 SLO -&gt; page</code> | 这一行要理解这些英文词：`Errors` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`Latency` 是延迟；`SLO` 是服务等级目标；`page` 是立即通知值班人员。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 2 行 | <code>Traffic 异常影响业务 -&gt; page or ticket</code> | 这一行要理解这些英文词：`Traffic` 是流量；`page or ticket` 是page=立即通知值班人员，ticket=工单。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>Saturation 接近用户影响 -&gt; ticket or page</code> | 这一行要理解这些英文词：`Saturation` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`ticket or page` 是ticket=工单，page=立即通知值班人员。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>纯资源异常但无影响 -&gt; ticket / dashboard</code> | 这一行要理解这些英文词：`ticket` 是工单；`dashboard` 是仪表盘，用图表集中展示指标、状态和趋势。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 1 行 | <code>Errors / Latency 伤害 SLO -&gt; page</code> | 这一行要理解这些英文词：`Errors` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`Latency` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`SLO` 是服务等级目标；`page` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 2 行 | <code>Traffic 异常影响业务 -&gt; page or ticket</code> | 这一行要理解这些英文词：`Traffic` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`page or ticket` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>Saturation 接近用户影响 -&gt; ticket or page</code> | 这一行要理解这些英文词：`Saturation` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`ticket or page` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>纯资源异常但无影响 -&gt; ticket / dashboard</code> | 这一行要理解这些英文词：`ticket` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`dashboard` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 ## Alert Rule 设计
 
@@ -363,23 +355,22 @@ groups:
 | 第 2 行 | <code>  - name: order-api-alerts</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
 | 第 3 行 | <code>    rules:</code> | 定义 `rules` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 4 行 | <code>      - alert: OrderApiHighErrorRate</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 5 行 | <code>        expr: &#124;</code> | 设置 `expr` 字段的值为 `|`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 5 行 | <code>        expr: &#124;</code> | `expr` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`|` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 6 行 | <code>          sum(rate(http_requests_total{job="order-api",code=~"5.."}[5m]))</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
 | 第 7 行 | <code>          /</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
 | 第 8 行 | <code>          sum(rate(http_requests_total{job="order-api"}[5m]))</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
 | 第 9 行 | <code>          &gt; 0.05</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
-| 第 10 行 | <code>        for: 5m</code> | 设置 `for` 字段的值为 `5m`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 11 行 | <code>        keep_firing_for: 5m</code> | 设置 `keep_firing_for` 字段的值为 `5m`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 10 行 | <code>        for: 5m</code> | `for` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`5m` 表示持续分钟数，常用于表示故障已经持续多久；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 11 行 | <code>        keep_firing_for: 5m</code> | `keep_firing_for` 这个英文标识可以拆开理解为：告警正在触发的状态，`5m` 表示持续分钟数，常用于表示故障已经持续多久；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 12 行 | <code>        labels:</code> | 定义 `labels` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 13 行 | <code>          severity: page</code> | 设置 `severity` 字段的值为 `page`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 14 行 | <code>          service: order-api</code> | 设置 `service` 字段的值为 `order-api`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 15 行 | <code>          owner: team-order</code> | 设置 `owner` 字段的值为 `team-order`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 13 行 | <code>          severity: page</code> | `severity` 是告警严重级别字段，`page` 表示需要立即通知值班人员的告警级别；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 14 行 | <code>          service: order-api</code> | `service` 是服务名称字段，`order-api` 是具体服务名，表示这条记录属于这个服务；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 15 行 | <code>          owner: team-order</code> | `owner` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`team-order` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 16 行 | <code>        annotations:</code> | 定义 `annotations` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 17 行 | <code>          summary: "order-api 5xx error rate is above 5%"</code> | 设置 `summary` 字段的值为 `"order-api 5xx error rate is above 5%"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 18 行 | <code>          description: "More than 5% of order-api requests are returning 5xx for 5 minutes."</code> | 设置 `description` 字段的值为 `"More than 5% of order-api requests are returning 5xx for 5 minutes."`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 19 行 | <code>          dashboard_url: "https://grafana.example.com/d/order-api"</code> | 设置 `dashboard_url` 字段的值为 `"https://grafana.example.com/d/order-api"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 20 行 | <code>          runbook_url: "https://github.com/quweisheng/zero-to-aiops/tree/main/runbooks/order-api-high-error-rate.md"</code> | 设置 `runbook_url` 字段的值为 `"https://github.com/quweisheng/zero-to-aiops/tree/main/runbooks/order-api-high-error-rate.md"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 17 行 | <code>          summary: "order-api 5xx error rate is above 5%"</code> | `summary` 是摘要说明字段，`order-api 5xx error rate is above 5%` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 18 行 | <code>          description: "More than 5% of order-api requests are returning 5xx for 5 minutes."</code> | `description` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`More than 5% of order-api requests are returning 5xx for 5 minutes.` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 19 行 | <code>          dashboard_url: "https://grafana.example.com/d/order-api"</code> | `dashboard_url` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`https://grafana.example.com/d/order-api` 表示URL 地址，表示页面、接口或文档入口；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 20 行 | <code>          runbook_url: "https://github.com/quweisheng/zero-to-aiops/tree/main/runbooks/order-api-high-error-rate.md"</code> | `runbook_url` 是故障处理手册链接字段，`https://github.com/quweisheng/zero-to-aiops/tree/main/runbooks/order-api-high-error-rate.md` 是高错误率告警名，表示请求失败比例过高；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 注意：
 
@@ -403,11 +394,10 @@ SLO burn-rate page
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>SLO burn-rate page</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 1 行 | <code>SLO burn-rate page</code> | 这一行里的英文要这样读：`SLO burn-rate page` 这个英文标识可以拆开理解为：服务等级目标，比率，需要立即通知值班人员的告警级别。 |
 | 第 2 行 | <code>  -&gt; 用户影响更明确</code> | 这一行表示上一级主题下的子项“用户影响更明确”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
 | 第 3 行 | <code>  -&gt; 跨服务口径统一</code> | 这一行表示上一级主题下的子项“跨服务口径统一”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
 | 第 4 行 | <code>  -&gt; 可和发布决策关联</code> | 这一行表示上一级主题下的子项“可和发布决策关联”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
-
 
 普通阈值告警：
 
@@ -419,8 +409,7 @@ SLO burn-rate page
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>5xx &gt; 5%</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>5xx &gt; 5%</code> | 这一行里的英文要这样读：`5xx` 是HTTP 5xx 服务端错误，表示请求到达服务端但服务端处理失败。 |
 
 SLO 告警：
 
@@ -432,8 +421,7 @@ error_rate > burn_rate * allowed_error_rate
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>error_rate &gt; burn_rate * allowed_error_rate</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>error_rate &gt; burn_rate * allowed_error_rate</code> | 这一行里的英文要这样读：`error_rate` 是错误率字段；`burn_rate` 这个英文标识可以拆开理解为：比率；`allowed_error_rate` 这个英文标识可以拆开理解为：错误，比率。 |
 
 两者差别：
 
@@ -481,12 +469,11 @@ route:
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>route:</code> | 定义 `route` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  group_by: ["alertname", "service"]</code> | 设置 `group_by` 字段的值为 `["alertname", "service"]`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 3 行 | <code>  group_wait: 30s</code> | 设置 `group_wait` 字段的值为 `30s`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 4 行 | <code>  group_interval: 5m</code> | 设置 `group_interval` 字段的值为 `5m`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 5 行 | <code>  repeat_interval: 4h</code> | 设置 `repeat_interval` 字段的值为 `4h`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 6 行 | <code>  receiver: default</code> | 设置 `receiver` 字段的值为 `default`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 2 行 | <code>  group_by: ["alertname", "service"]</code> | `group_by` 是告警分组字段，`["alertname", "service"]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 3 行 | <code>  group_wait: 30s</code> | `group_wait` 这个英文标识可以拆开理解为：分组，`30s` 表示持续秒数，常用于配置采集间隔、超时时间或等待时间；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 4 行 | <code>  group_interval: 5m</code> | `group_interval` 这个英文标识可以拆开理解为：分组，`5m` 表示持续分钟数，常用于表示故障已经持续多久；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 5 行 | <code>  repeat_interval: 4h</code> | `repeat_interval` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`4h` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 6 行 | <code>  receiver: default</code> | `receiver` 是告警接收人或接收渠道，`default` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 字段含义：
 
@@ -527,18 +514,17 @@ route:
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>route:</code> | 定义 `route` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  receiver: default</code> | 设置 `receiver` 字段的值为 `default`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 2 行 | <code>  receiver: default</code> | `receiver` 是告警接收人或接收渠道，`default` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 3 行 | <code>  routes:</code> | 定义 `routes` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 4 行 | <code>    - matchers:</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
 | 第 5 行 | <code>        - severity="page"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 6 行 | <code>      receiver: oncall</code> | 设置 `receiver` 字段的值为 `oncall`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 6 行 | <code>      receiver: oncall</code> | `receiver` 是告警接收人或接收渠道，`oncall` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 7 行 | <code>    - matchers:</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
 | 第 8 行 | <code>        - severity="ticket"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 9 行 | <code>      receiver: ticket-system</code> | 设置 `receiver` 字段的值为 `ticket-system`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 9 行 | <code>      receiver: ticket-system</code> | `receiver` 是告警接收人或接收渠道，`ticket-system` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 10 行 | <code>    - matchers:</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
 | 第 11 行 | <code>        - service="payment-api"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 12 行 | <code>      receiver: payment-team</code> | 设置 `receiver` 字段的值为 `payment-team`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 12 行 | <code>      receiver: payment-team</code> | `receiver` 是告警接收人或接收渠道，`payment-team` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 路由依赖标签质量。没有 `service`、`owner`、`severity`，路由只能靠猜。
 
@@ -564,8 +550,7 @@ inhibit_rules:
 | 第 3 行 | <code>      - alertname="OrderApiDown"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
 | 第 4 行 | <code>    target_matchers:</code> | 定义 `target_matchers` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 5 行 | <code>      - severity="ticket"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 6 行 | <code>    equal: ["service"]</code> | 设置 `equal` 字段的值为 `["service"]`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 6 行 | <code>    equal: ["service"]</code> | `equal` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`["service"]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 含义：
 
@@ -578,9 +563,8 @@ inhibit_rules:
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>如果 order-api 已经 Down，</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>同 service 的 ticket 级告警先别再打扰。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>如果 order-api 已经 Down，</code> | 这一行里的英文要这样读：`order-api` 里的 order 表示订单业务，api 表示接口服务，合起来通常指订单接口服务；`Down` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
+| 第 2 行 | <code>同 service 的 ticket 级告警先别再打扰。</code> | 这一行里的英文要这样读：`service` 是服务名称字段；`ticket` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 注意：抑制不是隐藏问题，而是减少重复通知。排障时 dashboard 里仍然应该能看到底层指标。
 
@@ -644,8 +628,7 @@ Service + Symptom
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>Service + Symptom</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>Service + Symptom</code> | 这一行里的英文要这样读：`Service` 是服务名称字段；`Symptom` 是故障现象字段。 |
 
 例如：
 
@@ -660,11 +643,10 @@ KafkaConsumerLagGrowing
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>OrderApiHighErrorRate</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>OrderApiLatencySLOBurn</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>PaymentApiDependencyFailures</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>KafkaConsumerLagGrowing</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>OrderApiHighErrorRate</code> | 这一行里的英文要这样读：`OrderApiHighErrorRate` 是高错误率告警名，通常表示某个服务的请求失败比例超过阈值。 |
+| 第 2 行 | <code>OrderApiLatencySLOBurn</code> | 这一行里的英文要这样读：`OrderApiLatencySLOBurn` 里的 order 表示订单业务，api 表示接口服务，合起来通常指订单接口服务。 |
+| 第 3 行 | <code>PaymentApiDependencyFailures</code> | 这一行里的英文要这样读：`PaymentApiDependencyFailures` 这个英文标识可以拆开理解为：应用程序接口。 |
+| 第 4 行 | <code>KafkaConsumerLagGrowing</code> | 这一行里的英文要这样读：`KafkaConsumerLagGrowing` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
 
 不推荐：
 
@@ -679,11 +661,10 @@ SomethingWrong
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>High</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>Error</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>CPUWarning</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>SomethingWrong</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>High</code> | 这一行里的英文要这样读：`High` 是高。 |
+| 第 2 行 | <code>Error</code> | 这一行里的英文要这样读：`Error` 是错误。 |
+| 第 3 行 | <code>CPUWarning</code> | 这一行里的英文要这样读：`CPUWarning` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
+| 第 4 行 | <code>SomethingWrong</code> | 这一行里的英文要这样读：`SomethingWrong` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
 
 告警名应该让人在通知列表中一眼知道：
 
@@ -749,9 +730,8 @@ SomethingWrong
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>所有 page 必须有 owner 和 runbook。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>每周复盘 top noisy alerts。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>所有 page 必须有 owner 和 runbook。</code> | 这一行里的英文要这样读：`page` 是需要立即通知值班人员的告警级别；`owner` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`runbook` 是故障处理手册。 |
+| 第 2 行 | <code>每周复盘 top noisy alerts。</code> | 这一行里的英文要这样读：`top noisy alerts` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 ## 告警风暴治理
 
@@ -814,7 +794,6 @@ PaymentApiLatencyHigh,payment-api,page,8,4,true,false,
 | 第 4 行 | <code>DiskWillFill,node,ticket,12,2,true,true,</code> | CSV 数据行，逗号分隔的每一列代表一个字段。 |
 | 第 5 行 | <code>PaymentApiLatencyHigh,payment-api,page,8,4,true,false,</code> | CSV 数据行，逗号分隔的每一列代表一个字段。 |
 
-
 目标：
 
 1. 找出没有 runbook 的 page。
@@ -874,8 +853,7 @@ for: 5m
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>for: 5m</code> | 设置 `for` 字段的值为 `5m`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 1 行 | <code>for: 5m</code> | `for` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`5m` 表示持续分钟数，常用于表示故障已经持续多久；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 条件持续满足 5 分钟才触发 firing，减少瞬时毛刺。
 
@@ -889,8 +867,7 @@ keep_firing_for: 5m
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>keep_firing_for: 5m</code> | 设置 `keep_firing_for` 字段的值为 `5m`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 1 行 | <code>keep_firing_for: 5m</code> | `keep_firing_for` 这个英文标识可以拆开理解为：告警正在触发的状态，`5m` 表示持续分钟数，常用于表示故障已经持续多久；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 条件恢复后继续保持 firing 一段时间，减少抖动。
 
@@ -907,9 +884,8 @@ labels:
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>labels:</code> | 定义 `labels` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  severity: page</code> | 设置 `severity` 字段的值为 `page`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 3 行 | <code>  service: order-api</code> | 设置 `service` 字段的值为 `order-api`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 2 行 | <code>  severity: page</code> | `severity` 是告警严重级别字段，`page` 表示需要立即通知值班人员的告警级别；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 3 行 | <code>  service: order-api</code> | `service` 是服务名称字段，`order-api` 是具体服务名，表示这条记录属于这个服务；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 机器处理字段，用于路由、分组、抑制。
 
@@ -926,9 +902,8 @@ annotations:
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>annotations:</code> | 定义 `annotations` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  summary: "order-api 5xx is high"</code> | 设置 `summary` 字段的值为 `"order-api 5xx is high"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 3 行 | <code>  runbook_url: "https://example.com/runbooks/order-api"</code> | 设置 `runbook_url` 字段的值为 `"https://example.com/runbooks/order-api"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 2 行 | <code>  summary: "order-api 5xx is high"</code> | `summary` 是摘要说明字段，`order-api 5xx is high` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 3 行 | <code>  runbook_url: "https://example.com/runbooks/order-api"</code> | `runbook_url` 是故障处理手册链接字段，`https://example.com/runbooks/order-api` 表示URL 地址，表示页面、接口或文档入口；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 人读字段，用于说明和处理。
 
@@ -942,8 +917,7 @@ group_by: ["alertname", "service"]
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>group_by: ["alertname", "service"]</code> | 设置 `group_by` 字段的值为 `["alertname", "service"]`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 1 行 | <code>group_by: ["alertname", "service"]</code> | `group_by` 是告警分组字段，`["alertname", "service"]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 按哪些标签合并告警。
 
@@ -957,8 +931,7 @@ repeat_interval: 4h
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>repeat_interval: 4h</code> | 设置 `repeat_interval` 字段的值为 `4h`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 1 行 | <code>repeat_interval: 4h</code> | `repeat_interval` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`4h` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 同一组持续 firing 多久重复通知。
 
@@ -982,8 +955,7 @@ inhibit_rules:
 | 第 3 行 | <code>      - alertname="OrderApiDown"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
 | 第 4 行 | <code>    target_matchers:</code> | 定义 `target_matchers` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 5 行 | <code>      - severity="ticket"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 6 行 | <code>    equal: ["service"]</code> | 设置 `equal` 字段的值为 `["service"]`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 6 行 | <code>    equal: ["service"]</code> | `equal` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`["service"]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 高层告警出现时抑制低层衍生告警。
 

@@ -89,14 +89,13 @@ Docker 官方资料可以按这张表理解：
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>先理解 Docker Engine 架构</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 1 行 | <code>先理解 Docker Engine 架构</code> | 这一行里的英文要这样读：`Docker Engine` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 | 第 2 行 | <code>  -&gt; 再理解镜像和容器对象</code> | 这一行表示上一级主题下的子项“再理解镜像和容器对象”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
-| 第 3 行 | <code>  -&gt; 再学习 Dockerfile 构建</code> | 这一行要理解这些英文词：`Dockerfile` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; 再学习 docker run 运行参数</code> | 这一行要理解这些英文词：`docker run` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; 再学习 Dockerfile 构建</code> | 这一行要理解这些英文词：`Dockerfile` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; 再学习 docker run 运行参数</code> | 这一行要理解这些英文词：`docker run` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 5 行 | <code>  -&gt; 再学习网络和存储</code> | 这一行表示上一级主题下的子项“再学习网络和存储”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
 | 第 6 行 | <code>  -&gt; 再学习日志、资源、安全和排障</code> | 这一行表示上一级主题下的子项“再学习日志、资源、安全和排障”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
 | 第 7 行 | <code>  -&gt; 最后把 AIOps demo 容器化</code> | 这一行要理解这些英文词：`AIOps demo` 是aiops=智能运维。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 
 ## Docker 在 AIOps 链路中的位置
 
@@ -125,25 +124,24 @@ AIOps lab or platform
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>AIOps lab or platform</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  ├── observability</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 3 行 | <code>  │   ├── Prometheus container</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 4 行 | <code>  │   ├── Grafana container</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 5 行 | <code>  │   ├── Loki container</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 6 行 | <code>  │   └── OpenTelemetry Collector container</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 7 行 | <code>  ├── data stores</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 8 行 | <code>  │   ├── MySQL container</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 9 行 | <code>  │   ├── Redis container</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 10 行 | <code>  │   └── Kafka container</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 11 行 | <code>  ├── automation and APIs</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 12 行 | <code>  │   ├── FastAPI container</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 13 行 | <code>  │   └── webhook worker container</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 14 行 | <code>  └── learning evidence</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 15 行 | <code>      ├── Dockerfile</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 16 行 | <code>      ├── run commands</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 17 行 | <code>      ├── logs</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 18 行 | <code>      └── troubleshooting notes</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-
+| 第 1 行 | <code>AIOps lab or platform</code> | 这一行里的英文要这样读：`AIOps lab or platform` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 2 行 | <code>  ├── observability</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 3 行 | <code>  │   ├── Prometheus container</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 4 行 | <code>  │   ├── Grafana container</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 5 行 | <code>  │   ├── Loki container</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 6 行 | <code>  │   └── OpenTelemetry Collector container</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 7 行 | <code>  ├── data stores</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 8 行 | <code>  │   ├── MySQL container</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 9 行 | <code>  │   ├── Redis container</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 10 行 | <code>  │   └── Kafka container</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 11 行 | <code>  ├── automation and APIs</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 12 行 | <code>  │   ├── FastAPI container</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 13 行 | <code>  │   └── webhook worker container</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 14 行 | <code>  └── learning evidence</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 15 行 | <code>      ├── Dockerfile</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 16 行 | <code>      ├── run commands</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 17 行 | <code>      ├── logs</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 18 行 | <code>      └── troubleshooting notes</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
 
 Docker 在 AIOps 中主要有四个用途：
 
@@ -183,14 +181,13 @@ container: web-3
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>image: nginx:1.27</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>  &#124; docker run</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>  v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 5 行 | <code>container: web-1</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 6 行 | <code>container: web-2</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 7 行 | <code>container: web-3</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>image: nginx:1.27</code> | `image` 是image 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `nginx:1.27` 是这个字段的示例内容或模板表达式。 |
+| 第 2 行 | <code>  &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
+| 第 3 行 | <code>  &#124; docker run</code> | 这一行里的英文要这样读：`docker run` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 4 行 | <code>  v</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
+| 第 5 行 | <code>container: web-1</code> | `container` 是container 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `web-1` 是这个字段的示例内容或模板表达式。 |
+| 第 6 行 | <code>container: web-2</code> | `container` 是container 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `web-2` 是这个字段的示例内容或模板表达式。 |
+| 第 7 行 | <code>container: web-3</code> | `container` 是container 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `web-3` 是这个字段的示例内容或模板表达式。 |
 
 一个镜像可以启动多个容器。删除容器不会自动删除镜像。删除镜像也不能删除正在使用它的容器。
 
@@ -221,23 +218,22 @@ Docker daemon
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>user</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>  v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>docker CLI</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 5 行 | <code>  &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 6 行 | <code>  v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 7 行 | <code>Docker API</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 8 行 | <code>  &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 9 行 | <code>  v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 10 行 | <code>Docker daemon</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 11 行 | <code>  &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 12 行 | <code>  +--&gt; images</code> | 这一行要理解这些英文词：`images` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 13 行 | <code>  +--&gt; containers</code> | 这一行要理解这些英文词：`containers` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 14 行 | <code>  +--&gt; networks</code> | 这一行要理解这些英文词：`networks` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 15 行 | <code>  +--&gt; volumes</code> | 这一行要理解这些英文词：`volumes` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 16 行 | <code>  +--&gt; registry pull / push</code> | 这一行要理解这些英文词：`registry pull` 是registry=插件或模块注册中心；`push` 是推送，把本地提交上传到远程仓库。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 1 行 | <code>user</code> | 这一行里的英文要这样读：`user` 是用户。 |
+| 第 2 行 | <code>  &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
+| 第 3 行 | <code>  v</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
+| 第 4 行 | <code>docker CLI</code> | 这一行里的英文要这样读：`docker CLI` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 5 行 | <code>  &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
+| 第 6 行 | <code>  v</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
+| 第 7 行 | <code>Docker API</code> | 这一行里的英文要这样读：`Docker API` 这个英文标识可以拆开理解为：应用程序接口。 |
+| 第 8 行 | <code>  &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
+| 第 9 行 | <code>  v</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
+| 第 10 行 | <code>Docker daemon</code> | 这一行里的英文要这样读：`Docker daemon` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 11 行 | <code>  &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
+| 第 12 行 | <code>  +--&gt; images</code> | 这一行要理解这些英文词：`images` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 13 行 | <code>  +--&gt; containers</code> | 这一行要理解这些英文词：`containers` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 14 行 | <code>  +--&gt; networks</code> | 这一行要理解这些英文词：`networks` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 15 行 | <code>  +--&gt; volumes</code> | 这一行要理解这些英文词：`volumes` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 16 行 | <code>  +--&gt; registry pull / push</code> | 这一行要理解这些英文词：`registry pull` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`push` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 逐层解释：
 
@@ -260,7 +256,6 @@ docker run -d --name web -p 8080:80 nginx:1.27
 |---|---|---|
 | 第 1 行 | <code>docker run -d --name web -p 8080:80 nginx:1.27</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
-
 背后大致发生：
 
 ```text
@@ -278,15 +273,14 @@ docker CLI receives command
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>docker CLI receives command</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; sends request to Docker daemon</code> | 这一行要理解这些英文词：`sends request to Docker daemon` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; daemon checks whether nginx:1.27 exists locally</code> | 这一行要理解这些英文词：`daemon checks whether nginx` 是checks=检查；`exists locally` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; if missing, daemon pulls image from registry</code> | 这一行要理解这些英文词：`if missing` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`daemon pulls image from registry` 是registry=插件或模块注册中心。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; daemon creates container filesystem and metadata</code> | 这一行要理解这些英文词：`daemon creates container filesystem and metadata` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; daemon configures network and port publishing</code> | 这一行要理解这些英文词：`daemon configures network and port publishing` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; daemon starts container process</code> | 这一行要理解这些英文词：`daemon starts container process` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>  -&gt; CLI prints container ID</code> | 这一行要理解这些英文词：`CLI prints container ID` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 1 行 | <code>docker CLI receives command</code> | 这一行里的英文要这样读：`docker CLI receives command` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 2 行 | <code>  -&gt; sends request to Docker daemon</code> | 这一行要理解这些英文词：`sends request to Docker daemon` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; daemon checks whether nginx:1.27 exists locally</code> | 这一行要理解这些英文词：`daemon checks whether nginx` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`exists locally` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; if missing, daemon pulls image from registry</code> | 这一行要理解这些英文词：`if missing` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`daemon pulls image from registry` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; daemon creates container filesystem and metadata</code> | 这一行要理解这些英文词：`daemon creates container filesystem and metadata` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; daemon configures network and port publishing</code> | 这一行要理解这些英文词：`daemon configures network and port publishing` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; daemon starts container process</code> | 这一行要理解这些英文词：`daemon starts container process` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; CLI prints container ID</code> | 这一行要理解这些英文词：`CLI prints container ID` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 ## Docker 和虚拟机的区别
 
@@ -312,18 +306,16 @@ Container
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>Virtual machine</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  host OS</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>  hypervisor</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>  guest OS</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 5 行 | <code>  app and dependencies</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 6 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
-| 第 7 行 | <code>Container</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 8 行 | <code>  host OS kernel</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 9 行 | <code>  container runtime</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 10 行 | <code>  isolated process</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 11 行 | <code>  app and dependencies</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>Virtual machine</code> | 这一行里的英文要这样读：`Virtual machine` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 2 行 | <code>  host OS</code> | 这一行里的英文要这样读：`host OS` 这个英文标识可以拆开理解为：主机。 |
+| 第 3 行 | <code>  hypervisor</code> | 这一行里的英文要这样读：`hypervisor` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 4 行 | <code>  guest OS</code> | 这一行里的英文要这样读：`guest OS` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 5 行 | <code>  app and dependencies</code> | 这一行里的英文要这样读：`app and dependencies` 这个英文标识可以拆开理解为：应用或服务。 |
+| 第 7 行 | <code>Container</code> | 这一行里的英文要这样读：`Container` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
+| 第 8 行 | <code>  host OS kernel</code> | 这一行里的英文要这样读：`host OS kernel` 这个英文标识可以拆开理解为：主机。 |
+| 第 9 行 | <code>  container runtime</code> | 这一行里的英文要这样读：`container runtime` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 10 行 | <code>  isolated process</code> | 这一行里的英文要这样读：`isolated process` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 11 行 | <code>  app and dependencies</code> | 这一行里的英文要这样读：`app and dependencies` 这个英文标识可以拆开理解为：应用或服务。 |
 
 关键区别：
 
@@ -379,7 +371,6 @@ docker run --memory 256m --cpus 0.5 nginx:1.27
 |---|---|---|
 | 第 1 行 | <code>docker run --memory 256m --cpus 0.5 nginx:1.27</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
-
 ### 分层文件系统
 
 Docker 镜像是分层的。
@@ -396,12 +387,11 @@ image: aiops-demo:0.1
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>image: aiops-demo:0.1</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  layer 4: CMD ["python", "app.py"]</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>  layer 3: COPY . .</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>  layer 2: RUN pip install ...</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 5 行 | <code>  layer 1: FROM python:3.12-slim</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>image: aiops-demo:0.1</code> | `image` 是image 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `aiops-demo:0.1` 是这个字段的示例内容或模板表达式。 |
+| 第 2 行 | <code>  layer 4: CMD ["python", "app.py"]</code> | `layer 4` 是layer 4 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `CMD ["python", "app.py"]` 是这个字段的示例内容或模板表达式。 |
+| 第 3 行 | <code>  layer 3: COPY . .</code> | `layer 3` 是layer 3 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `COPY . .` 是这个字段的示例内容或模板表达式。 |
+| 第 4 行 | <code>  layer 2: RUN pip install ...</code> | `layer 2` 是layer 2 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `RUN pip install ...` 是这个字段的示例内容或模板表达式。 |
+| 第 5 行 | <code>  layer 1: FROM python:3.12-slim</code> | `layer 1` 是layer 1 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `FROM python:3.12-slim` 是这个字段的示例内容或模板表达式。 |
 
 好处：
 
@@ -422,11 +412,10 @@ image read-only layer
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>container writable layer</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>image read-only layer</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>image read-only layer</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>image read-only layer</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>container writable layer</code> | 这一行里的英文要这样读：`container writable layer` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 2 行 | <code>image read-only layer</code> | 这一行里的英文要这样读：`image read-only layer` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 3 行 | <code>image read-only layer</code> | 这一行里的英文要这样读：`image read-only layer` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 4 行 | <code>image read-only layer</code> | 这一行里的英文要这样读：`image read-only layer` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 容器删除后，可写层通常也会被删除。所以数据库数据、Prometheus 数据、Grafana 配置不能只放在容器可写层里，应该用 volume 或 bind mount。
 
@@ -464,11 +453,10 @@ prom/prometheus:v2.55.0
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>nginx:1.27</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>python:3.12-slim</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>redis:7.4</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>prom/prometheus:v2.55.0</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>nginx:1.27</code> | `nginx` 是nginx 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `1.27` 是这个字段的示例内容或模板表达式。 |
+| 第 2 行 | <code>python:3.12-slim</code> | `python` 是python 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `3.12-slim` 是这个字段的示例内容或模板表达式。 |
+| 第 3 行 | <code>redis:7.4</code> | `redis` 是redis 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `7.4` 是这个字段的示例内容或模板表达式。 |
+| 第 4 行 | <code>prom/prometheus:v2.55.0</code> | `prom/prometheus:v2.55.0` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 结构：
 
@@ -480,8 +468,7 @@ repository:tag
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>repository:tag</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>repository:tag</code> | `repository` 是repository 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `tag` 是这个字段的示例内容或模板表达式。 |
 
 例如：
 
@@ -506,9 +493,8 @@ nginx@sha256:...
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>nginx:1.27</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>nginx@sha256:...</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>nginx:1.27</code> | `nginx` 是nginx 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `1.27` 是这个字段的示例内容或模板表达式。 |
+| 第 2 行 | <code>nginx@sha256:...</code> | `nginx@sha256:...` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 tag 可能被重新指向别的内容，digest 指向具体镜像内容。做严格复现时，digest 更可靠。
 
@@ -529,7 +515,6 @@ docker run -d --name web-b nginx:1.27
 |---|---|---|
 | 第 1 行 | <code>docker run -d --name web-a nginx:1.27</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 | 第 2 行 | <code>docker run -d --name web-b nginx:1.27</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 
 它们共享镜像层，但有各自的：
 
@@ -556,11 +541,10 @@ created -> running -> exited
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>created -&gt; running -&gt; exited</code> | 这一行要理解这些英文词：`created` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`running` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`exited` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 2 行 | <code>             &#124;           &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>             v           v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>           paused      removed</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>created -&gt; running -&gt; exited</code> | 这一行要理解这些英文词：`created` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`running` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`exited` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 2 行 | <code>             &#124;           &#124;</code> | 这一行是符号、路径或状态片段，需要结合上下文确认它连接的是哪个组件、文件或排障证据。 |
+| 第 3 行 | <code>             v           v</code> | 这一行里的英文要这样读：`v` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 4 行 | <code>           paused      removed</code> | 这一行里的英文要这样读：`paused` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`removed` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 常用命令：
 
@@ -581,7 +565,6 @@ docker rm <container>
 | 第 3 行 | <code>docker stop &lt;container&gt;</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
 | 第 4 行 | <code>docker restart &lt;container&gt;</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
 | 第 5 行 | <code>docker rm &lt;container&gt;</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
-
 
 `docker run` 可以理解成 `docker create` 加 `docker start` 的组合。
 
@@ -608,15 +591,10 @@ CMD ["python", "app.py"]
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>FROM python:3.12-slim</code> | 指定基础镜像，后续镜像会在它的基础上继续构建。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔 Dockerfile 的不同构建阶段或逻辑段。 |
 | 第 3 行 | <code>WORKDIR /app</code> | 设置容器内工作目录，后续命令默认在这个目录执行。 |
-| 第 4 行 | <em>空行</em> | 空行，用来分隔 Dockerfile 的不同构建阶段或逻辑段。 |
 | 第 5 行 | <code>COPY app.py .</code> | 把宿主机项目文件复制进镜像。 |
-| 第 6 行 | <em>空行</em> | 空行，用来分隔 Dockerfile 的不同构建阶段或逻辑段。 |
 | 第 7 行 | <code>EXPOSE 8000</code> | 声明容器应用监听的端口，方便读者知道服务入口。 |
-| 第 8 行 | <em>空行</em> | 空行，用来分隔 Dockerfile 的不同构建阶段或逻辑段。 |
 | 第 9 行 | <code>CMD ["python", "app.py"]</code> | 设置容器启动时默认执行的命令。 |
-
 
 构建：
 
@@ -629,7 +607,6 @@ docker build -t aiops-demo:0.1 .
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>docker build -t aiops-demo:0.1 .</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
-
 
 最后的 `.` 是 build context，也就是发送给构建器的上下文目录。
 
@@ -656,7 +633,6 @@ FROM python:3.12-slim
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>FROM python:3.12-slim</code> | 指定基础镜像，后续镜像会在它的基础上继续构建。 |
-
 
 常见坑：
 
@@ -686,7 +662,6 @@ WORKDIR /app
 |---|---|---|
 | 第 1 行 | <code>WORKDIR /app</code> | 设置容器内工作目录，后续命令默认在这个目录执行。 |
 
-
 ### `COPY`
 
 | 项 | 内容 |
@@ -710,7 +685,6 @@ COPY app.py .
 |---|---|---|
 | 第 1 行 | <code>COPY requirements.txt .</code> | 把宿主机项目文件复制进镜像。 |
 | 第 2 行 | <code>COPY app.py .</code> | 把宿主机项目文件复制进镜像。 |
-
 
 常见坑：
 
@@ -751,7 +725,6 @@ RUN python -m pip install --no-cache-dir -r requirements.txt
 |---|---|---|
 | 第 1 行 | <code>RUN python -m pip install --no-cache-dir -r requirements.txt</code> | 在构建镜像时执行命令，常用于安装依赖或准备文件。 |
 
-
 常见坑：
 
 - 把运行时命令写进 `RUN`，导致构建时执行，容器启动时反而没执行。
@@ -779,7 +752,6 @@ CMD ["python", "app.py"]
 |---|---|---|
 | 第 1 行 | <code>CMD ["python", "app.py"]</code> | 设置容器启动时默认执行的命令。 |
 
-
 不推荐初学者写成：
 
 ```dockerfile
@@ -791,7 +763,6 @@ CMD python app.py
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>CMD python app.py</code> | 设置容器启动时默认执行的命令。 |
-
 
 exec 形式更清晰，也更利于信号处理。
 
@@ -818,7 +789,6 @@ CMD ["--help"]
 |---|---|---|
 | 第 1 行 | <code>ENTRYPOINT ["python", "worker.py"]</code> | 设置容器启动时默认执行的命令。 |
 | 第 2 行 | <code>CMD ["--help"]</code> | 设置容器启动时默认执行的命令。 |
-
 
 初学判断：
 
@@ -849,7 +819,6 @@ ENV APP_PORT=8000
 | 第 1 行 | <code>ENV PYTHONUNBUFFERED=1</code> | 设置镜像或容器里的环境变量。 |
 | 第 2 行 | <code>ENV APP_PORT=8000</code> | 设置镜像或容器里的环境变量。 |
 
-
 不要把密码、token 写进 Dockerfile 的 `ENV`，因为它会进入镜像历史和元数据。
 
 ### `ARG`
@@ -876,7 +845,6 @@ ENV APP_VERSION=$APP_VERSION
 | 第 1 行 | <code>ARG APP_VERSION=dev</code> | Dockerfile 构建指令，描述镜像构建或容器启动的一步。 |
 | 第 2 行 | <code>ENV APP_VERSION=$APP_VERSION</code> | 设置镜像或容器里的环境变量。 |
 
-
 构建：
 
 ```bash
@@ -888,7 +856,6 @@ docker build --build-arg APP_VERSION=0.1.0 -t demo-api:0.1 .
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>docker build --build-arg APP_VERSION=0.1.0 -t demo-api:0.1 .</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 
 ### `EXPOSE`
 
@@ -911,7 +878,6 @@ EXPOSE 8000
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>EXPOSE 8000</code> | 声明容器应用监听的端口，方便读者知道服务入口。 |
-
 
 重点：`EXPOSE 8000` 不等于 `-p 8000:8000`。前者只是声明，后者才是端口发布。
 
@@ -939,7 +905,6 @@ USER appuser
 | 第 1 行 | <code>RUN useradd --create-home appuser</code> | 在构建镜像时执行命令，常用于安装依赖或准备文件。 |
 | 第 2 行 | <code>USER appuser</code> | Dockerfile 构建指令，描述镜像构建或容器启动的一步。 |
 
-
 ### `HEALTHCHECK`
 
 | 项 | 内容 |
@@ -963,7 +928,6 @@ HEALTHCHECK --interval=30s --timeout=3s \
 |---|---|---|
 | 第 1 行 | <code>HEALTHCHECK --interval=30s --timeout=3s \</code> | Dockerfile 构建指令，描述镜像构建或容器启动的一步。 |
 | 第 2 行 | <code>  CMD python -c "import socket; s=socket.create_connection(('127.0.0.1', 8000), timeout=2); s.close()"</code> | 设置容器启动时默认执行的命令。 |
-
 
 ### `VOLUME`
 
@@ -1001,7 +965,6 @@ LABEL org.opencontainers.image.version="0.1.0"
 | 第 1 行 | <code>LABEL org.opencontainers.image.title="aiops-demo"</code> | Dockerfile 构建指令，描述镜像构建或容器启动的一步。 |
 | 第 2 行 | <code>LABEL org.opencontainers.image.version="0.1.0"</code> | Dockerfile 构建指令，描述镜像构建或容器启动的一步。 |
 
-
 ## build context 和 `.dockerignore`
 
 执行：
@@ -1015,7 +978,6 @@ docker build -t aiops-demo:0.1 .
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>docker build -t aiops-demo:0.1 .</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
-
 
 最后的 `.` 是 build context。Docker 会把这个目录下的内容作为构建上下文发送给构建器。Dockerfile 里的 `COPY` 只能复制 context 里的文件。
 
@@ -1033,12 +995,11 @@ reports/
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>.venv/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>node_modules/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>logs/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>reports/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 5 行 | <code>.git/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>.venv/</code> | `.venv/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 2 行 | <code>node_modules/</code> | `node_modules/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 3 行 | <code>logs/</code> | `logs/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 4 行 | <code>reports/</code> | `reports/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 5 行 | <code>.git/</code> | `.git/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 又写了：
 
@@ -1051,7 +1012,6 @@ COPY . .
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>COPY . .</code> | 把宿主机项目文件复制进镜像。 |
-
 
 镜像可能会变得很大，甚至把不该进镜像的文件带进去。所以需要 `.dockerignore`：
 
@@ -1069,14 +1029,13 @@ reports
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>.git</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>.venv</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>__pycache__</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>*.pyc</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 5 行 | <code>logs</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 6 行 | <code>reports</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 7 行 | <code>.env</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>.git</code> | `.git` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 2 行 | <code>.venv</code> | `.venv` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 3 行 | <code>__pycache__</code> | 这一行里的英文要这样读：`pycache__` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 4 行 | <code>*.pyc</code> | `*.pyc` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 5 行 | <code>logs</code> | 这一行里的英文要这样读：`logs` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 6 行 | <code>reports</code> | 这一行里的英文要这样读：`reports` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 7 行 | <code>.env</code> | `.env` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 `.dockerignore` 的作用类似 `.gitignore`，但它控制的是 Docker build context，不是 Git 提交。
 
@@ -1104,16 +1063,11 @@ CMD ["python", "app.py"]
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>FROM python:3.12-slim</code> | 指定基础镜像，后续镜像会在它的基础上继续构建。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔 Dockerfile 的不同构建阶段或逻辑段。 |
 | 第 3 行 | <code>WORKDIR /app</code> | 设置容器内工作目录，后续命令默认在这个目录执行。 |
-| 第 4 行 | <em>空行</em> | 空行，用来分隔 Dockerfile 的不同构建阶段或逻辑段。 |
 | 第 5 行 | <code>COPY requirements.txt .</code> | 把宿主机项目文件复制进镜像。 |
 | 第 6 行 | <code>RUN python -m pip install --no-cache-dir -r requirements.txt</code> | 在构建镜像时执行命令，常用于安装依赖或准备文件。 |
-| 第 7 行 | <em>空行</em> | 空行，用来分隔 Dockerfile 的不同构建阶段或逻辑段。 |
 | 第 8 行 | <code>COPY . .</code> | 把宿主机项目文件复制进镜像。 |
-| 第 9 行 | <em>空行</em> | 空行，用来分隔 Dockerfile 的不同构建阶段或逻辑段。 |
 | 第 10 行 | <code>CMD ["python", "app.py"]</code> | 设置容器启动时默认执行的命令。 |
-
 
 为什么先复制 `requirements.txt`，再复制全部代码？
 
@@ -1132,7 +1086,6 @@ RUN python -m pip install --no-cache-dir -r requirements.txt
 |---|---|---|
 | 第 1 行 | <code>COPY . .</code> | 把宿主机项目文件复制进镜像。 |
 | 第 2 行 | <code>RUN python -m pip install --no-cache-dir -r requirements.txt</code> | 在构建镜像时执行命令，常用于安装依赖或准备文件。 |
-
 
 这种写法会导致任何代码改动都让依赖安装层失效。
 
@@ -1163,21 +1116,16 @@ CMD ["python", "app.py"]
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>FROM python:3.12-slim AS builder</code> | 指定基础镜像，后续镜像会在它的基础上继续构建。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔 Dockerfile 的不同构建阶段或逻辑段。 |
 | 第 3 行 | <code>WORKDIR /app</code> | 设置容器内工作目录，后续命令默认在这个目录执行。 |
 | 第 4 行 | <code>COPY requirements.txt .</code> | 把宿主机项目文件复制进镜像。 |
 | 第 5 行 | <code>RUN python -m pip wheel --wheel-dir /wheels -r requirements.txt</code> | 在构建镜像时执行命令，常用于安装依赖或准备文件。 |
-| 第 6 行 | <em>空行</em> | 空行，用来分隔 Dockerfile 的不同构建阶段或逻辑段。 |
 | 第 7 行 | <code>FROM python:3.12-slim</code> | 指定基础镜像，后续镜像会在它的基础上继续构建。 |
-| 第 8 行 | <em>空行</em> | 空行，用来分隔 Dockerfile 的不同构建阶段或逻辑段。 |
 | 第 9 行 | <code>WORKDIR /app</code> | 设置容器内工作目录，后续命令默认在这个目录执行。 |
 | 第 10 行 | <code>COPY --from=builder /wheels /wheels</code> | 把宿主机项目文件复制进镜像。 |
 | 第 11 行 | <code>COPY requirements.txt .</code> | 把宿主机项目文件复制进镜像。 |
 | 第 12 行 | <code>RUN python -m pip install --no-cache-dir --no-index --find-links=/wheels -r requirements.txt</code> | 在构建镜像时执行命令，常用于安装依赖或准备文件。 |
 | 第 13 行 | <code>COPY . .</code> | 把宿主机项目文件复制进镜像。 |
-| 第 14 行 | <em>空行</em> | 空行，用来分隔 Dockerfile 的不同构建阶段或逻辑段。 |
 | 第 15 行 | <code>CMD ["python", "app.py"]</code> | 设置容器启动时默认执行的命令。 |
-
 
 多阶段构建的价值：
 
@@ -1201,7 +1149,6 @@ docker run nginx:1.27
 |---|---|---|
 | 第 1 行 | <code>docker run nginx:1.27</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
 
-
 更常见：
 
 ```bash
@@ -1213,7 +1160,6 @@ docker run -d --name web -p 8080:80 nginx:1.27
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>docker run -d --name web -p 8080:80 nginx:1.27</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 
 拆开看：
 
@@ -1239,7 +1185,6 @@ docker run -d --name web -p 8080:80 nginx:1.27
 |---|---|---|
 | 第 1 行 | <code>docker run -d --name web -p 8080:80 nginx:1.27</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
-
 含义：
 
 ```text
@@ -1250,8 +1195,7 @@ host:8080  ->  container:80
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>host:8080  -&gt;  container:80</code> | 这一行要理解这些英文词：`host` 是主机，可以是一台服务器、虚拟机或节点；`container` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 1 行 | <code>host:8080  -&gt;  container:80</code> | 这一行要理解这些英文词：`host` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`container` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 访问：
 
@@ -1264,7 +1208,6 @@ curl http://localhost:8080
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>curl http://localhost:8080</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
-
 
 常见误区：
 
@@ -1288,7 +1231,6 @@ docker run --rm -e APP_ENV=dev -e LOG_LEVEL=debug demo-api:0.1
 |---|---|---|
 | 第 1 行 | <code>docker run --rm -e APP_ENV=dev -e LOG_LEVEL=debug demo-api:0.1</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
-
 使用 env 文件：
 
 ```bash
@@ -1300,7 +1242,6 @@ docker run --rm --env-file .env demo-api:0.1
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>docker run --rm --env-file .env demo-api:0.1</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 
 `.env` 示例：
 
@@ -1314,10 +1255,9 @@ PROMETHEUS_URL=http://prometheus:9090
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>APP_ENV=dev</code> | 环境变量或键值示例，等号左边是名称，右边是要配置的值。 |
-| 第 2 行 | <code>LOG_LEVEL=debug</code> | 环境变量或键值示例，等号左边是名称，右边是要配置的值。 |
-| 第 3 行 | <code>PROMETHEUS_URL=http://prometheus:9090</code> | 环境变量或键值示例，等号左边是名称，右边是要配置的值。 |
-
+| 第 1 行 | <code>APP_ENV=dev</code> | `APP_ENV` 这个英文标识可以拆开理解为：应用或服务，`dev` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
+| 第 2 行 | <code>LOG_LEVEL=debug</code> | `LOG_LEVEL` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`debug` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
+| 第 3 行 | <code>PROMETHEUS_URL=http://prometheus:9090</code> | `PROMETHEUS_URL` 这个英文标识可以拆开理解为：指标采集和告警规则评估系统，`http://prometheus:9090` 表示URL 地址，表示页面、接口或文档入口。 |
 
 注意：不要把 `.env` 里的密钥提交到 Git。
 
@@ -1337,7 +1277,6 @@ CMD ["python", "app.py"]
 |---|---|---|
 | 第 1 行 | <code>CMD ["python", "app.py"]</code> | 设置容器启动时默认执行的命令。 |
 
-
 容器启动后，`python app.py` 是主进程。如果它退出，容器就退出。
 
 这解释了一个常见现象：
@@ -1352,7 +1291,6 @@ docker run ubuntu:24.04
 |---|---|---|
 | 第 1 行 | <code>docker run ubuntu:24.04</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
 
-
 容器马上退出。因为没有长期运行的前台进程。
 
 如果只是想进入 shell：
@@ -1366,7 +1304,6 @@ docker run --rm -it ubuntu:24.04 bash
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>docker run --rm -it ubuntu:24.04 bash</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 
 ## 存储
 
@@ -1385,13 +1322,12 @@ external mounts
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>image read-only layers</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>container writable layer</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>external mounts</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>  ├── volume</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 5 行 | <code>  ├── bind mount</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 6 行 | <code>  └── tmpfs</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-
+| 第 1 行 | <code>image read-only layers</code> | 这一行里的英文要这样读：`image read-only layers` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 2 行 | <code>container writable layer</code> | 这一行里的英文要这样读：`container writable layer` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 3 行 | <code>external mounts</code> | 这一行里的英文要这样读：`external mounts` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 4 行 | <code>  ├── volume</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 5 行 | <code>  ├── bind mount</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 6 行 | <code>  └── tmpfs</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
 
 ### 容器可写层
 
@@ -1423,7 +1359,6 @@ docker run -d --name prometheus \
 | 第 3 行 | <code>  -v prometheus-data:/prometheus \</code> | 执行 `-v` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 4 行 | <code>  prom/prometheus:v2.55.0</code> | 执行 `prom/prometheus:v2.55.0` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 优点：
 
 - 由 Docker 管理。
@@ -1447,7 +1382,6 @@ docker run --rm \
 | 第 1 行 | <code>docker run --rm \</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 | 第 2 行 | <code>  -v "$PWD/prometheus.yml:/etc/prometheus/prometheus.yml:ro" \</code> | 执行 `-v` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 3 行 | <code>  prom/prometheus:v2.55.0</code> | 执行 `prom/prometheus:v2.55.0` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 适合：
 
@@ -1474,7 +1408,6 @@ docker run --rm --tmpfs /tmp nginx:1.27
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>docker run --rm --tmpfs /tmp nginx:1.27</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 
 适合临时敏感数据或临时缓存。容器停止后数据消失。
 
@@ -1507,7 +1440,6 @@ docker network ls
 |---|---|---|
 | 第 1 行 | <code>docker network ls</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
 
-
 创建自定义网络：
 
 ```bash
@@ -1519,7 +1451,6 @@ docker network create aiops-net
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>docker network create aiops-net</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
-
 
 运行两个容器：
 
@@ -1534,7 +1465,6 @@ docker run --rm --network aiops-net curlimages/curl:8.10.1 http://web
 |---|---|---|
 | 第 1 行 | <code>docker run -d --name web --network aiops-net nginx:1.27</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 | 第 2 行 | <code>docker run --rm --network aiops-net curlimages/curl:8.10.1 http://web</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 
 在自定义 bridge 网络中，容器可以通过容器名互相解析。学习 Docker Compose 和 Kubernetes Service 时，这个概念很重要。
 
@@ -1557,15 +1487,12 @@ on host:
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>inside container A:</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  localhost -&gt; container A</code> | 这一行要理解这些英文词：`localhost` 是本机地址，通常指当前机器自己；`container A` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
-| 第 4 行 | <code>inside container B:</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 5 行 | <code>  localhost -&gt; container B</code> | 这一行要理解这些英文词：`localhost` 是本机地址，通常指当前机器自己；`container B` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
-| 第 7 行 | <code>on host:</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 8 行 | <code>  localhost -&gt; host</code> | 这一行要理解这些英文词：`localhost` 是本机地址，通常指当前机器自己；`host` 是主机，可以是一台服务器、虚拟机或节点。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 1 行 | <code>inside container A:</code> | `inside container A` 是inside container A 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号表示后面要填写或列出这个字段的具体内容。 |
+| 第 2 行 | <code>  localhost -&gt; container A</code> | 这一行要理解这些英文词：`localhost` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`container A` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>inside container B:</code> | `inside container B` 是inside container B 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号表示后面要填写或列出这个字段的具体内容。 |
+| 第 5 行 | <code>  localhost -&gt; container B</code> | 这一行要理解这些英文词：`localhost` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`container B` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>on host:</code> | `on host` 是on host 这个英文标识可以拆开理解为：主机，冒号表示后面要填写或列出这个字段的具体内容。 |
+| 第 8 行 | <code>  localhost -&gt; host</code> | 这一行要理解这些英文词：`localhost` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`host` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 如果 `api` 容器要访问 `prometheus` 容器，不应该写：
 
@@ -1577,8 +1504,7 @@ http://localhost:9090
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>http://localhost:9090</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>http://localhost:9090</code> | `http` 表示访问协议，`localhost:9090` 是域名或主机名，`/` 是具体接口路径；真实环境要换成自己的域名和路径。 |
 
 而应该在同一个自定义网络里写：
 
@@ -1590,8 +1516,7 @@ http://prometheus:9090
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>http://prometheus:9090</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>http://prometheus:9090</code> | `http` 表示访问协议，`prometheus:9090` 是域名或主机名，`/` 是具体接口路径；真实环境要换成自己的域名和路径。 |
 
 ## Registry
 
@@ -1616,12 +1541,11 @@ docker build
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>docker build</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; docker tag</code> | 这一行要理解这些英文词：`docker tag` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; docker push</code> | 这一行要理解这些英文词：`docker push` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; another machine docker pull</code> | 这一行要理解这些英文词：`another machine docker pull` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; docker run</code> | 这一行要理解这些英文词：`docker run` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 1 行 | <code>docker build</code> | 这一行里的英文要这样读：`docker build` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 2 行 | <code>  -&gt; docker tag</code> | 这一行要理解这些英文词：`docker tag` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; docker push</code> | 这一行要理解这些英文词：`docker push` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; another machine docker pull</code> | 这一行要理解这些英文词：`another machine docker pull` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; docker run</code> | 这一行要理解这些英文词：`docker run` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 示例：
 
@@ -1639,7 +1563,6 @@ docker push registry.example.com/aiops/demo-api:0.1
 | 第 2 行 | <code>docker tag demo-api:0.1 registry.example.com/aiops/demo-api:0.1</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
 | 第 3 行 | <code>docker push registry.example.com/aiops/demo-api:0.1</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
 
-
 拉取：
 
 ```bash
@@ -1651,7 +1574,6 @@ docker pull registry.example.com/aiops/demo-api:0.1
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>docker pull registry.example.com/aiops/demo-api:0.1</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
-
 
 ## 日志
 
@@ -1672,7 +1594,6 @@ docker logs --tail 100 web
 | 第 1 行 | <code>docker logs web</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
 | 第 2 行 | <code>docker logs -f web</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
 | 第 3 行 | <code>docker logs --tail 100 web</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 
 日志排障顺序：
 
@@ -1698,7 +1619,6 @@ docker stats
 |---|---|---|
 | 第 1 行 | <code>docker stats</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
 
-
 限制 CPU 和内存：
 
 ```bash
@@ -1716,7 +1636,6 @@ docker run -d --name api \
 | 第 2 行 | <code>  --memory 256m \</code> | 注释行，提前说明下面命令的目的或注意事项。 |
 | 第 3 行 | <code>  --cpus 0.5 \</code> | 注释行，提前说明下面命令的目的或注意事项。 |
 | 第 4 行 | <code>  demo-api:0.1</code> | 执行 `demo-api:0.1` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 含义：
 
@@ -1765,14 +1684,11 @@ CMD ["python", "app.py"]
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>FROM python:3.12-slim</code> | 指定基础镜像，后续镜像会在它的基础上继续构建。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔 Dockerfile 的不同构建阶段或逻辑段。 |
 | 第 3 行 | <code>RUN useradd --create-home appuser</code> | 在构建镜像时执行命令，常用于安装依赖或准备文件。 |
 | 第 4 行 | <code>WORKDIR /app</code> | 设置容器内工作目录，后续命令默认在这个目录执行。 |
 | 第 5 行 | <code>COPY app.py .</code> | 把宿主机项目文件复制进镜像。 |
 | 第 6 行 | <code>USER appuser</code> | Dockerfile 构建指令，描述镜像构建或容器启动的一步。 |
-| 第 7 行 | <em>空行</em> | 空行，用来分隔 Dockerfile 的不同构建阶段或逻辑段。 |
 | 第 8 行 | <code>CMD ["python", "app.py"]</code> | 设置容器启动时默认执行的命令。 |
-
 
 ## Docker 命令字典
 
@@ -2004,12 +1920,11 @@ aiops-docker-demo/
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>aiops-docker-demo/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  app.py</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>  Dockerfile</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>  .dockerignore</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 5 行 | <code>  README.md</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>aiops-docker-demo/</code> | `aiops-docker-demo/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 2 行 | <code>  app.py</code> | `app.py` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 3 行 | <code>  Dockerfile</code> | 这一行里的英文要这样读：`Dockerfile` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
+| 第 4 行 | <code>  .dockerignore</code> | `.dockerignore` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 5 行 | <code>  README.md</code> | `README.md` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 ### 第 2 步：创建 `app.py`
 
@@ -2050,11 +1965,7 @@ if __name__ == "__main__":
 | 第 1 行 | <code>import json</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
 | 第 2 行 | <code>import os</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
 | 第 3 行 | <code>from http.server import BaseHTTPRequestHandler, HTTPServer</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 4 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
-| 第 5 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 6 行 | <code>SERVICE_NAME = os.getenv("SERVICE_NAME", "aiops-demo")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 7 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
-| 第 8 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 9 行 | <code>class Handler(BaseHTTPRequestHandler):</code> | 定义类，用来组织一组数据和行为。 |
 | 第 10 行 | <code>    def do_GET(self):</code> | 定义函数，把一段可复用逻辑命名，后续可以反复调用。 |
 | 第 11 行 | <code>        if self.path == "/health":</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
@@ -2064,17 +1975,13 @@ if __name__ == "__main__":
 | 第 15 行 | <code>            payload = {"service": SERVICE_NAME, "status": "ok"}</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 16 行 | <code>            self.wfile.write(json.dumps(payload).encode("utf-8"))</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 17 行 | <code>            return</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 18 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 19 行 | <code>        self.send_response(404)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 20 行 | <code>        self.end_headers()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 21 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
-| 第 22 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 23 行 | <code>if __name__ == "__main__":</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
 | 第 24 行 | <code>    port = int(os.getenv("APP_PORT", "8000"))</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 25 行 | <code>    server = HTTPServer(("0.0.0.0", port), Handler)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 26 行 | <code>    print(f"starting {SERVICE_NAME} on 0.0.0.0:{port}", flush=True)</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
 | 第 27 行 | <code>    server.serve_forever()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 
 注意这里监听的是 `0.0.0.0`，不是 `127.0.0.1`。容器里只监听 `127.0.0.1` 时，宿主机通过端口映射访问常常会失败。
 
@@ -2100,18 +2007,12 @@ CMD ["python", "app.py"]
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>FROM python:3.12-slim</code> | 指定基础镜像，后续镜像会在它的基础上继续构建。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔 Dockerfile 的不同构建阶段或逻辑段。 |
 | 第 3 行 | <code>WORKDIR /app</code> | 设置容器内工作目录，后续命令默认在这个目录执行。 |
-| 第 4 行 | <em>空行</em> | 空行，用来分隔 Dockerfile 的不同构建阶段或逻辑段。 |
 | 第 5 行 | <code>COPY app.py .</code> | 把宿主机项目文件复制进镜像。 |
-| 第 6 行 | <em>空行</em> | 空行，用来分隔 Dockerfile 的不同构建阶段或逻辑段。 |
 | 第 7 行 | <code>ENV PYTHONUNBUFFERED=1</code> | 设置镜像或容器里的环境变量。 |
 | 第 8 行 | <code>ENV APP_PORT=8000</code> | 设置镜像或容器里的环境变量。 |
-| 第 9 行 | <em>空行</em> | 空行，用来分隔 Dockerfile 的不同构建阶段或逻辑段。 |
 | 第 10 行 | <code>EXPOSE 8000</code> | 声明容器应用监听的端口，方便读者知道服务入口。 |
-| 第 11 行 | <em>空行</em> | 空行，用来分隔 Dockerfile 的不同构建阶段或逻辑段。 |
 | 第 12 行 | <code>CMD ["python", "app.py"]</code> | 设置容器启动时默认执行的命令。 |
-
 
 ### 第 4 步：创建 `.dockerignore`
 
@@ -2129,14 +2030,13 @@ reports
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>.git</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>.venv</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>__pycache__</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>*.pyc</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 5 行 | <code>logs</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 6 行 | <code>reports</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 7 行 | <code>.env</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>.git</code> | `.git` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 2 行 | <code>.venv</code> | `.venv` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 3 行 | <code>__pycache__</code> | 这一行里的英文要这样读：`pycache__` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 4 行 | <code>*.pyc</code> | `*.pyc` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 5 行 | <code>logs</code> | 这一行里的英文要这样读：`logs` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 6 行 | <code>reports</code> | 这一行里的英文要这样读：`reports` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 7 行 | <code>.env</code> | `.env` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 ### 第 5 步：构建镜像
 
@@ -2150,7 +2050,6 @@ docker build -t aiops-health-demo:0.1 .
 |---|---|---|
 | 第 1 行 | <code>docker build -t aiops-health-demo:0.1 .</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
 
-
 预期看到：
 
 ```text
@@ -2161,8 +2060,7 @@ Successfully tagged aiops-health-demo:0.1
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>Successfully tagged aiops-health-demo:0.1</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>Successfully tagged aiops-health-demo:0.1</code> | `Successfully tagged aiops-health-demo` 是Successfully tagged aiops-health-demo 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `0.1` 是这个字段的示例内容或模板表达式。 |
 
 如果使用 BuildKit，输出格式可能不同，但应该能看到构建步骤完成。
 
@@ -2184,7 +2082,6 @@ docker run -d --name aiops-health \
 | 第 3 行 | <code>  -e SERVICE_NAME=health-demo \</code> | 执行 `-e` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 4 行 | <code>  aiops-health-demo:0.1</code> | 执行 `aiops-health-demo:0.1` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 检查容器：
 
 ```bash
@@ -2197,7 +2094,6 @@ docker ps
 |---|---|---|
 | 第 1 行 | <code>docker ps</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
 
-
 预期看到 `aiops-health` 状态为 Up，并且 PORTS 有类似：
 
 ```text
@@ -2208,8 +2104,7 @@ docker ps
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>0.0.0.0:8000-&gt;8000/tcp</code> | 这一行要理解这些英文词：`tcp` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 1 行 | <code>0.0.0.0:8000-&gt;8000/tcp</code> | 这一行要理解这些英文词：`tcp` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 ### 第 7 步：访问服务
 
@@ -2223,7 +2118,6 @@ curl localhost:8000/health
 |---|---|---|
 | 第 1 行 | <code>curl localhost:8000/health</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
 
-
 预期输出：
 
 ```json
@@ -2234,8 +2128,7 @@ curl localhost:8000/health
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>{"service": "health-demo", "status": "ok"}</code> | JSON 列表或对象中的一行，注意逗号和引号必须符合 JSON 语法。 |
-
+| 第 1 行 | <code>{"service": "health-demo", "status": "ok"}</code> | `service` 是服务名称字段，`health-demo` 是具体服务名，表示这条记录属于这个服务；`status` 是状态字段，`ok` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
 
 ### 第 8 步：查看日志
 
@@ -2249,7 +2142,6 @@ docker logs aiops-health
 |---|---|---|
 | 第 1 行 | <code>docker logs aiops-health</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
 
-
 预期看到：
 
 ```text
@@ -2260,8 +2152,7 @@ starting health-demo on 0.0.0.0:8000
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>starting health-demo on 0.0.0.0:8000</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>starting health-demo on 0.0.0.0:8000</code> | `starting health-demo on 0.0.0.0` 是starting health-demo on 0.0.0.0 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `8000` 是这个字段的示例内容或模板表达式。 |
 
 ### 第 9 步：进入容器
 
@@ -2274,7 +2165,6 @@ docker exec -it aiops-health sh
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>docker exec -it aiops-health sh</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
-
 
 在容器里：
 
@@ -2292,7 +2182,6 @@ env | grep SERVICE_NAME
 | 第 2 行 | <code>ls -l</code> | 列出文件或目录，用来确认实验文件是否存在。 |
 | 第 3 行 | <code>env &#124; grep SERVICE_NAME</code> | 执行 `env` 相关命令，后面的参数决定它具体操作什么对象。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
 
-
 退出：
 
 ```sh
@@ -2304,7 +2193,6 @@ exit
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>exit</code> | 执行 `exit` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 ### 第 10 步：清理
 
@@ -2320,7 +2208,6 @@ docker rm aiops-health
 | 第 1 行 | <code>docker stop aiops-health</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
 | 第 2 行 | <code>docker rm aiops-health</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
 
-
 如果只是临时运行，也可以一开始用：
 
 ```bash
@@ -2332,7 +2219,6 @@ docker run --rm -p 8000:8000 aiops-health-demo:0.1
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>docker run --rm -p 8000:8000 aiops-health-demo:0.1</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 
 `--rm` 表示容器退出后自动删除容器对象。
 
@@ -2351,7 +2237,6 @@ docker build --progress=plain -t aiops-health-demo:0.1 .
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>docker build --progress=plain -t aiops-health-demo:0.1 .</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 
 检查：
 
@@ -2377,7 +2262,6 @@ docker inspect aiops-health
 | 第 1 行 | <code>docker ps -a</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
 | 第 2 行 | <code>docker logs aiops-health</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
 | 第 3 行 | <code>docker inspect aiops-health</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
-
 
 重点看：
 
@@ -2411,7 +2295,6 @@ docker run --rm -p 8000:8000 aiops-health-demo:0.2
 | 第 1 行 | <code>docker build -t aiops-health-demo:0.2 .</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
 | 第 2 行 | <code>docker run --rm -p 8000:8000 aiops-health-demo:0.2</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
-
 开发阶段也可以用 bind mount：
 
 ```bash
@@ -2427,7 +2310,6 @@ docker run --rm -p 8000:8000 \
 | 第 1 行 | <code>docker run --rm -p 8000:8000 \</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 | 第 2 行 | <code>  -v "$PWD/app.py:/app/app.py:ro" \</code> | 执行 `-v` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 3 行 | <code>  aiops-health-demo:0.1</code> | 执行 `aiops-health-demo:0.1` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 ## 典型故障排查表
 
@@ -2548,7 +2430,6 @@ docker run --mount type=volume,source=prometheus-data,target=/prometheus prom/pr
 |---|---|---|
 | 第 1 行 | <code>docker run --mount type=volume,source=prometheus-data,target=/prometheus prom/prometheus:v2.55.0</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
-
 ### Docker 和 Kubernetes 什么关系？
 
 Docker 负责构建镜像和运行容器的单机能力。Kubernetes 负责在集群里编排容器，包括调度、服务发现、滚动发布、健康检查、自动恢复等。学 Kubernetes 前，必须先理解镜像、容器、端口、挂载、日志和资源限制。
@@ -2644,31 +2525,20 @@ docker rm aiops-health
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code># AIOps Docker Health Demo</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 3 行 | <code>## Build</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 4 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 1 行 | <code># AIOps Docker Health Demo</code> | 这一行里的英文要这样读：`AIOps Docker Health Demo` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 3 行 | <code>## Build</code> | 这一行里的英文要这样读：`Build` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
 | 第 5 行 | <code>docker build -t aiops-health-demo:0.1 .</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 6 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 7 行 | <code>## Run</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 8 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 7 行 | <code>## Run</code> | 这一行里的英文要这样读：`Run` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
 | 第 9 行 | <code>docker run -d --name aiops-health -p 8000:8000 -e SERVICE_NAME=health-demo aiops-health-demo:0.1</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 10 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 11 行 | <code>## Check</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 12 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 11 行 | <code>## Check</code> | 这一行里的英文要这样读：`Check` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
 | 第 13 行 | <code>curl localhost:8000/health</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
 | 第 14 行 | <code>docker logs aiops-health</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 15 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 16 行 | <code>## Debug</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 17 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 16 行 | <code>## Debug</code> | 这一行里的英文要这样读：`Debug` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
 | 第 18 行 | <code>docker ps -a</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
 | 第 19 行 | <code>docker inspect aiops-health</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
 | 第 20 行 | <code>docker exec -it aiops-health sh</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 21 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 22 行 | <code>## Cleanup</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 23 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 22 行 | <code>## Cleanup</code> | 这一行里的英文要这样读：`Cleanup` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
 | 第 24 行 | <code>docker stop aiops-health</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
 | 第 25 行 | <code>docker rm aiops-health</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-
 
 如果你能解释这个 demo 从 Dockerfile 到镜像、从镜像到容器、从容器端口到宿主机访问、从日志到排障的完整链路，就说明你已经不是只会背 Docker 命令，而是真的理解了 Docker 的核心知识点。

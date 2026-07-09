@@ -44,11 +44,10 @@ severity=critical
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>HighErrorRate</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>service=order-api</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>instance=10.0.1.11</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>severity=critical</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>HighErrorRate</code> | 这一行里的英文要这样读：`HighErrorRate` 是高错误率告警名，通常表示某个服务的请求失败比例超过阈值。 |
+| 第 2 行 | <code>service=order-api</code> | `service` 是服务名称字段，`order-api` 是具体服务名，表示这条记录属于这个服务。 |
+| 第 3 行 | <code>instance=10.0.1.11</code> | `instance` 是实例名称字段，`10.0.1.11` 表示IP 地址，表示一台机器或服务端点的位置。 |
+| 第 4 行 | <code>severity=critical</code> | `severity` 是告警严重级别字段，`critical` 表示严重级别，通常表示需要优先处理。 |
 
 如果每一条都发通知，值班同学会被刷屏。你需要回答：
 
@@ -126,42 +125,41 @@ Redis
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>Redis</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; Get started</code> | 这一行要理解这些英文词：`Get started` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>     -&gt; install</code> | 这一行要理解这些英文词：`install` 是安装，把工具或依赖放到环境里。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>     -&gt; redis-server</code> | 这一行要理解这些英文词：`redis-server` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>     -&gt; redis-cli</code> | 这一行要理解这些英文词：`redis-cli` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>     -&gt; clients</code> | 这一行要理解这些英文词：`clients` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; Data types</code> | 这一行要理解这些英文词：`Data types` 是数据类型，规定字段能存什么样的值，例如数字、文本、时间。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>     -&gt; strings</code> | 这一行要理解这些英文词：`strings` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 9 行 | <code>     -&gt; hashes</code> | 这一行要理解这些英文词：`hashes` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 10 行 | <code>     -&gt; lists</code> | 这一行要理解这些英文词：`lists` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 11 行 | <code>     -&gt; sets</code> | 这一行要理解这些英文词：`sets` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 12 行 | <code>     -&gt; sorted sets</code> | 这一行要理解这些英文词：`sorted sets` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 13 行 | <code>     -&gt; streams</code> | 这一行要理解这些英文词：`streams` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 14 行 | <code>     -&gt; bitmaps / bitfields</code> | 这一行要理解这些英文词：`bitmaps` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`bitfields` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 15 行 | <code>     -&gt; geospatial</code> | 这一行要理解这些英文词：`geospatial` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 16 行 | <code>     -&gt; HyperLogLog / probabilistic</code> | 这一行要理解这些英文词：`HyperLogLog` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`probabilistic` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 17 行 | <code>     -&gt; JSON / time series / vector sets</code> | 这一行要理解这些英文词：`JSON` 是结构化数据格式；`time series` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`vector sets` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 18 行 | <code>  -&gt; Commands</code> | 这一行要理解这些英文词：`Commands` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 19 行 | <code>     -&gt; key commands</code> | 这一行要理解这些英文词：`key commands` 是key=键。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 20 行 | <code>     -&gt; string commands</code> | 这一行要理解这些英文词：`string commands` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 21 行 | <code>     -&gt; hash commands</code> | 这一行要理解这些英文词：`hash commands` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 22 行 | <code>     -&gt; list commands</code> | 这一行要理解这些英文词：`list commands` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 23 行 | <code>     -&gt; set commands</code> | 这一行要理解这些英文词：`set commands` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 24 行 | <code>     -&gt; sorted set commands</code> | 这一行要理解这些英文词：`sorted set commands` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 25 行 | <code>     -&gt; stream commands</code> | 这一行要理解这些英文词：`stream commands` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 26 行 | <code>     -&gt; server commands</code> | 这一行要理解这些英文词：`server commands` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 27 行 | <code>  -&gt; Operate</code> | 这一行要理解这些英文词：`Operate` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 28 行 | <code>     -&gt; persistence</code> | 这一行要理解这些英文词：`persistence` 是持久化，把数据保存到磁盘或可靠存储中。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 29 行 | <code>     -&gt; replication</code> | 这一行要理解这些英文词：`replication` 是复制，把数据同步到副本以提高可靠性或读性能。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 30 行 | <code>     -&gt; Sentinel</code> | 这一行要理解这些英文词：`Sentinel` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 31 行 | <code>     -&gt; Cluster</code> | 这一行要理解这些英文词：`Cluster` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 32 行 | <code>     -&gt; security / ACL</code> | 这一行要理解这些英文词：`security` 是安全，涉及认证、授权、加密和访问控制；`ACL` 是访问控制列表，用来定义谁可以访问哪些资源。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 33 行 | <code>     -&gt; memory optimization</code> | 这一行要理解这些英文词：`memory optimization` 是optimization=优化。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 34 行 | <code>     -&gt; latency troubleshooting</code> | 这一行要理解这些英文词：`latency troubleshooting` 是latency=延迟。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 35 行 | <code>     -&gt; monitoring with INFO / SLOWLOG</code> | 这一行要理解这些英文词：`monitoring with INFO` 是monitoring=监控，info=信息类通知；`SLOWLOG` 是英文缩写或固定标识，结合本节上下文记住它代表的组件、命令或状态。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 1 行 | <code>Redis</code> | 这一行里的英文要这样读：`Redis` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
+| 第 2 行 | <code>  -&gt; Get started</code> | 这一行要理解这些英文词：`Get started` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>     -&gt; install</code> | 这一行要理解这些英文词：`install` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>     -&gt; redis-server</code> | 这一行要理解这些英文词：`redis-server` 是server=服务端。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>     -&gt; redis-cli</code> | 这一行要理解这些英文词：`redis-cli` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>     -&gt; clients</code> | 这一行要理解这些英文词：`clients` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; Data types</code> | 这一行要理解这些英文词：`Data types` 是data=数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>     -&gt; strings</code> | 这一行要理解这些英文词：`strings` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>     -&gt; hashes</code> | 这一行要理解这些英文词：`hashes` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>     -&gt; lists</code> | 这一行要理解这些英文词：`lists` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>     -&gt; sets</code> | 这一行要理解这些英文词：`sets` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 12 行 | <code>     -&gt; sorted sets</code> | 这一行要理解这些英文词：`sorted sets` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 13 行 | <code>     -&gt; streams</code> | 这一行要理解这些英文词：`streams` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 14 行 | <code>     -&gt; bitmaps / bitfields</code> | 这一行要理解这些英文词：`bitmaps` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`bitfields` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 15 行 | <code>     -&gt; geospatial</code> | 这一行要理解这些英文词：`geospatial` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 16 行 | <code>     -&gt; HyperLogLog / probabilistic</code> | 这一行要理解这些英文词：`HyperLogLog` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`probabilistic` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 17 行 | <code>     -&gt; JSON / time series / vector sets</code> | 这一行要理解这些英文词：`JSON` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`time series` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`vector sets` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 18 行 | <code>  -&gt; Commands</code> | 这一行要理解这些英文词：`Commands` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 19 行 | <code>     -&gt; key commands</code> | 这一行要理解这些英文词：`key commands` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 20 行 | <code>     -&gt; string commands</code> | 这一行要理解这些英文词：`string commands` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 21 行 | <code>     -&gt; hash commands</code> | 这一行要理解这些英文词：`hash commands` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 22 行 | <code>     -&gt; list commands</code> | 这一行要理解这些英文词：`list commands` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 23 行 | <code>     -&gt; set commands</code> | 这一行要理解这些英文词：`set commands` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 24 行 | <code>     -&gt; sorted set commands</code> | 这一行要理解这些英文词：`sorted set commands` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 25 行 | <code>     -&gt; stream commands</code> | 这一行要理解这些英文词：`stream commands` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 26 行 | <code>     -&gt; server commands</code> | 这一行要理解这些英文词：`server commands` 是server=服务端。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 27 行 | <code>  -&gt; Operate</code> | 这一行要理解这些英文词：`Operate` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 28 行 | <code>     -&gt; persistence</code> | 这一行要理解这些英文词：`persistence` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 29 行 | <code>     -&gt; replication</code> | 这一行要理解这些英文词：`replication` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 30 行 | <code>     -&gt; Sentinel</code> | 这一行要理解这些英文词：`Sentinel` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 31 行 | <code>     -&gt; Cluster</code> | 这一行要理解这些英文词：`Cluster` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 32 行 | <code>     -&gt; security / ACL</code> | 这一行要理解这些英文词：`security` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`ACL` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 33 行 | <code>     -&gt; memory optimization</code> | 这一行要理解这些英文词：`memory optimization` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 34 行 | <code>     -&gt; latency troubleshooting</code> | 这一行要理解这些英文词：`latency troubleshooting` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 35 行 | <code>     -&gt; monitoring with INFO / SLOWLOG</code> | 这一行要理解这些英文词：`monitoring with INFO` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`SLOWLOG` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 初学路线：
 
@@ -183,18 +181,17 @@ redis-cli
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>redis-cli</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; key / TTL</code> | 这一行要理解这些英文词：`key` 是键；`TTL` 是英文缩写或固定标识，结合本节上下文记住它代表的组件、命令或状态。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; String / Hash / Set / List / Sorted Set / Stream</code> | 这一行要理解这些英文词：`String` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`Hash` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`Set` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`List` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`Sorted Set` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`Stream` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; key naming</code> | 这一行要理解这些英文词：`key naming` 是key=键。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; memory and eviction</code> | 这一行要理解这些英文词：`memory and eviction` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; persistence: RDB / AOF</code> | 这一行要理解这些英文词：`persistence` 是持久化，把数据保存到磁盘或可靠存储中；`RDB` 是英文缩写或固定标识，结合本节上下文记住它代表的组件、命令或状态；`AOF` 是英文缩写或固定标识，结合本节上下文记住它代表的组件、命令或状态。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; replication</code> | 这一行要理解这些英文词：`replication` 是复制，把数据同步到副本以提高可靠性或读性能。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>  -&gt; Sentinel / Cluster concept</code> | 这一行要理解这些英文词：`Sentinel` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`Cluster concept` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 9 行 | <code>  -&gt; security / ACL</code> | 这一行要理解这些英文词：`security` 是安全，涉及认证、授权、加密和访问控制；`ACL` 是访问控制列表，用来定义谁可以访问哪些资源。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 10 行 | <code>  -&gt; INFO / SLOWLOG / latency</code> | 这一行要理解这些英文词：`INFO` 是信息类通知；`SLOWLOG` 是英文缩写或固定标识，结合本节上下文记住它代表的组件、命令或状态；`latency` 是延迟。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 11 行 | <code>  -&gt; AIOps alert dedup and event stream</code> | 这一行要理解这些英文词：`AIOps alert dedup and event stream` 是aiops=智能运维，alert=告警，dedup=去重。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 1 行 | <code>redis-cli</code> | 这一行里的英文要这样读：`redis-cli` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 2 行 | <code>  -&gt; key / TTL</code> | 这一行要理解这些英文词：`key` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`TTL` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; String / Hash / Set / List / Sorted Set / Stream</code> | 这一行要理解这些英文词：`String` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`Hash` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`Set` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`List` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`Sorted Set` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`Stream` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; key naming</code> | 这一行要理解这些英文词：`key naming` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; memory and eviction</code> | 这一行要理解这些英文词：`memory and eviction` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; persistence: RDB / AOF</code> | 这一行要理解这些英文词：`persistence` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`RDB` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`AOF` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; replication</code> | 这一行要理解这些英文词：`replication` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; Sentinel / Cluster concept</code> | 这一行要理解这些英文词：`Sentinel` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`Cluster concept` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>  -&gt; security / ACL</code> | 这一行要理解这些英文词：`security` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`ACL` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>  -&gt; INFO / SLOWLOG / latency</code> | 这一行要理解这些英文词：`INFO` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`SLOWLOG` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`latency` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>  -&gt; AIOps alert dedup and event stream</code> | 这一行要理解这些英文词：`AIOps alert dedup and event stream` 是aiops=智能运维，alert=告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 ## Redis 在 AIOps 链路中的位置
 
@@ -226,15 +223,14 @@ Alertmanager webhook
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>Alertmanager webhook</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; FastAPI receiver</code> | 这一行要理解这些英文词：`FastAPI receiver` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; Redis Set/String 做去重和限流</code> | 这一行要理解这些英文词：`Redis Set` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`String` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; Redis Stream 写入待处理事件</code> | 这一行要理解这些英文词：`Redis Stream` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; worker 消费事件</code> | 这一行要理解这些英文词：`worker` 是后台处理进程。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 1 行 | <code>Alertmanager webhook</code> | 这一行里的英文要这样读：`Alertmanager webhook` 这个英文标识可以拆开理解为：通过 HTTP 回调接收通知的接口。 |
+| 第 2 行 | <code>  -&gt; FastAPI receiver</code> | 这一行要理解这些英文词：`FastAPI receiver` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; Redis Set/String 做去重和限流</code> | 这一行要理解这些英文词：`Redis Set` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`String` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; Redis Stream 写入待处理事件</code> | 这一行要理解这些英文词：`Redis Stream` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; worker 消费事件</code> | 这一行要理解这些英文词：`worker` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 6 行 | <code>  -&gt; LLM / 规则分析</code> | 这一行要理解这些英文词：`LLM` 是大语言模型。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 7 行 | <code>  -&gt; MySQL 保存长期结果</code> | 这一行要理解这些英文词：`MySQL` 是MySQL 数据库或客户端命令。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>  -&gt; Grafana / FastAPI 展示</code> | 这一行要理解这些英文词：`Grafana` 是仪表盘和可视化平台，用来展示指标、日志和告警数据；`FastAPI` 是Python Web API 框架，常用来写模型服务或运维接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 8 行 | <code>  -&gt; Grafana / FastAPI 展示</code> | 这一行要理解这些英文词：`Grafana` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`FastAPI` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 Redis 负责：
 
@@ -256,8 +252,7 @@ Redis is an in-memory data structure server.
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>Redis is an in-memory data structure server.</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>Redis is an in-memory data structure server.</code> | `Redis is an in-memory data structure server.` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 重点有三个：
 
@@ -287,16 +282,15 @@ client
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>client</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; TCP 6379</code> | 这一行要理解这些英文词：`TCP` 是传输控制协议，提供可靠的网络连接。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; redis-server</code> | 这一行要理解这些英文词：`redis-server` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>      -&gt; command parser</code> | 这一行要理解这些英文词：`command parser` 是command=命令。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>      -&gt; event loop</code> | 这一行要理解这些英文词：`event loop` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>      -&gt; in-memory keyspace</code> | 这一行要理解这些英文词：`in-memory keyspace` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 1 行 | <code>client</code> | 这一行里的英文要这样读：`client` 是客户端。 |
+| 第 2 行 | <code>  -&gt; TCP 6379</code> | 这一行要理解这些英文词：`TCP` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; redis-server</code> | 这一行要理解这些英文词：`redis-server` 是server=服务端。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>      -&gt; command parser</code> | 这一行要理解这些英文词：`command parser` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>      -&gt; event loop</code> | 这一行要理解这些英文词：`event loop` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>      -&gt; in-memory keyspace</code> | 这一行要理解这些英文词：`in-memory keyspace` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 7 行 | <code>      -&gt; data structures</code> | 这一行要理解这些英文词：`data structures` 是data=数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>      -&gt; persistence: RDB / AOF</code> | 这一行要理解这些英文词：`persistence` 是持久化，把数据保存到磁盘或可靠存储中；`RDB` 是英文缩写或固定标识，结合本节上下文记住它代表的组件、命令或状态；`AOF` 是英文缩写或固定标识，结合本节上下文记住它代表的组件、命令或状态。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 9 行 | <code>      -&gt; replication</code> | 这一行要理解这些英文词：`replication` 是复制，把数据同步到副本以提高可靠性或读性能。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 8 行 | <code>      -&gt; persistence: RDB / AOF</code> | 这一行要理解这些英文词：`persistence` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`RDB` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`AOF` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>      -&gt; replication</code> | 这一行要理解这些英文词：`replication` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 关键概念：
 
@@ -329,7 +323,6 @@ docker run -d --name aiops-redis \
 | 第 2 行 | <code>  -p 6379:6379 \</code> | 执行 `-p` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 3 行 | <code>  redis:latest</code> | 执行 `redis:latest` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 连接：
 
 ```bash
@@ -341,7 +334,6 @@ docker exec -it aiops-redis redis-cli
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>docker exec -it aiops-redis redis-cli</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
-
 
 测试：
 
@@ -355,7 +347,6 @@ PING
 |---|---|---|
 | 第 1 行 | <code>PING</code> | 发送 ICMP 探测包，用来粗略判断网络连通性。 |
 
-
 预期：
 
 ```text
@@ -366,8 +357,7 @@ PONG
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>PONG</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>PONG</code> | 这一行里的英文要这样读：`PONG` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
 
 ### redis-cli 执行单条命令
 
@@ -385,7 +375,6 @@ redis-cli GET hello
 | 第 2 行 | <code>redis-cli SET hello world</code> | 连接 Redis，用来检查缓存、队列、限流或告警去重状态。 |
 | 第 3 行 | <code>redis-cli GET hello</code> | 连接 Redis，用来检查缓存、队列、限流或告警去重状态。 |
 
-
 Docker：
 
 ```bash
@@ -399,7 +388,6 @@ docker exec aiops-redis redis-cli GET hello
 |---|---|---|
 | 第 1 行 | <code>docker exec aiops-redis redis-cli SET hello world</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
 | 第 2 行 | <code>docker exec aiops-redis redis-cli GET hello</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
-
 
 ### 连接参数
 
@@ -428,8 +416,7 @@ domain:entity:scope:field
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>domain:entity:scope:field</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>domain:entity:scope:field</code> | `domain` 是domain 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `entity:scope:field` 是这个字段的示例内容或模板表达式。 |
 
 AIOps 示例：
 
@@ -446,13 +433,12 @@ stream:alerts
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>alert:dedup:order-api:high-error-rate:10.0.1.11</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>alert:count:order-api:critical:20260702</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>service:state:order-api</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>job:queue:runbook</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 5 行 | <code>llm:cache:alert-summary:sha256</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 6 行 | <code>stream:alerts</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>alert:dedup:order-api:high-error-rate:10.0.1.11</code> | `alert` 是告警，冒号后面的 `dedup:order-api:high-error-rate:10.0.1.11` 是这个字段的示例内容或模板表达式。 |
+| 第 2 行 | <code>alert:count:order-api:critical:20260702</code> | `alert` 是告警，冒号后面的 `count:order-api:critical:20260702` 是这个字段的示例内容或模板表达式。 |
+| 第 3 行 | <code>service:state:order-api</code> | `service` 是服务名称字段，冒号后面的 `state:order-api` 是这个字段的示例内容或模板表达式。 |
+| 第 4 行 | <code>job:queue:runbook</code> | `job` 是job 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `queue:runbook` 是这个字段的示例内容或模板表达式。 |
+| 第 5 行 | <code>llm:cache:alert-summary:sha256</code> | `llm` 是llm 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `cache:alert-summary:sha256` 是这个字段的示例内容或模板表达式。 |
+| 第 6 行 | <code>stream:alerts</code> | `stream` 是stream 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `alerts` 是这个字段的示例内容或模板表达式。 |
 
 原则：
 
@@ -479,7 +465,6 @@ TTL alert:dedup:fp123
 | 第 1 行 | <code>SET alert:dedup:fp123 seen EX 300</code> | 设置 shell 或工具变量，具体含义取决于当前终端环境。 |
 | 第 2 行 | <code>TTL alert:dedup:fp123</code> | 执行 `ttl` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 给已有 key 设置过期：
 
 ```bash
@@ -491,7 +476,6 @@ EXPIRE alert:dedup:fp123 300
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>EXPIRE alert:dedup:fp123 300</code> | 执行 `expire` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 取消过期：
 
@@ -505,7 +489,6 @@ PERSIST alert:dedup:fp123
 |---|---|---|
 | 第 1 行 | <code>PERSIST alert:dedup:fp123</code> | 执行 `persist` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 查看 key 是否存在：
 
 ```bash
@@ -517,7 +500,6 @@ EXISTS alert:dedup:fp123
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>EXISTS alert:dedup:fp123</code> | 执行 `exists` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 删除：
 
@@ -531,7 +513,6 @@ DEL alert:dedup:fp123
 |---|---|---|
 | 第 1 行 | <code>DEL alert:dedup:fp123</code> | 执行 `del` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 TTL 在 AIOps 里的核心作用：
 
 ```text
@@ -544,10 +525,8 @@ TTL 在 AIOps 里的核心作用：
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>同一告警 fingerprint 在 5 分钟内只处理一次</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>5 分钟后 key 自动消失</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>下次告警可以重新处理</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>同一告警 fingerprint 在 5 分钟内只处理一次</code> | 这一行里的英文要这样读：`fingerprint` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 2 行 | <code>5 分钟后 key 自动消失</code> | 这一行里的英文要这样读：`key` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 ## 数据类型总览
 
@@ -587,7 +566,6 @@ GET llm:cache:alert-summary:fp123
 | 第 1 行 | <code>SET llm:cache:alert-summary:fp123 "order-api 5xx increased after deployment" EX 1800</code> | 设置 shell 或工具变量，具体含义取决于当前终端环境。 |
 | 第 2 行 | <code>GET llm:cache:alert-summary:fp123</code> | 执行 `get` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 含义：
 
 - key 保存 LLM 对某个告警 fingerprint 的摘要。
@@ -610,7 +588,6 @@ GET alert:count:order-api:critical:20260702
 | 第 2 行 | <code>EXPIRE alert:count:order-api:critical:20260702 86400</code> | 执行 `expire` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 3 行 | <code>GET alert:count:order-api:critical:20260702</code> | 执行 `get` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 `INCR` 是原子操作。多个客户端同时加一，也不会丢计数。
 
 ### SET NX EX
@@ -626,7 +603,6 @@ SET alert:dedup:fp123 seen NX EX 300
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>SET alert:dedup:fp123 seen NX EX 300</code> | 设置 shell 或工具变量，具体含义取决于当前终端环境。 |
-
 
 含义：
 
@@ -665,9 +641,7 @@ HGETALL service:state:order-api
 | 第 3 行 | <code>  error_rate 0.23 \</code> | 执行 `error_rate` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 4 行 | <code>  p95_latency_ms 1200 \</code> | 执行 `p95_latency_ms` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 5 行 | <code>  updated_at 2026-07-02T10:20:00Z</code> | 执行 `updated_at` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 6 行 | <em>空行</em> | 空行，用来把命令分成更容易阅读的几段。 |
 | 第 7 行 | <code>HGETALL service:state:order-api</code> | 执行 `hgetall` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 适合：
 
@@ -689,7 +663,6 @@ HMGET service:state:order-api status error_rate
 | 第 1 行 | <code>HGET service:state:order-api status</code> | 执行 `hget` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 2 行 | <code>HMGET service:state:order-api status error_rate</code> | 执行 `hmget` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 ### 增加字段数值
 
 ```bash
@@ -701,7 +674,6 @@ HINCRBY service:state:order-api restart_count 1
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>HINCRBY service:state:order-api restart_count 1</code> | 执行 `hincrby` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 ### Hash 和 JSON 的选择
 
@@ -729,7 +701,6 @@ LPUSH job:queue:alert-analysis '{"alert_id":1001,"service":"order-api"}'
 |---|---|---|
 | 第 1 行 | <code>LPUSH job:queue:alert-analysis '{"alert_id":1001,"service":"order-api"}'</code> | 执行 `lpush` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 消费者：
 
 ```bash
@@ -741,7 +712,6 @@ BRPOP job:queue:alert-analysis 0
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>BRPOP job:queue:alert-analysis 0</code> | 执行 `brpop` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 含义：
 
@@ -782,7 +752,6 @@ LRANGE recent:alerts 0 9
 | 第 2 行 | <code>LTRIM recent:alerts 0 99</code> | 执行 `ltrim` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 3 行 | <code>LRANGE recent:alerts 0 9</code> | 执行 `lrange` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 `LTRIM` 保留前 100 条，避免 list 无限增长。
 
 ## Set
@@ -804,7 +773,6 @@ EXPIRE alert:fingerprints 600
 | 第 1 行 | <code>SADD alert:fingerprints fp-order-api-5xx</code> | 执行 `sadd` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 2 行 | <code>SISMEMBER alert:fingerprints fp-order-api-5xx</code> | 执行 `sismember` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 3 行 | <code>EXPIRE alert:fingerprints 600</code> | 执行 `expire` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 含义：
 
@@ -832,7 +800,6 @@ SUNION alerts:team:sre alerts:team:backend
 | 第 3 行 | <code>SINTER alerts:team:sre alerts:team:backend</code> | 执行 `sinter` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 4 行 | <code>SUNION alerts:team:sre alerts:team:backend</code> | 执行 `sunion` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 可用于：
 
 - 服务归属交集。
@@ -859,7 +826,6 @@ ZREVRANGE alert:rank:services 0 9 WITHSCORES
 | 第 2 行 | <code>ZINCRBY alert:rank:services 1 payment-api</code> | 执行 `zincrby` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 3 行 | <code>ZREVRANGE alert:rank:services 0 9 WITHSCORES</code> | 执行 `zrevrange` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 含义：
 
 - `ZINCRBY` 增加某个成员分数。
@@ -883,7 +849,6 @@ ZRANGEBYSCORE alert:events:order-api 1782960000 1782960300
 | 第 2 行 | <code>ZADD alert:events:order-api 1782960060 fp2</code> | 执行 `zadd` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 3 行 | <code>ZRANGEBYSCORE alert:events:order-api 1782960000 1782960300</code> | 执行 `zrangebyscore` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 清理窗口外数据：
 
 ```bash
@@ -895,7 +860,6 @@ ZREMRANGEBYSCORE alert:events:order-api -inf 1782959700
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>ZREMRANGEBYSCORE alert:events:order-api -inf 1782959700</code> | 执行 `zremrangebyscore` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 适合做：
 
@@ -919,20 +883,11 @@ XADD stream:alerts '*' service order-api severity critical alert HighErrorRate
 |---|---|---|
 | 第 1 行 | <code>XADD stream:alerts '*' service order-api severity critical alert HighErrorRate</code> | 执行 `xadd` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 返回类似：
 
 ```text
 1782960000000-0
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>1782960000000-0</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
-
 这是 stream entry id，通常由毫秒时间戳和序号组成。
 
 ### 读取事件
@@ -946,7 +901,6 @@ XREAD COUNT 10 STREAMS stream:alerts 0
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>XREAD COUNT 10 STREAMS stream:alerts 0</code> | 执行 `xread` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 从头读。
 
@@ -962,7 +916,6 @@ XREAD BLOCK 5000 STREAMS stream:alerts '$'
 |---|---|---|
 | 第 1 行 | <code>XREAD BLOCK 5000 STREAMS stream:alerts '$'</code> | 执行 `xread` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 ### 消费组
 
 创建消费组：
@@ -977,7 +930,6 @@ XGROUP CREATE stream:alerts aiops-workers 0 MKSTREAM
 |---|---|---|
 | 第 1 行 | <code>XGROUP CREATE stream:alerts aiops-workers 0 MKSTREAM</code> | 执行 `xgroup` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 消费：
 
 ```bash
@@ -989,7 +941,6 @@ XREADGROUP GROUP aiops-workers worker-1 COUNT 10 STREAMS stream:alerts '>'
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>XREADGROUP GROUP aiops-workers worker-1 COUNT 10 STREAMS stream:alerts '&gt;'</code> | 执行 `xreadgroup` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 确认：
 
@@ -1003,7 +954,6 @@ XACK stream:alerts aiops-workers 1782960000000-0
 |---|---|---|
 | 第 1 行 | <code>XACK stream:alerts aiops-workers 1782960000000-0</code> | 执行 `xack` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 查看 pending：
 
 ```bash
@@ -1015,7 +965,6 @@ XPENDING stream:alerts aiops-workers
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>XPENDING stream:alerts aiops-workers</code> | 执行 `xpending` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 ### Stream 适合什么
 
@@ -1046,7 +995,6 @@ XADD stream:alerts MAXLEN ~ 10000 '*' service order-api severity critical
 |---|---|---|
 | 第 1 行 | <code>XADD stream:alerts MAXLEN ~ 10000 '*' service order-api severity critical</code> | 执行 `xadd` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 `MAXLEN` 防止 stream 无限增长。
 
 ## Bitmap 和 HyperLogLog
@@ -1069,7 +1017,6 @@ BITCOUNT service:active:20260702
 | 第 2 行 | <code>GETBIT service:active:20260702 1001</code> | 执行 `getbit` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 3 行 | <code>BITCOUNT service:active:20260702</code> | 执行 `bitcount` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 适合：
 
 - 某服务某天是否活跃。
@@ -1090,7 +1037,6 @@ PFCOUNT alert:unique-services:20260702
 |---|---|---|
 | 第 1 行 | <code>PFADD alert:unique-services:20260702 order-api payment-api gateway</code> | 执行 `pfadd` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 2 行 | <code>PFCOUNT alert:unique-services:20260702</code> | 执行 `pfcount` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 适合：
 
@@ -1115,12 +1061,11 @@ app reads Redis
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>app reads Redis</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; hit: return cache</code> | 这一行要理解这些英文词：`hit` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`return cache` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; miss: read MySQL / API</code> | 这一行要理解这些英文词：`miss` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`read MySQL` 是mysql=MySQL 数据库或客户端命令；`API` 是应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; write Redis with TTL</code> | 这一行要理解这些英文词：`write Redis with TTL` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; return result</code> | 这一行要理解这些英文词：`return result` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 1 行 | <code>app reads Redis</code> | 这一行里的英文要这样读：`app reads Redis` 这个英文标识可以拆开理解为：应用或服务。 |
+| 第 2 行 | <code>  -&gt; hit: return cache</code> | 这一行要理解这些英文词：`hit` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`return cache` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; miss: read MySQL / API</code> | 这一行要理解这些英文词：`miss` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`read MySQL` 是mysql=MySQL 数据库或客户端命令；`API` 是应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; write Redis with TTL</code> | 这一行要理解这些英文词：`write Redis with TTL` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; return result</code> | 这一行要理解这些英文词：`return result` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 Python 伪代码：
 
@@ -1141,11 +1086,9 @@ return data
 | 第 1 行 | <code>cached = redis.get(cache_key)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 2 行 | <code>if cached:</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
 | 第 3 行 | <code>    return cached</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-| 第 4 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 5 行 | <code>data = query_mysql()</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 6 行 | <code>redis.set(cache_key, data, ex=300)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 7 行 | <code>return data</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-
 
 适合缓存：
 
@@ -1202,7 +1145,6 @@ EXPIRE rate:order-api:202607021020 60
 | 第 1 行 | <code>INCR rate:order-api:202607021020</code> | 执行 `incr` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 2 行 | <code>EXPIRE rate:order-api:202607021020 60</code> | 执行 `expire` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 如果计数超过阈值，就拒绝或降级。
 
 缺点：窗口边界可能突刺。
@@ -1225,7 +1167,6 @@ ZCOUNT rate:order-api 1782959940 1782960000
 | 第 2 行 | <code>ZREMRANGEBYSCORE rate:order-api -inf 1782959940</code> | 执行 `zremrangebyscore` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 3 行 | <code>ZCOUNT rate:order-api 1782959940 1782960000</code> | 执行 `zcount` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 更精确，但命令更多。
 
 ## 分布式锁
@@ -1243,7 +1184,6 @@ SET lock:runbook:order-api request-123 NX EX 30
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>SET lock:runbook:order-api request-123 NX EX 30</code> | 设置 shell 或工具变量，具体含义取决于当前终端环境。 |
-
 
 含义：
 
@@ -1297,7 +1237,6 @@ redis-cli CONFIG SET appendonly yes
 |---|---|---|
 | 第 1 行 | <code>redis-cli CONFIG SET appendonly yes</code> | 连接 Redis，用来检查缓存、队列、限流或告警去重状态。 |
 
-
 生产配置应写到配置文件或部署配置。
 
 ### RDB + AOF
@@ -1314,8 +1253,7 @@ Redis 持久化不是关系型数据库事务替代品。
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>Redis 持久化不是关系型数据库事务替代品。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>Redis 持久化不是关系型数据库事务替代品。</code> | 这一行里的英文要这样读：`Redis` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
 
 如果数据必须强一致、长期保存、复杂查询，仍然应落 MySQL、PostgreSQL 或事件存储。
 
@@ -1334,7 +1272,6 @@ redis-cli INFO memory
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>redis-cli INFO memory</code> | 连接 Redis，用来检查缓存、队列、限流或告警去重状态。 |
-
 
 重点看：
 
@@ -1358,7 +1295,6 @@ redis-cli CONFIG SET maxmemory 512mb
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>redis-cli CONFIG SET maxmemory 512mb</code> | 连接 Redis，用来检查缓存、队列、限流或告警去重状态。 |
-
 
 生产应写配置文件，不要只临时设置。
 
@@ -1391,10 +1327,9 @@ client writes
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>client writes</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; primary</code> | 这一行要理解这些英文词：`primary` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; replicate to replicas</code> | 这一行要理解这些英文词：`replicate to replicas` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 1 行 | <code>client writes</code> | 这一行里的英文要这样读：`client writes` 这个英文标识可以拆开理解为：客户端。 |
+| 第 2 行 | <code>  -&gt; primary</code> | 这一行要理解这些英文词：`primary` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; replicate to replicas</code> | 这一行要理解这些英文词：`replicate to replicas` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 用途：
 
@@ -1422,7 +1357,6 @@ docker run -d --name redis-replica -p 6380:6379 redis:latest redis-server --repl
 | 第 1 行 | <code>docker run -d --name redis-primary -p 6379:6379 redis:latest</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 | 第 2 行 | <code>docker run -d --name redis-replica -p 6380:6379 redis:latest redis-server --replicaof host.docker.internal 6379</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
-
 查看角色：
 
 ```bash
@@ -1436,7 +1370,6 @@ redis-cli -p 6380 INFO replication
 |---|---|---|
 | 第 1 行 | <code>redis-cli -p 6379 INFO replication</code> | 连接 Redis，用来检查缓存、队列、限流或告警去重状态。 |
 | 第 2 行 | <code>redis-cli -p 6380 INFO replication</code> | 连接 Redis，用来检查缓存、队列、限流或告警去重状态。 |
-
 
 ## Sentinel
 
@@ -1466,14 +1399,12 @@ Sentinels
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>clients</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; ask Sentinel for current primary</code> | 这一行要理解这些英文词：`ask Sentinel for current primary` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 1 行 | <code>clients</code> | 这一行里的英文要这样读：`clients` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 2 行 | <code>  -&gt; ask Sentinel for current primary</code> | 这一行要理解这些英文词：`ask Sentinel for current primary` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 3 行 | <code>  -&gt; connect Redis primary</code> | 这一行要理解这些英文词：`connect Redis primary` 是connect=连接。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
-| 第 5 行 | <code>Sentinels</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 6 行 | <code>  -&gt; monitor primary / replicas</code> | 这一行要理解这些英文词：`monitor primary` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`replicas` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; failover when needed</code> | 这一行要理解这些英文词：`failover when needed` 是failover=故障切换。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 5 行 | <code>Sentinels</code> | 这一行里的英文要这样读：`Sentinels` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
+| 第 6 行 | <code>  -&gt; monitor primary / replicas</code> | 这一行要理解这些英文词：`monitor primary` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`replicas` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; failover when needed</code> | 这一行要理解这些英文词：`failover when needed` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 要点：
 
@@ -1497,10 +1428,9 @@ key
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>key</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; hash slot</code> | 这一行要理解这些英文词：`hash slot` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; node</code> | 这一行要理解这些英文词：`node` 是节点，可以指服务器、Kubernetes 节点或图里的一个步骤。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 1 行 | <code>key</code> | 这一行里的英文要这样读：`key` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 2 行 | <code>  -&gt; hash slot</code> | 这一行要理解这些英文词：`hash slot` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; node</code> | 这一行要理解这些英文词：`node` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 Redis Cluster 把 key 空间拆成 16384 个 hash slots，不同节点负责不同 slot。
 
@@ -1543,7 +1473,6 @@ redis-cli -a your_password PING
 |---|---|---|
 | 第 1 行 | <code>redis-cli -a your_password PING</code> | 连接 Redis，用来检查缓存、队列、限流或告警去重状态。 |
 
-
 ### ACL
 
 创建只读用户示例：
@@ -1557,7 +1486,6 @@ ACL SETUSER aiops_reader on >reader_pwd ~service:* +get +hget +hgetall +ttl
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>ACL SETUSER aiops_reader on &gt;reader_pwd ~service:* +get +hget +hgetall +ttl</code> | 执行 `acl` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 含义：
 
@@ -1580,7 +1508,6 @@ ACL LIST
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>ACL LIST</code> | 执行 `acl` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 应用不要使用全权限默认用户。
 
@@ -1607,7 +1534,6 @@ redis-cli INFO keyspace
 | 第 4 行 | <code>redis-cli INFO stats</code> | 连接 Redis，用来检查缓存、队列、限流或告警去重状态。 |
 | 第 5 行 | <code>redis-cli INFO replication</code> | 连接 Redis，用来检查缓存、队列、限流或告警去重状态。 |
 | 第 6 行 | <code>redis-cli INFO keyspace</code> | 连接 Redis，用来检查缓存、队列、限流或告警去重状态。 |
-
 
 重点指标：
 
@@ -1636,7 +1562,6 @@ redis-cli SLOWLOG GET 10
 |---|---|---|
 | 第 1 行 | <code>redis-cli SLOWLOG GET 10</code> | 连接 Redis，用来检查缓存、队列、限流或告警去重状态。 |
 
-
 慢命令会影响 Redis 响应，因为命令执行时间过长会占住事件循环。
 
 常见慢命令来源：
@@ -1662,7 +1587,6 @@ redis-cli LATENCY LATEST
 |---|---|---|
 | 第 1 行 | <code>redis-cli LATENCY DOCTOR</code> | 连接 Redis，用来检查缓存、队列、限流或告警去重状态。 |
 | 第 2 行 | <code>redis-cli LATENCY LATEST</code> | 连接 Redis，用来检查缓存、队列、限流或告警去重状态。 |
-
 
 用于分析延迟尖刺。
 
@@ -1690,7 +1614,6 @@ redis-cli --bigkeys
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>redis-cli --bigkeys</code> | 连接 Redis，用来检查缓存、队列、限流或告警去重状态。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 
 生产执行要谨慎，选择低峰。
 
@@ -1728,12 +1651,11 @@ projects/redis-alert-dedup/
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>projects/redis-alert-dedup/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  README.md</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>  requirements.txt</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>  dedup.py</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 5 行 | <code>  stream_demo.sh</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>projects/redis-alert-dedup/</code> | `projects/redis-alert-dedup/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 2 行 | <code>  README.md</code> | `README.md` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 3 行 | <code>  requirements.txt</code> | `requirements.txt` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 4 行 | <code>  dedup.py</code> | `dedup.py` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 5 行 | <code>  stream_demo.sh</code> | `stream_demo.sh` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 ### requirements.txt
 
@@ -1745,8 +1667,7 @@ redis
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>redis</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>redis</code> | 这一行里的英文要这样读：`redis` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 ### dedup.py
 
@@ -1797,12 +1718,8 @@ else:
 |---|---|---|
 | 第 1 行 | <code>import hashlib</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
 | 第 2 行 | <code>import json</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
-| 第 3 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 4 行 | <code>import redis</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
-| 第 5 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 6 行 | <code>r = redis.Redis(host="127.0.0.1", port=6379, decode_responses=True)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 7 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
-| 第 8 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 9 行 | <code>def fingerprint(alert: dict) -&gt; str:</code> | 定义函数，把一段可复用逻辑命名，后续可以反复调用。 |
 | 第 10 行 | <code>    raw = "&#124;".join(</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 11 行 | <code>        [</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
@@ -1813,27 +1730,21 @@ else:
 | 第 16 行 | <code>        ]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 17 行 | <code>    )</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 18 行 | <code>    return hashlib.sha256(raw.encode("utf-8")).hexdigest()</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-| 第 19 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
-| 第 20 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 21 行 | <code>def should_process(alert: dict, ttl_seconds: int = 300) -&gt; bool:</code> | 定义函数，把一段可复用逻辑命名，后续可以反复调用。 |
 | 第 22 行 | <code>    fp = fingerprint(alert)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 23 行 | <code>    key = f"alert:dedup:{fp}"</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 24 行 | <code>    value = json.dumps(alert, ensure_ascii=False)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 25 行 | <code>    return r.set(key, value, nx=True, ex=ttl_seconds) is True</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-| 第 26 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
-| 第 27 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 28 行 | <code>sample = {</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 29 行 | <code>    "service": "order-api",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 30 行 | <code>    "name": "HighErrorRate",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 31 行 | <code>    "instance": "10.0.1.11",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 32 行 | <code>    "severity": "critical",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 29 行 | <code>    "service": "order-api",</code> | `service` 是服务名称字段，`order-api` 是具体服务名，表示这条记录属于这个服务；这是 Python 字典里的一个键值对。 |
+| 第 30 行 | <code>    "name": "HighErrorRate",</code> | `name` 是名称字段，`HighErrorRate` 是高错误率告警名，表示请求失败比例过高；这是 Python 字典里的一个键值对。 |
+| 第 31 行 | <code>    "instance": "10.0.1.11",</code> | `instance` 是实例名称字段，`10.0.1.11` 表示IP 地址，表示一台机器或服务端点的位置；这是 Python 字典里的一个键值对。 |
+| 第 32 行 | <code>    "severity": "critical",</code> | `severity` 是告警严重级别字段，`critical` 表示严重级别，通常表示需要优先处理；这是 Python 字典里的一个键值对。 |
 | 第 33 行 | <code>}</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 34 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 35 行 | <code>if should_process(sample):</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
 | 第 36 行 | <code>    print("process")</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
 | 第 37 行 | <code>else:</code> | 兜底分支，前面的条件都不成立时执行。 |
 | 第 38 行 | <code>    print("duplicate")</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 
 运行：
 
@@ -1851,7 +1762,6 @@ python dedup.py
 | 第 2 行 | <code>python dedup.py</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
 | 第 3 行 | <code>python dedup.py</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
 
-
 第一次输出：
 
 ```text
@@ -1862,8 +1772,7 @@ process
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>process</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>process</code> | 这一行里的英文要这样读：`process` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 第二次输出：
 
@@ -1875,8 +1784,7 @@ duplicate
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>duplicate</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>duplicate</code> | 这一行里的英文要这样读：`duplicate` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 学习点：
 
@@ -1900,7 +1808,6 @@ redis-cli XADD stream:alerts '*' service payment-api severity warning alert High
 | 第 1 行 | <code>redis-cli XADD stream:alerts '*' service order-api severity critical alert HighErrorRate</code> | 连接 Redis，用来检查缓存、队列、限流或告警去重状态。 |
 | 第 2 行 | <code>redis-cli XADD stream:alerts '*' service payment-api severity warning alert HighLatency</code> | 连接 Redis，用来检查缓存、队列、限流或告警去重状态。 |
 
-
 ### 创建消费组
 
 ```bash
@@ -1912,7 +1819,6 @@ redis-cli XGROUP CREATE stream:alerts aiops-workers 0 MKSTREAM
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>redis-cli XGROUP CREATE stream:alerts aiops-workers 0 MKSTREAM</code> | 连接 Redis，用来检查缓存、队列、限流或告警去重状态。 |
-
 
 如果组已存在会报错，实验时可以忽略或先删除 stream。
 
@@ -1928,7 +1834,6 @@ redis-cli XREADGROUP GROUP aiops-workers worker-1 COUNT 10 STREAMS stream:alerts
 |---|---|---|
 | 第 1 行 | <code>redis-cli XREADGROUP GROUP aiops-workers worker-1 COUNT 10 STREAMS stream:alerts '&gt;'</code> | 连接 Redis，用来检查缓存、队列、限流或告警去重状态。 |
 
-
 ### 确认
 
 把实际返回的 entry id 填进去：
@@ -1943,7 +1848,6 @@ redis-cli XACK stream:alerts aiops-workers 1782960000000-0
 |---|---|---|
 | 第 1 行 | <code>redis-cli XACK stream:alerts aiops-workers 1782960000000-0</code> | 连接 Redis，用来检查缓存、队列、限流或告警去重状态。 |
 
-
 ### 查看待确认
 
 ```bash
@@ -1955,7 +1859,6 @@ redis-cli XPENDING stream:alerts aiops-workers
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>redis-cli XPENDING stream:alerts aiops-workers</code> | 连接 Redis，用来检查缓存、队列、限流或告警去重状态。 |
-
 
 学习点：
 
@@ -1978,7 +1881,6 @@ redis-cli PING
 |---|---|---|
 | 第 1 行 | <code>redis-cli PING</code> | 连接 Redis，用来检查缓存、队列、限流或告警去重状态。 |
 
-
 作用：检查 Redis 是否响应。
 
 ### SET / GET
@@ -1995,7 +1897,6 @@ GET key
 | 第 1 行 | <code>SET key value</code> | 设置 shell 或工具变量，具体含义取决于当前终端环境。 |
 | 第 2 行 | <code>GET key</code> | 执行 `get` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 作用：写入和读取 String。
 
 ### SET NX EX
@@ -2009,7 +1910,6 @@ SET alert:dedup:fp123 seen NX EX 300
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>SET alert:dedup:fp123 seen NX EX 300</code> | 设置 shell 或工具变量，具体含义取决于当前终端环境。 |
-
 
 作用：原子去重窗口。
 
@@ -2027,7 +1927,6 @@ EXPIRE key 300
 | 第 1 行 | <code>TTL key</code> | 执行 `ttl` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 2 行 | <code>EXPIRE key 300</code> | 执行 `expire` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 作用：查看和设置过期时间。
 
 ### DEL / UNLINK
@@ -2044,7 +1943,6 @@ UNLINK key
 | 第 1 行 | <code>DEL key</code> | 执行 `del` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 2 行 | <code>UNLINK key</code> | 执行 `unlink` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 作用：删除 key。`UNLINK` 是异步释放内存，更适合删除大 key。
 
 ### SCAN
@@ -2058,7 +1956,6 @@ SCAN 0 MATCH alert:* COUNT 100
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>SCAN 0 MATCH alert:* COUNT 100</code> | 执行 `scan` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 作用：增量扫描 key。生产避免 `KEYS *`。
 
@@ -2076,7 +1973,6 @@ HGETALL service:state:order-api
 | 第 1 行 | <code>HSET service:state:order-api status degraded error_rate 0.23</code> | 执行 `hset` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 2 行 | <code>HGETALL service:state:order-api</code> | 执行 `hgetall` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 作用：操作 Hash。
 
 ### LPUSH / BRPOP
@@ -2092,7 +1988,6 @@ BRPOP job:queue:aiops 0
 |---|---|---|
 | 第 1 行 | <code>LPUSH job:queue:aiops task1</code> | 执行 `lpush` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 2 行 | <code>BRPOP job:queue:aiops 0</code> | 执行 `brpop` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 作用：简单队列。
 
@@ -2110,7 +2005,6 @@ SISMEMBER alert:fingerprints fp1
 | 第 1 行 | <code>SADD alert:fingerprints fp1</code> | 执行 `sadd` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 2 行 | <code>SISMEMBER alert:fingerprints fp1</code> | 执行 `sismember` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 作用：集合去重。
 
 ### ZINCRBY / ZREVRANGE
@@ -2126,7 +2020,6 @@ ZREVRANGE alert:rank:services 0 9 WITHSCORES
 |---|---|---|
 | 第 1 行 | <code>ZINCRBY alert:rank:services 1 order-api</code> | 执行 `zincrby` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 2 行 | <code>ZREVRANGE alert:rank:services 0 9 WITHSCORES</code> | 执行 `zrevrange` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 作用：排行。
 
@@ -2146,7 +2039,6 @@ XACK stream:alerts aiops-workers 1782960000000-0
 | 第 2 行 | <code>XREADGROUP GROUP aiops-workers worker-1 COUNT 10 STREAMS stream:alerts '&gt;'</code> | 执行 `xreadgroup` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 3 行 | <code>XACK stream:alerts aiops-workers 1782960000000-0</code> | 执行 `xack` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 作用：事件流和消费确认。
 
 ### INFO
@@ -2165,7 +2057,6 @@ INFO stats
 | 第 2 行 | <code>INFO clients</code> | 执行 `info` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 3 行 | <code>INFO stats</code> | 执行 `info` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 作用：查看 Redis 状态。
 
 ### SLOWLOG GET
@@ -2179,7 +2070,6 @@ SLOWLOG GET 10
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>SLOWLOG GET 10</code> | 执行 `slowlog` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 作用：查看慢命令。
 
@@ -2197,7 +2087,6 @@ CONFIG GET appendonly
 | 第 1 行 | <code>CONFIG GET maxmemory</code> | 执行 `config` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 2 行 | <code>CONFIG GET appendonly</code> | 执行 `config` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 作用：查看配置。
 
 ### ACL LIST
@@ -2211,7 +2100,6 @@ ACL LIST
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>ACL LIST</code> | 执行 `acl` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 作用：查看 ACL 用户和权限。
 
@@ -2248,12 +2136,11 @@ PING
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>PING</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; 检查 host/port</code> | 这一行要理解这些英文词：`host` 是主机，可以是一台服务器、虚拟机或节点；`port` 是端口，网络服务监听请求的入口编号。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; 检查密码/ACL</code> | 这一行要理解这些英文词：`ACL` 是访问控制列表，用来定义谁可以访问哪些资源。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; 检查 bind/protected-mode</code> | 这一行要理解这些英文词：`bind` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`protected-mode` 是mode=模式。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 1 行 | <code>PING</code> | 这一行里的英文要这样读：`PING` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
+| 第 2 行 | <code>  -&gt; 检查 host/port</code> | 这一行要理解这些英文词：`host` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`port` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; 检查密码/ACL</code> | 这一行要理解这些英文词：`ACL` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; 检查 bind/protected-mode</code> | 这一行要理解这些英文词：`bind` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`protected-mode` 是mode=模式。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 5 行 | <code>  -&gt; 检查网络和容器端口</code> | 这一行表示上一级主题下的子项“检查网络和容器端口”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
-
 
 ### 内存问题
 
@@ -2270,13 +2157,12 @@ INFO memory
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>INFO memory</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; 看 used_memory / maxmemory</code> | 这一行要理解这些英文词：`used_memory` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`maxmemory` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; 看 evicted_keys</code> | 这一行要理解这些英文词：`evicted_keys` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; 找大 key</code> | 这一行要理解这些英文词：`key` 是键。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; 检查 TTL</code> | 这一行要理解这些英文词：`TTL` 是英文缩写或固定标识，结合本节上下文记住它代表的组件、命令或状态。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 1 行 | <code>INFO memory</code> | 这一行里的英文要这样读：`INFO memory` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 2 行 | <code>  -&gt; 看 used_memory / maxmemory</code> | 这一行要理解这些英文词：`used_memory` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`maxmemory` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; 看 evicted_keys</code> | 这一行要理解这些英文词：`evicted_keys` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; 找大 key</code> | 这一行要理解这些英文词：`key` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; 检查 TTL</code> | 这一行要理解这些英文词：`TTL` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 6 行 | <code>  -&gt; 调整数据模型或淘汰策略</code> | 这一行表示上一级主题下的子项“调整数据模型或淘汰策略”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
-
 
 ### 延迟问题
 
@@ -2292,12 +2178,11 @@ SLOWLOG GET
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>SLOWLOG GET</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; LATENCY DOCTOR</code> | 这一行要理解这些英文词：`LATENCY DOCTOR` 是latency=延迟。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; 查大 key</code> | 这一行要理解这些英文词：`key` 是键。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 1 行 | <code>SLOWLOG GET</code> | 这一行里的英文要这样读：`SLOWLOG GET` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 2 行 | <code>  -&gt; LATENCY DOCTOR</code> | 这一行要理解这些英文词：`LATENCY DOCTOR` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; 查大 key</code> | 这一行要理解这些英文词：`key` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 4 行 | <code>  -&gt; 查阻塞命令</code> | 这一行表示上一级主题下的子项“查阻塞命令”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
-| 第 5 行 | <code>  -&gt; 查 CPU / swap / 磁盘持久化压力</code> | 这一行要理解这些英文词：`CPU` 是中央处理器，负责执行程序计算；`swap` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 5 行 | <code>  -&gt; 查 CPU / swap / 磁盘持久化压力</code> | 这一行要理解这些英文词：`CPU` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`swap` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 ## Redis 和 MySQL / Kafka 的边界
 

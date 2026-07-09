@@ -81,20 +81,19 @@ Python scripts and jobs
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>metrics / logs / traces / alerts / tickets</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>        &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>        v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>files / HTTP APIs / message queues / databases</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 5 行 | <code>        &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 6 行 | <code>        v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 7 行 | <code>Python scripts and jobs</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 8 行 | <code>        &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 1 行 | <code>metrics / logs / traces / alerts / tickets</code> | `metrics / logs / traces / alerts / tickets` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 2 行 | <code>        &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
+| 第 3 行 | <code>        v</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
+| 第 4 行 | <code>files / HTTP APIs / message queues / databases</code> | `files / HTTP APIs / message queues / databases` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 5 行 | <code>        &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
+| 第 6 行 | <code>        v</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
+| 第 7 行 | <code>Python scripts and jobs</code> | 这一行里的英文要这样读：`Python scripts and jobs` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 8 行 | <code>        &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
 | 第 9 行 | <code>        +--&gt; clean and aggregate data</code> | 这一行要理解这些英文词：`clean and aggregate data` 是data=数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 10 行 | <code>        +--&gt; generate reports</code> | 这一行要理解这些英文词：`generate reports` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 11 行 | <code>        +--&gt; call Prometheus / Kubernetes / GitHub APIs</code> | 这一行要理解这些英文词：`call Prometheus` 是prometheus=指标监控系统；`Kubernetes` 是容器编排平台，用来部署、调度和管理容器化应用；`GitHub APIs` 是github=代码托管平台。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 12 行 | <code>        +--&gt; run anomaly detection experiments</code> | 这一行要理解这些英文词：`run anomaly detection experiments` 是detection=发现或检测。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 13 行 | <code>        +--&gt; expose automation as an API</code> | 这一行要理解这些英文词：`expose automation as an API` 是automation=自动化，api=应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 10 行 | <code>        +--&gt; generate reports</code> | 这一行要理解这些英文词：`generate reports` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>        +--&gt; call Prometheus / Kubernetes / GitHub APIs</code> | 这一行要理解这些英文词：`call Prometheus` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`Kubernetes` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`GitHub APIs` 是github=代码托管平台。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 12 行 | <code>        +--&gt; run anomaly detection experiments</code> | 这一行要理解这些英文词：`run anomaly detection experiments` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 13 行 | <code>        +--&gt; expose automation as an API</code> | 这一行要理解这些英文词：`expose automation as an API` 是api=应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 在 AIOps 中，Python 常见位置有五类：
 
@@ -137,7 +136,6 @@ python scripts\check_alerts.py
 |---|---|---|
 | 第 1 行 | <code>python scripts\check_alerts.py</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
 
-
 可以把执行过程粗略理解为：
 
 ```text
@@ -160,20 +158,19 @@ produce output, files, HTTP requests, logs or errors
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>source file: scripts/check_alerts.py</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>        &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>        v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>Python interpreter</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 5 行 | <code>        &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 6 行 | <code>        v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 7 行 | <code>parse source code and execute statements</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 8 行 | <code>        &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 9 行 | <code>        v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 10 行 | <code>use built-in types, standard library and installed packages</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 11 行 | <code>        &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 12 行 | <code>        v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 13 行 | <code>produce output, files, HTTP requests, logs or errors</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>source file: scripts/check_alerts.py</code> | `source file` 是source file 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `scripts/check_alerts.py` 是这个字段的示例内容或模板表达式。 |
+| 第 2 行 | <code>        &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
+| 第 3 行 | <code>        v</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
+| 第 4 行 | <code>Python interpreter</code> | 这一行里的英文要这样读：`Python interpreter` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 5 行 | <code>        &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
+| 第 6 行 | <code>        v</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
+| 第 7 行 | <code>parse source code and execute statements</code> | 这一行里的英文要这样读：`parse source code and execute statements` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 8 行 | <code>        &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
+| 第 9 行 | <code>        v</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
+| 第 10 行 | <code>use built-in types, standard library and installed packages</code> | 这一行里的英文要这样读：`use built-in types` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`standard library and installed packages` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 11 行 | <code>        &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
+| 第 12 行 | <code>        v</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
+| 第 13 行 | <code>produce output, files, HTTP requests, logs or errors</code> | 这一行里的英文要这样读：`produce output` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`files` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`HTTP requests` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`logs or errors` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 更细一点看，CPython 会把源码编译成字节码再执行。你有时会看到 `__pycache__/` 目录，它是解释器为了加速模块加载生成的缓存。它不是你的业务代码，一般不要提交到 Git。
 
@@ -193,7 +190,6 @@ python
 |---|---|---|
 | 第 1 行 | <code>python</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
 
-
 进入后可以一行一行试：
 
 ```python
@@ -211,7 +207,6 @@ python
 | 第 2 行 | <code>3</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 3 行 | <code>&gt;&gt;&gt; "api".upper()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 4 行 | <code>'API'</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 
 它适合临时试语法、验证小表达式。
 
@@ -237,10 +232,8 @@ for alert in alerts:
 | 第 2 行 | <code>    {"service": "order-api", "severity": "critical"},</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 3 行 | <code>    {"service": "payment-api", "severity": "warning"},</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 4 行 | <code>]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 5 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 6 行 | <code>for alert in alerts:</code> | 循环处理一组数据，常用于逐条处理告警、日志或指标样本。 |
 | 第 7 行 | <code>    print(alert["service"], alert["severity"])</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 
 运行：
 
@@ -253,7 +246,6 @@ python scripts\check_alerts.py
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>python scripts\check_alerts.py</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
-
 
 脚本适合保存、复用、提交 Git、放进 CI 或定时任务。
 
@@ -271,7 +263,6 @@ python --version
 |---|---|---|
 | 第 1 行 | <code>python --version</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
-
 可能输出：
 
 ```text
@@ -282,8 +273,7 @@ Python 3.12.4
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>Python 3.12.4</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>Python 3.12.4</code> | `Python 3.12.4` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 Windows 上如果 `python` 不可用，可以试：
 
@@ -299,7 +289,6 @@ py -0p
 | 第 1 行 | <code>py --version</code> | 执行 `py` 相关命令，后面的参数决定它具体操作什么对象。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 | 第 2 行 | <code>py -0p</code> | 执行 `py` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 `py -0p` 会列出 Windows Python Launcher 能找到的解释器路径。多版本共存时，这个命令很有用。
 
 在团队项目里，建议在 README 写清楚最低版本，例如：
@@ -312,8 +301,7 @@ Python >= 3.11
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>Python &gt;= 3.11</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>Python &gt;= 3.11</code> | `Python >= 3.11` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 原因是不同 Python 版本的语法、标准库和第三方包支持会不同。一个人在 3.12 能跑的脚本，另一个人在 3.8 上可能直接语法报错。
 
@@ -334,11 +322,10 @@ global Python
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>global Python</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  ├── pandas 1.x</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 3 行 | <code>  ├── requests 2.x</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 4 行 | <code>  └── scikit-learn 1.x</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-
+| 第 1 行 | <code>global Python</code> | 这一行里的英文要这样读：`global Python` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 2 行 | <code>  ├── pandas 1.x</code> | `├── pandas 1.x` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 3 行 | <code>  ├── requests 2.x</code> | `├── requests 2.x` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 4 行 | <code>  └── scikit-learn 1.x</code> | `└── scikit-learn 1.x` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 项目多了以后就会冲突：
 
@@ -360,12 +347,11 @@ alert-noise-report/
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>alert-noise-report/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  .venv/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>    installed packages for this project only</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>  scripts/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 5 行 | <code>  requirements.txt</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>alert-noise-report/</code> | `alert-noise-report/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 2 行 | <code>  .venv/</code> | `.venv/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 3 行 | <code>    installed packages for this project only</code> | 这一行里的英文要这样读：`installed packages for this project only` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 4 行 | <code>  scripts/</code> | `scripts/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 5 行 | <code>  requirements.txt</code> | `requirements.txt` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 ### 创建虚拟环境
 
@@ -378,7 +364,6 @@ python -m venv .venv
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>python -m venv .venv</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
-
 
 这里的 `python -m venv` 表示用当前 Python 解释器运行标准库里的 `venv` 模块。
 
@@ -396,7 +381,6 @@ Windows PowerShell：
 |---|---|---|
 | 第 1 行 | <code>.\.venv\Scripts\Activate.ps1</code> | 执行 `.\.venv\scripts\activate.ps1` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 Linux / macOS：
 
 ```bash
@@ -408,7 +392,6 @@ source .venv/bin/activate
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>source .venv/bin/activate</code> | 执行 `source` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 激活后，命令行前面通常会出现 `(.venv)`。这表示当前 `python` 和 `pip` 优先来自这个项目的虚拟环境。
 
@@ -424,7 +407,6 @@ python -c "import sys; print(sys.executable)"
 |---|---|---|
 | 第 1 行 | <code>python -c "import sys; print(sys.executable)"</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
 
-
 你应该看到路径里包含 `.venv`。
 
 ### 退出虚拟环境
@@ -438,7 +420,6 @@ deactivate
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>deactivate</code> | 执行 `deactivate` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 ### 虚拟环境和 Git
 
@@ -458,12 +439,11 @@ reports/
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>.venv/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>__pycache__/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>*.pyc</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>.env</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 5 行 | <code>reports/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>.venv/</code> | `.venv/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 2 行 | <code>__pycache__/</code> | `__pycache__/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 3 行 | <code>*.pyc</code> | `*.pyc` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 4 行 | <code>.env</code> | `.env` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 5 行 | <code>reports/</code> | `reports/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 ## pip 和依赖管理
 
@@ -481,7 +461,6 @@ python -m pip install requests
 |---|---|---|
 | 第 1 行 | <code>python -m pip install requests</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
 
-
 原因是 `python -m pip` 明确表示：用当前这个 `python` 对应的 pip 安装包。多 Python 版本或虚拟环境切换时，这样更不容易装错地方。
 
 ### 升级 pip
@@ -496,7 +475,6 @@ python -m pip install --upgrade pip
 |---|---|---|
 | 第 1 行 | <code>python -m pip install --upgrade pip</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
-
 ### 安装依赖
 
 ```powershell
@@ -508,7 +486,6 @@ python -m pip install requests pandas
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>python -m pip install requests pandas</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
-
 
 ### 查看已安装包
 
@@ -522,7 +499,6 @@ python -m pip list
 |---|---|---|
 | 第 1 行 | <code>python -m pip list</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
 
-
 ### 生成 requirements.txt
 
 ```powershell
@@ -535,7 +511,6 @@ python -m pip freeze > requirements.txt
 |---|---|---|
 | 第 1 行 | <code>python -m pip freeze &gt; requirements.txt</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
 
-
 `requirements.txt` 是一个可复现依赖环境的文件，常见内容：
 
 ```text
@@ -547,9 +522,8 @@ pandas==2.2.2
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>requests==2.32.3</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>pandas==2.2.2</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>requests==2.32.3</code> | `requests` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`=2.32.3` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
+| 第 2 行 | <code>pandas==2.2.2</code> | `pandas` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`=2.2.2` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
 
 别人拿到项目后：
 
@@ -562,7 +536,6 @@ python -m pip install -r requirements.txt
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>python -m pip install -r requirements.txt</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
-
 
 ### requirements.txt 的边界
 
@@ -589,17 +562,16 @@ alert-noise-report/
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>alert-noise-report/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  README.md</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>  requirements.txt</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>  .gitignore</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 5 行 | <code>  data/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 6 行 | <code>    alerts.json</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 7 行 | <code>  scripts/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 8 行 | <code>    alert_report.py</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 9 行 | <code>  reports/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 10 行 | <code>    alert-report.md</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>alert-noise-report/</code> | `alert-noise-report/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 2 行 | <code>  README.md</code> | `README.md` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 3 行 | <code>  requirements.txt</code> | `requirements.txt` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 4 行 | <code>  .gitignore</code> | `.gitignore` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 5 行 | <code>  data/</code> | `data/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 6 行 | <code>    alerts.json</code> | `alerts.json` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 7 行 | <code>  scripts/</code> | `scripts/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 8 行 | <code>    alert_report.py</code> | `alert_report.py` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 9 行 | <code>  reports/</code> | `reports/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 10 行 | <code>    alert-report.md</code> | `alert-report.md` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 每个目录的职责：
 
@@ -653,38 +625,33 @@ Python
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>Python</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  ├── 运行环境</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 3 行 | <code>  │   ├── interpreter</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 4 行 | <code>  │   ├── version</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 5 行 | <code>  │   ├── venv</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 6 行 | <code>  │   └── pip</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 7 行 | <code>  ├── 语言基础</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 8 行 | <code>  │   ├── object, value, type</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 9 行 | <code>  │   ├── variables and names</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 10 行 | <code>  │   ├── expressions and statements</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 11 行 | <code>  │   ├── collections</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 12 行 | <code>  │   ├── control flow</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 13 行 | <code>  │   └── functions</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 14 行 | <code>  ├── 工程组织</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 15 行 | <code>  │   ├── modules</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 16 行 | <code>  │   ├── packages</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 17 行 | <code>  │   ├── imports</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 18 行 | <code>  │   └── __main__</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 19 行 | <code>  ├── 标准库</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 20 行 | <code>  │   ├── pathlib</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 21 行 | <code>  │   ├── json and csv</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 22 行 | <code>  │   ├── logging</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 23 行 | <code>  │   ├── argparse</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 24 行 | <code>  │   ├── datetime</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 25 行 | <code>  │   └── urllib</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 26 行 | <code>  └── AIOps 应用</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 27 行 | <code>      ├── parse alerts</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 28 行 | <code>      ├── aggregate metrics</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 29 行 | <code>      ├── call APIs</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 30 行 | <code>      ├── generate reports</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 31 行 | <code>      └── build prototypes</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-
+| 第 1 行 | <code>Python</code> | 这一行里的英文要这样读：`Python` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
+| 第 3 行 | <code>  │   ├── interpreter</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 4 行 | <code>  │   ├── version</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 5 行 | <code>  │   ├── venv</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 6 行 | <code>  │   └── pip</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 8 行 | <code>  │   ├── object, value, type</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 9 行 | <code>  │   ├── variables and names</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 10 行 | <code>  │   ├── expressions and statements</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 11 行 | <code>  │   ├── collections</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 12 行 | <code>  │   ├── control flow</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 13 行 | <code>  │   └── functions</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 15 行 | <code>  │   ├── modules</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 16 行 | <code>  │   ├── packages</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 17 行 | <code>  │   ├── imports</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 18 行 | <code>  │   └── __main__</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 20 行 | <code>  │   ├── pathlib</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 21 行 | <code>  │   ├── json and csv</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 22 行 | <code>  │   ├── logging</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 23 行 | <code>  │   ├── argparse</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 24 行 | <code>  │   ├── datetime</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 25 行 | <code>  │   └── urllib</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 26 行 | <code>  └── AIOps 应用</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 27 行 | <code>      ├── parse alerts</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 28 行 | <code>      ├── aggregate metrics</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 29 行 | <code>      ├── call APIs</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 30 行 | <code>      ├── generate reports</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 31 行 | <code>      └── build prototypes</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
 
 下面逐层讲。
 
@@ -728,10 +695,8 @@ print(type(error_rate))
 |---|---|---|
 | 第 1 行 | <code>service = "order-api"</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 2 行 | <code>error_rate = 0.023</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 3 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 4 行 | <code>print(type(service))</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
 | 第 5 行 | <code>print(type(error_rate))</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 
 输出：
 
@@ -744,9 +709,8 @@ print(type(error_rate))
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>&lt;class 'str'&gt;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>&lt;class 'float'&gt;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>&lt;class 'str'&gt;</code> | 这一行里的英文要这样读：`class` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`str` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 2 行 | <code>&lt;class 'float'&gt;</code> | 这一行里的英文要这样读：`class` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`float` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 ## 变量和命名
 
@@ -765,7 +729,6 @@ is_critical = error_rate > 0.02
 | 第 1 行 | <code>service = "order-api"</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 2 行 | <code>error_rate = 0.023</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 3 行 | <code>is_critical = error_rate &gt; 0.02</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-
 
 这里有三个名字：
 
@@ -789,7 +752,6 @@ latency_p95_ms = 350
 | 第 1 行 | <code>service_name = "order-api"</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 2 行 | <code>latency_p95_ms = 350</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 
-
 不要写成：
 
 ```python
@@ -803,7 +765,6 @@ latencyP95 = 350
 |---|---|---|
 | 第 1 行 | <code>servicename = "order-api"</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 2 行 | <code>latencyP95 = 350</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-
 
 命名不是小事。AIOps 脚本常常被别人拿去排障，变量名清楚，别人才能理解你的判断逻辑。
 
@@ -823,7 +784,6 @@ message = "5xx error rate is high"
 | 第 1 行 | <code>service = "order-api"</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 2 行 | <code>message = "5xx error rate is high"</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 
-
 常见操作：
 
 ```python
@@ -840,12 +800,10 @@ print(line.split())
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>line = "2026-07-02 order-api critical"</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 3 行 | <code>print(line.lower())</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
 | 第 4 行 | <code>print(line.upper())</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
 | 第 5 行 | <code>print(line.startswith("2026"))</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
 | 第 6 行 | <code>print(line.split())</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 
 输出：
 
@@ -860,11 +818,10 @@ True
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>2026-07-02 order-api critical</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>2026-07-02 ORDER-API CRITICAL</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>True</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>['2026-07-02', 'order-api', 'critical']</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>2026-07-02 order-api critical</code> | 这一行里的英文要这样读：`order-api critical` 里的 order 表示订单业务，api 表示接口服务，合起来通常指订单接口服务。 |
+| 第 2 行 | <code>2026-07-02 ORDER-API CRITICAL</code> | 这一行里的英文要这样读：`ORDER-API CRITICAL` 里的 order 表示订单业务，api 表示接口服务，合起来通常指订单接口服务。 |
+| 第 3 行 | <code>True</code> | 这一行里的英文要这样读：`True` 是开启这个配置。 |
+| 第 4 行 | <code>['2026-07-02', 'order-api', 'critical']</code> | 这一行里的英文要这样读：`order-api` 里的 order 表示订单业务，api 表示接口服务，合起来通常指订单接口服务；`critical` 是严重级别。 |
 
 格式化字符串常用 f-string：
 
@@ -881,9 +838,7 @@ print(f"{service} has {count} alerts")
 |---|---|---|
 | 第 1 行 | <code>service = "order-api"</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 2 行 | <code>count = 12</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 3 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 4 行 | <code>print(f"{service} has {count} alerts")</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 
 输出：
 
@@ -895,8 +850,7 @@ order-api has 12 alerts
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>order-api has 12 alerts</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>order-api has 12 alerts</code> | 这一行里的英文要这样读：`order-api has` 里的 order 表示订单业务，api 表示接口服务，合起来通常指订单接口服务；`alerts` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 AIOps 场景里，f-string 常用于生成日志、报告、命令输出。
 
@@ -919,13 +873,10 @@ print(is_incident)
 |---|---|---|
 | 第 1 行 | <code>error_rate = 0.023</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 2 行 | <code>latency_p95_ms = 350</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 3 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 4 行 | <code>is_error_high = error_rate &gt; 0.02</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 5 行 | <code>is_latency_high = latency_p95_ms &gt; 300</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 6 行 | <code>is_incident = is_error_high and is_latency_high</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 7 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 8 行 | <code>print(is_incident)</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 
 输出：
 
@@ -937,8 +888,7 @@ True
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>True</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>True</code> | 这一行里的英文要这样读：`True` 是开启这个配置。 |
 
 布尔表达式是把运维规则写成代码的基础：
 
@@ -951,7 +901,6 @@ should_page = severity == "critical" and error_rate > 0.02
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>should_page = severity == "critical" and error_rate &gt; 0.02</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-
 
 这句话比“感觉这个告警挺严重”更适合自动化，因为它可以重复执行，也可以被测试。
 
@@ -971,10 +920,8 @@ print(len(services))
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>services = ["order-api", "payment-api", "inventory-api"]</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 3 行 | <code>print(services[0])</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
 | 第 4 行 | <code>print(len(services))</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 
 输出：
 
@@ -987,9 +934,7 @@ order-api
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>order-api</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>3</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>order-api</code> | 这一行里的英文要这样读：`order-api` 里的 order 表示订单业务，api 表示接口服务，合起来通常指订单接口服务。 |
 
 遍历列表：
 
@@ -1004,7 +949,6 @@ for service in services:
 |---|---|---|
 | 第 1 行 | <code>for service in services:</code> | 循环处理一组数据，常用于逐条处理告警、日志或指标样本。 |
 | 第 2 行 | <code>    print(service)</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 
 列表里可以放字典，用来表示多条结构化记录：
 
@@ -1026,10 +970,8 @@ for alert in alerts:
 | 第 2 行 | <code>    {"service": "order-api", "severity": "critical"},</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 3 行 | <code>    {"service": "payment-api", "severity": "warning"},</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 4 行 | <code>]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 5 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 6 行 | <code>for alert in alerts:</code> | 循环处理一组数据，常用于逐条处理告警、日志或指标样本。 |
 | 第 7 行 | <code>    print(alert["service"], alert["severity"])</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 
 这是 AIOps 脚本里非常常见的数据形状。
 
@@ -1053,14 +995,12 @@ print(alert.get("team", "unknown"))
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>alert = {</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 2 行 | <code>    "service": "order-api",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 3 行 | <code>    "severity": "critical",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 4 行 | <code>    "summary": "5xx error rate is high",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 2 行 | <code>    "service": "order-api",</code> | `service` 是服务名称字段，`order-api` 是具体服务名，表示这条记录属于这个服务；这是 Python 字典里的一个键值对。 |
+| 第 3 行 | <code>    "severity": "critical",</code> | `severity` 是告警严重级别字段，`critical` 表示严重级别，通常表示需要优先处理；这是 Python 字典里的一个键值对。 |
+| 第 4 行 | <code>    "summary": "5xx error rate is high",</code> | `summary` 是摘要说明字段，`5xx error rate is high` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
 | 第 5 行 | <code>}</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 6 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 7 行 | <code>print(alert["service"])</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
 | 第 8 行 | <code>print(alert.get("team", "unknown"))</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 
 区别：
 
@@ -1088,9 +1028,7 @@ print(unique_services)
 |---|---|---|
 | 第 1 行 | <code>services = ["api", "db", "api", "cache"]</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 2 行 | <code>unique_services = set(services)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 3 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 4 行 | <code>print(unique_services)</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 
 输出顺序不保证固定，可能类似：
 
@@ -1102,8 +1040,7 @@ print(unique_services)
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>{'cache', 'db', 'api'}</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>{'cache', 'db', 'api'}</code> | 这一行里的英文要这样读：`cache` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`db` 是数据库；`api` 是应用程序接口。 |
 
 AIOps 场景：
 
@@ -1127,10 +1064,8 @@ print(affected_services)
 | 第 3 行 | <code>    {"service": "db"},</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 4 行 | <code>    {"service": "api"},</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 5 行 | <code>]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 6 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 7 行 | <code>affected_services = {alert["service"] for alert in alerts}</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 8 行 | <code>print(affected_services)</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 
 ## 条件判断
 
@@ -1152,14 +1087,12 @@ else:
 |---|---|---|
 | 第 1 行 | <code>severity = "critical"</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 2 行 | <code>error_rate = 0.03</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 3 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 4 行 | <code>if severity == "critical" and error_rate &gt; 0.02:</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
 | 第 5 行 | <code>    print("page on-call")</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
 | 第 6 行 | <code>elif error_rate &gt; 0.01:</code> | 补充条件判断，前面的 if 不成立时继续检查这里。 |
 | 第 7 行 | <code>    print("create ticket")</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
 | 第 8 行 | <code>else:</code> | 兜底分支，前面的条件都不成立时执行。 |
 | 第 9 行 | <code>    print("record only")</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 
 条件判断的关键不是语法，而是把规则写清楚：
 
@@ -1174,7 +1107,6 @@ if cpu_usage > 90 and duration_minutes >= 5:
 |---|---|---|
 | 第 1 行 | <code>if cpu_usage &gt; 90 and duration_minutes &gt;= 5:</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
 | 第 2 行 | <code>    print("CPU saturation")</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 
 这比“CPU 很高”更精确。
 
@@ -1200,10 +1132,8 @@ for alert in alerts:
 | 第 2 行 | <code>    {"service": "api", "severity": "critical"},</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 3 行 | <code>    {"service": "db", "severity": "warning"},</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 4 行 | <code>]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 5 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 6 行 | <code>for alert in alerts:</code> | 循环处理一组数据，常用于逐条处理告警、日志或指标样本。 |
 | 第 7 行 | <code>    print(alert["service"])</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 
 带索引遍历：
 
@@ -1218,7 +1148,6 @@ for index, alert in enumerate(alerts, start=1):
 |---|---|---|
 | 第 1 行 | <code>for index, alert in enumerate(alerts, start=1):</code> | 循环处理一组数据，常用于逐条处理告警、日志或指标样本。 |
 | 第 2 行 | <code>    print(index, alert["service"])</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 
 只保留 critical：
 
@@ -1237,13 +1166,10 @@ print(critical_alerts)
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>critical_alerts = []</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 3 行 | <code>for alert in alerts:</code> | 循环处理一组数据，常用于逐条处理告警、日志或指标样本。 |
 | 第 4 行 | <code>    if alert["severity"] == "critical":</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
 | 第 5 行 | <code>        critical_alerts.append(alert)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 6 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 7 行 | <code>print(critical_alerts)</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 
 列表推导式写法：
 
@@ -1265,7 +1191,6 @@ critical_alerts = [
 | 第 4 行 | <code>    if alert["severity"] == "critical"</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
 | 第 5 行 | <code>]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
-
 列表推导式很方便，但初学时不要为了“短”牺牲可读性。排障脚本首先要让人看懂。
 
 ## 函数
@@ -1286,10 +1211,7 @@ print(is_noisy_service(12))
 |---|---|---|
 | 第 1 行 | <code>def is_noisy_service(alert_count: int) -&gt; bool:</code> | 定义函数，把一段可复用逻辑命名，后续可以反复调用。 |
 | 第 2 行 | <code>    return alert_count &gt;= 10</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-| 第 3 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
-| 第 4 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 5 行 | <code>print(is_noisy_service(12))</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 
 输出：
 
@@ -1301,8 +1223,7 @@ True
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>True</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>True</code> | 这一行里的英文要这样读：`True` 是开启这个配置。 |
 
 函数的价值：
 
@@ -1325,7 +1246,6 @@ def should_page(severity: str, error_rate: float, duration_minutes: int) -> bool
 | 第 1 行 | <code>def should_page(severity: str, error_rate: float, duration_minutes: int) -&gt; bool:</code> | 定义函数，把一段可复用逻辑命名，后续可以反复调用。 |
 | 第 2 行 | <code>    return severity == "critical" and error_rate &gt; 0.02 and duration_minutes &gt;= 5</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
 
-
 这比在脚本各处散落复杂条件更好。
 
 ## 类型提示
@@ -1343,7 +1263,6 @@ def format_alert(service: str, severity: str) -> str:
 |---|---|---|
 | 第 1 行 | <code>def format_alert(service: str, severity: str) -&gt; str:</code> | 定义函数，把一段可复用逻辑命名，后续可以反复调用。 |
 | 第 2 行 | <code>    return f"[{severity}] {service}"</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-
 
 含义：
 
@@ -1367,7 +1286,6 @@ def count_alerts(alerts: list[dict]) -> int:
 | 第 1 行 | <code>def count_alerts(alerts: list[dict]) -&gt; int:</code> | 定义函数，把一段可复用逻辑命名，后续可以反复调用。 |
 | 第 2 行 | <code>    return len(alerts)</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
 
-
 随着项目变大，再学习 `TypedDict`、`dataclass`、Pydantic 等更严格的结构。
 
 ## 异常处理
@@ -1387,9 +1305,7 @@ content = Path("data/alerts.json").read_text(encoding="utf-8")
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>from pathlib import Path</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 3 行 | <code>content = Path("data/alerts.json").read_text(encoding="utf-8")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-
 
 如果文件不存在，程序会报 `FileNotFoundError`。
 
@@ -1411,14 +1327,11 @@ except FileNotFoundError:
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>from pathlib import Path</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 3 行 | <code>path = Path("data/alerts.json")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 4 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 5 行 | <code>try:</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 6 行 | <code>    content = path.read_text(encoding="utf-8")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 7 行 | <code>except FileNotFoundError:</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 8 行 | <code>    print(f"file not found: {path}")</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 
 常见异常：
 
@@ -1449,7 +1362,6 @@ except Exception:
 | 第 3 行 | <code>except Exception:</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 4 行 | <code>    pass</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
-
 这会吞掉真正的问题。AIOps 脚本尤其不能静默失败，因为它可能参与告警、日报、变更检查。
 
 ## 模块、包和 import
@@ -1465,9 +1377,8 @@ scripts/
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>scripts/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  alert_report.py</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>scripts/</code> | `scripts/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 2 行 | <code>  alert_report.py</code> | `alert_report.py` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 在代码里导入标准库模块：
 
@@ -1484,7 +1395,6 @@ from collections import Counter
 | 第 1 行 | <code>import json</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
 | 第 2 行 | <code>from pathlib import Path</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
 | 第 3 行 | <code>from collections import Counter</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-
 
 导入方式的含义：
 
@@ -1515,11 +1425,8 @@ if __name__ == "__main__":
 |---|---|---|
 | 第 1 行 | <code>def main() -&gt; None:</code> | 定义函数，把一段可复用逻辑命名，后续可以反复调用。 |
 | 第 2 行 | <code>    print("run report")</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-| 第 3 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
-| 第 4 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 5 行 | <code>if __name__ == "__main__":</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
 | 第 6 行 | <code>    main()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 
 含义：
 
@@ -1545,11 +1452,9 @@ print(data_path.exists())
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>from pathlib import Path</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 3 行 | <code>data_path = Path("data") / "alerts.json"</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 4 行 | <code>print(data_path)</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
 | 第 5 行 | <code>print(data_path.exists())</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 
 读文本：
 
@@ -1562,7 +1467,6 @@ content = data_path.read_text(encoding="utf-8")
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>content = data_path.read_text(encoding="utf-8")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-
 
 写文本：
 
@@ -1579,7 +1483,6 @@ output_path.write_text("# Alert Report\n", encoding="utf-8")
 | 第 1 行 | <code>output_path = Path("reports") / "alert-report.md"</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 2 行 | <code>output_path.parent.mkdir(parents=True, exist_ok=True)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 3 行 | <code>output_path.write_text("# Alert Report\n", encoding="utf-8")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 
 重点：
 
@@ -1609,12 +1512,9 @@ print(alert["service"])
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>import json</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 3 行 | <code>raw = '{"service": "order-api", "severity": "critical"}'</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 4 行 | <code>alert = json.loads(raw)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 5 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 6 行 | <code>print(alert["service"])</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 
 Python 对象转 JSON 字符串：
 
@@ -1632,12 +1532,9 @@ print(raw)
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>import json</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 3 行 | <code>alert = {"service": "order-api", "severity": "critical"}</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 4 行 | <code>raw = json.dumps(alert, ensure_ascii=False, indent=2)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 5 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 6 行 | <code>print(raw)</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 
 读取 JSON 文件：
 
@@ -1655,10 +1552,8 @@ alerts = json.loads(path.read_text(encoding="utf-8"))
 |---|---|---|
 | 第 1 行 | <code>import json</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
 | 第 2 行 | <code>from pathlib import Path</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 3 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 4 行 | <code>path = Path("data/alerts.json")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 5 行 | <code>alerts = json.loads(path.read_text(encoding="utf-8"))</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-
 
 命令行校验 JSON：
 
@@ -1671,7 +1566,6 @@ python -m json.tool data\alerts.json
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>python -m json.tool data\alerts.json</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
-
 
 如果 JSON 不合法，会输出错误位置；如果合法，会格式化输出。
 
@@ -1699,14 +1593,11 @@ with path.open(newline="", encoding="utf-8") as file:
 |---|---|---|
 | 第 1 行 | <code>import csv</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
 | 第 2 行 | <code>from pathlib import Path</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 3 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 4 行 | <code>path = Path("data/metrics.csv")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 5 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 6 行 | <code>with path.open(newline="", encoding="utf-8") as file:</code> | 上下文管理语句，常用于安全打开文件或管理连接。 |
 | 第 7 行 | <code>    reader = csv.DictReader(file)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 8 行 | <code>    for row in reader:</code> | 循环处理一组数据，常用于逐条处理告警、日志或指标样本。 |
 | 第 9 行 | <code>        print(row["service"], row["error_rate"])</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 
 写 CSV：
 
@@ -1734,20 +1625,16 @@ with path.open("w", newline="", encoding="utf-8") as file:
 |---|---|---|
 | 第 1 行 | <code>import csv</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
 | 第 2 行 | <code>from pathlib import Path</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 3 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 4 行 | <code>rows = [</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 5 行 | <code>    {"service": "order-api", "alert_count": 12},</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 6 行 | <code>    {"service": "payment-api", "alert_count": 5},</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 7 行 | <code>]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 8 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 9 行 | <code>path = Path("reports/alert-count.csv")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 10 行 | <code>path.parent.mkdir(parents=True, exist_ok=True)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 11 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 12 行 | <code>with path.open("w", newline="", encoding="utf-8") as file:</code> | 上下文管理语句，常用于安全打开文件或管理连接。 |
 | 第 13 行 | <code>    writer = csv.DictWriter(file, fieldnames=["service", "alert_count"])</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 14 行 | <code>    writer.writeheader()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 15 行 | <code>    writer.writerows(rows)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 
 标准库 `csv` 适合简单任务。数据量大、列操作复杂时，再进入 pandas。
 
@@ -1774,10 +1661,8 @@ print(now.isoformat())
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>from datetime import datetime, timezone</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 3 行 | <code>now = datetime.now(timezone.utc)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 4 行 | <code>print(now.isoformat())</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 
 解析 ISO 时间：
 
@@ -1795,12 +1680,9 @@ print(started_at)
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>from datetime import datetime</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 3 行 | <code>value = "2026-07-02T08:01:00Z"</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 4 行 | <code>started_at = datetime.fromisoformat(value.replace("Z", "+00:00"))</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 5 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 6 行 | <code>print(started_at)</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 
 初学阶段先记住：
 
@@ -1829,15 +1711,12 @@ logging.warning("missing owner for service: %s", "order-api")
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>import logging</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 3 行 | <code>logging.basicConfig(</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 4 行 | <code>    level=logging.INFO,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 5 行 | <code>    format="%(asctime)s %(levelname)s %(message)s",</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 6 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 7 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 8 行 | <code>logging.info("start alert report")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 9 行 | <code>logging.warning("missing owner for service: %s", "order-api")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 
 日志级别：
 
@@ -1875,18 +1754,14 @@ print(args.min_count)
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>import argparse</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 3 行 | <code>parser = argparse.ArgumentParser(description="Generate alert report")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 4 行 | <code>parser.add_argument("--input", default="data/alerts.json")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 5 行 | <code>parser.add_argument("--output", default="reports/alert-report.md")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 6 行 | <code>parser.add_argument("--min-count", type=int, default=3)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 7 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 8 行 | <code>args = parser.parse_args()</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 9 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 10 行 | <code>print(args.input)</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
 | 第 11 行 | <code>print(args.output)</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
 | 第 12 行 | <code>print(args.min_count)</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 
 运行：
 
@@ -1900,7 +1775,6 @@ python scripts\alert_report.py --input data\alerts.json --output reports\alert-r
 |---|---|---|
 | 第 1 行 | <code>python scripts\alert_report.py --input data\alerts.json --output reports\alert-report.md --min-count 5</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
-
 查看帮助：
 
 ```powershell
@@ -1912,7 +1786,6 @@ python scripts\alert_report.py --help
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>python scripts\alert_report.py --help</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 
 一个脚本是否像工程工具，一个重要标志就是：别人能不能通过 `--help` 看懂怎么用。
 
@@ -1938,14 +1811,10 @@ print(payload["status"])
 |---|---|---|
 | 第 1 行 | <code>import json</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
 | 第 2 行 | <code>from urllib.request import urlopen</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 3 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 4 行 | <code>url = "http://localhost:9090/api/v1/query?query=up"</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 5 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 6 行 | <code>with urlopen(url, timeout=5) as response:</code> | 上下文管理语句，常用于安全打开文件或管理连接。 |
 | 第 7 行 | <code>    payload = json.loads(response.read().decode("utf-8"))</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 8 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 9 行 | <code>print(payload["status"])</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 
 真实项目里很多人会用第三方库 `requests`，因为它更易读：
 
@@ -1958,7 +1827,6 @@ python -m pip install requests
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>python -m pip install requests</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
-
 
 ```python
 import requests
@@ -1979,7 +1847,6 @@ print(payload["status"])
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>import requests</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 3 行 | <code>response = requests.get(</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 4 行 | <code>    "http://localhost:9090/api/v1/query",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 5 行 | <code>    params={"query": "up"},</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
@@ -1987,9 +1854,7 @@ print(payload["status"])
 | 第 7 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 8 行 | <code>response.raise_for_status()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 9 行 | <code>payload = response.json()</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 10 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 11 行 | <code>print(payload["status"])</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 
 API 调用要注意：
 
@@ -2024,16 +1889,13 @@ print(result.stdout)
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>import subprocess</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 3 行 | <code>result = subprocess.run(</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 4 行 | <code>    ["git", "status", "--short"],</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 5 行 | <code>    capture_output=True,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 6 行 | <code>    text=True,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 7 行 | <code>    check=True,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 8 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 9 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 10 行 | <code>print(result.stdout)</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 
 字段解释：
 
@@ -2065,13 +1927,10 @@ print(counts.most_common(2))
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>from collections import Counter</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 3 行 | <code>services = ["api", "db", "api", "cache", "api"]</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 4 行 | <code>counts = Counter(services)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 5 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 6 行 | <code>print(counts)</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
 | 第 7 行 | <code>print(counts.most_common(2))</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 
 输出：
 
@@ -2084,9 +1943,8 @@ Counter({'api': 3, 'db': 1, 'cache': 1})
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>Counter({'api': 3, 'db': 1, 'cache': 1})</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>[('api', 3), ('db', 1)]</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>Counter({'api': 3, 'db': 1, 'cache': 1})</code> | 这一行里的英文要这样读：`Counter` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源；`api` 是应用程序接口；`db` 是数据库；`cache` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 2 行 | <code>[('api', 3), ('db', 1)]</code> | 这一行里的英文要这样读：`api` 是应用程序接口；`db` 是数据库。 |
 
 AIOps 场景：
 
@@ -2108,16 +1966,13 @@ print(by_service.most_common())
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>from collections import Counter</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 3 行 | <code>alerts = [</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 4 行 | <code>    {"service": "api"},</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 5 行 | <code>    {"service": "db"},</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 6 行 | <code>    {"service": "api"},</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 7 行 | <code>]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 8 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 9 行 | <code>by_service = Counter(alert["service"] for alert in alerts)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 10 行 | <code>print(by_service.most_common())</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 
 这是告警噪声统计的最小版本。
 
@@ -2267,7 +2122,6 @@ mkdir reports
 | 第 2 行 | <code>mkdir scripts</code> | 创建目录，用来准备实验项目结构。 |
 | 第 3 行 | <code>mkdir reports</code> | 创建目录，用来准备实验项目结构。 |
 
-
 ### 第 2 步：创建样例数据
 
 创建 `data/alerts.json`：
@@ -2311,35 +2165,34 @@ mkdir reports
 |---|---|---|
 | 第 1 行 | <code>[</code> | 数组开始，表示下面会列出多个同类值或对象。 |
 | 第 2 行 | <code>  {</code> | 对象开始，表示下面是一组键值对配置。 |
-| 第 3 行 | <code>    "service": "order-api",</code> | 设置 `service` 字段，值是 `"order-api"`；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 4 行 | <code>    "severity": "critical",</code> | 设置 `severity` 字段，值是 `"critical"`；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 5 行 | <code>    "name": "HighErrorRate",</code> | 设置 `name` 字段，值是 `"HighErrorRate"`；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 6 行 | <code>    "starts_at": "2026-07-02T08:01:00Z",</code> | 设置 `starts_at` 字段，值是 `"2026-07-02T08:01:00Z"`；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 7 行 | <code>    "summary": "5xx error rate is above 2%"</code> | 设置 `summary` 字段，值是 `"5xx error rate is above 2%"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 3 行 | <code>    "service": "order-api",</code> | `service` 是服务名称字段，`order-api` 是具体服务名，表示这条记录属于这个服务；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 4 行 | <code>    "severity": "critical",</code> | `severity` 是告警严重级别字段，`critical` 表示严重级别，通常表示需要优先处理；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 5 行 | <code>    "name": "HighErrorRate",</code> | `name` 是名称字段，`HighErrorRate` 是高错误率告警名，表示请求失败比例过高；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 6 行 | <code>    "starts_at": "2026-07-02T08:01:00Z",</code> | `starts_at` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`2026-07-02T08:01:00Z` 表示具体时间值，表示事件、告警或记录发生的时间点；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 7 行 | <code>    "summary": "5xx error rate is above 2%"</code> | `summary` 是摘要说明字段，`5xx error rate is above 2%` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
 | 第 8 行 | <code>  },</code> | 当前对象或数组结束，逗号表示后面还有同级项目。 |
 | 第 9 行 | <code>  {</code> | 对象开始，表示下面是一组键值对配置。 |
-| 第 10 行 | <code>    "service": "order-api",</code> | 设置 `service` 字段，值是 `"order-api"`；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 11 行 | <code>    "severity": "warning",</code> | 设置 `severity` 字段，值是 `"warning"`；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 12 行 | <code>    "name": "HighLatency",</code> | 设置 `name` 字段，值是 `"HighLatency"`；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 13 行 | <code>    "starts_at": "2026-07-02T08:05:00Z",</code> | 设置 `starts_at` 字段，值是 `"2026-07-02T08:05:00Z"`；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 14 行 | <code>    "summary": "p95 latency is above 300ms"</code> | 设置 `summary` 字段，值是 `"p95 latency is above 300ms"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 10 行 | <code>    "service": "order-api",</code> | `service` 是服务名称字段，`order-api` 是具体服务名，表示这条记录属于这个服务；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 11 行 | <code>    "severity": "warning",</code> | `severity` 是告警严重级别字段，`warning` 是告警级别，用来决定响应优先级；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 12 行 | <code>    "name": "HighLatency",</code> | `name` 是名称字段，`HighLatency` 是高延迟告警名，表示请求耗时过高；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 13 行 | <code>    "starts_at": "2026-07-02T08:05:00Z",</code> | `starts_at` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`2026-07-02T08:05:00Z` 表示具体时间值，表示事件、告警或记录发生的时间点；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 14 行 | <code>    "summary": "p95 latency is above 300ms"</code> | `summary` 是摘要说明字段，`p95 latency is above 300ms` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
 | 第 15 行 | <code>  },</code> | 当前对象或数组结束，逗号表示后面还有同级项目。 |
 | 第 16 行 | <code>  {</code> | 对象开始，表示下面是一组键值对配置。 |
-| 第 17 行 | <code>    "service": "payment-api",</code> | 设置 `service` 字段，值是 `"payment-api"`；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 18 行 | <code>    "severity": "critical",</code> | 设置 `severity` 字段，值是 `"critical"`；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 19 行 | <code>    "name": "PaymentFailure",</code> | 设置 `name` 字段，值是 `"PaymentFailure"`；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 20 行 | <code>    "starts_at": "2026-07-02T08:09:00Z",</code> | 设置 `starts_at` 字段，值是 `"2026-07-02T08:09:00Z"`；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 21 行 | <code>    "summary": "payment failure rate is above 1%"</code> | 设置 `summary` 字段，值是 `"payment failure rate is above 1%"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 17 行 | <code>    "service": "payment-api",</code> | `service` 是服务名称字段，`payment-api` 是具体服务名，表示这条记录属于这个服务；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 18 行 | <code>    "severity": "critical",</code> | `severity` 是告警严重级别字段，`critical` 表示严重级别，通常表示需要优先处理；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 19 行 | <code>    "name": "PaymentFailure",</code> | `name` 是名称字段，`PaymentFailure` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 20 行 | <code>    "starts_at": "2026-07-02T08:09:00Z",</code> | `starts_at` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`2026-07-02T08:09:00Z` 表示具体时间值，表示事件、告警或记录发生的时间点；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 21 行 | <code>    "summary": "payment failure rate is above 1%"</code> | `summary` 是摘要说明字段，`payment failure rate is above 1%` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
 | 第 22 行 | <code>  },</code> | 当前对象或数组结束，逗号表示后面还有同级项目。 |
 | 第 23 行 | <code>  {</code> | 对象开始，表示下面是一组键值对配置。 |
-| 第 24 行 | <code>    "service": "order-api",</code> | 设置 `service` 字段，值是 `"order-api"`；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 25 行 | <code>    "severity": "critical",</code> | 设置 `severity` 字段，值是 `"critical"`；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 26 行 | <code>    "name": "HighErrorRate",</code> | 设置 `name` 字段，值是 `"HighErrorRate"`；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 27 行 | <code>    "starts_at": "2026-07-02T08:15:00Z",</code> | 设置 `starts_at` 字段，值是 `"2026-07-02T08:15:00Z"`；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 28 行 | <code>    "summary": "5xx error rate is above 2%"</code> | 设置 `summary` 字段，值是 `"5xx error rate is above 2%"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 24 行 | <code>    "service": "order-api",</code> | `service` 是服务名称字段，`order-api` 是具体服务名，表示这条记录属于这个服务；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 25 行 | <code>    "severity": "critical",</code> | `severity` 是告警严重级别字段，`critical` 表示严重级别，通常表示需要优先处理；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 26 行 | <code>    "name": "HighErrorRate",</code> | `name` 是名称字段，`HighErrorRate` 是高错误率告警名，表示请求失败比例过高；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 27 行 | <code>    "starts_at": "2026-07-02T08:15:00Z",</code> | `starts_at` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`2026-07-02T08:15:00Z` 表示具体时间值，表示事件、告警或记录发生的时间点；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 28 行 | <code>    "summary": "5xx error rate is above 2%"</code> | `summary` 是摘要说明字段，`5xx error rate is above 2%` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
 | 第 29 行 | <code>  }</code> | 对象结束，表示这一组键值对配置到这里结束。 |
 | 第 30 行 | <code>]</code> | 数组结束，表示同类值或对象列表到这里结束。 |
-
 
 ### 第 3 步：创建脚本
 
@@ -2451,8 +2304,6 @@ if __name__ == "__main__":
 | 第 4 行 | <code>from collections import Counter</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
 | 第 5 行 | <code>from datetime import datetime</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
 | 第 6 行 | <code>from pathlib import Path</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 7 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
-| 第 8 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 9 行 | <code>def load_alerts(path: Path) -&gt; list[dict]:</code> | 定义函数，把一段可复用逻辑命名，后续可以反复调用。 |
 | 第 10 行 | <code>    try:</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 11 行 | <code>        return json.loads(path.read_text(encoding="utf-8"))</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
@@ -2460,12 +2311,8 @@ if __name__ == "__main__":
 | 第 13 行 | <code>        raise SystemExit(f"input file not found: {path}")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 14 行 | <code>    except json.JSONDecodeError as error:</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 15 行 | <code>        raise SystemExit(f"invalid JSON in {path}: {error}")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 16 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
-| 第 17 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 18 行 | <code>def parse_time(value: str) -&gt; datetime:</code> | 定义函数，把一段可复用逻辑命名，后续可以反复调用。 |
 | 第 19 行 | <code>    return datetime.fromisoformat(value.replace("Z", "+00:00"))</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-| 第 20 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
-| 第 21 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 22 行 | <code>def render_report(alerts: list[dict], min_count: int) -&gt; str:</code> | 定义函数，把一段可复用逻辑命名，后续可以反复调用。 |
 | 第 23 行 | <code>    by_service = Counter(alert["service"] for alert in alerts)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 24 行 | <code>    by_severity = Counter(alert["severity"] for alert in alerts)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
@@ -2474,10 +2321,8 @@ if __name__ == "__main__":
 | 第 27 行 | <code>        for service, count in by_service.most_common()</code> | 循环处理一组数据，常用于逐条处理告警、日志或指标样本。 |
 | 第 28 行 | <code>        if count &gt;= min_count</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
 | 第 29 行 | <code>    ]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 30 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 31 行 | <code>    first_seen = min(parse_time(alert["starts_at"]) for alert in alerts)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 32 行 | <code>    last_seen = max(parse_time(alert["starts_at"]) for alert in alerts)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 33 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 34 行 | <code>    lines = [</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 35 行 | <code>        "# Alert Noise Report",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 36 行 | <code>        "",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
@@ -2487,58 +2332,40 @@ if __name__ == "__main__":
 | 第 40 行 | <code>        "## By Severity",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 41 行 | <code>        "",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 42 行 | <code>    ]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 43 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 44 行 | <code>    for severity, count in by_severity.most_common():</code> | 循环处理一组数据，常用于逐条处理告警、日志或指标样本。 |
 | 第 45 行 | <code>        lines.append(f"- {severity}: {count}")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 46 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 47 行 | <code>    lines.extend(["", "## By Service", ""])</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 48 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 49 行 | <code>    for service, count in by_service.most_common():</code> | 循环处理一组数据，常用于逐条处理告警、日志或指标样本。 |
 | 第 50 行 | <code>        lines.append(f"- {service}: {count}")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 51 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 52 行 | <code>    lines.extend(["", "## Noisy Services", ""])</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 53 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 54 行 | <code>    if noisy_services:</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
 | 第 55 行 | <code>        for service, count in noisy_services:</code> | 循环处理一组数据，常用于逐条处理告警、日志或指标样本。 |
 | 第 56 行 | <code>            lines.append(f"- {service}: {count} alerts")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 57 行 | <code>    else:</code> | 兜底分支，前面的条件都不成立时执行。 |
 | 第 58 行 | <code>        lines.append("- No service reached the noise threshold.")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 59 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 60 行 | <code>    lines.extend(["", "## Raw Alerts", ""])</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 61 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 62 行 | <code>    for alert in alerts:</code> | 循环处理一组数据，常用于逐条处理告警、日志或指标样本。 |
 | 第 63 行 | <code>        lines.append(</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 64 行 | <code>            f"- [{alert['severity']}] {alert['service']} "</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 65 行 | <code>            f"{alert['name']}: {alert['summary']}"</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 66 行 | <code>        )</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 67 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 68 行 | <code>    return "\n".join(lines) + "\n"</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-| 第 69 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
-| 第 70 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 71 行 | <code>def main() -&gt; None:</code> | 定义函数，把一段可复用逻辑命名，后续可以反复调用。 |
 | 第 72 行 | <code>    parser = argparse.ArgumentParser(description="Generate an alert noise report.")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 73 行 | <code>    parser.add_argument("--input", default="data/alerts.json")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 74 行 | <code>    parser.add_argument("--output", default="reports/alert-report.md")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 75 行 | <code>    parser.add_argument("--min-count", type=int, default=2)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 76 行 | <code>    args = parser.parse_args()</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 77 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 78 行 | <code>    logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 79 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 80 行 | <code>    input_path = Path(args.input)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 81 行 | <code>    output_path = Path(args.output)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 82 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 83 行 | <code>    alerts = load_alerts(input_path)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 84 行 | <code>    report = render_report(alerts, args.min_count)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 85 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 86 行 | <code>    output_path.parent.mkdir(parents=True, exist_ok=True)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 87 行 | <code>    output_path.write_text(report, encoding="utf-8")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 88 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 89 行 | <code>    logging.info("wrote report: %s", output_path)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 90 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
-| 第 91 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 92 行 | <code>if __name__ == "__main__":</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
 | 第 93 行 | <code>    main()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 
 ### 第 4 步：运行
 
@@ -2552,7 +2379,6 @@ python scripts\alert_report.py --input data\alerts.json --output reports\alert-r
 |---|---|---|
 | 第 1 行 | <code>python scripts\alert_report.py --input data\alerts.json --output reports\alert-report.md --min-count 2</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
-
 预期输出：
 
 ```text
@@ -2563,8 +2389,7 @@ INFO wrote report: reports\alert-report.md
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>INFO wrote report: reports\alert-report.md</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>INFO wrote report: reports\alert-report.md</code> | `INFO wrote report` 是INFO wrote report 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `reports\alert-report.md` 是这个字段的示例内容或模板表达式。 |
 
 ### 第 5 步：查看报告
 
@@ -2602,32 +2427,22 @@ INFO wrote report: reports\alert-report.md
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code># Alert Noise Report</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 3 行 | <code>- Total alerts: 4</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
-| 第 4 行 | <code>- Time range: 2026-07-02T08:01:00+00:00 to 2026-07-02T08:15:00+00:00</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
-| 第 5 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 6 行 | <code>## By Severity</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 7 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 8 行 | <code>- critical: 3</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
-| 第 9 行 | <code>- warning: 1</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
-| 第 10 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 11 行 | <code>## By Service</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 12 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 13 行 | <code>- order-api: 3</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
-| 第 14 行 | <code>- payment-api: 1</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
-| 第 15 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 16 行 | <code>## Noisy Services</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 17 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 18 行 | <code>- order-api: 3 alerts</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
-| 第 19 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 20 行 | <code>## Raw Alerts</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 21 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 22 行 | <code>- [critical] order-api HighErrorRate: 5xx error rate is above 2%</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
-| 第 23 行 | <code>- [warning] order-api HighLatency: p95 latency is above 300ms</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
-| 第 24 行 | <code>- [critical] payment-api PaymentFailure: payment failure rate is above 1%</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
-| 第 25 行 | <code>- [critical] order-api HighErrorRate: 5xx error rate is above 2%</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
-
+| 第 1 行 | <code># Alert Noise Report</code> | 这一行里的英文要这样读：`Alert Noise Report` 这个英文标识可以拆开理解为：告警。 |
+| 第 3 行 | <code>- Total alerts: 4</code> | `Total alerts` 是Total alerts 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `4` 是这个字段的示例内容或模板表达式。 |
+| 第 4 行 | <code>- Time range: 2026-07-02T08:01:00+00:00 to 2026-07-02T08:15:00+00:00</code> | `Time range` 是Time range 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `2026-07-02T08:01:00+00:00 to 2026-07-02T08:15:00+00:00` 是这个字段的示例内容或模板表达式。 |
+| 第 6 行 | <code>## By Severity</code> | 这一行里的英文要这样读：`By Severity` 这个英文标识可以拆开理解为：告警严重级别字段。 |
+| 第 8 行 | <code>- critical: 3</code> | `critical` 是严重级别，冒号后面的 `3` 是这个字段的示例内容或模板表达式。 |
+| 第 9 行 | <code>- warning: 1</code> | `warning` 是warning 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `1` 是这个字段的示例内容或模板表达式。 |
+| 第 11 行 | <code>## By Service</code> | 这一行里的英文要这样读：`By Service` 这个英文标识可以拆开理解为：服务名称字段。 |
+| 第 13 行 | <code>- order-api: 3</code> | `order-api` 是order-api 里的 order 表示订单业务，api 表示接口服务，合起来通常指订单接口服务，冒号后面的 `3` 是这个字段的示例内容或模板表达式。 |
+| 第 14 行 | <code>- payment-api: 1</code> | `payment-api` 是payment-api 这个英文标识可以拆开理解为：应用程序接口，冒号后面的 `1` 是这个字段的示例内容或模板表达式。 |
+| 第 16 行 | <code>## Noisy Services</code> | 这一行里的英文要这样读：`Noisy Services` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 18 行 | <code>- order-api: 3 alerts</code> | `order-api` 是order-api 里的 order 表示订单业务，api 表示接口服务，合起来通常指订单接口服务，冒号后面的 `3 alerts` 是这个字段的示例内容或模板表达式。 |
+| 第 20 行 | <code>## Raw Alerts</code> | 这一行里的英文要这样读：`Raw Alerts` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 22 行 | <code>- [critical] order-api HighErrorRate: 5xx error rate is above 2%</code> | 这一行里的英文要这样读：`critical` 是严重级别；`order-api HighErrorRate` 是高错误率告警名，通常表示某个服务的请求失败比例超过阈值；`5xx error rate is above` 这个英文标识可以拆开理解为：HTTP 5xx 服务端错误，表示请求到达服务端但服务端处理失败，错误，比率。 |
+| 第 23 行 | <code>- [warning] order-api HighLatency: p95 latency is above 300ms</code> | 这一行里的英文要这样读：`warning` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`order-api HighLatency` 是高延迟告警名，通常表示请求耗时超过阈值；`p95 latency is above` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`ms` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 24 行 | <code>- [critical] payment-api PaymentFailure: payment failure rate is above 1%</code> | 这一行里的英文要这样读：`critical` 是严重级别；`payment-api PaymentFailure` 这个英文标识可以拆开理解为：应用程序接口；`payment failure rate is above` 这个英文标识可以拆开理解为：比率。 |
+| 第 25 行 | <code>- [critical] order-api HighErrorRate: 5xx error rate is above 2%</code> | 这一行里的英文要这样读：`critical` 是严重级别；`order-api HighErrorRate` 是高错误率告警名，通常表示某个服务的请求失败比例超过阈值；`5xx error rate is above` 这个英文标识可以拆开理解为：HTTP 5xx 服务端错误，表示请求到达服务端但服务端处理失败，错误，比率。 |
 
 ### 你在这个实验里学到了什么
 
@@ -2675,8 +2490,7 @@ python : The term 'python' is not recognized
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>python : The term 'python' is not recognized</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>python : The term 'python' is not recognized</code> | `python` 是python 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `The term 'python' is not recognized` 是这个字段的示例内容或模板表达式。 |
 
 排查：
 
@@ -2691,7 +2505,6 @@ where.exe python
 |---|---|---|
 | 第 1 行 | <code>py --version</code> | 执行 `py` 相关命令，后面的参数决定它具体操作什么对象。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 | 第 2 行 | <code>where.exe python</code> | 执行 `where.exe` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 处理思路：
 
@@ -2711,8 +2524,7 @@ ModuleNotFoundError: No module named 'requests'
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>ModuleNotFoundError: No module named 'requests'</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>ModuleNotFoundError: No module named 'requests'</code> | `ModuleNotFoundError` 是ModuleNotFoundError 这个英文标识可以拆开理解为：错误，冒号后面的 `No module named 'requests'` 是这个字段的示例内容或模板表达式。 |
 
 排查：
 
@@ -2727,7 +2539,6 @@ python -m pip list
 |---|---|---|
 | 第 1 行 | <code>python -c "import sys; print(sys.executable)"</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
 | 第 2 行 | <code>python -m pip list</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
-
 
 常见原因：
 
@@ -2751,7 +2562,6 @@ python scripts\your_script.py
 | 第 2 行 | <code>python -m pip install requests</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
 | 第 3 行 | <code>python scripts\your_script.py</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
 
-
 ### PowerShell 不允许激活虚拟环境
 
 现象：
@@ -2764,8 +2574,7 @@ running scripts is disabled on this system
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>running scripts is disabled on this system</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>running scripts is disabled on this system</code> | 这一行里的英文要这样读：`running scripts is disabled on this system` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 这是 PowerShell 执行策略问题。学习环境中可以对当前用户放宽：
 
@@ -2779,7 +2588,6 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 |---|---|---|
 | 第 1 行 | <code>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser</code> | 执行 `set-executionpolicy` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 然后重新激活：
 
 ```powershell
@@ -2791,7 +2599,6 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>.\.venv\Scripts\Activate.ps1</code> | 执行 `.\.venv\scripts\activate.ps1` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 如果是在公司电脑，先遵守公司的安全策略，不要绕过管理要求。
 
@@ -2807,8 +2614,7 @@ input file not found: data\alerts.json
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>input file not found: data\alerts.json</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>input file not found: data\alerts.json</code> | `input file not found` 是input file not found 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `data\alerts.json` 是这个字段的示例内容或模板表达式。 |
 
 排查当前工作目录：
 
@@ -2823,9 +2629,7 @@ print(Path.cwd())
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>from pathlib import Path</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 3 行 | <code>print(Path.cwd())</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 
 相对路径是相对于“你运行命令时所在的目录”，不是一定相对于脚本文件。最简单的做法是在项目根目录运行：
 
@@ -2838,7 +2642,6 @@ python scripts\alert_report.py
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>python scripts\alert_report.py</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
-
 
 ### 中文乱码
 
@@ -2856,7 +2659,6 @@ Path("out.md").write_text(content, encoding="utf-8")
 | 第 1 行 | <code>content = Path("note.md").read_text(encoding="utf-8")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 2 行 | <code>Path("out.md").write_text(content, encoding="utf-8")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
-
 不要依赖系统默认编码。不同系统、终端、编辑器默认编码可能不同。
 
 ### JSON 解析失败
@@ -2871,8 +2673,7 @@ json.decoder.JSONDecodeError
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>json.decoder.JSONDecodeError</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>json.decoder.JSONDecodeError</code> | `json.decoder.JSONDecodeError` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 校验：
 
@@ -2885,7 +2686,6 @@ python -m json.tool data\alerts.json
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>python -m json.tool data\alerts.json</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
-
 
 常见错误：
 
@@ -2910,7 +2710,6 @@ python -m pip config list
 | 第 1 行 | <code>python -m pip --version</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 | 第 2 行 | <code>python -m pip config list</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
 
-
 处理思路：
 
 - 确认能访问 PyPI 或公司镜像。
@@ -2932,7 +2731,6 @@ response = requests.get(url, timeout=5)
 |---|---|---|
 | 第 1 行 | <code>response = requests.get(url, timeout=5)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 
-
 标准库：
 
 ```python
@@ -2946,7 +2744,6 @@ with urlopen(url, timeout=5) as response:
 |---|---|---|
 | 第 1 行 | <code>with urlopen(url, timeout=5) as response:</code> | 上下文管理语句，常用于安全打开文件或管理连接。 |
 | 第 2 行 | <code>    ...</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 
 AIOps 脚本不要无限等待外部 API。它可能运行在 CI、定时任务或告警链路里，卡住就会影响后续流程。
 
@@ -3104,25 +2901,16 @@ See reports\alert-report.md.
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code># Alert Noise Report</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 3 行 | <code>## Requirements</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 4 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 5 行 | <code>- Python &gt;= 3.11</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
-| 第 6 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 7 行 | <code>## Setup</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 8 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 1 行 | <code># Alert Noise Report</code> | 这一行里的英文要这样读：`Alert Noise Report` 这个英文标识可以拆开理解为：告警。 |
+| 第 3 行 | <code>## Requirements</code> | 这一行里的英文要这样读：`Requirements` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
+| 第 5 行 | <code>- Python &gt;= 3.11</code> | 这一行里的英文要这样读：`Python` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
+| 第 7 行 | <code>## Setup</code> | 这一行里的英文要这样读：`Setup` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
 | 第 9 行 | <code>python -m venv .venv</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
 | 第 10 行 | <code>.\.venv\Scripts\Activate.ps1</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
 | 第 11 行 | <code>python -m pip install -r requirements.txt</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 12 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 13 行 | <code>## Run</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 14 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 13 行 | <code>## Run</code> | 这一行里的英文要这样读：`Run` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
 | 第 15 行 | <code>python scripts\alert_report.py --input data\alerts.json --output reports\alert-report.md --min-count 2</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 16 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 17 行 | <code>## Output</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 18 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 17 行 | <code>## Output</code> | 这一行里的英文要这样读：`Output` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
 | 第 19 行 | <code>See reports\alert-report.md.</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-
 
 如果你能把这个小项目讲清楚，就说明你已经不是“会一点 Python 语法”，而是能用 Python 做一个最小 AIOps 自动化闭环。

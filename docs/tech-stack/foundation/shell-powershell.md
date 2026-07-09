@@ -90,28 +90,27 @@ Bash
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>Bash</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  ├── What is Bash / What is a shell</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 3 行 | <code>  ├── Basic Shell Features</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 4 行 | <code>  │   ├── Shell syntax</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 5 行 | <code>  │   ├── Quoting</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 6 行 | <code>  │   ├── Commands</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 7 行 | <code>  │   ├── Pipelines</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 8 行 | <code>  │   ├── Lists and compound commands</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 9 行 | <code>  │   ├── Functions</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 10 行 | <code>  │   ├── Parameters and variables</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 11 行 | <code>  │   ├── Expansions</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 12 行 | <code>  │   ├── Redirections</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 13 行 | <code>  │   ├── Execution environment</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 14 行 | <code>  │   ├── Exit status</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 15 行 | <code>  │   └── Shell scripts</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 16 行 | <code>  ├── Shell Builtin Commands</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 17 行 | <code>  ├── Shell Variables</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 18 行 | <code>  ├── Bash Features</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 19 行 | <code>  ├── Job Control</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 20 行 | <code>  ├── Command Line Editing</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 21 行 | <code>  └── History</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-
+| 第 1 行 | <code>Bash</code> | 这一行里的英文要这样读：`Bash` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
+| 第 2 行 | <code>  ├── What is Bash / What is a shell</code> | `├── What is Bash / What is a shell` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 3 行 | <code>  ├── Basic Shell Features</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 4 行 | <code>  │   ├── Shell syntax</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 5 行 | <code>  │   ├── Quoting</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 6 行 | <code>  │   ├── Commands</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 7 行 | <code>  │   ├── Pipelines</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 8 行 | <code>  │   ├── Lists and compound commands</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 9 行 | <code>  │   ├── Functions</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 10 行 | <code>  │   ├── Parameters and variables</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 11 行 | <code>  │   ├── Expansions</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 12 行 | <code>  │   ├── Redirections</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 13 行 | <code>  │   ├── Execution environment</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 14 行 | <code>  │   ├── Exit status</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 15 行 | <code>  │   └── Shell scripts</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 16 行 | <code>  ├── Shell Builtin Commands</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 17 行 | <code>  ├── Shell Variables</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 18 行 | <code>  ├── Bash Features</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 19 行 | <code>  ├── Job Control</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 20 行 | <code>  ├── Command Line Editing</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 21 行 | <code>  └── History</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
 
 Shell 学习不能只背 `ls`、`grep`。你要理解：
 
@@ -165,21 +164,20 @@ PowerShell
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>PowerShell</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  ├── Shell and scripting language</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 3 行 | <code>  ├── Cmdlets</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 4 行 | <code>  ├── Objects, properties, methods</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 5 行 | <code>  ├── Pipeline</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 6 行 | <code>  ├── Providers</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 7 行 | <code>  ├── Variables</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 8 行 | <code>  ├── Quoting rules</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 9 行 | <code>  ├── Redirection and streams</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 10 行 | <code>  ├── Scripts and functions</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 11 行 | <code>  ├── Execution policies</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 12 行 | <code>  ├── Modules</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 13 行 | <code>  ├── Remoting</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 14 行 | <code>  └── Help system</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-
+| 第 1 行 | <code>PowerShell</code> | 这一行里的英文要这样读：`PowerShell` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
+| 第 2 行 | <code>  ├── Shell and scripting language</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 3 行 | <code>  ├── Cmdlets</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 4 行 | <code>  ├── Objects, properties, methods</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 5 行 | <code>  ├── Pipeline</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 6 行 | <code>  ├── Providers</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 7 行 | <code>  ├── Variables</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 8 行 | <code>  ├── Quoting rules</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 9 行 | <code>  ├── Redirection and streams</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 10 行 | <code>  ├── Scripts and functions</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 11 行 | <code>  ├── Execution policies</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 12 行 | <code>  ├── Modules</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 13 行 | <code>  ├── Remoting</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 14 行 | <code>  └── Help system</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
 
 PowerShell 的核心不是“Windows 版 Bash”。它的关键差异是：管道里传的是对象，不只是文本。
 
@@ -207,22 +205,21 @@ Shell / PowerShell scripts
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>manual troubleshooting</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  ├── check process</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 3 行 | <code>  ├── check ports</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 4 行 | <code>  ├── check disk</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 5 行 | <code>  ├── check logs</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 6 行 | <code>  └── test API</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 7 行 | <code>        &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 8 行 | <code>        v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 9 行 | <code>Shell / PowerShell scripts</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 10 行 | <code>        &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 11 行 | <code>        +--&gt; runbook automation</code> | 这一行要理解这些英文词：`runbook automation` 是runbook=故障处理手册，automation=自动化。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 12 行 | <code>        +--&gt; CI/CD checks</code> | 这一行要理解这些英文词：`CI` 是持续集成；`CD checks` 是cd=持续交付或持续部署，checks=检查。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 13 行 | <code>        +--&gt; scheduled health reports</code> | 这一行要理解这些英文词：`scheduled health reports` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 14 行 | <code>        +--&gt; incident evidence collection</code> | 这一行要理解这些英文词：`incident evidence collection` 是evidence=证据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 1 行 | <code>manual troubleshooting</code> | 这一行里的英文要这样读：`manual troubleshooting` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 2 行 | <code>  ├── check process</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 3 行 | <code>  ├── check ports</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 4 行 | <code>  ├── check disk</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 5 行 | <code>  ├── check logs</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 6 行 | <code>  └── test API</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 7 行 | <code>        &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
+| 第 8 行 | <code>        v</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
+| 第 9 行 | <code>Shell / PowerShell scripts</code> | `Shell / PowerShell scripts` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 10 行 | <code>        &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
+| 第 11 行 | <code>        +--&gt; runbook automation</code> | 这一行要理解这些英文词：`runbook automation` 是runbook=故障处理手册。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 12 行 | <code>        +--&gt; CI/CD checks</code> | 这一行要理解这些英文词：`CI` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`CD checks` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 13 行 | <code>        +--&gt; scheduled health reports</code> | 这一行要理解这些英文词：`scheduled health reports` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 14 行 | <code>        +--&gt; incident evidence collection</code> | 这一行要理解这些英文词：`incident evidence collection` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 15 行 | <code>        +--&gt; webhook or API calls</code> | 这一行要理解这些英文词：`webhook or API calls` 是api=应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 
 在 AIOps 中，脚本是自动化闭环的第一步：
 
@@ -262,7 +259,6 @@ grep ERROR app.log | tail -n 20
 |---|---|---|
 | 第 1 行 | <code>grep ERROR app.log &#124; tail -n 20</code> | 执行 `grep` 相关命令，后面的参数决定它具体操作什么对象。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
 
-
 大致过程：
 
 ```text
@@ -280,15 +276,14 @@ Bash reads command line
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>Bash reads command line</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; parses words, quotes, pipes and redirections</code> | 这一行要理解这些英文词：`parses words` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`quotes` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`pipes and redirections` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; expands variables and globs</code> | 这一行要理解这些英文词：`expands variables and globs` 是variables=变量。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; finds command grep</code> | 这一行要理解这些英文词：`finds command grep` 是command=命令。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; starts process</code> | 这一行要理解这些英文词：`starts process` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; connects grep stdout to tail stdin</code> | 这一行要理解这些英文词：`connects grep stdout to tail stdin` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; waits for pipeline</code> | 这一行要理解这些英文词：`waits for pipeline` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>  -&gt; returns exit status</code> | 这一行要理解这些英文词：`returns exit status` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 1 行 | <code>Bash reads command line</code> | 这一行里的英文要这样读：`Bash reads command line` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 2 行 | <code>  -&gt; parses words, quotes, pipes and redirections</code> | 这一行要理解这些英文词：`parses words` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`quotes` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`pipes and redirections` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; expands variables and globs</code> | 这一行要理解这些英文词：`expands variables and globs` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; finds command grep</code> | 这一行要理解这些英文词：`finds command grep` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; starts process</code> | 这一行要理解这些英文词：`starts process` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; connects grep stdout to tail stdin</code> | 这一行要理解这些英文词：`connects grep stdout to tail stdin` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; waits for pipeline</code> | 这一行要理解这些英文词：`waits for pipeline` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; returns exit status</code> | 这一行要理解这些英文词：`returns exit status` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 这个过程里最容易出错的是：
 
@@ -313,7 +308,6 @@ Get-Process | Sort-Object CPU -Descending | Select-Object -First 5 Name, Id, CPU
 |---|---|---|
 | 第 1 行 | <code>Get-Process &#124; Sort-Object CPU -Descending &#124; Select-Object -First 5 Name, Id, CPU</code> | 执行 `get-process` 相关命令，后面的参数决定它具体操作什么对象。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
 
-
 大致过程：
 
 ```text
@@ -329,13 +323,12 @@ PowerShell parses command
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>PowerShell parses command</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; runs Get-Process</code> | 这一行要理解这些英文词：`runs Get-Process` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; outputs process objects</code> | 这一行要理解这些英文词：`outputs process objects` 是outputs=输出值。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; Sort-Object sorts by CPU property</code> | 这一行要理解这些英文词：`Sort-Object sorts by CPU property` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; Select-Object selects properties</code> | 这一行要理解这些英文词：`Select-Object selects properties` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 1 行 | <code>PowerShell parses command</code> | 这一行里的英文要这样读：`PowerShell parses command` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 2 行 | <code>  -&gt; runs Get-Process</code> | 这一行要理解这些英文词：`runs Get-Process` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; outputs process objects</code> | 这一行要理解这些英文词：`outputs process objects` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; Sort-Object sorts by CPU property</code> | 这一行要理解这些英文词：`Sort-Object sorts by CPU property` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; Select-Object selects properties</code> | 这一行要理解这些英文词：`Select-Object selects properties` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 6 行 | <code>  -&gt; formatter displays table</code> | 这一行要理解这些英文词：`formatter displays table` 是table=表。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 
 关键点：`Get-Process` 输出的是对象。对象有属性，比如：
 
@@ -360,7 +353,6 @@ ps aux | grep nginx
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>ps aux &#124; grep nginx</code> | 查看进程快照，用来确认目标服务或脚本是否正在运行。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
-
 
 这里 `ps aux` 输出文本，`grep` 在文本里匹配 `nginx`。
 
@@ -388,10 +380,9 @@ Get-Process |
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>Get-Process &#124;</code> | 执行 `get-process` 相关命令，后面的参数决定它具体操作什么对象。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
-| 第 2 行 | <code>  Where-Object { $_.ProcessName -like "*nginx*" } &#124;</code> | 执行 `where-object` 相关命令，后面的参数决定它具体操作什么对象。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
+| 第 1 行 | <code>Get-Process &#124;</code> | 执行 `get-process` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 2 行 | <code>  Where-Object { $_.ProcessName -like "*nginx*" } &#124;</code> | 执行 `where-object` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
 | 第 3 行 | <code>  Select-Object ProcessName, Id, CPU</code> | 执行 `select-object` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 这里管道传的是进程对象。`Where-Object` 按对象属性过滤。
 
@@ -427,7 +418,6 @@ command -v bash
 | 第 2 行 | <code>type cd</code> | 执行 `type` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 3 行 | <code>command -v bash</code> | 执行 `command` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 可能输出：
 
 ```text
@@ -439,9 +429,8 @@ cd is a shell builtin
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>ls is /usr/bin/ls</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>cd is a shell builtin</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>ls is /usr/bin/ls</code> | `ls is /usr/bin/ls` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 2 行 | <code>cd is a shell builtin</code> | 这一行里的英文要这样读：`cd is a shell builtin` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 查看帮助：
 
@@ -458,7 +447,6 @@ ls --help
 | 第 1 行 | <code>help cd</code> | 执行 `help` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 2 行 | <code>man ls</code> | 执行 `man` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 3 行 | <code>ls --help</code> | 列出文件或目录，用来确认实验文件是否存在。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 
 区别：
 
@@ -484,7 +472,6 @@ Get-Command *Process*
 | 第 1 行 | <code>Get-Command Get-Process</code> | 执行 `get-command` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 2 行 | <code>Get-Command *Process*</code> | 执行 `get-command` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 查看帮助：
 
 ```powershell
@@ -501,7 +488,6 @@ Get-Help Get-Process -Full
 | 第 2 行 | <code>Get-Help Get-Process -Examples</code> | 执行 `get-help` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 3 行 | <code>Get-Help Get-Process -Full</code> | 执行 `get-help` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 查看对象结构：
 
 ```powershell
@@ -513,7 +499,6 @@ Get-Process | Get-Member
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>Get-Process &#124; Get-Member</code> | 执行 `get-process` 相关命令，后面的参数决定它具体操作什么对象。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
-
 
 这一步非常重要。PowerShell 排障不是先猜列，而是先看对象有哪些属性和方法。
 
@@ -535,7 +520,6 @@ port=8000
 | 第 1 行 | <code>service="demo-api"</code> | 执行 `service="demo-api"` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 2 行 | <code>port=8000</code> | 执行 `port=8000` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 使用：
 
 ```bash
@@ -550,7 +534,6 @@ echo "service=$service port=$port"
 | 第 1 行 | <code>echo "$service"</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
 | 第 2 行 | <code>echo "service=$service port=$port"</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
 
-
 注意：等号两边不能有空格。
 
 错误写法：
@@ -564,7 +547,6 @@ service = "demo-api"
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>service = "demo-api"</code> | 执行 `service` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 这会被 Bash 解析成执行名为 `service` 的命令，并传参数。
 
@@ -584,7 +566,6 @@ $Port = 8000
 | 第 1 行 | <code>$Service = "demo-api"</code> | 执行 `$service` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
 | 第 2 行 | <code>$Port = 8000</code> | 执行 `$port` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
 
-
 使用：
 
 ```powershell
@@ -598,7 +579,6 @@ Write-Output "service=$Service port=$Port"
 |---|---|---|
 | 第 1 行 | <code>Write-Output $Service</code> | 执行 `write-output` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
 | 第 2 行 | <code>Write-Output "service=$Service port=$Port"</code> | 执行 `write-output` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
-
 
 PowerShell 变量以 `$` 开头。变量里可以放字符串、数字、对象、数组、哈希表。
 
@@ -620,7 +600,6 @@ echo "$GITHUB_TOKEN"
 |---|---|---|
 | 第 1 行 | <code>echo "$GITHUB_TOKEN"</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
 
-
 设置当前 shell：
 
 ```bash
@@ -632,7 +611,6 @@ export GITHUB_TOKEN="..."
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>export GITHUB_TOKEN="..."</code> | 设置 shell 环境变量，常用于配置 API Key、端口或运行参数。 |
-
 
 脚本里判断：
 
@@ -648,10 +626,9 @@ fi
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>if [[ -z "${GITHUB_TOKEN:-}" ]]; then</code> | 执行 `if` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 2 行 | <code>  echo "GITHUB_TOKEN is required" &gt;&amp;2</code> | 输出一段文本，常用于写入测试内容或验证变量。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
+| 第 2 行 | <code>  echo "GITHUB_TOKEN is required" &gt;&amp;2</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
 | 第 3 行 | <code>  exit 1</code> | 执行 `exit` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 4 行 | <code>fi</code> | 执行 `fi` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 ### PowerShell
 
@@ -667,7 +644,6 @@ $env:GITHUB_TOKEN
 |---|---|---|
 | 第 1 行 | <code>$env:GITHUB_TOKEN</code> | 执行 `$env:github_token` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
 
-
 设置当前进程：
 
 ```powershell
@@ -679,7 +655,6 @@ $env:GITHUB_TOKEN = "..."
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>$env:GITHUB_TOKEN = "..."</code> | 执行 `$env:github_token` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
-
 
 脚本里判断：
 
@@ -699,7 +674,6 @@ if (-not $env:GITHUB_TOKEN) {
 | 第 3 行 | <code>  exit 1</code> | 执行 `exit` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 4 行 | <code>}</code> | 执行 `}` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 ## 引号和转义
 
 ### Bash 引号
@@ -718,7 +692,6 @@ echo '$name'
 | 第 1 行 | <code>name="api"</code> | 执行 `name="api"` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 2 行 | <code>echo '$name'</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
 
-
 输出：
 
 ```text
@@ -729,8 +702,7 @@ $name
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>$name</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>$name</code> | 这一行里的英文要这样读：`name` 是名称字段。 |
 
 双引号：变量会展开。
 
@@ -746,7 +718,6 @@ echo "$name"
 | 第 1 行 | <code>name="api"</code> | 执行 `name="api"` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 2 行 | <code>echo "$name"</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
 
-
 输出：
 
 ```text
@@ -757,8 +728,7 @@ api
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>api</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>api</code> | 这一行里的英文要这样读：`api` 是应用程序接口。 |
 
 建议：Bash 中使用变量时，大多数情况加双引号。
 
@@ -771,7 +741,6 @@ cat "$log_file"
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>cat "$log_file"</code> | 打印文件内容，用来检查配置或日志片段。 |
-
 
 这样路径里有空格时不容易炸。
 
@@ -791,7 +760,6 @@ $Name = "api"
 | 第 1 行 | <code>$Name = "api"</code> | 执行 `$name` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
 | 第 2 行 | <code>'service=$Name'</code> | 执行 `'service=$name'` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
 
-
 输出：
 
 ```text
@@ -802,8 +770,7 @@ service=$Name
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>service=$Name</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>service=$Name</code> | `service` 是服务名称字段，`$Name` 是具体服务名，表示这条记录属于这个服务。 |
 
 双引号：展开变量。
 
@@ -819,7 +786,6 @@ $Name = "api"
 | 第 1 行 | <code>$Name = "api"</code> | 执行 `$name` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
 | 第 2 行 | <code>"service=$Name"</code> | 执行 `"service=$name"` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
 
-
 输出：
 
 ```text
@@ -830,8 +796,7 @@ service=api
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>service=api</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>service=api</code> | `service` 是服务名称字段，`api` 是具体服务名，表示这条记录属于这个服务。 |
 
 表达式要用 `$()`：
 
@@ -844,7 +809,6 @@ service=api
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>"Top process: $((Get-Process &#124; Sort-Object CPU -Descending &#124; Select-Object -First 1).ProcessName)"</code> | 执行 `"top` 相关命令，后面的参数决定它具体操作什么对象。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
-
 
 ## 通配符和路径
 
@@ -862,7 +826,6 @@ rm *.tmp
 | 第 1 行 | <code>ls *.log</code> | 列出文件或目录，用来确认实验文件是否存在。 |
 | 第 2 行 | <code>rm *.tmp</code> | 执行 `rm` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 `*.log` 会由 shell 展开为匹配的文件列表。
 
 风险：如果你写：
@@ -877,7 +840,6 @@ rm -rf "$dir"/*
 |---|---|---|
 | 第 1 行 | <code>rm -rf "$dir"/*</code> | 执行 `rm` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 要确保 `$dir` 不为空、不指向错误路径。破坏性命令前先打印变量：
 
 ```bash
@@ -889,7 +851,6 @@ echo "dir=$dir"
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>echo "dir=$dir"</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
-
 
 ### PowerShell
 
@@ -905,7 +866,6 @@ Remove-Item *.tmp
 | 第 1 行 | <code>Get-ChildItem *.log</code> | PowerShell 列出文件、目录或匹配项，用来检查本地环境。 |
 | 第 2 行 | <code>Remove-Item *.tmp</code> | PowerShell 删除文件或目录，执行前要确认路径正确。 |
 
-
 PowerShell 也支持通配符，但对象和 provider 模型更复杂。对路径操作，重要命令支持 `-LiteralPath`，用于不把 `[`、`]`、`*` 等当通配符。
 
 ```powershell
@@ -917,7 +877,6 @@ Get-Item -LiteralPath "file[1].log"
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>Get-Item -LiteralPath "file[1].log"</code> | 执行 `get-item` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 ## 重定向和流
 
@@ -943,7 +902,6 @@ Get-Item -LiteralPath "file[1].log"
 |---|---|---|
 | 第 1 行 | <code>./check.sh &gt; report.txt 2&gt; error.txt</code> | 执行 `./check.sh` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 合并输出：
 
 ```bash
@@ -954,8 +912,7 @@ Get-Item -LiteralPath "file[1].log"
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>./check.sh &gt; report.txt 2&gt;&amp;1</code> | 执行 `./check.sh` 相关命令，后面的参数决定它具体操作什么对象。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
-
+| 第 1 行 | <code>./check.sh &gt; report.txt 2&gt;&amp;1</code> | 执行 `./check.sh` 相关命令，后面的参数决定它具体操作什么对象。 |
 
 ### PowerShell 重定向
 
@@ -986,7 +943,6 @@ PowerShell 有多个输出流：
 | 第 2 行 | <code>.\check.ps1 2&gt; error.txt</code> | 执行 `.\check.ps1` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 3 行 | <code>.\check.ps1 *&gt; all-output.txt</code> | 执行 `.\check.ps1` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 `*>` 会重定向所有流。
 
 ## 退出码和错误
@@ -1005,7 +961,6 @@ echo "$?"
 |---|---|---|
 | 第 1 行 | <code>echo "$?"</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
 
-
 约定：
 
 ```text
@@ -1017,9 +972,8 @@ non-0 failure
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>0     success</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>non-0 failure</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>0     success</code> | 这一行里的英文要这样读：`success` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 2 行 | <code>non-0 failure</code> | 这一行里的英文要这样读：`non-0 failure` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 脚本中退出：
 
@@ -1033,7 +987,6 @@ exit 1
 |---|---|---|
 | 第 1 行 | <code>exit 1</code> | 执行 `exit` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 常见安全选项：
 
 ```bash
@@ -1045,7 +998,6 @@ set -euo pipefail
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>set -euo pipefail</code> | 设置 shell 或工具变量，具体含义取决于当前终端环境。 |
-
 
 含义：
 
@@ -1071,7 +1023,6 @@ $LASTEXITCODE
 |---|---|---|
 | 第 1 行 | <code>$LASTEXITCODE</code> | 执行 `$lastexitcode` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
 
-
 查看上一条 PowerShell 命令是否成功：
 
 ```powershell
@@ -1084,7 +1035,6 @@ $?
 |---|---|---|
 | 第 1 行 | <code>$?</code> | 执行 `$?` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
 
-
 遇到错误停止：
 
 ```powershell
@@ -1096,7 +1046,6 @@ $ErrorActionPreference = "Stop"
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>$ErrorActionPreference = "Stop"</code> | 执行 `$erroractionpreference` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
-
 
 捕获异常：
 
@@ -1120,7 +1069,6 @@ try {
 | 第 5 行 | <code>  exit 1</code> | 执行 `exit` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 6 行 | <code>}</code> | 执行 `}` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 ## 条件判断
 
 ### Bash
@@ -1142,7 +1090,6 @@ fi
 | 第 3 行 | <code>else</code> | 执行 `else` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 4 行 | <code>  echo "log missing"</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
 | 第 5 行 | <code>fi</code> | 执行 `fi` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 常见测试：
 
@@ -1174,7 +1121,6 @@ if (Test-Path "app.log") {
 | 第 4 行 | <code>  Write-Output "log missing"</code> | 执行 `write-output` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 5 行 | <code>}</code> | 执行 `}` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 比较：
 
 | 操作符 | 含义 |
@@ -1204,7 +1150,6 @@ done
 | 第 2 行 | <code>  echo "checking $service"</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
 | 第 3 行 | <code>done</code> | 执行 `done` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 逐行读文件：
 
 ```bash
@@ -1220,7 +1165,6 @@ done < app.log
 | 第 1 行 | <code>while IFS= read -r line; do</code> | 执行 `while` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 2 行 | <code>  echo "$line"</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
 | 第 3 行 | <code>done &lt; app.log</code> | 执行 `done` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 ### PowerShell
 
@@ -1238,7 +1182,6 @@ foreach ($Service in "prometheus", "grafana", "demo-api") {
 | 第 2 行 | <code>  Write-Output "checking $Service"</code> | 执行 `write-output` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
 | 第 3 行 | <code>}</code> | 执行 `}` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 管道式：
 
 ```powershell
@@ -1254,7 +1197,6 @@ foreach ($Service in "prometheus", "grafana", "demo-api") {
 | 第 1 行 | <code>"prometheus", "grafana", "demo-api" &#124; ForEach-Object {</code> | 执行 `"prometheus",` 相关命令，后面的参数决定它具体操作什么对象。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
 | 第 2 行 | <code>  Write-Output "checking $_"</code> | 执行 `write-output` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
 | 第 3 行 | <code>}</code> | 执行 `}` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 ## 函数
 
@@ -1287,9 +1229,7 @@ check_url "localhost:8000/health"
 | 第 7 行 | <code>    return 1</code> | 执行 `return` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 8 行 | <code>  fi</code> | 执行 `fi` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 9 行 | <code>}</code> | 执行 `}` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 10 行 | <em>空行</em> | 空行，用来把命令分成更容易阅读的几段。 |
 | 第 11 行 | <code>check_url "localhost:8000/health"</code> | 执行 `check_url` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 ### PowerShell
 
@@ -1321,7 +1261,6 @@ Test-Url -Url "localhost:8000/health"
 | 第 3 行 | <code>    [Parameter(Mandatory)]</code> | 执行 `[parameter(mandatory)]` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 4 行 | <code>    [string]$Url</code> | 执行 `[string]$url` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
 | 第 5 行 | <code>  )</code> | 执行 `)` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 6 行 | <em>空行</em> | 空行，用来把命令分成更容易阅读的几段。 |
 | 第 7 行 | <code>  try {</code> | 执行 `try` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 8 行 | <code>    Invoke-WebRequest -Uri $Url -TimeoutSec 5 &#124; Out-Null</code> | PowerShell 发起 Web 请求，用来验证页面、接口或下载文件。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
 | 第 9 行 | <code>    "OK $Url"</code> | 执行 `"ok` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
@@ -1330,9 +1269,7 @@ Test-Url -Url "localhost:8000/health"
 | 第 12 行 | <code>    return $false</code> | 执行 `return` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
 | 第 13 行 | <code>  }</code> | 执行 `}` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 14 行 | <code>}</code> | 执行 `}` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 15 行 | <em>空行</em> | 空行，用来把命令分成更容易阅读的几段。 |
 | 第 16 行 | <code>Test-Url -Url "localhost:8000/health"</code> | 执行 `test-url` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 ## 脚本文件
 
@@ -1357,13 +1294,10 @@ df -h
 |---|---|---|
 | 第 1 行 | <code>#!/usr/bin/env bash</code> | 注释行，提前说明下面命令的目的或注意事项。 |
 | 第 2 行 | <code>set -euo pipefail</code> | 设置 shell 或工具变量，具体含义取决于当前终端环境。 |
-| 第 3 行 | <em>空行</em> | 空行，用来把命令分成更容易阅读的几段。 |
 | 第 4 行 | <code>echo "== Date =="</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
 | 第 5 行 | <code>date</code> | 执行 `date` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 6 行 | <em>空行</em> | 空行，用来把命令分成更容易阅读的几段。 |
 | 第 7 行 | <code>echo "== Disk =="</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
 | 第 8 行 | <code>df -h</code> | 查看磁盘空间，用来判断磁盘是否快满。 |
-
 
 授权：
 
@@ -1377,7 +1311,6 @@ chmod +x check.sh
 |---|---|---|
 | 第 1 行 | <code>chmod +x check.sh</code> | 执行 `chmod` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 运行：
 
 ```bash
@@ -1389,7 +1322,6 @@ chmod +x check.sh
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>./check.sh</code> | 执行 `./check.sh` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 ### PowerShell 脚本
 
@@ -1410,13 +1342,10 @@ Get-PSDrive -PSProvider FileSystem
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>$ErrorActionPreference = "Stop"</code> | 执行 `$erroractionpreference` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
-| 第 2 行 | <em>空行</em> | 空行，用来把命令分成更容易阅读的几段。 |
 | 第 3 行 | <code>"== Date =="</code> | 执行 `"==` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 4 行 | <code>Get-Date</code> | 执行 `get-date` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 5 行 | <em>空行</em> | 空行，用来把命令分成更容易阅读的几段。 |
 | 第 6 行 | <code>"== Disk =="</code> | 执行 `"==` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 7 行 | <code>Get-PSDrive -PSProvider FileSystem</code> | 执行 `get-psdrive` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 运行：
 
@@ -1429,7 +1358,6 @@ Get-PSDrive -PSProvider FileSystem
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>.\check.ps1</code> | 执行 `.\check.ps1` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 如果执行策略阻止，见后面的执行策略章节。
 
@@ -1447,7 +1375,6 @@ Get-ExecutionPolicy
 |---|---|---|
 | 第 1 行 | <code>Get-ExecutionPolicy</code> | 执行 `get-executionpolicy` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 当前用户设置：
 
 ```powershell
@@ -1459,7 +1386,6 @@ Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>Set-ExecutionPolicy -Scope CurrentUser RemoteSigned</code> | 执行 `set-executionpolicy` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 执行策略不是完整安全边界，它主要防止无意运行脚本。公司电脑要遵守组织安全策略，不要随意绕过。
 
@@ -1474,7 +1400,6 @@ powershell -ExecutionPolicy Bypass -File .\check.ps1
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>powershell -ExecutionPolicy Bypass -File .\check.ps1</code> | 执行 `powershell` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 学习环境可以理解它，生产环境要谨慎。
 
@@ -1676,10 +1601,8 @@ echo "wrote $report"
 |---|---|---|
 | 第 1 行 | <code>#!/usr/bin/env bash</code> | 注释行，提前说明下面命令的目的或注意事项。 |
 | 第 2 行 | <code>set -euo pipefail</code> | 设置 shell 或工具变量，具体含义取决于当前终端环境。 |
-| 第 3 行 | <em>空行</em> | 空行，用来把命令分成更容易阅读的几段。 |
 | 第 4 行 | <code>report="docs/learning-records/local-health-check-linux.md"</code> | 执行 `report="docs/learning-records/local-health-check-linux.md"` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 5 行 | <code>mkdir -p "$(dirname "$report")"</code> | 创建目录，用来准备实验项目结构。 |
-| 第 6 行 | <em>空行</em> | 空行，用来把命令分成更容易阅读的几段。 |
 | 第 7 行 | <code>{</code> | 执行 `{` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 8 行 | <code>  echo "# Local Health Check"</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
 | 第 9 行 | <code>  echo</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
@@ -1703,9 +1626,7 @@ echo "wrote $report"
 | 第 27 行 | <code>    echo "app.log not found"</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
 | 第 28 行 | <code>  fi</code> | 执行 `fi` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 29 行 | <code>} &gt; "$report"</code> | 执行 `}` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 30 行 | <em>空行</em> | 空行，用来把命令分成更容易阅读的几段。 |
 | 第 31 行 | <code>echo "wrote $report"</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
-
 
 运行：
 
@@ -1720,7 +1641,6 @@ chmod +x scripts/local-health-check.sh
 |---|---|---|
 | 第 1 行 | <code>chmod +x scripts/local-health-check.sh</code> | 执行 `chmod` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 2 行 | <code>./scripts/local-health-check.sh</code> | 执行 `./scripts/local-health-check.sh` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 ### PowerShell 版本
 
@@ -1776,11 +1696,9 @@ Write-Output "wrote $ReportPath"
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>$ErrorActionPreference = "Stop"</code> | 执行 `$erroractionpreference` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
-| 第 2 行 | <em>空行</em> | 空行，用来把命令分成更容易阅读的几段。 |
 | 第 3 行 | <code>$ReportPath = "docs/learning-records/local-health-check-windows.md"</code> | 执行 `$reportpath` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
 | 第 4 行 | <code>$ReportDir = Split-Path $ReportPath</code> | 执行 `$reportdir` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
 | 第 5 行 | <code>New-Item -ItemType Directory -Path $ReportDir -Force &#124; Out-Null</code> | 执行 `new-item` 相关命令，后面的参数决定它具体操作什么对象。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
-| 第 6 行 | <em>空行</em> | 空行，用来把命令分成更容易阅读的几段。 |
 | 第 7 行 | <code>$Lines = @()</code> | 执行 `$lines` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
 | 第 8 行 | <code>$Lines += "# Local Health Check"</code> | 执行 `$lines` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
 | 第 9 行 | <code>$Lines += ""</code> | 执行 `$lines` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
@@ -1796,14 +1714,13 @@ Write-Output "wrote $ReportPath"
 | 第 19 行 | <code>$Lines += ""</code> | 执行 `$lines` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
 | 第 20 行 | <code>$Lines += "## Top Processes"</code> | 执行 `$lines` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
 | 第 21 行 | <code>$Lines += (</code> | 执行 `$lines` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
-| 第 22 行 | <code>  Get-Process &#124;</code> | 执行 `get-process` 相关命令，后面的参数决定它具体操作什么对象。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
-| 第 23 行 | <code>    Sort-Object CPU -Descending &#124;</code> | 执行 `sort-object` 相关命令，后面的参数决定它具体操作什么对象。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
-| 第 24 行 | <code>    Select-Object -First 10 Name, Id, CPU, WorkingSet &#124;</code> | 执行 `select-object` 相关命令，后面的参数决定它具体操作什么对象。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
+| 第 22 行 | <code>  Get-Process &#124;</code> | 执行 `get-process` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 23 行 | <code>    Sort-Object CPU -Descending &#124;</code> | 执行 `sort-object` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 24 行 | <code>    Select-Object -First 10 Name, Id, CPU, WorkingSet &#124;</code> | 执行 `select-object` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 25 行 | <code>    Out-String</code> | 执行 `out-string` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 26 行 | <code>).Trim()</code> | 执行 `).trim()` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 27 行 | <code>$Lines += ""</code> | 执行 `$lines` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
 | 第 28 行 | <code>$Lines += "## Recent Errors"</code> | 执行 `$lines` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
-| 第 29 行 | <em>空行</em> | 空行，用来把命令分成更容易阅读的几段。 |
 | 第 30 行 | <code>if (Test-Path ".\app.log") {</code> | 执行 `if` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 31 行 | <code>  $Matches = Select-String -Path ".\app.log" -Pattern "ERROR" &#124; Select-Object -Last 20</code> | 执行 `$matches` 相关命令，后面的参数决定它具体操作什么对象。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
 | 第 32 行 | <code>  if ($Matches) {</code> | 执行 `if` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
@@ -1814,10 +1731,8 @@ Write-Output "wrote $ReportPath"
 | 第 37 行 | <code>} else {</code> | 执行 `}` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 38 行 | <code>  $Lines += "app.log not found"</code> | 执行 `$lines` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
 | 第 39 行 | <code>}</code> | 执行 `}` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 40 行 | <em>空行</em> | 空行，用来把命令分成更容易阅读的几段。 |
 | 第 41 行 | <code>$Lines &#124; Set-Content -Path $ReportPath -Encoding UTF8</code> | 执行 `$lines` 相关命令，后面的参数决定它具体操作什么对象。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
 | 第 42 行 | <code>Write-Output "wrote $ReportPath"</code> | 执行 `write-output` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
-
 
 运行：
 
@@ -1830,7 +1745,6 @@ Write-Output "wrote $ReportPath"
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>.\scripts\local-health-check.ps1</code> | 执行 `.\scripts\local-health-check.ps1` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 ### 你应该学到什么
 
@@ -1857,8 +1771,7 @@ Permission denied
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>Permission denied</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>Permission denied</code> | 这一行里的英文要这样读：`Permission denied` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 处理：
 
@@ -1874,7 +1787,6 @@ chmod +x scripts/local-health-check.sh
 | 第 1 行 | <code>chmod +x scripts/local-health-check.sh</code> | 执行 `chmod` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 2 行 | <code>./scripts/local-health-check.sh</code> | 执行 `./scripts/local-health-check.sh` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 如果提示找不到解释器，检查 shebang：
 
 ```bash
@@ -1886,7 +1798,6 @@ chmod +x scripts/local-health-check.sh
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>#!/usr/bin/env bash</code> | 注释行，提前说明下面命令的目的或注意事项。 |
-
 
 ### PowerShell 脚本无法执行
 
@@ -1900,8 +1811,7 @@ running scripts is disabled on this system
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>running scripts is disabled on this system</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>running scripts is disabled on this system</code> | 这一行里的英文要这样读：`running scripts is disabled on this system` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 检查：
 
@@ -1915,7 +1825,6 @@ Get-ExecutionPolicy
 |---|---|---|
 | 第 1 行 | <code>Get-ExecutionPolicy</code> | 执行 `get-executionpolicy` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 学习环境可设置当前用户：
 
 ```powershell
@@ -1927,7 +1836,6 @@ Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>Set-ExecutionPolicy -Scope CurrentUser RemoteSigned</code> | 执行 `set-executionpolicy` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 公司设备先遵守组织策略。
 
@@ -1945,7 +1853,6 @@ cat "$log_file"
 |---|---|---|
 | 第 1 行 | <code>cat "$log_file"</code> | 打印文件内容，用来检查配置或日志片段。 |
 
-
 PowerShell 中路径加引号，必要时用 `-LiteralPath`：
 
 ```powershell
@@ -1957,7 +1864,6 @@ Get-Content -LiteralPath "C:\Logs\app log.txt"
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>Get-Content -LiteralPath "C:\Logs\app log.txt"</code> | 执行 `get-content` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 ### PowerShell 管道结果不是我想的文本
 
@@ -1973,7 +1879,6 @@ Get-Process | Get-Member
 |---|---|---|
 | 第 1 行 | <code>Get-Process &#124; Get-Member</code> | 执行 `get-process` 相关命令，后面的参数决定它具体操作什么对象。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
 
-
 选择字段：
 
 ```powershell
@@ -1986,7 +1891,6 @@ Get-Process | Select-Object Name, Id, CPU
 |---|---|---|
 | 第 1 行 | <code>Get-Process &#124; Select-Object Name, Id, CPU</code> | 执行 `get-process` 相关命令，后面的参数决定它具体操作什么对象。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
 
-
 需要变成文本时：
 
 ```powershell
@@ -1998,7 +1902,6 @@ Get-Process | Out-String
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>Get-Process &#124; Out-String</code> | 执行 `get-process` 相关命令，后面的参数决定它具体操作什么对象。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
-
 
 ### 中文乱码
 
@@ -2014,7 +1917,6 @@ Set-Content -Path report.md -Value $Lines -Encoding UTF8
 |---|---|---|
 | 第 1 行 | <code>Set-Content -Path report.md -Value $Lines -Encoding UTF8</code> | 执行 `set-content` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
 
-
 Bash 环境检查：
 
 ```bash
@@ -2026,7 +1928,6 @@ locale
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>locale</code> | 执行 `locale` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 确保终端和文件使用 UTF-8。
 
@@ -2044,7 +1945,6 @@ set -euo pipefail
 |---|---|---|
 | 第 1 行 | <code>set -euo pipefail</code> | 设置 shell 或工具变量，具体含义取决于当前终端环境。 |
 
-
 并对允许失败的命令显式写：
 
 ```bash
@@ -2057,7 +1957,6 @@ grep ERROR app.log || true
 |---|---|---|
 | 第 1 行 | <code>grep ERROR app.log &#124;&#124; true</code> | 执行 `grep` 相关命令，后面的参数决定它具体操作什么对象。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
 
-
 PowerShell 使用：
 
 ```powershell
@@ -2069,7 +1968,6 @@ $ErrorActionPreference = "Stop"
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>$ErrorActionPreference = "Stop"</code> | 执行 `$erroractionpreference` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
-
 
 对外部命令要检查 `$LASTEXITCODE`。
 
@@ -2087,7 +1985,6 @@ Invoke-WebRequest -Uri "localhost:8000/health"
 |---|---|---|
 | 第 1 行 | <code>Invoke-WebRequest -Uri "localhost:8000/health"</code> | PowerShell 发起 Web 请求，用来验证页面、接口或下载文件。 |
 
-
 如果你要调用真正的 curl：
 
 ```powershell
@@ -2099,7 +1996,6 @@ curl.exe localhost:8000/health
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>curl.exe localhost:8000/health</code> | 执行 `curl.exe` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 ## 典型故障排查表
 

@@ -36,6 +36,7 @@ function parseFence(line) {
   return {
     char: marker[0],
     length: marker.length,
+    lang: (match[2] ?? '').trim().split(/\s+/)[0].toLowerCase(),
   }
 }
 
@@ -60,10 +61,45 @@ function countExplanationRows(lines, startIndex) {
   return rows
 }
 
+function hasChinese(value) {
+  return /\p{Script=Han}/u.test(value)
+}
+
+function hasEnglishLike(value) {
+  return /[A-Za-z][A-Za-z0-9_.-]*/.test(value)
+}
+
+function isChineseOnlyTextLine(line) {
+  const trimmed = line.trim()
+  if (!trimmed) return false
+  if (hasEnglishLike(trimmed)) return false
+  if (/[\w.-]+\s*[:=]/.test(trimmed)) return false
+  if (/^[|v^/\\+\-├└│]/.test(trimmed)) return false
+  return hasChinese(trimmed)
+}
+
+function shouldExplainLine(line, lang) {
+  const trimmed = line.trim()
+  if (!trimmed) return false
+  if (isChineseOnlyTextLine(trimmed)) return false
+
+  if (
+    ['text', '', 'md', 'markdown'].includes(lang) &&
+    !hasEnglishLike(trimmed) &&
+    !/[|/\\{}[\]<>:=]/.test(trimmed)
+  ) {
+    return false
+  }
+
+  return true
+}
+
 const failures = []
 const bannedExplanationFragments = [
   '流程箭头，表示数据、请求或排障步骤从左边流向右边。',
   '从左边流向右边',
+  '文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。',
+  '环境变量或键值示例，等号左边是名称，右边是要配置的值。',
 ]
 
 for (const file of walkMarkdownFiles(docsRoot)) {
@@ -94,7 +130,8 @@ for (const file of walkMarkdownFiles(docsRoot)) {
       i += 1
     }
 
-    if (codeLines.length === 0) continue
+    const expectedRows = codeLines.filter((line) => shouldExplainLine(line, fence.lang)).length
+    if (expectedRows === 0) continue
 
     const explanationMarker = nextNonEmptyLine(lines, i + 1)
     if (!explanationMarker || explanationMarker.value !== '逐行解释：') {
@@ -107,11 +144,11 @@ for (const file of walkMarkdownFiles(docsRoot)) {
     }
 
     const rowCount = countExplanationRows(lines, explanationMarker.index + 1)
-    if (rowCount < codeLines.length) {
+    if (rowCount < expectedRows) {
       failures.push({
         file,
         line: startLine,
-        reason: `explanation rows ${rowCount} < code lines ${codeLines.length}`,
+        reason: `explanation rows ${rowCount} < explainable lines ${expectedRows}`,
       })
     }
   }

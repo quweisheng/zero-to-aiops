@@ -104,45 +104,44 @@ Markdown
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>Markdown</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  ├── CommonMark</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 3 行 | <code>  │   ├── Preliminaries: characters, lines, tabs, spaces</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 4 行 | <code>  │   ├── Blocks</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 5 行 | <code>  │   │   ├── paragraphs</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 6 行 | <code>  │   │   ├── headings</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 7 行 | <code>  │   │   ├── thematic breaks</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 8 行 | <code>  │   │   ├── block quotes</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 9 行 | <code>  │   │   ├── lists</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 10 行 | <code>  │   │   ├── code blocks</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 11 行 | <code>  │   │   └── HTML blocks</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 12 行 | <code>  │   ├── Inlines</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 13 行 | <code>  │   │   ├── code spans</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 14 行 | <code>  │   │   ├── emphasis</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 15 行 | <code>  │   │   ├── links</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 16 行 | <code>  │   │   ├── images</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 17 行 | <code>  │   │   ├── autolinks</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 18 行 | <code>  │   │   ├── raw HTML</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 19 行 | <code>  │   │   └── hard / soft line breaks</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 20 行 | <code>  │   └── appendices</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 21 行 | <code>  ├── GitHub Flavored Markdown</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 22 行 | <code>  │   ├── tables</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 23 行 | <code>  │   ├── task list items</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 24 行 | <code>  │   ├── strikethrough</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 25 行 | <code>  │   ├── autolinks</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 26 行 | <code>  │   └── disallowed raw HTML handling</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 27 行 | <code>  ├── GitHub writing syntax</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 28 行 | <code>  │   ├── mentions</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 29 行 | <code>  │   ├── issue and PR references</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 30 行 | <code>  │   ├── alerts</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 31 行 | <code>  │   ├── relative links</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 32 行 | <code>  │   └── task lists</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 33 行 | <code>  └── Static site generators</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 34 行 | <code>      ├── VitePress</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 35 行 | <code>      ├── frontmatter</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 36 行 | <code>      ├── sidebar</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 37 行 | <code>      ├── markdown-it plugins</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 38 行 | <code>      └── build-time link checks</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-
+| 第 1 行 | <code>Markdown</code> | 这一行里的英文要这样读：`Markdown` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
+| 第 2 行 | <code>  ├── CommonMark</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 3 行 | <code>  │   ├── Preliminaries: characters, lines, tabs, spaces</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 4 行 | <code>  │   ├── Blocks</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 5 行 | <code>  │   │   ├── paragraphs</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 6 行 | <code>  │   │   ├── headings</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 7 行 | <code>  │   │   ├── thematic breaks</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 8 行 | <code>  │   │   ├── block quotes</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 9 行 | <code>  │   │   ├── lists</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 10 行 | <code>  │   │   ├── code blocks</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 11 行 | <code>  │   │   └── HTML blocks</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 12 行 | <code>  │   ├── Inlines</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 13 行 | <code>  │   │   ├── code spans</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 14 行 | <code>  │   │   ├── emphasis</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 15 行 | <code>  │   │   ├── links</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 16 行 | <code>  │   │   ├── images</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 17 行 | <code>  │   │   ├── autolinks</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 18 行 | <code>  │   │   ├── raw HTML</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 19 行 | <code>  │   │   └── hard / soft line breaks</code> | `│   │   └── hard / soft line breaks` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 20 行 | <code>  │   └── appendices</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 21 行 | <code>  ├── GitHub Flavored Markdown</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 22 行 | <code>  │   ├── tables</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 23 行 | <code>  │   ├── task list items</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 24 行 | <code>  │   ├── strikethrough</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 25 行 | <code>  │   ├── autolinks</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 26 行 | <code>  │   └── disallowed raw HTML handling</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 27 行 | <code>  ├── GitHub writing syntax</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 28 行 | <code>  │   ├── mentions</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 29 行 | <code>  │   ├── issue and PR references</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 30 行 | <code>  │   ├── alerts</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 31 行 | <code>  │   ├── relative links</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 32 行 | <code>  │   └── task lists</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 33 行 | <code>  └── Static site generators</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 34 行 | <code>      ├── VitePress</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 35 行 | <code>      ├── frontmatter</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 36 行 | <code>      ├── sidebar</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 37 行 | <code>      ├── markdown-it plugins</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 38 行 | <code>      └── build-time link checks</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
 
 本篇把这些资料拆成三层：
 
@@ -175,23 +174,22 @@ Markdown files
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>operations experience</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  ├── commands</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 3 行 | <code>  ├── configs</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 4 行 | <code>  ├── screenshots</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 5 行 | <code>  ├── incidents</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 6 行 | <code>  ├── runbooks</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 7 行 | <code>  └── labs</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 8 行 | <code>        &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 9 行 | <code>        v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 10 行 | <code>Markdown files</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 11 行 | <code>        &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 1 行 | <code>operations experience</code> | 这一行里的英文要这样读：`operations experience` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 2 行 | <code>  ├── commands</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 3 行 | <code>  ├── configs</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 4 行 | <code>  ├── screenshots</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 5 行 | <code>  ├── incidents</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 6 行 | <code>  ├── runbooks</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 7 行 | <code>  └── labs</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 8 行 | <code>        &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
+| 第 9 行 | <code>        v</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
+| 第 10 行 | <code>Markdown files</code> | 这一行里的英文要这样读：`Markdown files` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 11 行 | <code>        &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
 | 第 12 行 | <code>        +--&gt; GitHub README</code> | 这一行要理解这些英文词：`GitHub README` 是github=代码托管平台。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 13 行 | <code>        +--&gt; VitePress docs site</code> | 这一行要理解这些英文词：`VitePress docs site` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 14 行 | <code>        +--&gt; Pull Request review</code> | 这一行要理解这些英文词：`Pull Request review` 是review=复盘或评审。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 15 行 | <code>        +--&gt; interview portfolio</code> | 这一行要理解这些英文词：`interview portfolio` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 16 行 | <code>        +--&gt; future runbook automation</code> | 这一行要理解这些英文词：`future runbook automation` 是runbook=故障处理手册，automation=自动化。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 13 行 | <code>        +--&gt; VitePress docs site</code> | 这一行要理解这些英文词：`VitePress docs site` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 14 行 | <code>        +--&gt; Pull Request review</code> | 这一行要理解这些英文词：`Pull Request review` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 15 行 | <code>        +--&gt; interview portfolio</code> | 这一行要理解这些英文词：`interview portfolio` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 16 行 | <code>        +--&gt; future runbook automation</code> | 这一行要理解这些英文词：`future runbook automation` 是runbook=故障处理手册。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 Markdown 是 AIOps 知识库的承载格式：
 
@@ -220,11 +218,10 @@ Markdown text
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>Markdown text</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; parser</code> | 这一行要理解这些英文词：`parser` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; HTML</code> | 这一行要理解这些英文词：`HTML` 是英文缩写或固定标识，结合本节上下文记住它代表的组件、命令或状态。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; GitHub / VitePress / browser</code> | 这一行要理解这些英文词：`GitHub` 是代码托管平台；`VitePress` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`browser` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 1 行 | <code>Markdown text</code> | 这一行里的英文要这样读：`Markdown text` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 2 行 | <code>  -&gt; parser</code> | 这一行要理解这些英文词：`parser` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; HTML</code> | 这一行要理解这些英文词：`HTML` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; GitHub / VitePress / browser</code> | 这一行要理解这些英文词：`GitHub` 是代码托管平台；`VitePress` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`browser` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 例子：
 
@@ -246,18 +243,11 @@ prometheus --config.file=prometheus.yml
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code># Prometheus</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 1 行 | <code># Prometheus</code> | 这一行里的英文要这样读：`Prometheus` 是指标采集和告警规则评估系统。 |
 | 第 3 行 | <code>Prometheus 用于采集和查询指标。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 4 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 5 行 | <code>- 指标采集</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
-| 第 6 行 | <code>- PromQL</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
-| 第 7 行 | <code>- 告警规则</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
-| 第 8 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 6 行 | <code>- PromQL</code> | 这一行里的英文要这样读：`PromQL` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
 | 第 9 行 | <code>```bash</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
 | 第 10 行 | <code>prometheus --config.file=prometheus.yml</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 11 行 | <code>```</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-
 
 渲染后会变成：
 
@@ -311,21 +301,19 @@ inline parsing
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>block parsing</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; headings</code> | 这一行要理解这些英文词：`headings` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; paragraphs</code> | 这一行要理解这些英文词：`paragraphs` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; lists</code> | 这一行要理解这些英文词：`lists` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; block quotes</code> | 这一行要理解这些英文词：`block quotes` 是block=配置块。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; code blocks</code> | 这一行要理解这些英文词：`code blocks` 是blocks=配置块。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; tables</code> | 这一行要理解这些英文词：`tables` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
-| 第 9 行 | <code>inline parsing</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 10 行 | <code>  -&gt; emphasis</code> | 这一行要理解这些英文词：`emphasis` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 11 行 | <code>  -&gt; links</code> | 这一行要理解这些英文词：`links` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 12 行 | <code>  -&gt; images</code> | 这一行要理解这些英文词：`images` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 13 行 | <code>  -&gt; code spans</code> | 这一行要理解这些英文词：`code spans` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 14 行 | <code>  -&gt; escapes</code> | 这一行要理解这些英文词：`escapes` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 1 行 | <code>block parsing</code> | 这一行里的英文要这样读：`block parsing` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 2 行 | <code>  -&gt; headings</code> | 这一行要理解这些英文词：`headings` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; paragraphs</code> | 这一行要理解这些英文词：`paragraphs` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; lists</code> | 这一行要理解这些英文词：`lists` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; block quotes</code> | 这一行要理解这些英文词：`block quotes` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; code blocks</code> | 这一行要理解这些英文词：`code blocks` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; tables</code> | 这一行要理解这些英文词：`tables` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>inline parsing</code> | 这一行里的英文要这样读：`inline parsing` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 10 行 | <code>  -&gt; emphasis</code> | 这一行要理解这些英文词：`emphasis` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>  -&gt; links</code> | 这一行要理解这些英文词：`links` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 12 行 | <code>  -&gt; images</code> | 这一行要理解这些英文词：`images` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 13 行 | <code>  -&gt; code spans</code> | 这一行要理解这些英文词：`code spans` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 14 行 | <code>  -&gt; escapes</code> | 这一行要理解这些英文词：`escapes` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 也就是说，Markdown 先识别“这一块是什么”，再识别块里面的行内元素。
 
@@ -341,10 +329,7 @@ inline parsing
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>## 排障步骤</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
 | 第 3 行 | <code>执行 `docker compose ps` 查看服务状态。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-
 
 块级结构：
 
@@ -368,31 +353,12 @@ Markdown 中，段落通常由空行分隔。
 
 第二段：描述排查结论。
 ````
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>第一段：描述故障现象。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 3 行 | <code>第二段：描述排查结论。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-
-
 不清晰：
 
 ````markdown
 第一段：描述故障现象。
 第二段：描述排查结论。
 ````
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>第一段：描述故障现象。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 2 行 | <code>第二段：描述排查结论。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-
-
 在很多渲染器里，这会被当成同一个段落，中间只是软换行。
 
 AIOps 文档建议：
@@ -413,17 +379,6 @@ AIOps 文档建议：
 ### 三级标题
 #### 四级标题
 ````
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code># 一级标题</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 2 行 | <code>## 二级标题</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 3 行 | <code>### 三级标题</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 4 行 | <code>#### 四级标题</code> | Markdown 标题行，用来组织文档层级。 |
-
-
 规则：
 
 | 规则 | 原因 |
@@ -445,10 +400,7 @@ AIOps 文档建议：
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code># Docker</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 2 行 | <code>### 镜像</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 3 行 | <code>## 容器</code> | Markdown 标题行，用来组织文档层级。 |
-
+| 第 1 行 | <code># Docker</code> | 这一行里的英文要这样读：`Docker` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
 
 好例子：
 
@@ -466,14 +418,7 @@ AIOps 文档建议：
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code># Docker</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 3 行 | <code>## 核心概念</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 4 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 5 行 | <code>### 镜像</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 6 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 7 行 | <code>### 容器</code> | Markdown 标题行，用来组织文档层级。 |
-
+| 第 1 行 | <code># Docker</code> | 这一行里的英文要这样读：`Docker` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
 
 VitePress 会根据标题生成页面锚点和右侧目录。标题层级乱，目录也会乱。
 
@@ -485,15 +430,6 @@ Markdown 中普通换行不一定表示新段落。
 第一行
 第二行
 ````
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>第一行</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 2 行 | <code>第二行</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-
-
 很多渲染器会显示成同一个段落中的软换行。
 
 如果要新段落，用空行：
@@ -503,16 +439,6 @@ Markdown 中普通换行不一定表示新段落。
 
 第二段。
 ````
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>第一段。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 3 行 | <code>第二段。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-
-
 如果确实要硬换行，可以使用两个空格加换行，或 HTML `<br>`。但工程文档里建议少用硬换行，优先用列表或新段落组织。
 
 ## 强调和加粗
@@ -524,16 +450,6 @@ Markdown 中普通换行不一定表示新段落。
 这是 **加粗**。
 这是 ***加粗并强调***。
 ````
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>这是 *强调*。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 2 行 | <code>这是 **加粗**。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 3 行 | <code>这是 ***加粗并强调***。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-
-
 AIOps 文档中，加粗适合用于：
 
 - 关键结论。
@@ -560,7 +476,6 @@ AIOps 文档中，加粗适合用于：
 | 第 2 行 | <code>配置文件是 `prometheus.yml`。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
 | 第 3 行 | <code>字段 `scrape_interval` 表示抓取间隔。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
 
-
 适合加行内代码的内容：
 
 | 类型 | 示例 |
@@ -584,7 +499,6 @@ AIOps 文档中，加粗适合用于：
 |---|---|---|
 | 第 1 行 | <code>``Use `code` inside.``</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
 
-
 ## 代码块
 
 代码块用于命令、配置、代码、输出。
@@ -603,8 +517,6 @@ docker compose ps
 |---|---|---|
 | 第 1 行 | <code>```bash</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
 | 第 2 行 | <code>docker compose ps</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 3 行 | <code>```</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-
 
 渲染出来是：
 
@@ -617,7 +529,6 @@ docker compose ps
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>docker compose ps</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
-
 
 代码块建议写语言：
 
@@ -654,9 +565,6 @@ git status
 | 第 1 行 | <code>````markdown</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
 | 第 2 行 | <code>```bash</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
 | 第 3 行 | <code>git status</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 4 行 | <code>```</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 5 行 | <code>````</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-
 
 ## 命令和输出要分开
 
@@ -671,7 +579,6 @@ git status
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>执行 docker ps 看到 CONTAINER ID IMAGE STATUS...</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-
 
 好例子：
 
@@ -693,18 +600,10 @@ CONTAINER ID   IMAGE     STATUS
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>运行命令：</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
 | 第 3 行 | <code>```bash</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
 | 第 4 行 | <code>docker ps</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 5 行 | <code>```</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 6 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 7 行 | <code>预期输出包含：</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 8 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
 | 第 9 行 | <code>```text</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
 | 第 10 行 | <code>CONTAINER ID   IMAGE     STATUS</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 11 行 | <code>```</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-
 
 为什么要分开：
 
@@ -726,10 +625,9 @@ CONTAINER ID   IMAGE     STATUS
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>- Prometheus</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
-| 第 2 行 | <code>- Grafana</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
-| 第 3 行 | <code>- Docker Compose</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
-
+| 第 1 行 | <code>- Prometheus</code> | 这一行里的英文要这样读：`Prometheus` 是指标采集和告警规则评估系统。 |
+| 第 2 行 | <code>- Grafana</code> | 这一行里的英文要这样读：`Grafana` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
+| 第 3 行 | <code>- Docker Compose</code> | 这一行里的英文要这样读：`Docker Compose` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 有序列表：
 
@@ -746,7 +644,6 @@ CONTAINER ID   IMAGE     STATUS
 | 第 1 行 | <code>1. 启动 Prometheus。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
 | 第 2 行 | <code>2. 打开 `/targets`。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
 | 第 3 行 | <code>3. 确认 target 是 UP。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-
 
 建议：
 
@@ -770,12 +667,11 @@ CONTAINER ID   IMAGE     STATUS
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>1. 检查 Prometheus。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 2 行 | <code>   - 打开 `/targets`。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
-| 第 3 行 | <code>   - 查看 Last Error。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 2 行 | <code>   - 打开 `/targets`。</code> | 这一行里的英文要这样读：`targets` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 3 行 | <code>   - 查看 Last Error。</code> | 这一行里的英文要这样读：`Last Error` 这个英文标识可以拆开理解为：错误。 |
 | 第 4 行 | <code>2. 检查 Grafana。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 5 行 | <code>   - 打开 data source。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
-| 第 6 行 | <code>   - 点击 Save &amp; test。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
-
+| 第 5 行 | <code>   - 打开 data source。</code> | 这一行里的英文要这样读：`data source` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 6 行 | <code>   - 点击 Save &amp; test。</code> | 这一行里的英文要这样读：`Save` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源；`test` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 嵌套太深会影响可读性。超过两层时，考虑拆成小标题。
 
@@ -792,7 +688,6 @@ CONTAINER ID   IMAGE     STATUS
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>&gt; 注意：`docker compose down -v` 会删除命名卷，Grafana 数据可能丢失。</code> | Markdown 引用行，用来突出说明、提示或学习目标。 |
-
 
 适合：
 
@@ -816,7 +711,6 @@ CONTAINER ID   IMAGE     STATUS
 |---|---|---|
 | 第 1 行 | <code>[Prometheus 官方文档](https://prometheus.io/docs/)</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
 
-
 相对链接：
 
 ````markdown
@@ -829,20 +723,11 @@ CONTAINER ID   IMAGE     STATUS
 |---|---|---|
 | 第 1 行 | <code>[Docker 深讲](../cloud-native/docker.md)</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
 
-
 链接由两部分组成：
 
 ```text
 [显示文本](目标地址)
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>[显示文本](目标地址)</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
-
 建议：
 
 | 做法 | 原因 |
@@ -864,7 +749,6 @@ CONTAINER ID   IMAGE     STATUS
 |---|---|---|
 | 第 1 行 | <code>[点击这里](../docker.md)</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
 
-
 好例子：
 
 ````markdown
@@ -876,7 +760,6 @@ CONTAINER ID   IMAGE     STATUS
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>[Docker 深讲](../cloud-native/docker.md)</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-
 
 ## 图片
 
@@ -892,20 +775,11 @@ CONTAINER ID   IMAGE     STATUS
 |---|---|---|
 | 第 1 行 | <code>![Prometheus targets 页面](./images/prometheus-targets.png)</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
 
-
 结构：
 
 ```text
 ![替代文本](图片路径)
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>![替代文本](图片路径)</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
-
 替代文本不是随便写，它应该描述图片内容。这样图片加载失败时，读者仍然知道它是什么。
 
 建议：
@@ -930,11 +804,10 @@ GFM 支持表格。
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>&#124; 技术 &#124; 作用 &#124; AIOps 场景 &#124;</code> | Markdown 表格行，用来对齐展示字段和说明。 |
+| 第 1 行 | <code>&#124; 技术 &#124; 作用 &#124; AIOps 场景 &#124;</code> | 这一行里的英文要这样读：`AIOps` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
 | 第 2 行 | <code>&#124;---&#124;---&#124;---&#124;</code> | Markdown 表格行，用来对齐展示字段和说明。 |
-| 第 3 行 | <code>&#124; Prometheus &#124; 指标采集 &#124; 异常检测输入 &#124;</code> | Markdown 表格行，用来对齐展示字段和说明。 |
-| 第 4 行 | <code>&#124; Grafana &#124; 可视化 &#124; 值班 dashboard &#124;</code> | Markdown 表格行，用来对齐展示字段和说明。 |
-
+| 第 3 行 | <code>&#124; Prometheus &#124; 指标采集 &#124; 异常检测输入 &#124;</code> | 这一行里的英文要这样读：`Prometheus` 是指标采集和告警规则评估系统。 |
+| 第 4 行 | <code>&#124; Grafana &#124; 可视化 &#124; 值班 dashboard &#124;</code> | 这一行里的英文要这样读：`Grafana` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源；`dashboard` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 表格至少有：
 
@@ -956,8 +829,7 @@ GFM 支持表格。
 |---|---|---|
 | 第 1 行 | <code>&#124; 字段 &#124; 含义 &#124; 示例 &#124;</code> | Markdown 表格行，用来对齐展示字段和说明。 |
 | 第 2 行 | <code>&#124;:---&#124;:---:&#124;---:&#124;</code> | Markdown 表格行，用来对齐展示字段和说明。 |
-| 第 3 行 | <code>&#124; left &#124; center &#124; right &#124;</code> | Markdown 表格行，用来对齐展示字段和说明。 |
-
+| 第 3 行 | <code>&#124; left &#124; center &#124; right &#124;</code> | 这一行里的英文要这样读：`left` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`center` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`right` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 排障：
 
@@ -979,7 +851,6 @@ GFM 支持表格。
 |---|---|---|
 | 第 1 行 | <code>`a \&#124; b`</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
 
-
 ## 任务列表
 
 GFM 支持 task list。
@@ -995,11 +866,10 @@ GFM 支持 task list。
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>- [x] 创建 GitHub 仓库</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
-| 第 2 行 | <code>- [x] 启动 VitePress</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
-| 第 3 行 | <code>- [ ] 补齐 Prometheus 实验</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
-| 第 4 行 | <code>- [ ] 发布 GitHub Pages</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
-
+| 第 1 行 | <code>- [x] 创建 GitHub 仓库</code> | 这一行里的英文要这样读：`x` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`GitHub` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
+| 第 2 行 | <code>- [x] 启动 VitePress</code> | 这一行里的英文要这样读：`x` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`VitePress` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
+| 第 3 行 | <code>- [ ] 补齐 Prometheus 实验</code> | 这一行里的英文要这样读：`Prometheus` 是指标采集和告警规则评估系统。 |
+| 第 4 行 | <code>- [ ] 发布 GitHub Pages</code> | 这一行里的英文要这样读：`GitHub Pages` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 适合：
 
@@ -1023,9 +893,7 @@ GFM 支持删除线：
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>~~旧方案：手动登录服务器修改配置~~</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
 | 第 2 行 | <code>新方案：通过 GitHub Actions 发布配置。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-
 
 适合在复盘或方案演进中保留上下文。不要滥用删除线制造阅读负担。
 
@@ -1043,7 +911,6 @@ https://github.com/quweisheng/zero-to-aiops
 |---|---|---|
 | 第 1 行 | <code>https://github.com/quweisheng/zero-to-aiops</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
 
-
 但在正式文档中，更建议写成有意义的链接文本：
 
 ````markdown
@@ -1055,7 +922,6 @@ https://github.com/quweisheng/zero-to-aiops
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>[zero-to-aiops 仓库](https://github.com/quweisheng/zero-to-aiops)</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-
 
 因为裸链接不说明读者点进去会看到什么。
 
@@ -1075,7 +941,6 @@ https://github.com/quweisheng/zero-to-aiops
 | 第 1 行 | <code>\*这不是强调\*</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
 | 第 2 行 | <code>\# 这不是标题</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
 
-
 渲染后会显示星号和井号。
 
 常见需要转义的字符：
@@ -1088,8 +953,7 @@ https://github.com/quweisheng/zero-to-aiops
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>\ ` * _ { } [ ] ( ) # + - . ! &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>\ ` * _ { } [ ] ( ) # + - . ! &#124;</code> | `\ ` * _ { } [ ] ( ) # + - . ! |` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 表格里尤其要注意 `|`。
 
@@ -1114,11 +978,7 @@ Markdown 允许嵌入部分 HTML。
 | 第 1 行 | <code>&lt;br&gt;</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
 | 第 2 行 | <code>&lt;details&gt;</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
 | 第 3 行 | <code>&lt;summary&gt;展开排障细节&lt;/summary&gt;</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 4 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 5 行 | <code>这里是详细内容。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 6 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
 | 第 7 行 | <code>&lt;/details&gt;</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-
 
 但知识库里建议少用 HTML：
 
@@ -1147,13 +1007,9 @@ description: 从零学习 Prometheus 数据模型、PromQL 和告警规则
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>---</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
 | 第 2 行 | <code>title: Prometheus 精讲</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
 | 第 3 行 | <code>description: 从零学习 Prometheus 数据模型、PromQL 和告警规则</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 4 行 | <code>---</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 5 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 6 行 | <code># Prometheus 精讲</code> | Markdown 标题行，用来组织文档层级。 |
-
+| 第 6 行 | <code># Prometheus 精讲</code> | 这一行里的英文要这样读：`Prometheus` 是指标采集和告警规则评估系统。 |
 
 Frontmatter 必须放在文件最开头。常见用途：
 
@@ -1190,7 +1046,6 @@ GitHub alerts 示例：
 |---|---|---|
 | 第 1 行 | <code>&gt; [!WARNING]</code> | Markdown 引用行，用来突出说明、提示或学习目标。 |
 | 第 2 行 | <code>&gt; 不要把 token 提交到仓库。</code> | Markdown 引用行，用来突出说明、提示或学习目标。 |
-
 
 注意：GitHub alerts 在 GitHub 上效果好，但不是所有 Markdown 渲染器都支持。VitePress 支持自己的容器语法，具体在 VitePress 篇讲。
 
@@ -1348,38 +1203,7 @@ GitHub alerts 示例：
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code># 技术名</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 3 行 | <code>&gt; 目标：学完能做什么。</code> | Markdown 引用行，用来突出说明、提示或学习目标。 |
-| 第 4 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 5 行 | <code>## 官方资料</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 6 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 7 行 | <code>## 场景开场</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 8 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 9 行 | <code>## 一句话人话版</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 10 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 11 行 | <code>## 官方知识地图</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 12 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 13 行 | <code>## 是什么</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 14 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 15 行 | <code>## 为什么需要</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 16 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 17 行 | <code>## 怎么工作</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 18 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 19 行 | <code>## 核心概念</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 20 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 21 行 | <code>## 命令 / 配置 / API 字典</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 22 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 23 行 | <code>## 入门实验</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 24 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 25 行 | <code>## 常见故障排查</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 26 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 27 行 | <code>## 面试怎么讲</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 28 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 29 行 | <code>## 学习检查清单</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 30 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 31 行 | <code>## 学习证据</code> | Markdown 标题行，用来组织文档层级。 |
-
+| 第 21 行 | <code>## 命令 / 配置 / API 字典</code> | 这一行里的英文要这样读：`API` 是应用程序接口。 |
 
 ### Runbook 模板
 
@@ -1409,26 +1233,7 @@ GitHub alerts 示例：
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code># Runbook: 服务不可用</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 3 行 | <code>## 适用场景</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 4 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 5 行 | <code>## 影响判断</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 6 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 7 行 | <code>## 前置条件</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 8 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 9 行 | <code>## 检查步骤</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 10 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 11 行 | <code>## 处理步骤</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 12 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 13 行 | <code>## 验证方式</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 14 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 15 行 | <code>## 风险</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 16 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 17 行 | <code>## 回滚</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 18 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 19 行 | <code>## 相关链接</code> | Markdown 标题行，用来组织文档层级。 |
-
+| 第 1 行 | <code># Runbook: 服务不可用</code> | 这一行里的英文要这样读：`Runbook` 是故障处理手册。 |
 
 ### 事故复盘模板
 
@@ -1455,34 +1260,6 @@ GitHub alerts 示例：
 
 ## 证据链接
 ````
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code># 事故复盘：标题</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 3 行 | <code>## 摘要</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 4 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 5 行 | <code>## 影响</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 6 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 7 行 | <code>## 时间线</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 8 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 9 行 | <code>## 根因</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 10 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 11 行 | <code>## 触发条件</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 12 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 13 行 | <code>## 处理过程</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 14 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 15 行 | <code>## 做得好的地方</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 16 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 17 行 | <code>## 待改进</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 18 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 19 行 | <code>## 行动项</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 20 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 21 行 | <code>## 证据链接</code> | Markdown 标题行，用来组织文档层级。 |
-
-
 ### 实验记录模板
 
 ````markdown
@@ -1511,26 +1288,7 @@ GitHub alerts 示例：
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code># 实验：Prometheus + Grafana</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 3 行 | <code>## 目标</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 4 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 5 行 | <code>## 环境</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 6 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 7 行 | <code>## 文件结构</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 8 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 9 行 | <code>## 启动命令</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 10 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 11 行 | <code>## 验证方式</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 12 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 13 行 | <code>## 预期结果</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 14 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 15 行 | <code>## 遇到的问题</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 16 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 17 行 | <code>## 结论</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 18 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 19 行 | <code>## 下一步</code> | Markdown 标题行，用来组织文档层级。 |
-
+| 第 1 行 | <code># 实验：Prometheus + Grafana</code> | 这一行里的英文要这样读：`Prometheus` 是指标采集和告警规则评估系统；`Grafana` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
 
 ## 好 Markdown 的判断标准
 
@@ -1567,8 +1325,7 @@ docs/learning-records/markdown-first-note.md
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>docs/learning-records/markdown-first-note.md</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>docs/learning-records/markdown-first-note.md</code> | `docs/learning-records/markdown-first-note.md` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 ### 第 2 步：写入结构
 
@@ -1613,41 +1370,17 @@ On branch main
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code># 学习记录：Markdown 基础</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 3 行 | <code>## 今天学了什么</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 4 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 5 行 | <code>- 标题</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
-| 第 6 行 | <code>- 列表</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
-| 第 7 行 | <code>- 代码块</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
-| 第 8 行 | <code>- 表格</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
-| 第 9 行 | <code>- 链接</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
-| 第 10 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 11 行 | <code>## 我运行的命令</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 12 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 1 行 | <code># 学习记录：Markdown 基础</code> | 这一行里的英文要这样读：`Markdown` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
 | 第 13 行 | <code>```bash</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
 | 第 14 行 | <code>git status</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 15 行 | <code>```</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 16 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 17 行 | <code>## 命令输出说明</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 18 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
 | 第 19 行 | <code>```text</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
 | 第 20 行 | <code>On branch main</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 21 行 | <code>```</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 22 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
 | 第 23 行 | <code>这说明我当前在 `main` 分支。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 24 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 25 行 | <code>## 遇到的问题</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 26 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
 | 第 27 行 | <code>&#124; 现象 &#124; 原因 &#124; 处理 &#124;</code> | Markdown 表格行，用来对齐展示字段和说明。 |
 | 第 28 行 | <code>&#124;---&#124;---&#124;---&#124;</code> | Markdown 表格行，用来对齐展示字段和说明。 |
 | 第 29 行 | <code>&#124; 表格没渲染 &#124; 缺少分隔行 &#124; 补上 `&#124;---&#124;---&#124;` &#124;</code> | Markdown 表格行，用来对齐展示字段和说明。 |
-| 第 30 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 31 行 | <code>## 下一步</code> | Markdown 标题行，用来组织文档层级。 |
-| 第 32 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 33 行 | <code>- [ ] 写一个 runbook 模板</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 33 行 | <code>- [ ] 写一个 runbook 模板</code> | 这一行里的英文要这样读：`runbook` 是故障处理手册。 |
 | 第 34 行 | <code>- [ ] 写一篇事故复盘模板</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
-
 
 ### 第 3 步：本地构建验证
 
@@ -1660,7 +1393,6 @@ npm run docs:build
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>npm run docs:build</code> | 执行 Node.js 项目脚本或依赖命令，常用于安装依赖、测试和构建文档站。 |
-
 
 ### 第 4 步：提交 Git
 
@@ -1675,7 +1407,6 @@ git commit -m "docs: add first markdown learning note"
 |---|---|---|
 | 第 1 行 | <code>git add docs/learning-records/markdown-first-note.md</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
 | 第 2 行 | <code>git commit -m "docs: add first markdown learning note"</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
-
 
 ## 常见故障排查
 
@@ -1704,8 +1435,7 @@ git commit -m "docs: add first markdown learning note"
 |---|---|---|
 | 第 1 行 | <code>&#124; 字段 &#124; 含义 &#124;</code> | Markdown 表格行，用来对齐展示字段和说明。 |
 | 第 2 行 | <code>&#124;---&#124;---&#124;</code> | Markdown 表格行，用来对齐展示字段和说明。 |
-| 第 3 行 | <code>&#124; job &#124; 抓取任务 &#124;</code> | Markdown 表格行，用来对齐展示字段和说明。 |
-
+| 第 3 行 | <code>&#124; job &#124; 抓取任务 &#124;</code> | 这一行里的英文要这样读：`job` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 必须有分隔行：
 
@@ -1717,8 +1447,7 @@ git commit -m "docs: add first markdown learning note"
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>&#124;---&#124;---&#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>&#124;---&#124;---&#124;</code> | 这一行是符号、路径或状态片段，需要结合上下文确认它连接的是哪个组件、文件或排障证据。 |
 
 ### 代码块吞掉后面正文
 
@@ -1739,9 +1468,6 @@ docker ps
 |---|---|---|
 | 第 1 行 | <code>```bash</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
 | 第 2 行 | <code>docker ps</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 3 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 4 行 | <code>后面的正文也会被当成代码。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-
 
 修复：
 
@@ -1759,10 +1485,6 @@ docker ps
 |---|---|---|
 | 第 1 行 | <code>```bash</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
 | 第 2 行 | <code>docker ps</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 3 行 | <code>```</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 4 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
-| 第 5 行 | <code>后面的正文恢复正常。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-
 
 ### 文档里讲代码块时渲染坏了
 
@@ -1783,9 +1505,6 @@ git status
 | 第 1 行 | <code>````markdown</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
 | 第 2 行 | <code>```bash</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
 | 第 3 行 | <code>git status</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 4 行 | <code>```</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 5 行 | <code>````</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-
 
 ### 链接在 GitHub 能点，VitePress 构建失败
 
@@ -1850,11 +1569,10 @@ docs/**/*.md
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>docs/**/*.md</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; VitePress</code> | 这一行要理解这些英文词：`VitePress` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; Vue + markdown-it</code> | 这一行要理解这些英文词：`Vue` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`markdown-it` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; static site</code> | 这一行要理解这些英文词：`static site` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 1 行 | <code>docs/**/*.md</code> | `docs/**/*.md` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 2 行 | <code>  -&gt; VitePress</code> | 这一行要理解这些英文词：`VitePress` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; Vue + markdown-it</code> | 这一行要理解这些英文词：`Vue` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`markdown-it` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; static site</code> | 这一行要理解这些英文词：`static site` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 所以写知识库时要同时考虑：
 

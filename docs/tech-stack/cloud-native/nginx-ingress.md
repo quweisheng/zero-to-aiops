@@ -34,8 +34,7 @@ https://aiops.example.com/api/alerts
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>https://aiops.example.com/api/alerts</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>https://aiops.example.com/api/alerts</code> | `https` 表示访问协议，`aiops.example.com` 是域名或主机名，`/api/alerts` 是具体接口路径；真实环境要换成自己的域名和路径。 |
 
 结果报错：
 
@@ -47,8 +46,7 @@ https://aiops.example.com/api/alerts
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>502 Bad Gateway</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>502 Bad Gateway</code> | 这一行里的英文要这样读：`Bad Gateway` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 很多新手会直接问：“后端是不是挂了？”
 
@@ -70,16 +68,14 @@ https://aiops.example.com/api/alerts
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>用户</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; DNS</code> | 这一行要理解这些英文词：`DNS` 是域名解析系统，把域名转换成 IP 地址。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 2 行 | <code>  -&gt; DNS</code> | 这一行要理解这些英文词：`DNS` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 3 行 | <code>  -&gt; 云负载均衡</code> | 这一行表示上一级主题下的子项“云负载均衡”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
-| 第 4 行 | <code>  -&gt; NGINX / Ingress Controller</code> | 这一行要理解这些英文词：`NGINX` 是高性能 Web 服务器和反向代理，常用于网关、转发和负载均衡；`Ingress Controller` 是执行 Ingress 规则的控制器，常见实现有 NGINX Ingress Controller。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; NGINX / Ingress Controller</code> | 这一行要理解这些英文词：`NGINX` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`Ingress Controller` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 5 行 | <code>  -&gt; Kubernetes Service</code> | 这一行要理解这些英文词：`Kubernetes Service` 是service=服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; EndpointSlice</code> | 这一行要理解这些英文词：`EndpointSlice` 是Kubernetes 里保存服务后端端点列表的对象。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; Pod</code> | 这一行要理解这些英文词：`Pod` 是Kubernetes 最小调度单元，里面可以运行一个或多个容器。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>  -&gt; Container 端口</code> | 这一行要理解这些英文词：`Container` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; EndpointSlice</code> | 这一行要理解这些英文词：`EndpointSlice` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; Pod</code> | 这一行要理解这些英文词：`Pod` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; Container 端口</code> | 这一行要理解这些英文词：`Container` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 9 行 | <code>  -&gt; 应用</code> | 这一行表示上一级主题下的子项“应用”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
-
 
 502 可能来自：
 
@@ -119,17 +115,16 @@ Client
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>Client</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; DNS</code> | 这一行要理解这些英文词：`DNS` 是域名解析系统，把域名转换成 IP 地址。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 1 行 | <code>Client</code> | 这一行里的英文要这样读：`Client` 是客户端。 |
+| 第 2 行 | <code>  -&gt; DNS</code> | 这一行要理解这些英文词：`DNS` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 3 行 | <code>  -&gt; Load Balancer</code> | 这一行要理解这些英文词：`Load Balancer` 是load=加载。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; NGINX / Ingress Controller</code> | 这一行要理解这些英文词：`NGINX` 是高性能 Web 服务器和反向代理，常用于网关、转发和负载均衡；`Ingress Controller` 是执行 Ingress 规则的控制器，常见实现有 NGINX Ingress Controller。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; host 匹配</code> | 这一行要理解这些英文词：`host` 是主机，可以是一台服务器、虚拟机或节点。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; path 匹配</code> | 这一行要理解这些英文词：`path` 是路径，表示文件、URL 或请求的位置。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; upstream / Service</code> | 这一行要理解这些英文词：`upstream` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`Service` 是服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>  -&gt; EndpointSlice</code> | 这一行要理解这些英文词：`EndpointSlice` 是Kubernetes 里保存服务后端端点列表的对象。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 9 行 | <code>  -&gt; Pod IP:targetPort</code> | 这一行要理解这些英文词：`Pod IP` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`targetPort` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 10 行 | <code>  -&gt; Application</code> | 这一行要理解这些英文词：`Application` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 4 行 | <code>  -&gt; NGINX / Ingress Controller</code> | 这一行要理解这些英文词：`NGINX` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`Ingress Controller` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; host 匹配</code> | 这一行要理解这些英文词：`host` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; path 匹配</code> | 这一行要理解这些英文词：`path` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; upstream / Service</code> | 这一行要理解这些英文词：`upstream` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`Service` 是服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; EndpointSlice</code> | 这一行要理解这些英文词：`EndpointSlice` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>  -&gt; Pod IP:targetPort</code> | 这一行要理解这些英文词：`Pod IP` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`targetPort` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>  -&gt; Application</code> | 这一行要理解这些英文词：`Application` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 必须掌握：
 
@@ -194,34 +189,33 @@ NGINX docs
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>NGINX docs</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; Beginner's Guide</code> | 这一行要理解这些英文词：`Beginner` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`s Guide` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; Admin Guide</code> | 这一行要理解这些英文词：`Admin Guide` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>     -&gt; Web Server</code> | 这一行要理解这些英文词：`Web Server` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>     -&gt; Reverse Proxy</code> | 这一行要理解这些英文词：`Reverse Proxy` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 1 行 | <code>NGINX docs</code> | 这一行里的英文要这样读：`NGINX docs` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 2 行 | <code>  -&gt; Beginner's Guide</code> | 这一行要理解这些英文词：`Beginner` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`s Guide` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; Admin Guide</code> | 这一行要理解这些英文词：`Admin Guide` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>     -&gt; Web Server</code> | 这一行要理解这些英文词：`Web Server` 是server=服务端。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>     -&gt; Reverse Proxy</code> | 这一行要理解这些英文词：`Reverse Proxy` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 6 行 | <code>     -&gt; Load Balancing</code> | 这一行要理解这些英文词：`Load Balancing` 是load=加载。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>     -&gt; SSL Termination</code> | 这一行要理解这些英文词：`SSL Termination` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>  -&gt; Reference</code> | 这一行要理解这些英文词：`Reference` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 9 行 | <code>     -&gt; ngx_http_core_module</code> | 这一行要理解这些英文词：`ngx_http_core_module` 是http=超文本传输协议，module=模块。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 10 行 | <code>        -&gt; server</code> | 这一行要理解这些英文词：`server` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 11 行 | <code>        -&gt; location</code> | 这一行要理解这些英文词：`location` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 12 行 | <code>        -&gt; listen</code> | 这一行要理解这些英文词：`listen` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 13 行 | <code>        -&gt; server_name</code> | 这一行要理解这些英文词：`server_name` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>     -&gt; SSL Termination</code> | 这一行要理解这些英文词：`SSL Termination` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; Reference</code> | 这一行要理解这些英文词：`Reference` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>     -&gt; ngx_http_core_module</code> | 这一行要理解这些英文词：`ngx_http_core_module` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>        -&gt; server</code> | 这一行要理解这些英文词：`server` 是服务端。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>        -&gt; location</code> | 这一行要理解这些英文词：`location` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 12 行 | <code>        -&gt; listen</code> | 这一行要理解这些英文词：`listen` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 13 行 | <code>        -&gt; server_name</code> | 这一行要理解这些英文词：`server_name` 是server=服务端。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 14 行 | <code>        -&gt; client_max_body_size</code> | 这一行要理解这些英文词：`client_max_body_size` 是client=客户端。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 15 行 | <code>     -&gt; ngx_http_proxy_module</code> | 这一行要理解这些英文词：`ngx_http_proxy_module` 是http=超文本传输协议，module=模块。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 16 行 | <code>        -&gt; proxy_pass</code> | 这一行要理解这些英文词：`proxy_pass` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 17 行 | <code>        -&gt; proxy_set_header</code> | 这一行要理解这些英文词：`proxy_set_header` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 18 行 | <code>        -&gt; proxy_connect_timeout</code> | 这一行要理解这些英文词：`proxy_connect_timeout` 是connect=连接，timeout=超时。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 19 行 | <code>        -&gt; proxy_read_timeout</code> | 这一行要理解这些英文词：`proxy_read_timeout` 是timeout=超时。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 20 行 | <code>        -&gt; proxy_send_timeout</code> | 这一行要理解这些英文词：`proxy_send_timeout` 是timeout=超时。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 21 行 | <code>     -&gt; ngx_http_upstream_module</code> | 这一行要理解这些英文词：`ngx_http_upstream_module` 是http=超文本传输协议，module=模块。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 22 行 | <code>        -&gt; upstream</code> | 这一行要理解这些英文词：`upstream` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 23 行 | <code>        -&gt; server</code> | 这一行要理解这些英文词：`server` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 24 行 | <code>        -&gt; keepalive</code> | 这一行要理解这些英文词：`keepalive` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 25 行 | <code>     -&gt; ngx_http_log_module</code> | 这一行要理解这些英文词：`ngx_http_log_module` 是http=超文本传输协议，module=模块。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 26 行 | <code>        -&gt; log_format</code> | 这一行要理解这些英文词：`log_format` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 27 行 | <code>        -&gt; access_log</code> | 这一行要理解这些英文词：`access_log` 是access=访问。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 15 行 | <code>     -&gt; ngx_http_proxy_module</code> | 这一行要理解这些英文词：`ngx_http_proxy_module` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 16 行 | <code>        -&gt; proxy_pass</code> | 这一行要理解这些英文词：`proxy_pass` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 17 行 | <code>        -&gt; proxy_set_header</code> | 这一行要理解这些英文词：`proxy_set_header` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 18 行 | <code>        -&gt; proxy_connect_timeout</code> | 这一行要理解这些英文词：`proxy_connect_timeout` 是connect=连接。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 19 行 | <code>        -&gt; proxy_read_timeout</code> | 这一行要理解这些英文词：`proxy_read_timeout` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 20 行 | <code>        -&gt; proxy_send_timeout</code> | 这一行要理解这些英文词：`proxy_send_timeout` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 21 行 | <code>     -&gt; ngx_http_upstream_module</code> | 这一行要理解这些英文词：`ngx_http_upstream_module` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 22 行 | <code>        -&gt; upstream</code> | 这一行要理解这些英文词：`upstream` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 23 行 | <code>        -&gt; server</code> | 这一行要理解这些英文词：`server` 是服务端。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 24 行 | <code>        -&gt; keepalive</code> | 这一行要理解这些英文词：`keepalive` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 25 行 | <code>     -&gt; ngx_http_log_module</code> | 这一行要理解这些英文词：`ngx_http_log_module` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 26 行 | <code>        -&gt; log_format</code> | 这一行要理解这些英文词：`log_format` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 27 行 | <code>        -&gt; access_log</code> | 这一行要理解这些英文词：`access_log` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 Kubernetes Ingress 官方资料按这些概念组织：
 
@@ -255,30 +249,27 @@ ingress-nginx
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>Kubernetes Service</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; selector</code> | 这一行要理解这些英文词：`selector` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; port / targetPort</code> | 这一行要理解这些英文词：`port` 是端口，网络服务监听请求的入口编号；`targetPort` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; EndpointSlice</code> | 这一行要理解这些英文词：`EndpointSlice` 是Kubernetes 里保存服务后端端点列表的对象。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
-| 第 6 行 | <code>Kubernetes Ingress</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 7 行 | <code>  -&gt; Ingress resource</code> | 这一行要理解这些英文词：`Ingress resource` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>  -&gt; Ingress Controller</code> | 这一行要理解这些英文词：`Ingress Controller` 是执行 Ingress 规则的控制器，常见实现有 NGINX Ingress Controller。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 9 行 | <code>  -&gt; IngressClass</code> | 这一行要理解这些英文词：`IngressClass` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 10 行 | <code>  -&gt; rules</code> | 这一行要理解这些英文词：`rules` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 11 行 | <code>  -&gt; host</code> | 这一行要理解这些英文词：`host` 是主机，可以是一台服务器、虚拟机或节点。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 12 行 | <code>  -&gt; path</code> | 这一行要理解这些英文词：`path` 是路径，表示文件、URL 或请求的位置。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 13 行 | <code>  -&gt; pathType</code> | 这一行要理解这些英文词：`pathType` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 14 行 | <code>  -&gt; backend service</code> | 这一行要理解这些英文词：`backend service` 是backend=后端状态存储，service=服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 15 行 | <code>  -&gt; TLS</code> | 这一行要理解这些英文词：`TLS` 是加密传输协议，保护 HTTPS 等连接的安全。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 16 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
-| 第 17 行 | <code>ingress-nginx</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 18 行 | <code>  -&gt; Controller installation</code> | 这一行要理解这些英文词：`Controller installation` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 19 行 | <code>  -&gt; ConfigMap</code> | 这一行要理解这些英文词：`ConfigMap` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 20 行 | <code>  -&gt; annotations</code> | 这一行要理解这些英文词：`annotations` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 21 行 | <code>  -&gt; path matching</code> | 这一行要理解这些英文词：`path matching` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 22 行 | <code>  -&gt; TLS</code> | 这一行要理解这些英文词：`TLS` 是加密传输协议，保护 HTTPS 等连接的安全。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 23 行 | <code>  -&gt; troubleshooting</code> | 这一行要理解这些英文词：`troubleshooting` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 1 行 | <code>Kubernetes Service</code> | 这一行里的英文要这样读：`Kubernetes Service` 这个英文标识可以拆开理解为：服务名称字段。 |
+| 第 2 行 | <code>  -&gt; selector</code> | 这一行要理解这些英文词：`selector` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; port / targetPort</code> | 这一行要理解这些英文词：`port` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`targetPort` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; EndpointSlice</code> | 这一行要理解这些英文词：`EndpointSlice` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>Kubernetes Ingress</code> | 这一行里的英文要这样读：`Kubernetes Ingress` 这个英文标识可以拆开理解为：Kubernetes 入口规则。 |
+| 第 7 行 | <code>  -&gt; Ingress resource</code> | 这一行要理解这些英文词：`Ingress resource` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; Ingress Controller</code> | 这一行要理解这些英文词：`Ingress Controller` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>  -&gt; IngressClass</code> | 这一行要理解这些英文词：`IngressClass` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>  -&gt; rules</code> | 这一行要理解这些英文词：`rules` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>  -&gt; host</code> | 这一行要理解这些英文词：`host` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 12 行 | <code>  -&gt; path</code> | 这一行要理解这些英文词：`path` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 13 行 | <code>  -&gt; pathType</code> | 这一行要理解这些英文词：`pathType` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 14 行 | <code>  -&gt; backend service</code> | 这一行要理解这些英文词：`backend service` 是service=服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 15 行 | <code>  -&gt; TLS</code> | 这一行要理解这些英文词：`TLS` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 17 行 | <code>ingress-nginx</code> | 这一行里的英文要这样读：`ingress-nginx` 这个英文标识可以拆开理解为：Kubernetes 入口规则。 |
+| 第 18 行 | <code>  -&gt; Controller installation</code> | 这一行要理解这些英文词：`Controller installation` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 19 行 | <code>  -&gt; ConfigMap</code> | 这一行要理解这些英文词：`ConfigMap` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 20 行 | <code>  -&gt; annotations</code> | 这一行要理解这些英文词：`annotations` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 21 行 | <code>  -&gt; path matching</code> | 这一行要理解这些英文词：`path matching` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 22 行 | <code>  -&gt; TLS</code> | 这一行要理解这些英文词：`TLS` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 23 行 | <code>  -&gt; troubleshooting</code> | 这一行要理解这些英文词：`troubleshooting` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 新手要把两张图合起来：
 
@@ -293,11 +284,10 @@ NGINX worker 按 server/location/proxy_pass 转发真实流量
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>Ingress YAML 是规则声明</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>Ingress Controller watch Ingress/Service/EndpointSlice</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>Controller 生成或更新 NGINX 配置</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>NGINX worker 按 server/location/proxy_pass 转发真实流量</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>Ingress YAML 是规则声明</code> | 这一行里的英文要这样读：`Ingress YAML` 这个英文标识可以拆开理解为：Kubernetes 入口规则，YAML 格式输出，便于阅读结构化结果。 |
+| 第 2 行 | <code>Ingress Controller watch Ingress/Service/EndpointSlice</code> | `Ingress Controller watch Ingress/Service/EndpointSlice` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 3 行 | <code>Controller 生成或更新 NGINX 配置</code> | 这一行里的英文要这样读：`Controller` 是控制器；`NGINX` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
+| 第 4 行 | <code>NGINX worker 按 server/location/proxy_pass 转发真实流量</code> | `NGINX worker 按 server/location/proxy_pass 转发真实流量` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 ## NGINX / Ingress 在 AIOps 链路中的位置
 
@@ -326,23 +316,19 @@ NGINX/Ingress 是用户流量进入应用的关键入口。
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>用户请求</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; DNS</code> | 这一行要理解这些英文词：`DNS` 是域名解析系统，把域名转换成 IP 地址。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; CDN / WAF</code> | 这一行要理解这些英文词：`CDN` 是英文缩写或固定标识，结合本节上下文记住它代表的组件、命令或状态；`WAF` 是英文缩写或固定标识，结合本节上下文记住它代表的组件、命令或状态。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 2 行 | <code>  -&gt; DNS</code> | 这一行要理解这些英文词：`DNS` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; CDN / WAF</code> | 这一行要理解这些英文词：`CDN` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`WAF` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 4 行 | <code>  -&gt; Load Balancer</code> | 这一行要理解这些英文词：`Load Balancer` 是load=加载。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; NGINX / Ingress Controller</code> | 这一行要理解这些英文词：`NGINX` 是高性能 Web 服务器和反向代理，常用于网关、转发和负载均衡；`Ingress Controller` 是执行 Ingress 规则的控制器，常见实现有 NGINX Ingress Controller。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; NGINX / Ingress Controller</code> | 这一行要理解这些英文词：`NGINX` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`Ingress Controller` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 6 行 | <code>  -&gt; Service</code> | 这一行要理解这些英文词：`Service` 是服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; Pod</code> | 这一行要理解这些英文词：`Pod` 是Kubernetes 最小调度单元，里面可以运行一个或多个容器。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; Pod</code> | 这一行要理解这些英文词：`Pod` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 8 行 | <code>  -&gt; 应用</code> | 这一行表示上一级主题下的子项“应用”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
 | 第 9 行 | <code>  -&gt; 数据库 / 缓存 / 队列</code> | 这一行表示上一级主题下的子项“数据库 / 缓存 / 队列”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
-| 第 10 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
-| 第 11 行 | <code>观测</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 12 行 | <code>  -&gt; NGINX access log / error log</code> | 这一行要理解这些英文词：`NGINX access log` 是access=访问；`error log` 是error=错误。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 12 行 | <code>  -&gt; NGINX access log / error log</code> | 这一行要理解这些英文词：`NGINX access log` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`error log` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 13 行 | <code>  -&gt; Ingress Controller metrics</code> | 这一行要理解这些英文词：`Ingress Controller metrics` 是metrics=指标。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 14 行 | <code>  -&gt; Kubernetes events</code> | 这一行要理解这些英文词：`Kubernetes events` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 15 行 | <code>  -&gt; Service / EndpointSlice 状态</code> | 这一行要理解这些英文词：`Service` 是服务；`EndpointSlice` 是Kubernetes 里保存服务后端端点列表的对象。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 14 行 | <code>  -&gt; Kubernetes events</code> | 这一行要理解这些英文词：`Kubernetes events` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 15 行 | <code>  -&gt; Service / EndpointSlice 状态</code> | 这一行要理解这些英文词：`Service` 是服务；`EndpointSlice` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 16 行 | <code>  -&gt; Pod logs</code> | 这一行要理解这些英文词：`Pod logs` 是logs=日志。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 
 AIOps 会从这里拿到：
 
@@ -368,7 +354,6 @@ kubectl rollout restart deployment/ingress-nginx-controller -n ingress-nginx
 |---|---|---|
 | 第 1 行 | <code>kubectl rollout restart deployment/ingress-nginx-controller -n ingress-nginx</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 
-
 而应该先采集：
 
 ```bash
@@ -389,7 +374,6 @@ kubectl describe svc aiops-api -n aiops
 | 第 4 行 | <code>kubectl get pod -n aiops -l app=aiops-api -o wide</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 | 第 5 行 | <code>kubectl describe svc aiops-api -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 
-
 ## 正向代理和反向代理
 
 ### 正向代理
@@ -404,8 +388,7 @@ Client -> Forward Proxy -> Internet
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>Client -&gt; Forward Proxy -&gt; Internet</code> | 这一行要理解这些英文词：`Client` 是客户端；`Forward Proxy` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`Internet` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 1 行 | <code>Client -&gt; Forward Proxy -&gt; Internet</code> | 这一行要理解这些英文词：`Client` 是客户端；`Forward Proxy` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`Internet` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 例子：
 
@@ -426,8 +409,7 @@ Client -> Reverse Proxy -> Backend Servers
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>Client -&gt; Reverse Proxy -&gt; Backend Servers</code> | 这一行要理解这些英文词：`Client` 是客户端；`Reverse Proxy` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`Backend Servers` 是backend=后端状态存储。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 1 行 | <code>Client -&gt; Reverse Proxy -&gt; Backend Servers</code> | 这一行要理解这些英文词：`Client` 是客户端；`Reverse Proxy` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`Backend Servers` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 NGINX 常作为反向代理。
 
@@ -479,28 +461,21 @@ http {
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>main context</code> | NGINX 指令行，用来控制转发、头部、超时、日志或访问策略。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔 NGINX 配置块。 |
 | 第 3 行 | <code>events {</code> | 配置块开始，花括号内的指令只在这个上下文中生效。 |
-| 第 4 行 | <code>    # 连接事件配置</code> | NGINX 注释行，用来说明配置目的。 |
 | 第 5 行 | <code>}</code> | 配置块结束，表示当前上下文配置到这里结束。 |
-| 第 6 行 | <em>空行</em> | 空行，用来分隔 NGINX 配置块。 |
 | 第 7 行 | <code>http {</code> | 配置块开始，花括号内的指令只在这个上下文中生效。 |
 | 第 8 行 | <code>    # HTTP 全局配置</code> | NGINX 注释行，用来说明配置目的。 |
-| 第 9 行 | <em>空行</em> | 空行，用来分隔 NGINX 配置块。 |
 | 第 10 行 | <code>    upstream backend {</code> | 配置块开始，花括号内的指令只在这个上下文中生效。 |
 | 第 11 行 | <code>        server 127.0.0.1:8000;</code> | 定义一个虚拟主机入口，通常对应一个域名或端口。 |
 | 第 12 行 | <code>    }</code> | 配置块结束，表示当前上下文配置到这里结束。 |
-| 第 13 行 | <em>空行</em> | 空行，用来分隔 NGINX 配置块。 |
 | 第 14 行 | <code>    server {</code> | 配置块开始，花括号内的指令只在这个上下文中生效。 |
 | 第 15 行 | <code>        listen 80;</code> | 声明 NGINX 监听的端口。 |
 | 第 16 行 | <code>        server_name aiops.example.com;</code> | 定义一个虚拟主机入口，通常对应一个域名或端口。 |
-| 第 17 行 | <em>空行</em> | 空行，用来分隔 NGINX 配置块。 |
 | 第 18 行 | <code>        location / {</code> | 配置块开始，花括号内的指令只在这个上下文中生效。 |
 | 第 19 行 | <code>            proxy_pass http://backend;</code> | 把请求转发到后端服务，是反向代理的核心配置。 |
 | 第 20 行 | <code>        }</code> | 配置块结束，表示当前上下文配置到这里结束。 |
 | 第 21 行 | <code>    }</code> | 配置块结束，表示当前上下文配置到这里结束。 |
 | 第 22 行 | <code>}</code> | 配置块结束，表示当前上下文配置到这里结束。 |
-
 
 常见 context：
 
@@ -537,12 +512,10 @@ server {
 | 第 1 行 | <code>server {</code> | 配置块开始，花括号内的指令只在这个上下文中生效。 |
 | 第 2 行 | <code>    listen 80;</code> | 声明 NGINX 监听的端口。 |
 | 第 3 行 | <code>    server_name aiops.example.com;</code> | 定义一个虚拟主机入口，通常对应一个域名或端口。 |
-| 第 4 行 | <em>空行</em> | 空行，用来分隔 NGINX 配置块。 |
 | 第 5 行 | <code>    location / {</code> | 配置块开始，花括号内的指令只在这个上下文中生效。 |
 | 第 6 行 | <code>        proxy_pass http://127.0.0.1:8000;</code> | 把请求转发到后端服务，是反向代理的核心配置。 |
 | 第 7 行 | <code>    }</code> | 配置块结束，表示当前上下文配置到这里结束。 |
 | 第 8 行 | <code>}</code> | 配置块结束，表示当前上下文配置到这里结束。 |
-
 
 字段解释：
 
@@ -567,7 +540,6 @@ Host: aiops.example.com
 | 第 1 行 | <code>GET /api/alerts HTTP/1.1</code> | HTTP 报文示例行，用来展示请求方法、路径、头部或返回内容。 |
 | 第 2 行 | <code>Host: aiops.example.com</code> | HTTP 报文示例行，用来展示请求方法、路径、头部或返回内容。 |
 
-
 NGINX 会先根据端口和 Host 选择 server，再根据 URI 选择 location。
 
 常见问题：
@@ -587,7 +559,6 @@ curl -H "Host: aiops.example.com" http://<nginx-ip>/
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>curl -H "Host: aiops.example.com" http://&lt;nginx-ip&gt;/</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
-
 
 ## location 匹配
 
@@ -616,15 +587,12 @@ location = /health {
 | 第 1 行 | <code>location / {</code> | 配置块开始，花括号内的指令只在这个上下文中生效。 |
 | 第 2 行 | <code>    proxy_pass http://web;</code> | 把请求转发到后端服务，是反向代理的核心配置。 |
 | 第 3 行 | <code>}</code> | 配置块结束，表示当前上下文配置到这里结束。 |
-| 第 4 行 | <em>空行</em> | 空行，用来分隔 NGINX 配置块。 |
 | 第 5 行 | <code>location /api/ {</code> | 配置块开始，花括号内的指令只在这个上下文中生效。 |
 | 第 6 行 | <code>    proxy_pass http://api;</code> | 把请求转发到后端服务，是反向代理的核心配置。 |
 | 第 7 行 | <code>}</code> | 配置块结束，表示当前上下文配置到这里结束。 |
-| 第 8 行 | <em>空行</em> | 空行，用来分隔 NGINX 配置块。 |
 | 第 9 行 | <code>location = /health {</code> | 配置块开始，花括号内的指令只在这个上下文中生效。 |
 | 第 10 行 | <code>    return 200 "ok\n";</code> | NGINX 指令行，用来控制转发、头部、超时、日志或访问策略。 |
 | 第 11 行 | <code>}</code> | 配置块结束，表示当前上下文配置到这里结束。 |
-
 
 基本理解：
 
@@ -672,16 +640,13 @@ server {
 | 第 2 行 | <code>    server 10.0.1.10:8000;</code> | 定义一个虚拟主机入口，通常对应一个域名或端口。 |
 | 第 3 行 | <code>    server 10.0.1.11:8000;</code> | 定义一个虚拟主机入口，通常对应一个域名或端口。 |
 | 第 4 行 | <code>}</code> | 配置块结束，表示当前上下文配置到这里结束。 |
-| 第 5 行 | <em>空行</em> | 空行，用来分隔 NGINX 配置块。 |
 | 第 6 行 | <code>server {</code> | 配置块开始，花括号内的指令只在这个上下文中生效。 |
 | 第 7 行 | <code>    listen 80;</code> | 声明 NGINX 监听的端口。 |
 | 第 8 行 | <code>    server_name aiops.example.com;</code> | 定义一个虚拟主机入口，通常对应一个域名或端口。 |
-| 第 9 行 | <em>空行</em> | 空行，用来分隔 NGINX 配置块。 |
 | 第 10 行 | <code>    location / {</code> | 配置块开始，花括号内的指令只在这个上下文中生效。 |
 | 第 11 行 | <code>        proxy_pass http://aiops_api;</code> | 把请求转发到后端服务，是反向代理的核心配置。 |
 | 第 12 行 | <code>    }</code> | 配置块结束，表示当前上下文配置到这里结束。 |
 | 第 13 行 | <code>}</code> | 配置块结束，表示当前上下文配置到这里结束。 |
-
 
 默认负载均衡一般是轮询。
 
@@ -704,7 +669,6 @@ upstream aiops_api {
 | 第 3 行 | <code>    server 10.0.1.10:8000;</code> | 定义一个虚拟主机入口，通常对应一个域名或端口。 |
 | 第 4 行 | <code>    server 10.0.1.11:8000;</code> | 定义一个虚拟主机入口，通常对应一个域名或端口。 |
 | 第 5 行 | <code>}</code> | 配置块结束，表示当前上下文配置到这里结束。 |
-
 
 常见 upstream 问题：
 
@@ -735,7 +699,6 @@ location /api/ {
 | 第 2 行 | <code>    proxy_pass http://127.0.0.1:8000/;</code> | 把请求转发到后端服务，是反向代理的核心配置。 |
 | 第 3 行 | <code>}</code> | 配置块结束，表示当前上下文配置到这里结束。 |
 
-
 它不仅决定后端地址，也可能影响转发给后端的 URI。`proxy_pass` 后面是否带 URI 部分，会影响路径替换行为。
 
 入门建议：
@@ -756,10 +719,9 @@ NGINX 实际转发 /api/alerts
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>用户请求 /api/alerts</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>后端期望 /alerts</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>NGINX 实际转发 /api/alerts</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>用户请求 /api/alerts</code> | `用户请求 /api/alerts` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 2 行 | <code>后端期望 /alerts</code> | `后端期望 /alerts` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 3 行 | <code>NGINX 实际转发 /api/alerts</code> | `NGINX 实际转发 /api/alerts` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 或者相反。
 
@@ -786,7 +748,6 @@ proxy_set_header X-Request-ID $request_id;
 | 第 3 行 | <code>proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</code> | NGINX 指令行，用来控制转发、头部、超时、日志或访问策略。 |
 | 第 4 行 | <code>proxy_set_header X-Forwarded-Proto $scheme;</code> | NGINX 指令行，用来控制转发、头部、超时、日志或访问策略。 |
 | 第 5 行 | <code>proxy_set_header X-Request-ID $request_id;</code> | NGINX 指令行，用来控制转发、头部、超时、日志或访问策略。 |
-
 
 含义：
 
@@ -820,7 +781,6 @@ proxy_read_timeout 30s;
 | 第 2 行 | <code>proxy_send_timeout 30s;</code> | NGINX 指令行，用来控制转发、头部、超时、日志或访问策略。 |
 | 第 3 行 | <code>proxy_read_timeout 30s;</code> | NGINX 指令行，用来控制转发、头部、超时、日志或访问策略。 |
 
-
 含义：
 
 | 指令 | 含义 | 常见对应故障 |
@@ -853,7 +813,6 @@ client_max_body_size 10m;
 |---|---|---|
 | 第 1 行 | <code>client_max_body_size 10m;</code> | NGINX 指令行，用来控制转发、头部、超时、日志或访问策略。 |
 
-
 如果上传文件太大，可能返回 413。
 
 Ingress-nginx 常用 annotation：
@@ -867,7 +826,6 @@ nginx.ingress.kubernetes.io/proxy-body-size: "10m"
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>nginx.ingress.kubernetes.io/proxy-body-size: "10m"</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
-
 
 具体 annotation 以 controller 文档为准。
 
@@ -902,9 +860,7 @@ access_log /var/log/nginx/access.log main;
 | 第 6 行 | <code>                'upstream_status=$upstream_status '</code> | NGINX 指令行，用来控制转发、头部、超时、日志或访问策略。 |
 | 第 7 行 | <code>                'upstream_response_time=$upstream_response_time '</code> | NGINX 指令行，用来控制转发、头部、超时、日志或访问策略。 |
 | 第 8 行 | <code>                'request_id=$request_id';</code> | NGINX 指令行，用来控制转发、头部、超时、日志或访问策略。 |
-| 第 9 行 | <em>空行</em> | 空行，用来分隔 NGINX 配置块。 |
 | 第 10 行 | <code>access_log /var/log/nginx/access.log main;</code> | NGINX 指令行，用来控制转发、头部、超时、日志或访问策略。 |
-
 
 重要字段：
 
@@ -929,7 +885,6 @@ error_log /var/log/nginx/error.log warn;
 |---|---|---|
 | 第 1 行 | <code>error_log /var/log/nginx/error.log warn;</code> | NGINX 指令行，用来控制转发、头部、超时、日志或访问策略。 |
 
-
 常见 error log 片段：
 
 ```text
@@ -942,10 +897,9 @@ no live upstreams while connecting to upstream
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>connect() failed (111: Connection refused) while connecting to upstream</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>upstream timed out (110: Connection timed out) while reading response header from upstream</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>no live upstreams while connecting to upstream</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>connect() failed (111: Connection refused) while connecting to upstream</code> | 这一行里的英文要这样读：`connect` 是连接；`failed` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`Connection refused` 这个英文标识可以拆开理解为：连接方式；`while connecting to upstream` 这个英文标识可以拆开理解为：上游后端服务。 |
+| 第 2 行 | <code>upstream timed out (110: Connection timed out) while reading response header from upstream</code> | 这一行里的英文要这样读：`upstream timed out` 这个英文标识可以拆开理解为：上游后端服务；`Connection timed out` 这个英文标识可以拆开理解为：连接方式；`while reading response header from upstream` 这个英文标识可以拆开理解为：上游后端服务。 |
+| 第 3 行 | <code>no live upstreams while connecting to upstream</code> | 这一行里的英文要这样读：`no live upstreams while connecting to upstream` 这个英文标识可以拆开理解为：上游后端服务。 |
 
 这些比“用户说打不开”有营养得多。
 
@@ -963,7 +917,6 @@ nginx -t
 |---|---|---|
 | 第 1 行 | <code>nginx -t</code> | 执行 `nginx` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 reload：
 
 ```bash
@@ -975,7 +928,6 @@ nginx -s reload
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>nginx -s reload</code> | 执行 `nginx` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 systemd 管理时：
 
@@ -993,7 +945,6 @@ journalctl -u nginx -n 100 --no-pager
 | 第 2 行 | <code>systemctl status nginx --no-pager</code> | 管理 systemd 服务，用来启动、停止、重启或查看 Linux 服务状态。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 | 第 3 行 | <code>journalctl -u nginx -n 100 --no-pager</code> | 读取 systemd journal 日志，用来排查服务启动失败和运行错误。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
-
 修改 NGINX 配置前后，应：
 
 ```bash
@@ -1010,7 +961,6 @@ curl -v -H "Host: aiops.example.com" http://127.0.0.1/
 | 第 2 行 | <code>systemctl reload nginx</code> | 管理 systemd 服务，用来启动、停止、重启或查看 Linux 服务状态。 |
 | 第 3 行 | <code>curl -v -H "Host: aiops.example.com" http://127.0.0.1/</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
 
-
 ## Kubernetes Ingress 是什么
 
 Ingress 是 Kubernetes 的 API 对象，用于管理进入集群的 HTTP/HTTPS 路由。
@@ -1025,8 +975,7 @@ host + path -> Service
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>host + path -&gt; Service</code> | 这一行要理解这些英文词：`host` 是主机，可以是一台服务器、虚拟机或节点；`path` 是路径，表示文件、URL 或请求的位置；`Service` 是服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 1 行 | <code>host + path -&gt; Service</code> | 这一行要理解这些英文词：`host` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`path` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`Service` 是服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 最小示例：
 
@@ -1055,25 +1004,24 @@ spec:
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>apiVersion: networking.k8s.io/v1</code> | 设置 `apiVersion` 字段的值为 `networking.k8s.io/v1`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 2 行 | <code>kind: Ingress</code> | 设置 `kind` 字段的值为 `Ingress`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 1 行 | <code>apiVersion: networking.k8s.io/v1</code> | `apiVersion` 这个英文标识可以拆开理解为：应用程序接口，`networking.k8s.io/v1` 表示路径值，表示文件、目录或接口路径；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 2 行 | <code>kind: Ingress</code> | `kind` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`Ingress` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 3 行 | <code>metadata:</code> | 定义 `metadata` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 4 行 | <code>  name: aiops-api</code> | 设置 `name` 字段的值为 `aiops-api`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 5 行 | <code>  namespace: aiops</code> | 设置 `namespace` 字段的值为 `aiops`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 4 行 | <code>  name: aiops-api</code> | `name` 是名称字段，`aiops-api` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 5 行 | <code>  namespace: aiops</code> | `namespace` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`aiops` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 6 行 | <code>spec:</code> | 定义 `spec` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 7 行 | <code>  ingressClassName: nginx</code> | 设置 `ingressClassName` 字段的值为 `nginx`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 7 行 | <code>  ingressClassName: nginx</code> | `ingressClassName` 这个英文标识可以拆开理解为：Kubernetes 入口规则，名称字段，`nginx` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 8 行 | <code>  rules:</code> | 定义 `rules` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 9 行 | <code>    - host: aiops.example.com</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
 | 第 10 行 | <code>      http:</code> | 定义 `http` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 11 行 | <code>        paths:</code> | 定义 `paths` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 12 行 | <code>          - path: /</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 13 行 | <code>            pathType: Prefix</code> | 设置 `pathType` 字段的值为 `Prefix`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 13 行 | <code>            pathType: Prefix</code> | `pathType` 这个英文标识可以拆开理解为：路径，`Prefix` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 14 行 | <code>            backend:</code> | 定义 `backend` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 15 行 | <code>              service:</code> | 定义 `service` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 16 行 | <code>                name: aiops-api</code> | 设置 `name` 字段的值为 `aiops-api`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 16 行 | <code>                name: aiops-api</code> | `name` 是名称字段，`aiops-api` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 17 行 | <code>                port:</code> | 定义 `port` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 18 行 | <code>                  number: 80</code> | 设置 `number` 字段的值为 `80`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 18 行 | <code>                  number: 80</code> | `number` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`80` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 注意：Ingress 本身只是规则声明。没有 Ingress Controller，规则不会真的处理流量。
 
@@ -1117,7 +1065,6 @@ kubectl get ingressclass
 |---|---|---|
 | 第 1 行 | <code>kubectl get ingressclass</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 
-
 Ingress 中指定：
 
 ```yaml
@@ -1130,8 +1077,7 @@ spec:
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>spec:</code> | 定义 `spec` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  ingressClassName: nginx</code> | 设置 `ingressClassName` 字段的值为 `nginx`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 2 行 | <code>  ingressClassName: nginx</code> | `ingressClassName` 这个英文标识可以拆开理解为：Kubernetes 入口规则，名称字段，`nginx` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 如果 class 不匹配：
 
@@ -1154,7 +1100,6 @@ kubectl logs -n ingress-nginx deploy/ingress-nginx-controller --tail=100
 | 第 1 行 | <code>kubectl describe ingress aiops-api -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 | 第 2 行 | <code>kubectl get ingressclass</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 | 第 3 行 | <code>kubectl logs -n ingress-nginx deploy/ingress-nginx-controller --tail=100</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 
 ## Ingress rules、host、path、pathType
 
@@ -1183,13 +1128,12 @@ rules:
 | 第 3 行 | <code>    http:</code> | 定义 `http` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 4 行 | <code>      paths:</code> | 定义 `paths` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 5 行 | <code>        - path: /api</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 6 行 | <code>          pathType: Prefix</code> | 设置 `pathType` 字段的值为 `Prefix`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 6 行 | <code>          pathType: Prefix</code> | `pathType` 这个英文标识可以拆开理解为：路径，`Prefix` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 7 行 | <code>          backend:</code> | 定义 `backend` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 8 行 | <code>            service:</code> | 定义 `service` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 9 行 | <code>              name: aiops-api</code> | 设置 `name` 字段的值为 `aiops-api`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 9 行 | <code>              name: aiops-api</code> | `name` 是名称字段，`aiops-api` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 10 行 | <code>              port:</code> | 定义 `port` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 11 行 | <code>                number: 80</code> | 设置 `number` 字段的值为 `80`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 11 行 | <code>                number: 80</code> | `number` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`80` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 字段：
 
@@ -1242,19 +1186,18 @@ spec:
 | 第 2 行 | <code>  tls:</code> | 定义 `tls` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 3 行 | <code>    - hosts:</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
 | 第 4 行 | <code>        - aiops.example.com</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 5 行 | <code>      secretName: aiops-example-tls</code> | 设置 `secretName` 字段的值为 `aiops-example-tls`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 5 行 | <code>      secretName: aiops-example-tls</code> | `secretName` 这个英文标识可以拆开理解为：名称字段，`aiops-example-tls` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 6 行 | <code>  rules:</code> | 定义 `rules` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 7 行 | <code>    - host: aiops.example.com</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
 | 第 8 行 | <code>      http:</code> | 定义 `http` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 9 行 | <code>        paths:</code> | 定义 `paths` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 10 行 | <code>          - path: /</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 11 行 | <code>            pathType: Prefix</code> | 设置 `pathType` 字段的值为 `Prefix`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 11 行 | <code>            pathType: Prefix</code> | `pathType` 这个英文标识可以拆开理解为：路径，`Prefix` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 12 行 | <code>            backend:</code> | 定义 `backend` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 13 行 | <code>              service:</code> | 定义 `service` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 14 行 | <code>                name: aiops-api</code> | 设置 `name` 字段的值为 `aiops-api`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 14 行 | <code>                name: aiops-api</code> | `name` 是名称字段，`aiops-api` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 15 行 | <code>                port:</code> | 定义 `port` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 16 行 | <code>                  number: 80</code> | 设置 `number` 字段的值为 `80`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 16 行 | <code>                  number: 80</code> | `number` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`80` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 TLS Secret 通常是：
 
@@ -1274,16 +1217,15 @@ data:
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>apiVersion: v1</code> | 设置 `apiVersion` 字段的值为 `v1`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 2 行 | <code>kind: Secret</code> | 设置 `kind` 字段的值为 `Secret`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 1 行 | <code>apiVersion: v1</code> | `apiVersion` 这个英文标识可以拆开理解为：应用程序接口，`v1` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 2 行 | <code>kind: Secret</code> | `kind` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`Secret` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 3 行 | <code>metadata:</code> | 定义 `metadata` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 4 行 | <code>  name: aiops-example-tls</code> | 设置 `name` 字段的值为 `aiops-example-tls`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 5 行 | <code>  namespace: aiops</code> | 设置 `namespace` 字段的值为 `aiops`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 6 行 | <code>type: kubernetes.io/tls</code> | 设置 `type` 字段的值为 `kubernetes.io/tls`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 4 行 | <code>  name: aiops-example-tls</code> | `name` 是名称字段，`aiops-example-tls` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 5 行 | <code>  namespace: aiops</code> | `namespace` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`aiops` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 6 行 | <code>type: kubernetes.io/tls</code> | `type` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`kubernetes.io/tls` 表示路径值，表示文件、目录或接口路径；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 7 行 | <code>data:</code> | 定义 `data` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 8 行 | <code>  tls.crt: &lt;base64&gt;</code> | 设置 `tls.crt` 字段的值为 `<base64>`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 9 行 | <code>  tls.key: &lt;base64&gt;</code> | 设置 `tls.key` 字段的值为 `<base64>`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 8 行 | <code>  tls.crt: &lt;base64&gt;</code> | `tls.crt` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`<base64>` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 9 行 | <code>  tls.key: &lt;base64&gt;</code> | `tls.key` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`<base64>` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 命令创建：
 
@@ -1303,7 +1245,6 @@ kubectl create secret tls aiops-example-tls \
 | 第 3 行 | <code>  --cert=./tls.crt \</code> | 注释行，提前说明下面命令的目的或注意事项。 |
 | 第 4 行 | <code>  --key=./tls.key</code> | 注释行，提前说明下面命令的目的或注意事项。 |
 
-
 排查证书：
 
 ```bash
@@ -1316,8 +1257,7 @@ openssl s_client -connect aiops.example.com:443 -servername aiops.example.com </
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>openssl s_client -connect aiops.example.com:443 -servername aiops.example.com &lt;/dev/null 2&gt;/dev/null \</code> | 检查 TLS/证书相关信息，用来排查 HTTPS 连接问题。 |
-| 第 2 行 | <code>  &#124; openssl x509 -noout -subject -issuer -dates</code> | 执行 `` 相关命令，后面的参数决定它具体操作什么对象。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
-
+| 第 2 行 | <code>  &#124; openssl x509 -noout -subject -issuer -dates</code> | 执行 `` 相关命令，后面的参数决定它具体操作什么对象。 |
 
 常见 TLS 问题：
 
@@ -1352,7 +1292,6 @@ metadata:
 | 第 4 行 | <code>    nginx.ingress.kubernetes.io/proxy-send-timeout: "60"</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
 | 第 5 行 | <code>    nginx.ingress.kubernetes.io/proxy-body-size: "10m"</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
 
-
 常见用途：
 
 - 超时。
@@ -1383,7 +1322,6 @@ kubectl logs -n ingress-nginx deploy/ingress-nginx-controller --tail=200
 | 第 1 行 | <code>kubectl describe ingress aiops-api -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 | 第 2 行 | <code>kubectl logs -n ingress-nginx deploy/ingress-nginx-controller --tail=200</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
-
 ## 从 Ingress 到 Pod 的完整链路
 
 请求：
@@ -1396,8 +1334,7 @@ https://aiops.example.com/api/alerts
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>https://aiops.example.com/api/alerts</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>https://aiops.example.com/api/alerts</code> | `https` 表示访问协议，`aiops.example.com` 是域名或主机名，`/api/alerts` 是具体接口路径；真实环境要换成自己的域名和路径。 |
 
 链路：
 
@@ -1418,17 +1355,15 @@ https://aiops.example.com/api/alerts
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>1. DNS 解析 aiops.example.com 到 LB 地址</code> | 编号步骤，表示学习或操作时应该按顺序执行。 |
-| 第 2 行 | <code>2. LB 把流量转发给 ingress-nginx-controller Service</code> | 编号步骤，表示学习或操作时应该按顺序执行。 |
-| 第 3 行 | <code>3. Ingress Controller 的 NGINX 收到请求</code> | 编号步骤，表示学习或操作时应该按顺序执行。 |
-| 第 4 行 | <code>4. NGINX 根据 SNI/Host 匹配 aiops.example.com</code> | 编号步骤，表示学习或操作时应该按顺序执行。 |
-| 第 5 行 | <code>5. NGINX 根据 path /api/alerts 匹配 Ingress rule</code> | 编号步骤，表示学习或操作时应该按顺序执行。 |
-| 第 6 行 | <code>6. rule 指向 Service aiops-api:80</code> | 编号步骤，表示学习或操作时应该按顺序执行。 |
-| 第 7 行 | <code>7. Service selector 找到 ready Pod</code> | 编号步骤，表示学习或操作时应该按顺序执行。 |
-| 第 8 行 | <code>8. EndpointSlice 提供 Pod IP:targetPort</code> | 编号步骤，表示学习或操作时应该按顺序执行。 |
-| 第 9 行 | <code>9. NGINX 连接 Pod IP:targetPort</code> | 编号步骤，表示学习或操作时应该按顺序执行。 |
-| 第 10 行 | <code>10. 应用返回响应</code> | 编号步骤，表示学习或操作时应该按顺序执行。 |
-
+| 第 1 行 | <code>1. DNS 解析 aiops.example.com 到 LB 地址</code> | `1. DNS 解析 aiops.example.com 到 LB 地址` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 2 行 | <code>2. LB 把流量转发给 ingress-nginx-controller Service</code> | `2. LB 把流量转发给 ingress-nginx-controller Service` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 3 行 | <code>3. Ingress Controller 的 NGINX 收到请求</code> | `3. Ingress Controller 的 NGINX 收到请求` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 4 行 | <code>4. NGINX 根据 SNI/Host 匹配 aiops.example.com</code> | `4. NGINX 根据 SNI/Host 匹配 aiops.example.com` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 5 行 | <code>5. NGINX 根据 path /api/alerts 匹配 Ingress rule</code> | `5. NGINX 根据 path /api/alerts 匹配 Ingress rule` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 6 行 | <code>6. rule 指向 Service aiops-api:80</code> | `6. rule 指向 Service aiops-api:80` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 7 行 | <code>7. Service selector 找到 ready Pod</code> | `7. Service selector 找到 ready Pod` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 8 行 | <code>8. EndpointSlice 提供 Pod IP:targetPort</code> | `8. EndpointSlice 提供 Pod IP:targetPort` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 9 行 | <code>9. NGINX 连接 Pod IP:targetPort</code> | `9. NGINX 连接 Pod IP:targetPort` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 排障时按这个顺序查，不要跳。
 
@@ -1446,7 +1381,6 @@ nginx -t
 |---|---|---|
 | 第 1 行 | <code>nginx -t</code> | 执行 `nginx` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 看配置语法是否正确。
 
 ### NGINX reload
@@ -1461,7 +1395,6 @@ nginx -s reload
 |---|---|---|
 | 第 1 行 | <code>nginx -s reload</code> | 执行 `nginx` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 systemd：
 
 ```bash
@@ -1473,7 +1406,6 @@ systemctl reload nginx
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>systemctl reload nginx</code> | 管理 systemd 服务，用来启动、停止、重启或查看 Linux 服务状态。 |
-
 
 ### 查看 NGINX 状态
 
@@ -1489,7 +1421,6 @@ journalctl -u nginx -n 100 --no-pager
 | 第 1 行 | <code>systemctl status nginx --no-pager</code> | 管理 systemd 服务，用来启动、停止、重启或查看 Linux 服务状态。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 | 第 2 行 | <code>journalctl -u nginx -n 100 --no-pager</code> | 读取 systemd journal 日志，用来排查服务启动失败和运行错误。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
-
 ### 本地测 Host
 
 ```bash
@@ -1502,7 +1433,6 @@ curl -v -H "Host: aiops.example.com" http://127.0.0.1/
 |---|---|---|
 | 第 1 行 | <code>curl -v -H "Host: aiops.example.com" http://127.0.0.1/</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
 
-
 绕过 DNS 直接测某个入口 IP：
 
 ```bash
@@ -1514,7 +1444,6 @@ curl --resolve "aiops.example.com:443:203.0.113.10" https://aiops.example.com/
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>curl --resolve "aiops.example.com:443:203.0.113.10" https://aiops.example.com/</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 
 ### 查看 Ingress
 
@@ -1531,7 +1460,6 @@ kubectl get ingress aiops-api -n aiops -o yaml
 | 第 1 行 | <code>kubectl get ingress -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 | 第 2 行 | <code>kubectl describe ingress aiops-api -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 | 第 3 行 | <code>kubectl get ingress aiops-api -n aiops -o yaml</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-
 
 关注：
 
@@ -1557,7 +1485,6 @@ kubectl describe ingressclass nginx
 | 第 1 行 | <code>kubectl get ingressclass</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 | 第 2 行 | <code>kubectl describe ingressclass nginx</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 
-
 ### 查看 Controller
 
 以 ingress-nginx 为例：
@@ -1574,7 +1501,6 @@ kubectl logs -n ingress-nginx deploy/ingress-nginx-controller --tail=200
 | 第 1 行 | <code>kubectl get pods -n ingress-nginx -o wide</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 | 第 2 行 | <code>kubectl logs -n ingress-nginx deploy/ingress-nginx-controller --tail=200</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
-
 ### 查看 Service
 
 ```bash
@@ -1589,7 +1515,6 @@ kubectl describe svc aiops-api -n aiops
 | 第 1 行 | <code>kubectl get svc aiops-api -n aiops -o wide</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 | 第 2 行 | <code>kubectl describe svc aiops-api -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 
-
 ### 查看 EndpointSlice
 
 ```bash
@@ -1603,7 +1528,6 @@ kubectl describe endpointslice -n aiops -l kubernetes.io/service-name=aiops-api
 |---|---|---|
 | 第 1 行 | <code>kubectl get endpointslice -n aiops -l kubernetes.io/service-name=aiops-api</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 | 第 2 行 | <code>kubectl describe endpointslice -n aiops -l kubernetes.io/service-name=aiops-api</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-
 
 ### 查看 Pod
 
@@ -1621,7 +1545,6 @@ kubectl logs -n aiops -l app=aiops-api --tail=100
 | 第 2 行 | <code>kubectl describe pod -n aiops -l app=aiops-api</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 | 第 3 行 | <code>kubectl logs -n aiops -l app=aiops-api --tail=100</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
-
 ### 集群内测试 Service
 
 ```bash
@@ -1636,7 +1559,6 @@ kubectl run curl-test -n aiops --rm -it --image=curlimages/curl:8.10.1 --restart
 | 第 1 行 | <code>kubectl run curl-test -n aiops --rm -it --image=curlimages/curl:8.10.1 --restart=Never -- \</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 | 第 2 行 | <code>  curl -v http://aiops-api/</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
 
-
 ### 测 TLS 证书
 
 ```bash
@@ -1648,7 +1570,6 @@ openssl s_client -connect aiops.example.com:443 -servername aiops.example.com
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>openssl s_client -connect aiops.example.com:443 -servername aiops.example.com</code> | 检查 TLS/证书相关信息，用来排查 HTTPS 连接问题。 |
-
 
 ### 看 HTTP 时间分解
 
@@ -1665,7 +1586,6 @@ curl -sS -o /dev/null \
 | 第 1 行 | <code>curl -sS -o /dev/null \</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
 | 第 2 行 | <code>  -w "dns=%{time_namelookup} connect=%{time_connect} tls=%{time_appconnect} first_byte=%{time_starttransfer} total=%{time_total} code=%{http_code}\n" \</code> | 执行 `-w` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 3 行 | <code>  https://aiops.example.com/</code> | 执行 `https://aiops.example.com/` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 
 ## 配置字典
 
@@ -1765,49 +1685,48 @@ spec:
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>apiVersion: apps/v1</code> | 设置 `apiVersion` 字段的值为 `apps/v1`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 2 行 | <code>kind: Deployment</code> | 设置 `kind` 字段的值为 `Deployment`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 1 行 | <code>apiVersion: apps/v1</code> | `apiVersion` 这个英文标识可以拆开理解为：应用程序接口，`apps/v1` 表示路径值，表示文件、目录或接口路径；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 2 行 | <code>kind: Deployment</code> | `kind` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`Deployment` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 3 行 | <code>metadata:</code> | 定义 `metadata` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 4 行 | <code>  name: aiops-web</code> | 设置 `name` 字段的值为 `aiops-web`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 5 行 | <code>  namespace: aiops</code> | 设置 `namespace` 字段的值为 `aiops`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 4 行 | <code>  name: aiops-web</code> | `name` 是名称字段，`aiops-web` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 5 行 | <code>  namespace: aiops</code> | `namespace` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`aiops` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 6 行 | <code>  labels:</code> | 定义 `labels` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 7 行 | <code>    app: aiops-web</code> | 设置 `app` 字段的值为 `aiops-web`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 7 行 | <code>    app: aiops-web</code> | `app` 是应用或服务，`aiops-web` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 8 行 | <code>spec:</code> | 定义 `spec` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 9 行 | <code>  replicas: 2</code> | 设置 `replicas` 字段的值为 `2`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 9 行 | <code>  replicas: 2</code> | `replicas` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`2` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 10 行 | <code>  selector:</code> | 定义 `selector` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 11 行 | <code>    matchLabels:</code> | 定义 `matchLabels` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 12 行 | <code>      app: aiops-web</code> | 设置 `app` 字段的值为 `aiops-web`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 12 行 | <code>      app: aiops-web</code> | `app` 是应用或服务，`aiops-web` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 13 行 | <code>  template:</code> | 定义 `template` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 14 行 | <code>    metadata:</code> | 定义 `metadata` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 15 行 | <code>      labels:</code> | 定义 `labels` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 16 行 | <code>        app: aiops-web</code> | 设置 `app` 字段的值为 `aiops-web`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 16 行 | <code>        app: aiops-web</code> | `app` 是应用或服务，`aiops-web` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 17 行 | <code>    spec:</code> | 定义 `spec` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 18 行 | <code>      containers:</code> | 定义 `containers` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 19 行 | <code>        - name: web</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 20 行 | <code>          image: nginx:1.25</code> | 设置 `image` 字段的值为 `nginx:1.25`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 20 行 | <code>          image: nginx:1.25</code> | `image` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`nginx:1.25` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 21 行 | <code>          ports:</code> | 定义 `ports` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 22 行 | <code>            - name: http</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 23 行 | <code>              containerPort: 80</code> | 设置 `containerPort` 字段的值为 `80`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 23 行 | <code>              containerPort: 80</code> | `containerPort` 这个英文标识可以拆开理解为：端口，`80` 表示端口号，表示服务监听或连接入口；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 24 行 | <code>          readinessProbe:</code> | 定义 `readinessProbe` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 25 行 | <code>            httpGet:</code> | 定义 `httpGet` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 26 行 | <code>              path: /</code> | 设置 `path` 字段的值为 `/`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 27 行 | <code>              port: http</code> | 设置 `port` 字段的值为 `http`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 28 行 | <code>            initialDelaySeconds: 3</code> | 设置 `initialDelaySeconds` 字段的值为 `3`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 29 行 | <code>            periodSeconds: 5</code> | 设置 `periodSeconds` 字段的值为 `5`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 26 行 | <code>              path: /</code> | `path` 是路径，`/` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 27 行 | <code>              port: http</code> | `port` 是端口，`http` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 28 行 | <code>            initialDelaySeconds: 3</code> | `initialDelaySeconds` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`3` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 29 行 | <code>            periodSeconds: 5</code> | `periodSeconds` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`5` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 30 行 | <code>---</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
-| 第 31 行 | <code>apiVersion: v1</code> | 设置 `apiVersion` 字段的值为 `v1`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 32 行 | <code>kind: Service</code> | 设置 `kind` 字段的值为 `Service`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 31 行 | <code>apiVersion: v1</code> | `apiVersion` 这个英文标识可以拆开理解为：应用程序接口，`v1` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 32 行 | <code>kind: Service</code> | `kind` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`Service` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 33 行 | <code>metadata:</code> | 定义 `metadata` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 34 行 | <code>  name: aiops-web</code> | 设置 `name` 字段的值为 `aiops-web`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 35 行 | <code>  namespace: aiops</code> | 设置 `namespace` 字段的值为 `aiops`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 34 行 | <code>  name: aiops-web</code> | `name` 是名称字段，`aiops-web` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 35 行 | <code>  namespace: aiops</code> | `namespace` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`aiops` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 36 行 | <code>spec:</code> | 定义 `spec` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 37 行 | <code>  selector:</code> | 定义 `selector` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 38 行 | <code>    app: aiops-web</code> | 设置 `app` 字段的值为 `aiops-web`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 38 行 | <code>    app: aiops-web</code> | `app` 是应用或服务，`aiops-web` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 39 行 | <code>  ports:</code> | 定义 `ports` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 40 行 | <code>    - name: http</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 41 行 | <code>      port: 80</code> | 设置 `port` 字段的值为 `80`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 42 行 | <code>      targetPort: http</code> | 设置 `targetPort` 字段的值为 `http`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 41 行 | <code>      port: 80</code> | `port` 是端口，`80` 表示端口号，表示服务监听或连接入口；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 42 行 | <code>      targetPort: http</code> | `targetPort` 这个英文标识可以拆开理解为：端口，`http` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 应用：
 
@@ -1824,7 +1743,6 @@ kubectl get deploy,pod,svc,endpointslice -n aiops -o wide
 | 第 1 行 | <code>kubectl create namespace aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 | 第 2 行 | <code>kubectl apply -f aiops-web.yaml</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 | 第 3 行 | <code>kubectl get deploy,pod,svc,endpointslice -n aiops -o wide</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-
 
 ### 2. 创建 Ingress
 
@@ -1853,25 +1771,24 @@ spec:
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>apiVersion: networking.k8s.io/v1</code> | 设置 `apiVersion` 字段的值为 `networking.k8s.io/v1`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 2 行 | <code>kind: Ingress</code> | 设置 `kind` 字段的值为 `Ingress`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 1 行 | <code>apiVersion: networking.k8s.io/v1</code> | `apiVersion` 这个英文标识可以拆开理解为：应用程序接口，`networking.k8s.io/v1` 表示路径值，表示文件、目录或接口路径；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 2 行 | <code>kind: Ingress</code> | `kind` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`Ingress` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 3 行 | <code>metadata:</code> | 定义 `metadata` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 4 行 | <code>  name: aiops-web</code> | 设置 `name` 字段的值为 `aiops-web`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 5 行 | <code>  namespace: aiops</code> | 设置 `namespace` 字段的值为 `aiops`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 4 行 | <code>  name: aiops-web</code> | `name` 是名称字段，`aiops-web` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 5 行 | <code>  namespace: aiops</code> | `namespace` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`aiops` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 6 行 | <code>spec:</code> | 定义 `spec` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 7 行 | <code>  ingressClassName: nginx</code> | 设置 `ingressClassName` 字段的值为 `nginx`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 7 行 | <code>  ingressClassName: nginx</code> | `ingressClassName` 这个英文标识可以拆开理解为：Kubernetes 入口规则，名称字段，`nginx` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 8 行 | <code>  rules:</code> | 定义 `rules` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 9 行 | <code>    - host: aiops.local</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
 | 第 10 行 | <code>      http:</code> | 定义 `http` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 11 行 | <code>        paths:</code> | 定义 `paths` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 12 行 | <code>          - path: /</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 13 行 | <code>            pathType: Prefix</code> | 设置 `pathType` 字段的值为 `Prefix`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 13 行 | <code>            pathType: Prefix</code> | `pathType` 这个英文标识可以拆开理解为：路径，`Prefix` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 14 行 | <code>            backend:</code> | 定义 `backend` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 15 行 | <code>              service:</code> | 定义 `service` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 16 行 | <code>                name: aiops-web</code> | 设置 `name` 字段的值为 `aiops-web`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 16 行 | <code>                name: aiops-web</code> | `name` 是名称字段，`aiops-web` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 17 行 | <code>                port:</code> | 定义 `port` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 18 行 | <code>                  number: 80</code> | 设置 `number` 字段的值为 `80`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 18 行 | <code>                  number: 80</code> | `number` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`80` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 应用：
 
@@ -1887,7 +1804,6 @@ kubectl describe ingress aiops-web -n aiops
 | 第 1 行 | <code>kubectl apply -f aiops-ingress.yaml</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 | 第 2 行 | <code>kubectl describe ingress aiops-web -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 
-
 测试入口 IP：
 
 ```bash
@@ -1902,7 +1818,6 @@ curl -v -H "Host: aiops.local" http://<ingress-address>/
 | 第 1 行 | <code>kubectl get ingress aiops-web -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 | 第 2 行 | <code>curl -v -H "Host: aiops.local" http://&lt;ingress-address&gt;/</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
 
-
 如果本地实验没有真实 DNS，可以用 `--resolve`：
 
 ```bash
@@ -1914,7 +1829,6 @@ curl --resolve "aiops.local:80:<ingress-address>" http://aiops.local/
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>curl --resolve "aiops.local:80:&lt;ingress-address&gt;" http://aiops.local/</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 
 ### 3. 制造 404
 
@@ -1929,7 +1843,6 @@ curl -v -H "Host: wrong.local" http://<ingress-address>/
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>curl -v -H "Host: wrong.local" http://&lt;ingress-address&gt;/</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
-
 
 观察：
 
@@ -1951,8 +1864,7 @@ selector:
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>selector:</code> | 定义 `selector` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  app: wrong-label</code> | 设置 `app` 字段的值为 `wrong-label`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 2 行 | <code>  app: wrong-label</code> | `app` 是应用或服务，`wrong-label` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 检查：
 
@@ -1972,7 +1884,6 @@ curl -v -H "Host: aiops.local" http://<ingress-address>/
 | 第 3 行 | <code>kubectl get endpointslice -n aiops -l kubernetes.io/service-name=aiops-web</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 | 第 4 行 | <code>curl -v -H "Host: aiops.local" http://&lt;ingress-address&gt;/</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
 
-
 观察 EndpointSlice 是否为空。
 
 ### 5. 制造 502
@@ -1987,8 +1898,7 @@ targetPort: 9999
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>targetPort: 9999</code> | 设置 `targetPort` 字段的值为 `9999`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 1 行 | <code>targetPort: 9999</code> | `targetPort` 这个英文标识可以拆开理解为：端口，`9999` 表示端口号，表示服务监听或连接入口；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 检查：
 
@@ -2005,7 +1915,6 @@ kubectl logs -n ingress-nginx deploy/ingress-nginx-controller --tail=100
 | 第 1 行 | <code>kubectl describe svc aiops-web -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 | 第 2 行 | <code>kubectl get endpointslice -n aiops -l kubernetes.io/service-name=aiops-web</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 | 第 3 行 | <code>kubectl logs -n ingress-nginx deploy/ingress-nginx-controller --tail=100</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 
 观察 controller 日志中的 upstream 连接错误。
 
@@ -2028,15 +1937,11 @@ Pod labels:
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>Ingress host:</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>Ingress path:</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>Service name/port:</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>EndpointSlice addresses:</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 5 行 | <code>Pod labels:</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 6 行 | <code>404 根因:</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 7 行 | <code>502/503 根因:</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 8 行 | <code>我如何用日志证明:</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>Ingress host:</code> | `Ingress host` 是Ingress host 这个英文标识可以拆开理解为：Kubernetes 入口规则，主机，冒号表示后面要填写或列出这个字段的具体内容。 |
+| 第 2 行 | <code>Ingress path:</code> | `Ingress path` 是Ingress path 这个英文标识可以拆开理解为：Kubernetes 入口规则，路径，冒号表示后面要填写或列出这个字段的具体内容。 |
+| 第 3 行 | <code>Service name/port:</code> | `Service name/port:` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 4 行 | <code>EndpointSlice addresses:</code> | `EndpointSlice addresses` 是EndpointSlice addresses 这个英文标识可以拆开理解为：后端地址端点，地址列表，冒号表示后面要填写或列出这个字段的具体内容。 |
+| 第 5 行 | <code>Pod labels:</code> | `Pod labels` 是Pod labels 这个英文标识可以拆开理解为：Kubernetes 里运行容器的最小调度单元，标签字段，用来标识告警或指标身份，冒号表示后面要填写或列出这个字段的具体内容。 |
 
 ## 典型故障排查表
 
@@ -2071,7 +1976,6 @@ kubectl get ingress aiops-api -n aiops -o yaml
 | 第 3 行 | <code>kubectl describe ingress aiops-api -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 | 第 4 行 | <code>kubectl get ingress aiops-api -n aiops -o yaml</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 
-
 判断：
 
 1. Host 是否和 `rules.host` 一致？
@@ -2101,7 +2005,6 @@ kubectl logs -n ingress-nginx deploy/ingress-nginx-controller --tail=200
 | 第 4 行 | <code>kubectl get pod -n aiops -l app=aiops-api -o wide</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 | 第 5 行 | <code>kubectl logs -n ingress-nginx deploy/ingress-nginx-controller --tail=200</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
-
 继续从 controller Pod 内测后端：
 
 ```bash
@@ -2113,7 +2016,6 @@ kubectl exec -n ingress-nginx deploy/ingress-nginx-controller -- curl -v http://
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>kubectl exec -n ingress-nginx deploy/ingress-nginx-controller -- curl -v http://aiops-api.aiops.svc.cluster.local/</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 
 判断：
 
@@ -2140,7 +2042,6 @@ curl -sS -o /dev/null \
 | 第 2 行 | <code>  -w "connect=%{time_connect} first_byte=%{time_starttransfer} total=%{time_total} code=%{http_code}\n" \</code> | 执行 `-w` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 3 行 | <code>  https://aiops.example.com/api/slow</code> | 执行 `https://aiops.example.com/api/slow` 相关命令，后面的参数决定它具体操作什么对象。 |
 
-
 看入口日志：
 
 ```bash
@@ -2152,7 +2053,6 @@ kubectl logs -n ingress-nginx deploy/ingress-nginx-controller --tail=200
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>kubectl logs -n ingress-nginx deploy/ingress-nginx-controller --tail=200</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 
 看后端：
 
@@ -2167,7 +2067,6 @@ kubectl top pods -n aiops
 |---|---|---|
 | 第 1 行 | <code>kubectl logs -n aiops -l app=aiops-api --tail=200</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 | 第 2 行 | <code>kubectl top pods -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-
 
 判断：
 
@@ -2192,7 +2091,6 @@ openssl s_client -connect aiops.example.com:443 -servername aiops.example.com </
 | 第 1 行 | <code>kubectl get ingress aiops-api -n aiops -o yaml</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 | 第 2 行 | <code>kubectl get secret aiops-example-tls -n aiops -o yaml</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 | 第 3 行 | <code>openssl s_client -connect aiops.example.com:443 -servername aiops.example.com &lt;/dev/null</code> | 检查 TLS/证书相关信息，用来排查 HTTPS 连接问题。 |
-
 
 判断：
 
@@ -2244,35 +2142,27 @@ kubectl get events -n "$ns" --sort-by=.lastTimestamp || true
 |---|---|---|
 | 第 1 行 | <code>#!/usr/bin/env bash</code> | 注释行，提前说明下面命令的目的或注意事项。 |
 | 第 2 行 | <code>set -euo pipefail</code> | 设置 shell 或工具变量，具体含义取决于当前终端环境。 |
-| 第 3 行 | <em>空行</em> | 空行，用来把命令分成更容易阅读的几段。 |
 | 第 4 行 | <code>ns="${1:-aiops}"</code> | 执行 `ns="${1:-aiops}"` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 5 行 | <code>ing="${2:-aiops-api}"</code> | 执行 `ing="${2:-aiops-api}"` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 6 行 | <code>svc="${3:-aiops-api}"</code> | 执行 `svc="${3:-aiops-api}"` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 7 行 | <em>空行</em> | 空行，用来把命令分成更容易阅读的几段。 |
 | 第 8 行 | <code>echo "== ingress =="</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
 | 第 9 行 | <code>kubectl get ingress "$ing" -n "$ns" -o wide &#124;&#124; true</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
 | 第 10 行 | <code>kubectl describe ingress "$ing" -n "$ns" &#124;&#124; true</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
-| 第 11 行 | <em>空行</em> | 空行，用来把命令分成更容易阅读的几段。 |
 | 第 12 行 | <code>echo</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
 | 第 13 行 | <code>echo "== service =="</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
 | 第 14 行 | <code>kubectl get svc "$svc" -n "$ns" -o yaml &#124;&#124; true</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
-| 第 15 行 | <em>空行</em> | 空行，用来把命令分成更容易阅读的几段。 |
 | 第 16 行 | <code>echo</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
 | 第 17 行 | <code>echo "== endpointslices =="</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
 | 第 18 行 | <code>kubectl get endpointslice -n "$ns" -l "kubernetes.io/service-name=$svc" -o wide &#124;&#124; true</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
-| 第 19 行 | <em>空行</em> | 空行，用来把命令分成更容易阅读的几段。 |
 | 第 20 行 | <code>echo</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
 | 第 21 行 | <code>echo "== pods =="</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
 | 第 22 行 | <code>kubectl get pods -n "$ns" --show-labels -o wide &#124;&#124; true</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
-| 第 23 行 | <em>空行</em> | 空行，用来把命令分成更容易阅读的几段。 |
 | 第 24 行 | <code>echo</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
 | 第 25 行 | <code>echo "== ingress controller logs =="</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
 | 第 26 行 | <code>kubectl logs -n ingress-nginx deploy/ingress-nginx-controller --tail=200 &#124;&#124; true</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
-| 第 27 行 | <em>空行</em> | 空行，用来把命令分成更容易阅读的几段。 |
 | 第 28 行 | <code>echo</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
 | 第 29 行 | <code>echo "== namespace events =="</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
 | 第 30 行 | <code>kubectl get events -n "$ns" --sort-by=.lastTimestamp &#124;&#124; true</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
-
 
 生产化前要补：
 

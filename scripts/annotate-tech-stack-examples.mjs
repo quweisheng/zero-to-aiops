@@ -61,11 +61,381 @@ function firstToken(line) {
   return trimmed.split(/\s+/)[0].replace(/[;&|]+$/g, '')
 }
 
+function hasChinese(value) {
+  return /\p{Script=Han}/u.test(value)
+}
+
+function hasEnglishLike(value) {
+  return /[A-Za-z][A-Za-z0-9_.-]*/.test(value)
+}
+
+function isChineseOnlyTextLine(line) {
+  const trimmed = line.trim()
+  if (!trimmed) return false
+  if (hasEnglishLike(trimmed)) return false
+  if (/[\w.-]+\s*[:=]/.test(trimmed)) return false
+  if (/^[|v^/\\+\-├└│]/.test(trimmed)) return false
+  return hasChinese(trimmed)
+}
+
+function shouldExplainLine(line, lang) {
+  const trimmed = line.trim()
+  if (!trimmed) return false
+  if (isChineseOnlyTextLine(trimmed)) return false
+  const normalized = normalizeLang(lang)
+
+  if (
+    ['text', '', 'md', 'markdown'].includes(normalized) &&
+    !hasEnglishLike(trimmed) &&
+    !/[|/\\{}[\]<>:=]/.test(trimmed)
+  ) {
+    return false
+  }
+
+  return true
+}
+
+function splitIdentifier(value) {
+  return value
+    .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
+    .replace(/[_./:-]+/g, ' ')
+    .split(/\s+|-/)
+    .map((part) => part.trim())
+    .filter(Boolean)
+}
+
+const fieldGlossary = {
+  alert: '告警',
+  alert_name: '告警名称字段',
+  alert_count: '告警数量',
+  alertname: '告警名称字段',
+  annotations: '告警补充说明字段',
+  api: '应用程序接口',
+  app: '应用或服务',
+  application: '应用系统',
+  addresses: '地址列表',
+  ansible_connection: 'Ansible 连接方式字段',
+  ansible_host: 'Ansible 要连接的目标主机地址字段',
+  ansible_port: 'Ansible SSH 端口字段',
+  ansible_ssh_private_key_file: 'Ansible SSH 私钥路径字段',
+  ansible_user: 'Ansible 登录用户字段',
+  batch: '批处理',
+  become: '是否提权执行的配置项',
+  become_method: '提权方式配置项',
+  client: '客户端',
+  cluster: '集群名称字段',
+  common: '常见或通用内容',
+  connect: '连接',
+  connection: '连接方式',
+  control: '控制端',
+  controller: '控制器',
+  critical: '严重级别',
+  database: '数据库名称字段',
+  db: '数据库',
+  duration: '持续时间字段',
+  endpoint: '后端地址端点',
+  endpointslice: 'Kubernetes 中保存后端 Pod 地址的资源',
+  environment: '环境名称字段',
+  error: '错误',
+  error_rate: '错误率字段',
+  event_id: '事件唯一编号字段',
+  expected_sections: '期望命中的知识片段字段',
+  fastapi: 'Python Web API 框架',
+  firing: '告警正在触发的状态',
+  group: '分组',
+  group_by: '告警分组字段',
+  high: '高',
+  host: '主机',
+  host_key_checking: '是否检查 SSH 主机指纹的配置项',
+  ic: 'Incident Commander，故障指挥官',
+  index: '索引或目录',
+  ingress: 'Kubernetes 入口规则',
+  incident: '线上故障或事件',
+  instance: '实例名称字段',
+  labels: '标签字段，用来标识告警或指标身份',
+  listener: '监听器',
+  localhost: '本机地址',
+  mapping: '字段映射规则',
+  matchers: '匹配条件',
+  name: '名称字段',
+  node: '节点',
+  ol: 'Operations Lead，排障执行负责人',
+  order: '订单',
+  page: '需要立即通知值班人员的告警级别',
+  path: '路径',
+  payload: '请求或通知正文',
+  pod: 'Kubernetes 里运行容器的最小调度单元',
+  port: '端口',
+  prod: '生产环境',
+  production: '生产环境',
+  prometheus: '指标采集和告警规则评估系统',
+  proxy_pass: 'NGINX 转发到后端服务的配置项',
+  query: '查询',
+  rate: '比率',
+  receiver: '告警接收人或接收渠道',
+  recap: 'Ansible 执行结果汇总',
+  retry_files_enabled: '是否生成 Ansible 重试文件的配置项',
+  route: '路由规则',
+  runbook: '故障处理手册',
+  runbook_url: '故障处理手册链接字段',
+  scrape_interval: 'Prometheus 抓取指标的时间间隔字段',
+  service: '服务名称字段',
+  service_name: '服务名称字段',
+  sev1: '一级故障，通常代表最高优先级',
+  sev2: '二级故障，通常代表较高优先级',
+  sev3: '三级故障，通常代表较低优先级',
+  severity: '告警严重级别字段',
+  silence: '告警静默规则',
+  slo: '服务等级目标',
+  started_at: '告警开始时间字段',
+  status: '状态字段',
+  stdout_callback: 'Ansible 输出格式配置项',
+  summary: '摘要说明字段',
+  symptom: '故障现象字段',
+  timeout: '超时时间字段',
+  tutorial: '教程或入门章节',
+  upstream: '上游后端服务',
+  user: '用户',
+  value: '数值字段',
+  webhook: '通过 HTTP 回调接收通知的接口',
+  worker: '工作进程',
+  '5xx': 'HTTP 5xx 服务端错误，表示请求到达服务端但服务端处理失败',
+}
+
+const valueGlossary = {
+  critical: '严重级别，通常表示需要优先处理',
+  local: '本地连接，表示不通过 SSH 连接远程机器',
+  page: '需要立即通知值班人员的告警级别',
+  prod: '生产环境',
+  production: '生产环境',
+  true: '开启这个配置',
+  false: '关闭这个配置',
+  ubuntu: '登录用户示例，真实环境要换成自己的服务器用户',
+  yaml: 'YAML 格式输出，便于阅读结构化结果',
+}
+
+function describeIdentifier(value) {
+  const cleaned = value.replace(/^["'`]+|["'`,;]+$/g, '')
+  const lower = cleaned.toLowerCase()
+  const compact = lower.replace(/[^a-z0-9]/g, '')
+
+  if (compact.includes('higherrorrate')) {
+    return `${cleaned} 是高错误率告警名，通常表示某个服务的请求失败比例超过阈值`
+  }
+
+  if (compact.includes('highlatency')) {
+    return `${cleaned} 是高延迟告警名，通常表示请求耗时超过阈值`
+  }
+
+  if (compact.includes('orderapi')) {
+    return `${cleaned} 里的 order 表示订单业务，api 表示接口服务，合起来通常指订单接口服务`
+  }
+
+  if (/^\dxx$/.test(lower)) {
+    return fieldGlossary[lower] ?? `${cleaned} 表示一类 HTTP 状态码`
+  }
+
+  if (fieldGlossary[lower]) return fieldGlossary[lower]
+  if (valueGlossary[lower]) return valueGlossary[lower]
+
+  const parts = splitIdentifier(cleaned)
+  const knownParts = parts
+    .map((part) => {
+      const key = part.toLowerCase()
+      return fieldGlossary[key] ?? valueGlossary[key]
+    })
+    .filter(Boolean)
+
+  if (knownParts.length > 0) {
+    return `${cleaned} 这个英文标识可以拆开理解为：${knownParts.join('，')}`
+  }
+
+  if (/^[A-Z][A-Za-z0-9]+$/.test(cleaned)) {
+    return `${cleaned} 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源`
+  }
+
+  return `${cleaned} 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值`
+}
+
+function describeValue(key, rawValue) {
+  const value = rawValue.replace(/[,;]$/g, '').replace(/^["'`]+|["'`]+$/g, '')
+  const lower = value.toLowerCase()
+  const keyLower = key.toLowerCase()
+  const compact = lower.replace(/[^a-z0-9]/g, '')
+
+  if (valueGlossary[lower]) return valueGlossary[lower]
+  if (compact.includes('higherrorrate')) return `${value} 是高错误率告警名，表示请求失败比例过高`
+  if (compact.includes('highlatency')) return `${value} 是高延迟告警名，表示请求耗时过高`
+  if (/^\dxx$/.test(lower)) return `${value} 表示 HTTP ${value} 服务端错误类别`
+  if (/^\d{4}-\d{2}-\d{2}/.test(value)) return '具体时间值，表示事件、告警或记录发生的时间点'
+  if (/^\d+(\.\d+)?m$/.test(value)) return '持续分钟数，常用于表示故障已经持续多久'
+  if (/^\d+(\.\d+)?s$/.test(value)) return '持续秒数，常用于配置采集间隔、超时时间或等待时间'
+  if (/^\d+(\.\d+)?%$/.test(value)) return '百分比，常用于错误率、影响面或资源使用率'
+  if (/^\d{1,3}(\.\d{1,3}){3}$/.test(value)) return 'IP 地址，表示一台机器或服务端点的位置'
+  if (/^\d+$/.test(value) && /port/.test(keyLower)) return '端口号，表示服务监听或连接入口'
+  if (/^https?:\/\//.test(value)) return 'URL 地址，表示页面、接口或文档入口'
+  if (/^[\w.-]+\/[\w./*-]+$/.test(value)) return '路径值，表示文件、目录或接口路径'
+  if (keyLower === 'service' || keyLower === 'service_name') return `${value} 是具体服务名，表示这条记录属于这个服务`
+  if (keyLower === 'alertname') return `${value} 是具体告警名，表示触发的是哪一种告警规则`
+  if (keyLower === 'severity') return `${value} 是告警级别，用来决定响应优先级`
+  if (keyLower === 'database') return `${value} 是具体数据库实例或库名`
+  if (keyLower === 'cluster') return `${value} 是具体集群名或环境名`
+  if (keyLower === 'instance') return `${value} 是具体实例名，常用来定位哪台机器或哪个 Pod 出问题`
+  if (keyLower === 'symptom') return `${value} 是故障现象，描述用户或系统看到的问题`
+
+  if (hasChinese(value) && !hasEnglishLike(value)) return `${value} 是这个字段的中文取值，已经直接说明了含义`
+  return `${value} 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值`
+}
+
+function formatIdentifierMeaning(term) {
+  const description = describeIdentifier(term)
+  if (
+    description.startsWith(`${term} 是`) ||
+    description.startsWith(`${term} 表示`) ||
+    description.startsWith(`${term} 里的`) ||
+    description.startsWith(`${term} 这个`)
+  ) {
+    return `\`${term}\` ${description.slice(term.length).trim()}`
+  }
+  return `\`${term}\` 是${description}`
+}
+
+function formatValueMeaning(key, rawValue) {
+  const value = rawValue.replace(/[,;]$/g, '').replace(/^["'`]+|["'`]+$/g, '')
+  const description = describeValue(key, rawValue)
+  if (
+    description.startsWith(`${value} 是`) ||
+    description.startsWith(`${value} 表示`) ||
+    description.startsWith(`${value} 里的`) ||
+    description.startsWith(`${value} 这个`)
+  ) {
+    return `\`${value}\` ${description.slice(value.length).trim()}`
+  }
+  return `\`${value}\` 表示${description}`
+}
+
+function describeKeyValuePair(key, value) {
+  return `${formatIdentifierMeaning(key)}，${formatValueMeaning(key, value)}`
+}
+
+function extractKeyValuePairs(line) {
+  const pairs = []
+  const occupied = []
+  const datetimePattern =
+    /([A-Za-z_][A-Za-z0-9_.-]*)\s*=\s*([0-9]{4}-[0-9]{2}-[0-9]{2}(?:[ T][0-9]{2}:[0-9]{2}:[0-9]{2}Z?)?)/g
+  let datetimeMatch
+  while ((datetimeMatch = datetimePattern.exec(line)) !== null) {
+    pairs.push({ key: datetimeMatch[1], value: datetimeMatch[2] })
+    occupied.push([datetimeMatch.index, datetimePattern.lastIndex])
+  }
+
+  const keyValuePattern = /([A-Za-z_][A-Za-z0-9_.-]*)\s*=\s*("[^"]*"|'[^']*'|[^\s,;]+)/g
+  let match
+  while ((match = keyValuePattern.exec(line)) !== null) {
+    if (occupied.some(([start, end]) => match.index >= start && match.index < end)) continue
+    pairs.push({ key: match[1], value: match[2] })
+  }
+  return pairs
+}
+
+function explainKeyValueText(line) {
+  const pairs = extractKeyValuePairs(line)
+  const pieces = []
+  const first = line.trim().split(/\s+/)[0]
+
+  if (pairs.length > 0 && first && !first.includes('=') && !first.includes(':') && /^[A-Za-z0-9_.-]+$/.test(first)) {
+    pieces.push(`\`${first}\` 是主机、服务、告警或资源的示例名称`)
+  }
+
+  for (const pair of pairs) {
+    pieces.push(describeKeyValuePair(pair.key, pair.value))
+  }
+
+  return pieces.join('；') + '。'
+}
+
+function explainColonText(line) {
+  const trimmed = line.trim()
+  const match = trimmed.match(/^([A-Za-z_][A-Za-z0-9_. -]*):\s*(.*)$/)
+  if (!match) return undefined
+  const key = match[1].trim()
+  const value = match[2].trim()
+  if (!value) {
+    return `\`${key}\` 是${describeIdentifier(key)}，冒号表示后面要填写或列出这个字段的具体内容。`
+  }
+  return `\`${key}\` 是${describeIdentifier(key)}，冒号后面的 \`${value}\` 是这个字段的示例内容或模板表达式。`
+}
+
+function explainUrl(line) {
+  const trimmed = line.trim()
+  const match = trimmed.match(/^(https?):\/\/([^/\s]+)(\/[^\s]*)?$/)
+  if (!match) return undefined
+  const [, scheme, host, urlPath = '/'] = match
+  return `\`${scheme}\` 表示访问协议，\`${host}\` 是域名或主机名，\`${urlPath}\` 是具体接口路径；真实环境要换成自己的域名和路径。`
+}
+
+function explainPathLike(line) {
+  const trimmed = line.trim()
+  if (!/[/\\.]|\*$/.test(trimmed)) return undefined
+  if (trimmed === '|' || trimmed === 'v') return undefined
+  const type = trimmed.endsWith('/') ? '目录' : '文件、目录、接口路径或匹配模式'
+  return `\`${trimmed}\` 是${type}示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。`
+}
+
+function extractEnglishTerms(line) {
+  const rawTerms = line.match(/(?:\dxx|[A-Za-z][A-Za-z0-9_.-]*)(?:\s+(?:\dxx|[A-Za-z][A-Za-z0-9_.-]*))*/g) ?? []
+  const terms = []
+  const seen = new Set()
+
+  for (const raw of rawTerms) {
+    for (const term of raw.split(/\s{2,}/)) {
+      const cleaned = term.trim().replace(/^["'`[{(]+|["'`,;:.)\]}]+$/g, '')
+      if (!cleaned || /^\d+$/.test(cleaned)) continue
+      const key = cleaned.toLowerCase()
+      if (!seen.has(key)) {
+        seen.add(key)
+        terms.push(cleaned)
+      }
+    }
+  }
+
+  return terms
+}
+
+function explainEnglishTerms(line) {
+  const terms = extractEnglishTerms(line)
+  if (terms.length === 0) return undefined
+  const explanations = terms.slice(0, 8).map((term) => formatIdentifierMeaning(term))
+  return `这一行里的英文要这样读：${explanations.join('；')}。`
+}
+
 function explainCommand(line, lang) {
   const trimmed = line.trim()
   if (!trimmed) return '空行，用来把命令分成更容易阅读的几段。'
   if (commentPrefixes.some((prefix) => trimmed.startsWith(prefix))) {
     return '注释行，提前说明下面命令的目的或注意事项。'
+  }
+
+  if (/^-d\s+/.test(trimmed) || /^--data/.test(trimmed)) {
+    const jsonMatch = trimmed.match(/(['"])(\{.*\})\1/)
+    if (jsonMatch) {
+      try {
+        const parsed = JSON.parse(jsonMatch[2])
+        if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+          const pairs = Object.entries(parsed)
+            .slice(0, 8)
+            .map(([key, value]) => describeKeyValuePair(key, JSON.stringify(value)))
+          return `\`-d\` 是 curl 的请求体参数，用来把 JSON 数据发送给接口；这里的字段含义是：${pairs.join('；')}。`
+        }
+      } catch {
+        return '`-d` 是 curl 的请求体参数，用来把后面的文本作为 HTTP 请求正文发送给接口。'
+      }
+    }
+    return '`-d` 是 curl 的请求体参数，用来把后面的文本作为 HTTP 请求正文发送给接口。'
+  }
+
+  if (/^-H\s+/.test(trimmed) || /^--header/.test(trimmed)) {
+    return '`-H` 是 curl 的请求头参数，用来设置 Content-Type、鉴权信息或其他 HTTP 头。'
   }
 
   const token = firstToken(trimmed).toLowerCase()
@@ -117,7 +487,7 @@ function explainCommand(line, lang) {
   }
 
   const prefix = commandExplanations[token] ?? `执行 \`${token}\` 相关命令，后面的参数决定它具体操作什么对象。`
-  if (/[|&]{1,2}/.test(trimmed)) {
+  if (/\s[|&]{1,2}\s/.test(trimmed)) {
     return `${prefix} 这一行还包含管道或连接符，表示把多个命令串起来处理。`
   }
   if (trimmed.includes('--')) {
@@ -142,7 +512,7 @@ function explainYaml(line) {
     if (value === '') {
       return `定义 \`${key}\` 配置段，下面缩进的内容都属于这个配置段。`
     }
-    return `设置 \`${key}\` 字段的值为 \`${value}\`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。`
+    return `${describeKeyValuePair(key, value)}；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。`
   }
 
   return '配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。'
@@ -151,6 +521,19 @@ function explainYaml(line) {
 function explainJson(line) {
   const trimmed = line.trim()
   if (!trimmed) return '空行，用来提升 JSON 可读性。'
+  if (trimmed.startsWith('{') && trimmed.endsWith('}')) {
+    try {
+      const parsed = JSON.parse(trimmed)
+      if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+        const pairs = Object.entries(parsed)
+          .slice(0, 8)
+          .map(([key, value]) => describeKeyValuePair(key, JSON.stringify(value)))
+        if (pairs.length > 0) return pairs.join('；') + '。'
+      }
+    } catch {
+      // Fall through to structural JSON explanations.
+    }
+  }
   if (trimmed === '{') return '对象开始，表示下面是一组键值对配置。'
   if (trimmed === '}') return '对象结束，表示这一组键值对配置到这里结束。'
   if (trimmed === '[') return '数组开始，表示下面会列出多个同类值或对象。'
@@ -159,7 +542,7 @@ function explainJson(line) {
 
   const match = trimmed.match(/^"([^"]+)"\s*:\s*(.*?)(,)?$/)
   if (match) {
-    return `设置 \`${match[1]}\` 字段，值是 \`${match[2]}\`；真实环境要根据自己的告警、服务或接口返回调整。`
+    return `${describeKeyValuePair(match[1], match[2])}；真实环境要根据自己的告警、服务或接口返回调整。`
   }
 
   return 'JSON 列表或对象中的一行，注意逗号和引号必须符合 JSON 语法。'
@@ -194,6 +577,10 @@ function explainPython(line) {
   const trimmed = line.trim()
   if (!trimmed) return '空行，用来分隔不同逻辑块，让代码更容易阅读。'
   if (trimmed.startsWith('#')) return 'Python 注释行，用来解释代码目的，不会被解释器执行。'
+  const dictPair = trimmed.match(/^["']([^"']+)["']\s*:\s*(.+?)(,)?$/)
+  if (dictPair) {
+    return `${describeKeyValuePair(dictPair[1], dictPair[2])}；这是 Python 字典里的一个键值对。`
+  }
   if (trimmed.startsWith('import ')) return '导入 Python 模块，后面的代码会使用这个模块提供的功能。'
   if (trimmed.startsWith('from ')) return '从某个模块导入指定对象，减少后面代码的书写量。'
   if (trimmed.startsWith('def ')) return '定义函数，把一段可复用逻辑命名，后续可以反复调用。'
@@ -218,9 +605,22 @@ function explainPython(line) {
 function explainMarkdown(line) {
   const trimmed = line.trim()
   if (!trimmed) return '空行，用来分隔 Markdown 段落。'
-  if (trimmed.startsWith('#')) return 'Markdown 标题行，用来组织文档层级。'
-  if (trimmed.startsWith('- ')) return 'Markdown 列表项，用来列出步骤、要点或证据清单。'
-  if (trimmed.startsWith('|')) return 'Markdown 表格行，用来对齐展示字段和说明。'
+  if (trimmed.startsWith('#')) {
+    const terms = explainEnglishTerms(trimmed.replace(/^#+\s*/, ''))
+    return terms ?? 'Markdown 标题行，用来组织文档层级。'
+  }
+  if (trimmed.startsWith('- ')) {
+    const item = trimmed.replace(/^-\s+/, '')
+    if (extractKeyValuePairs(item).length > 0) return explainKeyValueText(item)
+    const colonExplanation = explainColonText(item)
+    if (colonExplanation) return colonExplanation
+    const terms = explainEnglishTerms(item)
+    return terms ?? 'Markdown 列表项，用来列出步骤、要点或证据清单。'
+  }
+  if (trimmed.startsWith('|')) {
+    const terms = explainEnglishTerms(trimmed)
+    return terms ?? 'Markdown 表格行，用来对齐展示字段和说明。'
+  }
   if (trimmed.startsWith('>')) return 'Markdown 引用行，用来突出说明、提示或学习目标。'
   return 'Markdown 正文示例，展示文档里应该怎样写说明内容。'
 }
@@ -247,7 +647,7 @@ function explainIni(line) {
   if (/^\[.+\]$/.test(trimmed)) return '配置段标题，下面的配置项都属于这一组。'
   if (trimmed.includes('=')) {
     const [key, value] = trimmed.split(/=(.*)/s)
-    return `设置 \`${key.trim()}\` 配置项为 \`${(value ?? '').trim()}\`，真实环境按自己的路径、账号或服务参数调整。`
+    return `${describeKeyValuePair(key.trim(), (value ?? '').trim())}；真实环境按自己的路径、账号或服务参数调整。`
   }
   return '配置文件中的一行，通常和所在配置段一起决定程序行为。'
 }
@@ -353,12 +753,44 @@ function explainArrowText(line) {
 function explainText(line) {
   const trimmed = line.trim()
   if (!trimmed) return '空行，用来把示例结构分成更容易阅读的段落。'
+  if (isChineseOnlyTextLine(trimmed)) return '中文内容已经直接表达含义，不需要额外拆解英文术语。'
   if (trimmed.includes('->')) return explainArrowText(trimmed)
-  if (/^[├└│]/.test(trimmed)) return '树形结构行，表示文件、组件或知识点之间的层级关系。'
-  if (/^\d+\./.test(trimmed)) return '编号步骤，表示学习或操作时应该按顺序执行。'
-  if (/^[-*]\s+/.test(trimmed)) return '列表项，表示一个要点、条件、文件或检查项。'
-  if (/^[A-Z_]+=.*/.test(trimmed)) return '环境变量或键值示例，等号左边是名称，右边是要配置的值。'
-  return '文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。'
+
+  const urlExplanation = explainUrl(trimmed)
+  if (urlExplanation) return urlExplanation
+
+  if (extractKeyValuePairs(trimmed).length > 0) return explainKeyValueText(trimmed)
+
+  const colonExplanation = explainColonText(trimmed)
+  if (colonExplanation) return colonExplanation
+
+  const pathExplanation = explainPathLike(trimmed)
+  if (pathExplanation) return pathExplanation
+
+  if (/^[├└│]/.test(trimmed)) {
+    return '树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。'
+  }
+
+  if (/^\|+$/.test(trimmed) || trimmed === 'v' || trimmed === '^') {
+    return 'ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。'
+  }
+
+  if (/^\d+\./.test(trimmed)) {
+    const withoutNumber = trimmed.replace(/^\d+\.\s*/, '')
+    const terms = explainEnglishTerms(withoutNumber)
+    return terms ?? '编号步骤，表示学习或操作时应该按顺序执行。'
+  }
+
+  if (/^[-*]\s+/.test(trimmed)) {
+    const withoutBullet = trimmed.replace(/^[-*]\s+/, '')
+    const terms = explainEnglishTerms(withoutBullet)
+    return terms ?? '列表项，表示一个要点、条件、文件或检查项。'
+  }
+
+  const terms = explainEnglishTerms(trimmed)
+  if (terms) return terms
+
+  return '这一行是符号、路径或状态片段，需要结合上下文确认它连接的是哪个组件、文件或排障证据。'
 }
 
 function explainLine(line, lang) {
@@ -385,37 +817,48 @@ function explainLine(line, lang) {
   return explainText(line)
 }
 
-function existingExplanationIsSufficient(lines, fromIndex, expectedRows) {
-  for (let i = fromIndex; i < lines.length; i++) {
-    const trimmed = lines[i].trim()
-    if (!trimmed) continue
-    if (trimmed !== '逐行解释：') return false
-
-    let rows = 0
-    for (let j = i + 1; j < lines.length; j++) {
-      const row = lines[j].trim()
-      if (row === '') {
-        if (rows > 0) break
-        continue
-      }
-      if (/^\|\s*第\s+\d+\s+行\s*\|/.test(row)) {
-        rows += 1
-      }
-    }
-    return rows >= expectedRows
-  }
-  return false
-}
-
 function buildExplanation(lang, codeLines) {
-  const explanation = ['', '逐行解释：', '', '| 行 | 内容 | 说明 |', '|---|---|---|']
+  const rows = []
   codeLines.forEach((line, index) => {
-    explanation.push(
-      `| 第 ${index + 1} 行 | ${displayLine(line)} | ${explainLine(line, lang)} |`
-    )
+    if (!shouldExplainLine(line, lang)) return
+    rows.push(`| 第 ${index + 1} 行 | ${displayLine(line)} | ${explainLine(line, lang)} |`)
   })
+
+  if (rows.length === 0) return []
+
+  const explanation = ['', '逐行解释：', '', '| 行 | 内容 | 说明 |', '|---|---|---|']
+  explanation.push(...rows)
   explanation.push('')
   return explanation
+}
+
+function findExistingExplanationStart(lines, startIndex) {
+  for (let i = startIndex; i < lines.length; i++) {
+    const trimmed = lines[i].trim()
+    if (!trimmed) continue
+    return trimmed === '逐行解释：' ? i : undefined
+  }
+  return undefined
+}
+
+function skipExistingExplanation(lines, markerIndex) {
+  let i = markerIndex + 1
+
+  while (i < lines.length && lines[i].trim() === '') {
+    i += 1
+  }
+
+  if (i < lines.length && lines[i].trim().startsWith('|')) {
+    while (i < lines.length && lines[i].trim().startsWith('|')) {
+      i += 1
+    }
+  }
+
+  while (i < lines.length && lines[i].trim() === '') {
+    i += 1
+  }
+
+  return i
 }
 
 function annotateFile(filePath) {
@@ -424,15 +867,15 @@ function annotateFile(filePath) {
   const output = []
   let changed = false
 
-  for (let i = 0; i < lines.length; i++) {
+  for (let i = 0; i < lines.length; ) {
     const fence = parseFence(lines[i])
     if (!fence) {
       output.push(lines[i])
+      i += 1
       continue
     }
 
     const lang = fence.lang
-    const blockStartOutputIndex = output.length
     output.push(lines[i])
     const codeLines = []
     i += 1
@@ -445,14 +888,18 @@ function annotateFile(filePath) {
 
     if (i < lines.length) {
       output.push(lines[i])
+      i += 1
     }
 
-    if (
-      codeLines.length > 0 &&
-      !existingExplanationIsSufficient(lines, i + 1, codeLines.length) &&
-      blockStartOutputIndex >= 0
-    ) {
-      output.push(...buildExplanation(lang, codeLines))
+    const explanationStart = findExistingExplanationStart(lines, i)
+    if (explanationStart !== undefined) {
+      i = skipExistingExplanation(lines, explanationStart)
+      changed = true
+    }
+
+    const explanation = buildExplanation(lang, codeLines)
+    if (explanation.length > 0) {
+      output.push(...explanation)
       changed = true
     }
   }

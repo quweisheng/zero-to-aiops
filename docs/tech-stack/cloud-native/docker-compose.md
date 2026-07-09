@@ -104,41 +104,40 @@ Docker Compose docs
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>Docker Compose docs</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  ├── Overview</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 3 行 | <code>  │   └── Compose 是什么，适合什么</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 4 行 | <code>  ├── Quickstart</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 5 行 | <code>  │   └── 第一个 compose.yaml</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 6 行 | <code>  ├── Application model</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 7 行 | <code>  │   ├── project</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 8 行 | <code>  │   ├── services</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 9 行 | <code>  │   ├── networks</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 10 行 | <code>  │   ├── volumes</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 11 行 | <code>  │   ├── configs</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 12 行 | <code>  │   └── secrets</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 13 行 | <code>  ├── Compose file reference</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 14 行 | <code>  │   ├── services</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 15 行 | <code>  │   ├── networks</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 16 行 | <code>  │   ├── volumes</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 17 行 | <code>  │   ├── configs</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 18 行 | <code>  │   ├── secrets</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 19 行 | <code>  │   ├── fragments</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 20 行 | <code>  │   ├── merge</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 21 行 | <code>  │   ├── include</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 22 行 | <code>  │   └── profiles</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 23 行 | <code>  └── CLI reference</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 24 行 | <code>      ├── docker compose up</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 25 行 | <code>      ├── docker compose down</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 26 行 | <code>      ├── docker compose ps</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 27 行 | <code>      ├── docker compose logs</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 28 行 | <code>      ├── docker compose exec</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 29 行 | <code>      ├── docker compose config</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 30 行 | <code>      ├── docker compose build</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 31 行 | <code>      ├── docker compose pull</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 32 行 | <code>      ├── docker compose restart</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 33 行 | <code>      ├── docker compose watch</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 34 行 | <code>      └── docker compose wait</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-
+| 第 1 行 | <code>Docker Compose docs</code> | 这一行里的英文要这样读：`Docker Compose docs` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 2 行 | <code>  ├── Overview</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 3 行 | <code>  │   └── Compose 是什么，适合什么</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 4 行 | <code>  ├── Quickstart</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 5 行 | <code>  │   └── 第一个 compose.yaml</code> | `│   └── 第一个 compose.yaml` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 6 行 | <code>  ├── Application model</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 7 行 | <code>  │   ├── project</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 8 行 | <code>  │   ├── services</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 9 行 | <code>  │   ├── networks</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 10 行 | <code>  │   ├── volumes</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 11 行 | <code>  │   ├── configs</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 12 行 | <code>  │   └── secrets</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 13 行 | <code>  ├── Compose file reference</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 14 行 | <code>  │   ├── services</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 15 行 | <code>  │   ├── networks</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 16 行 | <code>  │   ├── volumes</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 17 行 | <code>  │   ├── configs</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 18 行 | <code>  │   ├── secrets</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 19 行 | <code>  │   ├── fragments</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 20 行 | <code>  │   ├── merge</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 21 行 | <code>  │   ├── include</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 22 行 | <code>  │   └── profiles</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 23 行 | <code>  └── CLI reference</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 24 行 | <code>      ├── docker compose up</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 25 行 | <code>      ├── docker compose down</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 26 行 | <code>      ├── docker compose ps</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 27 行 | <code>      ├── docker compose logs</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 28 行 | <code>      ├── docker compose exec</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 29 行 | <code>      ├── docker compose config</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 30 行 | <code>      ├── docker compose build</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 31 行 | <code>      ├── docker compose pull</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 32 行 | <code>      ├── docker compose restart</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 33 行 | <code>      ├── docker compose watch</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 34 行 | <code>      └── docker compose wait</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
 
 本篇按这条线讲：先讲模型，再讲文件字段，再讲命令，最后用 AIOps 实验串起来。
 
@@ -168,24 +167,23 @@ repeatable learning evidence
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>compose.yaml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>  v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>local AIOps lab</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 5 行 | <code>  ├── demo app</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 6 行 | <code>  ├── Prometheus</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 7 行 | <code>  ├── Grafana</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 8 行 | <code>  ├── Loki</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 9 行 | <code>  ├── Redis / MySQL</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 10 行 | <code>  └── exporters</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 11 行 | <code>        &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 12 行 | <code>        v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 13 行 | <code>repeatable learning evidence</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 14 行 | <code>  ├── configuration files</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 15 行 | <code>  ├── dashboards</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 16 行 | <code>  ├── screenshots</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 17 行 | <code>  └── troubleshooting notes</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-
+| 第 1 行 | <code>compose.yaml</code> | `compose.yaml` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 2 行 | <code>  &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
+| 第 3 行 | <code>  v</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
+| 第 4 行 | <code>local AIOps lab</code> | 这一行里的英文要这样读：`local AIOps lab` 这个英文标识可以拆开理解为：本地连接，表示不通过 SSH 连接远程机器。 |
+| 第 5 行 | <code>  ├── demo app</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 6 行 | <code>  ├── Prometheus</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 7 行 | <code>  ├── Grafana</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 8 行 | <code>  ├── Loki</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 9 行 | <code>  ├── Redis / MySQL</code> | `├── Redis / MySQL` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 10 行 | <code>  └── exporters</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 11 行 | <code>        &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
+| 第 12 行 | <code>        v</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
+| 第 13 行 | <code>repeatable learning evidence</code> | 这一行里的英文要这样读：`repeatable learning evidence` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 14 行 | <code>  ├── configuration files</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 15 行 | <code>  ├── dashboards</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 16 行 | <code>  ├── screenshots</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 17 行 | <code>  └── troubleshooting notes</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
 
 AIOps 学习需要能反复搭环境。Compose 的价值是把“我电脑上手动跑起来了”变成“这个仓库里有一套别人也能跑的实验环境”。
 
@@ -211,8 +209,7 @@ Docker Compose = Compose file + Docker Engine + docker compose CLI
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>Docker Compose = Compose file + Docker Engine + docker compose CLI</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>Docker Compose = Compose file + Docker Engine + docker compose CLI</code> | `Docker` 是主机、服务、告警或资源的示例名称；`Compose` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源，`Compose` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
 
 对比单个 `docker run`：
 
@@ -244,14 +241,13 @@ project
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>project</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  ├── services</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 3 行 | <code>  │   └── containers</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 4 行 | <code>  ├── networks</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 5 行 | <code>  ├── volumes</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 6 行 | <code>  ├── configs</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-| 第 7 行 | <code>  └── secrets</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
-
+| 第 1 行 | <code>project</code> | 这一行里的英文要这样读：`project` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 2 行 | <code>  ├── services</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 3 行 | <code>  │   └── containers</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 4 行 | <code>  ├── networks</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 5 行 | <code>  ├── volumes</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 6 行 | <code>  ├── configs</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
+| 第 7 行 | <code>  └── secrets</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
 
 ### Project
 
@@ -267,8 +263,7 @@ observability-compose
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>observability-compose</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>observability-compose</code> | 这一行里的英文要这样读：`observability-compose` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 Compose 默认 project name 可能就是这个目录名。创建出来的资源会带上 project 前缀，例如：
 
@@ -282,10 +277,9 @@ observability-compose_grafana-data
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>observability-compose-prometheus-1</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>observability-compose_default</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>observability-compose_grafana-data</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>observability-compose-prometheus-1</code> | 这一行里的英文要这样读：`observability-compose-prometheus-1` 这个英文标识可以拆开理解为：指标采集和告警规则评估系统。 |
+| 第 2 行 | <code>observability-compose_default</code> | 这一行里的英文要这样读：`observability-compose_default` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 3 行 | <code>observability-compose_grafana-data</code> | 这一行里的英文要这样读：`observability-compose_grafana-data` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 你可以指定 project name：
 
@@ -298,7 +292,6 @@ docker compose -p aiops-lab up -d
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>docker compose -p aiops-lab up -d</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
-
 
 为什么需要 project？
 
@@ -322,8 +315,7 @@ services:
 |---|---|---|
 | 第 1 行 | <code>services:</code> | 定义 `services` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 2 行 | <code>  prometheus:</code> | 定义 `prometheus` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 3 行 | <code>    image: prom/prometheus:v3.5.0</code> | 设置 `image` 字段的值为 `prom/prometheus:v3.5.0`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 3 行 | <code>    image: prom/prometheus:v3.5.0</code> | `image` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`prom/prometheus:v3.5.0` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 `prometheus` 是 service name。Compose 会根据这个定义创建容器。
 
@@ -338,9 +330,8 @@ service definition
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>service definition</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; one or more containers</code> | 这一行要理解这些英文词：`one or more containers` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 1 行 | <code>service definition</code> | 这一行里的英文要这样读：`service definition` 这个英文标识可以拆开理解为：服务名称字段。 |
+| 第 2 行 | <code>  -&gt; one or more containers</code> | 这一行要理解这些英文词：`one or more containers` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 默认一个 service 一个容器。某些场景可以 scale：
 
@@ -353,7 +344,6 @@ docker compose up -d --scale worker=3
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>docker compose up -d --scale worker=3</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 
 ### Container
 
@@ -373,7 +363,6 @@ docker compose ps
 |---|---|---|
 | 第 1 行 | <code>docker compose ps</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
 
-
 看到的就是这个 project 里的容器状态。
 
 ### Network
@@ -391,9 +380,8 @@ prometheus -> demo-app:8000
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>grafana -&gt; prometheus:9090</code> | 这一行要理解这些英文词：`grafana` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`prometheus` 是指标监控系统。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 2 行 | <code>prometheus -&gt; demo-app:8000</code> | 这一行要理解这些英文词：`prometheus` 是指标监控系统；`demo-app` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 1 行 | <code>grafana -&gt; prometheus:9090</code> | 这一行要理解这些英文词：`grafana` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`prometheus` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 2 行 | <code>prometheus -&gt; demo-app:8000</code> | 这一行要理解这些英文词：`prometheus` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`demo-app` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 这里的 `prometheus` 和 `demo-app` 是 Compose 内部 DNS 名称。
 
@@ -419,12 +407,10 @@ services:
 |---|---|---|
 | 第 1 行 | <code>volumes:</code> | 定义 `volumes` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 2 行 | <code>  grafana-data:</code> | 定义 `grafana-data` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 3 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
 | 第 4 行 | <code>services:</code> | 定义 `services` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 5 行 | <code>  grafana:</code> | 定义 `grafana` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 6 行 | <code>    volumes:</code> | 定义 `volumes` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 7 行 | <code>      - grafana-data:/var/lib/grafana</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-
 
 只要不删除 volume，容器重建后 dashboard 和本地数据库仍然保留。
 
@@ -452,14 +438,12 @@ services:
 |---|---|---|
 | 第 1 行 | <code>configs:</code> | 定义 `configs` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 2 行 | <code>  prometheus_config:</code> | 定义 `prometheus_config` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 3 行 | <code>    file: ./prometheus.yml</code> | 设置 `file` 字段的值为 `./prometheus.yml`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 4 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 3 行 | <code>    file: ./prometheus.yml</code> | `file` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`./prometheus.yml` 表示路径值，表示文件、目录或接口路径；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 5 行 | <code>services:</code> | 定义 `services` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 6 行 | <code>  prometheus:</code> | 定义 `prometheus` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 7 行 | <code>    configs:</code> | 定义 `configs` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 8 行 | <code>      - source: prometheus_config</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 9 行 | <code>        target: /etc/prometheus/prometheus.yml</code> | 设置 `target` 字段的值为 `/etc/prometheus/prometheus.yml`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 9 行 | <code>        target: /etc/prometheus/prometheus.yml</code> | `target` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`/etc/prometheus/prometheus.yml` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 ### Secret
 
@@ -479,8 +463,7 @@ secrets:
 |---|---|---|
 | 第 1 行 | <code>secrets:</code> | 定义 `secrets` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 2 行 | <code>  grafana_admin_password:</code> | 定义 `grafana_admin_password` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 3 行 | <code>    file: ./secrets/grafana_admin_password.txt</code> | 设置 `file` 字段的值为 `./secrets/grafana_admin_password.txt`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 3 行 | <code>    file: ./secrets/grafana_admin_password.txt</code> | `file` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`./secrets/grafana_admin_password.txt` 表示路径值，表示文件、目录或接口路径；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 学习阶段你可以先知道边界：不要把真实密码直接写进 `compose.yaml` 并提交到公开仓库。Compose 的 secrets 能改善文件组织，但不等于完整生产级密钥系统。
 
@@ -496,8 +479,7 @@ compose.yaml
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>compose.yaml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>compose.yaml</code> | `compose.yaml` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 也可能见到：
 
@@ -511,10 +493,9 @@ docker-compose.yml
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>compose.yml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>docker-compose.yaml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>docker-compose.yml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>compose.yml</code> | `compose.yml` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 2 行 | <code>docker-compose.yaml</code> | `docker-compose.yaml` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 3 行 | <code>docker-compose.yml</code> | `docker-compose.yml` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 官方现在更推荐 `compose.yaml`。旧教程里的顶层 `version` 字段在现代 Compose Specification 中通常不再需要。
 
@@ -553,33 +534,28 @@ volumes:
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>name: aiops-lab</code> | 设置 `name` 字段的值为 `aiops-lab`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 1 行 | <code>name: aiops-lab</code> | `name` 是名称字段，`aiops-lab` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 3 行 | <code>services:</code> | 定义 `services` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 4 行 | <code>  demo-app:</code> | 定义 `demo-app` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 5 行 | <code>    build: ./demo-app</code> | 设置 `build` 字段的值为 `./demo-app`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 5 行 | <code>    build: ./demo-app</code> | `build` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`./demo-app` 表示路径值，表示文件、目录或接口路径；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 6 行 | <code>    ports:</code> | 定义 `ports` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 7 行 | <code>      - "8000:8000"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 8 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
 | 第 9 行 | <code>  prometheus:</code> | 定义 `prometheus` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 10 行 | <code>    image: prom/prometheus:v3.5.0</code> | 设置 `image` 字段的值为 `prom/prometheus:v3.5.0`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 10 行 | <code>    image: prom/prometheus:v3.5.0</code> | `image` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`prom/prometheus:v3.5.0` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 11 行 | <code>    ports:</code> | 定义 `ports` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 12 行 | <code>      - "9090:9090"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
 | 第 13 行 | <code>    volumes:</code> | 定义 `volumes` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 14 行 | <code>      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 15 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
 | 第 16 行 | <code>  grafana:</code> | 定义 `grafana` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 17 行 | <code>    image: grafana/grafana:latest</code> | 设置 `image` 字段的值为 `grafana/grafana:latest`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 17 行 | <code>    image: grafana/grafana:latest</code> | `image` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`grafana/grafana:latest` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 18 行 | <code>    ports:</code> | 定义 `ports` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 19 行 | <code>      - "3000:3000"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
 | 第 20 行 | <code>    volumes:</code> | 定义 `volumes` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 21 行 | <code>      - grafana-data:/var/lib/grafana</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
 | 第 22 行 | <code>    depends_on:</code> | 定义 `depends_on` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 23 行 | <code>      - prometheus</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 24 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
 | 第 25 行 | <code>volumes:</code> | 定义 `volumes` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 26 行 | <code>  grafana-data:</code> | 定义 `grafana-data` 配置段，下面缩进的内容都属于这个配置段。 |
-
 
 顶层字段：
 
@@ -617,8 +593,7 @@ services:
 |---|---|---|
 | 第 1 行 | <code>services:</code> | 定义 `services` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 2 行 | <code>  prometheus:</code> | 定义 `prometheus` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 3 行 | <code>    image: prom/prometheus:v3.5.0</code> | 设置 `image` 字段的值为 `prom/prometheus:v3.5.0`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 3 行 | <code>    image: prom/prometheus:v3.5.0</code> | `image` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`prom/prometheus:v3.5.0` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 不要长期依赖裸 `latest`，学习实验可以，正式项目最好固定版本。
 
@@ -645,8 +620,7 @@ services:
 |---|---|---|
 | 第 1 行 | <code>services:</code> | 定义 `services` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 2 行 | <code>  demo-app:</code> | 定义 `demo-app` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 3 行 | <code>    build: ./demo-app</code> | 设置 `build` 字段的值为 `./demo-app`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 3 行 | <code>    build: ./demo-app</code> | `build` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`./demo-app` 表示路径值，表示文件、目录或接口路径；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 完整写法：
 
@@ -666,10 +640,9 @@ services:
 | 第 1 行 | <code>services:</code> | 定义 `services` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 2 行 | <code>  demo-app:</code> | 定义 `demo-app` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 3 行 | <code>    build:</code> | 定义 `build` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 4 行 | <code>      context: ./demo-app</code> | 设置 `context` 字段的值为 `./demo-app`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 5 行 | <code>      dockerfile: Dockerfile</code> | 设置 `dockerfile` 字段的值为 `Dockerfile`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 6 行 | <code>    image: aiops-demo-app:0.1</code> | 设置 `image` 字段的值为 `aiops-demo-app:0.1`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 4 行 | <code>      context: ./demo-app</code> | `context` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`./demo-app` 表示路径值，表示文件、目录或接口路径；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 5 行 | <code>      dockerfile: Dockerfile</code> | `dockerfile` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`Dockerfile` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 6 行 | <code>    image: aiops-demo-app:0.1</code> | `image` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`aiops-demo-app:0.1` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 `image` 和 `build` 可以一起用：Compose 构建后给镜像打上这个名字。
 
@@ -694,8 +667,7 @@ container_name: prometheus
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>container_name: prometheus</code> | 设置 `container_name` 字段的值为 `prometheus`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 1 行 | <code>container_name: prometheus</code> | `container_name` 这个英文标识可以拆开理解为：名称字段，`prometheus` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 再启动第二套相同环境，就会容器名冲突。
 
@@ -722,7 +694,6 @@ ports:
 | 第 1 行 | <code>ports:</code> | 定义 `ports` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 2 行 | <code>  - "3000:3000"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
 
-
 含义：
 
 ```text
@@ -733,8 +704,7 @@ host:3000 -> container:3000
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>host:3000 -&gt; container:3000</code> | 这一行要理解这些英文词：`host` 是主机，可以是一台服务器、虚拟机或节点；`container` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 1 行 | <code>host:3000 -&gt; container:3000</code> | 这一行要理解这些英文词：`host` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`container` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 如果宿主机 3000 被占用：
 
@@ -749,7 +719,6 @@ ports:
 |---|---|---|
 | 第 1 行 | <code>ports:</code> | 定义 `ports` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 2 行 | <code>  - "3001:3000"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-
 
 浏览器访问 `localhost:3001`，容器里 Grafana 仍然监听 3000。
 
@@ -779,7 +748,6 @@ services:
 | 第 2 行 | <code>  demo-app:</code> | 定义 `demo-app` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 3 行 | <code>    expose:</code> | 定义 `expose` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 4 行 | <code>      - "8000"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-
 
 同一 Compose 网络里的 Prometheus 可以访问 `demo-app:8000`，但宿主机不能直接通过 `localhost:8000` 访问，除非配置 `ports`。
 
@@ -812,10 +780,8 @@ volumes:
 | 第 2 行 | <code>  grafana:</code> | 定义 `grafana` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 3 行 | <code>    volumes:</code> | 定义 `volumes` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 4 行 | <code>      - grafana-data:/var/lib/grafana</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 5 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
 | 第 6 行 | <code>volumes:</code> | 定义 `volumes` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 7 行 | <code>  grafana-data:</code> | 定义 `grafana-data` 配置段，下面缩进的内容都属于这个配置段。 |
-
 
 bind mount：
 
@@ -834,7 +800,6 @@ services:
 | 第 2 行 | <code>  prometheus:</code> | 定义 `prometheus` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 3 行 | <code>    volumes:</code> | 定义 `volumes` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 4 行 | <code>      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-
 
 `:ro` 表示只读挂载，配置文件建议只读。
 
@@ -860,9 +825,8 @@ environment:
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>environment:</code> | 定义 `environment` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  GF_SECURITY_ADMIN_USER: admin</code> | 设置 `GF_SECURITY_ADMIN_USER` 字段的值为 `admin`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 3 行 | <code>  GF_SECURITY_ADMIN_PASSWORD: admin</code> | 设置 `GF_SECURITY_ADMIN_PASSWORD` 字段的值为 `admin`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 2 行 | <code>  GF_SECURITY_ADMIN_USER: admin</code> | `GF_SECURITY_ADMIN_USER` 这个英文标识可以拆开理解为：用户，`admin` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 3 行 | <code>  GF_SECURITY_ADMIN_PASSWORD: admin</code> | `GF_SECURITY_ADMIN_PASSWORD` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`admin` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 列表写法：
 
@@ -879,7 +843,6 @@ environment:
 | 第 1 行 | <code>environment:</code> | 定义 `environment` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 2 行 | <code>  - GF_SECURITY_ADMIN_USER=admin</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
 | 第 3 行 | <code>  - GF_SECURITY_ADMIN_PASSWORD=admin</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-
 
 不要把真实生产密码明文提交到 GitHub。
 
@@ -910,7 +873,6 @@ services:
 | 第 3 行 | <code>    env_file:</code> | 定义 `env_file` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 4 行 | <code>      - .env</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
 
-
 `.env`：
 
 ```text
@@ -922,9 +884,8 @@ GF_SECURITY_ADMIN_PASSWORD=admin
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>GF_SECURITY_ADMIN_USER=admin</code> | 环境变量或键值示例，等号左边是名称，右边是要配置的值。 |
-| 第 2 行 | <code>GF_SECURITY_ADMIN_PASSWORD=admin</code> | 环境变量或键值示例，等号左边是名称，右边是要配置的值。 |
-
+| 第 1 行 | <code>GF_SECURITY_ADMIN_USER=admin</code> | `GF_SECURITY_ADMIN_USER` 这个英文标识可以拆开理解为：用户，`admin` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
+| 第 2 行 | <code>GF_SECURITY_ADMIN_PASSWORD=admin</code> | `GF_SECURITY_ADMIN_PASSWORD` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`admin` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
 
 学习项目可以提交 `.env.example`，不要提交真实 `.env`。
 
@@ -954,11 +915,10 @@ services:
 |---|---|---|
 | 第 1 行 | <code>services:</code> | 定义 `services` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 2 行 | <code>  prometheus:</code> | 定义 `prometheus` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 3 行 | <code>    image: prom/prometheus:v3.5.0</code> | 设置 `image` 字段的值为 `prom/prometheus:v3.5.0`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 3 行 | <code>    image: prom/prometheus:v3.5.0</code> | `image` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`prom/prometheus:v3.5.0` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 4 行 | <code>    command:</code> | 定义 `command` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 5 行 | <code>      - "--config.file=/etc/prometheus/prometheus.yml"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
 | 第 6 行 | <code>      - "--storage.tsdb.path=/prometheus"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-
 
 ### `entrypoint`
 
@@ -998,7 +958,6 @@ services:
 | 第 3 行 | <code>    depends_on:</code> | 定义 `depends_on` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 4 行 | <code>      - prometheus</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
 
-
 带健康条件的写法：
 
 ```yaml
@@ -1017,8 +976,7 @@ services:
 | 第 2 行 | <code>  grafana:</code> | 定义 `grafana` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 3 行 | <code>    depends_on:</code> | 定义 `depends_on` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 4 行 | <code>      prometheus:</code> | 定义 `prometheus` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 5 行 | <code>        condition: service_healthy</code> | 设置 `condition` 字段的值为 `service_healthy`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 5 行 | <code>        condition: service_healthy</code> | `condition` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`service_healthy` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 注意：`depends_on` 不是万能等待器。真正的应用仍然应该有重试能力。
 
@@ -1050,13 +1008,12 @@ services:
 |---|---|---|
 | 第 1 行 | <code>services:</code> | 定义 `services` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 2 行 | <code>  prometheus:</code> | 定义 `prometheus` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 3 行 | <code>    image: prom/prometheus:v3.5.0</code> | 设置 `image` 字段的值为 `prom/prometheus:v3.5.0`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 3 行 | <code>    image: prom/prometheus:v3.5.0</code> | `image` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`prom/prometheus:v3.5.0` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 4 行 | <code>    healthcheck:</code> | 定义 `healthcheck` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 5 行 | <code>      test: ["CMD", "wget", "-qO-", "localhost:9090/-/ready"]</code> | 设置 `test` 字段的值为 `["CMD", "wget", "-qO-", "localhost:9090/-/ready"]`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 6 行 | <code>      interval: 10s</code> | 设置 `interval` 字段的值为 `10s`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 7 行 | <code>      timeout: 3s</code> | 设置 `timeout` 字段的值为 `3s`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 8 行 | <code>      retries: 5</code> | 设置 `retries` 字段的值为 `5`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 5 行 | <code>      test: ["CMD", "wget", "-qO-", "localhost:9090/-/ready"]</code> | `test` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`["CMD", "wget", "-qO-", "localhost:9090/-/ready"]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 6 行 | <code>      interval: 10s</code> | `interval` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`10s` 表示持续秒数，常用于配置采集间隔、超时时间或等待时间；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 7 行 | <code>      timeout: 3s</code> | `timeout` 是超时时间字段，`3s` 表示持续秒数，常用于配置采集间隔、超时时间或等待时间；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 8 行 | <code>      retries: 5</code> | `retries` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`5` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 ### `restart`
 
@@ -1109,14 +1066,11 @@ networks:
 | 第 2 行 | <code>  prometheus:</code> | 定义 `prometheus` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 3 行 | <code>    networks:</code> | 定义 `networks` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 4 行 | <code>      - observability</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 5 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
 | 第 6 行 | <code>  grafana:</code> | 定义 `grafana` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 7 行 | <code>    networks:</code> | 定义 `networks` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 8 行 | <code>      - observability</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 9 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
 | 第 10 行 | <code>networks:</code> | 定义 `networks` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 11 行 | <code>  observability:</code> | 定义 `observability` 配置段，下面缩进的内容都属于这个配置段。 |
-
 
 ### `profiles`
 
@@ -1143,10 +1097,9 @@ services:
 |---|---|---|
 | 第 1 行 | <code>services:</code> | 定义 `services` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 2 行 | <code>  loki:</code> | 定义 `loki` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 3 行 | <code>    image: grafana/loki:latest</code> | 设置 `image` 字段的值为 `grafana/loki:latest`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 3 行 | <code>    image: grafana/loki:latest</code> | `image` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`grafana/loki:latest` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 4 行 | <code>    profiles:</code> | 定义 `profiles` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 5 行 | <code>      - logs</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-
 
 默认不会启动 `loki`。启动时：
 
@@ -1159,7 +1112,6 @@ docker compose --profile logs up -d
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>docker compose --profile logs up -d</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 
 ### `labels`
 
@@ -1183,9 +1135,8 @@ labels:
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>labels:</code> | 定义 `labels` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  aiops.stack: observability</code> | 设置 `aiops.stack` 字段的值为 `observability`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 3 行 | <code>  aiops.role: metrics</code> | 设置 `aiops.role` 字段的值为 `metrics`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 2 行 | <code>  aiops.stack: observability</code> | `aiops.stack` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`observability` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 3 行 | <code>  aiops.role: metrics</code> | `aiops.role` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`metrics` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 ### `logging`
 
@@ -1211,11 +1162,10 @@ logging:
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>logging:</code> | 定义 `logging` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  driver: "json-file"</code> | 设置 `driver` 字段的值为 `"json-file"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 2 行 | <code>  driver: "json-file"</code> | `driver` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`json-file` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 3 行 | <code>  options:</code> | 定义 `options` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 4 行 | <code>    max-size: "10m"</code> | 设置 `max-size` 字段的值为 `"10m"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 5 行 | <code>    max-file: "3"</code> | 设置 `max-file` 字段的值为 `"3"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 4 行 | <code>    max-size: "10m"</code> | `max-size` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`10m` 表示持续分钟数，常用于表示故障已经持续多久；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 5 行 | <code>    max-file: "3"</code> | `max-file` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`3` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 学习环境里不配置也可以，但要知道日志无限增长可能占磁盘。
 
@@ -1231,8 +1181,7 @@ project_default
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>project_default</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>project_default</code> | 这一行里的英文要这样读：`project_default` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 同一 project 里的服务默认加入它，并获得服务名 DNS。
 
@@ -1247,11 +1196,10 @@ grafana container
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>grafana container</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; DNS resolve prometheus</code> | 这一行要理解这些英文词：`DNS resolve prometheus` 是prometheus=指标监控系统。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; prometheus container IP</code> | 这一行要理解这些英文词：`prometheus container IP` 是prometheus=指标监控系统。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 1 行 | <code>grafana container</code> | 这一行里的英文要这样读：`grafana container` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 2 行 | <code>  -&gt; DNS resolve prometheus</code> | 这一行要理解这些英文词：`DNS resolve prometheus` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; prometheus container IP</code> | 这一行要理解这些英文词：`prometheus container IP` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 4 行 | <code>  -&gt; connect 9090</code> | 这一行要理解这些英文词：`connect` 是连接。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 
 自定义网络：
 
@@ -1278,17 +1226,14 @@ services:
 | 第 1 行 | <code>networks:</code> | 定义 `networks` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 2 行 | <code>  frontend:</code> | 定义 `frontend` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 3 行 | <code>  backend:</code> | 定义 `backend` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 4 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
 | 第 5 行 | <code>services:</code> | 定义 `services` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 6 行 | <code>  grafana:</code> | 定义 `grafana` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 7 行 | <code>    networks:</code> | 定义 `networks` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 8 行 | <code>      - frontend</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
 | 第 9 行 | <code>      - backend</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 10 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
 | 第 11 行 | <code>  prometheus:</code> | 定义 `prometheus` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 12 行 | <code>    networks:</code> | 定义 `networks` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 13 行 | <code>      - backend</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-
 
 这样可以限制访问范围。比如浏览器只访问 Grafana，Prometheus 只在 backend 中给 Grafana 使用。
 
@@ -1306,10 +1251,9 @@ host localhost
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>host localhost</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  != grafana container localhost</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>  != prometheus container localhost</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>host localhost</code> | 这一行里的英文要这样读：`host localhost` 这个英文标识可以拆开理解为：主机，本机地址。 |
+| 第 2 行 | <code>  != grafana container localhost</code> | 这一行里的英文要这样读：`grafana container localhost` 这个英文标识可以拆开理解为：本机地址。 |
+| 第 3 行 | <code>  != prometheus container localhost</code> | 这一行里的英文要这样读：`prometheus container localhost` 这个英文标识可以拆开理解为：指标采集和告警规则评估系统，本机地址。 |
 
 Grafana 访问 Prometheus 应该写：
 
@@ -1321,8 +1265,7 @@ prometheus:9090
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>prometheus:9090</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>prometheus:9090</code> | `prometheus` 是指标采集和告警规则评估系统，冒号后面的 `9090` 是这个字段的示例内容或模板表达式。 |
 
 而不是：
 
@@ -1334,8 +1277,7 @@ localhost:9090
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>localhost:9090</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>localhost:9090</code> | `localhost` 是本机地址，冒号后面的 `9090` 是这个字段的示例内容或模板表达式。 |
 
 除非 Prometheus 就运行在 Grafana 容器里，但这不是正常做法。
 
@@ -1369,10 +1311,8 @@ volumes:
 | 第 2 行 | <code>  grafana:</code> | 定义 `grafana` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 3 行 | <code>    volumes:</code> | 定义 `volumes` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 4 行 | <code>      - grafana-data:/var/lib/grafana</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 5 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
 | 第 6 行 | <code>volumes:</code> | 定义 `volumes` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 7 行 | <code>  grafana-data:</code> | 定义 `grafana-data` 配置段，下面缩进的内容都属于这个配置段。 |
-
 
 优点：
 
@@ -1393,7 +1333,6 @@ volumes:
 |---|---|---|
 | 第 1 行 | <code>volumes:</code> | 定义 `volumes` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 2 行 | <code>  - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-
 
 优点：
 
@@ -1430,14 +1369,12 @@ services:
 |---|---|---|
 | 第 1 行 | <code>configs:</code> | 定义 `configs` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 2 行 | <code>  prometheus_config:</code> | 定义 `prometheus_config` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 3 行 | <code>    file: ./prometheus.yml</code> | 设置 `file` 字段的值为 `./prometheus.yml`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 4 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 3 行 | <code>    file: ./prometheus.yml</code> | `file` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`./prometheus.yml` 表示路径值，表示文件、目录或接口路径；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 5 行 | <code>services:</code> | 定义 `services` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 6 行 | <code>  prometheus:</code> | 定义 `prometheus` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 7 行 | <code>    configs:</code> | 定义 `configs` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 8 行 | <code>      - source: prometheus_config</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 9 行 | <code>        target: /etc/prometheus/prometheus.yml</code> | 设置 `target` 字段的值为 `/etc/prometheus/prometheus.yml`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 9 行 | <code>        target: /etc/prometheus/prometheus.yml</code> | `target` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`/etc/prometheus/prometheus.yml` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 学习阶段 bind mount 更常见，configs 更语义化。
 
@@ -1462,13 +1399,11 @@ services:
 |---|---|---|
 | 第 1 行 | <code>secrets:</code> | 定义 `secrets` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 2 行 | <code>  grafana_admin_password:</code> | 定义 `grafana_admin_password` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 3 行 | <code>    file: ./secrets/grafana_admin_password.txt</code> | 设置 `file` 字段的值为 `./secrets/grafana_admin_password.txt`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 4 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 3 行 | <code>    file: ./secrets/grafana_admin_password.txt</code> | `file` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`./secrets/grafana_admin_password.txt` 表示路径值，表示文件、目录或接口路径；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 5 行 | <code>services:</code> | 定义 `services` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 6 行 | <code>  grafana:</code> | 定义 `grafana` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 7 行 | <code>    secrets:</code> | 定义 `secrets` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 8 行 | <code>      - grafana_admin_password</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-
 
 很多镜像需要支持从文件读取 secret 才能发挥作用。不要误以为写了 `secrets` 就自动把应用密码配置好了，还要看镜像如何读取。
 
@@ -1637,19 +1572,18 @@ labs/observability-compose/
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>labs/observability-compose/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  compose.yaml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>  demo-app/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>    Dockerfile</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 5 行 | <code>    app.py</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 6 行 | <code>    requirements.txt</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 7 行 | <code>  prometheus/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 8 行 | <code>    prometheus.yml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 9 行 | <code>  grafana/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 10 行 | <code>    provisioning/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 11 行 | <code>      datasources/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 12 行 | <code>        prometheus.yml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>labs/observability-compose/</code> | `labs/observability-compose/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 2 行 | <code>  compose.yaml</code> | `compose.yaml` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 3 行 | <code>  demo-app/</code> | `demo-app/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 4 行 | <code>    Dockerfile</code> | 这一行里的英文要这样读：`Dockerfile` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
+| 第 5 行 | <code>    app.py</code> | `app.py` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 6 行 | <code>    requirements.txt</code> | `requirements.txt` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 7 行 | <code>  prometheus/</code> | `prometheus/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 8 行 | <code>    prometheus.yml</code> | `prometheus.yml` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 9 行 | <code>  grafana/</code> | `grafana/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 10 行 | <code>    provisioning/</code> | `provisioning/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 11 行 | <code>      datasources/</code> | `datasources/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 12 行 | <code>        prometheus.yml</code> | `prometheus.yml` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 ### 第 2 步：写 demo app
 
@@ -1663,8 +1597,7 @@ prometheus-client==0.20.0
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>prometheus-client==0.20.0</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>prometheus-client==0.20.0</code> | `prometheus-client` 这个英文标识可以拆开理解为：指标采集和告警规则评估系统，客户端，`=0.20.0` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
 
 `demo-app/app.py`：
 
@@ -1722,27 +1655,20 @@ if __name__ == "__main__":
 | 第 1 行 | <code>import random</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
 | 第 2 行 | <code>import time</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
 | 第 3 行 | <code>from http.server import BaseHTTPRequestHandler, HTTPServer</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 4 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 5 行 | <code>from prometheus_client import Counter, Histogram, generate_latest</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 6 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
-| 第 7 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 8 行 | <code>REQUESTS = Counter(</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 9 行 | <code>    "http_requests_total",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 10 行 | <code>    "Total HTTP requests",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 11 行 | <code>    ["path", "status"],</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 12 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 13 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 14 行 | <code>LATENCY = Histogram(</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 15 行 | <code>    "http_request_duration_seconds",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 16 行 | <code>    "HTTP request latency",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 17 行 | <code>    ["path"],</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 18 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 19 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
-| 第 20 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 21 行 | <code>class Handler(BaseHTTPRequestHandler):</code> | 定义类，用来组织一组数据和行为。 |
 | 第 22 行 | <code>    def do_GET(self):</code> | 定义函数，把一段可复用逻辑命名，后续可以反复调用。 |
 | 第 23 行 | <code>        start = time.time()</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 24 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 25 行 | <code>        if self.path == "/metrics":</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
 | 第 26 行 | <code>            body = generate_latest()</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 27 行 | <code>            self.send_response(200)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
@@ -1750,20 +1676,15 @@ if __name__ == "__main__":
 | 第 29 行 | <code>            self.end_headers()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 30 行 | <code>            self.wfile.write(body)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 31 行 | <code>            return</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 32 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 33 行 | <code>        status = 200 if self.path == "/health" else random.choice([200, 200, 500])</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 34 行 | <code>        time.sleep(random.uniform(0.01, 0.2))</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 35 行 | <code>        REQUESTS.labels(path=self.path, status=str(status)).inc()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 36 行 | <code>        LATENCY.labels(path=self.path).observe(time.time() - start)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 37 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 38 行 | <code>        self.send_response(status)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 39 行 | <code>        self.end_headers()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 40 行 | <code>        self.wfile.write(b"ok")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 41 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
-| 第 42 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 43 行 | <code>if __name__ == "__main__":</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
 | 第 44 行 | <code>    HTTPServer(("0.0.0.0", 8000), Handler).serve_forever()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 
 `demo-app/Dockerfile`：
 
@@ -1787,18 +1708,12 @@ CMD ["python", "app.py"]
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>FROM python:3.12-slim</code> | 指定基础镜像，后续镜像会在它的基础上继续构建。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔 Dockerfile 的不同构建阶段或逻辑段。 |
 | 第 3 行 | <code>WORKDIR /app</code> | 设置容器内工作目录，后续命令默认在这个目录执行。 |
-| 第 4 行 | <em>空行</em> | 空行，用来分隔 Dockerfile 的不同构建阶段或逻辑段。 |
 | 第 5 行 | <code>COPY requirements.txt .</code> | 把宿主机项目文件复制进镜像。 |
 | 第 6 行 | <code>RUN python -m pip install --no-cache-dir -r requirements.txt</code> | 在构建镜像时执行命令，常用于安装依赖或准备文件。 |
-| 第 7 行 | <em>空行</em> | 空行，用来分隔 Dockerfile 的不同构建阶段或逻辑段。 |
 | 第 8 行 | <code>COPY app.py .</code> | 把宿主机项目文件复制进镜像。 |
-| 第 9 行 | <em>空行</em> | 空行，用来分隔 Dockerfile 的不同构建阶段或逻辑段。 |
 | 第 10 行 | <code>EXPOSE 8000</code> | 声明容器应用监听的端口，方便读者知道服务入口。 |
-| 第 11 行 | <em>空行</em> | 空行，用来分隔 Dockerfile 的不同构建阶段或逻辑段。 |
 | 第 12 行 | <code>CMD ["python", "app.py"]</code> | 设置容器启动时默认执行的命令。 |
-
 
 ### 第 3 步：写 Prometheus 配置
 
@@ -1824,18 +1739,15 @@ scrape_configs:
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>global:</code> | 定义 `global` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  scrape_interval: 15s</code> | 设置 `scrape_interval` 字段的值为 `15s`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 3 行 | <code>  evaluation_interval: 15s</code> | 设置 `evaluation_interval` 字段的值为 `15s`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 4 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 2 行 | <code>  scrape_interval: 15s</code> | `scrape_interval` 是Prometheus 抓取指标的时间间隔字段，`15s` 表示持续秒数，常用于配置采集间隔、超时时间或等待时间；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 3 行 | <code>  evaluation_interval: 15s</code> | `evaluation_interval` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`15s` 表示持续秒数，常用于配置采集间隔、超时时间或等待时间；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 5 行 | <code>scrape_configs:</code> | 定义 `scrape_configs` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 6 行 | <code>  - job_name: "prometheus"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
 | 第 7 行 | <code>    static_configs:</code> | 定义 `static_configs` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 8 行 | <code>      - targets: ["localhost:9090"]</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 9 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
 | 第 10 行 | <code>  - job_name: "demo-app"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
 | 第 11 行 | <code>    static_configs:</code> | 定义 `static_configs` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 12 行 | <code>      - targets: ["demo-app:8000"]</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-
 
 关键点：`demo-app:8000` 是 Compose 网络里的服务名和端口，不是宿主机地址。
 
@@ -1858,15 +1770,13 @@ datasources:
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>apiVersion: 1</code> | 设置 `apiVersion` 字段的值为 `1`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 1 行 | <code>apiVersion: 1</code> | `apiVersion` 这个英文标识可以拆开理解为：应用程序接口，`1` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 3 行 | <code>datasources:</code> | 定义 `datasources` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 4 行 | <code>  - name: Prometheus</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 5 行 | <code>    type: prometheus</code> | 设置 `type` 字段的值为 `prometheus`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 6 行 | <code>    access: proxy</code> | 设置 `access` 字段的值为 `proxy`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 7 行 | <code>    url: http://prometheus:9090</code> | 设置 `url` 字段的值为 `http://prometheus:9090`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 8 行 | <code>    isDefault: true</code> | 设置 `isDefault` 字段的值为 `true`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 5 行 | <code>    type: prometheus</code> | `type` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`prometheus` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 6 行 | <code>    access: proxy</code> | `access` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`proxy` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 7 行 | <code>    url: http://prometheus:9090</code> | `url` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`http://prometheus:9090` 表示URL 地址，表示页面、接口或文档入口；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 8 行 | <code>    isDefault: true</code> | `isDefault` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`true` 表示开启这个配置；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 Grafana 容器访问 Prometheus 容器，要用 `prometheus:9090`。
 
@@ -1943,25 +1853,23 @@ volumes:
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>name: aiops-observability-lab</code> | 设置 `name` 字段的值为 `aiops-observability-lab`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 1 行 | <code>name: aiops-observability-lab</code> | `name` 是名称字段，`aiops-observability-lab` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 3 行 | <code>services:</code> | 定义 `services` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 4 行 | <code>  demo-app:</code> | 定义 `demo-app` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 5 行 | <code>    build:</code> | 定义 `build` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 6 行 | <code>      context: ./demo-app</code> | 设置 `context` 字段的值为 `./demo-app`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 7 行 | <code>    image: aiops-demo-app:0.1</code> | 设置 `image` 字段的值为 `aiops-demo-app:0.1`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 6 行 | <code>      context: ./demo-app</code> | `context` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`./demo-app` 表示路径值，表示文件、目录或接口路径；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 7 行 | <code>    image: aiops-demo-app:0.1</code> | `image` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`aiops-demo-app:0.1` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 8 行 | <code>    ports:</code> | 定义 `ports` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 9 行 | <code>      - "8000:8000"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
 | 第 10 行 | <code>    healthcheck:</code> | 定义 `healthcheck` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 11 行 | <code>      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=2)"]</code> | 设置 `test` 字段的值为 `["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=2)"]`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 12 行 | <code>      interval: 10s</code> | 设置 `interval` 字段的值为 `10s`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 13 行 | <code>      timeout: 3s</code> | 设置 `timeout` 字段的值为 `3s`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 14 行 | <code>      retries: 5</code> | 设置 `retries` 字段的值为 `5`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 11 行 | <code>      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=2)"]</code> | `test` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=2)"]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 12 行 | <code>      interval: 10s</code> | `interval` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`10s` 表示持续秒数，常用于配置采集间隔、超时时间或等待时间；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 13 行 | <code>      timeout: 3s</code> | `timeout` 是超时时间字段，`3s` 表示持续秒数，常用于配置采集间隔、超时时间或等待时间；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 14 行 | <code>      retries: 5</code> | `retries` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`5` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 15 行 | <code>    networks:</code> | 定义 `networks` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 16 行 | <code>      - observability</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 17 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
 | 第 18 行 | <code>  prometheus:</code> | 定义 `prometheus` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 19 行 | <code>    image: prom/prometheus:v3.5.0</code> | 设置 `image` 字段的值为 `prom/prometheus:v3.5.0`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 19 行 | <code>    image: prom/prometheus:v3.5.0</code> | `image` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`prom/prometheus:v3.5.0` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 20 行 | <code>    ports:</code> | 定义 `ports` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 21 行 | <code>      - "9090:9090"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
 | 第 22 行 | <code>    volumes:</code> | 定义 `volumes` 配置段，下面缩进的内容都属于这个配置段。 |
@@ -1973,39 +1881,35 @@ volumes:
 | 第 28 行 | <code>      - "--storage.tsdb.retention.time=7d"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
 | 第 29 行 | <code>    depends_on:</code> | 定义 `depends_on` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 30 行 | <code>      demo-app:</code> | 定义 `demo-app` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 31 行 | <code>        condition: service_healthy</code> | 设置 `condition` 字段的值为 `service_healthy`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 31 行 | <code>        condition: service_healthy</code> | `condition` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`service_healthy` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 32 行 | <code>    healthcheck:</code> | 定义 `healthcheck` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 33 行 | <code>      test: ["CMD", "wget", "-qO-", "localhost:9090/-/ready"]</code> | 设置 `test` 字段的值为 `["CMD", "wget", "-qO-", "localhost:9090/-/ready"]`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 34 行 | <code>      interval: 10s</code> | 设置 `interval` 字段的值为 `10s`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 35 行 | <code>      timeout: 3s</code> | 设置 `timeout` 字段的值为 `3s`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 36 行 | <code>      retries: 5</code> | 设置 `retries` 字段的值为 `5`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 33 行 | <code>      test: ["CMD", "wget", "-qO-", "localhost:9090/-/ready"]</code> | `test` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`["CMD", "wget", "-qO-", "localhost:9090/-/ready"]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 34 行 | <code>      interval: 10s</code> | `interval` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`10s` 表示持续秒数，常用于配置采集间隔、超时时间或等待时间；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 35 行 | <code>      timeout: 3s</code> | `timeout` 是超时时间字段，`3s` 表示持续秒数，常用于配置采集间隔、超时时间或等待时间；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 36 行 | <code>      retries: 5</code> | `retries` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`5` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 37 行 | <code>    networks:</code> | 定义 `networks` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 38 行 | <code>      - observability</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 39 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
 | 第 40 行 | <code>  grafana:</code> | 定义 `grafana` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 41 行 | <code>    image: grafana/grafana:latest</code> | 设置 `image` 字段的值为 `grafana/grafana:latest`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 41 行 | <code>    image: grafana/grafana:latest</code> | `image` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`grafana/grafana:latest` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 42 行 | <code>    ports:</code> | 定义 `ports` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 43 行 | <code>      - "3000:3000"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
 | 第 44 行 | <code>    environment:</code> | 定义 `environment` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 45 行 | <code>      GF_SECURITY_ADMIN_USER: admin</code> | 设置 `GF_SECURITY_ADMIN_USER` 字段的值为 `admin`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 46 行 | <code>      GF_SECURITY_ADMIN_PASSWORD: admin</code> | 设置 `GF_SECURITY_ADMIN_PASSWORD` 字段的值为 `admin`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 47 行 | <code>      GF_USERS_ALLOW_SIGN_UP: "false"</code> | 设置 `GF_USERS_ALLOW_SIGN_UP` 字段的值为 `"false"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 45 行 | <code>      GF_SECURITY_ADMIN_USER: admin</code> | `GF_SECURITY_ADMIN_USER` 这个英文标识可以拆开理解为：用户，`admin` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 46 行 | <code>      GF_SECURITY_ADMIN_PASSWORD: admin</code> | `GF_SECURITY_ADMIN_PASSWORD` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`admin` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 47 行 | <code>      GF_USERS_ALLOW_SIGN_UP: "false"</code> | `GF_USERS_ALLOW_SIGN_UP` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`false` 表示关闭这个配置；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 48 行 | <code>    volumes:</code> | 定义 `volumes` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 49 行 | <code>      - grafana-data:/var/lib/grafana</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
 | 第 50 行 | <code>      - ./grafana/provisioning:/etc/grafana/provisioning:ro</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
 | 第 51 行 | <code>    depends_on:</code> | 定义 `depends_on` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 52 行 | <code>      prometheus:</code> | 定义 `prometheus` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 53 行 | <code>        condition: service_healthy</code> | 设置 `condition` 字段的值为 `service_healthy`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 53 行 | <code>        condition: service_healthy</code> | `condition` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`service_healthy` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 54 行 | <code>    networks:</code> | 定义 `networks` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 55 行 | <code>      - observability</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 56 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
 | 第 57 行 | <code>networks:</code> | 定义 `networks` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 58 行 | <code>  observability:</code> | 定义 `observability` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 59 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
 | 第 60 行 | <code>volumes:</code> | 定义 `volumes` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 61 行 | <code>  prometheus-data:</code> | 定义 `prometheus-data` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 62 行 | <code>  grafana-data:</code> | 定义 `grafana-data` 配置段，下面缩进的内容都属于这个配置段。 |
-
 
 注意：healthcheck 里的 `localhost` 是容器内部自检，含义和 Grafana 访问 Prometheus 时不同。demo app 检查自己可以用 `localhost:8000`，Grafana 访问 Prometheus 要用 `prometheus:9090`。
 
@@ -2021,7 +1925,6 @@ docker compose config
 |---|---|---|
 | 第 1 行 | <code>docker compose config</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
 
-
 如果 YAML 缩进错误、字段明显错误，这一步通常会提示。
 
 ### 第 7 步：启动实验室
@@ -2036,7 +1939,6 @@ docker compose up -d --build
 |---|---|---|
 | 第 1 行 | <code>docker compose up -d --build</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
-
 查看状态：
 
 ```bash
@@ -2048,7 +1950,6 @@ docker compose ps
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>docker compose ps</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
-
 
 预期：
 
@@ -2068,8 +1969,7 @@ localhost:8000/health
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>localhost:8000/health</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>localhost:8000/health</code> | `localhost` 是本机地址，冒号后面的 `8000/health` 是这个字段的示例内容或模板表达式。 |
 
 访问 Prometheus targets：
 
@@ -2081,8 +1981,7 @@ localhost:9090/targets
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>localhost:9090/targets</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>localhost:9090/targets</code> | `localhost` 是本机地址，冒号后面的 `9090/targets` 是这个字段的示例内容或模板表达式。 |
 
 访问 Grafana：
 
@@ -2094,8 +1993,7 @@ localhost:3000
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>localhost:3000</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>localhost:3000</code> | `localhost` 是本机地址，冒号后面的 `3000` 是这个字段的示例内容或模板表达式。 |
 
 Grafana 登录：
 
@@ -2107,8 +2005,7 @@ admin / admin
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>admin / admin</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>admin / admin</code> | `admin / admin` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 ### 第 9 步：验证 Prometheus 查询
 
@@ -2122,8 +2019,7 @@ up
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>up</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>up</code> | 这一行里的英文要这样读：`up` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 再查询 demo app 请求速率：
 
@@ -2135,8 +2031,7 @@ sum(rate(http_requests_total{job="demo-app"}[5m]))
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>sum(rate(http_requests_total{job="demo-app"}[5m]))</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>sum(rate(http_requests_total{job="demo-app"}[5m]))</code> | `job` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`demo-app` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
 
 如果没有请求，先访问几次：
 
@@ -2152,7 +2047,6 @@ curl localhost:8000/health
 | 第 1 行 | <code>curl localhost:8000/</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
 | 第 2 行 | <code>curl localhost:8000/health</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
 
-
 ### 第 10 步：验证 Grafana 数据源
 
 Grafana 已通过 provisioning 自动加载 Prometheus 数据源。
@@ -2167,8 +2061,7 @@ up
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>up</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>up</code> | 这一行里的英文要这样读：`up` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 如果能看到 `prometheus` 和 `demo-app`，说明 Compose 网络、Prometheus 抓取、Grafana 数据源都打通了。
 
@@ -2188,7 +2081,6 @@ docker compose config
 |---|---|---|
 | 第 1 行 | <code>docker compose config</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
 
-
 再看具体服务日志：
 
 ```bash
@@ -2204,7 +2096,6 @@ docker compose logs grafana
 | 第 1 行 | <code>docker compose logs demo-app</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
 | 第 2 行 | <code>docker compose logs prometheus</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
 | 第 3 行 | <code>docker compose logs grafana</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
-
 
 常见原因：
 
@@ -2226,8 +2117,7 @@ port is already allocated
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>port is already allocated</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>port is already allocated</code> | 这一行里的英文要这样读：`port is already allocated` 这个英文标识可以拆开理解为：端口。 |
 
 处理：改左侧宿主机端口。
 
@@ -2243,7 +2133,6 @@ ports:
 | 第 1 行 | <code>ports:</code> | 定义 `ports` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 2 行 | <code>  - "3001:3000"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
 
-
 访问改成：
 
 ```text
@@ -2254,8 +2143,7 @@ localhost:3001
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>localhost:3001</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>localhost:3001</code> | `localhost` 是本机地址，冒号后面的 `3001` 是这个字段的示例内容或模板表达式。 |
 
 ### Prometheus target DOWN
 
@@ -2274,7 +2162,6 @@ docker compose exec prometheus wget -qO- demo-app:8000/metrics
 | 第 1 行 | <code>docker compose ps</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
 | 第 2 行 | <code>docker compose logs prometheus</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
 | 第 3 行 | <code>docker compose exec prometheus wget -qO- demo-app:8000/metrics</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
-
 
 重点：
 
@@ -2297,7 +2184,6 @@ docker compose exec grafana wget -qO- prometheus:9090/-/ready
 |---|---|---|
 | 第 1 行 | <code>docker compose exec grafana wget -qO- prometheus:9090/-/ready</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
 
-
 如果失败：
 
 - 确认服务名是 `prometheus`。
@@ -2319,7 +2205,6 @@ docker compose restart prometheus
 |---|---|---|
 | 第 1 行 | <code>docker compose restart prometheus</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
 
-
 修改 `compose.yaml`：
 
 ```bash
@@ -2332,7 +2217,6 @@ docker compose up -d
 |---|---|---|
 | 第 1 行 | <code>docker compose up -d</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
 
-
 修改 Dockerfile 或依赖：
 
 ```bash
@@ -2344,7 +2228,6 @@ docker compose up -d --build
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>docker compose up -d --build</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 
 ### 数据丢失
 
@@ -2359,7 +2242,6 @@ docker compose down -v
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>docker compose down -v</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
-
 
 会删除 volumes。Prometheus TSDB 和 Grafana 数据可能丢失。
 
@@ -2376,7 +2258,6 @@ docker compose down
 |---|---|---|
 | 第 1 行 | <code>docker volume ls</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
 | 第 2 行 | <code>docker compose down</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
-
 
 不带 `-v` 通常会保留命名卷。
 
@@ -2441,27 +2322,26 @@ labs/
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>labs/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  observability-compose/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>    README.md</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>    compose.yaml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 5 行 | <code>    demo-app/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 6 行 | <code>      Dockerfile</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 7 行 | <code>      app.py</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 8 行 | <code>      requirements.txt</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 9 行 | <code>    prometheus/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 10 行 | <code>      prometheus.yml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 11 行 | <code>      rules/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 12 行 | <code>        alerting.yml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 13 行 | <code>    grafana/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 14 行 | <code>      provisioning/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 15 行 | <code>        datasources/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 16 行 | <code>          prometheus.yml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 17 行 | <code>        dashboards/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 18 行 | <code>          dashboards.yml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 19 行 | <code>      dashboards/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 20 行 | <code>        demo-api-overview.json</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>labs/</code> | `labs/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 2 行 | <code>  observability-compose/</code> | `observability-compose/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 3 行 | <code>    README.md</code> | `README.md` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 4 行 | <code>    compose.yaml</code> | `compose.yaml` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 5 行 | <code>    demo-app/</code> | `demo-app/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 6 行 | <code>      Dockerfile</code> | 这一行里的英文要这样读：`Dockerfile` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
+| 第 7 行 | <code>      app.py</code> | `app.py` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 8 行 | <code>      requirements.txt</code> | `requirements.txt` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 9 行 | <code>    prometheus/</code> | `prometheus/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 10 行 | <code>      prometheus.yml</code> | `prometheus.yml` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 11 行 | <code>      rules/</code> | `rules/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 12 行 | <code>        alerting.yml</code> | `alerting.yml` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 13 行 | <code>    grafana/</code> | `grafana/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 14 行 | <code>      provisioning/</code> | `provisioning/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 15 行 | <code>        datasources/</code> | `datasources/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 16 行 | <code>          prometheus.yml</code> | `prometheus.yml` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 17 行 | <code>        dashboards/</code> | `dashboards/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 18 行 | <code>          dashboards.yml</code> | `dashboards.yml` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 19 行 | <code>      dashboards/</code> | `dashboards/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 20 行 | <code>        demo-api-overview.json</code> | `demo-api-overview.json` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 README 至少写：
 

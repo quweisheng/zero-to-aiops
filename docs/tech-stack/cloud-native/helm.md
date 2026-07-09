@@ -39,11 +39,10 @@ ingress.yaml
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>deployment.yaml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>service.yaml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>configmap.yaml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>ingress.yaml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>deployment.yaml</code> | `deployment.yaml` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 2 行 | <code>service.yaml</code> | `service.yaml` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 3 行 | <code>configmap.yaml</code> | `configmap.yaml` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 4 行 | <code>ingress.yaml</code> | `ingress.yaml` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 一开始这很好。但项目稍微复杂一点，问题就来了：
 
@@ -80,15 +79,14 @@ Chart
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>Chart</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; Chart.yaml 描述包</code> | 这一行要理解这些英文词：`Chart.yaml` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; values.yaml 提供默认配置</code> | 这一行要理解这些英文词：`values.yaml` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; templates/ 放 Kubernetes YAML 模板</code> | 这一行要理解这些英文词：`templates` 是模板；`Kubernetes YAML` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; helm template 本地渲染</code> | 这一行要理解这些英文词：`helm template` 是helm=Kubernetes 包管理工具。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; helm install 安装成 release</code> | 这一行要理解这些英文词：`helm install` 是helm=Kubernetes 包管理工具；`release` 是发布版本，把代码或配置交付到可用环境。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; helm upgrade 生成新 revision</code> | 这一行要理解这些英文词：`helm upgrade` 是helm=Kubernetes 包管理工具；`revision` 是版本修订号，用来标识一次配置或部署版本。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>  -&gt; helm rollback 回到旧 revision 的配置</code> | 这一行要理解这些英文词：`helm rollback` 是helm=Kubernetes 包管理工具，rollback=回滚；`revision` 是版本修订号，用来标识一次配置或部署版本。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 1 行 | <code>Chart</code> | 这一行里的英文要这样读：`Chart` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
+| 第 2 行 | <code>  -&gt; Chart.yaml 描述包</code> | 这一行要理解这些英文词：`Chart.yaml` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; values.yaml 提供默认配置</code> | 这一行要理解这些英文词：`values.yaml` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; templates/ 放 Kubernetes YAML 模板</code> | 这一行要理解这些英文词：`templates` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`Kubernetes YAML` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; helm template 本地渲染</code> | 这一行要理解这些英文词：`helm template` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; helm install 安装成 release</code> | 这一行要理解这些英文词：`helm install` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`release` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; helm upgrade 生成新 revision</code> | 这一行要理解这些英文词：`helm upgrade` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`revision` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; helm rollback 回到旧 revision 的配置</code> | 这一行要理解这些英文词：`helm rollback` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`revision` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 第一阶段必须掌握：
 
@@ -167,50 +165,46 @@ Helm Commands
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>Intro</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; Helm 是什么</code> | 这一行要理解这些英文词：`Helm` 是Kubernetes 包管理工具。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; 安装 Helm</code> | 这一行要理解这些英文词：`Helm` 是Kubernetes 包管理工具。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; Using Helm</code> | 这一行要理解这些英文词：`Using Helm` 是helm=Kubernetes 包管理工具。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; Cheat Sheet</code> | 这一行要理解这些英文词：`Cheat Sheet` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
-| 第 7 行 | <code>Topics</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 8 行 | <code>  -&gt; Charts</code> | 这一行要理解这些英文词：`Charts` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 9 行 | <code>  -&gt; Chart Hooks</code> | 这一行要理解这些英文词：`Chart Hooks` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 10 行 | <code>  -&gt; Chart Repository</code> | 这一行要理解这些英文词：`Chart Repository` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 11 行 | <code>  -&gt; Registries</code> | 这一行要理解这些英文词：`Registries` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 12 行 | <code>  -&gt; Plugins</code> | 这一行要理解这些英文词：`Plugins` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 13 行 | <code>  -&gt; Provenance and Integrity</code> | 这一行要理解这些英文词：`Provenance and Integrity` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 14 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
-| 第 15 行 | <code>Chart Template Guide</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 16 行 | <code>  -&gt; Getting Started</code> | 这一行要理解这些英文词：`Getting Started` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 17 行 | <code>  -&gt; Built-in Objects</code> | 这一行要理解这些英文词：`Built-in Objects` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 18 行 | <code>  -&gt; Values Files</code> | 这一行要理解这些英文词：`Values Files` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 19 行 | <code>  -&gt; Functions and Pipelines</code> | 这一行要理解这些英文词：`Functions and Pipelines` 是functions=函数。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 20 行 | <code>  -&gt; Flow Control</code> | 这一行要理解这些英文词：`Flow Control` 是control=控制。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 21 行 | <code>  -&gt; Variables</code> | 这一行要理解这些英文词：`Variables` 是变量。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 22 行 | <code>  -&gt; Named Templates</code> | 这一行要理解这些英文词：`Named Templates` 是templates=模板。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 23 行 | <code>  -&gt; Files</code> | 这一行要理解这些英文词：`Files` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 24 行 | <code>  -&gt; NOTES.txt</code> | 这一行要理解这些英文词：`NOTES.txt` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 25 行 | <code>  -&gt; Subcharts and Global Values</code> | 这一行要理解这些英文词：`Subcharts and Global Values` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 26 行 | <code>  -&gt; Debugging Templates</code> | 这一行要理解这些英文词：`Debugging Templates` 是templates=模板。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 27 行 | <code>  -&gt; YAML Techniques</code> | 这一行要理解这些英文词：`YAML Techniques` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 28 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
-| 第 29 行 | <code>Helm Commands</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 30 行 | <code>  -&gt; helm create</code> | 这一行要理解这些英文词：`helm create` 是helm=Kubernetes 包管理工具。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 31 行 | <code>  -&gt; helm lint</code> | 这一行要理解这些英文词：`helm lint` 是helm=Kubernetes 包管理工具。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 32 行 | <code>  -&gt; helm template</code> | 这一行要理解这些英文词：`helm template` 是helm=Kubernetes 包管理工具。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 33 行 | <code>  -&gt; helm install</code> | 这一行要理解这些英文词：`helm install` 是helm=Kubernetes 包管理工具。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 34 行 | <code>  -&gt; helm upgrade</code> | 这一行要理解这些英文词：`helm upgrade` 是helm=Kubernetes 包管理工具。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 35 行 | <code>  -&gt; helm rollback</code> | 这一行要理解这些英文词：`helm rollback` 是helm=Kubernetes 包管理工具，rollback=回滚。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 36 行 | <code>  -&gt; helm status</code> | 这一行要理解这些英文词：`helm status` 是helm=Kubernetes 包管理工具。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 37 行 | <code>  -&gt; helm history</code> | 这一行要理解这些英文词：`helm history` 是helm=Kubernetes 包管理工具。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 38 行 | <code>  -&gt; helm get</code> | 这一行要理解这些英文词：`helm get` 是helm=Kubernetes 包管理工具。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 39 行 | <code>  -&gt; helm uninstall</code> | 这一行要理解这些英文词：`helm uninstall` 是helm=Kubernetes 包管理工具。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 40 行 | <code>  -&gt; helm repo</code> | 这一行要理解这些英文词：`helm repo` 是helm=Kubernetes 包管理工具。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 41 行 | <code>  -&gt; helm dependency</code> | 这一行要理解这些英文词：`helm dependency` 是helm=Kubernetes 包管理工具。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 42 行 | <code>  -&gt; helm package</code> | 这一行要理解这些英文词：`helm package` 是helm=Kubernetes 包管理工具。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 43 行 | <code>  -&gt; helm show</code> | 这一行要理解这些英文词：`helm show` 是helm=Kubernetes 包管理工具。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 1 行 | <code>Intro</code> | 这一行里的英文要这样读：`Intro` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
+| 第 2 行 | <code>  -&gt; Helm 是什么</code> | 这一行要理解这些英文词：`Helm` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; 安装 Helm</code> | 这一行要理解这些英文词：`Helm` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; Using Helm</code> | 这一行要理解这些英文词：`Using Helm` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; Cheat Sheet</code> | 这一行要理解这些英文词：`Cheat Sheet` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>Topics</code> | 这一行里的英文要这样读：`Topics` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
+| 第 8 行 | <code>  -&gt; Charts</code> | 这一行要理解这些英文词：`Charts` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>  -&gt; Chart Hooks</code> | 这一行要理解这些英文词：`Chart Hooks` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>  -&gt; Chart Repository</code> | 这一行要理解这些英文词：`Chart Repository` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>  -&gt; Registries</code> | 这一行要理解这些英文词：`Registries` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 12 行 | <code>  -&gt; Plugins</code> | 这一行要理解这些英文词：`Plugins` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 13 行 | <code>  -&gt; Provenance and Integrity</code> | 这一行要理解这些英文词：`Provenance and Integrity` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 15 行 | <code>Chart Template Guide</code> | 这一行里的英文要这样读：`Chart Template Guide` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 16 行 | <code>  -&gt; Getting Started</code> | 这一行要理解这些英文词：`Getting Started` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 17 行 | <code>  -&gt; Built-in Objects</code> | 这一行要理解这些英文词：`Built-in Objects` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 18 行 | <code>  -&gt; Values Files</code> | 这一行要理解这些英文词：`Values Files` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 19 行 | <code>  -&gt; Functions and Pipelines</code> | 这一行要理解这些英文词：`Functions and Pipelines` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 20 行 | <code>  -&gt; Flow Control</code> | 这一行要理解这些英文词：`Flow Control` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 21 行 | <code>  -&gt; Variables</code> | 这一行要理解这些英文词：`Variables` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 22 行 | <code>  -&gt; Named Templates</code> | 这一行要理解这些英文词：`Named Templates` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 23 行 | <code>  -&gt; Files</code> | 这一行要理解这些英文词：`Files` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 24 行 | <code>  -&gt; NOTES.txt</code> | 这一行要理解这些英文词：`NOTES.txt` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 25 行 | <code>  -&gt; Subcharts and Global Values</code> | 这一行要理解这些英文词：`Subcharts and Global Values` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 26 行 | <code>  -&gt; Debugging Templates</code> | 这一行要理解这些英文词：`Debugging Templates` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 27 行 | <code>  -&gt; YAML Techniques</code> | 这一行要理解这些英文词：`YAML Techniques` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 29 行 | <code>Helm Commands</code> | 这一行里的英文要这样读：`Helm Commands` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 30 行 | <code>  -&gt; helm create</code> | 这一行要理解这些英文词：`helm create` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 31 行 | <code>  -&gt; helm lint</code> | 这一行要理解这些英文词：`helm lint` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 32 行 | <code>  -&gt; helm template</code> | 这一行要理解这些英文词：`helm template` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 33 行 | <code>  -&gt; helm install</code> | 这一行要理解这些英文词：`helm install` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 34 行 | <code>  -&gt; helm upgrade</code> | 这一行要理解这些英文词：`helm upgrade` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 35 行 | <code>  -&gt; helm rollback</code> | 这一行要理解这些英文词：`helm rollback` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 36 行 | <code>  -&gt; helm status</code> | 这一行要理解这些英文词：`helm status` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 37 行 | <code>  -&gt; helm history</code> | 这一行要理解这些英文词：`helm history` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 38 行 | <code>  -&gt; helm get</code> | 这一行要理解这些英文词：`helm get` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 39 行 | <code>  -&gt; helm uninstall</code> | 这一行要理解这些英文词：`helm uninstall` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 40 行 | <code>  -&gt; helm repo</code> | 这一行要理解这些英文词：`helm repo` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 41 行 | <code>  -&gt; helm dependency</code> | 这一行要理解这些英文词：`helm dependency` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 42 行 | <code>  -&gt; helm package</code> | 这一行要理解这些英文词：`helm package` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 43 行 | <code>  -&gt; helm show</code> | 这一行要理解这些英文词：`helm show` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 新手学习顺序建议：
 
@@ -226,12 +220,11 @@ Helm Commands
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>先学 Chart 是什么</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; 再学 values 怎么传入</code> | 这一行要理解这些英文词：`values` 是值，配置、变量或字段里的具体内容。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; 再学 template 怎么渲染</code> | 这一行要理解这些英文词：`template` 是模板，用变量生成配置或文本。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; 再学 release 怎么安装和升级</code> | 这一行要理解这些英文词：`release` 是发布版本，把代码或配置交付到可用环境。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; 最后学 dependency、hook、repository</code> | 这一行要理解这些英文词：`dependency` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`hook` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`repository` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 1 行 | <code>先学 Chart 是什么</code> | 这一行里的英文要这样读：`Chart` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
+| 第 2 行 | <code>  -&gt; 再学 values 怎么传入</code> | 这一行要理解这些英文词：`values` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; 再学 template 怎么渲染</code> | 这一行要理解这些英文词：`template` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; 再学 release 怎么安装和升级</code> | 这一行要理解这些英文词：`release` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; 最后学 dependency、hook、repository</code> | 这一行要理解这些英文词：`dependency` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`hook` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`repository` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 不要一开始就沉迷 Go template 语法。Helm 的核心问题是：如何把 Kubernetes 对象变成可重复发布的软件包。
 
@@ -255,16 +248,15 @@ Git 仓库
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>Git 仓库</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; Helm Chart</code> | 这一行要理解这些英文词：`Helm Chart` 是helm=Kubernetes 包管理工具。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; values-dev.yaml / values-prod.yaml</code> | 这一行要理解这些英文词：`values-dev.yaml` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`values-prod.yaml` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; CI/CD</code> | 这一行要理解这些英文词：`CI` 是持续集成；`CD` 是持续交付或持续部署。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; helm lint</code> | 这一行要理解这些英文词：`helm lint` 是helm=Kubernetes 包管理工具。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; helm template</code> | 这一行要理解这些英文词：`helm template` 是helm=Kubernetes 包管理工具。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; helm upgrade --install</code> | 这一行要理解这些英文词：`helm upgrade` 是helm=Kubernetes 包管理工具；`install` 是安装，把工具或依赖放到环境里。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>  -&gt; Kubernetes Deployment / Service / ConfigMap / Ingress</code> | 这一行要理解这些英文词：`Kubernetes Deployment` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`Service` 是服务；`ConfigMap` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`Ingress` 是Kubernetes 入站流量规则，定义外部请求如何进入集群服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 9 行 | <code>  -&gt; Prometheus / Grafana / Alertmanager 观测</code> | 这一行要理解这些英文词：`Prometheus` 是指标监控系统；`Grafana` 是仪表盘和可视化平台，用来展示指标、日志和告警数据；`Alertmanager` 是Prometheus 生态里的告警管理器。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 1 行 | <code>Git 仓库</code> | 这一行里的英文要这样读：`Git` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
+| 第 2 行 | <code>  -&gt; Helm Chart</code> | 这一行要理解这些英文词：`Helm Chart` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; values-dev.yaml / values-prod.yaml</code> | 这一行要理解这些英文词：`values-dev.yaml` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`values-prod.yaml` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; CI/CD</code> | 这一行要理解这些英文词：`CI` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`CD` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; helm lint</code> | 这一行要理解这些英文词：`helm lint` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; helm template</code> | 这一行要理解这些英文词：`helm template` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; helm upgrade --install</code> | 这一行要理解这些英文词：`helm upgrade` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`install` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; Kubernetes Deployment / Service / ConfigMap / Ingress</code> | 这一行要理解这些英文词：`Kubernetes Deployment` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`Service` 是服务；`ConfigMap` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`Ingress` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>  -&gt; Prometheus / Grafana / Alertmanager 观测</code> | 这一行要理解这些英文词：`Prometheus` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`Grafana` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`Alertmanager` 是Prometheus 生态里的告警管理器。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 Helm 给 AIOps 提供的证据：
 
@@ -300,7 +292,6 @@ kubectl get events -n aiops --sort-by=.lastTimestamp
 | 第 5 行 | <code>kubectl get deploy,rs,pod,svc -n aiops -l app.kubernetes.io/instance=aiops-api</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 | 第 6 行 | <code>kubectl get events -n aiops --sort-by=.lastTimestamp</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
-
 ## Helm 是什么
 
 Helm 是 Kubernetes 的包管理器。它把一组 Kubernetes manifests 组织成 Chart，并支持通过 values 参数化，最后安装到集群成为 release。
@@ -326,11 +317,10 @@ Revision 像这个应用实例的发布历史
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>Chart 像安装包</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>values 像安装参数</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>Release 像一次安装出来的应用实例</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>Revision 像这个应用实例的发布历史</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>Chart 像安装包</code> | 这一行里的英文要这样读：`Chart` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
+| 第 2 行 | <code>values 像安装参数</code> | 这一行里的英文要这样读：`values` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 3 行 | <code>Release 像一次安装出来的应用实例</code> | 这一行里的英文要这样读：`Release` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
+| 第 4 行 | <code>Revision 像这个应用实例的发布历史</code> | 这一行里的英文要这样读：`Revision` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
 
 同一个 Chart 可以安装多次，生成多个 release：
 
@@ -345,7 +335,6 @@ helm install api-prod ./aiops-api -n prod
 |---|---|---|
 | 第 1 行 | <code>helm install api-dev ./aiops-api -n dev</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
 | 第 2 行 | <code>helm install api-prod ./aiops-api -n prod</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
-
 
 它们使用同一个 Chart，但 release 名、namespace、values 可以不同。
 
@@ -363,7 +352,6 @@ kubectl apply -f deployment.yaml
 |---|---|---|
 | 第 1 行 | <code>kubectl apply -f deployment.yaml</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 
-
 Helm 先渲染 Chart，再操作 Kubernetes 对象，并记录 release 历史。
 
 ```bash
@@ -375,7 +363,6 @@ helm upgrade --install aiops-api ./chart -n aiops -f values-prod.yaml
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>helm upgrade --install aiops-api ./chart -n aiops -f values-prod.yaml</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 
 区别：
 
@@ -410,16 +397,15 @@ helm install aiops-api ./chart -f values-prod.yaml
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>helm install aiops-api ./chart -f values-prod.yaml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; 读取 Chart.yaml</code> | 这一行要理解这些英文词：`Chart.yaml` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; 读取 values.yaml</code> | 这一行要理解这些英文词：`values.yaml` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; 合并用户 values</code> | 这一行要理解这些英文词：`values` 是值，配置、变量或字段里的具体内容。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; 渲染 templates/</code> | 这一行要理解这些英文词：`templates` 是模板。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; 生成 Kubernetes manifests</code> | 这一行要理解这些英文词：`Kubernetes manifests` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; 发送给 kube-apiserver</code> | 这一行要理解这些英文词：`kube-apiserver` 是Kubernetes API 服务，是集群控制面的入口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>  -&gt; 创建 Deployment / Service / ConfigMap ...</code> | 这一行要理解这些英文词：`Deployment` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`Service` 是服务；`ConfigMap` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 9 行 | <code>  -&gt; 记录 release revision 1</code> | 这一行要理解这些英文词：`release revision` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 1 行 | <code>helm install aiops-api ./chart -f values-prod.yaml</code> | `helm install aiops-api ./chart -f values-prod.yaml` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 2 行 | <code>  -&gt; 读取 Chart.yaml</code> | 这一行要理解这些英文词：`Chart.yaml` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; 读取 values.yaml</code> | 这一行要理解这些英文词：`values.yaml` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; 合并用户 values</code> | 这一行要理解这些英文词：`values` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; 渲染 templates/</code> | 这一行要理解这些英文词：`templates` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; 生成 Kubernetes manifests</code> | 这一行要理解这些英文词：`Kubernetes manifests` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; 发送给 kube-apiserver</code> | 这一行要理解这些英文词：`kube-apiserver` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; 创建 Deployment / Service / ConfigMap ...</code> | 这一行要理解这些英文词：`Deployment` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`Service` 是服务；`ConfigMap` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>  -&gt; 记录 release revision 1</code> | 这一行要理解这些英文词：`release revision` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 一次 upgrade：
 
@@ -435,12 +421,11 @@ helm upgrade aiops-api ./chart -f values-prod.yaml
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>helm upgrade aiops-api ./chart -f values-prod.yaml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; 重新合并 values</code> | 这一行要理解这些英文词：`values` 是值，配置、变量或字段里的具体内容。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; 重新渲染 manifests</code> | 这一行要理解这些英文词：`manifests` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; 对比并更新 Kubernetes 对象</code> | 这一行要理解这些英文词：`Kubernetes` 是容器编排平台，用来部署、调度和管理容器化应用。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; 记录 release revision 2</code> | 这一行要理解这些英文词：`release revision` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 1 行 | <code>helm upgrade aiops-api ./chart -f values-prod.yaml</code> | `helm upgrade aiops-api ./chart -f values-prod.yaml` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 2 行 | <code>  -&gt; 重新合并 values</code> | 这一行要理解这些英文词：`values` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; 重新渲染 manifests</code> | 这一行要理解这些英文词：`manifests` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; 对比并更新 Kubernetes 对象</code> | 这一行要理解这些英文词：`Kubernetes` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; 记录 release revision 2</code> | 这一行要理解这些英文词：`release revision` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 一次 rollback：
 
@@ -455,11 +440,10 @@ helm rollback aiops-api 1
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>helm rollback aiops-api 1</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; 找到 revision 1 的配置和 manifest</code> | 这一行要理解这些英文词：`revision` 是版本修订号，用来标识一次配置或部署版本；`manifest` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 1 行 | <code>helm rollback aiops-api 1</code> | 这一行里的英文要这样读：`helm rollback aiops-api` 这个英文标识可以拆开理解为：应用程序接口。 |
+| 第 2 行 | <code>  -&gt; 找到 revision 1 的配置和 manifest</code> | 这一行要理解这些英文词：`revision` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`manifest` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 3 行 | <code>  -&gt; 应用回集群</code> | 这一行表示上一级主题下的子项“应用回集群”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
-| 第 4 行 | <code>  -&gt; 产生新的 revision</code> | 这一行要理解这些英文词：`revision` 是版本修订号，用来标识一次配置或部署版本。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 4 行 | <code>  -&gt; 产生新的 revision</code> | 这一行要理解这些英文词：`revision` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 注意：回滚到 revision 1 后，release 的最新 revision 不是 1，而是一个新的数字。这是正常的 release history 语义。
 
@@ -488,21 +472,20 @@ aiops-api/
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>aiops-api/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  Chart.yaml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>  values.yaml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>  templates/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 5 行 | <code>    deployment.yaml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 6 行 | <code>    service.yaml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 7 行 | <code>    ingress.yaml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 8 行 | <code>    configmap.yaml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 9 行 | <code>    _helpers.tpl</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 10 行 | <code>    NOTES.txt</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 11 行 | <code>  charts/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 12 行 | <code>  crds/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 13 行 | <code>  templates/tests/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 14 行 | <code>  .helmignore</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>aiops-api/</code> | `aiops-api/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 2 行 | <code>  Chart.yaml</code> | `Chart.yaml` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 3 行 | <code>  values.yaml</code> | `values.yaml` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 4 行 | <code>  templates/</code> | `templates/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 5 行 | <code>    deployment.yaml</code> | `deployment.yaml` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 6 行 | <code>    service.yaml</code> | `service.yaml` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 7 行 | <code>    ingress.yaml</code> | `ingress.yaml` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 8 行 | <code>    configmap.yaml</code> | `configmap.yaml` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 9 行 | <code>    _helpers.tpl</code> | `_helpers.tpl` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 10 行 | <code>    NOTES.txt</code> | `NOTES.txt` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 11 行 | <code>  charts/</code> | `charts/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 12 行 | <code>  crds/</code> | `crds/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 13 行 | <code>  templates/tests/</code> | `templates/tests/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 14 行 | <code>  .helmignore</code> | `.helmignore` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 字段解释：
 
@@ -530,7 +513,6 @@ helm create aiops-api
 |---|---|---|
 | 第 1 行 | <code>helm create aiops-api</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
 
-
 脚手架适合学习，但生产 Chart 要清理不需要的模板，避免生成一堆你不理解的资源。
 
 ## Chart.yaml
@@ -552,13 +534,12 @@ appVersion: "1.0.0"
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>apiVersion: v2</code> | 设置 `apiVersion` 字段的值为 `v2`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 2 行 | <code>name: aiops-api</code> | 设置 `name` 字段的值为 `aiops-api`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 3 行 | <code>description: A Helm chart for the AIOps demo API</code> | 设置 `description` 字段的值为 `A Helm chart for the AIOps demo API`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 4 行 | <code>type: application</code> | 设置 `type` 字段的值为 `application`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 5 行 | <code>version: 0.1.0</code> | 设置 `version` 字段的值为 `0.1.0`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 6 行 | <code>appVersion: "1.0.0"</code> | 设置 `appVersion` 字段的值为 `"1.0.0"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 1 行 | <code>apiVersion: v2</code> | `apiVersion` 这个英文标识可以拆开理解为：应用程序接口，`v2` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 2 行 | <code>name: aiops-api</code> | `name` 是名称字段，`aiops-api` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 3 行 | <code>description: A Helm chart for the AIOps demo API</code> | `description` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`A Helm chart for the AIOps demo API` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 4 行 | <code>type: application</code> | `type` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`application` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 5 行 | <code>version: 0.1.0</code> | `version` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`0.1.0` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 6 行 | <code>appVersion: "1.0.0"</code> | `appVersion` 这个英文标识可以拆开理解为：应用或服务，`1.0.0` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 字段解释：
 
@@ -612,25 +593,21 @@ resources:
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>replicaCount: 2</code> | 设置 `replicaCount` 字段的值为 `2`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 1 行 | <code>replicaCount: 2</code> | `replicaCount` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`2` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 3 行 | <code>image:</code> | 定义 `image` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 4 行 | <code>  repository: nginx</code> | 设置 `repository` 字段的值为 `nginx`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 5 行 | <code>  tag: "1.25"</code> | 设置 `tag` 字段的值为 `"1.25"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 6 行 | <code>  pullPolicy: IfNotPresent</code> | 设置 `pullPolicy` 字段的值为 `IfNotPresent`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 7 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 4 行 | <code>  repository: nginx</code> | `repository` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`nginx` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 5 行 | <code>  tag: "1.25"</code> | `tag` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`1.25` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 6 行 | <code>  pullPolicy: IfNotPresent</code> | `pullPolicy` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`IfNotPresent` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 8 行 | <code>service:</code> | 定义 `service` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 9 行 | <code>  type: ClusterIP</code> | 设置 `type` 字段的值为 `ClusterIP`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 10 行 | <code>  port: 80</code> | 设置 `port` 字段的值为 `80`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 11 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 9 行 | <code>  type: ClusterIP</code> | `type` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`ClusterIP` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 10 行 | <code>  port: 80</code> | `port` 是端口，`80` 表示端口号，表示服务监听或连接入口；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 12 行 | <code>resources:</code> | 定义 `resources` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 13 行 | <code>  requests:</code> | 定义 `requests` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 14 行 | <code>    cpu: 50m</code> | 设置 `cpu` 字段的值为 `50m`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 15 行 | <code>    memory: 64Mi</code> | 设置 `memory` 字段的值为 `64Mi`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 14 行 | <code>    cpu: 50m</code> | `cpu` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`50m` 表示持续分钟数，常用于表示故障已经持续多久；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 15 行 | <code>    memory: 64Mi</code> | `memory` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`64Mi` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 16 行 | <code>  limits:</code> | 定义 `limits` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 17 行 | <code>    cpu: 200m</code> | 设置 `cpu` 字段的值为 `200m`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 18 行 | <code>    memory: 128Mi</code> | 设置 `memory` 字段的值为 `128Mi`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 17 行 | <code>    cpu: 200m</code> | `cpu` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`200m` 表示持续分钟数，常用于表示故障已经持续多久；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 18 行 | <code>    memory: 128Mi</code> | `memory` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`128Mi` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 模板里用：
 
@@ -643,9 +620,8 @@ image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>replicas: {{ .Values.replicaCount }}</code> | 设置 `replicas` 字段的值为 `{{ .Values.replicaCount }}`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 2 行 | <code>image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"</code> | 设置 `image` 字段的值为 `"{{ .Values.image.repository }}:{{ .Values.image.tag }}"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 1 行 | <code>replicas: {{ .Values.replicaCount }}</code> | `replicas` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`{{ .Values.replicaCount }}` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 2 行 | <code>image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"</code> | `image` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`{{ .Values.image.repository }}:{{ .Values.image.tag }}` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 好 values 设计应该：
 
@@ -674,13 +650,12 @@ Chart 内 values.yaml
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>Chart 内 values.yaml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; 父 Chart values</code> | 这一行要理解这些英文词：`Chart values` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; helm install/upgrade -f my-values.yaml</code> | 这一行要理解这些英文词：`helm install` 是helm=Kubernetes 包管理工具；`upgrade` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`f my-values.yaml` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; --set key=value</code> | 这一行要理解这些英文词：`set key` 是key=键；`value` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; --set-string key=value</code> | 这一行要理解这些英文词：`set-string key` 是key=键；`value` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; --set-file key=path</code> | 这一行要理解这些英文词：`set-file key` 是key=键；`path` 是路径，表示文件、URL 或请求的位置。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 1 行 | <code>Chart 内 values.yaml</code> | `Chart 内 values.yaml` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 2 行 | <code>  -&gt; 父 Chart values</code> | 这一行要理解这些英文词：`Chart values` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; helm install/upgrade -f my-values.yaml</code> | 这一行要理解这些英文词：`helm install` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`upgrade` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`f my-values.yaml` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; --set key=value</code> | 这一行要理解这些英文词：`set key` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`value` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; --set-string key=value</code> | 这一行要理解这些英文词：`set-string key` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`value` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; --set-file key=path</code> | 这一行要理解这些英文词：`set-file key` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`path` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 越靠后的优先级越高。
 
@@ -702,7 +677,6 @@ helm install aiops-api ./aiops-api \
 | 第 3 行 | <code>  -f values-prod.yaml \</code> | 执行 `-f` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 4 行 | <code>  --set image.tag=1.0.1</code> | 注释行，提前说明下面命令的目的或注意事项。 |
 
-
 `image.tag` 会使用 `1.0.1`。
 
 排查 values 不生效：
@@ -720,7 +694,6 @@ helm template aiops-api ./aiops-api -f values-prod.yaml --set image.tag=1.0.1
 | 第 1 行 | <code>helm get values aiops-api -n aiops</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
 | 第 2 行 | <code>helm get values aiops-api -n aiops --all</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 | 第 3 行 | <code>helm template aiops-api ./aiops-api -f values-prod.yaml --set image.tag=1.0.1</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 
 区别：
 
@@ -765,14 +738,14 @@ spec:
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>apiVersion: apps/v1</code> | 设置 `apiVersion` 字段的值为 `apps/v1`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 2 行 | <code>kind: Deployment</code> | 设置 `kind` 字段的值为 `Deployment`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 1 行 | <code>apiVersion: apps/v1</code> | `apiVersion` 这个英文标识可以拆开理解为：应用程序接口，`apps/v1` 表示路径值，表示文件、目录或接口路径；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 2 行 | <code>kind: Deployment</code> | `kind` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`Deployment` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 3 行 | <code>metadata:</code> | 定义 `metadata` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 4 行 | <code>  name: {{ include "aiops-api.fullname" . }}</code> | 设置 `name` 字段的值为 `{{ include "aiops-api.fullname" . }}`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 4 行 | <code>  name: {{ include "aiops-api.fullname" . }}</code> | `name` 是名称字段，`{{ include "aiops-api.fullname" . }}` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 5 行 | <code>  labels:</code> | 定义 `labels` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 6 行 | <code>    {{- include "aiops-api.labels" . &#124; nindent 4 }}</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
 | 第 7 行 | <code>spec:</code> | 定义 `spec` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 8 行 | <code>  replicas: {{ .Values.replicaCount }}</code> | 设置 `replicas` 字段的值为 `{{ .Values.replicaCount }}`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 8 行 | <code>  replicas: {{ .Values.replicaCount }}</code> | `replicas` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`{{ .Values.replicaCount }}` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 9 行 | <code>  selector:</code> | 定义 `selector` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 10 行 | <code>    matchLabels:</code> | 定义 `matchLabels` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 11 行 | <code>      {{- include "aiops-api.selectorLabels" . &#124; nindent 6 }}</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
@@ -783,11 +756,10 @@ spec:
 | 第 16 行 | <code>    spec:</code> | 定义 `spec` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 17 行 | <code>      containers:</code> | 定义 `containers` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 18 行 | <code>        - name: api</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 19 行 | <code>          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"</code> | 设置 `image` 字段的值为 `"{{ .Values.image.repository }}:{{ .Values.image.tag }}"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 19 行 | <code>          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"</code> | `image` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`{{ .Values.image.repository }}:{{ .Values.image.tag }}` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 20 行 | <code>          ports:</code> | 定义 `ports` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 21 行 | <code>            - name: http</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 22 行 | <code>              containerPort: {{ .Values.service.port }}</code> | 设置 `containerPort` 字段的值为 `{{ .Values.service.port }}`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 22 行 | <code>              containerPort: {{ .Values.service.port }}</code> | `containerPort` 这个英文标识可以拆开理解为：端口，`{{ .Values.service.port }}` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 Helm 模板基于 Go template，加上 Sprig 和 Helm 自己的内置对象/函数。
 
@@ -802,7 +774,6 @@ helm template aiops-api ./aiops-api
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>helm template aiops-api ./aiops-api</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
-
 
 看。
 
@@ -834,13 +805,12 @@ Helm 模板里常用内置对象：
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>.Release.Name</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>.Release.Namespace</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>.Release.Revision</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>.Release.Service</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 5 行 | <code>.Release.IsInstall</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 6 行 | <code>.Release.IsUpgrade</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>.Release.Name</code> | `.Release.Name` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 2 行 | <code>.Release.Namespace</code> | `.Release.Namespace` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 3 行 | <code>.Release.Revision</code> | `.Release.Revision` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 4 行 | <code>.Release.Service</code> | `.Release.Service` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 5 行 | <code>.Release.IsInstall</code> | `.Release.IsInstall` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 6 行 | <code>.Release.IsUpgrade</code> | `.Release.IsUpgrade` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 `.Chart` 常用：
 
@@ -854,10 +824,9 @@ Helm 模板里常用内置对象：
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>.Chart.Name</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>.Chart.Version</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>.Chart.AppVersion</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>.Chart.Name</code> | `.Chart.Name` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 2 行 | <code>.Chart.Version</code> | `.Chart.Version` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 3 行 | <code>.Chart.AppVersion</code> | `.Chart.AppVersion` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 `.Capabilities` 常用于根据集群版本或 API 是否存在生成不同 YAML。
 
@@ -875,8 +844,7 @@ replicas: {{ .Values.replicaCount | default 1 }}
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>replicas: {{ .Values.replicaCount &#124; default 1 }}</code> | 设置 `replicas` 字段的值为 `{{ .Values.replicaCount | default 1 }}`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 1 行 | <code>replicas: {{ .Values.replicaCount &#124; default 1 }}</code> | `replicas` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`{{ .Values.replicaCount | default 1 }}` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 ### quote
 
@@ -892,7 +860,6 @@ app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 |---|---|---|
 | 第 1 行 | <code>app.kubernetes.io/version: {{ .Chart.AppVersion &#124; quote }}</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
 
-
 ### required
 
 要求必须传值：
@@ -905,8 +872,7 @@ image: {{ required "image.repository is required" .Values.image.repository }}
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>image: {{ required "image.repository is required" .Values.image.repository }}</code> | 设置 `image` 字段的值为 `{{ required "image.repository is required" .Values.image.repository }}`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 1 行 | <code>image: {{ required "image.repository is required" .Values.image.repository }}</code> | `image` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`{{ required "image.repository is required" .Values.image.repository }}` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 缺失时渲染失败，适合关键配置。
 
@@ -926,7 +892,6 @@ resources:
 | 第 1 行 | <code>resources:</code> | 定义 `resources` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 2 行 | <code>  {{- toYaml .Values.resources &#124; nindent 12 }}</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
 
-
 ### nindent
 
 换行并缩进：
@@ -943,7 +908,6 @@ labels:
 | 第 1 行 | <code>labels:</code> | 定义 `labels` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 2 行 | <code>  {{- include "aiops-api.labels" . &#124; nindent 2 }}</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
 
-
 Helm 模板最容易出错的是缩进。`toYaml` + `nindent` 是高频组合。
 
 ### include
@@ -958,8 +922,7 @@ name: {{ include "aiops-api.fullname" . }}
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>name: {{ include "aiops-api.fullname" . }}</code> | 设置 `name` 字段的值为 `{{ include "aiops-api.fullname" . }}`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 1 行 | <code>name: {{ include "aiops-api.fullname" . }}</code> | `name` 是名称字段，`{{ include "aiops-api.fullname" . }}` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 比 `template` 更适合管道组合。
 
@@ -987,10 +950,9 @@ kind: Ingress
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>{{- if .Values.ingress.enabled }}</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
-| 第 2 行 | <code>apiVersion: networking.k8s.io/v1</code> | 设置 `apiVersion` 字段的值为 `networking.k8s.io/v1`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 3 行 | <code>kind: Ingress</code> | 设置 `kind` 字段的值为 `Ingress`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 2 行 | <code>apiVersion: networking.k8s.io/v1</code> | `apiVersion` 这个英文标识可以拆开理解为：应用程序接口，`networking.k8s.io/v1` 表示路径值，表示文件、目录或接口路径；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 3 行 | <code>kind: Ingress</code> | `kind` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`Ingress` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 4 行 | <code>{{- end }}</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
-
 
 ### with
 
@@ -1012,7 +974,6 @@ nodeSelector:
 | 第 3 行 | <code>  {{- toYaml . &#124; nindent 2 }}</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
 | 第 4 行 | <code>{{- end }}</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
 
-
 在 `with` 内，`.` 变成 `.Values.nodeSelector`。
 
 ### range
@@ -1032,9 +993,8 @@ nodeSelector:
 |---|---|---|
 | 第 1 行 | <code>{{- range .Values.env }}</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
 | 第 2 行 | <code>- name: {{ .name }}</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 3 行 | <code>  value: {{ .value &#124; quote }}</code> | 设置 `value` 字段的值为 `{{ .value | quote }}`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 3 行 | <code>  value: {{ .value &#124; quote }}</code> | `value` 是数值字段，`{{ .value | quote }}` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 4 行 | <code>{{- end }}</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
-
 
 注意作用域变化。如果需要根对象，可以用 `$`：
 
@@ -1051,7 +1011,6 @@ nodeSelector:
 | 第 1 行 | <code>{{- range .Values.extraLabels }}</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
 | 第 2 行 | <code>{{ .name }}: {{ $.Release.Name &#124; quote }}</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
 | 第 3 行 | <code>{{- end }}</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
-
 
 ## 命名模板和 _helpers.tpl
 
@@ -1087,7 +1046,6 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 | 第 1 行 | <code>{{- define "aiops-api.name" -}}</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
 | 第 2 行 | <code>{{- default .Chart.Name .Values.nameOverride &#124; trunc 63 &#124; trimSuffix "-" -}}</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
 | 第 3 行 | <code>{{- end -}}</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
-| 第 4 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
 | 第 5 行 | <code>{{- define "aiops-api.fullname" -}}</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
 | 第 6 行 | <code>{{- if .Values.fullnameOverride -}}</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
 | 第 7 行 | <code>{{- .Values.fullnameOverride &#124; trunc 63 &#124; trimSuffix "-" -}}</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
@@ -1095,14 +1053,12 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 | 第 9 行 | <code>{{- printf "%s-%s" .Release.Name (include "aiops-api.name" .) &#124; trunc 63 &#124; trimSuffix "-" -}}</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
 | 第 10 行 | <code>{{- end -}}</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
 | 第 11 行 | <code>{{- end -}}</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
-| 第 12 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
 | 第 13 行 | <code>{{- define "aiops-api.labels" -}}</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
 | 第 14 行 | <code>helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version &#124; replace "+" "_" }}</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
 | 第 15 行 | <code>app.kubernetes.io/name: {{ include "aiops-api.name" . }}</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
 | 第 16 行 | <code>app.kubernetes.io/instance: {{ .Release.Name }}</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
 | 第 17 行 | <code>app.kubernetes.io/managed-by: {{ .Release.Service }}</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
 | 第 18 行 | <code>{{- end -}}</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
-
 
 为什么要用 helper？
 
@@ -1133,7 +1089,6 @@ helm.sh/chart: aiops-api-0.1.0
 | 第 4 行 | <code>app.kubernetes.io/managed-by: Helm</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
 | 第 5 行 | <code>helm.sh/chart: aiops-api-0.1.0</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
 
-
 这些 label 对 AIOps 很有价值：
 
 - 按 release 查资源。
@@ -1154,7 +1109,6 @@ kubectl get all -n aiops -l app.kubernetes.io/instance=aiops-api
 |---|---|---|
 | 第 1 行 | <code>kubectl get all -n aiops -l app.kubernetes.io/instance=aiops-api</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 
-
 ## Release 和 Revision
 
 安装 Chart：
@@ -1169,7 +1123,6 @@ helm install aiops-api ./aiops-api -n aiops
 |---|---|---|
 | 第 1 行 | <code>helm install aiops-api ./aiops-api -n aiops</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
 
-
 生成 release：
 
 ```text
@@ -1183,11 +1136,10 @@ status: deployed
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>release name: aiops-api</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>namespace: aiops</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>revision: 1</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>status: deployed</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>release name: aiops-api</code> | `release name` 是release name 这个英文标识可以拆开理解为：名称字段，冒号后面的 `aiops-api` 是这个字段的示例内容或模板表达式。 |
+| 第 2 行 | <code>namespace: aiops</code> | `namespace` 是namespace 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `aiops` 是这个字段的示例内容或模板表达式。 |
+| 第 3 行 | <code>revision: 1</code> | `revision` 是revision 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `1` 是这个字段的示例内容或模板表达式。 |
+| 第 4 行 | <code>status: deployed</code> | `status` 是状态字段，冒号后面的 `deployed` 是这个字段的示例内容或模板表达式。 |
 
 升级：
 
@@ -1200,7 +1152,6 @@ helm upgrade aiops-api ./aiops-api -n aiops --set image.tag=1.0.1
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>helm upgrade aiops-api ./aiops-api -n aiops --set image.tag=1.0.1</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 
 生成 revision 2。
 
@@ -1216,7 +1167,6 @@ helm history aiops-api -n aiops
 |---|---|---|
 | 第 1 行 | <code>helm history aiops-api -n aiops</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
 
-
 查看状态：
 
 ```bash
@@ -1229,7 +1179,6 @@ helm status aiops-api -n aiops
 |---|---|---|
 | 第 1 行 | <code>helm status aiops-api -n aiops</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
 
-
 回滚：
 
 ```bash
@@ -1241,7 +1190,6 @@ helm rollback aiops-api 1 -n aiops
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>helm rollback aiops-api 1 -n aiops</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
-
 
 回滚本身会产生新的 revision。也就是说，history 会继续增长。
 
@@ -1259,7 +1207,6 @@ helm install aiops-api ./aiops-api -n aiops --create-namespace
 |---|---|---|
 | 第 1 行 | <code>helm install aiops-api ./aiops-api -n aiops --create-namespace</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
-
 升级：
 
 ```bash
@@ -1272,7 +1219,6 @@ helm upgrade aiops-api ./aiops-api -n aiops
 |---|---|---|
 | 第 1 行 | <code>helm upgrade aiops-api ./aiops-api -n aiops</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
 
-
 如果没有就安装，有就升级：
 
 ```bash
@@ -1284,7 +1230,6 @@ helm upgrade --install aiops-api ./aiops-api -n aiops --create-namespace
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>helm upgrade --install aiops-api ./aiops-api -n aiops --create-namespace</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 
 CI/CD 常用 `upgrade --install`，因为它适合幂等发布。
 
@@ -1309,7 +1254,6 @@ helm upgrade --install aiops-api ./aiops-api \
 | 第 4 行 | <code>  --wait \</code> | 注释行，提前说明下面命令的目的或注意事项。 |
 | 第 5 行 | <code>  --timeout 5m \</code> | 注释行，提前说明下面命令的目的或注意事项。 |
 | 第 6 行 | <code>  --atomic</code> | 注释行，提前说明下面命令的目的或注意事项。 |
-
 
 含义：
 
@@ -1338,7 +1282,6 @@ helm lint ./aiops-api
 |---|---|---|
 | 第 1 行 | <code>helm lint ./aiops-api</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
 
-
 本地渲染：
 
 ```bash
@@ -1350,7 +1293,6 @@ helm template aiops-api ./aiops-api -n aiops -f values-prod.yaml
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>helm template aiops-api ./aiops-api -n aiops -f values-prod.yaml</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
-
 
 模拟安装并输出调试：
 
@@ -1371,7 +1313,6 @@ helm install aiops-api ./aiops-api \
 | 第 3 行 | <code>  -f values-prod.yaml \</code> | 执行 `-f` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 4 行 | <code>  --dry-run \</code> | 注释行，提前说明下面命令的目的或注意事项。 |
 | 第 5 行 | <code>  --debug</code> | 注释行，提前说明下面命令的目的或注意事项。 |
-
 
 区别：
 
@@ -1397,7 +1338,6 @@ helm get all aiops-api -n aiops
 |---|---|---|
 | 第 1 行 | <code>helm get all aiops-api -n aiops</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
 
-
 查看 values：
 
 ```bash
@@ -1412,7 +1352,6 @@ helm get values aiops-api -n aiops --all
 | 第 1 行 | <code>helm get values aiops-api -n aiops</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
 | 第 2 行 | <code>helm get values aiops-api -n aiops --all</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
-
 查看 manifest：
 
 ```bash
@@ -1424,7 +1363,6 @@ helm get manifest aiops-api -n aiops
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>helm get manifest aiops-api -n aiops</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
-
 
 查看 hooks：
 
@@ -1438,7 +1376,6 @@ helm get hooks aiops-api -n aiops
 |---|---|---|
 | 第 1 行 | <code>helm get hooks aiops-api -n aiops</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
 
-
 查看 notes：
 
 ```bash
@@ -1450,7 +1387,6 @@ helm get notes aiops-api -n aiops
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>helm get notes aiops-api -n aiops</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
-
 
 这些是事故排查时的关键证据。
 
@@ -1474,10 +1410,9 @@ dependencies:
 |---|---|---|
 | 第 1 行 | <code>dependencies:</code> | 定义 `dependencies` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 2 行 | <code>  - name: redis</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 3 行 | <code>    version: 19.0.0</code> | 设置 `version` 字段的值为 `19.0.0`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 4 行 | <code>    repository: https://charts.bitnami.com/bitnami</code> | 设置 `repository` 字段的值为 `https://charts.bitnami.com/bitnami`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 5 行 | <code>    condition: redis.enabled</code> | 设置 `condition` 字段的值为 `redis.enabled`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 3 行 | <code>    version: 19.0.0</code> | `version` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`19.0.0` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 4 行 | <code>    repository: https://charts.bitnami.com/bitnami</code> | `repository` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`https://charts.bitnami.com/bitnami` 表示URL 地址，表示页面、接口或文档入口；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 5 行 | <code>    condition: redis.enabled</code> | `condition` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`redis.enabled` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 更新依赖：
 
@@ -1491,7 +1426,6 @@ helm dependency update ./aiops-api
 |---|---|---|
 | 第 1 行 | <code>helm dependency update ./aiops-api</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
 
-
 构建依赖目录：
 
 ```bash
@@ -1504,7 +1438,6 @@ helm dependency build ./aiops-api
 |---|---|---|
 | 第 1 行 | <code>helm dependency build ./aiops-api</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
 
-
 依赖会进入：
 
 ```text
@@ -1516,9 +1449,8 @@ Chart.lock
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>charts/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>Chart.lock</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>charts/</code> | `charts/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 2 行 | <code>Chart.lock</code> | `Chart.lock` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 建议：
 
@@ -1545,10 +1477,9 @@ redis:
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>redis:</code> | 定义 `redis` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  architecture: standalone</code> | 设置 `architecture` 字段的值为 `standalone`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 2 行 | <code>  architecture: standalone</code> | `architecture` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`standalone` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 3 行 | <code>  auth:</code> | 定义 `auth` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 4 行 | <code>    enabled: false</code> | 设置 `enabled` 字段的值为 `false`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 4 行 | <code>    enabled: false</code> | `enabled` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`false` 表示关闭这个配置；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 `global` values 可被子 Chart 读取：
 
@@ -1562,8 +1493,7 @@ global:
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>global:</code> | 定义 `global` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  imageRegistry: registry.example.com</code> | 设置 `imageRegistry` 字段的值为 `registry.example.com`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 2 行 | <code>  imageRegistry: registry.example.com</code> | `imageRegistry` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`registry.example.com` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 注意：
 
@@ -1611,22 +1541,21 @@ spec:
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>apiVersion: batch/v1</code> | 设置 `apiVersion` 字段的值为 `batch/v1`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 2 行 | <code>kind: Job</code> | 设置 `kind` 字段的值为 `Job`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 1 行 | <code>apiVersion: batch/v1</code> | `apiVersion` 这个英文标识可以拆开理解为：应用程序接口，`batch/v1` 表示路径值，表示文件、目录或接口路径；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 2 行 | <code>kind: Job</code> | `kind` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`Job` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 3 行 | <code>metadata:</code> | 定义 `metadata` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 4 行 | <code>  name: "{{ include "aiops-api.fullname" . }}-pre-upgrade"</code> | 设置 `name` 字段的值为 `"{{ include "aiops-api.fullname" . }}-pre-upgrade"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 4 行 | <code>  name: "{{ include "aiops-api.fullname" . }}-pre-upgrade"</code> | `name` 是名称字段，`{{ include "aiops-api.fullname" . }}-pre-upgrade` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 5 行 | <code>  annotations:</code> | 定义 `annotations` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 6 行 | <code>    "helm.sh/hook": pre-upgrade</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
 | 第 7 行 | <code>    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
 | 第 8 行 | <code>spec:</code> | 定义 `spec` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 9 行 | <code>  template:</code> | 定义 `template` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 10 行 | <code>    spec:</code> | 定义 `spec` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 11 行 | <code>      restartPolicy: Never</code> | 设置 `restartPolicy` 字段的值为 `Never`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 11 行 | <code>      restartPolicy: Never</code> | `restartPolicy` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`Never` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 12 行 | <code>      containers:</code> | 定义 `containers` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 13 行 | <code>        - name: migrate</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 14 行 | <code>          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"</code> | 设置 `image` 字段的值为 `"{{ .Values.image.repository }}:{{ .Values.image.tag }}"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 15 行 | <code>          command: ["sh", "-c", "echo run migration"]</code> | 设置 `command` 字段的值为 `["sh", "-c", "echo run migration"]`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 14 行 | <code>          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"</code> | `image` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`{{ .Values.image.repository }}:{{ .Values.image.tag }}` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 15 行 | <code>          command: ["sh", "-c", "echo run migration"]</code> | `command` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`["sh", "-c", "echo run migration"]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 Hooks 很强，也容易危险：
 
@@ -1655,14 +1584,11 @@ Run:
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>AIOps API has been installed.</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
-| 第 3 行 | <code>Release: {{ .Release.Name }}</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>Namespace: {{ .Release.Namespace }}</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 5 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
-| 第 6 行 | <code>Run:</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 7 行 | <code>  kubectl get pods -n {{ .Release.Namespace }} -l app.kubernetes.io/instance={{ .Release.Name }}</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>AIOps API has been installed.</code> | `AIOps API has been installed.` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 3 行 | <code>Release: {{ .Release.Name }}</code> | `Release` 是Release 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源，冒号后面的 `{{ .Release.Name }}` 是这个字段的示例内容或模板表达式。 |
+| 第 4 行 | <code>Namespace: {{ .Release.Namespace }}</code> | `Namespace` 是Namespace 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源，冒号后面的 `{{ .Release.Namespace }}` 是这个字段的示例内容或模板表达式。 |
+| 第 6 行 | <code>Run:</code> | `Run` 是Run 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源，冒号表示后面要填写或列出这个字段的具体内容。 |
+| 第 7 行 | <code>  kubectl get pods -n {{ .Release.Namespace }} -l app.kubernetes.io/instance={{ .Release.Name }}</code> | `kubectl` 是主机、服务、告警或资源的示例名称；`instance` 是实例名称字段，`{{` 是具体实例名，常用来定位哪台机器或哪个 Pod 出问题。 |
 
 查看：
 
@@ -1675,7 +1601,6 @@ helm get notes aiops-api -n aiops
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>helm get notes aiops-api -n aiops</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
-
 
 好的 NOTES 应该告诉用户：
 
@@ -1714,20 +1639,19 @@ Chart 可以用 JSON Schema 校验 values。
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>{</code> | 对象开始，表示下面是一组键值对配置。 |
-| 第 2 行 | <code>  "$schema": "https://json-schema.org/schema#",</code> | 设置 `$schema` 字段，值是 `"https://json-schema.org/schema#"`；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 3 行 | <code>  "type": "object",</code> | 设置 `type` 字段，值是 `"object"`；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 4 行 | <code>  "properties": {</code> | 设置 `properties` 字段，值是 `{`；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 5 行 | <code>    "replicaCount": {</code> | 设置 `replicaCount` 字段，值是 `{`；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 6 行 | <code>      "type": "integer",</code> | 设置 `type` 字段，值是 `"integer"`；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 7 行 | <code>      "minimum": 1</code> | 设置 `minimum` 字段，值是 `1`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 2 行 | <code>  "$schema": "https://json-schema.org/schema#",</code> | `$schema` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`https://json-schema.org/schema#` 表示URL 地址，表示页面、接口或文档入口；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 3 行 | <code>  "type": "object",</code> | `type` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`object` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 4 行 | <code>  "properties": {</code> | `properties` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`{` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 5 行 | <code>    "replicaCount": {</code> | `replicaCount` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`{` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 6 行 | <code>      "type": "integer",</code> | `type` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`integer` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 7 行 | <code>      "minimum": 1</code> | `minimum` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`1` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
 | 第 8 行 | <code>    },</code> | 当前对象或数组结束，逗号表示后面还有同级项目。 |
-| 第 9 行 | <code>    "image": {</code> | 设置 `image` 字段，值是 `{`；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 10 行 | <code>      "type": "object",</code> | 设置 `type` 字段，值是 `"object"`；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 11 行 | <code>      "required": ["repository", "tag"]</code> | 设置 `required` 字段，值是 `["repository", "tag"]`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 9 行 | <code>    "image": {</code> | `image` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`{` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 10 行 | <code>      "type": "object",</code> | `type` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`object` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 11 行 | <code>      "required": ["repository", "tag"]</code> | `required` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`["repository", "tag"]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
 | 第 12 行 | <code>    }</code> | 对象结束，表示这一组键值对配置到这里结束。 |
 | 第 13 行 | <code>  }</code> | 对象结束，表示这一组键值对配置到这里结束。 |
 | 第 14 行 | <code>}</code> | 对象结束，表示这一组键值对配置到这里结束。 |
-
 
 价值：
 
@@ -1753,7 +1677,6 @@ helm search repo bitnami/nginx
 | 第 2 行 | <code>helm repo update</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
 | 第 3 行 | <code>helm search repo bitnami/nginx</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
 
-
 拉取：
 
 ```bash
@@ -1765,7 +1688,6 @@ helm pull bitnami/nginx --untar
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>helm pull bitnami/nginx --untar</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 
 Helm 也支持 OCI registry：
 
@@ -1783,7 +1705,6 @@ helm pull oci://registry.example.com/charts/aiops-api --version 0.1.0
 | 第 2 行 | <code>helm push aiops-api-0.1.0.tgz oci://registry.example.com/charts</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
 | 第 3 行 | <code>helm pull oci://registry.example.com/charts/aiops-api --version 0.1.0</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
-
 入门阶段先会使用 repository；企业内部再考虑 OCI、签名、供应链治理。
 
 ## 常用命令字典
@@ -1800,7 +1721,6 @@ helm version
 |---|---|---|
 | 第 1 行 | <code>helm version</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
 
-
 确认 Helm 客户端版本。
 
 ### 创建 Chart
@@ -1814,7 +1734,6 @@ helm create aiops-api
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>helm create aiops-api</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
-
 
 生成脚手架。
 
@@ -1830,7 +1749,6 @@ helm lint ./aiops-api
 |---|---|---|
 | 第 1 行 | <code>helm lint ./aiops-api</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
 
-
 检查 Chart 是否有明显问题。
 
 ### 渲染模板
@@ -1844,7 +1762,6 @@ helm template aiops-api ./aiops-api -n aiops -f values-prod.yaml
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>helm template aiops-api ./aiops-api -n aiops -f values-prod.yaml</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
-
 
 看最终 Kubernetes YAML。
 
@@ -1860,7 +1777,6 @@ helm install aiops-api ./aiops-api -n aiops --create-namespace
 |---|---|---|
 | 第 1 行 | <code>helm install aiops-api ./aiops-api -n aiops --create-namespace</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
-
 创建 release。
 
 ### 安装前模拟
@@ -1874,7 +1790,6 @@ helm install aiops-api ./aiops-api -n aiops --dry-run --debug
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>helm install aiops-api ./aiops-api -n aiops --dry-run --debug</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 
 调试安装输出。
 
@@ -1890,7 +1805,6 @@ helm upgrade aiops-api ./aiops-api -n aiops -f values-prod.yaml
 |---|---|---|
 | 第 1 行 | <code>helm upgrade aiops-api ./aiops-api -n aiops -f values-prod.yaml</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
 
-
 生成新 revision。
 
 ### 安装或升级
@@ -1904,7 +1818,6 @@ helm upgrade --install aiops-api ./aiops-api -n aiops --create-namespace
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>helm upgrade --install aiops-api ./aiops-api -n aiops --create-namespace</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 
 CI/CD 常用。
 
@@ -1920,7 +1833,6 @@ helm upgrade --install aiops-api ./aiops-api -n aiops --wait --timeout 5m
 |---|---|---|
 | 第 1 行 | <code>helm upgrade --install aiops-api ./aiops-api -n aiops --wait --timeout 5m</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
-
 等待资源达到就绪条件。
 
 ### 失败自动回滚
@@ -1934,7 +1846,6 @@ helm upgrade --install aiops-api ./aiops-api -n aiops --atomic --timeout 5m
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>helm upgrade --install aiops-api ./aiops-api -n aiops --atomic --timeout 5m</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 
 失败时回滚。适合生产发布，但仍要保存失败证据。
 
@@ -1952,7 +1863,6 @@ helm list -A
 | 第 1 行 | <code>helm list -n aiops</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
 | 第 2 行 | <code>helm list -A</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
 
-
 ### 查看状态
 
 ```bash
@@ -1964,7 +1874,6 @@ helm status aiops-api -n aiops
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>helm status aiops-api -n aiops</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
-
 
 ### 查看历史
 
@@ -1978,7 +1887,6 @@ helm history aiops-api -n aiops
 |---|---|---|
 | 第 1 行 | <code>helm history aiops-api -n aiops</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
 
-
 ### 回滚
 
 ```bash
@@ -1990,7 +1898,6 @@ helm rollback aiops-api 1 -n aiops
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>helm rollback aiops-api 1 -n aiops</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
-
 
 ### 查看 values
 
@@ -2006,7 +1913,6 @@ helm get values aiops-api -n aiops --all
 | 第 1 行 | <code>helm get values aiops-api -n aiops</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
 | 第 2 行 | <code>helm get values aiops-api -n aiops --all</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
-
 ### 查看 manifest
 
 ```bash
@@ -2018,7 +1924,6 @@ helm get manifest aiops-api -n aiops
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>helm get manifest aiops-api -n aiops</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
-
 
 ### 查看 hooks
 
@@ -2032,7 +1937,6 @@ helm get hooks aiops-api -n aiops
 |---|---|---|
 | 第 1 行 | <code>helm get hooks aiops-api -n aiops</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
 
-
 ### 查看 notes
 
 ```bash
@@ -2045,7 +1949,6 @@ helm get notes aiops-api -n aiops
 |---|---|---|
 | 第 1 行 | <code>helm get notes aiops-api -n aiops</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
 
-
 ### 卸载
 
 ```bash
@@ -2057,7 +1960,6 @@ helm uninstall aiops-api -n aiops
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>helm uninstall aiops-api -n aiops</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
-
 
 注意：卸载会删除 release 管理的资源。PVC、CRD、hook 资源等行为要看 Chart 设计和 Kubernetes 回收策略。
 
@@ -2072,7 +1974,6 @@ helm package ./aiops-api
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>helm package ./aiops-api</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
-
 
 生成 `.tgz` Chart 包。
 
@@ -2092,7 +1993,6 @@ helm search repo nginx
 | 第 2 行 | <code>helm repo update</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
 | 第 3 行 | <code>helm search repo nginx</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
 
-
 ### 管理依赖
 
 ```bash
@@ -2108,7 +2008,6 @@ helm dependency build ./aiops-api
 | 第 1 行 | <code>helm dependency list ./aiops-api</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
 | 第 2 行 | <code>helm dependency update ./aiops-api</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
 | 第 3 行 | <code>helm dependency build ./aiops-api</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
-
 
 ## Chart 文件字典
 
@@ -2142,7 +2041,6 @@ helm create aiops-web
 |---|---|---|
 | 第 1 行 | <code>helm create aiops-web</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
 
-
 清理不需要的模板，只保留：
 
 ```text
@@ -2160,15 +2058,14 @@ aiops-web/
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>aiops-web/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  Chart.yaml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>  values.yaml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>  templates/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 5 行 | <code>    deployment.yaml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 6 行 | <code>    service.yaml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 7 行 | <code>    _helpers.tpl</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 8 行 | <code>    NOTES.txt</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>aiops-web/</code> | `aiops-web/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 2 行 | <code>  Chart.yaml</code> | `Chart.yaml` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 3 行 | <code>  values.yaml</code> | `values.yaml` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 4 行 | <code>  templates/</code> | `templates/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 5 行 | <code>    deployment.yaml</code> | `deployment.yaml` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 6 行 | <code>    service.yaml</code> | `service.yaml` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 7 行 | <code>    _helpers.tpl</code> | `_helpers.tpl` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 8 行 | <code>    NOTES.txt</code> | `NOTES.txt` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 ### 2. 设置 values
 
@@ -2199,25 +2096,21 @@ resources:
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>replicaCount: 2</code> | 设置 `replicaCount` 字段的值为 `2`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 1 行 | <code>replicaCount: 2</code> | `replicaCount` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`2` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 3 行 | <code>image:</code> | 定义 `image` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 4 行 | <code>  repository: nginx</code> | 设置 `repository` 字段的值为 `nginx`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 5 行 | <code>  tag: "1.25"</code> | 设置 `tag` 字段的值为 `"1.25"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 6 行 | <code>  pullPolicy: IfNotPresent</code> | 设置 `pullPolicy` 字段的值为 `IfNotPresent`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 7 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 4 行 | <code>  repository: nginx</code> | `repository` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`nginx` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 5 行 | <code>  tag: "1.25"</code> | `tag` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`1.25` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 6 行 | <code>  pullPolicy: IfNotPresent</code> | `pullPolicy` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`IfNotPresent` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 8 行 | <code>service:</code> | 定义 `service` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 9 行 | <code>  type: ClusterIP</code> | 设置 `type` 字段的值为 `ClusterIP`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 10 行 | <code>  port: 80</code> | 设置 `port` 字段的值为 `80`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 11 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 9 行 | <code>  type: ClusterIP</code> | `type` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`ClusterIP` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 10 行 | <code>  port: 80</code> | `port` 是端口，`80` 表示端口号，表示服务监听或连接入口；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 12 行 | <code>resources:</code> | 定义 `resources` 配置段，下面缩进的内容都属于这个配置段。 |
 | 第 13 行 | <code>  requests:</code> | 定义 `requests` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 14 行 | <code>    cpu: 50m</code> | 设置 `cpu` 字段的值为 `50m`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 15 行 | <code>    memory: 64Mi</code> | 设置 `memory` 字段的值为 `64Mi`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 14 行 | <code>    cpu: 50m</code> | `cpu` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`50m` 表示持续分钟数，常用于表示故障已经持续多久；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 15 行 | <code>    memory: 64Mi</code> | `memory` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`64Mi` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 | 第 16 行 | <code>  limits:</code> | 定义 `limits` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 17 行 | <code>    cpu: 200m</code> | 设置 `cpu` 字段的值为 `200m`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 18 行 | <code>    memory: 128Mi</code> | 设置 `memory` 字段的值为 `128Mi`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
+| 第 17 行 | <code>    cpu: 200m</code> | `cpu` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`200m` 表示持续分钟数，常用于表示故障已经持续多久；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 18 行 | <code>    memory: 128Mi</code> | `memory` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`128Mi` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 ### 3. 渲染检查
 
@@ -2232,7 +2125,6 @@ helm template aiops-web ./aiops-web -n aiops
 |---|---|---|
 | 第 1 行 | <code>helm lint ./aiops-web</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
 | 第 2 行 | <code>helm template aiops-web ./aiops-web -n aiops</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
-
 
 确认输出里有：
 
@@ -2262,7 +2154,6 @@ helm upgrade --install aiops-web ./aiops-web \
 | 第 4 行 | <code>  --wait \</code> | 注释行，提前说明下面命令的目的或注意事项。 |
 | 第 5 行 | <code>  --timeout 5m</code> | 注释行，提前说明下面命令的目的或注意事项。 |
 
-
 查看：
 
 ```bash
@@ -2278,7 +2169,6 @@ kubectl get deploy,rs,pod,svc -n aiops -l app.kubernetes.io/instance=aiops-web
 | 第 1 行 | <code>helm status aiops-web -n aiops</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
 | 第 2 行 | <code>helm history aiops-web -n aiops</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
 | 第 3 行 | <code>kubectl get deploy,rs,pod,svc -n aiops -l app.kubernetes.io/instance=aiops-web</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-
 
 ### 5. 升级
 
@@ -2300,7 +2190,6 @@ helm upgrade aiops-web ./aiops-web \
 | 第 4 行 | <code>  --wait \</code> | 注释行，提前说明下面命令的目的或注意事项。 |
 | 第 5 行 | <code>  --timeout 5m</code> | 注释行，提前说明下面命令的目的或注意事项。 |
 
-
 查看：
 
 ```bash
@@ -2317,7 +2206,6 @@ helm get manifest aiops-web -n aiops | rg "image:"
 | 第 2 行 | <code>helm get values aiops-web -n aiops</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
 | 第 3 行 | <code>helm get manifest aiops-web -n aiops &#124; rg "image:"</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
 
-
 ### 6. 回滚
 
 ```bash
@@ -2331,7 +2219,6 @@ helm history aiops-web -n aiops
 |---|---|---|
 | 第 1 行 | <code>helm rollback aiops-web 1 -n aiops --wait --timeout 5m</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 | 第 2 行 | <code>helm history aiops-web -n aiops</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
-
 
 观察：回滚会产生新的 revision。
 
@@ -2357,7 +2244,6 @@ helm upgrade aiops-web ./aiops-web \
 | 第 4 行 | <code>  --wait \</code> | 注释行，提前说明下面命令的目的或注意事项。 |
 | 第 5 行 | <code>  --timeout 2m</code> | 注释行，提前说明下面命令的目的或注意事项。 |
 
-
 排查：
 
 ```bash
@@ -2376,7 +2262,6 @@ kubectl describe pod -n aiops -l app.kubernetes.io/instance=aiops-web
 | 第 3 行 | <code>kubectl get pods -n aiops -l app.kubernetes.io/instance=aiops-web</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 | 第 4 行 | <code>kubectl describe pod -n aiops -l app.kubernetes.io/instance=aiops-web</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 
-
 你应该能看到 ImagePullBackOff 相关事件。
 
 ### 8. 清理
@@ -2390,7 +2275,6 @@ helm uninstall aiops-web -n aiops
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>helm uninstall aiops-web -n aiops</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
-
 
 ## 典型故障排查表
 
@@ -2422,7 +2306,6 @@ helm uninstall aiops-web -n aiops
 |---|---|---|
 | 第 1 行 | <code>--set image.tag=1.0.1</code> | 注释行，提前说明下面命令的目的或注意事项。 |
 
-
 但 Pod 仍然使用旧镜像。
 
 按顺序查：
@@ -2442,7 +2325,6 @@ helm template aiops-api ./aiops-api -n aiops --set image.tag=1.0.1 | rg "image:"
 | 第 2 行 | <code>helm get values aiops-api -n aiops --all</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 | 第 3 行 | <code>helm get manifest aiops-api -n aiops &#124; rg "image:"</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
 | 第 4 行 | <code>helm template aiops-api ./aiops-api -n aiops --set image.tag=1.0.1 &#124; rg "image:"</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
-
 
 判断：
 
@@ -2476,7 +2358,6 @@ helm template aiops-api ./aiops-api -n aiops
 | 第 2 行 | <code>helm lint ./aiops-api</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
 | 第 3 行 | <code>helm template aiops-api ./aiops-api -n aiops</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
 
-
 如果本地渲染正常，再看集群：
 
 ```bash
@@ -2492,7 +2373,6 @@ kubectl get all -n aiops -l app.kubernetes.io/instance=aiops-api
 | 第 1 行 | <code>helm status aiops-api -n aiops</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
 | 第 2 行 | <code>kubectl get events -n aiops --sort-by=.lastTimestamp</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 | 第 3 行 | <code>kubectl get all -n aiops -l app.kubernetes.io/instance=aiops-api</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-
 
 判断：
 
@@ -2523,7 +2403,6 @@ helm get manifest aiops-api -n aiops
 | 第 3 行 | <code>helm get values aiops-api -n aiops --all</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 | 第 4 行 | <code>helm get manifest aiops-api -n aiops</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 |
 
-
 再看 Kubernetes 维度：
 
 ```bash
@@ -2544,7 +2423,6 @@ kubectl logs -n aiops -l app.kubernetes.io/instance=aiops-api --previous --tail=
 | 第 4 行 | <code>kubectl logs -n aiops -l app.kubernetes.io/instance=aiops-api --tail=200</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 | 第 5 行 | <code>kubectl logs -n aiops -l app.kubernetes.io/instance=aiops-api --previous --tail=200</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
-
 如果要回滚：
 
 ```bash
@@ -2556,7 +2434,6 @@ helm rollback aiops-api <good-revision> -n aiops --wait --timeout 5m
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>helm rollback aiops-api &lt;good-revision&gt; -n aiops --wait --timeout 5m</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 
 回滚前记录：
 
@@ -2605,33 +2482,25 @@ kubectl get events -n "$ns" --sort-by=.lastTimestamp || true
 |---|---|---|
 | 第 1 行 | <code>#!/usr/bin/env bash</code> | 注释行，提前说明下面命令的目的或注意事项。 |
 | 第 2 行 | <code>set -euo pipefail</code> | 设置 shell 或工具变量，具体含义取决于当前终端环境。 |
-| 第 3 行 | <em>空行</em> | 空行，用来把命令分成更容易阅读的几段。 |
 | 第 4 行 | <code>release="${1:-aiops-api}"</code> | 执行 `release="${1:-aiops-api}"` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 5 行 | <code>ns="${2:-aiops}"</code> | 执行 `ns="${2:-aiops}"` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 6 行 | <em>空行</em> | 空行，用来把命令分成更容易阅读的几段。 |
 | 第 7 行 | <code>echo "== helm status =="</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
 | 第 8 行 | <code>helm status "$release" -n "$ns" &#124;&#124; true</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
-| 第 9 行 | <em>空行</em> | 空行，用来把命令分成更容易阅读的几段。 |
 | 第 10 行 | <code>echo</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
 | 第 11 行 | <code>echo "== helm history =="</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
 | 第 12 行 | <code>helm history "$release" -n "$ns" &#124;&#124; true</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
-| 第 13 行 | <em>空行</em> | 空行，用来把命令分成更容易阅读的几段。 |
 | 第 14 行 | <code>echo</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
 | 第 15 行 | <code>echo "== helm values all =="</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
 | 第 16 行 | <code>helm get values "$release" -n "$ns" --all &#124;&#124; true</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
-| 第 17 行 | <em>空行</em> | 空行，用来把命令分成更容易阅读的几段。 |
 | 第 18 行 | <code>echo</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
 | 第 19 行 | <code>echo "== helm manifest =="</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
 | 第 20 行 | <code>helm get manifest "$release" -n "$ns" &#124;&#124; true</code> | 执行 Helm 命令，用来安装、升级或回滚 Kubernetes 应用包。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
-| 第 21 行 | <em>空行</em> | 空行，用来把命令分成更容易阅读的几段。 |
 | 第 22 行 | <code>echo</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
 | 第 23 行 | <code>echo "== kubernetes objects =="</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
 | 第 24 行 | <code>kubectl get all -n "$ns" -l "app.kubernetes.io/instance=$release" -o wide &#124;&#124; true</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
-| 第 25 行 | <em>空行</em> | 空行，用来把命令分成更容易阅读的几段。 |
 | 第 26 行 | <code>echo</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
 | 第 27 行 | <code>echo "== events =="</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
 | 第 28 行 | <code>kubectl get events -n "$ns" --sort-by=.lastTimestamp &#124;&#124; true</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
-
 
 生产化前要补：
 

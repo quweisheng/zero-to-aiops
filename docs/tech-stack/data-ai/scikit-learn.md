@@ -37,8 +37,7 @@ CPU > 80% 就告警
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>CPU &gt; 80% 就告警</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>CPU &gt; 80% 就告警</code> | 这一行里的英文要这样读：`CPU` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
 
 但真实系统里，异常不一定是绝对值高：
 
@@ -120,48 +119,47 @@ scikit-learn
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>scikit-learn</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; Getting started</code> | 这一行要理解这些英文词：`Getting started` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>     -&gt; estimator</code> | 这一行要理解这些英文词：`estimator` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>     -&gt; fit</code> | 这一行要理解这些英文词：`fit` 是训练或拟合，让模型从数据里学习规律。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>     -&gt; predict</code> | 这一行要理解这些英文词：`predict` 是预测，用训练好的模型输出分类、数值或异常判断。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>     -&gt; transform</code> | 这一行要理解这些英文词：`transform` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>     -&gt; X shape: n_samples x n_features</code> | 这一行要理解这些英文词：`X shape` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`n_samples x n_features` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>  -&gt; Supervised learning</code> | 这一行要理解这些英文词：`Supervised learning` 是learning=学习沉淀。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 9 行 | <code>     -&gt; classification</code> | 这一行要理解这些英文词：`classification` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 10 行 | <code>     -&gt; regression</code> | 这一行要理解这些英文词：`regression` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 11 行 | <code>     -&gt; linear models</code> | 这一行要理解这些英文词：`linear models` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 12 行 | <code>     -&gt; SVM</code> | 这一行要理解这些英文词：`SVM` 是英文缩写或固定标识，结合本节上下文记住它代表的组件、命令或状态。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 13 行 | <code>     -&gt; trees</code> | 这一行要理解这些英文词：`trees` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 14 行 | <code>     -&gt; ensembles</code> | 这一行要理解这些英文词：`ensembles` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 15 行 | <code>  -&gt; Unsupervised learning</code> | 这一行要理解这些英文词：`Unsupervised learning` 是learning=学习沉淀。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 16 行 | <code>     -&gt; clustering</code> | 这一行要理解这些英文词：`clustering` 是聚类。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 17 行 | <code>     -&gt; dimensionality reduction</code> | 这一行要理解这些英文词：`dimensionality reduction` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 18 行 | <code>     -&gt; novelty and outlier detection</code> | 这一行要理解这些英文词：`novelty and outlier detection` 是detection=发现或检测。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 19 行 | <code>  -&gt; Model selection and evaluation</code> | 这一行要理解这些英文词：`Model selection and evaluation` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 20 行 | <code>     -&gt; train_test_split</code> | 这一行要理解这些英文词：`train_test_split` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 21 行 | <code>     -&gt; cross-validation</code> | 这一行要理解这些英文词：`cross-validation` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 1 行 | <code>scikit-learn</code> | 这一行里的英文要这样读：`scikit-learn` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 2 行 | <code>  -&gt; Getting started</code> | 这一行要理解这些英文词：`Getting started` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>     -&gt; estimator</code> | 这一行要理解这些英文词：`estimator` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>     -&gt; fit</code> | 这一行要理解这些英文词：`fit` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>     -&gt; predict</code> | 这一行要理解这些英文词：`predict` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>     -&gt; transform</code> | 这一行要理解这些英文词：`transform` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>     -&gt; X shape: n_samples x n_features</code> | 这一行要理解这些英文词：`X shape` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`n_samples x n_features` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; Supervised learning</code> | 这一行要理解这些英文词：`Supervised learning` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>     -&gt; classification</code> | 这一行要理解这些英文词：`classification` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>     -&gt; regression</code> | 这一行要理解这些英文词：`regression` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>     -&gt; linear models</code> | 这一行要理解这些英文词：`linear models` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 12 行 | <code>     -&gt; SVM</code> | 这一行要理解这些英文词：`SVM` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 13 行 | <code>     -&gt; trees</code> | 这一行要理解这些英文词：`trees` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 14 行 | <code>     -&gt; ensembles</code> | 这一行要理解这些英文词：`ensembles` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 15 行 | <code>  -&gt; Unsupervised learning</code> | 这一行要理解这些英文词：`Unsupervised learning` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 16 行 | <code>     -&gt; clustering</code> | 这一行要理解这些英文词：`clustering` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 17 行 | <code>     -&gt; dimensionality reduction</code> | 这一行要理解这些英文词：`dimensionality reduction` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 18 行 | <code>     -&gt; novelty and outlier detection</code> | 这一行要理解这些英文词：`novelty and outlier detection` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 19 行 | <code>  -&gt; Model selection and evaluation</code> | 这一行要理解这些英文词：`Model selection and evaluation` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 20 行 | <code>     -&gt; train_test_split</code> | 这一行要理解这些英文词：`train_test_split` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 21 行 | <code>     -&gt; cross-validation</code> | 这一行要理解这些英文词：`cross-validation` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 22 行 | <code>     -&gt; metrics</code> | 这一行要理解这些英文词：`metrics` 是指标。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 23 行 | <code>     -&gt; hyperparameter tuning</code> | 这一行要理解这些英文词：`hyperparameter tuning` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 24 行 | <code>     -&gt; threshold tuning</code> | 这一行要理解这些英文词：`threshold tuning` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 25 行 | <code>  -&gt; Dataset transformations</code> | 这一行要理解这些英文词：`Dataset transformations` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 26 行 | <code>     -&gt; preprocessing</code> | 这一行要理解这些英文词：`preprocessing` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 27 行 | <code>     -&gt; imputation</code> | 这一行要理解这些英文词：`imputation` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 28 行 | <code>     -&gt; encoding categorical features</code> | 这一行要理解这些英文词：`encoding categorical features` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 29 行 | <code>     -&gt; Pipeline</code> | 这一行要理解这些英文词：`Pipeline` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 30 行 | <code>     -&gt; ColumnTransformer</code> | 这一行要理解这些英文词：`ColumnTransformer` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 31 行 | <code>  -&gt; Computing with scikit-learn</code> | 这一行要理解这些英文词：`Computing with scikit-learn` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 32 行 | <code>     -&gt; performance</code> | 这一行要理解这些英文词：`performance` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 33 行 | <code>     -&gt; parallelism</code> | 这一行要理解这些英文词：`parallelism` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 23 行 | <code>     -&gt; hyperparameter tuning</code> | 这一行要理解这些英文词：`hyperparameter tuning` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 24 行 | <code>     -&gt; threshold tuning</code> | 这一行要理解这些英文词：`threshold tuning` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 25 行 | <code>  -&gt; Dataset transformations</code> | 这一行要理解这些英文词：`Dataset transformations` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 26 行 | <code>     -&gt; preprocessing</code> | 这一行要理解这些英文词：`preprocessing` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 27 行 | <code>     -&gt; imputation</code> | 这一行要理解这些英文词：`imputation` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 28 行 | <code>     -&gt; encoding categorical features</code> | 这一行要理解这些英文词：`encoding categorical features` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 29 行 | <code>     -&gt; Pipeline</code> | 这一行要理解这些英文词：`Pipeline` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 30 行 | <code>     -&gt; ColumnTransformer</code> | 这一行要理解这些英文词：`ColumnTransformer` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 31 行 | <code>  -&gt; Computing with scikit-learn</code> | 这一行要理解这些英文词：`Computing with scikit-learn` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 32 行 | <code>     -&gt; performance</code> | 这一行要理解这些英文词：`performance` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 33 行 | <code>     -&gt; parallelism</code> | 这一行要理解这些英文词：`parallelism` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 34 行 | <code>     -&gt; scaling to larger data</code> | 这一行要理解这些英文词：`scaling to larger data` 是data=数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 35 行 | <code>  -&gt; Model persistence</code> | 这一行要理解这些英文词：`Model persistence` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 36 行 | <code>     -&gt; pickle/joblib/skops/ONNX</code> | 这一行要理解这些英文词：`pickle` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`joblib` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`skops` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`ONNX` 是英文缩写或固定标识，结合本节上下文记住它代表的组件、命令或状态。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 37 行 | <code>     -&gt; security and version compatibility</code> | 这一行要理解这些英文词：`security and version compatibility` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 35 行 | <code>  -&gt; Model persistence</code> | 这一行要理解这些英文词：`Model persistence` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 36 行 | <code>     -&gt; pickle/joblib/skops/ONNX</code> | 这一行要理解这些英文词：`pickle` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`joblib` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`skops` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`ONNX` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 37 行 | <code>     -&gt; security and version compatibility</code> | 这一行要理解这些英文词：`security and version compatibility` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 38 行 | <code>  -&gt; Common pitfalls</code> | 这一行要理解这些英文词：`Common pitfalls` 是common=常见。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 39 行 | <code>     -&gt; inconsistent preprocessing</code> | 这一行要理解这些英文词：`inconsistent preprocessing` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 39 行 | <code>     -&gt; inconsistent preprocessing</code> | 这一行要理解这些英文词：`inconsistent preprocessing` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 40 行 | <code>     -&gt; data leakage</code> | 这一行要理解这些英文词：`data leakage` 是data=数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 41 行 | <code>     -&gt; bad train/test evaluation</code> | 这一行要理解这些英文词：`bad train` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`test evaluation` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 41 行 | <code>     -&gt; bad train/test evaluation</code> | 这一行要理解这些英文词：`bad train` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`test evaluation` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 初学路线：
 
@@ -183,18 +181,17 @@ pandas feature table
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>pandas feature table</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; X and y</code> | 这一行要理解这些英文词：`X and y` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; train/test split</code> | 这一行要理解这些英文词：`train` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`test split` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; preprocessing</code> | 这一行要理解这些英文词：`preprocessing` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; model</code> | 这一行要理解这些英文词：`model` 是模型，机器学习或 AI 中用来做预测、分类或生成的算法对象。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; Pipeline</code> | 这一行要理解这些英文词：`Pipeline` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; fit</code> | 这一行要理解这些英文词：`fit` 是训练或拟合，让模型从数据里学习规律。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>  -&gt; predict / decision_function / score_samples</code> | 这一行要理解这些英文词：`predict` 是预测，用训练好的模型输出分类、数值或异常判断；`decision_function` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`score_samples` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 9 行 | <code>  -&gt; metrics / review</code> | 这一行要理解这些英文词：`metrics` 是指标；`review` 是复盘或评审。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 10 行 | <code>  -&gt; persist model</code> | 这一行要理解这些英文词：`persist model` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 1 行 | <code>pandas feature table</code> | 这一行里的英文要这样读：`pandas feature table` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 2 行 | <code>  -&gt; X and y</code> | 这一行要理解这些英文词：`X and y` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; train/test split</code> | 这一行要理解这些英文词：`train` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`test split` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; preprocessing</code> | 这一行要理解这些英文词：`preprocessing` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; model</code> | 这一行要理解这些英文词：`model` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; Pipeline</code> | 这一行要理解这些英文词：`Pipeline` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; fit</code> | 这一行要理解这些英文词：`fit` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; predict / decision_function / score_samples</code> | 这一行要理解这些英文词：`predict` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`decision_function` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`score_samples` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>  -&gt; metrics / review</code> | 这一行要理解这些英文词：`metrics` 是指标；`review` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>  -&gt; persist model</code> | 这一行要理解这些英文词：`persist model` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 11 行 | <code>  -&gt; AIOps report</code> | 这一行要理解这些英文词：`AIOps report` 是aiops=智能运维。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 
 ## scikit-learn 在 AIOps 链路中的位置
 
@@ -216,18 +213,17 @@ Prometheus / MySQL / Kafka export / CSV
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>Prometheus / MySQL / Kafka export / CSV</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; pandas cleaning</code> | 这一行要理解这些英文词：`pandas cleaning` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; feature engineering</code> | 这一行要理解这些英文词：`feature engineering` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; scikit-learn</code> | 这一行要理解这些英文词：`scikit-learn` 是Python 机器学习库，常用于分类、回归和异常检测。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>      anomaly detection</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 6 行 | <code>      classification</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 7 行 | <code>      clustering</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 8 行 | <code>      regression</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 9 行 | <code>  -&gt; anomaly score / class / cluster / prediction</code> | 这一行要理解这些英文词：`anomaly score` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`class` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`cluster` 是集群，由多台机器或多个节点组成的整体服务环境；`prediction` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 10 行 | <code>  -&gt; report / dashboard / alert enrichment</code> | 这一行要理解这些英文词：`report` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`dashboard` 是仪表盘，用图表集中展示指标、状态和趋势；`alert enrichment` 是告警增强，给告警补充服务、负责人、变更、日志等上下文。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 11 行 | <code>  -&gt; human feedback</code> | 这一行要理解这些英文词：`human feedback` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
+| 第 1 行 | <code>Prometheus / MySQL / Kafka export / CSV</code> | `Prometheus / MySQL / Kafka export / CSV` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 2 行 | <code>  -&gt; pandas cleaning</code> | 这一行要理解这些英文词：`pandas cleaning` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; feature engineering</code> | 这一行要理解这些英文词：`feature engineering` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; scikit-learn</code> | 这一行要理解这些英文词：`scikit-learn` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>      anomaly detection</code> | 这一行里的英文要这样读：`anomaly detection` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 6 行 | <code>      classification</code> | 这一行里的英文要这样读：`classification` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 7 行 | <code>      clustering</code> | 这一行里的英文要这样读：`clustering` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 8 行 | <code>      regression</code> | 这一行里的英文要这样读：`regression` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 9 行 | <code>  -&gt; anomaly score / class / cluster / prediction</code> | 这一行要理解这些英文词：`anomaly score` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`class` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`cluster` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`prediction` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>  -&gt; report / dashboard / alert enrichment</code> | 这一行要理解这些英文词：`report` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`dashboard` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`alert enrichment` 是alert=告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>  -&gt; human feedback</code> | 这一行要理解这些英文词：`human feedback` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 适合 scikit-learn 的 AIOps 入门任务：
 
@@ -260,8 +256,7 @@ shape = (n_samples, n_features)
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>shape = (n_samples, n_features)</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>shape = (n_samples, n_features)</code> | `shape` 是主机、服务、告警或资源的示例名称；`shape` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`(n_samples` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
 
 也就是：
 
@@ -269,15 +264,6 @@ shape = (n_samples, n_features)
 每一行 = 一个样本
 每一列 = 一个特征
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>每一行 = 一个样本</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>每一列 = 一个特征</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
-
 AIOps 示例：
 
 | timestamp | service | request_rate | error_rate | p95_latency_ms | cpu_usage |
@@ -300,7 +286,6 @@ X = df[features]
 | 第 1 行 | <code>features = ["request_rate", "error_rate", "p95_latency_ms", "cpu_usage"]</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 2 行 | <code>X = df[features]</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 
-
 如果有标签，比如人工标注这行是否异常：
 
 ```python
@@ -312,7 +297,6 @@ y = df["is_incident"]
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>y = df["is_incident"]</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-
 
 | 名称 | 含义 |
 |---|---|
@@ -344,10 +328,8 @@ clf.fit(X_train, y_train)
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>from sklearn.ensemble import RandomForestClassifier</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 3 行 | <code>clf = RandomForestClassifier(random_state=42)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 4 行 | <code>clf.fit(X_train, y_train)</code> | 训练模型或拟合转换器，让算法从样本数据里学习规律。 |
-
 
 `RandomForestClassifier` 是 estimator。
 
@@ -365,7 +347,6 @@ model.fit(X_train, y_train)
 |---|---|---|
 | 第 1 行 | <code>model.fit(X_train, y_train)</code> | 训练模型或拟合转换器，让算法从样本数据里学习规律。 |
 
-
 无监督模型没有 `y`：
 
 ```python
@@ -377,7 +358,6 @@ model.fit(X_train)
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>model.fit(X_train)</code> | 训练模型或拟合转换器，让算法从样本数据里学习规律。 |
-
 
 ### predict
 
@@ -392,7 +372,6 @@ y_pred = model.predict(X_test)
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>y_pred = model.predict(X_test)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-
 
 分类模型输出类别，异常检测常输出 `1` 或 `-1`。
 
@@ -410,7 +389,6 @@ X_scaled = scaler.transform(X_test)
 |---|---|---|
 | 第 1 行 | <code>X_scaled = scaler.transform(X_test)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 
-
 例如标准化、缺失值填充、one-hot 编码。
 
 ### fit_transform
@@ -426,7 +404,6 @@ X_train_scaled = scaler.fit_transform(X_train)
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>X_train_scaled = scaler.fit_transform(X_train)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-
 
 注意：只能对训练集 `fit_transform`，测试集应该只 `transform`，否则会数据泄漏。
 
@@ -478,7 +455,6 @@ pip install pandas numpy scikit-learn joblib matplotlib
 | 第 2 行 | <code>. .venv/bin/activate</code> | 执行 `.` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 3 行 | <code>pip install pandas numpy scikit-learn joblib matplotlib</code> | 管理 Python 依赖包，通常用于安装实验需要的库。 |
 
-
 Windows PowerShell：
 
 ```powershell
@@ -495,7 +471,6 @@ pip install pandas numpy scikit-learn joblib matplotlib
 | 第 2 行 | <code>.venv\Scripts\Activate.ps1</code> | 执行 `.venv\scripts\activate.ps1` 相关命令，后面的参数决定它具体操作什么对象。 |
 | 第 3 行 | <code>pip install pandas numpy scikit-learn joblib matplotlib</code> | 管理 Python 依赖包，通常用于安装实验需要的库。 |
 
-
 验证：
 
 ```bash
@@ -507,7 +482,6 @@ python -c "import sklearn; print(sklearn.__version__)"
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>python -c "import sklearn; print(sklearn.__version__)"</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
-
 
 ## 第一个异常检测实验
 
@@ -538,7 +512,6 @@ timestamp,service,request_rate,error_rate,p95_latency_ms,cpu_usage
 | 第 7 行 | <code>2026-07-01 10:05:00,order-api,700,0.35,1800,0.92</code> | CSV 数据行，逗号分隔的每一列代表一个字段。 |
 | 第 8 行 | <code>2026-07-01 10:06:00,order-api,1005,0.01,124,0.43</code> | CSV 数据行，逗号分隔的每一列代表一个字段。 |
 | 第 9 行 | <code>2026-07-01 10:07:00,order-api,995,0.02,127,0.46</code> | CSV 数据行，逗号分隔的每一列代表一个字段。 |
-
 
 ### detect_anomaly.py
 
@@ -581,22 +554,17 @@ print(
 |---|---|---|
 | 第 1 行 | <code>import pandas as pd</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
 | 第 2 行 | <code>from sklearn.ensemble import IsolationForest</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 3 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 4 行 | <code>df = pd.read_csv("metrics.csv", parse_dates=["timestamp"])</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 5 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 6 行 | <code>features = ["request_rate", "error_rate", "p95_latency_ms", "cpu_usage"]</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 7 行 | <code>X = df[features]</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 8 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 9 行 | <code>model = IsolationForest(</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 10 行 | <code>    n_estimators=100,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 11 行 | <code>    contamination=0.15,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 12 行 | <code>    random_state=42,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 13 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 14 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 15 行 | <code>df["prediction"] = model.fit_predict(X)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 16 行 | <code>df["anomaly_score"] = model.decision_function(X)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 17 行 | <code>df["is_anomaly"] = df["prediction"] == -1</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 18 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 19 行 | <code>print(</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
 | 第 20 行 | <code>    df[</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 21 行 | <code>        [</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
@@ -610,7 +578,6 @@ print(
 | 第 29 行 | <code>    ]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 30 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
-
 运行：
 
 ```bash
@@ -622,7 +589,6 @@ python detect_anomaly.py
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>python detect_anomaly.py</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
-
 
 解释输出：
 
@@ -647,11 +613,9 @@ IsolationForest 的直觉：
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>异常点通常远离正常群体</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 | 第 2 行 | <code>  -&gt; 用随机切分更容易把它单独隔离出来</code> | 这一行表示上一级主题下的子项“用随机切分更容易把它单独隔离出来”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
 | 第 3 行 | <code>  -&gt; 被隔离所需路径更短</code> | 这一行表示上一级主题下的子项“被隔离所需路径更短”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
 | 第 4 行 | <code>  -&gt; 更可能是异常</code> | 这一行表示上一级主题下的子项“更可能是异常”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
-
 
 官方 API 文档里也强调，它通过随机选择特征和分割值来隔离样本。
 
@@ -714,7 +678,6 @@ df = df.dropna()
 | 第 3 行 | <code>df["request_rate_pct_change"] = df["request_rate"].pct_change()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 4 行 | <code>df = df.dropna()</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 
-
 ### 变更特征
 
 来自 CI/CD 或 MySQL：
@@ -751,10 +714,8 @@ X_imputed = imputer.fit_transform(X_train)
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>from sklearn.impute import SimpleImputer</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 3 行 | <code>imputer = SimpleImputer(strategy="median")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 4 行 | <code>X_imputed = imputer.fit_transform(X_train)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-
 
 ### 标准化
 
@@ -772,10 +733,8 @@ X_scaled = scaler.fit_transform(X_train)
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>from sklearn.preprocessing import StandardScaler</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 3 行 | <code>scaler = StandardScaler()</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 4 行 | <code>X_scaled = scaler.fit_transform(X_train)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-
 
 受影响明显的模型：
 
@@ -802,9 +761,7 @@ encoder = OneHotEncoder(handle_unknown="ignore")
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>from sklearn.preprocessing import OneHotEncoder</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 3 行 | <code>encoder = OneHotEncoder(handle_unknown="ignore")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-
 
 ## Pipeline
 
@@ -816,15 +773,6 @@ Pipeline 把预处理和模型串起来。
 训练时做了什么预处理
 预测时也必须做同样预处理
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>训练时做了什么预处理</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>预测时也必须做同样预处理</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
-
 否则线上特征空间会变，模型效果会坏。
 
 ### 数值特征 pipeline
@@ -857,9 +805,7 @@ df["prediction"] = pipeline.predict(df[features])
 | 第 2 行 | <code>from sklearn.impute import SimpleImputer</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
 | 第 3 行 | <code>from sklearn.pipeline import Pipeline</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
 | 第 4 行 | <code>from sklearn.preprocessing import StandardScaler</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 5 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 6 行 | <code>features = ["request_rate", "error_rate", "p95_latency_ms", "cpu_usage"]</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 7 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 8 行 | <code>pipeline = Pipeline(</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 9 行 | <code>    steps=[</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 10 行 | <code>        ("imputer", SimpleImputer(strategy="median")),</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
@@ -867,10 +813,8 @@ df["prediction"] = pipeline.predict(df[features])
 | 第 12 行 | <code>        ("model", IsolationForest(contamination=0.15, random_state=42)),</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 13 行 | <code>    ]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 14 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 15 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 16 行 | <code>pipeline.fit(df[features])</code> | 训练模型或拟合转换器，让算法从样本数据里学习规律。 |
 | 第 17 行 | <code>df["prediction"] = pipeline.predict(df[features])</code> | 用训练好的模型做预测，输出分类、异常分数或预测值。 |
-
 
 ### ColumnTransformer
 
@@ -923,10 +867,8 @@ model = Pipeline(
 | 第 3 行 | <code>from sklearn.impute import SimpleImputer</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
 | 第 4 行 | <code>from sklearn.pipeline import Pipeline</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
 | 第 5 行 | <code>from sklearn.preprocessing import OneHotEncoder, StandardScaler</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 6 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 7 行 | <code>numeric_features = ["request_rate", "error_rate", "p95_latency_ms", "cpu_usage"]</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 8 行 | <code>categorical_features = ["service", "environment"]</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 9 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 10 行 | <code>preprocess = ColumnTransformer(</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 11 行 | <code>    transformers=[</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 12 行 | <code>        (</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
@@ -946,14 +888,12 @@ model = Pipeline(
 | 第 26 行 | <code>        ),</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 27 行 | <code>    ]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 28 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 29 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 30 行 | <code>model = Pipeline(</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 31 行 | <code>    steps=[</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 32 行 | <code>        ("preprocess", preprocess),</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 33 行 | <code>        ("classifier", RandomForestClassifier(random_state=42)),</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 34 行 | <code>    ]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 35 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 
 这就是“生产可复用”的基本形态。
 
@@ -978,7 +918,6 @@ X_train, X_test, y_train, y_test = train_test_split(
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>from sklearn.model_selection import train_test_split</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 3 行 | <code>X_train, X_test, y_train, y_test = train_test_split(</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 4 行 | <code>    X,</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 5 行 | <code>    y,</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
@@ -986,7 +925,6 @@ X_train, X_test, y_train, y_test = train_test_split(
 | 第 7 行 | <code>    random_state=42,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 8 行 | <code>    stratify=y,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 9 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 
 ### 数据泄漏
 
@@ -1006,7 +944,6 @@ X_train, X_test, y_train, y_test = train_test_split(X_scaled, y)
 | 第 2 行 | <code>X_scaled = scaler.transform(X)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 3 行 | <code>X_train, X_test, y_train, y_test = train_test_split(X_scaled, y)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
-
 问题：标准化已经看过测试集。
 
 正确做法：
@@ -1023,7 +960,6 @@ y_pred = pipeline.predict(X_test)
 | 第 1 行 | <code>pipeline.fit(X_train, y_train)</code> | 训练模型或拟合转换器，让算法从样本数据里学习规律。 |
 | 第 2 行 | <code>y_pred = pipeline.predict(X_test)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 
-
 Pipeline 会保证预处理只在训练集 `fit`，测试集只 `transform`。
 
 ### 时间序列注意
@@ -1036,15 +972,6 @@ AIOps 指标有时间顺序。很多时候不能随机拆分。
 前 80% 时间训练
 后 20% 时间测试
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>前 80% 时间训练</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>后 20% 时间测试</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
-
 避免“未来数据泄漏到过去”。
 
 ## 模型评估
@@ -1066,11 +993,9 @@ print(confusion_matrix(y_test, y_pred))
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>from sklearn.metrics import classification_report, confusion_matrix</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 3 行 | <code>y_pred = model.predict(X_test)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 4 行 | <code>print(classification_report(y_test, y_pred))</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
 | 第 5 行 | <code>print(confusion_matrix(y_test, y_pred))</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 
 关键指标：
 
@@ -1116,7 +1041,6 @@ review.to_csv("anomaly_review.csv", index=False)
 | 第 1 行 | <code>review = df.sort_values("anomaly_score").head(50)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 2 行 | <code>review.to_csv("anomaly_review.csv", index=False)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
-
 ## 其他常见模型
 
 ### LocalOutlierFactor
@@ -1135,10 +1059,8 @@ df["prediction"] = model.fit_predict(X)
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>from sklearn.neighbors import LocalOutlierFactor</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 3 行 | <code>model = LocalOutlierFactor(n_neighbors=20, contamination=0.05)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 4 行 | <code>df["prediction"] = model.fit_predict(X)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 
 注意：LOF 默认更偏 outlier detection，不像普通模型那样直接对新样本 predict。要做 novelty detection 需要设置 `novelty=True` 并理解差异。
 
@@ -1156,10 +1078,8 @@ model.fit(X_train)
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>from sklearn.svm import OneClassSVM</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 3 行 | <code>model = OneClassSVM(nu=0.05, kernel="rbf", gamma="scale")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 4 行 | <code>model.fit(X_train)</code> | 训练模型或拟合转换器，让算法从样本数据里学习规律。 |
-
 
 适合小到中等数据，参数较敏感，大数据上可能较慢。
 
@@ -1179,10 +1099,8 @@ df["cluster"] = kmeans.fit_predict(X)
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>from sklearn.cluster import KMeans</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 3 行 | <code>kmeans = KMeans(n_clusters=3, random_state=42)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 4 行 | <code>df["cluster"] = kmeans.fit_predict(X)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 
 用途：
 
@@ -1205,10 +1123,8 @@ clf.fit(X_train, y_train)
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>from sklearn.ensemble import RandomForestClassifier</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 3 行 | <code>clf = RandomForestClassifier(random_state=42)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 4 行 | <code>clf.fit(X_train, y_train)</code> | 训练模型或拟合转换器，让算法从样本数据里学习规律。 |
-
 
 用途：
 
@@ -1232,10 +1148,8 @@ pipeline = joblib.load("model/anomaly_pipeline.joblib")
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>import joblib</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 3 行 | <code>joblib.dump(pipeline, "model/anomaly_pipeline.joblib")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 4 行 | <code>pipeline = joblib.load("model/anomaly_pipeline.joblib")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-
 
 建议保存整个 Pipeline，而不是只保存模型。
 
@@ -1282,15 +1196,14 @@ projects/sklearn-anomaly-detector/
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>projects/sklearn-anomaly-detector/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  README.md</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>  requirements.txt</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>  metrics.csv</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 5 行 | <code>  train.py</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 6 行 | <code>  detect.py</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 7 行 | <code>  anomaly_review.csv</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 8 行 | <code>  model/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>projects/sklearn-anomaly-detector/</code> | `projects/sklearn-anomaly-detector/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 2 行 | <code>  README.md</code> | `README.md` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 3 行 | <code>  requirements.txt</code> | `requirements.txt` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 4 行 | <code>  metrics.csv</code> | `metrics.csv` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 5 行 | <code>  train.py</code> | `train.py` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 6 行 | <code>  detect.py</code> | `detect.py` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 7 行 | <code>  anomaly_review.csv</code> | `anomaly_review.csv` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
+| 第 8 行 | <code>  model/</code> | `model/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 ### requirements.txt
 
@@ -1305,11 +1218,10 @@ joblib
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>pandas</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>numpy</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 3 行 | <code>scikit-learn</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>joblib</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-
+| 第 1 行 | <code>pandas</code> | 这一行里的英文要这样读：`pandas` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 2 行 | <code>numpy</code> | 这一行里的英文要这样读：`numpy` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 3 行 | <code>scikit-learn</code> | 这一行里的英文要这样读：`scikit-learn` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
+| 第 4 行 | <code>joblib</code> | 这一行里的英文要这样读：`joblib` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 ### train.py
 
@@ -1348,19 +1260,15 @@ print("saved model/anomaly_pipeline.joblib")
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>from pathlib import Path</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 2 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 3 行 | <code>import joblib</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
 | 第 4 行 | <code>import pandas as pd</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
 | 第 5 行 | <code>from sklearn.ensemble import IsolationForest</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
 | 第 6 行 | <code>from sklearn.impute import SimpleImputer</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
 | 第 7 行 | <code>from sklearn.pipeline import Pipeline</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
 | 第 8 行 | <code>from sklearn.preprocessing import StandardScaler</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 9 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 10 行 | <code>features = ["request_rate", "error_rate", "p95_latency_ms", "cpu_usage"]</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 11 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 12 行 | <code>df = pd.read_csv("metrics.csv", parse_dates=["timestamp"])</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 13 行 | <code>X = df[features]</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 14 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 15 行 | <code>pipeline = Pipeline(</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 16 行 | <code>    steps=[</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 17 行 | <code>        ("imputer", SimpleImputer(strategy="median")),</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
@@ -1368,13 +1276,10 @@ print("saved model/anomaly_pipeline.joblib")
 | 第 19 行 | <code>        ("model", IsolationForest(contamination=0.15, random_state=42)),</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 20 行 | <code>    ]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 21 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 22 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 23 行 | <code>pipeline.fit(X)</code> | 训练模型或拟合转换器，让算法从样本数据里学习规律。 |
-| 第 24 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 25 行 | <code>Path("model").mkdir(exist_ok=True)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 26 行 | <code>joblib.dump(pipeline, "model/anomaly_pipeline.joblib")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 27 行 | <code>print("saved model/anomaly_pipeline.joblib")</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 
 ### detect.py
 
@@ -1403,21 +1308,15 @@ print(review[["timestamp", "service", "anomaly_score", "is_anomaly"]])
 |---|---|---|
 | 第 1 行 | <code>import joblib</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
 | 第 2 行 | <code>import pandas as pd</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
-| 第 3 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 4 行 | <code>features = ["request_rate", "error_rate", "p95_latency_ms", "cpu_usage"]</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 5 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 6 行 | <code>df = pd.read_csv("metrics.csv", parse_dates=["timestamp"])</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 7 行 | <code>pipeline = joblib.load("model/anomaly_pipeline.joblib")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 8 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 9 行 | <code>df["prediction"] = pipeline.predict(df[features])</code> | 用训练好的模型做预测，输出分类、异常分数或预测值。 |
 | 第 10 行 | <code>df["anomaly_score"] = pipeline.decision_function(df[features])</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 11 行 | <code>df["is_anomaly"] = df["prediction"] == -1</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 12 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 13 行 | <code>review = df.sort_values("anomaly_score")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 | 第 14 行 | <code>review.to_csv("anomaly_review.csv", index=False)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 15 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
 | 第 16 行 | <code>print(review[["timestamp", "service", "anomaly_score", "is_anomaly"]])</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 
 运行：
 
@@ -1434,7 +1333,6 @@ python detect.py
 | 第 1 行 | <code>pip install -r requirements.txt</code> | 管理 Python 依赖包，通常用于安装实验需要的库。 |
 | 第 2 行 | <code>python train.py</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
 | 第 3 行 | <code>python detect.py</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
-
 
 README 要解释：
 
@@ -1458,7 +1356,6 @@ train_test_split(X, y, test_size=0.2, random_state=42)
 |---|---|---|
 | 第 1 行 | <code>train_test_split(X, y, test_size=0.2, random_state=42)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
-
 作用：拆分训练和测试数据。
 
 ### StandardScaler
@@ -1472,7 +1369,6 @@ StandardScaler()
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>StandardScaler()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 
 作用：把特征标准化为均值 0、方差 1 附近。
 
@@ -1488,7 +1384,6 @@ SimpleImputer(strategy="median")
 |---|---|---|
 | 第 1 行 | <code>SimpleImputer(strategy="median")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
-
 作用：填补缺失值。
 
 ### OneHotEncoder
@@ -1502,7 +1397,6 @@ OneHotEncoder(handle_unknown="ignore")
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>OneHotEncoder(handle_unknown="ignore")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 
 作用：把类别特征转成数值特征。
 
@@ -1518,7 +1412,6 @@ Pipeline([("scaler", StandardScaler()), ("model", IsolationForest())])
 |---|---|---|
 | 第 1 行 | <code>Pipeline([("scaler", StandardScaler()), ("model", IsolationForest())])</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
-
 作用：串联预处理和模型。
 
 ### ColumnTransformer
@@ -1532,7 +1425,6 @@ ColumnTransformer([...])
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>ColumnTransformer([...])</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 
 作用：对不同列应用不同预处理。
 
@@ -1548,7 +1440,6 @@ IsolationForest(contamination=0.05, random_state=42)
 |---|---|---|
 | 第 1 行 | <code>IsolationForest(contamination=0.05, random_state=42)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
-
 作用：无监督异常检测。
 
 ### classification_report
@@ -1563,7 +1454,6 @@ classification_report(y_test, y_pred)
 |---|---|---|
 | 第 1 行 | <code>classification_report(y_test, y_pred)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
-
 作用：输出 precision、recall、f1-score。
 
 ### confusion_matrix
@@ -1577,7 +1467,6 @@ confusion_matrix(y_test, y_pred)
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>confusion_matrix(y_test, y_pred)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 
 作用：查看分类错误分布。
 
@@ -1594,7 +1483,6 @@ joblib.load("model.joblib")
 |---|---|---|
 | 第 1 行 | <code>joblib.dump(pipeline, "model.joblib")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 | 第 2 行 | <code>joblib.load("model.joblib")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 
 作用：保存和加载模型。
 
