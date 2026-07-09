@@ -13,23 +13,6 @@
   --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --sans: "IBM Plex Sans", "Microsoft YaHei UI", system-ui, sans-serif;
   --display: "IBM Plex Sans", "Microsoft YaHei UI", system-ui, sans-serif;
-  --pointer-x: 72vw;
-  --pointer-y: 28vh;
-  --pointer-speed: 0;
-  --cursor-size: 9px;
-  --cursor-halo-size: 30px;
-  --cursor-tail-length: 34px;
-  --cursor-tail-opacity: 0.38;
-  --cursor-tail-dynamic-opacity: 0.18;
-  --cursor-tail-scale: 0.72;
-  --cursor-motion-scale: 1;
-}
-
-:root[data-cursor='hover'] {
-  --cursor-size: 14px;
-  --cursor-halo-size: 42px;
-  --cursor-tail-length: 42px;
-  --cursor-tail-opacity: 0.5;
 }
 
 :root[data-theme='dark'] {
@@ -83,54 +66,46 @@ body {
   pointer-events: none;
 }
 
-.cursor-trace::before,
-.cursor-trace::after {
+.cursor-trace__spark {
   position: fixed;
-  left: var(--pointer-x);
-  top: var(--pointer-y);
-  content: "";
-  opacity: 1;
-  pointer-events: none;
-  will-change: transform, opacity, width, height;
-}
-
-.cursor-trace::before {
-  width: var(--cursor-size);
-  height: var(--cursor-size);
-  border-radius: 999px;
+  left: var(--trail-left);
+  top: var(--trail-top);
+  width: var(--trail-size);
+  height: var(--trail-size);
+  border: 1px solid rgb(126 224 189 / 72%);
+  border-radius: 3px;
   background:
-    radial-gradient(circle at 34% 32%, #ffffff 0 22%, #baffed 23% 44%, #35c99b 45% 100%);
+    linear-gradient(135deg, rgb(255 255 255 / 48%), rgb(56 201 158 / 18%)),
+    rgb(56 201 158 / 26%);
   box-shadow:
-    0 0 0 1px rgb(255 255 255 / 34%),
-    0 0 16px rgb(56 201 158 / 70%),
-    0 0 var(--cursor-halo-size) rgb(53 201 155 / 28%);
-  transform: translate(-50%, -50%) scale(var(--cursor-motion-scale));
-  transition:
-    width 180ms ease,
-    height 180ms ease,
-    box-shadow 180ms ease,
-    opacity 180ms ease;
-}
-
-.cursor-trace::after {
-  width: var(--cursor-tail-length);
-  height: 2px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, transparent, rgb(126 224 189 / 18%), rgb(255 255 255 / var(--cursor-tail-opacity)));
-  box-shadow:
-    0 0 10px rgb(56 201 158 / 42%),
+    0 0 10px rgb(56 201 158 / 46%),
     0 0 24px rgb(126 224 189 / 20%);
-  opacity: var(--cursor-tail-dynamic-opacity);
-  transform: translate(calc(-100% - 8px), -50%) scaleX(var(--cursor-tail-scale));
-  transform-origin: 100% 50%;
-  transition:
-    width 180ms ease,
-    opacity 120ms ease;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%) rotate(var(--trail-rotate)) scale(0.36);
+  transform-origin: center;
+  animation: cursor-trail var(--trail-duration) cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
 }
 
-:root[data-cursor='hidden'] .cursor-trace::before,
-:root[data-cursor='hidden'] .cursor-trace::after {
-  opacity: 0;
+@keyframes cursor-trail {
+  0% {
+    opacity: 0.92;
+    transform: translate(-50%, -50%) rotate(var(--trail-rotate)) scale(0.36);
+  }
+
+  18% {
+    opacity: 0.72;
+    transform: translate(-50%, -50%) rotate(var(--trail-rotate)) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform:
+      translate(calc(-50% + var(--trail-dx)), calc(-50% + var(--trail-dy)))
+      rotate(calc(var(--trail-rotate) + 92deg))
+      scale(0.08);
+  }
 }
 
 main {
@@ -163,16 +138,6 @@ button,
 input,
 textarea {
   cursor: text;
-}
-
-@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  body,
-  a,
-  button,
-  .button,
-  .theme-button {
-    cursor: none;
-  }
 }
 
 :focus-visible {

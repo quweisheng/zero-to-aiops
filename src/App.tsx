@@ -554,87 +554,63 @@ function usePointerMotion() {
       return
     }
 
-    const root = document.documentElement
-    const requestFrame =
-      window.requestAnimationFrame?.bind(window) ??
-      ((callback: FrameRequestCallback) => window.setTimeout(() => callback(Date.now()), 16))
-    const cancelFrame = window.cancelAnimationFrame?.bind(window) ?? window.clearTimeout.bind(window)
-    const interactiveSelector = 'a, button, input, textarea, select, [role="button"], .button, .theme-button'
-    let frame: number | null = null
-    let currentX = window.innerWidth * 0.72
-    let currentY = window.innerHeight * 0.28
-    let targetX = currentX
-    let targetY = currentY
-    let pointerSpeed = 0
-
-    const applyPosition = () => {
-      root.style.setProperty('--pointer-x', `${currentX}px`)
-      root.style.setProperty('--pointer-y', `${currentY}px`)
-      root.style.setProperty('--pointer-speed', pointerSpeed.toFixed(3))
-      root.style.setProperty('--cursor-motion-scale', (1 + pointerSpeed * 0.08).toFixed(3))
-      root.style.setProperty('--cursor-tail-scale', (0.72 + pointerSpeed * 0.38).toFixed(3))
-      root.style.setProperty('--cursor-tail-dynamic-opacity', (0.18 + pointerSpeed * 0.46).toFixed(3))
+    const finePointer = window.matchMedia?.('(hover: hover) and (pointer: fine)')
+    if (finePointer && !finePointer.matches) {
+      return
     }
 
-    const applyCursorState = (nextX: number, nextY: number, target: EventTarget | null) => {
-      const deltaX = nextX - targetX
-      const deltaY = nextY - targetY
-      const distance = Math.hypot(deltaX, deltaY)
-      const targetElement = target instanceof Element ? target : undefined
-
-      if (targetElement?.closest(interactiveSelector)) {
-        root.dataset.cursor = 'hover'
-      } else {
-        delete root.dataset.cursor
-      }
-
-      pointerSpeed = Math.max(pointerSpeed, Math.min(distance / 44, 1))
+    const trace = document.querySelector('.cursor-trace')
+    if (!(trace instanceof HTMLElement)) {
+      return
     }
 
-    const followPointer = () => {
-      currentX += (targetX - currentX) * 0.16
-      currentY += (targetY - currentY) * 0.16
-      pointerSpeed *= 0.9
-      applyPosition()
-
-      if (Math.abs(targetX - currentX) > 0.2 || Math.abs(targetY - currentY) > 0.2 || pointerSpeed > 0.01) {
-        frame = requestFrame(followPointer)
-      } else {
-        frame = null
-      }
-    }
+    let lastX = Number.NaN
+    let lastY = Number.NaN
+    let lastSparkAt = 0
 
     const onPointerMove = (event: PointerEvent) => {
-      applyCursorState(event.clientX, event.clientY, event.target)
-      targetX = event.clientX
-      targetY = event.clientY
+      const now = window.performance.now()
+      const deltaX = Number.isNaN(lastX) ? 0 : event.clientX - lastX
+      const deltaY = Number.isNaN(lastY) ? 0 : event.clientY - lastY
+      const distance = Math.hypot(deltaX, deltaY)
 
-      if (frame === null) {
-        frame = requestFrame(followPointer)
+      if (distance < 7 && now - lastSparkAt < 24) {
+        return
       }
+
+      lastX = event.clientX
+      lastY = event.clientY
+      lastSparkAt = now
+
+      const spark = document.createElement('span')
+      const direction = distance > 0 ? Math.atan2(deltaY, deltaX) + Math.PI : Math.random() * Math.PI * 2
+      const drift = 14 + Math.min(distance, 42) * 0.45
+      const scatter = (Math.random() - 0.5) * 18
+      const size = 7 + Math.random() * 8
+
+      spark.className = 'cursor-trace__spark'
+      spark.style.setProperty('--trail-left', `${event.clientX}px`)
+      spark.style.setProperty('--trail-top', `${event.clientY}px`)
+      spark.style.setProperty('--trail-size', `${size.toFixed(1)}px`)
+      spark.style.setProperty('--trail-dx', `${(Math.cos(direction) * drift + scatter).toFixed(1)}px`)
+      spark.style.setProperty('--trail-dy', `${(Math.sin(direction) * drift + scatter * 0.45).toFixed(1)}px`)
+      spark.style.setProperty('--trail-rotate', `${(Math.random() * 90 - 45).toFixed(1)}deg`)
+      spark.style.setProperty('--trail-duration', `${Math.round(580 + Math.random() * 260)}ms`)
+      spark.addEventListener('animationend', () => spark.remove(), { once: true })
+      trace.append(spark)
     }
 
-    const onPointerLeave = () => {
-      root.dataset.cursor = 'hidden'
+    const clearTrail = () => {
+      trace.replaceChildren()
     }
 
-    applyPosition()
     window.addEventListener('pointermove', onPointerMove, { passive: true })
-    window.addEventListener('pointerleave', onPointerLeave, { passive: true })
+    window.addEventListener('pointerleave', clearTrail, { passive: true })
 
     return () => {
       window.removeEventListener('pointermove', onPointerMove)
-      window.removeEventListener('pointerleave', onPointerLeave)
-      if (frame !== null) {
-        cancelFrame(frame)
-      }
-      root.style.removeProperty('--pointer-x')
-      root.style.removeProperty('--pointer-y')
-      root.style.removeProperty('--pointer-speed')
-      root.style.removeProperty('--cursor-motion-scale')
-      root.style.removeProperty('--cursor-tail-scale')
-      root.style.removeProperty('--cursor-tail-dynamic-opacity')
-      delete root.dataset.cursor
+      window.removeEventListener('pointerleave', clearTrail)
+      clearTrail()
     }
   }, [])
 }
