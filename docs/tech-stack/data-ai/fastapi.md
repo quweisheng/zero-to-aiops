@@ -36,12 +36,6 @@
 python detect.py --service order-api --window 5m
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>python detect.py --service order-api --window 5m</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 本地能跑，结果也看起来不错。但一进入 AIOps 系统，问题马上出现：
 
 - Alertmanager 怎么把告警发给这个脚本？
@@ -133,60 +127,6 @@ FastAPI
      -> HTTPS / proxy / workers
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>FastAPI</code> | 这一行里的英文要这样读：`FastAPI` 是Python Web API 框架。 |
-| 第 2 行 | <code>  -&gt; First Steps</code> | 这一行要理解这些英文词：`First Steps` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>     -&gt; FastAPI app</code> | 这一行要理解这些英文词：`FastAPI app` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>     -&gt; path operation decorator</code> | 这一行要理解这些英文词：`path operation decorator` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>     -&gt; path operation function</code> | 这一行要理解这些英文词：`path operation function` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>     -&gt; automatic docs</code> | 这一行要理解这些英文词：`automatic docs` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; Parameters</code> | 这一行要理解这些英文词：`Parameters` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>     -&gt; path parameters</code> | 这一行要理解这些英文词：`path parameters` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 9 行 | <code>     -&gt; query parameters</code> | 这一行要理解这些英文词：`query parameters` 是query=查询。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 10 行 | <code>     -&gt; request body</code> | 这一行要理解这些英文词：`request body` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 11 行 | <code>     -&gt; header / cookie</code> | 这一行要理解这些英文词：`header` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`cookie` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 12 行 | <code>     -&gt; validation</code> | 这一行要理解这些英文词：`validation` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 13 行 | <code>  -&gt; Response</code> | 这一行要理解这些英文词：`Response` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 14 行 | <code>     -&gt; return dict / list / Pydantic model</code> | 这一行要理解这些英文词：`return dict` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`list` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`Pydantic model` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 15 行 | <code>     -&gt; response_model</code> | 这一行要理解这些英文词：`response_model` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 16 行 | <code>     -&gt; status_code</code> | 这一行要理解这些英文词：`status_code` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 17 行 | <code>     -&gt; JSON serialization</code> | 这一行要理解这些英文词：`JSON serialization` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 18 行 | <code>  -&gt; Dependencies</code> | 这一行要理解这些英文词：`Dependencies` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 19 行 | <code>     -&gt; Depends</code> | 这一行要理解这些英文词：`Depends` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 20 行 | <code>     -&gt; shared query / auth / database session</code> | 这一行要理解这些英文词：`shared query` 是query=查询；`auth` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`database session` 是database=数据库。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 21 行 | <code>     -&gt; nested dependencies</code> | 这一行要理解这些英文词：`nested dependencies` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 22 行 | <code>  -&gt; Error Handling</code> | 这一行要理解这些英文词：`Error Handling` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 23 行 | <code>     -&gt; HTTPException</code> | 这一行要理解这些英文词：`HTTPException` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 24 行 | <code>     -&gt; validation errors</code> | 这一行要理解这些英文词：`validation errors` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 25 行 | <code>     -&gt; custom exception handlers</code> | 这一行要理解这些英文词：`custom exception handlers` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 26 行 | <code>  -&gt; Middleware</code> | 这一行要理解这些英文词：`Middleware` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 27 行 | <code>     -&gt; request before/after hook</code> | 这一行要理解这些英文词：`request before` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`after hook` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 28 行 | <code>     -&gt; logging</code> | 这一行要理解这些英文词：`logging` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 29 行 | <code>     -&gt; timing</code> | 这一行要理解这些英文词：`timing` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 30 行 | <code>     -&gt; CORS</code> | 这一行要理解这些英文词：`CORS` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 31 行 | <code>  -&gt; Application Structure</code> | 这一行要理解这些英文词：`Application Structure` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 32 行 | <code>     -&gt; APIRouter</code> | 这一行要理解这些英文词：`APIRouter` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 33 行 | <code>     -&gt; multiple files</code> | 这一行要理解这些英文词：`multiple files` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 34 行 | <code>     -&gt; settings</code> | 这一行要理解这些英文词：`settings` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 35 行 | <code>     -&gt; startup/lifespan</code> | 这一行要理解这些英文词：`startup` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`lifespan` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 36 行 | <code>  -&gt; Background Tasks</code> | 这一行要理解这些英文词：`Background Tasks` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 37 行 | <code>     -&gt; after-response work</code> | 这一行要理解这些英文词：`after-response work` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 38 行 | <code>     -&gt; small async follow-up</code> | 这一行要理解这些英文词：`small async follow-up` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 39 行 | <code>     -&gt; queue for heavy work</code> | 这一行要理解这些英文词：`queue for heavy work` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 40 行 | <code>  -&gt; Testing</code> | 这一行要理解这些英文词：`Testing` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 41 行 | <code>     -&gt; TestClient</code> | 这一行要理解这些英文词：`TestClient` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 42 行 | <code>     -&gt; dependency override</code> | 这一行要理解这些英文词：`dependency override` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 43 行 | <code>     -&gt; API contract tests</code> | 这一行要理解这些英文词：`API contract tests` 是api=应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 44 行 | <code>  -&gt; Deployment</code> | 这一行要理解这些英文词：`Deployment` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 45 行 | <code>     -&gt; fastapi dev</code> | 这一行要理解这些英文词：`fastapi dev` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 46 行 | <code>     -&gt; fastapi run</code> | 这一行要理解这些英文词：`fastapi run` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 47 行 | <code>     -&gt; ASGI server</code> | 这一行要理解这些英文词：`ASGI server` 是server=服务端。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 48 行 | <code>     -&gt; containers</code> | 这一行要理解这些英文词：`containers` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 49 行 | <code>     -&gt; HTTPS / proxy / workers</code> | 这一行要理解这些英文词：`HTTPS` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`proxy` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`workers` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 初学路线：
 
 ```text
@@ -201,21 +141,6 @@ first API
   -> Docker / health check
   -> AIOps alert API
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>first API</code> | 这一行里的英文要这样读：`first API` 这个英文标识可以拆开理解为：应用程序接口。 |
-| 第 2 行 | <code>  -&gt; path/query/body</code> | 这一行要理解这些英文词：`path` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`query` 是查询；`body` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; Pydantic model</code> | 这一行要理解这些英文词：`Pydantic model` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; response_model</code> | 这一行要理解这些英文词：`response_model` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; HTTPException</code> | 这一行要理解这些英文词：`HTTPException` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; Depends</code> | 这一行要理解这些英文词：`Depends` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; APIRouter</code> | 这一行要理解这些英文词：`APIRouter` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>  -&gt; TestClient</code> | 这一行要理解这些英文词：`TestClient` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 9 行 | <code>  -&gt; Docker / health check</code> | 这一行要理解这些英文词：`Docker` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`health check` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 10 行 | <code>  -&gt; AIOps alert API</code> | 这一行要理解这些英文词：`AIOps alert API` 是aiops=智能运维，alert=告警，api=应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 不要一上来就纠结微服务、网关、服务网格和复杂鉴权。先把请求怎么进来、数据怎么校验、函数怎么调用、响应怎么返回讲清楚。
 
@@ -237,23 +162,6 @@ Alertmanager / Grafana / script / frontend / CI
   -> JSON response
   -> OpenAPI contract
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Alertmanager / Grafana / script / frontend / CI</code> | `Alertmanager / Grafana / script / frontend / CI` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>  -&gt; FastAPI</code> | 这一行要理解这些英文词：`FastAPI` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>      -&gt; validate request</code> | 这一行要理解这些英文词：`validate request` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>      -&gt; authenticate caller</code> | 这一行要理解这些英文词：`authenticate caller` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>      -&gt; deduplicate alert with Redis</code> | 这一行要理解这些英文词：`deduplicate alert with Redis` 是alert=告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>      -&gt; store event in MySQL</code> | 这一行要理解这些英文词：`store event in MySQL` 是mysql=MySQL 数据库或客户端命令。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>      -&gt; publish message to Kafka</code> | 这一行要理解这些英文词：`publish message to Kafka` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>      -&gt; call pandas / scikit-learn model</code> | 这一行要理解这些英文词：`call pandas` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`scikit-learn model` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 9 行 | <code>      -&gt; call LLM / RAG service</code> | 这一行要理解这些英文词：`call LLM` 是llm=大语言模型；`RAG service` 是service=服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 10 行 | <code>      -&gt; trigger runbook automation</code> | 这一行要理解这些英文词：`trigger runbook automation` 是runbook=故障处理手册。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 11 行 | <code>  -&gt; JSON response</code> | 这一行要理解这些英文词：`JSON response` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 12 行 | <code>  -&gt; OpenAPI contract</code> | 这一行要理解这些英文词：`OpenAPI contract` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 它不应该承担所有职责。
 
@@ -283,18 +191,6 @@ client
                       -> your function
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>client</code> | 这一行里的英文要这样读：`client` 是客户端。 |
-| 第 2 行 | <code>  -&gt; Uvicorn</code> | 这一行要理解这些英文词：`Uvicorn` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>      -&gt; ASGI</code> | 这一行要理解这些英文词：`ASGI` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>          -&gt; Starlette</code> | 这一行要理解这些英文词：`Starlette` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>              -&gt; FastAPI</code> | 这一行要理解这些英文词：`FastAPI` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>                  -&gt; Pydantic</code> | 这一行要理解这些英文词：`Pydantic` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>                      -&gt; your function</code> | 这一行要理解这些英文词：`your function` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 ### FastAPI
 
 FastAPI 是你直接使用的 Web API 框架。你写：
@@ -309,16 +205,6 @@ app = FastAPI()
 async def healthz():
     return {"status": "ok"}
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>from fastapi import FastAPI</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 3 行 | <code>app = FastAPI()</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 6 行 | <code>@app.get("/healthz")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 7 行 | <code>async def healthz():</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 8 行 | <code>    return {"status": "ok"}</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
 
 它把 URL、HTTP 方法、函数、类型注解、请求体模型、响应模型组织起来。
 
@@ -351,35 +237,17 @@ Uvicorn 是 ASGI server。它负责监听端口、接收 HTTP 请求，并把请
 fastapi dev main.py
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>fastapi dev main.py</code> | 执行 `fastapi` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 或者：
 
 ```bash
 uvicorn main:app --reload
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>uvicorn main:app --reload</code> | 启动 ASGI Web 服务，常用于运行 FastAPI 实验接口。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 这里的 `main:app` 含义是：
 
 ```text
 main.py 文件中的 app 变量
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>main.py 文件中的 app 变量</code> | `main.py 文件中的 app 变量` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 ## ASGI 是什么
 
@@ -400,12 +268,6 @@ ASGI 可以先理解为 Python Web 服务和服务器之间的协议。
 Uvicorn 负责跑 ASGI app，FastAPI app 是一个 ASGI 应用。
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Uvicorn 负责跑 ASGI app，FastAPI app 是一个 ASGI 应用。</code> | 这一行里的英文要这样读：`Uvicorn` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源；`ASGI app` 这个英文标识可以拆开理解为：应用或服务；`FastAPI app` 这个英文标识可以拆开理解为：应用程序接口，应用或服务；`ASGI` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-
 ## 请求到响应的完整链路
 
 一次请求进入 FastAPI，大致经过这些步骤：
@@ -423,22 +285,6 @@ Uvicorn 负责跑 ASGI app，FastAPI app 是一个 ASGI 应用。
 10. middleware can add headers/log timing
 11. JSON response is sent back
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>1. client sends HTTP request</code> | `1. client sends HTTP request` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>2. Uvicorn receives request</code> | `2. Uvicorn receives request` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 3 行 | <code>3. FastAPI matches route</code> | `3. FastAPI matches route` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 4 行 | <code>4. FastAPI parses path/query/header/body</code> | `4. FastAPI parses path/query/header/body` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 5 行 | <code>5. Pydantic validates and converts data</code> | `5. Pydantic validates and converts data` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 6 行 | <code>6. Dependencies are executed</code> | `6. Dependencies are executed` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 7 行 | <code>7. path operation function is called</code> | `7. path operation function is called` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 8 行 | <code>8. function returns Python object</code> | `8. function returns Python object` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 9 行 | <code>9. response_model filters and serializes output</code> | `9. response_model filters and serializes output` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 10 行 | <code>10. middleware can add headers/log timing</code> | `10. middleware can add headers/log timing` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 11 行 | <code>11. JSON response is sent back</code> | `11. JSON response is sent back` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 把这条链路想清楚，很多问题会变简单：
 
@@ -459,15 +305,6 @@ python -m pip install --upgrade pip
 pip install "fastapi[standard]"
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>python -m venv .venv</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
-| 第 2 行 | <code>source .venv/bin/activate</code> | 执行 `source` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 3 行 | <code>python -m pip install --upgrade pip</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-| 第 4 行 | <code>pip install "fastapi[standard]"</code> | 管理 Python 依赖包，通常用于安装实验需要的库。 |
-
 Windows PowerShell：
 
 ```powershell
@@ -476,15 +313,6 @@ python -m venv .venv
 python -m pip install --upgrade pip
 pip install "fastapi[standard]"
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>python -m venv .venv</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
-| 第 2 行 | <code>.venv\Scripts\Activate.ps1</code> | 执行 `.venv\scripts\activate.ps1` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 3 行 | <code>python -m pip install --upgrade pip</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-| 第 4 行 | <code>pip install "fastapi[standard]"</code> | 管理 Python 依赖包，通常用于安装实验需要的库。 |
 
 `"fastapi[standard]"` 要加引号，避免某些终端把中括号当成特殊字符。
 
@@ -495,13 +323,6 @@ python -c "import fastapi; print(fastapi.__version__)"
 fastapi --help
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>python -c "import fastapi; print(fastapi.__version__)"</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
-| 第 2 行 | <code>fastapi --help</code> | 执行 `fastapi` 相关命令，后面的参数决定它具体操作什么对象。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 常用依赖：
 
 ```bash
@@ -509,14 +330,6 @@ pip install pytest httpx
 pip install pydantic-settings
 pip install redis pymysql sqlalchemy
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>pip install pytest httpx</code> | 管理 Python 依赖包，通常用于安装实验需要的库。 |
-| 第 2 行 | <code>pip install pydantic-settings</code> | 管理 Python 依赖包，通常用于安装实验需要的库。 |
-| 第 3 行 | <code>pip install redis pymysql sqlalchemy</code> | 管理 Python 依赖包，通常用于安装实验需要的库。 |
 
 学习阶段不必一次装完。先让最小 API 跑起来，再按需要增加。
 
@@ -535,27 +348,11 @@ async def root():
     return {"message": "AIOps API is running"}
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>from fastapi import FastAPI</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 3 行 | <code>app = FastAPI(title="AIOps Lab API")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 6 行 | <code>@app.get("/")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 7 行 | <code>async def root():</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 8 行 | <code>    return {"message": "AIOps API is running"}</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-
 启动开发服务：
 
 ```bash
 fastapi dev main.py
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>fastapi dev main.py</code> | 执行 `fastapi` 相关命令，后面的参数决定它具体操作什么对象。 |
 
 访问：
 
@@ -566,26 +363,11 @@ http://127.0.0.1:8000/redoc
 http://127.0.0.1:8000/openapi.json
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>http://127.0.0.1:8000/</code> | `http` 表示访问协议，`127.0.0.1:8000` 是域名或主机名，`/` 是具体接口路径；真实环境要换成自己的域名和路径。 |
-| 第 2 行 | <code>http://127.0.0.1:8000/docs</code> | `http` 表示访问协议，`127.0.0.1:8000` 是域名或主机名，`/docs` 是具体接口路径；真实环境要换成自己的域名和路径。 |
-| 第 3 行 | <code>http://127.0.0.1:8000/redoc</code> | `http` 表示访问协议，`127.0.0.1:8000` 是域名或主机名，`/redoc` 是具体接口路径；真实环境要换成自己的域名和路径。 |
-| 第 4 行 | <code>http://127.0.0.1:8000/openapi.json</code> | `http` 表示访问协议，`127.0.0.1:8000` 是域名或主机名，`/openapi.json` 是具体接口路径；真实环境要换成自己的域名和路径。 |
-
 你应该看到：
 
 ```json
 {"message":"AIOps API is running"}
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>{"message":"AIOps API is running"}</code> | `message` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`AIOps API is running` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
 
 ### 这段代码发生了什么
 
@@ -593,23 +375,11 @@ http://127.0.0.1:8000/openapi.json
 app = FastAPI(title="AIOps Lab API")
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>app = FastAPI(title="AIOps Lab API")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-
 创建一个 FastAPI 应用对象。
 
 ```python
 @app.get("/")
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>@app.get("/")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
 注册一个路径操作：
 
@@ -619,35 +389,15 @@ path: /
 function: root
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>HTTP method: GET</code> | `HTTP method` 是HTTP method 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `GET` 是这个字段的示例内容或模板表达式。 |
-| 第 2 行 | <code>path: /</code> | `path` 是路径，冒号后面的 `/` 是这个字段的示例内容或模板表达式。 |
-| 第 3 行 | <code>function: root</code> | `function` 是function 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `root` 是这个字段的示例内容或模板表达式。 |
-
 ```python
 async def root():
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>async def root():</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
 定义处理函数。客户端访问 `/` 时，FastAPI 会调用它。
 
 ```python
 return {"message": "AIOps API is running"}
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>return {"message": "AIOps API is running"}</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
 
 返回普通 Python 字典，FastAPI 会把它转换成 JSON 响应。
 
@@ -694,42 +444,17 @@ async def get_service(service_name: str):
     }
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>from fastapi import FastAPI</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 3 行 | <code>app = FastAPI()</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 6 行 | <code>@app.get("/services/{service_name}")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 7 行 | <code>async def get_service(service_name: str):</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 8 行 | <code>    return {</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-| 第 9 行 | <code>        "service": service_name,</code> | `service` 是服务名称字段，`service_name` 是具体服务名，表示这条记录属于这个服务；这是 Python 字典里的一个键值对。 |
-| 第 10 行 | <code>        "status": "unknown",</code> | `status` 是状态字段，`unknown` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 11 行 | <code>    }</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 请求：
 
 ```bash
 curl http://127.0.0.1:8000/services/order-api
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>curl http://127.0.0.1:8000/services/order-api</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
-
 返回：
 
 ```json
 {"service":"order-api","status":"unknown"}
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>{"service":"order-api","status":"unknown"}</code> | `service` 是服务名称字段，`order-api` 是具体服务名，表示这条记录属于这个服务；`status` 是状态字段，`unknown` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
 
 ### 类型转换
 
@@ -741,25 +466,11 @@ async def get_alert(alert_id: int):
     return {"alert_id": alert_id}
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>@app.get("/alerts/{alert_id}")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 2 行 | <code>async def get_alert(alert_id: int):</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 3 行 | <code>    return {"alert_id": alert_id}</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-
 访问：
 
 ```bash
 curl http://127.0.0.1:8000/alerts/1001
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>curl http://127.0.0.1:8000/alerts/1001</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
 
 FastAPI 会把 `"1001"` 转成整数 `1001`。
 
@@ -768,12 +479,6 @@ FastAPI 会把 `"1001"` 转成整数 `1001`。
 ```bash
 curl http://127.0.0.1:8000/alerts/abc
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>curl http://127.0.0.1:8000/alerts/abc</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
 
 会得到 422，因为 `abc` 不能转换成整数。
 
@@ -791,41 +496,17 @@ async def list_alerts(severity: str | None = None, limit: int = 20):
     }
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>@app.get("/alerts")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 2 行 | <code>async def list_alerts(severity: str &#124; None = None, limit: int = 20):</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 3 行 | <code>    return {</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-| 第 4 行 | <code>        "severity": severity,</code> | `severity` 是告警严重级别字段，`severity` 是告警级别，用来决定响应优先级；这是 Python 字典里的一个键值对。 |
-| 第 5 行 | <code>        "limit": limit,</code> | `limit` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`limit` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 6 行 | <code>        "items": [],</code> | `items` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`[]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 7 行 | <code>    }</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 请求：
 
 ```bash
 curl "http://127.0.0.1:8000/alerts?severity=critical&limit=10"
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>curl "http://127.0.0.1:8000/alerts?severity=critical&amp;limit=10"</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
-
 返回：
 
 ```json
 {"severity":"critical","limit":10,"items":[]}
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>{"severity":"critical","limit":10,"items":[]}</code> | `severity` 是告警严重级别字段，`critical` 表示严重级别，通常表示需要优先处理；`limit` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`10` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；`items` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`[]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
 
 FastAPI 的判断规则很重要：
 
@@ -849,22 +530,6 @@ async def list_service_alerts(
     }
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>@app.get("/services/{service_name}/alerts")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 2 行 | <code>async def list_service_alerts(</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 3 行 | <code>    service_name: str,</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 4 行 | <code>    severity: str &#124; None = None,</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 5 行 | <code>    limit: int = 20,</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 6 行 | <code>):</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 7 行 | <code>    return {</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-| 第 8 行 | <code>        "service": service_name,</code> | `service` 是服务名称字段，`service_name` 是具体服务名，表示这条记录属于这个服务；这是 Python 字典里的一个键值对。 |
-| 第 9 行 | <code>        "severity": severity,</code> | `severity` 是告警严重级别字段，`severity` 是告警级别，用来决定响应优先级；这是 Python 字典里的一个键值对。 |
-| 第 10 行 | <code>        "limit": limit,</code> | `limit` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`limit` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 11 行 | <code>    }</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 这里：
 
 - `service_name` 是路径参数。
@@ -879,12 +544,6 @@ async def list_service_alerts(
 limit: int = 20
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>limit: int = 20</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 代表可选。
 
 默认值是 `None`：
@@ -892,12 +551,6 @@ limit: int = 20
 ```python
 severity: str | None = None
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>severity: str &#124; None = None</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
 代表可选，并且没传时是 `None`。
 
@@ -907,12 +560,6 @@ severity: str | None = None
 team: str
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>team: str</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 代表必填查询参数。
 
 ```python
@@ -920,14 +567,6 @@ team: str
 async def search_alerts(team: str, limit: int = 20):
     return {"team": team, "limit": limit}
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>@app.get("/alerts/search")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 2 行 | <code>async def search_alerts(team: str, limit: int = 20):</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 3 行 | <code>    return {"team": team, "limit": limit}</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
 
 访问 `/alerts/search` 会 422，因为缺少 `team`。
 
@@ -950,20 +589,6 @@ class AlertEvent(BaseModel):
     starts_at: datetime | None = None
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>from datetime import datetime</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 3 行 | <code>from pydantic import BaseModel, Field</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 6 行 | <code>class AlertEvent(BaseModel):</code> | 定义类，用来组织一组数据和行为。 |
-| 第 7 行 | <code>    service: str = Field(min_length=1)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 8 行 | <code>    instance: str</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 9 行 | <code>    severity: str</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 10 行 | <code>    alert_name: str</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 11 行 | <code>    metric_value: float &#124; None = None</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 12 行 | <code>    starts_at: datetime &#124; None = None</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 接口：
 
 ```python
@@ -975,17 +600,6 @@ async def receive_alert(alert: AlertEvent):
     }
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>@app.post("/alerts")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 2 行 | <code>async def receive_alert(alert: AlertEvent):</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 3 行 | <code>    return {</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-| 第 4 行 | <code>        "received": True,</code> | `received` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`True` 表示开启这个配置；这是 Python 字典里的一个键值对。 |
-| 第 5 行 | <code>        "alert": alert,</code> | `alert` 是告警，`alert` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 6 行 | <code>    }</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 请求：
 
 ```bash
@@ -993,14 +607,6 @@ curl -X POST http://127.0.0.1:8000/alerts \
   -H "Content-Type: application/json" \
   -d '{"service":"order-api","instance":"10.0.1.11","severity":"critical","alert_name":"HighErrorRate","metric_value":0.23}'
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>curl -X POST http://127.0.0.1:8000/alerts \</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
-| 第 2 行 | <code>  -H "Content-Type: application/json" \</code> | `-H` 是 curl 的请求头参数，用来设置 Content-Type、鉴权信息或其他 HTTP 头。 |
-| 第 3 行 | <code>  -d '{"service":"order-api","instance":"10.0.1.11","severity":"critical","alert_name":"HighErrorRate","metric_value":0.23}'</code> | `-d` 是 curl 的请求体参数，用来把 JSON 数据发送给接口；这里的字段含义是：`service` 是服务名称字段，`order-api` 是具体服务名，表示这条记录属于这个服务；`instance` 是实例名称字段，`10.0.1.11` 表示IP 地址，表示一台机器或服务端点的位置；`severity` 是告警严重级别字段，`critical` 表示严重级别，通常表示需要优先处理；`alert_name` 是告警名称字段，`HighErrorRate` 是高错误率告警名，表示请求失败比例过高；`metric_value` 这个英文标识可以拆开理解为：数值字段，`0.23` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
 
 FastAPI 会做几件事：
 
@@ -1012,17 +618,6 @@ JSON body
   -> Python object
   -> your function
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>JSON body</code> | 这一行里的英文要这样读：`JSON body` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 2 行 | <code>  -&gt; Pydantic model</code> | 这一行要理解这些英文词：`Pydantic model` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; type conversion</code> | 这一行要理解这些英文词：`type conversion` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; validation</code> | 这一行要理解这些英文词：`validation` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; Python object</code> | 这一行要理解这些英文词：`Python object` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; your function</code> | 这一行要理解这些英文词：`your function` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 如果 `metric_value` 传成不能转换为数字的字符串，就会返回 422。
 
@@ -1060,35 +655,12 @@ async def whoami(
     }
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>from typing import Annotated</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 3 行 | <code>from fastapi import Header</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 6 行 | <code>@app.get("/whoami")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 7 行 | <code>async def whoami(</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 8 行 | <code>    user_agent: Annotated[str &#124; None, Header()] = None,</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 9 行 | <code>    x_request_id: Annotated[str &#124; None, Header(alias="X-Request-ID")] = None,</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 10 行 | <code>):</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 11 行 | <code>    return {</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-| 第 12 行 | <code>        "user_agent": user_agent,</code> | `user_agent` 这个英文标识可以拆开理解为：用户，`user_agent` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 13 行 | <code>        "request_id": x_request_id,</code> | `request_id` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`x_request_id` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 14 行 | <code>    }</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 请求：
 
 ```bash
 curl http://127.0.0.1:8000/whoami \
   -H "X-Request-ID: demo-001"
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>curl http://127.0.0.1:8000/whoami \</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
-| 第 2 行 | <code>  -H "X-Request-ID: demo-001"</code> | `-H` 是 curl 的请求头参数，用来设置 Content-Type、鉴权信息或其他 HTTP 头。 |
 
 Cookie 参数也类似，只是 AIOps 后端 API 入门阶段用得少。
 
@@ -1118,26 +690,6 @@ async def get_alert(alert_id: str):
     }
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>from pydantic import BaseModel</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 4 行 | <code>class AlertResponse(BaseModel):</code> | 定义类，用来组织一组数据和行为。 |
-| 第 5 行 | <code>    id: str</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 6 行 | <code>    service: str</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 7 行 | <code>    severity: str</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 8 行 | <code>    status: str</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 11 行 | <code>@app.get("/alerts/{alert_id}", response_model=AlertResponse)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 12 行 | <code>async def get_alert(alert_id: str):</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 13 行 | <code>    return {</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-| 第 14 行 | <code>        "id": alert_id,</code> | `id` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`alert_id` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 15 行 | <code>        "service": "order-api",</code> | `service` 是服务名称字段，`order-api` 是具体服务名，表示这条记录属于这个服务；这是 Python 字典里的一个键值对。 |
-| 第 16 行 | <code>        "severity": "critical",</code> | `severity` 是告警严重级别字段，`critical` 表示严重级别，通常表示需要优先处理；这是 Python 字典里的一个键值对。 |
-| 第 17 行 | <code>        "status": "open",</code> | `status` 是状态字段，`open` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 18 行 | <code>        "internal_note": "do not expose",</code> | `internal_note` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`do not expose` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 19 行 | <code>    }</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 客户端看到的响应不会包含 `internal_note`。
 
 `response_model` 的价值：
@@ -1161,15 +713,6 @@ from fastapi import status
 async def receive_alert(alert: AlertEvent):
     return {"accepted": True}
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>from fastapi import status</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 4 行 | <code>@app.post("/alerts", status_code=status.HTTP_202_ACCEPTED)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 5 行 | <code>async def receive_alert(alert: AlertEvent):</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 6 行 | <code>    return {"accepted": True}</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
 
 常见状态码：
 
@@ -1195,12 +738,6 @@ async def receive_alert(alert: AlertEvent):
 return {"ok": False, "message": "not found"}
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>return {"ok": False, "message": "not found"}</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-
 更清晰的做法是抛出 `HTTPException`：
 
 ```python
@@ -1217,41 +754,17 @@ async def get_alert(alert_id: str):
     return alerts[alert_id]
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>from fastapi import HTTPException</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 4 行 | <code>alerts = {"a-1": {"id": "a-1", "service": "order-api"}}</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 7 行 | <code>@app.get("/alerts/{alert_id}")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 8 行 | <code>async def get_alert(alert_id: str):</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 9 行 | <code>    if alert_id not in alerts:</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
-| 第 10 行 | <code>        raise HTTPException(status_code=404, detail="Alert not found")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 11 行 | <code>    return alerts[alert_id]</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-
 请求不存在的告警：
 
 ```bash
 curl http://127.0.0.1:8000/alerts/not-exist
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>curl http://127.0.0.1:8000/alerts/not-exist</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
-
 返回：
 
 ```json
 {"detail":"Alert not found"}
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>{"detail":"Alert not found"}</code> | `detail` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`Alert not found` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
 
 ### AIOps 错误设计
 
@@ -1305,38 +818,12 @@ async def execute_runbook(
     return {"runbook": runbook_name, "accepted": True}
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>from typing import Annotated</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 3 行 | <code>from fastapi import Depends, Header, HTTPException</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 6 行 | <code>async def verify_api_key(</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 7 行 | <code>    x_api_key: Annotated[str &#124; None, Header(alias="X-API-Key")] = None,</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 8 行 | <code>):</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 9 行 | <code>    if x_api_key != "dev-secret":</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
-| 第 10 行 | <code>        raise HTTPException(status_code=401, detail="Invalid API key")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 11 行 | <code>    return x_api_key</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-| 第 14 行 | <code>@app.post("/runbooks/{runbook_name}/execute")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 15 行 | <code>async def execute_runbook(</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 16 行 | <code>    runbook_name: str,</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 17 行 | <code>    api_key: Annotated[str, Depends(verify_api_key)],</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 18 行 | <code>):</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 19 行 | <code>    return {"runbook": runbook_name, "accepted": True}</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-
 调用：
 
 ```bash
 curl -X POST http://127.0.0.1:8000/runbooks/restart-service/execute \
   -H "X-API-Key: dev-secret"
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>curl -X POST http://127.0.0.1:8000/runbooks/restart-service/execute \</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
-| 第 2 行 | <code>  -H "X-API-Key: dev-secret"</code> | `-H` 是 curl 的请求头参数，用来设置 Content-Type、鉴权信息或其他 HTTP 头。 |
 
 ### 共享分页参数
 
@@ -1363,24 +850,6 @@ async def list_alerts(page: Annotated[PageParams, Depends(get_page_params)]):
     return {"offset": page.offset, "limit": page.limit, "items": []}
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>from typing import Annotated</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 3 行 | <code>from fastapi import Depends</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 4 行 | <code>from pydantic import BaseModel</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 7 行 | <code>class PageParams(BaseModel):</code> | 定义类，用来组织一组数据和行为。 |
-| 第 8 行 | <code>    offset: int = 0</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 9 行 | <code>    limit: int = 20</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 12 行 | <code>async def get_page_params(offset: int = 0, limit: int = 20) -&gt; PageParams:</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 13 行 | <code>    if limit &gt; 100:</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
-| 第 14 行 | <code>        limit = 100</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 15 行 | <code>    return PageParams(offset=offset, limit=limit)</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-| 第 18 行 | <code>@app.get("/alerts")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 19 行 | <code>async def list_alerts(page: Annotated[PageParams, Depends(get_page_params)]):</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 20 行 | <code>    return {"offset": page.offset, "limit": page.limit, "items": []}</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-
 依赖的意义不是炫技，而是把重复逻辑集中起来，避免每个接口都复制一遍。
 
 ## async 和 sync
@@ -1393,14 +862,6 @@ def sync_endpoint():
     return {"mode": "sync"}
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>@app.get("/sync")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 2 行 | <code>def sync_endpoint():</code> | 定义函数，把一段可复用逻辑命名，后续可以反复调用。 |
-| 第 3 行 | <code>    return {"mode": "sync"}</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-
 和：
 
 ```python
@@ -1408,14 +869,6 @@ def sync_endpoint():
 async def async_endpoint():
     return {"mode": "async"}
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>@app.get("/async")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 2 行 | <code>async def async_endpoint():</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 3 行 | <code>    return {"mode": "async"}</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
 
 简单判断：
 
@@ -1437,15 +890,6 @@ async def train_model():
     train_large_model_for_30_minutes()
     return {"ok": True}
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>@app.post("/train")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 2 行 | <code>async def train_model():</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 3 行 | <code>    train_large_model_for_30_minutes()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 4 行 | <code>    return {"ok": True}</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
 
 这会让请求长时间挂住。更好的做法是：
 
@@ -1475,19 +919,6 @@ async def ack_alert(alert_id: str, background_tasks: BackgroundTasks):
     return {"accepted": True, "alert_id": alert_id}
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>from fastapi import BackgroundTasks, FastAPI, status</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 3 行 | <code>app = FastAPI()</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 6 行 | <code>def write_audit_log(alert_id: str, action: str):</code> | 定义函数，把一段可复用逻辑命名，后续可以反复调用。 |
-| 第 7 行 | <code>    print(f"audit alert_id={alert_id} action={action}")</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-| 第 10 行 | <code>@app.post("/alerts/{alert_id}/ack", status_code=status.HTTP_202_ACCEPTED)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 11 行 | <code>async def ack_alert(alert_id: str, background_tasks: BackgroundTasks):</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 12 行 | <code>    background_tasks.add_task(write_audit_log, alert_id, "ack")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 13 行 | <code>    return {"accepted": True, "alert_id": alert_id}</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-
 适合：
 
 - 写审计日志。
@@ -1514,19 +945,6 @@ worker consumes job
   -> stores result
 client polls result API
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>FastAPI receives request</code> | 这一行里的英文要这样读：`FastAPI receives request` 这个英文标识可以拆开理解为：应用程序接口。 |
-| 第 2 行 | <code>  -&gt; stores request metadata</code> | 这一行要理解这些英文词：`stores request metadata` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; publishes job to Kafka / Redis / queue</code> | 这一行要理解这些英文词：`publishes job to Kafka` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`Redis` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`queue` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; returns 202</code> | 这一行要理解这些英文词：`returns` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>worker consumes job</code> | 这一行里的英文要这样读：`worker consumes job` 这个英文标识可以拆开理解为：工作进程。 |
-| 第 6 行 | <code>  -&gt; runs analysis</code> | 这一行要理解这些英文词：`runs analysis` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; stores result</code> | 这一行要理解这些英文词：`stores result` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>client polls result API</code> | 这一行里的英文要这样读：`client polls result API` 这个英文标识可以拆开理解为：客户端，应用程序接口。 |
 
 ## 中间件
 
@@ -1561,32 +979,11 @@ async def add_process_time_header(request: Request, call_next):
     return response
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>import time</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
-| 第 3 行 | <code>from fastapi import FastAPI, Request</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 5 行 | <code>app = FastAPI()</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 8 行 | <code>@app.middleware("http")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 9 行 | <code>async def add_process_time_header(request: Request, call_next):</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 10 行 | <code>    started = time.perf_counter()</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 11 行 | <code>    response = await call_next(request)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 12 行 | <code>    elapsed = time.perf_counter() - started</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 13 行 | <code>    response.headers["X-Process-Time"] = f"{elapsed:.6f}"</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 14 行 | <code>    return response</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-
 访问任意接口时，响应 header 会增加：
 
 ```text
 X-Process-Time: 0.001234
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>X-Process-Time: 0.001234</code> | `X-Process-Time` 是X-Process-Time 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `0.001234` 是这个字段的示例内容或模板表达式。 |
 
 中间件要轻。不要在中间件里做慢查询、大计算或复杂业务判断。
 
@@ -1611,32 +1008,11 @@ app.add_middleware(
 )
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>from fastapi import FastAPI</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 2 行 | <code>from fastapi.middleware.cors import CORSMiddleware</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 4 行 | <code>app = FastAPI()</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 6 行 | <code>app.add_middleware(</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 7 行 | <code>    CORSMiddleware,</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 8 行 | <code>    allow_origins=["http://localhost:5173"],</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 9 行 | <code>    allow_credentials=True,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 10 行 | <code>    allow_methods=["*"],</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 11 行 | <code>    allow_headers=["*"],</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 12 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 不要在生产里随手写：
 
 ```python
 allow_origins=["*"]
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>allow_origins=["*"]</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 
 尤其是带凭证、Cookie、内部运维 API、修复动作 API 时。AIOps API 往往有高权限，CORS 配置必须收紧。
 
@@ -1651,14 +1027,6 @@ FastAPI 会自动生成 OpenAPI schema。
 /redoc
 /openapi.json
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>/docs</code> | `/docs` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>/redoc</code> | `/redoc` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 3 行 | <code>/openapi.json</code> | `/openapi.json` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 这些不是“附赠玩具”，而是 API 合同。
 
@@ -1691,25 +1059,6 @@ async def receive_alert(alert: AlertEvent):
     )
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>@app.post(</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 2 行 | <code>    "/alerts",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 3 行 | <code>    response_model=AlertResponse,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 4 行 | <code>    status_code=202,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 5 行 | <code>    tags=["alerts"],</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 6 行 | <code>    summary="Receive an alert event",</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 7 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 8 行 | <code>async def receive_alert(alert: AlertEvent):</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 9 行 | <code>    return AlertResponse(</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-| 第 10 行 | <code>        id="a-1",</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 11 行 | <code>        service=alert.service,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 12 行 | <code>        severity=alert.severity,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 13 行 | <code>        status="queued",</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 14 行 | <code>    )</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 对 AIOps 团队来说，OpenAPI 有三个价值：
 
 - 前端、脚本、平台团队可以按文档联调。
@@ -1723,12 +1072,6 @@ async def receive_alert(alert: AlertEvent):
 ```text
 main.py
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>main.py</code> | `main.py` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 一旦接口超过 5 到 8 个，就建议拆分。
 
@@ -1760,34 +1103,6 @@ projects/fastapi-aiops-api/
     test_alerts.py
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>projects/fastapi-aiops-api/</code> | `projects/fastapi-aiops-api/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>  README.md</code> | `README.md` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 3 行 | <code>  requirements.txt</code> | `requirements.txt` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 4 行 | <code>  app/</code> | `app/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 5 行 | <code>    __init__.py</code> | `__init__.py` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 6 行 | <code>    main.py</code> | `main.py` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 7 行 | <code>    settings.py</code> | `settings.py` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 8 行 | <code>    models/</code> | `models/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 9 行 | <code>      __init__.py</code> | `__init__.py` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 10 行 | <code>      alerts.py</code> | `alerts.py` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 11 行 | <code>    routers/</code> | `routers/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 12 行 | <code>      __init__.py</code> | `__init__.py` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 13 行 | <code>      health.py</code> | `health.py` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 14 行 | <code>      alerts.py</code> | `alerts.py` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 15 行 | <code>      runbooks.py</code> | `runbooks.py` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 16 行 | <code>    services/</code> | `services/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 17 行 | <code>      __init__.py</code> | `__init__.py` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 18 行 | <code>      dedup.py</code> | `dedup.py` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 19 行 | <code>      analysis.py</code> | `analysis.py` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 20 行 | <code>      runbook_executor.py</code> | `runbook_executor.py` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 21 行 | <code>  tests/</code> | `tests/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 22 行 | <code>    test_health.py</code> | `test_health.py` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 23 行 | <code>    test_alerts.py</code> | `test_alerts.py` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-
 ### main.py
 
 ```python
@@ -1807,20 +1122,6 @@ def create_app() -> FastAPI:
 app = create_app()
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>from fastapi import FastAPI</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 3 行 | <code>from app.routers import alerts, health, runbooks</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 6 行 | <code>def create_app() -&gt; FastAPI:</code> | 定义函数，把一段可复用逻辑命名，后续可以反复调用。 |
-| 第 7 行 | <code>    app = FastAPI(title="AIOps Lab API")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 8 行 | <code>    app.include_router(health.router, tags=["health"])</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 9 行 | <code>    app.include_router(alerts.router, prefix="/alerts", tags=["alerts"])</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 10 行 | <code>    app.include_router(runbooks.router, prefix="/runbooks", tags=["runbooks"])</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 11 行 | <code>    return app</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-| 第 14 行 | <code>app = create_app()</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-
 ### routers/health.py
 
 ```python
@@ -1833,16 +1134,6 @@ router = APIRouter()
 async def healthz():
     return {"status": "ok"}
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>from fastapi import APIRouter</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 3 行 | <code>router = APIRouter()</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 6 行 | <code>@router.get("/healthz")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 7 行 | <code>async def healthz():</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 8 行 | <code>    return {"status": "ok"}</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
 
 ### routers/alerts.py
 
@@ -1863,22 +1154,6 @@ async def receive_alert(alert: AlertEvent):
         status="queued",
     )
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>from fastapi import APIRouter, status</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 3 行 | <code>from app.models.alerts import AlertEvent, AlertResponse</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 5 行 | <code>router = APIRouter()</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 8 行 | <code>@router.post("", response_model=AlertResponse, status_code=status.HTTP_202_ACCEPTED)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 9 行 | <code>async def receive_alert(alert: AlertEvent):</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 10 行 | <code>    return AlertResponse(</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-| 第 11 行 | <code>        id=f"{alert.service}:{alert.instance}:{alert.alert_name}",</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 12 行 | <code>        service=alert.service,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 13 行 | <code>        severity=alert.severity,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 14 行 | <code>        status="queued",</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 15 行 | <code>    )</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
 ### models/alerts.py
 
@@ -1904,25 +1179,6 @@ class AlertResponse(BaseModel):
     status: str
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>from datetime import datetime</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 3 行 | <code>from pydantic import BaseModel, Field</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 6 行 | <code>class AlertEvent(BaseModel):</code> | 定义类，用来组织一组数据和行为。 |
-| 第 7 行 | <code>    service: str = Field(min_length=1)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 8 行 | <code>    instance: str = Field(min_length=1)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 9 行 | <code>    severity: str = Field(pattern="^(info&#124;warning&#124;critical)$")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 10 行 | <code>    alert_name: str = Field(min_length=1)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 11 行 | <code>    starts_at: datetime &#124; None = None</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 12 行 | <code>    description: str &#124; None = None</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 15 行 | <code>class AlertResponse(BaseModel):</code> | 定义类，用来组织一组数据和行为。 |
-| 第 16 行 | <code>    id: str</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 17 行 | <code>    service: str</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 18 行 | <code>    severity: str</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 19 行 | <code>    status: str</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 拆分的原则：
 
 | 目录 | 放什么 |
@@ -1944,12 +1200,6 @@ class AlertResponse(BaseModel):
 ```bash
 pip install pydantic-settings
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>pip install pydantic-settings</code> | 管理 Python 依赖包，通常用于安装实验需要的库。 |
 
 `app/settings.py`：
 
@@ -1974,23 +1224,6 @@ def get_settings() -> Settings:
     return Settings()
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>from functools import lru_cache</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 3 行 | <code>from pydantic_settings import BaseSettings, SettingsConfigDict</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 6 行 | <code>class Settings(BaseSettings):</code> | 定义类，用来组织一组数据和行为。 |
-| 第 7 行 | <code>    app_name: str = "AIOps Lab API"</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 8 行 | <code>    environment: str = "dev"</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 9 行 | <code>    mysql_url: str = "mysql+pymysql://aiops:aiops_pwd@127.0.0.1:3306/aiops_lab"</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 10 行 | <code>    redis_url: str = "redis://127.0.0.1:6379/0"</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 11 行 | <code>    api_key: str = "dev-secret"</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 13 行 | <code>    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 16 行 | <code>@lru_cache</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 17 行 | <code>def get_settings() -&gt; Settings:</code> | 定义函数，把一段可复用逻辑命名，后续可以反复调用。 |
-| 第 18 行 | <code>    return Settings()</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-
 使用：
 
 ```python
@@ -2009,20 +1242,6 @@ async def config_preview(settings: Annotated[Settings, Depends(get_settings)]):
     }
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>from typing import Annotated</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 3 行 | <code>from fastapi import Depends</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 5 行 | <code>from app.settings import Settings, get_settings</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 8 行 | <code>@app.get("/config-preview")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 9 行 | <code>async def config_preview(settings: Annotated[Settings, Depends(get_settings)]):</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 10 行 | <code>    return {</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-| 第 11 行 | <code>        "app_name": settings.app_name,</code> | `app_name` 这个英文标识可以拆开理解为：应用或服务，名称字段，`settings.app_name` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 12 行 | <code>        "environment": settings.environment,</code> | `environment` 是环境名称字段，`settings.environment` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 13 行 | <code>    }</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 `.env` 示例：
 
 ```text
@@ -2032,16 +1251,6 @@ MYSQL_URL=mysql+pymysql://aiops:aiops_pwd@127.0.0.1:3306/aiops_lab
 REDIS_URL=redis://127.0.0.1:6379/0
 API_KEY=dev-secret
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>APP_NAME=AIOps Lab API</code> | `APP_NAME` 这个英文标识可以拆开理解为：应用或服务，名称字段，`AIOps` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
-| 第 2 行 | <code>ENVIRONMENT=dev</code> | `ENVIRONMENT` 是环境名称字段，`dev` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
-| 第 3 行 | <code>MYSQL_URL=mysql+pymysql://aiops:aiops_pwd@127.0.0.1:3306/aiops_lab</code> | `MYSQL_URL` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`mysql+pymysql://aiops:aiops_pwd@127.0.0.1:3306/aiops_lab` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
-| 第 4 行 | <code>REDIS_URL=redis://127.0.0.1:6379/0</code> | `REDIS_URL` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`redis://127.0.0.1:6379/0` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
-| 第 5 行 | <code>API_KEY=dev-secret</code> | `API_KEY` 这个英文标识可以拆开理解为：应用程序接口，`dev-secret` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
 
 注意：`.env` 不要提交真实密钥。
 
@@ -2056,14 +1265,6 @@ AIOps 服务必须有健康检查。
 async def healthz():
     return {"status": "ok"}
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>@app.get("/healthz")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 2 行 | <code>async def healthz():</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 3 行 | <code>    return {"status": "ok"}</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
 
 更实用的版本：
 
@@ -2080,18 +1281,6 @@ class HealthResponse(BaseModel):
 async def healthz():
     return HealthResponse(status="ok", version="0.1.0")
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>from pydantic import BaseModel</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 4 行 | <code>class HealthResponse(BaseModel):</code> | 定义类，用来组织一组数据和行为。 |
-| 第 5 行 | <code>    status: str</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 6 行 | <code>    version: str</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 9 行 | <code>@app.get("/healthz", response_model=HealthResponse)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 10 行 | <code>async def healthz():</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 11 行 | <code>    return HealthResponse(status="ok", version="0.1.0")</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
 
 健康检查分层：
 
@@ -2157,42 +1346,6 @@ async def receive_alertmanager(payload: AlertmanagerWebhook):
     }
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>from datetime import datetime, timezone</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 3 行 | <code>from fastapi import FastAPI, status</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 4 行 | <code>from pydantic import BaseModel</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 6 行 | <code>app = FastAPI(title="AIOps Alert Receiver")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 9 行 | <code>class AlertLabels(BaseModel):</code> | 定义类，用来组织一组数据和行为。 |
-| 第 10 行 | <code>    alertname: str</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 11 行 | <code>    service: str &#124; None = None</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 12 行 | <code>    severity: str &#124; None = None</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 13 行 | <code>    instance: str &#124; None = None</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 16 行 | <code>class AlertAnnotation(BaseModel):</code> | 定义类，用来组织一组数据和行为。 |
-| 第 17 行 | <code>    summary: str &#124; None = None</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 18 行 | <code>    description: str &#124; None = None</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 21 行 | <code>class AlertItem(BaseModel):</code> | 定义类，用来组织一组数据和行为。 |
-| 第 22 行 | <code>    status: str</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 23 行 | <code>    labels: AlertLabels</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 24 行 | <code>    annotations: AlertAnnotation = AlertAnnotation()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 25 行 | <code>    startsAt: datetime &#124; None = None</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 26 行 | <code>    endsAt: datetime &#124; None = None</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 27 行 | <code>    fingerprint: str &#124; None = None</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 30 行 | <code>class AlertmanagerWebhook(BaseModel):</code> | 定义类，用来组织一组数据和行为。 |
-| 第 31 行 | <code>    receiver: str &#124; None = None</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 32 行 | <code>    status: str</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 33 行 | <code>    alerts: list[AlertItem]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 36 行 | <code>@app.post("/webhooks/alertmanager", status_code=status.HTTP_202_ACCEPTED)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 37 行 | <code>async def receive_alertmanager(payload: AlertmanagerWebhook):</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 38 行 | <code>    received_at = datetime.now(timezone.utc).isoformat()</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 39 行 | <code>    return {</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-| 第 40 行 | <code>        "received_at": received_at,</code> | `received_at` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`received_at` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 41 行 | <code>        "alert_count": len(payload.alerts),</code> | `alert_count` 是告警数量，`len(payload.alerts)` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 42 行 | <code>        "next_action": "enqueue_for_analysis",</code> | `next_action` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`enqueue_for_analysis` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 43 行 | <code>    }</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 模拟请求：
 
 ```bash
@@ -2200,14 +1353,6 @@ curl -X POST http://127.0.0.1:8000/webhooks/alertmanager \
   -H "Content-Type: application/json" \
   -d '{"status":"firing","alerts":[{"status":"firing","labels":{"alertname":"HighErrorRate","service":"order-api","severity":"critical","instance":"10.0.1.11"},"annotations":{"summary":"High error rate"}}]}'
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>curl -X POST http://127.0.0.1:8000/webhooks/alertmanager \</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
-| 第 2 行 | <code>  -H "Content-Type: application/json" \</code> | `-H` 是 curl 的请求头参数，用来设置 Content-Type、鉴权信息或其他 HTTP 头。 |
-| 第 3 行 | <code>  -d '{"status":"firing","alerts":[{"status":"firing","labels":{"alertname":"HighErrorRate","service":"order-api","severity":"critical","instance":"10.0.1.11"},"annotations":{"summary":"High error rate"}}]}'</code> | `-d` 是 curl 的请求体参数，用来把 JSON 数据发送给接口；这里的字段含义是：`status` 是状态字段，`firing` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；`alerts` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`[{"status":"firing","labels":{"alertname":"HighErrorRate","service":"order-api","severity":"critical","instance":"10.0.1.11"},"annotations":{"summary":"High error rate"}}]` 是高错误率告警名，表示请求失败比例过高。 |
 
 这个接口现在只是接收和校验。真实系统里下一步通常是：
 
@@ -2221,19 +1366,6 @@ receive webhook
   -> enqueue analysis job
   -> return 202
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>receive webhook</code> | 这一行里的英文要这样读：`receive webhook` 这个英文标识可以拆开理解为：通过 HTTP 回调接收通知的接口。 |
-| 第 2 行 | <code>  -&gt; validate</code> | 这一行要理解这些英文词：`validate` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; normalize labels</code> | 这一行要理解这些英文词：`normalize labels` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; generate fingerprint</code> | 这一行要理解这些英文词：`generate fingerprint` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; deduplicate with Redis</code> | 这一行要理解这些英文词：`deduplicate with Redis` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; store raw event</code> | 这一行要理解这些英文词：`store raw event` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; enqueue analysis job</code> | 这一行要理解这些英文词：`enqueue analysis job` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>  -&gt; return 202</code> | 这一行要理解这些英文词：`return` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 不要在 webhook 请求里直接做长时间根因分析。Alertmanager 希望 webhook 接收方尽快响应。
 
@@ -2260,15 +1392,6 @@ received
   -> completed
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>received</code> | 这一行里的英文要这样读：`received` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 2 行 | <code>  -&gt; queued</code> | 这一行要理解这些英文词：`queued` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; analyzing</code> | 这一行要理解这些英文词：`analyzing` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; completed</code> | 这一行要理解这些英文词：`completed` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 或：
 
 ```text
@@ -2276,14 +1399,6 @@ received
   -> queued
   -> failed
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>received</code> | 这一行里的英文要这样读：`received` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 2 行 | <code>  -&gt; queued</code> | 这一行要理解这些英文词：`queued` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; failed</code> | 这一行要理解这些英文词：`failed` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 响应要让调用方知道“现在处于哪一步”，不要只返回一句 `ok`。
 
@@ -2420,118 +1535,11 @@ async def get_analysis(alert_id: str):
     return analysis_results[alert_id]
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>from datetime import datetime, timezone</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 2 行 | <code>from enum import StrEnum</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 3 行 | <code>from uuid import uuid4</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 5 行 | <code>from fastapi import BackgroundTasks, FastAPI, HTTPException, status</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 6 行 | <code>from pydantic import BaseModel, Field</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 8 行 | <code>app = FastAPI(title="AIOps Alert API")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 11 行 | <code>class Severity(StrEnum):</code> | 定义类，用来组织一组数据和行为。 |
-| 第 12 行 | <code>    info = "info"</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 13 行 | <code>    warning = "warning"</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 14 行 | <code>    critical = "critical"</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 17 行 | <code>class AlertCreate(BaseModel):</code> | 定义类，用来组织一组数据和行为。 |
-| 第 18 行 | <code>    service: str = Field(min_length=1)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 19 行 | <code>    instance: str = Field(min_length=1)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 20 行 | <code>    severity: Severity</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 21 行 | <code>    alert_name: str = Field(min_length=1)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 22 行 | <code>    description: str &#124; None = None</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 23 行 | <code>    metric_value: float &#124; None = None</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 26 行 | <code>class AlertRead(BaseModel):</code> | 定义类，用来组织一组数据和行为。 |
-| 第 27 行 | <code>    id: str</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 28 行 | <code>    service: str</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 29 行 | <code>    instance: str</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 30 行 | <code>    severity: Severity</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 31 行 | <code>    alert_name: str</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 32 行 | <code>    status: str</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 33 行 | <code>    created_at: datetime</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 34 行 | <code>    description: str &#124; None = None</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 35 行 | <code>    metric_value: float &#124; None = None</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 38 行 | <code>class AnalysisRead(BaseModel):</code> | 定义类，用来组织一组数据和行为。 |
-| 第 39 行 | <code>    alert_id: str</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 40 行 | <code>    status: str</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 41 行 | <code>    summary: str &#124; None = None</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 42 行 | <code>    suggested_action: str &#124; None = None</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 45 行 | <code>alerts: dict[str, AlertRead] = {}</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 46 行 | <code>analysis_results: dict[str, AnalysisRead] = {}</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 49 行 | <code>@app.get("/healthz")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 50 行 | <code>async def healthz():</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 51 行 | <code>    return {"status": "ok"}</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-| 第 54 行 | <code>@app.post("/alerts", response_model=AlertRead, status_code=status.HTTP_201_CREATED)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 55 行 | <code>async def create_alert(alert: AlertCreate):</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 56 行 | <code>    alert_id = str(uuid4())</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 57 行 | <code>    item = AlertRead(</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 58 行 | <code>        id=alert_id,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 59 行 | <code>        service=alert.service,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 60 行 | <code>        instance=alert.instance,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 61 行 | <code>        severity=alert.severity,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 62 行 | <code>        alert_name=alert.alert_name,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 63 行 | <code>        status="received",</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 64 行 | <code>        created_at=datetime.now(timezone.utc),</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 65 行 | <code>        description=alert.description,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 66 行 | <code>        metric_value=alert.metric_value,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 67 行 | <code>    )</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 68 行 | <code>    alerts[alert_id] = item</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 69 行 | <code>    return item</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-| 第 72 行 | <code>@app.get("/alerts", response_model=list[AlertRead])</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 73 行 | <code>async def list_alerts(severity: Severity &#124; None = None, limit: int = 20):</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 74 行 | <code>    items = list(alerts.values())</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 75 行 | <code>    if severity:</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
-| 第 76 行 | <code>        items = [item for item in items if item.severity == severity]</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 77 行 | <code>    return items[:limit]</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-| 第 80 行 | <code>@app.get("/alerts/{alert_id}", response_model=AlertRead)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 81 行 | <code>async def get_alert(alert_id: str):</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 82 行 | <code>    if alert_id not in alerts:</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
-| 第 83 行 | <code>        raise HTTPException(status_code=404, detail="Alert not found")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 84 行 | <code>    return alerts[alert_id]</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-| 第 87 行 | <code>def analyze_alert(alert_id: str):</code> | 定义函数，把一段可复用逻辑命名，后续可以反复调用。 |
-| 第 88 行 | <code>    alert = alerts[alert_id]</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 89 行 | <code>    if alert.severity == Severity.critical:</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
-| 第 90 行 | <code>        summary = f"{alert.service} has a critical alert: {alert.alert_name}"</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 91 行 | <code>        suggested_action = "Check recent deploys, error rate, and pod restarts."</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 92 行 | <code>    else:</code> | 兜底分支，前面的条件都不成立时执行。 |
-| 第 93 行 | <code>        summary = f"{alert.service} has a non-critical alert: {alert.alert_name}"</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 94 行 | <code>        suggested_action = "Watch trend and compare with baseline."</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 96 行 | <code>    analysis_results[alert_id] = AnalysisRead(</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 97 行 | <code>        alert_id=alert_id,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 98 行 | <code>        status="completed",</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 99 行 | <code>        summary=summary,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 100 行 | <code>        suggested_action=suggested_action,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 101 行 | <code>    )</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 104 行 | <code>@app.post(</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 105 行 | <code>    "/alerts/{alert_id}/analysis",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 106 行 | <code>    response_model=AnalysisRead,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 107 行 | <code>    status_code=status.HTTP_202_ACCEPTED,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 108 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 109 行 | <code>async def start_analysis(alert_id: str, background_tasks: BackgroundTasks):</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 110 行 | <code>    if alert_id not in alerts:</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
-| 第 111 行 | <code>        raise HTTPException(status_code=404, detail="Alert not found")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 113 行 | <code>    analysis_results[alert_id] = AnalysisRead(alert_id=alert_id, status="queued")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 114 行 | <code>    background_tasks.add_task(analyze_alert, alert_id)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 115 行 | <code>    return analysis_results[alert_id]</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-| 第 118 行 | <code>@app.get("/alerts/{alert_id}/analysis", response_model=AnalysisRead)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 119 行 | <code>async def get_analysis(alert_id: str):</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 120 行 | <code>    if alert_id not in alerts:</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
-| 第 121 行 | <code>        raise HTTPException(status_code=404, detail="Alert not found")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 122 行 | <code>    if alert_id not in analysis_results:</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
-| 第 123 行 | <code>        raise HTTPException(status_code=404, detail="Analysis not found")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 124 行 | <code>    return analysis_results[alert_id]</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-
 ### 运行
 
 ```bash
 fastapi dev main.py
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>fastapi dev main.py</code> | 执行 `fastapi` 相关命令，后面的参数决定它具体操作什么对象。 |
 
 ### 创建告警
 
@@ -2541,14 +1549,6 @@ curl -X POST http://127.0.0.1:8000/alerts \
   -d '{"service":"order-api","instance":"10.0.1.11","severity":"critical","alert_name":"HighErrorRate","metric_value":0.23}'
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>curl -X POST http://127.0.0.1:8000/alerts \</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
-| 第 2 行 | <code>  -H "Content-Type: application/json" \</code> | `-H` 是 curl 的请求头参数，用来设置 Content-Type、鉴权信息或其他 HTTP 头。 |
-| 第 3 行 | <code>  -d '{"service":"order-api","instance":"10.0.1.11","severity":"critical","alert_name":"HighErrorRate","metric_value":0.23}'</code> | `-d` 是 curl 的请求体参数，用来把 JSON 数据发送给接口；这里的字段含义是：`service` 是服务名称字段，`order-api` 是具体服务名，表示这条记录属于这个服务；`instance` 是实例名称字段，`10.0.1.11` 表示IP 地址，表示一台机器或服务端点的位置；`severity` 是告警严重级别字段，`critical` 表示严重级别，通常表示需要优先处理；`alert_name` 是告警名称字段，`HighErrorRate` 是高错误率告警名，表示请求失败比例过高；`metric_value` 这个英文标识可以拆开理解为：数值字段，`0.23` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
-
 ### 触发分析
 
 把返回的 `id` 替换到命令里：
@@ -2557,23 +1557,11 @@ curl -X POST http://127.0.0.1:8000/alerts \
 curl -X POST http://127.0.0.1:8000/alerts/ALERT_ID/analysis
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>curl -X POST http://127.0.0.1:8000/alerts/ALERT_ID/analysis</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
-
 ### 查询分析
 
 ```bash
 curl http://127.0.0.1:8000/alerts/ALERT_ID/analysis
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>curl http://127.0.0.1:8000/alerts/ALERT_ID/analysis</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
 
 这个实验的价值：
 
@@ -2592,12 +1580,6 @@ curl http://127.0.0.1:8000/alerts/ALERT_ID/analysis
 pip install pytest httpx
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>pip install pytest httpx</code> | 管理 Python 依赖包，通常用于安装实验需要的库。 |
-
 `tests/test_health.py`：
 
 ```python
@@ -2613,18 +1595,6 @@ def test_healthz():
     assert response.status_code == 200
     assert response.json()["status"] == "ok"
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>from fastapi.testclient import TestClient</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 3 行 | <code>from main import app</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 5 行 | <code>client = TestClient(app)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 8 行 | <code>def test_healthz():</code> | 定义函数，把一段可复用逻辑命名，后续可以反复调用。 |
-| 第 9 行 | <code>    response = client.get("/healthz")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 10 行 | <code>    assert response.status_code == 200</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 11 行 | <code>    assert response.json()["status"] == "ok"</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
 `tests/test_alerts.py`：
 
@@ -2669,52 +1639,11 @@ def test_invalid_severity_returns_422():
     assert response.status_code == 422
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>from fastapi.testclient import TestClient</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 3 行 | <code>from main import app</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 5 行 | <code>client = TestClient(app)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 8 行 | <code>def test_create_alert():</code> | 定义函数，把一段可复用逻辑命名，后续可以反复调用。 |
-| 第 9 行 | <code>    response = client.post(</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 10 行 | <code>        "/alerts",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 11 行 | <code>        json={</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 12 行 | <code>            "service": "order-api",</code> | `service` 是服务名称字段，`order-api` 是具体服务名，表示这条记录属于这个服务；这是 Python 字典里的一个键值对。 |
-| 第 13 行 | <code>            "instance": "10.0.1.11",</code> | `instance` 是实例名称字段，`10.0.1.11` 表示IP 地址，表示一台机器或服务端点的位置；这是 Python 字典里的一个键值对。 |
-| 第 14 行 | <code>            "severity": "critical",</code> | `severity` 是告警严重级别字段，`critical` 表示严重级别，通常表示需要优先处理；这是 Python 字典里的一个键值对。 |
-| 第 15 行 | <code>            "alert_name": "HighErrorRate",</code> | `alert_name` 是告警名称字段，`HighErrorRate` 是高错误率告警名，表示请求失败比例过高；这是 Python 字典里的一个键值对。 |
-| 第 16 行 | <code>            "metric_value": 0.23,</code> | `metric_value` 这个英文标识可以拆开理解为：数值字段，`0.23` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 17 行 | <code>        },</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 18 行 | <code>    )</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 20 行 | <code>    assert response.status_code == 201</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 21 行 | <code>    data = response.json()</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 22 行 | <code>    assert data["service"] == "order-api"</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 23 行 | <code>    assert data["status"] == "received"</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 24 行 | <code>    assert "id" in data</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 27 行 | <code>def test_invalid_severity_returns_422():</code> | 定义函数，把一段可复用逻辑命名，后续可以反复调用。 |
-| 第 28 行 | <code>    response = client.post(</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 29 行 | <code>        "/alerts",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 30 行 | <code>        json={</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 31 行 | <code>            "service": "order-api",</code> | `service` 是服务名称字段，`order-api` 是具体服务名，表示这条记录属于这个服务；这是 Python 字典里的一个键值对。 |
-| 第 32 行 | <code>            "instance": "10.0.1.11",</code> | `instance` 是实例名称字段，`10.0.1.11` 表示IP 地址，表示一台机器或服务端点的位置；这是 Python 字典里的一个键值对。 |
-| 第 33 行 | <code>            "severity": "urgent",</code> | `severity` 是告警严重级别字段，`urgent` 是告警级别，用来决定响应优先级；这是 Python 字典里的一个键值对。 |
-| 第 34 行 | <code>            "alert_name": "HighErrorRate",</code> | `alert_name` 是告警名称字段，`HighErrorRate` 是高错误率告警名，表示请求失败比例过高；这是 Python 字典里的一个键值对。 |
-| 第 35 行 | <code>        },</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 36 行 | <code>    )</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 38 行 | <code>    assert response.status_code == 422</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 运行：
 
 ```bash
 pytest
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>pytest</code> | 执行 `pytest` 相关命令，后面的参数决定它具体操作什么对象。 |
 
 API 测试不要只测成功路径。AIOps 后端至少要测：
 
@@ -2745,21 +1674,6 @@ repository
 model code
   -> pandas / scikit-learn / LLM
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>router</code> | 这一行里的英文要这样读：`router` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 2 行 | <code>  -&gt; parse HTTP request</code> | 这一行要理解这些英文词：`parse HTTP request` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; call service</code> | 这一行要理解这些英文词：`call service` 是service=服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>service</code> | 这一行里的英文要这样读：`service` 是服务名称字段。 |
-| 第 5 行 | <code>  -&gt; business logic</code> | 这一行要理解这些英文词：`business logic` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; call repository / client / model</code> | 这一行要理解这些英文词：`call repository` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`client` 是客户端；`model` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>repository</code> | 这一行里的英文要这样读：`repository` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 8 行 | <code>  -&gt; MySQL / Redis / Kafka / file</code> | 这一行要理解这些英文词：`MySQL` 是MySQL 数据库或客户端命令；`Redis` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`Kafka` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`file` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 9 行 | <code>model code</code> | 这一行里的英文要这样读：`model code` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 10 行 | <code>  -&gt; pandas / scikit-learn / LLM</code> | 这一行要理解这些英文词：`pandas` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`scikit-learn` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`LLM` 是大语言模型。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 ### MySQL
 
@@ -2801,15 +1715,6 @@ FastAPI request
   -> return score / label / explanation
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>FastAPI request</code> | 这一行里的英文要这样读：`FastAPI request` 这个英文标识可以拆开理解为：应用程序接口。 |
-| 第 2 行 | <code>  -&gt; load features</code> | 这一行要理解这些英文词：`load features` 是load=加载。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; call model.predict</code> | 这一行要理解这些英文词：`call model.predict` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; return score / label / explanation</code> | 这一行要理解这些英文词：`return score` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`label` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`explanation` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 但要注意：
 
 - 模型加载不要每个请求都重新加载。
@@ -2825,23 +1730,11 @@ FastAPI request
 fastapi dev main.py
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>fastapi dev main.py</code> | 执行 `fastapi` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 生产运行可以使用：
 
 ```bash
 fastapi run main.py
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>fastapi run main.py</code> | 执行 `fastapi` 相关命令，后面的参数决定它具体操作什么对象。 |
 
 也可以显式使用 Uvicorn：
 
@@ -2849,23 +1742,11 @@ fastapi run main.py
 uvicorn app.main:app --host 0.0.0.0 --port 8000
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>uvicorn app.main:app --host 0.0.0.0 --port 8000</code> | 启动 ASGI Web 服务，常用于运行 FastAPI 实验接口。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 开发时常用自动重载：
 
 ```bash
 uvicorn app.main:app --reload
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>uvicorn app.main:app --reload</code> | 启动 ASGI Web 服务，常用于运行 FastAPI 实验接口。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
 生产环境不要依赖 `--reload`。
 
@@ -2877,15 +1758,6 @@ pydantic-settings
 pytest
 httpx
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>fastapi[standard]</code> | 这一行里的英文要这样读：`fastapi` 是Python Web API 框架；`standard` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 2 行 | <code>pydantic-settings</code> | 这一行里的英文要这样读：`pydantic-settings` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 3 行 | <code>pytest</code> | 这一行里的英文要这样读：`pytest` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 4 行 | <code>httpx</code> | 这一行里的英文要这样读：`httpx` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 ### Dockerfile
 
@@ -2904,18 +1776,6 @@ EXPOSE 8000
 CMD ["fastapi", "run", "app/main.py", "--host", "0.0.0.0", "--port", "8000"]
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>FROM python:3.12-slim</code> | 指定基础镜像，后续镜像会在它的基础上继续构建。 |
-| 第 3 行 | <code>WORKDIR /app</code> | 设置容器内工作目录，后续命令默认在这个目录执行。 |
-| 第 5 行 | <code>COPY requirements.txt .</code> | 把宿主机项目文件复制进镜像。 |
-| 第 6 行 | <code>RUN pip install --no-cache-dir -r requirements.txt</code> | 在构建镜像时执行命令，常用于安装依赖或准备文件。 |
-| 第 8 行 | <code>COPY app ./app</code> | 把宿主机项目文件复制进镜像。 |
-| 第 10 行 | <code>EXPOSE 8000</code> | 声明容器应用监听的端口，方便读者知道服务入口。 |
-| 第 12 行 | <code>CMD ["fastapi", "run", "app/main.py", "--host", "0.0.0.0", "--port", "8000"]</code> | 设置容器启动时默认执行的命令。 |
-
 ### docker compose
 
 ```yaml
@@ -2928,19 +1788,6 @@ services:
       ENVIRONMENT: dev
       API_KEY: dev-secret
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>services:</code> | 定义 `services` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  api:</code> | 定义 `api` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 3 行 | <code>    build: .</code> | `build` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`.` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 4 行 | <code>    ports:</code> | 定义 `ports` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 5 行 | <code>      - "8000:8000"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 6 行 | <code>    environment:</code> | 定义 `environment` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 7 行 | <code>      ENVIRONMENT: dev</code> | `ENVIRONMENT` 是环境名称字段，`dev` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 8 行 | <code>      API_KEY: dev-secret</code> | `API_KEY` 这个英文标识可以拆开理解为：应用程序接口，`dev-secret` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 ### Kubernetes 健康检查示例
 
@@ -2958,23 +1805,6 @@ readinessProbe:
   initialDelaySeconds: 5
   periodSeconds: 5
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>livenessProbe:</code> | 定义 `livenessProbe` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  httpGet:</code> | 定义 `httpGet` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 3 行 | <code>    path: /healthz</code> | `path` 是路径，`/healthz` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 4 行 | <code>    port: 8000</code> | `port` 是端口，`8000` 表示端口号，表示服务监听或连接入口；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 5 行 | <code>  initialDelaySeconds: 10</code> | `initialDelaySeconds` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`10` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 6 行 | <code>  periodSeconds: 10</code> | `periodSeconds` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`10` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 7 行 | <code>readinessProbe:</code> | 定义 `readinessProbe` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 8 行 | <code>  httpGet:</code> | 定义 `httpGet` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 9 行 | <code>    path: /healthz</code> | `path` 是路径，`/healthz` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 10 行 | <code>    port: 8000</code> | `port` 是端口，`8000` 表示端口号，表示服务监听或连接入口；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 11 行 | <code>  initialDelaySeconds: 5</code> | `initialDelaySeconds` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`5` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 12 行 | <code>  periodSeconds: 5</code> | `periodSeconds` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`5` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 学习阶段可以这样写。生产阶段通常会把 `/livez` 和 `/readyz` 分开。
 
@@ -2998,12 +1828,6 @@ AIOps API 自己也要被观测。
 level=info method=POST path=/alerts status=201 elapsed_ms=12 request_id=req-001 alert_id=a-1
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>level=info method=POST path=/alerts status=201 elapsed_ms=12 request_id=req-001 alert_id=a-1</code> | `level` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`info` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；`method` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`POST` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；`path` 是路径，`/alerts` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；`status` 是状态字段，`201` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；`elapsed_ms` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`12` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；`request_id` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`req-001` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；`alert_id` 这个英文标识可以拆开理解为：告警，`a-1` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
-
 指标示例：
 
 | 指标 | 含义 |
@@ -3023,15 +1847,6 @@ POST /alerts
   -> MySQL insert
   -> Kafka publish
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>POST /alerts</code> | `POST /alerts` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>  -&gt; Redis dedup</code> | 这一行要理解这些英文词：`Redis dedup` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; MySQL insert</code> | 这一行要理解这些英文词：`MySQL insert` 是mysql=MySQL 数据库或客户端命令。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; Kafka publish</code> | 这一行要理解这些英文词：`Kafka publish` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 FastAPI 不是只负责“被调用”，它自己也要给 SRE 留证据。
 
@@ -3064,18 +1879,6 @@ async def require_api_key(
         raise HTTPException(status_code=401, detail="Invalid API key")
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>from typing import Annotated</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 3 行 | <code>from fastapi import Depends, Header, HTTPException</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 6 行 | <code>async def require_api_key(</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 7 行 | <code>    x_api_key: Annotated[str &#124; None, Header(alias="X-API-Key")] = None,</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 8 行 | <code>):</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 9 行 | <code>    if x_api_key != "dev-secret":</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
-| 第 10 行 | <code>        raise HTTPException(status_code=401, detail="Invalid API key")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 生产上要根据组织情况使用：
 
 - OAuth2 / OIDC。
@@ -3095,12 +1898,6 @@ async def require_api_key(
 app = FastAPI(title="AIOps Lab API")
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>app = FastAPI(title="AIOps Lab API")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-
 创建应用对象。
 
 ### app.get / app.post
@@ -3109,13 +1906,6 @@ app = FastAPI(title="AIOps Lab API")
 @app.get("/healthz")
 @app.post("/alerts")
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>@app.get("/healthz")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 2 行 | <code>@app.post("/alerts")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
 注册路径操作。
 
@@ -3126,13 +1916,6 @@ router = APIRouter()
 app.include_router(router, prefix="/alerts", tags=["alerts"])
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>router = APIRouter()</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 2 行 | <code>app.include_router(router, prefix="/alerts", tags=["alerts"])</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 用于多文件拆分和模块化路由。
 
 ### BaseModel
@@ -3142,13 +1925,6 @@ class AlertEvent(BaseModel):
     service: str
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>class AlertEvent(BaseModel):</code> | 定义类，用来组织一组数据和行为。 |
-| 第 2 行 | <code>    service: str</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 定义请求或响应数据模型。
 
 ### Field
@@ -3156,12 +1932,6 @@ class AlertEvent(BaseModel):
 ```python
 service: str = Field(min_length=1)
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>service: str = Field(min_length=1)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
 声明字段校验、默认值和文档信息。
 
@@ -3171,12 +1941,6 @@ service: str = Field(min_length=1)
 raise HTTPException(status_code=404, detail="Alert not found")
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>raise HTTPException(status_code=404, detail="Alert not found")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 返回标准 HTTP 错误。
 
 ### Depends
@@ -3184,12 +1948,6 @@ raise HTTPException(status_code=404, detail="Alert not found")
 ```python
 settings: Annotated[Settings, Depends(get_settings)]
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>settings: Annotated[Settings, Depends(get_settings)]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
 声明依赖，让 FastAPI 调用并传入结果。
 
@@ -3199,12 +1957,6 @@ settings: Annotated[Settings, Depends(get_settings)]
 x_api_key: Annotated[str | None, Header(alias="X-API-Key")] = None
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>x_api_key: Annotated[str &#124; None, Header(alias="X-API-Key")] = None</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 读取请求 header。
 
 ### BackgroundTasks
@@ -3212,12 +1964,6 @@ x_api_key: Annotated[str | None, Header(alias="X-API-Key")] = None
 ```python
 background_tasks.add_task(analyze_alert, alert_id)
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>background_tasks.add_task(analyze_alert, alert_id)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
 响应返回后执行轻量任务。
 
@@ -3227,12 +1973,6 @@ background_tasks.add_task(analyze_alert, alert_id)
 status_code=status.HTTP_202_ACCEPTED
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>status_code=status.HTTP_202_ACCEPTED</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-
 使用可读常量代替裸数字。
 
 ### TestClient
@@ -3241,13 +1981,6 @@ status_code=status.HTTP_202_ACCEPTED
 client = TestClient(app)
 response = client.get("/healthz")
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>client = TestClient(app)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 2 行 | <code>response = client.get("/healthz")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
 
 测试 API。
 
@@ -3261,14 +1994,6 @@ source .venv/bin/activate
 pip install "fastapi[standard]"
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>python -m venv .venv</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
-| 第 2 行 | <code>source .venv/bin/activate</code> | 执行 `source` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 3 行 | <code>pip install "fastapi[standard]"</code> | 管理 Python 依赖包，通常用于安装实验需要的库。 |
-
 PowerShell：
 
 ```powershell
@@ -3277,37 +2002,17 @@ python -m venv .venv
 pip install "fastapi[standard]"
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>python -m venv .venv</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
-| 第 2 行 | <code>.venv\Scripts\Activate.ps1</code> | 执行 `.venv\scripts\activate.ps1` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 3 行 | <code>pip install "fastapi[standard]"</code> | 管理 Python 依赖包，通常用于安装实验需要的库。 |
-
 ### 开发运行
 
 ```bash
 fastapi dev main.py
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>fastapi dev main.py</code> | 执行 `fastapi` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 ### 指定端口
 
 ```bash
 fastapi dev main.py --port 8001
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>fastapi dev main.py --port 8001</code> | 执行 `fastapi` 相关命令，后面的参数决定它具体操作什么对象。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
 ### Uvicorn 运行
 
@@ -3316,24 +2021,11 @@ uvicorn main:app --reload
 uvicorn app.main:app --host 0.0.0.0 --port 8000
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>uvicorn main:app --reload</code> | 启动 ASGI Web 服务，常用于运行 FastAPI 实验接口。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-| 第 2 行 | <code>uvicorn app.main:app --host 0.0.0.0 --port 8000</code> | 启动 ASGI Web 服务，常用于运行 FastAPI 实验接口。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 ### 生产运行
 
 ```bash
 fastapi run app/main.py --host 0.0.0.0 --port 8000
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>fastapi run app/main.py --host 0.0.0.0 --port 8000</code> | 执行 `fastapi` 相关命令，后面的参数决定它具体操作什么对象。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
 ### 测试
 
@@ -3341,35 +2033,17 @@ fastapi run app/main.py --host 0.0.0.0 --port 8000
 pytest
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>pytest</code> | 执行 `pytest` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 ### 查看 OpenAPI
 
 ```bash
 curl http://127.0.0.1:8000/openapi.json
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>curl http://127.0.0.1:8000/openapi.json</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
-
 ### 调用健康检查
 
 ```bash
 curl http://127.0.0.1:8000/healthz
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>curl http://127.0.0.1:8000/healthz</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
 
 ## 典型故障排查表
 

@@ -119,56 +119,6 @@ Learn
   -> updated features/models
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Observe</code> | 这一行里的英文要这样读：`Observe` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 2 行 | <code>  -&gt; metrics</code> | 这一行要理解这些英文词：`metrics` 是指标。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; logs</code> | 这一行要理解这些英文词：`logs` 是日志。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; traces</code> | 这一行要理解这些英文词：`traces` 是链路追踪。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; events</code> | 这一行要理解这些英文词：`events` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; changes</code> | 这一行要理解这些英文词：`changes` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; topology</code> | 这一行要理解这些英文词：`topology` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>Detect</code> | 这一行里的英文要这样读：`Detect` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 9 行 | <code>  -&gt; SLO burn-rate alerts</code> | 这一行要理解这些英文词：`SLO burn-rate alerts` 是slo=服务等级目标。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 10 行 | <code>  -&gt; static thresholds</code> | 这一行要理解这些英文词：`static thresholds` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 11 行 | <code>  -&gt; anomaly detection</code> | 这一行要理解这些英文词：`anomaly detection` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 12 行 | <code>  -&gt; forecasting</code> | 这一行要理解这些英文词：`forecasting` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 13 行 | <code>Correlate</code> | 这一行里的英文要这样读：`Correlate` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 14 行 | <code>  -&gt; alert grouping</code> | 这一行要理解这些英文词：`alert grouping` 是alert=告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 15 行 | <code>  -&gt; service topology</code> | 这一行要理解这些英文词：`service topology` 是service=服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 16 行 | <code>  -&gt; time window</code> | 这一行要理解这些英文词：`time window` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 17 行 | <code>  -&gt; recent changes</code> | 这一行要理解这些英文词：`recent changes` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 18 行 | <code>  -&gt; similar incidents</code> | 这一行要理解这些英文词：`similar incidents` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 19 行 | <code>Explain</code> | 这一行里的英文要这样读：`Explain` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 20 行 | <code>  -&gt; evidence</code> | 这一行要理解这些英文词：`evidence` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 21 行 | <code>  -&gt; logs</code> | 这一行要理解这些英文词：`logs` 是日志。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 22 行 | <code>  -&gt; metrics</code> | 这一行要理解这些英文词：`metrics` 是指标。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 23 行 | <code>  -&gt; runbooks</code> | 这一行要理解这些英文词：`runbooks` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 24 行 | <code>  -&gt; RCA history</code> | 这一行要理解这些英文词：`RCA history` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 25 行 | <code>  -&gt; LLM summary</code> | 这一行要理解这些英文词：`LLM summary` 是llm=大语言模型。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 26 行 | <code>Recommend</code> | 这一行里的英文要这样读：`Recommend` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 27 行 | <code>  -&gt; next checks</code> | 这一行要理解这些英文词：`next checks` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 28 行 | <code>  -&gt; runbook steps</code> | 这一行要理解这些英文词：`runbook steps` 是runbook=故障处理手册。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 29 行 | <code>  -&gt; safe actions</code> | 这一行要理解这些英文词：`safe actions` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 30 行 | <code>  -&gt; approval-needed actions</code> | 这一行要理解这些英文词：`approval-needed actions` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 31 行 | <code>Act</code> | 这一行里的英文要这样读：`Act` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 32 行 | <code>  -&gt; create ticket</code> | 这一行要理解这些英文词：`create ticket` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 33 行 | <code>  -&gt; collect diagnostics</code> | 这一行要理解这些英文词：`collect diagnostics` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 34 行 | <code>  -&gt; run read-only checks</code> | 这一行要理解这些英文词：`run read-only checks` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 35 行 | <code>  -&gt; execute approved automation</code> | 这一行要理解这些英文词：`execute approved automation` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 36 行 | <code>Verify</code> | 这一行里的英文要这样读：`Verify` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 37 行 | <code>  -&gt; SLI back to normal</code> | 这一行要理解这些英文词：`SLI back to normal` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 38 行 | <code>  -&gt; alerts stop</code> | 这一行要理解这些英文词：`alerts stop` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 39 行 | <code>  -&gt; business metrics recover</code> | 这一行要理解这些英文词：`business metrics recover` 是metrics=指标。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 40 行 | <code>Learn</code> | 这一行里的英文要这样读：`Learn` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 41 行 | <code>  -&gt; postmortem</code> | 这一行要理解这些英文词：`postmortem` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 42 行 | <code>  -&gt; action items</code> | 这一行要理解这些英文词：`action items` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 43 行 | <code>  -&gt; updated alerts</code> | 这一行要理解这些英文词：`updated alerts` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 44 行 | <code>  -&gt; updated runbooks</code> | 这一行要理解这些英文词：`updated runbooks` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 45 行 | <code>  -&gt; updated features/models</code> | 这一行要理解这些英文词：`updated features` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`models` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 Microsoft Azure Monitor 的 AIOps / agentic operations 资料也强调：现代运维智能不只是发现异常，还包括跨信号调查、解释发生了什么、说明证据、指导下一步行动。这个思路和 SRE 闭环天然契合。
 
 ## AIOps 不是聊天机器人
@@ -197,15 +147,6 @@ raw logs
   -> auto restart production
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>raw logs</code> | 这一行里的英文要这样读：`raw logs` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 2 行 | <code>  -&gt; LLM</code> | 这一行要理解这些英文词：`LLM` 是大语言模型。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; "root cause is database"</code> | 这一行要理解这些英文词：`root cause is database` 是database=数据库。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; auto restart production</code> | 这一行要理解这些英文词：`auto restart production` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 好架构：
 
 ```text
@@ -220,21 +161,6 @@ alert
   -> verify SLI
   -> postmortem updates knowledge
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>alert</code> | 这一行里的英文要这样读：`alert` 是告警。 |
-| 第 2 行 | <code>  -&gt; SLO impact</code> | 这一行要理解这些英文词：`SLO impact` 是slo=服务等级目标。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; recent changes</code> | 这一行要理解这些英文词：`recent changes` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; logs / metrics / traces</code> | 这一行要理解这些英文词：`logs` 是日志；`metrics` 是指标；`traces` 是链路追踪。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; runbook retrieval</code> | 这一行要理解这些英文词：`runbook retrieval` 是runbook=故障处理手册。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; LLM summary with evidence</code> | 这一行要理解这些英文词：`LLM summary with evidence` 是llm=大语言模型。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; human approval</code> | 这一行要理解这些英文词：`human approval` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>  -&gt; controlled automation</code> | 这一行要理解这些英文词：`controlled automation` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 9 行 | <code>  -&gt; verify SLI</code> | 这一行要理解这些英文词：`verify SLI` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 10 行 | <code>  -&gt; postmortem updates knowledge</code> | 这一行要理解这些英文词：`postmortem updates knowledge` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 ## 闭环总架构
 
@@ -258,27 +184,6 @@ Demo service
   -> Prometheus verifies recovery
   -> RCA updates runbook and rules
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Demo service</code> | 这一行里的英文要这样读：`Demo service` 这个英文标识可以拆开理解为：服务名称字段。 |
-| 第 2 行 | <code>  -&gt; Prometheus metrics</code> | 这一行要理解这些英文词：`Prometheus metrics` 是metrics=指标。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; Grafana dashboard</code> | 这一行要理解这些英文词：`Grafana dashboard` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; Alertmanager alert</code> | 这一行要理解这些英文词：`Alertmanager alert` 是alertmanager=Prometheus 生态里的告警管理器，alert=告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; FastAPI webhook receiver</code> | 这一行要理解这些英文词：`FastAPI webhook receiver` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; Redis dedup</code> | 这一行要理解这些英文词：`Redis dedup` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; MySQL incident store</code> | 这一行要理解这些英文词：`MySQL incident store` 是mysql=MySQL 数据库或客户端命令。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>  -&gt; Kafka event stream</code> | 这一行要理解这些英文词：`Kafka event stream` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 9 行 | <code>  -&gt; pandas feature table</code> | 这一行要理解这些英文词：`pandas feature table` 是table=表。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 10 行 | <code>  -&gt; scikit-learn anomaly signal</code> | 这一行要理解这些英文词：`scikit-learn anomaly signal` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 11 行 | <code>  -&gt; vector database runbook retrieval</code> | 这一行要理解这些英文词：`vector database runbook retrieval` 是database=数据库，runbook=故障处理手册。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 12 行 | <code>  -&gt; OpenAI summary</code> | 这一行要理解这些英文词：`OpenAI summary` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 13 行 | <code>  -&gt; human approval</code> | 这一行要理解这些英文词：`human approval` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 14 行 | <code>  -&gt; Ansible / script action</code> | 这一行要理解这些英文词：`Ansible` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`script action` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 15 行 | <code>  -&gt; Prometheus verifies recovery</code> | 这一行要理解这些英文词：`Prometheus verifies recovery` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 16 行 | <code>  -&gt; RCA updates runbook and rules</code> | 这一行要理解这些英文词：`RCA updates runbook and rules` 是runbook=故障处理手册。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 这条链路把本知识库的技术栈串起来了。
 
@@ -339,15 +244,6 @@ SLO burn-rate alert
   + forecast
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>SLO burn-rate alert</code> | 这一行里的英文要这样读：`SLO burn-rate alert` 这个英文标识可以拆开理解为：服务等级目标，比率，告警。 |
-| 第 2 行 | <code>  + static thresholds</code> | 这一行里的英文要这样读：`static thresholds` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 3 行 | <code>  + anomaly detection</code> | 这一行里的英文要这样读：`anomaly detection` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 4 行 | <code>  + forecast</code> | 这一行里的英文要这样读：`forecast` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-
 各自职责：
 
 | 方法 | 优点 | 风险 |
@@ -384,16 +280,6 @@ same service
   -> incident candidate
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>same service</code> | 这一行里的英文要这样读：`same service` 这个英文标识可以拆开理解为：服务名称字段。 |
-| 第 2 行 | <code>  + same 10-minute window</code> | 这一行里的英文要这样读：`same` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`minute window` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 3 行 | <code>  + same dependency</code> | 这一行里的英文要这样读：`same dependency` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 4 行 | <code>  + same recent change</code> | 这一行里的英文要这样读：`same recent change` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 5 行 | <code>  -&gt; incident candidate</code> | 这一行要理解这些英文词：`incident candidate` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 数据模型：
 
 ```json
@@ -409,22 +295,6 @@ same service
   }
 }
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>{</code> | 对象开始，表示下面是一组键值对配置。 |
-| 第 2 行 | <code>  "incident_candidate_id": "ic-20260702-001",</code> | `incident_candidate_id` 这个英文标识可以拆开理解为：线上故障或事件，`ic-20260702-001` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 3 行 | <code>  "service": "order-api",</code> | `service` 是服务名称字段，`order-api` 是具体服务名，表示这条记录属于这个服务；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 4 行 | <code>  "start_time": "2026-07-02T09:10:00Z",</code> | `start_time` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`2026-07-02T09:10:00Z` 表示具体时间值，表示事件、告警或记录发生的时间点；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 5 行 | <code>  "alerts": ["OrderApiHighErrorRate", "OrderApiHighLatency"],</code> | `alerts` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`["OrderApiHighErrorRate", "OrderApiHighLatency"]` 是高错误率告警名，表示请求失败比例过高；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 6 行 | <code>  "recent_changes": ["CHG-2026-0702-001"],</code> | `recent_changes` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`["CHG-2026-0702-001"]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 7 行 | <code>  "suspected_dependencies": ["mysql", "payment-api"],</code> | `suspected_dependencies` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`["mysql", "payment-api"]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 8 行 | <code>  "slo_impact": {</code> | `slo_impact` 这个英文标识可以拆开理解为：服务等级目标，`{` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 9 行 | <code>    "availability_burn_rate": 14.4</code> | `availability_burn_rate` 这个英文标识可以拆开理解为：比率，`14.4` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 10 行 | <code>  }</code> | 对象结束，表示这一组键值对配置到这里结束。 |
-| 第 11 行 | <code>}</code> | 对象结束，表示这一组键值对配置到这里结束。 |
 
 关联不是定根因，只是组织上下文。
 
@@ -450,16 +320,6 @@ same service
 - 当前没有数据库连接池 active 指标。
 - 当前没有慢查询统计。
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 3 行 | <code>1. 09:02 有 order-api 发布 CHG-2026-0702-001。</code> | `1. 09:02 有 order-api 发布 CHG-2026-0702-001。` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 4 行 | <code>2. 09:10 5xx 错误率从 1% 升到 23%。</code> | `2. 09:10 5xx 错误率从 1% 升到 23%。` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 5 行 | <code>3. Loki 日志显示 database connection timeout 占 5xx 的 78%。</code> | `3. Loki 日志显示 database connection timeout 占 5xx 的 78%。` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 6 行 | <code>4. Runbook 指出该现象需要检查连接池和最近配置 diff。</code> | `4. Runbook 指出该现象需要检查连接池和最近配置 diff。` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 8 行 | <code>- 当前没有数据库连接池 active 指标。</code> | 这一行里的英文要这样读：`active` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 LLM 适合做：
 
@@ -507,25 +367,6 @@ LLM 不适合做：
   "missing_information": ["数据库慢查询统计"]
 }
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>{</code> | 对象开始，表示下面是一组键值对配置。 |
-| 第 2 行 | <code>  "summary": "order-api 5xx 和延迟升高，时间上接近一次发布。",</code> | `summary` 是摘要说明字段，`order-api 5xx 和延迟升高，时间上接近一次发布。` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 3 行 | <code>  "possible_causes": [</code> | `possible_causes` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`[` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 4 行 | <code>    {</code> | 对象开始，表示下面是一组键值对配置。 |
-| 第 5 行 | <code>      "title": "发布引入数据库连接池配置问题",</code> | `title` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`发布引入数据库连接池配置问题` 是这个字段的中文取值，已经直接说明了含义；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 6 行 | <code>      "evidence": ["CHG-2026-0702-001", "database timeout logs"],</code> | `evidence` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`["CHG-2026-0702-001", "database timeout logs"]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 7 行 | <code>      "confidence": 0.68</code> | `confidence` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`0.68` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 8 行 | <code>    }</code> | 对象结束，表示这一组键值对配置到这里结束。 |
-| 第 9 行 | <code>  ],</code> | 当前对象或数组结束，逗号表示后面还有同级项目。 |
-| 第 10 行 | <code>  "next_checks": ["检查连接池 active 指标", "对比配置 diff"],</code> | `next_checks` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`["检查连接池 active 指标", "对比配置 diff"]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 11 行 | <code>  "safe_actions": ["创建 incident 文档", "生成状态更新草稿"],</code> | `safe_actions` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`["创建 incident 文档", "生成状态更新草稿"]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 12 行 | <code>  "approval_required_actions": ["回滚 order-api"],</code> | `approval_required_actions` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`["回滚 order-api"]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 13 行 | <code>  "missing_information": ["数据库慢查询统计"]</code> | `missing_information` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`["数据库慢查询统计"]` 是这个字段的中文取值，已经直接说明了含义；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 14 行 | <code>}</code> | 对象结束，表示这一组键值对配置到这里结束。 |
 
 ## 行动层
 
@@ -577,14 +418,6 @@ SLO burn rate < 1。
 无新增用户投诉。
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>order-api 5xx &lt; 1% 持续 15 分钟。</code> | 这一行里的英文要这样读：`order-api 5xx` 里的 order 表示订单业务，api 表示接口服务，合起来通常指订单接口服务。 |
-| 第 2 行 | <code>p95 延迟 &lt; 300ms 持续 15 分钟。</code> | 这一行里的英文要这样读：`p95` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`ms` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 3 行 | <code>SLO burn rate &lt; 1。</code> | 这一行里的英文要这样读：`SLO burn rate` 这个英文标识可以拆开理解为：服务等级目标，比率。 |
-
 没有验证层，自动化只是“执行了动作”，不是“解决了问题”。
 
 ## 学习层
@@ -609,12 +442,6 @@ SLO burn rate < 1。
 incident -> postmortem -> action items -> updated system -> fewer repeat incidents
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>incident -&gt; postmortem -&gt; action items -&gt; updated system -&gt; fewer repeat incidents</code> | 这一行要理解这些英文词：`incident` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`postmortem` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`action items` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`updated system` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`fewer repeat incidents` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 如果没有 RCA 和行动项，AIOps 只是一次性分析，不是闭环。
 
 ## 最小作品集项目
@@ -624,12 +451,6 @@ incident -> postmortem -> action items -> updated system -> fewer repeat inciden
 ```text
 zero-to-aiops-lab
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>zero-to-aiops-lab</code> | 这一行里的英文要这样读：`zero-to-aiops-lab` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 目录：
 
@@ -648,24 +469,6 @@ projects/zero-to-aiops-lab/
   rca/
   changes/
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>projects/zero-to-aiops-lab/</code> | `projects/zero-to-aiops-lab/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>  README.md</code> | `README.md` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 3 行 | <code>  docker-compose.yaml</code> | `docker-compose.yaml` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 4 行 | <code>  app/</code> | `app/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 5 行 | <code>  prometheus/</code> | `prometheus/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 6 行 | <code>  grafana/</code> | `grafana/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 7 行 | <code>  alertmanager/</code> | `alertmanager/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 8 行 | <code>  api/</code> | `api/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 9 行 | <code>  analysis/</code> | `analysis/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 10 行 | <code>  runbooks/</code> | `runbooks/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 11 行 | <code>  incidents/</code> | `incidents/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 12 行 | <code>  rca/</code> | `rca/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 13 行 | <code>  changes/</code> | `changes/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 目标链路：
 
@@ -707,25 +510,6 @@ projects/zero-to-aiops-lab/
 }
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>{</code> | 对象开始，表示下面是一组键值对配置。 |
-| 第 2 行 | <code>  "alert_id": "a-001",</code> | `alert_id` 这个英文标识可以拆开理解为：告警，`a-001` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 3 行 | <code>  "alertname": "OrderApiHighErrorRate",</code> | `alertname` 是告警名称字段，`OrderApiHighErrorRate` 是高错误率告警名，表示请求失败比例过高；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 4 行 | <code>  "service": "order-api",</code> | `service` 是服务名称字段，`order-api` 是具体服务名，表示这条记录属于这个服务；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 5 行 | <code>  "severity": "page",</code> | `severity` 是告警严重级别字段，`page` 表示需要立即通知值班人员的告警级别；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 6 行 | <code>  "starts_at": "2026-07-02T09:10:00Z",</code> | `starts_at` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`2026-07-02T09:10:00Z` 表示具体时间值，表示事件、告警或记录发生的时间点；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 7 行 | <code>  "labels": {</code> | `labels` 是标签字段，用来标识告警或指标身份，`{` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 8 行 | <code>    "env": "prod",</code> | `env` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`prod` 表示生产环境；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 9 行 | <code>    "owner": "team-order"</code> | `owner` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`team-order` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 10 行 | <code>  },</code> | 当前对象或数组结束，逗号表示后面还有同级项目。 |
-| 第 11 行 | <code>  "annotations": {</code> | `annotations` 是告警补充说明字段，`{` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 12 行 | <code>    "runbook_url": "runbooks/order-api-high-error-rate.md"</code> | `runbook_url` 是故障处理手册链接字段，`runbooks/order-api-high-error-rate.md` 是高错误率告警名，表示请求失败比例过高；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 13 行 | <code>  }</code> | 对象结束，表示这一组键值对配置到这里结束。 |
-| 第 14 行 | <code>}</code> | 对象结束，表示这一组键值对配置到这里结束。 |
-
 ### incident_candidate
 
 ```json
@@ -741,21 +525,6 @@ projects/zero-to-aiops-lab/
 }
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>{</code> | 对象开始，表示下面是一组键值对配置。 |
-| 第 2 行 | <code>  "incident_id": "inc-001",</code> | `incident_id` 这个英文标识可以拆开理解为：线上故障或事件，`inc-001` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 3 行 | <code>  "service": "order-api",</code> | `service` 是服务名称字段，`order-api` 是具体服务名，表示这条记录属于这个服务；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 4 行 | <code>  "status": "investigating",</code> | `status` 是状态字段，`investigating` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 5 行 | <code>  "alerts": ["a-001"],</code> | `alerts` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`["a-001"]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 6 行 | <code>  "recent_changes": ["CHG-001"],</code> | `recent_changes` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`["CHG-001"]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 7 行 | <code>  "slo_impact": {</code> | `slo_impact` 这个英文标识可以拆开理解为：服务等级目标，`{` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 8 行 | <code>    "burn_rate": 14.4</code> | `burn_rate` 这个英文标识可以拆开理解为：比率，`14.4` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 9 行 | <code>  }</code> | 对象结束，表示这一组键值对配置到这里结束。 |
-| 第 10 行 | <code>}</code> | 对象结束，表示这一组键值对配置到这里结束。 |
-
 ### aiops_analysis
 
 ```json
@@ -769,20 +538,6 @@ projects/zero-to-aiops-lab/
   "sources": []
 }
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>{</code> | 对象开始，表示下面是一组键值对配置。 |
-| 第 2 行 | <code>  "incident_id": "inc-001",</code> | `incident_id` 这个英文标识可以拆开理解为：线上故障或事件，`inc-001` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 3 行 | <code>  "summary": "order-api 5xx increased after a recent release.",</code> | `summary` 是摘要说明字段，`order-api 5xx increased after a recent release.` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 4 行 | <code>  "possible_causes": [],</code> | `possible_causes` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`[]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 5 行 | <code>  "next_checks": [],</code> | `next_checks` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`[]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 6 行 | <code>  "safe_actions": [],</code> | `safe_actions` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`[]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 7 行 | <code>  "approval_required_actions": [],</code> | `approval_required_actions` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`[]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 8 行 | <code>  "sources": []</code> | `sources` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`[]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 9 行 | <code>}</code> | 对象结束，表示这一组键值对配置到这里结束。 |
 
 结构化数据越清楚，LLM 和自动化越安全。
 
@@ -807,16 +562,6 @@ projects/zero-to-aiops-lab/
 谨慎进入 L5。
 最后追求 L6。
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>先做到 L2。</code> | 这一行里的英文要这样读：`L2` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 2 行 | <code>再做 L3。</code> | 这一行里的英文要这样读：`L3` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 3 行 | <code>再做 L4。</code> | 这一行里的英文要这样读：`L4` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 4 行 | <code>谨慎进入 L5。</code> | 这一行里的英文要这样读：`L5` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 5 行 | <code>最后追求 L6。</code> | 这一行里的英文要这样读：`L6` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
 
 不要从“全自动修复”开始。
 
@@ -873,14 +618,6 @@ LLM 只能生成建议。
 回滚必须由 IC 审批，并由自动化平台记录执行人、时间、参数和结果。
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>禁止 LLM 直接执行生产回滚。</code> | 这一行里的英文要这样读：`LLM` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 2 行 | <code>LLM 只能生成建议。</code> | 这一行里的英文要这样读：`LLM` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 3 行 | <code>回滚必须由 IC 审批，并由自动化平台记录执行人、时间、参数和结果。</code> | 这一行里的英文要这样读：`IC` 是Incident Commander，故障指挥官。 |
-
 ## 常见失败模式
 
 ### 把 AIOps 当成聊天机器人
@@ -927,17 +664,6 @@ projects/aiops-loop-design/
   guardrails.md
   incident-example.md
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>projects/aiops-loop-design/</code> | `projects/aiops-loop-design/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>  README.md</code> | `README.md` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 3 行 | <code>  architecture.md</code> | `architecture.md` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 4 行 | <code>  data-flow.md</code> | `data-flow.md` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 5 行 | <code>  guardrails.md</code> | `guardrails.md` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 6 行 | <code>  incident-example.md</code> | `incident-example.md` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 `architecture.md` 必须写：
 

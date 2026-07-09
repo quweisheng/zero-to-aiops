@@ -57,45 +57,6 @@ LangGraph
      -> debugging
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>LangGraph</code> | 这一行里的英文要这样读：`LangGraph` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 2 行 | <code>  -&gt; Overview</code> | 这一行要理解这些英文词：`Overview` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>     -&gt; durable execution</code> | 这一行要理解这些英文词：`durable execution` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>     -&gt; persistence</code> | 这一行要理解这些英文词：`persistence` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>     -&gt; human-in-the-loop</code> | 这一行要理解这些英文词：`human-in-the-loop` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>     -&gt; memory</code> | 这一行要理解这些英文词：`memory` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>     -&gt; streaming</code> | 这一行要理解这些英文词：`streaming` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>  -&gt; Graph API</code> | 这一行要理解这些英文词：`Graph API` 是api=应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 9 行 | <code>     -&gt; state</code> | 这一行要理解这些英文词：`state` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 10 行 | <code>     -&gt; node</code> | 这一行要理解这些英文词：`node` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 11 行 | <code>     -&gt; edge</code> | 这一行要理解这些英文词：`edge` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 12 行 | <code>     -&gt; conditional edge</code> | 这一行要理解这些英文词：`conditional edge` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 13 行 | <code>     -&gt; START / END</code> | 这一行要理解这些英文词：`START` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`END` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 14 行 | <code>  -&gt; Workflows and agents</code> | 这一行要理解这些英文词：`Workflows and agents` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 15 行 | <code>     -&gt; fixed workflow</code> | 这一行要理解这些英文词：`fixed workflow` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 16 行 | <code>     -&gt; dynamic agent</code> | 这一行要理解这些英文词：`dynamic agent` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 17 行 | <code>     -&gt; routing</code> | 这一行要理解这些英文词：`routing` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 18 行 | <code>     -&gt; evaluator-optimizer</code> | 这一行要理解这些英文词：`evaluator-optimizer` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 19 行 | <code>  -&gt; Persistence</code> | 这一行要理解这些英文词：`Persistence` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 20 行 | <code>     -&gt; checkpoint</code> | 这一行要理解这些英文词：`checkpoint` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 21 行 | <code>     -&gt; thread</code> | 这一行要理解这些英文词：`thread` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 22 行 | <code>     -&gt; resume</code> | 这一行要理解这些英文词：`resume` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 23 行 | <code>     -&gt; replay</code> | 这一行要理解这些英文词：`replay` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 24 行 | <code>  -&gt; Memory</code> | 这一行要理解这些英文词：`Memory` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 25 行 | <code>     -&gt; short-term memory</code> | 这一行要理解这些英文词：`short-term memory` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 26 行 | <code>     -&gt; long-term memory</code> | 这一行要理解这些英文词：`long-term memory` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 27 行 | <code>  -&gt; Interrupts</code> | 这一行要理解这些英文词：`Interrupts` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 28 行 | <code>     -&gt; pause</code> | 这一行要理解这些英文词：`pause` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 29 行 | <code>     -&gt; human approval</code> | 这一行要理解这些英文词：`human approval` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 30 行 | <code>     -&gt; resume</code> | 这一行要理解这些英文词：`resume` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 31 行 | <code>  -&gt; LangSmith</code> | 这一行要理解这些英文词：`LangSmith` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 32 行 | <code>     -&gt; tracing</code> | 这一行要理解这些英文词：`tracing` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 33 行 | <code>     -&gt; evaluation</code> | 这一行要理解这些英文词：`evaluation` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 34 行 | <code>     -&gt; debugging</code> | 这一行要理解这些英文词：`debugging` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 如果你是零基础，阅读顺序建议是：
 
 1. 先读 overview，知道 LangGraph 解决什么问题。
@@ -224,20 +185,6 @@ alert input
   -> END
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>alert input</code> | 这一行里的英文要这样读：`alert input` 这个英文标识可以拆开理解为：告警。 |
-| 第 2 行 | <code>  -&gt; collect_metrics node</code> | 这一行要理解这些英文词：`collect_metrics node` 是metrics=指标。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; collect_logs node</code> | 这一行要理解这些英文词：`collect_logs node` 是logs=日志。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; classify_incident node</code> | 这一行要理解这些英文词：`classify_incident node` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; choose_runbook node</code> | 这一行要理解这些英文词：`choose_runbook node` 是runbook=故障处理手册。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; approval node</code> | 这一行要理解这些英文词：`approval node` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; execute_action node</code> | 这一行要理解这些英文词：`execute_action node` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>  -&gt; verify_recovery node</code> | 这一行要理解这些英文词：`verify_recovery node` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 9 行 | <code>  -&gt; END</code> | 这一行要理解这些英文词：`END` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 每个节点都读同一份 state，并返回 state 的更新部分。
 
 ```text
@@ -247,16 +194,6 @@ State before node
   -> merged new state
   -> next edge
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>State before node</code> | 这一行里的英文要这样读：`State before node` 这个英文标识可以拆开理解为：节点。 |
-| 第 2 行 | <code>  -&gt; node function</code> | 这一行要理解这些英文词：`node function` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; state update</code> | 这一行要理解这些英文词：`state update` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; merged new state</code> | 这一行要理解这些英文词：`merged new state` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; next edge</code> | 这一行要理解这些英文词：`next edge` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 这样做有几个好处：
 
@@ -345,15 +282,6 @@ def route_by_risk(state):
     return "suggestion"
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>def route_by_risk(state):</code> | 定义函数，把一段可复用逻辑命名，后续可以反复调用。 |
-| 第 2 行 | <code>    if state["risk"] == "high":</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
-| 第 3 行 | <code>        return "approval"</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-| 第 4 行 | <code>    return "suggestion"</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-
 出问题怎么排查：检查条件函数所有可能返回值是否都在映射里，避免返回 `high` 但映射里只有 `approval`。
 
 ### Checkpoint
@@ -436,24 +364,6 @@ Alertmanager webhook
   -> GitHub learning evidence
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Alertmanager webhook</code> | 这一行里的英文要这样读：`Alertmanager webhook` 这个英文标识可以拆开理解为：通过 HTTP 回调接收通知的接口。 |
-| 第 2 行 | <code>  -&gt; FastAPI receiver</code> | 这一行要理解这些英文词：`FastAPI receiver` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; LangGraph app</code> | 这一行要理解这些英文词：`LangGraph app` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>     -&gt; Prometheus / VictoriaMetrics query node</code> | 这一行要理解这些英文词：`Prometheus` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`VictoriaMetrics query node` 是query=查询。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>     -&gt; Loki / Elasticsearch log node</code> | 这一行要理解这些英文词：`Loki` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`Elasticsearch log node` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>     -&gt; GitHub deployment node</code> | 这一行要理解这些英文词：`GitHub deployment node` 是github=代码托管平台。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>     -&gt; Runbook retrieval node</code> | 这一行要理解这些英文词：`Runbook retrieval node` 是runbook=故障处理手册。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>     -&gt; LLM summary node</code> | 这一行要理解这些英文词：`LLM summary node` 是llm=大语言模型。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 9 行 | <code>     -&gt; human approval node</code> | 这一行要理解这些英文词：`human approval node` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 10 行 | <code>     -&gt; automation action node</code> | 这一行要理解这些英文词：`automation action node` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 11 行 | <code>     -&gt; verification node</code> | 这一行要理解这些英文词：`verification node` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 12 行 | <code>  -&gt; incident record</code> | 这一行要理解这些英文词：`incident record` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 13 行 | <code>  -&gt; GitHub learning evidence</code> | 这一行要理解这些英文词：`GitHub learning evidence` 是github=代码托管平台。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 ### LangGraph 在 AIOps 链路的位置
 
 ```text
@@ -468,20 +378,6 @@ metrics / logs / traces / alerts / changes / runbooks
   -> incident knowledge base
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>metrics / logs / traces / alerts / changes / runbooks</code> | `metrics / logs / traces / alerts / changes / runbooks` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>  -&gt; evidence collection</code> | 这一行要理解这些英文词：`evidence collection` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; LangGraph state</code> | 这一行要理解这些英文词：`LangGraph state` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; routing and reasoning</code> | 这一行要理解这些英文词：`routing and reasoning` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; suggested action</code> | 这一行要理解这些英文词：`suggested action` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; human approval</code> | 这一行要理解这些英文词：`human approval` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; automation</code> | 这一行要理解这些英文词：`automation` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>  -&gt; verification</code> | 这一行要理解这些英文词：`verification` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 9 行 | <code>  -&gt; incident knowledge base</code> | 这一行要理解这些英文词：`incident knowledge base` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 LangGraph 不替代 Prometheus、Loki、OpenTelemetry、Ansible、GitHub Actions 或数据库。它负责把这些工具按“排障流程”编排起来。
 
 ## 安装和启动
@@ -493,12 +389,6 @@ LangGraph 不替代 Prometheus、Loki、OpenTelemetry、Ansible、GitHub Actions
 ```bash
 python -m venv .venv
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>python -m venv .venv</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
 
 目的：创建一个隔离的 Python 环境，避免污染系统 Python。
 
@@ -515,23 +405,11 @@ Windows PowerShell：
 .\.venv\Scripts\Activate.ps1
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>.\.venv\Scripts\Activate.ps1</code> | 执行 `.\.venv\scripts\activate.ps1` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 macOS / Linux：
 
 ```bash
 source .venv/bin/activate
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>source .venv/bin/activate</code> | 执行 `source` 相关命令，后面的参数决定它具体操作什么对象。 |
 
 预期结果：命令行前面出现 `(.venv)`。
 
@@ -541,23 +419,11 @@ source .venv/bin/activate
 pip install -U langgraph
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>pip install -U langgraph</code> | 管理 Python 依赖包，通常用于安装实验需要的库。 |
-
 如果后续要接 OpenAI 模型，再安装：
 
 ```bash
 pip install -U langchain-openai python-dotenv
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>pip install -U langchain-openai python-dotenv</code> | 管理 Python 依赖包，通常用于安装实验需要的库。 |
 
 本文的第一个实验不需要 API Key，只用普通 Python 函数跑通 graph。
 
@@ -600,12 +466,6 @@ LangGraph 本身不是一个必须先启动的数据库或服务。你在 Python
 alert -> metrics -> logs -> classify -> suggestion -> END
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>alert -&gt; metrics -&gt; logs -&gt; classify -&gt; suggestion -&gt; END</code> | 这一行要理解这些英文词：`alert` 是告警；`metrics` 是指标；`logs` 是日志；`classify` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`suggestion` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`END` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 适合：
 
 - 新手学习。
@@ -620,12 +480,6 @@ alert -> metrics -> logs -> classify -> suggestion -> END
 ```text
 alert -> LLM decides tool -> tool result -> LLM decides next step -> ...
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>alert -&gt; LLM decides tool -&gt; tool result -&gt; LLM decides next step -&gt; ...</code> | 这一行要理解这些英文词：`alert` 是告警；`LLM decides tool` 是llm=大语言模型；`tool result` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`LLM decides next step` 是llm=大语言模型。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 适合：
 
@@ -665,15 +519,6 @@ LangGraph 可以接入 AIOps 的这些环节：
   -> 输出最终状态
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 2 行 | <code>  -&gt; 匹配 runbook</code> | 这一行要理解这些英文词：`runbook` 是故障处理手册。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; 判断风险</code> | 这一行表示上一级主题下的子项“判断风险”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
-| 第 4 行 | <code>  -&gt; 选择下一步动作</code> | 这一行表示上一级主题下的子项“选择下一步动作”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
-| 第 5 行 | <code>  -&gt; 输出最终状态</code> | 这一行表示上一级主题下的子项“输出最终状态”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
-
 这个实验不调用真实 Prometheus，也不调用 LLM。先把 graph 的骨架跑通，避免新手被 API Key、网络和模型费用卡住。
 
 ### 第 1 步：创建目录
@@ -683,24 +528,11 @@ mkdir aiops-langgraph-lab
 cd aiops-langgraph-lab
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>mkdir aiops-langgraph-lab</code> | 创建目录，用来准备实验项目结构。 |
-| 第 2 行 | <code>cd aiops-langgraph-lab</code> | 切换当前目录，确保后续命令在正确项目位置执行。 |
-
 ### 第 2 步：创建虚拟环境并安装
 
 ```bash
 python -m venv .venv
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>python -m venv .venv</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
 
 Windows PowerShell：
 
@@ -708,35 +540,17 @@ Windows PowerShell：
 .\.venv\Scripts\Activate.ps1
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>.\.venv\Scripts\Activate.ps1</code> | 执行 `.\.venv\scripts\activate.ps1` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 macOS / Linux：
 
 ```bash
 source .venv/bin/activate
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>source .venv/bin/activate</code> | 执行 `source` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 安装：
 
 ```bash
 pip install -U langgraph
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>pip install -U langgraph</code> | 管理 Python 依赖包，通常用于安装实验需要的库。 |
 
 ### 第 3 步：创建 `incident_triage.py`
 
@@ -812,75 +626,11 @@ result = app.invoke(
 print(result)
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>from typing_extensions import TypedDict</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 3 行 | <code>from langgraph.graph import END, START, StateGraph</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 6 行 | <code>class IncidentState(TypedDict):</code> | 定义类，用来组织一组数据和行为。 |
-| 第 7 行 | <code>    alert: str</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 8 行 | <code>    service: str</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 9 行 | <code>    runbook: str</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 10 行 | <code>    risk: str</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 11 行 | <code>    next_action: str</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 12 行 | <code>    explanation: str</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 15 行 | <code>def load_runbook(state: IncidentState) -&gt; dict:</code> | 定义函数，把一段可复用逻辑命名，后续可以反复调用。 |
-| 第 16 行 | <code>    service = state["service"]</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 17 行 | <code>    if service == "order-api":</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
-| 第 18 行 | <code>        return {</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-| 第 19 行 | <code>            "runbook": "检查最近发布、错误率、下游支付接口、数据库连接池。"</code> | `runbook` 是故障处理手册，`检查最近发布、错误率、下游支付接口、数据库连接池。` 是这个字段的中文取值，已经直接说明了含义；这是 Python 字典里的一个键值对。 |
-| 第 20 行 | <code>        }</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 21 行 | <code>    return {</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-| 第 22 行 | <code>        "runbook": "先检查服务健康、错误日志、依赖状态和最近变更。"</code> | `runbook` 是故障处理手册，`先检查服务健康、错误日志、依赖状态和最近变更。` 是这个字段的中文取值，已经直接说明了含义；这是 Python 字典里的一个键值对。 |
-| 第 23 行 | <code>    }</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 26 行 | <code>def classify_risk(state: IncidentState) -&gt; dict:</code> | 定义函数，把一段可复用逻辑命名，后续可以反复调用。 |
-| 第 27 行 | <code>    alert = state["alert"].lower()</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 28 行 | <code>    if "high" in alert or "error" in alert:</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
-| 第 29 行 | <code>        return {"risk": "high"}</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-| 第 30 行 | <code>    return {"risk": "low"}</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-| 第 33 行 | <code>def choose_action(state: IncidentState) -&gt; dict:</code> | 定义函数，把一段可复用逻辑命名，后续可以反复调用。 |
-| 第 34 行 | <code>    if state["risk"] == "high":</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
-| 第 35 行 | <code>        return {</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-| 第 36 行 | <code>            "next_action": "needs_human_approval",</code> | `next_action` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`needs_human_approval` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 37 行 | <code>            "explanation": "这是高风险告警。先收集证据，再让值班同学确认是否回滚或扩容。"</code> | `explanation` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`这是高风险告警。先收集证据，再让值班同学确认是否回滚或扩容。` 是这个字段的中文取值，已经直接说明了含义；这是 Python 字典里的一个键值对。 |
-| 第 38 行 | <code>        }</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 40 行 | <code>    return {</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-| 第 41 行 | <code>        "next_action": "create_ticket",</code> | `next_action` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`create_ticket` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 42 行 | <code>        "explanation": "这是低风险告警。先创建工单，继续观察趋势。"</code> | `explanation` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`这是低风险告警。先创建工单，继续观察趋势。` 是这个字段的中文取值，已经直接说明了含义；这是 Python 字典里的一个键值对。 |
-| 第 43 行 | <code>    }</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 46 行 | <code>builder = StateGraph(IncidentState)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 47 行 | <code>builder.add_node("load_runbook", load_runbook)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 48 行 | <code>builder.add_node("classify_risk", classify_risk)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 49 行 | <code>builder.add_node("choose_action", choose_action)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 51 行 | <code>builder.add_edge(START, "load_runbook")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 52 行 | <code>builder.add_edge("load_runbook", "classify_risk")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 53 行 | <code>builder.add_edge("classify_risk", "choose_action")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 54 行 | <code>builder.add_edge("choose_action", END)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 56 行 | <code>app = builder.compile()</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 58 行 | <code>result = app.invoke(</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 59 行 | <code>    {</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 60 行 | <code>        "alert": "HighErrorRate: order-api error rate is above 5%",</code> | `alert` 是告警，`HighErrorRate: order-api error rate is above 5%` 是高错误率告警名，表示请求失败比例过高；这是 Python 字典里的一个键值对。 |
-| 第 61 行 | <code>        "service": "order-api",</code> | `service` 是服务名称字段，`order-api` 是具体服务名，表示这条记录属于这个服务；这是 Python 字典里的一个键值对。 |
-| 第 62 行 | <code>        "runbook": "",</code> | `runbook` 是故障处理手册，`` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 63 行 | <code>        "risk": "",</code> | `risk` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 64 行 | <code>        "next_action": "",</code> | `next_action` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 65 行 | <code>        "explanation": "",</code> | `explanation` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 66 行 | <code>    }</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 67 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 69 行 | <code>print(result)</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 ### 第 4 步：运行
 
 ```bash
 python incident_triage.py
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>python incident_triage.py</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
 
 ### 预期输出
 
@@ -892,15 +642,6 @@ python incident_triage.py
 'next_action': 'needs_human_approval'
 'runbook': '检查最近发布、错误率、下游支付接口、数据库连接池。'
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>'service': 'order-api'</code> | 这一行里的英文要这样读：`service` 是服务名称字段；`order-api` 里的 order 表示订单业务，api 表示接口服务，合起来通常指订单接口服务。 |
-| 第 2 行 | <code>'risk': 'high'</code> | 这一行里的英文要这样读：`risk` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`high` 是高。 |
-| 第 3 行 | <code>'next_action': 'needs_human_approval'</code> | 这一行里的英文要这样读：`next_action` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`needs_human_approval` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 4 行 | <code>'runbook': '检查最近发布、错误率、下游支付接口、数据库连接池。'</code> | 这一行里的英文要这样读：`runbook` 是故障处理手册。 |
 
 字段解释：
 
@@ -941,14 +682,6 @@ classify_risk
   -> low risk -> create_ticket
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>classify_risk</code> | 这一行里的英文要这样读：`classify_risk` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 2 行 | <code>  -&gt; high risk -&gt; approval_required</code> | 这一行要理解这些英文词：`high risk` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`approval_required` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; low risk -&gt; create_ticket</code> | 这一行要理解这些英文词：`low risk` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`create_ticket` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 思路：
 
 ```python
@@ -957,15 +690,6 @@ def route_by_risk(state: IncidentState) -> str:
         return "approval"
     return "ticket"
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>def route_by_risk(state: IncidentState) -&gt; str:</code> | 定义函数，把一段可复用逻辑命名，后续可以反复调用。 |
-| 第 2 行 | <code>    if state["risk"] == "high":</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
-| 第 3 行 | <code>        return "approval"</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-| 第 4 行 | <code>    return "ticket"</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
 
 这一步的学习重点不是代码多复杂，而是理解“风险不同，流程不同”。
 
@@ -1109,19 +833,6 @@ aiops-langgraph-lab/
     langgraph-state-node-edge.md
     troubleshooting.md
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>aiops-langgraph-lab/</code> | `aiops-langgraph-lab/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>  README.md</code> | `README.md` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 3 行 | <code>  incident_triage.py</code> | `incident_triage.py` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 4 行 | <code>  screenshots/</code> | `screenshots/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 5 行 | <code>    run-result.png</code> | `run-result.png` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 6 行 | <code>  notes/</code> | `notes/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 7 行 | <code>    langgraph-state-node-edge.md</code> | `langgraph-state-node-edge.md` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 8 行 | <code>    troubleshooting.md</code> | `troubleshooting.md` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 `README.md` 建议记录：
 

@@ -28,12 +28,6 @@
 Payment API 5xx rate > 10%
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Payment API 5xx rate &gt; 10%</code> | 这一行里的英文要这样读：`Payment API 5xx rate` 这个英文标识可以拆开理解为：应用程序接口，HTTP 5xx 服务端错误，表示请求到达服务端但服务端处理失败，比率。 |
-
 用户说“页面打不开”。你登录服务器后，可能会连续问：
 
 - 域名能解析吗？
@@ -68,19 +62,6 @@ Payment API 5xx rate > 10%
   -> 后端应用处理
   -> 响应按原路径返回
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 2 行 | <code>  -&gt; DNS 解析出 IP</code> | 这一行要理解这些英文词：`DNS` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`IP` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; 本机路由选择网卡和网关</code> | 这一行表示上一级主题下的子项“本机路由选择网卡和网关”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
-| 第 4 行 | <code>  -&gt; TCP 连接目标 IP:端口</code> | 这一行要理解这些英文词：`TCP` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`IP` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; TLS 校验证书并协商加密</code> | 这一行要理解这些英文词：`TLS` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; HTTP 发送请求</code> | 这一行要理解这些英文词：`HTTP` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; 负载均衡转发</code> | 这一行表示上一级主题下的子项“负载均衡转发”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
-| 第 8 行 | <code>  -&gt; 后端应用处理</code> | 这一行表示上一级主题下的子项“后端应用处理”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
-| 第 9 行 | <code>  -&gt; 响应按原路径返回</code> | 这一行表示上一级主题下的子项“响应按原路径返回”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
 
 先学会这些：
 
@@ -130,26 +111,6 @@ Linux man pages
   -> NetworkManager、systemd-resolved、防火墙、负载均衡、VPC
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>IETF RFC</code> | 这一行里的英文要这样读：`IETF RFC` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 2 行 | <code>  -&gt; 协议标准</code> | 这一行表示上一级主题下的子项“协议标准”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
-| 第 3 行 | <code>  -&gt; DNS: RFC 1034 / RFC 1035 / RFC 8499</code> | 这一行要理解这些英文词：`DNS` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`RFC` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; TCP: RFC 9293</code> | 这一行要理解这些英文词：`TCP` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`RFC` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; TLS: RFC 8446</code> | 这一行要理解这些英文词：`TLS` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`RFC` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; HTTP: RFC 9110 / RFC 9111 / RFC 9112 / RFC 9113 / RFC 9114</code> | 这一行要理解这些英文词：`HTTP` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`RFC` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>Linux man pages</code> | 这一行里的英文要这样读：`Linux man pages` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 9 行 | <code>  -&gt; 本机如何使用网络</code> | 这一行表示上一级主题下的子项“本机如何使用网络”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
-| 第 10 行 | <code>  -&gt; ip(8): 查看和修改地址、链路、路由</code> | 这一行要理解这些英文词：`ip` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 11 行 | <code>  -&gt; ip-route(8): 路由表</code> | 这一行要理解这些英文词：`ip-route` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 12 行 | <code>  -&gt; resolv.conf(5): DNS resolver 配置</code> | 这一行要理解这些英文词：`resolv.conf` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`DNS resolver` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 13 行 | <code>  -&gt; getaddrinfo(3): 应用如何把名字解析成地址</code> | 这一行要理解这些英文词：`getaddrinfo` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 16 行 | <code>  -&gt; curl: HTTP/TLS/DNS/代理/超时诊断</code> | 这一行要理解这些英文词：`curl` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`HTTP` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`TLS` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`DNS` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 17 行 | <code>  -&gt; OpenSSL s_client: TLS 证书和握手诊断</code> | 这一行要理解这些英文词：`OpenSSL s_client` 是client=客户端；`TLS` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 20 行 | <code>  -&gt; NetworkManager、systemd-resolved、防火墙、负载均衡、VPC</code> | 这一行要理解这些英文词：`NetworkManager` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`systemd-resolved` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`VPC` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 把它们连起来：
 
 ```text
@@ -158,15 +119,6 @@ Linux man page 解释系统怎么用协议
 curl / openssl / ip / ss / dig 把协议状态暴露成可观察证据
 AIOps 把证据变成告警、排障和自动化恢复
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>RFC 解释协议是什么</code> | 这一行里的英文要这样读：`RFC` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 2 行 | <code>Linux man page 解释系统怎么用协议</code> | 这一行里的英文要这样读：`Linux man page` 这个英文标识可以拆开理解为：需要立即通知值班人员的告警级别。 |
-| 第 3 行 | <code>curl / openssl / ip / ss / dig 把协议状态暴露成可观察证据</code> | `curl / openssl / ip / ss / dig 把协议状态暴露成可观察证据` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 4 行 | <code>AIOps 把证据变成告警、排障和自动化恢复</code> | 这一行里的英文要这样读：`AIOps` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
 
 ## 网络在 AIOps 链路中的位置
 
@@ -190,23 +142,6 @@ AIOps 把证据变成告警、排障和自动化恢复
   -> Runbook 自动化调用 HTTP / SSH / API
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 2 行 | <code>  -&gt; DNS</code> | 这一行要理解这些英文词：`DNS` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; CDN / WAF</code> | 这一行要理解这些英文词：`CDN` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`WAF` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; Load Balancer</code> | 这一行要理解这些英文词：`Load Balancer` 是load=加载。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; NGINX / Ingress</code> | 这一行要理解这些英文词：`NGINX` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`Ingress` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; Service / Pod / VM</code> | 这一行要理解这些英文词：`Service` 是服务；`Pod` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`VM` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; 应用进程</code> | 这一行表示上一级主题下的子项“应用进程”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
-| 第 8 行 | <code>  -&gt; 数据库 / 缓存 / 队列</code> | 这一行表示上一级主题下的子项“数据库 / 缓存 / 队列”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
-| 第 11 行 | <code>  -&gt; exporter 暴露指标</code> | 这一行要理解这些英文词：`exporter` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 12 行 | <code>  -&gt; Prometheus 抓取</code> | 这一行要理解这些英文词：`Prometheus` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 13 行 | <code>  -&gt; Alertmanager 发告警</code> | 这一行要理解这些英文词：`Alertmanager` 是Prometheus 生态里的告警管理器。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 14 行 | <code>  -&gt; Grafana 展示</code> | 这一行要理解这些英文词：`Grafana` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 15 行 | <code>  -&gt; Runbook 自动化调用 HTTP / SSH / API</code> | 这一行要理解这些英文词：`Runbook` 是故障处理手册；`HTTP` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`SSH` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`API` 是应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 只要网络有问题，AIOps 自己也会受影响：
 
 - Prometheus 抓不到 exporter。
@@ -225,12 +160,6 @@ AIOps 把证据变成告警、排障和自动化恢复
 ```text
 https://api.example.com:443/v1/alerts?severity=critical
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>https://api.example.com:443/v1/alerts?severity=critical</code> | `https` 表示访问协议，`api.example.com:443` 是域名或主机名，`/v1/alerts?severity=critical` 是具体接口路径；真实环境要换成自己的域名和路径。 |
 
 为例。
 
@@ -257,15 +186,6 @@ api.example.com
   -> 203.0.113.10
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>api.example.com</code> | `api.example.com` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>  -&gt; DNS resolver</code> | 这一行要理解这些英文词：`DNS resolver` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; A / AAAA 记录</code> | 这一行要理解这些英文词：`A` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`AAAA` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; 203.0.113.10</code> | 这一行表示上一级主题下的子项“203.0.113.10”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
-
 ### 3. 选择路由
 
 本机根据目标 IP 查路由表：
@@ -277,14 +197,6 @@ api.example.com
   -> 网卡 eth0
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 2 行 | <code>  -&gt; 默认路由</code> | 这一行表示上一级主题下的子项“默认路由”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
-| 第 3 行 | <code>  -&gt; 网关 192.168.1.1</code> | 这一行表示上一级主题下的子项“网关 192.168.1.1”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
-| 第 4 行 | <code>  -&gt; 网卡 eth0</code> | 这一行要理解这些英文词：`eth0` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 ### 4. 建立 TCP 连接
 
 客户端从本地临时端口连接目标：
@@ -294,13 +206,6 @@ client 192.168.1.20:53124
   -> server 203.0.113.10:443
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>client 192.168.1.20:53124</code> | `client 192.168.1.20` 是client 192.168.1.20 这个英文标识可以拆开理解为：客户端，冒号后面的 `53124` 是这个字段的示例内容或模板表达式。 |
-| 第 2 行 | <code>  -&gt; server 203.0.113.10:443</code> | 这一行要理解这些英文词：`server` 是服务端。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 TCP 通过三次握手建立连接：
 
 ```text
@@ -308,14 +213,6 @@ SYN
 SYN-ACK
 ACK
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>SYN</code> | 这一行里的英文要这样读：`SYN` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 2 行 | <code>SYN-ACK</code> | 这一行里的英文要这样读：`SYN-ACK` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 3 行 | <code>ACK</code> | 这一行里的英文要这样读：`ACK` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
 
 ### 5. TLS 握手
 
@@ -328,15 +225,6 @@ Certificate
 密钥协商
 Finished
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>ClientHello (带 SNI: api.example.com)</code> | `ClientHello (带 SNI: api.example.com)` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>ServerHello</code> | 这一行里的英文要这样读：`ServerHello` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 3 行 | <code>Certificate</code> | 这一行里的英文要这样读：`Certificate` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 5 行 | <code>Finished</code> | 这一行里的英文要这样读：`Finished` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
 
 客户端会检查：
 
@@ -356,15 +244,6 @@ User-Agent: curl/8.x
 Accept: */*
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>GET /v1/alerts?severity=critical HTTP/1.1</code> | HTTP 报文示例行，用来展示请求方法、路径、头部或返回内容。 |
-| 第 2 行 | <code>Host: api.example.com</code> | HTTP 报文示例行，用来展示请求方法、路径、头部或返回内容。 |
-| 第 3 行 | <code>User-Agent: curl/8.x</code> | HTTP 报文示例行，用来展示请求方法、路径、头部或返回内容。 |
-| 第 4 行 | <code>Accept: */*</code> | HTTP 报文示例行，用来展示请求方法、路径、头部或返回内容。 |
-
 ### 7. 服务端处理并响应
 
 服务端可能经过：
@@ -376,28 +255,12 @@ Load Balancer
   -> 数据库 / 缓存
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Load Balancer</code> | 这一行里的英文要这样读：`Load Balancer` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 2 行 | <code>  -&gt; NGINX / Ingress</code> | 这一行要理解这些英文词：`NGINX` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`Ingress` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; 后端 API</code> | 这一行要理解这些英文词：`API` 是应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; 数据库 / 缓存</code> | 这一行表示上一级主题下的子项“数据库 / 缓存”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
-
 返回：
 
 ```http
 HTTP/1.1 200 OK
 Content-Type: application/json
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>HTTP/1.1 200 OK</code> | HTTP 报文示例行，用来展示请求方法、路径、头部或返回内容。 |
-| 第 2 行 | <code>Content-Type: application/json</code> | HTTP 报文示例行，用来展示请求方法、路径、头部或返回内容。 |
 
 如果任何一层失败，用户看到的都可能只是“打不开”。
 
@@ -413,16 +276,6 @@ Content-Type: application/json
 链路层：网卡、MAC、ARP、交换机
 物理层：网线、光纤、无线
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>应用层：HTTP、DNS、Prometheus scrape、MySQL 协议</code> | 这一行里的英文要这样读：`HTTP` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源；`DNS` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源；`Prometheus scrape` 这个英文标识可以拆开理解为：指标采集和告警规则评估系统；`MySQL` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 2 行 | <code>安全层：TLS</code> | 这一行里的英文要这样读：`TLS` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 3 行 | <code>传输层：TCP、UDP</code> | 这一行里的英文要这样读：`TCP` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源；`UDP` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 4 行 | <code>网络层：IP、路由、ICMP</code> | 这一行里的英文要这样读：`IP` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源；`ICMP` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 5 行 | <code>链路层：网卡、MAC、ARP、交换机</code> | 这一行里的英文要这样读：`MAC` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源；`ARP` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
 
 常见问题按层分类：
 
@@ -446,14 +299,6 @@ Content-Type: application/json
 最后看应用和依赖
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 2 行 | <code>再证明 IP 能到</code> | 这一行里的英文要这样读：`IP` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 4 行 | <code>再证明 TLS 能握手</code> | 这一行里的英文要这样读：`TLS` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 5 行 | <code>再证明 HTTP 语义正确</code> | 这一行里的英文要这样读：`HTTP` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-
 ## 域名、IP、端口、socket
 
 ### 域名
@@ -463,12 +308,6 @@ Content-Type: application/json
 ```text
 api.example.com
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>api.example.com</code> | `api.example.com` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 它本身不能路由。网络包最终要发往 IP 地址。
 
@@ -491,14 +330,6 @@ IP 是网络层地址：
 203.0.113.10:9090
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>203.0.113.10:443</code> | `203.0.113.10:443` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>203.0.113.10:80</code> | `203.0.113.10:80` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 3 行 | <code>203.0.113.10:9090</code> | `203.0.113.10:9090` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-
 同一个 IP 可以有多个服务监听不同端口。
 
 ### socket
@@ -509,23 +340,11 @@ socket 可以理解为一次网络通信的端点。TCP 连接通常由四元组
 源 IP、源端口、目标 IP、目标端口
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>源 IP、源端口、目标 IP、目标端口</code> | 这一行里的英文要这样读：`IP` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-
 例子：
 
 ```text
 192.168.1.20:53124 -> 203.0.113.10:443
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>192.168.1.20:53124 -&gt; 203.0.113.10:443</code> | 这一行表示上一级主题下的子项“203.0.113.10:443”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
 
 排查时 `ss -tanp` 看到的就是这些连接状态。
 
@@ -540,13 +359,6 @@ api.example.com -> A 记录 -> IPv4 地址
 api.example.com -> AAAA 记录 -> IPv6 地址
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>api.example.com -&gt; A 记录 -&gt; IPv4 地址</code> | 这一行要理解这些英文词：`api.example.com` 是api=应用程序接口；`A` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`IPv4` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 2 行 | <code>api.example.com -&gt; AAAA 记录 -&gt; IPv6 地址</code> | 这一行要理解这些英文词：`api.example.com` 是api=应用程序接口；`AAAA` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`IPv6` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 DNS 是分布式、层级化系统：
 
 ```text
@@ -555,14 +367,6 @@ DNS 是分布式、层级化系统：
     -> example.com
       -> api.example.com
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 2 行 | <code>  -&gt; com</code> | 这一行要理解这些英文词：`com` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>    -&gt; example.com</code> | 这一行要理解这些英文词：`example.com` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>      -&gt; api.example.com</code> | 这一行要理解这些英文词：`api.example.com` 是api=应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 常见角色：
 
@@ -585,18 +389,6 @@ DNS 是分布式、层级化系统：
   -> root / TLD / authoritative
   -> 返回 A / AAAA
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>应用调用 getaddrinfo("api.example.com")</code> | `应用调用 getaddrinfo("api.example.com")` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>  -&gt; 本机 resolver</code> | 这一行要理解这些英文词：`resolver` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; /etc/hosts</code> | 这一行要理解这些英文词：`etc` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`hosts` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; /etc/resolv.conf 指定的 nameserver</code> | 这一行要理解这些英文词：`etc` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`resolv.conf` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`nameserver` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; recursive resolver</code> | 这一行要理解这些英文词：`recursive resolver` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; root / TLD / authoritative</code> | 这一行要理解这些英文词：`root` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`TLD` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`authoritative` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; 返回 A / AAAA</code> | 这一行要理解这些英文词：`A` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`AAAA` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 ## DNS 记录类型
 
@@ -629,12 +421,6 @@ TTL 是 Time To Live，表示 DNS 记录可缓存多久。
 api.example.com. 300 IN A 203.0.113.10
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>api.example.com. 300 IN A 203.0.113.10</code> | `api.example.com. 300 IN A 203.0.113.10` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-
 这里 `300` 表示缓存 300 秒。
 
 TTL 影响：
@@ -657,14 +443,6 @@ dig @8.8.8.8 api.example.com
 dig @1.1.1.1 api.example.com
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>dig api.example.com</code> | 查询 DNS 解析结果，用来排查域名解析问题。 |
-| 第 2 行 | <code>dig @8.8.8.8 api.example.com</code> | 查询 DNS 解析结果，用来排查域名解析问题。 |
-| 第 3 行 | <code>dig @1.1.1.1 api.example.com</code> | 查询 DNS 解析结果，用来排查域名解析问题。 |
-
 企业内网常有 split-horizon DNS：内网解析到内网地址，公网解析到公网地址。
 
 ## DNS 常见错误
@@ -684,12 +462,6 @@ dig @1.1.1.1 api.example.com
 ```bash
 dig no-such-name.example.com
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>dig no-such-name.example.com</code> | 查询 DNS 解析结果，用来排查域名解析问题。 |
 
 ### SERVFAIL
 
@@ -733,28 +505,12 @@ Linux 应用通常不会自己从零实现 DNS。很多程序会调用 `getaddri
 systemd-resolved / NetworkManager 等本地服务
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>/etc/hosts</code> | `/etc/hosts` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>/etc/nsswitch.conf</code> | `/etc/nsswitch.conf` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 3 行 | <code>/etc/resolv.conf</code> | `/etc/resolv.conf` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 4 行 | <code>systemd-resolved / NetworkManager 等本地服务</code> | `systemd-resolved / NetworkManager 等本地服务` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-
 `/etc/hosts` 示例：
 
 ```text
 127.0.0.1 localhost
 192.168.1.10 api.local
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>127.0.0.1 localhost</code> | `127.0.0.1 localhost` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>192.168.1.10 api.local</code> | `192.168.1.10 api.local` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 `/etc/resolv.conf` 示例：
 
@@ -764,14 +520,6 @@ search example.com
 options timeout:2 attempts:3
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>nameserver 192.168.1.1</code> | `nameserver 192.168.1.1` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>search example.com</code> | `search example.com` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 3 行 | <code>options timeout:2 attempts:3</code> | `options timeout` 是options timeout 这个英文标识可以拆开理解为：超时时间字段，冒号后面的 `2 attempts:3` 是这个字段的示例内容或模板表达式。 |
-
 排查：
 
 ```bash
@@ -779,14 +527,6 @@ cat /etc/hosts
 cat /etc/resolv.conf
 getent hosts api.example.com
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>cat /etc/hosts</code> | 打印文件内容，用来检查配置或日志片段。 |
-| 第 2 行 | <code>cat /etc/resolv.conf</code> | 打印文件内容，用来检查配置或日志片段。 |
-| 第 3 行 | <code>getent hosts api.example.com</code> | 执行 `getent` 相关命令，后面的参数决定它具体操作什么对象。 |
 
 `getent hosts` 的价值是：它更接近应用通过系统解析接口看到的结果，而 `dig` 默认更像直接问 DNS。
 
@@ -802,12 +542,6 @@ CIDR：
 ```text
 192.168.1.20/24
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>192.168.1.20/24</code> | `192.168.1.20/24` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 `/24` 表示前 24 位是网络号，对应子网掩码：
 
@@ -829,23 +563,11 @@ CIDR：
 ip addr
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>ip addr</code> | 执行 `ip` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 你会看到：
 
 ```text
 inet 192.168.1.20/24 brd 192.168.1.255 scope global eth0
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>inet 192.168.1.20/24 brd 192.168.1.255 scope global eth0</code> | `inet 192.168.1.20/24 brd 192.168.1.255 scope global eth0` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 解释：
 
@@ -870,12 +592,6 @@ inet 192.168.1.20/24 brd 192.168.1.255 scope global eth0
 localhost
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 2 行 | <code>localhost</code> | 这一行里的英文要这样读：`localhost` 是本机地址。 |
-
 服务如果只监听 `127.0.0.1:8000`，外部机器访问不了。
 
 ### 0.0.0.0
@@ -885,12 +601,6 @@ localhost
 ```text
 0.0.0.0:8000
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>0.0.0.0:8000</code> | `0.0.0.0:8000` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 表示本机所有网卡地址都可接受连接。
 
@@ -902,35 +612,17 @@ localhost
 192.168.1.20:8000
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>192.168.1.20:8000</code> | `192.168.1.20:8000` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-
 ### 排查命令
 
 ```bash
 ss -ltnp
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>ss -ltnp</code> | 查看网络监听和连接，用来确认端口是否打开。 |
-
 示例：
 
 ```text
 LISTEN 0 128 127.0.0.1:8000 0.0.0.0:* users:(("python",pid=1234,fd=3))
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>LISTEN 0 128 127.0.0.1:8000 0.0.0.0:* users:(("python",pid=1234,fd=3))</code> | `LISTEN` 是主机、服务、告警或资源的示例名称；`pid` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`1234` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；`fd` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`3))` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
 
 说明服务只监听本机。
 
@@ -945,12 +637,6 @@ LISTEN 0 128 127.0.0.1:8000 0.0.0.0:* users:(("python",pid=1234,fd=3))
 uvicorn app:app --host 0.0.0.0 --port 8000
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>uvicorn app:app --host 0.0.0.0 --port 8000</code> | 启动 ASGI Web 服务，常用于运行 FastAPI 实验接口。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 ## 路由表
 
 路由表决定“去某个 IP 应该从哪个网卡、哪个网关走”。
@@ -961,25 +647,12 @@ uvicorn app:app --host 0.0.0.0 --port 8000
 ip route
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>ip route</code> | 执行 `ip` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 示例：
 
 ```text
 default via 192.168.1.1 dev eth0
 192.168.1.0/24 dev eth0 proto kernel scope link src 192.168.1.20
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>default via 192.168.1.1 dev eth0</code> | `default via 192.168.1.1 dev eth0` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>192.168.1.0/24 dev eth0 proto kernel scope link src 192.168.1.20</code> | `192.168.1.0/24 dev eth0 proto kernel scope link src 192.168.1.20` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 解释：
 
@@ -997,23 +670,11 @@ default via 192.168.1.1 dev eth0
 ip route get 8.8.8.8
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>ip route get 8.8.8.8</code> | 执行 `ip` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 输出可能是：
 
 ```text
 8.8.8.8 via 192.168.1.1 dev eth0 src 192.168.1.20
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>8.8.8.8 via 192.168.1.1 dev eth0 src 192.168.1.20</code> | `8.8.8.8 via 192.168.1.1 dev eth0 src 192.168.1.20` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 排查“能解析但连不上”时，`ip route get` 很有用。
 
@@ -1027,23 +688,11 @@ ip route get 8.8.8.8
 ip neigh
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>ip neigh</code> | 执行 `ip` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 示例：
 
 ```text
 192.168.1.1 dev eth0 lladdr aa:bb:cc:dd:ee:ff REACHABLE
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>192.168.1.1 dev eth0 lladdr aa:bb:cc:dd:ee:ff REACHABLE</code> | `192.168.1.1 dev eth0 lladdr aa:bb:cc:dd:ee:ff REACHABLE` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 如果网关 ARP 异常，可能表现为：
 
@@ -1084,15 +733,6 @@ Client                          Server
   | -------- ACK --------------> |
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Client                          Server</code> | 这一行里的英文要这样读：`Client` 是客户端；`Server` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 2 行 | <code>  &#124; -------- SYN --------------&gt; &#124;</code> | 这一行要理解这些英文词：`SYN` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  &#124; &lt;------ SYN + ACK ---------- &#124;</code> | 这一行里的英文要这样读：`SYN` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源；`ACK` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 4 行 | <code>  &#124; -------- ACK --------------&gt; &#124;</code> | 这一行要理解这些英文词：`ACK` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 如果成功，连接进入 `ESTABLISHED`。
 
 如果目标端口没有服务监听，常见结果是：
@@ -1101,23 +741,11 @@ Client                          Server
 Connection refused
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Connection refused</code> | 这一行里的英文要这样读：`Connection refused` 这个英文标识可以拆开理解为：连接方式。 |
-
 如果网络路径不通或被防火墙丢包，常见结果是：
 
 ```text
 Connection timed out
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Connection timed out</code> | 这一行里的英文要这样读：`Connection timed out` 这个英文标识可以拆开理解为：连接方式。 |
 
 这两个要区分：
 
@@ -1133,12 +761,6 @@ Connection timed out
 ```bash
 ss -tan
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>ss -tan</code> | 查看网络监听和连接，用来确认端口是否打开。 |
 
 常见状态：
 
@@ -1157,35 +779,17 @@ ss -tan
 ss -ltnp
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>ss -ltnp</code> | 查看网络监听和连接，用来确认端口是否打开。 |
-
 查看某端口：
 
 ```bash
 ss -ltnp sport = :8000
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>ss -ltnp sport = :8000</code> | 查看网络监听和连接，用来确认端口是否打开。 |
-
 查看连接到某目标：
 
 ```bash
 ss -tan dst 203.0.113.10
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>ss -tan dst 203.0.113.10</code> | 查看网络监听和连接，用来确认端口是否打开。 |
 
 ## UDP 是什么
 
@@ -1242,25 +846,12 @@ TLS 握手中很重要的概念：
 openssl s_client -connect api.example.com:443 -servername api.example.com
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>openssl s_client -connect api.example.com:443 -servername api.example.com</code> | 检查 TLS/证书相关信息，用来排查 HTTPS 连接问题。 |
-
 只看证书日期：
 
 ```bash
 openssl s_client -connect api.example.com:443 -servername api.example.com </dev/null 2>/dev/null \
   | openssl x509 -noout -subject -issuer -dates
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>openssl s_client -connect api.example.com:443 -servername api.example.com &lt;/dev/null 2&gt;/dev/null \</code> | 检查 TLS/证书相关信息，用来排查 HTTPS 连接问题。 |
-| 第 2 行 | <code>  &#124; openssl x509 -noout -subject -issuer -dates</code> | 执行 `` 相关命令，后面的参数决定它具体操作什么对象。 |
 
 注意 `-servername`。没有 SNI 时，服务端可能返回默认证书，导致误判。
 
@@ -1277,15 +868,6 @@ User-Agent: curl/8.x
 Accept: */*
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>GET /health HTTP/1.1</code> | HTTP 报文示例行，用来展示请求方法、路径、头部或返回内容。 |
-| 第 2 行 | <code>Host: api.example.com</code> | HTTP 报文示例行，用来展示请求方法、路径、头部或返回内容。 |
-| 第 3 行 | <code>User-Agent: curl/8.x</code> | HTTP 报文示例行，用来展示请求方法、路径、头部或返回内容。 |
-| 第 4 行 | <code>Accept: */*</code> | HTTP 报文示例行，用来展示请求方法、路径、头部或返回内容。 |
-
 响应示例：
 
 ```http
@@ -1294,14 +876,6 @@ Content-Type: application/json
 
 {"status":"ok"}
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>HTTP/1.1 200 OK</code> | HTTP 报文示例行，用来展示请求方法、路径、头部或返回内容。 |
-| 第 2 行 | <code>Content-Type: application/json</code> | HTTP 报文示例行，用来展示请求方法、路径、头部或返回内容。 |
-| 第 4 行 | <code>{"status":"ok"}</code> | HTTP 报文示例行，用来展示请求方法、路径、头部或返回内容。 |
 
 HTTP 关键元素：
 
@@ -1352,17 +926,6 @@ Client
   -> App instance 2
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Client</code> | 这一行里的英文要这样读：`Client` 是客户端。 |
-| 第 2 行 | <code>  -&gt; DNS</code> | 这一行要理解这些英文词：`DNS` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; Load Balancer</code> | 这一行要理解这些英文词：`Load Balancer` 是load=加载。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; NGINX / Ingress</code> | 这一行要理解这些英文词：`NGINX` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`Ingress` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; App instance 1</code> | 这一行要理解这些英文词：`App instance` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; App instance 2</code> | 这一行要理解这些英文词：`App instance` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 负载均衡负责：
 
 - 接收客户端连接。
@@ -1403,35 +966,17 @@ Client
 curl -I "https://api.example.com/health"
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>curl -I "https://api.example.com/health"</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
-
 详细过程：
 
 ```bash
 curl -v "https://api.example.com/health"
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>curl -v "https://api.example.com/health"</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
-
 显示状态码：
 
 ```bash
 curl -sS -o /dev/null -w "%{http_code}\n" "https://api.example.com/health"
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>curl -sS -o /dev/null -w "%{http_code}\n" "https://api.example.com/health"</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
 
 显示更多时间指标：
 
@@ -1440,14 +985,6 @@ curl -sS -o /dev/null \
   -w "dns=%{time_namelookup} connect=%{time_connect} tls=%{time_appconnect} first_byte=%{time_starttransfer} total=%{time_total} code=%{http_code}\n" \
   "https://api.example.com/health"
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>curl -sS -o /dev/null \</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
-| 第 2 行 | <code>  -w "dns=%{time_namelookup} connect=%{time_connect} tls=%{time_appconnect} first_byte=%{time_starttransfer} total=%{time_total} code=%{http_code}\n" \</code> | 执行 `-w` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 3 行 | <code>  "https://api.example.com/health"</code> | 执行 `"https://api.example.com/health"` 相关命令，后面的参数决定它具体操作什么对象。 |
 
 解释：
 
@@ -1466,35 +1003,17 @@ curl -sS -o /dev/null \
 curl -H "Host: api.example.com" "http://203.0.113.10/health"
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>curl -H "Host: api.example.com" "http://203.0.113.10/health"</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
-
 绕过 DNS，把域名解析到指定 IP：
 
 ```bash
 curl --resolve "api.example.com:443:203.0.113.10" "https://api.example.com/health"
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>curl --resolve "api.example.com:443:203.0.113.10" "https://api.example.com/health"</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 设置超时：
 
 ```bash
 curl --connect-timeout 3 --max-time 10 "https://api.example.com/health"
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>curl --connect-timeout 3 --max-time 10 "https://api.example.com/health"</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
 ### dig
 
@@ -1506,23 +1025,11 @@ DNS 查询工具。
 dig api.example.com A
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>dig api.example.com A</code> | 查询 DNS 解析结果，用来排查域名解析问题。 |
-
 查 AAAA：
 
 ```bash
 dig api.example.com AAAA
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>dig api.example.com AAAA</code> | 查询 DNS 解析结果，用来排查域名解析问题。 |
 
 指定 DNS server：
 
@@ -1530,35 +1037,17 @@ dig api.example.com AAAA
 dig @8.8.8.8 api.example.com A
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>dig @8.8.8.8 api.example.com A</code> | 查询 DNS 解析结果，用来排查域名解析问题。 |
-
 短输出：
 
 ```bash
 dig +short api.example.com
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>dig +short api.example.com</code> | 查询 DNS 解析结果，用来排查域名解析问题。 |
-
 查看 CNAME 链：
 
 ```bash
 dig api.example.com
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>dig api.example.com</code> | 查询 DNS 解析结果，用来排查域名解析问题。 |
 
 关注：
 
@@ -1578,12 +1067,6 @@ dig api.example.com
 getent hosts api.example.com
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>getent hosts api.example.com</code> | 执行 `getent` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 价值：更接近应用通过 libc resolver 看到的结果，会受 `/etc/hosts`、`nsswitch.conf` 等影响。
 
 ### ip addr
@@ -1594,23 +1077,11 @@ getent hosts api.example.com
 ip addr
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>ip addr</code> | 执行 `ip` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 只看某网卡：
 
 ```bash
 ip addr show dev eth0
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>ip addr show dev eth0</code> | 执行 `ip` 相关命令，后面的参数决定它具体操作什么对象。 |
 
 关注：
 
@@ -1627,23 +1098,11 @@ ip addr show dev eth0
 ip route
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>ip route</code> | 执行 `ip` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 查看去某目标怎么走：
 
 ```bash
 ip route get 203.0.113.10
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>ip route get 203.0.113.10</code> | 执行 `ip` 相关命令，后面的参数决定它具体操作什么对象。 |
 
 关注：
 
@@ -1662,35 +1121,17 @@ ip route get 203.0.113.10
 ss -ltnp
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>ss -ltnp</code> | 查看网络监听和连接，用来确认端口是否打开。 |
-
 所有 TCP：
 
 ```bash
 ss -tan
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>ss -tan</code> | 查看网络监听和连接，用来确认端口是否打开。 |
-
 按端口过滤：
 
 ```bash
 ss -ltnp sport = :8000
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>ss -ltnp sport = :8000</code> | 查看网络监听和连接，用来确认端口是否打开。 |
 
 关注：
 
@@ -1707,12 +1148,6 @@ ss -ltnp sport = :8000
 ping -c 4 8.8.8.8
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>ping -c 4 8.8.8.8</code> | 发送 ICMP 探测包，用来粗略判断网络连通性。 |
-
 注意：
 
 - ping 通不代表 TCP 端口通。
@@ -1728,13 +1163,6 @@ traceroute api.example.com
 tracepath api.example.com
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>traceroute api.example.com</code> | 执行 `traceroute` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 2 行 | <code>tracepath api.example.com</code> | 执行 `tracepath` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 注意：
 
 - 中间跳不响应不一定是故障。
@@ -1749,12 +1177,6 @@ tracepath api.example.com
 nc -vz api.example.com 443
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>nc -vz api.example.com 443</code> | 执行 `nc` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 注意：`nc` 只能证明 TCP 端口可连，不证明 TLS 和 HTTP 正常。
 
 ### openssl s_client
@@ -1765,25 +1187,12 @@ nc -vz api.example.com 443
 openssl s_client -connect api.example.com:443 -servername api.example.com
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>openssl s_client -connect api.example.com:443 -servername api.example.com</code> | 检查 TLS/证书相关信息，用来排查 HTTPS 连接问题。 |
-
 查看证书日期：
 
 ```bash
 openssl s_client -connect api.example.com:443 -servername api.example.com </dev/null 2>/dev/null \
   | openssl x509 -noout -subject -issuer -dates
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>openssl s_client -connect api.example.com:443 -servername api.example.com &lt;/dev/null 2&gt;/dev/null \</code> | 检查 TLS/证书相关信息，用来排查 HTTPS 连接问题。 |
-| 第 2 行 | <code>  &#124; openssl x509 -noout -subject -issuer -dates</code> | 执行 `` 相关命令，后面的参数决定它具体操作什么对象。 |
 
 关注：
 
@@ -1803,14 +1212,6 @@ search example.com
 options timeout:2 attempts:3
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>nameserver 192.168.1.1</code> | `nameserver 192.168.1.1` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>search example.com</code> | `search example.com` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 3 行 | <code>options timeout:2 attempts:3</code> | `options timeout` 是options timeout 这个英文标识可以拆开理解为：超时时间字段，冒号后面的 `2 attempts:3` 是这个字段的示例内容或模板表达式。 |
-
 | 字段 | 含义 |
 |---|---|
 | `nameserver` | DNS resolver 地址 |
@@ -1826,13 +1227,6 @@ options timeout:2 attempts:3
 State  Recv-Q Send-Q Local Address:Port Peer Address:Port Process
 LISTEN 0      128    0.0.0.0:8000      0.0.0.0:*     users:(("python",pid=1234,fd=3))
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>State  Recv-Q Send-Q Local Address:Port Peer Address:Port Process</code> | `State  Recv-Q Send-Q Local Address` 是State  Recv-Q Send-Q Local Address 这个英文标识可以拆开理解为：本地连接，表示不通过 SSH 连接远程机器，冒号后面的 `Port Peer Address:Port Process` 是这个字段的示例内容或模板表达式。 |
-| 第 2 行 | <code>LISTEN 0      128    0.0.0.0:8000      0.0.0.0:*     users:(("python",pid=1234,fd=3))</code> | `LISTEN` 是主机、服务、告警或资源的示例名称；`pid` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`1234` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；`fd` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`3))` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
 
 | 字段 | 含义 |
 |---|---|
@@ -1856,18 +1250,6 @@ LISTEN 0      128    0.0.0.0:8000      0.0.0.0:*     users:(("python",pid=1234,f
 > Host: api.example.com
 < HTTP/1.1 200 OK
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>* Host api.example.com:443 was resolved.</code> | `* Host api.example.com:443 was resolved.` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>*   Trying 203.0.113.10:443...</code> | `*   Trying 203.0.113.10:443...` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 3 行 | <code>* Connected to api.example.com (203.0.113.10) port 443</code> | `* Connected to api.example.com (203.0.113.10) port 443` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 4 行 | <code>* TLSv1.3 (OUT), TLS handshake, Client hello</code> | `* TLSv1.3 (OUT), TLS handshake, Client hello` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 5 行 | <code>&gt; GET /health HTTP/1.1</code> | `> GET /health HTTP/1.1` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 6 行 | <code>&gt; Host: api.example.com</code> | `> Host: api.example.com` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 7 行 | <code>&lt; HTTP/1.1 200 OK</code> | `< HTTP/1.1 200 OK` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 逐段解释：
 
@@ -1904,23 +1286,11 @@ LISTEN 0      128    0.0.0.0:8000      0.0.0.0:*     users:(("python",pid=1234,f
 http://127.0.0.1:8000/health
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>http://127.0.0.1:8000/health</code> | `http` 表示访问协议，`127.0.0.1:8000` 是域名或主机名，`/health` 是具体接口路径；真实环境要换成自己的域名和路径。 |
-
 也可以选择一个测试域名：
 
 ```text
 https://example.com/
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>https://example.com/</code> | `https` 表示访问协议，`example.com` 是域名或主机名，`/` 是具体接口路径；真实环境要换成自己的域名和路径。 |
 
 ### 2. DNS 证据
 
@@ -1928,13 +1298,6 @@ https://example.com/
 dig example.com A
 getent hosts example.com
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>dig example.com A</code> | 查询 DNS 解析结果，用来排查域名解析问题。 |
-| 第 2 行 | <code>getent hosts example.com</code> | 执行 `getent` 相关命令，后面的参数决定它具体操作什么对象。 |
 
 记录：
 
@@ -1945,14 +1308,6 @@ TTL:
 status:
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>DNS server:</code> | `DNS server` 是DNS server 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号表示后面要填写或列出这个字段的具体内容。 |
-| 第 3 行 | <code>TTL:</code> | `TTL` 是TTL 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源，冒号表示后面要填写或列出这个字段的具体内容。 |
-| 第 4 行 | <code>status:</code> | `status` 是状态字段，冒号表示后面要填写或列出这个字段的具体内容。 |
-
 ### 3. 路由证据
 
 把解析出的 IP 放进去：
@@ -1960,12 +1315,6 @@ status:
 ```bash
 ip route get 93.184.216.34
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>ip route get 93.184.216.34</code> | 执行 `ip` 相关命令，后面的参数决定它具体操作什么对象。 |
 
 记录：
 
@@ -1975,25 +1324,11 @@ via:
 src:
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>dev:</code> | `dev` 是dev 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号表示后面要填写或列出这个字段的具体内容。 |
-| 第 2 行 | <code>via:</code> | `via` 是via 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号表示后面要填写或列出这个字段的具体内容。 |
-| 第 3 行 | <code>src:</code> | `src` 是src 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号表示后面要填写或列出这个字段的具体内容。 |
-
 ### 4. TCP/HTTP 证据
 
 ```bash
 curl -v --connect-timeout 3 --max-time 10 "https://example.com/" -o /tmp/network-test.out
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>curl -v --connect-timeout 3 --max-time 10 "https://example.com/" -o /tmp/network-test.out</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
 记录：
 
@@ -2004,14 +1339,6 @@ HTTP status:
 错误信息:
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>是否 resolved:</code> | 这一行里的英文要这样读：`resolved` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 2 行 | <code>是否 Connected:</code> | 这一行里的英文要这样读：`Connected` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 3 行 | <code>HTTP status:</code> | `HTTP status` 是HTTP status 这个英文标识可以拆开理解为：状态字段，冒号表示后面要填写或列出这个字段的具体内容。 |
-
 ### 5. 时间分解
 
 ```bash
@@ -2019,14 +1346,6 @@ curl -sS -o /dev/null \
   -w "dns=%{time_namelookup} connect=%{time_connect} tls=%{time_appconnect} first_byte=%{time_starttransfer} total=%{time_total} code=%{http_code}\n" \
   "https://example.com/"
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>curl -sS -o /dev/null \</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
-| 第 2 行 | <code>  -w "dns=%{time_namelookup} connect=%{time_connect} tls=%{time_appconnect} first_byte=%{time_starttransfer} total=%{time_total} code=%{http_code}\n" \</code> | 执行 `-w` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 3 行 | <code>  "https://example.com/"</code> | 执行 `"https://example.com/"` 相关命令，后面的参数决定它具体操作什么对象。 |
 
 记录：
 
@@ -2039,30 +1358,12 @@ total:
 code:
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>dns:</code> | `dns` 是dns 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号表示后面要填写或列出这个字段的具体内容。 |
-| 第 2 行 | <code>connect:</code> | `connect` 是连接，冒号表示后面要填写或列出这个字段的具体内容。 |
-| 第 3 行 | <code>tls:</code> | `tls` 是tls 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号表示后面要填写或列出这个字段的具体内容。 |
-| 第 4 行 | <code>first_byte:</code> | `first_byte` 是first_byte 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号表示后面要填写或列出这个字段的具体内容。 |
-| 第 5 行 | <code>total:</code> | `total` 是total 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号表示后面要填写或列出这个字段的具体内容。 |
-| 第 6 行 | <code>code:</code> | `code` 是code 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号表示后面要填写或列出这个字段的具体内容。 |
-
 ### 6. TLS 证据
 
 ```bash
 openssl s_client -connect example.com:443 -servername example.com </dev/null 2>/dev/null \
   | openssl x509 -noout -subject -issuer -dates
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>openssl s_client -connect example.com:443 -servername example.com &lt;/dev/null 2&gt;/dev/null \</code> | 检查 TLS/证书相关信息，用来排查 HTTPS 连接问题。 |
-| 第 2 行 | <code>  &#124; openssl x509 -noout -subject -issuer -dates</code> | 执行 `` 相关命令，后面的参数决定它具体操作什么对象。 |
 
 记录：
 
@@ -2072,15 +1373,6 @@ issuer:
 notBefore:
 notAfter:
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>subject:</code> | `subject` 是subject 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号表示后面要填写或列出这个字段的具体内容。 |
-| 第 2 行 | <code>issuer:</code> | `issuer` 是issuer 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号表示后面要填写或列出这个字段的具体内容。 |
-| 第 3 行 | <code>notBefore:</code> | `notBefore` 是notBefore 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号表示后面要填写或列出这个字段的具体内容。 |
-| 第 4 行 | <code>notAfter:</code> | `notAfter` 是notAfter 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号表示后面要填写或列出这个字段的具体内容。 |
 
 ### 7. 形成学习笔记
 
@@ -2093,14 +1385,6 @@ TCP 连接耗时 __ 秒，TLS 完成耗时 __ 秒。
 HTTP 返回 __。
 如果某一步失败，我会优先检查 __。
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>我访问 example.com 时，DNS 用了 __ 秒，解析到 __。</code> | `我访问 example.com 时，DNS 用了 __ 秒，解析到 __。` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 3 行 | <code>TCP 连接耗时 __ 秒，TLS 完成耗时 __ 秒。</code> | 这一行里的英文要这样读：`TCP` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源；`TLS` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 4 行 | <code>HTTP 返回 __。</code> | 这一行里的英文要这样读：`HTTP` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
 
 ## 典型故障排查表
 
@@ -2131,12 +1415,6 @@ HTTP 返回 __。
 https://api.example.com/health
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>https://api.example.com/health</code> | `https` 表示访问协议，`api.example.com` 是域名或主机名，`/health` 是具体接口路径；真实环境要换成自己的域名和路径。 |
-
 按顺序：
 
 ```bash
@@ -2146,16 +1424,6 @@ ip route get <resolved-ip>
 curl -v --connect-timeout 3 --max-time 10 "https://api.example.com/health"
 openssl s_client -connect api.example.com:443 -servername api.example.com </dev/null
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>dig api.example.com A</code> | 查询 DNS 解析结果，用来排查域名解析问题。 |
-| 第 2 行 | <code>getent hosts api.example.com</code> | 执行 `getent` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 3 行 | <code>ip route get &lt;resolved-ip&gt;</code> | 执行 `ip` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 4 行 | <code>curl -v --connect-timeout 3 --max-time 10 "https://api.example.com/health"</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-| 第 5 行 | <code>openssl s_client -connect api.example.com:443 -servername api.example.com &lt;/dev/null</code> | 检查 TLS/证书相关信息，用来排查 HTTPS 连接问题。 |
 
 判断：
 
@@ -2180,23 +1448,11 @@ openssl s_client -connect api.example.com:443 -servername api.example.com </dev/
 Client -> NGINX -> App
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Client -&gt; NGINX -&gt; App</code> | 这一行要理解这些英文词：`Client` 是客户端；`NGINX` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`App` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 先看客户端：
 
 ```bash
 curl -v "https://api.example.com/health"
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>curl -v "https://api.example.com/health"</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
 
 再看网关到后端：
 
@@ -2205,13 +1461,6 @@ curl -v "http://127.0.0.1:8000/health"
 ss -ltnp sport = :8000
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>curl -v "http://127.0.0.1:8000/health"</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
-| 第 2 行 | <code>ss -ltnp sport = :8000</code> | 查看网络监听和连接，用来确认端口是否打开。 |
-
 如果后端在另一台机器：
 
 ```bash
@@ -2219,26 +1468,12 @@ curl -v "http://10.0.1.25:8000/health"
 ip route get 10.0.1.25
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>curl -v "http://10.0.1.25:8000/health"</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
-| 第 2 行 | <code>ip route get 10.0.1.25</code> | 执行 `ip` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 看日志：
 
 ```bash
 journalctl -u nginx -n 100 --no-pager
 journalctl -u aiops-api -n 100 --no-pager
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>journalctl -u nginx -n 100 --no-pager</code> | 读取 systemd journal 日志，用来排查服务启动失败和运行错误。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-| 第 2 行 | <code>journalctl -u aiops-api -n 100 --no-pager</code> | 读取 systemd journal 日志，用来排查服务启动失败和运行错误。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
 常见根因：
 
@@ -2266,14 +1501,6 @@ curl -sS -o /dev/null \
   "https://api.example.com/slow-api"
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>curl -sS -o /dev/null \</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
-| 第 2 行 | <code>  -w "connect=%{time_connect} first_byte=%{time_starttransfer} total=%{time_total} code=%{http_code}\n" \</code> | 执行 `-w` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 3 行 | <code>  "https://api.example.com/slow-api"</code> | 执行 `"https://api.example.com/slow-api"` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 如果 `connect` 很快但 `first_byte` 很慢，多半是后端处理慢或依赖慢。
 
 继续查：
@@ -2294,23 +1521,11 @@ Prometheus target down 时，先拿 scrape URL 手工测。
 http://10.0.1.20:9100/metrics
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>http://10.0.1.20:9100/metrics</code> | `http` 表示访问协议，`10.0.1.20:9100` 是域名或主机名，`/metrics` 是具体接口路径；真实环境要换成自己的域名和路径。 |
-
 在 Prometheus 机器上：
 
 ```bash
 curl -v --connect-timeout 3 "http://10.0.1.20:9100/metrics"
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>curl -v --connect-timeout 3 "http://10.0.1.20:9100/metrics"</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
 在 target 机器上：
 
@@ -2319,14 +1534,6 @@ ss -ltnp sport = :9100
 systemctl status node_exporter --no-pager
 journalctl -u node_exporter -n 100 --no-pager
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>ss -ltnp sport = :9100</code> | 查看网络监听和连接，用来确认端口是否打开。 |
-| 第 2 行 | <code>systemctl status node_exporter --no-pager</code> | 管理 systemd 服务，用来启动、停止、重启或查看 Linux 服务状态。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-| 第 3 行 | <code>journalctl -u node_exporter -n 100 --no-pager</code> | 读取 systemd journal 日志，用来排查服务启动失败和运行错误。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
 判断：
 
@@ -2373,36 +1580,6 @@ echo
 echo "== verbose last check =="
 curl -v --connect-timeout 3 --max-time 10 "$url" -o /tmp/aiops-network-check.out || true
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>#!/usr/bin/env bash</code> | 注释行，提前说明下面命令的目的或注意事项。 |
-| 第 2 行 | <code>set -euo pipefail</code> | 设置 shell 或工具变量，具体含义取决于当前终端环境。 |
-| 第 4 行 | <code>url="${1:-https://example.com/}"</code> | 执行 `url="${1:-https://example.com/}"` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 5 行 | <code>host="$(python3 - &lt;&lt;'PY' "$url"</code> | 执行 `host="$(python3` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 6 行 | <code>import sys</code> | 执行 `import` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 7 行 | <code>from urllib.parse import urlparse</code> | 执行 `from` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 8 行 | <code>print(urlparse(sys.argv[1]).hostname or "")</code> | 执行 `print(urlparse(sys.argv[1]).hostname` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 9 行 | <code>PY</code> | 执行 `py` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 10 行 | <code>)"</code> | 执行 `)"` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 12 行 | <code>echo "== target =="</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
-| 第 13 行 | <code>echo "url=$url"</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
-| 第 14 行 | <code>echo "host=$host"</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
-| 第 16 行 | <code>echo</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
-| 第 17 行 | <code>echo "== dns =="</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
-| 第 18 行 | <code>getent hosts "$host" &#124;&#124; true</code> | 执行 `getent` 相关命令，后面的参数决定它具体操作什么对象。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
-| 第 20 行 | <code>echo</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
-| 第 21 行 | <code>echo "== curl timing =="</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
-| 第 22 行 | <code>curl -sS -o /dev/null \</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
-| 第 23 行 | <code>  -w "dns=%{time_namelookup} connect=%{time_connect} tls=%{time_appconnect} first_byte=%{time_starttransfer} total=%{time_total} code=%{http_code}\n" \</code> | 执行 `-w` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 24 行 | <code>  --connect-timeout 3 \</code> | 注释行，提前说明下面命令的目的或注意事项。 |
-| 第 25 行 | <code>  --max-time 10 \</code> | 注释行，提前说明下面命令的目的或注意事项。 |
-| 第 26 行 | <code>  "$url" &#124;&#124; true</code> | 执行 `"$url"` 相关命令，后面的参数决定它具体操作什么对象。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
-| 第 28 行 | <code>echo</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
-| 第 29 行 | <code>echo "== verbose last check =="</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
-| 第 30 行 | <code>curl -v --connect-timeout 3 --max-time 10 "$url" -o /tmp/aiops-network-check.out &#124;&#124; true</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
 
 生产化前要补：
 

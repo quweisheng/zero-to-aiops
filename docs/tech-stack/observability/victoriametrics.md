@@ -54,41 +54,6 @@ VictoriaMetrics
      -> vmselect
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>VictoriaMetrics</code> | 这一行里的英文要这样读：`VictoriaMetrics` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 2 行 | <code>  -&gt; install</code> | 这一行要理解这些英文词：`install` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>     -&gt; single-node</code> | 这一行要理解这些英文词：`single-node` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>     -&gt; cluster</code> | 这一行要理解这些英文词：`cluster` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>     -&gt; cloud</code> | 这一行要理解这些英文词：`cloud` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>     -&gt; helm / operator</code> | 这一行要理解这些英文词：`helm` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`operator` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; write data</code> | 这一行要理解这些英文词：`write data` 是data=数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>     -&gt; Prometheus remote write</code> | 这一行要理解这些英文词：`Prometheus remote write` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 9 行 | <code>     -&gt; vmagent scrape and remote write</code> | 这一行要理解这些英文词：`vmagent scrape and remote write` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 10 行 | <code>     -&gt; import APIs</code> | 这一行要理解这些英文词：`import APIs` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 11 行 | <code>  -&gt; query data</code> | 这一行要理解这些英文词：`query data` 是query=查询，data=数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 12 行 | <code>     -&gt; Prometheus-compatible API</code> | 这一行要理解这些英文词：`Prometheus-compatible API` 是api=应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 13 行 | <code>     -&gt; MetricsQL</code> | 这一行要理解这些英文词：`MetricsQL` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 14 行 | <code>     -&gt; VMUI</code> | 这一行要理解这些英文词：`VMUI` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 15 行 | <code>     -&gt; Grafana</code> | 这一行要理解这些英文词：`Grafana` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 16 行 | <code>  -&gt; alerting</code> | 这一行要理解这些英文词：`alerting` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 17 行 | <code>     -&gt; vmalert</code> | 这一行要理解这些英文词：`vmalert` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 18 行 | <code>     -&gt; recording rules</code> | 这一行要理解这些英文词：`recording rules` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 19 行 | <code>     -&gt; alerting rules</code> | 这一行要理解这些英文词：`alerting rules` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 20 行 | <code>     -&gt; Alertmanager</code> | 这一行要理解这些英文词：`Alertmanager` 是Prometheus 生态里的告警管理器。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 21 行 | <code>  -&gt; productionization</code> | 这一行要理解这些英文词：`productionization` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 22 行 | <code>     -&gt; retention</code> | 这一行要理解这些英文词：`retention` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 23 行 | <code>     -&gt; capacity planning</code> | 这一行要理解这些英文词：`capacity planning` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 24 行 | <code>     -&gt; backups</code> | 这一行要理解这些英文词：`backups` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 25 行 | <code>     -&gt; limits</code> | 这一行要理解这些英文词：`limits` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 26 行 | <code>     -&gt; security</code> | 这一行要理解这些英文词：`security` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 27 行 | <code>  -&gt; cluster</code> | 这一行要理解这些英文词：`cluster` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 28 行 | <code>     -&gt; vminsert</code> | 这一行要理解这些英文词：`vminsert` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 29 行 | <code>     -&gt; vmstorage</code> | 这一行要理解这些英文词：`vmstorage` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 30 行 | <code>     -&gt; vmselect</code> | 这一行要理解这些英文词：`vmselect` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 本文覆盖：
 
 1. VictoriaMetrics 与 Prometheus 的关系。
@@ -107,14 +72,6 @@ Prometheus 本地磁盘越来越大。
 多个集群各有 Prometheus，查询很分散。
 PromQL 查询慢，指标标签越来越多。
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Prometheus 本地磁盘越来越大。</code> | 这一行里的英文要这样读：`Prometheus` 是指标采集和告警规则评估系统。 |
-| 第 3 行 | <code>多个集群各有 Prometheus，查询很分散。</code> | 这一行里的英文要这样读：`Prometheus` 是指标采集和告警规则评估系统。 |
-| 第 4 行 | <code>PromQL 查询慢，指标标签越来越多。</code> | 这一行里的英文要这样读：`PromQL` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
 
 这时候你需要思考：Prometheus 继续负责采集和规则，还是把长期时序数据写到一个更适合存储和查询的后端？
 
@@ -156,23 +113,11 @@ VictoriaMetrics 可以先理解成：
 metrics receiver + time series storage + query API
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>metrics receiver + time series storage + query API</code> | 这一行里的英文要这样读：`metrics receiver` 这个英文标识可以拆开理解为：告警接收人或接收渠道；`time series storage` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`query API` 这个英文标识可以拆开理解为：查询，应用程序接口。 |
-
 它接收的数据通常长这样：
 
 ```text
 http_requests_total{service="order-api",status="500"} 42 1710000000000
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>http_requests_total{service="order-api",status="500"} 42 1710000000000</code> | `service` 是服务名称字段，`order-api` 是具体服务名，表示这条记录属于这个服务；`status` 是状态字段，`500` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
 
 这条数据包含：
 
@@ -201,15 +146,6 @@ Prometheus / vmagent
   -> Grafana / vmalert / API
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Prometheus / vmagent</code> | `Prometheus / vmagent` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>  -&gt; remote write</code> | 这一行要理解这些英文词：`remote write` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; VictoriaMetrics</code> | 这一行要理解这些英文词：`VictoriaMetrics` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; Grafana / vmalert / API</code> | 这一行要理解这些英文词：`Grafana` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`vmalert` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`API` 是应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 ### 问题 2：指标查询需要集中入口
 
 多个 Prometheus 分散在不同环境时，AIOps 分析很难统一查询。VictoriaMetrics 可以做集中存储或查询后端。
@@ -231,17 +167,6 @@ scrape target / remote write
   -> Grafana / API / vmalert
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>scrape target / remote write</code> | `scrape target / remote write` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>  -&gt; VictoriaMetrics single-node</code> | 这一行要理解这些英文词：`VictoriaMetrics single-node` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>      ingest</code> | 这一行里的英文要这样读：`ingest` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 4 行 | <code>      storage</code> | 这一行里的英文要这样读：`storage` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 5 行 | <code>      query</code> | 这一行里的英文要这样读：`query` 是查询。 |
-| 第 6 行 | <code>  -&gt; Grafana / API / vmalert</code> | 这一行要理解这些英文词：`Grafana` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`API` 是应用程序接口；`vmalert` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 集群版数据流：
 
 ```text
@@ -251,16 +176,6 @@ vmagent / Prometheus
   -> vmselect
   -> Grafana / vmalert / API
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>vmagent / Prometheus</code> | `vmagent / Prometheus` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>  -&gt; vminsert</code> | 这一行要理解这些英文词：`vminsert` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; vmstorage</code> | 这一行要理解这些英文词：`vmstorage` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; vmselect</code> | 这一行要理解这些英文词：`vmselect` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; Grafana / vmalert / API</code> | 这一行要理解这些英文词：`Grafana` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`vmalert` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`API` 是应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 ### 关键术语拆解
 
@@ -292,14 +207,6 @@ write API
   -> query API
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>write API</code> | 这一行里的英文要这样读：`write API` 这个英文标识可以拆开理解为：应用程序接口。 |
-| 第 2 行 | <code>  -&gt; local storage</code> | 这一行要理解这些英文词：`local storage` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; query API</code> | 这一行要理解这些英文词：`query API` 是query=查询，api=应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 怎么用：Docker 启动，挂载数据目录，配置 retention。
 
 坏了怎么查：看进程是否启动、端口是否监听、数据目录是否可写、retention 是否过短。
@@ -317,14 +224,6 @@ vminsert accepts writes
 vmstorage stores data
 vmselect handles queries
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>vminsert accepts writes</code> | 这一行里的英文要这样读：`vminsert accepts writes` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 2 行 | <code>vmstorage stores data</code> | 这一行里的英文要这样读：`vmstorage stores data` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 3 行 | <code>vmselect handles queries</code> | 这一行里的英文要这样读：`vmselect handles queries` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 怎么用：生产上用 Helm、Operator 或官方拓扑建议规划。
 
@@ -346,16 +245,6 @@ targets
   -> VictoriaMetrics
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>targets</code> | 这一行里的英文要这样读：`targets` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 2 行 | <code>  -&gt; vmagent scrape</code> | 这一行要理解这些英文词：`vmagent scrape` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; relabel / filter / aggregate</code> | 这一行要理解这些英文词：`relabel` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`filter` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`aggregate` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; remote write</code> | 这一行要理解这些英文词：`remote write` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; VictoriaMetrics</code> | 这一行要理解这些英文词：`VictoriaMetrics` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 怎么用：配置 scrape targets 和 remote write URL。
 
 坏了怎么查：看 targets 是否 up、remote write 是否失败、relabel 是否误删指标。
@@ -374,15 +263,6 @@ vmalert
   -> evaluate rules
   -> send alerts to Alertmanager
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>vmalert</code> | 这一行里的英文要这样读：`vmalert` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 2 行 | <code>  -&gt; query VictoriaMetrics</code> | 这一行要理解这些英文词：`query VictoriaMetrics` 是query=查询。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; evaluate rules</code> | 这一行要理解这些英文词：`evaluate rules` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; send alerts to Alertmanager</code> | 这一行要理解这些英文词：`send alerts to Alertmanager` 是alertmanager=Prometheus 生态里的告警管理器。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 怎么用：配置 datasource URL、rule 文件、Alertmanager URL。
 
@@ -403,28 +283,12 @@ selector
   -> vector result
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>selector</code> | 这一行里的英文要这样读：`selector` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 2 行 | <code>  -&gt; range function</code> | 这一行要理解这些英文词：`range function` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; aggregation</code> | 这一行要理解这些英文词：`aggregation` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; vector result</code> | 这一行要理解这些英文词：`vector result` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 怎么用：
 
 ```text
 rate(http_requests_total[5m])
 sum by (service) (rate(http_requests_total[5m]))
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>rate(http_requests_total[5m])</code> | 这一行里的英文要这样读：`rate` 是比率；`http_requests_total` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`m` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 2 行 | <code>sum by (service) (rate(http_requests_total[5m]))</code> | 这一行里的英文要这样读：`sum by` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`service` 是服务名称字段；`rate` 是比率；`http_requests_total` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`m` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 坏了怎么查：先查原始指标是否存在，再查 label，再逐层加函数和聚合。
 
@@ -441,17 +305,6 @@ app / node_exporter
   -> Alertmanager
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>app / node_exporter</code> | `app / node_exporter` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>  -&gt; Prometheus or vmagent scrape</code> | 这一行要理解这些英文词：`Prometheus or vmagent scrape` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; VictoriaMetrics single-node</code> | 这一行要理解这些英文词：`VictoriaMetrics single-node` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; Grafana dashboard</code> | 这一行要理解这些英文词：`Grafana dashboard` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; vmalert rules</code> | 这一行要理解这些英文词：`vmalert rules` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; Alertmanager</code> | 这一行要理解这些英文词：`Alertmanager` 是Prometheus 生态里的告警管理器。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 生产集群架构：
 
 ```text
@@ -463,17 +316,6 @@ many clusters
   -> Grafana / vmalert / API
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>many clusters</code> | 这一行里的英文要这样读：`many clusters` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 2 行 | <code>  -&gt; vmagent</code> | 这一行要理解这些英文词：`vmagent` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; vminsert</code> | 这一行要理解这些英文词：`vminsert` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; vmstorage</code> | 这一行要理解这些英文词：`vmstorage` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; vmselect</code> | 这一行要理解这些英文词：`vmselect` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; Grafana / vmalert / API</code> | 这一行要理解这些英文词：`Grafana` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`vmalert` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`API` 是应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 AIOps 扩展：
 
 ```text
@@ -483,16 +325,6 @@ VictoriaMetrics query API
   -> LangGraph / RAG summary
   -> incident evidence
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>VictoriaMetrics query API</code> | 这一行里的英文要这样读：`VictoriaMetrics query API` 这个英文标识可以拆开理解为：查询，应用程序接口。 |
-| 第 2 行 | <code>  -&gt; Python / pandas</code> | 这一行要理解这些英文词：`Python` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`pandas` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; machine learning anomaly score</code> | 这一行要理解这些英文词：`machine learning anomaly score` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; LangGraph / RAG summary</code> | 这一行要理解这些英文词：`LangGraph` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`RAG summary` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; incident evidence</code> | 这一行要理解这些英文词：`incident evidence` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 ## 安装与启动
 
@@ -506,27 +338,11 @@ docker run -d --name victoriametrics `
   -retentionPeriod=30d
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>docker run -d --name victoriametrics `</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-| 第 2 行 | <code>  -p 8428:8428 `</code> | 执行 `-p` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 3 行 | <code>  -v vmdata:/victoria-metrics-data `</code> | 执行 `-v` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 4 行 | <code>  victoriametrics/victoria-metrics:latest `</code> | 执行 `victoriametrics/victoria-metrics:latest` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 5 行 | <code>  -retentionPeriod=30d</code> | 执行 `-retentionperiod=30d` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 预期结果：
 
 ```text
 容器处于 running 状态，浏览器访问 http://localhost:8428/vmui/ 可以打开 VMUI。
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>容器处于 running 状态，浏览器访问 http://localhost:8428/vmui/ 可以打开 VMUI。</code> | `容器处于 running 状态，浏览器访问 http://localhost:8428/vmui/ 可以打开 VMUI。` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 检查：
 
@@ -534,13 +350,6 @@ docker run -d --name victoriametrics `
 docker ps --filter "name=victoriametrics"
 Invoke-WebRequest http://localhost:8428/health
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>docker ps --filter "name=victoriametrics"</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-| 第 2 行 | <code>Invoke-WebRequest http://localhost:8428/health</code> | PowerShell 发起 Web 请求，用来验证页面、接口或下载文件。 |
 
 ## 配置详解
 
@@ -561,13 +370,6 @@ remote_write:
   - url: "http://victoriametrics:8428/api/v1/write"
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>remote_write:</code> | 定义 `remote_write` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  - url: "http://victoriametrics:8428/api/v1/write"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-
 ## 常用命令
 
 ```powershell
@@ -577,16 +379,6 @@ Invoke-WebRequest "http://localhost:8428/api/v1/query?query=up"
 docker stop victoriametrics
 docker rm victoriametrics
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>docker logs victoriametrics</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
-| 第 2 行 | <code>Invoke-WebRequest http://localhost:8428/health</code> | PowerShell 发起 Web 请求，用来验证页面、接口或下载文件。 |
-| 第 3 行 | <code>Invoke-WebRequest "http://localhost:8428/api/v1/query?query=up"</code> | PowerShell 发起 Web 请求，用来验证页面、接口或下载文件。 |
-| 第 4 行 | <code>docker stop victoriametrics</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
-| 第 5 行 | <code>docker rm victoriametrics</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
 
 每条命令在检查什么：
 
@@ -619,15 +411,6 @@ metrics
   -> anomaly detection / RCA / capacity planning
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>metrics</code> | 这一行里的英文要这样读：`metrics` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 2 行 | <code>  -&gt; VictoriaMetrics</code> | 这一行要理解这些英文词：`VictoriaMetrics` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; query / dashboard / alert rules</code> | 这一行要理解这些英文词：`query` 是查询；`dashboard` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`alert rules` 是alert=告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; anomaly detection / RCA / capacity planning</code> | 这一行要理解这些英文词：`anomaly detection` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`RCA` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`capacity planning` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 它给 AIOps 提供：
 
 - 更长时间窗口的指标证据。
@@ -654,27 +437,11 @@ Invoke-WebRequest `
   -Body $body
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>$body = 'aiops_demo_requests_total{service="order-api",status="200"} 42'</code> | 执行 `$body` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
-| 第 2 行 | <code>Invoke-WebRequest `</code> | PowerShell 发起 Web 请求，用来验证页面、接口或下载文件。 |
-| 第 3 行 | <code>  -Method Post `</code> | 执行 `-method` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 4 行 | <code>  -Uri "http://localhost:8428/api/v1/import/prometheus" `</code> | 执行 `-uri` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 5 行 | <code>  -Body $body</code> | 执行 `-body` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
-
 查询：
 
 ```powershell
 Invoke-RestMethod "http://localhost:8428/api/v1/query?query=aiops_demo_requests_total"
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Invoke-RestMethod "http://localhost:8428/api/v1/query?query=aiops_demo_requests_total"</code> | PowerShell 调用 REST API，用来获取 JSON 接口结果。 |
 
 也可以打开：
 
@@ -682,23 +449,11 @@ Invoke-RestMethod "http://localhost:8428/api/v1/query?query=aiops_demo_requests_
 http://localhost:8428/vmui/
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>http://localhost:8428/vmui/</code> | `http` 表示访问协议，`localhost:8428` 是域名或主机名，`/vmui/` 是具体接口路径；真实环境要换成自己的域名和路径。 |
-
 输入：
 
 ```text
 aiops_demo_requests_total
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>aiops_demo_requests_total</code> | 这一行里的英文要这样读：`aiops_demo_requests_total` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 ### 验证结果
 
@@ -714,19 +469,6 @@ aiops_demo_requests_total
   "value": [...]
 }
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>{</code> | 对象开始，表示下面是一组键值对配置。 |
-| 第 2 行 | <code>  "metric": {</code> | `metric` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`{` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 3 行 | <code>    "__name__": "aiops_demo_requests_total",</code> | `__name__` 这个英文标识可以拆开理解为：名称字段，`aiops_demo_requests_total` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 4 行 | <code>    "service": "order-api",</code> | `service` 是服务名称字段，`order-api` 是具体服务名，表示这条记录属于这个服务；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 5 行 | <code>    "status": "200"</code> | `status` 是状态字段，`200` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 6 行 | <code>  },</code> | 当前对象或数组结束，逗号表示后面还有同级项目。 |
-| 第 7 行 | <code>  "value": [...]</code> | `value` 是数值字段，`[...]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 8 行 | <code>}</code> | 对象结束，表示这一组键值对配置到这里结束。 |
 
 这说明写入路径、存储路径和查询路径都通了。
 
@@ -779,12 +521,6 @@ aiops_demo_requests_total
 ```text
 VictoriaMetrics 是 Prometheus 兼容的时序数据库和监控组件集合。我会把它放在 AIOps 指标存储层，用 Prometheus 或 vmagent 采集指标，通过 remote write 写入 VictoriaMetrics，再由 Grafana 查询展示、vmalert 执行规则、Python 或 AIOps 服务读取历史指标做异常检测和复盘。单机版适合学习和中小规模，集群版通过 vminsert、vmstorage、vmselect 分离写入、存储和查询，适合更大规模。使用时我会重点关注 retention、label cardinality、查询范围、备份和安全访问，不会把它当成万能监控平台。
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>VictoriaMetrics 是 Prometheus 兼容的时序数据库和监控组件集合。我会把它放在 AIOps 指标存储层，用 Prometheus 或 vmagent 采集指标，通过 remote write 写入 VictoriaMetrics，再由 Grafana 查询展示、vmalert 执行规则、Python 或 AIOps 服务读取历史指标做异常检测和复盘。单机版适合学习和中小规模，集群版通过 vminsert、vmstorage、vmselect 分离写入、存储和查询，适合更大规模。使用时我会重点关注 retention、label cardinality、查询范围、备份和安全访问，不会把它当成万能监控平台。</code> | 这一行里的英文要这样读：`VictoriaMetrics` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源；`Prometheus` 是指标采集和告警规则评估系统；`AIOps` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源；`vmagent` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`remote write` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`Grafana` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源；`vmalert` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`Python` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
 
 ## 学习检查清单
 

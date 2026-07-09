@@ -32,12 +32,6 @@
 Frontend -> API Gateway -> alert-service -> model-service -> database
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Frontend -&gt; API Gateway -&gt; alert-service -&gt; model-service -&gt; database</code> | 这一行要理解这些英文词：`Frontend` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`API Gateway` 是api=应用程序接口；`alert-service` 是alert=告警，service=服务；`model-service` 是service=服务；`database` 是数据库。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 用户说“告警分析页面很慢”。你在 Prometheus 里看到 API P95 升高，在日志里看到一些 timeout，但还是很难回答：
 
 - 是 gateway 慢，还是 alert-service 慢？
@@ -72,23 +66,6 @@ Application
      -> exporter
   -> backend
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Application</code> | 这一行里的英文要这样读：`Application` 是应用系统。 |
-| 第 2 行 | <code>  -&gt; instrumentation</code> | 这一行要理解这些英文词：`instrumentation` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; OpenTelemetry API</code> | 这一行要理解这些英文词：`OpenTelemetry API` 是api=应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; OpenTelemetry SDK</code> | 这一行要理解这些英文词：`OpenTelemetry SDK` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; spans / metrics / logs</code> | 这一行要理解这些英文词：`spans` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`metrics` 是指标；`logs` 是日志。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; context propagation</code> | 这一行要理解这些英文词：`context propagation` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; OTLP exporter</code> | 这一行要理解这些英文词：`OTLP exporter` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>  -&gt; OpenTelemetry Collector</code> | 这一行要理解这些英文词：`OpenTelemetry Collector` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 9 行 | <code>     -&gt; receiver</code> | 这一行要理解这些英文词：`receiver` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 10 行 | <code>     -&gt; processor</code> | 这一行要理解这些英文词：`processor` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 11 行 | <code>     -&gt; exporter</code> | 这一行要理解这些英文词：`exporter` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 12 行 | <code>  -&gt; backend</code> | 这一行要理解这些英文词：`backend` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 必须掌握：
 
@@ -170,54 +147,6 @@ Collector
   -> Internal telemetry
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>What is OpenTelemetry</code> | 这一行里的英文要这样读：`What is OpenTelemetry` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 2 行 | <code>  -&gt; OTel 是什么</code> | 这一行要理解这些英文词：`OTel` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; OTel 不是什么</code> | 这一行要理解这些英文词：`OTel` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; generation / export / collection</code> | 这一行要理解这些英文词：`generation` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`export` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`collection` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>Concepts</code> | 这一行里的英文要这样读：`Concepts` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 7 行 | <code>  -&gt; Signals</code> | 这一行要理解这些英文词：`Signals` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>     -&gt; Traces</code> | 这一行要理解这些英文词：`Traces` 是链路追踪。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 9 行 | <code>     -&gt; Metrics</code> | 这一行要理解这些英文词：`Metrics` 是指标。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 10 行 | <code>     -&gt; Logs</code> | 这一行要理解这些英文词：`Logs` 是日志。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 11 行 | <code>     -&gt; Baggage</code> | 这一行要理解这些英文词：`Baggage` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 12 行 | <code>  -&gt; Context propagation</code> | 这一行要理解这些英文词：`Context propagation` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 13 行 | <code>  -&gt; Semantic conventions</code> | 这一行要理解这些英文词：`Semantic conventions` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 14 行 | <code>  -&gt; Resources</code> | 这一行要理解这些英文词：`Resources` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 15 行 | <code>  -&gt; Instrumentation</code> | 这一行要理解这些英文词：`Instrumentation` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 16 行 | <code>  -&gt; Sampling</code> | 这一行要理解这些英文词：`Sampling` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 18 行 | <code>Specification</code> | 这一行里的英文要这样读：`Specification` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 19 行 | <code>  -&gt; API</code> | 这一行要理解这些英文词：`API` 是应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 20 行 | <code>  -&gt; SDK</code> | 这一行要理解这些英文词：`SDK` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 21 行 | <code>  -&gt; Data model</code> | 这一行要理解这些英文词：`Data model` 是data=数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 22 行 | <code>  -&gt; Trace</code> | 这一行要理解这些英文词：`Trace` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 23 行 | <code>  -&gt; Metrics</code> | 这一行要理解这些英文词：`Metrics` 是指标。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 24 行 | <code>  -&gt; Logs</code> | 这一行要理解这些英文词：`Logs` 是日志。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 25 行 | <code>  -&gt; Resource</code> | 这一行要理解这些英文词：`Resource` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 26 行 | <code>  -&gt; Context</code> | 这一行要理解这些英文词：`Context` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 27 行 | <code>  -&gt; Propagators</code> | 这一行要理解这些英文词：`Propagators` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 28 行 | <code>  -&gt; OTLP</code> | 这一行要理解这些英文词：`OTLP` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 30 行 | <code>Languages</code> | 这一行里的英文要这样读：`Languages` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 31 行 | <code>  -&gt; Java / Python / Go / JavaScript / .NET ...</code> | 这一行要理解这些英文词：`Java` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`Python` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`Go` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`JavaScript` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`NET` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 32 行 | <code>  -&gt; automatic instrumentation</code> | 这一行要理解这些英文词：`automatic instrumentation` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 33 行 | <code>  -&gt; manual instrumentation</code> | 这一行要理解这些英文词：`manual instrumentation` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 34 行 | <code>  -&gt; exporters</code> | 这一行要理解这些英文词：`exporters` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 36 行 | <code>Collector</code> | 这一行里的英文要这样读：`Collector` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 37 行 | <code>  -&gt; Architecture</code> | 这一行要理解这些英文词：`Architecture` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 38 行 | <code>  -&gt; Configuration</code> | 这一行要理解这些英文词：`Configuration` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 39 行 | <code>  -&gt; Components</code> | 这一行要理解这些英文词：`Components` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 40 行 | <code>     -&gt; Receivers</code> | 这一行要理解这些英文词：`Receivers` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 41 行 | <code>     -&gt; Processors</code> | 这一行要理解这些英文词：`Processors` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 42 行 | <code>     -&gt; Exporters</code> | 这一行要理解这些英文词：`Exporters` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 43 行 | <code>     -&gt; Connectors</code> | 这一行要理解这些英文词：`Connectors` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 44 行 | <code>     -&gt; Extensions</code> | 这一行要理解这些英文词：`Extensions` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 45 行 | <code>  -&gt; Deployment patterns</code> | 这一行要理解这些英文词：`Deployment patterns` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 46 行 | <code>  -&gt; Troubleshooting</code> | 这一行要理解这些英文词：`Troubleshooting` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 47 行 | <code>  -&gt; Internal telemetry</code> | 这一行要理解这些英文词：`Internal telemetry` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 学习顺序：
 
 ```text
@@ -228,16 +157,6 @@ Collector
   -> 再懂 Collector pipeline
   -> 最后接后端和 AIOps 自动化
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 2 行 | <code>  -&gt; 再懂 trace/span/context propagation</code> | 这一行要理解这些英文词：`trace` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`span` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`context propagation` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; 再懂 API/SDK/instrumentation</code> | 这一行要理解这些英文词：`API` 是应用程序接口；`SDK` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`instrumentation` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; 再懂 OTLP</code> | 这一行要理解这些英文词：`OTLP` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; 再懂 Collector pipeline</code> | 这一行要理解这些英文词：`Collector pipeline` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; 最后接后端和 AIOps 自动化</code> | 这一行要理解这些英文词：`AIOps` 是智能运维。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 ## OpenTelemetry 在 AIOps 链路中的位置
 
@@ -252,17 +171,6 @@ OpenTelemetry 是 AIOps 的遥测采集和标准化层。
   -> Prometheus / Tempo / Jaeger / Loki / Elasticsearch / Vendor Backend
   -> Grafana / Alertmanager / AIOps 分析
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 2 行 | <code>  -&gt; OTel instrumentation</code> | 这一行要理解这些英文词：`OTel instrumentation` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; OTel SDK</code> | 这一行要理解这些英文词：`OTel SDK` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; OTLP</code> | 这一行要理解这些英文词：`OTLP` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; OTel Collector</code> | 这一行要理解这些英文词：`OTel Collector` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; Prometheus / Tempo / Jaeger / Loki / Elasticsearch / Vendor Backend</code> | 这一行要理解这些英文词：`Prometheus` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`Tempo` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`Jaeger` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`Loki` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`Elasticsearch` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`Vendor Backend` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; Grafana / Alertmanager / AIOps 分析</code> | 这一行要理解这些英文词：`Grafana` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`Alertmanager` 是Prometheus 生态里的告警管理器；`AIOps` 是智能运维。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 它给 AIOps 提供：
 
@@ -328,17 +236,6 @@ Trace: checkout request
       Span: database query
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Trace: checkout request</code> | `Trace` 是Trace 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源，冒号后面的 `checkout request` 是这个字段的示例内容或模板表达式。 |
-| 第 2 行 | <code>  Span: HTTP POST /checkout</code> | `Span` 是Span 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源，冒号后面的 `HTTP POST /checkout` 是这个字段的示例内容或模板表达式。 |
-| 第 3 行 | <code>    Span: auth service call</code> | `Span` 是Span 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源，冒号后面的 `auth service call` 是这个字段的示例内容或模板表达式。 |
-| 第 4 行 | <code>    Span: inventory service call</code> | `Span` 是Span 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源，冒号后面的 `inventory service call` 是这个字段的示例内容或模板表达式。 |
-| 第 5 行 | <code>    Span: payment service call</code> | `Span` 是Span 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源，冒号后面的 `payment service call` 是这个字段的示例内容或模板表达式。 |
-| 第 6 行 | <code>      Span: database query</code> | `Span` 是Span 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源，冒号后面的 `database query` 是这个字段的示例内容或模板表达式。 |
-
 Trace 回答：
 
 - 一次请求经过哪些服务？
@@ -358,15 +255,6 @@ http.server.active_requests
 process.runtime.memory
 db.client.operation.duration
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>http.server.request.duration</code> | `http.server.request.duration` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>http.server.active_requests</code> | `http.server.active_requests` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 3 行 | <code>process.runtime.memory</code> | `process.runtime.memory` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 4 行 | <code>db.client.operation.duration</code> | `db.client.operation.duration` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 Metric 回答：
 
@@ -391,18 +279,6 @@ Log 是离散事件记录。
 }
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>{</code> | 对象开始，表示下面是一组键值对配置。 |
-| 第 2 行 | <code>  "timestamp": "2026-07-02T10:00:00Z",</code> | `timestamp` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`2026-07-02T10:00:00Z` 表示具体时间值，表示事件、告警或记录发生的时间点；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 3 行 | <code>  "severity": "ERROR",</code> | `severity` 是告警严重级别字段，`ERROR` 是告警级别，用来决定响应优先级；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 4 行 | <code>  "body": "payment request failed",</code> | `body` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`payment request failed` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 5 行 | <code>  "trace_id": "abc...",</code> | `trace_id` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`abc...` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 6 行 | <code>  "span_id": "def..."</code> | `span_id` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`def...` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 7 行 | <code>}</code> | 对象结束，表示这一组键值对配置到这里结束。 |
-
 Log 回答：
 
 - 当时具体发生了什么？
@@ -416,14 +292,6 @@ Metrics 发现异常
 Trace 定位慢在哪一段
 Logs 解释那一段为什么失败
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Metrics 发现异常</code> | 这一行里的英文要这样读：`Metrics` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 2 行 | <code>Trace 定位慢在哪一段</code> | 这一行里的英文要这样读：`Trace` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 3 行 | <code>Logs 解释那一段为什么失败</code> | 这一行里的英文要这样读：`Logs` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
 
 ## Trace、Span、SpanContext
 
@@ -460,15 +328,6 @@ trace_flags
 trace_state
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>trace_id</code> | 这一行里的英文要这样读：`trace_id` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 2 行 | <code>span_id</code> | 这一行里的英文要这样读：`span_id` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 3 行 | <code>trace_flags</code> | 这一行里的英文要这样读：`trace_flags` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 4 行 | <code>trace_state</code> | 这一行里的英文要这样读：`trace_state` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-
 当服务 A 调服务 B 时，A 会把 context 注入 HTTP headers，B 提取后创建子 span。
 
 ## Context propagation
@@ -483,14 +342,6 @@ api trace B
 db trace C
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>frontend trace A</code> | 这一行里的英文要这样读：`frontend trace A` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 2 行 | <code>api trace B</code> | 这一行里的英文要这样读：`api trace B` 这个英文标识可以拆开理解为：应用程序接口。 |
-| 第 3 行 | <code>db trace C</code> | 这一行里的英文要这样读：`db trace C` 这个英文标识可以拆开理解为：数据库。 |
-
 每个服务各自一条 trace，无法关联。
 
 有传播：
@@ -502,15 +353,6 @@ trace_id=abc
   db span
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>trace_id=abc</code> | `trace_id` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`abc` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
-| 第 2 行 | <code>  frontend span</code> | 这一行里的英文要这样读：`frontend span` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 3 行 | <code>  api span</code> | 这一行里的英文要这样读：`api span` 这个英文标识可以拆开理解为：应用程序接口。 |
-| 第 4 行 | <code>  db span</code> | 这一行里的英文要这样读：`db span` 这个英文标识可以拆开理解为：数据库。 |
-
 常见传播格式：
 
 - W3C Trace Context：`traceparent`、`tracestate`。
@@ -521,12 +363,6 @@ HTTP 头示例：
 ```text
 traceparent: 00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>traceparent: 00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01</code> | `traceparent` 是traceparent 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01` 是这个字段的示例内容或模板表达式。 |
 
 排查 trace 串不起来：
 
@@ -545,12 +381,6 @@ Baggage 是随 context 传播的键值对。
 ```text
 baggage: tenant_id=acme,plan=premium
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>baggage: tenant_id=acme,plan=premium</code> | `tenant_id` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`acme` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；`plan` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`premium` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
 
 用途：
 
@@ -579,28 +409,11 @@ k8s.pod.name: aiops-api-7d9f
 cloud.provider: aws
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>service.name: aiops-api</code> | `service.name` 这个英文标识可以拆开理解为：服务名称字段，名称字段，`aiops-api` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 2 行 | <code>service.version: 1.2.3</code> | `service.version` 这个英文标识可以拆开理解为：服务名称字段，`1.2.3` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 3 行 | <code>deployment.environment: prod</code> | `deployment.environment` 这个英文标识可以拆开理解为：环境名称字段，`prod` 表示生产环境；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 4 行 | <code>k8s.namespace.name: aiops</code> | `k8s.namespace.name` 这个英文标识可以拆开理解为：名称字段，`aiops` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 5 行 | <code>k8s.pod.name: aiops-api-7d9f</code> | `k8s.pod.name` 这个英文标识可以拆开理解为：Kubernetes 里运行容器的最小调度单元，名称字段，`aiops-api-7d9f` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 6 行 | <code>cloud.provider: aws</code> | `cloud.provider` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`aws` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
 Resource 很重要，因为它回答：
 
 ```text
 这条 span / metric / log 是谁产生的？
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>这条 span / metric / log 是谁产生的？</code> | `这条 span / metric / log 是谁产生的？` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 如果没有 `service.name`，后端 UI 里经常只看到 unknown service。
 
@@ -610,13 +423,6 @@ Resource 很重要，因为它回答：
 OTEL_SERVICE_NAME=aiops-api
 OTEL_RESOURCE_ATTRIBUTES=deployment.environment=prod,service.version=1.2.3
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>OTEL_SERVICE_NAME=aiops-api</code> | 执行 `otel_service_name=aiops-api` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 2 行 | <code>OTEL_RESOURCE_ATTRIBUTES=deployment.environment=prod,service.version=1.2.3</code> | 执行 `otel_resource_attributes=deployment.environment=prod,service.version=1.2.3` 相关命令，后面的参数决定它具体操作什么对象。 |
 
 ## Attributes 和 Semantic Conventions
 
@@ -634,16 +440,6 @@ server.address
 server.port
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>http.request.method</code> | `http.request.method` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>url.path</code> | `url.path` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 3 行 | <code>http.response.status_code</code> | `http.response.status_code` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 4 行 | <code>server.address</code> | `server.address` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 5 行 | <code>server.port</code> | `server.port` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-
 数据库 span 常见属性：
 
 ```text
@@ -652,15 +448,6 @@ db.operation.name
 db.namespace
 server.address
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>db.system</code> | `db.system` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>db.operation.name</code> | `db.operation.name` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 3 行 | <code>db.namespace</code> | `db.namespace` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 4 行 | <code>server.address</code> | `server.address` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 为什么需要语义约定？
 
@@ -672,15 +459,6 @@ statusCode
 response.status
 code
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>http_status</code> | 这一行里的英文要这样读：`http_status` 这个英文标识可以拆开理解为：状态字段。 |
-| 第 2 行 | <code>statusCode</code> | 这一行里的英文要这样读：`statusCode` 这个英文标识可以拆开理解为：状态字段。 |
-| 第 3 行 | <code>response.status</code> | `response.status` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 4 行 | <code>code</code> | 这一行里的英文要这样读：`code` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 后端就很难统一分析。Semantic conventions 让不同语言、框架、后端尽量使用同一套字段。
 
@@ -723,15 +501,6 @@ with tracer.start_as_current_span("aiops.analyze_alert") as span:
     result = analyze(alert)
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>with tracer.start_as_current_span("aiops.analyze_alert") as span:</code> | 上下文管理语句，常用于安全打开文件或管理连接。 |
-| 第 2 行 | <code>    span.set_attribute("alert.name", alert_name)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 3 行 | <code>    span.set_attribute("aiops.model", model_name)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 4 行 | <code>    result = analyze(alert)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-
 适合：
 
 - 关键业务步骤。
@@ -764,26 +533,11 @@ TracerProvider
   -> Exporter
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>TracerProvider</code> | 这一行里的英文要这样读：`TracerProvider` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 2 行 | <code>  -&gt; Sampler</code> | 这一行要理解这些英文词：`Sampler` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; SpanProcessor</code> | 这一行要理解这些英文词：`SpanProcessor` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; Exporter</code> | 这一行要理解这些英文词：`Exporter` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 库里只写：
 
 ```text
 tracer.start_span(...)
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>tracer.start_span(...)</code> | `tracer.start_span(...)` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 这样生态更解耦。
 
@@ -809,16 +563,6 @@ http.server.request.duration
     http.route=/api/alerts
     http.response.status_code=200
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>http.server.request.duration</code> | `http.server.request.duration` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>  attributes:</code> | `attributes` 是attributes 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号表示后面要填写或列出这个字段的具体内容。 |
-| 第 3 行 | <code>    http.request.method=GET</code> | `http.request.method` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`GET` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
-| 第 4 行 | <code>    http.route=/api/alerts</code> | `http.route` 这个英文标识可以拆开理解为：路由规则，`/api/alerts` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
-| 第 5 行 | <code>    http.response.status_code=200</code> | `http.response.status_code` 这个英文标识可以拆开理解为：状态字段，`200` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
 
 指标设计要注意 cardinality：
 
@@ -848,15 +592,6 @@ OpenTelemetry logs 可以携带：
   -> 看到上游和下游
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>看到一条 ERROR log</code> | 这一行里的英文要这样读：`ERROR log` 这个英文标识可以拆开理解为：错误。 |
-| 第 2 行 | <code>  -&gt; 点 trace_id</code> | 这一行要理解这些英文词：`trace_id` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; 进入完整 trace</code> | 这一行要理解这些英文词：`trace` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; 看到上游和下游</code> | 这一行表示上一级主题下的子项“看到上游和下游”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
-
 应用日志要尽量带上 trace_id/span_id。很多语言 SDK 或日志框架集成能自动注入。
 
 ## OTLP 是什么
@@ -883,26 +618,12 @@ OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
 OTEL_EXPORTER_OTLP_PROTOCOL=grpc
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317</code> | 执行 `otel_exporter_otlp_endpoint=http://otel-collector:4317` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 2 行 | <code>OTEL_EXPORTER_OTLP_PROTOCOL=grpc</code> | 执行 `otel_exporter_otlp_protocol=grpc` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 HTTP 示例：
 
 ```bash
 OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4318
 OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4318</code> | 执行 `otel_exporter_otlp_endpoint=http://otel-collector:4318` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 2 行 | <code>OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf</code> | 执行 `otel_exporter_otlp_protocol=http/protobuf` 相关命令，后面的参数决定它具体操作什么对象。 |
 
 常见错误：
 
@@ -936,12 +657,6 @@ OpenTelemetry Collector 是一个可部署的遥测代理/网关。
 Application -> local/agent Collector -> gateway Collector -> backends
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Application -&gt; local/agent Collector -&gt; gateway Collector -&gt; backends</code> | 这一行要理解这些英文词：`Application` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`local` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`agent Collector` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`gateway Collector` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`backends` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 ## Collector 架构
 
 Collector 配置由组件和 pipeline 组成。
@@ -961,12 +676,6 @@ Pipeline：
 ```text
 receivers -> processors -> exporters
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>receivers -&gt; processors -&gt; exporters</code> | 这一行要理解这些英文词：`receivers` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`processors` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`exporters` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 官方文档强调：配置了组件还不够，必须在 `service.pipelines` 里启用。
 
@@ -1005,36 +714,6 @@ service:
       exporters: [debug]
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>receivers:</code> | 定义 `receivers` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  otlp:</code> | 定义 `otlp` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 3 行 | <code>    protocols:</code> | 定义 `protocols` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 4 行 | <code>      grpc:</code> | 定义 `grpc` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 5 行 | <code>        endpoint: 0.0.0.0:4317</code> | `endpoint` 是后端地址端点，`0.0.0.0:4317` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 6 行 | <code>      http:</code> | 定义 `http` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 7 行 | <code>        endpoint: 0.0.0.0:4318</code> | `endpoint` 是后端地址端点，`0.0.0.0:4318` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 9 行 | <code>processors:</code> | 定义 `processors` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 10 行 | <code>  batch: {}</code> | `batch` 是批处理，`{}` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 12 行 | <code>exporters:</code> | 定义 `exporters` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 13 行 | <code>  debug: {}</code> | `debug` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`{}` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 15 行 | <code>service:</code> | 定义 `service` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 16 行 | <code>  pipelines:</code> | 定义 `pipelines` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 17 行 | <code>    traces:</code> | 定义 `traces` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 18 行 | <code>      receivers: [otlp]</code> | `receivers` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`[otlp]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 19 行 | <code>      processors: [batch]</code> | `processors` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`[batch]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 20 行 | <code>      exporters: [debug]</code> | `exporters` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`[debug]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 21 行 | <code>    metrics:</code> | 定义 `metrics` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 22 行 | <code>      receivers: [otlp]</code> | `receivers` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`[otlp]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 23 行 | <code>      processors: [batch]</code> | `processors` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`[batch]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 24 行 | <code>      exporters: [debug]</code> | `exporters` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`[debug]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 25 行 | <code>    logs:</code> | 定义 `logs` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 26 行 | <code>      receivers: [otlp]</code> | `receivers` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`[otlp]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 27 行 | <code>      processors: [batch]</code> | `processors` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`[batch]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 28 行 | <code>      exporters: [debug]</code> | `exporters` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`[debug]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
 解释：
 
 | 段 | 含义 |
@@ -1071,16 +750,6 @@ receivers:
       http:
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>receivers:</code> | 定义 `receivers` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  otlp:</code> | 定义 `otlp` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 3 行 | <code>    protocols:</code> | 定义 `protocols` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 4 行 | <code>      grpc:</code> | 定义 `grpc` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 5 行 | <code>      http:</code> | 定义 `http` 配置段，下面缩进的内容都属于这个配置段。 |
-
 如果应用发数据但 Collector 没收到，先看 receiver 是否启用且端口通。
 
 ## Processors
@@ -1110,18 +779,6 @@ processors:
     timeout: 5s
     send_batch_size: 1024
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>processors:</code> | 定义 `processors` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  memory_limiter:</code> | 定义 `memory_limiter` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 3 行 | <code>    check_interval: 1s</code> | `check_interval` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`1s` 表示持续秒数，常用于配置采集间隔、超时时间或等待时间；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 4 行 | <code>    limit_mib: 512</code> | `limit_mib` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`512` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 5 行 | <code>  batch:</code> | 定义 `batch` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 6 行 | <code>    timeout: 5s</code> | `timeout` 是超时时间字段，`5s` 表示持续秒数，常用于配置采集间隔、超时时间或等待时间；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 7 行 | <code>    send_batch_size: 1024</code> | `send_batch_size` 这个英文标识可以拆开理解为：批处理，`1024` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 建议：
 
@@ -1154,16 +811,6 @@ exporters:
       insecure: true
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>exporters:</code> | 定义 `exporters` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  otlp:</code> | 定义 `otlp` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 3 行 | <code>    endpoint: tempo:4317</code> | `endpoint` 是后端地址端点，`tempo:4317` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 4 行 | <code>    tls:</code> | 定义 `tls` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 5 行 | <code>      insecure: true</code> | `insecure` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`true` 表示开启这个配置；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
 Prometheus exporter：
 
 ```yaml
@@ -1171,14 +818,6 @@ exporters:
   prometheus:
     endpoint: 0.0.0.0:9464
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>exporters:</code> | 定义 `exporters` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  prometheus:</code> | 定义 `prometheus` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 3 行 | <code>    endpoint: 0.0.0.0:9464</code> | `endpoint` 是后端地址端点，`0.0.0.0:9464` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 注意：exporter 配了不代表会使用，必须放到 pipeline 的 exporters 列表。
 
@@ -1197,17 +836,6 @@ extensions:
 service:
   extensions: [health_check, pprof, zpages]
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>extensions:</code> | 定义 `extensions` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  health_check:</code> | 定义 `health_check` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 3 行 | <code>  pprof:</code> | 定义 `pprof` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 4 行 | <code>  zpages:</code> | 定义 `zpages` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 6 行 | <code>service:</code> | 定义 `service` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 7 行 | <code>  extensions: [health_check, pprof, zpages]</code> | `extensions` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`[health_check, pprof, zpages]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 用途：
 
@@ -1252,15 +880,6 @@ export OTEL_RESOURCE_ATTRIBUTES=deployment.environment=prod,service.version=1.0.
 export OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
 export OTEL_EXPORTER_OTLP_PROTOCOL=grpc
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>export OTEL_SERVICE_NAME=aiops-api</code> | 设置 shell 环境变量，常用于配置 API Key、端口或运行参数。 |
-| 第 2 行 | <code>export OTEL_RESOURCE_ATTRIBUTES=deployment.environment=prod,service.version=1.0.0</code> | 设置 shell 环境变量，常用于配置 API Key、端口或运行参数。 |
-| 第 3 行 | <code>export OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317</code> | 设置 shell 环境变量，常用于配置 API Key、端口或运行参数。 |
-| 第 4 行 | <code>export OTEL_EXPORTER_OTLP_PROTOCOL=grpc</code> | 设置 shell 环境变量，常用于配置 API Key、端口或运行参数。 |
 
 ## 采样 Sampling
 
@@ -1333,43 +952,6 @@ service:
       exporters: [debug]
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>receivers:</code> | 定义 `receivers` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  otlp:</code> | 定义 `otlp` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 3 行 | <code>    protocols:</code> | 定义 `protocols` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 4 行 | <code>      grpc:</code> | 定义 `grpc` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 5 行 | <code>        endpoint: 0.0.0.0:4317</code> | `endpoint` 是后端地址端点，`0.0.0.0:4317` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 6 行 | <code>      http:</code> | 定义 `http` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 7 行 | <code>        endpoint: 0.0.0.0:4318</code> | `endpoint` 是后端地址端点，`0.0.0.0:4318` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 9 行 | <code>processors:</code> | 定义 `processors` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 10 行 | <code>  memory_limiter:</code> | 定义 `memory_limiter` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 11 行 | <code>    check_interval: 1s</code> | `check_interval` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`1s` 表示持续秒数，常用于配置采集间隔、超时时间或等待时间；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 12 行 | <code>    limit_mib: 256</code> | `limit_mib` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`256` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 13 行 | <code>  batch: {}</code> | `batch` 是批处理，`{}` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 15 行 | <code>exporters:</code> | 定义 `exporters` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 16 行 | <code>  debug:</code> | 定义 `debug` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 17 行 | <code>    verbosity: detailed</code> | `verbosity` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`detailed` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 19 行 | <code>extensions:</code> | 定义 `extensions` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 20 行 | <code>  health_check:</code> | 定义 `health_check` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 22 行 | <code>service:</code> | 定义 `service` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 23 行 | <code>  extensions: [health_check]</code> | `extensions` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`[health_check]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 24 行 | <code>  pipelines:</code> | 定义 `pipelines` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 25 行 | <code>    traces:</code> | 定义 `traces` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 26 行 | <code>      receivers: [otlp]</code> | `receivers` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`[otlp]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 27 行 | <code>      processors: [memory_limiter, batch]</code> | `processors` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`[memory_limiter, batch]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 28 行 | <code>      exporters: [debug]</code> | `exporters` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`[debug]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 29 行 | <code>    metrics:</code> | 定义 `metrics` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 30 行 | <code>      receivers: [otlp]</code> | `receivers` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`[otlp]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 31 行 | <code>      processors: [memory_limiter, batch]</code> | `processors` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`[memory_limiter, batch]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 32 行 | <code>      exporters: [debug]</code> | `exporters` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`[debug]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 33 行 | <code>    logs:</code> | 定义 `logs` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 34 行 | <code>      receivers: [otlp]</code> | `receivers` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`[otlp]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 35 行 | <code>      processors: [memory_limiter, batch]</code> | `processors` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`[memory_limiter, batch]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 36 行 | <code>      exporters: [debug]</code> | `exporters` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`[debug]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
 ### 2. 启动 Collector
 
 如果本机有 `otelcol`：
@@ -1377,12 +959,6 @@ service:
 ```bash
 otelcol --config otel-collector.yaml
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>otelcol --config otel-collector.yaml</code> | 执行 `otelcol` 相关命令，后面的参数决定它具体操作什么对象。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
 Docker 示例：
 
@@ -1395,28 +971,11 @@ docker run --rm \
   otel/opentelemetry-collector:latest
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>docker run --rm \</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-| 第 2 行 | <code>  -p 4317:4317 \</code> | 执行 `-p` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 3 行 | <code>  -p 4318:4318 \</code> | 执行 `-p` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 4 行 | <code>  -p 13133:13133 \</code> | 执行 `-p` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 5 行 | <code>  -v "$PWD/otel-collector.yaml:/etc/otelcol/config.yaml" \</code> | 执行 `-v` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 6 行 | <code>  otel/opentelemetry-collector:latest</code> | 执行 `otel/opentelemetry-collector:latest` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 检查健康：
 
 ```bash
 curl -v http://127.0.0.1:13133/
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>curl -v http://127.0.0.1:13133/</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
 
 ### 3. 配置应用发送到 Collector
 
@@ -1429,28 +988,12 @@ export OTEL_EXPORTER_OTLP_ENDPOINT=http://127.0.0.1:4317
 export OTEL_EXPORTER_OTLP_PROTOCOL=grpc
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>export OTEL_SERVICE_NAME=aiops-demo</code> | 设置 shell 环境变量，常用于配置 API Key、端口或运行参数。 |
-| 第 2 行 | <code>export OTEL_RESOURCE_ATTRIBUTES=deployment.environment=local</code> | 设置 shell 环境变量，常用于配置 API Key、端口或运行参数。 |
-| 第 3 行 | <code>export OTEL_EXPORTER_OTLP_ENDPOINT=http://127.0.0.1:4317</code> | 设置 shell 环境变量，常用于配置 API Key、端口或运行参数。 |
-| 第 4 行 | <code>export OTEL_EXPORTER_OTLP_PROTOCOL=grpc</code> | 设置 shell 环境变量，常用于配置 API Key、端口或运行参数。 |
-
 如果用 HTTP：
 
 ```bash
 export OTEL_EXPORTER_OTLP_ENDPOINT=http://127.0.0.1:4318
 export OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>export OTEL_EXPORTER_OTLP_ENDPOINT=http://127.0.0.1:4318</code> | 设置 shell 环境变量，常用于配置 API Key、端口或运行参数。 |
-| 第 2 行 | <code>export OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf</code> | 设置 shell 环境变量，常用于配置 API Key、端口或运行参数。 |
 
 ### 4. 观察 Collector 输出
 
@@ -1467,17 +1010,6 @@ resource attributes:
 pipeline:
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>service.name:</code> | `service.name` 是service.name 这个英文标识可以拆开理解为：服务名称字段，名称字段，冒号表示后面要填写或列出这个字段的具体内容。 |
-| 第 2 行 | <code>trace_id:</code> | `trace_id` 是trace_id 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号表示后面要填写或列出这个字段的具体内容。 |
-| 第 3 行 | <code>span name:</code> | `span name` 是span name 这个英文标识可以拆开理解为：名称字段，冒号表示后面要填写或列出这个字段的具体内容。 |
-| 第 4 行 | <code>attributes:</code> | `attributes` 是attributes 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号表示后面要填写或列出这个字段的具体内容。 |
-| 第 5 行 | <code>resource attributes:</code> | `resource attributes` 是resource attributes 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号表示后面要填写或列出这个字段的具体内容。 |
-| 第 6 行 | <code>pipeline:</code> | `pipeline` 是pipeline 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号表示后面要填写或列出这个字段的具体内容。 |
-
 ### 5. 故意制造协议错误
 
 把应用设置成 gRPC，但发到 4318：
@@ -1486,13 +1018,6 @@ pipeline:
 OTEL_EXPORTER_OTLP_ENDPOINT=http://127.0.0.1:4318
 OTEL_EXPORTER_OTLP_PROTOCOL=grpc
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>OTEL_EXPORTER_OTLP_ENDPOINT=http://127.0.0.1:4318</code> | 执行 `otel_exporter_otlp_endpoint=http://127.0.0.1:4318` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 2 行 | <code>OTEL_EXPORTER_OTLP_PROTOCOL=grpc</code> | 执行 `otel_exporter_otlp_protocol=grpc` 相关命令，后面的参数决定它具体操作什么对象。 |
 
 观察应用和 Collector 错误。
 
@@ -1503,13 +1028,6 @@ OTEL_EXPORTER_OTLP_PROTOCOL=grpc
 4318 常用 OTLP/HTTP
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>4317 常用 OTLP/gRPC</code> | `4317 常用 OTLP/gRPC` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>4318 常用 OTLP/HTTP</code> | `4318 常用 OTLP/HTTP` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-
 ## 常用命令字典
 
 ### 查看 Collector 版本
@@ -1517,12 +1035,6 @@ OTEL_EXPORTER_OTLP_PROTOCOL=grpc
 ```bash
 otelcol --version
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>otelcol --version</code> | 执行 `otelcol` 相关命令，后面的参数决定它具体操作什么对象。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
 确认 distribution 和版本。
 
@@ -1532,23 +1044,11 @@ otelcol --version
 otelcol --config otel-collector.yaml
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>otelcol --config otel-collector.yaml</code> | 执行 `otelcol` 相关命令，后面的参数决定它具体操作什么对象。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 ### 检查端口
 
 ```bash
 ss -ltnp | rg "4317|4318|13133"
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>ss -ltnp &#124; rg "4317&#124;4318&#124;13133"</code> | 查看网络监听和连接，用来确认端口是否打开。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
 
 看 OTLP 和 health_check 端口是否监听。
 
@@ -1558,12 +1058,6 @@ ss -ltnp | rg "4317|4318|13133"
 curl -v http://127.0.0.1:13133/
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>curl -v http://127.0.0.1:13133/</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
-
 ### Kubernetes 查看 Collector
 
 ```bash
@@ -1572,27 +1066,12 @@ kubectl logs -n observability deploy/otel-collector --tail=200
 kubectl describe pod -n observability -l app=otel-collector
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl get pods -n observability -l app=otel-collector</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-| 第 2 行 | <code>kubectl logs -n observability deploy/otel-collector --tail=200</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-| 第 3 行 | <code>kubectl describe pod -n observability -l app=otel-collector</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-
 ### 测 Collector Service
 
 ```bash
 kubectl run curl-test -n observability --rm -it --image=curlimages/curl:8.10.1 --restart=Never -- \
   curl -v http://otel-collector:4318/
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl run curl-test -n observability --rm -it --image=curlimages/curl:8.10.1 --restart=Never -- \</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-| 第 2 行 | <code>  curl -v http://otel-collector:4318/</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
 
 注意：OTLP HTTP endpoint 不是普通页面，404/405 不一定代表端口不通。更重要的是应用 SDK 是否能成功 export。
 
@@ -1663,12 +1142,6 @@ kubectl run curl-test -n observability --rm -it --image=curlimages/curl:8.10.1 -
 env | rg "OTEL_"
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>env &#124; rg "OTEL_"</code> | 执行 `env` 相关命令，后面的参数决定它具体操作什么对象。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
-
 重点：
 
 ```text
@@ -1678,26 +1151,11 @@ OTEL_EXPORTER_OTLP_PROTOCOL
 OTEL_TRACES_EXPORTER
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>OTEL_SERVICE_NAME</code> | 这一行里的英文要这样读：`OTEL_SERVICE_NAME` 这个英文标识可以拆开理解为：服务名称字段，名称字段。 |
-| 第 2 行 | <code>OTEL_EXPORTER_OTLP_ENDPOINT</code> | 这一行里的英文要这样读：`OTEL_EXPORTER_OTLP_ENDPOINT` 这个英文标识可以拆开理解为：后端地址端点。 |
-| 第 3 行 | <code>OTEL_EXPORTER_OTLP_PROTOCOL</code> | 这一行里的英文要这样读：`OTEL_EXPORTER_OTLP_PROTOCOL` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 4 行 | <code>OTEL_TRACES_EXPORTER</code> | 这一行里的英文要这样读：`OTEL_TRACES_EXPORTER` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-
 ### 2. Collector 是否可达
 
 ```bash
 curl -v http://otel-collector:4318/
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>curl -v http://otel-collector:4318/</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
 
 或在 Kubernetes 内：
 
@@ -1705,13 +1163,6 @@ curl -v http://otel-collector:4318/
 kubectl run curl-test --rm -it --image=curlimages/curl:8.10.1 --restart=Never -- \
   curl -v http://otel-collector.observability:4318/
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl run curl-test --rm -it --image=curlimages/curl:8.10.1 --restart=Never -- \</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-| 第 2 行 | <code>  curl -v http://otel-collector.observability:4318/</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
 
 ### 3. Collector 是否启用 receiver
 
@@ -1725,16 +1176,6 @@ receivers:
       http:
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>receivers:</code> | 定义 `receivers` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  otlp:</code> | 定义 `otlp` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 3 行 | <code>    protocols:</code> | 定义 `protocols` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 4 行 | <code>      grpc:</code> | 定义 `grpc` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 5 行 | <code>      http:</code> | 定义 `http` 配置段，下面缩进的内容都属于这个配置段。 |
-
 看 pipeline：
 
 ```yaml
@@ -1743,15 +1184,6 @@ service:
     traces:
       receivers: [otlp]
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>service:</code> | 定义 `service` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  pipelines:</code> | 定义 `pipelines` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 3 行 | <code>    traces:</code> | 定义 `traces` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 4 行 | <code>      receivers: [otlp]</code> | `receivers` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`[otlp]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 ### 4. 用 debug exporter 简化后端问题
 
@@ -1762,14 +1194,6 @@ exporters:
   debug:
     verbosity: detailed
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>exporters:</code> | 定义 `exporters` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  debug:</code> | 定义 `debug` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 3 行 | <code>    verbosity: detailed</code> | `verbosity` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`detailed` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 如果 debug 能看到数据，说明应用到 Collector 没问题，后面查 exporter/backend。
 
@@ -1791,13 +1215,6 @@ curl -v -H "traceparent: 00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01
   http://aiops-api/health
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>curl -v -H "traceparent: 00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01" \</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
-| 第 2 行 | <code>  http://aiops-api/health</code> | 执行 `http://aiops-api/health` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 看应用日志或 trace 后端是否保留同一 trace_id。
 
 ## 排障流程：后端无数据
@@ -1814,27 +1231,11 @@ exporters:
       insecure: true
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>exporters:</code> | 定义 `exporters` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  otlp:</code> | 定义 `otlp` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 3 行 | <code>    endpoint: tempo:4317</code> | `endpoint` 是后端地址端点，`tempo:4317` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 4 行 | <code>    tls:</code> | 定义 `tls` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 5 行 | <code>      insecure: true</code> | `insecure` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`true` 表示开启这个配置；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
 看 Collector logs：
 
 ```bash
 kubectl logs -n observability deploy/otel-collector --tail=200
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl logs -n observability deploy/otel-collector --tail=200</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
 常见：
 
@@ -1873,29 +1274,6 @@ echo
 echo "== events =="
 kubectl get events -n "$ns" --sort-by=.lastTimestamp || true
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>#!/usr/bin/env bash</code> | 注释行，提前说明下面命令的目的或注意事项。 |
-| 第 2 行 | <code>set -euo pipefail</code> | 设置 shell 或工具变量，具体含义取决于当前终端环境。 |
-| 第 4 行 | <code>ns="${1:-observability}"</code> | 执行 `ns="${1:-observability}"` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 5 行 | <code>app="${2:-otel-collector}"</code> | 执行 `app="${2:-otel-collector}"` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 7 行 | <code>echo "== collector pods =="</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
-| 第 8 行 | <code>kubectl get pods -n "$ns" -l "app=$app" -o wide &#124;&#124; true</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
-| 第 10 行 | <code>echo</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
-| 第 11 行 | <code>echo "== collector service =="</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
-| 第 12 行 | <code>kubectl get svc -n "$ns" -l "app=$app" -o wide &#124;&#124; true</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
-| 第 14 行 | <code>echo</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
-| 第 15 行 | <code>echo "== logs =="</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
-| 第 16 行 | <code>kubectl logs -n "$ns" -l "app=$app" --tail=200 &#124;&#124; true</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
-| 第 18 行 | <code>echo</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
-| 第 19 行 | <code>echo "== describe =="</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
-| 第 20 行 | <code>kubectl describe pod -n "$ns" -l "app=$app" &#124;&#124; true</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
-| 第 22 行 | <code>echo</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
-| 第 23 行 | <code>echo "== events =="</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
-| 第 24 行 | <code>kubectl get events -n "$ns" --sort-by=.lastTimestamp &#124;&#124; true</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
 
 生产化前要补：
 

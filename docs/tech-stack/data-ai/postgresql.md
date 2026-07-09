@@ -62,18 +62,6 @@ PostgreSQL instance
         -> function
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>PostgreSQL instance</code> | 这一行里的英文要这样读：`PostgreSQL instance` 这个英文标识可以拆开理解为：实例名称字段。 |
-| 第 2 行 | <code>  -&gt; database</code> | 这一行要理解这些英文词：`database` 是数据库。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>     -&gt; schema</code> | 这一行要理解这些英文词：`schema` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>        -&gt; table</code> | 这一行要理解这些英文词：`table` 是表。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>        -&gt; index</code> | 这一行要理解这些英文词：`index` 是索引或目录。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>        -&gt; view</code> | 这一行要理解这些英文词：`view` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>        -&gt; function</code> | 这一行要理解这些英文词：`function` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 常见理解：
 
 - database 是隔离的数据库空间。
@@ -149,25 +137,6 @@ PostgreSQL
   +--> backup / replica
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>FastAPI / worker</code> | `FastAPI / worker` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>  &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 3 行 | <code>  v</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 4 行 | <code>PostgreSQL</code> | 这一行里的英文要这样读：`PostgreSQL` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 5 行 | <code>  &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 6 行 | <code>  +--&gt; table: alerts</code> | 这一行要理解这些英文词：`table` 是表；`alerts` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  +--&gt; table: incidents</code> | 这一行要理解这些英文词：`table` 是表；`incidents` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>  +--&gt; table: changes</code> | 这一行要理解这些英文词：`table` 是表；`changes` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 9 行 | <code>  +--&gt; table: runbook_runs</code> | 这一行要理解这些英文词：`table` 是表；`runbook_runs` 是runbook=故障处理手册。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 10 行 | <code>  +--&gt; table: feedback</code> | 这一行要理解这些英文词：`table` 是表；`feedback` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 11 行 | <code>  +--&gt; index: service + started_at</code> | 这一行要理解这些英文词：`index` 是索引或目录；`service` 是服务；`started_at` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 12 行 | <code>  +--&gt; JSONB: raw alert payload</code> | 这一行要理解这些英文词：`JSONB` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`raw alert payload` 是alert=告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 13 行 | <code>  +--&gt; WAL</code> | 这一行要理解这些英文词：`WAL` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 14 行 | <code>  +--&gt; backup / replica</code> | 这一行要理解这些英文词：`backup` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`replica` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 一个 AIOps 事件可以这样落库：
 
 ```text
@@ -179,18 +148,6 @@ Alertmanager webhook
   -> user feedback updates incident status
   -> RCA stores final summary
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Alertmanager webhook</code> | 这一行里的英文要这样读：`Alertmanager webhook` 这个英文标识可以拆开理解为：通过 HTTP 回调接收通知的接口。 |
-| 第 2 行 | <code>  -&gt; alert-api</code> | 这一行要理解这些英文词：`alert-api` 是alert=告警，api=应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; insert alerts</code> | 这一行要理解这些英文词：`insert alerts` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; dedupe worker creates incident_candidate</code> | 这一行要理解这些英文词：`dedupe worker creates incident_candidate` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; runbook worker records action</code> | 这一行要理解这些英文词：`runbook worker records action` 是runbook=故障处理手册。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; user feedback updates incident status</code> | 这一行要理解这些英文词：`user feedback updates incident status` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; RCA stores final summary</code> | 这一行要理解这些英文词：`RCA stores final summary` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 ## 最小数据模型
 
@@ -215,27 +172,6 @@ CREATE INDEX idx_alerts_labels_gin
 ON alerts USING GIN (labels);
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>CREATE TABLE alerts (</code> | 创建数据库对象，例如表、索引或视图。 |
-| 第 2 行 | <code>  id BIGSERIAL PRIMARY KEY,</code> | SQL 语句的续行，通常补充字段、条件、函数参数或子查询结构。 |
-| 第 3 行 | <code>  fingerprint TEXT NOT NULL,</code> | SQL 语句的续行，通常补充字段、条件、函数参数或子查询结构。 |
-| 第 4 行 | <code>  service_name TEXT NOT NULL,</code> | SQL 语句的续行，通常补充字段、条件、函数参数或子查询结构。 |
-| 第 5 行 | <code>  severity TEXT NOT NULL,</code> | SQL 语句的续行，通常补充字段、条件、函数参数或子查询结构。 |
-| 第 6 行 | <code>  status TEXT NOT NULL,</code> | SQL 语句的续行，通常补充字段、条件、函数参数或子查询结构。 |
-| 第 7 行 | <code>  labels JSONB NOT NULL DEFAULT '{}',</code> | SQL 语句的续行，通常补充字段、条件、函数参数或子查询结构。 |
-| 第 8 行 | <code>  annotations JSONB NOT NULL DEFAULT '{}',</code> | SQL 语句的续行，通常补充字段、条件、函数参数或子查询结构。 |
-| 第 9 行 | <code>  starts_at TIMESTAMPTZ NOT NULL,</code> | SQL 语句的续行，通常补充字段、条件、函数参数或子查询结构。 |
-| 第 10 行 | <code>  ends_at TIMESTAMPTZ,</code> | SQL 语句的续行，通常补充字段、条件、函数参数或子查询结构。 |
-| 第 11 行 | <code>  created_at TIMESTAMPTZ NOT NULL DEFAULT now()</code> | 创建数据库对象，例如表、索引或视图。 |
-| 第 12 行 | <code>);</code> | SQL 语句的续行，通常补充字段、条件、函数参数或子查询结构。 |
-| 第 14 行 | <code>CREATE INDEX idx_alerts_service_time</code> | 创建数据库对象，例如表、索引或视图。 |
-| 第 15 行 | <code>ON alerts (service_name, starts_at DESC);</code> | SQL 语句的续行，通常补充字段、条件、函数参数或子查询结构。 |
-| 第 17 行 | <code>CREATE INDEX idx_alerts_labels_gin</code> | 创建数据库对象，例如表、索引或视图。 |
-| 第 18 行 | <code>ON alerts USING GIN (labels);</code> | SQL 语句的续行，通常补充字段、条件、函数参数或子查询结构。 |
-
 查询最近 24 小时告警最多的服务：
 
 ```sql
@@ -246,16 +182,6 @@ GROUP BY service_name
 ORDER BY alert_count DESC;
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>SELECT service_name, COUNT(*) AS alert_count</code> | 选择最终要返回的字段或计算结果，是查询结果表头的来源。 |
-| 第 2 行 | <code>FROM alerts</code> | 指定从哪张表读取数据，是 SQL 逻辑执行的起点。 |
-| 第 3 行 | <code>WHERE starts_at &gt;= now() - interval '24 hours'</code> | 过滤原始数据行，只保留符合条件的记录。 |
-| 第 4 行 | <code>GROUP BY service_name</code> | 按指定字段分组，让每组单独统计或聚合。 |
-| 第 5 行 | <code>ORDER BY alert_count DESC;</code> | 对查询结果排序，让最重要或最新的数据排在前面。 |
-
 查询某个标签：
 
 ```sql
@@ -263,14 +189,6 @@ SELECT *
 FROM alerts
 WHERE labels @> '{"team": "platform"}';
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>SELECT *</code> | 选择最终要返回的字段或计算结果，是查询结果表头的来源。 |
-| 第 2 行 | <code>FROM alerts</code> | 指定从哪张表读取数据，是 SQL 逻辑执行的起点。 |
-| 第 3 行 | <code>WHERE labels @&gt; '{"team": "platform"}';</code> | 过滤原始数据行，只保留符合条件的记录。 |
 
 ## 常用观测点
 
@@ -298,17 +216,6 @@ labs/postgresql-aiops-store/
   README.md
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>labs/postgresql-aiops-store/</code> | `labs/postgresql-aiops-store/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>  compose.yaml</code> | `compose.yaml` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 3 行 | <code>  schema.sql</code> | `schema.sql` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 4 行 | <code>  seed.sql</code> | `seed.sql` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 5 行 | <code>  queries.sql</code> | `queries.sql` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 6 行 | <code>  README.md</code> | `README.md` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-
 `compose.yaml` 可以先只跑一个 PostgreSQL：
 
 ```yaml
@@ -322,20 +229,6 @@ services:
     ports:
       - "5432:5432"
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>services:</code> | 定义 `services` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  postgres:</code> | 定义 `postgres` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 3 行 | <code>    image: postgres:17</code> | `image` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`postgres:17` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 4 行 | <code>    environment:</code> | 定义 `environment` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 5 行 | <code>      POSTGRES_USER: aiops</code> | `POSTGRES_USER` 这个英文标识可以拆开理解为：用户，`aiops` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 6 行 | <code>      POSTGRES_PASSWORD: aiops</code> | `POSTGRES_PASSWORD` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`aiops` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 7 行 | <code>      POSTGRES_DB: aiops</code> | `POSTGRES_DB` 这个英文标识可以拆开理解为：数据库，`aiops` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 8 行 | <code>    ports:</code> | 定义 `ports` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 9 行 | <code>      - "5432:5432"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
 
 实验目标：
 

@@ -29,15 +29,6 @@ docs/incidents/2026-06-18-order-api-5xx.md
 docs/service-notes/mysql-connection-pool.md
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>docs/runbooks/order-api.md</code> | `docs/runbooks/order-api.md` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>docs/runbooks/payment-api.md</code> | `docs/runbooks/payment-api.md` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 3 行 | <code>docs/incidents/2026-06-18-order-api-5xx.md</code> | `docs/incidents/2026-06-18-order-api-5xx.md` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 4 行 | <code>docs/service-notes/mysql-connection-pool.md</code> | `docs/service-notes/mysql-connection-pool.md` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-
 但新人值班时还是会卡住：
 
 - 搜 `error` 出来几百条。
@@ -115,45 +106,6 @@ RAG
      -> safety
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>RAG</code> | 这一行里的英文要这样读：`RAG` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 2 行 | <code>  -&gt; Knowledge sources</code> | 这一行要理解这些英文词：`Knowledge sources` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>     -&gt; runbooks</code> | 这一行要理解这些英文词：`runbooks` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>     -&gt; incident reports</code> | 这一行要理解这些英文词：`incident reports` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>     -&gt; service docs</code> | 这一行要理解这些英文词：`service docs` 是service=服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>     -&gt; tickets</code> | 这一行要理解这些英文词：`tickets` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>     -&gt; dashboards notes</code> | 这一行要理解这些英文词：`dashboards notes` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>  -&gt; Offline indexing</code> | 这一行要理解这些英文词：`Offline indexing` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 9 行 | <code>     -&gt; load documents</code> | 这一行要理解这些英文词：`load documents` 是load=加载。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 10 行 | <code>     -&gt; clean / normalize</code> | 这一行要理解这些英文词：`clean` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`normalize` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 11 行 | <code>     -&gt; split into chunks</code> | 这一行要理解这些英文词：`split into chunks` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 12 行 | <code>     -&gt; attach metadata</code> | 这一行要理解这些英文词：`attach metadata` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 13 行 | <code>     -&gt; create embeddings</code> | 这一行要理解这些英文词：`create embeddings` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 14 行 | <code>     -&gt; store in vector database</code> | 这一行要理解这些英文词：`store in vector database` 是database=数据库。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 15 行 | <code>  -&gt; Online retrieval</code> | 这一行要理解这些英文词：`Online retrieval` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 16 行 | <code>     -&gt; receive query / alert context</code> | 这一行要理解这些英文词：`receive query` 是query=查询；`alert context` 是alert=告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 17 行 | <code>     -&gt; query rewriting optional</code> | 这一行要理解这些英文词：`query rewriting optional` 是query=查询。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 18 行 | <code>     -&gt; create query embedding</code> | 这一行要理解这些英文词：`create query embedding` 是query=查询。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 19 行 | <code>     -&gt; vector search</code> | 这一行要理解这些英文词：`vector search` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 20 行 | <code>     -&gt; keyword / hybrid search optional</code> | 这一行要理解这些英文词：`keyword` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`hybrid search optional` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 21 行 | <code>     -&gt; metadata filter</code> | 这一行要理解这些英文词：`metadata filter` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 22 行 | <code>     -&gt; rerank optional</code> | 这一行要理解这些英文词：`rerank optional` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 23 行 | <code>     -&gt; context packing</code> | 这一行要理解这些英文词：`context packing` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 24 行 | <code>  -&gt; Generation</code> | 这一行要理解这些英文词：`Generation` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 25 行 | <code>     -&gt; prompt with retrieved context</code> | 这一行要理解这些英文词：`prompt with retrieved context` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 26 行 | <code>     -&gt; structured output</code> | 这一行要理解这些英文词：`structured output` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 27 行 | <code>     -&gt; cite sources</code> | 这一行要理解这些英文词：`cite sources` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 28 行 | <code>     -&gt; refuse when context is insufficient</code> | 这一行要理解这些英文词：`refuse when context is insufficient` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 29 行 | <code>  -&gt; Evaluation</code> | 这一行要理解这些英文词：`Evaluation` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 30 行 | <code>     -&gt; retrieval recall</code> | 这一行要理解这些英文词：`retrieval recall` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 31 行 | <code>     -&gt; answer faithfulness</code> | 这一行要理解这些英文词：`answer faithfulness` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 32 行 | <code>     -&gt; citation accuracy</code> | 这一行要理解这些英文词：`citation accuracy` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 33 行 | <code>     -&gt; latency / cost</code> | 这一行要理解这些英文词：`latency` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`cost` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 34 行 | <code>     -&gt; safety</code> | 这一行要理解这些英文词：`safety` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 初学路线：
 
 ```text
@@ -167,19 +119,6 @@ two markdown runbooks
   -> evaluate retrieval and answer
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>two markdown runbooks</code> | 这一行里的英文要这样读：`two markdown runbooks` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 2 行 | <code>  -&gt; chunk</code> | 这一行要理解这些英文词：`chunk` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; OpenAI embeddings</code> | 这一行要理解这些英文词：`OpenAI embeddings` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; Chroma collection</code> | 这一行要理解这些英文词：`Chroma collection` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; retrieve top-k chunks</code> | 这一行要理解这些英文词：`retrieve top-k chunks` 是retrieve=检索。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; OpenAI Responses API</code> | 这一行要理解这些英文词：`OpenAI Responses API` 是api=应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; answer with sources</code> | 这一行要理解这些英文词：`answer with sources` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>  -&gt; evaluate retrieval and answer</code> | 这一行要理解这些英文词：`evaluate retrieval and answer` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 ## RAG 在 AIOps 链路中的位置
 
 RAG 是 AIOps 的“知识连接层”。
@@ -192,17 +131,6 @@ Alertmanager / incident ticket / on-call question
   -> human review
   -> optional runbook automation with approval
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Alertmanager / incident ticket / on-call question</code> | `Alertmanager / incident ticket / on-call question` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>  -&gt; normalize alert context</code> | 这一行要理解这些英文词：`normalize alert context` 是alert=告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; retrieve runbooks, incident reports, service docs</code> | 这一行要理解这些英文词：`retrieve runbooks` 是retrieve=检索；`incident reports` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`service docs` 是service=服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; LLM answer with evidence</code> | 这一行要理解这些英文词：`LLM answer with evidence` 是llm=大语言模型。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; human review</code> | 这一行要理解这些英文词：`human review` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; optional runbook automation with approval</code> | 这一行要理解这些英文词：`optional runbook automation with approval` 是runbook=故障处理手册。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 它适合：
 
@@ -243,19 +171,6 @@ human
   -> approve risky actions
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>rules</code> | 这一行里的英文要这样读：`rules` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 2 行 | <code>  -&gt; detect known conditions</code> | 这一行要理解这些英文词：`detect known conditions` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>RAG</code> | 这一行里的英文要这样读：`RAG` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 4 行 | <code>  -&gt; retrieve internal knowledge</code> | 这一行要理解这些英文词：`retrieve internal knowledge` 是retrieve=检索。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>LLM</code> | 这一行里的英文要这样读：`LLM` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 6 行 | <code>  -&gt; summarize, explain, structure</code> | 这一行要理解这些英文词：`summarize` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`explain` 是解释执行计划的命令；`structure` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>human</code> | 这一行里的英文要这样读：`human` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 8 行 | <code>  -&gt; approve risky actions</code> | 这一行要理解这些英文词：`approve risky actions` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 ## 两条主链路
 
 RAG 分离线入库和在线问答。
@@ -272,18 +187,6 @@ runbook markdown / incident report / wiki
   -> vector database
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>runbook markdown / incident report / wiki</code> | `runbook markdown / incident report / wiki` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>  -&gt; loader</code> | 这一行要理解这些英文词：`loader` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; cleaner</code> | 这一行要理解这些英文词：`cleaner` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; splitter</code> | 这一行要理解这些英文词：`splitter` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; chunk metadata</code> | 这一行要理解这些英文词：`chunk metadata` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; embedding model</code> | 这一行要理解这些英文词：`embedding model` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; vector database</code> | 这一行要理解这些英文词：`vector database` 是database=数据库。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 这条链路可以定时跑，也可以在文档变更时由 CI/CD 触发。
 
 ### 在线问答
@@ -299,20 +202,6 @@ question / alert context
   -> LLM answer
   -> sources / citations
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>question / alert context</code> | `question / alert context` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>  -&gt; query embedding</code> | 这一行要理解这些英文词：`query embedding` 是query=查询。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; vector search</code> | 这一行要理解这些英文词：`vector search` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; metadata filter</code> | 这一行要理解这些英文词：`metadata filter` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; top-k chunks</code> | 这一行要理解这些英文词：`top-k chunks` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; rerank optional</code> | 这一行要理解这些英文词：`rerank optional` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; context packing</code> | 这一行要理解这些英文词：`context packing` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>  -&gt; LLM answer</code> | 这一行要理解这些英文词：`LLM answer` 是llm=大语言模型。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 9 行 | <code>  -&gt; sources / citations</code> | 这一行要理解这些英文词：`sources` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`citations` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 这条链路是用户提问时实时发生的。
 
@@ -339,15 +228,6 @@ order-api-runbook.md
   -> chunk 3: DatabaseTimeout 排查
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>order-api-runbook.md</code> | `order-api-runbook.md` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>  -&gt; chunk 1: 服务概览</code> | 这一行要理解这些英文词：`chunk` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; chunk 2: HighErrorRate 排查</code> | 这一行要理解这些英文词：`chunk` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`HighErrorRate` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; chunk 3: DatabaseTimeout 排查</code> | 这一行要理解这些英文词：`chunk` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`DatabaseTimeout` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 检索时通常不是检索整篇文档，而是检索 chunk。
 
 ### Embedding
@@ -358,13 +238,6 @@ Embedding 是文本的向量表示。
 "order-api 5xx error rate after deploy"
   -> [0.012, -0.083, ...]
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>"order-api 5xx error rate after deploy"</code> | 这一行里的英文要这样读：`order-api 5xx error rate after deploy` 里的 order 表示订单业务，api 表示接口服务，合起来通常指订单接口服务。 |
-| 第 2 行 | <code>  -&gt; [0.012, -0.083, ...]</code> | 这一行表示上一级主题下的子项“[0.012, -0.083, ...]”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
 
 相似文本的向量距离更近。
 
@@ -436,15 +309,6 @@ AIOps runbook 比较适合按标题切：
 ## PaymentDependencyError
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code># order-api Runbook</code> | 这一行里的英文要这样读：`order-api Runbook` 里的 order 表示订单业务，api 表示接口服务，合起来通常指订单接口服务。 |
-| 第 2 行 | <code>## HighErrorRate</code> | 这一行里的英文要这样读：`HighErrorRate` 是高错误率告警名，通常表示某个服务的请求失败比例超过阈值。 |
-| 第 3 行 | <code>## DatabaseTimeout</code> | 这一行里的英文要这样读：`DatabaseTimeout` 这个英文标识可以拆开理解为：数据库名称字段，超时时间字段。 |
-| 第 4 行 | <code>## PaymentDependencyError</code> | 这一行里的英文要这样读：`PaymentDependencyError` 这个英文标识可以拆开理解为：错误。 |
-
 每个二级标题通常是一个自然排障主题。
 
 ## metadata 深讲
@@ -471,14 +335,6 @@ doc_type in [runbook, incident]
 updated_at >= 2025-01-01
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>service = order-api</code> | `service` 是主机、服务、告警或资源的示例名称；`service` 是服务名称字段，`order-api` 是具体服务名，表示这条记录属于这个服务。 |
-| 第 2 行 | <code>doc_type in [runbook, incident]</code> | 这一行里的英文要这样读：`doc_type in` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`runbook` 是故障处理手册；`incident` 是线上故障或事件。 |
-| 第 3 行 | <code>updated_at &gt;= 2025-01-01</code> | 这一行里的英文要这样读：`updated_at` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-
 这比只靠向量相似度更可靠。
 
 ## 检索方式
@@ -501,14 +357,6 @@ mysql_max_connections
 HTTP 502
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>HighErrorRate</code> | 这一行里的英文要这样读：`HighErrorRate` 是高错误率告警名，通常表示某个服务的请求失败比例超过阈值。 |
-| 第 2 行 | <code>mysql_max_connections</code> | 这一行里的英文要这样读：`mysql_max_connections` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 3 行 | <code>HTTP 502</code> | 这一行里的英文要这样读：`HTTP` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-
 ### 向量检索
 
 向量检索擅长语义相似：
@@ -517,25 +365,12 @@ HTTP 502
 “订单服务 5xx 变多”
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>“订单服务 5xx 变多”</code> | 这一行里的英文要这样读：`5xx` 是HTTP 5xx 服务端错误，表示请求到达服务端但服务端处理失败。 |
-
 可以匹配：
 
 ```text
 order-api error rate increased
 HighErrorRate
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>order-api error rate increased</code> | 这一行里的英文要这样读：`order-api error rate increased` 里的 order 表示订单业务，api 表示接口服务，合起来通常指订单接口服务。 |
-| 第 2 行 | <code>HighErrorRate</code> | 这一行里的英文要这样读：`HighErrorRate` 是高错误率告警名，通常表示某个服务的请求失败比例超过阈值。 |
 
 即使关键词不完全一致。
 
@@ -548,12 +383,6 @@ AIOps 中很常见，因为问题里既有精确词，也有语义表达：
 ```text
 order-api 502 after deploy
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>order-api 502 after deploy</code> | 这一行里的英文要这样读：`order-api` 里的 order 表示订单业务，api 表示接口服务，合起来通常指订单接口服务；`after deploy` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 这里：
 
@@ -574,16 +403,6 @@ query
   -> keep top 5
   -> generate answer
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>query</code> | 这一行里的英文要这样读：`query` 是查询。 |
-| 第 2 行 | <code>  -&gt; retrieve top 20</code> | 这一行要理解这些英文词：`retrieve top` 是retrieve=检索。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; rerank</code> | 这一行要理解这些英文词：`rerank` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; keep top 5</code> | 这一行要理解这些英文词：`keep top` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; generate answer</code> | 这一行要理解这些英文词：`generate answer` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 rerank 的价值：
 
@@ -612,17 +431,6 @@ content:
 ...
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 2 行 | <code>source: docs/runbooks/order-api.md</code> | `source` 是source 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `docs/runbooks/order-api.md` 是这个字段的示例内容或模板表达式。 |
-| 第 3 行 | <code>section: HighErrorRate</code> | `section` 是section 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `HighErrorRate` 是这个字段的示例内容或模板表达式。 |
-| 第 4 行 | <code>content:</code> | `content` 是content 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号表示后面要填写或列出这个字段的具体内容。 |
-| 第 8 行 | <code>source: docs/incidents/2026-06-18-order-api-5xx.md</code> | `source` 是source 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `docs/incidents/2026-06-18-order-api-5xx.md` 是这个字段的示例内容或模板表达式。 |
-| 第 9 行 | <code>section: Root Cause</code> | `section` 是section 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `Root Cause` 是这个字段的示例内容或模板表达式。 |
-| 第 10 行 | <code>content:</code> | `content` 是content 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号表示后面要填写或列出这个字段的具体内容。 |
-
 提示词里明确：
 
 ```text
@@ -632,12 +440,6 @@ content:
 每条建议必须引用 source。
 资料不足时回答“资料不足”。
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 4 行 | <code>每条建议必须引用 source。</code> | 这一行里的英文要这样读：`source` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 这能降低两类问题：
 
@@ -735,22 +537,6 @@ projects/rag-runbook-assistant/
   inspect_retrieval.py
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>projects/rag-runbook-assistant/</code> | `projects/rag-runbook-assistant/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>  README.md</code> | `README.md` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 3 行 | <code>  .env.example</code> | `.env.example` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 4 行 | <code>  .gitignore</code> | `.gitignore` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 5 行 | <code>  requirements.txt</code> | `requirements.txt` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 6 行 | <code>  docs/</code> | `docs/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 7 行 | <code>    order-api-runbook.md</code> | `order-api-runbook.md` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 8 行 | <code>    payment-api-runbook.md</code> | `payment-api-runbook.md` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 9 行 | <code>  ingest.py</code> | `ingest.py` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 10 行 | <code>  ask.py</code> | `ask.py` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 11 行 | <code>  inspect_retrieval.py</code> | `inspect_retrieval.py` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-
 ### requirements.txt
 
 ```text
@@ -760,15 +546,6 @@ chromadb
 pydantic
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>openai</code> | 这一行里的英文要这样读：`openai` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 2 行 | <code>python-dotenv</code> | 这一行里的英文要这样读：`python-dotenv` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 3 行 | <code>chromadb</code> | 这一行里的英文要这样读：`chromadb` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 4 行 | <code>pydantic</code> | 这一行里的英文要这样读：`pydantic` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-
 ### .env.example
 
 ```text
@@ -776,14 +553,6 @@ OPENAI_API_KEY=your_api_key_here
 OPENAI_MODEL=gpt-5.5
 OPENAI_EMBEDDING_MODEL=text-embedding-3-small
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>OPENAI_API_KEY=your_api_key_here</code> | `OPENAI_API_KEY` 这个英文标识可以拆开理解为：应用程序接口，`your_api_key_here` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
-| 第 2 行 | <code>OPENAI_MODEL=gpt-5.5</code> | `OPENAI_MODEL` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`gpt-5.5` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
-| 第 3 行 | <code>OPENAI_EMBEDDING_MODEL=text-embedding-3-small</code> | `OPENAI_EMBEDDING_MODEL` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`text-embedding-3-small` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
 
 ### .gitignore
 
@@ -793,15 +562,6 @@ OPENAI_EMBEDDING_MODEL=text-embedding-3-small
 __pycache__/
 chroma_db/
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>.env</code> | `.env` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>.venv/</code> | `.venv/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 3 行 | <code>__pycache__/</code> | `__pycache__/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 4 行 | <code>chroma_db/</code> | `chroma_db/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 ## 准备 Runbook
 
@@ -844,26 +604,6 @@ service: order-api
 4. 最近是否有 SQL 变更。
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code># order-api Runbook</code> | 这一行里的英文要这样读：`order-api Runbook` 里的 order 表示订单业务，api 表示接口服务，合起来通常指订单接口服务。 |
-| 第 3 行 | <code>owner: platform-team</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 4 行 | <code>service: order-api</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 6 行 | <code>## HighErrorRate</code> | 这一行里的英文要这样读：`HighErrorRate` 是高错误率告警名，通常表示某个服务的请求失败比例超过阈值。 |
-| 第 8 行 | <code>现象：order-api 5xx 错误率超过 10%，并且持续 5 分钟。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 11 行 | <code>1. 最近 30 分钟是否有 order-api 发布。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 13 行 | <code>3. payment-api 是否出现 5xx 或超时。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 14 行 | <code>4. p95 延迟是否同时升高。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 19 行 | <code>3. 查看 payment-api 健康状态。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 23 行 | <code>2. 重启 order-api。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 26 行 | <code>## DatabaseTimeout</code> | 这一行里的英文要这样读：`DatabaseTimeout` 这个英文标识可以拆开理解为：数据库名称字段，超时时间字段。 |
-| 第 28 行 | <code>现象：日志中出现 database connection timeout。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 31 行 | <code>1. 数据库连接池 active 连接数。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 33 行 | <code>3. 数据库 CPU 和连接数。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 34 行 | <code>4. 最近是否有 SQL 变更。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-
 `docs/payment-api-runbook.md`：
 
 ```md
@@ -887,19 +627,6 @@ service: payment-api
 2. 查询 TLS 错误日志。
 3. 联系 payment-team 值班人。
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code># payment-api Runbook</code> | 这一行里的英文要这样读：`payment-api Runbook` 这个英文标识可以拆开理解为：应用程序接口，故障处理手册。 |
-| 第 3 行 | <code>owner: payment-team</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 4 行 | <code>service: payment-api</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 6 行 | <code>## HighLatency</code> | 这一行里的英文要这样读：`HighLatency` 是高延迟告警名，通常表示请求耗时超过阈值。 |
-| 第 8 行 | <code>现象：payment-api p95 延迟超过 1500ms。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 12 行 | <code>2. TLS 握手错误率。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 18 行 | <code>2. 查询 TLS 错误日志。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 19 行 | <code>3. 联系 payment-team 值班人。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
 
 ## 文档切分脚本
 
@@ -993,88 +720,11 @@ collection.upsert(
 print(f"indexed {len(documents)} chunks")
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>import os</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
-| 第 2 行 | <code>from pathlib import Path</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 4 行 | <code>import chromadb</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
-| 第 5 行 | <code>from dotenv import load_dotenv</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 6 行 | <code>from openai import OpenAI</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 8 行 | <code>load_dotenv()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 10 行 | <code>openai_client = OpenAI()</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 11 行 | <code>embedding_model = os.getenv("OPENAI_EMBEDDING_MODEL", "text-embedding-3-small")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 13 行 | <code>chroma_client = chromadb.PersistentClient(path="./chroma_db")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 14 行 | <code>collection = chroma_client.get_or_create_collection(name="aiops_runbooks")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 17 行 | <code>def embed(texts: list[str]) -&gt; list[list[float]]:</code> | 定义函数，把一段可复用逻辑命名，后续可以反复调用。 |
-| 第 18 行 | <code>    response = openai_client.embeddings.create(</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 19 行 | <code>        model=embedding_model,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 20 行 | <code>        input=texts,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 21 行 | <code>    )</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 22 行 | <code>    return [item.embedding for item in response.data]</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-| 第 25 行 | <code>def split_markdown(path: Path) -&gt; list[dict]:</code> | 定义函数，把一段可复用逻辑命名，后续可以反复调用。 |
-| 第 26 行 | <code>    text = path.read_text(encoding="utf-8")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 27 行 | <code>    chunks = []</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 28 行 | <code>    current_title = path.stem</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 29 行 | <code>    current_lines = []</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 31 行 | <code>    for line in text.splitlines():</code> | 循环处理一组数据，常用于逐条处理告警、日志或指标样本。 |
-| 第 32 行 | <code>        if line.startswith("## "):</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
-| 第 33 行 | <code>            if current_lines:</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
-| 第 34 行 | <code>                chunks.append(</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 35 行 | <code>                    {</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 36 行 | <code>                        "section": current_title,</code> | `section` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`current_title` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 37 行 | <code>                        "content": "\n".join(current_lines).strip(),</code> | `content` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`\n".join(current_lines).strip()` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 38 行 | <code>                    }</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 39 行 | <code>                )</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 40 行 | <code>            current_title = line.replace("## ", "", 1).strip()</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 41 行 | <code>            current_lines = [line]</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 42 行 | <code>        else:</code> | 兜底分支，前面的条件都不成立时执行。 |
-| 第 43 行 | <code>            current_lines.append(line)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 45 行 | <code>    if current_lines:</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
-| 第 46 行 | <code>        chunks.append(</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 47 行 | <code>            {</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 48 行 | <code>                "section": current_title,</code> | `section` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`current_title` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 49 行 | <code>                "content": "\n".join(current_lines).strip(),</code> | `content` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`\n".join(current_lines).strip()` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 50 行 | <code>            }</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 51 行 | <code>        )</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 53 行 | <code>    return chunks</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-| 第 56 行 | <code>documents = []</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 57 行 | <code>metadatas = []</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 58 行 | <code>ids = []</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 60 行 | <code>for path in Path("docs").glob("*.md"):</code> | 循环处理一组数据，常用于逐条处理告警、日志或指标样本。 |
-| 第 61 行 | <code>    service = path.stem.replace("-runbook", "")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 62 行 | <code>    for index, chunk in enumerate(split_markdown(path)):</code> | 循环处理一组数据，常用于逐条处理告警、日志或指标样本。 |
-| 第 63 行 | <code>        documents.append(chunk["content"])</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 64 行 | <code>        metadatas.append(</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 65 行 | <code>            {</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 66 行 | <code>                "source": str(path),</code> | `source` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`str(path)` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 67 行 | <code>                "service": service,</code> | `service` 是服务名称字段，`service` 是具体服务名，表示这条记录属于这个服务；这是 Python 字典里的一个键值对。 |
-| 第 68 行 | <code>                "section": chunk["section"],</code> | `section` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`chunk["section"]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 69 行 | <code>                "doc_type": "runbook",</code> | `doc_type` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`runbook` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 70 行 | <code>            }</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 71 行 | <code>        )</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 72 行 | <code>        ids.append(f"{path.stem}-{index}")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 74 行 | <code>embeddings = embed(documents)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 76 行 | <code>collection.upsert(</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 77 行 | <code>    ids=ids,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 78 行 | <code>    documents=documents,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 79 行 | <code>    metadatas=metadatas,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 80 行 | <code>    embeddings=embeddings,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 81 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 83 行 | <code>print(f"indexed {len(documents)} chunks")</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 运行：
 
 ```bash
 python ingest.py
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>python ingest.py</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
 
 这个脚本故意简单。真实项目里你会处理：
 
@@ -1136,42 +786,6 @@ for doc, metadata, distance in zip(
     print(doc[:500])
     print("-" * 60)
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>import os</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
-| 第 3 行 | <code>import chromadb</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
-| 第 4 行 | <code>from dotenv import load_dotenv</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 5 行 | <code>from openai import OpenAI</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 7 行 | <code>load_dotenv()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 9 行 | <code>openai_client = OpenAI()</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 10 行 | <code>embedding_model = os.getenv("OPENAI_EMBEDDING_MODEL", "text-embedding-3-small")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 12 行 | <code>chroma_client = chromadb.PersistentClient(path="./chroma_db")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 13 行 | <code>collection = chroma_client.get_or_create_collection(name="aiops_runbooks")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 16 行 | <code>def embed_query(query: str) -&gt; list[float]:</code> | 定义函数，把一段可复用逻辑命名，后续可以反复调用。 |
-| 第 17 行 | <code>    response = openai_client.embeddings.create(</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 18 行 | <code>        model=embedding_model,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 19 行 | <code>        input=query,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 20 行 | <code>    )</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 21 行 | <code>    return response.data[0].embedding</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-| 第 24 行 | <code>query = "order-api 5xx 错误率升高，最近刚发布，先检查什么？"</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 25 行 | <code>query_embedding = embed_query(query)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 27 行 | <code>results = collection.query(</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 28 行 | <code>    query_embeddings=[query_embedding],</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 29 行 | <code>    n_results=3,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 30 行 | <code>    include=["documents", "metadatas", "distances"],</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 31 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 33 行 | <code>for doc, metadata, distance in zip(</code> | 循环处理一组数据，常用于逐条处理告警、日志或指标样本。 |
-| 第 34 行 | <code>    results["documents"][0],</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 35 行 | <code>    results["metadatas"][0],</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 36 行 | <code>    results["distances"][0],</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 37 行 | <code>):</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 38 行 | <code>    print("distance:", distance)</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-| 第 39 行 | <code>    print("metadata:", metadata)</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-| 第 40 行 | <code>    print(doc[:500])</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-| 第 41 行 | <code>    print("-" * 60)</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
 
 如果这里检索结果不对，不要先怪 LLM。RAG 的质量上限往往先被检索决定。
 
@@ -1287,106 +901,11 @@ answer = response.output_parsed
 print(answer.model_dump_json(indent=2))
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>import json</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
-| 第 2 行 | <code>import os</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
-| 第 4 行 | <code>import chromadb</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
-| 第 5 行 | <code>from dotenv import load_dotenv</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 6 行 | <code>from openai import OpenAI</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 7 行 | <code>from pydantic import BaseModel</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 9 行 | <code>load_dotenv()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 11 行 | <code>openai_client = OpenAI()</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 12 行 | <code>model = os.getenv("OPENAI_MODEL", "gpt-5.5")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 13 行 | <code>embedding_model = os.getenv("OPENAI_EMBEDDING_MODEL", "text-embedding-3-small")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 15 行 | <code>chroma_client = chromadb.PersistentClient(path="./chroma_db")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 16 行 | <code>collection = chroma_client.get_or_create_collection(name="aiops_runbooks")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 19 行 | <code>class Source(BaseModel):</code> | 定义类，用来组织一组数据和行为。 |
-| 第 20 行 | <code>    source: str</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 21 行 | <code>    section: str</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 24 行 | <code>class RagAnswer(BaseModel):</code> | 定义类，用来组织一组数据和行为。 |
-| 第 25 行 | <code>    answer: str</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 26 行 | <code>    next_checks: list[str]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 27 行 | <code>    missing_information: list[str]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 28 行 | <code>    sources: list[Source]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 31 行 | <code>def embed_query(query: str) -&gt; list[float]:</code> | 定义函数，把一段可复用逻辑命名，后续可以反复调用。 |
-| 第 32 行 | <code>    response = openai_client.embeddings.create(</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 33 行 | <code>        model=embedding_model,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 34 行 | <code>        input=query,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 35 行 | <code>    )</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 36 行 | <code>    return response.data[0].embedding</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-| 第 39 行 | <code>def retrieve(query: str, k: int = 3) -&gt; list[dict]:</code> | 定义函数，把一段可复用逻辑命名，后续可以反复调用。 |
-| 第 40 行 | <code>    results = collection.query(</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 41 行 | <code>        query_embeddings=[embed_query(query)],</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 42 行 | <code>        n_results=k,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 43 行 | <code>        include=["documents", "metadatas", "distances"],</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 44 行 | <code>    )</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 46 行 | <code>    chunks = []</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 47 行 | <code>    for doc, metadata, distance in zip(</code> | 循环处理一组数据，常用于逐条处理告警、日志或指标样本。 |
-| 第 48 行 | <code>        results["documents"][0],</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 49 行 | <code>        results["metadatas"][0],</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 50 行 | <code>        results["distances"][0],</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 51 行 | <code>    ):</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 52 行 | <code>        chunks.append(</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 53 行 | <code>            {</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 54 行 | <code>                "content": doc,</code> | `content` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`doc` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 55 行 | <code>                "metadata": metadata,</code> | `metadata` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`metadata` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 56 行 | <code>                "distance": distance,</code> | `distance` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`distance` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 57 行 | <code>            }</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 58 行 | <code>        )</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 59 行 | <code>    return chunks</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-| 第 62 行 | <code>def build_context(chunks: list[dict]) -&gt; str:</code> | 定义函数，把一段可复用逻辑命名，后续可以反复调用。 |
-| 第 63 行 | <code>    parts = []</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 64 行 | <code>    for index, chunk in enumerate(chunks, start=1):</code> | 循环处理一组数据，常用于逐条处理告警、日志或指标样本。 |
-| 第 65 行 | <code>        metadata = chunk["metadata"]</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 66 行 | <code>        parts.append(</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 67 行 | <code>            "\n".join(</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 68 行 | <code>                [</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 69 行 | <code>                    f"资料 {index}",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 70 行 | <code>                    f"source: {metadata.get('source')}",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 71 行 | <code>                    f"service: {metadata.get('service')}",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 72 行 | <code>                    f"section: {metadata.get('section')}",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 73 行 | <code>                    "content:",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 74 行 | <code>                    chunk["content"],</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 75 行 | <code>                ]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 76 行 | <code>            )</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 77 行 | <code>        )</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 78 行 | <code>    return "\n\n".join(parts)</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-| 第 81 行 | <code>question = "order-api 5xx 错误率升高，最近刚发布，先检查什么？"</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 82 行 | <code>chunks = retrieve(question)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 83 行 | <code>context = build_context(chunks)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 85 行 | <code>response = openai_client.responses.parse(</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 86 行 | <code>    model=model,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 87 行 | <code>    instructions=(</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 88 行 | <code>        "你是严谨的 AIOps runbook 问答助手。"</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 90 行 | <code>        "只能根据资料回答。资料不足时必须写入 missing_information。"</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 91 行 | <code>        "每条建议必须能追溯到 sources。"</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 93 行 | <code>    ),</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 94 行 | <code>    input=json.dumps(</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 95 行 | <code>        {</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 96 行 | <code>            "question": question,</code> | `question` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`question` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 97 行 | <code>            "retrieved_context": context,</code> | `retrieved_context` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`context` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 98 行 | <code>        },</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 99 行 | <code>        ensure_ascii=False,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 100 行 | <code>    ),</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 101 行 | <code>    text_format=RagAnswer,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 102 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 104 行 | <code>answer = response.output_parsed</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 105 行 | <code>print(answer.model_dump_json(indent=2))</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 运行：
 
 ```bash
 python ask.py
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>python ask.py</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
 
 ## 输出应该像什么
 
@@ -1415,28 +934,6 @@ python ask.py
 }
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>{</code> | 对象开始，表示下面是一组键值对配置。 |
-| 第 2 行 | <code>  "answer": "order-api 5xx 错误率升高且最近刚发布时，应先查看最近发布记录，再检查数据库连接池、payment-api 状态和 p95 延迟。",</code> | `answer` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`order-api 5xx 错误率升高且最近刚发布时，应先查看最近发布记录，再检查数据库连接池、payment-api 状态和 p95 延迟。` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 3 行 | <code>  "next_checks": [</code> | `next_checks` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`[` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 4 行 | <code>    "查看最近 30 分钟 order-api 是否有发布",</code> | JSON 列表或对象中的一行，注意逗号和引号必须符合 JSON 语法。 |
-| 第 6 行 | <code>    "检查 payment-api 是否出现 5xx 或超时",</code> | JSON 列表或对象中的一行，注意逗号和引号必须符合 JSON 语法。 |
-| 第 7 行 | <code>    "确认 p95 延迟是否同时升高"</code> | JSON 列表或对象中的一行，注意逗号和引号必须符合 JSON 语法。 |
-| 第 8 行 | <code>  ],</code> | 当前对象或数组结束，逗号表示后面还有同级项目。 |
-| 第 9 行 | <code>  "missing_information": [</code> | `missing_information` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`[` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 11 行 | <code>    "当前没有 payment-api 健康状态",</code> | JSON 列表或对象中的一行，注意逗号和引号必须符合 JSON 语法。 |
-| 第 13 行 | <code>  ],</code> | 当前对象或数组结束，逗号表示后面还有同级项目。 |
-| 第 14 行 | <code>  "sources": [</code> | `sources` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`[` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 15 行 | <code>    {</code> | 对象开始，表示下面是一组键值对配置。 |
-| 第 16 行 | <code>      "source": "docs/runbooks/order-api-runbook.md",</code> | `source` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`docs/runbooks/order-api-runbook.md` 表示路径值，表示文件、目录或接口路径；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 17 行 | <code>      "section": "HighErrorRate"</code> | `section` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`HighErrorRate` 是高错误率告警名，表示请求失败比例过高；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 18 行 | <code>    }</code> | 对象结束，表示这一组键值对配置到这里结束。 |
-| 第 19 行 | <code>  ]</code> | 数组结束，表示同类值或对象列表到这里结束。 |
-| 第 20 行 | <code>}</code> | 对象结束，表示这一组键值对配置到这里结束。 |
-
 注意它没有说“根因一定是发布”。它只是把 runbook 中的检查顺序提取出来。
 
 ## OpenAI File Search 托管路径
@@ -1452,16 +949,6 @@ files
   -> Responses API
   -> answer
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>files</code> | 这一行里的英文要这样读：`files` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 2 行 | <code>  -&gt; OpenAI vector store</code> | 这一行要理解这些英文词：`OpenAI vector store` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; file_search tool</code> | 这一行要理解这些英文词：`file_search tool` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; Responses API</code> | 这一行要理解这些英文词：`Responses API` 是api=应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; answer</code> | 这一行要理解这些英文词：`answer` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 和自建 RAG 相比，你不用自己写 chunk、embedding、vector search 的底层逻辑。你需要管理：
 
@@ -1519,18 +1006,6 @@ RAG 要分别评估检索和回答。
 ]
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>[</code> | 数组开始，表示下面会列出多个同类值或对象。 |
-| 第 2 行 | <code>  {</code> | 对象开始，表示下面是一组键值对配置。 |
-| 第 3 行 | <code>    "question": "order-api 5xx 错误率升高先检查什么？",</code> | `question` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`order-api 5xx 错误率升高先检查什么？` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 4 行 | <code>    "expected_sources": ["docs/runbooks/order-api-runbook.md"],</code> | `expected_sources` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`["docs/runbooks/order-api-runbook.md"]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 5 行 | <code>    "expected_sections": ["HighErrorRate"]</code> | `expected_sections` 是期望命中的知识片段字段，`["HighErrorRate"]` 是高错误率告警名，表示请求失败比例过高；真实环境要根据自己的告警、服务或接口返回调整。 |
-| 第 6 行 | <code>  }</code> | 对象结束，表示这一组键值对配置到这里结束。 |
-| 第 7 行 | <code>]</code> | 数组结束，表示同类值或对象列表到这里结束。 |
-
 指标：
 
 | 指标 | 含义 |
@@ -1562,15 +1037,6 @@ RAG 要分别评估检索和回答。
 3 = 可辅助值班
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>0 = 错误或有害</code> | 这一行是符号、路径或状态片段，需要结合上下文确认它连接的是哪个组件、文件或排障证据。 |
-| 第 2 行 | <code>1 = 没有帮助</code> | 这一行是符号、路径或状态片段，需要结合上下文确认它连接的是哪个组件、文件或排障证据。 |
-| 第 3 行 | <code>2 = 部分有帮助</code> | 这一行是符号、路径或状态片段，需要结合上下文确认它连接的是哪个组件、文件或排障证据。 |
-| 第 4 行 | <code>3 = 可辅助值班</code> | 这一行是符号、路径或状态片段，需要结合上下文确认它连接的是哪个组件、文件或排障证据。 |
-
 ## RAG 与权限
 
 RAG 很容易忽略权限。
@@ -1594,15 +1060,6 @@ user/team
   -> metadata filter
   -> retrieve only allowed chunks
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>user/team</code> | `user/team` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>  -&gt; allowed_services</code> | 这一行要理解这些英文词：`allowed_services` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; metadata filter</code> | 这一行要理解这些英文词：`metadata filter` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; retrieve only allowed chunks</code> | 这一行要理解这些英文词：`retrieve only allowed chunks` 是retrieve=检索。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 生产系统不要让所有人都能检索所有事故复盘和内部文档。
 
@@ -1655,31 +1112,6 @@ FastAPI query service
   -> audit log
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Git repo / wiki / incident system</code> | `Git repo / wiki / incident system` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>  -&gt; ingestion job</code> | 这一行要理解这些英文词：`ingestion job` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>      -&gt; parse</code> | 这一行要理解这些英文词：`parse` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>      -&gt; clean</code> | 这一行要理解这些英文词：`clean` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>      -&gt; chunk</code> | 这一行要理解这些英文词：`chunk` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>      -&gt; metadata</code> | 这一行要理解这些英文词：`metadata` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>      -&gt; embeddings</code> | 这一行要理解这些英文词：`embeddings` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>      -&gt; vector store</code> | 这一行要理解这些英文词：`vector store` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 9 行 | <code>      -&gt; index health report</code> | 这一行要理解这些英文词：`index health report` 是index=索引或目录。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 11 行 | <code>FastAPI query service</code> | 这一行里的英文要这样读：`FastAPI query service` 这个英文标识可以拆开理解为：应用程序接口，查询，服务名称字段。 |
-| 第 12 行 | <code>  -&gt; authenticate user</code> | 这一行要理解这些英文词：`authenticate user` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 13 行 | <code>  -&gt; normalize question / alert context</code> | 这一行要理解这些英文词：`normalize question` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`alert context` 是alert=告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 14 行 | <code>  -&gt; metadata filters by service and permission</code> | 这一行要理解这些英文词：`metadata filters by service and permission` 是service=服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 15 行 | <code>  -&gt; retrieve top-k</code> | 这一行要理解这些英文词：`retrieve top-k` 是retrieve=检索。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 16 行 | <code>  -&gt; rerank</code> | 这一行要理解这些英文词：`rerank` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 17 行 | <code>  -&gt; pack context</code> | 这一行要理解这些英文词：`pack context` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 18 行 | <code>  -&gt; OpenAI Responses API with structured output</code> | 这一行要理解这些英文词：`OpenAI Responses API with structured output` 是api=应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 19 行 | <code>  -&gt; validate answer</code> | 这一行要理解这些英文词：`validate answer` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 20 行 | <code>  -&gt; return answer + sources</code> | 这一行要理解这些英文词：`return answer` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`sources` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 21 行 | <code>  -&gt; audit log</code> | 这一行要理解这些英文词：`audit log` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 关键工程点：
 
 - 文档入库要可重复。
@@ -1699,12 +1131,6 @@ FastAPI query service
 client.embeddings.create(model="text-embedding-3-small", input=texts)
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>client.embeddings.create(model="text-embedding-3-small", input=texts)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 把文本转换成向量。
 
 ### chromadb.PersistentClient
@@ -1712,12 +1138,6 @@ client.embeddings.create(model="text-embedding-3-small", input=texts)
 ```python
 chromadb.PersistentClient(path="./chroma_db")
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>chromadb.PersistentClient(path="./chroma_db")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
 创建本地持久化 Chroma 客户端。
 
@@ -1727,12 +1147,6 @@ chromadb.PersistentClient(path="./chroma_db")
 client.get_or_create_collection(name="aiops_runbooks")
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>client.get_or_create_collection(name="aiops_runbooks")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 获取或创建 collection。
 
 ### collection.upsert
@@ -1740,12 +1154,6 @@ client.get_or_create_collection(name="aiops_runbooks")
 ```python
 collection.upsert(ids=ids, documents=docs, metadatas=metadatas, embeddings=embeddings)
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>collection.upsert(ids=ids, documents=docs, metadatas=metadatas, embeddings=embeddings)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
 写入或更新 chunk。
 
@@ -1755,12 +1163,6 @@ collection.upsert(ids=ids, documents=docs, metadatas=metadatas, embeddings=embed
 collection.query(query_embeddings=[vector], n_results=3)
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>collection.query(query_embeddings=[vector], n_results=3)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 按向量检索相似 chunk。
 
 ### responses.parse
@@ -1769,12 +1171,6 @@ collection.query(query_embeddings=[vector], n_results=3)
 client.responses.parse(model=model, input=payload, text_format=RagAnswer)
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>client.responses.parse(model=model, input=payload, text_format=RagAnswer)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 让模型按结构化 schema 输出。
 
 ### metadata
@@ -1782,12 +1178,6 @@ client.responses.parse(model=model, input=payload, text_format=RagAnswer)
 ```python
 {"source": "docs/runbooks/order-api.md", "service": "order-api"}
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>{"source": "docs/runbooks/order-api.md", "service": "order-api"}</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
 
 保存来源和过滤字段。
 
@@ -1801,14 +1191,6 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>python -m venv .venv</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
-| 第 2 行 | <code>source .venv/bin/activate</code> | 执行 `source` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 3 行 | <code>pip install -r requirements.txt</code> | 管理 Python 依赖包，通常用于安装实验需要的库。 |
-
 PowerShell：
 
 ```powershell
@@ -1817,25 +1199,11 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>python -m venv .venv</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
-| 第 2 行 | <code>.venv\Scripts\Activate.ps1</code> | 执行 `.venv\scripts\activate.ps1` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 3 行 | <code>pip install -r requirements.txt</code> | 管理 Python 依赖包，通常用于安装实验需要的库。 |
-
 ### 设置 API key
 
 ```bash
 export OPENAI_API_KEY="你的 key"
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>export OPENAI_API_KEY="你的 key"</code> | 设置 shell 环境变量，常用于配置 API Key、端口或运行参数。 |
 
 PowerShell：
 
@@ -1843,23 +1211,11 @@ PowerShell：
 $env:OPENAI_API_KEY="你的 key"
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>$env:OPENAI_API_KEY="你的 key"</code> | 执行 `$env:openai_api_key="你的` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
-
 ### 入库
 
 ```bash
 python ingest.py
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>python ingest.py</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
 
 ### 检查检索
 
@@ -1867,23 +1223,11 @@ python ingest.py
 python inspect_retrieval.py
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>python inspect_retrieval.py</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
-
 ### 提问
 
 ```bash
 python ask.py
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>python ask.py</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
 
 ### 清空本地向量库
 
@@ -1891,23 +1235,11 @@ python ask.py
 rm -rf chroma_db
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>rm -rf chroma_db</code> | 执行 `rm` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 PowerShell：
 
 ```powershell
 Remove-Item -Recurse -Force .\chroma_db
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Remove-Item -Recurse -Force .\chroma_db</code> | PowerShell 删除文件或目录，执行前要确认路径正确。 |
 
 ## 典型故障排查表
 

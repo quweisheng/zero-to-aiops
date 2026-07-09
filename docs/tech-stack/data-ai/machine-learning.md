@@ -58,43 +58,6 @@ Machine Learning
      -> rollback
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Machine Learning</code> | 这一行里的英文要这样读：`Machine Learning` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 2 行 | <code>  -&gt; problem framing</code> | 这一行要理解这些英文词：`problem framing` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>     -&gt; 你要预测什么</code> | 这一行表示上一级主题下的子项“你要预测什么”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
-| 第 4 行 | <code>     -&gt; 你有什么数据</code> | 这一行表示上一级主题下的子项“你有什么数据”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
-| 第 5 行 | <code>     -&gt; 预测错了有什么成本</code> | 这一行表示上一级主题下的子项“预测错了有什么成本”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
-| 第 6 行 | <code>  -&gt; data</code> | 这一行要理解这些英文词：`data` 是数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>     -&gt; samples</code> | 这一行要理解这些英文词：`samples` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>     -&gt; features</code> | 这一行要理解这些英文词：`features` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 9 行 | <code>     -&gt; labels</code> | 这一行要理解这些英文词：`labels` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 10 行 | <code>     -&gt; train / validation / test</code> | 这一行要理解这些英文词：`train` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`validation` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`test` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 11 行 | <code>  -&gt; learning types</code> | 这一行要理解这些英文词：`learning types` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 12 行 | <code>     -&gt; supervised learning</code> | 这一行要理解这些英文词：`supervised learning` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 13 行 | <code>     -&gt; unsupervised learning</code> | 这一行要理解这些英文词：`unsupervised learning` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 14 行 | <code>     -&gt; anomaly detection</code> | 这一行要理解这些英文词：`anomaly detection` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 15 行 | <code>  -&gt; model training</code> | 这一行要理解这些英文词：`model training` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 16 行 | <code>     -&gt; fit</code> | 这一行要理解这些英文词：`fit` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 17 行 | <code>     -&gt; loss</code> | 这一行要理解这些英文词：`loss` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 18 行 | <code>     -&gt; parameters</code> | 这一行要理解这些英文词：`parameters` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 19 行 | <code>     -&gt; hyperparameters</code> | 这一行要理解这些英文词：`hyperparameters` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 20 行 | <code>  -&gt; inference</code> | 这一行要理解这些英文词：`inference` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 21 行 | <code>     -&gt; predict</code> | 这一行要理解这些英文词：`predict` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 22 行 | <code>     -&gt; score / probability</code> | 这一行要理解这些英文词：`score` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`probability` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 23 行 | <code>  -&gt; evaluation</code> | 这一行要理解这些英文词：`evaluation` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 24 行 | <code>     -&gt; confusion matrix</code> | 这一行要理解这些英文词：`confusion matrix` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 25 行 | <code>     -&gt; precision / recall</code> | 这一行要理解这些英文词：`precision` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`recall` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 26 行 | <code>     -&gt; ROC / AUC</code> | 这一行要理解这些英文词：`ROC` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`AUC` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 27 行 | <code>     -&gt; business review</code> | 这一行要理解这些英文词：`business review` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 28 行 | <code>  -&gt; production concerns</code> | 这一行要理解这些英文词：`production concerns` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 29 行 | <code>     -&gt; data drift</code> | 这一行要理解这些英文词：`data drift` 是data=数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 30 行 | <code>     -&gt; model version</code> | 这一行要理解这些英文词：`model version` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 31 行 | <code>     -&gt; monitoring</code> | 这一行要理解这些英文词：`monitoring` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 32 行 | <code>     -&gt; rollback</code> | 这一行要理解这些英文词：`rollback` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 本文覆盖：
 
 1. 机器学习在 AIOps 里解决什么问题。
@@ -113,12 +76,6 @@ Machine Learning
 CPU 没超过 80%，但这个服务和平时相比明显不正常，要不要提醒？
 发布后错误率只升了一点点，单看一条规则没触发，但多项指标一起变坏了。
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 2 行 | <code>CPU 没超过 80%，但这个服务和平时相比明显不正常，要不要提醒？</code> | 这一行里的英文要这样读：`CPU` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
 
 规则告警适合明确条件，比如 `error_rate > 5%`。机器学习更适合从历史数据里学习“正常模式”和“异常模式”，然后给新数据一个分类、分数或相似度。
 
@@ -167,26 +124,12 @@ if error_rate > 0.05:
     alert()
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>if error_rate &gt; 0.05:</code> | `if error_rate > 0.05:` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>    alert()</code> | 这一行里的英文要这样读：`alert` 是告警。 |
-
 机器学习是给程序很多历史样本，让它学习一条不容易手写的边界：
 
 ```text
 request_rate + error_rate + latency + deploy_changed + restart_count
   -> incident / noise
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>request_rate + error_rate + latency + deploy_changed + restart_count</code> | 这一行里的英文要这样读：`request_rate` 这个英文标识可以拆开理解为：比率；`error_rate` 是错误率字段；`latency` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`deploy_changed` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`restart_count` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 2 行 | <code>  -&gt; incident / noise</code> | 这一行要理解这些英文词：`incident` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`noise` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 机器学习适合：
 
@@ -211,12 +154,6 @@ request_rate + error_rate + latency + deploy_changed + restart_count
 ```text
 CPU > 80%
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>CPU &gt; 80%</code> | 这一行里的英文要这样读：`CPU` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
 
 但有些服务平时 CPU 只有 10%，突然到 55% 就值得关注；有些批处理任务 CPU 95% 反而正常。
 
@@ -243,14 +180,6 @@ medium priority
 likely noise
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>high priority</code> | 这一行里的英文要这样读：`high priority` 这个英文标识可以拆开理解为：高。 |
-| 第 2 行 | <code>medium priority</code> | 这一行里的英文要这样读：`medium priority` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 3 行 | <code>likely noise</code> | 这一行里的英文要这样读：`likely noise` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-
 ## 核心原理
 
 机器学习最小链路是：
@@ -264,18 +193,6 @@ raw data
   -> evaluate
   -> feed result back to AIOps workflow
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>raw data</code> | 这一行里的英文要这样读：`raw data` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 2 行 | <code>  -&gt; feature table</code> | 这一行要理解这些英文词：`feature table` 是table=表。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; split train / test</code> | 这一行要理解这些英文词：`split train` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`test` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; train model</code> | 这一行要理解这些英文词：`train model` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; predict new samples</code> | 这一行要理解这些英文词：`predict new samples` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; evaluate</code> | 这一行要理解这些英文词：`evaluate` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; feed result back to AIOps workflow</code> | 这一行要理解这些英文词：`feed result back to AIOps workflow` 是aiops=智能运维。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 ### 关键术语拆解
 
@@ -305,14 +222,6 @@ service,timestamp,error_rate,p95_latency_ms,restart_count,is_incident
 order-api,10:00,0.01,120,0,0
 order-api,10:05,0.35,1800,3,1
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>service,timestamp,error_rate,p95_latency_ms,restart_count,is_incident</code> | 这一行里的英文要这样读：`service` 是服务名称字段；`timestamp` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`error_rate` 是错误率字段；`p95_latency_ms` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`restart_count` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`is_incident` 这个英文标识可以拆开理解为：线上故障或事件。 |
-| 第 2 行 | <code>order-api,10:00,0.01,120,0,0</code> | `order-api,10:00,0.01,120,0,0` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 3 行 | <code>order-api,10:05,0.35,1800,3,1</code> | `order-api,10:05,0.35,1800,3,1` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 怎么用：把特征列组成 `X`，把标签列组成 `y`。
 
@@ -389,20 +298,6 @@ Prometheus / logs / tickets / deployments
   -> dashboard / alert enrichment / runbook suggestion
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Prometheus / logs / tickets / deployments</code> | `Prometheus / logs / tickets / deployments` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>  -&gt; export CSV or query database</code> | 这一行要理解这些英文词：`export CSV or query database` 是query=查询，database=数据库。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; pandas clean and aggregate</code> | 这一行要理解这些英文词：`pandas clean and aggregate` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; feature table</code> | 这一行要理解这些英文词：`feature table` 是table=表。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; train model</code> | 这一行要理解这些英文词：`train model` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; evaluate with test set</code> | 这一行要理解这些英文词：`evaluate with test set` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; save model and metrics</code> | 这一行要理解这些英文词：`save model and metrics` 是metrics=指标。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>  -&gt; FastAPI or batch job</code> | 这一行要理解这些英文词：`FastAPI or batch job` 是batch=批处理。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 9 行 | <code>  -&gt; dashboard / alert enrichment / runbook suggestion</code> | 这一行要理解这些英文词：`dashboard` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`alert enrichment` 是alert=告警；`runbook suggestion` 是runbook=故障处理手册。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 关键边界：
 
 - 数据采集仍然由 Prometheus、日志系统、数据库负责。
@@ -424,28 +319,11 @@ pip install pandas numpy scikit-learn
 python -c "import sklearn; print('sklearn ok')"
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>mkdir aiops-ml-lab</code> | 创建目录，用来准备实验项目结构。 |
-| 第 2 行 | <code>cd aiops-ml-lab</code> | 切换当前目录，确保后续命令在正确项目位置执行。 |
-| 第 3 行 | <code>python -m venv .venv</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
-| 第 4 行 | <code>.\.venv\Scripts\Activate.ps1</code> | 执行 `.\.venv\scripts\activate.ps1` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 5 行 | <code>pip install pandas numpy scikit-learn</code> | 管理 Python 依赖包，通常用于安装实验需要的库。 |
-| 第 6 行 | <code>python -c "import sklearn; print('sklearn ok')"</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
-
 预期结果：
 
 ```text
 sklearn ok
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>sklearn ok</code> | 这一行里的英文要这样读：`sklearn ok` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 如果 `python` 找不到，先确认 Python 已安装并加入 PATH。
 如果 PowerShell 不允许激活虚拟环境，用：
@@ -453,12 +331,6 @@ sklearn ok
 ```powershell
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass</code> | 执行 `set-executionpolicy` 相关命令，后面的参数决定它具体操作什么对象。 |
 
 ## 配置详解
 
@@ -480,15 +352,6 @@ pip install pandas numpy scikit-learn
 python ml_alert_classifier.py
 pip freeze > requirements.txt
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>python -m venv .venv</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
-| 第 2 行 | <code>pip install pandas numpy scikit-learn</code> | 管理 Python 依赖包，通常用于安装实验需要的库。 |
-| 第 3 行 | <code>python ml_alert_classifier.py</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
-| 第 4 行 | <code>pip freeze &gt; requirements.txt</code> | 管理 Python 依赖包，通常用于安装实验需要的库。 |
 
 每条命令在检查什么：
 
@@ -523,18 +386,6 @@ metrics / logs / alerts / changes
   -> feedback
   -> retrain or adjust rule
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>metrics / logs / alerts / changes</code> | `metrics / logs / alerts / changes` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>  -&gt; feature engineering</code> | 这一行要理解这些英文词：`feature engineering` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; model score</code> | 这一行要理解这些英文词：`model score` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; enrich alert</code> | 这一行要理解这些英文词：`enrich alert` 是alert=告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; human review</code> | 这一行要理解这些英文词：`human review` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; feedback</code> | 这一行要理解这些英文词：`feedback` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; retrain or adjust rule</code> | 这一行要理解这些英文词：`retrain or adjust rule` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 可落地场景：
 
@@ -636,82 +487,11 @@ incident_probability = model.predict_proba(current)[0][1]
 print(f"current incident probability: {incident_probability:.2f}")
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>import numpy as np</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
-| 第 2 行 | <code>import pandas as pd</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
-| 第 3 行 | <code>from sklearn.linear_model import LogisticRegression</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 4 行 | <code>from sklearn.metrics import classification_report, confusion_matrix</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 5 行 | <code>from sklearn.model_selection import train_test_split</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 6 行 | <code>from sklearn.pipeline import make_pipeline</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 7 行 | <code>from sklearn.preprocessing import StandardScaler</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 9 行 | <code>rng = np.random.default_rng(42)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 11 行 | <code>normal = pd.DataFrame({</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 12 行 | <code>    "request_rate": rng.normal(1000, 120, 120),</code> | `request_rate` 这个英文标识可以拆开理解为：比率，`rng.normal(1000, 120, 120)` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 13 行 | <code>    "error_rate": rng.normal(0.01, 0.006, 120).clip(0, 1),</code> | `error_rate` 是错误率字段，`rng.normal(0.01, 0.006, 120).clip(0, 1)` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 14 行 | <code>    "p95_latency_ms": rng.normal(160, 35, 120).clip(20),</code> | `p95_latency_ms` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`rng.normal(160, 35, 120).clip(20)` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 15 行 | <code>    "restart_count": rng.integers(0, 2, 120),</code> | `restart_count` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`rng.integers(0, 2, 120)` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 16 行 | <code>    "deploy_changed": rng.integers(0, 2, 120),</code> | `deploy_changed` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`rng.integers(0, 2, 120)` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 17 行 | <code>    "is_incident": 0,</code> | `is_incident` 这个英文标识可以拆开理解为：线上故障或事件，`0` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 18 行 | <code>})</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 20 行 | <code>incident = pd.DataFrame({</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 21 行 | <code>    "request_rate": rng.normal(760, 180, 40),</code> | `request_rate` 这个英文标识可以拆开理解为：比率，`rng.normal(760, 180, 40)` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 22 行 | <code>    "error_rate": rng.normal(0.18, 0.08, 40).clip(0, 1),</code> | `error_rate` 是错误率字段，`rng.normal(0.18, 0.08, 40).clip(0, 1)` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 23 行 | <code>    "p95_latency_ms": rng.normal(900, 260, 40).clip(50),</code> | `p95_latency_ms` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`rng.normal(900, 260, 40).clip(50)` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 24 行 | <code>    "restart_count": rng.integers(1, 6, 40),</code> | `restart_count` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`rng.integers(1, 6, 40)` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 25 行 | <code>    "deploy_changed": rng.integers(0, 2, 40),</code> | `deploy_changed` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`rng.integers(0, 2, 40)` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 26 行 | <code>    "is_incident": 1,</code> | `is_incident` 这个英文标识可以拆开理解为：线上故障或事件，`1` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 27 行 | <code>})</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 29 行 | <code>df = pd.concat([normal, incident], ignore_index=True)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 31 行 | <code>features = [</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 32 行 | <code>    "request_rate",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 33 行 | <code>    "error_rate",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 34 行 | <code>    "p95_latency_ms",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 35 行 | <code>    "restart_count",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 36 行 | <code>    "deploy_changed",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 37 行 | <code>]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 39 行 | <code>X = df[features]</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 40 行 | <code>y = df["is_incident"]</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 42 行 | <code>X_train, X_test, y_train, y_test = train_test_split(</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 43 行 | <code>    X,</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 44 行 | <code>    y,</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 45 行 | <code>    test_size=0.3,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 46 行 | <code>    random_state=42,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 47 行 | <code>    stratify=y,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 48 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 50 行 | <code>model = make_pipeline(</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 51 行 | <code>    StandardScaler(),</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 52 行 | <code>    LogisticRegression(class_weight="balanced", random_state=42),</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 53 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 55 行 | <code>model.fit(X_train, y_train)</code> | 训练模型或拟合转换器，让算法从样本数据里学习规律。 |
-| 第 56 行 | <code>y_pred = model.predict(X_test)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 58 行 | <code>print("confusion matrix:")</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-| 第 59 行 | <code>print(confusion_matrix(y_test, y_pred))</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-| 第 60 行 | <code>print()</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-| 第 61 行 | <code>print(classification_report(y_test, y_pred, target_names=["normal", "incident"]))</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-| 第 63 行 | <code>current = pd.DataFrame([{</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 64 行 | <code>    "request_rate": 690,</code> | `request_rate` 这个英文标识可以拆开理解为：比率，`690` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 65 行 | <code>    "error_rate": 0.22,</code> | `error_rate` 是错误率字段，`0.22` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 66 行 | <code>    "p95_latency_ms": 1200,</code> | `p95_latency_ms` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`1200` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 67 行 | <code>    "restart_count": 3,</code> | `restart_count` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`3` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 68 行 | <code>    "deploy_changed": 1,</code> | `deploy_changed` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`1` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 69 行 | <code>}])</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 71 行 | <code>incident_probability = model.predict_proba(current)[0][1]</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 72 行 | <code>print(f"current incident probability: {incident_probability:.2f}")</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 运行：
 
 ```powershell
 python ml_alert_classifier.py
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>python ml_alert_classifier.py</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
 
 ### 验证结果
 
@@ -728,18 +508,6 @@ confusion matrix:
 
 current incident probability: 1.00
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>confusion matrix:</code> | `confusion matrix` 是confusion matrix 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号表示后面要填写或列出这个字段的具体内容。 |
-| 第 2 行 | <code>[[36  0]</code> | 这一行是符号、路径或状态片段，需要结合上下文确认它连接的是哪个组件、文件或排障证据。 |
-| 第 3 行 | <code> [ 0 12]]</code> | 这一行是符号、路径或状态片段，需要结合上下文确认它连接的是哪个组件、文件或排障证据。 |
-| 第 5 行 | <code>              precision    recall  f1-score   support</code> | 这一行里的英文要这样读：`precision` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`recall` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`f1-score` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`support` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 6 行 | <code>      normal       1.00      1.00      1.00        36</code> | `normal       1.00      1.00      1.00        36` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 7 行 | <code>    incident       1.00      1.00      1.00        12</code> | `incident       1.00      1.00      1.00        12` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 9 行 | <code>current incident probability: 1.00</code> | `current incident probability` 是current incident probability 这个英文标识可以拆开理解为：线上故障或事件，冒号后面的 `1.00` 是这个字段的示例内容或模板表达式。 |
 
 这是模拟数据，所以结果可能很好。真实生产数据不会这么干净，重点不是追求 100%，而是学会：
 
@@ -791,12 +559,6 @@ current incident probability: 1.00
 ```text
 机器学习在 AIOps 里不是替代监控，而是把历史指标、告警、变更和事故记录变成可学习的特征，用于异常检测、告警降噪、相似事件聚类和风险评分。我会先用 pandas 清洗数据，构造特征矩阵 X 和标签 y，再用 scikit-learn 做可复现的基线模型。评估时不会只看 accuracy，而会看 precision、recall、混淆矩阵和人工复盘结果。模型输出只作为辅助信号，高风险动作仍然要走 runbook、审批和审计。
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>机器学习在 AIOps 里不是替代监控，而是把历史指标、告警、变更和事故记录变成可学习的特征，用于异常检测、告警降噪、相似事件聚类和风险评分。我会先用 pandas 清洗数据，构造特征矩阵 X 和标签 y，再用 scikit-learn 做可复现的基线模型。评估时不会只看 accuracy，而会看 precision、recall、混淆矩阵和人工复盘结果。模型输出只作为辅助信号，高风险动作仍然要走 runbook、审批和审计。</code> | 这一行里的英文要这样读：`AIOps` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源；`pandas` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`X` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`y` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`scikit-learn` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`accuracy` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`precision` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`recall` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 ## 学习检查清单
 

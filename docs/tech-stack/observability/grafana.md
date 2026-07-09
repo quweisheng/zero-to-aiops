@@ -112,55 +112,6 @@ Grafana docs
       └── HTTP API
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Grafana docs</code> | 这一行里的英文要这样读：`Grafana docs` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 2 行 | <code>  ├── Get started</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 3 行 | <code>  │   ├── install and sign in</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 4 行 | <code>  │   └── first dashboard</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 5 行 | <code>  ├── Data sources</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 6 行 | <code>  │   ├── Prometheus</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 7 行 | <code>  │   ├── Loki</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 8 行 | <code>  │   ├── Elasticsearch</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 9 行 | <code>  │   └── SQL data sources</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 10 行 | <code>  ├── Dashboards</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 11 行 | <code>  │   ├── dashboard</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 12 行 | <code>  │   ├── panel</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 13 行 | <code>  │   ├── rows</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 14 行 | <code>  │   ├── links</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 15 行 | <code>  │   └── JSON model</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 16 行 | <code>  ├── Panels and visualizations</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 17 行 | <code>  │   ├── time series</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 18 行 | <code>  │   ├── stat</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 19 行 | <code>  │   ├── gauge</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 20 行 | <code>  │   ├── table</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 21 行 | <code>  │   ├── heatmap</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 22 行 | <code>  │   └── logs</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 23 行 | <code>  ├── Query and transform data</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 24 行 | <code>  │   ├── query editor</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 25 行 | <code>  │   ├── field options</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 26 行 | <code>  │   ├── transformations</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 27 行 | <code>  │   └── overrides</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 28 行 | <code>  ├── Variables</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 29 行 | <code>  │   ├── query variables</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 30 行 | <code>  │   ├── custom variables</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 31 行 | <code>  │   ├── interval variables</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 32 行 | <code>  │   └── chained variables</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 33 行 | <code>  ├── Alerting</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 34 行 | <code>  │   ├── alert rules</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 35 行 | <code>  │   ├── contact points</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 36 行 | <code>  │   ├── notification policies</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 37 行 | <code>  │   └── silences</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 38 行 | <code>  ├── Administration</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 39 行 | <code>  │   ├── configuration</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 40 行 | <code>  │   ├── users and teams</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 41 行 | <code>  │   ├── provisioning</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 42 行 | <code>  │   └── plugins</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 43 行 | <code>  └── Developers</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 44 行 | <code>      └── HTTP API</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-
 本篇会覆盖入门阶段最重要的主干：数据源、dashboard、panel、变量、转换、告警、provisioning 和 API。
 
 ## Grafana 在 AIOps 链路中的位置
@@ -188,31 +139,6 @@ panels and dashboards
         +--> GitHub learning evidence
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Prometheus metrics</code> | 这一行里的英文要这样读：`Prometheus metrics` 这个英文标识可以拆开理解为：指标采集和告警规则评估系统。 |
-| 第 2 行 | <code>Loki logs</code> | 这一行里的英文要这样读：`Loki logs` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 3 行 | <code>Elasticsearch logs</code> | 这一行里的英文要这样读：`Elasticsearch logs` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 4 行 | <code>Tempo traces</code> | 这一行里的英文要这样读：`Tempo traces` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 5 行 | <code>SQL tables</code> | 这一行里的英文要这样读：`SQL tables` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 6 行 | <code>        &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 7 行 | <code>        v</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 8 行 | <code>Grafana data sources</code> | 这一行里的英文要这样读：`Grafana data sources` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 9 行 | <code>        &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 10 行 | <code>        v</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 11 行 | <code>queries</code> | 这一行里的英文要这样读：`queries` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 12 行 | <code>        &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 13 行 | <code>        v</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 14 行 | <code>panels and dashboards</code> | 这一行里的英文要这样读：`panels and dashboards` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 15 行 | <code>        &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 16 行 | <code>        +--&gt; on-call diagnosis</code> | 这一行要理解这些英文词：`on-call diagnosis` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 17 行 | <code>        +--&gt; SLO review</code> | 这一行要理解这些英文词：`SLO review` 是slo=服务等级目标。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 18 行 | <code>        +--&gt; anomaly validation</code> | 这一行要理解这些英文词：`anomaly validation` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 19 行 | <code>        +--&gt; alert tuning</code> | 这一行要理解这些英文词：`alert tuning` 是alert=告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 20 行 | <code>        +--&gt; GitHub learning evidence</code> | 这一行要理解这些英文词：`GitHub learning evidence` 是github=代码托管平台。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 Grafana 在 AIOps 中不是“数据生产者”，而是“理解和反馈入口”。
 
 | AIOps 场景 | Grafana 的作用 |
@@ -232,12 +158,6 @@ Grafana 是一个可观测性数据可视化和告警平台。它通常不直接
 ```text
 Grafana = data sources + queries + panels + dashboards + alerting + provisioning
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Grafana = data sources + queries + panels + dashboards + alerting + provisioning</code> | `Grafana` 是主机、服务、告警或资源的示例名称；`Grafana` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源，`data` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
 
 常见数据源：
 
@@ -298,36 +218,6 @@ transformations
 panel visualization
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>browser</code> | 这一行里的英文要这样读：`browser` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 2 行 | <code>  &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 3 行 | <code>  v</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 4 行 | <code>Grafana frontend</code> | 这一行里的英文要这样读：`Grafana frontend` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 5 行 | <code>  &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 6 行 | <code>  v</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 7 行 | <code>Grafana backend</code> | 这一行里的英文要这样读：`Grafana backend` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 8 行 | <code>  &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 9 行 | <code>  v</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 10 行 | <code>data source plugin</code> | 这一行里的英文要这样读：`data source plugin` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 11 行 | <code>  &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 12 行 | <code>  v</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 13 行 | <code>Prometheus / Loki / Elasticsearch / SQL</code> | `Prometheus / Loki / Elasticsearch / SQL` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 14 行 | <code>  &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 15 行 | <code>  v</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 16 行 | <code>query response</code> | 这一行里的英文要这样读：`query response` 这个英文标识可以拆开理解为：查询。 |
-| 第 17 行 | <code>  &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 18 行 | <code>  v</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 19 行 | <code>data frames</code> | 这一行里的英文要这样读：`data frames` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 20 行 | <code>  &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 21 行 | <code>  v</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 22 行 | <code>transformations</code> | 这一行里的英文要这样读：`transformations` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 23 行 | <code>  &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 24 行 | <code>  v</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 25 行 | <code>panel visualization</code> | 这一行里的英文要这样读：`panel visualization` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-
 关键点：
 
 | 层 | 作用 |
@@ -349,23 +239,11 @@ panel visualization
 docker run --rm --name grafana -p 3000:3000 grafana/grafana:latest
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>docker run --rm --name grafana -p 3000:3000 grafana/grafana:latest</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 访问地址写成：
 
 ```text
 localhost:3000
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>localhost:3000</code> | `localhost` 是本机地址，冒号后面的 `3000` 是这个字段的示例内容或模板表达式。 |
 
 首次登录常见默认账号：
 
@@ -373,13 +251,6 @@ localhost:3000
 username: admin
 password: admin
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>username: admin</code> | `username` 是username 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `admin` 是这个字段的示例内容或模板表达式。 |
-| 第 2 行 | <code>password: admin</code> | `password` 是password 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `admin` 是这个字段的示例内容或模板表达式。 |
 
 首次登录后 Grafana 会要求修改密码。
 
@@ -395,16 +266,6 @@ docker run -d --name grafana \
   -v grafana-data:/var/lib/grafana \
   grafana/grafana:latest
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>docker volume create grafana-data</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
-| 第 3 行 | <code>docker run -d --name grafana \</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-| 第 4 行 | <code>  -p 3000:3000 \</code> | 执行 `-p` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 5 行 | <code>  -v grafana-data:/var/lib/grafana \</code> | 执行 `-v` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 6 行 | <code>  grafana/grafana:latest</code> | 执行 `grafana/grafana:latest` 相关命令，后面的参数决定它具体操作什么对象。 |
 
 如果不持久化，容器删除后 Grafana 的本地数据库也会丢。
 
@@ -444,16 +305,6 @@ docker run -d --name grafana \
   grafana/grafana:latest
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>docker run -d --name grafana \</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-| 第 2 行 | <code>  -p 3000:3000 \</code> | 执行 `-p` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 3 行 | <code>  -e GF_SECURITY_ADMIN_PASSWORD=admin123 \</code> | 执行 `-e` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 4 行 | <code>  -e GF_USERS_ALLOW_SIGN_UP=false \</code> | 执行 `-e` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 5 行 | <code>  grafana/grafana:latest</code> | 执行 `grafana/grafana:latest` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 注意：不要把真实生产密码写进公开仓库。学习项目可以用明显的 demo 密码，并在 README 说明仅用于本地实验。
 
 ## 核心对象模型
@@ -482,28 +333,6 @@ alerting
   └── silence
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>organization</code> | 这一行里的英文要这样读：`organization` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 2 行 | <code>  └── folder</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 3 行 | <code>      └── dashboard</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 4 行 | <code>          ├── variables</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 5 行 | <code>          ├── panels</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 6 行 | <code>          │   ├── queries</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 7 行 | <code>          │   ├── transformations</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 8 行 | <code>          │   ├── field options</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 9 行 | <code>          │   └── visualization options</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 10 行 | <code>          └── links / annotations</code> | `└── links / annotations` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 12 行 | <code>data source</code> | 这一行里的英文要这样读：`data source` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 13 行 | <code>  └── query editor</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 15 行 | <code>alerting</code> | 这一行里的英文要这样读：`alerting` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 16 行 | <code>  ├── alert rule</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 17 行 | <code>  ├── contact point</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 18 行 | <code>  ├── notification policy</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 19 行 | <code>  └── silence</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-
 下面逐个讲。
 
 ## Data Source
@@ -525,35 +354,17 @@ Data source 是 Grafana 要查询的数据系统。
 localhost:9090
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>localhost:9090</code> | `localhost` 是本机地址，冒号后面的 `9090` 是这个字段的示例内容或模板表达式。 |
-
 如果 Grafana 在容器里，Prometheus 在宿主机上，Docker Desktop 常用：
 
 ```text
 host.docker.internal:9090
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>host.docker.internal:9090</code> | `host.docker.internal` 是host.docker.internal 这个英文标识可以拆开理解为：主机，冒号后面的 `9090` 是这个字段的示例内容或模板表达式。 |
-
 如果 Grafana 和 Prometheus 在同一个 Docker Compose 网络里，Prometheus 服务名叫 `prometheus`，URL 应该填：
 
 ```text
 prometheus:9090
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>prometheus:9090</code> | `prometheus` 是指标采集和告警规则评估系统，冒号后面的 `9090` 是这个字段的示例内容或模板表达式。 |
 
 重点：Grafana 容器里的 `localhost` 是 Grafana 容器自己，不是 Prometheus 容器，也不是宿主机。
 
@@ -587,17 +398,6 @@ panel query
   -> panel
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>panel query</code> | 这一行里的英文要这样读：`panel query` 这个英文标识可以拆开理解为：查询。 |
-| 第 2 行 | <code>  -&gt; Grafana Prometheus data source plugin</code> | 这一行要理解这些英文词：`Grafana Prometheus data source plugin` 是data=数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; Prometheus HTTP API</code> | 这一行要理解这些英文词：`Prometheus HTTP API` 是api=应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; time series result</code> | 这一行要理解这些英文词：`time series result` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; Grafana data frame</code> | 这一行要理解这些英文词：`Grafana data frame` 是data=数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; panel</code> | 这一行要理解这些英文词：`panel` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 常用配置项：
 
 | 配置 | 含义 |
@@ -615,23 +415,11 @@ Prometheus 查询示例：
 up{job="$job"}
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>up{job="$job"}</code> | `job` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`$job` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
-
 请求速率：
 
 ```text
 sum by (job) (rate(http_requests_total{job="$job"}[$__rate_interval]))
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>sum by (job) (rate(http_requests_total{job="$job"}[$__rate_interval]))</code> | `sum` 是主机、服务、告警或资源的示例名称；`job` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`$job` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
 
 这里的 `$__rate_interval` 是 Grafana 内置变量，常用于 Prometheus `rate()` 窗口。它会结合 dashboard 时间范围和数据源配置选择合适窗口，比手写固定 `[5m]` 更适合 dashboard。
 
@@ -693,15 +481,6 @@ AIOps Labs
   └── Alert Governance
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>AIOps Labs</code> | 这一行里的英文要这样读：`AIOps Labs` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 2 行 | <code>  ├── Prometheus Health</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 3 行 | <code>  ├── Demo API Overview</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 4 行 | <code>  └── Alert Governance</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-
 生产环境中 folder 还常用于权限管理。学习阶段先用它做分类，避免 dashboard 全堆在根目录。
 
 ## Panel
@@ -720,19 +499,6 @@ panel
   ├── overrides
   └── thresholds
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>panel</code> | 这一行里的英文要这样读：`panel` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 2 行 | <code>  ├── data source</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 3 行 | <code>  ├── query</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 4 行 | <code>  ├── transformations</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 5 行 | <code>  ├── visualization type</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 6 行 | <code>  ├── field options</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 7 行 | <code>  ├── overrides</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
-| 第 8 行 | <code>  └── thresholds</code> | 树形结构符号，表示这一行和上一层目录、文件或组件存在层级关系。 |
 
 常见 panel 类型：
 
@@ -765,25 +531,12 @@ Prometheus 数据源使用 PromQL。例子：
 up{job="$job"}
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>up{job="$job"}</code> | `job` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`$job` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
-
 多查询 panel：
 
 ```text
 A: sum(rate(http_requests_total{job="$job"}[$__rate_interval]))
 B: sum(rate(http_requests_total{job="$job",status=~"5.."}[$__rate_interval]))
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>A: sum(rate(http_requests_total{job="$job"}[$__rate_interval]))</code> | `job` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`$job` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
-| 第 2 行 | <code>B: sum(rate(http_requests_total{job="$job",status=~"5.."}[$__rate_interval]))</code> | `job` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`$job` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；`status` 是状态字段，`~"5.."}[$__rate_interval]))` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
 
 错误率可以写成：
 
@@ -792,14 +545,6 @@ sum(rate(http_requests_total{job="$job",status=~"5.."}[$__rate_interval]))
 /
 sum(rate(http_requests_total{job="$job"}[$__rate_interval]))
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>sum(rate(http_requests_total{job="$job",status=~"5.."}[$__rate_interval]))</code> | `job` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`$job` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；`status` 是状态字段，`~"5.."}[$__rate_interval]))` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
-| 第 2 行 | <code>/</code> | `/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 3 行 | <code>sum(rate(http_requests_total{job="$job"}[$__rate_interval]))</code> | `job` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`$job` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
 
 查询写完还要设置：
 
@@ -858,12 +603,6 @@ Overrides 用来给某些字段单独设置显示规则。
 同一个 panel 里有多条线，但某些线需要特别突出
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>同一个 panel 里有多条线，但某些线需要特别突出</code> | 这一行里的英文要这样读：`panel` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-
 不要滥用 overrides。颜色规则太复杂时，别人很难维护。
 
 ## Transformations
@@ -877,14 +616,6 @@ query result
   -> transformation
   -> panel visualization
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>query result</code> | 这一行里的英文要这样读：`query result` 这个英文标识可以拆开理解为：查询。 |
-| 第 2 行 | <code>  -&gt; transformation</code> | 这一行要理解这些英文词：`transformation` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; panel visualization</code> | 这一行要理解这些英文词：`panel visualization` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 常见 transformation：
 
@@ -905,12 +636,6 @@ AIOps 例子：实例状态表。
 up{job="$job"}
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>up{job="$job"}</code> | `job` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`$job` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
-
 用 transformation 把每个 instance 的最后值变成表格：
 
 | instance | status |
@@ -930,23 +655,11 @@ Variables 让 dashboard 可以复用。
 up{job="demo-api"}
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>up{job="demo-api"}</code> | `job` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`demo-api` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
-
 有变量后：
 
 ```text
 up{job="$job"}
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>up{job="$job"}</code> | `job` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`$job` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
 
 用户可以在 dashboard 顶部选择 job。
 
@@ -958,12 +671,6 @@ Prometheus 常用变量：
 label_values(up, job)
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>label_values(up, job)</code> | 这一行里的英文要这样读：`label_values` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`up` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`job` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-
 含义：从 `up` 指标中取所有 `job` label 的值。
 
 实例变量：
@@ -971,12 +678,6 @@ label_values(up, job)
 ```text
 label_values(up{job="$job"}, instance)
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>label_values(up{job="$job"}, instance)</code> | `job` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`$job` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
 
 这是 chained variable：`instance` 的候选值依赖当前 `job`。
 
@@ -988,12 +689,6 @@ label_values(up{job="$job"}, instance)
 dev,staging,prod
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>dev,staging,prod</code> | 这一行里的英文要这样读：`dev` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`staging` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`prod` 是生产环境。 |
-
 ### Interval Variable
 
 适合选择查询窗口：
@@ -1002,23 +697,11 @@ dev,staging,prod
 1m,5m,15m,1h
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>1m,5m,15m,1h</code> | 这一行里的英文要这样读：`m` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`h` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-
 在 PromQL 中使用：
 
 ```text
 rate(http_requests_total[$interval])
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>rate(http_requests_total[$interval])</code> | 这一行里的英文要这样读：`rate` 是比率；`http_requests_total` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`interval` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 ### 内置变量
 
@@ -1054,14 +737,6 @@ latency spike
     |
 deployment annotation at 10:03
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>latency spike</code> | 这一行里的英文要这样读：`latency spike` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 3 行 | <code>    &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 4 行 | <code>deployment annotation at 10:03</code> | `deployment annotation at 10` 是deployment annotation at 10 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `03` 是这个字段的示例内容或模板表达式。 |
 
 AIOps dashboard 如果能把变更事件叠在指标曲线上，会比单纯曲线有用得多。
 
@@ -1114,19 +789,6 @@ datasources:
     editable: true
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>apiVersion: 1</code> | `apiVersion` 这个英文标识可以拆开理解为：应用程序接口，`1` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 3 行 | <code>datasources:</code> | 定义 `datasources` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 4 行 | <code>  - name: Prometheus</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 5 行 | <code>    type: prometheus</code> | `type` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`prometheus` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 6 行 | <code>    access: proxy</code> | `access` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`proxy` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 7 行 | <code>    url: http://prometheus:9090</code> | `url` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`http://prometheus:9090` 表示URL 地址，表示页面、接口或文档入口；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 8 行 | <code>    isDefault: true</code> | `isDefault` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`true` 表示开启这个配置；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 9 行 | <code>    editable: true</code> | `editable` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`true` 表示开启这个配置；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
 字段解释：
 
 | 字段 | 含义 |
@@ -1155,19 +817,6 @@ providers:
       path: /var/lib/grafana/dashboards
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>apiVersion: 1</code> | `apiVersion` 这个英文标识可以拆开理解为：应用程序接口，`1` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 3 行 | <code>providers:</code> | 定义 `providers` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 4 行 | <code>  - name: aiops-labs</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 5 行 | <code>    type: file</code> | `type` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`file` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 6 行 | <code>    folder: AIOps Labs</code> | `folder` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`AIOps Labs` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 7 行 | <code>    updateIntervalSeconds: 30</code> | `updateIntervalSeconds` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`30` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 8 行 | <code>    options:</code> | 定义 `options` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 9 行 | <code>      path: /var/lib/grafana/dashboards</code> | `path` 是路径，`/var/lib/grafana/dashboards` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
 目录：
 
 ```text
@@ -1181,19 +830,6 @@ grafana/
     prometheus-health.json
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>grafana/</code> | `grafana/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>  provisioning/</code> | `provisioning/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 3 行 | <code>    datasources/</code> | `datasources/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 4 行 | <code>      prometheus.yml</code> | `prometheus.yml` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 5 行 | <code>    dashboards/</code> | `dashboards/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 6 行 | <code>      dashboards.yml</code> | `dashboards.yml` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 7 行 | <code>  dashboards/</code> | `dashboards/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 8 行 | <code>    prometheus-health.json</code> | `prometheus-health.json` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-
 Docker 运行时挂载：
 
 ```bash
@@ -1203,16 +839,6 @@ docker run -d --name grafana \
   -v "$PWD/grafana/dashboards:/var/lib/grafana/dashboards:ro" \
   grafana/grafana:latest
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>docker run -d --name grafana \</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-| 第 2 行 | <code>  -p 3000:3000 \</code> | 执行 `-p` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 3 行 | <code>  -v "$PWD/grafana/provisioning:/etc/grafana/provisioning:ro" \</code> | 执行 `-v` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 4 行 | <code>  -v "$PWD/grafana/dashboards:/var/lib/grafana/dashboards:ro" \</code> | 执行 `-v` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 5 行 | <code>  grafana/grafana:latest</code> | 执行 `grafana/grafana:latest` 相关命令，后面的参数决定它具体操作什么对象。 |
 
 ## Grafana Alerting
 
@@ -1239,16 +865,6 @@ data source query
   -> notification policy
   -> contact point
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>data source query</code> | 这一行里的英文要这样读：`data source query` 这个英文标识可以拆开理解为：查询。 |
-| 第 2 行 | <code>  -&gt; alert rule evaluation</code> | 这一行要理解这些英文词：`alert rule evaluation` 是alert=告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; alert instance</code> | 这一行要理解这些英文词：`alert instance` 是alert=告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; notification policy</code> | 这一行要理解这些英文词：`notification policy` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; contact point</code> | 这一行要理解这些英文词：`contact point` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 Grafana 告警和 Prometheus 告警怎么选？
 
@@ -1279,23 +895,11 @@ Grafana HTTP API 可以管理 dashboard、data source、folder、user、alerting
 curl localhost:3000/api/health
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>curl localhost:3000/api/health</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
-
 示例：用 API token 查询数据源。
 
 ```bash
 curl -H "Authorization: Bearer <token>" localhost:3000/api/datasources
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>curl -H "Authorization: Bearer &lt;token&gt;" localhost:3000/api/datasources</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
 
 注意：
 
@@ -1422,19 +1026,6 @@ curl -H "Authorization: Bearer <token>" localhost:3000/api/datasources
    CPU, memory, disk, deployment annotation
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>1. user impact</code> | `1. user impact` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>   availability, error rate, latency</code> | 这一行里的英文要这样读：`availability` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`error rate` 这个英文标识可以拆开理解为：错误，比率；`latency` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 3 行 | <code>2. traffic</code> | `2. traffic` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 4 行 | <code>   QPS, request distribution, status code</code> | 这一行里的英文要这样读：`QPS` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源；`request distribution` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`status code` 这个英文标识可以拆开理解为：状态字段。 |
-| 第 5 行 | <code>3. service internals</code> | `3. service internals` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 6 行 | <code>   instance up, queue, dependency error</code> | 这一行里的英文要这样读：`instance up` 这个英文标识可以拆开理解为：实例名称字段；`queue` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`dependency error` 这个英文标识可以拆开理解为：错误。 |
-| 第 7 行 | <code>4. resources and changes</code> | `4. resources and changes` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 8 行 | <code>   CPU, memory, disk, deployment annotation</code> | 这一行里的英文要这样读：`CPU` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源；`memory` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`disk` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`deployment annotation` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-
 ### 第一层：用户影响
 
 优先放：
@@ -1504,23 +1095,11 @@ curl -H "Authorization: Bearer <token>" localhost:3000/api/datasources
 docker run --rm --name prometheus -p 9090:9090 prom/prometheus:v3.5.0
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>docker run --rm --name prometheus -p 9090:9090 prom/prometheus:v3.5.0</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 确认：
 
 ```text
 localhost:9090/targets
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>localhost:9090/targets</code> | `localhost` 是本机地址，冒号后面的 `9090/targets` 是这个字段的示例内容或模板表达式。 |
 
 ### 第 2 步：启动 Grafana
 
@@ -1528,23 +1107,11 @@ localhost:9090/targets
 docker run --rm --name grafana -p 3000:3000 grafana/grafana:latest
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>docker run --rm --name grafana -p 3000:3000 grafana/grafana:latest</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 打开：
 
 ```text
 localhost:3000
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>localhost:3000</code> | `localhost` 是本机地址，冒号后面的 `3000` 是这个字段的示例内容或模板表达式。 |
 
 ### 第 3 步：添加 Prometheus 数据源
 
@@ -1556,23 +1123,11 @@ localhost:3000
 http://host.docker.internal:9090
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>http://host.docker.internal:9090</code> | `http` 表示访问协议，`host.docker.internal:9090` 是域名或主机名，`/` 是具体接口路径；真实环境要换成自己的域名和路径。 |
-
 如果 Grafana 和 Prometheus 在同一个 Compose 网络里，URL：
 
 ```text
 http://prometheus:9090
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>http://prometheus:9090</code> | `http` 表示访问协议，`prometheus:9090` 是域名或主机名，`/` 是具体接口路径；真实环境要换成自己的域名和路径。 |
 
 点击 Save & test。
 
@@ -1601,12 +1156,6 @@ Query：
 up{job="$job"}
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>up{job="$job"}</code> | `job` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`$job` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
-
 设置：
 
 | 项 | 值 |
@@ -1623,12 +1172,6 @@ Query：
 ```text
 scrape_duration_seconds{job="$job"}
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>scrape_duration_seconds{job="$job"}</code> | `job` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`$job` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
 
 设置：
 
@@ -1648,12 +1191,6 @@ Query：
 scrape_samples_scraped{job="$job"}
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>scrape_samples_scraped{job="$job"}</code> | `job` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`$job` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
-
 设置：
 
 | 项 | 值 |
@@ -1672,23 +1209,11 @@ Dashboard 标题：
 AIOps Demo - Prometheus Health
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>AIOps Demo - Prometheus Health</code> | 这一行里的英文要这样读：`AIOps Demo` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`Prometheus Health` 这个英文标识可以拆开理解为：指标采集和告警规则评估系统。 |
-
 导出 JSON，保存到：
 
 ```text
 labs/grafana/dashboards/prometheus-health.json
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>labs/grafana/dashboards/prometheus-health.json</code> | `labs/grafana/dashboards/prometheus-health.json` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 ### 第 9 步：写 README
 
@@ -1714,20 +1239,6 @@ Prometheus URL: host.docker.internal:9090
 Import labs/grafana/dashboards/prometheus-health.json
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code># Grafana Prometheus Health Dashboard</code> | 这一行里的英文要这样读：`Grafana Prometheus Health Dashboard` 这个英文标识可以拆开理解为：指标采集和告警规则评估系统。 |
-| 第 3 行 | <code>## Start Prometheus</code> | 这一行里的英文要这样读：`Start Prometheus` 这个英文标识可以拆开理解为：指标采集和告警规则评估系统。 |
-| 第 5 行 | <code>docker run --rm --name prometheus -p 9090:9090 prom/prometheus:v3.5.0</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 7 行 | <code>## Start Grafana</code> | 这一行里的英文要这样读：`Start Grafana` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 9 行 | <code>docker run --rm --name grafana -p 3000:3000 grafana/grafana:latest</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 11 行 | <code>## Data source</code> | 这一行里的英文要这样读：`Data source` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 13 行 | <code>Prometheus URL: host.docker.internal:9090</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 15 行 | <code>## Dashboard</code> | 这一行里的英文要这样读：`Dashboard` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 17 行 | <code>Import labs/grafana/dashboards/prometheus-health.json</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-
 ## 常见故障排查
 
 ### Save & test 失败
@@ -1749,25 +1260,11 @@ docker logs grafana
 docker logs prometheus
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>docker ps</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
-| 第 2 行 | <code>docker logs grafana</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
-| 第 3 行 | <code>docker logs prometheus</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
-
 如果使用 Compose，进入 Grafana 容器测试：
 
 ```bash
 docker compose exec grafana wget -qO- http://prometheus:9090/-/ready
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>docker compose exec grafana wget -qO- http://prometheus:9090/-/ready</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
 
 ### Panel 没有数据
 
@@ -1869,19 +1366,6 @@ Row 3: Resources
 Row 4: Context
   [Deploy Annotations] [Recent Alerts] [Runbook Links]
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Row 1: User impact</code> | `Row 1` 是Row 1 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `User impact` 是这个字段的示例内容或模板表达式。 |
-| 第 2 行 | <code>  [Availability] [Error Rate] [P95 Latency] [Request Rate]</code> | 这一行里的英文要这样读：`Availability` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源；`Error Rate` 这个英文标识可以拆开理解为：错误，比率；`P95 Latency` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`Request Rate` 这个英文标识可以拆开理解为：比率。 |
-| 第 4 行 | <code>Row 2: Service health</code> | `Row 2` 是Row 2 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `Service health` 是这个字段的示例内容或模板表达式。 |
-| 第 5 行 | <code>  [Instance Up Table] [Status Code Rate] [Top Slow Endpoints]</code> | 这一行里的英文要这样读：`Instance Up Table` 这个英文标识可以拆开理解为：实例名称字段；`Status Code Rate` 这个英文标识可以拆开理解为：状态字段，比率；`Top Slow Endpoints` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 7 行 | <code>Row 3: Resources</code> | `Row 3` 是Row 3 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `Resources` 是这个字段的示例内容或模板表达式。 |
-| 第 8 行 | <code>  [CPU] [Memory] [Network] [Disk]</code> | 这一行里的英文要这样读：`CPU` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源；`Memory` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源；`Network` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源；`Disk` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 10 行 | <code>Row 4: Context</code> | `Row 4` 是Row 4 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `Context` 是这个字段的示例内容或模板表达式。 |
-| 第 11 行 | <code>  [Deploy Annotations] [Recent Alerts] [Runbook Links]</code> | 这一行里的英文要这样读：`Deploy Annotations` 这个英文标识可以拆开理解为：告警补充说明字段；`Recent Alerts` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`Runbook Links` 这个英文标识可以拆开理解为：故障处理手册。 |
 
 每个 panel 都要能回答一个明确问题：
 

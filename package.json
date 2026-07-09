@@ -13,7 +13,7 @@
     "pretest": "npm run generate:content",
     "test": "vitest run && npm run check:tech-stack-examples",
     "test:watch": "vitest",
-    "check:tech-stack-examples": "node scripts/check-tech-stack-example-explanations.mjs"
+    "check:tech-stack-examples": "node scripts/check-tech-stack-no-line-explanation-tables.mjs"
   },
   "dependencies": {
     "marked": "^18.0.5",

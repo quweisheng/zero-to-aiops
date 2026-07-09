@@ -24,12 +24,6 @@
 Alertmanager -> alert-api -> LLM 分析 -> 写数据库 -> 发通知
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Alertmanager -&gt; alert-api -&gt; LLM 分析 -&gt; 写数据库 -&gt; 发通知</code> | 这一行要理解这些英文词：`Alertmanager` 是Prometheus 生态里的告警管理器；`alert-api` 是alert=告警，api=应用程序接口；`LLM` 是大语言模型。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 问题是：LLM 慢、数据库偶尔抖、通知服务偶尔失败。alert-api 如果同步等所有步骤完成，告警入口就会很脆弱。
 
 更合理的做法是：
@@ -47,22 +41,6 @@ RabbitMQ queue
   +--> notify-worker
   +--> rca-worker
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Alertmanager</code> | 这一行里的英文要这样读：`Alertmanager` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 2 行 | <code>  &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 3 行 | <code>  v</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 4 行 | <code>alert-api</code> | 这一行里的英文要这样读：`alert-api` 这个英文标识可以拆开理解为：告警，应用程序接口。 |
-| 第 5 行 | <code>  &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 6 行 | <code>  v</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 7 行 | <code>RabbitMQ queue</code> | 这一行里的英文要这样读：`RabbitMQ queue` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 8 行 | <code>  &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 9 行 | <code>  +--&gt; enrich-worker</code> | 这一行要理解这些英文词：`enrich-worker` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 10 行 | <code>  +--&gt; notify-worker</code> | 这一行要理解这些英文词：`notify-worker` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 11 行 | <code>  +--&gt; rca-worker</code> | 这一行要理解这些英文词：`rca-worker` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 这样 alert-api 先把告警事件放进队列，后面的分析、通知、RCA 可以异步处理。RabbitMQ 负责暂存消息、分发消息、控制消费速度和处理失败消息。
 
@@ -95,12 +73,6 @@ Producer 是发送消息的一方。
 ```text
 alert-api publishes AlertReceived
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>alert-api publishes AlertReceived</code> | 这一行里的英文要这样读：`alert-api publishes AlertReceived` 这个英文标识可以拆开理解为：告警，应用程序接口，告警。 |
 
 生产者要关心：
 
@@ -147,14 +119,6 @@ binding key: alert.*.critical
 queue: critical-alerts
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>exchange: alerts.topic</code> | `exchange` 是exchange 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `alerts.topic` 是这个字段的示例内容或模板表达式。 |
-| 第 2 行 | <code>binding key: alert.*.critical</code> | `binding key` 是binding key 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `alert.*.critical` 是这个字段的示例内容或模板表达式。 |
-| 第 3 行 | <code>queue: critical-alerts</code> | `queue` 是queue 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `critical-alerts` 是这个字段的示例内容或模板表达式。 |
-
 当 routing key 是 `alert.order.critical` 时，消息会进入 `critical-alerts`。
 
 ### Consumer
@@ -198,12 +162,6 @@ prefetch 控制 RabbitMQ 一次最多给消费者多少条未确认消息。
 prefetch = 1 到 50，根据任务耗时调整
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>prefetch = 1 到 50，根据任务耗时调整</code> | `prefetch` 是主机、服务、告警或资源的示例名称；`prefetch` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`1` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
-
 ## 架构和数据流
 
 ```text
@@ -226,28 +184,6 @@ consumer
 RabbitMQ updates message state
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>producer</code> | 这一行里的英文要这样读：`producer` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 2 行 | <code>  &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 3 行 | <code>  &#124; publish(exchange, routing_key, message)</code> | 这一行里的英文要这样读：`publish` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`exchange` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`routing_key` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`message` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 4 行 | <code>  v</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 5 行 | <code>exchange</code> | 这一行里的英文要这样读：`exchange` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 6 行 | <code>  &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 7 行 | <code>  &#124; binding rules</code> | 这一行里的英文要这样读：`binding rules` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 8 行 | <code>  v</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 9 行 | <code>queue</code> | 这一行里的英文要这样读：`queue` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 10 行 | <code>  &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 11 行 | <code>  &#124; deliver</code> | 这一行里的英文要这样读：`deliver` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 12 行 | <code>  v</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 13 行 | <code>consumer</code> | 这一行里的英文要这样读：`consumer` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 14 行 | <code>  &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 15 行 | <code>  &#124; ack / reject / nack</code> | `| ack / reject / nack` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 16 行 | <code>  v</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 17 行 | <code>RabbitMQ updates message state</code> | 这一行里的英文要这样读：`RabbitMQ updates message state` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-
 AIOps 告警队列示例：
 
 ```text
@@ -263,22 +199,6 @@ exchange: alerts.topic
   +-- routing key alert.order.warning  --> queue: normal-alerts
   +-- routing key alert.*.*            --> queue: aiops-analysis
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Alertmanager webhook</code> | 这一行里的英文要这样读：`Alertmanager webhook` 这个英文标识可以拆开理解为：通过 HTTP 回调接收通知的接口。 |
-| 第 2 行 | <code>  &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 3 行 | <code>  v</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 4 行 | <code>alert-api</code> | 这一行里的英文要这样读：`alert-api` 这个英文标识可以拆开理解为：告警，应用程序接口。 |
-| 第 5 行 | <code>  &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 6 行 | <code>  v</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 7 行 | <code>exchange: alerts.topic</code> | `exchange` 是exchange 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `alerts.topic` 是这个字段的示例内容或模板表达式。 |
-| 第 8 行 | <code>  &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 9 行 | <code>  +-- routing key alert.order.critical --&gt; queue: critical-alerts</code> | 这一行要理解这些英文词：`routing key alert.order.critical` 是alert=告警；`queue` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`critical-alerts` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 10 行 | <code>  +-- routing key alert.order.warning  --&gt; queue: normal-alerts</code> | 这一行要理解这些英文词：`routing key alert.order.warning` 是alert=告警；`queue` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`normal-alerts` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 11 行 | <code>  +-- routing key alert.*.*            --&gt; queue: aiops-analysis</code> | 这一行要理解这些英文词：`routing key alert.` 是alert=告警；`queue` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`aiops-analysis` 是aiops=智能运维。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 ## 和 Kafka 的区别
 
@@ -305,15 +225,6 @@ docker run --rm --name rabbitmq \
   rabbitmq:4-management
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>docker run --rm --name rabbitmq \</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-| 第 2 行 | <code>  -p 5672:5672 \</code> | 执行 `-p` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 3 行 | <code>  -p 15672:15672 \</code> | 执行 `-p` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 4 行 | <code>  rabbitmq:4-management</code> | 执行 `rabbitmq:4-management` 相关命令，后面的参数决定它具体操作什么对象。 |
-
 端口：
 
 | 端口 | 用途 |
@@ -327,23 +238,11 @@ docker run --rm --name rabbitmq \
 http://localhost:15672
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>http://localhost:15672</code> | `http` 表示访问协议，`localhost:15672` 是域名或主机名，`/` 是具体接口路径；真实环境要换成自己的域名和路径。 |
-
 默认用户名密码通常是：
 
 ```text
 guest / guest
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>guest / guest</code> | `guest / guest` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 注意：默认 guest 用户只适合本地实验，生产环境必须创建独立用户、vhost 和权限。
 
@@ -360,28 +259,11 @@ labs/rabbitmq-alert-queue/
   README.md
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>labs/rabbitmq-alert-queue/</code> | `labs/rabbitmq-alert-queue/` 是目录示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>  compose.yaml</code> | `compose.yaml` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 3 行 | <code>  producer.py</code> | `producer.py` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 4 行 | <code>  worker.py</code> | `worker.py` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 5 行 | <code>  requirements.txt</code> | `requirements.txt` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 6 行 | <code>  README.md</code> | `README.md` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-
 `requirements.txt`：
 
 ```text
 pika==1.3.2
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>pika==1.3.2</code> | `pika` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`=1.3.2` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
 
 ### 生产者
 
@@ -416,34 +298,6 @@ channel.basic_publish(
 connection.close()
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>import json</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
-| 第 2 行 | <code>import pika</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
-| 第 4 行 | <code>connection = pika.BlockingConnection(pika.ConnectionParameters("localhost"))</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 5 行 | <code>channel = connection.channel()</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 7 行 | <code>channel.exchange_declare(exchange="alerts.topic", exchange_type="topic", durable=True)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 8 行 | <code>channel.queue_declare(queue="critical-alerts", durable=True)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 9 行 | <code>channel.queue_bind(</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 10 行 | <code>    exchange="alerts.topic",</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 11 行 | <code>    queue="critical-alerts",</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 12 行 | <code>    routing_key="alert.*.critical",</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 13 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 15 行 | <code>message = {</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 16 行 | <code>    "alertname": "OrderApiHighErrorRate",</code> | `alertname` 是告警名称字段，`OrderApiHighErrorRate` 是高错误率告警名，表示请求失败比例过高；这是 Python 字典里的一个键值对。 |
-| 第 17 行 | <code>    "service": "order-api",</code> | `service` 是服务名称字段，`order-api` 是具体服务名，表示这条记录属于这个服务；这是 Python 字典里的一个键值对。 |
-| 第 18 行 | <code>    "severity": "critical",</code> | `severity` 是告警严重级别字段，`critical` 表示严重级别，通常表示需要优先处理；这是 Python 字典里的一个键值对。 |
-| 第 19 行 | <code>}</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 21 行 | <code>channel.basic_publish(</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 22 行 | <code>    exchange="alerts.topic",</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 23 行 | <code>    routing_key="alert.order.critical",</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 24 行 | <code>    body=json.dumps(message).encode("utf-8"),</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 25 行 | <code>    properties=pika.BasicProperties(delivery_mode=2),</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 26 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 28 行 | <code>connection.close()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 关键点：
 
 - `exchange_declare` 创建 exchange。
@@ -474,23 +328,6 @@ channel.basic_consume(queue="critical-alerts", on_message_callback=handle_messag
 channel.start_consuming()
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>import json</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
-| 第 2 行 | <code>import pika</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
-| 第 4 行 | <code>connection = pika.BlockingConnection(pika.ConnectionParameters("localhost"))</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 5 行 | <code>channel = connection.channel()</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 7 行 | <code>channel.queue_declare(queue="critical-alerts", durable=True)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 8 行 | <code>channel.basic_qos(prefetch_count=1)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 11 行 | <code>def handle_message(ch, method, properties, body):</code> | 定义函数，把一段可复用逻辑命名，后续可以反复调用。 |
-| 第 12 行 | <code>    alert = json.loads(body)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 13 行 | <code>    print("received:", alert["alertname"], alert["service"])</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-| 第 14 行 | <code>    ch.basic_ack(delivery_tag=method.delivery_tag)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 17 行 | <code>channel.basic_consume(queue="critical-alerts", on_message_callback=handle_message)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 18 行 | <code>channel.start_consuming()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-
 关键点：
 
 - `basic_qos(prefetch_count=1)` 控制未 ack 消息数量。
@@ -518,24 +355,6 @@ main queue
   v
 dead letter queue
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>main queue</code> | 这一行里的英文要这样读：`main queue` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 2 行 | <code>  &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 3 行 | <code>  &#124; consumer fails</code> | 这一行里的英文要这样读：`consumer fails` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 4 行 | <code>  v</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 5 行 | <code>retry queue with TTL</code> | 这一行里的英文要这样读：`retry queue with TTL` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 6 行 | <code>  &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 7 行 | <code>  &#124; TTL expires</code> | 这一行里的英文要这样读：`TTL expires` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 8 行 | <code>  v</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 9 行 | <code>main queue</code> | 这一行里的英文要这样读：`main queue` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 10 行 | <code>  &#124;</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 11 行 | <code>  &#124; exceeds retry limit</code> | 这一行里的英文要这样读：`exceeds retry limit` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 12 行 | <code>  v</code> | ASCII 图里的连接符号，用来辅助表示上下层关系；真正要理解的是它连接的前后组件。 |
-| 第 13 行 | <code>dead letter queue</code> | 这一行里的英文要这样读：`dead letter queue` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 Dead Letter Exchange 适合保存：
 

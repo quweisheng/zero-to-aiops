@@ -23,12 +23,6 @@
 OrderApiHighErrorRate
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>OrderApiHighErrorRate</code> | 这一行里的英文要这样读：`OrderApiHighErrorRate` 是高错误率告警名，通常表示某个服务的请求失败比例超过阈值。 |
-
 老同事会这样处理：
 
 ```text
@@ -40,25 +34,11 @@ OrderApiHighErrorRate
 回滚后观察 15 分钟。
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>先看 Grafana 的错误率和 p95。</code> | 这一行里的英文要这样读：`Grafana` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源；`p95` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 4 行 | <code>如果日志是 database timeout，看连接池和慢查询。</code> | 这一行里的英文要这样读：`database timeout` 这个英文标识可以拆开理解为：数据库名称字段，超时时间字段。 |
-| 第 5 行 | <code>如果下游 payment-api 也在 5xx，拉 payment team。</code> | 这一行里的英文要这样读：`payment-api` 这个英文标识可以拆开理解为：应用程序接口；`5xx` 是HTTP 5xx 服务端错误，表示请求到达服务端但服务端处理失败；`payment team` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-
 新人只看到一行红字：
 
 ```text
 order-api 5xx is above 5%
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>order-api 5xx is above 5%</code> | 这一行里的英文要这样读：`order-api 5xx is above` 里的 order 表示订单业务，api 表示接口服务，合起来通常指订单接口服务。 |
 
 Runbook 的价值，就是把老同事脑子里的处理路径写成别人也能执行、能验证、能升级、能自动化的步骤。
 
@@ -129,56 +109,6 @@ Runbook
      -> audit
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Runbook</code> | 这一行里的英文要这样读：`Runbook` 是故障处理手册。 |
-| 第 2 行 | <code>  -&gt; Metadata</code> | 这一行要理解这些英文词：`Metadata` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>     -&gt; service</code> | 这一行要理解这些英文词：`service` 是服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>     -&gt; owner</code> | 这一行要理解这些英文词：`owner` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>     -&gt; alertname</code> | 这一行要理解这些英文词：`alertname` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>     -&gt; severity</code> | 这一行要理解这些英文词：`severity` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>     -&gt; last_updated</code> | 这一行要理解这些英文词：`last_updated` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>  -&gt; Trigger</code> | 这一行要理解这些英文词：`Trigger` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 9 行 | <code>     -&gt; alert rule</code> | 这一行要理解这些英文词：`alert rule` 是alert=告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 10 行 | <code>     -&gt; user report</code> | 这一行要理解这些英文词：`user report` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 11 行 | <code>     -&gt; maintenance task</code> | 这一行要理解这些英文词：`maintenance task` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 12 行 | <code>  -&gt; Context</code> | 这一行要理解这些英文词：`Context` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 13 行 | <code>     -&gt; user impact</code> | 这一行要理解这些英文词：`user impact` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 14 行 | <code>     -&gt; dashboards</code> | 这一行要理解这些英文词：`dashboards` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 15 行 | <code>     -&gt; logs</code> | 这一行要理解这些英文词：`logs` 是日志。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 16 行 | <code>     -&gt; dependencies</code> | 这一行要理解这些英文词：`dependencies` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 17 行 | <code>  -&gt; Preconditions</code> | 这一行要理解这些英文词：`Preconditions` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 18 行 | <code>     -&gt; permissions</code> | 这一行要理解这些英文词：`permissions` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 19 行 | <code>     -&gt; environment</code> | 这一行要理解这些英文词：`environment` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 20 行 | <code>     -&gt; approvals</code> | 这一行要理解这些英文词：`approvals` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 21 行 | <code>     -&gt; tools</code> | 这一行要理解这些英文词：`tools` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 22 行 | <code>  -&gt; Diagnosis</code> | 这一行要理解这些英文词：`Diagnosis` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 23 行 | <code>     -&gt; checks</code> | 这一行要理解这些英文词：`checks` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 24 行 | <code>     -&gt; commands</code> | 这一行要理解这些英文词：`commands` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 25 行 | <code>     -&gt; expected output</code> | 这一行要理解这些英文词：`expected output` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 26 行 | <code>     -&gt; decision tree</code> | 这一行要理解这些英文词：`decision tree` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 27 行 | <code>  -&gt; Actions</code> | 这一行要理解这些英文词：`Actions` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 28 行 | <code>     -&gt; safe actions</code> | 这一行要理解这些英文词：`safe actions` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 29 行 | <code>     -&gt; risky actions</code> | 这一行要理解这些英文词：`risky actions` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 30 行 | <code>     -&gt; approval</code> | 这一行要理解这些英文词：`approval` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 31 行 | <code>     -&gt; rollback</code> | 这一行要理解这些英文词：`rollback` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 32 行 | <code>  -&gt; Verification</code> | 这一行要理解这些英文词：`Verification` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 33 行 | <code>     -&gt; SLI back to normal</code> | 这一行要理解这些英文词：`SLI back to normal` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 34 行 | <code>     -&gt; alerts stop</code> | 这一行要理解这些英文词：`alerts stop` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 35 行 | <code>     -&gt; user reports stop</code> | 这一行要理解这些英文词：`user reports stop` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 36 行 | <code>  -&gt; Escalation</code> | 这一行要理解这些英文词：`Escalation` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 37 行 | <code>     -&gt; owner</code> | 这一行要理解这些英文词：`owner` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 38 行 | <code>     -&gt; SME</code> | 这一行要理解这些英文词：`SME` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 39 行 | <code>     -&gt; SEV upgrade</code> | 这一行要理解这些英文词：`SEV upgrade` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 40 行 | <code>  -&gt; Automation</code> | 这一行要理解这些英文词：`Automation` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 41 行 | <code>     -&gt; inputs</code> | 这一行要理解这些英文词：`inputs` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 42 行 | <code>     -&gt; steps</code> | 这一行要理解这些英文词：`steps` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 43 行 | <code>     -&gt; actions</code> | 这一行要理解这些英文词：`actions` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 44 行 | <code>     -&gt; outputs</code> | 这一行要理解这些英文词：`outputs` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 45 行 | <code>     -&gt; audit</code> | 这一行要理解这些英文词：`audit` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 初学路线：
 
 ```text
@@ -191,19 +121,6 @@ write markdown runbook
   -> automate low-risk actions
   -> require approval for high-risk actions
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>write markdown runbook</code> | 这一行里的英文要这样读：`write markdown runbook` 这个英文标识可以拆开理解为：故障处理手册。 |
-| 第 2 行 | <code>  -&gt; attach to alert annotation</code> | 这一行要理解这些英文词：`attach to alert annotation` 是alert=告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; test in a drill</code> | 这一行要理解这些英文词：`test in a drill` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; add commands and expected outputs</code> | 这一行要理解这些英文词：`add commands and expected outputs` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; add decision tree</code> | 这一行要理解这些英文词：`add decision tree` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; automate read-only checks</code> | 这一行要理解这些英文词：`automate read-only checks` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; automate low-risk actions</code> | 这一行要理解这些英文词：`automate low-risk actions` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>  -&gt; require approval for high-risk actions</code> | 这一行要理解这些英文词：`require approval for high-risk actions` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 ## Runbook 不是什么
 
@@ -227,15 +144,6 @@ alert
   -> postmortem improves runbook
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>alert</code> | 这一行里的英文要这样读：`alert` 是告警。 |
-| 第 2 行 | <code>  -&gt; runbook tells what to do</code> | 这一行要理解这些英文词：`runbook tells what to do` 是runbook=故障处理手册。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; incident doc records what happened</code> | 这一行要理解这些英文词：`incident doc records what happened` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; postmortem improves runbook</code> | 这一行要理解这些英文词：`postmortem improves runbook` 是runbook=故障处理手册。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 Runbook 是事前准备。
 
 Incident 文档是事中记录。
@@ -250,15 +158,6 @@ runbook
   -> postmortem action item
   -> runbook update
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>runbook</code> | 这一行里的英文要这样读：`runbook` 是故障处理手册。 |
-| 第 2 行 | <code>  -&gt; incident response</code> | 这一行要理解这些英文词：`incident response` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; postmortem action item</code> | 这一行要理解这些英文词：`postmortem action item` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; runbook update</code> | 这一行要理解这些英文词：`runbook update` 是runbook=故障处理手册。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 ## 好 Runbook 的标准
 
@@ -305,25 +204,6 @@ metadata
   -> record
   -> automation mapping
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>metadata</code> | 这一行里的英文要这样读：`metadata` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 2 行 | <code>  -&gt; trigger</code> | 这一行要理解这些英文词：`trigger` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; impact</code> | 这一行要理解这些英文词：`impact` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; prerequisites</code> | 这一行要理解这些英文词：`prerequisites` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; quick triage</code> | 这一行要理解这些英文词：`quick triage` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; dashboards</code> | 这一行要理解这些英文词：`dashboards` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; checks</code> | 这一行要理解这些英文词：`checks` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>  -&gt; decision tree</code> | 这一行要理解这些英文词：`decision tree` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 9 行 | <code>  -&gt; safe actions</code> | 这一行要理解这些英文词：`safe actions` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 10 行 | <code>  -&gt; risky actions</code> | 这一行要理解这些英文词：`risky actions` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 11 行 | <code>  -&gt; verification</code> | 这一行要理解这些英文词：`verification` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 12 行 | <code>  -&gt; escalation</code> | 这一行要理解这些英文词：`escalation` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 13 行 | <code>  -&gt; record</code> | 这一行要理解这些英文词：`record` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 14 行 | <code>  -&gt; automation mapping</code> | 这一行要理解这些英文词：`automation mapping` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 每一节都要短、具体、可执行。
 
@@ -473,57 +353,6 @@ kubectl scale deployment/order-api -n prod --replicas=6
 | 回滚生产 | 高 | 需要人工审批 |
 ````
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code># Runbook: order-api HighErrorRate</code> | 这一行里的英文要这样读：`Runbook` 是故障处理手册；`order-api HighErrorRate` 是高错误率告警名，通常表示某个服务的请求失败比例超过阈值。 |
-| 第 5 行 | <code>- 服务: order-api</code> | 这一行里的英文要这样读：`order-api` 里的 order 表示订单业务，api 表示接口服务，合起来通常指订单接口服务。 |
-| 第 6 行 | <code>- 告警: OrderApiHighErrorRate</code> | 这一行里的英文要这样读：`OrderApiHighErrorRate` 是高错误率告警名，通常表示某个服务的请求失败比例超过阈值。 |
-| 第 7 行 | <code>- Owner: team-order</code> | `Owner` 是Owner 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源，冒号后面的 `team-order` 是这个字段的示例内容或模板表达式。 |
-| 第 8 行 | <code>- 严重级别: page</code> | 这一行里的英文要这样读：`page` 是需要立即通知值班人员的告警级别。 |
-| 第 9 行 | <code>- 最近更新: 2026-07-02</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
-| 第 10 行 | <code>- 适用环境: prod</code> | 这一行里的英文要这样读：`prod` 是生产环境。 |
-| 第 11 行 | <code>- 关联 SLO: order-api-availability</code> | 这一行里的英文要这样读：`SLO` 是服务等级目标；`order-api-availability` 里的 order 表示订单业务，api 表示接口服务，合起来通常指订单接口服务。 |
-| 第 12 行 | <code>- 相关 dashboard: https://grafana.example.com/d/order-api</code> | 这一行里的英文要这样读：`dashboard` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`https` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`grafana.example.com` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`d` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`order-api` 里的 order 表示订单业务，api 表示接口服务，合起来通常指订单接口服务。 |
-| 第 16 行 | <code>5 分钟内 order-api 5xx 错误率 &gt; 5%。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 26 行 | <code>- 有 Kubernetes 只读权限。</code> | 这一行里的英文要这样读：`Kubernetes` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 28 行 | <code>- 生产回滚需要 IC 审批。</code> | 这一行里的英文要这样读：`IC` 是Incident Commander，故障指挥官。 |
-| 第 32 行 | <code>1. 打开 order-api dashboard，确认错误率、p95 延迟、请求量。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 34 行 | <code>3. 查看 order-api 错误日志。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 35 行 | <code>4. 查看下游 payment-api 状态。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 36 行 | <code>5. 查看 MySQL 连接池和慢查询。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 40 行 | <code>```bash</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 41 行 | <code>kubectl get pods -n prod -l app=order-api</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 42 行 | <code>kubectl logs -n prod deploy/order-api --since=30m &#124; tail -n 200</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 47 行 | <code>- Pod 不应大面积 CrashLoopBackOff。</code> | 这一行里的英文要这样读：`Pod` 是Kubernetes 里运行容器的最小调度单元；`CrashLoopBackOff` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 53 行 | <code>- 如果日志主要是 database timeout，检查连接池和慢 SQL。</code> | 这一行里的英文要这样读：`database timeout` 这个英文标识可以拆开理解为：数据库名称字段，超时时间字段；`SQL` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 54 行 | <code>- 如果下游 payment-api 5xx 同时增加，升级 payment-api owner。</code> | 这一行里的英文要这样读：`payment-api 5xx` 这个英文标识可以拆开理解为：应用程序接口，HTTP 5xx 服务端错误，表示请求到达服务端但服务端处理失败；`payment-api owner` 这个英文标识可以拆开理解为：应用程序接口。 |
-| 第 81 行 | <code>审批：需要 IC。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 83 行 | <code>```bash</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 84 行 | <code>kubectl rollout undo deployment/order-api -n prod</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 89 行 | <code>- 5xx 错误率回落。</code> | 这一行里的英文要这样读：`5xx` 是HTTP 5xx 服务端错误，表示请求到达服务端但服务端处理失败。 |
-| 第 90 行 | <code>- p95 延迟回落。</code> | 这一行里的英文要这样读：`p95` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 99 行 | <code>```bash</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 100 行 | <code>kubectl scale deployment/order-api -n prod --replicas=6</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
-| 第 105 行 | <code>- Pod ready。</code> | 这一行里的英文要这样读：`Pod ready` 这个英文标识可以拆开理解为：Kubernetes 里运行容器的最小调度单元。 |
-| 第 111 行 | <code>- 5xx 错误率回到 1% 以下并持续 15 分钟。</code> | 这一行里的英文要这样读：`5xx` 是HTTP 5xx 服务端错误，表示请求到达服务端但服务端处理失败。 |
-| 第 112 行 | <code>- p95 延迟回到 300ms 以下。</code> | 这一行里的英文要这样读：`p95` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`ms` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 113 行 | <code>- SLO burn rate 恢复到可接受范围。</code> | 这一行里的英文要这样读：`SLO burn rate` 这个英文标识可以拆开理解为：服务等级目标，比率。 |
-| 第 120 行 | <code>- 影响升级为 SEV1。</code> | 这一行里的英文要这样读：`SEV1` 是一级故障，通常代表最高优先级。 |
-| 第 127 行 | <code>- 执行人:</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
-| 第 128 行 | <code>- 执行动作:</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
-| 第 129 行 | <code>- 执行时间:</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
-| 第 130 行 | <code>- 结果:</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
-| 第 131 行 | <code>- 后续事项:</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
-| 第 135 行 | <code>&#124; 步骤 &#124; 风险 &#124; 是否适合自动化 &#124;</code> | Markdown 表格行，用来对齐展示字段和说明。 |
-| 第 136 行 | <code>&#124;---&#124;---&#124;---&#124;</code> | Markdown 表格行，用来对齐展示字段和说明。 |
-| 第 137 行 | <code>&#124; 拉取 dashboard 链接 &#124; 低 &#124; 是 &#124;</code> | 这一行里的英文要这样读：`dashboard` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 138 行 | <code>&#124; 查询最近发布 &#124; 低 &#124; 是 &#124;</code> | Markdown 表格行，用来对齐展示字段和说明。 |
-| 第 139 行 | <code>&#124; 查询错误日志摘要 &#124; 低 &#124; 是 &#124;</code> | Markdown 表格行，用来对齐展示字段和说明。 |
-| 第 140 行 | <code>&#124; 摘除单实例 &#124; 中 &#124; 需要条件和审批 &#124;</code> | Markdown 表格行，用来对齐展示字段和说明。 |
-| 第 141 行 | <code>&#124; 回滚生产 &#124; 高 &#124; 需要人工审批 &#124;</code> | Markdown 表格行，用来对齐展示字段和说明。 |
-
 ## Runbook 字段解释
 
 | 字段 | 为什么需要 |
@@ -558,16 +387,6 @@ annotations:
   runbook_url: "https://github.com/quweisheng/zero-to-aiops/tree/main/runbooks/order-api-high-error-rate.md"
   dashboard_url: "https://grafana.example.com/d/order-api"
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>annotations:</code> | 定义 `annotations` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  summary: "order-api high error rate"</code> | `summary` 是摘要说明字段，`order-api high error rate` 是高错误率告警名，表示请求失败比例过高；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 3 行 | <code>  description: "More than 5% of order-api requests are returning 5xx."</code> | `description` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`More than 5% of order-api requests are returning 5xx.` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 4 行 | <code>  runbook_url: "https://github.com/quweisheng/zero-to-aiops/tree/main/runbooks/order-api-high-error-rate.md"</code> | `runbook_url` 是故障处理手册链接字段，`https://github.com/quweisheng/zero-to-aiops/tree/main/runbooks/order-api-high-error-rate.md` 是高错误率告警名，表示请求失败比例过高；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 5 行 | <code>  dashboard_url: "https://grafana.example.com/d/order-api"</code> | `dashboard_url` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`https://grafana.example.com/d/order-api` 表示URL 地址，表示页面、接口或文档入口；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 如果通知里没有 runbook_url，值班人会浪费时间搜索。
 
@@ -605,18 +424,6 @@ AWS Systems Manager Automation runbook 的概念很适合理解自动化：runbo
   -> 告警触发 + 人工审批
   -> 低风险自动执行
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>人工 Markdown runbook</code> | 这一行里的英文要这样读：`Markdown runbook` 这个英文标识可以拆开理解为：故障处理手册。 |
-| 第 2 行 | <code>  -&gt; 只读检查脚本</code> | 这一行表示上一级主题下的子项“只读检查脚本”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
-| 第 3 行 | <code>  -&gt; 参数化脚本</code> | 这一行表示上一级主题下的子项“参数化脚本”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
-| 第 4 行 | <code>  -&gt; 受控自动化</code> | 这一行表示上一级主题下的子项“受控自动化”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
-| 第 5 行 | <code>  -&gt; 自助执行</code> | 这一行表示上一级主题下的子项“自助执行”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
-| 第 6 行 | <code>  -&gt; 告警触发 + 人工审批</code> | 这一行表示上一级主题下的子项“告警触发 + 人工审批”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
-| 第 7 行 | <code>  -&gt; 低风险自动执行</code> | 这一行表示上一级主题下的子项“低风险自动执行”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
 
 不要跳过前几步直接让告警自动重启生产。
 
@@ -701,19 +508,6 @@ kubectl get pods -n "$NAMESPACE" -l app="$APP"
 echo "== Recent logs =="
 kubectl logs -n "$NAMESPACE" deploy/"$APP" --since=30m | tail -n 100
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>#!/usr/bin/env bash</code> | 注释行，提前说明下面命令的目的或注意事项。 |
-| 第 2 行 | <code>set -euo pipefail</code> | 设置 shell 或工具变量，具体含义取决于当前终端环境。 |
-| 第 4 行 | <code>NAMESPACE="${1:-prod}"</code> | 执行 `namespace="${1:-prod}"` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 5 行 | <code>APP="${2:-order-api}"</code> | 执行 `app="${2:-order-api}"` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 7 行 | <code>echo "== Pods =="</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
-| 第 8 行 | <code>kubectl get pods -n "$NAMESPACE" -l app="$APP"</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-| 第 10 行 | <code>echo "== Recent logs =="</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
-| 第 11 行 | <code>kubectl logs -n "$NAMESPACE" deploy/"$APP" --since=30m &#124; tail -n 100</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
 
 这个脚本只读，适合作为自动化第一步。
 

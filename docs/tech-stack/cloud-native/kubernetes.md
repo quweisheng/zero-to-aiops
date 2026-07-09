@@ -36,12 +36,6 @@
 docker run -p 8000:8000 aiops-api:1.0
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>docker run -p 8000:8000 aiops-api:1.0</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
-
 这在一台机器上能跑。但生产环境马上会出现新问题：
 
 - 机器挂了怎么办？
@@ -76,19 +70,6 @@ Kubernetes 很大。入门阶段先抓住这条主线：
   -> Service / DNS 让其他服务找到 Pod
   -> probes / events / logs 暴露运行证据
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>你写 YAML 声明期望状态</code> | 这一行里的英文要这样读：`YAML` 是YAML 格式输出，便于阅读结构化结果。 |
-| 第 2 行 | <code>  -&gt; kubectl 发给 kube-apiserver</code> | 这一行要理解这些英文词：`kubectl` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`kube-apiserver` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; API Server 存入 etcd</code> | 这一行要理解这些英文词：`API Server` 是api=应用程序接口，server=服务端；`etcd` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; controller 发现状态差异</code> | 这一行要理解这些英文词：`controller` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; scheduler 给新 Pod 选择 Node</code> | 这一行要理解这些英文词：`scheduler` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`Pod` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`Node` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; kubelet 在 Node 上启动容器</code> | 这一行要理解这些英文词：`kubelet` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`Node` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; Service / DNS 让其他服务找到 Pod</code> | 这一行要理解这些英文词：`Service` 是服务；`DNS` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`Pod` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>  -&gt; probes / events / logs 暴露运行证据</code> | 这一行要理解这些英文词：`probes` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`events` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`logs` 是日志。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 第一阶段必须掌握：
 
@@ -191,72 +172,6 @@ Monitoring, Logging, and Debugging
   -> debug services
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Overview</code> | 这一行里的英文要这样读：`Overview` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 2 行 | <code>  -&gt; Kubernetes 是什么</code> | 这一行要理解这些英文词：`Kubernetes` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; Components</code> | 这一行要理解这些英文词：`Components` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; Kubernetes API</code> | 这一行要理解这些英文词：`Kubernetes API` 是api=应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; Working with objects</code> | 这一行要理解这些英文词：`Working with objects` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>Cluster Architecture</code> | 这一行里的英文要这样读：`Cluster Architecture` 这个英文标识可以拆开理解为：集群名称字段。 |
-| 第 8 行 | <code>  -&gt; Nodes</code> | 这一行要理解这些英文词：`Nodes` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 9 行 | <code>  -&gt; Control plane components</code> | 这一行要理解这些英文词：`Control plane components` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 10 行 | <code>  -&gt; Node components</code> | 这一行要理解这些英文词：`Node components` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 11 行 | <code>  -&gt; Controllers</code> | 这一行要理解这些英文词：`Controllers` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 12 行 | <code>  -&gt; Lease</code> | 这一行要理解这些英文词：`Lease` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 13 行 | <code>  -&gt; Cloud Controller Manager</code> | 这一行要理解这些英文词：`Cloud Controller Manager` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 15 行 | <code>Containers</code> | 这一行里的英文要这样读：`Containers` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 16 行 | <code>  -&gt; Images</code> | 这一行要理解这些英文词：`Images` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 17 行 | <code>  -&gt; Container runtime</code> | 这一行要理解这些英文词：`Container runtime` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 18 行 | <code>  -&gt; RuntimeClass</code> | 这一行要理解这些英文词：`RuntimeClass` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 20 行 | <code>Workloads</code> | 这一行里的英文要这样读：`Workloads` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 21 行 | <code>  -&gt; Pods</code> | 这一行要理解这些英文词：`Pods` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 22 行 | <code>  -&gt; Pod lifecycle</code> | 这一行要理解这些英文词：`Pod lifecycle` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 23 行 | <code>  -&gt; Workload resources</code> | 这一行要理解这些英文词：`Workload resources` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 24 行 | <code>  -&gt; Deployment</code> | 这一行要理解这些英文词：`Deployment` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 25 行 | <code>  -&gt; ReplicaSet</code> | 这一行要理解这些英文词：`ReplicaSet` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 26 行 | <code>  -&gt; StatefulSet</code> | 这一行要理解这些英文词：`StatefulSet` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 27 行 | <code>  -&gt; DaemonSet</code> | 这一行要理解这些英文词：`DaemonSet` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 28 行 | <code>  -&gt; Job</code> | 这一行要理解这些英文词：`Job` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 29 行 | <code>  -&gt; CronJob</code> | 这一行要理解这些英文词：`CronJob` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 31 行 | <code>Services, Load Balancing, and Networking</code> | 这一行里的英文要这样读：`Services` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源；`Load Balancing` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`and Networking` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 32 行 | <code>  -&gt; Service</code> | 这一行要理解这些英文词：`Service` 是服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 33 行 | <code>  -&gt; EndpointSlice</code> | 这一行要理解这些英文词：`EndpointSlice` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 34 行 | <code>  -&gt; DNS for Services and Pods</code> | 这一行要理解这些英文词：`DNS for Services and Pods` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 35 行 | <code>  -&gt; Ingress</code> | 这一行要理解这些英文词：`Ingress` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 36 行 | <code>  -&gt; NetworkPolicy</code> | 这一行要理解这些英文词：`NetworkPolicy` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 37 行 | <code>  -&gt; Gateway API</code> | 这一行要理解这些英文词：`Gateway API` 是api=应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 39 行 | <code>Storage</code> | 这一行里的英文要这样读：`Storage` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 40 行 | <code>  -&gt; Volumes</code> | 这一行要理解这些英文词：`Volumes` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 41 行 | <code>  -&gt; PersistentVolume</code> | 这一行要理解这些英文词：`PersistentVolume` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 42 行 | <code>  -&gt; PersistentVolumeClaim</code> | 这一行要理解这些英文词：`PersistentVolumeClaim` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 43 行 | <code>  -&gt; StorageClass</code> | 这一行要理解这些英文词：`StorageClass` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 45 行 | <code>Configuration</code> | 这一行里的英文要这样读：`Configuration` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 46 行 | <code>  -&gt; ConfigMap</code> | 这一行要理解这些英文词：`ConfigMap` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 47 行 | <code>  -&gt; Secret</code> | 这一行要理解这些英文词：`Secret` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 48 行 | <code>  -&gt; Resource requests and limits</code> | 这一行要理解这些英文词：`Resource requests and limits` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 49 行 | <code>  -&gt; kubeconfig</code> | 这一行要理解这些英文词：`kubeconfig` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 51 行 | <code>Security</code> | 这一行里的英文要这样读：`Security` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 52 行 | <code>  -&gt; ServiceAccount</code> | 这一行要理解这些英文词：`ServiceAccount` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 53 行 | <code>  -&gt; RBAC</code> | 这一行要理解这些英文词：`RBAC` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 54 行 | <code>  -&gt; Pod Security Standards</code> | 这一行要理解这些英文词：`Pod Security Standards` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 55 行 | <code>  -&gt; Admission control</code> | 这一行要理解这些英文词：`Admission control` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 57 行 | <code>Scheduling, Preemption and Eviction</code> | 这一行里的英文要这样读：`Scheduling` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源；`Preemption and Eviction` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 58 行 | <code>  -&gt; kube-scheduler</code> | 这一行要理解这些英文词：`kube-scheduler` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 59 行 | <code>  -&gt; nodeSelector</code> | 这一行要理解这些英文词：`nodeSelector` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 60 行 | <code>  -&gt; affinity / anti-affinity</code> | 这一行要理解这些英文词：`affinity` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`anti-affinity` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 61 行 | <code>  -&gt; taints / tolerations</code> | 这一行要理解这些英文词：`taints` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`tolerations` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 62 行 | <code>  -&gt; priority / preemption</code> | 这一行要理解这些英文词：`priority` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`preemption` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 63 行 | <code>  -&gt; node pressure eviction</code> | 这一行要理解这些英文词：`node pressure eviction` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 65 行 | <code>Monitoring, Logging, and Debugging</code> | 这一行里的英文要这样读：`Monitoring` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源；`Logging` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源；`and Debugging` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 66 行 | <code>  -&gt; kubectl logs</code> | 这一行要理解这些英文词：`kubectl logs` 是logs=日志。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 67 行 | <code>  -&gt; kubectl describe</code> | 这一行要理解这些英文词：`kubectl describe` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 68 行 | <code>  -&gt; events</code> | 这一行要理解这些英文词：`events` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 69 行 | <code>  -&gt; debug pods</code> | 这一行要理解这些英文词：`debug pods` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 70 行 | <code>  -&gt; debug services</code> | 这一行要理解这些英文词：`debug services` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 学习 Kubernetes 不要从背 YAML 开始。要先知道每个对象在这张地图里的位置：
 
 ```text
@@ -267,17 +182,6 @@ requests / limits 是 configuration + scheduling
 Namespace / labels 是 object management
 Pod status / events / logs 是 debugging 证据
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Deployment 是 workload</code> | 这一行里的英文要这样读：`Deployment` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源；`workload` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 2 行 | <code>Service 是 networking</code> | 这一行里的英文要这样读：`Service` 是服务名称字段；`networking` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 3 行 | <code>ConfigMap / Secret 是 configuration</code> | `ConfigMap / Secret 是 configuration` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 4 行 | <code>requests / limits 是 configuration + scheduling</code> | `requests / limits 是 configuration + scheduling` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 5 行 | <code>Namespace / labels 是 object management</code> | `Namespace / labels 是 object management` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 6 行 | <code>Pod status / events / logs 是 debugging 证据</code> | `Pod status / events / logs 是 debugging 证据` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 ## Kubernetes 在 AIOps 链路中的位置
 
@@ -303,25 +207,6 @@ Pod status / events / logs 是 debugging 证据
   -> Runbook 自动化
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 2 行 | <code>  -&gt; 镜像</code> | 这一行表示上一级主题下的子项“镜像”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
-| 第 3 行 | <code>  -&gt; Kubernetes Deployment</code> | 这一行要理解这些英文词：`Kubernetes Deployment` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; ReplicaSet</code> | 这一行要理解这些英文词：`ReplicaSet` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; Pod</code> | 这一行要理解这些英文词：`Pod` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; Container</code> | 这一行要理解这些英文词：`Container` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; Service</code> | 这一行要理解这些英文词：`Service` 是服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>  -&gt; Ingress / Gateway / LoadBalancer</code> | 这一行要理解这些英文词：`Ingress` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`Gateway` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`LoadBalancer` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 9 行 | <code>  -&gt; 用户请求</code> | 这一行表示上一级主题下的子项“用户请求”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
-| 第 12 行 | <code>  -&gt; kubelet / cAdvisor / metrics-server</code> | 这一行要理解这些英文词：`kubelet` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`cAdvisor` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`metrics-server` 是metrics=指标，server=服务端。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 13 行 | <code>  -&gt; kube-state-metrics</code> | 这一行要理解这些英文词：`kube-state-metrics` 是metrics=指标。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 14 行 | <code>  -&gt; Prometheus</code> | 这一行要理解这些英文词：`Prometheus` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 15 行 | <code>  -&gt; Grafana</code> | 这一行要理解这些英文词：`Grafana` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 16 行 | <code>  -&gt; Alertmanager</code> | 这一行要理解这些英文词：`Alertmanager` 是Prometheus 生态里的告警管理器。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 17 行 | <code>  -&gt; Runbook 自动化</code> | 这一行要理解这些英文词：`Runbook` 是故障处理手册。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 Kubernetes 给 AIOps 提供的证据：
 
 | 证据 | 从哪里看 | 用途 |
@@ -341,12 +226,6 @@ Kubernetes 给 AIOps 提供的证据：
 kubectl rollout restart deployment/aiops-api
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl rollout restart deployment/aiops-api</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-
 而应先采集：
 
 ```bash
@@ -356,16 +235,6 @@ kubectl describe pod -l app=aiops-api -n aiops
 kubectl logs -l app=aiops-api -n aiops --tail=200
 kubectl get events -n aiops --sort-by=.lastTimestamp
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl get deploy,rs,pod,svc -n aiops -o wide</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-| 第 2 行 | <code>kubectl describe deploy aiops-api -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-| 第 3 行 | <code>kubectl describe pod -l app=aiops-api -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-| 第 4 行 | <code>kubectl logs -l app=aiops-api -n aiops --tail=200</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-| 第 5 行 | <code>kubectl get events -n aiops --sort-by=.lastTimestamp</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
 先看清楚，再决定是否恢复。
 
@@ -404,24 +273,11 @@ spec:
   replicas: 3
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>spec:</code> | 定义 `spec` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  replicas: 3</code> | `replicas` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`3` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
 意思是：
 
 ```text
 我希望始终有 3 个符合模板的 Pod 副本。
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>我希望始终有 3 个符合模板的 Pod 副本。</code> | 这一行里的英文要这样读：`Pod` 是Kubernetes 里运行容器的最小调度单元。 |
 
 如果实际只有 2 个，Deployment controller 会创建新的 Pod。
 
@@ -438,15 +294,6 @@ spec:
   -> controller reconcile
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>期望状态 desired state</code> | 这一行里的英文要这样读：`desired state` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 2 行 | <code>  vs</code> | 这一行里的英文要这样读：`vs` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 3 行 | <code>实际状态 actual state</code> | 这一行里的英文要这样读：`actual state` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 4 行 | <code>  -&gt; controller reconcile</code> | 这一行要理解这些英文词：`controller reconcile` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 用人话讲：
 
 ```text
@@ -454,13 +301,6 @@ spec:
 你告诉它 “我要最终长这样”。
 Kubernetes 自己持续检查世界是否长这样，不像就修。
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>你不是告诉 Kubernetes “先创建 A，再启动 B，再检查 C”。</code> | 这一行里的英文要这样读：`Kubernetes` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源；`A` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`B` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`C` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 3 行 | <code>Kubernetes 自己持续检查世界是否长这样，不像就修。</code> | 这一行里的英文要这样读：`Kubernetes` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
 
 这也是 Kubernetes 排障的核心：永远同时看 `spec` 和 `status`。
 
@@ -487,23 +327,6 @@ Cluster
      -> container runtime
      -> Pods
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Cluster</code> | 这一行里的英文要这样读：`Cluster` 是集群名称字段。 |
-| 第 2 行 | <code>  -&gt; Control Plane</code> | 这一行要理解这些英文词：`Control Plane` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>     -&gt; kube-apiserver</code> | 这一行要理解这些英文词：`kube-apiserver` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>     -&gt; etcd</code> | 这一行要理解这些英文词：`etcd` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>     -&gt; kube-scheduler</code> | 这一行要理解这些英文词：`kube-scheduler` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>     -&gt; kube-controller-manager</code> | 这一行要理解这些英文词：`kube-controller-manager` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>     -&gt; cloud-controller-manager</code> | 这一行要理解这些英文词：`cloud-controller-manager` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>  -&gt; Worker Nodes</code> | 这一行要理解这些英文词：`Worker Nodes` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 9 行 | <code>     -&gt; kubelet</code> | 这一行要理解这些英文词：`kubelet` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 10 行 | <code>     -&gt; kube-proxy</code> | 这一行要理解这些英文词：`kube-proxy` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 11 行 | <code>     -&gt; container runtime</code> | 这一行要理解这些英文词：`container runtime` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 12 行 | <code>     -&gt; Pods</code> | 这一行要理解这些英文词：`Pods` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 控制面负责“决策和记录”：
 
@@ -539,18 +362,6 @@ dashboard
   -> kube-apiserver
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl</code> | 这一行里的英文要这样读：`kubectl` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 2 行 | <code>controller</code> | 这一行里的英文要这样读：`controller` 是控制器。 |
-| 第 3 行 | <code>scheduler</code> | 这一行里的英文要这样读：`scheduler` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 4 行 | <code>kubelet</code> | 这一行里的英文要这样读：`kubelet` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 5 行 | <code>operator</code> | 这一行里的英文要这样读：`operator` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 6 行 | <code>dashboard</code> | 这一行里的英文要这样读：`dashboard` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 7 行 | <code>  -&gt; kube-apiserver</code> | 这一行要理解这些英文词：`kube-apiserver` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 它负责：
 
 - 暴露 Kubernetes API。
@@ -565,12 +376,6 @@ dashboard
 ```bash
 kubectl apply -f deployment.yaml
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl apply -f deployment.yaml</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 
 `kubectl` 不是直接找某台 Node 创建容器，而是把对象提交给 API Server。
 
@@ -611,12 +416,6 @@ scheduler 负责给没有绑定 Node 的 Pod 选择合适节点。
 Pending Pod
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Pending Pod</code> | 这一行里的英文要这样读：`Pending Pod` 这个英文标识可以拆开理解为：Kubernetes 里运行容器的最小调度单元。 |
-
 考虑因素：
 
 - Node 资源是否够。
@@ -635,23 +434,11 @@ Pending Pod
 把 Pod 绑定到某个 Node
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>把 Pod 绑定到某个 Node</code> | 这一行里的英文要这样读：`Pod` 是Kubernetes 里运行容器的最小调度单元；`Node` 是节点。 |
-
 常见现象：
 
 ```text
 Pod 一直 Pending
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Pod 一直 Pending</code> | 这一行里的英文要这样读：`Pod` 是Kubernetes 里运行容器的最小调度单元；`Pending` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
 
 很多时候不是容器启动失败，而是 scheduler 找不到合适 Node。
 
@@ -666,14 +453,6 @@ watch API object
   -> 比较期望状态和实际状态
   -> 发起修正动作
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>watch API object</code> | 这一行里的英文要这样读：`watch API object` 这个英文标识可以拆开理解为：应用程序接口。 |
-| 第 2 行 | <code>  -&gt; 比较期望状态和实际状态</code> | 这一行表示上一级主题下的子项“比较期望状态和实际状态”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
-| 第 3 行 | <code>  -&gt; 发起修正动作</code> | 这一行表示上一级主题下的子项“发起修正动作”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
 
 常见控制器：
 
@@ -718,12 +497,6 @@ kubelet 运行在每个 Node 上，是 Node 的代理。
 控制面决定应该运行什么
 kubelet 负责在本机真正运行它
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 2 行 | <code>kubelet 负责在本机真正运行它</code> | 这一行里的英文要这样读：`kubelet` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 Pod 卡在 `ContainerCreating`、探针失败、volume 挂载失败，常常和 kubelet 相关。
 
@@ -788,18 +561,6 @@ spec:
   replicas: 3
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>apiVersion: apps/v1</code> | `apiVersion` 这个英文标识可以拆开理解为：应用程序接口，`apps/v1` 表示路径值，表示文件、目录或接口路径；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 2 行 | <code>kind: Deployment</code> | `kind` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`Deployment` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 3 行 | <code>metadata:</code> | 定义 `metadata` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 4 行 | <code>  name: aiops-api</code> | `name` 是名称字段，`aiops-api` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 5 行 | <code>  namespace: aiops</code> | `namespace` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`aiops` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 6 行 | <code>spec:</code> | 定义 `spec` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 7 行 | <code>  replicas: 3</code> | `replicas` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`3` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
 字段解释：
 
 | 字段 | 含义 |
@@ -817,13 +578,6 @@ kubectl explain deployment.spec
 kubectl explain pod.spec.containers
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl explain deployment.spec</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-| 第 2 行 | <code>kubectl explain pod.spec.containers</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-
 `kubectl explain` 会从 API Server 的 OpenAPI 信息里解释字段，比到处复制 YAML 更可靠。
 
 ## metadata：name、namespace、labels、annotations
@@ -837,13 +591,6 @@ metadata:
   name: aiops-api
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>metadata:</code> | 定义 `metadata` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  name: aiops-api</code> | `name` 是名称字段，`aiops-api` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
 ### namespace
 
 namespace 用来在一个集群里隔离资源名称和管理边界。
@@ -853,13 +600,6 @@ metadata:
   namespace: aiops
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>metadata:</code> | 定义 `metadata` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  namespace: aiops</code> | `namespace` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`aiops` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
 名字在 namespace 内唯一，不同 namespace 可以有同名 Deployment。
 
 查看：
@@ -868,13 +608,6 @@ metadata:
 kubectl get ns
 kubectl get pods -n aiops
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl get ns</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-| 第 2 行 | <code>kubectl get pods -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 
 ### labels
 
@@ -887,16 +620,6 @@ metadata:
     component: api
     env: prod
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>metadata:</code> | 定义 `metadata` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  labels:</code> | 定义 `labels` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 3 行 | <code>    app: aiops-api</code> | `app` 是应用或服务，`aiops-api` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 4 行 | <code>    component: api</code> | `component` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`api` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 5 行 | <code>    env: prod</code> | `env` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`prod` 表示生产环境；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 Kubernetes 很多关系靠 label selector 建立：
 
@@ -914,14 +637,6 @@ metadata:
   annotations:
     runbook.example.com/url: https://example.com/runbooks/aiops-api
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>metadata:</code> | 定义 `metadata` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  annotations:</code> | 定义 `annotations` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 3 行 | <code>    runbook.example.com/url: https://example.com/runbooks/aiops-api</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
 
 适合放：
 
@@ -948,31 +663,12 @@ template:
       app: aiops-api
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>selector:</code> | 定义 `selector` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  matchLabels:</code> | 定义 `matchLabels` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 3 行 | <code>    app: aiops-api</code> | `app` 是应用或服务，`aiops-api` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 4 行 | <code>template:</code> | 定义 `template` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 5 行 | <code>  metadata:</code> | 定义 `metadata` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 6 行 | <code>    labels:</code> | 定义 `labels` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 7 行 | <code>      app: aiops-api</code> | `app` 是应用或服务，`aiops-api` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
 Service 示例：
 
 ```yaml
 selector:
   app: aiops-api
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>selector:</code> | 定义 `selector` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  app: aiops-api</code> | `app` 是应用或服务，`aiops-api` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 如果 Service selector 和 Pod labels 对不上，Service 就没有后端。
 
@@ -983,14 +679,6 @@ kubectl get pods -n aiops --show-labels
 kubectl get svc aiops-api -n aiops -o yaml
 kubectl get endpointslice -n aiops -l kubernetes.io/service-name=aiops-api
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl get pods -n aiops --show-labels</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-| 第 2 行 | <code>kubectl get svc aiops-api -n aiops -o yaml</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-| 第 3 行 | <code>kubectl get endpointslice -n aiops -l kubernetes.io/service-name=aiops-api</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 
 这是 Kubernetes 网络排障第一高频错误。
 
@@ -1030,23 +718,11 @@ namespace 能隔离：
 kubectl create namespace aiops
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl create namespace aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-
 切换默认 namespace：
 
 ```bash
 kubectl config set-context --current --namespace=aiops
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl config set-context --current --namespace=aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
 ## Pod 是什么
 
@@ -1058,23 +734,11 @@ Pod 是 Kubernetes 里最小可调度计算单元。
 Pod 是一个逻辑主机，里面可以有一个或多个容器，这些容器共享网络命名空间、部分存储卷，并被一起调度到同一个 Node。
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Pod 是一个逻辑主机，里面可以有一个或多个容器，这些容器共享网络命名空间、部分存储卷，并被一起调度到同一个 Node。</code> | 这一行里的英文要这样读：`Pod` 是Kubernetes 里运行容器的最小调度单元；`Node` 是节点。 |
-
 最常见模式：
 
 ```text
 一个 Pod 一个业务容器
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>一个 Pod 一个业务容器</code> | 这一行里的英文要这样读：`Pod` 是Kubernetes 里运行容器的最小调度单元。 |
 
 多容器 Pod 适合强耦合场景：
 
@@ -1103,23 +767,6 @@ spec:
       ports:
         - containerPort: 80
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>apiVersion: v1</code> | `apiVersion` 这个英文标识可以拆开理解为：应用程序接口，`v1` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 2 行 | <code>kind: Pod</code> | `kind` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`Pod` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 3 行 | <code>metadata:</code> | 定义 `metadata` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 4 行 | <code>  name: nginx</code> | `name` 是名称字段，`nginx` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 5 行 | <code>  labels:</code> | 定义 `labels` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 6 行 | <code>    app: nginx</code> | `app` 是应用或服务，`nginx` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 7 行 | <code>spec:</code> | 定义 `spec` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 8 行 | <code>  containers:</code> | 定义 `containers` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 9 行 | <code>    - name: nginx</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 10 行 | <code>      image: nginx:1.25</code> | `image` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`nginx:1.25` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 11 行 | <code>      ports:</code> | 定义 `ports` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 12 行 | <code>        - containerPort: 80</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
 
 字段解释：
 
@@ -1153,13 +800,6 @@ kubectl get pods -n aiops
 kubectl describe pod <pod-name> -n aiops
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl get pods -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-| 第 2 行 | <code>kubectl describe pod &lt;pod-name&gt; -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-
 容器状态：
 
 | 状态 | 含义 |
@@ -1183,13 +823,6 @@ kubectl describe pod <pod> -n <ns>
 kubectl logs <pod> -n <ns> --previous
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl describe pod &lt;pod&gt; -n &lt;ns&gt;</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-| 第 2 行 | <code>kubectl logs &lt;pod&gt; -n &lt;ns&gt; --previous</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 ## init containers、sidecar、ephemeral containers
 
 ### init containers
@@ -1212,15 +845,6 @@ initContainers:
     command: ["sh", "-c", "until nc -z db 5432; do sleep 2; done"]
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>initContainers:</code> | 定义 `initContainers` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  - name: wait-db</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 3 行 | <code>    image: busybox:1.36</code> | `image` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`busybox:1.36` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 4 行 | <code>    command: ["sh", "-c", "until nc -z db 5432; do sleep 2; done"]</code> | `command` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`["sh", "-c", "until nc -z db 5432; do sleep 2; done"]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
 ### sidecar containers
 
 sidecar 和主容器一起运行，提供辅助能力。
@@ -1241,12 +865,6 @@ ephemeral container 用于调试正在运行的 Pod。
 ```bash
 kubectl debug -it <pod> -n aiops --image=busybox:1.36 --target=app
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl debug -it &lt;pod&gt; -n aiops --image=busybox:1.36 --target=app</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
 适合原镜像没有 shell、没有诊断工具时临时进入调试。
 
@@ -1310,29 +928,6 @@ startupProbe:
   periodSeconds: 2
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>livenessProbe:</code> | 定义 `livenessProbe` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  httpGet:</code> | 定义 `httpGet` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 3 行 | <code>    path: /healthz</code> | `path` 是路径，`/healthz` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 4 行 | <code>    port: 8000</code> | `port` 是端口，`8000` 表示端口号，表示服务监听或连接入口；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 5 行 | <code>  initialDelaySeconds: 30</code> | `initialDelaySeconds` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`30` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 6 行 | <code>  periodSeconds: 10</code> | `periodSeconds` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`10` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 8 行 | <code>readinessProbe:</code> | 定义 `readinessProbe` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 9 行 | <code>  httpGet:</code> | 定义 `httpGet` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 10 行 | <code>    path: /readyz</code> | `path` 是路径，`/readyz` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 11 行 | <code>    port: 8000</code> | `port` 是端口，`8000` 表示端口号，表示服务监听或连接入口；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 12 行 | <code>  initialDelaySeconds: 5</code> | `initialDelaySeconds` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`5` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 13 行 | <code>  periodSeconds: 5</code> | `periodSeconds` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`5` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 15 行 | <code>startupProbe:</code> | 定义 `startupProbe` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 16 行 | <code>  httpGet:</code> | 定义 `httpGet` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 17 行 | <code>    path: /startupz</code> | `path` 是路径，`/startupz` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 18 行 | <code>    port: 8000</code> | `port` 是端口，`8000` 表示端口号，表示服务监听或连接入口；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 19 行 | <code>  failureThreshold: 30</code> | `failureThreshold` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`30` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 20 行 | <code>  periodSeconds: 2</code> | `periodSeconds` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`2` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
 常见错误：
 
 - liveness 过于敏感，把慢请求当死锁，导致服务不断重启。
@@ -1352,16 +947,6 @@ Deployment
   -> ReplicaSet revision 2
      -> Pods
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Deployment</code> | 这一行里的英文要这样读：`Deployment` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 2 行 | <code>  -&gt; ReplicaSet revision 1</code> | 这一行要理解这些英文词：`ReplicaSet revision` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>     -&gt; Pods</code> | 这一行要理解这些英文词：`Pods` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; ReplicaSet revision 2</code> | 这一行要理解这些英文词：`ReplicaSet revision` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>     -&gt; Pods</code> | 这一行要理解这些英文词：`Pods` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 Deployment 能做：
 
@@ -1399,33 +984,6 @@ spec:
             - containerPort: 80
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>apiVersion: apps/v1</code> | `apiVersion` 这个英文标识可以拆开理解为：应用程序接口，`apps/v1` 表示路径值，表示文件、目录或接口路径；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 2 行 | <code>kind: Deployment</code> | `kind` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`Deployment` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 3 行 | <code>metadata:</code> | 定义 `metadata` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 4 行 | <code>  name: aiops-api</code> | `name` 是名称字段，`aiops-api` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 5 行 | <code>  namespace: aiops</code> | `namespace` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`aiops` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 6 行 | <code>  labels:</code> | 定义 `labels` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 7 行 | <code>    app: aiops-api</code> | `app` 是应用或服务，`aiops-api` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 8 行 | <code>spec:</code> | 定义 `spec` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 9 行 | <code>  replicas: 3</code> | `replicas` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`3` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 10 行 | <code>  selector:</code> | 定义 `selector` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 11 行 | <code>    matchLabels:</code> | 定义 `matchLabels` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 12 行 | <code>      app: aiops-api</code> | `app` 是应用或服务，`aiops-api` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 13 行 | <code>  template:</code> | 定义 `template` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 14 行 | <code>    metadata:</code> | 定义 `metadata` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 15 行 | <code>      labels:</code> | 定义 `labels` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 16 行 | <code>        app: aiops-api</code> | `app` 是应用或服务，`aiops-api` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 17 行 | <code>    spec:</code> | 定义 `spec` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 18 行 | <code>      containers:</code> | 定义 `containers` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 19 行 | <code>        - name: api</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 20 行 | <code>          image: nginx:1.25</code> | `image` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`nginx:1.25` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 21 行 | <code>          ports:</code> | 定义 `ports` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 22 行 | <code>            - containerPort: 80</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-
 重点字段：
 
 | 字段 | 含义 |
@@ -1449,12 +1007,6 @@ ReplicaSet 的目标是维持稳定数量的 Pod 副本。
 kubectl get rs -n aiops
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl get rs -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-
 发布新版本时，你会看到旧 ReplicaSet 副本数下降，新 ReplicaSet 副本数上升。
 
 排障 rollout 时，看 ReplicaSet 能判断：
@@ -1477,16 +1029,6 @@ strategy:
     maxSurge: 1
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>strategy:</code> | 定义 `strategy` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  type: RollingUpdate</code> | `type` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`RollingUpdate` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 3 行 | <code>  rollingUpdate:</code> | 定义 `rollingUpdate` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 4 行 | <code>    maxUnavailable: 1</code> | `maxUnavailable` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`1` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 5 行 | <code>    maxSurge: 1</code> | `maxSurge` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`1` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
 字段解释：
 
 | 字段 | 含义 |
@@ -1501,24 +1043,11 @@ kubectl rollout status deployment/aiops-api -n aiops
 kubectl rollout history deployment/aiops-api -n aiops
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl rollout status deployment/aiops-api -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-| 第 2 行 | <code>kubectl rollout history deployment/aiops-api -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-
 回滚：
 
 ```bash
 kubectl rollout undo deployment/aiops-api -n aiops
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl rollout undo deployment/aiops-api -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 
 暂停：
 
@@ -1526,23 +1055,11 @@ kubectl rollout undo deployment/aiops-api -n aiops
 kubectl rollout pause deployment/aiops-api -n aiops
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl rollout pause deployment/aiops-api -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-
 恢复：
 
 ```bash
 kubectl rollout resume deployment/aiops-api -n aiops
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl rollout resume deployment/aiops-api -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 
 常见卡住原因：
 
@@ -1562,12 +1079,6 @@ Service 解决：
 一组后端 Pod 会变化，客户端不应该追踪每个 Pod IP。
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>一组后端 Pod 会变化，客户端不应该追踪每个 Pod IP。</code> | 这一行里的英文要这样读：`Pod` 是Kubernetes 里运行容器的最小调度单元；`Pod IP` 这个英文标识可以拆开理解为：Kubernetes 里运行容器的最小调度单元。 |
-
 Service 通过 selector 选择后端 Pod：
 
 ```yaml
@@ -1585,24 +1096,6 @@ spec:
       port: 80
       targetPort: 80
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>apiVersion: v1</code> | `apiVersion` 这个英文标识可以拆开理解为：应用程序接口，`v1` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 2 行 | <code>kind: Service</code> | `kind` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`Service` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 3 行 | <code>metadata:</code> | 定义 `metadata` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 4 行 | <code>  name: aiops-api</code> | `name` 是名称字段，`aiops-api` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 5 行 | <code>  namespace: aiops</code> | `namespace` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`aiops` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 6 行 | <code>spec:</code> | 定义 `spec` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 7 行 | <code>  type: ClusterIP</code> | `type` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`ClusterIP` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 8 行 | <code>  selector:</code> | 定义 `selector` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 9 行 | <code>    app: aiops-api</code> | `app` 是应用或服务，`aiops-api` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 10 行 | <code>  ports:</code> | 定义 `ports` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 11 行 | <code>    - name: http</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 12 行 | <code>      port: 80</code> | `port` 是端口，`80` 表示端口号，表示服务监听或连接入口；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 13 行 | <code>      targetPort: 80</code> | `targetPort` 这个英文标识可以拆开理解为：端口，`80` 表示端口号，表示服务监听或连接入口；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 字段解释：
 
@@ -1631,13 +1124,6 @@ Pod -> ClusterIP Service -> 后端 Pods
 外部用户 -> Ingress / LoadBalancer -> Service -> Pods
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Pod -&gt; ClusterIP Service -&gt; 后端 Pods</code> | 这一行要理解这些英文词：`Pod` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`ClusterIP Service` 是service=服务；`Pods` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 2 行 | <code>外部用户 -&gt; Ingress / LoadBalancer -&gt; Service -&gt; Pods</code> | 这一行要理解这些英文词：`Ingress` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`LoadBalancer` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`Service` 是服务；`Pods` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 ## EndpointSlice 和 Service 后端
 
 Service selector 匹配 Pod 后，Kubernetes 会维护 EndpointSlice。
@@ -1648,13 +1134,6 @@ Service selector 匹配 Pod 后，Kubernetes 会维护 EndpointSlice。
 kubectl get endpointslice -n aiops
 kubectl describe endpointslice -n aiops -l kubernetes.io/service-name=aiops-api
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl get endpointslice -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-| 第 2 行 | <code>kubectl describe endpointslice -n aiops -l kubernetes.io/service-name=aiops-api</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 
 如果 Service 没有后端，常见原因：
 
@@ -1676,23 +1155,11 @@ Kubernetes 会为 Service 和 Pod 提供 DNS 记录。
 http://aiops-api
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>http://aiops-api</code> | `http` 表示访问协议，`aiops-api` 是域名或主机名，`/` 是具体接口路径；真实环境要换成自己的域名和路径。 |
-
 完整域名：
 
 ```text
 aiops-api.aiops.svc.cluster.local
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>aiops-api.aiops.svc.cluster.local</code> | `aiops-api.aiops.svc.cluster.local` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 格式：
 
@@ -1700,23 +1167,11 @@ aiops-api.aiops.svc.cluster.local
 <service>.<namespace>.svc.<cluster-domain>
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>&lt;service&gt;.&lt;namespace&gt;.svc.&lt;cluster-domain&gt;</code> | `<service>.<namespace>.svc.<cluster-domain>` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-
 Pod 内测试：
 
 ```bash
 kubectl run dns-test -n aiops --rm -it --image=busybox:1.36 --restart=Never -- nslookup aiops-api
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl run dns-test -n aiops --rm -it --image=busybox:1.36 --restart=Never -- nslookup aiops-api</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
 常见问题：
 
@@ -1735,12 +1190,6 @@ Ingress 是 Kubernetes 里用于 HTTP/HTTPS 入口规则的 API 对象。
 ```text
 哪个 host/path 转到哪个 Service
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>哪个 host/path 转到哪个 Service</code> | `哪个 host/path 转到哪个 Service` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 示例：
 
@@ -1763,28 +1212,6 @@ spec:
                 port:
                   number: 80
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>apiVersion: networking.k8s.io/v1</code> | `apiVersion` 这个英文标识可以拆开理解为：应用程序接口，`networking.k8s.io/v1` 表示路径值，表示文件、目录或接口路径；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 2 行 | <code>kind: Ingress</code> | `kind` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`Ingress` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 3 行 | <code>metadata:</code> | 定义 `metadata` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 4 行 | <code>  name: aiops-api</code> | `name` 是名称字段，`aiops-api` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 5 行 | <code>  namespace: aiops</code> | `namespace` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`aiops` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 6 行 | <code>spec:</code> | 定义 `spec` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 7 行 | <code>  rules:</code> | 定义 `rules` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 8 行 | <code>    - host: aiops.example.com</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 9 行 | <code>      http:</code> | 定义 `http` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 10 行 | <code>        paths:</code> | 定义 `paths` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 11 行 | <code>          - path: /</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 12 行 | <code>            pathType: Prefix</code> | `pathType` 这个英文标识可以拆开理解为：路径，`Prefix` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 13 行 | <code>            backend:</code> | 定义 `backend` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 14 行 | <code>              service:</code> | 定义 `service` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 15 行 | <code>                name: aiops-api</code> | `name` 是名称字段，`aiops-api` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 16 行 | <code>                port:</code> | 定义 `port` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 17 行 | <code>                  number: 80</code> | `number` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`80` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 注意：
 
@@ -1809,19 +1236,6 @@ data:
   LOG_LEVEL: info
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>apiVersion: v1</code> | `apiVersion` 这个英文标识可以拆开理解为：应用程序接口，`v1` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 2 行 | <code>kind: ConfigMap</code> | `kind` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`ConfigMap` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 3 行 | <code>metadata:</code> | 定义 `metadata` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 4 行 | <code>  name: aiops-api-config</code> | `name` 是名称字段，`aiops-api-config` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 5 行 | <code>  namespace: aiops</code> | `namespace` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`aiops` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 6 行 | <code>data:</code> | 定义 `data` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 7 行 | <code>  APP_ENV: prod</code> | `APP_ENV` 这个英文标识可以拆开理解为：应用或服务，`prod` 表示生产环境；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 8 行 | <code>  LOG_LEVEL: info</code> | `LOG_LEVEL` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`info` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
 作为环境变量：
 
 ```yaml
@@ -1829,14 +1243,6 @@ envFrom:
   - configMapRef:
       name: aiops-api-config
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>envFrom:</code> | 定义 `envFrom` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  - configMapRef:</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 3 行 | <code>      name: aiops-api-config</code> | `name` 是名称字段，`aiops-api-config` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 挂载成文件：
 
@@ -1851,20 +1257,6 @@ containers:
       - name: config
         mountPath: /etc/aiops
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>volumes:</code> | 定义 `volumes` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  - name: config</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 3 行 | <code>    configMap:</code> | 定义 `configMap` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 4 行 | <code>      name: aiops-api-config</code> | `name` 是名称字段，`aiops-api-config` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 5 行 | <code>containers:</code> | 定义 `containers` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 6 行 | <code>  - name: api</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 7 行 | <code>    volumeMounts:</code> | 定义 `volumeMounts` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 8 行 | <code>      - name: config</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 9 行 | <code>        mountPath: /etc/aiops</code> | `mountPath` 这个英文标识可以拆开理解为：路径，`/etc/aiops` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 注意：
 
@@ -1887,19 +1279,6 @@ stringData:
   DATABASE_PASSWORD: change-me
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>apiVersion: v1</code> | `apiVersion` 这个英文标识可以拆开理解为：应用程序接口，`v1` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 2 行 | <code>kind: Secret</code> | `kind` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`Secret` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 3 行 | <code>metadata:</code> | 定义 `metadata` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 4 行 | <code>  name: aiops-api-secret</code> | `name` 是名称字段，`aiops-api-secret` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 5 行 | <code>  namespace: aiops</code> | `namespace` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`aiops` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 6 行 | <code>type: Opaque</code> | `type` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`Opaque` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 7 行 | <code>stringData:</code> | 定义 `stringData` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 8 行 | <code>  DATABASE_PASSWORD: change-me</code> | `DATABASE_PASSWORD` 这个英文标识可以拆开理解为：数据库名称字段，`change-me` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
 作为环境变量：
 
 ```yaml
@@ -1910,17 +1289,6 @@ env:
         name: aiops-api-secret
         key: DATABASE_PASSWORD
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>env:</code> | 定义 `env` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  - name: DATABASE_PASSWORD</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 3 行 | <code>    valueFrom:</code> | 定义 `valueFrom` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 4 行 | <code>      secretKeyRef:</code> | 定义 `secretKeyRef` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 5 行 | <code>        name: aiops-api-secret</code> | `name` 是名称字段，`aiops-api-secret` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 6 行 | <code>        key: DATABASE_PASSWORD</code> | `key` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`DATABASE_PASSWORD` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 重点：
 
@@ -1941,18 +1309,6 @@ resources:
     cpu: "500m"
     memory: "512Mi"
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>resources:</code> | 定义 `resources` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  requests:</code> | 定义 `requests` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 3 行 | <code>    cpu: "100m"</code> | `cpu` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`100m` 表示持续分钟数，常用于表示故障已经持续多久；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 4 行 | <code>    memory: "128Mi"</code> | `memory` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`128Mi` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 5 行 | <code>  limits:</code> | 定义 `limits` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 6 行 | <code>    cpu: "500m"</code> | `cpu` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`500m` 表示持续分钟数，常用于表示故障已经持续多久；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 7 行 | <code>    memory: "512Mi"</code> | `memory` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`512Mi` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 含义：
 
@@ -1997,12 +1353,6 @@ Pod 被 OOMKilled：
 kubectl describe pod <pod> -n aiops
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl describe pod &lt;pod&gt; -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-
 看：
 
 ```text
@@ -2010,14 +1360,6 @@ Last State: Terminated
 Reason: OOMKilled
 Exit Code: 137
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Last State: Terminated</code> | `Last State` 是Last State 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `Terminated` 是这个字段的示例内容或模板表达式。 |
-| 第 2 行 | <code>Reason: OOMKilled</code> | `Reason` 是Reason 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源，冒号后面的 `OOMKilled` 是这个字段的示例内容或模板表达式。 |
-| 第 3 行 | <code>Exit Code: 137</code> | `Exit Code` 是Exit Code 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `137` 是这个字段的示例内容或模板表达式。 |
 
 处理：
 
@@ -2037,15 +1379,6 @@ scheduler 给 Pod 选择 Node，大致是：
   -> 绑定 Pod 到 Node
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>过滤不满足条件的 Node</code> | 这一行里的英文要这样读：`Node` 是节点。 |
-| 第 2 行 | <code>  -&gt; 给可行 Node 打分</code> | 这一行要理解这些英文词：`Node` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; 选择得分最高的 Node</code> | 这一行要理解这些英文词：`Node` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; 绑定 Pod 到 Node</code> | 这一行要理解这些英文词：`Pod` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`Node` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 影响调度的常见因素：
 
 - 资源 requests。
@@ -2064,24 +1397,11 @@ nodeSelector:
   disktype: ssd
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>nodeSelector:</code> | 定义 `nodeSelector` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  disktype: ssd</code> | `disktype` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`ssd` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
 给 Node 打标签：
 
 ```bash
 kubectl label node node-1 disktype=ssd
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl label node node-1 disktype=ssd</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 
 查看 Pod 为什么 Pending：
 
@@ -2089,35 +1409,17 @@ kubectl label node node-1 disktype=ssd
 kubectl describe pod <pod> -n aiops
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl describe pod &lt;pod&gt; -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-
 Events 里常见：
 
 ```text
 0/3 nodes are available: insufficient memory.
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>0/3 nodes are available: insufficient memory.</code> | `0/3 nodes are available: insufficient memory.` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-
 或者：
 
 ```text
 node(s) had untolerated taint
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>node(s) had untolerated taint</code> | 这一行里的英文要这样读：`node` 是节点；`s` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`had untolerated taint` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 ## taints 和 tolerations
 
@@ -2131,12 +1433,6 @@ toleration 是 Pod 对 taint 的“容忍声明”。
 kubectl taint nodes node-1 dedicated=monitoring:NoSchedule
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl taint nodes node-1 dedicated=monitoring:NoSchedule</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-
 Pod 容忍：
 
 ```yaml
@@ -2146,16 +1442,6 @@ tolerations:
     value: "monitoring"
     effect: "NoSchedule"
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>tolerations:</code> | 定义 `tolerations` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  - key: "dedicated"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 3 行 | <code>    operator: "Equal"</code> | `operator` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`Equal` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 4 行 | <code>    value: "monitoring"</code> | `value` 是数值字段，`monitoring` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 5 行 | <code>    effect: "NoSchedule"</code> | `effect` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`NoSchedule` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 常见 effect：
 
@@ -2204,12 +1490,6 @@ DaemonSet 确保每个符合条件的 Node 上运行一个 Pod 副本。
 kubectl get daemonset -A
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl get daemonset -A</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-
 AIOps 中，很多观测组件就是 DaemonSet。
 
 ## StatefulSet
@@ -2230,14 +1510,6 @@ mysql-0
 mysql-1
 mysql-2
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>mysql-0</code> | 这一行里的英文要这样读：`mysql-0` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 2 行 | <code>mysql-1</code> | 这一行里的英文要这样读：`mysql-1` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 3 行 | <code>mysql-2</code> | 这一行里的英文要这样读：`mysql-2` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 StatefulSet 不是“让数据库自动变简单”。数据库的备份、恢复、主从、升级、数据一致性仍然要认真设计。
 
@@ -2260,23 +1532,6 @@ spec:
           command: ["sh", "-c", "echo generate report"]
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>apiVersion: batch/v1</code> | `apiVersion` 这个英文标识可以拆开理解为：应用程序接口，`batch/v1` 表示路径值，表示文件、目录或接口路径；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 2 行 | <code>kind: Job</code> | `kind` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`Job` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 3 行 | <code>metadata:</code> | 定义 `metadata` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 4 行 | <code>  name: aiops-report</code> | `name` 是名称字段，`aiops-report` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 5 行 | <code>spec:</code> | 定义 `spec` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 6 行 | <code>  template:</code> | 定义 `template` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 7 行 | <code>    spec:</code> | 定义 `spec` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 8 行 | <code>      restartPolicy: Never</code> | `restartPolicy` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`Never` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 9 行 | <code>      containers:</code> | 定义 `containers` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 10 行 | <code>        - name: report</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 11 行 | <code>          image: busybox:1.36</code> | `image` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`busybox:1.36` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 12 行 | <code>          command: ["sh", "-c", "echo generate report"]</code> | `command` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`["sh", "-c", "echo generate report"]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
 CronJob 定时创建 Job：
 
 ```yaml
@@ -2296,26 +1551,6 @@ spec:
               image: busybox:1.36
               command: ["sh", "-c", "date && echo report"]
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>apiVersion: batch/v1</code> | `apiVersion` 这个英文标识可以拆开理解为：应用程序接口，`batch/v1` 表示路径值，表示文件、目录或接口路径；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 2 行 | <code>kind: CronJob</code> | `kind` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`CronJob` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 3 行 | <code>metadata:</code> | 定义 `metadata` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 4 行 | <code>  name: aiops-report</code> | `name` 是名称字段，`aiops-report` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 5 行 | <code>spec:</code> | 定义 `spec` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 6 行 | <code>  schedule: "*/5 * * * *"</code> | `schedule` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`*/5 * * * *` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 7 行 | <code>  jobTemplate:</code> | 定义 `jobTemplate` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 8 行 | <code>    spec:</code> | 定义 `spec` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 9 行 | <code>      template:</code> | 定义 `template` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 10 行 | <code>        spec:</code> | 定义 `spec` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 11 行 | <code>          restartPolicy: Never</code> | `restartPolicy` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`Never` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 12 行 | <code>          containers:</code> | 定义 `containers` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 13 行 | <code>            - name: report</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 14 行 | <code>              image: busybox:1.36</code> | `image` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`busybox:1.36` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 15 行 | <code>              command: ["sh", "-c", "date &amp;&amp; echo report"]</code> | `command` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`["sh", "-c", "date && echo report"]` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
 
 AIOps 里可用于：
 
@@ -2352,22 +1587,6 @@ spec:
       storage: 10Gi
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>apiVersion: v1</code> | `apiVersion` 这个英文标识可以拆开理解为：应用程序接口，`v1` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 2 行 | <code>kind: PersistentVolumeClaim</code> | `kind` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`PersistentVolumeClaim` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 3 行 | <code>metadata:</code> | 定义 `metadata` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 4 行 | <code>  name: data</code> | `name` 是名称字段，`data` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 5 行 | <code>  namespace: aiops</code> | `namespace` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`aiops` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 6 行 | <code>spec:</code> | 定义 `spec` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 7 行 | <code>  accessModes:</code> | 定义 `accessModes` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 8 行 | <code>    - ReadWriteOnce</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 9 行 | <code>  resources:</code> | 定义 `resources` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 10 行 | <code>    requests:</code> | 定义 `requests` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 11 行 | <code>      storage: 10Gi</code> | `storage` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`10Gi` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
 业务应用要问：
 
 - 数据是否需要持久化？
@@ -2386,23 +1605,11 @@ spec:
 $HOME/.kube/config
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>$HOME/.kube/config</code> | `$HOME/.kube/config` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-
 查看上下文：
 
 ```bash
 kubectl config get-contexts
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl config get-contexts</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 
 切换：
 
@@ -2410,35 +1617,17 @@ kubectl config get-contexts
 kubectl config use-context <context-name>
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl config use-context &lt;context-name&gt;</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-
 查看当前：
 
 ```bash
 kubectl config current-context
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl config current-context</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-
 设置 namespace：
 
 ```bash
 kubectl config set-context --current --namespace=aiops
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl config set-context --current --namespace=aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
 生产事故里，最危险的错误之一是操作错集群或错 namespace。执行删除、扩缩容、回滚前先确认 context。
 
@@ -2462,13 +1651,6 @@ Kubernetes 权限通常用 RBAC 管理。
 kubectl auth can-i get pods -n aiops
 kubectl auth can-i delete pods -n aiops
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl auth can-i get pods -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-| 第 2 行 | <code>kubectl auth can-i delete pods -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 
 AIOps 自动化脚本不要使用过大的集群管理员权限。需要什么权限给什么权限。
 
@@ -2496,13 +1678,6 @@ kubectl get networkpolicy -n aiops
 kubectl describe networkpolicy <name> -n aiops
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl get networkpolicy -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-| 第 2 行 | <code>kubectl describe networkpolicy &lt;name&gt; -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-
 ## 最小 AIOps API 示例
 
 创建 namespace：
@@ -2510,12 +1685,6 @@ kubectl describe networkpolicy <name> -n aiops
 ```bash
 kubectl create namespace aiops
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl create namespace aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 
 Deployment：
 
@@ -2569,58 +1738,6 @@ spec:
             periodSeconds: 10
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>apiVersion: apps/v1</code> | `apiVersion` 这个英文标识可以拆开理解为：应用程序接口，`apps/v1` 表示路径值，表示文件、目录或接口路径；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 2 行 | <code>kind: Deployment</code> | `kind` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`Deployment` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 3 行 | <code>metadata:</code> | 定义 `metadata` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 4 行 | <code>  name: aiops-api</code> | `name` 是名称字段，`aiops-api` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 5 行 | <code>  namespace: aiops</code> | `namespace` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`aiops` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 6 行 | <code>  labels:</code> | 定义 `labels` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 7 行 | <code>    app: aiops-api</code> | `app` 是应用或服务，`aiops-api` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 8 行 | <code>spec:</code> | 定义 `spec` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 9 行 | <code>  replicas: 2</code> | `replicas` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`2` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 10 行 | <code>  selector:</code> | 定义 `selector` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 11 行 | <code>    matchLabels:</code> | 定义 `matchLabels` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 12 行 | <code>      app: aiops-api</code> | `app` 是应用或服务，`aiops-api` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 13 行 | <code>  strategy:</code> | 定义 `strategy` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 14 行 | <code>    type: RollingUpdate</code> | `type` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`RollingUpdate` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 15 行 | <code>    rollingUpdate:</code> | 定义 `rollingUpdate` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 16 行 | <code>      maxUnavailable: 1</code> | `maxUnavailable` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`1` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 17 行 | <code>      maxSurge: 1</code> | `maxSurge` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`1` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 18 行 | <code>  template:</code> | 定义 `template` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 19 行 | <code>    metadata:</code> | 定义 `metadata` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 20 行 | <code>      labels:</code> | 定义 `labels` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 21 行 | <code>        app: aiops-api</code> | `app` 是应用或服务，`aiops-api` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 22 行 | <code>    spec:</code> | 定义 `spec` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 23 行 | <code>      containers:</code> | 定义 `containers` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 24 行 | <code>        - name: api</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 25 行 | <code>          image: nginx:1.25</code> | `image` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`nginx:1.25` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 26 行 | <code>          ports:</code> | 定义 `ports` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 27 行 | <code>            - name: http</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 28 行 | <code>              containerPort: 80</code> | `containerPort` 这个英文标识可以拆开理解为：端口，`80` 表示端口号，表示服务监听或连接入口；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 29 行 | <code>          resources:</code> | 定义 `resources` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 30 行 | <code>            requests:</code> | 定义 `requests` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 31 行 | <code>              cpu: "50m"</code> | `cpu` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`50m` 表示持续分钟数，常用于表示故障已经持续多久；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 32 行 | <code>              memory: "64Mi"</code> | `memory` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`64Mi` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 33 行 | <code>            limits:</code> | 定义 `limits` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 34 行 | <code>              cpu: "200m"</code> | `cpu` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`200m` 表示持续分钟数，常用于表示故障已经持续多久；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 35 行 | <code>              memory: "128Mi"</code> | `memory` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`128Mi` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 36 行 | <code>          readinessProbe:</code> | 定义 `readinessProbe` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 37 行 | <code>            httpGet:</code> | 定义 `httpGet` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 38 行 | <code>              path: /</code> | `path` 是路径，`/` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 39 行 | <code>              port: http</code> | `port` 是端口，`http` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 40 行 | <code>            initialDelaySeconds: 3</code> | `initialDelaySeconds` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`3` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 41 行 | <code>            periodSeconds: 5</code> | `periodSeconds` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`5` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 42 行 | <code>          livenessProbe:</code> | 定义 `livenessProbe` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 43 行 | <code>            httpGet:</code> | 定义 `httpGet` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 44 行 | <code>              path: /</code> | `path` 是路径，`/` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 45 行 | <code>              port: http</code> | `port` 是端口，`http` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 46 行 | <code>            initialDelaySeconds: 30</code> | `initialDelaySeconds` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`30` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 47 行 | <code>            periodSeconds: 10</code> | `periodSeconds` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`10` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
 Service：
 
 ```yaml
@@ -2639,24 +1756,6 @@ spec:
       targetPort: http
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>apiVersion: v1</code> | `apiVersion` 这个英文标识可以拆开理解为：应用程序接口，`v1` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 2 行 | <code>kind: Service</code> | `kind` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`Service` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 3 行 | <code>metadata:</code> | 定义 `metadata` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 4 行 | <code>  name: aiops-api</code> | `name` 是名称字段，`aiops-api` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 5 行 | <code>  namespace: aiops</code> | `namespace` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`aiops` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 6 行 | <code>spec:</code> | 定义 `spec` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 7 行 | <code>  type: ClusterIP</code> | `type` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`ClusterIP` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 8 行 | <code>  selector:</code> | 定义 `selector` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 9 行 | <code>    app: aiops-api</code> | `app` 是应用或服务，`aiops-api` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 10 行 | <code>  ports:</code> | 定义 `ports` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 11 行 | <code>    - name: http</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 12 行 | <code>      port: 80</code> | `port` 是端口，`80` 表示端口号，表示服务监听或连接入口；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 13 行 | <code>      targetPort: http</code> | `targetPort` 这个英文标识可以拆开理解为：端口，`http` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
 应用：
 
 ```bash
@@ -2665,27 +1764,12 @@ kubectl get deploy,rs,pod,svc -n aiops -o wide
 kubectl rollout status deployment/aiops-api -n aiops
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl apply -f aiops-api.yaml</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-| 第 2 行 | <code>kubectl get deploy,rs,pod,svc -n aiops -o wide</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-| 第 3 行 | <code>kubectl rollout status deployment/aiops-api -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-
 集群内测试：
 
 ```bash
 kubectl run curl-test -n aiops --rm -it --image=curlimages/curl:8.10.1 --restart=Never -- \
   curl -v http://aiops-api/
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl run curl-test -n aiops --rm -it --image=curlimages/curl:8.10.1 --restart=Never -- \</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-| 第 2 行 | <code>  curl -v http://aiops-api/</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
 
 ## kubectl 常用命令字典
 
@@ -2695,12 +1779,6 @@ kubectl run curl-test -n aiops --rm -it --image=curlimages/curl:8.10.1 --restart
 kubectl version
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl version</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-
 看 client 和 server 版本。排查兼容性时先看它。
 
 ### 查看 API 资源
@@ -2709,12 +1787,6 @@ kubectl version
 kubectl api-resources
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl api-resources</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-
 看当前集群支持哪些资源、是否 namespaced、缩写是什么。
 
 ### 解释字段
@@ -2722,12 +1794,6 @@ kubectl api-resources
 ```bash
 kubectl explain deployment.spec.template.spec.containers
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl explain deployment.spec.template.spec.containers</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 
 这是学 Kubernetes YAML 的神器。不要只靠复制模板。
 
@@ -2739,14 +1805,6 @@ kubectl get pods -n aiops -o wide
 kubectl get deploy,rs,pod,svc -n aiops
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl get pods -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-| 第 2 行 | <code>kubectl get pods -n aiops -o wide</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-| 第 3 行 | <code>kubectl get deploy,rs,pod,svc -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-
 `-o wide` 会显示更多信息，如 Node、Pod IP。
 
 ### 查看 YAML
@@ -2754,12 +1812,6 @@ kubectl get deploy,rs,pod,svc -n aiops
 ```bash
 kubectl get deploy aiops-api -n aiops -o yaml
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl get deploy aiops-api -n aiops -o yaml</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 
 看对象完整当前状态，包括 spec、status、managedFields 等。
 
@@ -2769,12 +1821,6 @@ kubectl get deploy aiops-api -n aiops -o yaml
 kubectl describe pod <pod-name> -n aiops
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl describe pod &lt;pod-name&gt; -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-
 `describe` 会展示事件，是排查 Pending、ImagePull、Probe 失败的核心命令。
 
 ### 查看日志
@@ -2783,23 +1829,11 @@ kubectl describe pod <pod-name> -n aiops
 kubectl logs <pod-name> -n aiops
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl logs &lt;pod-name&gt; -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-
 多容器 Pod：
 
 ```bash
 kubectl logs <pod-name> -n aiops -c api
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl logs &lt;pod-name&gt; -n aiops -c api</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 
 上一轮崩溃容器日志：
 
@@ -2807,23 +1841,11 @@ kubectl logs <pod-name> -n aiops -c api
 kubectl logs <pod-name> -n aiops -c api --previous
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl logs &lt;pod-name&gt; -n aiops -c api --previous</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 按 label 查多个 Pod：
 
 ```bash
 kubectl logs -l app=aiops-api -n aiops --tail=100
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl logs -l app=aiops-api -n aiops --tail=100</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
 ### 进入容器
 
@@ -2831,23 +1853,11 @@ kubectl logs -l app=aiops-api -n aiops --tail=100
 kubectl exec -it <pod-name> -n aiops -- sh
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl exec -it &lt;pod-name&gt; -n aiops -- sh</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 多容器：
 
 ```bash
 kubectl exec -it <pod-name> -n aiops -c api -- sh
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl exec -it &lt;pod-name&gt; -n aiops -c api -- sh</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
 注意：生产镜像可能没有 shell。可用 `kubectl debug` 临时注入调试容器。
 
@@ -2856,12 +1866,6 @@ kubectl exec -it <pod-name> -n aiops -c api -- sh
 ```bash
 kubectl apply -f aiops-api.yaml
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl apply -f aiops-api.yaml</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 
 声明式应用或更新配置。
 
@@ -2872,13 +1876,6 @@ kubectl delete -f aiops-api.yaml
 kubectl delete pod <pod-name> -n aiops
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl delete -f aiops-api.yaml</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-| 第 2 行 | <code>kubectl delete pod &lt;pod-name&gt; -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-
 删除被 Deployment 管理的 Pod 后，ReplicaSet 会再创建一个新的 Pod。这不是异常，是控制器在保持期望副本数。
 
 ### 扩缩容
@@ -2887,23 +1884,11 @@ kubectl delete pod <pod-name> -n aiops
 kubectl scale deployment/aiops-api -n aiops --replicas=5
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl scale deployment/aiops-api -n aiops --replicas=5</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 ### 更新镜像
 
 ```bash
 kubectl set image deployment/aiops-api api=nginx:1.26 -n aiops
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl set image deployment/aiops-api api=nginx:1.26 -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 
 ### 查看 rollout
 
@@ -2912,36 +1897,17 @@ kubectl rollout status deployment/aiops-api -n aiops
 kubectl rollout history deployment/aiops-api -n aiops
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl rollout status deployment/aiops-api -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-| 第 2 行 | <code>kubectl rollout history deployment/aiops-api -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-
 ### 回滚
 
 ```bash
 kubectl rollout undo deployment/aiops-api -n aiops
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl rollout undo deployment/aiops-api -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-
 ### 查看事件
 
 ```bash
 kubectl get events -n aiops --sort-by=.lastTimestamp
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl get events -n aiops --sort-by=.lastTimestamp</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
 事件会告诉你：
 
@@ -2958,13 +1924,6 @@ kubectl top nodes
 kubectl top pods -n aiops
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl top nodes</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-| 第 2 行 | <code>kubectl top pods -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-
 需要 metrics-server。
 
 ### 端口转发
@@ -2973,23 +1932,11 @@ kubectl top pods -n aiops
 kubectl port-forward svc/aiops-api -n aiops 8080:80
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl port-forward svc/aiops-api -n aiops 8080:80</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-
 本机访问：
 
 ```bash
 curl http://127.0.0.1:8080/
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>curl http://127.0.0.1:8080/</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
 
 适合临时调试，不是生产暴露方式。
 
@@ -3042,12 +1989,6 @@ curl http://127.0.0.1:8080/
 ```bash
 kubectl create namespace aiops-lab
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl create namespace aiops-lab</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 
 ### 2. 写 Deployment 和 Service
 
@@ -3106,61 +2047,6 @@ spec:
       targetPort: http
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>apiVersion: apps/v1</code> | `apiVersion` 这个英文标识可以拆开理解为：应用程序接口，`apps/v1` 表示路径值，表示文件、目录或接口路径；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 2 行 | <code>kind: Deployment</code> | `kind` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`Deployment` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 3 行 | <code>metadata:</code> | 定义 `metadata` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 4 行 | <code>  name: aiops-web</code> | `name` 是名称字段，`aiops-web` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 5 行 | <code>  namespace: aiops-lab</code> | `namespace` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`aiops-lab` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 6 行 | <code>  labels:</code> | 定义 `labels` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 7 行 | <code>    app: aiops-web</code> | `app` 是应用或服务，`aiops-web` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 8 行 | <code>spec:</code> | 定义 `spec` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 9 行 | <code>  replicas: 2</code> | `replicas` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`2` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 10 行 | <code>  selector:</code> | 定义 `selector` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 11 行 | <code>    matchLabels:</code> | 定义 `matchLabels` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 12 行 | <code>      app: aiops-web</code> | `app` 是应用或服务，`aiops-web` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 13 行 | <code>  template:</code> | 定义 `template` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 14 行 | <code>    metadata:</code> | 定义 `metadata` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 15 行 | <code>      labels:</code> | 定义 `labels` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 16 行 | <code>        app: aiops-web</code> | `app` 是应用或服务，`aiops-web` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 17 行 | <code>    spec:</code> | 定义 `spec` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 18 行 | <code>      containers:</code> | 定义 `containers` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 19 行 | <code>        - name: web</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 20 行 | <code>          image: nginx:1.25</code> | `image` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`nginx:1.25` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 21 行 | <code>          ports:</code> | 定义 `ports` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 22 行 | <code>            - name: http</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 23 行 | <code>              containerPort: 80</code> | `containerPort` 这个英文标识可以拆开理解为：端口，`80` 表示端口号，表示服务监听或连接入口；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 24 行 | <code>          readinessProbe:</code> | 定义 `readinessProbe` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 25 行 | <code>            httpGet:</code> | 定义 `httpGet` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 26 行 | <code>              path: /</code> | `path` 是路径，`/` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 27 行 | <code>              port: http</code> | `port` 是端口，`http` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 28 行 | <code>            initialDelaySeconds: 3</code> | `initialDelaySeconds` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`3` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 29 行 | <code>            periodSeconds: 5</code> | `periodSeconds` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`5` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 30 行 | <code>          resources:</code> | 定义 `resources` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 31 行 | <code>            requests:</code> | 定义 `requests` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 32 行 | <code>              cpu: "50m"</code> | `cpu` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`50m` 表示持续分钟数，常用于表示故障已经持续多久；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 33 行 | <code>              memory: "64Mi"</code> | `memory` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`64Mi` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 34 行 | <code>            limits:</code> | 定义 `limits` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 35 行 | <code>              cpu: "200m"</code> | `cpu` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`200m` 表示持续分钟数，常用于表示故障已经持续多久；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 36 行 | <code>              memory: "128Mi"</code> | `memory` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`128Mi` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 37 行 | <code>---</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
-| 第 38 行 | <code>apiVersion: v1</code> | `apiVersion` 这个英文标识可以拆开理解为：应用程序接口，`v1` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 39 行 | <code>kind: Service</code> | `kind` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`Service` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 40 行 | <code>metadata:</code> | 定义 `metadata` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 41 行 | <code>  name: aiops-web</code> | `name` 是名称字段，`aiops-web` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 42 行 | <code>  namespace: aiops-lab</code> | `namespace` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`aiops-lab` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 43 行 | <code>spec:</code> | 定义 `spec` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 44 行 | <code>  type: ClusterIP</code> | `type` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`ClusterIP` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 45 行 | <code>  selector:</code> | 定义 `selector` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 46 行 | <code>    app: aiops-web</code> | `app` 是应用或服务，`aiops-web` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 47 行 | <code>  ports:</code> | 定义 `ports` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 48 行 | <code>    - name: http</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
-| 第 49 行 | <code>      port: 80</code> | `port` 是端口，`80` 表示端口号，表示服务监听或连接入口；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-| 第 50 行 | <code>      targetPort: http</code> | `targetPort` 这个英文标识可以拆开理解为：端口，`http` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
 ### 3. 应用并观察
 
 ```bash
@@ -3168,14 +2054,6 @@ kubectl apply -f aiops-lab.yaml
 kubectl get deploy,rs,pod,svc -n aiops-lab -o wide
 kubectl rollout status deployment/aiops-web -n aiops-lab
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl apply -f aiops-lab.yaml</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-| 第 2 行 | <code>kubectl get deploy,rs,pod,svc -n aiops-lab -o wide</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-| 第 3 行 | <code>kubectl rollout status deployment/aiops-web -n aiops-lab</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 
 记录：
 
@@ -3187,29 +2065,12 @@ Pod IPs:
 Service ClusterIP:
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Deployment desired replicas:</code> | `Deployment desired replicas` 是Deployment desired replicas 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号表示后面要填写或列出这个字段的具体内容。 |
-| 第 2 行 | <code>ReplicaSet name:</code> | `ReplicaSet name` 是ReplicaSet name 这个英文标识可以拆开理解为：名称字段，冒号表示后面要填写或列出这个字段的具体内容。 |
-| 第 3 行 | <code>Pod names:</code> | `Pod names` 是Pod names 这个英文标识可以拆开理解为：Kubernetes 里运行容器的最小调度单元，冒号表示后面要填写或列出这个字段的具体内容。 |
-| 第 4 行 | <code>Pod IPs:</code> | `Pod IPs` 是Pod IPs 这个英文标识可以拆开理解为：Kubernetes 里运行容器的最小调度单元，冒号表示后面要填写或列出这个字段的具体内容。 |
-| 第 5 行 | <code>Service ClusterIP:</code> | `Service ClusterIP` 是Service ClusterIP 这个英文标识可以拆开理解为：服务名称字段，集群名称字段，冒号表示后面要填写或列出这个字段的具体内容。 |
-
 ### 4. 测试 Service
 
 ```bash
 kubectl run curl-test -n aiops-lab --rm -it --image=curlimages/curl:8.10.1 --restart=Never -- \
   curl -v http://aiops-web/
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl run curl-test -n aiops-lab --rm -it --image=curlimages/curl:8.10.1 --restart=Never -- \</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-| 第 2 行 | <code>  curl -v http://aiops-web/</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
 
 观察：
 
@@ -3225,12 +2086,6 @@ kubectl run curl-test -n aiops-lab --rm -it --image=curlimages/curl:8.10.1 --res
 image: nginx:not-exist
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>image: nginx:not-exist</code> | `image` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`nginx:not-exist` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
 应用：
 
 ```bash
@@ -3240,15 +2095,6 @@ kubectl describe pod <new-pod> -n aiops-lab
 kubectl get events -n aiops-lab --sort-by=.lastTimestamp
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl apply -f aiops-lab.yaml</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-| 第 2 行 | <code>kubectl get pods -n aiops-lab</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-| 第 3 行 | <code>kubectl describe pod &lt;new-pod&gt; -n aiops-lab</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-| 第 4 行 | <code>kubectl get events -n aiops-lab --sort-by=.lastTimestamp</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 观察：
 
 ```text
@@ -3256,26 +2102,12 @@ ImagePullBackOff
 ErrImagePull
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>ImagePullBackOff</code> | 这一行里的英文要这样读：`ImagePullBackOff` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 2 行 | <code>ErrImagePull</code> | 这一行里的英文要这样读：`ErrImagePull` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-
 恢复镜像后：
 
 ```bash
 kubectl apply -f aiops-lab.yaml
 kubectl rollout status deployment/aiops-web -n aiops-lab
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl apply -f aiops-lab.yaml</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-| 第 2 行 | <code>kubectl rollout status deployment/aiops-web -n aiops-lab</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 
 ### 6. 制造 Service selector 错误
 
@@ -3286,13 +2118,6 @@ selector:
   app: wrong-name
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>selector:</code> | 定义 `selector` 配置段，下面缩进的内容都属于这个配置段。 |
-| 第 2 行 | <code>  app: wrong-name</code> | `app` 是应用或服务，`wrong-name` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
-
 检查：
 
 ```bash
@@ -3301,14 +2126,6 @@ kubectl get pods -n aiops-lab --show-labels
 kubectl get endpointslice -n aiops-lab -l kubernetes.io/service-name=aiops-web
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl get svc aiops-web -n aiops-lab -o yaml</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-| 第 2 行 | <code>kubectl get pods -n aiops-lab --show-labels</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-| 第 3 行 | <code>kubectl get endpointslice -n aiops-lab -l kubernetes.io/service-name=aiops-web</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-
 你会看到 Service 没有正确后端。
 
 ### 7. 清理
@@ -3316,12 +2133,6 @@ kubectl get endpointslice -n aiops-lab -l kubernetes.io/service-name=aiops-web
 ```bash
 kubectl delete namespace aiops-lab
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl delete namespace aiops-lab</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 
 ## 典型故障排查表
 
@@ -3349,15 +2160,6 @@ kubectl get nodes
 kubectl describe node <node>
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl get pod &lt;pod&gt; -n &lt;ns&gt; -o wide</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-| 第 2 行 | <code>kubectl describe pod &lt;pod&gt; -n &lt;ns&gt;</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-| 第 3 行 | <code>kubectl get nodes</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-| 第 4 行 | <code>kubectl describe node &lt;node&gt;</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-
 重点看 Events：
 
 ```text
@@ -3365,14 +2167,6 @@ kubectl describe node <node>
 0/3 nodes are available: node(s) had untolerated taint.
 0/3 nodes are available: persistentvolumeclaim is not bound.
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>0/3 nodes are available: insufficient cpu.</code> | `0/3 nodes are available: insufficient cpu.` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>0/3 nodes are available: node(s) had untolerated taint.</code> | `0/3 nodes are available: node(s) had untolerated taint.` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 3 行 | <code>0/3 nodes are available: persistentvolumeclaim is not bound.</code> | `0/3 nodes are available: persistentvolumeclaim is not bound.` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 判断：
 
@@ -3390,15 +2184,6 @@ kubectl describe pod <pod> -n <ns>
 kubectl logs <pod> -n <ns> --previous
 kubectl logs <pod> -n <ns>
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl get pod &lt;pod&gt; -n &lt;ns&gt;</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-| 第 2 行 | <code>kubectl describe pod &lt;pod&gt; -n &lt;ns&gt;</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-| 第 3 行 | <code>kubectl logs &lt;pod&gt; -n &lt;ns&gt; --previous</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-| 第 4 行 | <code>kubectl logs &lt;pod&gt; -n &lt;ns&gt;</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
 
 重点：
 
@@ -3426,13 +2211,6 @@ kubectl describe pod <pod> -n <ns>
 kubectl get events -n <ns> --sort-by=.lastTimestamp
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl describe pod &lt;pod&gt; -n &lt;ns&gt;</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-| 第 2 行 | <code>kubectl get events -n &lt;ns&gt; --sort-by=.lastTimestamp</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-
 看错误：
 
 - `not found`
@@ -3456,15 +2234,6 @@ kubectl get endpointslice -n aiops -l kubernetes.io/service-name=aiops-api
 kubectl describe svc aiops-api -n aiops
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl get svc aiops-api -n aiops -o wide</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-| 第 2 行 | <code>kubectl get pods -n aiops --show-labels</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-| 第 3 行 | <code>kubectl get endpointslice -n aiops -l kubernetes.io/service-name=aiops-api</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-| 第 4 行 | <code>kubectl describe svc aiops-api -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-
 如果 EndpointSlice 为空：
 
 - selector 不匹配。
@@ -3477,13 +2246,6 @@ kubectl describe svc aiops-api -n aiops
 kubectl exec -it <client-pod> -n aiops -- curl -v http://aiops-api/
 kubectl exec -it <backend-pod> -n aiops -- ss -ltnp
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl exec -it &lt;client-pod&gt; -n aiops -- curl -v http://aiops-api/</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
-| 第 2 行 | <code>kubectl exec -it &lt;backend-pod&gt; -n aiops -- ss -ltnp</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
 继续看：
 
@@ -3502,16 +2264,6 @@ kubectl describe deploy aiops-api -n aiops
 kubectl describe pod <new-pod> -n aiops
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl rollout status deployment/aiops-api -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-| 第 2 行 | <code>kubectl get rs -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-| 第 3 行 | <code>kubectl get pods -n aiops -l app=aiops-api</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-| 第 4 行 | <code>kubectl describe deploy aiops-api -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-| 第 5 行 | <code>kubectl describe pod &lt;new-pod&gt; -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-
 判断：
 
 - 新 ReplicaSet 是否创建？
@@ -3527,25 +2279,12 @@ kubectl describe pod <new-pod> -n aiops
 kubectl rollout undo deployment/aiops-api -n aiops
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl rollout undo deployment/aiops-api -n aiops</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-
 回滚前最好保存证据：
 
 ```bash
 kubectl get deploy aiops-api -n aiops -o yaml > deploy-before-rollback.yaml
 kubectl get events -n aiops --sort-by=.lastTimestamp > events-before-rollback.txt
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>kubectl get deploy aiops-api -n aiops -o yaml &gt; deploy-before-rollback.yaml</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-| 第 2 行 | <code>kubectl get events -n aiops --sort-by=.lastTimestamp &gt; events-before-rollback.txt</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
 
 ## AIOps 自动化诊断脚本
 
@@ -3585,35 +2324,6 @@ echo
 echo "== events =="
 kubectl get events -n "$ns" --sort-by=.lastTimestamp || true
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>#!/usr/bin/env bash</code> | 注释行，提前说明下面命令的目的或注意事项。 |
-| 第 2 行 | <code>set -euo pipefail</code> | 设置 shell 或工具变量，具体含义取决于当前终端环境。 |
-| 第 4 行 | <code>ns="${1:-aiops}"</code> | 执行 `ns="${1:-aiops}"` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 5 行 | <code>selector="${2:-app=aiops-api}"</code> | 执行 `selector="${2:-app=aiops-api}"` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 7 行 | <code>echo "== context =="</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
-| 第 8 行 | <code>kubectl config current-context</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
-| 第 10 行 | <code>echo</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
-| 第 11 行 | <code>echo "== objects =="</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
-| 第 12 行 | <code>kubectl get deploy,rs,pod,svc -n "$ns" -l "$selector" -o wide &#124;&#124; true</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
-| 第 14 行 | <code>echo</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
-| 第 15 行 | <code>echo "== pods describe =="</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
-| 第 16 行 | <code>kubectl describe pod -n "$ns" -l "$selector" &#124;&#124; true</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
-| 第 18 行 | <code>echo</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
-| 第 19 行 | <code>echo "== logs current =="</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
-| 第 20 行 | <code>kubectl logs -n "$ns" -l "$selector" --tail=100 &#124;&#124; true</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
-| 第 22 行 | <code>echo</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
-| 第 23 行 | <code>echo "== logs previous =="</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
-| 第 24 行 | <code>kubectl logs -n "$ns" -l "$selector" --tail=100 --previous &#124;&#124; true</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
-| 第 26 行 | <code>echo</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
-| 第 27 行 | <code>echo "== endpointslices =="</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
-| 第 28 行 | <code>kubectl get endpointslice -n "$ns" -o wide &#124;&#124; true</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
-| 第 30 行 | <code>echo</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
-| 第 31 行 | <code>echo "== events =="</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
-| 第 32 行 | <code>kubectl get events -n "$ns" --sort-by=.lastTimestamp &#124;&#124; true</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
 
 生产使用前要补：
 

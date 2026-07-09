@@ -56,41 +56,6 @@ LangChain
      -> deployment observability
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>LangChain</code> | 这一行里的英文要这样读：`LangChain` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 2 行 | <code>  -&gt; Get started</code> | 这一行要理解这些英文词：`Get started` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>     -&gt; install</code> | 这一行要理解这些英文词：`install` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>     -&gt; quickstart</code> | 这一行要理解这些英文词：`quickstart` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; Core components</code> | 这一行要理解这些英文词：`Core components` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>     -&gt; agents</code> | 这一行要理解这些英文词：`agents` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>     -&gt; models</code> | 这一行要理解这些英文词：`models` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>     -&gt; messages</code> | 这一行要理解这些英文词：`messages` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 9 行 | <code>     -&gt; tools</code> | 这一行要理解这些英文词：`tools` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 10 行 | <code>     -&gt; structured output</code> | 这一行要理解这些英文词：`structured output` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 11 行 | <code>     -&gt; short-term memory</code> | 这一行要理解这些英文词：`short-term memory` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 12 行 | <code>     -&gt; streaming</code> | 这一行要理解这些英文词：`streaming` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 13 行 | <code>  -&gt; Middleware</code> | 这一行要理解这些英文词：`Middleware` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 14 行 | <code>     -&gt; prompt shaping</code> | 这一行要理解这些英文词：`prompt shaping` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 15 行 | <code>     -&gt; retries</code> | 这一行要理解这些英文词：`retries` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 16 行 | <code>     -&gt; guardrails</code> | 这一行要理解这些英文词：`guardrails` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 17 行 | <code>     -&gt; dynamic routing</code> | 这一行要理解这些英文词：`dynamic routing` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 18 行 | <code>  -&gt; Advanced usage</code> | 这一行要理解这些英文词：`Advanced usage` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 19 行 | <code>     -&gt; context engineering</code> | 这一行要理解这些英文词：`context engineering` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 20 行 | <code>     -&gt; retrieval</code> | 这一行要理解这些英文词：`retrieval` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 21 行 | <code>     -&gt; MCP</code> | 这一行要理解这些英文词：`MCP` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 22 行 | <code>     -&gt; human-in-the-loop</code> | 这一行要理解这些英文词：`human-in-the-loop` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 23 行 | <code>  -&gt; LangGraph</code> | 这一行要理解这些英文词：`LangGraph` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 24 行 | <code>     -&gt; durable execution</code> | 这一行要理解这些英文词：`durable execution` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 25 行 | <code>     -&gt; deterministic + agentic workflow</code> | 这一行要理解这些英文词：`deterministic` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`agentic workflow` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 26 行 | <code>  -&gt; LangSmith</code> | 这一行要理解这些英文词：`LangSmith` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 27 行 | <code>     -&gt; tracing</code> | 这一行要理解这些英文词：`tracing` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 28 行 | <code>     -&gt; debugging</code> | 这一行要理解这些英文词：`debugging` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 29 行 | <code>     -&gt; evaluation</code> | 这一行要理解这些英文词：`evaluation` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 30 行 | <code>     -&gt; deployment observability</code> | 这一行要理解这些英文词：`deployment observability` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 本文覆盖：
 
 1. LangChain 解决什么工程问题。
@@ -106,12 +71,6 @@ LangChain
 ```text
 HighErrorRate service=order-api severity=page
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>HighErrorRate service=order-api severity=page</code> | `HighErrorRate` 是主机、服务、告警或资源的示例名称；`service` 是服务名称字段，`order-api` 是具体服务名，表示这条记录属于这个服务；`severity` 是告警严重级别字段，`page` 表示需要立即通知值班人员的告警级别。 |
 
 你希望智能助手能做这些事：
 
@@ -163,12 +122,6 @@ AIOps 里的 LLM 应用很少只有“一问一答”。真实场景通常需要
 prompt -> model -> answer
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>prompt -&gt; model -&gt; answer</code> | 这一行要理解这些英文词：`prompt` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`model` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`answer` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 LangChain 关注的是更完整的应用：
 
 ```text
@@ -182,20 +135,6 @@ user alert
   -> model writes structured response
   -> trace / evaluate / log
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>user alert</code> | 这一行里的英文要这样读：`user alert` 这个英文标识可以拆开理解为：用户，告警。 |
-| 第 2 行 | <code>  -&gt; messages</code> | 这一行要理解这些英文词：`messages` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; system prompt</code> | 这一行要理解这些英文词：`system prompt` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; model</code> | 这一行要理解这些英文词：`model` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; decide tool call</code> | 这一行要理解这些英文词：`decide tool call` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; execute tool in your code</code> | 这一行要理解这些英文词：`execute tool in your code` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; return tool result</code> | 这一行要理解这些英文词：`return tool result` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 8 行 | <code>  -&gt; model writes structured response</code> | 这一行要理解这些英文词：`model writes structured response` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 9 行 | <code>  -&gt; trace / evaluate / log</code> | 这一行要理解这些英文词：`trace` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`evaluate` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`log` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 它不是监控系统，不是向量数据库，不是权限系统，也不是自动化执行平台。它更像连接这些系统的 LLM 应用层。
 
@@ -227,12 +166,6 @@ LangChain 把这些通用结构抽出来。
 模型基于结果回答
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>模型提出 tool call</code> | 这一行里的英文要这样读：`tool call` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-
 这样才能做权限、审计、超时和错误处理。
 
 ### 问题 3：AIOps 需要证据链
@@ -263,20 +196,6 @@ Harness =
   structured output
   tracing
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Agent = Model + Harness</code> | `Agent` 是主机、服务、告警或资源的示例名称；`Agent` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源，`Model` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
-| 第 3 行 | <code>Harness =</code> | 这一行里的英文要这样读：`Harness` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
-| 第 4 行 | <code>  prompt</code> | 这一行里的英文要这样读：`prompt` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 5 行 | <code>  messages</code> | 这一行里的英文要这样读：`messages` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 6 行 | <code>  tools</code> | 这一行里的英文要这样读：`tools` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 7 行 | <code>  middleware</code> | 这一行里的英文要这样读：`middleware` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 8 行 | <code>  memory / checkpointer</code> | `memory / checkpointer` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 9 行 | <code>  structured output</code> | 这一行里的英文要这样读：`structured output` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 10 行 | <code>  tracing</code> | 这一行里的英文要这样读：`tracing` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 官方文档里 `create_agent` 是一个可配置的 agent harness。你把模型、工具和系统提示词交给它，它负责组织模型循环。
 
@@ -315,18 +234,6 @@ user message
   -> final answer
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>user message</code> | 这一行里的英文要这样读：`user message` 这个英文标识可以拆开理解为：用户。 |
-| 第 2 行 | <code>  -&gt; model call</code> | 这一行要理解这些英文词：`model call` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; tool call request</code> | 这一行要理解这些英文词：`tool call request` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; execute tool</code> | 这一行要理解这些英文词：`execute tool` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; tool result</code> | 这一行要理解这些英文词：`tool result` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; model call</code> | 这一行要理解这些英文词：`model call` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; final answer</code> | 这一行要理解这些英文词：`final answer` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-
 怎么用：用 `create_agent(model=..., tools=..., system_prompt=...)` 组合。
 
 坏了怎么查：看模型是否选错工具、工具返回是否为空、system prompt 是否约束不清。
@@ -358,15 +265,6 @@ tool: search_runbook(...)
 assistant: 根据 runbook，先检查...
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>system: 你是 AIOps 助手，只能基于证据回答</code> | `system` 是system 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `你是 AIOps 助手，只能基于证据回答` 是这个字段的示例内容或模板表达式。 |
-| 第 2 行 | <code>user: HighErrorRate order-api 怎么处理</code> | `user` 是用户，冒号后面的 `HighErrorRate order-api 怎么处理` 是这个字段的示例内容或模板表达式。 |
-| 第 3 行 | <code>tool: search_runbook(...)</code> | `tool` 是tool 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `search_runbook(...)` 是这个字段的示例内容或模板表达式。 |
-| 第 4 行 | <code>assistant: 根据 runbook，先检查...</code> | `assistant` 是assistant 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号后面的 `根据 runbook，先检查...` 是这个字段的示例内容或模板表达式。 |
-
 怎么用：把角色、边界、输出格式写进 system prompt。
 
 坏了怎么查：看 prompt 是否把“事实、猜测、动作边界”分开。
@@ -385,15 +283,6 @@ load docs
   -> retrieve relevant chunks
   -> model answers with context
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>load docs</code> | 这一行里的英文要这样读：`load docs` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 2 行 | <code>  -&gt; split chunks</code> | 这一行要理解这些英文词：`split chunks` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; retrieve relevant chunks</code> | 这一行要理解这些英文词：`retrieve relevant chunks` 是retrieve=检索。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; model answers with context</code> | 这一行要理解这些英文词：`model answers with context` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 怎么用：把 runbook、事故复盘、服务文档作为检索源。
 
@@ -447,28 +336,6 @@ Alertmanager / ticket / user question
       actions_need_approval
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Alertmanager / ticket / user question</code> | `Alertmanager / ticket / user question` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 2 行 | <code>  -&gt; normalize alert context</code> | 这一行要理解这些英文词：`normalize alert context` 是alert=告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; LangChain agent</code> | 这一行要理解这些英文词：`LangChain agent` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>      model</code> | 这一行里的英文要这样读：`model` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 5 行 | <code>      system prompt</code> | 这一行里的英文要这样读：`system prompt` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 6 行 | <code>      tools</code> | 这一行里的英文要这样读：`tools` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 7 行 | <code>        search_runbook</code> | 这一行里的英文要这样读：`search_runbook` 这个英文标识可以拆开理解为：故障处理手册。 |
-| 第 8 行 | <code>        get_recent_deployments</code> | 这一行里的英文要这样读：`get_recent_deployments` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 9 行 | <code>        query_metrics_readonly</code> | 这一行里的英文要这样读：`query_metrics_readonly` 这个英文标识可以拆开理解为：查询。 |
-| 第 10 行 | <code>      structured output</code> | 这一行里的英文要这样读：`structured output` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 11 行 | <code>  -&gt; LangSmith trace</code> | 这一行要理解这些英文词：`LangSmith trace` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 12 行 | <code>  -&gt; response</code> | 这一行要理解这些英文词：`response` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 13 行 | <code>      summary</code> | 这一行里的英文要这样读：`summary` 是摘要说明字段。 |
-| 第 14 行 | <code>      evidence</code> | 这一行里的英文要这样读：`evidence` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 15 行 | <code>      missing_info</code> | 这一行里的英文要这样读：`missing_info` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 16 行 | <code>      safe_next_steps</code> | 这一行里的英文要这样读：`safe_next_steps` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 17 行 | <code>      actions_need_approval</code> | 这一行里的英文要这样读：`actions_need_approval` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-
 生产边界：
 
 - 只读工具可以先接入。
@@ -488,28 +355,11 @@ pip install -U langchain langchain-openai langgraph python-dotenv
 python -c "import langchain; print('langchain ok')"
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>mkdir aiops-langchain-lab</code> | 创建目录，用来准备实验项目结构。 |
-| 第 2 行 | <code>cd aiops-langchain-lab</code> | 切换当前目录，确保后续命令在正确项目位置执行。 |
-| 第 3 行 | <code>python -m venv .venv</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
-| 第 4 行 | <code>.\.venv\Scripts\Activate.ps1</code> | 执行 `.\.venv\scripts\activate.ps1` 相关命令，后面的参数决定它具体操作什么对象。 |
-| 第 5 行 | <code>pip install -U langchain langchain-openai langgraph python-dotenv</code> | 管理 Python 依赖包，通常用于安装实验需要的库。 |
-| 第 6 行 | <code>python -c "import langchain; print('langchain ok')"</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
-
 预期结果：
 
 ```text
 langchain ok
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>langchain ok</code> | 这一行里的英文要这样读：`langchain ok` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
 
 如果没有 API key，也可以先运行本文实验里的本地工具部分，确认 runbook 查询函数能工作。
 
@@ -523,15 +373,6 @@ LANGCHAIN_MODEL=openai:gpt-4.1-mini
 LANGSMITH_TRACING=false
 LANGSMITH_API_KEY=
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>OPENAI_API_KEY=sk-...</code> | `OPENAI_API_KEY` 这个英文标识可以拆开理解为：应用程序接口，`sk-...` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
-| 第 2 行 | <code>LANGCHAIN_MODEL=openai:gpt-4.1-mini</code> | `LANGCHAIN_MODEL` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`openai:gpt-4.1-mini` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值。 |
-| 第 3 行 | <code>LANGSMITH_TRACING=false</code> | `LANGSMITH_TRACING` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`false` 表示关闭这个配置。 |
-| 第 4 行 | <code>LANGSMITH_API_KEY=</code> | 这一行里的英文要这样读：`LANGSMITH_API_KEY` 这个英文标识可以拆开理解为：应用程序接口。 |
 
 | 配置项 | 含义 | 新手容易错在哪里 |
 |---|---|---|
@@ -550,15 +391,6 @@ pip install -U langchain langchain-openai langgraph python-dotenv
 python langchain_runbook_agent.py
 pip freeze > requirements.txt
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>python -m venv .venv</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
-| 第 2 行 | <code>pip install -U langchain langchain-openai langgraph python-dotenv</code> | 管理 Python 依赖包，通常用于安装实验需要的库。 |
-| 第 3 行 | <code>python langchain_runbook_agent.py</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
-| 第 4 行 | <code>pip freeze &gt; requirements.txt</code> | 管理 Python 依赖包，通常用于安装实验需要的库。 |
 
 每条命令在检查什么：
 
@@ -593,18 +425,6 @@ observability data
   -> human approval
   -> runbook automation
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>observability data</code> | 这一行里的英文要这样读：`observability data` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 2 行 | <code>  -&gt; alert candidate</code> | 这一行要理解这些英文词：`alert candidate` 是alert=告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 3 行 | <code>  -&gt; LangChain agent / RAG</code> | 这一行要理解这些英文词：`LangChain agent` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题；`RAG` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 4 行 | <code>  -&gt; evidence-based summary</code> | 这一行要理解这些英文词：`evidence-based summary` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 5 行 | <code>  -&gt; safe next steps</code> | 这一行要理解这些英文词：`safe next steps` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 6 行 | <code>  -&gt; human approval</code> | 这一行要理解这些英文词：`human approval` 是英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
-| 第 7 行 | <code>  -&gt; runbook automation</code> | 这一行要理解这些英文词：`runbook automation` 是runbook=故障处理手册。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 适合：
 
@@ -721,91 +541,11 @@ print("agent answer:")
 print(result["messages"][-1].content)
 ```
 
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>import os</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
-| 第 2 行 | <code>from textwrap import dedent</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 4 行 | <code>from dotenv import load_dotenv</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 5 行 | <code>from langchain.agents import create_agent</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
-| 第 7 行 | <code>load_dotenv()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 9 行 | <code>RUNBOOKS = {</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 10 行 | <code>    "HighErrorRate order-api": dedent("""</code> | `HighErrorRate order-api` 是高错误率告警名，通常表示某个服务的请求失败比例超过阈值，`dedent(` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 11 行 | <code>        service: order-api</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 12 行 | <code>        alert: HighErrorRate</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 13 行 | <code>        first_checks:</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 14 行 | <code>          - Check recent deployments in the last 30 minutes.</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 15 行 | <code>          - Check /metrics for http_requests_total by status.</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 16 行 | <code>          - Check upstream payment-api latency.</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 17 行 | <code>        safe_actions:</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 18 行 | <code>          - collect logs</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 19 行 | <code>          - compare dashboard before and after deployment</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 20 行 | <code>        risky_actions:</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 21 行 | <code>          - rollback</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 22 行 | <code>          - restart production pods</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 23 行 | <code>    """).strip(),</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 24 行 | <code>    "HighLatency payment-api": dedent("""</code> | `HighLatency payment-api` 是高延迟告警名，通常表示请求耗时超过阈值，`dedent(` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 25 行 | <code>        service: payment-api</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 26 行 | <code>        alert: HighLatency</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 27 行 | <code>        first_checks:</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 28 行 | <code>          - Check database connection pool.</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 29 行 | <code>          - Check external payment provider latency.</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 30 行 | <code>          - Check p95 and p99 latency by endpoint.</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 31 行 | <code>        safe_actions:</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 32 行 | <code>          - collect traces</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 33 行 | <code>          - inspect slow queries</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 34 行 | <code>        risky_actions:</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 35 行 | <code>          - scale database</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 36 行 | <code>          - disable payment provider route</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 37 行 | <code>    """).strip(),</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 38 行 | <code>}</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 41 行 | <code>def search_runbook(query: str) -&gt; str:</code> | 定义函数，把一段可复用逻辑命名，后续可以反复调用。 |
-| 第 42 行 | <code>    """Search internal AIOps runbooks by alert name or service name."""</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 43 行 | <code>    query_lower = query.lower()</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 44 行 | <code>    matches = [</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 45 行 | <code>        content</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 46 行 | <code>        for title, content in RUNBOOKS.items()</code> | 循环处理一组数据，常用于逐条处理告警、日志或指标样本。 |
-| 第 47 行 | <code>        if any(token in title.lower() or token in content.lower() for token in query_lower.split())</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
-| 第 48 行 | <code>    ]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 49 行 | <code>    return "\n\n---\n\n".join(matches[:2]) if matches else "No matching runbook found."</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
-| 第 52 行 | <code>question = "HighErrorRate on order-api. What should I check first?"</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 54 行 | <code>print("local tool result:")</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-| 第 55 行 | <code>print(search_runbook(question))</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-| 第 56 行 | <code>print()</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-| 第 58 行 | <code>if not os.getenv("OPENAI_API_KEY"):</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
-| 第 59 行 | <code>    print("OPENAI_API_KEY is not set. Local tool test passed; set the key to run the agent.")</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-| 第 60 行 | <code>    raise SystemExit(0)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 62 行 | <code>model = os.getenv("LANGCHAIN_MODEL", "openai:gpt-4.1-mini")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 64 行 | <code>agent = create_agent(</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 65 行 | <code>    model=model,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 66 行 | <code>    tools=[search_runbook],</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 67 行 | <code>    system_prompt=(</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 68 行 | <code>        "You are an AIOps assistant. Use runbook evidence before answering. "</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 69 行 | <code>        "Separate evidence, safe next checks, and actions that require human approval. "</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 70 行 | <code>        "Never execute production changes."</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 71 行 | <code>    ),</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 72 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 74 行 | <code>result = agent.invoke({</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
-| 第 75 行 | <code>    "messages": [{</code> | `messages` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`[{` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 76 行 | <code>        "role": "user",</code> | `role` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`user` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 77 行 | <code>        "content": question,</code> | `content` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，`question` 是示例取值，真实 AIOps 场景里要换成自己的服务、环境、路径或阈值；这是 Python 字典里的一个键值对。 |
-| 第 78 行 | <code>    }]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 79 行 | <code>})</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
-| 第 81 行 | <code>print("agent answer:")</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-| 第 82 行 | <code>print(result["messages"][-1].content)</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
-
 运行：
 
 ```powershell
 python langchain_runbook_agent.py
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>python langchain_runbook_agent.py</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
 
 ### 验证结果
 
@@ -818,15 +558,6 @@ alert: HighErrorRate
 ...
 OPENAI_API_KEY is not set. Local tool test passed...
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>local tool result:</code> | `local tool result` 是local tool result 这个英文标识可以拆开理解为：本地连接，表示不通过 SSH 连接远程机器，冒号表示后面要填写或列出这个字段的具体内容。 |
-| 第 2 行 | <code>service: order-api</code> | `service` 是服务名称字段，冒号后面的 `order-api` 是这个字段的示例内容或模板表达式。 |
-| 第 3 行 | <code>alert: HighErrorRate</code> | `alert` 是告警，冒号后面的 `HighErrorRate` 是这个字段的示例内容或模板表达式。 |
-| 第 5 行 | <code>OPENAI_API_KEY is not set. Local tool test passed...</code> | `OPENAI_API_KEY is not set. Local tool test passed...` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
 
 有 API key 时，应该看到 agent 基于 runbook 输出：
 
@@ -842,19 +573,6 @@ Needs approval:
 - rollback
 - restart production pods
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>Evidence:</code> | `Evidence` 是Evidence 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源，冒号表示后面要填写或列出这个字段的具体内容。 |
-| 第 2 行 | <code>- order-api HighErrorRate runbook says to check recent deployments...</code> | `- order-api HighErrorRate runbook says to check recent deployments...` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 4 行 | <code>Safe next checks:</code> | `Safe next checks` 是Safe next checks 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号表示后面要填写或列出这个字段的具体内容。 |
-| 第 5 行 | <code>1. Check recent deployments in the last 30 minutes.</code> | `1. Check recent deployments in the last 30 minutes.` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 6 行 | <code>2. Query http_requests_total by status.</code> | `2. Query http_requests_total by status.` 是文件、目录、接口路径或匹配模式示例，用来告诉读者真实项目里应该把学习证据、配置或代码放在哪里。 |
-| 第 8 行 | <code>Needs approval:</code> | `Needs approval` 是Needs approval 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值，冒号表示后面要填写或列出这个字段的具体内容。 |
-| 第 9 行 | <code>- rollback</code> | 这一行里的英文要这样读：`rollback` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值。 |
-| 第 10 行 | <code>- restart production pods</code> | 这一行里的英文要这样读：`restart production pods` 这个英文标识可以拆开理解为：生产环境。 |
 
 ### 如果没有成功
 
@@ -906,12 +624,6 @@ Needs approval:
 ```text
 LangChain 是我构建 LLM 应用时用来组织模型、工具、消息、RAG、结构化输出和追踪的框架。在 AIOps 里，我不会让模型直接操作生产，而是把 runbook 查询、最近发布查询、指标只读查询做成受控工具，让 agent 基于这些证据生成摘要和下一步检查。真正的重启、回滚、扩缩容必须走审批、审计和 runbook automation。上线前我会用 LangSmith 或类似追踪系统观察工具调用、延迟、错误和回答质量，并准备评估集验证 RAG 和 agent 是否可靠。
 ```
-
-逐行解释：
-
-| 行 | 内容 | 说明 |
-|---|---|---|
-| 第 1 行 | <code>LangChain 是我构建 LLM 应用时用来组织模型、工具、消息、RAG、结构化输出和追踪的框架。在 AIOps 里，我不会让模型直接操作生产，而是把 runbook 查询、最近发布查询、指标只读查询做成受控工具，让 agent 基于这些证据生成摘要和下一步检查。真正的重启、回滚、扩缩容必须走审批、审计和 runbook automation。上线前我会用 LangSmith 或类似追踪系统观察工具调用、延迟、错误和回答质量，并准备评估集验证 RAG 和 agent 是否可靠。</code> | 这一行里的英文要这样读：`LangChain` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源；`LLM` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源；`RAG` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源；`AIOps` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源；`runbook` 是故障处理手册；`agent` 是英文标识，通常代表字段名、组件名、文件名、资源名或示例值；`runbook automation` 这个英文标识可以拆开理解为：故障处理手册；`LangSmith` 是名称、状态或组件标识，真实环境里要结合上下文确认它指的是哪个告警、服务或资源。 |
 
 ## 学习检查清单
 
