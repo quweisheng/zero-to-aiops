@@ -217,11 +217,11 @@ Shell / PowerShell scripts
 | 第 8 行 | <code>        v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 | 第 9 行 | <code>Shell / PowerShell scripts</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 | 第 10 行 | <code>        &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 11 行 | <code>        +--&gt; runbook automation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 12 行 | <code>        +--&gt; CI/CD checks</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 13 行 | <code>        +--&gt; scheduled health reports</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 14 行 | <code>        +--&gt; incident evidence collection</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 15 行 | <code>        +--&gt; webhook or API calls</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 11 行 | <code>        +--&gt; runbook automation</code> | 这一行要理解这些英文词：`runbook automation` 是runbook=故障处理手册，automation=自动化。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 12 行 | <code>        +--&gt; CI/CD checks</code> | 这一行要理解这些英文词：`CI` 是持续集成；`CD checks` 是cd=持续交付或持续部署，checks=检查。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 13 行 | <code>        +--&gt; scheduled health reports</code> | 这一行要理解这些英文词：`scheduled health reports` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 14 行 | <code>        +--&gt; incident evidence collection</code> | 这一行要理解这些英文词：`incident evidence collection` 是evidence=证据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 15 行 | <code>        +--&gt; webhook or API calls</code> | 这一行要理解这些英文词：`webhook or API calls` 是api=应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 在 AIOps 中，脚本是自动化闭环的第一步：
@@ -281,13 +281,13 @@ Bash reads command line
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>Bash reads command line</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; parses words, quotes, pipes and redirections</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; expands variables and globs</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; finds command grep</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; starts process</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; connects grep stdout to tail stdin</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; waits for pipeline</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>  -&gt; returns exit status</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; parses words, quotes, pipes and redirections</code> | 这一行要理解这些英文词：`parses words` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`quotes` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`pipes and redirections` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; expands variables and globs</code> | 这一行要理解这些英文词：`expands variables and globs` 是variables=变量。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; finds command grep</code> | 这一行要理解这些英文词：`finds command grep` 是command=命令。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; starts process</code> | 这一行要理解这些英文词：`starts process` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; connects grep stdout to tail stdin</code> | 这一行要理解这些英文词：`connects grep stdout to tail stdin` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; waits for pipeline</code> | 这一行要理解这些英文词：`waits for pipeline` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; returns exit status</code> | 这一行要理解这些英文词：`returns exit status` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 这个过程里最容易出错的是：
@@ -330,11 +330,11 @@ PowerShell parses command
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>PowerShell parses command</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; runs Get-Process</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; outputs process objects</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; Sort-Object sorts by CPU property</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; Select-Object selects properties</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; formatter displays table</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; runs Get-Process</code> | 这一行要理解这些英文词：`runs Get-Process` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; outputs process objects</code> | 这一行要理解这些英文词：`outputs process objects` 是outputs=输出值。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; Sort-Object sorts by CPU property</code> | 这一行要理解这些英文词：`Sort-Object sorts by CPU property` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; Select-Object selects properties</code> | 这一行要理解这些英文词：`Select-Object selects properties` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; formatter displays table</code> | 这一行要理解这些英文词：`formatter displays table` 是table=表。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 关键点：`Get-Process` 输出的是对象。对象有属性，比如：

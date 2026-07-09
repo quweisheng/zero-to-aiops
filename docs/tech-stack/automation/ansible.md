@@ -85,13 +85,13 @@ control node
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>control node</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; ansible.cfg</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; inventory</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; variables</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; ad hoc command / playbook</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; modules</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; managed nodes</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>  -&gt; result: ok / changed / failed / skipped</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; ansible.cfg</code> | 这一行要理解这些英文词：`ansible.cfg` 是ansible=自动化运维工具。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; inventory</code> | 这一行要理解这些英文词：`inventory` 是主机清单。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; variables</code> | 这一行要理解这些英文词：`variables` 是变量。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; ad hoc command / playbook</code> | 这一行要理解这些英文词：`ad hoc command` 是临时命令，不写成文件也能直接执行一次的 Ansible 操作；`playbook` 是Ansible 剧本。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; modules</code> | 这一行要理解这些英文词：`modules` 是模块。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; managed nodes</code> | 这一行要理解这些英文词：`managed nodes` 是受控节点，被 Ansible 远程管理的服务器。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; result: ok / changed / failed / skipped</code> | 这一行要理解这些英文词：`result` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`ok` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`changed` 是已发生变更；`failed` 是失败；`skipped` 是跳过。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 第一阶段必须掌握：
@@ -188,59 +188,59 @@ Reference
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>Installation and getting started</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; install ansible-core</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; control node requirements</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; managed node connection</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; install ansible-core</code> | 这一行要理解这些英文词：`install ansible-core` 是安装 ansible-core，也就是安装 Ansible 的核心命令和模块运行环境。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; control node requirements</code> | 这一行要理解这些英文词：`control node requirements` 是control=控制。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; managed node connection</code> | 这一行要理解这些英文词：`managed node connection` 是受控节点连接，Ansible 连接目标服务器的方式。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 5 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 6 行 | <code>Inventory</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 7 行 | <code>  -&gt; inventory sources</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>  -&gt; groups</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 9 行 | <code>  -&gt; host variables</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 10 行 | <code>  -&gt; group variables</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 11 行 | <code>  -&gt; patterns</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 12 行 | <code>  -&gt; dynamic inventory</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 13 行 | <code>  -&gt; connection variables</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>  -&gt; inventory sources</code> | 这一行要理解这些英文词：`inventory sources` 是清单来源，主机列表可以来自文件、云接口或 CMDB。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; groups</code> | 这一行要理解这些英文词：`groups` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>  -&gt; host variables</code> | 这一行要理解这些英文词：`host variables` 是主机变量，只对某一台主机生效的 Ansible 参数。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>  -&gt; group variables</code> | 这一行要理解这些英文词：`group variables` 是组变量，给一组主机共享的 Ansible 参数。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>  -&gt; patterns</code> | 这一行要理解这些英文词：`patterns` 是主机匹配模式。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 12 行 | <code>  -&gt; dynamic inventory</code> | 这一行要理解这些英文词：`dynamic inventory` 是动态清单，从云平台或 CMDB 实时拉取主机列表。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 13 行 | <code>  -&gt; connection variables</code> | 这一行要理解这些英文词：`connection variables` 是连接变量，描述如何连到目标机器的用户名、端口、密钥等参数。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 14 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 15 行 | <code>Command line tools</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 16 行 | <code>  -&gt; ansible</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 17 行 | <code>  -&gt; ansible-playbook</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 18 行 | <code>  -&gt; ansible-inventory</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 19 行 | <code>  -&gt; ansible-doc</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 20 行 | <code>  -&gt; ansible-config</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 21 行 | <code>  -&gt; ansible-vault</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 16 行 | <code>  -&gt; ansible</code> | 这一行要理解这些英文词：`ansible` 是自动化运维工具。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 17 行 | <code>  -&gt; ansible-playbook</code> | 这一行要理解这些英文词：`ansible-playbook` 是ansible=自动化运维工具，playbook=Ansible 剧本。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 18 行 | <code>  -&gt; ansible-inventory</code> | 这一行要理解这些英文词：`ansible-inventory` 是ansible=自动化运维工具，inventory=主机清单。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 19 行 | <code>  -&gt; ansible-doc</code> | 这一行要理解这些英文词：`ansible-doc` 是ansible=自动化运维工具。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 20 行 | <code>  -&gt; ansible-config</code> | 这一行要理解这些英文词：`ansible-config` 是ansible=自动化运维工具，config=配置。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 21 行 | <code>  -&gt; ansible-vault</code> | 这一行要理解这些英文词：`ansible-vault` 是ansible=自动化运维工具，vault=加密保密文件。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 22 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 23 行 | <code>Playbooks</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 24 行 | <code>  -&gt; plays</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 25 行 | <code>  -&gt; tasks</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 26 行 | <code>  -&gt; modules</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 27 行 | <code>  -&gt; variables</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 28 行 | <code>  -&gt; facts</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 29 行 | <code>  -&gt; conditionals</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 30 行 | <code>  -&gt; loops</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 31 行 | <code>  -&gt; handlers</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 32 行 | <code>  -&gt; templates</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 33 行 | <code>  -&gt; tags</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 34 行 | <code>  -&gt; blocks</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 35 行 | <code>  -&gt; error handling</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 24 行 | <code>  -&gt; plays</code> | 这一行要理解这些英文词：`plays` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 25 行 | <code>  -&gt; tasks</code> | 这一行要理解这些英文词：`tasks` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 26 行 | <code>  -&gt; modules</code> | 这一行要理解这些英文词：`modules` 是模块。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 27 行 | <code>  -&gt; variables</code> | 这一行要理解这些英文词：`variables` 是变量。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 28 行 | <code>  -&gt; facts</code> | 这一行要理解这些英文词：`facts` 是Ansible 收集到的主机事实信息。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 29 行 | <code>  -&gt; conditionals</code> | 这一行要理解这些英文词：`conditionals` 是条件判断。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 30 行 | <code>  -&gt; loops</code> | 这一行要理解这些英文词：`loops` 是循环。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 31 行 | <code>  -&gt; handlers</code> | 这一行要理解这些英文词：`handlers` 是处理器，Ansible 中常用于在任务变化后触发重启等动作。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 32 行 | <code>  -&gt; templates</code> | 这一行要理解这些英文词：`templates` 是模板。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 33 行 | <code>  -&gt; tags</code> | 这一行要理解这些英文词：`tags` 是标签。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 34 行 | <code>  -&gt; blocks</code> | 这一行要理解这些英文词：`blocks` 是配置块。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 35 行 | <code>  -&gt; error handling</code> | 这一行要理解这些英文词：`error handling` 是错误处理，任务失败时如何重试、跳过、回滚或报警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 36 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 37 行 | <code>Reuse</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 38 行 | <code>  -&gt; roles</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 39 行 | <code>  -&gt; includes</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 40 行 | <code>  -&gt; imports</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 41 行 | <code>  -&gt; collections</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 38 行 | <code>  -&gt; roles</code> | 这一行要理解这些英文词：`roles` 是角色或职责。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 39 行 | <code>  -&gt; includes</code> | 这一行要理解这些英文词：`includes` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 40 行 | <code>  -&gt; imports</code> | 这一行要理解这些英文词：`imports` 是导入文件或任务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 41 行 | <code>  -&gt; collections</code> | 这一行要理解这些英文词：`collections` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 42 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 43 行 | <code>Security and validation</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 44 行 | <code>  -&gt; become</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 45 行 | <code>  -&gt; vault</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 46 行 | <code>  -&gt; check mode</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 47 行 | <code>  -&gt; diff mode</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 44 行 | <code>  -&gt; become</code> | 这一行要理解这些英文词：`become` 是提权执行。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 45 行 | <code>  -&gt; vault</code> | 这一行要理解这些英文词：`vault` 是加密保密文件。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 46 行 | <code>  -&gt; check mode</code> | 这一行要理解这些英文词：`check mode` 是check=检查，mode=模式。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 47 行 | <code>  -&gt; diff mode</code> | 这一行要理解这些英文词：`diff mode` 是差异模式，显示执行前后会变化哪些内容。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 48 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 49 行 | <code>Reference</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 50 行 | <code>  -&gt; playbook keywords</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 51 行 | <code>  -&gt; configuration settings</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 52 行 | <code>  -&gt; module index</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 53 行 | <code>  -&gt; plugin index</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 54 行 | <code>  -&gt; precedence rules</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 50 行 | <code>  -&gt; playbook keywords</code> | 这一行要理解这些英文词：`playbook keywords` 是playbook 关键字，Ansible 剧本里控制任务行为的固定字段。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 51 行 | <code>  -&gt; configuration settings</code> | 这一行要理解这些英文词：`configuration settings` 是配置项，控制工具或服务行为的参数集合。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 52 行 | <code>  -&gt; module index</code> | 这一行要理解这些英文词：`module index` 是模块索引，可以查询可用模块及其参数的目录。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 53 行 | <code>  -&gt; plugin index</code> | 这一行要理解这些英文词：`plugin index` 是plugin=插件，index=索引或目录。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 54 行 | <code>  -&gt; precedence rules</code> | 这一行要理解这些英文词：`precedence rules` 是优先级规则，多处配置冲突时谁覆盖谁。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 学习顺序：
@@ -259,11 +259,11 @@ Reference
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>先用 inventory 找到机器</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; 用 ad hoc 命令验证连接和模块</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; 写 playbook 表达重复动作</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; 用 variables/facts/templates 适配环境差异</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; 用 handlers 和 roles 组织工程</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; 用 check/diff/vault 提升安全和可审计</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; 用 ad hoc 命令验证连接和模块</code> | 这一行要理解这些英文词：`ad hoc` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; 写 playbook 表达重复动作</code> | 这一行要理解这些英文词：`playbook` 是Ansible 剧本。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; 用 variables/facts/templates 适配环境差异</code> | 这一行要理解这些英文词：`variables` 是变量；`facts` 是Ansible 收集到的主机事实信息；`templates` 是模板。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; 用 handlers 和 roles 组织工程</code> | 这一行要理解这些英文词：`handlers` 是处理器，Ansible 中常用于在任务变化后触发重启等动作；`roles` 是角色或职责。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; 用 check/diff/vault 提升安全和可审计</code> | 这一行要理解这些英文词：`check` 是检查；`diff` 是差异；`vault` 是加密保密文件。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 ## Ansible 在 AIOps 链路中的位置
@@ -285,12 +285,12 @@ Prometheus / Alertmanager / Loki / Elasticsearch
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>Prometheus / Alertmanager / Loki / Elasticsearch</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; 发现异常</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; AIOps 诊断</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; 选择 runbook</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; Ansible playbook 执行检查或修复</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; systemd / files / packages / services</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; 验证指标恢复</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; 发现异常</code> | 这一行表示上一级主题下的子项“发现异常”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
+| 第 3 行 | <code>  -&gt; AIOps 诊断</code> | 这一行要理解这些英文词：`AIOps` 是智能运维。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; 选择 runbook</code> | 这一行要理解这些英文词：`runbook` 是故障处理手册。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; Ansible playbook 执行检查或修复</code> | 这一行要理解这些英文词：`Ansible playbook` 是ansible=自动化运维工具，playbook=Ansible 剧本。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; systemd / files / packages / services</code> | 这一行要理解这些英文词：`systemd` 是Linux 服务管理系统；`files` 是文件；`packages` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`services` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; 验证指标恢复</code> | 这一行表示上一级主题下的子项“验证指标恢复”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
 
 
 Ansible 适合做：
@@ -346,7 +346,7 @@ managed node
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>control node</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; SSH</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; SSH</code> | 这一行要理解这些英文词：`SSH` 是远程登录协议。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 3 行 | <code>managed node</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 
 

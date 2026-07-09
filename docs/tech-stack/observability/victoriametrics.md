@@ -59,35 +59,35 @@ VictoriaMetrics
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>VictoriaMetrics</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; install</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>     -&gt; single-node</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>     -&gt; cluster</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>     -&gt; cloud</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>     -&gt; helm / operator</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; write data</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>     -&gt; Prometheus remote write</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 9 行 | <code>     -&gt; vmagent scrape and remote write</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 10 行 | <code>     -&gt; import APIs</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 11 行 | <code>  -&gt; query data</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 12 行 | <code>     -&gt; Prometheus-compatible API</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 13 行 | <code>     -&gt; MetricsQL</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 14 行 | <code>     -&gt; VMUI</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 15 行 | <code>     -&gt; Grafana</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 16 行 | <code>  -&gt; alerting</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 17 行 | <code>     -&gt; vmalert</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 18 行 | <code>     -&gt; recording rules</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 19 行 | <code>     -&gt; alerting rules</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 20 行 | <code>     -&gt; Alertmanager</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 21 行 | <code>  -&gt; productionization</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 22 行 | <code>     -&gt; retention</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 23 行 | <code>     -&gt; capacity planning</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 24 行 | <code>     -&gt; backups</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 25 行 | <code>     -&gt; limits</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 26 行 | <code>     -&gt; security</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 27 行 | <code>  -&gt; cluster</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 28 行 | <code>     -&gt; vminsert</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 29 行 | <code>     -&gt; vmstorage</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 30 行 | <code>     -&gt; vmselect</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; install</code> | 这一行要理解这些英文词：`install` 是安装，把工具或依赖放到环境里。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>     -&gt; single-node</code> | 这一行要理解这些英文词：`single-node` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>     -&gt; cluster</code> | 这一行要理解这些英文词：`cluster` 是集群，由多台机器或多个节点组成的整体服务环境。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>     -&gt; cloud</code> | 这一行要理解这些英文词：`cloud` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>     -&gt; helm / operator</code> | 这一行要理解这些英文词：`helm` 是Kubernetes 包管理工具；`operator` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; write data</code> | 这一行要理解这些英文词：`write data` 是data=数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>     -&gt; Prometheus remote write</code> | 这一行要理解这些英文词：`Prometheus remote write` 是prometheus=指标监控系统。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>     -&gt; vmagent scrape and remote write</code> | 这一行要理解这些英文词：`vmagent scrape and remote write` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>     -&gt; import APIs</code> | 这一行要理解这些英文词：`import APIs` 是import=导入已有资源。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>  -&gt; query data</code> | 这一行要理解这些英文词：`query data` 是query=查询，data=数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 12 行 | <code>     -&gt; Prometheus-compatible API</code> | 这一行要理解这些英文词：`Prometheus-compatible API` 是prometheus=指标监控系统，api=应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 13 行 | <code>     -&gt; MetricsQL</code> | 这一行要理解这些英文词：`MetricsQL` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 14 行 | <code>     -&gt; VMUI</code> | 这一行要理解这些英文词：`VMUI` 是英文缩写或固定标识，结合本节上下文记住它代表的组件、命令或状态。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 15 行 | <code>     -&gt; Grafana</code> | 这一行要理解这些英文词：`Grafana` 是仪表盘和可视化平台，用来展示指标、日志和告警数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 16 行 | <code>  -&gt; alerting</code> | 这一行要理解这些英文词：`alerting` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 17 行 | <code>     -&gt; vmalert</code> | 这一行要理解这些英文词：`vmalert` 是VictoriaMetrics 的告警规则执行组件。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 18 行 | <code>     -&gt; recording rules</code> | 这一行要理解这些英文词：`recording rules` 是记录规则，提前把 PromQL 计算结果保存成新指标。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 19 行 | <code>     -&gt; alerting rules</code> | 这一行要理解这些英文词：`alerting rules` 是告警规则，定义什么条件会触发告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 20 行 | <code>     -&gt; Alertmanager</code> | 这一行要理解这些英文词：`Alertmanager` 是Prometheus 生态里的告警管理器。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 21 行 | <code>  -&gt; productionization</code> | 这一行要理解这些英文词：`productionization` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 22 行 | <code>     -&gt; retention</code> | 这一行要理解这些英文词：`retention` 是保留周期，决定数据保存多久。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 23 行 | <code>     -&gt; capacity planning</code> | 这一行要理解这些英文词：`capacity planning` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 24 行 | <code>     -&gt; backups</code> | 这一行要理解这些英文词：`backups` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 25 行 | <code>     -&gt; limits</code> | 这一行要理解这些英文词：`limits` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 26 行 | <code>     -&gt; security</code> | 这一行要理解这些英文词：`security` 是安全，涉及认证、授权、加密和访问控制。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 27 行 | <code>  -&gt; cluster</code> | 这一行要理解这些英文词：`cluster` 是集群，由多台机器或多个节点组成的整体服务环境。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 28 行 | <code>     -&gt; vminsert</code> | 这一行要理解这些英文词：`vminsert` 是VictoriaMetrics 写入组件，负责接收并分发写入数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 29 行 | <code>     -&gt; vmstorage</code> | 这一行要理解这些英文词：`vmstorage` 是VictoriaMetrics 存储组件，负责保存时序数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 30 行 | <code>     -&gt; vmselect</code> | 这一行要理解这些英文词：`vmselect` 是VictoriaMetrics 查询组件，负责处理读请求。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 本文覆盖：
@@ -211,9 +211,9 @@ Prometheus / vmagent
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>Prometheus / vmagent</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; remote write</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; VictoriaMetrics</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; Grafana / vmalert / API</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; remote write</code> | 这一行要理解这些英文词：`remote write` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; VictoriaMetrics</code> | 这一行要理解这些英文词：`VictoriaMetrics` 是高性能时序数据库，常用于长期保存 Prometheus 指标。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; Grafana / vmalert / API</code> | 这一行要理解这些英文词：`Grafana` 是仪表盘和可视化平台，用来展示指标、日志和告警数据；`vmalert` 是VictoriaMetrics 的告警规则执行组件；`API` 是应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 ### 问题 2：指标查询需要集中入口
@@ -242,11 +242,11 @@ scrape target / remote write
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>scrape target / remote write</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; VictoriaMetrics single-node</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; VictoriaMetrics single-node</code> | 这一行要理解这些英文词：`VictoriaMetrics single-node` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 3 行 | <code>      ingest</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 | 第 4 行 | <code>      storage</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 | 第 5 行 | <code>      query</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 6 行 | <code>  -&gt; Grafana / API / vmalert</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; Grafana / API / vmalert</code> | 这一行要理解这些英文词：`Grafana` 是仪表盘和可视化平台，用来展示指标、日志和告警数据；`API` 是应用程序接口；`vmalert` 是VictoriaMetrics 的告警规则执行组件。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 集群版数据流：
@@ -264,10 +264,10 @@ vmagent / Prometheus
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>vmagent / Prometheus</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; vminsert</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; vmstorage</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; vmselect</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; Grafana / vmalert / API</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; vminsert</code> | 这一行要理解这些英文词：`vminsert` 是VictoriaMetrics 写入组件，负责接收并分发写入数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; vmstorage</code> | 这一行要理解这些英文词：`vmstorage` 是VictoriaMetrics 存储组件，负责保存时序数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; vmselect</code> | 这一行要理解这些英文词：`vmselect` 是VictoriaMetrics 查询组件，负责处理读请求。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; Grafana / vmalert / API</code> | 这一行要理解这些英文词：`Grafana` 是仪表盘和可视化平台，用来展示指标、日志和告警数据；`vmalert` 是VictoriaMetrics 的告警规则执行组件；`API` 是应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 ### 关键术语拆解
@@ -305,8 +305,8 @@ write API
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>write API</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; local storage</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; query API</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; local storage</code> | 这一行要理解这些英文词：`local storage` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; query API</code> | 这一行要理解这些英文词：`query API` 是query=查询，api=应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 怎么用：Docker 启动，挂载数据目录，配置 retention。
@@ -361,10 +361,10 @@ targets
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>targets</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; vmagent scrape</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; relabel / filter / aggregate</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; remote write</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; VictoriaMetrics</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; vmagent scrape</code> | 这一行要理解这些英文词：`vmagent scrape` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; relabel / filter / aggregate</code> | 这一行要理解这些英文词：`relabel` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`filter` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`aggregate` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; remote write</code> | 这一行要理解这些英文词：`remote write` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; VictoriaMetrics</code> | 这一行要理解这些英文词：`VictoriaMetrics` 是高性能时序数据库，常用于长期保存 Prometheus 指标。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 怎么用：配置 scrape targets 和 remote write URL。
@@ -391,9 +391,9 @@ vmalert
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>vmalert</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; query VictoriaMetrics</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; evaluate rules</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; send alerts to Alertmanager</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; query VictoriaMetrics</code> | 这一行要理解这些英文词：`query VictoriaMetrics` 是query=查询。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; evaluate rules</code> | 这一行要理解这些英文词：`evaluate rules` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; send alerts to Alertmanager</code> | 这一行要理解这些英文词：`send alerts to Alertmanager` 是alerts=告警，alertmanager=Prometheus 生态里的告警管理器。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 怎么用：配置 datasource URL、rule 文件、Alertmanager URL。
@@ -420,9 +420,9 @@ selector
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>selector</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; range function</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; aggregation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; vector result</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; range function</code> | 这一行要理解这些英文词：`range function` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; aggregation</code> | 这一行要理解这些英文词：`aggregation` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; vector result</code> | 这一行要理解这些英文词：`vector result` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 怎么用：
@@ -460,11 +460,11 @@ app / node_exporter
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>app / node_exporter</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; Prometheus or vmagent scrape</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; VictoriaMetrics single-node</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; Grafana dashboard</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; vmalert rules</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; Alertmanager</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; Prometheus or vmagent scrape</code> | 这一行要理解这些英文词：`Prometheus or vmagent scrape` 是prometheus=指标监控系统。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; VictoriaMetrics single-node</code> | 这一行要理解这些英文词：`VictoriaMetrics single-node` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; Grafana dashboard</code> | 这一行要理解这些英文词：`Grafana dashboard` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; vmalert rules</code> | 这一行要理解这些英文词：`vmalert rules` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; Alertmanager</code> | 这一行要理解这些英文词：`Alertmanager` 是Prometheus 生态里的告警管理器。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 生产集群架构：
@@ -483,11 +483,11 @@ many clusters
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>many clusters</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; vmagent</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; vminsert</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; vmstorage</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; vmselect</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; Grafana / vmalert / API</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; vmagent</code> | 这一行要理解这些英文词：`vmagent` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; vminsert</code> | 这一行要理解这些英文词：`vminsert` 是VictoriaMetrics 写入组件，负责接收并分发写入数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; vmstorage</code> | 这一行要理解这些英文词：`vmstorage` 是VictoriaMetrics 存储组件，负责保存时序数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; vmselect</code> | 这一行要理解这些英文词：`vmselect` 是VictoriaMetrics 查询组件，负责处理读请求。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; Grafana / vmalert / API</code> | 这一行要理解这些英文词：`Grafana` 是仪表盘和可视化平台，用来展示指标、日志和告警数据；`vmalert` 是VictoriaMetrics 的告警规则执行组件；`API` 是应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 AIOps 扩展：
@@ -505,10 +505,10 @@ VictoriaMetrics query API
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>VictoriaMetrics query API</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; Python / pandas</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; machine learning anomaly score</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; LangGraph / RAG summary</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; incident evidence</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; Python / pandas</code> | 这一行要理解这些英文词：`Python` 是编程语言，常用于脚本、数据分析、机器学习和 AIOps 原型；`pandas` 是Python 数据分析库，常用于清洗、统计和处理表格数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; machine learning anomaly score</code> | 这一行要理解这些英文词：`machine learning anomaly score` 是learning=学习沉淀。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; LangGraph / RAG summary</code> | 这一行要理解这些英文词：`LangGraph` 是构建状态图和多步骤 Agent 工作流的 AI 应用框架；`RAG summary` 是summary=摘要。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; incident evidence</code> | 这一行要理解这些英文词：`incident evidence` 是evidence=证据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 ## 安装与启动
@@ -646,9 +646,9 @@ metrics
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>metrics</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; VictoriaMetrics</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; query / dashboard / alert rules</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; anomaly detection / RCA / capacity planning</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; VictoriaMetrics</code> | 这一行要理解这些英文词：`VictoriaMetrics` 是高性能时序数据库，常用于长期保存 Prometheus 指标。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; query / dashboard / alert rules</code> | 这一行要理解这些英文词：`query` 是查询；`dashboard` 是仪表盘，用图表集中展示指标、状态和趋势；`alert rules` 是alert=告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; anomaly detection / RCA / capacity planning</code> | 这一行要理解这些英文词：`anomaly detection` 是detection=发现或检测；`RCA` 是根因分析；`capacity planning` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 它给 AIOps 提供：

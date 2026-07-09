@@ -218,16 +218,16 @@ Linux 服务
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>Linux 服务</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; Prometheus 指标</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; VictoriaMetrics 长期指标</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; Grafana 仪表盘</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; Alertmanager 告警</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; Python / pandas 分析</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; 机器学习建模</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>  -&gt; scikit-learn 异常检测</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 9 行 | <code>  -&gt; FastAPI 暴露接口</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 10 行 | <code>  -&gt; LangChain / LangGraph / LLM / RAG 生成排障建议</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 11 行 | <code>  -&gt; GitHub 记录过程</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; Prometheus 指标</code> | 这一行要理解这些英文词：`Prometheus` 是指标监控系统。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; VictoriaMetrics 长期指标</code> | 这一行要理解这些英文词：`VictoriaMetrics` 是高性能时序数据库，常用于长期保存 Prometheus 指标。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; Grafana 仪表盘</code> | 这一行要理解这些英文词：`Grafana` 是仪表盘和可视化平台，用来展示指标、日志和告警数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; Alertmanager 告警</code> | 这一行要理解这些英文词：`Alertmanager` 是Prometheus 生态里的告警管理器。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; Python / pandas 分析</code> | 这一行要理解这些英文词：`Python` 是编程语言，常用于脚本、数据分析、机器学习和 AIOps 原型；`pandas` 是Python 数据分析库，常用于清洗、统计和处理表格数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; 机器学习建模</code> | 这一行表示上一级主题下的子项“机器学习建模”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
+| 第 8 行 | <code>  -&gt; scikit-learn 异常检测</code> | 这一行要理解这些英文词：`scikit-learn` 是Python 机器学习库，常用于分类、回归和异常检测。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>  -&gt; FastAPI 暴露接口</code> | 这一行要理解这些英文词：`FastAPI` 是Python Web API 框架，常用来写模型服务或运维接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>  -&gt; LangChain / LangGraph / LLM / RAG 生成排障建议</code> | 这一行要理解这些英文词：`LangChain` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`LangGraph` 是构建状态图和多步骤 Agent 工作流的 AI 应用框架；`LLM` 是大语言模型；`RAG` 是检索增强生成，让大模型回答前先检索知识库或历史资料。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>  -&gt; GitHub 记录过程</code> | 这一行要理解这些英文词：`GitHub` 是代码托管平台。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 这条链路打通后，再补 Kubernetes、OpenTelemetry、Loki、Ansible、Kafka、向量数据库和更完整的 SRE 流程。

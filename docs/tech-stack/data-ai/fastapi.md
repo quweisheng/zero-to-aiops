@@ -139,54 +139,54 @@ FastAPI
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>FastAPI</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; First Steps</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>     -&gt; FastAPI app</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>     -&gt; path operation decorator</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>     -&gt; path operation function</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>     -&gt; automatic docs</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; Parameters</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>     -&gt; path parameters</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 9 行 | <code>     -&gt; query parameters</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 10 行 | <code>     -&gt; request body</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 11 行 | <code>     -&gt; header / cookie</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 12 行 | <code>     -&gt; validation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 13 行 | <code>  -&gt; Response</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 14 行 | <code>     -&gt; return dict / list / Pydantic model</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 15 行 | <code>     -&gt; response_model</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 16 行 | <code>     -&gt; status_code</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 17 行 | <code>     -&gt; JSON serialization</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 18 行 | <code>  -&gt; Dependencies</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 19 行 | <code>     -&gt; Depends</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 20 行 | <code>     -&gt; shared query / auth / database session</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 21 行 | <code>     -&gt; nested dependencies</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 22 行 | <code>  -&gt; Error Handling</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 23 行 | <code>     -&gt; HTTPException</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 24 行 | <code>     -&gt; validation errors</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 25 行 | <code>     -&gt; custom exception handlers</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 26 行 | <code>  -&gt; Middleware</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 27 行 | <code>     -&gt; request before/after hook</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 28 行 | <code>     -&gt; logging</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 29 行 | <code>     -&gt; timing</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 30 行 | <code>     -&gt; CORS</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 31 行 | <code>  -&gt; Application Structure</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 32 行 | <code>     -&gt; APIRouter</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 33 行 | <code>     -&gt; multiple files</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 34 行 | <code>     -&gt; settings</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 35 行 | <code>     -&gt; startup/lifespan</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 36 行 | <code>  -&gt; Background Tasks</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 37 行 | <code>     -&gt; after-response work</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 38 行 | <code>     -&gt; small async follow-up</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 39 行 | <code>     -&gt; queue for heavy work</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 40 行 | <code>  -&gt; Testing</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 41 行 | <code>     -&gt; TestClient</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 42 行 | <code>     -&gt; dependency override</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 43 行 | <code>     -&gt; API contract tests</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 44 行 | <code>  -&gt; Deployment</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 45 行 | <code>     -&gt; fastapi dev</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 46 行 | <code>     -&gt; fastapi run</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 47 行 | <code>     -&gt; ASGI server</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 48 行 | <code>     -&gt; containers</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 49 行 | <code>     -&gt; HTTPS / proxy / workers</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; First Steps</code> | 这一行要理解这些英文词：`First Steps` 是steps=步骤。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>     -&gt; FastAPI app</code> | 这一行要理解这些英文词：`FastAPI app` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>     -&gt; path operation decorator</code> | 这一行要理解这些英文词：`path operation decorator` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>     -&gt; path operation function</code> | 这一行要理解这些英文词：`path operation function` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>     -&gt; automatic docs</code> | 这一行要理解这些英文词：`automatic docs` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; Parameters</code> | 这一行要理解这些英文词：`Parameters` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>     -&gt; path parameters</code> | 这一行要理解这些英文词：`path parameters` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>     -&gt; query parameters</code> | 这一行要理解这些英文词：`query parameters` 是query=查询。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>     -&gt; request body</code> | 这一行要理解这些英文词：`request body` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>     -&gt; header / cookie</code> | 这一行要理解这些英文词：`header` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`cookie` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 12 行 | <code>     -&gt; validation</code> | 这一行要理解这些英文词：`validation` 是校验，用规则检查输入、配置或结果是否正确。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 13 行 | <code>  -&gt; Response</code> | 这一行要理解这些英文词：`Response` 是响应处理。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 14 行 | <code>     -&gt; return dict / list / Pydantic model</code> | 这一行要理解这些英文词：`return dict` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`list` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`Pydantic model` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 15 行 | <code>     -&gt; response_model</code> | 这一行要理解这些英文词：`response_model` 是response=响应处理。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 16 行 | <code>     -&gt; status_code</code> | 这一行要理解这些英文词：`status_code` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 17 行 | <code>     -&gt; JSON serialization</code> | 这一行要理解这些英文词：`JSON serialization` 是json=结构化数据格式。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 18 行 | <code>  -&gt; Dependencies</code> | 这一行要理解这些英文词：`Dependencies` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 19 行 | <code>     -&gt; Depends</code> | 这一行要理解这些英文词：`Depends` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 20 行 | <code>     -&gt; shared query / auth / database session</code> | 这一行要理解这些英文词：`shared query` 是query=查询；`auth` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`database session` 是database=数据库。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 21 行 | <code>     -&gt; nested dependencies</code> | 这一行要理解这些英文词：`nested dependencies` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 22 行 | <code>  -&gt; Error Handling</code> | 这一行要理解这些英文词：`Error Handling` 是错误处理，任务失败时如何重试、跳过、回滚或报警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 23 行 | <code>     -&gt; HTTPException</code> | 这一行要理解这些英文词：`HTTPException` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 24 行 | <code>     -&gt; validation errors</code> | 这一行要理解这些英文词：`validation errors` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 25 行 | <code>     -&gt; custom exception handlers</code> | 这一行要理解这些英文词：`custom exception handlers` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 26 行 | <code>  -&gt; Middleware</code> | 这一行要理解这些英文词：`Middleware` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 27 行 | <code>     -&gt; request before/after hook</code> | 这一行要理解这些英文词：`request before` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`after hook` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 28 行 | <code>     -&gt; logging</code> | 这一行要理解这些英文词：`logging` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 29 行 | <code>     -&gt; timing</code> | 这一行要理解这些英文词：`timing` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 30 行 | <code>     -&gt; CORS</code> | 这一行要理解这些英文词：`CORS` 是英文缩写或固定标识，结合本节上下文记住它代表的组件、命令或状态。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 31 行 | <code>  -&gt; Application Structure</code> | 这一行要理解这些英文词：`Application Structure` 是structure=结构。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 32 行 | <code>     -&gt; APIRouter</code> | 这一行要理解这些英文词：`APIRouter` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 33 行 | <code>     -&gt; multiple files</code> | 这一行要理解这些英文词：`multiple files` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 34 行 | <code>     -&gt; settings</code> | 这一行要理解这些英文词：`settings` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 35 行 | <code>     -&gt; startup/lifespan</code> | 这一行要理解这些英文词：`startup` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`lifespan` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 36 行 | <code>  -&gt; Background Tasks</code> | 这一行要理解这些英文词：`Background Tasks` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 37 行 | <code>     -&gt; after-response work</code> | 这一行要理解这些英文词：`after-response work` 是response=响应处理。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 38 行 | <code>     -&gt; small async follow-up</code> | 这一行要理解这些英文词：`small async follow-up` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 39 行 | <code>     -&gt; queue for heavy work</code> | 这一行要理解这些英文词：`queue for heavy work` 是queue=消息队列。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 40 行 | <code>  -&gt; Testing</code> | 这一行要理解这些英文词：`Testing` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 41 行 | <code>     -&gt; TestClient</code> | 这一行要理解这些英文词：`TestClient` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 42 行 | <code>     -&gt; dependency override</code> | 这一行要理解这些英文词：`dependency override` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 43 行 | <code>     -&gt; API contract tests</code> | 这一行要理解这些英文词：`API contract tests` 是api=应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 44 行 | <code>  -&gt; Deployment</code> | 这一行要理解这些英文词：`Deployment` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 45 行 | <code>     -&gt; fastapi dev</code> | 这一行要理解这些英文词：`fastapi dev` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 46 行 | <code>     -&gt; fastapi run</code> | 这一行要理解这些英文词：`fastapi run` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 47 行 | <code>     -&gt; ASGI server</code> | 这一行要理解这些英文词：`ASGI server` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 48 行 | <code>     -&gt; containers</code> | 这一行要理解这些英文词：`containers` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 49 行 | <code>     -&gt; HTTPS / proxy / workers</code> | 这一行要理解这些英文词：`HTTPS` 是英文缩写或固定标识，结合本节上下文记住它代表的组件、命令或状态；`proxy` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`workers` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 初学路线：
@@ -209,15 +209,15 @@ first API
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>first API</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; path/query/body</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; Pydantic model</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; response_model</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; HTTPException</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; Depends</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; APIRouter</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>  -&gt; TestClient</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 9 行 | <code>  -&gt; Docker / health check</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 10 行 | <code>  -&gt; AIOps alert API</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; path/query/body</code> | 这一行要理解这些英文词：`path` 是路径，表示文件、URL 或请求的位置；`query` 是查询；`body` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; Pydantic model</code> | 这一行要理解这些英文词：`Pydantic model` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; response_model</code> | 这一行要理解这些英文词：`response_model` 是response=响应处理。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; HTTPException</code> | 这一行要理解这些英文词：`HTTPException` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; Depends</code> | 这一行要理解这些英文词：`Depends` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; APIRouter</code> | 这一行要理解这些英文词：`APIRouter` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; TestClient</code> | 这一行要理解这些英文词：`TestClient` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>  -&gt; Docker / health check</code> | 这一行要理解这些英文词：`Docker` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`health check` 是check=检查。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>  -&gt; AIOps alert API</code> | 这一行要理解这些英文词：`AIOps alert API` 是aiops=智能运维，alert=告警，api=应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 不要一上来就纠结微服务、网关、服务网格和复杂鉴权。先把请求怎么进来、数据怎么校验、函数怎么调用、响应怎么返回讲清楚。
@@ -246,17 +246,17 @@ Alertmanager / Grafana / script / frontend / CI
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>Alertmanager / Grafana / script / frontend / CI</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; FastAPI</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>      -&gt; validate request</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>      -&gt; authenticate caller</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>      -&gt; deduplicate alert with Redis</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>      -&gt; store event in MySQL</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>      -&gt; publish message to Kafka</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>      -&gt; call pandas / scikit-learn model</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 9 行 | <code>      -&gt; call LLM / RAG service</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 10 行 | <code>      -&gt; trigger runbook automation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 11 行 | <code>  -&gt; JSON response</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 12 行 | <code>  -&gt; OpenAPI contract</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; FastAPI</code> | 这一行要理解这些英文词：`FastAPI` 是Python Web API 框架，常用来写模型服务或运维接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>      -&gt; validate request</code> | 这一行要理解这些英文词：`validate request` 是validate=校验。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>      -&gt; authenticate caller</code> | 这一行要理解这些英文词：`authenticate caller` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>      -&gt; deduplicate alert with Redis</code> | 这一行要理解这些英文词：`deduplicate alert with Redis` 是alert=告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>      -&gt; store event in MySQL</code> | 这一行要理解这些英文词：`store event in MySQL` 是mysql=MySQL 数据库或客户端命令。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>      -&gt; publish message to Kafka</code> | 这一行要理解这些英文词：`publish message to Kafka` 是kafka=消息流平台。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>      -&gt; call pandas / scikit-learn model</code> | 这一行要理解这些英文词：`call pandas` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`scikit-learn model` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>      -&gt; call LLM / RAG service</code> | 这一行要理解这些英文词：`call LLM` 是llm=大语言模型；`RAG service` 是service=服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>      -&gt; trigger runbook automation</code> | 这一行要理解这些英文词：`trigger runbook automation` 是runbook=故障处理手册，automation=自动化。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>  -&gt; JSON response</code> | 这一行要理解这些英文词：`JSON response` 是json=结构化数据格式，response=响应处理。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 12 行 | <code>  -&gt; OpenAPI contract</code> | 这一行要理解这些英文词：`OpenAPI contract` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 它不应该承担所有职责。
@@ -292,12 +292,12 @@ client
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>client</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; Uvicorn</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>      -&gt; ASGI</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>          -&gt; Starlette</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>              -&gt; FastAPI</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>                  -&gt; Pydantic</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>                      -&gt; your function</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; Uvicorn</code> | 这一行要理解这些英文词：`Uvicorn` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>      -&gt; ASGI</code> | 这一行要理解这些英文词：`ASGI` 是英文缩写或固定标识，结合本节上下文记住它代表的组件、命令或状态。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>          -&gt; Starlette</code> | 这一行要理解这些英文词：`Starlette` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>              -&gt; FastAPI</code> | 这一行要理解这些英文词：`FastAPI` 是Python Web API 框架，常用来写模型服务或运维接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>                  -&gt; Pydantic</code> | 这一行要理解这些英文词：`Pydantic` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>                      -&gt; your function</code> | 这一行要理解这些英文词：`your function` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 ### FastAPI
@@ -1080,11 +1080,11 @@ JSON body
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>JSON body</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; Pydantic model</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; type conversion</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; validation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; Python object</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; your function</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; Pydantic model</code> | 这一行要理解这些英文词：`Pydantic model` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; type conversion</code> | 这一行要理解这些英文词：`type conversion` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; validation</code> | 这一行要理解这些英文词：`validation` 是校验，用规则检查输入、配置或结果是否正确。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; Python object</code> | 这一行要理解这些英文词：`Python object` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; your function</code> | 这一行要理解这些英文词：`your function` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 如果 `metric_value` 传成不能转换为数字的字符串，就会返回 422。
@@ -1628,12 +1628,12 @@ client polls result API
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>FastAPI receives request</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; stores request metadata</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; publishes job to Kafka / Redis / queue</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; returns 202</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; stores request metadata</code> | 这一行要理解这些英文词：`stores request metadata` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; publishes job to Kafka / Redis / queue</code> | 这一行要理解这些英文词：`publishes job to Kafka` 是kafka=消息流平台；`Redis` 是内存数据库，常用于缓存、队列、限流和状态存储；`queue` 是消息队列。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; returns 202</code> | 这一行要理解这些英文词：`returns` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 5 行 | <code>worker consumes job</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 6 行 | <code>  -&gt; runs analysis</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; stores result</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; runs analysis</code> | 这一行要理解这些英文词：`runs analysis` 是analysis=分析。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; stores result</code> | 这一行要理解这些英文词：`stores result` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 8 行 | <code>client polls result API</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 
 
@@ -2405,13 +2405,13 @@ receive webhook
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>receive webhook</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; validate</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; normalize labels</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; generate fingerprint</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; deduplicate with Redis</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; store raw event</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; enqueue analysis job</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>  -&gt; return 202</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; validate</code> | 这一行要理解这些英文词：`validate` 是校验。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; normalize labels</code> | 这一行要理解这些英文词：`normalize labels` 是labels=标签。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; generate fingerprint</code> | 这一行要理解这些英文词：`generate fingerprint` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; deduplicate with Redis</code> | 这一行要理解这些英文词：`deduplicate with Redis` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; store raw event</code> | 这一行要理解这些英文词：`store raw event` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; enqueue analysis job</code> | 这一行要理解这些英文词：`enqueue analysis job` 是analysis=分析。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; return 202</code> | 这一行要理解这些英文词：`return` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 不要在 webhook 请求里直接做长时间根因分析。Alertmanager 希望 webhook 接收方尽快响应。
@@ -2444,9 +2444,9 @@ received
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>received</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; queued</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; analyzing</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; completed</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; queued</code> | 这一行要理解这些英文词：`queued` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; analyzing</code> | 这一行要理解这些英文词：`analyzing` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; completed</code> | 这一行要理解这些英文词：`completed` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 或：
@@ -2462,8 +2462,8 @@ received
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>received</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; queued</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; failed</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; queued</code> | 这一行要理解这些英文词：`queued` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; failed</code> | 这一行要理解这些英文词：`failed` 是失败。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 响应要让调用方知道“现在处于哪一步”，不要只返回一句 `ok`。
@@ -2981,15 +2981,15 @@ model code
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>router</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; parse HTTP request</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; call service</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; parse HTTP request</code> | 这一行要理解这些英文词：`parse HTTP request` 是http=超文本传输协议。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; call service</code> | 这一行要理解这些英文词：`call service` 是service=服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 4 行 | <code>service</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 5 行 | <code>  -&gt; business logic</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; call repository / client / model</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; business logic</code> | 这一行要理解这些英文词：`business logic` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; call repository / client / model</code> | 这一行要理解这些英文词：`call repository` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`client` 是客户端；`model` 是模型，机器学习或 AI 中用来做预测、分类或生成的算法对象。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 7 行 | <code>repository</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 8 行 | <code>  -&gt; MySQL / Redis / Kafka / file</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 8 行 | <code>  -&gt; MySQL / Redis / Kafka / file</code> | 这一行要理解这些英文词：`MySQL` 是MySQL 数据库或客户端命令；`Redis` 是内存数据库，常用于缓存、队列、限流和状态存储；`Kafka` 是消息流平台；`file` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 9 行 | <code>model code</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 10 行 | <code>  -&gt; pandas / scikit-learn / LLM</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 10 行 | <code>  -&gt; pandas / scikit-learn / LLM</code> | 这一行要理解这些英文词：`pandas` 是Python 数据分析库，常用于清洗、统计和处理表格数据；`scikit-learn` 是Python 机器学习库，常用于分类、回归和异常检测；`LLM` 是大语言模型。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 ### MySQL
@@ -3037,9 +3037,9 @@ FastAPI request
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>FastAPI request</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; load features</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; call model.predict</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; return score / label / explanation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; load features</code> | 这一行要理解这些英文词：`load features` 是load=加载。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; call model.predict</code> | 这一行要理解这些英文词：`call model.predict` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; return score / label / explanation</code> | 这一行要理解这些英文词：`return score` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`label` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`explanation` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 但要注意：
@@ -3275,9 +3275,9 @@ POST /alerts
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>POST /alerts</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; Redis dedup</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; MySQL insert</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; Kafka publish</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; Redis dedup</code> | 这一行要理解这些英文词：`Redis dedup` 是dedup=去重。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; MySQL insert</code> | 这一行要理解这些英文词：`MySQL insert` 是mysql=MySQL 数据库或客户端命令。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; Kafka publish</code> | 这一行要理解这些英文词：`Kafka publish` 是kafka=消息流平台。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 FastAPI 不是只负责“被调用”，它自己也要给 SRE 留证据。

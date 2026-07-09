@@ -61,10 +61,25 @@ function countExplanationRows(lines, startIndex) {
 }
 
 const failures = []
+const bannedExplanationFragments = [
+  '流程箭头，表示数据、请求或排障步骤从左边流向右边。',
+  '从左边流向右边',
+]
 
 for (const file of walkMarkdownFiles(docsRoot)) {
   const text = fs.readFileSync(file, 'utf8')
   const lines = text.split(/\r?\n/)
+
+  for (const banned of bannedExplanationFragments) {
+    const index = text.indexOf(banned)
+    if (index !== -1) {
+      failures.push({
+        file,
+        line: text.slice(0, index).split(/\r?\n/).length,
+        reason: `banned generic arrow explanation: ${banned}`,
+      })
+    }
+  }
 
   for (let i = 0; i < lines.length; i++) {
     const fence = parseFence(lines[i])

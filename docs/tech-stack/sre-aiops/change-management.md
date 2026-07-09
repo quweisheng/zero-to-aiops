@@ -115,47 +115,47 @@ Change
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>Change</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; request</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>     -&gt; what changes</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>     -&gt; why</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>     -&gt; owner</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>     -&gt; planned window</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; risk assessment</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>     -&gt; user impact</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 9 行 | <code>     -&gt; blast radius</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 10 行 | <code>     -&gt; reversibility</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 11 行 | <code>     -&gt; dependency</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 12 行 | <code>     -&gt; data migration</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 13 行 | <code>  -&gt; review / gates</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 14 行 | <code>     -&gt; code review</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 15 行 | <code>     -&gt; tests</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 16 行 | <code>     -&gt; security</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 17 行 | <code>     -&gt; SLO / error budget</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 18 行 | <code>     -&gt; approval</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 19 行 | <code>  -&gt; release engineering</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 20 行 | <code>     -&gt; reproducible build</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 21 行 | <code>     -&gt; artifact</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 22 行 | <code>     -&gt; version</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 23 行 | <code>     -&gt; config snapshot</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 24 行 | <code>     -&gt; deployment plan</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 25 行 | <code>  -&gt; rollout</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 26 行 | <code>     -&gt; canary</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 27 行 | <code>     -&gt; rolling</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 28 行 | <code>     -&gt; blue-green</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 29 行 | <code>     -&gt; feature flag</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 30 行 | <code>  -&gt; verification</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 31 行 | <code>     -&gt; SLI / SLO</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 32 行 | <code>     -&gt; errors</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 33 行 | <code>     -&gt; latency</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 34 行 | <code>     -&gt; traffic</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 35 行 | <code>     -&gt; saturation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 36 行 | <code>     -&gt; business metrics</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 37 行 | <code>  -&gt; rollback / roll-forward</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 38 行 | <code>  -&gt; record</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 39 行 | <code>     -&gt; timeline</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 40 行 | <code>     -&gt; result</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 41 行 | <code>     -&gt; incident link</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 42 行 | <code>  -&gt; AIOps correlation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; request</code> | 这一行要理解这些英文词：`request` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>     -&gt; what changes</code> | 这一行要理解这些英文词：`what changes` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>     -&gt; why</code> | 这一行要理解这些英文词：`why` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>     -&gt; owner</code> | 这一行要理解这些英文词：`owner` 是负责人。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>     -&gt; planned window</code> | 这一行要理解这些英文词：`planned window` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; risk assessment</code> | 这一行要理解这些英文词：`risk assessment` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>     -&gt; user impact</code> | 这一行要理解这些英文词：`user impact` 是impact=影响范围。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>     -&gt; blast radius</code> | 这一行要理解这些英文词：`blast radius` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>     -&gt; reversibility</code> | 这一行要理解这些英文词：`reversibility` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>     -&gt; dependency</code> | 这一行要理解这些英文词：`dependency` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 12 行 | <code>     -&gt; data migration</code> | 这一行要理解这些英文词：`data migration` 是data=数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 13 行 | <code>  -&gt; review / gates</code> | 这一行要理解这些英文词：`review` 是复盘或评审；`gates` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 14 行 | <code>     -&gt; code review</code> | 这一行要理解这些英文词：`code review` 是review=复盘或评审。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 15 行 | <code>     -&gt; tests</code> | 这一行要理解这些英文词：`tests` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 16 行 | <code>     -&gt; security</code> | 这一行要理解这些英文词：`security` 是安全，涉及认证、授权、加密和访问控制。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 17 行 | <code>     -&gt; SLO / error budget</code> | 这一行要理解这些英文词：`SLO` 是服务等级目标；`error budget` 是error=错误。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 18 行 | <code>     -&gt; approval</code> | 这一行要理解这些英文词：`approval` 是审批，表示需要人工确认后才能继续执行。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 19 行 | <code>  -&gt; release engineering</code> | 这一行要理解这些英文词：`release engineering` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 20 行 | <code>     -&gt; reproducible build</code> | 这一行要理解这些英文词：`reproducible build` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 21 行 | <code>     -&gt; artifact</code> | 这一行要理解这些英文词：`artifact` 是构建产物，例如打包后的文件、镜像或部署包。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 22 行 | <code>     -&gt; version</code> | 这一行要理解这些英文词：`version` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 23 行 | <code>     -&gt; config snapshot</code> | 这一行要理解这些英文词：`config snapshot` 是config=配置。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 24 行 | <code>     -&gt; deployment plan</code> | 这一行要理解这些英文词：`deployment plan` 是plan=执行计划。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 25 行 | <code>  -&gt; rollout</code> | 这一行要理解这些英文词：`rollout` 是滚动发布，把新版本逐步发布到实例或节点。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 26 行 | <code>     -&gt; canary</code> | 这一行要理解这些英文词：`canary` 是金丝雀发布，先让少量流量使用新版本以降低风险。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 27 行 | <code>     -&gt; rolling</code> | 这一行要理解这些英文词：`rolling` 是滚动更新，分批替换实例以降低发布风险。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 28 行 | <code>     -&gt; blue-green</code> | 这一行要理解这些英文词：`blue-green` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 29 行 | <code>     -&gt; feature flag</code> | 这一行要理解这些英文词：`feature flag` 是功能开关，用来控制某个功能是否启用。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 30 行 | <code>  -&gt; verification</code> | 这一行要理解这些英文词：`verification` 是验证，确认操作结果真的符合预期。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 31 行 | <code>     -&gt; SLI / SLO</code> | 这一行要理解这些英文词：`SLI` 是英文缩写或固定标识，结合本节上下文记住它代表的组件、命令或状态；`SLO` 是服务等级目标。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 32 行 | <code>     -&gt; errors</code> | 这一行要理解这些英文词：`errors` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 33 行 | <code>     -&gt; latency</code> | 这一行要理解这些英文词：`latency` 是延迟。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 34 行 | <code>     -&gt; traffic</code> | 这一行要理解这些英文词：`traffic` 是流量。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 35 行 | <code>     -&gt; saturation</code> | 这一行要理解这些英文词：`saturation` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 36 行 | <code>     -&gt; business metrics</code> | 这一行要理解这些英文词：`business metrics` 是metrics=指标。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 37 行 | <code>  -&gt; rollback / roll-forward</code> | 这一行要理解这些英文词：`rollback` 是回滚；`roll-forward` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 38 行 | <code>  -&gt; record</code> | 这一行要理解这些英文词：`record` 是记录，表示数据库、日志或事件中的一条数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 39 行 | <code>     -&gt; timeline</code> | 这一行要理解这些英文词：`timeline` 是时间线。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 40 行 | <code>     -&gt; result</code> | 这一行要理解这些英文词：`result` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 41 行 | <code>     -&gt; incident link</code> | 这一行要理解这些英文词：`incident link` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 42 行 | <code>  -&gt; AIOps correlation</code> | 这一行要理解这些英文词：`AIOps correlation` 是aiops=智能运维。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 初学路线：
@@ -176,13 +176,13 @@ write change record
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>write change record</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; classify risk</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; define verification metrics</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; define rollback plan</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; deploy with canary / rolling</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; observe SLO</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; record result</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>  -&gt; link to incident if failed</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; classify risk</code> | 这一行要理解这些英文词：`classify risk` 是classify=分类。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; define verification metrics</code> | 这一行要理解这些英文词：`define verification metrics` 是metrics=指标。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; define rollback plan</code> | 这一行要理解这些英文词：`define rollback plan` 是rollback=回滚，plan=执行计划。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; deploy with canary / rolling</code> | 这一行要理解这些英文词：`deploy with canary` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`rolling` 是滚动更新，分批替换实例以降低发布风险。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; observe SLO</code> | 这一行要理解这些英文词：`observe SLO` 是slo=服务等级目标。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; record result</code> | 这一行要理解这些英文词：`record result` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; link to incident if failed</code> | 这一行要理解这些英文词：`link to incident if failed` 是failed=失败。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 ## 变更不只是代码发布
@@ -509,7 +509,7 @@ green: 新版本
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>少量流量 -&gt; 观察 -&gt; 扩大流量 -&gt; 全量</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 1 行 | <code>少量流量 -&gt; 观察 -&gt; 扩大流量 -&gt; 全量</code> | 这一行表示上一级主题下的子项“少量流量 观察 扩大流量 全量”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
 
 
 优点：
@@ -706,10 +706,10 @@ incident starts at 09:10
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>incident starts at 09:10</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; look back 30 minutes</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; change at 09:02</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; compare metrics before and after</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; add change as root cause candidate</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; look back 30 minutes</code> | 这一行要理解这些英文词：`look back` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`minutes` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; change at 09:02</code> | 这一行要理解这些英文词：`change at` 是change=变更。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; compare metrics before and after</code> | 这一行要理解这些英文词：`compare metrics before and after` 是metrics=指标。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; add change as root cause candidate</code> | 这一行要理解这些英文词：`add change as root cause candidate` 是change=变更，root=根因或根模块。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 AIOps 可以做：

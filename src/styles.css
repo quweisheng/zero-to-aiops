@@ -15,13 +15,19 @@
   --display: "IBM Plex Sans", "Microsoft YaHei UI", system-ui, sans-serif;
   --pointer-x: 72vw;
   --pointer-y: 28vh;
-  --pointer-angle: -28deg;
   --pointer-speed: 0;
-  --pointer-core-opacity: 0.58;
-  --pointer-trail-opacity: 0.14;
-  --pointer-trail-scale: 0.56;
-  --cursor-tech: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M5 3L24 16L15.6 18.3L11.4 28L5 3Z' fill='%2338c99e' stroke='%23eafff7' stroke-width='1.35' stroke-linejoin='round'/%3E%3Cpath d='M15.6 18.3L22 25.5' stroke='%230b2019' stroke-width='2.1' stroke-linecap='round'/%3E%3Cpath d='M18.2 8.2H27M23.1 4.1V12.3' stroke='%23eafff7' stroke-width='1.35' stroke-linecap='round'/%3E%3Ccircle cx='23.1' cy='8.2' r='2.15' fill='%23eafff7'/%3E%3C/svg%3E") 5 3, crosshair;
-  --cursor-tech-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M5 3L24 16L15.6 18.3L11.4 28L5 3Z' fill='%237de0bd' stroke='%23ffffff' stroke-width='1.45' stroke-linejoin='round'/%3E%3Cpath d='M15.6 18.3L22 25.5' stroke='%230b2019' stroke-width='2.15' stroke-linecap='round'/%3E%3Cpath d='M18.2 8.2H27M23.1 4.1V12.3' stroke='%23ffffff' stroke-width='1.4' stroke-linecap='round'/%3E%3Ccircle cx='23.1' cy='8.2' r='2.25' fill='%23ffffff'/%3E%3C/svg%3E") 5 3, pointer;
+  --cursor-size: 46px;
+  --cursor-radius: 10px;
+  --cursor-fill: 0;
+  --cursor-border: 2px;
+  --cursor-motion-scale: 1;
+}
+
+:root[data-cursor='hover'] {
+  --cursor-size: 72px;
+  --cursor-radius: 16px;
+  --cursor-fill: 1;
+  --cursor-border: 1px;
 }
 
 :root[data-theme='dark'] {
@@ -60,7 +66,6 @@ body {
   font-size: 16px;
   line-height: 1.58;
   letter-spacing: 0;
-  cursor: var(--cursor-tech);
 }
 
 .app-shell {
@@ -72,65 +77,38 @@ body {
 .cursor-trace {
   position: fixed;
   inset: 0;
-  z-index: 0;
+  z-index: 80;
   pointer-events: none;
-  background:
-    radial-gradient(
-      170px circle at var(--pointer-x) var(--pointer-y),
-      color-mix(in srgb, var(--accent) 10%, transparent),
-      transparent 62%
-    ),
-    radial-gradient(
-      260px circle at calc(var(--pointer-x) - 5vw) calc(var(--pointer-y) + 7vh),
-      color-mix(in srgb, var(--warn) 3%, transparent),
-      transparent 74%
-    );
-  opacity: 0.64;
-  will-change: background;
+  mix-blend-mode: difference;
 }
 
 .cursor-trace::before {
   position: fixed;
   left: var(--pointer-x);
   top: var(--pointer-y);
-  width: 6px;
-  height: 6px;
-  border-radius: 999px;
-  background:
-    radial-gradient(circle, white 0 20%, transparent 22%),
-    radial-gradient(circle, color-mix(in srgb, var(--accent-strong) 96%, white) 0 100%);
-  box-shadow:
-    0 0 8px color-mix(in srgb, var(--accent) 34%, transparent),
-    0 0 18px color-mix(in srgb, var(--accent) 16%, transparent);
+  width: var(--cursor-size);
+  height: var(--cursor-size);
+  border: var(--cursor-border) solid white;
+  border-radius: var(--cursor-radius);
+  background: rgb(255 255 255 / var(--cursor-fill));
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 14%);
   content: "";
-  opacity: var(--pointer-core-opacity);
-  transform: translate(-50%, -50%);
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(var(--cursor-motion-scale));
+  transform-origin: 100% 100%;
+  transition:
+    width 180ms ease,
+    height 180ms ease,
+    border-color 180ms ease,
+    border-radius 180ms ease,
+    border-width 180ms ease,
+    background 180ms ease,
+    opacity 180ms ease;
+  will-change: transform, width, height;
 }
 
-.cursor-trace::after {
-  position: fixed;
-  left: var(--pointer-x);
-  top: var(--pointer-y);
-  width: 116px;
-  height: 12px;
-  border-radius: 999px;
-  background:
-    linear-gradient(
-      90deg,
-      transparent 0%,
-      color-mix(in srgb, var(--accent) 0%, transparent) 30%,
-      color-mix(in srgb, var(--accent) 18%, transparent) 62%,
-      color-mix(in srgb, var(--accent-strong) 60%, white) 86%,
-      white 100%
-    ),
-    radial-gradient(circle at 100% 50%, white 0 2px, transparent 3.5px);
-  clip-path: polygon(0 48%, 68% 36%, 100% 50%, 68% 64%, 0 52%);
-  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--accent) 24%, transparent));
-  content: "";
-  opacity: var(--pointer-trail-opacity);
-  transform: translate(-100%, -50%) rotate(var(--pointer-angle)) scaleX(var(--pointer-trail-scale));
-  transform-origin: 100% 50%;
-  will-change: transform, opacity, filter;
+:root[data-cursor='hidden'] .cursor-trace::before {
+  opacity: 0;
 }
 
 main {
@@ -157,12 +135,22 @@ a,
 button,
 .button,
 .theme-button {
-  cursor: var(--cursor-tech-pointer);
+  cursor: pointer;
 }
 
 input,
 textarea {
   cursor: text;
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  body,
+  a,
+  button,
+  .button,
+  .theme-button {
+    cursor: none;
+  }
 }
 
 :focus-visible {

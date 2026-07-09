@@ -61,12 +61,12 @@ Alertmanager -> MySQL 写入服务
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>Alertmanager -&gt; 通知服务</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 2 行 | <code>Alertmanager -&gt; 事故服务</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>Alertmanager -&gt; LLM 分析服务</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>Alertmanager -&gt; MySQL 写入服务</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>日志服务 -&gt; LLM 分析服务</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>发布系统 -&gt; 事故服务</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 1 行 | <code>Alertmanager -&gt; 通知服务</code> | 这一行要理解这些英文词：`Alertmanager` 是Prometheus 生态里的告警管理器。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 2 行 | <code>Alertmanager -&gt; 事故服务</code> | 这一行要理解这些英文词：`Alertmanager` 是Prometheus 生态里的告警管理器。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>Alertmanager -&gt; LLM 分析服务</code> | 这一行要理解这些英文词：`Alertmanager` 是Prometheus 生态里的告警管理器；`LLM` 是大语言模型。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>Alertmanager -&gt; MySQL 写入服务</code> | 这一行要理解这些英文词：`Alertmanager` 是Prometheus 生态里的告警管理器；`MySQL` 是MySQL 数据库或客户端命令。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>日志服务 -&gt; LLM 分析服务</code> | 这一行要理解这些英文词：`LLM` 是大语言模型。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>发布系统 -&gt; 事故服务</code> | 这一行表示上一级主题下的子项“发布系统 事故服务”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
 | 第 7 行 | <code>...</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 
 
@@ -91,8 +91,8 @@ producers
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>producers</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; Kafka topics</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; many independent consumer groups</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; Kafka topics</code> | 这一行要理解这些英文词：`Kafka topics` 是kafka=消息流平台。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; many independent consumer groups</code> | 这一行要理解这些英文词：`many independent consumer groups` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 生产者只负责写事件。消费者按自己的节奏读事件。多个系统可以独立消费同一批事件。
@@ -175,52 +175,52 @@ Apache Kafka
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>Apache Kafka</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; Get Started</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>     -&gt; Introduction</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>     -&gt; Quickstart</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>     -&gt; Use Cases</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>     -&gt; KRaft vs ZooKeeper</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>     -&gt; Docker</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>  -&gt; Core Concepts</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 9 行 | <code>     -&gt; event / record / message</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 10 行 | <code>     -&gt; topic</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 11 行 | <code>     -&gt; partition</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 12 行 | <code>     -&gt; offset</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 13 行 | <code>     -&gt; producer</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 14 行 | <code>     -&gt; consumer</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 15 行 | <code>     -&gt; consumer group</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 16 行 | <code>     -&gt; broker</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 17 行 | <code>     -&gt; replication</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 18 行 | <code>     -&gt; retention</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 19 行 | <code>  -&gt; APIs</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 20 行 | <code>     -&gt; Admin API</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 21 行 | <code>     -&gt; Producer API</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 22 行 | <code>     -&gt; Consumer API</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 23 行 | <code>     -&gt; Kafka Streams API</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 24 行 | <code>     -&gt; Kafka Connect API</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 25 行 | <code>  -&gt; Configuration</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 26 行 | <code>     -&gt; broker configs</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 27 行 | <code>     -&gt; topic configs</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 28 行 | <code>     -&gt; producer configs</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 29 行 | <code>     -&gt; consumer configs</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 30 行 | <code>     -&gt; group configs</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 31 行 | <code>  -&gt; Operations</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 32 行 | <code>     -&gt; topic operations</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 33 行 | <code>     -&gt; partitions</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 34 行 | <code>     -&gt; graceful shutdown</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 35 行 | <code>     -&gt; monitoring</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 36 行 | <code>     -&gt; KRaft</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 37 行 | <code>     -&gt; tiered storage</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 38 行 | <code>     -&gt; rebalance protocol</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 39 行 | <code>  -&gt; Security</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 40 行 | <code>     -&gt; listeners</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 41 行 | <code>     -&gt; TLS / SSL</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 42 行 | <code>     -&gt; SASL</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 43 行 | <code>     -&gt; ACL</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 44 行 | <code>  -&gt; Ecosystem</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 45 行 | <code>     -&gt; Kafka Connect</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 46 行 | <code>     -&gt; Kafka Streams</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 47 行 | <code>     -&gt; clients</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; Get Started</code> | 这一行要理解这些英文词：`Get Started` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>     -&gt; Introduction</code> | 这一行要理解这些英文词：`Introduction` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>     -&gt; Quickstart</code> | 这一行要理解这些英文词：`Quickstart` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>     -&gt; Use Cases</code> | 这一行要理解这些英文词：`Use Cases` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>     -&gt; KRaft vs ZooKeeper</code> | 这一行要理解这些英文词：`KRaft vs ZooKeeper` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>     -&gt; Docker</code> | 这一行要理解这些英文词：`Docker` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; Core Concepts</code> | 这一行要理解这些英文词：`Core Concepts` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>     -&gt; event / record / message</code> | 这一行要理解这些英文词：`event` 是事件，表示系统中发生的一次状态变化；`record` 是记录，表示数据库、日志或事件中的一条数据；`message` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>     -&gt; topic</code> | 这一行要理解这些英文词：`topic` 是主题，Kafka 中承载一类消息流的逻辑名称。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>     -&gt; partition</code> | 这一行要理解这些英文词：`partition` 是分区，把数据或消息拆到不同片段中保存和处理。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 12 行 | <code>     -&gt; offset</code> | 这一行要理解这些英文词：`offset` 是偏移量，常用于 Kafka 表示消息在分区中的位置。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 13 行 | <code>     -&gt; producer</code> | 这一行要理解这些英文词：`producer` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 14 行 | <code>     -&gt; consumer</code> | 这一行要理解这些英文词：`consumer` 是消费者，从消息队列或流系统里读取消息的程序。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 15 行 | <code>     -&gt; consumer group</code> | 这一行要理解这些英文词：`consumer group` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 16 行 | <code>     -&gt; broker</code> | 这一行要理解这些英文词：`broker` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 17 行 | <code>     -&gt; replication</code> | 这一行要理解这些英文词：`replication` 是复制，把数据同步到副本以提高可靠性或读性能。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 18 行 | <code>     -&gt; retention</code> | 这一行要理解这些英文词：`retention` 是保留周期，决定数据保存多久。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 19 行 | <code>  -&gt; APIs</code> | 这一行要理解这些英文词：`APIs` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 20 行 | <code>     -&gt; Admin API</code> | 这一行要理解这些英文词：`Admin API` 是api=应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 21 行 | <code>     -&gt; Producer API</code> | 这一行要理解这些英文词：`Producer API` 是api=应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 22 行 | <code>     -&gt; Consumer API</code> | 这一行要理解这些英文词：`Consumer API` 是api=应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 23 行 | <code>     -&gt; Kafka Streams API</code> | 这一行要理解这些英文词：`Kafka Streams API` 是kafka=消息流平台，api=应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 24 行 | <code>     -&gt; Kafka Connect API</code> | 这一行要理解这些英文词：`Kafka Connect API` 是kafka=消息流平台，connect=连接，api=应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 25 行 | <code>  -&gt; Configuration</code> | 这一行要理解这些英文词：`Configuration` 是配置。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 26 行 | <code>     -&gt; broker configs</code> | 这一行要理解这些英文词：`broker configs` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 27 行 | <code>     -&gt; topic configs</code> | 这一行要理解这些英文词：`topic configs` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 28 行 | <code>     -&gt; producer configs</code> | 这一行要理解这些英文词：`producer configs` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 29 行 | <code>     -&gt; consumer configs</code> | 这一行要理解这些英文词：`consumer configs` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 30 行 | <code>     -&gt; group configs</code> | 这一行要理解这些英文词：`group configs` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 31 行 | <code>  -&gt; Operations</code> | 这一行要理解这些英文词：`Operations` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 32 行 | <code>     -&gt; topic operations</code> | 这一行要理解这些英文词：`topic operations` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 33 行 | <code>     -&gt; partitions</code> | 这一行要理解这些英文词：`partitions` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 34 行 | <code>     -&gt; graceful shutdown</code> | 这一行要理解这些英文词：`graceful shutdown` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 35 行 | <code>     -&gt; monitoring</code> | 这一行要理解这些英文词：`monitoring` 是监控。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 36 行 | <code>     -&gt; KRaft</code> | 这一行要理解这些英文词：`KRaft` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 37 行 | <code>     -&gt; tiered storage</code> | 这一行要理解这些英文词：`tiered storage` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 38 行 | <code>     -&gt; rebalance protocol</code> | 这一行要理解这些英文词：`rebalance protocol` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 39 行 | <code>  -&gt; Security</code> | 这一行要理解这些英文词：`Security` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 40 行 | <code>     -&gt; listeners</code> | 这一行要理解这些英文词：`listeners` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 41 行 | <code>     -&gt; TLS / SSL</code> | 这一行要理解这些英文词：`TLS` 是加密传输协议，保护 HTTPS 等连接的安全；`SSL` 是英文缩写或固定标识，结合本节上下文记住它代表的组件、命令或状态。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 42 行 | <code>     -&gt; SASL</code> | 这一行要理解这些英文词：`SASL` 是英文缩写或固定标识，结合本节上下文记住它代表的组件、命令或状态。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 43 行 | <code>     -&gt; ACL</code> | 这一行要理解这些英文词：`ACL` 是访问控制列表，用来定义谁可以访问哪些资源。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 44 行 | <code>  -&gt; Ecosystem</code> | 这一行要理解这些英文词：`Ecosystem` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 45 行 | <code>     -&gt; Kafka Connect</code> | 这一行要理解这些英文词：`Kafka Connect` 是kafka=消息流平台，connect=连接。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 46 行 | <code>     -&gt; Kafka Streams</code> | 这一行要理解这些英文词：`Kafka Streams` 是kafka=消息流平台。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 47 行 | <code>     -&gt; clients</code> | 这一行要理解这些英文词：`clients` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 初学主线：
@@ -242,14 +242,14 @@ Quickstart
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>Quickstart</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; create topic</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; produce events</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; consume events</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; topic / partition / offset</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; consumer group</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; replication / retention</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>  -&gt; lag and troubleshooting</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 9 行 | <code>  -&gt; AIOps event pipeline</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; create topic</code> | 这一行要理解这些英文词：`create topic` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; produce events</code> | 这一行要理解这些英文词：`produce events` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; consume events</code> | 这一行要理解这些英文词：`consume events` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; topic / partition / offset</code> | 这一行要理解这些英文词：`topic` 是主题，Kafka 中承载一类消息流的逻辑名称；`partition` 是分区，把数据或消息拆到不同片段中保存和处理；`offset` 是偏移量，常用于 Kafka 表示消息在分区中的位置。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; consumer group</code> | 这一行要理解这些英文词：`consumer group` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; replication / retention</code> | 这一行要理解这些英文词：`replication` 是复制，把数据同步到副本以提高可靠性或读性能；`retention` 是保留周期，决定数据保存多久。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; lag and troubleshooting</code> | 这一行要理解这些英文词：`lag and troubleshooting` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>  -&gt; AIOps event pipeline</code> | 这一行要理解这些英文词：`AIOps event pipeline` 是aiops=智能运维。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 ## Kafka 在 AIOps 链路中的位置
@@ -285,26 +285,26 @@ Consumer groups
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>Event sources</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; Alertmanager</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; log parser</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; CI/CD deployment event</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; runbook execution event</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; user feedback</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; Alertmanager</code> | 这一行要理解这些英文词：`Alertmanager` 是Prometheus 生态里的告警管理器。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; log parser</code> | 这一行要理解这些英文词：`log parser` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; CI/CD deployment event</code> | 这一行要理解这些英文词：`CI` 是持续集成；`CD deployment event` 是cd=持续交付或持续部署。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; runbook execution event</code> | 这一行要理解这些英文词：`runbook execution event` 是runbook=故障处理手册，execution=执行。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; user feedback</code> | 这一行要理解这些英文词：`user feedback` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 7 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 8 行 | <code>Kafka topics</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 9 行 | <code>  -&gt; aiops-alerts</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 10 行 | <code>  -&gt; aiops-log-events</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 11 行 | <code>  -&gt; aiops-deployments</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 12 行 | <code>  -&gt; aiops-runbook-events</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 13 行 | <code>  -&gt; aiops-feedback</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 9 行 | <code>  -&gt; aiops-alerts</code> | 这一行要理解这些英文词：`aiops-alerts` 是aiops=智能运维，alerts=告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>  -&gt; aiops-log-events</code> | 这一行要理解这些英文词：`aiops-log-events` 是aiops=智能运维。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>  -&gt; aiops-deployments</code> | 这一行要理解这些英文词：`aiops-deployments` 是aiops=智能运维。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 12 行 | <code>  -&gt; aiops-runbook-events</code> | 这一行要理解这些英文词：`aiops-runbook-events` 是aiops=智能运维，runbook=故障处理手册。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 13 行 | <code>  -&gt; aiops-feedback</code> | 这一行要理解这些英文词：`aiops-feedback` 是aiops=智能运维。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 14 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 15 行 | <code>Consumer groups</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 16 行 | <code>  -&gt; anomaly-detector</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 17 行 | <code>  -&gt; alert-enricher</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 18 行 | <code>  -&gt; incident-writer</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 19 行 | <code>  -&gt; notification-worker</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 20 行 | <code>  -&gt; llm-triage-worker</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 21 行 | <code>  -&gt; feature-builder</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 16 行 | <code>  -&gt; anomaly-detector</code> | 这一行要理解这些英文词：`anomaly-detector` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 17 行 | <code>  -&gt; alert-enricher</code> | 这一行要理解这些英文词：`alert-enricher` 是alert=告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 18 行 | <code>  -&gt; incident-writer</code> | 这一行要理解这些英文词：`incident-writer` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 19 行 | <code>  -&gt; notification-worker</code> | 这一行要理解这些英文词：`notification-worker` 是worker=后台处理进程。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 20 行 | <code>  -&gt; llm-triage-worker</code> | 这一行要理解这些英文词：`llm-triage-worker` 是llm=大语言模型，worker=后台处理进程。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 21 行 | <code>  -&gt; feature-builder</code> | 这一行要理解这些英文词：`feature-builder` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 Kafka 负责“事件流动和可回放”。MySQL 负责“长期结构化事实”。Redis 负责“短期状态和缓存”。Prometheus/Loki 负责“指标和日志原始信号”。
@@ -336,10 +336,10 @@ partition log
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>partition log</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  offset 0 -&gt; event</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  offset 1 -&gt; event</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  offset 2 -&gt; event</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  offset 3 -&gt; event</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  offset 0 -&gt; event</code> | 这一行要理解这些英文词：`offset` 是偏移量，常用于 Kafka 表示消息在分区中的位置；`event` 是事件，表示系统中发生的一次状态变化。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  offset 1 -&gt; event</code> | 这一行要理解这些英文词：`offset` 是偏移量，常用于 Kafka 表示消息在分区中的位置；`event` 是事件，表示系统中发生的一次状态变化。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  offset 2 -&gt; event</code> | 这一行要理解这些英文词：`offset` 是偏移量，常用于 Kafka 表示消息在分区中的位置；`event` 是事件，表示系统中发生的一次状态变化。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  offset 3 -&gt; event</code> | 这一行要理解这些英文词：`offset` 是偏移量，常用于 Kafka 表示消息在分区中的位置；`event` 是事件，表示系统中发生的一次状态变化。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 消费者不是把消息拿走，而是记录自己读到了哪个 offset。
@@ -580,13 +580,13 @@ consumer group: llm-triage-worker
 | 第 1 行 | <code>topic: aiops-alerts</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 | 第 2 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 3 行 | <code>consumer group: notification-worker</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>  -&gt; 负责发通知</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; 负责发通知</code> | 这一行表示上一级主题下的子项“负责发通知”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
 | 第 5 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 6 行 | <code>consumer group: incident-writer</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 7 行 | <code>  -&gt; 负责写 MySQL</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>  -&gt; 负责写 MySQL</code> | 这一行要理解这些英文词：`MySQL` 是MySQL 数据库或客户端命令。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 8 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 9 行 | <code>consumer group: llm-triage-worker</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 10 行 | <code>  -&gt; 负责生成排障摘要</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 10 行 | <code>  -&gt; 负责生成排障摘要</code> | 这一行表示上一级主题下的子项“负责生成排障摘要”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
 
 
 这三个 group 都能读同一批告警事件，互不影响。
@@ -614,7 +614,7 @@ producers
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>producers</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; Kafka cluster</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; Kafka cluster</code> | 这一行要理解这些英文词：`Kafka cluster` 是kafka=消息流平台。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 3 行 | <code>      broker 0</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 | 第 4 行 | <code>      broker 1</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 | 第 5 行 | <code>      broker 2</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
@@ -622,7 +622,7 @@ producers
 | 第 7 行 | <code>          partition 0 leader + replicas</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 | 第 8 行 | <code>          partition 1 leader + replicas</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 | 第 9 行 | <code>          partition 2 leader + replicas</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 10 行 | <code>  -&gt; consumers</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 10 行 | <code>  -&gt; consumers</code> | 这一行要理解这些英文词：`consumers` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 11 行 | <code>      group notification-worker</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 | 第 12 行 | <code>      group incident-writer</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 | 第 13 行 | <code>      group anomaly-detector</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
@@ -789,10 +789,10 @@ KRaft 模式
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>ZooKeeper 模式</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; ZooKeeper 管理元数据和控制面</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; ZooKeeper 管理元数据和控制面</code> | 这一行要理解这些英文词：`ZooKeeper` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 3 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 4 行 | <code>KRaft 模式</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 5 行 | <code>  -&gt; Kafka 自己管理元数据和控制面</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; Kafka 自己管理元数据和控制面</code> | 这一行要理解这些英文词：`Kafka` 是消息流平台。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 初学阶段按官方 quickstart 使用 KRaft 即可。
@@ -981,9 +981,9 @@ partition 2 -> consumer C
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>partition 0 -&gt; consumer A</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 2 行 | <code>partition 1 -&gt; consumer B</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>partition 2 -&gt; consumer C</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 1 行 | <code>partition 0 -&gt; consumer A</code> | 这一行要理解这些英文词：`partition` 是分区，把数据或消息拆到不同片段中保存和处理；`consumer A` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 2 行 | <code>partition 1 -&gt; consumer B</code> | 这一行要理解这些英文词：`partition` 是分区，把数据或消息拆到不同片段中保存和处理；`consumer B` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>partition 2 -&gt; consumer C</code> | 这一行要理解这些英文词：`partition` 是分区，把数据或消息拆到不同片段中保存和处理；`consumer C` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 如果 group 里有 5 个 consumer，但 topic 只有 3 个 partition，则最多 3 个 consumer 有活干，另外 2 个空闲。
@@ -1212,8 +1212,8 @@ poll
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>poll</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; process</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; auto commit periodically</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; process</code> | 这一行要理解这些英文词：`process` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; auto commit periodically</code> | 这一行要理解这些英文词：`auto commit periodically` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 风险：处理失败但 offset 已提交，消息可能被跳过。
@@ -1231,8 +1231,8 @@ poll
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>poll</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; process successfully</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; commit offset</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; process successfully</code> | 这一行要理解这些英文词：`process successfully` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; commit offset</code> | 这一行要理解这些英文词：`commit offset` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 这能实现更接近 at-least-once 的处理语义。
@@ -1259,9 +1259,9 @@ group: incident-writer
 | 第 1 行 | <code>topic: aiops-alerts, partitions=3</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 | 第 2 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 3 行 | <code>group: incident-writer</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>  consumer-1 -&gt; partition 0</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  consumer-2 -&gt; partition 1</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  consumer-3 -&gt; partition 2</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  consumer-1 -&gt; partition 0</code> | 这一行要理解这些英文词：`consumer-1` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`partition` 是分区，把数据或消息拆到不同片段中保存和处理。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  consumer-2 -&gt; partition 1</code> | 这一行要理解这些英文词：`consumer-2` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`partition` 是分区，把数据或消息拆到不同片段中保存和处理。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  consumer-3 -&gt; partition 2</code> | 这一行要理解这些英文词：`consumer-3` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`partition` 是分区，把数据或消息拆到不同片段中保存和处理。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 如果 consumer-2 挂了，group 会 rebalance：
@@ -1275,8 +1275,8 @@ consumer-3 -> partition 2
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>consumer-1 -&gt; partition 0, partition 1</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 2 行 | <code>consumer-3 -&gt; partition 2</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 1 行 | <code>consumer-1 -&gt; partition 0, partition 1</code> | 这一行要理解这些英文词：`consumer-1` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`partition` 是分区，把数据或消息拆到不同片段中保存和处理。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 2 行 | <code>consumer-3 -&gt; partition 2</code> | 这一行要理解这些英文词：`consumer-3` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`partition` 是分区，把数据或消息拆到不同片段中保存和处理。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 ### 查看 consumer group
@@ -1441,7 +1441,7 @@ AIOps 初学项目建议先接受 at-least-once：
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>消息可能重复</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; 消费端做幂等</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; 消费端做幂等</code> | 这一行表示上一级主题下的子项“消费端做幂等”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
 
 
 例如写 MySQL 时用 event_id 做唯一键，重复消费不会插入两次。
@@ -1465,10 +1465,10 @@ sink connector
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>source connector</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; external system to Kafka</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; external system to Kafka</code> | 这一行要理解这些英文词：`external system to Kafka` 是kafka=消息流平台。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 3 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 4 行 | <code>sink connector</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 5 行 | <code>  -&gt; Kafka to external system</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; Kafka to external system</code> | 这一行要理解这些英文词：`Kafka to external system` 是kafka=消息流平台。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 例子：
@@ -1948,10 +1948,10 @@ broker 是否启动
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>broker 是否启动</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; bootstrap-server 是否正确</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; advertised.listeners 是否客户端可达</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; 安全认证是否需要</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; 网络和端口是否通</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; bootstrap-server 是否正确</code> | 这一行要理解这些英文词：`bootstrap-server` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; advertised.listeners 是否客户端可达</code> | 这一行要理解这些英文词：`advertised.listeners` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; 安全认证是否需要</code> | 这一行表示上一级主题下的子项“安全认证是否需要”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
+| 第 5 行 | <code>  -&gt; 网络和端口是否通</code> | 这一行表示上一级主题下的子项“网络和端口是否通”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
 
 
 ### 消费不到数据
@@ -1969,10 +1969,10 @@ topic 是否有数据
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>topic 是否有数据</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; 是否用 --from-beginning</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; group 是否已有 offset</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; retention 是否清掉历史</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; consumer 是否订阅正确 topic</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; 是否用 --from-beginning</code> | 这一行要理解这些英文词：`from-beginning` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; group 是否已有 offset</code> | 这一行要理解这些英文词：`group` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`offset` 是偏移量，常用于 Kafka 表示消息在分区中的位置。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; retention 是否清掉历史</code> | 这一行要理解这些英文词：`retention` 是保留周期，决定数据保存多久。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; consumer 是否订阅正确 topic</code> | 这一行要理解这些英文词：`consumer` 是消费者，从消息队列或流系统里读取消息的程序；`topic` 是主题，Kafka 中承载一类消息流的逻辑名称。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 ### lag 变大
@@ -1991,11 +1991,11 @@ topic 是否有数据
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>看 consumer group lag</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; 看每个 partition lag</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; 看 consumer 数量和 partition 数</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; 看处理耗时</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; 看下游系统</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; 看 rebalance 日志</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; 看每个 partition lag</code> | 这一行要理解这些英文词：`partition lag` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; 看 consumer 数量和 partition 数</code> | 这一行要理解这些英文词：`consumer` 是消费者，从消息队列或流系统里读取消息的程序；`partition` 是分区，把数据或消息拆到不同片段中保存和处理。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; 看处理耗时</code> | 这一行表示上一级主题下的子项“看处理耗时”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
+| 第 5 行 | <code>  -&gt; 看下游系统</code> | 这一行表示上一级主题下的子项“看下游系统”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
+| 第 6 行 | <code>  -&gt; 看 rebalance 日志</code> | 这一行要理解这些英文词：`rebalance` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 ## Kafka、Redis Stream、MySQL 的边界

@@ -28,7 +28,7 @@ Alertmanager -> alert-api -> LLM 分析 -> 写数据库 -> 发通知
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>Alertmanager -&gt; alert-api -&gt; LLM 分析 -&gt; 写数据库 -&gt; 发通知</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 1 行 | <code>Alertmanager -&gt; alert-api -&gt; LLM 分析 -&gt; 写数据库 -&gt; 发通知</code> | 这一行要理解这些英文词：`Alertmanager` 是Prometheus 生态里的告警管理器；`alert-api` 是alert=告警，api=应用程序接口；`LLM` 是大语言模型。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 问题是：LLM 慢、数据库偶尔抖、通知服务偶尔失败。alert-api 如果同步等所有步骤完成，告警入口就会很脆弱。
@@ -61,9 +61,9 @@ RabbitMQ queue
 | 第 6 行 | <code>  v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 | 第 7 行 | <code>RabbitMQ queue</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 | 第 8 行 | <code>  &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 9 行 | <code>  +--&gt; enrich-worker</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 10 行 | <code>  +--&gt; notify-worker</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 11 行 | <code>  +--&gt; rca-worker</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 9 行 | <code>  +--&gt; enrich-worker</code> | 这一行要理解这些英文词：`enrich-worker` 是enrich=增强上下文，worker=后台处理进程。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>  +--&gt; notify-worker</code> | 这一行要理解这些英文词：`notify-worker` 是worker=后台处理进程。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>  +--&gt; rca-worker</code> | 这一行要理解这些英文词：`rca-worker` 是rca=根因分析，worker=后台处理进程。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 这样 alert-api 先把告警事件放进队列，后面的分析、通知、RCA 可以异步处理。RabbitMQ 负责暂存消息、分发消息、控制消费速度和处理失败消息。
@@ -282,9 +282,9 @@ exchange: alerts.topic
 | 第 6 行 | <code>  v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 | 第 7 行 | <code>exchange: alerts.topic</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 | 第 8 行 | <code>  &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 9 行 | <code>  +-- routing key alert.order.critical --&gt; queue: critical-alerts</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 10 行 | <code>  +-- routing key alert.order.warning  --&gt; queue: normal-alerts</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 11 行 | <code>  +-- routing key alert.*.*            --&gt; queue: aiops-analysis</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 9 行 | <code>  +-- routing key alert.order.critical --&gt; queue: critical-alerts</code> | 这一行要理解这些英文词：`routing key alert.order.critical` 是routing=路由，key=键，alert=告警，order=订单服务或订单业务域，critical=严重级别；`queue` 是消息队列；`critical-alerts` 是critical=严重级别，alerts=告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>  +-- routing key alert.order.warning  --&gt; queue: normal-alerts</code> | 这一行要理解这些英文词：`routing key alert.order.warning` 是routing=路由，key=键，alert=告警，order=订单服务或订单业务域，warning=警告级别；`queue` 是消息队列；`normal-alerts` 是normal=普通级别，alerts=告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>  +-- routing key alert.*.*            --&gt; queue: aiops-analysis</code> | 这一行要理解这些英文词：`routing key alert` 是routing=路由，key=键，alert=告警；`queue` 是消息队列；`aiops-analysis` 是aiops=智能运维，analysis=分析。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 ## 和 Kafka 的区别

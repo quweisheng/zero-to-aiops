@@ -81,13 +81,13 @@ Chart
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>Chart</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; Chart.yaml 描述包</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; values.yaml 提供默认配置</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; templates/ 放 Kubernetes YAML 模板</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; helm template 本地渲染</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; helm install 安装成 release</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; helm upgrade 生成新 revision</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>  -&gt; helm rollback 回到旧 revision 的配置</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; Chart.yaml 描述包</code> | 这一行要理解这些英文词：`Chart.yaml` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; values.yaml 提供默认配置</code> | 这一行要理解这些英文词：`values.yaml` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; templates/ 放 Kubernetes YAML 模板</code> | 这一行要理解这些英文词：`templates` 是模板；`Kubernetes YAML` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; helm template 本地渲染</code> | 这一行要理解这些英文词：`helm template` 是helm=Kubernetes 包管理工具。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; helm install 安装成 release</code> | 这一行要理解这些英文词：`helm install` 是helm=Kubernetes 包管理工具；`release` 是发布版本，把代码或配置交付到可用环境。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; helm upgrade 生成新 revision</code> | 这一行要理解这些英文词：`helm upgrade` 是helm=Kubernetes 包管理工具；`revision` 是版本修订号，用来标识一次配置或部署版本。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; helm rollback 回到旧 revision 的配置</code> | 这一行要理解这些英文词：`helm rollback` 是helm=Kubernetes 包管理工具，rollback=回滚；`revision` 是版本修订号，用来标识一次配置或部署版本。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 第一阶段必须掌握：
@@ -168,48 +168,48 @@ Helm Commands
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>Intro</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; Helm 是什么</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; 安装 Helm</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; Using Helm</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; Cheat Sheet</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; Helm 是什么</code> | 这一行要理解这些英文词：`Helm` 是Kubernetes 包管理工具。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; 安装 Helm</code> | 这一行要理解这些英文词：`Helm` 是Kubernetes 包管理工具。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; Using Helm</code> | 这一行要理解这些英文词：`Using Helm` 是helm=Kubernetes 包管理工具。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; Cheat Sheet</code> | 这一行要理解这些英文词：`Cheat Sheet` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 6 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 7 行 | <code>Topics</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 8 行 | <code>  -&gt; Charts</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 9 行 | <code>  -&gt; Chart Hooks</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 10 行 | <code>  -&gt; Chart Repository</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 11 行 | <code>  -&gt; Registries</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 12 行 | <code>  -&gt; Plugins</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 13 行 | <code>  -&gt; Provenance and Integrity</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 8 行 | <code>  -&gt; Charts</code> | 这一行要理解这些英文词：`Charts` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>  -&gt; Chart Hooks</code> | 这一行要理解这些英文词：`Chart Hooks` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>  -&gt; Chart Repository</code> | 这一行要理解这些英文词：`Chart Repository` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>  -&gt; Registries</code> | 这一行要理解这些英文词：`Registries` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 12 行 | <code>  -&gt; Plugins</code> | 这一行要理解这些英文词：`Plugins` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 13 行 | <code>  -&gt; Provenance and Integrity</code> | 这一行要理解这些英文词：`Provenance and Integrity` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 14 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 15 行 | <code>Chart Template Guide</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 16 行 | <code>  -&gt; Getting Started</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 17 行 | <code>  -&gt; Built-in Objects</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 18 行 | <code>  -&gt; Values Files</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 19 行 | <code>  -&gt; Functions and Pipelines</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 20 行 | <code>  -&gt; Flow Control</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 21 行 | <code>  -&gt; Variables</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 22 行 | <code>  -&gt; Named Templates</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 23 行 | <code>  -&gt; Files</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 24 行 | <code>  -&gt; NOTES.txt</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 25 行 | <code>  -&gt; Subcharts and Global Values</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 26 行 | <code>  -&gt; Debugging Templates</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 27 行 | <code>  -&gt; YAML Techniques</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 16 行 | <code>  -&gt; Getting Started</code> | 这一行要理解这些英文词：`Getting Started` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 17 行 | <code>  -&gt; Built-in Objects</code> | 这一行要理解这些英文词：`Built-in Objects` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 18 行 | <code>  -&gt; Values Files</code> | 这一行要理解这些英文词：`Values Files` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 19 行 | <code>  -&gt; Functions and Pipelines</code> | 这一行要理解这些英文词：`Functions and Pipelines` 是functions=函数。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 20 行 | <code>  -&gt; Flow Control</code> | 这一行要理解这些英文词：`Flow Control` 是control=控制。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 21 行 | <code>  -&gt; Variables</code> | 这一行要理解这些英文词：`Variables` 是变量。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 22 行 | <code>  -&gt; Named Templates</code> | 这一行要理解这些英文词：`Named Templates` 是templates=模板。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 23 行 | <code>  -&gt; Files</code> | 这一行要理解这些英文词：`Files` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 24 行 | <code>  -&gt; NOTES.txt</code> | 这一行要理解这些英文词：`NOTES.txt` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 25 行 | <code>  -&gt; Subcharts and Global Values</code> | 这一行要理解这些英文词：`Subcharts and Global Values` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 26 行 | <code>  -&gt; Debugging Templates</code> | 这一行要理解这些英文词：`Debugging Templates` 是templates=模板。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 27 行 | <code>  -&gt; YAML Techniques</code> | 这一行要理解这些英文词：`YAML Techniques` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 28 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 29 行 | <code>Helm Commands</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 30 行 | <code>  -&gt; helm create</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 31 行 | <code>  -&gt; helm lint</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 32 行 | <code>  -&gt; helm template</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 33 行 | <code>  -&gt; helm install</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 34 行 | <code>  -&gt; helm upgrade</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 35 行 | <code>  -&gt; helm rollback</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 36 行 | <code>  -&gt; helm status</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 37 行 | <code>  -&gt; helm history</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 38 行 | <code>  -&gt; helm get</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 39 行 | <code>  -&gt; helm uninstall</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 40 行 | <code>  -&gt; helm repo</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 41 行 | <code>  -&gt; helm dependency</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 42 行 | <code>  -&gt; helm package</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 43 行 | <code>  -&gt; helm show</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 30 行 | <code>  -&gt; helm create</code> | 这一行要理解这些英文词：`helm create` 是helm=Kubernetes 包管理工具。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 31 行 | <code>  -&gt; helm lint</code> | 这一行要理解这些英文词：`helm lint` 是helm=Kubernetes 包管理工具。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 32 行 | <code>  -&gt; helm template</code> | 这一行要理解这些英文词：`helm template` 是helm=Kubernetes 包管理工具。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 33 行 | <code>  -&gt; helm install</code> | 这一行要理解这些英文词：`helm install` 是helm=Kubernetes 包管理工具。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 34 行 | <code>  -&gt; helm upgrade</code> | 这一行要理解这些英文词：`helm upgrade` 是helm=Kubernetes 包管理工具。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 35 行 | <code>  -&gt; helm rollback</code> | 这一行要理解这些英文词：`helm rollback` 是helm=Kubernetes 包管理工具，rollback=回滚。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 36 行 | <code>  -&gt; helm status</code> | 这一行要理解这些英文词：`helm status` 是helm=Kubernetes 包管理工具。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 37 行 | <code>  -&gt; helm history</code> | 这一行要理解这些英文词：`helm history` 是helm=Kubernetes 包管理工具。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 38 行 | <code>  -&gt; helm get</code> | 这一行要理解这些英文词：`helm get` 是helm=Kubernetes 包管理工具。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 39 行 | <code>  -&gt; helm uninstall</code> | 这一行要理解这些英文词：`helm uninstall` 是helm=Kubernetes 包管理工具。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 40 行 | <code>  -&gt; helm repo</code> | 这一行要理解这些英文词：`helm repo` 是helm=Kubernetes 包管理工具。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 41 行 | <code>  -&gt; helm dependency</code> | 这一行要理解这些英文词：`helm dependency` 是helm=Kubernetes 包管理工具。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 42 行 | <code>  -&gt; helm package</code> | 这一行要理解这些英文词：`helm package` 是helm=Kubernetes 包管理工具。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 43 行 | <code>  -&gt; helm show</code> | 这一行要理解这些英文词：`helm show` 是helm=Kubernetes 包管理工具。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 新手学习顺序建议：
@@ -227,10 +227,10 @@ Helm Commands
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>先学 Chart 是什么</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; 再学 values 怎么传入</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; 再学 template 怎么渲染</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; 再学 release 怎么安装和升级</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; 最后学 dependency、hook、repository</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; 再学 values 怎么传入</code> | 这一行要理解这些英文词：`values` 是值，配置、变量或字段里的具体内容。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; 再学 template 怎么渲染</code> | 这一行要理解这些英文词：`template` 是模板，用变量生成配置或文本。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; 再学 release 怎么安装和升级</code> | 这一行要理解这些英文词：`release` 是发布版本，把代码或配置交付到可用环境。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; 最后学 dependency、hook、repository</code> | 这一行要理解这些英文词：`dependency` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`hook` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`repository` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 不要一开始就沉迷 Go template 语法。Helm 的核心问题是：如何把 Kubernetes 对象变成可重复发布的软件包。
@@ -256,14 +256,14 @@ Git 仓库
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>Git 仓库</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; Helm Chart</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; values-dev.yaml / values-prod.yaml</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; CI/CD</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; helm lint</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; helm template</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; helm upgrade --install</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>  -&gt; Kubernetes Deployment / Service / ConfigMap / Ingress</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 9 行 | <code>  -&gt; Prometheus / Grafana / Alertmanager 观测</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; Helm Chart</code> | 这一行要理解这些英文词：`Helm Chart` 是helm=Kubernetes 包管理工具。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; values-dev.yaml / values-prod.yaml</code> | 这一行要理解这些英文词：`values-dev.yaml` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`values-prod.yaml` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; CI/CD</code> | 这一行要理解这些英文词：`CI` 是持续集成；`CD` 是持续交付或持续部署。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; helm lint</code> | 这一行要理解这些英文词：`helm lint` 是helm=Kubernetes 包管理工具。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; helm template</code> | 这一行要理解这些英文词：`helm template` 是helm=Kubernetes 包管理工具。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; helm upgrade --install</code> | 这一行要理解这些英文词：`helm upgrade` 是helm=Kubernetes 包管理工具；`install` 是安装，把工具或依赖放到环境里。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; Kubernetes Deployment / Service / ConfigMap / Ingress</code> | 这一行要理解这些英文词：`Kubernetes Deployment` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`Service` 是服务；`ConfigMap` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`Ingress` 是Kubernetes 入站流量规则，定义外部请求如何进入集群服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>  -&gt; Prometheus / Grafana / Alertmanager 观测</code> | 这一行要理解这些英文词：`Prometheus` 是指标监控系统；`Grafana` 是仪表盘和可视化平台，用来展示指标、日志和告警数据；`Alertmanager` 是Prometheus 生态里的告警管理器。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 Helm 给 AIOps 提供的证据：
@@ -411,14 +411,14 @@ helm install aiops-api ./chart -f values-prod.yaml
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>helm install aiops-api ./chart -f values-prod.yaml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; 读取 Chart.yaml</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; 读取 values.yaml</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; 合并用户 values</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; 渲染 templates/</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; 生成 Kubernetes manifests</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; 发送给 kube-apiserver</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>  -&gt; 创建 Deployment / Service / ConfigMap ...</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 9 行 | <code>  -&gt; 记录 release revision 1</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; 读取 Chart.yaml</code> | 这一行要理解这些英文词：`Chart.yaml` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; 读取 values.yaml</code> | 这一行要理解这些英文词：`values.yaml` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; 合并用户 values</code> | 这一行要理解这些英文词：`values` 是值，配置、变量或字段里的具体内容。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; 渲染 templates/</code> | 这一行要理解这些英文词：`templates` 是模板。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; 生成 Kubernetes manifests</code> | 这一行要理解这些英文词：`Kubernetes manifests` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; 发送给 kube-apiserver</code> | 这一行要理解这些英文词：`kube-apiserver` 是Kubernetes API 服务，是集群控制面的入口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; 创建 Deployment / Service / ConfigMap ...</code> | 这一行要理解这些英文词：`Deployment` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`Service` 是服务；`ConfigMap` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>  -&gt; 记录 release revision 1</code> | 这一行要理解这些英文词：`release revision` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 一次 upgrade：
@@ -436,10 +436,10 @@ helm upgrade aiops-api ./chart -f values-prod.yaml
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>helm upgrade aiops-api ./chart -f values-prod.yaml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; 重新合并 values</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; 重新渲染 manifests</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; 对比并更新 Kubernetes 对象</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; 记录 release revision 2</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; 重新合并 values</code> | 这一行要理解这些英文词：`values` 是值，配置、变量或字段里的具体内容。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; 重新渲染 manifests</code> | 这一行要理解这些英文词：`manifests` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; 对比并更新 Kubernetes 对象</code> | 这一行要理解这些英文词：`Kubernetes` 是容器编排平台，用来部署、调度和管理容器化应用。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; 记录 release revision 2</code> | 这一行要理解这些英文词：`release revision` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 一次 rollback：
@@ -456,9 +456,9 @@ helm rollback aiops-api 1
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>helm rollback aiops-api 1</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; 找到 revision 1 的配置和 manifest</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; 应用回集群</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; 产生新的 revision</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; 找到 revision 1 的配置和 manifest</code> | 这一行要理解这些英文词：`revision` 是版本修订号，用来标识一次配置或部署版本；`manifest` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; 应用回集群</code> | 这一行表示上一级主题下的子项“应用回集群”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
+| 第 4 行 | <code>  -&gt; 产生新的 revision</code> | 这一行要理解这些英文词：`revision` 是版本修订号，用来标识一次配置或部署版本。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 注意：回滚到 revision 1 后，release 的最新 revision 不是 1，而是一个新的数字。这是正常的 release history 语义。
@@ -675,11 +675,11 @@ Chart 内 values.yaml
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>Chart 内 values.yaml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; 父 Chart values</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; helm install/upgrade -f my-values.yaml</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; --set key=value</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; --set-string key=value</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; --set-file key=path</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; 父 Chart values</code> | 这一行要理解这些英文词：`Chart values` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; helm install/upgrade -f my-values.yaml</code> | 这一行要理解这些英文词：`helm install` 是helm=Kubernetes 包管理工具；`upgrade` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`f my-values.yaml` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; --set key=value</code> | 这一行要理解这些英文词：`set key` 是key=键；`value` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; --set-string key=value</code> | 这一行要理解这些英文词：`set-string key` 是key=键；`value` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; --set-file key=path</code> | 这一行要理解这些英文词：`set-file key` 是key=键；`path` 是路径，表示文件、URL 或请求的位置。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 越靠后的优先级越高。

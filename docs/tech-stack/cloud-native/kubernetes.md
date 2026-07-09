@@ -83,13 +83,13 @@ Kubernetes 很大。入门阶段先抓住这条主线：
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>你写 YAML 声明期望状态</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; kubectl 发给 kube-apiserver</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; API Server 存入 etcd</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; controller 发现状态差异</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; scheduler 给新 Pod 选择 Node</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; kubelet 在 Node 上启动容器</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; Service / DNS 让其他服务找到 Pod</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>  -&gt; probes / events / logs 暴露运行证据</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; kubectl 发给 kube-apiserver</code> | 这一行要理解这些英文词：`kubectl` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`kube-apiserver` 是Kubernetes API 服务，是集群控制面的入口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; API Server 存入 etcd</code> | 这一行要理解这些英文词：`API Server` 是api=应用程序接口；`etcd` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; controller 发现状态差异</code> | 这一行要理解这些英文词：`controller` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; scheduler 给新 Pod 选择 Node</code> | 这一行要理解这些英文词：`scheduler` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`Pod` 是Kubernetes 最小调度单元，里面可以运行一个或多个容器；`Node` 是节点，在 Kubernetes 里通常指运行 Pod 的工作机器。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; kubelet 在 Node 上启动容器</code> | 这一行要理解这些英文词：`kubelet` 是Kubernetes 节点代理，负责在节点上运行和管理 Pod；`Node` 是节点，在 Kubernetes 里通常指运行 Pod 的工作机器。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; Service / DNS 让其他服务找到 Pod</code> | 这一行要理解这些英文词：`Service` 是服务；`DNS` 是域名解析系统，把域名转换成 IP 地址；`Pod` 是Kubernetes 最小调度单元，里面可以运行一个或多个容器。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; probes / events / logs 暴露运行证据</code> | 这一行要理解这些英文词：`probes` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`events` 是事件集合；`logs` 是日志。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 第一阶段必须掌握：
@@ -198,75 +198,75 @@ Monitoring, Logging, and Debugging
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>Overview</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; Kubernetes 是什么</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; Components</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; Kubernetes API</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; Working with objects</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; Kubernetes 是什么</code> | 这一行要理解这些英文词：`Kubernetes` 是容器编排平台，用来部署、调度和管理容器化应用。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; Components</code> | 这一行要理解这些英文词：`Components` 是组件集合，表示系统由哪些部分组成。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; Kubernetes API</code> | 这一行要理解这些英文词：`Kubernetes API` 是api=应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; Working with objects</code> | 这一行要理解这些英文词：`Working with objects` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 6 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 7 行 | <code>Cluster Architecture</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 8 行 | <code>  -&gt; Nodes</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 9 行 | <code>  -&gt; Control plane components</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 10 行 | <code>  -&gt; Node components</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 11 行 | <code>  -&gt; Controllers</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 12 行 | <code>  -&gt; Lease</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 13 行 | <code>  -&gt; Cloud Controller Manager</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 8 行 | <code>  -&gt; Nodes</code> | 这一行要理解这些英文词：`Nodes` 是节点。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>  -&gt; Control plane components</code> | 这一行要理解这些英文词：`Control plane components` 是control=控制。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>  -&gt; Node components</code> | 这一行要理解这些英文词：`Node components` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>  -&gt; Controllers</code> | 这一行要理解这些英文词：`Controllers` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 12 行 | <code>  -&gt; Lease</code> | 这一行要理解这些英文词：`Lease` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 13 行 | <code>  -&gt; Cloud Controller Manager</code> | 这一行要理解这些英文词：`Cloud Controller Manager` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 14 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 15 行 | <code>Containers</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 16 行 | <code>  -&gt; Images</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 17 行 | <code>  -&gt; Container runtime</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 18 行 | <code>  -&gt; RuntimeClass</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 16 行 | <code>  -&gt; Images</code> | 这一行要理解这些英文词：`Images` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 17 行 | <code>  -&gt; Container runtime</code> | 这一行要理解这些英文词：`Container runtime` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 18 行 | <code>  -&gt; RuntimeClass</code> | 这一行要理解这些英文词：`RuntimeClass` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 19 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 20 行 | <code>Workloads</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 21 行 | <code>  -&gt; Pods</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 22 行 | <code>  -&gt; Pod lifecycle</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 23 行 | <code>  -&gt; Workload resources</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 24 行 | <code>  -&gt; Deployment</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 25 行 | <code>  -&gt; ReplicaSet</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 26 行 | <code>  -&gt; StatefulSet</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 27 行 | <code>  -&gt; DaemonSet</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 28 行 | <code>  -&gt; Job</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 29 行 | <code>  -&gt; CronJob</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 21 行 | <code>  -&gt; Pods</code> | 这一行要理解这些英文词：`Pods` 是Pod 的复数，表示多个 Kubernetes 工作负载实例。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 22 行 | <code>  -&gt; Pod lifecycle</code> | 这一行要理解这些英文词：`Pod lifecycle` 是lifecycle=生命周期控制。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 23 行 | <code>  -&gt; Workload resources</code> | 这一行要理解这些英文词：`Workload resources` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 24 行 | <code>  -&gt; Deployment</code> | 这一行要理解这些英文词：`Deployment` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 25 行 | <code>  -&gt; ReplicaSet</code> | 这一行要理解这些英文词：`ReplicaSet` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 26 行 | <code>  -&gt; StatefulSet</code> | 这一行要理解这些英文词：`StatefulSet` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 27 行 | <code>  -&gt; DaemonSet</code> | 这一行要理解这些英文词：`DaemonSet` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 28 行 | <code>  -&gt; Job</code> | 这一行要理解这些英文词：`Job` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 29 行 | <code>  -&gt; CronJob</code> | 这一行要理解这些英文词：`CronJob` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 30 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 31 行 | <code>Services, Load Balancing, and Networking</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 32 行 | <code>  -&gt; Service</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 33 行 | <code>  -&gt; EndpointSlice</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 34 行 | <code>  -&gt; DNS for Services and Pods</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 35 行 | <code>  -&gt; Ingress</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 36 行 | <code>  -&gt; NetworkPolicy</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 37 行 | <code>  -&gt; Gateway API</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 32 行 | <code>  -&gt; Service</code> | 这一行要理解这些英文词：`Service` 是服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 33 行 | <code>  -&gt; EndpointSlice</code> | 这一行要理解这些英文词：`EndpointSlice` 是Kubernetes 里保存服务后端端点列表的对象。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 34 行 | <code>  -&gt; DNS for Services and Pods</code> | 这一行要理解这些英文词：`DNS for Services and Pods` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 35 行 | <code>  -&gt; Ingress</code> | 这一行要理解这些英文词：`Ingress` 是Kubernetes 入站流量规则，定义外部请求如何进入集群服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 36 行 | <code>  -&gt; NetworkPolicy</code> | 这一行要理解这些英文词：`NetworkPolicy` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 37 行 | <code>  -&gt; Gateway API</code> | 这一行要理解这些英文词：`Gateway API` 是api=应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 38 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 39 行 | <code>Storage</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 40 行 | <code>  -&gt; Volumes</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 41 行 | <code>  -&gt; PersistentVolume</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 42 行 | <code>  -&gt; PersistentVolumeClaim</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 43 行 | <code>  -&gt; StorageClass</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 40 行 | <code>  -&gt; Volumes</code> | 这一行要理解这些英文词：`Volumes` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 41 行 | <code>  -&gt; PersistentVolume</code> | 这一行要理解这些英文词：`PersistentVolume` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 42 行 | <code>  -&gt; PersistentVolumeClaim</code> | 这一行要理解这些英文词：`PersistentVolumeClaim` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 43 行 | <code>  -&gt; StorageClass</code> | 这一行要理解这些英文词：`StorageClass` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 44 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 45 行 | <code>Configuration</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 46 行 | <code>  -&gt; ConfigMap</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 47 行 | <code>  -&gt; Secret</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 48 行 | <code>  -&gt; Resource requests and limits</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 49 行 | <code>  -&gt; kubeconfig</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 46 行 | <code>  -&gt; ConfigMap</code> | 这一行要理解这些英文词：`ConfigMap` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 47 行 | <code>  -&gt; Secret</code> | 这一行要理解这些英文词：`Secret` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 48 行 | <code>  -&gt; Resource requests and limits</code> | 这一行要理解这些英文词：`Resource requests and limits` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 49 行 | <code>  -&gt; kubeconfig</code> | 这一行要理解这些英文词：`kubeconfig` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 50 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 51 行 | <code>Security</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 52 行 | <code>  -&gt; ServiceAccount</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 53 行 | <code>  -&gt; RBAC</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 54 行 | <code>  -&gt; Pod Security Standards</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 55 行 | <code>  -&gt; Admission control</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 52 行 | <code>  -&gt; ServiceAccount</code> | 这一行要理解这些英文词：`ServiceAccount` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 53 行 | <code>  -&gt; RBAC</code> | 这一行要理解这些英文词：`RBAC` 是英文缩写或固定标识，结合本节上下文记住它代表的组件、命令或状态。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 54 行 | <code>  -&gt; Pod Security Standards</code> | 这一行要理解这些英文词：`Pod Security Standards` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 55 行 | <code>  -&gt; Admission control</code> | 这一行要理解这些英文词：`Admission control` 是control=控制。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 56 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 57 行 | <code>Scheduling, Preemption and Eviction</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 58 行 | <code>  -&gt; kube-scheduler</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 59 行 | <code>  -&gt; nodeSelector</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 60 行 | <code>  -&gt; affinity / anti-affinity</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 61 行 | <code>  -&gt; taints / tolerations</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 62 行 | <code>  -&gt; priority / preemption</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 63 行 | <code>  -&gt; node pressure eviction</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 58 行 | <code>  -&gt; kube-scheduler</code> | 这一行要理解这些英文词：`kube-scheduler` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 59 行 | <code>  -&gt; nodeSelector</code> | 这一行要理解这些英文词：`nodeSelector` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 60 行 | <code>  -&gt; affinity / anti-affinity</code> | 这一行要理解这些英文词：`affinity` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`anti-affinity` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 61 行 | <code>  -&gt; taints / tolerations</code> | 这一行要理解这些英文词：`taints` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`tolerations` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 62 行 | <code>  -&gt; priority / preemption</code> | 这一行要理解这些英文词：`priority` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`preemption` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 63 行 | <code>  -&gt; node pressure eviction</code> | 这一行要理解这些英文词：`node pressure eviction` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 64 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 65 行 | <code>Monitoring, Logging, and Debugging</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 66 行 | <code>  -&gt; kubectl logs</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 67 行 | <code>  -&gt; kubectl describe</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 68 行 | <code>  -&gt; events</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 69 行 | <code>  -&gt; debug pods</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 70 行 | <code>  -&gt; debug services</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 66 行 | <code>  -&gt; kubectl logs</code> | 这一行要理解这些英文词：`kubectl logs` 是logs=日志。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 67 行 | <code>  -&gt; kubectl describe</code> | 这一行要理解这些英文词：`kubectl describe` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 68 行 | <code>  -&gt; events</code> | 这一行要理解这些英文词：`events` 是事件集合。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 69 行 | <code>  -&gt; debug pods</code> | 这一行要理解这些英文词：`debug pods` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 70 行 | <code>  -&gt; debug services</code> | 这一行要理解这些英文词：`debug services` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 学习 Kubernetes 不要从背 YAML 开始。要先知道每个对象在这张地图里的位置：
@@ -321,22 +321,22 @@ Pod status / events / logs 是 debugging 证据
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>代码</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; 镜像</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; Kubernetes Deployment</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; ReplicaSet</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; Pod</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; Container</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; Service</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>  -&gt; Ingress / Gateway / LoadBalancer</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 9 行 | <code>  -&gt; 用户请求</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; 镜像</code> | 这一行表示上一级主题下的子项“镜像”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
+| 第 3 行 | <code>  -&gt; Kubernetes Deployment</code> | 这一行要理解这些英文词：`Kubernetes Deployment` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; ReplicaSet</code> | 这一行要理解这些英文词：`ReplicaSet` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; Pod</code> | 这一行要理解这些英文词：`Pod` 是Kubernetes 最小调度单元，里面可以运行一个或多个容器。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; Container</code> | 这一行要理解这些英文词：`Container` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; Service</code> | 这一行要理解这些英文词：`Service` 是服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; Ingress / Gateway / LoadBalancer</code> | 这一行要理解这些英文词：`Ingress` 是Kubernetes 入站流量规则，定义外部请求如何进入集群服务；`Gateway` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`LoadBalancer` 是负载均衡器，把请求分发到多个后端实例。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>  -&gt; 用户请求</code> | 这一行表示上一级主题下的子项“用户请求”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
 | 第 10 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 11 行 | <code>观测</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 12 行 | <code>  -&gt; kubelet / cAdvisor / metrics-server</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 13 行 | <code>  -&gt; kube-state-metrics</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 14 行 | <code>  -&gt; Prometheus</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 15 行 | <code>  -&gt; Grafana</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 16 行 | <code>  -&gt; Alertmanager</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 17 行 | <code>  -&gt; Runbook 自动化</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 12 行 | <code>  -&gt; kubelet / cAdvisor / metrics-server</code> | 这一行要理解这些英文词：`kubelet` 是Kubernetes 节点代理，负责在节点上运行和管理 Pod；`cAdvisor` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`metrics-server` 是metrics=指标。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 13 行 | <code>  -&gt; kube-state-metrics</code> | 这一行要理解这些英文词：`kube-state-metrics` 是state=状态，metrics=指标。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 14 行 | <code>  -&gt; Prometheus</code> | 这一行要理解这些英文词：`Prometheus` 是指标监控系统。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 15 行 | <code>  -&gt; Grafana</code> | 这一行要理解这些英文词：`Grafana` 是仪表盘和可视化平台，用来展示指标、日志和告警数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 16 行 | <code>  -&gt; Alertmanager</code> | 这一行要理解这些英文词：`Alertmanager` 是Prometheus 生态里的告警管理器。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 17 行 | <code>  -&gt; Runbook 自动化</code> | 这一行要理解这些英文词：`Runbook` 是故障处理手册。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 Kubernetes 给 AIOps 提供的证据：
@@ -482,7 +482,7 @@ spec:
 | 第 1 行 | <code>期望状态 desired state</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 | 第 2 行 | <code>  vs</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 | 第 3 行 | <code>实际状态 actual state</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>  -&gt; controller reconcile</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; controller reconcile</code> | 这一行要理解这些英文词：`controller reconcile` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 用人话讲：
@@ -533,17 +533,17 @@ Cluster
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>Cluster</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; Control Plane</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>     -&gt; kube-apiserver</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>     -&gt; etcd</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>     -&gt; kube-scheduler</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>     -&gt; kube-controller-manager</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>     -&gt; cloud-controller-manager</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>  -&gt; Worker Nodes</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 9 行 | <code>     -&gt; kubelet</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 10 行 | <code>     -&gt; kube-proxy</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 11 行 | <code>     -&gt; container runtime</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 12 行 | <code>     -&gt; Pods</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; Control Plane</code> | 这一行要理解这些英文词：`Control Plane` 是control=控制。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>     -&gt; kube-apiserver</code> | 这一行要理解这些英文词：`kube-apiserver` 是Kubernetes API 服务，是集群控制面的入口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>     -&gt; etcd</code> | 这一行要理解这些英文词：`etcd` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>     -&gt; kube-scheduler</code> | 这一行要理解这些英文词：`kube-scheduler` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>     -&gt; kube-controller-manager</code> | 这一行要理解这些英文词：`kube-controller-manager` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>     -&gt; cloud-controller-manager</code> | 这一行要理解这些英文词：`cloud-controller-manager` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; Worker Nodes</code> | 这一行要理解这些英文词：`Worker Nodes` 是worker=后台处理进程，nodes=节点。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>     -&gt; kubelet</code> | 这一行要理解这些英文词：`kubelet` 是Kubernetes 节点代理，负责在节点上运行和管理 Pod。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>     -&gt; kube-proxy</code> | 这一行要理解这些英文词：`kube-proxy` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>     -&gt; container runtime</code> | 这一行要理解这些英文词：`container runtime` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 12 行 | <code>     -&gt; Pods</code> | 这一行要理解这些英文词：`Pods` 是Pod 的复数，表示多个 Kubernetes 工作负载实例。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 控制面负责“决策和记录”：
@@ -590,7 +590,7 @@ dashboard
 | 第 4 行 | <code>kubelet</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 | 第 5 行 | <code>operator</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 | 第 6 行 | <code>dashboard</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 7 行 | <code>  -&gt; kube-apiserver</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>  -&gt; kube-apiserver</code> | 这一行要理解这些英文词：`kube-apiserver` 是Kubernetes API 服务，是集群控制面的入口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 它负责：
@@ -718,8 +718,8 @@ watch API object
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>watch API object</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; 比较期望状态和实际状态</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; 发起修正动作</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; 比较期望状态和实际状态</code> | 这一行表示上一级主题下的子项“比较期望状态和实际状态”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
+| 第 3 行 | <code>  -&gt; 发起修正动作</code> | 这一行表示上一级主题下的子项“发起修正动作”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
 
 
 常见控制器：
@@ -1429,10 +1429,10 @@ Deployment
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>Deployment</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; ReplicaSet revision 1</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>     -&gt; Pods</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; ReplicaSet revision 2</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>     -&gt; Pods</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; ReplicaSet revision 1</code> | 这一行要理解这些英文词：`ReplicaSet revision` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>     -&gt; Pods</code> | 这一行要理解这些英文词：`Pods` 是Pod 的复数，表示多个 Kubernetes 工作负载实例。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; ReplicaSet revision 2</code> | 这一行要理解这些英文词：`ReplicaSet revision` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>     -&gt; Pods</code> | 这一行要理解这些英文词：`Pods` 是Pod 的复数，表示多个 Kubernetes 工作负载实例。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 Deployment 能做：
@@ -1716,8 +1716,8 @@ Pod -> ClusterIP Service -> 后端 Pods
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>Pod -&gt; ClusterIP Service -&gt; 后端 Pods</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 2 行 | <code>外部用户 -&gt; Ingress / LoadBalancer -&gt; Service -&gt; Pods</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 1 行 | <code>Pod -&gt; ClusterIP Service -&gt; 后端 Pods</code> | 这一行要理解这些英文词：`Pod` 是Kubernetes 最小调度单元，里面可以运行一个或多个容器；`ClusterIP Service` 是service=服务；`Pods` 是Pod 的复数，表示多个 Kubernetes 工作负载实例。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 2 行 | <code>外部用户 -&gt; Ingress / LoadBalancer -&gt; Service -&gt; Pods</code> | 这一行要理解这些英文词：`Ingress` 是Kubernetes 入站流量规则，定义外部请求如何进入集群服务；`LoadBalancer` 是负载均衡器，把请求分发到多个后端实例；`Service` 是服务；`Pods` 是Pod 的复数，表示多个 Kubernetes 工作负载实例。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 ## EndpointSlice 和 Service 后端
@@ -2139,9 +2139,9 @@ scheduler 给 Pod 选择 Node，大致是：
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>过滤不满足条件的 Node</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; 给可行 Node 打分</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; 选择得分最高的 Node</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; 绑定 Pod 到 Node</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; 给可行 Node 打分</code> | 这一行要理解这些英文词：`Node` 是节点，在 Kubernetes 里通常指运行 Pod 的工作机器。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; 选择得分最高的 Node</code> | 这一行要理解这些英文词：`Node` 是节点，在 Kubernetes 里通常指运行 Pod 的工作机器。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; 绑定 Pod 到 Node</code> | 这一行要理解这些英文词：`Pod` 是Kubernetes 最小调度单元，里面可以运行一个或多个容器；`Node` 是节点，在 Kubernetes 里通常指运行 Pod 的工作机器。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 影响调度的常见因素：

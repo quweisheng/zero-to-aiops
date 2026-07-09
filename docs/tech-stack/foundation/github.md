@@ -254,18 +254,18 @@ GitHub
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>Git</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; tracks file changes</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; commits</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; branches</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; merges</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; tracks file changes</code> | 这一行要理解这些英文词：`tracks file changes` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; commits</code> | 这一行要理解这些英文词：`commits` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; branches</code> | 这一行要理解这些英文词：`branches` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; merges</code> | 这一行要理解这些英文词：`merges` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 6 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 7 行 | <code>GitHub</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 8 行 | <code>  -&gt; hosts remote repositories</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 9 行 | <code>  -&gt; shows README and code</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 10 行 | <code>  -&gt; manages Issues and PRs</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 11 行 | <code>  -&gt; runs Actions</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 12 行 | <code>  -&gt; publishes Pages</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 13 行 | <code>  -&gt; manages permissions and security</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 8 行 | <code>  -&gt; hosts remote repositories</code> | 这一行要理解这些英文词：`hosts remote repositories` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>  -&gt; shows README and code</code> | 这一行要理解这些英文词：`shows README and code` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>  -&gt; manages Issues and PRs</code> | 这一行要理解这些英文词：`manages Issues and PRs` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>  -&gt; runs Actions</code> | 这一行要理解这些英文词：`runs Actions` 是actions=动作或改进项。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 12 行 | <code>  -&gt; publishes Pages</code> | 这一行要理解这些英文词：`publishes Pages` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 13 行 | <code>  -&gt; manages permissions and security</code> | 这一行要理解这些英文词：`manages permissions and security` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 常见误解：
@@ -456,12 +456,12 @@ create branch
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>create branch</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; make changes</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; commit and push</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; open pull request</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; review and checks</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; merge</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; delete branch</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; make changes</code> | 这一行要理解这些英文词：`make changes` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; commit and push</code> | 这一行要理解这些英文词：`commit and push` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; open pull request</code> | 这一行要理解这些英文词：`open pull request` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; review and checks</code> | 这一行要理解这些英文词：`review and checks` 是review=复盘或评审，checks=检查。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; merge</code> | 这一行要理解这些英文词：`merge` 是合并，把一个分支的变更合入另一个分支。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; delete branch</code> | 这一行要理解这些英文词：`delete branch` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 每一步的意义：
@@ -818,10 +818,10 @@ Markdown docs
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>Markdown docs</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; VitePress build</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; static files</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; GitHub Pages</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; public docs site</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; VitePress build</code> | 这一行要理解这些英文词：`VitePress build` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; static files</code> | 这一行要理解这些英文词：`static files` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; GitHub Pages</code> | 这一行要理解这些英文词：`GitHub Pages` 是github=代码托管平台。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; public docs site</code> | 这一行要理解这些英文词：`public docs site` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 常见发布方式：
@@ -925,9 +925,9 @@ generate SSH key
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>generate SSH key</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; add public key to GitHub</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; use SSH remote URL</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; push / pull</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; add public key to GitHub</code> | 这一行要理解这些英文词：`add public key to GitHub` 是key=键，github=代码托管平台。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; use SSH remote URL</code> | 这一行要理解这些英文词：`use SSH remote URL` 是ssh=远程登录协议，url=网页或接口地址。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; push / pull</code> | 这一行要理解这些英文词：`push` 是推送，把本地提交上传到远程仓库；`pull` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 远程地址形式：
@@ -1432,9 +1432,9 @@ push to main
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>push to main</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; GitHub Actions build</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; upload static artifact</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; deploy to GitHub Pages</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; GitHub Actions build</code> | 这一行要理解这些英文词：`GitHub Actions build` 是github=代码托管平台，actions=动作或改进项。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; upload static artifact</code> | 这一行要理解这些英文词：`upload static artifact` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; deploy to GitHub Pages</code> | 这一行要理解这些英文词：`deploy to GitHub Pages` 是github=代码托管平台。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 Pages 详细 workflow 在 VitePress 篇展开。这里先理解：GitHub Pages 让你的 Markdown 知识库变成公开网站。

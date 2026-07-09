@@ -45,12 +45,12 @@ Spring Boot 应用
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>Spring Boot 应用</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; Spring Cloud Gateway</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; Spring Cloud OpenFeign / RestClient</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; 注册中心 / Kubernetes Service</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; Config Server / ConfigMap</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; MySQL / Redis / RabbitMQ / Kafka</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; Actuator / Micrometer / Prometheus / OpenTelemetry</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; Spring Cloud Gateway</code> | 这一行要理解这些英文词：`Spring Cloud Gateway` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; Spring Cloud OpenFeign / RestClient</code> | 这一行要理解这些英文词：`Spring Cloud OpenFeign` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`RestClient` 是发起 HTTP 请求的客户端组件。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; 注册中心 / Kubernetes Service</code> | 这一行要理解这些英文词：`Kubernetes Service` 是service=服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; Config Server / ConfigMap</code> | 这一行要理解这些英文词：`Config Server` 是config=配置；`ConfigMap` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; MySQL / Redis / RabbitMQ / Kafka</code> | 这一行要理解这些英文词：`MySQL` 是MySQL 数据库或客户端命令；`Redis` 是内存数据库，常用于缓存、队列、限流和状态存储；`RabbitMQ` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`Kafka` 是消息流平台。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; Actuator / Micrometer / Prometheus / OpenTelemetry</code> | 这一行要理解这些英文词：`Actuator` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`Micrometer` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`Prometheus` 是指标监控系统；`OpenTelemetry` 是可观测性数据采集标准。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 所以这篇文章的边界是：
@@ -76,9 +76,9 @@ one-repo
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>one-repo</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; one-war</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; one-database</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; one-nginx-location</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; one-war</code> | 这一行要理解这些英文词：`one-war` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; one-database</code> | 这一行要理解这些英文词：`one-database` 是database=数据库。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; one-nginx-location</code> | 这一行要理解这些英文词：`one-nginx-location` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 上线时整包发布，出问题整包回滚。慢是慢一点，但至少排障路径相对直接。
@@ -237,36 +237,36 @@ Spring Boot
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>Spring Boot</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; Getting Started</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>     -&gt; Spring Initializr</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>     -&gt; Maven / Gradle</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>     -&gt; main application</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>     -&gt; embedded server</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; Developing with Spring Boot</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>     -&gt; auto-configuration</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 9 行 | <code>     -&gt; dependency management</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 10 行 | <code>     -&gt; configuration properties</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 11 行 | <code>     -&gt; profiles</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 12 行 | <code>     -&gt; logging</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 13 行 | <code>     -&gt; testing</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 14 行 | <code>  -&gt; Web</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 15 行 | <code>     -&gt; Spring MVC</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 16 行 | <code>     -&gt; RestClient / WebClient</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 17 行 | <code>     -&gt; validation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 18 行 | <code>     -&gt; error handling</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 19 行 | <code>  -&gt; Data</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 20 行 | <code>     -&gt; JDBC / JPA / Redis / messaging</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 21 行 | <code>  -&gt; Production-ready Features</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 22 行 | <code>     -&gt; Actuator</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 23 行 | <code>     -&gt; health</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 24 行 | <code>     -&gt; metrics</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 25 行 | <code>     -&gt; tracing</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 26 行 | <code>     -&gt; loggers</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 27 行 | <code>     -&gt; Prometheus / OTLP</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 28 行 | <code>  -&gt; Packaging</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 29 行 | <code>     -&gt; executable jar</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 30 行 | <code>     -&gt; Docker image</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 31 行 | <code>     -&gt; Cloud Native Buildpacks</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; Getting Started</code> | 这一行要理解这些英文词：`Getting Started` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>     -&gt; Spring Initializr</code> | 这一行要理解这些英文词：`Spring Initializr` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>     -&gt; Maven / Gradle</code> | 这一行要理解这些英文词：`Maven` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`Gradle` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>     -&gt; main application</code> | 这一行要理解这些英文词：`main application` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>     -&gt; embedded server</code> | 这一行要理解这些英文词：`embedded server` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; Developing with Spring Boot</code> | 这一行要理解这些英文词：`Developing with Spring Boot` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>     -&gt; auto-configuration</code> | 这一行要理解这些英文词：`auto-configuration` 是configuration=配置。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>     -&gt; dependency management</code> | 这一行要理解这些英文词：`dependency management` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>     -&gt; configuration properties</code> | 这一行要理解这些英文词：`configuration properties` 是configuration=配置。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>     -&gt; profiles</code> | 这一行要理解这些英文词：`profiles` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 12 行 | <code>     -&gt; logging</code> | 这一行要理解这些英文词：`logging` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 13 行 | <code>     -&gt; testing</code> | 这一行要理解这些英文词：`testing` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 14 行 | <code>  -&gt; Web</code> | 这一行要理解这些英文词：`Web` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 15 行 | <code>     -&gt; Spring MVC</code> | 这一行要理解这些英文词：`Spring MVC` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 16 行 | <code>     -&gt; RestClient / WebClient</code> | 这一行要理解这些英文词：`RestClient` 是发起 HTTP 请求的客户端组件；`WebClient` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 17 行 | <code>     -&gt; validation</code> | 这一行要理解这些英文词：`validation` 是校验，用规则检查输入、配置或结果是否正确。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 18 行 | <code>     -&gt; error handling</code> | 这一行要理解这些英文词：`error handling` 是错误处理，任务失败时如何重试、跳过、回滚或报警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 19 行 | <code>  -&gt; Data</code> | 这一行要理解这些英文词：`Data` 是数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 20 行 | <code>     -&gt; JDBC / JPA / Redis / messaging</code> | 这一行要理解这些英文词：`JDBC` 是英文缩写或固定标识，结合本节上下文记住它代表的组件、命令或状态；`JPA` 是英文缩写或固定标识，结合本节上下文记住它代表的组件、命令或状态；`Redis` 是内存数据库，常用于缓存、队列、限流和状态存储；`messaging` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 21 行 | <code>  -&gt; Production-ready Features</code> | 这一行要理解这些英文词：`Production-ready Features` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 22 行 | <code>     -&gt; Actuator</code> | 这一行要理解这些英文词：`Actuator` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 23 行 | <code>     -&gt; health</code> | 这一行要理解这些英文词：`health` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 24 行 | <code>     -&gt; metrics</code> | 这一行要理解这些英文词：`metrics` 是指标。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 25 行 | <code>     -&gt; tracing</code> | 这一行要理解这些英文词：`tracing` 是链路追踪过程，用来分析请求路径和耗时。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 26 行 | <code>     -&gt; loggers</code> | 这一行要理解这些英文词：`loggers` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 27 行 | <code>     -&gt; Prometheus / OTLP</code> | 这一行要理解这些英文词：`Prometheus` 是指标监控系统；`OTLP` 是OpenTelemetry 的数据传输协议。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 28 行 | <code>  -&gt; Packaging</code> | 这一行要理解这些英文词：`Packaging` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 29 行 | <code>     -&gt; executable jar</code> | 这一行要理解这些英文词：`executable jar` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 30 行 | <code>     -&gt; Docker image</code> | 这一行要理解这些英文词：`Docker image` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 31 行 | <code>     -&gt; Cloud Native Buildpacks</code> | 这一行要理解这些英文词：`Cloud Native Buildpacks` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 对 AIOps 来说，Spring Boot 最关键的不是“能写 Controller”，而是这些生产能力：
@@ -311,25 +311,25 @@ Spring Cloud
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>Spring Cloud</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; configuration management</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>     -&gt; Spring Cloud Config</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; service registration and discovery</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>     -&gt; DiscoveryClient</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>     -&gt; Eureka / Consul / Kubernetes</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; service-to-service calls</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>     -&gt; OpenFeign</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 9 行 | <code>     -&gt; RestClient / WebClient</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 10 行 | <code>  -&gt; load balancing</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 11 行 | <code>     -&gt; Spring Cloud LoadBalancer</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 12 行 | <code>  -&gt; routing</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 13 行 | <code>     -&gt; Spring Cloud Gateway</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 14 行 | <code>  -&gt; circuit breakers</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 15 行 | <code>     -&gt; Spring Cloud Circuit Breaker</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 16 行 | <code>     -&gt; Resilience4j</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 17 行 | <code>  -&gt; distributed messaging</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 18 行 | <code>     -&gt; Spring Cloud Stream</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 19 行 | <code>  -&gt; Kubernetes integration</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 20 行 | <code>     -&gt; Spring Cloud Kubernetes</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; configuration management</code> | 这一行要理解这些英文词：`configuration management` 是configuration=配置。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>     -&gt; Spring Cloud Config</code> | 这一行要理解这些英文词：`Spring Cloud Config` 是config=配置。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; service registration and discovery</code> | 这一行要理解这些英文词：`service registration and discovery` 是service=服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>     -&gt; DiscoveryClient</code> | 这一行要理解这些英文词：`DiscoveryClient` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>     -&gt; Eureka / Consul / Kubernetes</code> | 这一行要理解这些英文词：`Eureka` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`Consul` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`Kubernetes` 是容器编排平台，用来部署、调度和管理容器化应用。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; service-to-service calls</code> | 这一行要理解这些英文词：`service-to-service calls` 是service=服务，service=服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>     -&gt; OpenFeign</code> | 这一行要理解这些英文词：`OpenFeign` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>     -&gt; RestClient / WebClient</code> | 这一行要理解这些英文词：`RestClient` 是发起 HTTP 请求的客户端组件；`WebClient` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>  -&gt; load balancing</code> | 这一行要理解这些英文词：`load balancing` 是load=加载。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>     -&gt; Spring Cloud LoadBalancer</code> | 这一行要理解这些英文词：`Spring Cloud LoadBalancer` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 12 行 | <code>  -&gt; routing</code> | 这一行要理解这些英文词：`routing` 是路由。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 13 行 | <code>     -&gt; Spring Cloud Gateway</code> | 这一行要理解这些英文词：`Spring Cloud Gateway` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 14 行 | <code>  -&gt; circuit breakers</code> | 这一行要理解这些英文词：`circuit breakers` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 15 行 | <code>     -&gt; Spring Cloud Circuit Breaker</code> | 这一行要理解这些英文词：`Spring Cloud Circuit Breaker` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 16 行 | <code>     -&gt; Resilience4j</code> | 这一行要理解这些英文词：`Resilience4j` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 17 行 | <code>  -&gt; distributed messaging</code> | 这一行要理解这些英文词：`distributed messaging` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 18 行 | <code>     -&gt; Spring Cloud Stream</code> | 这一行要理解这些英文词：`Spring Cloud Stream` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 19 行 | <code>  -&gt; Kubernetes integration</code> | 这一行要理解这些英文词：`Kubernetes integration` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 20 行 | <code>     -&gt; Spring Cloud Kubernetes</code> | 这一行要理解这些英文词：`Spring Cloud Kubernetes` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 Spring Cloud 不是一个单独的 jar，而是一组分布式系统模式的工具箱。学习时不要贪多，先抓住这条主线：
@@ -348,11 +348,11 @@ Spring Cloud 不是一个单独的 jar，而是一组分布式系统模式的工
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>配置</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; 发现</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; 调用</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; 路由</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; 容错</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; 观测</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; 发现</code> | 这一行表示上一级主题下的子项“发现”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
+| 第 3 行 | <code>  -&gt; 调用</code> | 这一行表示上一级主题下的子项“调用”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
+| 第 4 行 | <code>  -&gt; 路由</code> | 这一行表示上一级主题下的子项“路由”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
+| 第 5 行 | <code>  -&gt; 容错</code> | 这一行表示上一级主题下的子项“容错”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
+| 第 6 行 | <code>  -&gt; 观测</code> | 这一行表示上一级主题下的子项“观测”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
 
 
 ## 学习路径
@@ -440,12 +440,12 @@ main()
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>main()</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; SpringApplication.run()</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; 创建 ApplicationContext</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; 加载配置</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; 自动配置 Bean</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; 启动内嵌 Tomcat / Jetty / Netty</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; 暴露 HTTP 端口</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; SpringApplication.run()</code> | 这一行要理解这些英文词：`SpringApplication.run` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; 创建 ApplicationContext</code> | 这一行要理解这些英文词：`ApplicationContext` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; 加载配置</code> | 这一行表示上一级主题下的子项“加载配置”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
+| 第 5 行 | <code>  -&gt; 自动配置 Bean</code> | 这一行要理解这些英文词：`Bean` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; 启动内嵌 Tomcat / Jetty / Netty</code> | 这一行要理解这些英文词：`Tomcat` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`Jetty` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`Netty` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; 暴露 HTTP 端口</code> | 这一行要理解这些英文词：`HTTP` 是超文本传输协议。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 **怎么看 / 怎么用**
@@ -509,10 +509,10 @@ pom.xml 引入 starter
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>pom.xml 引入 starter</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; Spring Boot 管理依赖版本</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; classpath 中出现特定类</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; auto-configuration 条件匹配</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; 自动创建默认 Bean</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; Spring Boot 管理依赖版本</code> | 这一行要理解这些英文词：`Spring Boot` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; classpath 中出现特定类</code> | 这一行要理解这些英文词：`classpath` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; auto-configuration 条件匹配</code> | 这一行要理解这些英文词：`auto-configuration` 是configuration=配置。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; 自动创建默认 Bean</code> | 这一行要理解这些英文词：`Bean` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 **怎么看 / 怎么用**
@@ -585,8 +585,8 @@ application.yml
 | 第 3 行 | <code>  + environment variables</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 | 第 4 行 | <code>  + command line args</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 | 第 5 行 | <code>  + config server</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 6 行 | <code>  -&gt; Spring Environment</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; @ConfigurationProperties / @Value</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; Spring Environment</code> | 这一行要理解这些英文词：`Spring Environment` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; @ConfigurationProperties / @Value</code> | 这一行要理解这些英文词：`ConfigurationProperties` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`Value` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 **怎么看 / 怎么用**
@@ -665,11 +665,11 @@ HTTP request
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>HTTP request</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; DispatcherServlet</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; Controller</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; Service</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; Repository / Client</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; HTTP response</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; DispatcherServlet</code> | 这一行要理解这些英文词：`DispatcherServlet` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; Controller</code> | 这一行要理解这些英文词：`Controller` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; Service</code> | 这一行要理解这些英文词：`Service` 是服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; Repository / Client</code> | 这一行要理解这些英文词：`Repository` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`Client` 是客户端。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; HTTP response</code> | 这一行要理解这些英文词：`HTTP response` 是http=超文本传输协议，response=响应处理。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 **怎么看 / 怎么用**
@@ -746,11 +746,11 @@ spring-boot-starter-actuator
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>spring-boot-starter-actuator</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; 自动注册 endpoint</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; /actuator/health</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; /actuator/metrics</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; /actuator/prometheus</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; Prometheus scrape</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; 自动注册 endpoint</code> | 这一行要理解这些英文词：`endpoint` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; /actuator/health</code> | 这一行要理解这些英文词：`actuator` 是Spring Boot 的运维端点，用来暴露健康检查和指标；`health` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; /actuator/metrics</code> | 这一行要理解这些英文词：`actuator` 是Spring Boot 的运维端点，用来暴露健康检查和指标；`metrics` 是指标。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; /actuator/prometheus</code> | 这一行要理解这些英文词：`actuator` 是Spring Boot 的运维端点，用来暴露健康检查和指标；`prometheus` 是指标监控系统。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; Prometheus scrape</code> | 这一行要理解这些英文词：`Prometheus scrape` 是prometheus=指标监控系统。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 **怎么看 / 怎么用**
@@ -819,10 +819,10 @@ Spring MVC / RestClient / DataSource
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>Spring MVC / RestClient / DataSource</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; Micrometer Observation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; metrics: http.server.requests, jdbc.connections...</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; tracing: traceId, spanId</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; Prometheus / OTLP / Zipkin</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; Micrometer Observation</code> | 这一行要理解这些英文词：`Micrometer Observation` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; metrics: http.server.requests, jdbc.connections...</code> | 这一行要理解这些英文词：`metrics` 是指标；`http.server.requests` 是http=超文本传输协议；`jdbc.connections` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; tracing: traceId, spanId</code> | 这一行要理解这些英文词：`tracing` 是链路追踪过程，用来分析请求路径和耗时；`traceId` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`spanId` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; Prometheus / OTLP / Zipkin</code> | 这一行要理解这些英文词：`Prometheus` 是指标监控系统；`OTLP` 是OpenTelemetry 的数据传输协议；`Zipkin` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 **怎么看 / 怎么用**
@@ -895,11 +895,11 @@ order-service 调 payment-service
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>payment-service 启动</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; 注册到 Eureka / Consul</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; 注册到 Eureka / Consul</code> | 这一行要理解这些英文词：`Eureka` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`Consul` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 3 行 | <code>order-service 调 payment-service</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>  -&gt; DiscoveryClient 查询实例</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; LoadBalancer 选择实例</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; 发起 HTTP 请求</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; DiscoveryClient 查询实例</code> | 这一行要理解这些英文词：`DiscoveryClient` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; LoadBalancer 选择实例</code> | 这一行要理解这些英文词：`LoadBalancer` 是负载均衡器，把请求分发到多个后端实例。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; 发起 HTTP 请求</code> | 这一行要理解这些英文词：`HTTP` 是超文本传输协议。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 Kubernetes：
@@ -916,9 +916,9 @@ Pod
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>Pod</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; Service</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; Endpoints / EndpointSlice</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; DNS: payment-service.default.svc.cluster.local</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; Service</code> | 这一行要理解这些英文词：`Service` 是服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; Endpoints / EndpointSlice</code> | 这一行要理解这些英文词：`Endpoints` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`EndpointSlice` 是Kubernetes 里保存服务后端端点列表的对象。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; DNS: payment-service.default.svc.cluster.local</code> | 这一行要理解这些英文词：`DNS` 是域名解析系统，把域名转换成 IP 地址；`payment-service.default.svc.cluster.local` 是service=服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 **怎么看 / 怎么用**
@@ -997,10 +997,10 @@ order-service
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>order-service</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; PaymentClient</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; LoadBalancer</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; payment-service instance</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; response / timeout / error</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; PaymentClient</code> | 这一行要理解这些英文词：`PaymentClient` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; LoadBalancer</code> | 这一行要理解这些英文词：`LoadBalancer` 是负载均衡器，把请求分发到多个后端实例。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; payment-service instance</code> | 这一行要理解这些英文词：`payment-service instance` 是service=服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; response / timeout / error</code> | 这一行要理解这些英文词：`response` 是响应处理；`timeout` 是超时；`error` 是错误。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 **怎么看 / 怎么用**
@@ -1065,11 +1065,11 @@ client
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>client</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; gateway</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>     -&gt; route predicate match</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>     -&gt; filters</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>     -&gt; load-balanced downstream uri</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; order-service</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; gateway</code> | 这一行要理解这些英文词：`gateway` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>     -&gt; route predicate match</code> | 这一行要理解这些英文词：`route predicate match` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>     -&gt; filters</code> | 这一行要理解这些英文词：`filters` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>     -&gt; load-balanced downstream uri</code> | 这一行要理解这些英文词：`load-balanced downstream uri` 是load=加载。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; order-service</code> | 这一行要理解这些英文词：`order-service` 是order=订单服务或订单业务域，service=服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 **怎么看 / 怎么用**
@@ -1151,12 +1151,12 @@ request
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>request</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; timeout guard</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; retry policy</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; circuit breaker state</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>     -&gt; closed: 正常调用</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>     -&gt; open: 快速失败</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>     -&gt; half-open: 少量探测</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; timeout guard</code> | 这一行要理解这些英文词：`timeout guard` 是timeout=超时。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; retry policy</code> | 这一行要理解这些英文词：`retry policy` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; circuit breaker state</code> | 这一行要理解这些英文词：`circuit breaker state` 是state=状态。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>     -&gt; closed: 正常调用</code> | 这一行要理解这些英文词：`closed` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>     -&gt; open: 快速失败</code> | 这一行要理解这些英文词：`open` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>     -&gt; half-open: 少量探测</code> | 这一行要理解这些英文词：`half-open` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 **怎么看 / 怎么用**
@@ -1236,10 +1236,10 @@ cross-service state
 | 第 3 行 | <code>inventory-service owns inventory tables</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 | 第 4 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 5 行 | <code>cross-service state</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 6 行 | <code>  -&gt; event</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; outbox</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>  -&gt; saga / compensation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 9 行 | <code>  -&gt; eventual consistency</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; event</code> | 这一行要理解这些英文词：`event` 是事件，表示系统中发生的一次状态变化。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; outbox</code> | 这一行要理解这些英文词：`outbox` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; saga / compensation</code> | 这一行要理解这些英文词：`saga` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`compensation` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>  -&gt; eventual consistency</code> | 这一行要理解这些英文词：`eventual consistency` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 **怎么看 / 怎么用**
@@ -1300,11 +1300,11 @@ gateway-service
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>gateway-service</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; order-service</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>     -&gt; payment-service</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>     -&gt; RabbitMQ / Kafka</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; actuator metrics</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; OpenTelemetry traces</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; order-service</code> | 这一行要理解这些英文词：`order-service` 是order=订单服务或订单业务域，service=服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>     -&gt; payment-service</code> | 这一行要理解这些英文词：`payment-service` 是service=服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>     -&gt; RabbitMQ / Kafka</code> | 这一行要理解这些英文词：`RabbitMQ` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`Kafka` 是消息流平台。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; actuator metrics</code> | 这一行要理解这些英文词：`actuator metrics` 是metrics=指标。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; OpenTelemetry traces</code> | 这一行要理解这些英文词：`OpenTelemetry traces` 是opentelemetry=可观测性数据采集标准，traces=链路追踪。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 先不要贪多。第一版只要跑通：
@@ -1741,13 +1741,13 @@ service
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>service</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; metrics</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; logs</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; traces</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; alerts</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; deploy changes</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; runbooks</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>  -&gt; RCA</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; metrics</code> | 这一行要理解这些英文词：`metrics` 是指标。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; logs</code> | 这一行要理解这些英文词：`logs` 是日志。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; traces</code> | 这一行要理解这些英文词：`traces` 是链路追踪。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; alerts</code> | 这一行要理解这些英文词：`alerts` 是告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; deploy changes</code> | 这一行要理解这些英文词：`deploy changes` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; runbooks</code> | 这一行要理解这些英文词：`runbooks` 是故障处理手册。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; RCA</code> | 这一行要理解这些英文词：`RCA` 是根因分析。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 当这条链路打通后，微服务才不只是架构名词，而是可以被监控、被诊断、被自动化治理的生产系统。

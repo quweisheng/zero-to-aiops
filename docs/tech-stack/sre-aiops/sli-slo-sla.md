@@ -104,35 +104,35 @@ User journey
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>User journey</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; What users care about</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>     -&gt; availability</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>     -&gt; latency</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>     -&gt; correctness</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>     -&gt; freshness</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>     -&gt; durability</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>  -&gt; SLI</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 9 行 | <code>     -&gt; good events / total events</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 10 行 | <code>     -&gt; latency threshold</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 11 行 | <code>     -&gt; freshness threshold</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 12 行 | <code>     -&gt; correctness checks</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 13 行 | <code>  -&gt; SLO</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 14 行 | <code>     -&gt; target</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 15 行 | <code>     -&gt; window</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 16 行 | <code>     -&gt; scope</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 17 行 | <code>     -&gt; exclusions</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 18 行 | <code>     -&gt; data source</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 19 行 | <code>  -&gt; Error budget</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 20 行 | <code>     -&gt; 1 - SLO</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 21 行 | <code>     -&gt; release decision</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 22 行 | <code>     -&gt; reliability work priority</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 23 行 | <code>  -&gt; Burn-rate alerting</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 24 行 | <code>     -&gt; short window</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 25 行 | <code>     -&gt; long window</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 26 行 | <code>     -&gt; page vs ticket</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 27 行 | <code>  -&gt; AIOps</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 28 行 | <code>     -&gt; SLO-centered anomaly detection</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 29 行 | <code>     -&gt; alert prioritization</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 30 行 | <code>     -&gt; incident impact</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; What users care about</code> | 这一行要理解这些英文词：`What users care about` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>     -&gt; availability</code> | 这一行要理解这些英文词：`availability` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>     -&gt; latency</code> | 这一行要理解这些英文词：`latency` 是延迟。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>     -&gt; correctness</code> | 这一行要理解这些英文词：`correctness` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>     -&gt; freshness</code> | 这一行要理解这些英文词：`freshness` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>     -&gt; durability</code> | 这一行要理解这些英文词：`durability` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; SLI</code> | 这一行要理解这些英文词：`SLI` 是英文缩写或固定标识，结合本节上下文记住它代表的组件、命令或状态。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>     -&gt; good events / total events</code> | 这一行要理解这些英文词：`good events` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`total events` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>     -&gt; latency threshold</code> | 这一行要理解这些英文词：`latency threshold` 是latency=延迟。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>     -&gt; freshness threshold</code> | 这一行要理解这些英文词：`freshness threshold` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 12 行 | <code>     -&gt; correctness checks</code> | 这一行要理解这些英文词：`correctness checks` 是checks=检查。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 13 行 | <code>  -&gt; SLO</code> | 这一行要理解这些英文词：`SLO` 是服务等级目标。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 14 行 | <code>     -&gt; target</code> | 这一行要理解这些英文词：`target` 是目标，可以是采集目标、部署目标或请求目标。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 15 行 | <code>     -&gt; window</code> | 这一行要理解这些英文词：`window` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 16 行 | <code>     -&gt; scope</code> | 这一行要理解这些英文词：`scope` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 17 行 | <code>     -&gt; exclusions</code> | 这一行要理解这些英文词：`exclusions` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 18 行 | <code>     -&gt; data source</code> | 这一行要理解这些英文词：`data source` 是data=数据，source=来源。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 19 行 | <code>  -&gt; Error budget</code> | 这一行要理解这些英文词：`Error budget` 是error=错误。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 20 行 | <code>     -&gt; 1 - SLO</code> | 这一行要理解这些英文词：`SLO` 是服务等级目标。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 21 行 | <code>     -&gt; release decision</code> | 这一行要理解这些英文词：`release decision` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 22 行 | <code>     -&gt; reliability work priority</code> | 这一行要理解这些英文词：`reliability work priority` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 23 行 | <code>  -&gt; Burn-rate alerting</code> | 这一行要理解这些英文词：`Burn-rate alerting` 是burn=消耗。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 24 行 | <code>     -&gt; short window</code> | 这一行要理解这些英文词：`short window` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 25 行 | <code>     -&gt; long window</code> | 这一行要理解这些英文词：`long window` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 26 行 | <code>     -&gt; page vs ticket</code> | 这一行要理解这些英文词：`page vs ticket` 是page=立即通知值班人员，ticket=工单。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 27 行 | <code>  -&gt; AIOps</code> | 这一行要理解这些英文词：`AIOps` 是智能运维。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 28 行 | <code>     -&gt; SLO-centered anomaly detection</code> | 这一行要理解这些英文词：`SLO-centered anomaly detection` 是slo=服务等级目标，detection=发现或检测。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 29 行 | <code>     -&gt; alert prioritization</code> | 这一行要理解这些英文词：`alert prioritization` 是alert=告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 30 行 | <code>     -&gt; incident impact</code> | 这一行要理解这些英文词：`incident impact` 是impact=影响范围。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 初学路线：
@@ -154,14 +154,14 @@ choose user journey
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>choose user journey</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; define good and bad events</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; write availability SLI</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; write latency SLI</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; choose SLO target</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; calculate error budget</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; create recording rules</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>  -&gt; create burn-rate alerts</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 9 行 | <code>  -&gt; use budget in change decisions</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; define good and bad events</code> | 这一行要理解这些英文词：`define good and bad events` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; write availability SLI</code> | 这一行要理解这些英文词：`write availability SLI` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; write latency SLI</code> | 这一行要理解这些英文词：`write latency SLI` 是latency=延迟。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; choose SLO target</code> | 这一行要理解这些英文词：`choose SLO target` 是slo=服务等级目标。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; calculate error budget</code> | 这一行要理解这些英文词：`calculate error budget` 是error=错误。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; create recording rules</code> | 这一行要理解这些英文词：`create recording rules` 是recording=预计算记录。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; create burn-rate alerts</code> | 这一行要理解这些英文词：`create burn-rate alerts` 是burn=消耗，alerts=告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>  -&gt; use budget in change decisions</code> | 这一行要理解这些英文词：`use budget in change decisions` 是change=变更。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 ## 三个概念
@@ -1021,13 +1021,13 @@ SLO 被慢速消耗
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>用户体验 SLO 被快速消耗</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; page</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; page</code> | 这一行要理解这些英文词：`page` 是立即通知值班人员。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 3 行 | <code>SLO 被慢速消耗</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>  -&gt; ticket</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; ticket</code> | 这一行要理解这些英文词：`ticket` 是工单。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 5 行 | <code>资源指标异常但无用户影响</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 6 行 | <code>  -&gt; dashboard / ticket</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; dashboard / ticket</code> | 这一行要理解这些英文词：`dashboard` 是仪表盘，用图表集中展示指标、状态和趋势；`ticket` 是工单。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 7 行 | <code>单实例问题但服务无影响</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 8 行 | <code>  -&gt; automation / repair</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 8 行 | <code>  -&gt; automation / repair</code> | 这一行要理解这些英文词：`automation` 是自动化；`repair` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 CPU 90% 不是天然 page。它需要回答：
@@ -1084,7 +1084,7 @@ CPU 升高 + latency SLI 恶化 + error budget 快速燃烧 -> page。
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>CPU 升高 + latency SLI 恶化 + error budget 快速燃烧 -&gt; page。</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 1 行 | <code>CPU 升高 + latency SLI 恶化 + error budget 快速燃烧 -&gt; page。</code> | 这一行要理解这些英文词：`CPU` 是中央处理器，负责执行程序计算；`latency SLI` 是latency=延迟；`error budget` 是error=错误；`page` 是立即通知值班人员。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 ## 入门实验：order-api SLO

@@ -183,11 +183,11 @@ local TSDB
 | 第 9 行 | <code>        v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 | 第 10 行 | <code>local TSDB</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 | 第 11 行 | <code>        &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 12 行 | <code>        +--&gt; PromQL queries</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 13 行 | <code>        +--&gt; Grafana dashboards</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 14 行 | <code>        +--&gt; recording rules</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 15 行 | <code>        +--&gt; alerting rules</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 16 行 | <code>        +--&gt; HTTP API</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 12 行 | <code>        +--&gt; PromQL queries</code> | 这一行要理解这些英文词：`PromQL queries` 是queries=查询。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 13 行 | <code>        +--&gt; Grafana dashboards</code> | 这一行要理解这些英文词：`Grafana dashboards` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 14 行 | <code>        +--&gt; recording rules</code> | 这一行要理解这些英文词：`recording rules` 是记录规则，提前把 PromQL 计算结果保存成新指标。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 15 行 | <code>        +--&gt; alerting rules</code> | 这一行要理解这些英文词：`alerting rules` 是告警规则，定义什么条件会触发告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 16 行 | <code>        +--&gt; HTTP API</code> | 这一行要理解这些英文词：`HTTP API` 是http=超文本传输协议，api=应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 17 行 | <code>                 &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 | 第 18 行 | <code>                 v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 | 第 19 行 | <code>        Python / AIOps analysis</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
@@ -312,9 +312,9 @@ Prometheus server
 | 第 12 行 | <code>  ├── rule manager</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
 | 第 13 行 | <code>  └── notification sender</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
 | 第 14 行 | <code>        &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 15 行 | <code>        +--&gt; Grafana</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 16 行 | <code>        +--&gt; Alertmanager</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 17 行 | <code>        +--&gt; HTTP API clients</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 15 行 | <code>        +--&gt; Grafana</code> | 这一行要理解这些英文词：`Grafana` 是仪表盘和可视化平台，用来展示指标、日志和告警数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 16 行 | <code>        +--&gt; Alertmanager</code> | 这一行要理解这些英文词：`Alertmanager` 是Prometheus 生态里的告警管理器。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 17 行 | <code>        +--&gt; HTTP API clients</code> | 这一行要理解这些英文词：`HTTP API clients` 是http=超文本传输协议，api=应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 核心组件：
@@ -1198,9 +1198,9 @@ scraped samples
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>scraped samples</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; write-ahead log</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; head block</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; compacted blocks on disk</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; write-ahead log</code> | 这一行要理解这些英文词：`write-ahead log` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; head block</code> | 这一行要理解这些英文词：`head block` 是block=配置块。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; compacted blocks on disk</code> | 这一行要理解这些英文词：`compacted blocks on disk` 是blocks=配置块。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 你需要知道的重点：
@@ -1745,7 +1745,7 @@ inactive -> pending -> firing
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>inactive -&gt; pending -&gt; firing</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 1 行 | <code>inactive -&gt; pending -&gt; firing</code> | 这一行要理解这些英文词：`inactive` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`pending` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`firing` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 解释：

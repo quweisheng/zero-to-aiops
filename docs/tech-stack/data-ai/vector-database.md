@@ -128,42 +128,42 @@ Vector Database
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>Vector Database</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; Input representation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>     -&gt; text</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>     -&gt; embedding model</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>     -&gt; vector dimension</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>     -&gt; dense vector</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>     -&gt; sparse vector</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>  -&gt; Data model</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 9 行 | <code>     -&gt; collection</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 10 行 | <code>     -&gt; record / entity / point</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 11 行 | <code>     -&gt; id</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 12 行 | <code>     -&gt; vector field</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 13 行 | <code>     -&gt; payload / metadata / scalar fields</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 14 行 | <code>     -&gt; source text</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 15 行 | <code>  -&gt; Indexing</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 16 行 | <code>     -&gt; vector index</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 17 行 | <code>     -&gt; payload / scalar index</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 18 行 | <code>     -&gt; HNSW / IVF / other ANN indexes</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 19 行 | <code>     -&gt; metric type</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 20 行 | <code>  -&gt; Search</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 21 行 | <code>     -&gt; vector search</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 22 行 | <code>     -&gt; top-k</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 23 行 | <code>     -&gt; metadata filtering</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 24 行 | <code>     -&gt; hybrid search</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 25 行 | <code>     -&gt; rerank</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 26 行 | <code>  -&gt; Operations</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 27 行 | <code>     -&gt; insert / upsert</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 28 行 | <code>     -&gt; delete</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 29 行 | <code>     -&gt; update metadata</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 30 行 | <code>     -&gt; reindex</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 31 行 | <code>     -&gt; backup</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 32 行 | <code>     -&gt; migration</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 33 行 | <code>  -&gt; AIOps</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 34 行 | <code>     -&gt; similar incidents</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 35 行 | <code>     -&gt; runbook retrieval</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 36 行 | <code>     -&gt; alert dedup explanation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 37 行 | <code>     -&gt; RAG recall layer</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; Input representation</code> | 这一行要理解这些英文词：`Input representation` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>     -&gt; text</code> | 这一行要理解这些英文词：`text` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>     -&gt; embedding model</code> | 这一行要理解这些英文词：`embedding model` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>     -&gt; vector dimension</code> | 这一行要理解这些英文词：`vector dimension` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>     -&gt; dense vector</code> | 这一行要理解这些英文词：`dense vector` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>     -&gt; sparse vector</code> | 这一行要理解这些英文词：`sparse vector` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; Data model</code> | 这一行要理解这些英文词：`Data model` 是data=数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>     -&gt; collection</code> | 这一行要理解这些英文词：`collection` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>     -&gt; record / entity / point</code> | 这一行要理解这些英文词：`record` 是记录，表示数据库、日志或事件中的一条数据；`entity` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`point` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>     -&gt; id</code> | 这一行要理解这些英文词：`id` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 12 行 | <code>     -&gt; vector field</code> | 这一行要理解这些英文词：`vector field` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 13 行 | <code>     -&gt; payload / metadata / scalar fields</code> | 这一行要理解这些英文词：`payload` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`metadata` 是元数据，用来描述数据的数据，例如来源、服务名、标签；`scalar fields` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 14 行 | <code>     -&gt; source text</code> | 这一行要理解这些英文词：`source text` 是source=来源。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 15 行 | <code>  -&gt; Indexing</code> | 这一行要理解这些英文词：`Indexing` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 16 行 | <code>     -&gt; vector index</code> | 这一行要理解这些英文词：`vector index` 是index=索引或目录。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 17 行 | <code>     -&gt; payload / scalar index</code> | 这一行要理解这些英文词：`payload` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`scalar index` 是index=索引或目录。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 18 行 | <code>     -&gt; HNSW / IVF / other ANN indexes</code> | 这一行要理解这些英文词：`HNSW` 是英文缩写或固定标识，结合本节上下文记住它代表的组件、命令或状态；`IVF` 是英文缩写或固定标识，结合本节上下文记住它代表的组件、命令或状态；`other ANN indexes` 是indexes=索引。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 19 行 | <code>     -&gt; metric type</code> | 这一行要理解这些英文词：`metric type` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 20 行 | <code>  -&gt; Search</code> | 这一行要理解这些英文词：`Search` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 21 行 | <code>     -&gt; vector search</code> | 这一行要理解这些英文词：`vector search` 是向量检索，用相似度搜索相近文本、事件或知识片段。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 22 行 | <code>     -&gt; top-k</code> | 这一行要理解这些英文词：`top-k` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 23 行 | <code>     -&gt; metadata filtering</code> | 这一行要理解这些英文词：`metadata filtering` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 24 行 | <code>     -&gt; hybrid search</code> | 这一行要理解这些英文词：`hybrid search` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 25 行 | <code>     -&gt; rerank</code> | 这一行要理解这些英文词：`rerank` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 26 行 | <code>  -&gt; Operations</code> | 这一行要理解这些英文词：`Operations` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 27 行 | <code>     -&gt; insert / upsert</code> | 这一行要理解这些英文词：`insert` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`upsert` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 28 行 | <code>     -&gt; delete</code> | 这一行要理解这些英文词：`delete` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 29 行 | <code>     -&gt; update metadata</code> | 这一行要理解这些英文词：`update metadata` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 30 行 | <code>     -&gt; reindex</code> | 这一行要理解这些英文词：`reindex` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 31 行 | <code>     -&gt; backup</code> | 这一行要理解这些英文词：`backup` 是备份，把数据复制出来以便故障后恢复。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 32 行 | <code>     -&gt; migration</code> | 这一行要理解这些英文词：`migration` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 33 行 | <code>  -&gt; AIOps</code> | 这一行要理解这些英文词：`AIOps` 是智能运维。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 34 行 | <code>     -&gt; similar incidents</code> | 这一行要理解这些英文词：`similar incidents` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 35 行 | <code>     -&gt; runbook retrieval</code> | 这一行要理解这些英文词：`runbook retrieval` 是runbook=故障处理手册。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 36 行 | <code>     -&gt; alert dedup explanation</code> | 这一行要理解这些英文词：`alert dedup explanation` 是alert=告警，dedup=去重。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 37 行 | <code>     -&gt; RAG recall layer</code> | 这一行要理解这些英文词：`RAG recall layer` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 初学路线：
@@ -184,13 +184,13 @@ OpenAI embeddings
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>OpenAI embeddings</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; Chroma local collection</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; insert incident records</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; query by new alert</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; metadata filter by service</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; Milvus Lite collection</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; schema and dimension</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>  -&gt; evaluate top-k</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; Chroma local collection</code> | 这一行要理解这些英文词：`Chroma local collection` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; insert incident records</code> | 这一行要理解这些英文词：`insert incident records` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; query by new alert</code> | 这一行要理解这些英文词：`query by new alert` 是query=查询，alert=告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; metadata filter by service</code> | 这一行要理解这些英文词：`metadata filter by service` 是service=服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; Milvus Lite collection</code> | 这一行要理解这些英文词：`Milvus Lite collection` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; schema and dimension</code> | 这一行要理解这些英文词：`schema and dimension` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; evaluate top-k</code> | 这一行要理解这些英文词：`evaluate top-k` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 ## 向量数据库在 AIOps 链路中的位置
@@ -210,12 +210,12 @@ runbooks / incidents / service docs / alert summaries
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>runbooks / incidents / service docs / alert summaries</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; chunk</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; embedding</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; vector database</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; retrieve similar records</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; LLM / RAG answer</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; on-call engineer</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; chunk</code> | 这一行要理解这些英文词：`chunk` 是数据分块，把长文本或大数据拆成较小片段。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; embedding</code> | 这一行要理解这些英文词：`embedding` 是向量表示，把文本转换成模型可计算的数字向量。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; vector database</code> | 这一行要理解这些英文词：`vector database` 是database=数据库。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; retrieve similar records</code> | 这一行要理解这些英文词：`retrieve similar records` 是retrieve=检索。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; LLM / RAG answer</code> | 这一行要理解这些英文词：`LLM` 是大语言模型；`RAG answer` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; on-call engineer</code> | 这一行要理解这些英文词：`on-call engineer` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 它不替代其他数据库：
@@ -262,7 +262,7 @@ Embedding 是把文本变成一串浮点数。
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>"order-api 5xx after deploy"</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; [0.012, -0.083, 0.451, ...]</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; [0.012, -0.083, 0.451, ...]</code> | 这一行表示上一级主题下的子项“0.012, -0.083, 0.451”，重点理解这个子项本身，不要把箭头当成知识点。 |
 
 
 这串数字不是给人读的，而是给算法比较相似度的。
@@ -290,8 +290,8 @@ text-embedding-3-large -> 默认 3072 维
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>text-embedding-3-small -&gt; 默认 1536 维</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 2 行 | <code>text-embedding-3-large -&gt; 默认 3072 维</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 1 行 | <code>text-embedding-3-small -&gt; 默认 1536 维</code> | 这一行要理解这些英文词：`text-embedding-3-small` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 2 行 | <code>text-embedding-3-large -&gt; 默认 3072 维</code> | 这一行要理解这些英文词：`text-embedding-3-large` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 维度必须和 collection 的向量字段一致。
@@ -554,7 +554,7 @@ query -> embedding -> vector search -> top-k
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>query -&gt; embedding -&gt; vector search -&gt; top-k</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 1 行 | <code>query -&gt; embedding -&gt; vector search -&gt; top-k</code> | 这一行要理解这些英文词：`query` 是查询；`embedding` 是向量表示，把文本转换成模型可计算的数字向量；`vector search` 是向量检索，用相似度搜索相近文本、事件或知识片段；`top-k` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 适合语义相似。
@@ -569,7 +569,7 @@ query -> embedding -> vector search where service = order-api
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>query -&gt; embedding -&gt; vector search where service = order-api</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 1 行 | <code>query -&gt; embedding -&gt; vector search where service = order-api</code> | 这一行要理解这些英文词：`query` 是查询；`embedding` 是向量表示，把文本转换成模型可计算的数字向量；`vector search where service` 是service=服务；`order-api` 是order=订单服务或订单业务域，api=应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 适合 AIOps 大多数场景。
@@ -639,10 +639,10 @@ source file changed
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>source file changed</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; delete chunks by source</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; re-split document</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; embed new chunks</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; upsert new records</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; delete chunks by source</code> | 这一行要理解这些英文词：`delete chunks by source` 是source=来源。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; re-split document</code> | 这一行要理解这些英文词：`re-split document` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; embed new chunks</code> | 这一行要理解这些英文词：`embed new chunks` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; upsert new records</code> | 这一行要理解这些英文词：`upsert new records` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 稳定 ID 设计：
@@ -704,9 +704,9 @@ user
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>user</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; allowed services / teams / visibility</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; metadata filter</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; retrieve only authorized records</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; allowed services / teams / visibility</code> | 这一行要理解这些英文词：`allowed services` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`teams` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`visibility` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; metadata filter</code> | 这一行要理解这些英文词：`metadata filter` 是元数据过滤，按标签、服务名、时间等字段筛选数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; retrieve only authorized records</code> | 这一行要理解这些英文词：`retrieve only authorized records` 是retrieve=检索。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 示例 metadata：

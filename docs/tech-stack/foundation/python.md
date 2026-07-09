@@ -89,11 +89,11 @@ Python scripts and jobs
 | 第 6 行 | <code>        v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 | 第 7 行 | <code>Python scripts and jobs</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 | 第 8 行 | <code>        &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 9 行 | <code>        +--&gt; clean and aggregate data</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 10 行 | <code>        +--&gt; generate reports</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 11 行 | <code>        +--&gt; call Prometheus / Kubernetes / GitHub APIs</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 12 行 | <code>        +--&gt; run anomaly detection experiments</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 13 行 | <code>        +--&gt; expose automation as an API</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 9 行 | <code>        +--&gt; clean and aggregate data</code> | 这一行要理解这些英文词：`clean and aggregate data` 是data=数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>        +--&gt; generate reports</code> | 这一行要理解这些英文词：`generate reports` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>        +--&gt; call Prometheus / Kubernetes / GitHub APIs</code> | 这一行要理解这些英文词：`call Prometheus` 是prometheus=指标监控系统；`Kubernetes` 是容器编排平台，用来部署、调度和管理容器化应用；`GitHub APIs` 是github=代码托管平台。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 12 行 | <code>        +--&gt; run anomaly detection experiments</code> | 这一行要理解这些英文词：`run anomaly detection experiments` 是detection=发现或检测。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 13 行 | <code>        +--&gt; expose automation as an API</code> | 这一行要理解这些英文词：`expose automation as an API` 是automation=自动化，api=应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 在 AIOps 中，Python 常见位置有五类：

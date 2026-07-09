@@ -559,6 +559,7 @@ function usePointerMotion() {
       window.requestAnimationFrame?.bind(window) ??
       ((callback: FrameRequestCallback) => window.setTimeout(() => callback(Date.now()), 16))
     const cancelFrame = window.cancelAnimationFrame?.bind(window) ?? window.clearTimeout.bind(window)
+    const interactiveSelector = 'a, button, input, textarea, select, [role="button"], .button, .theme-button'
     let frame: number | null = null
     let currentX = window.innerWidth * 0.72
     let currentY = window.innerHeight * 0.28
@@ -570,18 +571,19 @@ function usePointerMotion() {
       root.style.setProperty('--pointer-x', `${currentX}px`)
       root.style.setProperty('--pointer-y', `${currentY}px`)
       root.style.setProperty('--pointer-speed', pointerSpeed.toFixed(3))
-      root.style.setProperty('--pointer-core-opacity', (0.58 + pointerSpeed * 0.24).toFixed(3))
-      root.style.setProperty('--pointer-trail-opacity', (0.14 + pointerSpeed * 0.42).toFixed(3))
-      root.style.setProperty('--pointer-trail-scale', (0.56 + pointerSpeed * 0.44).toFixed(3))
+      root.style.setProperty('--cursor-motion-scale', (1 + pointerSpeed * 0.08).toFixed(3))
     }
 
-    const applyTrailState = (nextX: number, nextY: number) => {
+    const applyCursorState = (nextX: number, nextY: number, target: EventTarget | null) => {
       const deltaX = nextX - targetX
       const deltaY = nextY - targetY
       const distance = Math.hypot(deltaX, deltaY)
+      const targetElement = target instanceof Element ? target : undefined
 
-      if (Math.abs(deltaX) > 0.5 || Math.abs(deltaY) > 0.5) {
-        root.style.setProperty('--pointer-angle', `${Math.atan2(deltaY, deltaX)}rad`)
+      if (targetElement?.closest(interactiveSelector)) {
+        root.dataset.cursor = 'hover'
+      } else {
+        delete root.dataset.cursor
       }
 
       pointerSpeed = Math.max(pointerSpeed, Math.min(distance / 44, 1))
@@ -601,7 +603,7 @@ function usePointerMotion() {
     }
 
     const onPointerMove = (event: PointerEvent) => {
-      applyTrailState(event.clientX, event.clientY)
+      applyCursorState(event.clientX, event.clientY, event.target)
       targetX = event.clientX
       targetY = event.clientY
 
@@ -610,21 +612,25 @@ function usePointerMotion() {
       }
     }
 
+    const onPointerLeave = () => {
+      root.dataset.cursor = 'hidden'
+    }
+
     applyPosition()
     window.addEventListener('pointermove', onPointerMove, { passive: true })
+    window.addEventListener('pointerleave', onPointerLeave, { passive: true })
 
     return () => {
       window.removeEventListener('pointermove', onPointerMove)
+      window.removeEventListener('pointerleave', onPointerLeave)
       if (frame !== null) {
         cancelFrame(frame)
       }
       root.style.removeProperty('--pointer-x')
       root.style.removeProperty('--pointer-y')
-      root.style.removeProperty('--pointer-angle')
       root.style.removeProperty('--pointer-speed')
-      root.style.removeProperty('--pointer-core-opacity')
-      root.style.removeProperty('--pointer-trail-opacity')
-      root.style.removeProperty('--pointer-trail-scale')
+      root.style.removeProperty('--cursor-motion-scale')
+      delete root.dataset.cursor
     }
   }, [])
 }

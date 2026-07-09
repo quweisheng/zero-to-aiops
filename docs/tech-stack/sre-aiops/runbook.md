@@ -140,50 +140,50 @@ Runbook
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>Runbook</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; Metadata</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>     -&gt; service</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>     -&gt; owner</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>     -&gt; alertname</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>     -&gt; severity</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>     -&gt; last_updated</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>  -&gt; Trigger</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 9 行 | <code>     -&gt; alert rule</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 10 行 | <code>     -&gt; user report</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 11 行 | <code>     -&gt; maintenance task</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 12 行 | <code>  -&gt; Context</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 13 行 | <code>     -&gt; user impact</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 14 行 | <code>     -&gt; dashboards</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 15 行 | <code>     -&gt; logs</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 16 行 | <code>     -&gt; dependencies</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 17 行 | <code>  -&gt; Preconditions</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 18 行 | <code>     -&gt; permissions</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 19 行 | <code>     -&gt; environment</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 20 行 | <code>     -&gt; approvals</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 21 行 | <code>     -&gt; tools</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 22 行 | <code>  -&gt; Diagnosis</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 23 行 | <code>     -&gt; checks</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 24 行 | <code>     -&gt; commands</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 25 行 | <code>     -&gt; expected output</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 26 行 | <code>     -&gt; decision tree</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 27 行 | <code>  -&gt; Actions</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 28 行 | <code>     -&gt; safe actions</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 29 行 | <code>     -&gt; risky actions</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 30 行 | <code>     -&gt; approval</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 31 行 | <code>     -&gt; rollback</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 32 行 | <code>  -&gt; Verification</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 33 行 | <code>     -&gt; SLI back to normal</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 34 行 | <code>     -&gt; alerts stop</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 35 行 | <code>     -&gt; user reports stop</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 36 行 | <code>  -&gt; Escalation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 37 行 | <code>     -&gt; owner</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 38 行 | <code>     -&gt; SME</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 39 行 | <code>     -&gt; SEV upgrade</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 40 行 | <code>  -&gt; Automation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 41 行 | <code>     -&gt; inputs</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 42 行 | <code>     -&gt; steps</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 43 行 | <code>     -&gt; actions</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 44 行 | <code>     -&gt; outputs</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 45 行 | <code>     -&gt; audit</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; Metadata</code> | 这一行要理解这些英文词：`Metadata` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>     -&gt; service</code> | 这一行要理解这些英文词：`service` 是服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>     -&gt; owner</code> | 这一行要理解这些英文词：`owner` 是负责人。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>     -&gt; alertname</code> | 这一行要理解这些英文词：`alertname` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>     -&gt; severity</code> | 这一行要理解这些英文词：`severity` 是严重级别。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>     -&gt; last_updated</code> | 这一行要理解这些英文词：`last_updated` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; Trigger</code> | 这一行要理解这些英文词：`Trigger` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>     -&gt; alert rule</code> | 这一行要理解这些英文词：`alert rule` 是alert=告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>     -&gt; user report</code> | 这一行要理解这些英文词：`user report` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>     -&gt; maintenance task</code> | 这一行要理解这些英文词：`maintenance task` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 12 行 | <code>  -&gt; Context</code> | 这一行要理解这些英文词：`Context` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 13 行 | <code>     -&gt; user impact</code> | 这一行要理解这些英文词：`user impact` 是impact=影响范围。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 14 行 | <code>     -&gt; dashboards</code> | 这一行要理解这些英文词：`dashboards` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 15 行 | <code>     -&gt; logs</code> | 这一行要理解这些英文词：`logs` 是日志。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 16 行 | <code>     -&gt; dependencies</code> | 这一行要理解这些英文词：`dependencies` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 17 行 | <code>  -&gt; Preconditions</code> | 这一行要理解这些英文词：`Preconditions` 是前置条件。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 18 行 | <code>     -&gt; permissions</code> | 这一行要理解这些英文词：`permissions` 是权限，决定谁能读、写、执行或管理资源。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 19 行 | <code>     -&gt; environment</code> | 这一行要理解这些英文词：`environment` 是环境，例如开发、测试、预发或生产。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 20 行 | <code>     -&gt; approvals</code> | 这一行要理解这些英文词：`approvals` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 21 行 | <code>     -&gt; tools</code> | 这一行要理解这些英文词：`tools` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 22 行 | <code>  -&gt; Diagnosis</code> | 这一行要理解这些英文词：`Diagnosis` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 23 行 | <code>     -&gt; checks</code> | 这一行要理解这些英文词：`checks` 是检查。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 24 行 | <code>     -&gt; commands</code> | 这一行要理解这些英文词：`commands` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 25 行 | <code>     -&gt; expected output</code> | 这一行要理解这些英文词：`expected output` 是output=输出。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 26 行 | <code>     -&gt; decision tree</code> | 这一行要理解这些英文词：`decision tree` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 27 行 | <code>  -&gt; Actions</code> | 这一行要理解这些英文词：`Actions` 是动作或改进项。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 28 行 | <code>     -&gt; safe actions</code> | 这一行要理解这些英文词：`safe actions` 是actions=动作或改进项。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 29 行 | <code>     -&gt; risky actions</code> | 这一行要理解这些英文词：`risky actions` 是actions=动作或改进项。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 30 行 | <code>     -&gt; approval</code> | 这一行要理解这些英文词：`approval` 是审批，表示需要人工确认后才能继续执行。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 31 行 | <code>     -&gt; rollback</code> | 这一行要理解这些英文词：`rollback` 是回滚。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 32 行 | <code>  -&gt; Verification</code> | 这一行要理解这些英文词：`Verification` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 33 行 | <code>     -&gt; SLI back to normal</code> | 这一行要理解这些英文词：`SLI back to normal` 是normal=普通级别。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 34 行 | <code>     -&gt; alerts stop</code> | 这一行要理解这些英文词：`alerts stop` 是alerts=告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 35 行 | <code>     -&gt; user reports stop</code> | 这一行要理解这些英文词：`user reports stop` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 36 行 | <code>  -&gt; Escalation</code> | 这一行要理解这些英文词：`Escalation` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 37 行 | <code>     -&gt; owner</code> | 这一行要理解这些英文词：`owner` 是负责人。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 38 行 | <code>     -&gt; SME</code> | 这一行要理解这些英文词：`SME` 是英文缩写或固定标识，结合本节上下文记住它代表的组件、命令或状态。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 39 行 | <code>     -&gt; SEV upgrade</code> | 这一行要理解这些英文词：`SEV upgrade` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 40 行 | <code>  -&gt; Automation</code> | 这一行要理解这些英文词：`Automation` 是自动化。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 41 行 | <code>     -&gt; inputs</code> | 这一行要理解这些英文词：`inputs` 是输入值。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 42 行 | <code>     -&gt; steps</code> | 这一行要理解这些英文词：`steps` 是步骤。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 43 行 | <code>     -&gt; actions</code> | 这一行要理解这些英文词：`actions` 是动作或改进项。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 44 行 | <code>     -&gt; outputs</code> | 这一行要理解这些英文词：`outputs` 是输出值。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 45 行 | <code>     -&gt; audit</code> | 这一行要理解这些英文词：`audit` 是审计记录。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 初学路线：
@@ -204,13 +204,13 @@ write markdown runbook
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>write markdown runbook</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; attach to alert annotation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; test in a drill</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; add commands and expected outputs</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; add decision tree</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; automate read-only checks</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; automate low-risk actions</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>  -&gt; require approval for high-risk actions</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; attach to alert annotation</code> | 这一行要理解这些英文词：`attach to alert annotation` 是alert=告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; test in a drill</code> | 这一行要理解这些英文词：`test in a drill` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; add commands and expected outputs</code> | 这一行要理解这些英文词：`add commands and expected outputs` 是outputs=输出值。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; add decision tree</code> | 这一行要理解这些英文词：`add decision tree` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; automate read-only checks</code> | 这一行要理解这些英文词：`automate read-only checks` 是checks=检查。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; automate low-risk actions</code> | 这一行要理解这些英文词：`automate low-risk actions` 是actions=动作或改进项。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; require approval for high-risk actions</code> | 这一行要理解这些英文词：`require approval for high-risk actions` 是actions=动作或改进项。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 ## Runbook 不是什么
@@ -240,9 +240,9 @@ alert
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>alert</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; runbook tells what to do</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; incident doc records what happened</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; postmortem improves runbook</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; runbook tells what to do</code> | 这一行要理解这些英文词：`runbook tells what to do` 是runbook=故障处理手册。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; incident doc records what happened</code> | 这一行要理解这些英文词：`incident doc records what happened` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; postmortem improves runbook</code> | 这一行要理解这些英文词：`postmortem improves runbook` 是postmortem=事故复盘报告，runbook=故障处理手册。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 Runbook 是事前准备。
@@ -265,9 +265,9 @@ runbook
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>runbook</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; incident response</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; postmortem action item</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; runbook update</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; incident response</code> | 这一行要理解这些英文词：`incident response` 是response=响应处理。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; postmortem action item</code> | 这一行要理解这些英文词：`postmortem action item` 是postmortem=事故复盘报告，action=动作或改进项。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; runbook update</code> | 这一行要理解这些英文词：`runbook update` 是runbook=故障处理手册。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 ## 好 Runbook 的标准
@@ -333,19 +333,19 @@ metadata
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>metadata</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; trigger</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; impact</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; prerequisites</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; quick triage</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; dashboards</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; checks</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>  -&gt; decision tree</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 9 行 | <code>  -&gt; safe actions</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 10 行 | <code>  -&gt; risky actions</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 11 行 | <code>  -&gt; verification</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 12 行 | <code>  -&gt; escalation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 13 行 | <code>  -&gt; record</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 14 行 | <code>  -&gt; automation mapping</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; trigger</code> | 这一行要理解这些英文词：`trigger` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; impact</code> | 这一行要理解这些英文词：`impact` 是影响范围。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; prerequisites</code> | 这一行要理解这些英文词：`prerequisites` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; quick triage</code> | 这一行要理解这些英文词：`quick triage` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; dashboards</code> | 这一行要理解这些英文词：`dashboards` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; checks</code> | 这一行要理解这些英文词：`checks` 是检查。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; decision tree</code> | 这一行要理解这些英文词：`decision tree` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>  -&gt; safe actions</code> | 这一行要理解这些英文词：`safe actions` 是actions=动作或改进项。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>  -&gt; risky actions</code> | 这一行要理解这些英文词：`risky actions` 是actions=动作或改进项。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>  -&gt; verification</code> | 这一行要理解这些英文词：`verification` 是验证，确认操作结果真的符合预期。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 12 行 | <code>  -&gt; escalation</code> | 这一行要理解这些英文词：`escalation` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 13 行 | <code>  -&gt; record</code> | 这一行要理解这些英文词：`record` 是记录，表示数据库、日志或事件中的一条数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 14 行 | <code>  -&gt; automation mapping</code> | 这一行要理解这些英文词：`automation mapping` 是automation=自动化。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 每一节都要短、具体、可执行。
@@ -731,12 +731,12 @@ AWS Systems Manager Automation runbook 的概念很适合理解自动化：runbo
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>人工 Markdown runbook</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; 只读检查脚本</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; 参数化脚本</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; 受控自动化</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; 自助执行</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; 告警触发 + 人工审批</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; 低风险自动执行</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; 只读检查脚本</code> | 这一行表示上一级主题下的子项“只读检查脚本”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
+| 第 3 行 | <code>  -&gt; 参数化脚本</code> | 这一行表示上一级主题下的子项“参数化脚本”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
+| 第 4 行 | <code>  -&gt; 受控自动化</code> | 这一行表示上一级主题下的子项“受控自动化”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
+| 第 5 行 | <code>  -&gt; 自助执行</code> | 这一行表示上一级主题下的子项“自助执行”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
+| 第 6 行 | <code>  -&gt; 告警触发 + 人工审批</code> | 这一行表示上一级主题下的子项“告警触发 + 人工审批”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
+| 第 7 行 | <code>  -&gt; 低风险自动执行</code> | 这一行表示上一级主题下的子项“低风险自动执行”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
 
 
 不要跳过前几步直接让告警自动重启生产。

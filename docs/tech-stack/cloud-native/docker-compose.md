@@ -339,7 +339,7 @@ service definition
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>service definition</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; one or more containers</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; one or more containers</code> | 这一行要理解这些英文词：`one or more containers` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 默认一个 service 一个容器。某些场景可以 scale：
@@ -391,8 +391,8 @@ prometheus -> demo-app:8000
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>grafana -&gt; prometheus:9090</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 2 行 | <code>prometheus -&gt; demo-app:8000</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 1 行 | <code>grafana -&gt; prometheus:9090</code> | 这一行要理解这些英文词：`grafana` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`prometheus` 是指标监控系统。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 2 行 | <code>prometheus -&gt; demo-app:8000</code> | 这一行要理解这些英文词：`prometheus` 是指标监控系统；`demo-app` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 这里的 `prometheus` 和 `demo-app` 是 Compose 内部 DNS 名称。
@@ -733,7 +733,7 @@ host:3000 -> container:3000
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>host:3000 -&gt; container:3000</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 1 行 | <code>host:3000 -&gt; container:3000</code> | 这一行要理解这些英文词：`host` 是主机，可以是一台服务器、虚拟机或节点；`container` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 如果宿主机 3000 被占用：
@@ -1248,9 +1248,9 @@ grafana container
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>grafana container</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; DNS resolve prometheus</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; prometheus container IP</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; connect 9090</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; DNS resolve prometheus</code> | 这一行要理解这些英文词：`DNS resolve prometheus` 是prometheus=指标监控系统。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; prometheus container IP</code> | 这一行要理解这些英文词：`prometheus container IP` 是prometheus=指标监控系统。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; connect 9090</code> | 这一行要理解这些英文词：`connect` 是连接。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 自定义网络：

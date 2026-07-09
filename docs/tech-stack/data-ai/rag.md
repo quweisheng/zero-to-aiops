@@ -130,39 +130,39 @@ RAG
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>RAG</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; Knowledge sources</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>     -&gt; runbooks</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>     -&gt; incident reports</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>     -&gt; service docs</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>     -&gt; tickets</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>     -&gt; dashboards notes</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>  -&gt; Offline indexing</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 9 行 | <code>     -&gt; load documents</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 10 行 | <code>     -&gt; clean / normalize</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 11 行 | <code>     -&gt; split into chunks</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 12 行 | <code>     -&gt; attach metadata</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 13 行 | <code>     -&gt; create embeddings</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 14 行 | <code>     -&gt; store in vector database</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 15 行 | <code>  -&gt; Online retrieval</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 16 行 | <code>     -&gt; receive query / alert context</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 17 行 | <code>     -&gt; query rewriting optional</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 18 行 | <code>     -&gt; create query embedding</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 19 行 | <code>     -&gt; vector search</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 20 行 | <code>     -&gt; keyword / hybrid search optional</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 21 行 | <code>     -&gt; metadata filter</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 22 行 | <code>     -&gt; rerank optional</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 23 行 | <code>     -&gt; context packing</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 24 行 | <code>  -&gt; Generation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 25 行 | <code>     -&gt; prompt with retrieved context</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 26 行 | <code>     -&gt; structured output</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 27 行 | <code>     -&gt; cite sources</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 28 行 | <code>     -&gt; refuse when context is insufficient</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 29 行 | <code>  -&gt; Evaluation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 30 行 | <code>     -&gt; retrieval recall</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 31 行 | <code>     -&gt; answer faithfulness</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 32 行 | <code>     -&gt; citation accuracy</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 33 行 | <code>     -&gt; latency / cost</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 34 行 | <code>     -&gt; safety</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; Knowledge sources</code> | 这一行要理解这些英文词：`Knowledge sources` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>     -&gt; runbooks</code> | 这一行要理解这些英文词：`runbooks` 是故障处理手册。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>     -&gt; incident reports</code> | 这一行要理解这些英文词：`incident reports` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>     -&gt; service docs</code> | 这一行要理解这些英文词：`service docs` 是service=服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>     -&gt; tickets</code> | 这一行要理解这些英文词：`tickets` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>     -&gt; dashboards notes</code> | 这一行要理解这些英文词：`dashboards notes` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; Offline indexing</code> | 这一行要理解这些英文词：`Offline indexing` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>     -&gt; load documents</code> | 这一行要理解这些英文词：`load documents` 是load=加载。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>     -&gt; clean / normalize</code> | 这一行要理解这些英文词：`clean` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`normalize` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>     -&gt; split into chunks</code> | 这一行要理解这些英文词：`split into chunks` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 12 行 | <code>     -&gt; attach metadata</code> | 这一行要理解这些英文词：`attach metadata` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 13 行 | <code>     -&gt; create embeddings</code> | 这一行要理解这些英文词：`create embeddings` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 14 行 | <code>     -&gt; store in vector database</code> | 这一行要理解这些英文词：`store in vector database` 是database=数据库。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 15 行 | <code>  -&gt; Online retrieval</code> | 这一行要理解这些英文词：`Online retrieval` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 16 行 | <code>     -&gt; receive query / alert context</code> | 这一行要理解这些英文词：`receive query` 是query=查询；`alert context` 是alert=告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 17 行 | <code>     -&gt; query rewriting optional</code> | 这一行要理解这些英文词：`query rewriting optional` 是query=查询。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 18 行 | <code>     -&gt; create query embedding</code> | 这一行要理解这些英文词：`create query embedding` 是query=查询。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 19 行 | <code>     -&gt; vector search</code> | 这一行要理解这些英文词：`vector search` 是向量检索，用相似度搜索相近文本、事件或知识片段。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 20 行 | <code>     -&gt; keyword / hybrid search optional</code> | 这一行要理解这些英文词：`keyword` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`hybrid search optional` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 21 行 | <code>     -&gt; metadata filter</code> | 这一行要理解这些英文词：`metadata filter` 是元数据过滤，按标签、服务名、时间等字段筛选数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 22 行 | <code>     -&gt; rerank optional</code> | 这一行要理解这些英文词：`rerank optional` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 23 行 | <code>     -&gt; context packing</code> | 这一行要理解这些英文词：`context packing` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 24 行 | <code>  -&gt; Generation</code> | 这一行要理解这些英文词：`Generation` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 25 行 | <code>     -&gt; prompt with retrieved context</code> | 这一行要理解这些英文词：`prompt with retrieved context` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 26 行 | <code>     -&gt; structured output</code> | 这一行要理解这些英文词：`structured output` 是output=输出。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 27 行 | <code>     -&gt; cite sources</code> | 这一行要理解这些英文词：`cite sources` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 28 行 | <code>     -&gt; refuse when context is insufficient</code> | 这一行要理解这些英文词：`refuse when context is insufficient` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 29 行 | <code>  -&gt; Evaluation</code> | 这一行要理解这些英文词：`Evaluation` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 30 行 | <code>     -&gt; retrieval recall</code> | 这一行要理解这些英文词：`retrieval recall` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 31 行 | <code>     -&gt; answer faithfulness</code> | 这一行要理解这些英文词：`answer faithfulness` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 32 行 | <code>     -&gt; citation accuracy</code> | 这一行要理解这些英文词：`citation accuracy` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 33 行 | <code>     -&gt; latency / cost</code> | 这一行要理解这些英文词：`latency` 是延迟；`cost` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 34 行 | <code>     -&gt; safety</code> | 这一行要理解这些英文词：`safety` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 初学路线：
@@ -183,13 +183,13 @@ two markdown runbooks
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>two markdown runbooks</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; chunk</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; OpenAI embeddings</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; Chroma collection</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; retrieve top-k chunks</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; OpenAI Responses API</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; answer with sources</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>  -&gt; evaluate retrieval and answer</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; chunk</code> | 这一行要理解这些英文词：`chunk` 是数据分块，把长文本或大数据拆成较小片段。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; OpenAI embeddings</code> | 这一行要理解这些英文词：`OpenAI embeddings` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; Chroma collection</code> | 这一行要理解这些英文词：`Chroma collection` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; retrieve top-k chunks</code> | 这一行要理解这些英文词：`retrieve top-k chunks` 是retrieve=检索。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; OpenAI Responses API</code> | 这一行要理解这些英文词：`OpenAI Responses API` 是api=应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; answer with sources</code> | 这一行要理解这些英文词：`answer with sources` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; evaluate retrieval and answer</code> | 这一行要理解这些英文词：`evaluate retrieval and answer` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 ## RAG 在 AIOps 链路中的位置
@@ -210,11 +210,11 @@ Alertmanager / incident ticket / on-call question
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>Alertmanager / incident ticket / on-call question</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; normalize alert context</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; retrieve runbooks, incident reports, service docs</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; LLM answer with evidence</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; human review</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; optional runbook automation with approval</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; normalize alert context</code> | 这一行要理解这些英文词：`normalize alert context` 是alert=告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; retrieve runbooks, incident reports, service docs</code> | 这一行要理解这些英文词：`retrieve runbooks` 是retrieve=检索，runbooks=故障处理手册；`incident reports` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`service docs` 是service=服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; LLM answer with evidence</code> | 这一行要理解这些英文词：`LLM answer with evidence` 是llm=大语言模型，evidence=证据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; human review</code> | 这一行要理解这些英文词：`human review` 是review=复盘或评审。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; optional runbook automation with approval</code> | 这一行要理解这些英文词：`optional runbook automation with approval` 是runbook=故障处理手册，automation=自动化。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 它适合：
@@ -261,13 +261,13 @@ human
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>rules</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; detect known conditions</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; detect known conditions</code> | 这一行要理解这些英文词：`detect known conditions` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 3 行 | <code>RAG</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 4 行 | <code>  -&gt; retrieve internal knowledge</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; retrieve internal knowledge</code> | 这一行要理解这些英文词：`retrieve internal knowledge` 是retrieve=检索。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 5 行 | <code>LLM</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 6 行 | <code>  -&gt; summarize, explain, structure</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; summarize, explain, structure</code> | 这一行要理解这些英文词：`summarize` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`explain` 是解释执行计划的命令；`structure` 是结构。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 7 行 | <code>human</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 8 行 | <code>  -&gt; approve risky actions</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 8 行 | <code>  -&gt; approve risky actions</code> | 这一行要理解这些英文词：`approve risky actions` 是actions=动作或改进项。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 ## 两条主链路
@@ -291,12 +291,12 @@ runbook markdown / incident report / wiki
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>runbook markdown / incident report / wiki</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; loader</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; cleaner</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; splitter</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; chunk metadata</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; embedding model</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; vector database</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; loader</code> | 这一行要理解这些英文词：`loader` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; cleaner</code> | 这一行要理解这些英文词：`cleaner` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; splitter</code> | 这一行要理解这些英文词：`splitter` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; chunk metadata</code> | 这一行要理解这些英文词：`chunk metadata` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; embedding model</code> | 这一行要理解这些英文词：`embedding model` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; vector database</code> | 这一行要理解这些英文词：`vector database` 是database=数据库。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 这条链路可以定时跑，也可以在文档变更时由 CI/CD 触发。
@@ -320,14 +320,14 @@ question / alert context
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>question / alert context</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; query embedding</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; vector search</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; metadata filter</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; top-k chunks</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; rerank optional</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; context packing</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>  -&gt; LLM answer</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 9 行 | <code>  -&gt; sources / citations</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; query embedding</code> | 这一行要理解这些英文词：`query embedding` 是query=查询。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; vector search</code> | 这一行要理解这些英文词：`vector search` 是向量检索，用相似度搜索相近文本、事件或知识片段。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; metadata filter</code> | 这一行要理解这些英文词：`metadata filter` 是元数据过滤，按标签、服务名、时间等字段筛选数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; top-k chunks</code> | 这一行要理解这些英文词：`top-k chunks` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; rerank optional</code> | 这一行要理解这些英文词：`rerank optional` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; context packing</code> | 这一行要理解这些英文词：`context packing` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; LLM answer</code> | 这一行要理解这些英文词：`LLM answer` 是llm=大语言模型。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>  -&gt; sources / citations</code> | 这一行要理解这些英文词：`sources` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`citations` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 这条链路是用户提问时实时发生的。
@@ -360,9 +360,9 @@ order-api-runbook.md
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>order-api-runbook.md</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; chunk 1: 服务概览</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; chunk 2: HighErrorRate 排查</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; chunk 3: DatabaseTimeout 排查</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; chunk 1: 服务概览</code> | 这一行要理解这些英文词：`chunk` 是数据分块，把长文本或大数据拆成较小片段。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; chunk 2: HighErrorRate 排查</code> | 这一行要理解这些英文词：`chunk` 是数据分块，把长文本或大数据拆成较小片段；`HighErrorRate` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; chunk 3: DatabaseTimeout 排查</code> | 这一行要理解这些英文词：`chunk` 是数据分块，把长文本或大数据拆成较小片段；`DatabaseTimeout` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 检索时通常不是检索整篇文档，而是检索 chunk。
@@ -381,7 +381,7 @@ Embedding 是文本的向量表示。
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>"order-api 5xx error rate after deploy"</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; [0.012, -0.083, ...]</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; [0.012, -0.083, ...]</code> | 这一行表示上一级主题下的子项“0.012, -0.083”，重点理解这个子项本身，不要把箭头当成知识点。 |
 
 
 相似文本的向量距离更近。
@@ -604,10 +604,10 @@ query
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>query</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; retrieve top 20</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; rerank</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; keep top 5</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; generate answer</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; retrieve top 20</code> | 这一行要理解这些英文词：`retrieve top` 是retrieve=检索。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; rerank</code> | 这一行要理解这些英文词：`rerank` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; keep top 5</code> | 这一行要理解这些英文词：`keep top` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; generate answer</code> | 这一行要理解这些英文词：`generate answer` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 rerank 的价值：
@@ -1605,10 +1605,10 @@ files
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>files</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; OpenAI vector store</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; file_search tool</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; Responses API</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; answer</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; OpenAI vector store</code> | 这一行要理解这些英文词：`OpenAI vector store` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; file_search tool</code> | 这一行要理解这些英文词：`file_search tool` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; Responses API</code> | 这一行要理解这些英文词：`Responses API` 是api=应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; answer</code> | 这一行要理解这些英文词：`answer` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 和自建 RAG 相比，你不用自己写 chunk、embedding、vector search 的底层逻辑。你需要管理：
@@ -1750,9 +1750,9 @@ user/team
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>user/team</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; allowed_services</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; metadata filter</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; retrieve only allowed chunks</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; allowed_services</code> | 这一行要理解这些英文词：`allowed_services` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; metadata filter</code> | 这一行要理解这些英文词：`metadata filter` 是元数据过滤，按标签、服务名、时间等字段筛选数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; retrieve only allowed chunks</code> | 这一行要理解这些英文词：`retrieve only allowed chunks` 是retrieve=检索。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 生产系统不要让所有人都能检索所有事故复盘和内部文档。
@@ -1811,26 +1811,26 @@ FastAPI query service
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>Git repo / wiki / incident system</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; ingestion job</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>      -&gt; parse</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>      -&gt; clean</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>      -&gt; chunk</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>      -&gt; metadata</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>      -&gt; embeddings</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>      -&gt; vector store</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 9 行 | <code>      -&gt; index health report</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; ingestion job</code> | 这一行要理解这些英文词：`ingestion job` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>      -&gt; parse</code> | 这一行要理解这些英文词：`parse` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>      -&gt; clean</code> | 这一行要理解这些英文词：`clean` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>      -&gt; chunk</code> | 这一行要理解这些英文词：`chunk` 是数据分块，把长文本或大数据拆成较小片段。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>      -&gt; metadata</code> | 这一行要理解这些英文词：`metadata` 是元数据，用来描述数据的数据，例如来源、服务名、标签。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>      -&gt; embeddings</code> | 这一行要理解这些英文词：`embeddings` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>      -&gt; vector store</code> | 这一行要理解这些英文词：`vector store` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>      -&gt; index health report</code> | 这一行要理解这些英文词：`index health report` 是index=索引或目录。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 10 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 11 行 | <code>FastAPI query service</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 12 行 | <code>  -&gt; authenticate user</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 13 行 | <code>  -&gt; normalize question / alert context</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 14 行 | <code>  -&gt; metadata filters by service and permission</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 15 行 | <code>  -&gt; retrieve top-k</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 16 行 | <code>  -&gt; rerank</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 17 行 | <code>  -&gt; pack context</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 18 行 | <code>  -&gt; OpenAI Responses API with structured output</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 19 行 | <code>  -&gt; validate answer</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 20 行 | <code>  -&gt; return answer + sources</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 21 行 | <code>  -&gt; audit log</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 12 行 | <code>  -&gt; authenticate user</code> | 这一行要理解这些英文词：`authenticate user` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 13 行 | <code>  -&gt; normalize question / alert context</code> | 这一行要理解这些英文词：`normalize question` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`alert context` 是alert=告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 14 行 | <code>  -&gt; metadata filters by service and permission</code> | 这一行要理解这些英文词：`metadata filters by service and permission` 是service=服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 15 行 | <code>  -&gt; retrieve top-k</code> | 这一行要理解这些英文词：`retrieve top-k` 是retrieve=检索。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 16 行 | <code>  -&gt; rerank</code> | 这一行要理解这些英文词：`rerank` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 17 行 | <code>  -&gt; pack context</code> | 这一行要理解这些英文词：`pack context` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 18 行 | <code>  -&gt; OpenAI Responses API with structured output</code> | 这一行要理解这些英文词：`OpenAI Responses API with structured output` 是api=应用程序接口，output=输出。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 19 行 | <code>  -&gt; validate answer</code> | 这一行要理解这些英文词：`validate answer` 是validate=校验。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 20 行 | <code>  -&gt; return answer + sources</code> | 这一行要理解这些英文词：`return answer` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`sources` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 21 行 | <code>  -&gt; audit log</code> | 这一行要理解这些英文词：`audit log` 是audit=审计记录。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 关键工程点：

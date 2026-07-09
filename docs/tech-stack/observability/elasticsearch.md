@@ -80,16 +80,16 @@ JSON document
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>JSON document</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; index / data stream</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; index template</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; mappings / settings</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; ingest pipeline</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; primary shard</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; inverted index / doc values</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>  -&gt; replica shards</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 9 行 | <code>  -&gt; Query DSL search</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 10 行 | <code>  -&gt; aggregations</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 11 行 | <code>  -&gt; ILM rollover / retention</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; index / data stream</code> | 这一行要理解这些英文词：`index` 是索引或目录；`data stream` 是data=数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; index template</code> | 这一行要理解这些英文词：`index template` 是index=索引或目录。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; mappings / settings</code> | 这一行要理解这些英文词：`mappings` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`settings` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; ingest pipeline</code> | 这一行要理解这些英文词：`ingest pipeline` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; primary shard</code> | 这一行要理解这些英文词：`primary shard` 是主分片，Elasticsearch 中负责写入和复制的原始分片。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; inverted index / doc values</code> | 这一行要理解这些英文词：`inverted index` 是index=索引或目录；`doc values` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; replica shards</code> | 这一行要理解这些英文词：`replica shards` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>  -&gt; Query DSL search</code> | 这一行要理解这些英文词：`Query DSL search` 是query=查询。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>  -&gt; aggregations</code> | 这一行要理解这些英文词：`aggregations` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>  -&gt; ILM rollover / retention</code> | 这一行要理解这些英文词：`ILM rollover` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`retention` 是保留周期，决定数据保存多久。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 必须掌握：
@@ -184,58 +184,58 @@ Operations
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>Core concepts</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; Cluster</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; Node</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; Index</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; Document</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; Field</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; Shards and replicas</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; Cluster</code> | 这一行要理解这些英文词：`Cluster` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; Node</code> | 这一行要理解这些英文词：`Node` 是节点，在 Kubernetes 里通常指运行 Pod 的工作机器。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; Index</code> | 这一行要理解这些英文词：`Index` 是索引或目录。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; Document</code> | 这一行要理解这些英文词：`Document` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; Field</code> | 这一行要理解这些英文词：`Field` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; Shards and replicas</code> | 这一行要理解这些英文词：`Shards and replicas` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 8 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 9 行 | <code>Data modeling</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 10 行 | <code>  -&gt; Mappings</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 11 行 | <code>  -&gt; Field types</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 12 行 | <code>  -&gt; Dynamic mapping</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 13 行 | <code>  -&gt; Runtime fields</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 14 行 | <code>  -&gt; Index settings</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 15 行 | <code>  -&gt; Analyzers</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 10 行 | <code>  -&gt; Mappings</code> | 这一行要理解这些英文词：`Mappings` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>  -&gt; Field types</code> | 这一行要理解这些英文词：`Field types` 是types=类型。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 12 行 | <code>  -&gt; Dynamic mapping</code> | 这一行要理解这些英文词：`Dynamic mapping` 是dynamic=动态。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 13 行 | <code>  -&gt; Runtime fields</code> | 这一行要理解这些英文词：`Runtime fields` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 14 行 | <code>  -&gt; Index settings</code> | 这一行要理解这些英文词：`Index settings` 是index=索引或目录。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 15 行 | <code>  -&gt; Analyzers</code> | 这一行要理解这些英文词：`Analyzers` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 16 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 17 行 | <code>Data management</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 18 行 | <code>  -&gt; Data streams</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 19 行 | <code>  -&gt; Index templates</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 20 行 | <code>  -&gt; Component templates</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 21 行 | <code>  -&gt; Aliases</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 22 行 | <code>  -&gt; ILM</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 23 行 | <code>  -&gt; Snapshot and restore</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 18 行 | <code>  -&gt; Data streams</code> | 这一行要理解这些英文词：`Data streams` 是data=数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 19 行 | <code>  -&gt; Index templates</code> | 这一行要理解这些英文词：`Index templates` 是index=索引或目录，templates=模板。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 20 行 | <code>  -&gt; Component templates</code> | 这一行要理解这些英文词：`Component templates` 是templates=模板。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 21 行 | <code>  -&gt; Aliases</code> | 这一行要理解这些英文词：`Aliases` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 22 行 | <code>  -&gt; ILM</code> | 这一行要理解这些英文词：`ILM` 是英文缩写或固定标识，结合本节上下文记住它代表的组件、命令或状态。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 23 行 | <code>  -&gt; Snapshot and restore</code> | 这一行要理解这些英文词：`Snapshot and restore` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 24 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 25 行 | <code>Ingest</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 26 行 | <code>  -&gt; Document APIs</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 27 行 | <code>  -&gt; Bulk API</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 28 行 | <code>  -&gt; Ingest pipelines</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 29 行 | <code>  -&gt; Processors</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 26 行 | <code>  -&gt; Document APIs</code> | 这一行要理解这些英文词：`Document APIs` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 27 行 | <code>  -&gt; Bulk API</code> | 这一行要理解这些英文词：`Bulk API` 是api=应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 28 行 | <code>  -&gt; Ingest pipelines</code> | 这一行要理解这些英文词：`Ingest pipelines` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 29 行 | <code>  -&gt; Processors</code> | 这一行要理解这些英文词：`Processors` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 30 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 31 行 | <code>Search</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 32 行 | <code>  -&gt; Search API</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 33 行 | <code>  -&gt; Query DSL</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 34 行 | <code>  -&gt; Full-text queries</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 35 行 | <code>  -&gt; Term-level queries</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 36 行 | <code>  -&gt; Compound queries</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 37 行 | <code>  -&gt; Sort</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 38 行 | <code>  -&gt; Pagination</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 39 行 | <code>  -&gt; Highlighting</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 32 行 | <code>  -&gt; Search API</code> | 这一行要理解这些英文词：`Search API` 是api=应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 33 行 | <code>  -&gt; Query DSL</code> | 这一行要理解这些英文词：`Query DSL` 是query=查询。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 34 行 | <code>  -&gt; Full-text queries</code> | 这一行要理解这些英文词：`Full-text queries` 是queries=查询。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 35 行 | <code>  -&gt; Term-level queries</code> | 这一行要理解这些英文词：`Term-level queries` 是queries=查询。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 36 行 | <code>  -&gt; Compound queries</code> | 这一行要理解这些英文词：`Compound queries` 是queries=查询。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 37 行 | <code>  -&gt; Sort</code> | 这一行要理解这些英文词：`Sort` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 38 行 | <code>  -&gt; Pagination</code> | 这一行要理解这些英文词：`Pagination` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 39 行 | <code>  -&gt; Highlighting</code> | 这一行要理解这些英文词：`Highlighting` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 40 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 41 行 | <code>Aggregations</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 42 行 | <code>  -&gt; Bucket aggregations</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 43 行 | <code>  -&gt; Metrics aggregations</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 44 行 | <code>  -&gt; Pipeline aggregations</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 45 行 | <code>  -&gt; Terms aggregation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 46 行 | <code>  -&gt; Date histogram</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 42 行 | <code>  -&gt; Bucket aggregations</code> | 这一行要理解这些英文词：`Bucket aggregations` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 43 行 | <code>  -&gt; Metrics aggregations</code> | 这一行要理解这些英文词：`Metrics aggregations` 是metrics=指标。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 44 行 | <code>  -&gt; Pipeline aggregations</code> | 这一行要理解这些英文词：`Pipeline aggregations` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 45 行 | <code>  -&gt; Terms aggregation</code> | 这一行要理解这些英文词：`Terms aggregation` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 46 行 | <code>  -&gt; Date histogram</code> | 这一行要理解这些英文词：`Date histogram` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 47 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 48 行 | <code>Operations</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 49 行 | <code>  -&gt; Cluster health</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 50 行 | <code>  -&gt; CAT APIs</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 51 行 | <code>  -&gt; Shard allocation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 52 行 | <code>  -&gt; Index lifecycle</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 53 行 | <code>  -&gt; Monitoring</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 49 行 | <code>  -&gt; Cluster health</code> | 这一行要理解这些英文词：`Cluster health` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 50 行 | <code>  -&gt; CAT APIs</code> | 这一行要理解这些英文词：`CAT APIs` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 51 行 | <code>  -&gt; Shard allocation</code> | 这一行要理解这些英文词：`Shard allocation` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 52 行 | <code>  -&gt; Index lifecycle</code> | 这一行要理解这些英文词：`Index lifecycle` 是index=索引或目录，lifecycle=生命周期控制。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 53 行 | <code>  -&gt; Monitoring</code> | 这一行要理解这些英文词：`Monitoring` 是监控。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 学习顺序：
@@ -254,11 +254,11 @@ Operations
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>先懂 document/index/shard</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; 再懂 mapping 和 analyzer</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; 再懂 query DSL</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; 再懂 aggregation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; 再懂 data stream/template/ILM</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; 最后学集群健康和性能排障</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; 再懂 mapping 和 analyzer</code> | 这一行要理解这些英文词：`mapping` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`analyzer` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; 再懂 query DSL</code> | 这一行要理解这些英文词：`query DSL` 是query=查询。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; 再懂 aggregation</code> | 这一行要理解这些英文词：`aggregation` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; 再懂 data stream/template/ILM</code> | 这一行要理解这些英文词：`data stream` 是data=数据；`template` 是模板，用变量生成配置或文本；`ILM` 是英文缩写或固定标识，结合本节上下文记住它代表的组件、命令或状态。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; 最后学集群健康和性能排障</code> | 这一行表示上一级主题下的子项“最后学集群健康和性能排障”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
 
 
 ## Elasticsearch 在 AIOps 链路中的位置
@@ -278,10 +278,10 @@ Elasticsearch 常用于日志搜索、事件检索、告警上下文查询和历
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>应用/系统日志</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; Logstash / Beats / Elastic Agent / OTel Collector / 自定义写入</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; Elasticsearch data streams / indices</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; Kibana / API / AIOps 分析服务</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; 告警上下文、根因分析、异常搜索</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; Logstash / Beats / Elastic Agent / OTel Collector / 自定义写入</code> | 这一行要理解这些英文词：`Logstash` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`Beats` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`Elastic Agent` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`OTel Collector` 是OpenTelemetry Collector，负责接收、处理和转发遥测数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; Elasticsearch data streams / indices</code> | 这一行要理解这些英文词：`Elasticsearch data streams` 是data=数据；`indices` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; Kibana / API / AIOps 分析服务</code> | 这一行要理解这些英文词：`Kibana` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`API` 是应用程序接口；`AIOps` 是智能运维。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; 告警上下文、根因分析、异常搜索</code> | 这一行表示上一级主题下的子项“告警上下文、根因分析、异常搜索”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
 
 
 它给 AIOps 提供：
@@ -491,9 +491,9 @@ index logs-aiops
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>index logs-aiops</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; primary shard 0</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; primary shard 1</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; primary shard 2</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; primary shard 0</code> | 这一行要理解这些英文词：`primary shard` 是主分片，Elasticsearch 中负责写入和复制的原始分片。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; primary shard 1</code> | 这一行要理解这些英文词：`primary shard` 是主分片，Elasticsearch 中负责写入和复制的原始分片。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; primary shard 2</code> | 这一行要理解这些英文词：`primary shard` 是主分片，Elasticsearch 中负责写入和复制的原始分片。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 Replica 是 primary shard 的副本。
@@ -841,9 +841,9 @@ error   -> doc1, doc5
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>payment -&gt; doc1, doc7</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 2 行 | <code>timeout -&gt; doc1, doc3</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>error   -&gt; doc1, doc5</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 1 行 | <code>payment -&gt; doc1, doc7</code> | 这一行要理解这些英文词：`payment` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`doc1` 是示例文档编号，用来代表一条测试文档或知识片段；`doc7` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 2 行 | <code>timeout -&gt; doc1, doc3</code> | 这一行要理解这些英文词：`timeout` 是超时；`doc1` 是示例文档编号，用来代表一条测试文档或知识片段；`doc3` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>error   -&gt; doc1, doc5</code> | 这一行要理解这些英文词：`error` 是错误；`doc1` 是示例文档编号，用来代表一条测试文档或知识片段；`doc5` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 这让全文搜索很快。
@@ -1020,8 +1020,8 @@ logs-aiops
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>logs-aiops</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; .ds-logs-aiops-2026.07.02-000001</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; .ds-logs-aiops-2026.07.03-000002</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; .ds-logs-aiops-2026.07.02-000001</code> | 这一行要理解这些英文词：`ds-logs-aiops-2026.07.02-000001` 是logs=日志，aiops=智能运维。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; .ds-logs-aiops-2026.07.03-000002</code> | 这一行要理解这些英文词：`ds-logs-aiops-2026.07.03-000002` 是logs=日志，aiops=智能运维。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 Data stream 需要匹配的 index template。template 定义：
@@ -1539,7 +1539,7 @@ hot -> warm -> cold -> frozen -> delete
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>hot -&gt; warm -&gt; cold -&gt; frozen -&gt; delete</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 1 行 | <code>hot -&gt; warm -&gt; cold -&gt; frozen -&gt; delete</code> | 这一行要理解这些英文词：`hot` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`warm` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`cold` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`frozen` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`delete` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 简化策略：

@@ -71,14 +71,14 @@ https://aiops.example.com/api/alerts
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>用户</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; DNS</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; 云负载均衡</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; NGINX / Ingress Controller</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; Kubernetes Service</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; EndpointSlice</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; Pod</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>  -&gt; Container 端口</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 9 行 | <code>  -&gt; 应用</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; DNS</code> | 这一行要理解这些英文词：`DNS` 是域名解析系统，把域名转换成 IP 地址。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; 云负载均衡</code> | 这一行表示上一级主题下的子项“云负载均衡”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
+| 第 4 行 | <code>  -&gt; NGINX / Ingress Controller</code> | 这一行要理解这些英文词：`NGINX` 是高性能 Web 服务器和反向代理，常用于网关、转发和负载均衡；`Ingress Controller` 是执行 Ingress 规则的控制器，常见实现有 NGINX Ingress Controller。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; Kubernetes Service</code> | 这一行要理解这些英文词：`Kubernetes Service` 是service=服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; EndpointSlice</code> | 这一行要理解这些英文词：`EndpointSlice` 是Kubernetes 里保存服务后端端点列表的对象。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; Pod</code> | 这一行要理解这些英文词：`Pod` 是Kubernetes 最小调度单元，里面可以运行一个或多个容器。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; Container 端口</code> | 这一行要理解这些英文词：`Container` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>  -&gt; 应用</code> | 这一行表示上一级主题下的子项“应用”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
 
 
 502 可能来自：
@@ -120,15 +120,15 @@ Client
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>Client</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; DNS</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; Load Balancer</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; NGINX / Ingress Controller</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; host 匹配</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; path 匹配</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; upstream / Service</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>  -&gt; EndpointSlice</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 9 行 | <code>  -&gt; Pod IP:targetPort</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 10 行 | <code>  -&gt; Application</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; DNS</code> | 这一行要理解这些英文词：`DNS` 是域名解析系统，把域名转换成 IP 地址。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; Load Balancer</code> | 这一行要理解这些英文词：`Load Balancer` 是load=加载。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; NGINX / Ingress Controller</code> | 这一行要理解这些英文词：`NGINX` 是高性能 Web 服务器和反向代理，常用于网关、转发和负载均衡；`Ingress Controller` 是执行 Ingress 规则的控制器，常见实现有 NGINX Ingress Controller。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; host 匹配</code> | 这一行要理解这些英文词：`host` 是主机，可以是一台服务器、虚拟机或节点。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; path 匹配</code> | 这一行要理解这些英文词：`path` 是路径，表示文件、URL 或请求的位置。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; upstream / Service</code> | 这一行要理解这些英文词：`upstream` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`Service` 是服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; EndpointSlice</code> | 这一行要理解这些英文词：`EndpointSlice` 是Kubernetes 里保存服务后端端点列表的对象。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>  -&gt; Pod IP:targetPort</code> | 这一行要理解这些英文词：`Pod IP` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`targetPort` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>  -&gt; Application</code> | 这一行要理解这些英文词：`Application` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 必须掌握：
@@ -195,32 +195,32 @@ NGINX docs
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>NGINX docs</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; Beginner's Guide</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; Admin Guide</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>     -&gt; Web Server</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>     -&gt; Reverse Proxy</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>     -&gt; Load Balancing</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>     -&gt; SSL Termination</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>  -&gt; Reference</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 9 行 | <code>     -&gt; ngx_http_core_module</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 10 行 | <code>        -&gt; server</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 11 行 | <code>        -&gt; location</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 12 行 | <code>        -&gt; listen</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 13 行 | <code>        -&gt; server_name</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 14 行 | <code>        -&gt; client_max_body_size</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 15 行 | <code>     -&gt; ngx_http_proxy_module</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 16 行 | <code>        -&gt; proxy_pass</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 17 行 | <code>        -&gt; proxy_set_header</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 18 行 | <code>        -&gt; proxy_connect_timeout</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 19 行 | <code>        -&gt; proxy_read_timeout</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 20 行 | <code>        -&gt; proxy_send_timeout</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 21 行 | <code>     -&gt; ngx_http_upstream_module</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 22 行 | <code>        -&gt; upstream</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 23 行 | <code>        -&gt; server</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 24 行 | <code>        -&gt; keepalive</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 25 行 | <code>     -&gt; ngx_http_log_module</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 26 行 | <code>        -&gt; log_format</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 27 行 | <code>        -&gt; access_log</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; Beginner's Guide</code> | 这一行要理解这些英文词：`Beginner` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`s Guide` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; Admin Guide</code> | 这一行要理解这些英文词：`Admin Guide` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>     -&gt; Web Server</code> | 这一行要理解这些英文词：`Web Server` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>     -&gt; Reverse Proxy</code> | 这一行要理解这些英文词：`Reverse Proxy` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>     -&gt; Load Balancing</code> | 这一行要理解这些英文词：`Load Balancing` 是load=加载。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>     -&gt; SSL Termination</code> | 这一行要理解这些英文词：`SSL Termination` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; Reference</code> | 这一行要理解这些英文词：`Reference` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>     -&gt; ngx_http_core_module</code> | 这一行要理解这些英文词：`ngx_http_core_module` 是http=超文本传输协议，module=模块。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>        -&gt; server</code> | 这一行要理解这些英文词：`server` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>        -&gt; location</code> | 这一行要理解这些英文词：`location` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 12 行 | <code>        -&gt; listen</code> | 这一行要理解这些英文词：`listen` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 13 行 | <code>        -&gt; server_name</code> | 这一行要理解这些英文词：`server_name` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 14 行 | <code>        -&gt; client_max_body_size</code> | 这一行要理解这些英文词：`client_max_body_size` 是client=客户端。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 15 行 | <code>     -&gt; ngx_http_proxy_module</code> | 这一行要理解这些英文词：`ngx_http_proxy_module` 是http=超文本传输协议，module=模块。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 16 行 | <code>        -&gt; proxy_pass</code> | 这一行要理解这些英文词：`proxy_pass` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 17 行 | <code>        -&gt; proxy_set_header</code> | 这一行要理解这些英文词：`proxy_set_header` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 18 行 | <code>        -&gt; proxy_connect_timeout</code> | 这一行要理解这些英文词：`proxy_connect_timeout` 是connect=连接，timeout=超时。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 19 行 | <code>        -&gt; proxy_read_timeout</code> | 这一行要理解这些英文词：`proxy_read_timeout` 是timeout=超时。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 20 行 | <code>        -&gt; proxy_send_timeout</code> | 这一行要理解这些英文词：`proxy_send_timeout` 是timeout=超时。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 21 行 | <code>     -&gt; ngx_http_upstream_module</code> | 这一行要理解这些英文词：`ngx_http_upstream_module` 是http=超文本传输协议，module=模块。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 22 行 | <code>        -&gt; upstream</code> | 这一行要理解这些英文词：`upstream` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 23 行 | <code>        -&gt; server</code> | 这一行要理解这些英文词：`server` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 24 行 | <code>        -&gt; keepalive</code> | 这一行要理解这些英文词：`keepalive` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 25 行 | <code>     -&gt; ngx_http_log_module</code> | 这一行要理解这些英文词：`ngx_http_log_module` 是http=超文本传输协议，module=模块。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 26 行 | <code>        -&gt; log_format</code> | 这一行要理解这些英文词：`log_format` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 27 行 | <code>        -&gt; access_log</code> | 这一行要理解这些英文词：`access_log` 是access=访问。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 Kubernetes Ingress 官方资料按这些概念组织：
@@ -256,28 +256,28 @@ ingress-nginx
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>Kubernetes Service</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; selector</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; port / targetPort</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; EndpointSlice</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; selector</code> | 这一行要理解这些英文词：`selector` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; port / targetPort</code> | 这一行要理解这些英文词：`port` 是端口，网络服务监听请求的入口编号；`targetPort` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; EndpointSlice</code> | 这一行要理解这些英文词：`EndpointSlice` 是Kubernetes 里保存服务后端端点列表的对象。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 5 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 6 行 | <code>Kubernetes Ingress</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 7 行 | <code>  -&gt; Ingress resource</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>  -&gt; Ingress Controller</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 9 行 | <code>  -&gt; IngressClass</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 10 行 | <code>  -&gt; rules</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 11 行 | <code>  -&gt; host</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 12 行 | <code>  -&gt; path</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 13 行 | <code>  -&gt; pathType</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 14 行 | <code>  -&gt; backend service</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 15 行 | <code>  -&gt; TLS</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>  -&gt; Ingress resource</code> | 这一行要理解这些英文词：`Ingress resource` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; Ingress Controller</code> | 这一行要理解这些英文词：`Ingress Controller` 是执行 Ingress 规则的控制器，常见实现有 NGINX Ingress Controller。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>  -&gt; IngressClass</code> | 这一行要理解这些英文词：`IngressClass` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>  -&gt; rules</code> | 这一行要理解这些英文词：`rules` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>  -&gt; host</code> | 这一行要理解这些英文词：`host` 是主机，可以是一台服务器、虚拟机或节点。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 12 行 | <code>  -&gt; path</code> | 这一行要理解这些英文词：`path` 是路径，表示文件、URL 或请求的位置。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 13 行 | <code>  -&gt; pathType</code> | 这一行要理解这些英文词：`pathType` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 14 行 | <code>  -&gt; backend service</code> | 这一行要理解这些英文词：`backend service` 是backend=后端状态存储，service=服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 15 行 | <code>  -&gt; TLS</code> | 这一行要理解这些英文词：`TLS` 是加密传输协议，保护 HTTPS 等连接的安全。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 16 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 17 行 | <code>ingress-nginx</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 18 行 | <code>  -&gt; Controller installation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 19 行 | <code>  -&gt; ConfigMap</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 20 行 | <code>  -&gt; annotations</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 21 行 | <code>  -&gt; path matching</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 22 行 | <code>  -&gt; TLS</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 23 行 | <code>  -&gt; troubleshooting</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 18 行 | <code>  -&gt; Controller installation</code> | 这一行要理解这些英文词：`Controller installation` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 19 行 | <code>  -&gt; ConfigMap</code> | 这一行要理解这些英文词：`ConfigMap` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 20 行 | <code>  -&gt; annotations</code> | 这一行要理解这些英文词：`annotations` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 21 行 | <code>  -&gt; path matching</code> | 这一行要理解这些英文词：`path matching` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 22 行 | <code>  -&gt; TLS</code> | 这一行要理解这些英文词：`TLS` 是加密传输协议，保护 HTTPS 等连接的安全。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 23 行 | <code>  -&gt; troubleshooting</code> | 这一行要理解这些英文词：`troubleshooting` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 新手要把两张图合起来：
@@ -327,21 +327,21 @@ NGINX/Ingress 是用户流量进入应用的关键入口。
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>用户请求</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; DNS</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; CDN / WAF</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; Load Balancer</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; NGINX / Ingress Controller</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; Service</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; Pod</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>  -&gt; 应用</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 9 行 | <code>  -&gt; 数据库 / 缓存 / 队列</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; DNS</code> | 这一行要理解这些英文词：`DNS` 是域名解析系统，把域名转换成 IP 地址。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; CDN / WAF</code> | 这一行要理解这些英文词：`CDN` 是英文缩写或固定标识，结合本节上下文记住它代表的组件、命令或状态；`WAF` 是英文缩写或固定标识，结合本节上下文记住它代表的组件、命令或状态。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; Load Balancer</code> | 这一行要理解这些英文词：`Load Balancer` 是load=加载。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; NGINX / Ingress Controller</code> | 这一行要理解这些英文词：`NGINX` 是高性能 Web 服务器和反向代理，常用于网关、转发和负载均衡；`Ingress Controller` 是执行 Ingress 规则的控制器，常见实现有 NGINX Ingress Controller。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; Service</code> | 这一行要理解这些英文词：`Service` 是服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; Pod</code> | 这一行要理解这些英文词：`Pod` 是Kubernetes 最小调度单元，里面可以运行一个或多个容器。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; 应用</code> | 这一行表示上一级主题下的子项“应用”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
+| 第 9 行 | <code>  -&gt; 数据库 / 缓存 / 队列</code> | 这一行表示上一级主题下的子项“数据库 / 缓存 / 队列”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
 | 第 10 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 11 行 | <code>观测</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 12 行 | <code>  -&gt; NGINX access log / error log</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 13 行 | <code>  -&gt; Ingress Controller metrics</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 14 行 | <code>  -&gt; Kubernetes events</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 15 行 | <code>  -&gt; Service / EndpointSlice 状态</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 16 行 | <code>  -&gt; Pod logs</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 12 行 | <code>  -&gt; NGINX access log / error log</code> | 这一行要理解这些英文词：`NGINX access log` 是access=访问；`error log` 是error=错误。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 13 行 | <code>  -&gt; Ingress Controller metrics</code> | 这一行要理解这些英文词：`Ingress Controller metrics` 是metrics=指标。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 14 行 | <code>  -&gt; Kubernetes events</code> | 这一行要理解这些英文词：`Kubernetes events` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 15 行 | <code>  -&gt; Service / EndpointSlice 状态</code> | 这一行要理解这些英文词：`Service` 是服务；`EndpointSlice` 是Kubernetes 里保存服务后端端点列表的对象。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 16 行 | <code>  -&gt; Pod logs</code> | 这一行要理解这些英文词：`Pod logs` 是logs=日志。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 AIOps 会从这里拿到：
@@ -404,7 +404,7 @@ Client -> Forward Proxy -> Internet
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>Client -&gt; Forward Proxy -&gt; Internet</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 1 行 | <code>Client -&gt; Forward Proxy -&gt; Internet</code> | 这一行要理解这些英文词：`Client` 是客户端；`Forward Proxy` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`Internet` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 例子：
@@ -426,7 +426,7 @@ Client -> Reverse Proxy -> Backend Servers
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>Client -&gt; Reverse Proxy -&gt; Backend Servers</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 1 行 | <code>Client -&gt; Reverse Proxy -&gt; Backend Servers</code> | 这一行要理解这些英文词：`Client` 是客户端；`Reverse Proxy` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`Backend Servers` 是backend=后端状态存储。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 NGINX 常作为反向代理。
@@ -1025,7 +1025,7 @@ host + path -> Service
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>host + path -&gt; Service</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 1 行 | <code>host + path -&gt; Service</code> | 这一行要理解这些英文词：`host` 是主机，可以是一台服务器、虚拟机或节点；`path` 是路径，表示文件、URL 或请求的位置；`Service` 是服务。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 最小示例：

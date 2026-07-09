@@ -90,12 +90,12 @@ Docker 官方资料可以按这张表理解：
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>先理解 Docker Engine 架构</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; 再理解镜像和容器对象</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; 再学习 Dockerfile 构建</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; 再学习 docker run 运行参数</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; 再学习网络和存储</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; 再学习日志、资源、安全和排障</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; 最后把 AIOps demo 容器化</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; 再理解镜像和容器对象</code> | 这一行表示上一级主题下的子项“再理解镜像和容器对象”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
+| 第 3 行 | <code>  -&gt; 再学习 Dockerfile 构建</code> | 这一行要理解这些英文词：`Dockerfile` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; 再学习 docker run 运行参数</code> | 这一行要理解这些英文词：`docker run` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; 再学习网络和存储</code> | 这一行表示上一级主题下的子项“再学习网络和存储”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
+| 第 6 行 | <code>  -&gt; 再学习日志、资源、安全和排障</code> | 这一行表示上一级主题下的子项“再学习日志、资源、安全和排障”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
+| 第 7 行 | <code>  -&gt; 最后把 AIOps demo 容器化</code> | 这一行要理解这些英文词：`AIOps demo` 是aiops=智能运维。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 ## Docker 在 AIOps 链路中的位置
@@ -232,11 +232,11 @@ Docker daemon
 | 第 9 行 | <code>  v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 | 第 10 行 | <code>Docker daemon</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 | 第 11 行 | <code>  &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 12 行 | <code>  +--&gt; images</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 13 行 | <code>  +--&gt; containers</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 14 行 | <code>  +--&gt; networks</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 15 行 | <code>  +--&gt; volumes</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 16 行 | <code>  +--&gt; registry pull / push</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 12 行 | <code>  +--&gt; images</code> | 这一行要理解这些英文词：`images` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 13 行 | <code>  +--&gt; containers</code> | 这一行要理解这些英文词：`containers` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 14 行 | <code>  +--&gt; networks</code> | 这一行要理解这些英文词：`networks` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 15 行 | <code>  +--&gt; volumes</code> | 这一行要理解这些英文词：`volumes` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 16 行 | <code>  +--&gt; registry pull / push</code> | 这一行要理解这些英文词：`registry pull` 是registry=插件或模块注册中心；`push` 是推送，把本地提交上传到远程仓库。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 逐层解释：
@@ -279,13 +279,13 @@ docker CLI receives command
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>docker CLI receives command</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; sends request to Docker daemon</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; daemon checks whether nginx:1.27 exists locally</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; if missing, daemon pulls image from registry</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; daemon creates container filesystem and metadata</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; daemon configures network and port publishing</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; daemon starts container process</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>  -&gt; CLI prints container ID</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; sends request to Docker daemon</code> | 这一行要理解这些英文词：`sends request to Docker daemon` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; daemon checks whether nginx:1.27 exists locally</code> | 这一行要理解这些英文词：`daemon checks whether nginx` 是checks=检查；`exists locally` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; if missing, daemon pulls image from registry</code> | 这一行要理解这些英文词：`if missing` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`daemon pulls image from registry` 是registry=插件或模块注册中心。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; daemon creates container filesystem and metadata</code> | 这一行要理解这些英文词：`daemon creates container filesystem and metadata` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; daemon configures network and port publishing</code> | 这一行要理解这些英文词：`daemon configures network and port publishing` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; daemon starts container process</code> | 这一行要理解这些英文词：`daemon starts container process` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; CLI prints container ID</code> | 这一行要理解这些英文词：`CLI prints container ID` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 ## Docker 和虚拟机的区别
@@ -556,7 +556,7 @@ created -> running -> exited
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>created -&gt; running -&gt; exited</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 1 行 | <code>created -&gt; running -&gt; exited</code> | 这一行要理解这些英文词：`created` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`running` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`exited` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 2 行 | <code>             &#124;           &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 | 第 3 行 | <code>             v           v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 | 第 4 行 | <code>           paused      removed</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
@@ -1250,7 +1250,7 @@ host:8080  ->  container:80
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>host:8080  -&gt;  container:80</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 1 行 | <code>host:8080  -&gt;  container:80</code> | 这一行要理解这些英文词：`host` 是主机，可以是一台服务器、虚拟机或节点；`container` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 访问：
@@ -1558,13 +1558,13 @@ on host:
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>inside container A:</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  localhost -&gt; container A</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  localhost -&gt; container A</code> | 这一行要理解这些英文词：`localhost` 是本机地址，通常指当前机器自己；`container A` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 3 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 4 行 | <code>inside container B:</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 5 行 | <code>  localhost -&gt; container B</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  localhost -&gt; container B</code> | 这一行要理解这些英文词：`localhost` 是本机地址，通常指当前机器自己；`container B` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 6 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 7 行 | <code>on host:</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 8 行 | <code>  localhost -&gt; host</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 8 行 | <code>  localhost -&gt; host</code> | 这一行要理解这些英文词：`localhost` 是本机地址，通常指当前机器自己；`host` 是主机，可以是一台服务器、虚拟机或节点。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 如果 `api` 容器要访问 `prometheus` 容器，不应该写：
@@ -1617,10 +1617,10 @@ docker build
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>docker build</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; docker tag</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; docker push</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; another machine docker pull</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; docker run</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; docker tag</code> | 这一行要理解这些英文词：`docker tag` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; docker push</code> | 这一行要理解这些英文词：`docker push` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; another machine docker pull</code> | 这一行要理解这些英文词：`another machine docker pull` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; docker run</code> | 这一行要理解这些英文词：`docker run` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 示例：
@@ -2208,7 +2208,7 @@ docker ps
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>0.0.0.0:8000-&gt;8000/tcp</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 1 行 | <code>0.0.0.0:8000-&gt;8000/tcp</code> | 这一行要理解这些英文词：`tcp` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 ### 第 7 步：访问服务

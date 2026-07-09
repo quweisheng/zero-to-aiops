@@ -67,12 +67,12 @@ PostgreSQL instance
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>PostgreSQL instance</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; database</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>     -&gt; schema</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>        -&gt; table</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>        -&gt; index</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>        -&gt; view</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>        -&gt; function</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; database</code> | 这一行要理解这些英文词：`database` 是数据库。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>     -&gt; schema</code> | 这一行要理解这些英文词：`schema` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>        -&gt; table</code> | 这一行要理解这些英文词：`table` 是表。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>        -&gt; index</code> | 这一行要理解这些英文词：`index` 是索引或目录。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>        -&gt; view</code> | 这一行要理解这些英文词：`view` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>        -&gt; function</code> | 这一行要理解这些英文词：`function` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 常见理解：
@@ -159,15 +159,15 @@ PostgreSQL
 | 第 3 行 | <code>  v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 | 第 4 行 | <code>PostgreSQL</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 | 第 5 行 | <code>  &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 6 行 | <code>  +--&gt; table: alerts</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  +--&gt; table: incidents</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>  +--&gt; table: changes</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 9 行 | <code>  +--&gt; table: runbook_runs</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 10 行 | <code>  +--&gt; table: feedback</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 11 行 | <code>  +--&gt; index: service + started_at</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 12 行 | <code>  +--&gt; JSONB: raw alert payload</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 13 行 | <code>  +--&gt; WAL</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 14 行 | <code>  +--&gt; backup / replica</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  +--&gt; table: alerts</code> | 这一行要理解这些英文词：`table` 是表；`alerts` 是告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  +--&gt; table: incidents</code> | 这一行要理解这些英文词：`table` 是表；`incidents` 是事故，表示已经影响服务或用户的故障事件。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  +--&gt; table: changes</code> | 这一行要理解这些英文词：`table` 是表；`changes` 是变更，表示代码、配置、资源或版本发生了变化。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>  +--&gt; table: runbook_runs</code> | 这一行要理解这些英文词：`table` 是表；`runbook_runs` 是runbook=故障处理手册。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>  +--&gt; table: feedback</code> | 这一行要理解这些英文词：`table` 是表；`feedback` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>  +--&gt; index: service + started_at</code> | 这一行要理解这些英文词：`index` 是索引或目录；`service` 是服务；`started_at` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 12 行 | <code>  +--&gt; JSONB: raw alert payload</code> | 这一行要理解这些英文词：`JSONB` 是英文缩写或固定标识，结合本节上下文记住它代表的组件、命令或状态；`raw alert payload` 是alert=告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 13 行 | <code>  +--&gt; WAL</code> | 这一行要理解这些英文词：`WAL` 是英文缩写或固定标识，结合本节上下文记住它代表的组件、命令或状态。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 14 行 | <code>  +--&gt; backup / replica</code> | 这一行要理解这些英文词：`backup` 是备份，把数据复制出来以便故障后恢复；`replica` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 一个 AIOps 事件可以这样落库：
@@ -187,12 +187,12 @@ Alertmanager webhook
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>Alertmanager webhook</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; alert-api</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; insert alerts</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; dedupe worker creates incident_candidate</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; runbook worker records action</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; user feedback updates incident status</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; RCA stores final summary</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; alert-api</code> | 这一行要理解这些英文词：`alert-api` 是alert=告警，api=应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; insert alerts</code> | 这一行要理解这些英文词：`insert alerts` 是alerts=告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; dedupe worker creates incident_candidate</code> | 这一行要理解这些英文词：`dedupe worker creates incident_candidate` 是worker=后台处理进程。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; runbook worker records action</code> | 这一行要理解这些英文词：`runbook worker records action` 是runbook=故障处理手册，worker=后台处理进程，action=动作或改进项。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; user feedback updates incident status</code> | 这一行要理解这些英文词：`user feedback updates incident status` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; RCA stores final summary</code> | 这一行要理解这些英文词：`RCA stores final summary` 是rca=根因分析，summary=摘要。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 ## 最小数据模型

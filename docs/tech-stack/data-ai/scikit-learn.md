@@ -121,46 +121,46 @@ scikit-learn
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>scikit-learn</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; Getting started</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>     -&gt; estimator</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>     -&gt; fit</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>     -&gt; predict</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>     -&gt; transform</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>     -&gt; X shape: n_samples x n_features</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>  -&gt; Supervised learning</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 9 行 | <code>     -&gt; classification</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 10 行 | <code>     -&gt; regression</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 11 行 | <code>     -&gt; linear models</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 12 行 | <code>     -&gt; SVM</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 13 行 | <code>     -&gt; trees</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 14 行 | <code>     -&gt; ensembles</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 15 行 | <code>  -&gt; Unsupervised learning</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 16 行 | <code>     -&gt; clustering</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 17 行 | <code>     -&gt; dimensionality reduction</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 18 行 | <code>     -&gt; novelty and outlier detection</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 19 行 | <code>  -&gt; Model selection and evaluation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 20 行 | <code>     -&gt; train_test_split</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 21 行 | <code>     -&gt; cross-validation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 22 行 | <code>     -&gt; metrics</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 23 行 | <code>     -&gt; hyperparameter tuning</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 24 行 | <code>     -&gt; threshold tuning</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 25 行 | <code>  -&gt; Dataset transformations</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 26 行 | <code>     -&gt; preprocessing</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 27 行 | <code>     -&gt; imputation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 28 行 | <code>     -&gt; encoding categorical features</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 29 行 | <code>     -&gt; Pipeline</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 30 行 | <code>     -&gt; ColumnTransformer</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 31 行 | <code>  -&gt; Computing with scikit-learn</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 32 行 | <code>     -&gt; performance</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 33 行 | <code>     -&gt; parallelism</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 34 行 | <code>     -&gt; scaling to larger data</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 35 行 | <code>  -&gt; Model persistence</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 36 行 | <code>     -&gt; pickle/joblib/skops/ONNX</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 37 行 | <code>     -&gt; security and version compatibility</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 38 行 | <code>  -&gt; Common pitfalls</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 39 行 | <code>     -&gt; inconsistent preprocessing</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 40 行 | <code>     -&gt; data leakage</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 41 行 | <code>     -&gt; bad train/test evaluation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; Getting started</code> | 这一行要理解这些英文词：`Getting started` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>     -&gt; estimator</code> | 这一行要理解这些英文词：`estimator` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>     -&gt; fit</code> | 这一行要理解这些英文词：`fit` 是训练或拟合，让模型从数据里学习规律。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>     -&gt; predict</code> | 这一行要理解这些英文词：`predict` 是预测，用训练好的模型输出分类、数值或异常判断。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>     -&gt; transform</code> | 这一行要理解这些英文词：`transform` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>     -&gt; X shape: n_samples x n_features</code> | 这一行要理解这些英文词：`X shape` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`n_samples x n_features` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; Supervised learning</code> | 这一行要理解这些英文词：`Supervised learning` 是learning=学习沉淀。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>     -&gt; classification</code> | 这一行要理解这些英文词：`classification` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>     -&gt; regression</code> | 这一行要理解这些英文词：`regression` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>     -&gt; linear models</code> | 这一行要理解这些英文词：`linear models` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 12 行 | <code>     -&gt; SVM</code> | 这一行要理解这些英文词：`SVM` 是英文缩写或固定标识，结合本节上下文记住它代表的组件、命令或状态。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 13 行 | <code>     -&gt; trees</code> | 这一行要理解这些英文词：`trees` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 14 行 | <code>     -&gt; ensembles</code> | 这一行要理解这些英文词：`ensembles` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 15 行 | <code>  -&gt; Unsupervised learning</code> | 这一行要理解这些英文词：`Unsupervised learning` 是learning=学习沉淀。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 16 行 | <code>     -&gt; clustering</code> | 这一行要理解这些英文词：`clustering` 是聚类。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 17 行 | <code>     -&gt; dimensionality reduction</code> | 这一行要理解这些英文词：`dimensionality reduction` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 18 行 | <code>     -&gt; novelty and outlier detection</code> | 这一行要理解这些英文词：`novelty and outlier detection` 是detection=发现或检测。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 19 行 | <code>  -&gt; Model selection and evaluation</code> | 这一行要理解这些英文词：`Model selection and evaluation` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 20 行 | <code>     -&gt; train_test_split</code> | 这一行要理解这些英文词：`train_test_split` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 21 行 | <code>     -&gt; cross-validation</code> | 这一行要理解这些英文词：`cross-validation` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 22 行 | <code>     -&gt; metrics</code> | 这一行要理解这些英文词：`metrics` 是指标。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 23 行 | <code>     -&gt; hyperparameter tuning</code> | 这一行要理解这些英文词：`hyperparameter tuning` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 24 行 | <code>     -&gt; threshold tuning</code> | 这一行要理解这些英文词：`threshold tuning` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 25 行 | <code>  -&gt; Dataset transformations</code> | 这一行要理解这些英文词：`Dataset transformations` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 26 行 | <code>     -&gt; preprocessing</code> | 这一行要理解这些英文词：`preprocessing` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 27 行 | <code>     -&gt; imputation</code> | 这一行要理解这些英文词：`imputation` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 28 行 | <code>     -&gt; encoding categorical features</code> | 这一行要理解这些英文词：`encoding categorical features` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 29 行 | <code>     -&gt; Pipeline</code> | 这一行要理解这些英文词：`Pipeline` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 30 行 | <code>     -&gt; ColumnTransformer</code> | 这一行要理解这些英文词：`ColumnTransformer` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 31 行 | <code>  -&gt; Computing with scikit-learn</code> | 这一行要理解这些英文词：`Computing with scikit-learn` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 32 行 | <code>     -&gt; performance</code> | 这一行要理解这些英文词：`performance` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 33 行 | <code>     -&gt; parallelism</code> | 这一行要理解这些英文词：`parallelism` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 34 行 | <code>     -&gt; scaling to larger data</code> | 这一行要理解这些英文词：`scaling to larger data` 是data=数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 35 行 | <code>  -&gt; Model persistence</code> | 这一行要理解这些英文词：`Model persistence` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 36 行 | <code>     -&gt; pickle/joblib/skops/ONNX</code> | 这一行要理解这些英文词：`pickle` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`joblib` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`skops` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`ONNX` 是英文缩写或固定标识，结合本节上下文记住它代表的组件、命令或状态。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 37 行 | <code>     -&gt; security and version compatibility</code> | 这一行要理解这些英文词：`security and version compatibility` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 38 行 | <code>  -&gt; Common pitfalls</code> | 这一行要理解这些英文词：`Common pitfalls` 是common=常见。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 39 行 | <code>     -&gt; inconsistent preprocessing</code> | 这一行要理解这些英文词：`inconsistent preprocessing` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 40 行 | <code>     -&gt; data leakage</code> | 这一行要理解这些英文词：`data leakage` 是data=数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 41 行 | <code>     -&gt; bad train/test evaluation</code> | 这一行要理解这些英文词：`bad train` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`test evaluation` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 初学路线：
@@ -184,16 +184,16 @@ pandas feature table
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>pandas feature table</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; X and y</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; train/test split</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; preprocessing</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; model</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; Pipeline</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; fit</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>  -&gt; predict / decision_function / score_samples</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 9 行 | <code>  -&gt; metrics / review</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 10 行 | <code>  -&gt; persist model</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 11 行 | <code>  -&gt; AIOps report</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; X and y</code> | 这一行要理解这些英文词：`X and y` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; train/test split</code> | 这一行要理解这些英文词：`train` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`test split` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; preprocessing</code> | 这一行要理解这些英文词：`preprocessing` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; model</code> | 这一行要理解这些英文词：`model` 是模型，机器学习或 AI 中用来做预测、分类或生成的算法对象。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; Pipeline</code> | 这一行要理解这些英文词：`Pipeline` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; fit</code> | 这一行要理解这些英文词：`fit` 是训练或拟合，让模型从数据里学习规律。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; predict / decision_function / score_samples</code> | 这一行要理解这些英文词：`predict` 是预测，用训练好的模型输出分类、数值或异常判断；`decision_function` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`score_samples` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>  -&gt; metrics / review</code> | 这一行要理解这些英文词：`metrics` 是指标；`review` 是复盘或评审。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>  -&gt; persist model</code> | 这一行要理解这些英文词：`persist model` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>  -&gt; AIOps report</code> | 这一行要理解这些英文词：`AIOps report` 是aiops=智能运维。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 ## scikit-learn 在 AIOps 链路中的位置
@@ -217,16 +217,16 @@ Prometheus / MySQL / Kafka export / CSV
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>Prometheus / MySQL / Kafka export / CSV</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; pandas cleaning</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; feature engineering</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; scikit-learn</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; pandas cleaning</code> | 这一行要理解这些英文词：`pandas cleaning` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; feature engineering</code> | 这一行要理解这些英文词：`feature engineering` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; scikit-learn</code> | 这一行要理解这些英文词：`scikit-learn` 是Python 机器学习库，常用于分类、回归和异常检测。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 5 行 | <code>      anomaly detection</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 | 第 6 行 | <code>      classification</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 | 第 7 行 | <code>      clustering</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 | 第 8 行 | <code>      regression</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 9 行 | <code>  -&gt; anomaly score / class / cluster / prediction</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 10 行 | <code>  -&gt; report / dashboard / alert enrichment</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 11 行 | <code>  -&gt; human feedback</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 9 行 | <code>  -&gt; anomaly score / class / cluster / prediction</code> | 这一行要理解这些英文词：`anomaly score` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`class` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`cluster` 是集群，由多台机器或多个节点组成的整体服务环境；`prediction` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>  -&gt; report / dashboard / alert enrichment</code> | 这一行要理解这些英文词：`report` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`dashboard` 是仪表盘，用图表集中展示指标、状态和趋势；`alert enrichment` 是告警增强，给告警补充服务、负责人、变更、日志等上下文。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>  -&gt; human feedback</code> | 这一行要理解这些英文词：`human feedback` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 适合 scikit-learn 的 AIOps 入门任务：
@@ -648,9 +648,9 @@ IsolationForest 的直觉：
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>异常点通常远离正常群体</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; 用随机切分更容易把它单独隔离出来</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; 被隔离所需路径更短</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; 更可能是异常</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; 用随机切分更容易把它单独隔离出来</code> | 这一行表示上一级主题下的子项“用随机切分更容易把它单独隔离出来”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
+| 第 3 行 | <code>  -&gt; 被隔离所需路径更短</code> | 这一行表示上一级主题下的子项“被隔离所需路径更短”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
+| 第 4 行 | <code>  -&gt; 更可能是异常</code> | 这一行表示上一级主题下的子项“更可能是异常”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
 
 
 官方 API 文档里也强调，它通过随机选择特征和分割值来隔离样本。

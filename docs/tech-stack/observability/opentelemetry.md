@@ -36,7 +36,7 @@ Frontend -> API Gateway -> alert-service -> model-service -> database
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>Frontend -&gt; API Gateway -&gt; alert-service -&gt; model-service -&gt; database</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 1 行 | <code>Frontend -&gt; API Gateway -&gt; alert-service -&gt; model-service -&gt; database</code> | 这一行要理解这些英文词：`Frontend` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`API Gateway` 是api=应用程序接口；`alert-service` 是alert=告警，service=服务；`model-service` 是service=服务；`database` 是数据库。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 用户说“告警分析页面很慢”。你在 Prometheus 里看到 API P95 升高，在日志里看到一些 timeout，但还是很难回答：
@@ -79,17 +79,17 @@ Application
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>Application</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; instrumentation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; OpenTelemetry API</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; OpenTelemetry SDK</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; spans / metrics / logs</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; context propagation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; OTLP exporter</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>  -&gt; OpenTelemetry Collector</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 9 行 | <code>     -&gt; receiver</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 10 行 | <code>     -&gt; processor</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 11 行 | <code>     -&gt; exporter</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 12 行 | <code>  -&gt; backend</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; instrumentation</code> | 这一行要理解这些英文词：`instrumentation` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; OpenTelemetry API</code> | 这一行要理解这些英文词：`OpenTelemetry API` 是opentelemetry=可观测性数据采集标准，api=应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; OpenTelemetry SDK</code> | 这一行要理解这些英文词：`OpenTelemetry SDK` 是opentelemetry=可观测性数据采集标准。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; spans / metrics / logs</code> | 这一行要理解这些英文词：`spans` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`metrics` 是指标；`logs` 是日志。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; context propagation</code> | 这一行要理解这些英文词：`context propagation` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; OTLP exporter</code> | 这一行要理解这些英文词：`OTLP exporter` 是otlp=OpenTelemetry 的数据传输协议。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>  -&gt; OpenTelemetry Collector</code> | 这一行要理解这些英文词：`OpenTelemetry Collector` 是opentelemetry=可观测性数据采集标准。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>     -&gt; receiver</code> | 这一行要理解这些英文词：`receiver` 是接收器，负责接收告警、日志、指标或追踪数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>     -&gt; processor</code> | 这一行要理解这些英文词：`processor` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>     -&gt; exporter</code> | 这一行要理解这些英文词：`exporter` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 12 行 | <code>  -&gt; backend</code> | 这一行要理解这些英文词：`backend` 是后端状态存储。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 必须掌握：
@@ -177,52 +177,52 @@ Collector
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>What is OpenTelemetry</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; OTel 是什么</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; OTel 不是什么</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; generation / export / collection</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; OTel 是什么</code> | 这一行要理解这些英文词：`OTel` 是OpenTelemetry 的缩写，表示可观测性采集标准。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; OTel 不是什么</code> | 这一行要理解这些英文词：`OTel` 是OpenTelemetry 的缩写，表示可观测性采集标准。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; generation / export / collection</code> | 这一行要理解这些英文词：`generation` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`export` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`collection` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 5 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 6 行 | <code>Concepts</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 7 行 | <code>  -&gt; Signals</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 8 行 | <code>     -&gt; Traces</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 9 行 | <code>     -&gt; Metrics</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 10 行 | <code>     -&gt; Logs</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 11 行 | <code>     -&gt; Baggage</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 12 行 | <code>  -&gt; Context propagation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 13 行 | <code>  -&gt; Semantic conventions</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 14 行 | <code>  -&gt; Resources</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 15 行 | <code>  -&gt; Instrumentation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 16 行 | <code>  -&gt; Sampling</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>  -&gt; Signals</code> | 这一行要理解这些英文词：`Signals` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 8 行 | <code>     -&gt; Traces</code> | 这一行要理解这些英文词：`Traces` 是链路追踪。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 9 行 | <code>     -&gt; Metrics</code> | 这一行要理解这些英文词：`Metrics` 是指标。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 10 行 | <code>     -&gt; Logs</code> | 这一行要理解这些英文词：`Logs` 是日志。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 11 行 | <code>     -&gt; Baggage</code> | 这一行要理解这些英文词：`Baggage` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 12 行 | <code>  -&gt; Context propagation</code> | 这一行要理解这些英文词：`Context propagation` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 13 行 | <code>  -&gt; Semantic conventions</code> | 这一行要理解这些英文词：`Semantic conventions` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 14 行 | <code>  -&gt; Resources</code> | 这一行要理解这些英文词：`Resources` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 15 行 | <code>  -&gt; Instrumentation</code> | 这一行要理解这些英文词：`Instrumentation` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 16 行 | <code>  -&gt; Sampling</code> | 这一行要理解这些英文词：`Sampling` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 17 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 18 行 | <code>Specification</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 19 行 | <code>  -&gt; API</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 20 行 | <code>  -&gt; SDK</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 21 行 | <code>  -&gt; Data model</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 22 行 | <code>  -&gt; Trace</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 23 行 | <code>  -&gt; Metrics</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 24 行 | <code>  -&gt; Logs</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 25 行 | <code>  -&gt; Resource</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 26 行 | <code>  -&gt; Context</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 27 行 | <code>  -&gt; Propagators</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 28 行 | <code>  -&gt; OTLP</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 19 行 | <code>  -&gt; API</code> | 这一行要理解这些英文词：`API` 是应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 20 行 | <code>  -&gt; SDK</code> | 这一行要理解这些英文词：`SDK` 是英文缩写或固定标识，结合本节上下文记住它代表的组件、命令或状态。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 21 行 | <code>  -&gt; Data model</code> | 这一行要理解这些英文词：`Data model` 是data=数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 22 行 | <code>  -&gt; Trace</code> | 这一行要理解这些英文词：`Trace` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 23 行 | <code>  -&gt; Metrics</code> | 这一行要理解这些英文词：`Metrics` 是指标。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 24 行 | <code>  -&gt; Logs</code> | 这一行要理解这些英文词：`Logs` 是日志。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 25 行 | <code>  -&gt; Resource</code> | 这一行要理解这些英文词：`Resource` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 26 行 | <code>  -&gt; Context</code> | 这一行要理解这些英文词：`Context` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 27 行 | <code>  -&gt; Propagators</code> | 这一行要理解这些英文词：`Propagators` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 28 行 | <code>  -&gt; OTLP</code> | 这一行要理解这些英文词：`OTLP` 是OpenTelemetry 的数据传输协议。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 29 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 30 行 | <code>Languages</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 31 行 | <code>  -&gt; Java / Python / Go / JavaScript / .NET ...</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 32 行 | <code>  -&gt; automatic instrumentation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 33 行 | <code>  -&gt; manual instrumentation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 34 行 | <code>  -&gt; exporters</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 31 行 | <code>  -&gt; Java / Python / Go / JavaScript / .NET ...</code> | 这一行要理解这些英文词：`Java` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`Python` 是编程语言，常用于脚本、数据分析、机器学习和 AIOps 原型；`Go` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`JavaScript` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`NET` 是英文缩写或固定标识，结合本节上下文记住它代表的组件、命令或状态。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 32 行 | <code>  -&gt; automatic instrumentation</code> | 这一行要理解这些英文词：`automatic instrumentation` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 33 行 | <code>  -&gt; manual instrumentation</code> | 这一行要理解这些英文词：`manual instrumentation` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 34 行 | <code>  -&gt; exporters</code> | 这一行要理解这些英文词：`exporters` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 | 第 35 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
 | 第 36 行 | <code>Collector</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 37 行 | <code>  -&gt; Architecture</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 38 行 | <code>  -&gt; Configuration</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 39 行 | <code>  -&gt; Components</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 40 行 | <code>     -&gt; Receivers</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 41 行 | <code>     -&gt; Processors</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 42 行 | <code>     -&gt; Exporters</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 43 行 | <code>     -&gt; Connectors</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 44 行 | <code>     -&gt; Extensions</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 45 行 | <code>  -&gt; Deployment patterns</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 46 行 | <code>  -&gt; Troubleshooting</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 47 行 | <code>  -&gt; Internal telemetry</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 37 行 | <code>  -&gt; Architecture</code> | 这一行要理解这些英文词：`Architecture` 是架构。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 38 行 | <code>  -&gt; Configuration</code> | 这一行要理解这些英文词：`Configuration` 是配置。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 39 行 | <code>  -&gt; Components</code> | 这一行要理解这些英文词：`Components` 是组件集合，表示系统由哪些部分组成。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 40 行 | <code>     -&gt; Receivers</code> | 这一行要理解这些英文词：`Receivers` 是接收器。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 41 行 | <code>     -&gt; Processors</code> | 这一行要理解这些英文词：`Processors` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 42 行 | <code>     -&gt; Exporters</code> | 这一行要理解这些英文词：`Exporters` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 43 行 | <code>     -&gt; Connectors</code> | 这一行要理解这些英文词：`Connectors` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 44 行 | <code>     -&gt; Extensions</code> | 这一行要理解这些英文词：`Extensions` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 45 行 | <code>  -&gt; Deployment patterns</code> | 这一行要理解这些英文词：`Deployment patterns` 是patterns=主机匹配模式。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 46 行 | <code>  -&gt; Troubleshooting</code> | 这一行要理解这些英文词：`Troubleshooting` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 47 行 | <code>  -&gt; Internal telemetry</code> | 这一行要理解这些英文词：`Internal telemetry` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 学习顺序：
@@ -241,11 +241,11 @@ Collector
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>先懂三大信号</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; 再懂 trace/span/context propagation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; 再懂 API/SDK/instrumentation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; 再懂 OTLP</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; 再懂 Collector pipeline</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; 最后接后端和 AIOps 自动化</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; 再懂 trace/span/context propagation</code> | 这一行要理解这些英文词：`trace` 是链路追踪，记录一次请求经过哪些服务和步骤；`span` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`context propagation` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; 再懂 API/SDK/instrumentation</code> | 这一行要理解这些英文词：`API` 是应用程序接口；`SDK` 是英文缩写或固定标识，结合本节上下文记住它代表的组件、命令或状态；`instrumentation` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; 再懂 OTLP</code> | 这一行要理解这些英文词：`OTLP` 是OpenTelemetry 的数据传输协议。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; 再懂 Collector pipeline</code> | 这一行要理解这些英文词：`Collector pipeline` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; 最后接后端和 AIOps 自动化</code> | 这一行要理解这些英文词：`AIOps` 是智能运维。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 ## OpenTelemetry 在 AIOps 链路中的位置
@@ -267,12 +267,12 @@ OpenTelemetry 是 AIOps 的遥测采集和标准化层。
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>应用代码</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; OTel instrumentation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; OTel SDK</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; OTLP</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; OTel Collector</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; Prometheus / Tempo / Jaeger / Loki / Elasticsearch / Vendor Backend</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 7 行 | <code>  -&gt; Grafana / Alertmanager / AIOps 分析</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; OTel instrumentation</code> | 这一行要理解这些英文词：`OTel instrumentation` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; OTel SDK</code> | 这一行要理解这些英文词：`OTel SDK` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; OTLP</code> | 这一行要理解这些英文词：`OTLP` 是OpenTelemetry 的数据传输协议。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; OTel Collector</code> | 这一行要理解这些英文词：`OTel Collector` 是OpenTelemetry Collector，负责接收、处理和转发遥测数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; Prometheus / Tempo / Jaeger / Loki / Elasticsearch / Vendor Backend</code> | 这一行要理解这些英文词：`Prometheus` 是指标监控系统；`Tempo` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`Jaeger` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`Loki` 是日志聚合和查询系统，常和 Grafana 配合使用；`Elasticsearch` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`Vendor Backend` 是backend=后端状态存储。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 7 行 | <code>  -&gt; Grafana / Alertmanager / AIOps 分析</code> | 这一行要理解这些英文词：`Grafana` 是仪表盘和可视化平台，用来展示指标、日志和告警数据；`Alertmanager` 是Prometheus 生态里的告警管理器；`AIOps` 是智能运维。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 它给 AIOps 提供：
@@ -796,9 +796,9 @@ TracerProvider
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>TracerProvider</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; Sampler</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; SpanProcessor</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; Exporter</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; Sampler</code> | 这一行要理解这些英文词：`Sampler` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; SpanProcessor</code> | 这一行要理解这些英文词：`SpanProcessor` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; Exporter</code> | 这一行要理解这些英文词：`Exporter` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 库里只写：
@@ -883,9 +883,9 @@ OpenTelemetry logs 可以携带：
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>看到一条 ERROR log</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; 点 trace_id</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; 进入完整 trace</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; 看到上游和下游</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; 点 trace_id</code> | 这一行要理解这些英文词：`trace_id` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; 进入完整 trace</code> | 这一行要理解这些英文词：`trace` 是链路追踪，记录一次请求经过哪些服务和步骤。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; 看到上游和下游</code> | 这一行表示上一级主题下的子项“看到上游和下游”。`->` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。 |
 
 
 应用日志要尽量带上 trace_id/span_id。很多语言 SDK 或日志框架集成能自动注入。
@@ -973,7 +973,7 @@ Application -> local/agent Collector -> gateway Collector -> backends
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>Application -&gt; local/agent Collector -&gt; gateway Collector -&gt; backends</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 1 行 | <code>Application -&gt; local/agent Collector -&gt; gateway Collector -&gt; backends</code> | 这一行要理解这些英文词：`Application` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`local` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`agent Collector` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`gateway Collector` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`backends` 是后端状态存储。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 ## Collector 架构
@@ -1000,7 +1000,7 @@ receivers -> processors -> exporters
 
 | 行 | 内容 | 说明 |
 |---|---|---|
-| 第 1 行 | <code>receivers -&gt; processors -&gt; exporters</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 1 行 | <code>receivers -&gt; processors -&gt; exporters</code> | 这一行要理解这些英文词：`receivers` 是接收器；`processors` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题；`exporters` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 官方文档强调：配置了组件还不够，必须在 `service.pipelines` 里启用。

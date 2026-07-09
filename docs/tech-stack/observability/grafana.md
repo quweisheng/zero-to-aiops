@@ -208,11 +208,11 @@ panels and dashboards
 | 第 13 行 | <code>        v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 | 第 14 行 | <code>panels and dashboards</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
 | 第 15 行 | <code>        &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 16 行 | <code>        +--&gt; on-call diagnosis</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 17 行 | <code>        +--&gt; SLO review</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 18 行 | <code>        +--&gt; anomaly validation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 19 行 | <code>        +--&gt; alert tuning</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 20 行 | <code>        +--&gt; GitHub learning evidence</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 16 行 | <code>        +--&gt; on-call diagnosis</code> | 这一行要理解这些英文词：`on-call diagnosis` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 17 行 | <code>        +--&gt; SLO review</code> | 这一行要理解这些英文词：`SLO review` 是slo=服务等级目标，review=复盘或评审。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 18 行 | <code>        +--&gt; anomaly validation</code> | 这一行要理解这些英文词：`anomaly validation` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 19 行 | <code>        +--&gt; alert tuning</code> | 这一行要理解这些英文词：`alert tuning` 是alert=告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 20 行 | <code>        +--&gt; GitHub learning evidence</code> | 这一行要理解这些英文词：`GitHub learning evidence` 是github=代码托管平台，learning=学习沉淀，evidence=证据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 Grafana 在 AIOps 中不是“数据生产者”，而是“理解和反馈入口”。
@@ -608,11 +608,11 @@ panel query
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>panel query</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; Grafana Prometheus data source plugin</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; Prometheus HTTP API</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; time series result</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; Grafana data frame</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 6 行 | <code>  -&gt; panel</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; Grafana Prometheus data source plugin</code> | 这一行要理解这些英文词：`Grafana Prometheus data source plugin` 是prometheus=指标监控系统，data=数据，source=来源，plugin=插件。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; Prometheus HTTP API</code> | 这一行要理解这些英文词：`Prometheus HTTP API` 是prometheus=指标监控系统，http=超文本传输协议，api=应用程序接口。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; time series result</code> | 这一行要理解这些英文词：`time series result` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; Grafana data frame</code> | 这一行要理解这些英文词：`Grafana data frame` 是data=数据。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 6 行 | <code>  -&gt; panel</code> | 这一行要理解这些英文词：`panel` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 常用配置项：
@@ -908,8 +908,8 @@ query result
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>query result</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; transformation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; panel visualization</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; transformation</code> | 这一行要理解这些英文词：`transformation` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; panel visualization</code> | 这一行要理解这些英文词：`panel visualization` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 常见 transformation：
@@ -1287,10 +1287,10 @@ data source query
 | 行 | 内容 | 说明 |
 |---|---|---|
 | 第 1 行 | <code>data source query</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
-| 第 2 行 | <code>  -&gt; alert rule evaluation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 3 行 | <code>  -&gt; alert instance</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 4 行 | <code>  -&gt; notification policy</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
-| 第 5 行 | <code>  -&gt; contact point</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>  -&gt; alert rule evaluation</code> | 这一行要理解这些英文词：`alert rule evaluation` 是alert=告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 3 行 | <code>  -&gt; alert instance</code> | 这一行要理解这些英文词：`alert instance` 是alert=告警。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 4 行 | <code>  -&gt; notification policy</code> | 这一行要理解这些英文词：`notification policy` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
+| 第 5 行 | <code>  -&gt; contact point</code> | 这一行要理解这些英文词：`contact point` 是英文关键字，表示本节知识地图里的一个组件、命令、状态或学习主题。`->` 只是知识地图里的层级符号，不是要学习的概念。 |
 
 
 Grafana 告警和 Prometheus 告警怎么选？

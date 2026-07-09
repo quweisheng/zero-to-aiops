@@ -266,10 +266,94 @@ function explainNginx(line) {
   return 'NGINX 指令行，用来控制转发、头部、超时、日志或访问策略。'
 }
 
+const textTermGlossary = {
+  aiops: '智能运维',
+  alert: '告警',
+  alertmanager: 'Prometheus 生态里的告警管理器',
+  api: '应用程序接口',
+  batch: '批处理',
+  client: '客户端',
+  common: '常见',
+  connect: '连接',
+  data: '数据',
+  database: '数据库',
+  ddl: '数据定义语言，用来建库、建表、建索引',
+  dml: '数据操作语言，用来增删改查数据',
+  enter: '输入',
+  explain: '解释执行计划的命令',
+  github: '代码托管平台',
+  index: '索引或目录',
+  indexes: '索引',
+  language: '语言',
+  load: '加载',
+  logs: '日志',
+  llm: '大语言模型',
+  metrics: '指标',
+  mode: '模式',
+  mysql: 'MySQL 数据库或客户端命令',
+  mysqld: 'MySQL 服务端进程',
+  mysqldump: 'MySQL 备份导出工具',
+  mysqladmin: 'MySQL 管理命令',
+  mysqlbinlog: '查看 MySQL 二进制日志的工具',
+  mysqlimport: '导入数据到 MySQL 的工具',
+  mysqlshow: '查看 MySQL 数据库对象的工具',
+  programs: '程序集合',
+  queries: '查询',
+  query: '查询',
+  retrieve: '检索',
+  runbook: '故障处理手册',
+  server: '服务端',
+  service: '服务',
+  slo: '服务等级目标',
+  sql: '结构化查询语言',
+  table: '表',
+  traces: '链路追踪',
+  transaction: '事务',
+  tutorial: '教程或入门章节',
+}
+
+function explainArrowText(line) {
+  const cleaned = line
+    .replace(/\s*[-+]*>\s*/g, ' -> ')
+    .split(/\s*->\s*/)
+    .map((part) => part.trim())
+    .filter(Boolean)
+  const terms = []
+  const seen = new Set()
+
+  for (const part of cleaned) {
+    const matches = part.match(/[A-Za-z][A-Za-z0-9_.-]*(?:\s+[A-Za-z][A-Za-z0-9_.-]*)*/g) ?? []
+    for (const match of matches) {
+      const term = match.trim()
+      const key = term.toLowerCase()
+      if (!seen.has(key)) {
+        seen.add(key)
+        terms.push(term)
+      }
+    }
+  }
+
+  if (terms.length === 0) {
+    const subject = cleaned.at(-1) ?? line.trim()
+    return `这一行表示上一级主题下的子项“${subject}”。\`->\` 只是知识地图里的层级符号，真正要理解的是这句话里的操作或概念。`
+  }
+
+  const definitions = terms.map((term) => {
+    const words = term.toLowerCase().replace(/[._-]+/g, ' ').split(/\s+/)
+    const known = words
+      .filter((word) => textTermGlossary[word])
+      .map((word) => `${word}=${textTermGlossary[word]}`)
+    const meaning = textTermGlossary[term.toLowerCase()] ?? known.join('，') ?? ''
+    return `\`${term}\` 是${meaning || '英文术语，表示本节知识地图里的一个组件、命令、状态或学习主题'}`
+  })
+
+  return `这一行要理解这些英文词：${definitions.join('；')}。\`->\` 只是知识地图里的层级符号，不是要学习的概念。`
+}
+
 function explainText(line) {
   const trimmed = line.trim()
   if (!trimmed) return '空行，用来把示例结构分成更容易阅读的段落。'
-  if (trimmed.includes('->')) return '流程箭头，表示数据、请求或排障步骤从左边流向右边。'
+  if (trimmed.includes('->')) return explainArrowText(trimmed)
   if (/^[├└│]/.test(trimmed)) return '树形结构行，表示文件、组件或知识点之间的层级关系。'
   if (/^\d+\./.test(trimmed)) return '编号步骤，表示学习或操作时应该按顺序执行。'
   if (/^[-*]\s+/.test(trimmed)) return '列表项，表示一个要点、条件、文件或检查项。'
