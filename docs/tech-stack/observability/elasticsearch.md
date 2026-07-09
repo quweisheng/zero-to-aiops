@@ -30,6 +30,16 @@
 按 message 搜 timeout
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>最近 15 分钟 checkout-api 的 5xx 日志</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>按 service 聚合错误数</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>按 trace_id 找某次请求</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>按 message 搜 timeout</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 结果遇到一堆问题：
 
 - 字段明明写进去了，为什么查询不到？
@@ -64,6 +74,23 @@ JSON document
   -> aggregations
   -> ILM rollover / retention
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>JSON document</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; index / data stream</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; index template</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; mappings / settings</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; ingest pipeline</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; primary shard</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>  -&gt; inverted index / doc values</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 8 行 | <code>  -&gt; replica shards</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 9 行 | <code>  -&gt; Query DSL search</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 10 行 | <code>  -&gt; aggregations</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 11 行 | <code>  -&gt; ILM rollover / retention</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 必须掌握：
 
@@ -152,6 +179,65 @@ Operations
   -> Monitoring
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Core concepts</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; Cluster</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; Node</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; Index</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; Document</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; Field</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>  -&gt; Shards and replicas</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 8 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
+| 第 9 行 | <code>Data modeling</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 10 行 | <code>  -&gt; Mappings</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 11 行 | <code>  -&gt; Field types</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 12 行 | <code>  -&gt; Dynamic mapping</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 13 行 | <code>  -&gt; Runtime fields</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 14 行 | <code>  -&gt; Index settings</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 15 行 | <code>  -&gt; Analyzers</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 16 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
+| 第 17 行 | <code>Data management</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 18 行 | <code>  -&gt; Data streams</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 19 行 | <code>  -&gt; Index templates</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 20 行 | <code>  -&gt; Component templates</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 21 行 | <code>  -&gt; Aliases</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 22 行 | <code>  -&gt; ILM</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 23 行 | <code>  -&gt; Snapshot and restore</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 24 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
+| 第 25 行 | <code>Ingest</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 26 行 | <code>  -&gt; Document APIs</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 27 行 | <code>  -&gt; Bulk API</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 28 行 | <code>  -&gt; Ingest pipelines</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 29 行 | <code>  -&gt; Processors</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 30 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
+| 第 31 行 | <code>Search</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 32 行 | <code>  -&gt; Search API</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 33 行 | <code>  -&gt; Query DSL</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 34 行 | <code>  -&gt; Full-text queries</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 35 行 | <code>  -&gt; Term-level queries</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 36 行 | <code>  -&gt; Compound queries</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 37 行 | <code>  -&gt; Sort</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 38 行 | <code>  -&gt; Pagination</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 39 行 | <code>  -&gt; Highlighting</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 40 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
+| 第 41 行 | <code>Aggregations</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 42 行 | <code>  -&gt; Bucket aggregations</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 43 行 | <code>  -&gt; Metrics aggregations</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 44 行 | <code>  -&gt; Pipeline aggregations</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 45 行 | <code>  -&gt; Terms aggregation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 46 行 | <code>  -&gt; Date histogram</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 47 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
+| 第 48 行 | <code>Operations</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 49 行 | <code>  -&gt; Cluster health</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 50 行 | <code>  -&gt; CAT APIs</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 51 行 | <code>  -&gt; Shard allocation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 52 行 | <code>  -&gt; Index lifecycle</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 53 行 | <code>  -&gt; Monitoring</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 学习顺序：
 
 ```text
@@ -162,6 +248,18 @@ Operations
   -> 再懂 data stream/template/ILM
   -> 最后学集群健康和性能排障
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>先懂 document/index/shard</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; 再懂 mapping 和 analyzer</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; 再懂 query DSL</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; 再懂 aggregation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; 再懂 data stream/template/ILM</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; 最后学集群健康和性能排障</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 ## Elasticsearch 在 AIOps 链路中的位置
 
@@ -174,6 +272,17 @@ Elasticsearch 常用于日志搜索、事件检索、告警上下文查询和历
   -> Kibana / API / AIOps 分析服务
   -> 告警上下文、根因分析、异常搜索
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>应用/系统日志</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; Logstash / Beats / Elastic Agent / OTel Collector / 自定义写入</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; Elasticsearch data streams / indices</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; Kibana / API / AIOps 分析服务</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; 告警上下文、根因分析、异常搜索</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 它给 AIOps 提供：
 
@@ -225,6 +334,21 @@ curl -X POST "http://localhost:9200/logs-aiops/_doc" \
   }'
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl -X POST "http://localhost:9200/logs-aiops/_doc" \</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+| 第 2 行 | <code>  -H "Content-Type: application/json" \</code> | 执行 `-h` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 3 行 | <code>  -d '{</code> | 执行 `-d` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 4 行 | <code>    "@timestamp": "2026-07-02T10:00:00Z",</code> | 执行 `"@timestamp":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 5 行 | <code>    "service": "checkout-api",</code> | 执行 `"service":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 6 行 | <code>    "level": "error",</code> | 执行 `"level":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 7 行 | <code>    "message": "payment timeout",</code> | 执行 `"message":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 8 行 | <code>    "status_code": 504</code> | 执行 `"status_code":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 9 行 | <code>  }'</code> | 执行 `}'` 相关命令，后面的参数决定它具体操作什么对象。 |
+
+
 最小搜索：
 
 ```bash
@@ -239,6 +363,21 @@ curl -X GET "http://localhost:9200/logs-aiops/_search" \
   }'
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl -X GET "http://localhost:9200/logs-aiops/_search" \</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+| 第 2 行 | <code>  -H "Content-Type: application/json" \</code> | 执行 `-h` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 3 行 | <code>  -d '{</code> | 执行 `-d` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 4 行 | <code>    "query": {</code> | 执行 `"query":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 5 行 | <code>      "match": {</code> | 执行 `"match":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 6 行 | <code>        "message": "payment timeout"</code> | 执行 `"message":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 7 行 | <code>      }</code> | 执行 `}` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 8 行 | <code>    }</code> | 执行 `}` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 9 行 | <code>  }'</code> | 执行 `}'` 相关命令，后面的参数决定它具体操作什么对象。 |
+
+
 ## Cluster、Node、Index、Document
 
 ### Cluster
@@ -251,6 +390,14 @@ Cluster 是一个或多个 Elasticsearch nodes 的集合。
 curl -s http://localhost:9200/
 curl -s http://localhost:9200/_cluster/health?pretty
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl -s http://localhost:9200/</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+| 第 2 行 | <code>curl -s http://localhost:9200/_cluster/health?pretty</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+
 
 ### Node
 
@@ -280,6 +427,15 @@ metrics-app
 alerts-history
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>logs-aiops-2026.07.02</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>metrics-app</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>alerts-history</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 Index 有：
 
 - settings。
@@ -304,6 +460,19 @@ Document 是 JSON 数据。
 }
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>{</code> | 对象开始，表示下面是一组键值对配置。 |
+| 第 2 行 | <code>  "@timestamp": "2026-07-02T10:00:00Z",</code> | 设置 `@timestamp` 字段，值是 `"2026-07-02T10:00:00Z"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 3 行 | <code>  "service": "checkout-api",</code> | 设置 `service` 字段，值是 `"checkout-api"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 4 行 | <code>  "level": "error",</code> | 设置 `level` 字段，值是 `"error"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 5 行 | <code>  "message": "payment timeout",</code> | 设置 `message` 字段，值是 `"payment timeout"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 6 行 | <code>  "trace_id": "abc123"</code> | 设置 `trace_id` 字段，值是 `"abc123"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 7 行 | <code>}</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+
+
 每个 document 有 `_index`、`_id`、`_source` 等元信息。
 
 ## Shards 和 Replicas
@@ -317,12 +486,30 @@ index logs-aiops
   -> primary shard 2
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>index logs-aiops</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; primary shard 0</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; primary shard 1</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; primary shard 2</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 Replica 是 primary shard 的副本。
 
 ```text
 primary shard 0 on node A
 replica shard 0 on node B
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>primary shard 0 on node A</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>replica shard 0 on node B</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 作用：
 
@@ -343,6 +530,14 @@ curl -s "http://localhost:9200/_cat/indices?v"
 curl -s "http://localhost:9200/_cat/shards?v"
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl -s "http://localhost:9200/_cat/indices?v"</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+| 第 2 行 | <code>curl -s "http://localhost:9200/_cat/shards?v"</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+
+
 ## Cluster health：green、yellow、red
 
 查看：
@@ -351,6 +546,14 @@ curl -s "http://localhost:9200/_cat/shards?v"
 curl -s "http://localhost:9200/_cluster/health?pretty"
 curl -s "http://localhost:9200/_cat/health?v"
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl -s "http://localhost:9200/_cluster/health?pretty"</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+| 第 2 行 | <code>curl -s "http://localhost:9200/_cat/health?v"</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+
 
 状态：
 
@@ -368,6 +571,15 @@ number_of_replicas=1
 replica 无法分配到同一 node
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>number_of_replicas=1</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>只有一个 node</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>replica 无法分配到同一 node</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 修实验环境：
 
 ```bash
@@ -379,6 +591,19 @@ curl -X PUT "http://localhost:9200/logs-aiops/_settings" \
     }
   }'
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl -X PUT "http://localhost:9200/logs-aiops/_settings" \</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+| 第 2 行 | <code>  -H "Content-Type: application/json" \</code> | 执行 `-h` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 3 行 | <code>  -d '{</code> | 执行 `-d` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 4 行 | <code>    "index": {</code> | 执行 `"index":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 5 行 | <code>      "number_of_replicas": 0</code> | 执行 `"number_of_replicas":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 6 行 | <code>    }</code> | 执行 `}` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 7 行 | <code>  }'</code> | 执行 `}'` 相关命令，后面的参数决定它具体操作什么对象。 |
+
 
 生产环境不要为了 green 盲目设 replica 0。要先判断容量、节点、allocation、磁盘水位、故障域。
 
@@ -403,6 +628,24 @@ Mapping 定义字段类型和索引方式。
 }
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>{</code> | 对象开始，表示下面是一组键值对配置。 |
+| 第 2 行 | <code>  "mappings": {</code> | 设置 `mappings` 字段，值是 `{`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 3 行 | <code>    "properties": {</code> | 设置 `properties` 字段，值是 `{`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 4 行 | <code>      "@timestamp": { "type": "date" },</code> | 设置 `@timestamp` 字段，值是 `{ "type": "date" }`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 5 行 | <code>      "service": { "type": "keyword" },</code> | 设置 `service` 字段，值是 `{ "type": "keyword" }`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 6 行 | <code>      "level": { "type": "keyword" },</code> | 设置 `level` 字段，值是 `{ "type": "keyword" }`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 7 行 | <code>      "message": { "type": "text" },</code> | 设置 `message` 字段，值是 `{ "type": "text" }`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 8 行 | <code>      "status_code": { "type": "integer" },</code> | 设置 `status_code` 字段，值是 `{ "type": "integer" }`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 9 行 | <code>      "trace_id": { "type": "keyword" }</code> | 设置 `trace_id` 字段，值是 `{ "type": "keyword" }`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 10 行 | <code>    }</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+| 第 11 行 | <code>  }</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+| 第 12 行 | <code>}</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+
+
 字段类型影响：
 
 - 能否全文搜索。
@@ -417,6 +660,13 @@ Mapping 定义字段类型和索引方式。
 curl -s "http://localhost:9200/logs-aiops/_mapping?pretty"
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl -s "http://localhost:9200/logs-aiops/_mapping?pretty"</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+
+
 ## text 和 keyword
 
 这是新手最重要的字段类型区别。
@@ -428,6 +678,13 @@ curl -s "http://localhost:9200/logs-aiops/_mapping?pretty"
 ```json
 "message": { "type": "text" }
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>"message": { "type": "text" }</code> | 设置 `message` 字段，值是 `{ "type": "text" }`；真实环境要根据自己的告警、服务或接口返回调整。 |
+
 
 适合：
 
@@ -442,6 +699,13 @@ curl -s "http://localhost:9200/logs-aiops/_mapping?pretty"
 ```json
 "service": { "type": "keyword" }
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>"service": { "type": "keyword" }</code> | 设置 `service` 字段，值是 `{ "type": "keyword" }`；真实环境要根据自己的告警、服务或接口返回调整。 |
+
 
 适合：
 
@@ -464,6 +728,19 @@ curl -s "http://localhost:9200/logs-aiops/_mapping?pretty"
 }
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>{</code> | 对象开始，表示下面是一组键值对配置。 |
+| 第 2 行 | <code>  "query": {</code> | 设置 `query` 字段，值是 `{`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 3 行 | <code>    "match": {</code> | 设置 `match` 字段，值是 `{`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 4 行 | <code>      "message": "payment timeout"</code> | 设置 `message` 字段，值是 `"payment timeout"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 5 行 | <code>    }</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+| 第 6 行 | <code>  }</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+| 第 7 行 | <code>}</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+
+
 适合 text 全文搜索。
 
 ```json
@@ -475,6 +752,19 @@ curl -s "http://localhost:9200/logs-aiops/_mapping?pretty"
   }
 }
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>{</code> | 对象开始，表示下面是一组键值对配置。 |
+| 第 2 行 | <code>  "query": {</code> | 设置 `query` 字段，值是 `{`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 3 行 | <code>    "term": {</code> | 设置 `term` 字段，值是 `{`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 4 行 | <code>      "service": "checkout-api"</code> | 设置 `service` 字段，值是 `"checkout-api"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 5 行 | <code>    }</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+| 第 6 行 | <code>  }</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+| 第 7 行 | <code>}</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+
 
 适合 keyword 精确过滤。
 
@@ -490,6 +780,19 @@ curl -s "http://localhost:9200/logs-aiops/_mapping?pretty"
 }
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>{</code> | 对象开始，表示下面是一组键值对配置。 |
+| 第 2 行 | <code>  "query": {</code> | 设置 `query` 字段，值是 `{`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 3 行 | <code>    "term": {</code> | 设置 `term` 字段，值是 `{`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 4 行 | <code>      "message": "payment timeout"</code> | 设置 `message` 字段，值是 `"payment timeout"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 5 行 | <code>    }</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+| 第 6 行 | <code>  }</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+| 第 7 行 | <code>}</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+
+
 如果 `message` 是 text，term 查询不会分析查询词，可能查不到预期结果。
 
 ## Analyzer 和倒排索引
@@ -502,6 +805,13 @@ Analyzer 把文本变成 tokens。
 "Payment Timeout Error"
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>"Payment Timeout Error"</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 可能被处理为：
 
 ```text
@@ -510,6 +820,15 @@ timeout
 error
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>payment</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>timeout</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>error</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 Elasticsearch 建立倒排索引：
 
 ```text
@@ -517,6 +836,15 @@ payment -> doc1, doc7
 timeout -> doc1, doc3
 error   -> doc1, doc5
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>payment -&gt; doc1, doc7</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>timeout -&gt; doc1, doc3</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>error   -&gt; doc1, doc5</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 这让全文搜索很快。
 
@@ -531,12 +859,32 @@ curl -X POST "http://localhost:9200/_analyze" \
   }'
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl -X POST "http://localhost:9200/_analyze" \</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+| 第 2 行 | <code>  -H "Content-Type: application/json" \</code> | 执行 `-h` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 3 行 | <code>  -d '{</code> | 执行 `-d` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 4 行 | <code>    "analyzer": "standard",</code> | 执行 `"analyzer":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 5 行 | <code>    "text": "Payment Timeout Error"</code> | 执行 `"text":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 6 行 | <code>  }'</code> | 执行 `}'` 相关命令，后面的参数决定它具体操作什么对象。 |
+
+
 入门记住：
 
 ```text
 text 字段会分析，适合 match
 keyword 字段不分析，适合 term/filter/aggregation
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>text 字段会分析，适合 match</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>keyword 字段不分析，适合 term/filter/aggregation</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 ## Dynamic mapping 和 mapping conflict
 
@@ -548,6 +896,13 @@ keyword 字段不分析，适合 term/filter/aggregation
 { "status_code": 500 }
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>{ "status_code": 500 }</code> | JSON 列表或对象中的一行，注意逗号和引号必须符合 JSON 语法。 |
+
+
 可能映射成 integer。
 
 后面写入：
@@ -555,6 +910,13 @@ keyword 字段不分析，适合 term/filter/aggregation
 ```json
 { "status_code": "timeout" }
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>{ "status_code": "timeout" }</code> | JSON 列表或对象中的一行，注意逗号和引号必须符合 JSON 语法。 |
+
 
 就可能失败，因为同一字段类型冲突。
 
@@ -564,6 +926,14 @@ keyword 字段不分析，适合 term/filter/aggregation
 { "user": "alice" }
 { "user": { "id": "alice", "name": "Alice" } }
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>{ "user": "alice" }</code> | JSON 列表或对象中的一行，注意逗号和引号必须符合 JSON 语法。 |
+| 第 2 行 | <code>{ "user": { "id": "alice", "name": "Alice" } }</code> | JSON 列表或对象中的一行，注意逗号和引号必须符合 JSON 语法。 |
+
 
 同一字段一会儿字符串，一会儿对象，会出问题。
 
@@ -600,6 +970,29 @@ curl -X PUT "http://localhost:9200/logs-aiops" \
   }'
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl -X PUT "http://localhost:9200/logs-aiops" \</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+| 第 2 行 | <code>  -H "Content-Type: application/json" \</code> | 执行 `-h` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 3 行 | <code>  -d '{</code> | 执行 `-d` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 4 行 | <code>    "settings": {</code> | 执行 `"settings":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 5 行 | <code>      "number_of_shards": 1,</code> | 执行 `"number_of_shards":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 6 行 | <code>      "number_of_replicas": 0</code> | 执行 `"number_of_replicas":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 7 行 | <code>    },</code> | 执行 `},` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 8 行 | <code>    "mappings": {</code> | 执行 `"mappings":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 9 行 | <code>      "properties": {</code> | 执行 `"properties":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 10 行 | <code>        "@timestamp": { "type": "date" },</code> | 执行 `"@timestamp":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 11 行 | <code>        "service": { "type": "keyword" },</code> | 执行 `"service":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 12 行 | <code>        "level": { "type": "keyword" },</code> | 执行 `"level":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 13 行 | <code>        "message": { "type": "text" },</code> | 执行 `"message":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 14 行 | <code>        "trace_id": { "type": "keyword" }</code> | 执行 `"trace_id":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 15 行 | <code>      }</code> | 执行 `}` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 16 行 | <code>    }</code> | 执行 `}` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 17 行 | <code>  }'</code> | 执行 `}'` 相关命令，后面的参数决定它具体操作什么对象。 |
+
+
 常见 settings：
 
 | setting | 作用 |
@@ -621,6 +1014,15 @@ logs-aiops
   -> .ds-logs-aiops-2026.07.02-000001
   -> .ds-logs-aiops-2026.07.03-000002
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>logs-aiops</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; .ds-logs-aiops-2026.07.02-000001</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; .ds-logs-aiops-2026.07.03-000002</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 Data stream 需要匹配的 index template。template 定义：
 
@@ -668,11 +1070,45 @@ curl -X PUT "http://localhost:9200/_index_template/logs-aiops-template" \
   }'
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl -X PUT "http://localhost:9200/_index_template/logs-aiops-template" \</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+| 第 2 行 | <code>  -H "Content-Type: application/json" \</code> | 执行 `-h` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 3 行 | <code>  -d '{</code> | 执行 `-d` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 4 行 | <code>    "index_patterns": ["logs-aiops-*"],</code> | 执行 `"index_patterns":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 5 行 | <code>    "priority": 500,</code> | 执行 `"priority":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 6 行 | <code>    "template": {</code> | 执行 `"template":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 7 行 | <code>      "settings": {</code> | 执行 `"settings":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 8 行 | <code>        "number_of_shards": 1,</code> | 执行 `"number_of_shards":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 9 行 | <code>        "number_of_replicas": 1</code> | 执行 `"number_of_replicas":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 10 行 | <code>      },</code> | 执行 `},` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 11 行 | <code>      "mappings": {</code> | 执行 `"mappings":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 12 行 | <code>        "properties": {</code> | 执行 `"properties":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 13 行 | <code>          "@timestamp": { "type": "date" },</code> | 执行 `"@timestamp":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 14 行 | <code>          "service": { "type": "keyword" },</code> | 执行 `"service":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 15 行 | <code>          "level": { "type": "keyword" },</code> | 执行 `"level":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 16 行 | <code>          "message": { "type": "text" },</code> | 执行 `"message":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 17 行 | <code>          "trace_id": { "type": "keyword" }</code> | 执行 `"trace_id":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 18 行 | <code>        }</code> | 执行 `}` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 19 行 | <code>      }</code> | 执行 `}` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 20 行 | <code>    }</code> | 执行 `}` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 21 行 | <code>  }'</code> | 执行 `}'` 相关命令，后面的参数决定它具体操作什么对象。 |
+
+
 查看：
 
 ```bash
 curl -s "http://localhost:9200/_index_template/logs-aiops-template?pretty"
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl -s "http://localhost:9200/_index_template/logs-aiops-template?pretty"</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+
 
 为什么重要？
 
@@ -716,6 +1152,32 @@ curl -X PUT "http://localhost:9200/_ingest/pipeline/aiops-log-pipeline" \
   }'
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl -X PUT "http://localhost:9200/_ingest/pipeline/aiops-log-pipeline" \</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+| 第 2 行 | <code>  -H "Content-Type: application/json" \</code> | 执行 `-h` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 3 行 | <code>  -d '{</code> | 执行 `-d` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 4 行 | <code>    "description": "Parse AIOps log lines",</code> | 执行 `"description":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 5 行 | <code>    "processors": [</code> | 执行 `"processors":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 6 行 | <code>      {</code> | 执行 `{` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 7 行 | <code>        "set": {</code> | 执行 `"set":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 8 行 | <code>          "field": "event.dataset",</code> | 执行 `"field":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 9 行 | <code>          "value": "aiops"</code> | 执行 `"value":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 10 行 | <code>        }</code> | 执行 `}` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 11 行 | <code>      },</code> | 执行 `},` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 12 行 | <code>      {</code> | 执行 `{` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 13 行 | <code>        "convert": {</code> | 执行 `"convert":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 14 行 | <code>          "field": "status_code",</code> | 执行 `"field":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 15 行 | <code>          "type": "integer",</code> | 执行 `"type":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 16 行 | <code>          "ignore_missing": true</code> | 执行 `"ignore_missing":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 17 行 | <code>        }</code> | 执行 `}` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 18 行 | <code>      }</code> | 执行 `}` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 19 行 | <code>    ]</code> | 执行 `]` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 20 行 | <code>  }'</code> | 执行 `}'` 相关命令，后面的参数决定它具体操作什么对象。 |
+
+
 写入时指定：
 
 ```bash
@@ -728,6 +1190,20 @@ curl -X POST "http://localhost:9200/logs-aiops/_doc?pipeline=aiops-log-pipeline"
     "message": "payment timeout"
   }'
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl -X POST "http://localhost:9200/logs-aiops/_doc?pipeline=aiops-log-pipeline" \</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+| 第 2 行 | <code>  -H "Content-Type: application/json" \</code> | 执行 `-h` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 3 行 | <code>  -d '{</code> | 执行 `-d` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 4 行 | <code>    "@timestamp": "2026-07-02T10:00:00Z",</code> | 执行 `"@timestamp":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 5 行 | <code>    "service": "checkout-api",</code> | 执行 `"service":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 6 行 | <code>    "status_code": "504",</code> | 执行 `"status_code":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 7 行 | <code>    "message": "payment timeout"</code> | 执行 `"message":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 8 行 | <code>  }'</code> | 执行 `}'` 相关命令，后面的参数决定它具体操作什么对象。 |
+
 
 模拟 pipeline：
 
@@ -744,6 +1220,23 @@ curl -X POST "http://localhost:9200/_ingest/pipeline/aiops-log-pipeline/_simulat
     ]
   }'
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl -X POST "http://localhost:9200/_ingest/pipeline/aiops-log-pipeline/_simulate" \</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+| 第 2 行 | <code>  -H "Content-Type: application/json" \</code> | 执行 `-h` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 3 行 | <code>  -d '{</code> | 执行 `-d` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 4 行 | <code>    "docs": [</code> | 执行 `"docs":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 5 行 | <code>      {</code> | 执行 `{` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 6 行 | <code>        "_source": {</code> | 执行 `"_source":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 7 行 | <code>          "status_code": "504"</code> | 执行 `"status_code":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 8 行 | <code>        }</code> | 执行 `}` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 9 行 | <code>      }</code> | 执行 `}` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 10 行 | <code>    ]</code> | 执行 `]` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 11 行 | <code>  }'</code> | 执行 `}'` 相关命令，后面的参数决定它具体操作什么对象。 |
+
 
 ## Query DSL
 
@@ -763,6 +1256,19 @@ Elasticsearch 查询使用 JSON Query DSL。
 }
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>{</code> | 对象开始，表示下面是一组键值对配置。 |
+| 第 2 行 | <code>  "query": {</code> | 设置 `query` 字段，值是 `{`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 3 行 | <code>    "match": {</code> | 设置 `match` 字段，值是 `{`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 4 行 | <code>      "message": "payment timeout"</code> | 设置 `message` 字段，值是 `"payment timeout"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 5 行 | <code>    }</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+| 第 6 行 | <code>  }</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+| 第 7 行 | <code>}</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+
+
 ### term
 
 精确查询，不分析查询词。
@@ -776,6 +1282,19 @@ Elasticsearch 查询使用 JSON Query DSL。
   }
 }
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>{</code> | 对象开始，表示下面是一组键值对配置。 |
+| 第 2 行 | <code>  "query": {</code> | 设置 `query` 字段，值是 `{`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 3 行 | <code>    "term": {</code> | 设置 `term` 字段，值是 `{`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 4 行 | <code>      "service": "checkout-api"</code> | 设置 `service` 字段，值是 `"checkout-api"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 5 行 | <code>    }</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+| 第 6 行 | <code>  }</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+| 第 7 行 | <code>}</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+
 
 ### range
 
@@ -793,6 +1312,22 @@ Elasticsearch 查询使用 JSON Query DSL。
   }
 }
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>{</code> | 对象开始，表示下面是一组键值对配置。 |
+| 第 2 行 | <code>  "query": {</code> | 设置 `query` 字段，值是 `{`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 3 行 | <code>    "range": {</code> | 设置 `range` 字段，值是 `{`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 4 行 | <code>      "@timestamp": {</code> | 设置 `@timestamp` 字段，值是 `{`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 5 行 | <code>        "gte": "now-15m",</code> | 设置 `gte` 字段，值是 `"now-15m"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 6 行 | <code>        "lte": "now"</code> | 设置 `lte` 字段，值是 `"now"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 7 行 | <code>      }</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+| 第 8 行 | <code>    }</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+| 第 9 行 | <code>  }</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+| 第 10 行 | <code>}</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+
 
 ### bool
 
@@ -817,6 +1352,29 @@ Elasticsearch 查询使用 JSON Query DSL。
   }
 }
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>{</code> | 对象开始，表示下面是一组键值对配置。 |
+| 第 2 行 | <code>  "query": {</code> | 设置 `query` 字段，值是 `{`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 3 行 | <code>    "bool": {</code> | 设置 `bool` 字段，值是 `{`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 4 行 | <code>      "filter": [</code> | 设置 `filter` 字段，值是 `[`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 5 行 | <code>        { "term": { "service": "checkout-api" } },</code> | JSON 列表或对象中的一行，注意逗号和引号必须符合 JSON 语法。 |
+| 第 6 行 | <code>        { "term": { "level": "error" } },</code> | JSON 列表或对象中的一行，注意逗号和引号必须符合 JSON 语法。 |
+| 第 7 行 | <code>        { "range": { "@timestamp": { "gte": "now-15m" } } }</code> | JSON 列表或对象中的一行，注意逗号和引号必须符合 JSON 语法。 |
+| 第 8 行 | <code>      ],</code> | 当前对象或数组结束，逗号表示后面还有同级项目。 |
+| 第 9 行 | <code>      "must": [</code> | 设置 `must` 字段，值是 `[`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 10 行 | <code>        { "match": { "message": "timeout" } }</code> | JSON 列表或对象中的一行，注意逗号和引号必须符合 JSON 语法。 |
+| 第 11 行 | <code>      ],</code> | 当前对象或数组结束，逗号表示后面还有同级项目。 |
+| 第 12 行 | <code>      "must_not": [</code> | 设置 `must_not` 字段，值是 `[`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 13 行 | <code>        { "term": { "path": "/health" } }</code> | JSON 列表或对象中的一行，注意逗号和引号必须符合 JSON 语法。 |
+| 第 14 行 | <code>      ]</code> | 数组结束，表示同类值或对象列表到这里结束。 |
+| 第 15 行 | <code>    }</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+| 第 16 行 | <code>  }</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+| 第 17 行 | <code>}</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+
 
 经验：
 
@@ -852,6 +1410,31 @@ curl -X GET "http://localhost:9200/logs-aiops/_search" \
   }'
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl -X GET "http://localhost:9200/logs-aiops/_search" \</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+| 第 2 行 | <code>  -H "Content-Type: application/json" \</code> | 执行 `-h` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 3 行 | <code>  -d '{</code> | 执行 `-d` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 4 行 | <code>    "size": 0,</code> | 执行 `"size":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 5 行 | <code>    "query": {</code> | 执行 `"query":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 6 行 | <code>      "range": {</code> | 执行 `"range":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 7 行 | <code>        "@timestamp": {</code> | 执行 `"@timestamp":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 8 行 | <code>          "gte": "now-15m"</code> | 执行 `"gte":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 9 行 | <code>        }</code> | 执行 `}` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 10 行 | <code>      }</code> | 执行 `}` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 11 行 | <code>    },</code> | 执行 `},` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 12 行 | <code>    "aggs": {</code> | 执行 `"aggs":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 13 行 | <code>      "by_service": {</code> | 执行 `"by_service":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 14 行 | <code>        "terms": {</code> | 执行 `"terms":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 15 行 | <code>          "field": "service"</code> | 执行 `"field":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 16 行 | <code>        }</code> | 执行 `}` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 17 行 | <code>      }</code> | 执行 `}` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 18 行 | <code>    }</code> | 执行 `}` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 19 行 | <code>  }'</code> | 执行 `}'` 相关命令，后面的参数决定它具体操作什么对象。 |
+
+
 按时间统计：
 
 ```json
@@ -866,6 +1449,22 @@ curl -X GET "http://localhost:9200/logs-aiops/_search" \
   }
 }
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>{</code> | 对象开始，表示下面是一组键值对配置。 |
+| 第 2 行 | <code>  "aggs": {</code> | 设置 `aggs` 字段，值是 `{`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 3 行 | <code>    "errors_over_time": {</code> | 设置 `errors_over_time` 字段，值是 `{`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 4 行 | <code>      "date_histogram": {</code> | 设置 `date_histogram` 字段，值是 `{`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 5 行 | <code>        "field": "@timestamp",</code> | 设置 `field` 字段，值是 `"@timestamp"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 6 行 | <code>        "fixed_interval": "1m"</code> | 设置 `fixed_interval` 字段，值是 `"1m"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 7 行 | <code>      }</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+| 第 8 行 | <code>    }</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+| 第 9 行 | <code>  }</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+| 第 10 行 | <code>}</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+
 
 注意：
 
@@ -886,6 +1485,18 @@ curl -X GET "http://localhost:9200/logs-aiops/_search" \
 }
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>{</code> | 对象开始，表示下面是一组键值对配置。 |
+| 第 2 行 | <code>  "sort": [</code> | 设置 `sort` 字段，值是 `[`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 3 行 | <code>    { "@timestamp": "desc" }</code> | JSON 列表或对象中的一行，注意逗号和引号必须符合 JSON 语法。 |
+| 第 4 行 | <code>  ],</code> | 当前对象或数组结束，逗号表示后面还有同级项目。 |
+| 第 5 行 | <code>  "size": 100</code> | 设置 `size` 字段，值是 `100`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 6 行 | <code>}</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+
+
 浅分页：
 
 ```json
@@ -894,6 +1505,16 @@ curl -X GET "http://localhost:9200/logs-aiops/_search" \
   "size": 100
 }
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>{</code> | 对象开始，表示下面是一组键值对配置。 |
+| 第 2 行 | <code>  "from": 0,</code> | 设置 `from` 字段，值是 `0`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 3 行 | <code>  "size": 100</code> | 设置 `size` 字段，值是 `100`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 4 行 | <code>}</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+
 
 深分页不要无限用 `from + size`，会越来越贵。大量分页应学习 `search_after` 或 scroll/PIT 等方案。
 
@@ -913,6 +1534,13 @@ ILM 管理索引生命周期。
 ```text
 hot -> warm -> cold -> frozen -> delete
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>hot -&gt; warm -&gt; cold -&gt; frozen -&gt; delete</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 简化策略：
 
@@ -939,6 +1567,32 @@ hot -> warm -> cold -> frozen -> delete
 }
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>{</code> | 对象开始，表示下面是一组键值对配置。 |
+| 第 2 行 | <code>  "policy": {</code> | 设置 `policy` 字段，值是 `{`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 3 行 | <code>    "phases": {</code> | 设置 `phases` 字段，值是 `{`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 4 行 | <code>      "hot": {</code> | 设置 `hot` 字段，值是 `{`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 5 行 | <code>        "actions": {</code> | 设置 `actions` 字段，值是 `{`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 6 行 | <code>          "rollover": {</code> | 设置 `rollover` 字段，值是 `{`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 7 行 | <code>            "max_age": "1d",</code> | 设置 `max_age` 字段，值是 `"1d"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 8 行 | <code>            "max_primary_shard_size": "50gb"</code> | 设置 `max_primary_shard_size` 字段，值是 `"50gb"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 9 行 | <code>          }</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+| 第 10 行 | <code>        }</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+| 第 11 行 | <code>      },</code> | 当前对象或数组结束，逗号表示后面还有同级项目。 |
+| 第 12 行 | <code>      "delete": {</code> | 设置 `delete` 字段，值是 `{`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 13 行 | <code>        "min_age": "30d",</code> | 设置 `min_age` 字段，值是 `"30d"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 14 行 | <code>        "actions": {</code> | 设置 `actions` 字段，值是 `{`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 15 行 | <code>          "delete": {}</code> | 设置 `delete` 字段，值是 `{}`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 16 行 | <code>        }</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+| 第 17 行 | <code>      }</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+| 第 18 行 | <code>    }</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+| 第 19 行 | <code>  }</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+| 第 20 行 | <code>}</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+
+
 ILM 价值：
 
 - 自动 rollover。
@@ -959,6 +1613,15 @@ curl -s http://localhost:9200/?pretty
 curl -s http://localhost:9200/_cluster/health?pretty
 curl -s http://localhost:9200/_cat/nodes?v
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl -s http://localhost:9200/?pretty</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+| 第 2 行 | <code>curl -s http://localhost:9200/_cluster/health?pretty</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+| 第 3 行 | <code>curl -s http://localhost:9200/_cat/nodes?v</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+
 
 ### 2. 创建 index
 
@@ -983,6 +1646,30 @@ curl -X PUT "http://localhost:9200/logs-aiops" \
   }'
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl -X PUT "http://localhost:9200/logs-aiops" \</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+| 第 2 行 | <code>  -H "Content-Type: application/json" \</code> | 执行 `-h` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 3 行 | <code>  -d '{</code> | 执行 `-d` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 4 行 | <code>    "settings": {</code> | 执行 `"settings":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 5 行 | <code>      "number_of_shards": 1,</code> | 执行 `"number_of_shards":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 6 行 | <code>      "number_of_replicas": 0</code> | 执行 `"number_of_replicas":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 7 行 | <code>    },</code> | 执行 `},` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 8 行 | <code>    "mappings": {</code> | 执行 `"mappings":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 9 行 | <code>      "properties": {</code> | 执行 `"properties":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 10 行 | <code>        "@timestamp": { "type": "date" },</code> | 执行 `"@timestamp":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 11 行 | <code>        "service": { "type": "keyword" },</code> | 执行 `"service":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 12 行 | <code>        "level": { "type": "keyword" },</code> | 执行 `"level":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 13 行 | <code>        "message": { "type": "text" },</code> | 执行 `"message":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 14 行 | <code>        "status_code": { "type": "integer" },</code> | 执行 `"status_code":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 15 行 | <code>        "trace_id": { "type": "keyword" }</code> | 执行 `"trace_id":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 16 行 | <code>      }</code> | 执行 `}` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 17 行 | <code>    }</code> | 执行 `}` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 18 行 | <code>  }'</code> | 执行 `}'` 相关命令，后面的参数决定它具体操作什么对象。 |
+
+
 ### 3. 写入文档
 
 ```bash
@@ -998,11 +1685,34 @@ curl -X POST "http://localhost:9200/logs-aiops/_doc" \
   }'
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl -X POST "http://localhost:9200/logs-aiops/_doc" \</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+| 第 2 行 | <code>  -H "Content-Type: application/json" \</code> | 执行 `-h` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 3 行 | <code>  -d '{</code> | 执行 `-d` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 4 行 | <code>    "@timestamp": "2026-07-02T10:00:00Z",</code> | 执行 `"@timestamp":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 5 行 | <code>    "service": "checkout-api",</code> | 执行 `"service":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 6 行 | <code>    "level": "error",</code> | 执行 `"level":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 7 行 | <code>    "message": "payment timeout while calling gateway",</code> | 执行 `"message":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 8 行 | <code>    "status_code": 504,</code> | 执行 `"status_code":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 9 行 | <code>    "trace_id": "abc123"</code> | 执行 `"trace_id":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 10 行 | <code>  }'</code> | 执行 `}'` 相关命令，后面的参数决定它具体操作什么对象。 |
+
+
 刷新让实验马上可查：
 
 ```bash
 curl -X POST "http://localhost:9200/logs-aiops/_refresh"
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl -X POST "http://localhost:9200/logs-aiops/_refresh"</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+
 
 ### 4. 查询
 
@@ -1024,6 +1734,27 @@ curl -X GET "http://localhost:9200/logs-aiops/_search?pretty" \
   }'
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl -X GET "http://localhost:9200/logs-aiops/_search?pretty" \</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+| 第 2 行 | <code>  -H "Content-Type: application/json" \</code> | 执行 `-h` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 3 行 | <code>  -d '{</code> | 执行 `-d` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 4 行 | <code>    "query": {</code> | 执行 `"query":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 5 行 | <code>      "bool": {</code> | 执行 `"bool":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 6 行 | <code>        "filter": [</code> | 执行 `"filter":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 7 行 | <code>          { "term": { "service": "checkout-api" } },</code> | 执行 `{` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 8 行 | <code>          { "term": { "level": "error" } }</code> | 执行 `{` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 9 行 | <code>        ],</code> | 执行 `],` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 10 行 | <code>        "must": [</code> | 执行 `"must":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 11 行 | <code>          { "match": { "message": "timeout" } }</code> | 执行 `{` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 12 行 | <code>        ]</code> | 执行 `]` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 13 行 | <code>      }</code> | 执行 `}` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 14 行 | <code>    }</code> | 执行 `}` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 15 行 | <code>  }'</code> | 执行 `}'` 相关命令，后面的参数决定它具体操作什么对象。 |
+
+
 ### 5. 聚合
 
 ```bash
@@ -1041,6 +1772,24 @@ curl -X GET "http://localhost:9200/logs-aiops/_search?pretty" \
   }'
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl -X GET "http://localhost:9200/logs-aiops/_search?pretty" \</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+| 第 2 行 | <code>  -H "Content-Type: application/json" \</code> | 执行 `-h` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 3 行 | <code>  -d '{</code> | 执行 `-d` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 4 行 | <code>    "size": 0,</code> | 执行 `"size":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 5 行 | <code>    "aggs": {</code> | 执行 `"aggs":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 6 行 | <code>      "by_service": {</code> | 执行 `"by_service":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 7 行 | <code>        "terms": {</code> | 执行 `"terms":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 8 行 | <code>          "field": "service"</code> | 执行 `"field":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 9 行 | <code>        }</code> | 执行 `}` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 10 行 | <code>      }</code> | 执行 `}` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 11 行 | <code>    }</code> | 执行 `}` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 12 行 | <code>  }'</code> | 执行 `}'` 相关命令，后面的参数决定它具体操作什么对象。 |
+
+
 ### 6. 形成学习证据
 
 记录：
@@ -1055,6 +1804,19 @@ aggregation:
 cluster health:
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>index:</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>mapping:</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>document:</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>match query:</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>term query:</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>aggregation:</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 7 行 | <code>cluster health:</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 ## 常用 API 字典
 
 ### 查看版本
@@ -1063,6 +1825,13 @@ cluster health:
 curl -s http://localhost:9200/?pretty
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl -s http://localhost:9200/?pretty</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+
+
 ### Cluster health
 
 ```bash
@@ -1070,11 +1839,26 @@ curl -s http://localhost:9200/_cluster/health?pretty
 curl -s http://localhost:9200/_cat/health?v
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl -s http://localhost:9200/_cluster/health?pretty</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+| 第 2 行 | <code>curl -s http://localhost:9200/_cat/health?v</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+
+
 ### Nodes
 
 ```bash
 curl -s http://localhost:9200/_cat/nodes?v
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl -s http://localhost:9200/_cat/nodes?v</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+
 
 ### Indices
 
@@ -1082,11 +1866,25 @@ curl -s http://localhost:9200/_cat/nodes?v
 curl -s http://localhost:9200/_cat/indices?v
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl -s http://localhost:9200/_cat/indices?v</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+
+
 ### Shards
 
 ```bash
 curl -s http://localhost:9200/_cat/shards?v
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl -s http://localhost:9200/_cat/shards?v</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+
 
 官方提醒 CAT APIs 主要给人用，不建议应用程序依赖它们做机器解析；自动化更适合 JSON API。
 
@@ -1096,11 +1894,25 @@ curl -s http://localhost:9200/_cat/shards?v
 curl -s http://localhost:9200/logs-aiops/_mapping?pretty
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl -s http://localhost:9200/logs-aiops/_mapping?pretty</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+
+
 ### Settings
 
 ```bash
 curl -s http://localhost:9200/logs-aiops/_settings?pretty
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl -s http://localhost:9200/logs-aiops/_settings?pretty</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+
 
 ### Search
 
@@ -1110,6 +1922,15 @@ curl -X GET "http://localhost:9200/logs-aiops/_search?pretty" \
   -d '{ "query": { "match_all": {} } }'
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl -X GET "http://localhost:9200/logs-aiops/_search?pretty" \</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+| 第 2 行 | <code>  -H "Content-Type: application/json" \</code> | 执行 `-h` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 3 行 | <code>  -d '{ "query": { "match_all": {} } }'</code> | 执行 `-d` 相关命令，后面的参数决定它具体操作什么对象。 |
+
+
 ### Analyze
 
 ```bash
@@ -1118,11 +1939,27 @@ curl -X POST "http://localhost:9200/_analyze" \
   -d '{ "analyzer": "standard", "text": "Payment Timeout Error" }'
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl -X POST "http://localhost:9200/_analyze" \</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+| 第 2 行 | <code>  -H "Content-Type: application/json" \</code> | 执行 `-h` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 3 行 | <code>  -d '{ "analyzer": "standard", "text": "Payment Timeout Error" }'</code> | 执行 `-d` 相关命令，后面的参数决定它具体操作什么对象。 |
+
+
 ### Explain allocation
 
 ```bash
 curl -X GET "http://localhost:9200/_cluster/allocation/explain?pretty"
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl -X GET "http://localhost:9200/_cluster/allocation/explain?pretty"</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+
 
 用于 shard 未分配排查。
 
@@ -1149,6 +1986,15 @@ curl -s "http://localhost:9200/_cat/indices?v"
 curl -s "http://localhost:9200/_cat/shards?v"
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl -s "http://localhost:9200/_cluster/health?pretty"</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+| 第 2 行 | <code>curl -s "http://localhost:9200/_cat/indices?v"</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+| 第 3 行 | <code>curl -s "http://localhost:9200/_cat/shards?v"</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+
+
 看：
 
 - 哪些 shards unassigned？
@@ -1165,6 +2011,15 @@ curl -X PUT "http://localhost:9200/logs-aiops/_settings" \
   -d '{ "index": { "number_of_replicas": 0 } }'
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl -X PUT "http://localhost:9200/logs-aiops/_settings" \</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+| 第 2 行 | <code>  -H "Content-Type: application/json" \</code> | 执行 `-h` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 3 行 | <code>  -d '{ "index": { "number_of_replicas": 0 } }'</code> | 执行 `-d` 相关命令，后面的参数决定它具体操作什么对象。 |
+
+
 生产要谨慎，replica 是可用性保障。
 
 ## 排障流程：查询不到字段
@@ -1175,6 +2030,13 @@ curl -X PUT "http://localhost:9200/logs-aiops/_settings" \
 curl -s "http://localhost:9200/logs-aiops/_mapping?pretty"
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl -s "http://localhost:9200/logs-aiops/_mapping?pretty"</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+
+
 2. 看文档是否真的写入：
 
 ```bash
@@ -1182,6 +2044,15 @@ curl -s "http://localhost:9200/logs-aiops/_search?pretty" \
   -H "Content-Type: application/json" \
   -d '{ "query": { "match_all": {} }, "size": 1 }'
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl -s "http://localhost:9200/logs-aiops/_search?pretty" \</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+| 第 2 行 | <code>  -H "Content-Type: application/json" \</code> | 执行 `-h` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 3 行 | <code>  -d '{ "query": { "match_all": {} }, "size": 1 }'</code> | 执行 `-d` 相关命令，后面的参数决定它具体操作什么对象。 |
+
 
 3. 确认 query 类型：
 
@@ -1195,6 +2066,13 @@ curl -s "http://localhost:9200/logs-aiops/_search?pretty" \
 curl -X POST "http://localhost:9200/logs-aiops/_refresh"
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl -X POST "http://localhost:9200/logs-aiops/_refresh"</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+
+
 ## 排障流程：写入慢
 
 检查：
@@ -1204,6 +2082,15 @@ curl -s "http://localhost:9200/_cluster/health?pretty"
 curl -s "http://localhost:9200/_cat/thread_pool/write?v"
 curl -s "http://localhost:9200/_cat/indices?v"
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl -s "http://localhost:9200/_cluster/health?pretty"</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+| 第 2 行 | <code>curl -s "http://localhost:9200/_cat/thread_pool/write?v"</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+| 第 3 行 | <code>curl -s "http://localhost:9200/_cat/indices?v"</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+
 
 常见原因：
 
@@ -1250,6 +2137,22 @@ curl -X GET "http://localhost:9200/logs-aiops/_search?pretty" \
   }'
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl -X GET "http://localhost:9200/logs-aiops/_search?pretty" \</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+| 第 2 行 | <code>  -H "Content-Type: application/json" \</code> | 执行 `-h` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 3 行 | <code>  -d '{</code> | 执行 `-d` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 4 行 | <code>    "profile": true,</code> | 执行 `"profile":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 5 行 | <code>    "query": {</code> | 执行 `"query":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 6 行 | <code>      "match": {</code> | 执行 `"match":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 7 行 | <code>        "message": "timeout"</code> | 执行 `"message":` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 8 行 | <code>      }</code> | 执行 `}` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 9 行 | <code>    }</code> | 执行 `}` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 10 行 | <code>  }'</code> | 执行 `}'` 相关命令，后面的参数决定它具体操作什么对象。 |
+
+
 优化：
 
 - 用 filter 限制 service/env/time。
@@ -1293,6 +2196,42 @@ curl -s "$es/$index/_search?pretty" \
   -H "Content-Type: application/json" \
   -d '{ "query": { "match_all": {} }, "size": 3 }' || true
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>#!/usr/bin/env bash</code> | 注释行，提前说明下面命令的目的或注意事项。 |
+| 第 2 行 | <code>set -euo pipefail</code> | 设置 shell 或工具变量，具体含义取决于当前终端环境。 |
+| 第 3 行 | <em>空行</em> | 空行，用来把命令分成更容易阅读的几段。 |
+| 第 4 行 | <code>es="${1:-http://localhost:9200}"</code> | 执行 `es="${1:-http://localhost:9200}"` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 5 行 | <code>index="${2:-logs-aiops}"</code> | 执行 `index="${2:-logs-aiops}"` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 6 行 | <em>空行</em> | 空行，用来把命令分成更容易阅读的几段。 |
+| 第 7 行 | <code>echo "== version =="</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
+| 第 8 行 | <code>curl -s "$es/?pretty" &#124;&#124; true</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
+| 第 9 行 | <em>空行</em> | 空行，用来把命令分成更容易阅读的几段。 |
+| 第 10 行 | <code>echo</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
+| 第 11 行 | <code>echo "== cluster health =="</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
+| 第 12 行 | <code>curl -s "$es/_cluster/health?pretty" &#124;&#124; true</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
+| 第 13 行 | <em>空行</em> | 空行，用来把命令分成更容易阅读的几段。 |
+| 第 14 行 | <code>echo</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
+| 第 15 行 | <code>echo "== indices =="</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
+| 第 16 行 | <code>curl -s "$es/_cat/indices?v" &#124;&#124; true</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
+| 第 17 行 | <em>空行</em> | 空行，用来把命令分成更容易阅读的几段。 |
+| 第 18 行 | <code>echo</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
+| 第 19 行 | <code>echo "== shards =="</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
+| 第 20 行 | <code>curl -s "$es/_cat/shards?v" &#124;&#124; true</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
+| 第 21 行 | <em>空行</em> | 空行，用来把命令分成更容易阅读的几段。 |
+| 第 22 行 | <code>echo</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
+| 第 23 行 | <code>echo "== mapping =="</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
+| 第 24 行 | <code>curl -s "$es/$index/_mapping?pretty" &#124;&#124; true</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
+| 第 25 行 | <em>空行</em> | 空行，用来把命令分成更容易阅读的几段。 |
+| 第 26 行 | <code>echo</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
+| 第 27 行 | <code>echo "== sample docs =="</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
+| 第 28 行 | <code>curl -s "$es/$index/_search?pretty" \</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+| 第 29 行 | <code>  -H "Content-Type: application/json" \</code> | 执行 `-h` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 30 行 | <code>  -d '{ "query": { "match_all": {} }, "size": 3 }' &#124;&#124; true</code> | 执行 `-d` 相关命令，后面的参数决定它具体操作什么对象。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
+
 
 生产化前要补：
 

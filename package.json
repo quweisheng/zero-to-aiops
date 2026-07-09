@@ -11,8 +11,9 @@
     "docs:build": "npm run build",
     "preview": "vite preview",
     "pretest": "npm run generate:content",
-    "test": "vitest run",
-    "test:watch": "vitest"
+    "test": "vitest run && npm run check:tech-stack-examples",
+    "test:watch": "vitest",
+    "check:tech-stack-examples": "node scripts/check-tech-stack-example-explanations.mjs"
   },
   "dependencies": {
     "marked": "^18.0.5",

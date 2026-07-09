@@ -72,6 +72,26 @@ Reference
   -> 每个命令的完整参数
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Getting Started</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; Git 是什么，如何安装和配置</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>Git Basics</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>  -&gt; 仓库、文件状态、暂存、提交、历史、撤销、远程</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>Git Branching</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>  -&gt; 分支、合并、冲突、分支工作流</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>Git on the Server / GitHub</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 8 行 | <code>  -&gt; 远程协作和托管</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 9 行 | <code>Git Tools</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 10 行 | <code>  -&gt; stash、tag、rebase、reset、高级查看</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 11 行 | <code>Git Internals</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 12 行 | <code>  -&gt; 对象、引用、packfile、refspec</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 13 行 | <code>Reference</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 14 行 | <code>  -&gt; 每个命令的完整参数</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 本文按小白学习顺序重组：
 
 1. Git 是什么，和 GitHub 有什么区别。
@@ -107,6 +127,15 @@ Git 最核心的能力是：
   -> 以后可以比较、回退、分支、合并、同步
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>把项目在某一刻的状态保存下来</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; 给这次状态一个说明</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; 以后可以比较、回退、分支、合并、同步</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 ## Git 和 GitHub 的区别
 
 Git 是工具，GitHub 是平台。
@@ -126,6 +155,14 @@ Git 负责记录变化。
 GitHub 负责把仓库放到网上协作和展示。
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Git 负责记录变化。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>GitHub 负责把仓库放到网上协作和展示。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 ## Git 仓库是什么
 
 一个 Git 仓库由两部分组成：
@@ -134,6 +171,14 @@ GitHub 负责把仓库放到网上协作和展示。
 项目文件
   + .git 目录
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>项目文件</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  + .git 目录</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 `.git` 目录里保存 Git 的核心数据：
 
@@ -162,6 +207,20 @@ HEAD / Local Repository
   -> 当前分支最近一次 commit
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Working Tree</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; 你当前看得见、正在编辑的文件</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
+| 第 4 行 | <code>Index / Staging Area</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>  -&gt; 准备放进下一次 commit 的内容</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
+| 第 7 行 | <code>HEAD / Local Repository</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 8 行 | <code>  -&gt; 当前分支最近一次 commit</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 ### 工作区
 
 工作区就是你在文件管理器或编辑器里看到的文件。
@@ -175,6 +234,14 @@ git status
 git diff
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git status</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+| 第 2 行 | <code>git diff</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+
+
 ### 暂存区
 
 暂存区是下一次提交的候选内容。
@@ -184,6 +251,13 @@ git diff
 ```bash
 git add docs/tech-stack/foundation/linux.md
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git add docs/tech-stack/foundation/linux.md</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+
 
 这一步不是提交，只是告诉 Git：下一次 commit 请把这个文件当前状态放进去。
 
@@ -201,6 +275,17 @@ git add docs/tech-stack/foundation/linux.md
 这三件事不一定属于同一个 commit。
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>修改了 Linux 文档</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>修改了 README</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>修改了 package.json</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
+| 第 5 行 | <code>这三件事不一定属于同一个 commit。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 ### 本地仓库
 
 本地仓库保存提交历史。
@@ -210,6 +295,13 @@ git add docs/tech-stack/foundation/linux.md
 ```bash
 git commit -m "docs: deepen linux tutorial"
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git commit -m "docs: deepen linux tutorial"</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+
 
 commit 后，本地仓库多了一个新快照。
 
@@ -232,6 +324,16 @@ Git 文件常见状态：
 M  git.md
 A  prometheus.md
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>?? new.md</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code> M linux.md</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>M  git.md</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>A  prometheus.md</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 含义：
 
@@ -270,6 +372,20 @@ commit
   -> message
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>commit</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; tree</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>       -&gt; README.md blob</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>       -&gt; docs/ tree</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>            -&gt; linux.md blob</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; parent commit</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>  -&gt; author</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 8 行 | <code>  -&gt; message</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 所以分支切换、回退、比较，本质上都围绕这些对象和引用进行。
 
 ## HEAD 是什么
@@ -282,6 +398,13 @@ HEAD 是“我当前站在哪里”的指针。
 HEAD -> refs/heads/main -> 某个 commit
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>HEAD -&gt; refs/heads/main -&gt; 某个 commit</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 也就是说，你在 `main` 分支上，`main` 指向某个 commit，HEAD 指向 `main`。
 
 查看：
@@ -290,6 +413,14 @@ HEAD -> refs/heads/main -> 某个 commit
 git log --oneline --decorate -5
 git branch
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git log --oneline --decorate -5</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+| 第 2 行 | <code>git branch</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+
 
 如果看到 detached HEAD，说明 HEAD 直接指向某个 commit，而不是某个分支。
 
@@ -310,12 +441,30 @@ git config --global init.defaultBranch main
 git config --global core.editor "code --wait"
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git config --global user.name "你的名字"</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+| 第 2 行 | <code>git config --global user.email "你的邮箱"</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+| 第 3 行 | <code>git config --global init.defaultBranch main</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+| 第 4 行 | <code>git config --global core.editor "code --wait"</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
+
 查看配置：
 
 ```bash
 git config --list
 git config --global --list
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git config --list</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+| 第 2 行 | <code>git config --global --list</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
 
 配置层级：
 
@@ -338,6 +487,16 @@ git init -b main
 git status
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>mkdir aiops-demo</code> | 创建目录，用来准备实验项目结构。 |
+| 第 2 行 | <code>cd aiops-demo</code> | 切换当前目录，确保后续命令在正确项目位置执行。 |
+| 第 3 行 | <code>git init -b main</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+| 第 4 行 | <code>git status</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+
+
 这会创建 `.git` 目录。
 
 ### 克隆已有仓库
@@ -345,6 +504,13 @@ git status
 ```bash
 git clone https://github.com/quweisheng/zero-to-aiops.git
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git clone https://github.com/quweisheng/zero-to-aiops.git</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+
 
 clone 会做三件事：
 
@@ -364,6 +530,18 @@ git diff --staged
 git commit -m "docs: deepen git tutorial"
 git log --oneline -5
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git status</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+| 第 2 行 | <code>git diff</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+| 第 3 行 | <code>git add docs/tech-stack/foundation/git.md</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+| 第 4 行 | <code>git diff --staged</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+| 第 5 行 | <code>git commit -m "docs: deepen git tutorial"</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+| 第 6 行 | <code>git log --oneline -5</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
 
 每一步在做什么：
 
@@ -386,6 +564,15 @@ fix
 修改
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>update</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>fix</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>修改</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 好例子：
 
 ```text
@@ -395,11 +582,28 @@ fix: correct grafana datasource URL
 chore: update vitepress config
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docs: deepen linux tutorial</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>docs: add prometheus alert rule example</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>fix: correct grafana datasource URL</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>chore: update vitepress config</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 推荐格式：
 
 ```text
 类型: 做了什么
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>类型: 做了什么</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 常见类型：
 
@@ -424,11 +628,29 @@ git show HEAD
 git show <commit>
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git log</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+| 第 2 行 | <code>git log --oneline</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+| 第 3 行 | <code>git log --oneline --graph --decorate --all</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+| 第 4 行 | <code>git show HEAD</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+| 第 5 行 | <code>git show &lt;commit&gt;</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+
+
 看某个文件历史：
 
 ```bash
 git log -- docs/tech-stack/foundation/git.md
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git log -- docs/tech-stack/foundation/git.md</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
 
 看某次提交改了什么：
 
@@ -436,6 +658,14 @@ git log -- docs/tech-stack/foundation/git.md
 git show --stat <commit>
 git show <commit>
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git show --stat &lt;commit&gt;</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+| 第 2 行 | <code>git show &lt;commit&gt;</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+
 
 ## 比较差异
 
@@ -454,6 +684,14 @@ git diff
 git diff --staged
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git diff</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+| 第 2 行 | <code>git diff --staged</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
+
 ## 分支是什么
 
 分支不是复制一份完整代码。分支本质上是指向 commit 的可移动指针。
@@ -464,11 +702,27 @@ main -> C3
 C1 -> C2 -> C3
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>main -&gt; C3</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
+| 第 3 行 | <code>C1 -&gt; C2 -&gt; C3</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 创建分支：
 
 ```bash
 git switch -c docs/git-deep-dive
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git switch -c docs/git-deep-dive</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+
 
 现在：
 
@@ -478,12 +732,29 @@ docs/git-deep-dive -> C3
 HEAD -> docs/git-deep-dive
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>main              -&gt; C3</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>docs/git-deep-dive -&gt; C3</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>HEAD -&gt; docs/git-deep-dive</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 你继续 commit 后：
 
 ```text
 main              -> C3
 docs/git-deep-dive -> C4
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>main              -&gt; C3</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>docs/git-deep-dive -&gt; C4</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 这就是 Git 分支很快的原因：创建分支只是创建一个指针。
 
@@ -498,12 +769,32 @@ git merge docs/git-deep-dive
 git branch -d docs/git-deep-dive
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git branch</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+| 第 2 行 | <code>git branch -v</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+| 第 3 行 | <code>git switch -c docs/git-deep-dive</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+| 第 4 行 | <code>git switch main</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+| 第 5 行 | <code>git merge docs/git-deep-dive</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+| 第 6 行 | <code>git branch -d docs/git-deep-dive</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+
+
 旧命令里常见 `checkout`：
 
 ```bash
 git checkout -b docs/git-deep-dive
 git checkout main
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git checkout -b docs/git-deep-dive</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+| 第 2 行 | <code>git checkout main</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+
 
 新手建议优先用 `git switch`，语义更清楚。
 
@@ -521,6 +812,17 @@ merge 后：
 main -> C4
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>main -&gt; C3</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>feature -&gt; C4</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
+| 第 4 行 | <code>merge 后：</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>main -&gt; C4</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 ### 三方合并
 
 如果两个分支都各自有新提交，Git 会找共同祖先，做三方合并。
@@ -532,6 +834,17 @@ C1-C2-C3 main
      \
       C5 main
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>      C4 feature</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>     /</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>C1-C2-C3 main</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>     \</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>      C5 main</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 合并后产生 merge commit。
 
@@ -549,6 +862,17 @@ C1-C2-C3 main
 > > > > > > > feature
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>&lt; &lt; &lt; &lt; &lt; &lt; &lt; HEAD</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>当前分支内容</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>= = = = = = =</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>要合并进来的内容</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>&gt; &gt; &gt; &gt; &gt; &gt; &gt; feature</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 处理步骤：
 
 1. 打开冲突文件。
@@ -564,6 +888,15 @@ git status
 git add conflicted-file.md
 git commit
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git status</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+| 第 2 行 | <code>git add conflicted-file.md</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+| 第 3 行 | <code>git commit</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+
 
 ## 远程仓库
 
@@ -585,17 +918,39 @@ git remote -v
 git branch -vv
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git remote -v</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+| 第 2 行 | <code>git branch -vv</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+
+
 添加远程：
 
 ```bash
 git remote add origin https://github.com/quweisheng/zero-to-aiops.git
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git remote add origin https://github.com/quweisheng/zero-to-aiops.git</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+
+
 推送并设置 upstream：
 
 ```bash
 git push -u origin main
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git push -u origin main</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+
 
 ## fetch、pull、push
 
@@ -605,6 +960,13 @@ git push -u origin main
 git fetch origin
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git fetch origin</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+
+
 fetch 只下载远程更新，更新 `origin/main`，不直接改你的工作区。
 
 ### pull
@@ -613,12 +975,27 @@ fetch 只下载远程更新，更新 `origin/main`，不直接改你的工作区
 git pull
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git pull</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+
+
 pull 大致等于：
 
 ```text
 git fetch
   + git merge 或 git rebase
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git fetch</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  + git merge 或 git rebase</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 它会把远程更新整合进当前分支。
 
@@ -627,6 +1004,13 @@ git fetch
 ```bash
 git push
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git push</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+
 
 push 把本地提交上传到远程仓库。
 
@@ -642,6 +1026,13 @@ Git 的撤销命令要非常谨慎，因为它们影响的区域不同。
 git restore file.md
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git restore file.md</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+
+
 含义：把工作区文件恢复到暂存区或 HEAD 的状态。
 
 ### 取消暂存
@@ -649,6 +1040,13 @@ git restore file.md
 ```bash
 git restore --staged file.md
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git restore --staged file.md</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
 
 含义：从暂存区拿出来，但工作区修改还在。
 
@@ -658,6 +1056,13 @@ git restore --staged file.md
 git commit --amend
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git commit --amend</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
+
 用于刚提交完发现 message 写错，或漏 add 一个文件。
 
 ### revert
@@ -665,6 +1070,13 @@ git commit --amend
 ```bash
 git revert <commit>
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git revert &lt;commit&gt;</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+
 
 revert 会创建一个新提交，用来反向抵消旧提交。适合已经 push 到远程的历史。
 
@@ -675,6 +1087,15 @@ git reset --soft HEAD~1
 git reset --mixed HEAD~1
 git reset --hard HEAD~1
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git reset --soft HEAD~1</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+| 第 2 行 | <code>git reset --mixed HEAD~1</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+| 第 3 行 | <code>git reset --hard HEAD~1</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
 
 区别：
 
@@ -702,6 +1123,19 @@ __pycache__/
 .venv/
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>node_modules/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>.vitepress/cache/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>.vitepress/dist/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>.env</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>*.log</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>__pycache__/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 7 行 | <code>.venv/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 注意：
 
 `.gitignore` 只对未跟踪文件生效。如果文件已经被 Git 跟踪，需要先：
@@ -709,6 +1143,13 @@ __pycache__/
 ```bash
 git rm --cached file
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git rm --cached file</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
 
 ## stash
 
@@ -721,6 +1162,15 @@ git stash push -m "wip git tutorial"
 git stash list
 git stash pop
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git stash push -m "wip git tutorial"</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+| 第 2 行 | <code>git stash list</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+| 第 3 行 | <code>git stash pop</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+
 
 注意：stash 不是长期保存方案。重要修改应该 commit。
 
@@ -735,12 +1185,30 @@ git show v0.1.0
 git push origin v0.1.0
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git tag v0.1.0</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+| 第 2 行 | <code>git tag</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+| 第 3 行 | <code>git show v0.1.0</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+| 第 4 行 | <code>git push origin v0.1.0</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+
+
 学习仓库可以用 tag 标记阶段成果：
 
 ```text
 v0.1-linux-deep-dive
 v0.2-observability-lab
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>v0.1-linux-deep-dive</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>v0.2-observability-lab</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 ## AIOps 必会 Git 命令字典
 
@@ -823,6 +1291,14 @@ git config --global user.name "你的名字"
 git config --global user.email "你的邮箱"
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git config --global user.name "你的名字"</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+| 第 2 行 | <code>git config --global user.email "你的邮箱"</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
+
 ### push 要求密码或失败
 
 GitHub HTTPS 推送不能用账号密码。需要 Personal Access Token 或让 Git Credential Manager 处理登录。
@@ -833,6 +1309,13 @@ GitHub HTTPS 推送不能用账号密码。需要 Personal Access Token 或让 G
 git remote -v
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git remote -v</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+
+
 ### 不知道自己改了什么
 
 ```bash
@@ -841,11 +1324,27 @@ git diff
 git diff --staged
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git status</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+| 第 2 行 | <code>git diff</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+| 第 3 行 | <code>git diff --staged</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
+
 ### pull 后冲突
 
 ```bash
 git status
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git status</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+
 
 打开冲突文件，删除冲突标记，保留正确内容：
 
@@ -853,6 +1352,14 @@ git status
 git add file
 git commit
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git add file</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+| 第 2 行 | <code>git commit</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+
 
 ### commit 后发现漏了文件
 
@@ -863,6 +1370,14 @@ git add missing-file
 git commit --amend
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git add missing-file</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+| 第 2 行 | <code>git commit --amend</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
+
 如果已经 push，学习阶段更稳妥：
 
 ```bash
@@ -871,11 +1386,27 @@ git commit -m "docs: add missing file"
 git push
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git add missing-file</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+| 第 2 行 | <code>git commit -m "docs: add missing file"</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+| 第 3 行 | <code>git push</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+
+
 ### 误 add 了文件
 
 ```bash
 git restore --staged file
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git restore --staged file</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
 
 ### 误提交了敏感信息
 
@@ -902,6 +1433,20 @@ git restore --staged file
   -> git push
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>每天学习 / 实验</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; 修改一小组相关文件</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; git status</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; git diff</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; git add 相关文件</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; git diff --staged</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>  -&gt; git commit -m "docs: ..."</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 8 行 | <code>  -&gt; git push</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 提交粒度建议：
 
 | 好提交 | 坏提交 |
@@ -923,12 +1468,27 @@ git restore --staged file
 git status --short
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git status --short</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
+
 记录：
 
 ```text
 哪些文件改了？
 哪些文件还没被 Git 跟踪？
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>哪些文件改了？</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>哪些文件还没被 Git 跟踪？</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 ### 第二步：新建学习记录
 
@@ -959,6 +1519,32 @@ Git 是记录项目变化的工具。它用 commit 保存快照，用 branch 支
 - rebase 什么时候用
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code># Git 第一周练习</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 2 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 3 行 | <code>## 我理解的 Git</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 4 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 5 行 | <code>Git 是记录项目变化的工具。它用 commit 保存快照，用 branch 支持并行修改，用 remote 同步到 GitHub。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 6 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 7 行 | <code>## 今天练习的命令</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 8 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 9 行 | <code>- git status</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 10 行 | <code>- git diff</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 11 行 | <code>- git add</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 12 行 | <code>- git commit</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 13 行 | <code>- git log</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 14 行 | <code>- git push</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 15 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 16 行 | <code>## 我还不懂</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 17 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 18 行 | <code>- reset 和 revert 的区别</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 19 行 | <code>- merge 冲突怎么处理</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 20 行 | <code>- rebase 什么时候用</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+
+
 ### 第三步：暂存和提交
 
 ```bash
@@ -967,17 +1553,40 @@ git diff --staged
 git commit -m "docs: add git first week note"
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git add docs/learning-records/git-first-week.md</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+| 第 2 行 | <code>git diff --staged</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+| 第 3 行 | <code>git commit -m "docs: add git first week note"</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+
+
 ### 第四步：查看历史
 
 ```bash
 git log --oneline -5
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git log --oneline -5</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
+
 ### 第五步：推送到 GitHub
 
 ```bash
 git push
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git push</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+
 
 学习证据：
 

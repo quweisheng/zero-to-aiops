@@ -103,6 +103,45 @@ Prometheus docs
       └── recording rules
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Prometheus docs</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  ├── Introduction</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 3 行 | <code>  │   └── Overview: 是什么、适合什么、不适合什么</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 4 行 | <code>  ├── Concepts</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 5 行 | <code>  │   ├── Data model: metric、label、sample、time series</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 6 行 | <code>  │   ├── Metric types: Counter、Gauge、Histogram、Summary</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 7 行 | <code>  │   └── Jobs and instances: job、instance、target</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 8 行 | <code>  ├── Prometheus Server</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 9 行 | <code>  │   ├── Getting started and installation</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 10 行 | <code>  │   ├── Configuration</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 11 行 | <code>  │   ├── Recording rules</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 12 行 | <code>  │   └── Alerting rules</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 13 行 | <code>  ├── Querying</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 14 行 | <code>  │   ├── PromQL basics</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 15 行 | <code>  │   ├── Operators</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 16 行 | <code>  │   ├── Functions</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 17 行 | <code>  │   └── HTTP API</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 18 行 | <code>  ├── Storage</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 19 行 | <code>  │   ├── local TSDB</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 20 行 | <code>  │   ├── retention</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 21 行 | <code>  │   └── remote read / write</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 22 行 | <code>  ├── Command Line</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 23 行 | <code>  │   ├── prometheus</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 24 行 | <code>  │   └── promtool</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 25 行 | <code>  ├── Instrumenting</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 26 行 | <code>  │   ├── client libraries</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 27 行 | <code>  │   ├── exporters</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 28 行 | <code>  │   └── exposition formats</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 29 行 | <code>  └── Best practices</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 30 行 | <code>      ├── naming</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 31 行 | <code>      ├── histograms and summaries</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 32 行 | <code>      ├── alerting</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 33 行 | <code>      └── recording rules</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+
+
 本篇按官方这条线来讲。你学完以后再去看官方文档，会知道每一块在解决什么问题，而不是迷失在参数列表里。
 
 ## Prometheus 在 AIOps 链路中的位置
@@ -129,6 +168,31 @@ local TSDB
         Python / AIOps analysis
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>applications / hosts / databases / middleware</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>        &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>        v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>/metrics or exporters</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>        &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>        v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 7 行 | <code>Prometheus scrape</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 8 行 | <code>        &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 9 行 | <code>        v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 10 行 | <code>local TSDB</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 11 行 | <code>        &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 12 行 | <code>        +--&gt; PromQL queries</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 13 行 | <code>        +--&gt; Grafana dashboards</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 14 行 | <code>        +--&gt; recording rules</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 15 行 | <code>        +--&gt; alerting rules</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 16 行 | <code>        +--&gt; HTTP API</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 17 行 | <code>                 &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 18 行 | <code>                 v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 19 行 | <code>        Python / AIOps analysis</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 在 AIOps 里，Prometheus 通常承担“指标数据入口”和“实时查询计算层”：
 
 | AIOps 能力 | Prometheus 提供什么 |
@@ -152,6 +216,15 @@ Prometheus 是开源监控和告警系统，核心处理对象是时间序列指
 10:00:30  http_requests_total{job="api",instance="api-1:8000"} 1160
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>10:00:00  http_requests_total{job="api",instance="api-1:8000"} 1000</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>10:00:15  http_requests_total{job="api",instance="api-1:8000"} 1080</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>10:00:30  http_requests_total{job="api",instance="api-1:8000"} 1160</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 Prometheus 不适合保存日志全文，也不适合保存每一笔订单明细。它适合保存数值指标：
 
 - 请求总数。
@@ -168,6 +241,13 @@ Prometheus 不适合保存日志全文，也不适合保存每一笔订单明细
 ```text
 Prometheus = 指标抓取 + 本地时序存储 + PromQL 查询 + 规则计算 + 告警发送
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Prometheus = 指标抓取 + 本地时序存储 + PromQL 查询 + 规则计算 + 告警发送</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 ## Prometheus 适合什么，不适合什么
 
@@ -214,6 +294,29 @@ Prometheus server
         +--> HTTP API clients
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>instrumented app</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>node exporter</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>database exporter</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>pushgateway</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>        &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>        v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 7 行 | <code>Prometheus server</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 8 行 | <code>  ├── service discovery</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 9 行 | <code>  ├── scrape manager</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 10 行 | <code>  ├── TSDB</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 11 行 | <code>  ├── PromQL engine</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 12 行 | <code>  ├── rule manager</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 13 行 | <code>  └── notification sender</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 14 行 | <code>        &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 15 行 | <code>        +--&gt; Grafana</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 16 行 | <code>        +--&gt; Alertmanager</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 17 行 | <code>        +--&gt; HTTP API clients</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 核心组件：
 
 | 组件 | 是什么 | 为什么需要 |
@@ -238,6 +341,19 @@ Prometheus scrapes target every scrape_interval
         v
 samples written to TSDB
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>target exposes /metrics</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>        ^</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>        &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>Prometheus scrapes target every scrape_interval</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>        &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>        v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 7 行 | <code>samples written to TSDB</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 流程：
 
@@ -275,6 +391,15 @@ process_cpu_seconds_total
 node_memory_MemAvailable_bytes
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>http_requests_total</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>process_cpu_seconds_total</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>node_memory_MemAvailable_bytes</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 命名建议：
 
 | 建议 | 例子 |
@@ -291,12 +416,28 @@ api_get_200_requests
 api_post_500_requests
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>api_get_200_requests</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>api_post_500_requests</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 好例子：
 
 ```text
 http_requests_total{method="GET",status="200"}
 http_requests_total{method="POST",status="500"}
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>http_requests_total{method="GET",status="200"}</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>http_requests_total{method="POST",status="500"}</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 ### label
 
@@ -305,6 +446,13 @@ label 是键值对，用于描述维度。
 ```text
 http_requests_total{method="GET",status="200",instance="api-1:8000"}
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>http_requests_total{method="GET",status="200",instance="api-1:8000"}</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 这里的标签：
 
@@ -319,6 +467,13 @@ http_requests_total{method="GET",status="200",instance="api-1:8000"}
 ```text
 sum by (status) (rate(http_requests_total[5m]))
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>sum by (status) (rate(http_requests_total[5m]))</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 标签的风险是高基数。任何会无限增长或变化很快的值，都不应该放进 label：
 
@@ -339,11 +494,25 @@ sample 是一个具体时间点的值。
 value + timestamp
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>value + timestamp</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 例子：
 
 ```text
 http_requests_total{job="api",instance="api-1:8000"} 1080 @ 10:00:15
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>http_requests_total{job="api",instance="api-1:8000"} 1080 @ 10:00:15</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 Prometheus 抓取时通常给样本附加抓取时间。你在 PromQL 里看到的曲线，就是一系列 sample 组成的。
 
@@ -355,6 +524,14 @@ time series 由指标名和完整 label 集合唯一确定。
 http_requests_total{method="GET",status="200",instance="api-1:8000"}
 http_requests_total{method="GET",status="500",instance="api-1:8000"}
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>http_requests_total{method="GET",status="200",instance="api-1:8000"}</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>http_requests_total{method="GET",status="500",instance="api-1:8000"}</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 这两条是不同 time series，因为 `status` 不同。
 
@@ -390,6 +567,18 @@ scrape_configs:
           - "demo-api-2:8000"
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>scrape_configs:</code> | 定义 `scrape_configs` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 2 行 | <code>  - job_name: "demo-api"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 3 行 | <code>    static_configs:</code> | 定义 `static_configs` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 4 行 | <code>      - targets:</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 5 行 | <code>          - "demo-api-1:8000"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 6 行 | <code>          - "demo-api-2:8000"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+
+
 Prometheus 会自动加上常见标签：
 
 ```text
@@ -397,11 +586,26 @@ job="demo-api"
 instance="demo-api-1:8000"
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>job="demo-api"</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>instance="demo-api-1:8000"</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 查询：
 
 ```text
 up{job="demo-api"}
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>up{job="demo-api"}</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 如果你看到：
 
@@ -409,6 +613,14 @@ up{job="demo-api"}
 up{job="demo-api",instance="demo-api-1:8000"} 1
 up{job="demo-api",instance="demo-api-2:8000"} 0
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>up{job="demo-api",instance="demo-api-1:8000"} 1</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>up{job="demo-api",instance="demo-api-2:8000"} 0</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 意思是第一个实例抓取成功，第二个实例抓取失败。
 
@@ -433,17 +645,38 @@ Counter 像汽车总里程，只会增加，进程重启时可能归零。
 http_requests_total{method="GET",status="200"} 1027
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>http_requests_total{method="GET",status="200"} 1027</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 不要直接拿 Counter 的当前值当 QPS。要用 `rate()` 看增长速度：
 
 ```text
 rate(http_requests_total[5m])
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>rate(http_requests_total[5m])</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 坏用法：
 
 ```text
 current_running_requests_total
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>current_running_requests_total</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 当前正在运行的请求数会上升也会下降，应该用 Gauge。
 
@@ -457,6 +690,14 @@ Gauge 像温度计，可以升也可以降。
 node_memory_MemAvailable_bytes 123456789
 queue_depth{queue="orders"} 42
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>node_memory_MemAvailable_bytes 123456789</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>queue_depth{queue="orders"} 42</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 适合：
 
@@ -473,6 +714,14 @@ node_memory_MemAvailable_bytes
 max_over_time(queue_depth[30m])
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>node_memory_MemAvailable_bytes</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>max_over_time(queue_depth[30m])</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 ### Histogram
 
 Histogram 用桶统计一批观测值的分布。
@@ -488,6 +737,18 @@ http_request_duration_seconds_sum 123.4
 http_request_duration_seconds_count 1000
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>http_request_duration_seconds_bucket{le="0.1"} 240</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>http_request_duration_seconds_bucket{le="0.3"} 500</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>http_request_duration_seconds_bucket{le="1"} 900</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>http_request_duration_seconds_bucket{le="+Inf"} 1000</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>http_request_duration_seconds_sum 123.4</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>http_request_duration_seconds_count 1000</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 你可以把它理解成：Prometheus 不保存每一次请求耗时，而是保存“多少请求落在每个耗时桶里”。
 
 计算 P95：
@@ -499,6 +760,16 @@ histogram_quantile(
 )
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>histogram_quantile(</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  0.95,</code> | 编号步骤，表示学习或操作时应该按顺序执行。 |
+| 第 3 行 | <code>  sum by (le) (rate(http_request_duration_seconds_bucket[5m]))</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>)</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 如果有多个实例，要保留 `le` 标签聚合：
 
 ```text
@@ -507,6 +778,16 @@ histogram_quantile(
   sum by (job, le) (rate(http_request_duration_seconds_bucket[5m]))
 )
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>histogram_quantile(</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  0.95,</code> | 编号步骤，表示学习或操作时应该按顺序执行。 |
+| 第 3 行 | <code>  sum by (job, le) (rate(http_request_duration_seconds_bucket[5m]))</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>)</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 ### Summary
 
@@ -520,6 +801,16 @@ rpc_duration_seconds{quantile="0.9"} 0.2
 rpc_duration_seconds_sum 123.4
 rpc_duration_seconds_count 1000
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>rpc_duration_seconds{quantile="0.5"} 0.05</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>rpc_duration_seconds{quantile="0.9"} 0.2</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>rpc_duration_seconds_sum 123.4</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>rpc_duration_seconds_count 1000</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 初学建议：
 
@@ -541,6 +832,20 @@ http_requests_total{method="GET",status="500"} 12
 queue_depth{queue="orders"} 42
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code># HELP http_requests_total Total number of HTTP requests.</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code># TYPE http_requests_total counter</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>http_requests_total{method="GET",status="200"} 1027</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>http_requests_total{method="GET",status="500"} 12</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
+| 第 6 行 | <code># HELP queue_depth Current queue depth.</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 7 行 | <code># TYPE queue_depth gauge</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 8 行 | <code>queue_depth{queue="orders"} 42</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 解释：
 
 | 行 | 含义 |
@@ -555,6 +860,13 @@ queue_depth{queue="orders"} 42
 curl demo-api:8000/metrics
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl demo-api:8000/metrics</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+
+
 如果这个接口不返回 Prometheus 格式，Prometheus 就抓不到有效样本。
 
 ## 安装和启动
@@ -567,17 +879,38 @@ curl demo-api:8000/metrics
 docker run --rm --name prometheus -p 9090:9090 prom/prometheus:v3.5.0
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker run --rm --name prometheus -p 9090:9090 prom/prometheus:v3.5.0</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
+
 访问：
 
 ```text
 localhost:9090
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>localhost:9090</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 查看日志：
 
 ```bash
 docker logs prometheus
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker logs prometheus</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
+
 
 ### 使用配置文件启动
 
@@ -594,6 +927,20 @@ scrape_configs:
       - targets: ["localhost:9090"]
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>global:</code> | 定义 `global` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 2 行 | <code>  scrape_interval: 15s</code> | 设置 `scrape_interval` 字段的值为 `15s`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 3 行 | <code>  evaluation_interval: 15s</code> | 设置 `evaluation_interval` 字段的值为 `15s`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 4 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 5 行 | <code>scrape_configs:</code> | 定义 `scrape_configs` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 6 行 | <code>  - job_name: "prometheus"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 7 行 | <code>    static_configs:</code> | 定义 `static_configs` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 8 行 | <code>      - targets: ["localhost:9090"]</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+
+
 PowerShell：
 
 ```powershell
@@ -603,6 +950,16 @@ docker run --rm --name prometheus `
   prom/prometheus:v3.5.0
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker run --rm --name prometheus `</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+| 第 2 行 | <code>  -p 9090:9090 `</code> | 执行 `-p` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 3 行 | <code>  -v ${PWD}/prometheus.yml:/etc/prometheus/prometheus.yml:ro `</code> | 执行 `-v` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
+| 第 4 行 | <code>  prom/prometheus:v3.5.0</code> | 执行 `prom/prometheus:v3.5.0` 相关命令，后面的参数决定它具体操作什么对象。 |
+
+
 Linux/macOS：
 
 ```bash
@@ -611,6 +968,16 @@ docker run --rm --name prometheus \
   -v "$PWD/prometheus.yml:/etc/prometheus/prometheus.yml:ro" \
   prom/prometheus:v3.5.0
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker run --rm --name prometheus \</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+| 第 2 行 | <code>  -p 9090:9090 \</code> | 执行 `-p` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 3 行 | <code>  -v "$PWD/prometheus.yml:/etc/prometheus/prometheus.yml:ro" \</code> | 执行 `-v` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 4 行 | <code>  prom/prometheus:v3.5.0</code> | 执行 `prom/prometheus:v3.5.0` 相关命令，后面的参数决定它具体操作什么对象。 |
+
 
 注意：示例版本号要按你实际使用的 Prometheus 镜像调整。不要在生产中长期依赖裸 `latest`。
 
@@ -656,6 +1023,28 @@ alerting:
         - targets: ["alertmanager:9093"]
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>global:</code> | 定义 `global` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 2 行 | <code>  scrape_interval: 15s</code> | 设置 `scrape_interval` 字段的值为 `15s`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 3 行 | <code>  evaluation_interval: 15s</code> | 设置 `evaluation_interval` 字段的值为 `15s`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 4 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 5 行 | <code>rule_files:</code> | 定义 `rule_files` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 6 行 | <code>  - "rules/*.yml"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 7 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 8 行 | <code>scrape_configs:</code> | 定义 `scrape_configs` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 9 行 | <code>  - job_name: "prometheus"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 10 行 | <code>    static_configs:</code> | 定义 `static_configs` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 11 行 | <code>      - targets: ["localhost:9090"]</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 12 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 13 行 | <code>alerting:</code> | 定义 `alerting` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 14 行 | <code>  alertmanagers:</code> | 定义 `alertmanagers` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 15 行 | <code>    - static_configs:</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 16 行 | <code>        - targets: ["alertmanager:9093"]</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+
+
 字段解释：
 
 | 字段 | 是什么 | 为什么需要 | 坏了怎么查 |
@@ -686,6 +1075,25 @@ scrape_configs:
           env: "dev"
           team: "platform"
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>scrape_configs:</code> | 定义 `scrape_configs` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 2 行 | <code>  - job_name: "demo-api"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 3 行 | <code>    scrape_interval: 10s</code> | 设置 `scrape_interval` 字段的值为 `10s`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 4 行 | <code>    scrape_timeout: 5s</code> | 设置 `scrape_timeout` 字段的值为 `5s`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 5 行 | <code>    metrics_path: "/metrics"</code> | 设置 `metrics_path` 字段的值为 `"/metrics"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 6 行 | <code>    scheme: "http"</code> | 设置 `scheme` 字段的值为 `"http"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 7 行 | <code>    static_configs:</code> | 定义 `static_configs` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 8 行 | <code>      - targets:</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 9 行 | <code>          - "demo-api-1:8000"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 10 行 | <code>          - "demo-api-2:8000"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 11 行 | <code>        labels:</code> | 定义 `labels` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 12 行 | <code>          env: "dev"</code> | 设置 `env` 字段的值为 `"dev"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 13 行 | <code>          team: "platform"</code> | 设置 `team` 字段的值为 `"platform"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
 
 字段解释：
 
@@ -727,6 +1135,22 @@ scrape target
 metric_relabel_configs can drop or rewrite scraped metrics
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>service discovery discovers many targets</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>        &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>        v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>relabel_configs selects and rewrites target labels</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>        &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>        v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 7 行 | <code>scrape target</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 8 行 | <code>        &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 9 行 | <code>        v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 10 行 | <code>metric_relabel_configs can drop or rewrite scraped metrics</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 初学先知道三个点：
 
 | 配置 | 发生时间 | 常见用途 |
@@ -744,6 +1168,16 @@ metric_relabel_configs:
     action: labeldrop
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>metric_relabel_configs:</code> | 定义 `metric_relabel_configs` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 2 行 | <code>  - source_labels: [pod_uid]</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 3 行 | <code>    regex: ".+"</code> | 设置 `regex` 字段的值为 `".+"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 4 行 | <code>    action: labeldrop</code> | 设置 `action` 字段的值为 `labeldrop`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
+
 真实生产里 relabel 很重要，但刚入门时先把 static target、job、instance、labels 理清楚。
 
 ## TSDB 和存储
@@ -758,6 +1192,16 @@ scraped samples
   -> head block
   -> compacted blocks on disk
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>scraped samples</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; write-ahead log</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; head block</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; compacted blocks on disk</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 你需要知道的重点：
 
@@ -778,6 +1222,16 @@ prometheus \
   --storage.tsdb.retention.time=15d
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>prometheus \</code> | 执行 `prometheus` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 2 行 | <code>  --config.file=prometheus.yml \</code> | 注释行，提前说明下面命令的目的或注意事项。 |
+| 第 3 行 | <code>  --storage.tsdb.path=data \</code> | 注释行，提前说明下面命令的目的或注意事项。 |
+| 第 4 行 | <code>  --storage.tsdb.retention.time=15d</code> | 注释行，提前说明下面命令的目的或注意事项。 |
+
+
 Docker 中挂载数据目录：
 
 ```bash
@@ -792,6 +1246,22 @@ docker run -d --name prometheus \
   --storage.tsdb.path=/prometheus \
   --storage.tsdb.retention.time=15d
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker volume create prometheus-data</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
+| 第 2 行 | <em>空行</em> | 空行，用来把命令分成更容易阅读的几段。 |
+| 第 3 行 | <code>docker run -d --name prometheus \</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+| 第 4 行 | <code>  -p 9090:9090 \</code> | 执行 `-p` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 5 行 | <code>  -v prometheus-data:/prometheus \</code> | 执行 `-v` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 6 行 | <code>  -v "$PWD/prometheus.yml:/etc/prometheus/prometheus.yml:ro" \</code> | 执行 `-v` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 7 行 | <code>  prom/prometheus:v3.5.0 \</code> | 执行 `prom/prometheus:v3.5.0` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 8 行 | <code>  --config.file=/etc/prometheus/prometheus.yml \</code> | 注释行，提前说明下面命令的目的或注意事项。 |
+| 第 9 行 | <code>  --storage.tsdb.path=/prometheus \</code> | 注释行，提前说明下面命令的目的或注意事项。 |
+| 第 10 行 | <code>  --storage.tsdb.retention.time=15d</code> | 注释行，提前说明下面命令的目的或注意事项。 |
+
 
 如果不挂载数据卷，容器删除后本地 TSDB 数据会丢。
 
@@ -818,11 +1288,25 @@ PromQL 常见类型：
 http_requests_total
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>http_requests_total</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 这是 instant vector，表示当前查询时刻每条序列的值。
 
 ```text
 http_requests_total[5m]
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>http_requests_total[5m]</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 这是 range vector，表示最近 5 分钟每条序列的一组样本。`rate()` 这类函数需要 range vector。
 
@@ -834,11 +1318,25 @@ http_requests_total[5m]
 up
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>up</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 按 label 过滤：
 
 ```text
 up{job="demo-api"}
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>up{job="demo-api"}</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 匹配器：
 
@@ -855,6 +1353,13 @@ up{job="demo-api"}
 http_requests_total{status=~"5.."}
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>http_requests_total{status=~"5.."}</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 表示 status 是 500、502、503 这类 5xx。
 
 ## 聚合
@@ -865,11 +1370,25 @@ http_requests_total{status=~"5.."}
 sum by (job) (rate(http_requests_total[5m]))
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>sum by (job) (rate(http_requests_total[5m]))</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 去掉 instance 维度：
 
 ```text
 sum without (instance) (rate(http_requests_total[5m]))
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>sum without (instance) (rate(http_requests_total[5m]))</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 常见聚合：
 
@@ -888,6 +1407,13 @@ AIOps 常用：
 ```text
 topk(5, sum by (service) (rate(http_requests_total[5m])))
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>topk(5, sum by (service) (rate(http_requests_total[5m])))</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 意思是最近 5 分钟请求速率最高的 5 个服务。
 
@@ -991,6 +1517,13 @@ topk(5, sum by (service) (rate(http_requests_total[5m])))
 sum by (job) (rate(http_requests_total[5m]))
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>sum by (job) (rate(http_requests_total[5m]))</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 ### 错误率
 
 ```text
@@ -999,6 +1532,15 @@ sum(rate(http_requests_total{status=~"5.."}[5m]))
 sum(rate(http_requests_total[5m]))
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>sum(rate(http_requests_total{status=~"5.."}[5m]))</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>sum(rate(http_requests_total[5m]))</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 ### 按服务错误率
 
 ```text
@@ -1006,6 +1548,15 @@ sum by (service) (rate(http_requests_total{status=~"5.."}[5m]))
 /
 sum by (service) (rate(http_requests_total[5m]))
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>sum by (service) (rate(http_requests_total{status=~"5.."}[5m]))</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>sum by (service) (rate(http_requests_total[5m]))</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 ### P95 延迟
 
@@ -1016,11 +1567,28 @@ histogram_quantile(
 )
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>histogram_quantile(</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  0.95,</code> | 编号步骤，表示学习或操作时应该按顺序执行。 |
+| 第 3 行 | <code>  sum by (service, le) (rate(http_request_duration_seconds_bucket[5m]))</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>)</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 ### 实例抓取失败
 
 ```text
 up == 0
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>up == 0</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 ### 最近 1 小时实例抖动
 
@@ -1028,11 +1596,25 @@ up == 0
 changes(up[1h]) > 2
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>changes(up[1h]) &gt; 2</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 ### 磁盘可能 24 小时内耗尽
 
 ```text
 predict_linear(node_filesystem_free_bytes[6h], 24 * 3600) < 0
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>predict_linear(node_filesystem_free_bytes[6h], 24 * 3600) &lt; 0</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 ## Recording Rules
 
@@ -1056,6 +1638,18 @@ groups:
         expr: sum by (job) (rate(http_requests_total[5m]))
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>groups:</code> | 定义 `groups` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 2 行 | <code>  - name: demo-api-recording</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 3 行 | <code>    interval: 30s</code> | 设置 `interval` 字段的值为 `30s`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 4 行 | <code>    rules:</code> | 定义 `rules` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 5 行 | <code>      - record: job:http_requests:rate5m</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 6 行 | <code>        expr: sum by (job) (rate(http_requests_total[5m]))</code> | 设置 `expr` 字段的值为 `sum by (job) (rate(http_requests_total[5m]))`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
+
 字段解释：
 
 | 字段 | 含义 |
@@ -1072,11 +1666,25 @@ groups:
 level:metric:operations
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>level:metric:operations</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 例子：
 
 ```text
 job:http_requests:rate5m
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>job:http_requests:rate5m</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 ## Alerting Rules
 
@@ -1099,6 +1707,24 @@ groups:
           description: "Prometheus cannot scrape {{ $labels.instance }} for more than 2 minutes."
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>groups:</code> | 定义 `groups` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 2 行 | <code>  - name: demo-api-alerts</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 3 行 | <code>    rules:</code> | 定义 `rules` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 4 行 | <code>      - alert: InstanceDown</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 5 行 | <code>        expr: up{job="demo-api"} == 0</code> | 设置 `expr` 字段的值为 `up{job="demo-api"} == 0`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 6 行 | <code>        for: 2m</code> | 设置 `for` 字段的值为 `2m`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 7 行 | <code>        labels:</code> | 定义 `labels` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 8 行 | <code>          severity: critical</code> | 设置 `severity` 字段的值为 `critical`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 9 行 | <code>          team: platform</code> | 设置 `team` 字段的值为 `platform`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 10 行 | <code>        annotations:</code> | 定义 `annotations` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 11 行 | <code>          summary: "demo-api instance is down"</code> | 设置 `summary` 字段的值为 `"demo-api instance is down"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 12 行 | <code>          description: "Prometheus cannot scrape {{ $labels.instance }} for more than 2 minutes."</code> | 设置 `description` 字段的值为 `"Prometheus cannot scrape {{ $labels.instance }} for more than 2 minutes."`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
+
 字段解释：
 
 | 字段 | 含义 |
@@ -1114,6 +1740,13 @@ groups:
 ```text
 inactive -> pending -> firing
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>inactive -&gt; pending -&gt; firing</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 解释：
 
@@ -1148,6 +1781,20 @@ Alertmanager
   └── notify
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Prometheus alerting rule fires</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>        &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>        v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>Alertmanager</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>  ├── group</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 6 行 | <code>  ├── inhibit</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 7 行 | <code>  ├── silence</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 8 行 | <code>  └── notify</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+
+
 Prometheus 配置：
 
 ```yaml
@@ -1157,6 +1804,17 @@ alerting:
         - targets:
             - "alertmanager:9093"
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>alerting:</code> | 定义 `alerting` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 2 行 | <code>  alertmanagers:</code> | 定义 `alertmanagers` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 3 行 | <code>    - static_configs:</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 4 行 | <code>        - targets:</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 5 行 | <code>            - "alertmanager:9093"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+
 
 注意：Alertmanager 的详细配置在 Alertmanager 专题里讲。这里你先记住：Prometheus 不是直接负责发飞书、邮件、短信的完整通知治理中心，它把 firing alerts 发给 Alertmanager。
 
@@ -1183,11 +1841,25 @@ Prometheus 提供 HTTP API，AIOps 脚本可以通过 API 拉指标。
 curl "localhost:9090/api/v1/query?query=up"
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl "localhost:9090/api/v1/query?query=up"</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+
+
 示例：范围查询。
 
 ```bash
 curl "localhost:9090/api/v1/query_range?query=up&start=2026-07-02T00:00:00Z&end=2026-07-02T01:00:00Z&step=30s"
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl "localhost:9090/api/v1/query_range?query=up&amp;start=2026-07-02T00:00:00Z&amp;end=2026-07-02T01:00:00Z&amp;step=30s"</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
+
 
 API 返回通常包含：
 
@@ -1321,6 +1993,18 @@ prometheus-lab/
     alerting.yml
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>prometheus-lab/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  app.py</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>  requirements.txt</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>  prometheus.yml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>  rules/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>    alerting.yml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 ### 第 2 步：创建 Python demo
 
 `requirements.txt`：
@@ -1328,6 +2012,13 @@ prometheus-lab/
 ```text
 prometheus-client==0.20.0
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>prometheus-client==0.20.0</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 `app.py`：
 
@@ -1384,6 +2075,62 @@ if __name__ == "__main__":
     HTTPServer(("0.0.0.0", 8000), Handler).serve_forever()
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>import random</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
+| 第 2 行 | <code>import time</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
+| 第 3 行 | <code>from http.server import BaseHTTPRequestHandler, HTTPServer</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
+| 第 4 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 5 行 | <code>from prometheus_client import Counter, Histogram, generate_latest</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
+| 第 6 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 7 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 8 行 | <code>REQUESTS = Counter(</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 9 行 | <code>    "http_requests_total",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 10 行 | <code>    "Total HTTP requests",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 11 行 | <code>    ["method", "path", "status"],</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 12 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 13 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 14 行 | <code>LATENCY = Histogram(</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 15 行 | <code>    "http_request_duration_seconds",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 16 行 | <code>    "HTTP request latency",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 17 行 | <code>    ["path"],</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 18 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 19 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 20 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 21 行 | <code>class Handler(BaseHTTPRequestHandler):</code> | 定义类，用来组织一组数据和行为。 |
+| 第 22 行 | <code>    def do_GET(self):</code> | 定义函数，把一段可复用逻辑命名，后续可以反复调用。 |
+| 第 23 行 | <code>        start = time.time()</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 24 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 25 行 | <code>        if self.path == "/metrics":</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
+| 第 26 行 | <code>            body = generate_latest()</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 27 行 | <code>            self.send_response(200)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 28 行 | <code>            self.send_header("Content-Type", "text/plain; version=0.0.4")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 29 行 | <code>            self.end_headers()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 30 行 | <code>            self.wfile.write(body)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 31 行 | <code>            return</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 32 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 33 行 | <code>        if self.path == "/health":</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
+| 第 34 行 | <code>            status = 200</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 35 行 | <code>            body = b"ok"</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 36 行 | <code>        else:</code> | 兜底分支，前面的条件都不成立时执行。 |
+| 第 37 行 | <code>            status = random.choice([200, 200, 200, 500])</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 38 行 | <code>            body = b"demo"</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 39 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 40 行 | <code>        time.sleep(random.uniform(0.01, 0.2))</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 41 行 | <code>        REQUESTS.labels(method="GET", path=self.path, status=str(status)).inc()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 42 行 | <code>        LATENCY.labels(path=self.path).observe(time.time() - start)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 43 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 44 行 | <code>        self.send_response(status)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 45 行 | <code>        self.end_headers()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 46 行 | <code>        self.wfile.write(body)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 47 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 48 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 49 行 | <code>if __name__ == "__main__":</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
+| 第 50 行 | <code>    HTTPServer(("0.0.0.0", 8000), Handler).serve_forever()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+
+
 安装运行：
 
 ```powershell
@@ -1393,6 +2140,16 @@ python -m pip install -r requirements.txt
 python app.py
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>python -m venv .venv</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
+| 第 2 行 | <code>.\.venv\Scripts\Activate.ps1</code> | 执行 `.\.venv\scripts\activate.ps1` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 3 行 | <code>python -m pip install -r requirements.txt</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
+| 第 4 行 | <code>python app.py</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
+
+
 另开一个终端访问几次：
 
 ```bash
@@ -1400,6 +2157,15 @@ curl localhost:8000/
 curl localhost:8000/health
 curl localhost:8000/metrics
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl localhost:8000/</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+| 第 2 行 | <code>curl localhost:8000/health</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+| 第 3 行 | <code>curl localhost:8000/metrics</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+
 
 ### 第 3 步：配置 Prometheus
 
@@ -1427,6 +2193,31 @@ scrape_configs:
           env: "local"
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>global:</code> | 定义 `global` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 2 行 | <code>  scrape_interval: 15s</code> | 设置 `scrape_interval` 字段的值为 `15s`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 3 行 | <code>  evaluation_interval: 15s</code> | 设置 `evaluation_interval` 字段的值为 `15s`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 4 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 5 行 | <code>rule_files:</code> | 定义 `rule_files` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 6 行 | <code>  - "/etc/prometheus/rules/*.yml"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 7 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 8 行 | <code>scrape_configs:</code> | 定义 `scrape_configs` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 9 行 | <code>  - job_name: "prometheus"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 10 行 | <code>    static_configs:</code> | 定义 `static_configs` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 11 行 | <code>      - targets: ["localhost:9090"]</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 12 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 13 行 | <code>  - job_name: "demo-api"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 14 行 | <code>    metrics_path: "/metrics"</code> | 设置 `metrics_path` 字段的值为 `"/metrics"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 15 行 | <code>    static_configs:</code> | 定义 `static_configs` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 16 行 | <code>      - targets: ["host.docker.internal:8000"]</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 17 行 | <code>        labels:</code> | 定义 `labels` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 18 行 | <code>          service: "demo-api"</code> | 设置 `service` 字段的值为 `"demo-api"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 19 行 | <code>          env: "local"</code> | 设置 `env` 字段的值为 `"local"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
+
 Linux 上如果 Prometheus 和 demo 都用容器跑，建议放到同一个 Docker network，用容器名访问。这个会在 Docker Compose 篇里更完整地做。
 
 ### 第 4 步：创建告警规则
@@ -1447,6 +2238,23 @@ groups:
           description: "Prometheus cannot scrape {{ $labels.instance }}."
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>groups:</code> | 定义 `groups` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 2 行 | <code>  - name: demo-api-alerts</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 3 行 | <code>    rules:</code> | 定义 `rules` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 4 行 | <code>      - alert: DemoApiDown</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 5 行 | <code>        expr: up{job="demo-api"} == 0</code> | 设置 `expr` 字段的值为 `up{job="demo-api"} == 0`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 6 行 | <code>        for: 1m</code> | 设置 `for` 字段的值为 `1m`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 7 行 | <code>        labels:</code> | 定义 `labels` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 8 行 | <code>          severity: critical</code> | 设置 `severity` 字段的值为 `critical`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 9 行 | <code>        annotations:</code> | 定义 `annotations` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 10 行 | <code>          summary: "demo-api target is down"</code> | 设置 `summary` 字段的值为 `"demo-api target is down"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 11 行 | <code>          description: "Prometheus cannot scrape {{ $labels.instance }}."</code> | 设置 `description` 字段的值为 `"Prometheus cannot scrape {{ $labels.instance }}."`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
+
 ### 第 5 步：启动 Prometheus
 
 PowerShell：
@@ -1460,6 +2268,18 @@ docker run --rm --name prometheus `
   --config.file=/etc/prometheus/prometheus.yml
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker run --rm --name prometheus `</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+| 第 2 行 | <code>  -p 9090:9090 `</code> | 执行 `-p` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 3 行 | <code>  -v ${PWD}/prometheus.yml:/etc/prometheus/prometheus.yml:ro `</code> | 执行 `-v` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
+| 第 4 行 | <code>  -v ${PWD}/rules:/etc/prometheus/rules:ro `</code> | 执行 `-v` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
+| 第 5 行 | <code>  prom/prometheus:v3.5.0 `</code> | 执行 `prom/prometheus:v3.5.0` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 6 行 | <code>  --config.file=/etc/prometheus/prometheus.yml</code> | 注释行，提前说明下面命令的目的或注意事项。 |
+
+
 ### 第 6 步：检查 targets
 
 打开：
@@ -1467,6 +2287,13 @@ docker run --rm --name prometheus `
 ```text
 localhost:9090/targets
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>localhost:9090/targets</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 应该看到：
 
@@ -1483,11 +2310,25 @@ localhost:9090/targets
 up{job="demo-api"}
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>up{job="demo-api"}</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 请求速率：
 
 ```text
 sum by (status) (rate(http_requests_total{job="demo-api"}[5m]))
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>sum by (status) (rate(http_requests_total{job="demo-api"}[5m]))</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 错误率：
 
@@ -1496,6 +2337,15 @@ sum(rate(http_requests_total{job="demo-api",status="500"}[5m]))
 /
 sum(rate(http_requests_total{job="demo-api"}[5m]))
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>sum(rate(http_requests_total{job="demo-api",status="500"}[5m]))</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>sum(rate(http_requests_total{job="demo-api"}[5m]))</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 P95 延迟：
 
@@ -1506,6 +2356,16 @@ histogram_quantile(
 )
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>histogram_quantile(</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  0.95,</code> | 编号步骤，表示学习或操作时应该按顺序执行。 |
+| 第 3 行 | <code>  sum by (le) (rate(http_request_duration_seconds_bucket{job="demo-api"}[5m]))</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>)</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 ### 第 8 步：验证规则
 
 打开：
@@ -1514,6 +2374,14 @@ histogram_quantile(
 localhost:9090/rules
 localhost:9090/alerts
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>localhost:9090/rules</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>localhost:9090/alerts</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 停止 Python demo 后，等待超过 1 分钟，`DemoApiDown` 应该从 pending 变成 firing。
 
@@ -1528,6 +2396,14 @@ docker logs prometheus
 curl localhost:8000/metrics
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker logs prometheus</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
+| 第 2 行 | <code>curl localhost:8000/metrics</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+
+
 如果 Prometheus 在容器里，demo 在宿主机上：
 
 - Windows/macOS Docker Desktop 优先用 `host.docker.internal:8000`。
@@ -1541,11 +2417,25 @@ curl localhost:8000/metrics
 promtool check config prometheus.yml
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>promtool check config prometheus.yml</code> | 执行 Prometheus 工具命令，用来检查配置文件或告警规则。 |
+
+
 如果用 Docker 镜像里的 promtool：
 
 ```bash
 docker run --rm -v "$PWD:/work" -w /work prom/prometheus:v3.5.0 promtool check config prometheus.yml
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker run --rm -v "$PWD:/work" -w /work prom/prometheus:v3.5.0 promtool check config prometheus.yml</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
 
 ### PromQL 查不到 demo 指标
 
@@ -1591,6 +2481,13 @@ docker run --rm -v "$PWD:/work" -w /work prom/prometheus:v3.5.0 promtool check c
 metric names * label combinations
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>metric names * label combinations</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 例子：
 
 ```text
@@ -1601,6 +2498,18 @@ http_requests_total{
   request_id="abc..."
 }
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>http_requests_total{</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  method="GET",</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>  status="200",</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>  user_id="123456",</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>  request_id="abc..."</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>}</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 如果 `user_id` 有 100 万个，`request_id` 每次请求都不同，时间序列会爆炸。
 

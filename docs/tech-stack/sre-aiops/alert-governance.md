@@ -24,6 +24,13 @@
 DiskUsageHigh on node-17
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>DiskUsageHigh on node-17</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 你打开告警，发现：
 
 - 昨天已经响过。
@@ -96,6 +103,47 @@ Monitoring
      -> runbook recommendation
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Monitoring</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; metrics / logs / traces / black-box checks</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; alerting rules</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>     -&gt; symptoms</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>     -&gt; causes</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>     -&gt; SLO burn rate</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>     -&gt; for / keep_firing_for</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 8 行 | <code>  -&gt; alert labels</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 9 行 | <code>     -&gt; service</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 10 行 | <code>     -&gt; severity</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 11 行 | <code>     -&gt; owner</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 12 行 | <code>     -&gt; slo</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 13 行 | <code>     -&gt; runbook_url</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 14 行 | <code>  -&gt; Alertmanager</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 15 行 | <code>     -&gt; grouping</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 16 行 | <code>     -&gt; routing</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 17 行 | <code>     -&gt; inhibition</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 18 行 | <code>     -&gt; silence</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 19 行 | <code>     -&gt; receivers</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 20 行 | <code>  -&gt; response</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 21 行 | <code>     -&gt; page</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 22 行 | <code>     -&gt; ticket</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 23 行 | <code>     -&gt; info</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 24 行 | <code>     -&gt; automation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 25 行 | <code>  -&gt; review</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 26 行 | <code>     -&gt; noise</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 27 行 | <code>     -&gt; duplicates</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 28 行 | <code>     -&gt; flapping</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 29 行 | <code>     -&gt; missing runbooks</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 30 行 | <code>     -&gt; bad ownership</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 31 行 | <code>  -&gt; AIOps</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 32 行 | <code>     -&gt; clustering</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 33 行 | <code>     -&gt; dedup</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 34 行 | <code>     -&gt; enrichment</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 35 行 | <code>     -&gt; runbook recommendation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 初学路线：
 
 ```text
@@ -108,6 +156,20 @@ inventory alerts
   -> track alert quality metrics
   -> review weekly
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>inventory alerts</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; classify page/ticket/info</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; require owner and runbook</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; prefer SLO/symptom pages</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; move cause alerts to ticket/dashboard</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; configure Alertmanager grouping/routing/inhibition</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>  -&gt; track alert quality metrics</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 8 行 | <code>  -&gt; review weekly</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 ## 告警不是监控
 
@@ -130,6 +192,14 @@ Google SRE 对 page 的要求很强：告警不应该因为“有点奇怪”就
 所有 page 都应该来自监控。
 但不是所有监控都应该 page。
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>所有 page 都应该来自监控。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>但不是所有监控都应该 page。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 ## 好告警的四个条件
 
@@ -169,6 +239,16 @@ Google SRE 对 page 的要求很强：告警不应该因为“有点奇怪”就
 只是信息 -> info
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>现在不处理，用户会明显受影响吗？</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>会 -&gt; page</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>不会但应该处理 -&gt; ticket</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>只是信息 -&gt; info</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 ## 症状 vs 原因
 
 Google SRE 强调区分 what 和 why：
@@ -191,6 +271,15 @@ page 优先症状告警。
 ticket 可以关注确定的原因告警。
 dashboard 保存更多原因指标。
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>page 优先症状告警。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>ticket 可以关注确定的原因告警。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>dashboard 保存更多原因指标。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 为什么？
 
@@ -217,6 +306,16 @@ Traffic 异常影响业务 -> page or ticket
 Saturation 接近用户影响 -> ticket or page
 纯资源异常但无影响 -> ticket / dashboard
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Errors / Latency 伤害 SLO -&gt; page</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>Traffic 异常影响业务 -&gt; page or ticket</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>Saturation 接近用户影响 -&gt; ticket or page</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>纯资源异常但无影响 -&gt; ticket / dashboard</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 ## Alert Rule 设计
 
@@ -256,6 +355,32 @@ groups:
           runbook_url: "https://github.com/quweisheng/zero-to-aiops/tree/main/runbooks/order-api-high-error-rate.md"
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>groups:</code> | 定义 `groups` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 2 行 | <code>  - name: order-api-alerts</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 3 行 | <code>    rules:</code> | 定义 `rules` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 4 行 | <code>      - alert: OrderApiHighErrorRate</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 5 行 | <code>        expr: &#124;</code> | 设置 `expr` 字段的值为 `|`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 6 行 | <code>          sum(rate(http_requests_total{job="order-api",code=~"5.."}[5m]))</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
+| 第 7 行 | <code>          /</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
+| 第 8 行 | <code>          sum(rate(http_requests_total{job="order-api"}[5m]))</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
+| 第 9 行 | <code>          &gt; 0.05</code> | 配置续行，通常和上一行的缩进层级一起决定它属于哪个配置对象。 |
+| 第 10 行 | <code>        for: 5m</code> | 设置 `for` 字段的值为 `5m`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 11 行 | <code>        keep_firing_for: 5m</code> | 设置 `keep_firing_for` 字段的值为 `5m`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 12 行 | <code>        labels:</code> | 定义 `labels` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 13 行 | <code>          severity: page</code> | 设置 `severity` 字段的值为 `page`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 14 行 | <code>          service: order-api</code> | 设置 `service` 字段的值为 `order-api`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 15 行 | <code>          owner: team-order</code> | 设置 `owner` 字段的值为 `team-order`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 16 行 | <code>        annotations:</code> | 定义 `annotations` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 17 行 | <code>          summary: "order-api 5xx error rate is above 5%"</code> | 设置 `summary` 字段的值为 `"order-api 5xx error rate is above 5%"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 18 行 | <code>          description: "More than 5% of order-api requests are returning 5xx for 5 minutes."</code> | 设置 `description` 字段的值为 `"More than 5% of order-api requests are returning 5xx for 5 minutes."`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 19 行 | <code>          dashboard_url: "https://grafana.example.com/d/order-api"</code> | 设置 `dashboard_url` 字段的值为 `"https://grafana.example.com/d/order-api"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 20 行 | <code>          runbook_url: "https://github.com/quweisheng/zero-to-aiops/tree/main/runbooks/order-api-high-error-rate.md"</code> | 设置 `runbook_url` 字段的值为 `"https://github.com/quweisheng/zero-to-aiops/tree/main/runbooks/order-api-high-error-rate.md"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
+
 注意：
 
 - `labels` 用于机器路由和分组。
@@ -274,17 +399,41 @@ SLO burn-rate page
   -> 可和发布决策关联
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>SLO burn-rate page</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; 用户影响更明确</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; 跨服务口径统一</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; 可和发布决策关联</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 普通阈值告警：
 
 ```text
 5xx > 5%
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>5xx &gt; 5%</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 SLO 告警：
 
 ```text
 error_rate > burn_rate * allowed_error_rate
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>error_rate &gt; burn_rate * allowed_error_rate</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 两者差别：
 
@@ -327,6 +476,18 @@ route:
   receiver: default
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>route:</code> | 定义 `route` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 2 行 | <code>  group_by: ["alertname", "service"]</code> | 设置 `group_by` 字段的值为 `["alertname", "service"]`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 3 行 | <code>  group_wait: 30s</code> | 设置 `group_wait` 字段的值为 `30s`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 4 行 | <code>  group_interval: 5m</code> | 设置 `group_interval` 字段的值为 `5m`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 5 行 | <code>  repeat_interval: 4h</code> | 设置 `repeat_interval` 字段的值为 `4h`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 6 行 | <code>  receiver: default</code> | 设置 `receiver` 字段的值为 `default`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
+
 字段含义：
 
 | 字段 | 作用 |
@@ -361,6 +522,24 @@ route:
       receiver: payment-team
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>route:</code> | 定义 `route` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 2 行 | <code>  receiver: default</code> | 设置 `receiver` 字段的值为 `default`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 3 行 | <code>  routes:</code> | 定义 `routes` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 4 行 | <code>    - matchers:</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 5 行 | <code>        - severity="page"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 6 行 | <code>      receiver: oncall</code> | 设置 `receiver` 字段的值为 `oncall`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 7 行 | <code>    - matchers:</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 8 行 | <code>        - severity="ticket"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 9 行 | <code>      receiver: ticket-system</code> | 设置 `receiver` 字段的值为 `ticket-system`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 10 行 | <code>    - matchers:</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 11 行 | <code>        - service="payment-api"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 12 行 | <code>      receiver: payment-team</code> | 设置 `receiver` 字段的值为 `payment-team`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
+
 路由依赖标签质量。没有 `service`、`owner`、`severity`，路由只能靠猜。
 
 ### Inhibition
@@ -376,12 +555,32 @@ inhibit_rules:
     equal: ["service"]
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>inhibit_rules:</code> | 定义 `inhibit_rules` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 2 行 | <code>  - source_matchers:</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 3 行 | <code>      - alertname="OrderApiDown"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 4 行 | <code>    target_matchers:</code> | 定义 `target_matchers` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 5 行 | <code>      - severity="ticket"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 6 行 | <code>    equal: ["service"]</code> | 设置 `equal` 字段的值为 `["service"]`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
+
 含义：
 
 ```text
 如果 order-api 已经 Down，
 同 service 的 ticket 级告警先别再打扰。
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>如果 order-api 已经 Down，</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>同 service 的 ticket 级告警先别再打扰。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 注意：抑制不是隐藏问题，而是减少重复通知。排障时 dashboard 里仍然应该能看到底层指标。
 
@@ -441,6 +640,13 @@ annotations 至少应该有：
 Service + Symptom
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Service + Symptom</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 例如：
 
 ```text
@@ -450,6 +656,16 @@ PaymentApiDependencyFailures
 KafkaConsumerLagGrowing
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>OrderApiHighErrorRate</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>OrderApiLatencySLOBurn</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>PaymentApiDependencyFailures</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>KafkaConsumerLagGrowing</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 不推荐：
 
 ```text
@@ -458,6 +674,16 @@ Error
 CPUWarning
 SomethingWrong
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>High</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>Error</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>CPUWarning</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>SomethingWrong</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 告警名应该让人在通知列表中一眼知道：
 
@@ -519,6 +745,14 @@ SomethingWrong
 每周复盘 top noisy alerts。
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>所有 page 必须有 owner 和 runbook。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>每周复盘 top noisy alerts。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 ## 告警风暴治理
 
 告警风暴常见原因：
@@ -569,6 +803,17 @@ OrderApiHighErrorRate,order-api,page,3,3,true,true,
 DiskWillFill,node,ticket,12,2,true,true,
 PaymentApiLatencyHigh,payment-api,page,8,4,true,false,
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>alertname,service,severity,count_30d,true_incidents,has_owner,has_runbook,action</code> | CSV 数据行，逗号分隔的每一列代表一个字段。 |
+| 第 2 行 | <code>HighCPU,order-api,page,42,0,true,false,</code> | CSV 数据行，逗号分隔的每一列代表一个字段。 |
+| 第 3 行 | <code>OrderApiHighErrorRate,order-api,page,3,3,true,true,</code> | CSV 数据行，逗号分隔的每一列代表一个字段。 |
+| 第 4 行 | <code>DiskWillFill,node,ticket,12,2,true,true,</code> | CSV 数据行，逗号分隔的每一列代表一个字段。 |
+| 第 5 行 | <code>PaymentApiLatencyHigh,payment-api,page,8,4,true,false,</code> | CSV 数据行，逗号分隔的每一列代表一个字段。 |
+
 
 目标：
 
@@ -625,6 +870,13 @@ CPU、磁盘、连接池都是原因或风险信号。page 应优先症状和 SL
 for: 5m
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>for: 5m</code> | 设置 `for` 字段的值为 `5m`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
+
 条件持续满足 5 分钟才触发 firing，减少瞬时毛刺。
 
 ### `keep_firing_for`
@@ -632,6 +884,13 @@ for: 5m
 ```yaml
 keep_firing_for: 5m
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>keep_firing_for: 5m</code> | 设置 `keep_firing_for` 字段的值为 `5m`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
 
 条件恢复后继续保持 firing 一段时间，减少抖动。
 
@@ -643,6 +902,15 @@ labels:
   service: order-api
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>labels:</code> | 定义 `labels` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 2 行 | <code>  severity: page</code> | 设置 `severity` 字段的值为 `page`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 3 行 | <code>  service: order-api</code> | 设置 `service` 字段的值为 `order-api`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
+
 机器处理字段，用于路由、分组、抑制。
 
 ### `annotations`
@@ -653,6 +921,15 @@ annotations:
   runbook_url: "https://example.com/runbooks/order-api"
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>annotations:</code> | 定义 `annotations` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 2 行 | <code>  summary: "order-api 5xx is high"</code> | 设置 `summary` 字段的值为 `"order-api 5xx is high"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 3 行 | <code>  runbook_url: "https://example.com/runbooks/order-api"</code> | 设置 `runbook_url` 字段的值为 `"https://example.com/runbooks/order-api"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
+
 人读字段，用于说明和处理。
 
 ### `group_by`
@@ -661,6 +938,13 @@ annotations:
 group_by: ["alertname", "service"]
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>group_by: ["alertname", "service"]</code> | 设置 `group_by` 字段的值为 `["alertname", "service"]`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
+
 按哪些标签合并告警。
 
 ### `repeat_interval`
@@ -668,6 +952,13 @@ group_by: ["alertname", "service"]
 ```yaml
 repeat_interval: 4h
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>repeat_interval: 4h</code> | 设置 `repeat_interval` 字段的值为 `4h`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
 
 同一组持续 firing 多久重复通知。
 
@@ -681,6 +972,18 @@ inhibit_rules:
       - severity="ticket"
     equal: ["service"]
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>inhibit_rules:</code> | 定义 `inhibit_rules` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 2 行 | <code>  - source_matchers:</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 3 行 | <code>      - alertname="OrderApiDown"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 4 行 | <code>    target_matchers:</code> | 定义 `target_matchers` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 5 行 | <code>      - severity="ticket"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 6 行 | <code>    equal: ["service"]</code> | 设置 `equal` 字段的值为 `["service"]`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
 
 高层告警出现时抑制低层衍生告警。
 

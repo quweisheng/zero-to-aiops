@@ -39,6 +39,15 @@ for host in server1 server2 server3; do
 done
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>for host in server1 server2 server3; do</code> | 执行 `for` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 2 行 | <code>  ssh "$host" "sudo apt install -y node-exporter"</code> | 执行 `ssh` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 3 行 | <code>done</code> | 执行 `done` 相关命令，后面的参数决定它具体操作什么对象。 |
+
+
 这能跑，但很快会遇到问题：
 
 - 哪些机器成功了，哪些失败了？
@@ -70,6 +79,20 @@ control node
   -> managed nodes
   -> result: ok / changed / failed / skipped
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>control node</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; ansible.cfg</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; inventory</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; variables</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; ad hoc command / playbook</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; modules</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>  -&gt; managed nodes</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 8 行 | <code>  -&gt; result: ok / changed / failed / skipped</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 第一阶段必须掌握：
 
@@ -160,6 +183,66 @@ Reference
   -> precedence rules
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Installation and getting started</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; install ansible-core</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; control node requirements</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; managed node connection</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
+| 第 6 行 | <code>Inventory</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 7 行 | <code>  -&gt; inventory sources</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 8 行 | <code>  -&gt; groups</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 9 行 | <code>  -&gt; host variables</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 10 行 | <code>  -&gt; group variables</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 11 行 | <code>  -&gt; patterns</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 12 行 | <code>  -&gt; dynamic inventory</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 13 行 | <code>  -&gt; connection variables</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 14 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
+| 第 15 行 | <code>Command line tools</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 16 行 | <code>  -&gt; ansible</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 17 行 | <code>  -&gt; ansible-playbook</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 18 行 | <code>  -&gt; ansible-inventory</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 19 行 | <code>  -&gt; ansible-doc</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 20 行 | <code>  -&gt; ansible-config</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 21 行 | <code>  -&gt; ansible-vault</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 22 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
+| 第 23 行 | <code>Playbooks</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 24 行 | <code>  -&gt; plays</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 25 行 | <code>  -&gt; tasks</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 26 行 | <code>  -&gt; modules</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 27 行 | <code>  -&gt; variables</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 28 行 | <code>  -&gt; facts</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 29 行 | <code>  -&gt; conditionals</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 30 行 | <code>  -&gt; loops</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 31 行 | <code>  -&gt; handlers</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 32 行 | <code>  -&gt; templates</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 33 行 | <code>  -&gt; tags</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 34 行 | <code>  -&gt; blocks</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 35 行 | <code>  -&gt; error handling</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 36 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
+| 第 37 行 | <code>Reuse</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 38 行 | <code>  -&gt; roles</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 39 行 | <code>  -&gt; includes</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 40 行 | <code>  -&gt; imports</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 41 行 | <code>  -&gt; collections</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 42 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
+| 第 43 行 | <code>Security and validation</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 44 行 | <code>  -&gt; become</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 45 行 | <code>  -&gt; vault</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 46 行 | <code>  -&gt; check mode</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 47 行 | <code>  -&gt; diff mode</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 48 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
+| 第 49 行 | <code>Reference</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 50 行 | <code>  -&gt; playbook keywords</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 51 行 | <code>  -&gt; configuration settings</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 52 行 | <code>  -&gt; module index</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 53 行 | <code>  -&gt; plugin index</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 54 行 | <code>  -&gt; precedence rules</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 学习顺序：
 
 ```text
@@ -170,6 +253,18 @@ Reference
   -> 用 handlers 和 roles 组织工程
   -> 用 check/diff/vault 提升安全和可审计
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>先用 inventory 找到机器</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; 用 ad hoc 命令验证连接和模块</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; 写 playbook 表达重复动作</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; 用 variables/facts/templates 适配环境差异</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; 用 handlers 和 roles 组织工程</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; 用 check/diff/vault 提升安全和可审计</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 ## Ansible 在 AIOps 链路中的位置
 
@@ -184,6 +279,19 @@ Prometheus / Alertmanager / Loki / Elasticsearch
   -> systemd / files / packages / services
   -> 验证指标恢复
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Prometheus / Alertmanager / Loki / Elasticsearch</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; 发现异常</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; AIOps 诊断</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; 选择 runbook</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; Ansible playbook 执行检查或修复</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; systemd / files / packages / services</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>  -&gt; 验证指标恢复</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 Ansible 适合做：
 
@@ -233,6 +341,15 @@ control node
 managed node
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>control node</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; SSH</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>managed node</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 Ansible 会把模块代码传到远端执行，拿回 JSON 结果，再显示 `ok`、`changed`、`failed` 等状态。
 
 ## Control node 和 managed node
@@ -268,6 +385,13 @@ Ansible 会把模块代码传到远端执行，拿回 JSON 结果，再显示 `o
 ansible all -i inventory.ini -m ping
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible all -i inventory.ini -m ping</code> | 执行 Ansible 自动化命令，用来批量检查或变更服务器。 |
+
+
 注意：Ansible 的 `ping` 模块不是 ICMP ping，它是测试 Ansible 能否连接并执行 Python 模块。
 
 ## Inventory
@@ -293,6 +417,26 @@ ansible_user=ubuntu
 ansible_ssh_private_key_file=~/.ssh/id_rsa
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>[web]</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>web1 ansible_host=192.168.1.11</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>web2 ansible_host=192.168.1.12</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
+| 第 5 行 | <code>[db]</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>db1 ansible_host=192.168.1.21</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 7 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
+| 第 8 行 | <code>[prod:children]</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 9 行 | <code>web</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 10 行 | <code>db</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 11 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
+| 第 12 行 | <code>[prod:vars]</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 13 行 | <code>ansible_user=ubuntu</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 14 行 | <code>ansible_ssh_private_key_file=~/.ssh/id_rsa</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 YAML 示例：
 
 ```yaml
@@ -312,12 +456,40 @@ all:
     ansible_user: ubuntu
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>all:</code> | 定义 `all` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 2 行 | <code>  children:</code> | 定义 `children` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 3 行 | <code>    web:</code> | 定义 `web` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 4 行 | <code>      hosts:</code> | 定义 `hosts` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 5 行 | <code>        web1:</code> | 定义 `web1` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 6 行 | <code>          ansible_host: 192.168.1.11</code> | 设置 `ansible_host` 字段的值为 `192.168.1.11`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 7 行 | <code>        web2:</code> | 定义 `web2` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 8 行 | <code>          ansible_host: 192.168.1.12</code> | 设置 `ansible_host` 字段的值为 `192.168.1.12`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 9 行 | <code>    db:</code> | 定义 `db` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 10 行 | <code>      hosts:</code> | 定义 `hosts` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 11 行 | <code>        db1:</code> | 定义 `db1` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 12 行 | <code>          ansible_host: 192.168.1.21</code> | 设置 `ansible_host` 字段的值为 `192.168.1.21`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 13 行 | <code>  vars:</code> | 定义 `vars` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 14 行 | <code>    ansible_user: ubuntu</code> | 设置 `ansible_user` 字段的值为 `ubuntu`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
+
 查看 inventory 解析结果：
 
 ```bash
 ansible-inventory -i inventory.ini --list
 ansible-inventory -i inventory.ini --graph
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible-inventory -i inventory.ini --list</code> | 执行 `ansible-inventory` 相关命令，后面的参数决定它具体操作什么对象。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+| 第 2 行 | <code>ansible-inventory -i inventory.ini --graph</code> | 执行 `ansible-inventory` 相关命令，后面的参数决定它具体操作什么对象。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
 
 ## Inventory 变量
 
@@ -340,11 +512,25 @@ ansible-inventory -i inventory.ini --graph
 web1 ansible_host=10.0.1.10 ansible_user=ubuntu ansible_port=22
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>web1 ansible_host=10.0.1.10 ansible_user=ubuntu ansible_port=22</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 排查连接失败时，先看 inventory 是否被正确解析：
 
 ```bash
 ansible-inventory -i inventory.ini --host web1
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible-inventory -i inventory.ini --host web1</code> | 执行 `ansible-inventory` 相关命令，后面的参数决定它具体操作什么对象。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
 
 ## Patterns：选择目标
 
@@ -356,6 +542,16 @@ ansible prod -i inventory.ini -m ping
 ansible 'web:&prod' -i inventory.ini -m ping
 ansible 'all:!db' -i inventory.ini -m ping
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible web -i inventory.ini -m ping</code> | 执行 Ansible 自动化命令，用来批量检查或变更服务器。 |
+| 第 2 行 | <code>ansible prod -i inventory.ini -m ping</code> | 执行 Ansible 自动化命令，用来批量检查或变更服务器。 |
+| 第 3 行 | <code>ansible 'web:&amp;prod' -i inventory.ini -m ping</code> | 执行 Ansible 自动化命令，用来批量检查或变更服务器。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
+| 第 4 行 | <code>ansible 'all:!db' -i inventory.ini -m ping</code> | 执行 Ansible 自动化命令，用来批量检查或变更服务器。 |
+
 
 常见：
 
@@ -373,6 +569,13 @@ ansible 'all:!db' -i inventory.ini -m ping
 ansible <pattern> -i inventory.ini --list-hosts
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible &lt;pattern&gt; -i inventory.ini --list-hosts</code> | 执行 Ansible 自动化命令，用来批量检查或变更服务器。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
+
 确认目标机器。
 
 ## Ad hoc commands
@@ -385,11 +588,25 @@ Ad hoc command 是一次性命令，用 `ansible` 执行。
 ansible all -i inventory.ini -m ping
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible all -i inventory.ini -m ping</code> | 执行 Ansible 自动化命令，用来批量检查或变更服务器。 |
+
+
 查看 uptime：
 
 ```bash
 ansible web -i inventory.ini -m command -a "uptime"
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible web -i inventory.ini -m command -a "uptime"</code> | 执行 Ansible 自动化命令，用来批量检查或变更服务器。 |
+
 
 安装软件：
 
@@ -397,17 +614,38 @@ ansible web -i inventory.ini -m command -a "uptime"
 ansible web -i inventory.ini -b -m apt -a "name=nginx state=present update_cache=yes"
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible web -i inventory.ini -b -m apt -a "name=nginx state=present update_cache=yes"</code> | 执行 Ansible 自动化命令，用来批量检查或变更服务器。 |
+
+
 重启服务：
 
 ```bash
 ansible web -i inventory.ini -b -m service -a "name=nginx state=restarted"
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible web -i inventory.ini -b -m service -a "name=nginx state=restarted"</code> | 执行 Ansible 自动化命令，用来批量检查或变更服务器。 |
+
+
 复制文件：
 
 ```bash
 ansible web -i inventory.ini -m copy -a "src=./app.conf dest=/tmp/app.conf"
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible web -i inventory.ini -m copy -a "src=./app.conf dest=/tmp/app.conf"</code> | 执行 Ansible 自动化命令，用来批量检查或变更服务器。 |
+
 
 Ad hoc 适合：
 
@@ -451,6 +689,14 @@ ansible-doc ansible.builtin.copy
 ansible-doc ansible.builtin.systemd_service
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible-doc ansible.builtin.copy</code> | 执行 `ansible-doc` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 2 行 | <code>ansible-doc ansible.builtin.systemd_service</code> | 执行 `ansible-doc` 相关命令，后面的参数决定它具体操作什么对象。 |
+
+
 不要把所有事情都写成 `shell`。优先用专用模块，因为专用模块更容易幂等、更能返回结构化结果。
 
 ## command 和 shell
@@ -462,6 +708,14 @@ ansible-doc ansible.builtin.systemd_service
   ansible.builtin.command: uptime
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>- name: Check uptime</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 2 行 | <code>  ansible.builtin.command: uptime</code> | 设置 `ansible.builtin.command` 字段的值为 `uptime`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
+
 `shell` 经过 shell，支持管道、重定向、变量展开。
 
 ```yaml
@@ -469,11 +723,26 @@ ansible-doc ansible.builtin.systemd_service
   ansible.builtin.shell: "grep -c ERROR /var/log/app.log || true"
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>- name: Count error logs</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 2 行 | <code>  ansible.builtin.shell: "grep -c ERROR /var/log/app.log &#124;&#124; true"</code> | 设置 `ansible.builtin.shell` 字段的值为 `"grep -c ERROR /var/log/app.log || true"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
+
 优先级：
 
 ```text
 专用模块 > command > shell
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>专用模块 &gt; command &gt; shell</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 如果必须用 command/shell，要考虑 changed 判断：
 
@@ -484,6 +753,17 @@ ansible-doc ansible.builtin.systemd_service
   changed_when: false
   failed_when: nginx_status.rc not in [0, 3]
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>- name: Check current service status</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 2 行 | <code>  ansible.builtin.command: systemctl is-active nginx</code> | 设置 `ansible.builtin.command` 字段的值为 `systemctl is-active nginx`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 3 行 | <code>  register: nginx_status</code> | 设置 `register` 字段的值为 `nginx_status`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 4 行 | <code>  changed_when: false</code> | 设置 `changed_when` 字段的值为 `false`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 5 行 | <code>  failed_when: nginx_status.rc not in [0, 3]</code> | 设置 `failed_when` 字段的值为 `nginx_status.rc not in [0, 3]`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
 
 否则检查命令可能每次都显示 changed 或 failed。
 
@@ -514,11 +794,38 @@ Task 调用一个 module。
         enabled: true
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>- name: Configure web servers</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 2 行 | <code>  hosts: web</code> | 设置 `hosts` 字段的值为 `web`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 3 行 | <code>  become: true</code> | 设置 `become` 字段的值为 `true`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 4 行 | <code>  tasks:</code> | 定义 `tasks` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 5 行 | <code>    - name: Install nginx</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 6 行 | <code>      ansible.builtin.apt:</code> | 定义 `ansible.builtin.apt` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 7 行 | <code>        name: nginx</code> | 设置 `name` 字段的值为 `nginx`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 8 行 | <code>        state: present</code> | 设置 `state` 字段的值为 `present`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 9 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 10 行 | <code>    - name: Ensure nginx is running</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 11 行 | <code>      ansible.builtin.systemd_service:</code> | 定义 `ansible.builtin.systemd_service` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 12 行 | <code>        name: nginx</code> | 设置 `name` 字段的值为 `nginx`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 13 行 | <code>        state: started</code> | 设置 `state` 字段的值为 `started`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 14 行 | <code>        enabled: true</code> | 设置 `enabled` 字段的值为 `true`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
+
 执行：
 
 ```bash
 ansible-playbook -i inventory.ini site.yml
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible-playbook -i inventory.ini site.yml</code> | 执行 `ansible-playbook` 相关命令，后面的参数决定它具体操作什么对象。 |
+
 
 输出状态：
 
@@ -540,6 +847,13 @@ ansible-playbook -i inventory.ini site.yml
 同一个 playbook 重复执行，如果目标已经符合要求，就不应该继续改变。
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>同一个 playbook 重复执行，如果目标已经符合要求，就不应该继续改变。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 例子：
 
 ```yaml
@@ -552,6 +866,19 @@ ansible-playbook -i inventory.ini site.yml
     mode: "0755"
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>- name: Ensure directory exists</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 2 行 | <code>  ansible.builtin.file:</code> | 定义 `ansible.builtin.file` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 3 行 | <code>    path: /opt/aiops</code> | 设置 `path` 字段的值为 `/opt/aiops`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 4 行 | <code>    state: directory</code> | 设置 `state` 字段的值为 `directory`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 5 行 | <code>    owner: root</code> | 设置 `owner` 字段的值为 `root`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 6 行 | <code>    group: root</code> | 设置 `group` 字段的值为 `root`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 7 行 | <code>    mode: "0755"</code> | 设置 `mode` 字段的值为 `"0755"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
+
 第一次执行可能 `changed`，第二次执行应该 `ok`。
 
 不幂等例子：
@@ -560,6 +887,14 @@ ansible-playbook -i inventory.ini site.yml
 - name: Append config
   ansible.builtin.shell: "echo 'PORT=8000' >> /etc/app.env"
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>- name: Append config</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 2 行 | <code>  ansible.builtin.shell: "echo 'PORT=8000' &gt;&gt; /etc/app.env"</code> | 设置 `ansible.builtin.shell` 字段的值为 `"echo 'PORT=8000' >> /etc/app.env"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
 
 每次执行都会追加一行。
 
@@ -573,6 +908,18 @@ ansible-playbook -i inventory.ini site.yml
     line: 'PORT=8000'
     create: true
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>- name: Ensure PORT line exists</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 2 行 | <code>  ansible.builtin.lineinfile:</code> | 定义 `ansible.builtin.lineinfile` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 3 行 | <code>    path: /etc/app.env</code> | 设置 `path` 字段的值为 `/etc/app.env`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 4 行 | <code>    regexp: '^PORT='</code> | 设置 `regexp` 字段的值为 `'^PORT='`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 5 行 | <code>    line: 'PORT=8000'</code> | 设置 `line` 字段的值为 `'PORT=8000'`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 6 行 | <code>    create: true</code> | 设置 `create` 字段的值为 `true`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
 
 ## Variables
 
@@ -595,6 +942,14 @@ app_name: aiops-api
 app_port: 8000
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>app_name: aiops-api</code> | 设置 `app_name` 字段的值为 `aiops-api`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 2 行 | <code>app_port: 8000</code> | 设置 `app_port` 字段的值为 `8000`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
+
 使用：
 
 ```yaml
@@ -604,11 +959,28 @@ app_port: 8000
     dest: "/etc/{{ app_name }}.env"
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>- name: Render app config</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 2 行 | <code>  ansible.builtin.template:</code> | 定义 `ansible.builtin.template` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 3 行 | <code>    src: app.env.j2</code> | 设置 `src` 字段的值为 `app.env.j2`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 4 行 | <code>    dest: "/etc/{{ app_name }}.env"</code> | 设置 `dest` 字段的值为 `"/etc/{{ app_name }}.env"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
+
 命令行传变量：
 
 ```bash
 ansible-playbook -i inventory.ini site.yml -e app_port=9000
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible-playbook -i inventory.ini site.yml -e app_port=9000</code> | 执行 `ansible-playbook` 相关命令，后面的参数决定它具体操作什么对象。 |
+
 
 变量不生效时，要想到变量优先级。官方文档有完整 precedence rules。入门阶段至少记住：`-e` extra vars 优先级非常高，容易覆盖其他地方。
 
@@ -627,6 +999,20 @@ host_vars/
 site.yml
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>inventory/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  prod.ini</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>group_vars/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>  all.yml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>  web.yml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>host_vars/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 7 行 | <code>  web1.yml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 8 行 | <code>site.yml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 `group_vars/web.yml`：
 
 ```yaml
@@ -634,11 +1020,26 @@ app_port: 8000
 log_level: info
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>app_port: 8000</code> | 设置 `app_port` 字段的值为 `8000`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 2 行 | <code>log_level: info</code> | 设置 `log_level` 字段的值为 `info`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
+
 `host_vars/web1.yml`：
 
 ```yaml
 app_port: 8001
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>app_port: 8001</code> | 设置 `app_port` 字段的值为 `8001`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
 
 这样同一个 playbook 可以适配不同组和不同主机。
 
@@ -661,12 +1062,27 @@ Facts 是 Ansible 收集的远端主机信息。
 ansible web1 -i inventory.ini -m setup
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible web1 -i inventory.ini -m setup</code> | 执行 Ansible 自动化命令，用来批量检查或变更服务器。 |
+
+
 Playbook 默认会 gather facts：
 
 ```yaml
 - hosts: web
   gather_facts: true
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>- hosts: web</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 2 行 | <code>  gather_facts: true</code> | 设置 `gather_facts` 字段的值为 `true`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
 
 使用：
 
@@ -676,11 +1092,27 @@ Playbook 默认会 gather facts：
     msg: "{{ ansible_distribution }} {{ ansible_distribution_version }}"
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>- name: Print OS</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 2 行 | <code>  ansible.builtin.debug:</code> | 定义 `ansible.builtin.debug` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 3 行 | <code>    msg: "{{ ansible_distribution }} {{ ansible_distribution_version }}"</code> | 设置 `msg` 字段的值为 `"{{ ansible_distribution }} {{ ansible_distribution_version }}"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
+
 如果任务不需要 facts，可以关闭提高速度：
 
 ```yaml
 gather_facts: false
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>gather_facts: false</code> | 设置 `gather_facts` 字段的值为 `false`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
 
 ## register、when、loop
 
@@ -696,6 +1128,17 @@ gather_facts: false
   failed_when: false
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>- name: Check service status</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 2 行 | <code>  ansible.builtin.command: systemctl is-active aiops-api</code> | 设置 `ansible.builtin.command` 字段的值为 `systemctl is-active aiops-api`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 3 行 | <code>  register: service_status</code> | 设置 `register` 字段的值为 `service_status`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 4 行 | <code>  changed_when: false</code> | 设置 `changed_when` 字段的值为 `false`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 5 行 | <code>  failed_when: false</code> | 设置 `failed_when` 字段的值为 `false`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
+
 使用结果：
 
 ```yaml
@@ -703,6 +1146,15 @@ gather_facts: false
   ansible.builtin.debug:
     var: service_status.stdout
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>- name: Print status</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 2 行 | <code>  ansible.builtin.debug:</code> | 定义 `ansible.builtin.debug` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 3 行 | <code>    var: service_status.stdout</code> | 设置 `var` 字段的值为 `service_status.stdout`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
 
 ### when
 
@@ -715,6 +1167,17 @@ gather_facts: false
     state: restarted
   when: service_status.stdout != "active"
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>- name: Restart service if inactive</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 2 行 | <code>  ansible.builtin.systemd_service:</code> | 定义 `ansible.builtin.systemd_service` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 3 行 | <code>    name: aiops-api</code> | 设置 `name` 字段的值为 `aiops-api`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 4 行 | <code>    state: restarted</code> | 设置 `state` 字段的值为 `restarted`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 5 行 | <code>  when: service_status.stdout != "active"</code> | 设置 `when` 字段的值为 `service_status.stdout != "active"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
 
 ### loop
 
@@ -730,6 +1193,20 @@ gather_facts: false
     - jq
     - vim
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>- name: Install packages</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 2 行 | <code>  ansible.builtin.apt:</code> | 定义 `ansible.builtin.apt` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 3 行 | <code>    name: "{{ item }}"</code> | 设置 `name` 字段的值为 `"{{ item }}"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 4 行 | <code>    state: present</code> | 设置 `state` 字段的值为 `present`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 5 行 | <code>  loop:</code> | 定义 `loop` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 6 行 | <code>    - curl</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 7 行 | <code>    - jq</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 8 行 | <code>    - vim</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+
 
 ## Handlers 和 notify
 
@@ -749,6 +1226,23 @@ handlers:
       state: reloaded
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>- name: Copy nginx config</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 2 行 | <code>  ansible.builtin.template:</code> | 定义 `ansible.builtin.template` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 3 行 | <code>    src: nginx.conf.j2</code> | 设置 `src` 字段的值为 `nginx.conf.j2`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 4 行 | <code>    dest: /etc/nginx/nginx.conf</code> | 设置 `dest` 字段的值为 `/etc/nginx/nginx.conf`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 5 行 | <code>  notify: Reload nginx</code> | 设置 `notify` 字段的值为 `Reload nginx`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 6 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 7 行 | <code>handlers:</code> | 定义 `handlers` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 8 行 | <code>  - name: Reload nginx</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 9 行 | <code>    ansible.builtin.systemd_service:</code> | 定义 `ansible.builtin.systemd_service` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 10 行 | <code>      name: nginx</code> | 设置 `name` 字段的值为 `nginx`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 11 行 | <code>      state: reloaded</code> | 设置 `state` 字段的值为 `reloaded`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
+
 如果模板没有变化，task 是 `ok`，handler 不执行。
 
 如果模板变化，task 是 `changed`，handler 在 play 末尾执行。
@@ -767,6 +1261,15 @@ APP_PORT={{ app_port }}
 LOG_LEVEL={{ log_level | default("info") }}
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>APP_NAME={{ app_name }}</code> | 环境变量或键值示例，等号左边是名称，右边是要配置的值。 |
+| 第 2 行 | <code>APP_PORT={{ app_port }}</code> | 环境变量或键值示例，等号左边是名称，右边是要配置的值。 |
+| 第 3 行 | <code>LOG_LEVEL={{ log_level &#124; default("info") }}</code> | 环境变量或键值示例，等号左边是名称，右边是要配置的值。 |
+
+
 任务：
 
 ```yaml
@@ -779,6 +1282,20 @@ LOG_LEVEL={{ log_level | default("info") }}
     mode: "0644"
   notify: Restart aiops-api
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>- name: Render env file</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 2 行 | <code>  ansible.builtin.template:</code> | 定义 `ansible.builtin.template` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 3 行 | <code>    src: app.env.j2</code> | 设置 `src` 字段的值为 `app.env.j2`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 4 行 | <code>    dest: /etc/aiops-api.env</code> | 设置 `dest` 字段的值为 `/etc/aiops-api.env`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 5 行 | <code>    owner: root</code> | 设置 `owner` 字段的值为 `root`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 6 行 | <code>    group: root</code> | 设置 `group` 字段的值为 `root`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 7 行 | <code>    mode: "0644"</code> | 设置 `mode` 字段的值为 `"0644"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 8 行 | <code>  notify: Restart aiops-api</code> | 设置 `notify` 字段的值为 `Restart aiops-api`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
 
 变量缺失时模板会失败。关键变量可以用 `assert` 提前检查。
 
@@ -798,17 +1315,44 @@ Play 级别：
         state: present
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>- hosts: web</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 2 行 | <code>  become: true</code> | 设置 `become` 字段的值为 `true`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 3 行 | <code>  tasks:</code> | 定义 `tasks` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 4 行 | <code>    - name: Install package</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 5 行 | <code>      ansible.builtin.apt:</code> | 定义 `ansible.builtin.apt` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 6 行 | <code>        name: nginx</code> | 设置 `name` 字段的值为 `nginx`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 7 行 | <code>        state: present</code> | 设置 `state` 字段的值为 `present`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
+
 命令行：
 
 ```bash
 ansible-playbook -i inventory.ini site.yml --become
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible-playbook -i inventory.ini site.yml --become</code> | 执行 `ansible-playbook` 相关命令，后面的参数决定它具体操作什么对象。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
+
 如果 sudo 需要密码：
 
 ```bash
 ansible-playbook -i inventory.ini site.yml --ask-become-pass
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible-playbook -i inventory.ini site.yml --ask-become-pass</code> | 执行 `ansible-playbook` 相关命令，后面的参数决定它具体操作什么对象。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
 
 排查：
 
@@ -825,17 +1369,38 @@ Check mode 是 dry run：
 ansible-playbook -i inventory.ini site.yml --check
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible-playbook -i inventory.ini site.yml --check</code> | 执行 `ansible-playbook` 相关命令，后面的参数决定它具体操作什么对象。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
+
 Diff mode 显示文件差异：
 
 ```bash
 ansible-playbook -i inventory.ini site.yml --diff
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible-playbook -i inventory.ini site.yml --diff</code> | 执行 `ansible-playbook` 相关命令，后面的参数决定它具体操作什么对象。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
+
 一起用：
 
 ```bash
 ansible-playbook -i inventory.ini site.yml --check --diff
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible-playbook -i inventory.ini site.yml --check --diff</code> | 执行 `ansible-playbook` 相关命令，后面的参数决定它具体操作什么对象。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
 
 注意：
 
@@ -861,17 +1426,48 @@ Tags 让你只跑 playbook 的一部分。
   tags: [config]
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>- name: Install nginx</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 2 行 | <code>  ansible.builtin.apt:</code> | 定义 `ansible.builtin.apt` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 3 行 | <code>    name: nginx</code> | 设置 `name` 字段的值为 `nginx`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 4 行 | <code>    state: present</code> | 设置 `state` 字段的值为 `present`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 5 行 | <code>  tags: [packages]</code> | 设置 `tags` 字段的值为 `[packages]`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 6 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 7 行 | <code>- name: Render config</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 8 行 | <code>  ansible.builtin.template:</code> | 定义 `ansible.builtin.template` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 9 行 | <code>    src: nginx.conf.j2</code> | 设置 `src` 字段的值为 `nginx.conf.j2`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 10 行 | <code>    dest: /etc/nginx/nginx.conf</code> | 设置 `dest` 字段的值为 `/etc/nginx/nginx.conf`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 11 行 | <code>  tags: [config]</code> | 设置 `tags` 字段的值为 `[config]`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
+
 只跑 config：
 
 ```bash
 ansible-playbook -i inventory.ini site.yml --tags config
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible-playbook -i inventory.ini site.yml --tags config</code> | 执行 `ansible-playbook` 相关命令，后面的参数决定它具体操作什么对象。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
+
 跳过：
 
 ```bash
 ansible-playbook -i inventory.ini site.yml --skip-tags packages
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible-playbook -i inventory.ini site.yml --skip-tags packages</code> | 执行 `ansible-playbook` 相关命令，后面的参数决定它具体操作什么对象。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
 
 不要滥用 tags 让 playbook 变成隐式流程迷宫。
 
@@ -905,6 +1501,35 @@ Block 组织任务并处理错误：
       failed_when: false
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>- name: Deploy app with rollback message</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 2 行 | <code>  block:</code> | 定义 `block` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 3 行 | <code>    - name: Copy config</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 4 行 | <code>      ansible.builtin.template:</code> | 定义 `ansible.builtin.template` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 5 行 | <code>        src: app.env.j2</code> | 设置 `src` 字段的值为 `app.env.j2`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 6 行 | <code>        dest: /etc/app.env</code> | 设置 `dest` 字段的值为 `/etc/app.env`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 7 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 8 行 | <code>    - name: Restart app</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 9 行 | <code>      ansible.builtin.systemd_service:</code> | 定义 `ansible.builtin.systemd_service` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 10 行 | <code>        name: aiops-api</code> | 设置 `name` 字段的值为 `aiops-api`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 11 行 | <code>        state: restarted</code> | 设置 `state` 字段的值为 `restarted`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 12 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 13 行 | <code>  rescue:</code> | 定义 `rescue` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 14 行 | <code>    - name: Print failure hint</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 15 行 | <code>      ansible.builtin.debug:</code> | 定义 `ansible.builtin.debug` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 16 行 | <code>        msg: "Deployment failed, check journalctl -u aiops-api"</code> | 设置 `msg` 字段的值为 `"Deployment failed, check journalctl -u aiops-api"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 17 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 18 行 | <code>  always:</code> | 定义 `always` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 19 行 | <code>    - name: Collect status</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 20 行 | <code>      ansible.builtin.command: systemctl status aiops-api --no-pager</code> | 设置 `ansible.builtin.command` 字段的值为 `systemctl status aiops-api --no-pager`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 21 行 | <code>      register: app_status</code> | 设置 `register` 字段的值为 `app_status`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 22 行 | <code>      changed_when: false</code> | 设置 `changed_when` 字段的值为 `false`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 23 行 | <code>      failed_when: false</code> | 设置 `failed_when` 字段的值为 `false`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
+
 ## Roles
 
 Role 用固定目录结构组织可复用自动化。
@@ -929,6 +1554,27 @@ roles/
       main.yml
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>roles/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  aiops_exporter/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>    defaults/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>      main.yml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>    vars/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>      main.yml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 7 行 | <code>    tasks/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 8 行 | <code>      main.yml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 9 行 | <code>    handlers/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 10 行 | <code>      main.yml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 11 行 | <code>    templates/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 12 行 | <code>      node_exporter.service.j2</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 13 行 | <code>    files/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 14 行 | <code>    meta/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 15 行 | <code>      main.yml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 使用：
 
 ```yaml
@@ -937,6 +1583,16 @@ roles/
   roles:
     - aiops_exporter
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>- hosts: web</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 2 行 | <code>  become: true</code> | 设置 `become` 字段的值为 `true`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 3 行 | <code>  roles:</code> | 定义 `roles` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 4 行 | <code>    - aiops_exporter</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+
 
 Role 适合：
 
@@ -957,6 +1613,13 @@ Collection 是 Ansible 内容分发单元，包含 modules、roles、plugins、d
 ansible-galaxy collection install community.general
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible-galaxy collection install community.general</code> | 执行 `ansible-galaxy` 相关命令，后面的参数决定它具体操作什么对象。 |
+
+
 使用 fully qualified collection name：
 
 ```yaml
@@ -965,6 +1628,16 @@ ansible-galaxy collection install community.general
     src: file.txt
     dest: /tmp/file.txt
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>- name: Use builtin copy</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 2 行 | <code>  ansible.builtin.copy:</code> | 定义 `ansible.builtin.copy` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 3 行 | <code>    src: file.txt</code> | 设置 `src` 字段的值为 `file.txt`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 4 行 | <code>    dest: /tmp/file.txt</code> | 设置 `dest` 字段的值为 `/tmp/file.txt`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
 
 推荐写 FQCN，比如 `ansible.builtin.copy`，这样可读性更强，也避免模块名冲突。
 
@@ -978,11 +1651,25 @@ Vault 用来加密敏感变量文件。
 ansible-vault create group_vars/prod/vault.yml
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible-vault create group_vars/prod/vault.yml</code> | 执行 `ansible-vault` 相关命令，后面的参数决定它具体操作什么对象。 |
+
+
 编辑：
 
 ```bash
 ansible-vault edit group_vars/prod/vault.yml
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible-vault edit group_vars/prod/vault.yml</code> | 执行 `ansible-vault` 相关命令，后面的参数决定它具体操作什么对象。 |
+
 
 执行：
 
@@ -990,11 +1677,25 @@ ansible-vault edit group_vars/prod/vault.yml
 ansible-playbook -i inventory/prod.ini site.yml --ask-vault-pass
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible-playbook -i inventory/prod.ini site.yml --ask-vault-pass</code> | 执行 `ansible-playbook` 相关命令，后面的参数决定它具体操作什么对象。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
+
 或使用密码文件：
 
 ```bash
 ansible-playbook -i inventory/prod.ini site.yml --vault-password-file .vault-pass
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible-playbook -i inventory/prod.ini site.yml --vault-password-file .vault-pass</code> | 执行 `ansible-playbook` 相关命令，后面的参数决定它具体操作什么对象。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
 
 不要把 `.vault-pass` 提交到 Git。
 
@@ -1020,6 +1721,23 @@ become = False
 become_method = sudo
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>[defaults]</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>inventory = inventory.ini</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>roles_path = roles</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>host_key_checking = True</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>retry_files_enabled = False</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>stdout_callback = yaml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 7 行 | <code>timeout = 30</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 8 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
+| 第 9 行 | <code>[privilege_escalation]</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 10 行 | <code>become = False</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 11 行 | <code>become_method = sudo</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 查看当前配置：
 
 ```bash
@@ -1027,11 +1745,26 @@ ansible-config dump
 ansible-config view
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible-config dump</code> | 执行 `ansible-config` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 2 行 | <code>ansible-config view</code> | 执行 `ansible-config` 相关命令，后面的参数决定它具体操作什么对象。 |
+
+
 排查“为什么 Ansible 行为和我想的不一样”时，先看：
 
 ```bash
 ansible --version
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible --version</code> | 执行 Ansible 自动化命令，用来批量检查或变更服务器。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
 
 输出里会显示使用的 config file。
 
@@ -1043,6 +1776,13 @@ ansible --version
 ansible --version
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible --version</code> | 执行 Ansible 自动化命令，用来批量检查或变更服务器。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
+
 看 Ansible 版本、Python 版本、配置文件路径、module search path。
 
 ### 测试连接
@@ -1051,11 +1791,25 @@ ansible --version
 ansible all -i inventory.ini -m ping
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible all -i inventory.ini -m ping</code> | 执行 Ansible 自动化命令，用来批量检查或变更服务器。 |
+
+
 ### 列出目标主机
 
 ```bash
 ansible web -i inventory.ini --list-hosts
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible web -i inventory.ini --list-hosts</code> | 执行 Ansible 自动化命令，用来批量检查或变更服务器。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
 
 执行危险操作前必做。
 
@@ -1066,11 +1820,26 @@ ansible-inventory -i inventory.ini --list
 ansible-inventory -i inventory.ini --graph
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible-inventory -i inventory.ini --list</code> | 执行 `ansible-inventory` 相关命令，后面的参数决定它具体操作什么对象。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+| 第 2 行 | <code>ansible-inventory -i inventory.ini --graph</code> | 执行 `ansible-inventory` 相关命令，后面的参数决定它具体操作什么对象。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
+
 ### 执行 ad hoc
 
 ```bash
 ansible web -i inventory.ini -m command -a "uptime"
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible web -i inventory.ini -m command -a "uptime"</code> | 执行 Ansible 自动化命令，用来批量检查或变更服务器。 |
+
 
 ### 执行 playbook
 
@@ -1078,11 +1847,25 @@ ansible web -i inventory.ini -m command -a "uptime"
 ansible-playbook -i inventory.ini site.yml
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible-playbook -i inventory.ini site.yml</code> | 执行 `ansible-playbook` 相关命令，后面的参数决定它具体操作什么对象。 |
+
+
 ### 语法检查
 
 ```bash
 ansible-playbook -i inventory.ini site.yml --syntax-check
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible-playbook -i inventory.ini site.yml --syntax-check</code> | 执行 `ansible-playbook` 相关命令，后面的参数决定它具体操作什么对象。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
 
 ### dry run
 
@@ -1090,11 +1873,25 @@ ansible-playbook -i inventory.ini site.yml --syntax-check
 ansible-playbook -i inventory.ini site.yml --check
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible-playbook -i inventory.ini site.yml --check</code> | 执行 `ansible-playbook` 相关命令，后面的参数决定它具体操作什么对象。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
+
 ### 显示 diff
 
 ```bash
 ansible-playbook -i inventory.ini site.yml --diff
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible-playbook -i inventory.ini site.yml --diff</code> | 执行 `ansible-playbook` 相关命令，后面的参数决定它具体操作什么对象。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
 
 ### 限制主机
 
@@ -1102,11 +1899,25 @@ ansible-playbook -i inventory.ini site.yml --diff
 ansible-playbook -i inventory.ini site.yml --limit web1
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible-playbook -i inventory.ini site.yml --limit web1</code> | 执行 `ansible-playbook` 相关命令，后面的参数决定它具体操作什么对象。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
+
 ### 从某个任务开始
 
 ```bash
 ansible-playbook -i inventory.ini site.yml --start-at-task "Render config"
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible-playbook -i inventory.ini site.yml --start-at-task "Render config"</code> | 执行 `ansible-playbook` 相关命令，后面的参数决定它具体操作什么对象。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
 
 ### 使用 tags
 
@@ -1114,12 +1925,27 @@ ansible-playbook -i inventory.ini site.yml --start-at-task "Render config"
 ansible-playbook -i inventory.ini site.yml --tags config
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible-playbook -i inventory.ini site.yml --tags config</code> | 执行 `ansible-playbook` 相关命令，后面的参数决定它具体操作什么对象。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
+
 ### 查看模块文档
 
 ```bash
 ansible-doc ansible.builtin.copy
 ansible-doc -l
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible-doc ansible.builtin.copy</code> | 执行 `ansible-doc` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 2 行 | <code>ansible-doc -l</code> | 执行 `ansible-doc` 相关命令，后面的参数决定它具体操作什么对象。 |
+
 
 ### 加密变量
 
@@ -1129,11 +1955,27 @@ ansible-vault edit vault.yml
 ansible-vault view vault.yml
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible-vault create vault.yml</code> | 执行 `ansible-vault` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 2 行 | <code>ansible-vault edit vault.yml</code> | 执行 `ansible-vault` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 3 行 | <code>ansible-vault view vault.yml</code> | 执行 `ansible-vault` 相关命令，后面的参数决定它具体操作什么对象。 |
+
+
 ### 查看配置
 
 ```bash
 ansible-config dump
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible-config dump</code> | 执行 `ansible-config` 相关命令，后面的参数决定它具体操作什么对象。 |
+
 
 ## AIOps 入门实验
 
@@ -1147,6 +1989,14 @@ ansible-config dump
 [lab]
 localhost ansible_connection=local
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>[lab]</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>localhost ansible_connection=local</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 保存为 `inventory.ini`。
 
@@ -1192,12 +2042,61 @@ localhost ansible_connection=local
         msg: "Config changed; production playbook would restart {{ app_name }}"
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>- name: Configure AIOps demo service</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 2 行 | <code>  hosts: lab</code> | 设置 `hosts` 字段的值为 `lab`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 3 行 | <code>  become: false</code> | 设置 `become` 字段的值为 `false`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 4 行 | <code>  vars:</code> | 定义 `vars` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 5 行 | <code>    app_name: aiops-demo</code> | 设置 `app_name` 字段的值为 `aiops-demo`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 6 行 | <code>    app_dir: /tmp/aiops-demo</code> | 设置 `app_dir` 字段的值为 `/tmp/aiops-demo`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 7 行 | <code>    app_port: 8000</code> | 设置 `app_port` 字段的值为 `8000`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 8 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 9 行 | <code>  tasks:</code> | 定义 `tasks` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 10 行 | <code>    - name: Ensure app directory exists</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 11 行 | <code>      ansible.builtin.file:</code> | 定义 `ansible.builtin.file` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 12 行 | <code>        path: "{{ app_dir }}"</code> | 设置 `path` 字段的值为 `"{{ app_dir }}"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 13 行 | <code>        state: directory</code> | 设置 `state` 字段的值为 `directory`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 14 行 | <code>        mode: "0755"</code> | 设置 `mode` 字段的值为 `"0755"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 15 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 16 行 | <code>    - name: Render app env file</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 17 行 | <code>      ansible.builtin.template:</code> | 定义 `ansible.builtin.template` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 18 行 | <code>        src: app.env.j2</code> | 设置 `src` 字段的值为 `app.env.j2`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 19 行 | <code>        dest: "{{ app_dir }}/app.env"</code> | 设置 `dest` 字段的值为 `"{{ app_dir }}/app.env"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 20 行 | <code>        mode: "0644"</code> | 设置 `mode` 字段的值为 `"0644"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 21 行 | <code>      notify: Print restart hint</code> | 设置 `notify` 字段的值为 `Print restart hint`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 22 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 23 行 | <code>    - name: Check rendered file</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 24 行 | <code>      ansible.builtin.command: "cat {{ app_dir }}/app.env"</code> | 设置 `ansible.builtin.command` 字段的值为 `"cat {{ app_dir }}/app.env"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 25 行 | <code>      register: env_file</code> | 设置 `register` 字段的值为 `env_file`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 26 行 | <code>      changed_when: false</code> | 设置 `changed_when` 字段的值为 `false`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 27 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 28 行 | <code>    - name: Show rendered file</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 29 行 | <code>      ansible.builtin.debug:</code> | 定义 `ansible.builtin.debug` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 30 行 | <code>        var: env_file.stdout_lines</code> | 设置 `var` 字段的值为 `env_file.stdout_lines`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 31 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 32 行 | <code>  handlers:</code> | 定义 `handlers` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 33 行 | <code>    - name: Print restart hint</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 34 行 | <code>      ansible.builtin.debug:</code> | 定义 `ansible.builtin.debug` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 35 行 | <code>        msg: "Config changed; production playbook would restart {{ app_name }}"</code> | 设置 `msg` 字段的值为 `"Config changed; production playbook would restart {{ app_name }}"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
+
 模板 `app.env.j2`：
 
 ```text
 APP_NAME={{ app_name }}
 APP_PORT={{ app_port }}
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>APP_NAME={{ app_name }}</code> | 环境变量或键值示例，等号左边是名称，右边是要配置的值。 |
+| 第 2 行 | <code>APP_PORT={{ app_port }}</code> | 环境变量或键值示例，等号左边是名称，右边是要配置的值。 |
+
 
 ### 3. 执行
 
@@ -1206,6 +2105,15 @@ ansible-playbook -i inventory.ini site.yml --check --diff
 ansible-playbook -i inventory.ini site.yml
 ansible-playbook -i inventory.ini site.yml
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible-playbook -i inventory.ini site.yml --check --diff</code> | 执行 `ansible-playbook` 相关命令，后面的参数决定它具体操作什么对象。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+| 第 2 行 | <code>ansible-playbook -i inventory.ini site.yml</code> | 执行 `ansible-playbook` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 3 行 | <code>ansible-playbook -i inventory.ini site.yml</code> | 执行 `ansible-playbook` 相关命令，后面的参数决定它具体操作什么对象。 |
+
 
 观察：
 
@@ -1225,6 +2133,18 @@ inventory:
 为什么 handler 执行:
 为什么 command 任务 changed_when=false:
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>inventory:</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>第一次 recap:</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>第二次 recap:</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>哪个任务 changed:</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>为什么 handler 执行:</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>为什么 command 任务 changed_when=false:</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 ## 典型故障排查表
 
@@ -1249,11 +2169,25 @@ inventory:
 ansible web -i inventory.ini --list-hosts
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible web -i inventory.ini --list-hosts</code> | 执行 Ansible 自动化命令，用来批量检查或变更服务器。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
+
 再看 inventory：
 
 ```bash
 ansible-inventory -i inventory.ini --host web1
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible-inventory -i inventory.ini --host web1</code> | 执行 `ansible-inventory` 相关命令，后面的参数决定它具体操作什么对象。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
 
 用 SSH 手工验证：
 
@@ -1261,11 +2195,25 @@ ansible-inventory -i inventory.ini --host web1
 ssh -i ~/.ssh/id_rsa ubuntu@192.168.1.11
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ssh -i ~/.ssh/id_rsa ubuntu@192.168.1.11</code> | 执行 `ssh` 相关命令，后面的参数决定它具体操作什么对象。 |
+
+
 加详细日志：
 
 ```bash
 ansible web1 -i inventory.ini -m ping -vvv
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible web1 -i inventory.ini -m ping -vvv</code> | 执行 Ansible 自动化命令，用来批量检查或变更服务器。 |
+
 
 检查：
 
@@ -1288,6 +2236,14 @@ ansible web1 -i inventory.ini -m ping -vvv
   ansible.builtin.shell: "echo PORT=8000 >> /etc/app.env"
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>- name: Append line</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 2 行 | <code>  ansible.builtin.shell: "echo PORT=8000 &gt;&gt; /etc/app.env"</code> | 设置 `ansible.builtin.shell` 字段的值为 `"echo PORT=8000 >> /etc/app.env"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
+
 改成：
 
 ```yaml
@@ -1299,6 +2255,18 @@ ansible web1 -i inventory.ini -m ping -vvv
     create: true
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>- name: Ensure line</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 2 行 | <code>  ansible.builtin.lineinfile:</code> | 定义 `ansible.builtin.lineinfile` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 3 行 | <code>    path: /etc/app.env</code> | 设置 `path` 字段的值为 `/etc/app.env`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 4 行 | <code>    regexp: '^PORT='</code> | 设置 `regexp` 字段的值为 `'^PORT='`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 5 行 | <code>    line: 'PORT=8000'</code> | 设置 `line` 字段的值为 `'PORT=8000'`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 6 行 | <code>    create: true</code> | 设置 `create` 字段的值为 `true`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
+
 如果是检查命令：
 
 ```yaml
@@ -1309,6 +2277,17 @@ ansible web1 -i inventory.ini -m ping -vvv
   failed_when: result.rc not in [0, 3]
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>- name: Check service</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 2 行 | <code>  ansible.builtin.command: systemctl is-active nginx</code> | 设置 `ansible.builtin.command` 字段的值为 `systemctl is-active nginx`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 3 行 | <code>  register: result</code> | 设置 `register` 字段的值为 `result`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 4 行 | <code>  changed_when: false</code> | 设置 `changed_when` 字段的值为 `false`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 5 行 | <code>  failed_when: result.rc not in [0, 3]</code> | 设置 `failed_when` 字段的值为 `result.rc not in [0, 3]`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
+
 原则：
 
 ```text
@@ -1316,6 +2295,15 @@ ansible web1 -i inventory.ini -m ping -vvv
 检查任务用 changed_when=false
 失败条件用 failed_when 明确表达
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>能用状态模块就不用 shell</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>检查任务用 changed_when=false</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>失败条件用 failed_when 明确表达</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 ## 排障流程：变量不生效
 
@@ -1327,11 +2315,27 @@ ansible web1 -i inventory.ini -m ping -vvv
     var: app_port
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>- name: Show app_port</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 2 行 | <code>  ansible.builtin.debug:</code> | 定义 `ansible.builtin.debug` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 3 行 | <code>    var: app_port</code> | 设置 `var` 字段的值为 `app_port`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
+
 查看 inventory：
 
 ```bash
 ansible-inventory -i inventory.ini --host web1
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ansible-inventory -i inventory.ini --host web1</code> | 执行 `ansible-inventory` 相关命令，后面的参数决定它具体操作什么对象。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
 
 检查：
 
@@ -1372,6 +2376,37 @@ Ansible 可以作为 runbook 执行器，下面是一个收集服务证据的 pl
           - "{{ service_status.stdout_lines }}"
           - "{{ service_logs.stdout_lines }}"
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>- name: Collect AIOps service evidence</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 2 行 | <code>  hosts: web</code> | 设置 `hosts` 字段的值为 `web`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 3 行 | <code>  become: true</code> | 设置 `become` 字段的值为 `true`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 4 行 | <code>  gather_facts: true</code> | 设置 `gather_facts` 字段的值为 `true`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 5 行 | <code>  vars:</code> | 定义 `vars` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 6 行 | <code>    service_name: aiops-api</code> | 设置 `service_name` 字段的值为 `aiops-api`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 7 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 8 行 | <code>  tasks:</code> | 定义 `tasks` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 9 行 | <code>    - name: Get service status</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 10 行 | <code>      ansible.builtin.command: "systemctl status {{ service_name }} --no-pager"</code> | 设置 `ansible.builtin.command` 字段的值为 `"systemctl status {{ service_name }} --no-pager"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 11 行 | <code>      register: service_status</code> | 设置 `register` 字段的值为 `service_status`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 12 行 | <code>      changed_when: false</code> | 设置 `changed_when` 字段的值为 `false`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 13 行 | <code>      failed_when: false</code> | 设置 `failed_when` 字段的值为 `false`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 14 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 15 行 | <code>    - name: Get recent logs</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 16 行 | <code>      ansible.builtin.command: "journalctl -u {{ service_name }} -n 100 --no-pager"</code> | 设置 `ansible.builtin.command` 字段的值为 `"journalctl -u {{ service_name }} -n 100 --no-pager"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 17 行 | <code>      register: service_logs</code> | 设置 `register` 字段的值为 `service_logs`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 18 行 | <code>      changed_when: false</code> | 设置 `changed_when` 字段的值为 `false`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 19 行 | <code>      failed_when: false</code> | 设置 `failed_when` 字段的值为 `false`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 20 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 21 行 | <code>    - name: Print evidence</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 22 行 | <code>      ansible.builtin.debug:</code> | 定义 `ansible.builtin.debug` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 23 行 | <code>        msg:</code> | 定义 `msg` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 24 行 | <code>          - "{{ service_status.stdout_lines }}"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 25 行 | <code>          - "{{ service_logs.stdout_lines }}"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+
 
 生产化前要补：
 

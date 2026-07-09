@@ -91,6 +91,32 @@ VitePress v1 docs
       └── custom theme
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>VitePress v1 docs</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  ├── Guide</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 3 行 | <code>  │   ├── Getting Started</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 4 行 | <code>  │   ├── Routing</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 5 行 | <code>  │   ├── Deploy</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 6 行 | <code>  │   ├── Markdown Extensions</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 7 行 | <code>  │   ├── Asset Handling</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 8 行 | <code>  │   ├── Frontmatter</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 9 行 | <code>  │   ├── Using Vue in Markdown</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 10 行 | <code>  │   └── i18n, sitemap, SSR compatibility</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 11 行 | <code>  ├── Reference</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 12 行 | <code>  │   ├── Site Config</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 13 行 | <code>  │   ├── Default Theme Config</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 14 行 | <code>  │   ├── Frontmatter Config</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 15 行 | <code>  │   ├── Runtime API</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 16 行 | <code>  │   └── CLI</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 17 行 | <code>  └── Advanced</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 18 行 | <code>      ├── extending default theme</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 19 行 | <code>      ├── build hooks</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 20 行 | <code>      └── custom theme</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+
+
 本篇按学习顺序重排：
 
 ```text
@@ -102,6 +128,19 @@ VitePress v1 docs
   -> 再看构建和部署
   -> 最后看排障
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>先理解 VitePress 做什么</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; 再看目录和路由</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; 再看 config.mts</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; 再看 nav/sidebar</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; 再看 Markdown 扩展</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; 再看构建和部署</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>  -&gt; 最后看排障</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 ## VitePress 在 AIOps 知识库中的位置
 
@@ -130,6 +169,34 @@ GitHub Pages
 public AIOps portfolio site
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Markdown docs</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  ├── Linux</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 3 行 | <code>  ├── Docker</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 4 行 | <code>  ├── Prometheus</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 5 行 | <code>  ├── Grafana</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 6 行 | <code>  ├── Runbook</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 7 行 | <code>  └── Projects</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 8 行 | <code>        &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 9 行 | <code>        v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 10 行 | <code>VitePress</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 11 行 | <code>  ├── routes</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 12 行 | <code>  ├── nav</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 13 行 | <code>  ├── sidebar</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 14 行 | <code>  ├── markdown rendering</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 15 行 | <code>  ├── build checks</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 16 行 | <code>  └── static output</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 17 行 | <code>        &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 18 行 | <code>        v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 19 行 | <code>GitHub Pages</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 20 行 | <code>        &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 21 行 | <code>        v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 22 行 | <code>public AIOps portfolio site</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 它在你的学习路径里承担三个角色：
 
 | 角色 | 说明 |
@@ -150,6 +217,15 @@ docs/tech-stack/foundation/linux.md
 docs/projects/README.md
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docs/index.md</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>docs/tech-stack/foundation/linux.md</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>docs/projects/README.md</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 生成静态文件：
 
 ```text
@@ -160,6 +236,17 @@ docs/.vitepress/dist/
   projects/
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docs/.vitepress/dist/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  index.html</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>  assets/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>  tech-stack/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>  projects/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 这些静态文件可以部署到 GitHub Pages、Vercel、Netlify、Nginx 等静态托管环境。
 
 VitePress 的核心公式：
@@ -167,6 +254,13 @@ VitePress 的核心公式：
 ```text
 VitePress = Markdown + Vite + Vue + Default Theme + Static Build
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>VitePress = Markdown + Vite + Vue + Default Theme + Static Build</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 ## 静态站点生成流程
 
@@ -186,6 +280,26 @@ static output: docs/.vitepress/dist
         v
 deploy to GitHub Pages
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>source directory: docs/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>  +--&gt; Markdown pages</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  +--&gt; .vitepress/config.mts</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  +--&gt; public assets</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>        &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 7 行 | <code>        v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 8 行 | <code>vitepress build docs</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 9 行 | <code>        &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 10 行 | <code>        v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 11 行 | <code>static output: docs/.vitepress/dist</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 12 行 | <code>        &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 13 行 | <code>        v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 14 行 | <code>deploy to GitHub Pages</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 每一步的含义：
 
@@ -217,6 +331,25 @@ deploy to GitHub Pages
   }
 }
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>{</code> | 对象开始，表示下面是一组键值对配置。 |
+| 第 2 行 | <code>  "name": "zero-to-aiops",</code> | 设置 `name` 字段，值是 `"zero-to-aiops"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 3 行 | <code>  "private": true,</code> | 设置 `private` 字段，值是 `true`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 4 行 | <code>  "type": "module",</code> | 设置 `type` 字段，值是 `"module"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 5 行 | <code>  "scripts": {</code> | 设置 `scripts` 字段，值是 `{`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 6 行 | <code>    "docs:dev": "vitepress dev docs",</code> | 设置 `docs:dev` 字段，值是 `"vitepress dev docs"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 7 行 | <code>    "docs:build": "vitepress build docs",</code> | 设置 `docs:build` 字段，值是 `"vitepress build docs"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 8 行 | <code>    "docs:preview": "vitepress preview docs"</code> | 设置 `docs:preview` 字段，值是 `"vitepress preview docs"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 9 行 | <code>  },</code> | 当前对象或数组结束，逗号表示后面还有同级项目。 |
+| 第 10 行 | <code>  "devDependencies": {</code> | 设置 `devDependencies` 字段，值是 `{`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 11 行 | <code>    "vitepress": "^1.6.4"</code> | 设置 `vitepress` 字段，值是 `"^1.6.4"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 12 行 | <code>  }</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+| 第 13 行 | <code>}</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+
 
 字段解释：
 
@@ -254,6 +387,33 @@ export default defineConfig({
 })
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>import { defineConfig } from 'vitepress'</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 2 行 | <em>空行</em> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 3 行 | <code>export default defineConfig({</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 4 行 | <code>  title: 'To Be Better AIOps Engineer',</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 5 行 | <code>  description: 'AIOps 学习路线、实战项目、面试准备和天津求职记录',</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 6 行 | <code>  base: '/zero-to-aiops/',</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 7 行 | <code>  themeConfig: {</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 8 行 | <code>    nav: [</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 9 行 | <code>      { text: '学习路线', link: '/roadmap/README' },</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 10 行 | <code>      { text: '技术栈', link: '/tech-stack/README' }</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 11 行 | <code>    ],</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 12 行 | <code>    sidebar: [</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 13 行 | <code>      {</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 14 行 | <code>        text: '基础工具',</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 15 行 | <code>        items: [</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 16 行 | <code>          { text: 'Linux', link: '/tech-stack/foundation/linux' }</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 17 行 | <code>        ]</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 18 行 | <code>      }</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 19 行 | <code>    ]</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 20 行 | <code>  }</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 21 行 | <code>})</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+
+
 这里最重要的是：
 
 - `base: '/zero-to-aiops/'`：适配 GitHub Pages 仓库路径。
@@ -285,6 +445,29 @@ zero-to-aiops/
       dist/
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>zero-to-aiops/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  package.json</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>  package-lock.json</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>  docs/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>    index.md</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>    tech-stack/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 7 行 | <code>      README.md</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 8 行 | <code>      foundation/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 9 行 | <code>        linux.md</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 10 行 | <code>        vitepress.md</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 11 行 | <code>    projects/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 12 行 | <code>      README.md</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 13 行 | <code>    public/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 14 行 | <code>      images/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 15 行 | <code>    .vitepress/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 16 行 | <code>      config.mts</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 17 行 | <code>      dist/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 路径说明：
 
 | 路径 | 作用 |
@@ -306,11 +489,25 @@ zero-to-aiops/
 npm install
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>npm install</code> | 执行 Node.js 项目脚本或依赖命令，常用于安装依赖、测试和构建文档站。 |
+
+
 如果已有 `package-lock.json`，CI 和复现环境更推荐：
 
 ```bash
 npm ci
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>npm ci</code> | 执行 Node.js 项目脚本或依赖命令，常用于安装依赖、测试和构建文档站。 |
+
 
 本地开发：
 
@@ -318,11 +515,25 @@ npm ci
 npm run docs:dev
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>npm run docs:dev</code> | 执行 Node.js 项目脚本或依赖命令，常用于安装依赖、测试和构建文档站。 |
+
+
 默认会启动开发服务器，终端会显示本地访问地址，常见是：
 
 ```text
 localhost:5173
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>localhost:5173</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 构建：
 
@@ -330,11 +541,25 @@ localhost:5173
 npm run docs:build
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>npm run docs:build</code> | 执行 Node.js 项目脚本或依赖命令，常用于安装依赖、测试和构建文档站。 |
+
+
 预览构建产物：
 
 ```bash
 npm run docs:preview
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>npm run docs:preview</code> | 执行 Node.js 项目脚本或依赖命令，常用于安装依赖、测试和构建文档站。 |
+
 
 三者区别：
 
@@ -386,6 +611,16 @@ docs/tech-stack/foundation/linux.md   -> /tech-stack/foundation/linux
 docs/projects/README.md               -> /projects/
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docs/index.md                         -&gt; /</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>docs/tech-stack/README.md             -&gt; /tech-stack/</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>docs/tech-stack/foundation/linux.md   -&gt; /tech-stack/foundation/linux</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>docs/projects/README.md               -&gt; /projects/</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 理解规则：
 
 | 文件 | 路由 |
@@ -401,6 +636,13 @@ docs/projects/README.md               -> /projects/
 { text: '技术栈', link: '/tech-stack/README' }
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>{ text: '技术栈', link: '/tech-stack/README' }</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+
+
 这能工作，但你也可以统一思考成“链接到技术栈入口页面”。后续如果想优化路由风格，可以逐步整理为目录入口。
 
 ## 链接规则
@@ -411,11 +653,25 @@ Markdown 中内部链接可以写相对路径：
 [Linux](./foundation/linux.md)
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>[Linux](./foundation/linux.md)</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+
+
 VitePress 配置中的链接通常写站点路径：
 
 ```ts
 { text: 'Linux', link: '/tech-stack/foundation/linux' }
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>{ text: 'Linux', link: '/tech-stack/foundation/linux' }</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+
 
 两者区别：
 
@@ -447,6 +703,18 @@ export default defineConfig({
 })
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>import { defineConfig } from 'vitepress'</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 2 行 | <em>空行</em> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 3 行 | <code>export default defineConfig({</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 4 行 | <code>  title: 'zero-to-aiops',</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 5 行 | <code>  description: 'AIOps learning docs'</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 6 行 | <code>})</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+
+
 常用顶层字段：
 
 | 字段 | 作用 |
@@ -474,11 +742,25 @@ export default defineConfig({
 https://quweisheng.github.io/zero-to-aiops/
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>https://quweisheng.github.io/zero-to-aiops/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 那么 `base` 应该是：
 
 ```ts
 base: '/zero-to-aiops/'
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>base: '/zero-to-aiops/'</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+
 
 如果是自定义域名根路径，例如：
 
@@ -486,11 +768,25 @@ base: '/zero-to-aiops/'
 https://aiops.example.com/
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>https://aiops.example.com/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 则可以是：
 
 ```ts
 base: '/'
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>base: '/'</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+
 
 `base` 配错的常见现象：
 
@@ -504,6 +800,13 @@ base: '/'
 ```ts
 base: '/zero-to-aiops/'
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>base: '/zero-to-aiops/'</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+
 
 这符合项目仓库 Pages 的常见部署路径。
 
@@ -524,6 +827,20 @@ themeConfig: {
 }
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>themeConfig: {</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 2 行 | <code>  nav: [],</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 3 行 | <code>  sidebar: [],</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 4 行 | <code>  socialLinks: [],</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 5 行 | <code>  outline: {},</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 6 行 | <code>  search: {},</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 7 行 | <code>  footer: {}</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 8 行 | <code>}</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+
+
 对知识库最重要的是：
 
 - `nav`：顶部导航。
@@ -543,6 +860,17 @@ nav: [
   { text: '实战项目', link: '/projects/README' }
 ]
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>nav: [</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 2 行 | <code>  { text: '学习路线', link: '/roadmap/README' },</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 3 行 | <code>  { text: '技术栈', link: '/tech-stack/README' },</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 4 行 | <code>  { text: '实战项目', link: '/projects/README' }</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 5 行 | <code>]</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+
 
 nav 设计原则：
 
@@ -579,6 +907,21 @@ sidebar: [
 ]
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>sidebar: [</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 2 行 | <code>  {</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 3 行 | <code>    text: '基础工具',</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 4 行 | <code>    items: [</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 5 行 | <code>      { text: 'Linux', link: '/tech-stack/foundation/linux' },</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 6 行 | <code>      { text: 'Git', link: '/tech-stack/foundation/git' }</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 7 行 | <code>    ]</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 8 行 | <code>  }</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 9 行 | <code>]</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+
+
 字段解释：
 
 | 字段 | 作用 |
@@ -608,6 +951,19 @@ outline: deep
 
 # Docker
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>---</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 2 行 | <code>title: Docker 深讲</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 3 行 | <code>description: 从零理解 Docker Engine、镜像、容器和 Dockerfile</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 4 行 | <code>outline: deep</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 5 行 | <code>---</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 6 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 7 行 | <code># Docker</code> | Markdown 标题行，用来组织文档层级。 |
+
 
 常用字段：
 
@@ -651,6 +1007,15 @@ VitePress 支持容器语法。
 :::
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>::: tip</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 2 行 | <code>先确认 `/targets` 是 UP，再排查 PromQL。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 3 行 | <code>:::</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+
+
 常见类型：
 
 ```text
@@ -659,6 +1024,16 @@ warning
 danger
 details
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>tip</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>warning</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>danger</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>details</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 使用原则：
 
@@ -676,6 +1051,16 @@ global:
   scrape_interval: 15s
 ```
 ````
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>```yaml{2}</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 2 行 | <code>global:</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 3 行 | <code>  scrape_interval: 15s</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 4 行 | <code>```</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+
 
 这里 `{2}` 表示高亮第 2 行。
 
@@ -699,6 +1084,13 @@ Markdown 附近的图片：
 ![Prometheus targets](./images/prometheus-targets.png)
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>![Prometheus targets](./images/prometheus-targets.png)</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+
+
 适合和文档强相关的截图。
 
 ### public 目录
@@ -709,11 +1101,25 @@ Markdown 附近的图片：
 docs/public/images/logo.png
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docs/public/images/logo.png</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 引用：
 
 ```markdown
 ![Logo](/images/logo.png)
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>![Logo](/images/logo.png)</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+
 
 注意：如果部署有 `base`，VitePress 会处理站点路径，但你要理解 public 文件最终在站点根路径下。
 
@@ -737,6 +1143,13 @@ VitePress 允许在 Markdown 中使用 Vue 语法。
 {{ 1 + 1 }}
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>{{ 1 + 1 }}</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+
+
 会被 Vue 处理。对于普通技术文档，这是双刃剑：
 
 - 好处：可以做交互组件。
@@ -752,11 +1165,25 @@ VitePress 允许在 Markdown 中使用 Vue 语法。
 npm run docs:build
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>npm run docs:build</code> | 执行 Node.js 项目脚本或依赖命令，常用于安装依赖、测试和构建文档站。 |
+
+
 默认输出：
 
 ```text
 docs/.vitepress/dist
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docs/.vitepress/dist</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 dist 目录包含：
 
@@ -766,6 +1193,16 @@ assets/
 tech-stack/
 projects/
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>index.html</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>assets/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>tech-stack/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>projects/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 构建通过说明：
 
@@ -786,11 +1223,25 @@ VitePress build 会检查链接。
 Found dead link http://localhost:8000/health
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Found dead link http://localhost:8000/health</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 这种本地实验地址如果只是示例，不要写成裸链接。写成代码：
 
 ```text
 localhost:8000/health
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>localhost:8000/health</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 内部链接失败时：
 
@@ -815,6 +1266,18 @@ push to main
   -> upload docs/.vitepress/dist
   -> deploy to GitHub Pages
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>push to main</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; GitHub Actions</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; npm ci</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; npm run docs:build</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; upload docs/.vitepress/dist</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; deploy to GitHub Pages</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 关键点：
 
@@ -878,6 +1341,61 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>name: Deploy VitePress site</code> | 设置 `name` 字段的值为 `Deploy VitePress site`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 2 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 3 行 | <code>on:</code> | 定义 `on` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 4 行 | <code>  push:</code> | 定义 `push` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 5 行 | <code>    branches: [main]</code> | 设置 `branches` 字段的值为 `[main]`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 6 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 7 行 | <code>permissions:</code> | 定义 `permissions` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 8 行 | <code>  contents: read</code> | 设置 `contents` 字段的值为 `read`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 9 行 | <code>  pages: write</code> | 设置 `pages` 字段的值为 `write`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 10 行 | <code>  id-token: write</code> | 设置 `id-token` 字段的值为 `write`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 11 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 12 行 | <code>concurrency:</code> | 定义 `concurrency` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 13 行 | <code>  group: pages</code> | 设置 `group` 字段的值为 `pages`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 14 行 | <code>  cancel-in-progress: false</code> | 设置 `cancel-in-progress` 字段的值为 `false`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 15 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 16 行 | <code>jobs:</code> | 定义 `jobs` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 17 行 | <code>  build:</code> | 定义 `build` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 18 行 | <code>    runs-on: ubuntu-latest</code> | 设置 `runs-on` 字段的值为 `ubuntu-latest`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 19 行 | <code>    steps:</code> | 定义 `steps` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 20 行 | <code>      - name: Checkout</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 21 行 | <code>        uses: actions/checkout@v4</code> | 设置 `uses` 字段的值为 `actions/checkout@v4`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 22 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 23 行 | <code>      - name: Setup Node</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 24 行 | <code>        uses: actions/setup-node@v4</code> | 设置 `uses` 字段的值为 `actions/setup-node@v4`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 25 行 | <code>        with:</code> | 定义 `with` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 26 行 | <code>          node-version: 20</code> | 设置 `node-version` 字段的值为 `20`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 27 行 | <code>          cache: npm</code> | 设置 `cache` 字段的值为 `npm`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 28 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 29 行 | <code>      - name: Install dependencies</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 30 行 | <code>        run: npm ci</code> | 设置 `run` 字段的值为 `npm ci`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 31 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 32 行 | <code>      - name: Build</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 33 行 | <code>        run: npm run docs:build</code> | 设置 `run` 字段的值为 `npm run docs:build`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 34 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 35 行 | <code>      - name: Upload artifact</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 36 行 | <code>        uses: actions/upload-pages-artifact@v3</code> | 设置 `uses` 字段的值为 `actions/upload-pages-artifact@v3`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 37 行 | <code>        with:</code> | 定义 `with` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 38 行 | <code>          path: docs/.vitepress/dist</code> | 设置 `path` 字段的值为 `docs/.vitepress/dist`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 39 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 40 行 | <code>  deploy:</code> | 定义 `deploy` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 41 行 | <code>    environment:</code> | 定义 `environment` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 42 行 | <code>      name: github-pages</code> | 设置 `name` 字段的值为 `github-pages`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 43 行 | <code>      url: ${{ steps.deployment.outputs.page_url }}</code> | 设置 `url` 字段的值为 `${{ steps.deployment.outputs.page_url }}`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 44 行 | <code>    needs: build</code> | 设置 `needs` 字段的值为 `build`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 45 行 | <code>    runs-on: ubuntu-latest</code> | 设置 `runs-on` 字段的值为 `ubuntu-latest`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 46 行 | <code>    steps:</code> | 定义 `steps` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 47 行 | <code>      - name: Deploy to GitHub Pages</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 48 行 | <code>        id: deployment</code> | 设置 `id` 字段的值为 `deployment`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 49 行 | <code>        uses: actions/deploy-pages@v4</code> | 设置 `uses` 字段的值为 `actions/deploy-pages@v4`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
 
 字段解释：
 
@@ -1004,6 +1522,24 @@ jobs:
   -> 求职记录
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>首页</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; 学习路线</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; 技术栈</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>      -&gt; 基础工具</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>      -&gt; 可观测性</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>      -&gt; 云原生</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>      -&gt; 自动化</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 8 行 | <code>      -&gt; 数据与 AI</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 9 行 | <code>      -&gt; SRE/AIOps 实践</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 10 行 | <code>  -&gt; 实战项目</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 11 行 | <code>  -&gt; 面试准备</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 12 行 | <code>  -&gt; 求职记录</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 首页要回答：
 
 - 这个站点是给谁看的？
@@ -1027,6 +1563,13 @@ jobs:
 docs/tutorials/vitepress-test.md
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docs/tutorials/vitepress-test.md</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 内容：
 
 ```markdown
@@ -1037,6 +1580,18 @@ docs/tutorials/vitepress-test.md
 ```bash
 npm run docs:build
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code># VitePress Test</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 2 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 3 行 | <code>这是一个测试页面。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 4 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 5 行 | <code>```bash</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 6 行 | <code>npm run docs:build</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+
 ```
 
 注意：上面示例如果真的写进文档，要用四个反引号包住外层，避免代码块嵌套问题。
@@ -1055,11 +1610,39 @@ npm run docs:build
 }
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
+| 第 2 行 | <code>注意：上面示例如果真的写进文档，要用四个反引号包住外层，避免代码块嵌套问题。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
+| 第 4 行 | <code>### 第 2 步：加入 sidebar</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
+| 第 6 行 | <code>在 `docs/.vitepress/config.mts` 中找到对应分组：</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 7 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
+| 第 8 行 | <code>```ts</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 9 行 | <code>{</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 10 行 | <code>  text: '教程',</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 11 行 | <code>  items: [</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 12 行 | <code>    { text: '从 0 开始', link: '/tutorials/0001-start-from-zero' },</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 13 行 | <code>    { text: 'VitePress Test', link: '/tutorials/vitepress-test' }</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 14 行 | <code>  ]</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 15 行 | <code>}</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 ### 第 3 步：本地运行
 
 ```bash
 npm run docs:dev
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>npm run docs:dev</code> | 执行 Node.js 项目脚本或依赖命令，常用于安装依赖、测试和构建文档站。 |
+
 
 打开终端显示的本地地址，确认页面出现在侧边栏。
 
@@ -1069,6 +1652,13 @@ npm run docs:dev
 npm run docs:build
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>npm run docs:build</code> | 执行 Node.js 项目脚本或依赖命令，常用于安装依赖、测试和构建文档站。 |
+
+
 构建通过后，说明页面至少不会破坏文档站。
 
 ### 第 5 步：提交
@@ -1077,6 +1667,14 @@ npm run docs:build
 git add docs/tutorials/vitepress-test.md docs/.vitepress/config.mts
 git commit -m "docs: add vitepress test page"
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>git add docs/tutorials/vitepress-test.md docs/.vitepress/config.mts</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+| 第 2 行 | <code>git commit -m "docs: add vitepress test page"</code> | 执行 Git 版本控制命令，用来查看状态、提交、推送或排查仓库问题。 |
+
 
 ## 常见故障排查
 
@@ -1115,11 +1713,25 @@ git commit -m "docs: add vitepress test page"
 docs/tech-stack/foundation/vitepress.md
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docs/tech-stack/foundation/vitepress.md</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 对应 link：
 
 ```ts
 link: '/tech-stack/foundation/vitepress'
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>link: '/tech-stack/foundation/vitepress'</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+
 
 ### 样式丢失
 
@@ -1131,11 +1743,25 @@ GitHub Pages 项目站点：
 base: '/zero-to-aiops/'
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>base: '/zero-to-aiops/'</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+
+
 自定义域名根路径：
 
 ```ts
 base: '/'
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>base: '/'</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+
 
 ### 新页面没出现在侧边栏
 
@@ -1149,6 +1775,13 @@ base: '/'
 ```ts
 { text: '新页面', link: '/path/to/page' }
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>{ text: '新页面', link: '/path/to/page' }</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+
 
 ### GitHub Pages 没更新
 
@@ -1179,6 +1812,17 @@ npm run docs:build
 ```
 ````
 `````
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>````markdown</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 2 行 | <code>```bash</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 3 行 | <code>npm run docs:build</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 4 行 | <code>```</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 5 行 | <code>````</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+
 
 ## 典型故障排查表
 

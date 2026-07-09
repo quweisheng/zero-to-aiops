@@ -29,11 +29,27 @@ inc-002: payment-api 延迟升高，原因是第三方支付渠道超时。
 inc-003: Redis 内存打满，原因是告警去重 key 没有过期时间。
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>inc-001: 发布后 order-api 5xx 升高，原因是数据库连接池配置错误。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>inc-002: payment-api 延迟升高，原因是第三方支付渠道超时。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>inc-003: Redis 内存打满，原因是告警去重 key 没有过期时间。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 今天来了一个新告警：
 
 ```text
 订单接口发布后错误率明显升高，并伴随数据库连接超时。
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>订单接口发布后错误率明显升高，并伴随数据库连接超时。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 普通关键词搜索可能搜不到，因为：
 
@@ -107,6 +123,49 @@ Vector Database
      -> RAG recall layer
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Vector Database</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; Input representation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>     -&gt; text</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>     -&gt; embedding model</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>     -&gt; vector dimension</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>     -&gt; dense vector</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>     -&gt; sparse vector</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 8 行 | <code>  -&gt; Data model</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 9 行 | <code>     -&gt; collection</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 10 行 | <code>     -&gt; record / entity / point</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 11 行 | <code>     -&gt; id</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 12 行 | <code>     -&gt; vector field</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 13 行 | <code>     -&gt; payload / metadata / scalar fields</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 14 行 | <code>     -&gt; source text</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 15 行 | <code>  -&gt; Indexing</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 16 行 | <code>     -&gt; vector index</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 17 行 | <code>     -&gt; payload / scalar index</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 18 行 | <code>     -&gt; HNSW / IVF / other ANN indexes</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 19 行 | <code>     -&gt; metric type</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 20 行 | <code>  -&gt; Search</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 21 行 | <code>     -&gt; vector search</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 22 行 | <code>     -&gt; top-k</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 23 行 | <code>     -&gt; metadata filtering</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 24 行 | <code>     -&gt; hybrid search</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 25 行 | <code>     -&gt; rerank</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 26 行 | <code>  -&gt; Operations</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 27 行 | <code>     -&gt; insert / upsert</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 28 行 | <code>     -&gt; delete</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 29 行 | <code>     -&gt; update metadata</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 30 行 | <code>     -&gt; reindex</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 31 行 | <code>     -&gt; backup</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 32 行 | <code>     -&gt; migration</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 33 行 | <code>  -&gt; AIOps</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 34 行 | <code>     -&gt; similar incidents</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 35 行 | <code>     -&gt; runbook retrieval</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 36 行 | <code>     -&gt; alert dedup explanation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 37 行 | <code>     -&gt; RAG recall layer</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 初学路线：
 
 ```text
@@ -120,6 +179,20 @@ OpenAI embeddings
   -> evaluate top-k
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>OpenAI embeddings</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; Chroma local collection</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; insert incident records</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; query by new alert</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; metadata filter by service</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; Milvus Lite collection</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>  -&gt; schema and dimension</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 8 行 | <code>  -&gt; evaluate top-k</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 ## 向量数据库在 AIOps 链路中的位置
 
 ```text
@@ -131,6 +204,19 @@ runbooks / incidents / service docs / alert summaries
   -> LLM / RAG answer
   -> on-call engineer
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>runbooks / incidents / service docs / alert summaries</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; chunk</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; embedding</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; vector database</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; retrieve similar records</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; LLM / RAG answer</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>  -&gt; on-call engineer</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 它不替代其他数据库：
 
@@ -152,6 +238,16 @@ runbooks / incidents / service docs / alert summaries
 语义相似检索进向量数据库。
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>结构化事实进 MySQL。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>短期状态进 Redis。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>事件流进 Kafka。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>语义相似检索进向量数据库。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 ## embedding 深讲
 
 Embedding 是把文本变成一串浮点数。
@@ -160,6 +256,14 @@ Embedding 是把文本变成一串浮点数。
 "order-api 5xx after deploy"
   -> [0.012, -0.083, 0.451, ...]
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>"order-api 5xx after deploy"</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; [0.012, -0.083, 0.451, ...]</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 这串数字不是给人读的，而是给算法比较相似度的。
 
@@ -182,6 +286,14 @@ text-embedding-3-small -> 默认 1536 维
 text-embedding-3-large -> 默认 3072 维
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>text-embedding-3-small -&gt; 默认 1536 维</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>text-embedding-3-large -&gt; 默认 3072 维</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 维度必须和 collection 的向量字段一致。
 
 错误示例：
@@ -190,6 +302,14 @@ text-embedding-3-large -> 默认 3072 维
 collection dimension = 1536
 insert vector dimension = 3072
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>collection dimension = 1536</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>insert vector dimension = 3072</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 结果通常是 dimension mismatch。
 
@@ -230,6 +350,15 @@ query: order-api error rate after deploy
 k = 3
 return top 3 similar incidents
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>query: order-api error rate after deploy</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>k = 3</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>return top 3 similar incidents</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 k 太小：
 
@@ -272,6 +401,24 @@ AIOps runbook chunk 可以这样建模：
 }
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>{</code> | 对象开始，表示下面是一组键值对配置。 |
+| 第 2 行 | <code>  "id": "runbook-order-api-HighErrorRate-0",</code> | 设置 `id` 字段，值是 `"runbook-order-api-HighErrorRate-0"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 3 行 | <code>  "text": "order-api 5xx 升高时，先检查最近发布、数据库连接池、下游 payment-api。",</code> | 设置 `text` 字段，值是 `"order-api 5xx 升高时，先检查最近发布、数据库连接池、下游 payment-api。"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 4 行 | <code>  "vector": [0.012, -0.083],</code> | 设置 `vector` 字段，值是 `[0.012, -0.083]`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 5 行 | <code>  "metadata": {</code> | 设置 `metadata` 字段，值是 `{`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 6 行 | <code>    "source": "docs/runbooks/order-api.md",</code> | 设置 `source` 字段，值是 `"docs/runbooks/order-api.md"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 7 行 | <code>    "service": "order-api",</code> | 设置 `service` 字段，值是 `"order-api"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 8 行 | <code>    "section": "HighErrorRate",</code> | 设置 `section` 字段，值是 `"HighErrorRate"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 9 行 | <code>    "doc_type": "runbook",</code> | 设置 `doc_type` 字段，值是 `"runbook"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 10 行 | <code>    "updated_at": "2026-07-02"</code> | 设置 `updated_at` 字段，值是 `"2026-07-02"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 11 行 | <code>  }</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+| 第 12 行 | <code>}</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+
+
 ## Metadata / Payload
 
 向量相似度只负责“语义像不像”。metadata 负责“这个结果能不能用”。
@@ -295,6 +442,13 @@ AIOps runbook chunk 可以这样建模：
 query: 5xx 错误率升高
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>query: 5xx 错误率升高</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 如果不加过滤，可能检索到 `payment-api`、`frontend`、`order-api` 混在一起。
 
 更稳的检索：
@@ -303,6 +457,14 @@ query: 5xx 错误率升高
 query: 5xx 错误率升高
 filter: service = order-api
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>query: 5xx 错误率升高</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>filter: service = order-api</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 ## Schema 设计
 
@@ -388,6 +550,13 @@ ANN 索引不一定返回数学上绝对最近的结果，但速度更快。
 query -> embedding -> vector search -> top-k
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>query -&gt; embedding -&gt; vector search -&gt; top-k</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 适合语义相似。
 
 ### 向量 + metadata filter
@@ -396,6 +565,13 @@ query -> embedding -> vector search -> top-k
 query -> embedding -> vector search where service = order-api
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>query -&gt; embedding -&gt; vector search where service = order-api</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 适合 AIOps 大多数场景。
 
 ### 关键词检索
@@ -403,6 +579,13 @@ query -> embedding -> vector search where service = order-api
 ```text
 search exact terms: HighErrorRate, ORA-00020, HTTP 502
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>search exact terms: HighErrorRate, ORA-00020, HTTP 502</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 适合错误码、服务名、函数名、配置项。
 
@@ -421,6 +604,13 @@ hybrid search 结合 dense vector 和 sparse / keyword 信号。
 ```text
 order-api 502 after deployment
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>order-api 502 after deployment</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 这里同时需要：
 
@@ -444,11 +634,29 @@ source file changed
   -> upsert new records
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>source file changed</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; delete chunks by source</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; re-split document</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; embed new chunks</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; upsert new records</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 稳定 ID 设计：
 
 ```text
 {doc_type}:{source}:{section}:{chunk_index}:{content_hash}
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>{doc_type}:{source}:{section}:{chunk_index}:{content_hash}</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 如果不用稳定 ID，重复入库会导致：
 
@@ -491,6 +699,16 @@ user
   -> retrieve only authorized records
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>user</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; allowed services / teams / visibility</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; metadata filter</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; retrieve only authorized records</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 示例 metadata：
 
 ```json
@@ -501,6 +719,18 @@ user
   "allowed_groups": "platform,oncall"
 }
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>{</code> | 对象开始，表示下面是一组键值对配置。 |
+| 第 2 行 | <code>  "service": "order-api",</code> | 设置 `service` 字段，值是 `"order-api"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 3 行 | <code>  "team": "platform-team",</code> | 设置 `team` 字段，值是 `"platform-team"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 4 行 | <code>  "visibility": "internal",</code> | 设置 `visibility` 字段，值是 `"internal"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 5 行 | <code>  "allowed_groups": "platform,oncall"</code> | 设置 `allowed_groups` 字段，值是 `"platform,oncall"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 6 行 | <code>}</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+
 
 权限过滤必须在检索前做，不能只在生成答案后隐藏来源。
 
@@ -520,6 +750,19 @@ projects/vector-incident-search/
   search_chroma.py
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>projects/vector-incident-search/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  .env.example</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>  .gitignore</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>  requirements.txt</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>  incidents.jsonl</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>  index_chroma.py</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 7 行 | <code>  search_chroma.py</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 ### requirements.txt
 
 ```text
@@ -528,6 +771,15 @@ openai
 python-dotenv
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>chromadb</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>openai</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>python-dotenv</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 ### incidents.jsonl
 
 ```json
@@ -535,6 +787,15 @@ python-dotenv
 {"id":"inc-002","service":"payment-api","severity":"warning","text":"payment-api 延迟升高，原因是第三方支付渠道超时。"}
 {"id":"inc-003","service":"redis","severity":"critical","text":"Redis 内存打满，原因是告警去重 key 未设置过期时间。"}
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>{"id":"inc-001","service":"order-api","severity":"critical","text":"发布后 order-api 5xx 升高，原因是数据库连接池配置错误。"}</code> | JSON 列表或对象中的一行，注意逗号和引号必须符合 JSON 语法。 |
+| 第 2 行 | <code>{"id":"inc-002","service":"payment-api","severity":"warning","text":"payment-api 延迟升高，原因是第三方支付渠道超时。"}</code> | JSON 列表或对象中的一行，注意逗号和引号必须符合 JSON 语法。 |
+| 第 3 行 | <code>{"id":"inc-003","service":"redis","severity":"critical","text":"Redis 内存打满，原因是告警去重 key 未设置过期时间。"}</code> | JSON 列表或对象中的一行，注意逗号和引号必须符合 JSON 语法。 |
+
 
 ### index_chroma.py
 
@@ -587,6 +848,58 @@ collection.upsert(
 print(f"indexed {len(ids)} incidents")
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>import json</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
+| 第 2 行 | <code>import os</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
+| 第 3 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 4 行 | <code>import chromadb</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
+| 第 5 行 | <code>from dotenv import load_dotenv</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
+| 第 6 行 | <code>from openai import OpenAI</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
+| 第 7 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 8 行 | <code>load_dotenv()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 9 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 10 行 | <code>openai_client = OpenAI()</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 11 行 | <code>embedding_model = os.getenv("OPENAI_EMBEDDING_MODEL", "text-embedding-3-small")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 12 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 13 行 | <code>chroma_client = chromadb.PersistentClient(path="./chroma_db")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 14 行 | <code>collection = chroma_client.get_or_create_collection(name="aiops_incidents")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 15 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 16 行 | <code>ids = []</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 17 行 | <code>documents = []</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 18 行 | <code>metadatas = []</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 19 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 20 行 | <code>with open("incidents.jsonl", "r", encoding="utf-8") as f:</code> | 上下文管理语句，常用于安全打开文件或管理连接。 |
+| 第 21 行 | <code>    for line in f:</code> | 循环处理一组数据，常用于逐条处理告警、日志或指标样本。 |
+| 第 22 行 | <code>        item = json.loads(line)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 23 行 | <code>        ids.append(item["id"])</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 24 行 | <code>        documents.append(item["text"])</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 25 行 | <code>        metadatas.append(</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 26 行 | <code>            {</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 27 行 | <code>                "service": item["service"],</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 28 行 | <code>                "severity": item["severity"],</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 29 行 | <code>                "source": "incidents.jsonl",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 30 行 | <code>            }</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 31 行 | <code>        )</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 32 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 33 行 | <code>embedding_response = openai_client.embeddings.create(</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 34 行 | <code>    model=embedding_model,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 35 行 | <code>    input=documents,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 36 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 37 行 | <code>embeddings = [item.embedding for item in embedding_response.data]</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 38 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 39 行 | <code>collection.upsert(</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 40 行 | <code>    ids=ids,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 41 行 | <code>    documents=documents,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 42 行 | <code>    metadatas=metadatas,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 43 行 | <code>    embeddings=embeddings,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 44 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 45 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 46 行 | <code>print(f"indexed {len(ids)} incidents")</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
+
+
 ### search_chroma.py
 
 ```python
@@ -629,12 +942,63 @@ for doc, metadata, distance in zip(
     print("-" * 60)
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>import os</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
+| 第 2 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 3 行 | <code>import chromadb</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
+| 第 4 行 | <code>from dotenv import load_dotenv</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
+| 第 5 行 | <code>from openai import OpenAI</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
+| 第 6 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 7 行 | <code>load_dotenv()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 8 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 9 行 | <code>openai_client = OpenAI()</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 10 行 | <code>embedding_model = os.getenv("OPENAI_EMBEDDING_MODEL", "text-embedding-3-small")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 11 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 12 行 | <code>chroma_client = chromadb.PersistentClient(path="./chroma_db")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 13 行 | <code>collection = chroma_client.get_or_create_collection(name="aiops_incidents")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 14 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 15 行 | <code>query = "订单接口发布后错误率升高，并伴随数据库连接超时。"</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 16 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 17 行 | <code>query_vector = openai_client.embeddings.create(</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 18 行 | <code>    model=embedding_model,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 19 行 | <code>    input=query,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 20 行 | <code>).data[0].embedding</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 21 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 22 行 | <code>results = collection.query(</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 23 行 | <code>    query_embeddings=[query_vector],</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 24 行 | <code>    n_results=3,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 25 行 | <code>    where={"service": "order-api"},</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 26 行 | <code>    include=["documents", "metadatas", "distances"],</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 27 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 28 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 29 行 | <code>for doc, metadata, distance in zip(</code> | 循环处理一组数据，常用于逐条处理告警、日志或指标样本。 |
+| 第 30 行 | <code>    results["documents"][0],</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 31 行 | <code>    results["metadatas"][0],</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 32 行 | <code>    results["distances"][0],</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 33 行 | <code>):</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 34 行 | <code>    print("distance:", distance)</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
+| 第 35 行 | <code>    print("metadata:", metadata)</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
+| 第 36 行 | <code>    print("document:", doc)</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
+| 第 37 行 | <code>    print("-" * 60)</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
+
+
 运行：
 
 ```bash
 python index_chroma.py
 python search_chroma.py
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>python index_chroma.py</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
+| 第 2 行 | <code>python search_chroma.py</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
+
 
 ## Milvus Lite 快速实验
 
@@ -645,6 +1009,13 @@ Milvus Lite 适合用本地文件快速学习 Milvus API。生产可以迁移到
 ```bash
 pip install -U pymilvus openai python-dotenv
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>pip install -U pymilvus openai python-dotenv</code> | 管理 Python 依赖包，通常用于安装实验需要的库。 |
+
 
 `milvus_lite_demo.py`：
 
@@ -714,6 +1085,75 @@ for hit in results[0]:
     print(hit["distance"], hit["entity"])
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>import os</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
+| 第 2 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 3 行 | <code>from dotenv import load_dotenv</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
+| 第 4 行 | <code>from openai import OpenAI</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
+| 第 5 行 | <code>from pymilvus import MilvusClient</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
+| 第 6 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 7 行 | <code>load_dotenv()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 8 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 9 行 | <code>openai_client = OpenAI()</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 10 行 | <code>embedding_model = os.getenv("OPENAI_EMBEDDING_MODEL", "text-embedding-3-small")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 11 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 12 行 | <code>client = MilvusClient("milvus_aiops.db")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 13 行 | <code>collection_name = "aiops_incidents"</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 14 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 15 行 | <code>if client.has_collection(collection_name):</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
+| 第 16 行 | <code>    client.drop_collection(collection_name)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 17 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 18 行 | <code>client.create_collection(</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 19 行 | <code>    collection_name=collection_name,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 20 行 | <code>    dimension=1536,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 21 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 22 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 23 行 | <code>texts = [</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 24 行 | <code>    "发布后 order-api 5xx 升高，原因是数据库连接池配置错误。",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 25 行 | <code>    "payment-api 延迟升高，原因是第三方支付渠道超时。",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 26 行 | <code>    "Redis 内存打满，原因是告警去重 key 未设置过期时间。",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 27 行 | <code>]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 28 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 29 行 | <code>embedding_response = openai_client.embeddings.create(</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 30 行 | <code>    model=embedding_model,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 31 行 | <code>    input=texts,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 32 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 33 行 | <code>vectors = [item.embedding for item in embedding_response.data]</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 34 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 35 行 | <code>services = ["order-api", "payment-api", "redis"]</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 36 行 | <code>data = [</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 37 行 | <code>    {</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 38 行 | <code>        "id": index,</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 39 行 | <code>        "vector": vectors[index],</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 40 行 | <code>        "text": texts[index],</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 41 行 | <code>        "service": services[index],</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 42 行 | <code>    }</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 43 行 | <code>    for index in range(len(texts))</code> | 循环处理一组数据，常用于逐条处理告警、日志或指标样本。 |
+| 第 44 行 | <code>]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 45 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 46 行 | <code>client.insert(collection_name=collection_name, data=data)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 47 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 48 行 | <code>query = "订单服务发布后错误率升高，还出现数据库连接超时。"</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 49 行 | <code>query_vector = openai_client.embeddings.create(</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 50 行 | <code>    model=embedding_model,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 51 行 | <code>    input=query,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 52 行 | <code>).data[0].embedding</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 53 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 54 行 | <code>results = client.search(</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 55 行 | <code>    collection_name=collection_name,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 56 行 | <code>    data=[query_vector],</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 57 行 | <code>    filter="service == 'order-api'",</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 58 行 | <code>    limit=2,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 59 行 | <code>    output_fields=["text", "service"],</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 60 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 61 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 62 行 | <code>for hit in results[0]:</code> | 循环处理一组数据，常用于逐条处理告警、日志或指标样本。 |
+| 第 63 行 | <code>    print(hit["distance"], hit["entity"])</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
+
+
 注意：
 
 - `dimension=1536` 对应 `text-embedding-3-small` 默认维度。
@@ -753,6 +1193,13 @@ for hit in results[0]:
 新告警摘要 + 指标变化 + 最近变更
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>新告警摘要 + 指标变化 + 最近变更</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 检索：
 
 ```text
@@ -761,11 +1208,27 @@ service = order-api
 top-k = 5
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>doc_type = incident</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>service = order-api</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>top-k = 5</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 输出：
 
 ```text
 历史事故 ID、相似度、服务、根因、处置动作、来源链接
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>历史事故 ID、相似度、服务、根因、处置动作、来源链接</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 ### Runbook 检索
 
@@ -775,6 +1238,13 @@ top-k = 5
 alertname + service + symptom
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>alertname + service + symptom</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 过滤：
 
 ```text
@@ -783,11 +1253,27 @@ service = order-api
 visibility in allowed_groups
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>doc_type = runbook</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>service = order-api</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>visibility in allowed_groups</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 输出：
 
 ```text
 章节、检查步骤、安全动作、需要审批动作
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>章节、检查步骤、安全动作、需要审批动作</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 ### 告警降噪
 
@@ -798,6 +1284,15 @@ HighErrorRate order-api
 5xx increased after deploy
 database timeout errors
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>HighErrorRate order-api</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>5xx increased after deploy</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>database timeout errors</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 但告警去重的最终逻辑不能只靠向量相似度，还要结合：
 
@@ -821,6 +1316,19 @@ database timeout errors
   }
 ]
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>[</code> | 数组开始，表示下面会列出多个同类值或对象。 |
+| 第 2 行 | <code>  {</code> | 对象开始，表示下面是一组键值对配置。 |
+| 第 3 行 | <code>    "query": "订单服务发布后错误率升高，数据库连接超时",</code> | 设置 `query` 字段，值是 `"订单服务发布后错误率升高，数据库连接超时"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 4 行 | <code>    "expected_ids": ["inc-001"],</code> | 设置 `expected_ids` 字段，值是 `["inc-001"]`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 5 行 | <code>    "filter": {"service": "order-api"}</code> | 设置 `filter` 字段，值是 `{"service": "order-api"}`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 6 行 | <code>  }</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+| 第 7 行 | <code>]</code> | 数组结束，表示同类值或对象列表到这里结束。 |
+
 
 指标：
 
@@ -894,6 +1402,13 @@ database timeout errors
 client.embeddings.create(model="text-embedding-3-small", input=texts)
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>client.embeddings.create(model="text-embedding-3-small", input=texts)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+
+
 生成文本 embedding。
 
 ### Chroma PersistentClient
@@ -901,6 +1416,13 @@ client.embeddings.create(model="text-embedding-3-small", input=texts)
 ```python
 chromadb.PersistentClient(path="./chroma_db")
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>chromadb.PersistentClient(path="./chroma_db")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+
 
 创建本地持久化客户端。
 
@@ -910,6 +1432,13 @@ chromadb.PersistentClient(path="./chroma_db")
 collection.upsert(ids=ids, documents=docs, metadatas=metadatas, embeddings=embeddings)
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>collection.upsert(ids=ids, documents=docs, metadatas=metadatas, embeddings=embeddings)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+
+
 写入或更新记录。
 
 ### Chroma collection.query
@@ -917,6 +1446,13 @@ collection.upsert(ids=ids, documents=docs, metadatas=metadatas, embeddings=embed
 ```python
 collection.query(query_embeddings=[query_vector], n_results=3, where={"service": "order-api"})
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>collection.query(query_embeddings=[query_vector], n_results=3, where={"service": "order-api"})</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+
 
 向量检索并按 metadata 过滤。
 
@@ -926,6 +1462,13 @@ collection.query(query_embeddings=[query_vector], n_results=3, where={"service":
 client = MilvusClient("milvus_aiops.db")
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>client = MilvusClient("milvus_aiops.db")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+
+
 创建 Milvus Lite 本地客户端。
 
 ### create_collection
@@ -933,6 +1476,13 @@ client = MilvusClient("milvus_aiops.db")
 ```python
 client.create_collection(collection_name="aiops_incidents", dimension=1536)
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>client.create_collection(collection_name="aiops_incidents", dimension=1536)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+
 
 创建 collection。
 
@@ -942,6 +1492,13 @@ client.create_collection(collection_name="aiops_incidents", dimension=1536)
 client.insert(collection_name="aiops_incidents", data=data)
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>client.insert(collection_name="aiops_incidents", data=data)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+
+
 插入数据。
 
 ### search
@@ -950,6 +1507,13 @@ client.insert(collection_name="aiops_incidents", data=data)
 client.search(collection_name="aiops_incidents", data=[query_vector], limit=3)
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>client.search(collection_name="aiops_incidents", data=[query_vector], limit=3)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+
+
 向量搜索。
 
 ### filter
@@ -957,6 +1521,13 @@ client.search(collection_name="aiops_incidents", data=[query_vector], limit=3)
 ```python
 filter="service == 'order-api'"
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>filter="service == 'order-api'"</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+
 
 Milvus 搜索中的标量过滤表达式。
 
@@ -968,11 +1539,25 @@ Milvus 搜索中的标量过滤表达式。
 pip install chromadb openai python-dotenv
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>pip install chromadb openai python-dotenv</code> | 管理 Python 依赖包，通常用于安装实验需要的库。 |
+
+
 ### 安装 Milvus Lite 实验依赖
 
 ```bash
 pip install -U pymilvus openai python-dotenv
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>pip install -U pymilvus openai python-dotenv</code> | 管理 Python 依赖包，通常用于安装实验需要的库。 |
+
 
 ### 设置 API key
 
@@ -980,11 +1565,25 @@ pip install -U pymilvus openai python-dotenv
 export OPENAI_API_KEY="你的 key"
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>export OPENAI_API_KEY="你的 key"</code> | 设置 shell 环境变量，常用于配置 API Key、端口或运行参数。 |
+
+
 PowerShell：
 
 ```powershell
 $env:OPENAI_API_KEY="你的 key"
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>$env:OPENAI_API_KEY="你的 key"</code> | 执行 `$env:openai_api_key="你的` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
+
 
 ### 运行 Chroma 入库
 
@@ -992,11 +1591,25 @@ $env:OPENAI_API_KEY="你的 key"
 python index_chroma.py
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>python index_chroma.py</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
+
+
 ### 运行 Chroma 检索
 
 ```bash
 python search_chroma.py
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>python search_chroma.py</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
+
 
 ### 运行 Milvus Lite demo
 
@@ -1004,11 +1617,25 @@ python search_chroma.py
 python milvus_lite_demo.py
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>python milvus_lite_demo.py</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
+
+
 ### 删除本地 Chroma 数据
 
 ```bash
 rm -rf chroma_db
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>rm -rf chroma_db</code> | 执行 `rm` 相关命令，后面的参数决定它具体操作什么对象。 |
+
 
 PowerShell：
 
@@ -1016,17 +1643,38 @@ PowerShell：
 Remove-Item -Recurse -Force .\chroma_db
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Remove-Item -Recurse -Force .\chroma_db</code> | PowerShell 删除文件或目录，执行前要确认路径正确。 |
+
+
 ### 删除 Milvus Lite 文件
 
 ```bash
 rm -f milvus_aiops.db
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>rm -f milvus_aiops.db</code> | 执行 `rm` 相关命令，后面的参数决定它具体操作什么对象。 |
+
+
 PowerShell：
 
 ```powershell
 Remove-Item -Force .\milvus_aiops.db
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Remove-Item -Force .\milvus_aiops.db</code> | PowerShell 删除文件或目录，执行前要确认路径正确。 |
+
 
 ## 面试怎么讲
 

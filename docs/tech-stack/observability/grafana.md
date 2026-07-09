@@ -112,6 +112,56 @@ Grafana docs
       └── HTTP API
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Grafana docs</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  ├── Get started</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 3 行 | <code>  │   ├── install and sign in</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 4 行 | <code>  │   └── first dashboard</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 5 行 | <code>  ├── Data sources</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 6 行 | <code>  │   ├── Prometheus</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 7 行 | <code>  │   ├── Loki</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 8 行 | <code>  │   ├── Elasticsearch</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 9 行 | <code>  │   └── SQL data sources</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 10 行 | <code>  ├── Dashboards</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 11 行 | <code>  │   ├── dashboard</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 12 行 | <code>  │   ├── panel</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 13 行 | <code>  │   ├── rows</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 14 行 | <code>  │   ├── links</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 15 行 | <code>  │   └── JSON model</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 16 行 | <code>  ├── Panels and visualizations</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 17 行 | <code>  │   ├── time series</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 18 行 | <code>  │   ├── stat</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 19 行 | <code>  │   ├── gauge</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 20 行 | <code>  │   ├── table</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 21 行 | <code>  │   ├── heatmap</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 22 行 | <code>  │   └── logs</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 23 行 | <code>  ├── Query and transform data</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 24 行 | <code>  │   ├── query editor</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 25 行 | <code>  │   ├── field options</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 26 行 | <code>  │   ├── transformations</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 27 行 | <code>  │   └── overrides</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 28 行 | <code>  ├── Variables</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 29 行 | <code>  │   ├── query variables</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 30 行 | <code>  │   ├── custom variables</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 31 行 | <code>  │   ├── interval variables</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 32 行 | <code>  │   └── chained variables</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 33 行 | <code>  ├── Alerting</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 34 行 | <code>  │   ├── alert rules</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 35 行 | <code>  │   ├── contact points</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 36 行 | <code>  │   ├── notification policies</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 37 行 | <code>  │   └── silences</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 38 行 | <code>  ├── Administration</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 39 行 | <code>  │   ├── configuration</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 40 行 | <code>  │   ├── users and teams</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 41 行 | <code>  │   ├── provisioning</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 42 行 | <code>  │   └── plugins</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 43 行 | <code>  └── Developers</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 44 行 | <code>      └── HTTP API</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+
+
 本篇会覆盖入门阶段最重要的主干：数据源、dashboard、panel、变量、转换、告警、provisioning 和 API。
 
 ## Grafana 在 AIOps 链路中的位置
@@ -139,6 +189,32 @@ panels and dashboards
         +--> GitHub learning evidence
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Prometheus metrics</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>Loki logs</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>Elasticsearch logs</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>Tempo traces</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>SQL tables</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>        &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 7 行 | <code>        v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 8 行 | <code>Grafana data sources</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 9 行 | <code>        &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 10 行 | <code>        v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 11 行 | <code>queries</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 12 行 | <code>        &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 13 行 | <code>        v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 14 行 | <code>panels and dashboards</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 15 行 | <code>        &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 16 行 | <code>        +--&gt; on-call diagnosis</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 17 行 | <code>        +--&gt; SLO review</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 18 行 | <code>        +--&gt; anomaly validation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 19 行 | <code>        +--&gt; alert tuning</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 20 行 | <code>        +--&gt; GitHub learning evidence</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 Grafana 在 AIOps 中不是“数据生产者”，而是“理解和反馈入口”。
 
 | AIOps 场景 | Grafana 的作用 |
@@ -158,6 +234,13 @@ Grafana 是一个可观测性数据可视化和告警平台。它通常不直接
 ```text
 Grafana = data sources + queries + panels + dashboards + alerting + provisioning
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Grafana = data sources + queries + panels + dashboards + alerting + provisioning</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 常见数据源：
 
@@ -218,6 +301,37 @@ transformations
 panel visualization
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>browser</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>  v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>Grafana frontend</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>  &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>  v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 7 行 | <code>Grafana backend</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 8 行 | <code>  &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 9 行 | <code>  v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 10 行 | <code>data source plugin</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 11 行 | <code>  &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 12 行 | <code>  v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 13 行 | <code>Prometheus / Loki / Elasticsearch / SQL</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 14 行 | <code>  &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 15 行 | <code>  v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 16 行 | <code>query response</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 17 行 | <code>  &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 18 行 | <code>  v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 19 行 | <code>data frames</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 20 行 | <code>  &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 21 行 | <code>  v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 22 行 | <code>transformations</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 23 行 | <code>  &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 24 行 | <code>  v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 25 行 | <code>panel visualization</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 关键点：
 
 | 层 | 作用 |
@@ -239,11 +353,25 @@ panel visualization
 docker run --rm --name grafana -p 3000:3000 grafana/grafana:latest
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker run --rm --name grafana -p 3000:3000 grafana/grafana:latest</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
+
 访问地址写成：
 
 ```text
 localhost:3000
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>localhost:3000</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 首次登录常见默认账号：
 
@@ -251,6 +379,14 @@ localhost:3000
 username: admin
 password: admin
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>username: admin</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>password: admin</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 首次登录后 Grafana 会要求修改密码。
 
@@ -266,6 +402,18 @@ docker run -d --name grafana \
   -v grafana-data:/var/lib/grafana \
   grafana/grafana:latest
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker volume create grafana-data</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
+| 第 2 行 | <em>空行</em> | 空行，用来把命令分成更容易阅读的几段。 |
+| 第 3 行 | <code>docker run -d --name grafana \</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+| 第 4 行 | <code>  -p 3000:3000 \</code> | 执行 `-p` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 5 行 | <code>  -v grafana-data:/var/lib/grafana \</code> | 执行 `-v` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 6 行 | <code>  grafana/grafana:latest</code> | 执行 `grafana/grafana:latest` 相关命令，后面的参数决定它具体操作什么对象。 |
+
 
 如果不持久化，容器删除后 Grafana 的本地数据库也会丢。
 
@@ -305,6 +453,17 @@ docker run -d --name grafana \
   grafana/grafana:latest
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker run -d --name grafana \</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+| 第 2 行 | <code>  -p 3000:3000 \</code> | 执行 `-p` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 3 行 | <code>  -e GF_SECURITY_ADMIN_PASSWORD=admin123 \</code> | 执行 `-e` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 4 行 | <code>  -e GF_USERS_ALLOW_SIGN_UP=false \</code> | 执行 `-e` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 5 行 | <code>  grafana/grafana:latest</code> | 执行 `grafana/grafana:latest` 相关命令，后面的参数决定它具体操作什么对象。 |
+
+
 注意：不要把真实生产密码写进公开仓库。学习项目可以用明显的 demo 密码，并在 README 说明仅用于本地实验。
 
 ## 核心对象模型
@@ -333,6 +492,31 @@ alerting
   └── silence
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>organization</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  └── folder</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 3 行 | <code>      └── dashboard</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 4 行 | <code>          ├── variables</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 5 行 | <code>          ├── panels</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 6 行 | <code>          │   ├── queries</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 7 行 | <code>          │   ├── transformations</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 8 行 | <code>          │   ├── field options</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 9 行 | <code>          │   └── visualization options</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 10 行 | <code>          └── links / annotations</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 11 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
+| 第 12 行 | <code>data source</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 13 行 | <code>  └── query editor</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 14 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
+| 第 15 行 | <code>alerting</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 16 行 | <code>  ├── alert rule</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 17 行 | <code>  ├── contact point</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 18 行 | <code>  ├── notification policy</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 19 行 | <code>  └── silence</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+
+
 下面逐个讲。
 
 ## Data Source
@@ -354,17 +538,38 @@ Data source 是 Grafana 要查询的数据系统。
 localhost:9090
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>localhost:9090</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 如果 Grafana 在容器里，Prometheus 在宿主机上，Docker Desktop 常用：
 
 ```text
 host.docker.internal:9090
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>host.docker.internal:9090</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 如果 Grafana 和 Prometheus 在同一个 Docker Compose 网络里，Prometheus 服务名叫 `prometheus`，URL 应该填：
 
 ```text
 prometheus:9090
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>prometheus:9090</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 重点：Grafana 容器里的 `localhost` 是 Grafana 容器自己，不是 Prometheus 容器，也不是宿主机。
 
@@ -398,6 +603,18 @@ panel query
   -> panel
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>panel query</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; Grafana Prometheus data source plugin</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; Prometheus HTTP API</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; time series result</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; Grafana data frame</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; panel</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 常用配置项：
 
 | 配置 | 含义 |
@@ -415,11 +632,25 @@ Prometheus 查询示例：
 up{job="$job"}
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>up{job="$job"}</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 请求速率：
 
 ```text
 sum by (job) (rate(http_requests_total{job="$job"}[$__rate_interval]))
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>sum by (job) (rate(http_requests_total{job="$job"}[$__rate_interval]))</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 这里的 `$__rate_interval` 是 Grafana 内置变量，常用于 Prometheus `rate()` 窗口。它会结合 dashboard 时间范围和数据源配置选择合适窗口，比手写固定 `[5m]` 更适合 dashboard。
 
@@ -481,6 +712,16 @@ AIOps Labs
   └── Alert Governance
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>AIOps Labs</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  ├── Prometheus Health</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 3 行 | <code>  ├── Demo API Overview</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 4 行 | <code>  └── Alert Governance</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+
+
 生产环境中 folder 还常用于权限管理。学习阶段先用它做分类，避免 dashboard 全堆在根目录。
 
 ## Panel
@@ -499,6 +740,20 @@ panel
   ├── overrides
   └── thresholds
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>panel</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  ├── data source</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 3 行 | <code>  ├── query</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 4 行 | <code>  ├── transformations</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 5 行 | <code>  ├── visualization type</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 6 行 | <code>  ├── field options</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 7 行 | <code>  ├── overrides</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 8 行 | <code>  └── thresholds</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+
 
 常见 panel 类型：
 
@@ -531,12 +786,27 @@ Prometheus 数据源使用 PromQL。例子：
 up{job="$job"}
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>up{job="$job"}</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 多查询 panel：
 
 ```text
 A: sum(rate(http_requests_total{job="$job"}[$__rate_interval]))
 B: sum(rate(http_requests_total{job="$job",status=~"5.."}[$__rate_interval]))
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>A: sum(rate(http_requests_total{job="$job"}[$__rate_interval]))</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>B: sum(rate(http_requests_total{job="$job",status=~"5.."}[$__rate_interval]))</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 错误率可以写成：
 
@@ -545,6 +815,15 @@ sum(rate(http_requests_total{job="$job",status=~"5.."}[$__rate_interval]))
 /
 sum(rate(http_requests_total{job="$job"}[$__rate_interval]))
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>sum(rate(http_requests_total{job="$job",status=~"5.."}[$__rate_interval]))</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>sum(rate(http_requests_total{job="$job"}[$__rate_interval]))</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 查询写完还要设置：
 
@@ -603,6 +882,13 @@ Overrides 用来给某些字段单独设置显示规则。
 同一个 panel 里有多条线，但某些线需要特别突出
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>同一个 panel 里有多条线，但某些线需要特别突出</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 不要滥用 overrides。颜色规则太复杂时，别人很难维护。
 
 ## Transformations
@@ -616,6 +902,15 @@ query result
   -> transformation
   -> panel visualization
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>query result</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; transformation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; panel visualization</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 常见 transformation：
 
@@ -636,6 +931,13 @@ AIOps 例子：实例状态表。
 up{job="$job"}
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>up{job="$job"}</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 用 transformation 把每个 instance 的最后值变成表格：
 
 | instance | status |
@@ -655,11 +957,25 @@ Variables 让 dashboard 可以复用。
 up{job="demo-api"}
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>up{job="demo-api"}</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 有变量后：
 
 ```text
 up{job="$job"}
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>up{job="$job"}</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 用户可以在 dashboard 顶部选择 job。
 
@@ -671,6 +987,13 @@ Prometheus 常用变量：
 label_values(up, job)
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>label_values(up, job)</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 含义：从 `up` 指标中取所有 `job` label 的值。
 
 实例变量：
@@ -678,6 +1001,13 @@ label_values(up, job)
 ```text
 label_values(up{job="$job"}, instance)
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>label_values(up{job="$job"}, instance)</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 这是 chained variable：`instance` 的候选值依赖当前 `job`。
 
@@ -689,6 +1019,13 @@ label_values(up{job="$job"}, instance)
 dev,staging,prod
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>dev,staging,prod</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 ### Interval Variable
 
 适合选择查询窗口：
@@ -697,11 +1034,25 @@ dev,staging,prod
 1m,5m,15m,1h
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>1m,5m,15m,1h</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 在 PromQL 中使用：
 
 ```text
 rate(http_requests_total[$interval])
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>rate(http_requests_total[$interval])</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 ### 内置变量
 
@@ -737,6 +1088,16 @@ latency spike
     |
 deployment annotation at 10:03
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>latency spike</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>    ^</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>    &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>deployment annotation at 10:03</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 AIOps dashboard 如果能把变更事件叠在指标曲线上，会比单纯曲线有用得多。
 
@@ -789,6 +1150,21 @@ datasources:
     editable: true
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>apiVersion: 1</code> | 设置 `apiVersion` 字段的值为 `1`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 2 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 3 行 | <code>datasources:</code> | 定义 `datasources` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 4 行 | <code>  - name: Prometheus</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 5 行 | <code>    type: prometheus</code> | 设置 `type` 字段的值为 `prometheus`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 6 行 | <code>    access: proxy</code> | 设置 `access` 字段的值为 `proxy`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 7 行 | <code>    url: http://prometheus:9090</code> | 设置 `url` 字段的值为 `http://prometheus:9090`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 8 行 | <code>    isDefault: true</code> | 设置 `isDefault` 字段的值为 `true`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 9 行 | <code>    editable: true</code> | 设置 `editable` 字段的值为 `true`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
+
 字段解释：
 
 | 字段 | 含义 |
@@ -817,6 +1193,21 @@ providers:
       path: /var/lib/grafana/dashboards
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>apiVersion: 1</code> | 设置 `apiVersion` 字段的值为 `1`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 2 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 3 行 | <code>providers:</code> | 定义 `providers` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 4 行 | <code>  - name: aiops-labs</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 5 行 | <code>    type: file</code> | 设置 `type` 字段的值为 `file`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 6 行 | <code>    folder: AIOps Labs</code> | 设置 `folder` 字段的值为 `AIOps Labs`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 7 行 | <code>    updateIntervalSeconds: 30</code> | 设置 `updateIntervalSeconds` 字段的值为 `30`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 8 行 | <code>    options:</code> | 定义 `options` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 9 行 | <code>      path: /var/lib/grafana/dashboards</code> | 设置 `path` 字段的值为 `/var/lib/grafana/dashboards`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
+
 目录：
 
 ```text
@@ -830,6 +1221,20 @@ grafana/
     prometheus-health.json
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>grafana/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  provisioning/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>    datasources/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>      prometheus.yml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>    dashboards/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>      dashboards.yml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 7 行 | <code>  dashboards/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 8 行 | <code>    prometheus-health.json</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 Docker 运行时挂载：
 
 ```bash
@@ -839,6 +1244,17 @@ docker run -d --name grafana \
   -v "$PWD/grafana/dashboards:/var/lib/grafana/dashboards:ro" \
   grafana/grafana:latest
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker run -d --name grafana \</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+| 第 2 行 | <code>  -p 3000:3000 \</code> | 执行 `-p` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 3 行 | <code>  -v "$PWD/grafana/provisioning:/etc/grafana/provisioning:ro" \</code> | 执行 `-v` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 4 行 | <code>  -v "$PWD/grafana/dashboards:/var/lib/grafana/dashboards:ro" \</code> | 执行 `-v` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 5 行 | <code>  grafana/grafana:latest</code> | 执行 `grafana/grafana:latest` 相关命令，后面的参数决定它具体操作什么对象。 |
+
 
 ## Grafana Alerting
 
@@ -865,6 +1281,17 @@ data source query
   -> notification policy
   -> contact point
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>data source query</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; alert rule evaluation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; alert instance</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; notification policy</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; contact point</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 Grafana 告警和 Prometheus 告警怎么选？
 
@@ -895,11 +1322,25 @@ Grafana HTTP API 可以管理 dashboard、data source、folder、user、alerting
 curl localhost:3000/api/health
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl localhost:3000/api/health</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+
+
 示例：用 API token 查询数据源。
 
 ```bash
 curl -H "Authorization: Bearer <token>" localhost:3000/api/datasources
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl -H "Authorization: Bearer &lt;token&gt;" localhost:3000/api/datasources</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+
 
 注意：
 
@@ -1026,6 +1467,20 @@ curl -H "Authorization: Bearer <token>" localhost:3000/api/datasources
    CPU, memory, disk, deployment annotation
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>1. user impact</code> | 编号步骤，表示学习或操作时应该按顺序执行。 |
+| 第 2 行 | <code>   availability, error rate, latency</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>2. traffic</code> | 编号步骤，表示学习或操作时应该按顺序执行。 |
+| 第 4 行 | <code>   QPS, request distribution, status code</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>3. service internals</code> | 编号步骤，表示学习或操作时应该按顺序执行。 |
+| 第 6 行 | <code>   instance up, queue, dependency error</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 7 行 | <code>4. resources and changes</code> | 编号步骤，表示学习或操作时应该按顺序执行。 |
+| 第 8 行 | <code>   CPU, memory, disk, deployment annotation</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 ### 第一层：用户影响
 
 优先放：
@@ -1095,11 +1550,25 @@ curl -H "Authorization: Bearer <token>" localhost:3000/api/datasources
 docker run --rm --name prometheus -p 9090:9090 prom/prometheus:v3.5.0
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker run --rm --name prometheus -p 9090:9090 prom/prometheus:v3.5.0</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
+
 确认：
 
 ```text
 localhost:9090/targets
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>localhost:9090/targets</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 ### 第 2 步：启动 Grafana
 
@@ -1107,11 +1576,25 @@ localhost:9090/targets
 docker run --rm --name grafana -p 3000:3000 grafana/grafana:latest
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker run --rm --name grafana -p 3000:3000 grafana/grafana:latest</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
+
 打开：
 
 ```text
 localhost:3000
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>localhost:3000</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 ### 第 3 步：添加 Prometheus 数据源
 
@@ -1123,11 +1606,25 @@ localhost:3000
 http://host.docker.internal:9090
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>http://host.docker.internal:9090</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 如果 Grafana 和 Prometheus 在同一个 Compose 网络里，URL：
 
 ```text
 http://prometheus:9090
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>http://prometheus:9090</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 点击 Save & test。
 
@@ -1156,6 +1653,13 @@ Query：
 up{job="$job"}
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>up{job="$job"}</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 设置：
 
 | 项 | 值 |
@@ -1172,6 +1676,13 @@ Query：
 ```text
 scrape_duration_seconds{job="$job"}
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>scrape_duration_seconds{job="$job"}</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 设置：
 
@@ -1191,6 +1702,13 @@ Query：
 scrape_samples_scraped{job="$job"}
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>scrape_samples_scraped{job="$job"}</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 设置：
 
 | 项 | 值 |
@@ -1209,11 +1727,25 @@ Dashboard 标题：
 AIOps Demo - Prometheus Health
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>AIOps Demo - Prometheus Health</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 导出 JSON，保存到：
 
 ```text
 labs/grafana/dashboards/prometheus-health.json
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>labs/grafana/dashboards/prometheus-health.json</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 ### 第 9 步：写 README
 
@@ -1239,6 +1771,29 @@ Prometheus URL: host.docker.internal:9090
 Import labs/grafana/dashboards/prometheus-health.json
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code># Grafana Prometheus Health Dashboard</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 2 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 3 行 | <code>## Start Prometheus</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 4 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 5 行 | <code>docker run --rm --name prometheus -p 9090:9090 prom/prometheus:v3.5.0</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 6 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 7 行 | <code>## Start Grafana</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 8 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 9 行 | <code>docker run --rm --name grafana -p 3000:3000 grafana/grafana:latest</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 10 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 11 行 | <code>## Data source</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 12 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 13 行 | <code>Prometheus URL: host.docker.internal:9090</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 14 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 15 行 | <code>## Dashboard</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 16 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 17 行 | <code>Import labs/grafana/dashboards/prometheus-health.json</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+
+
 ## 常见故障排查
 
 ### Save & test 失败
@@ -1260,11 +1815,27 @@ docker logs grafana
 docker logs prometheus
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker ps</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
+| 第 2 行 | <code>docker logs grafana</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
+| 第 3 行 | <code>docker logs prometheus</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
+
+
 如果使用 Compose，进入 Grafana 容器测试：
 
 ```bash
 docker compose exec grafana wget -qO- http://prometheus:9090/-/ready
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker compose exec grafana wget -qO- http://prometheus:9090/-/ready</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
+
 
 ### Panel 没有数据
 
@@ -1366,6 +1937,23 @@ Row 3: Resources
 Row 4: Context
   [Deploy Annotations] [Recent Alerts] [Runbook Links]
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Row 1: User impact</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  [Availability] [Error Rate] [P95 Latency] [Request Rate]</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
+| 第 4 行 | <code>Row 2: Service health</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>  [Instance Up Table] [Status Code Rate] [Top Slow Endpoints]</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
+| 第 7 行 | <code>Row 3: Resources</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 8 行 | <code>  [CPU] [Memory] [Network] [Disk]</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 9 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
+| 第 10 行 | <code>Row 4: Context</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 11 行 | <code>  [Deploy Annotations] [Recent Alerts] [Runbook Links]</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 每个 panel 都要能回答一个明确问题：
 

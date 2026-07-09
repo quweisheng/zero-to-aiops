@@ -23,6 +23,13 @@
 OrderApiHighErrorRate
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>OrderApiHighErrorRate</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 老同事会这样处理：
 
 ```text
@@ -34,11 +41,30 @@ OrderApiHighErrorRate
 回滚后观察 15 分钟。
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>先看 Grafana 的错误率和 p95。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>再看 30 分钟内有没有发布。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>如果发布后开始升高，先评估回滚。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>如果日志是 database timeout，看连接池和慢查询。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>如果下游 payment-api 也在 5xx，拉 payment team。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>回滚后观察 15 分钟。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 新人只看到一行红字：
 
 ```text
 order-api 5xx is above 5%
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>order-api 5xx is above 5%</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 Runbook 的价值，就是把老同事脑子里的处理路径写成别人也能执行、能验证、能升级、能自动化的步骤。
 
@@ -109,6 +135,57 @@ Runbook
      -> audit
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Runbook</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; Metadata</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>     -&gt; service</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>     -&gt; owner</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>     -&gt; alertname</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>     -&gt; severity</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>     -&gt; last_updated</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 8 行 | <code>  -&gt; Trigger</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 9 行 | <code>     -&gt; alert rule</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 10 行 | <code>     -&gt; user report</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 11 行 | <code>     -&gt; maintenance task</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 12 行 | <code>  -&gt; Context</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 13 行 | <code>     -&gt; user impact</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 14 行 | <code>     -&gt; dashboards</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 15 行 | <code>     -&gt; logs</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 16 行 | <code>     -&gt; dependencies</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 17 行 | <code>  -&gt; Preconditions</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 18 行 | <code>     -&gt; permissions</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 19 行 | <code>     -&gt; environment</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 20 行 | <code>     -&gt; approvals</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 21 行 | <code>     -&gt; tools</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 22 行 | <code>  -&gt; Diagnosis</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 23 行 | <code>     -&gt; checks</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 24 行 | <code>     -&gt; commands</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 25 行 | <code>     -&gt; expected output</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 26 行 | <code>     -&gt; decision tree</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 27 行 | <code>  -&gt; Actions</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 28 行 | <code>     -&gt; safe actions</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 29 行 | <code>     -&gt; risky actions</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 30 行 | <code>     -&gt; approval</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 31 行 | <code>     -&gt; rollback</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 32 行 | <code>  -&gt; Verification</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 33 行 | <code>     -&gt; SLI back to normal</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 34 行 | <code>     -&gt; alerts stop</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 35 行 | <code>     -&gt; user reports stop</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 36 行 | <code>  -&gt; Escalation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 37 行 | <code>     -&gt; owner</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 38 行 | <code>     -&gt; SME</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 39 行 | <code>     -&gt; SEV upgrade</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 40 行 | <code>  -&gt; Automation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 41 行 | <code>     -&gt; inputs</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 42 行 | <code>     -&gt; steps</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 43 行 | <code>     -&gt; actions</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 44 行 | <code>     -&gt; outputs</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 45 行 | <code>     -&gt; audit</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 初学路线：
 
 ```text
@@ -121,6 +198,20 @@ write markdown runbook
   -> automate low-risk actions
   -> require approval for high-risk actions
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>write markdown runbook</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; attach to alert annotation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; test in a drill</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; add commands and expected outputs</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; add decision tree</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; automate read-only checks</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>  -&gt; automate low-risk actions</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 8 行 | <code>  -&gt; require approval for high-risk actions</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 ## Runbook 不是什么
 
@@ -144,6 +235,16 @@ alert
   -> postmortem improves runbook
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>alert</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; runbook tells what to do</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; incident doc records what happened</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; postmortem improves runbook</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 Runbook 是事前准备。
 
 Incident 文档是事中记录。
@@ -158,6 +259,16 @@ runbook
   -> postmortem action item
   -> runbook update
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>runbook</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; incident response</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; postmortem action item</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; runbook update</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 ## 好 Runbook 的标准
 
@@ -185,6 +296,17 @@ runbook
 能维护。
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>能执行。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>能验证。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>能升级。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>能审计。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>能维护。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 ## Runbook 结构
 
 推荐结构：
@@ -205,6 +327,26 @@ metadata
   -> record
   -> automation mapping
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>metadata</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; trigger</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; impact</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; prerequisites</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; quick triage</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; dashboards</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>  -&gt; checks</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 8 行 | <code>  -&gt; decision tree</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 9 行 | <code>  -&gt; safe actions</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 10 行 | <code>  -&gt; risky actions</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 11 行 | <code>  -&gt; verification</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 12 行 | <code>  -&gt; escalation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 13 行 | <code>  -&gt; record</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 14 行 | <code>  -&gt; automation mapping</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 每一节都要短、具体、可执行。
 
@@ -354,6 +496,153 @@ kubectl scale deployment/order-api -n prod --replicas=6
 | 回滚生产 | 高 | 需要人工审批 |
 ````
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code># Runbook: order-api HighErrorRate</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 2 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 3 行 | <code>## 元信息</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 4 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 5 行 | <code>- 服务: order-api</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 6 行 | <code>- 告警: OrderApiHighErrorRate</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 7 行 | <code>- Owner: team-order</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 8 行 | <code>- 严重级别: page</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 9 行 | <code>- 最近更新: 2026-07-02</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 10 行 | <code>- 适用环境: prod</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 11 行 | <code>- 关联 SLO: order-api-availability</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 12 行 | <code>- 相关 dashboard: https://grafana.example.com/d/order-api</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 13 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 14 行 | <code>## 触发条件</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 15 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 16 行 | <code>5 分钟内 order-api 5xx 错误率 &gt; 5%。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 17 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 18 行 | <code>## 用户影响</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 19 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 20 行 | <code>用户可能无法下单，订单提交可能失败。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 21 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 22 行 | <code>## 先决条件</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 23 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 24 行 | <code>- 已登录监控系统。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 25 行 | <code>- 有只读日志权限。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 26 行 | <code>- 有 Kubernetes 只读权限。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 27 行 | <code>- 有发布系统查看权限。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 28 行 | <code>- 生产回滚需要 IC 审批。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 29 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 30 行 | <code>## 快速判断</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 31 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 32 行 | <code>1. 打开 order-api dashboard，确认错误率、p95 延迟、请求量。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 33 行 | <code>2. 查看最近 30 分钟发布记录。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 34 行 | <code>3. 查看 order-api 错误日志。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 35 行 | <code>4. 查看下游 payment-api 状态。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 36 行 | <code>5. 查看 MySQL 连接池和慢查询。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 37 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 38 行 | <code>## 检查命令</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 39 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 40 行 | <code>```bash</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 41 行 | <code>kubectl get pods -n prod -l app=order-api</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 42 行 | <code>kubectl logs -n prod deploy/order-api --since=30m &#124; tail -n 200</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 43 行 | <code>```</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 44 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 45 行 | <code>期望输出：</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 46 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 47 行 | <code>- Pod 不应大面积 CrashLoopBackOff。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 48 行 | <code>- 错误日志中应定位主要错误类型。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 49 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 50 行 | <code>## 决策树</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 51 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 52 行 | <code>- 如果错误从发布后开始，评估回滚。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 53 行 | <code>- 如果日志主要是 database timeout，检查连接池和慢 SQL。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 54 行 | <code>- 如果下游 payment-api 5xx 同时增加，升级 payment-api owner。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 55 行 | <code>- 如果只有单个实例异常，摘除或重启该实例。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 56 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 57 行 | <code>## 安全动作</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 58 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 59 行 | <code>### 查看最近发布</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 60 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 61 行 | <code>风险：低。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 62 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 63 行 | <code>审批：不需要。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 64 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 65 行 | <code>结果记录：记录发布版本、时间、负责人。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 66 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 67 行 | <code>### 摘除单个异常实例</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 68 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 69 行 | <code>风险：低到中，取决于副本数。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 70 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 71 行 | <code>审批：按团队规则。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 72 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 73 行 | <code>前置条件：至少还有足够健康副本。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 74 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 75 行 | <code>## 高风险动作</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 76 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 77 行 | <code>### 回滚</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 78 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 79 行 | <code>风险：中。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 80 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 81 行 | <code>审批：需要 IC。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 82 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 83 行 | <code>```bash</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 84 行 | <code>kubectl rollout undo deployment/order-api -n prod</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 85 行 | <code>```</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 86 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 87 行 | <code>回滚后验证：</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 88 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 89 行 | <code>- 5xx 错误率回落。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 90 行 | <code>- p95 延迟回落。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 91 行 | <code>- 新版本错误日志消失。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 92 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 93 行 | <code>### 扩容</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 94 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 95 行 | <code>风险：低到中。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 96 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 97 行 | <code>审批：按团队规则。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 98 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 99 行 | <code>```bash</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 100 行 | <code>kubectl scale deployment/order-api -n prod --replicas=6</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 101 行 | <code>```</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 102 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 103 行 | <code>扩容后验证：</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 104 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 105 行 | <code>- Pod ready。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 106 行 | <code>- 请求分布正常。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 107 行 | <code>- 延迟下降。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 108 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 109 行 | <code>## 验证恢复</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 110 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 111 行 | <code>- 5xx 错误率回到 1% 以下并持续 15 分钟。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 112 行 | <code>- p95 延迟回到 300ms 以下。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 113 行 | <code>- SLO burn rate 恢复到可接受范围。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 114 行 | <code>- 新告警停止触发。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 115 行 | <code>- 用户工单不再增加。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 116 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 117 行 | <code>## 升级条件</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 118 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 119 行 | <code>- 10 分钟内没有明确缓解方向。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 120 行 | <code>- 影响升级为 SEV1。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 121 行 | <code>- 需要数据库、网络、安全团队参与。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 122 行 | <code>- 回滚失败。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 123 行 | <code>- 怀疑数据丢失。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 124 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 125 行 | <code>## 处理记录</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 126 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 127 行 | <code>- 执行人:</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 128 行 | <code>- 执行动作:</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 129 行 | <code>- 执行时间:</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 130 行 | <code>- 结果:</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 131 行 | <code>- 后续事项:</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 132 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 133 行 | <code>## 自动化候选</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 134 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 135 行 | <code>&#124; 步骤 &#124; 风险 &#124; 是否适合自动化 &#124;</code> | Markdown 表格行，用来对齐展示字段和说明。 |
+| 第 136 行 | <code>&#124;---&#124;---&#124;---&#124;</code> | Markdown 表格行，用来对齐展示字段和说明。 |
+| 第 137 行 | <code>&#124; 拉取 dashboard 链接 &#124; 低 &#124; 是 &#124;</code> | Markdown 表格行，用来对齐展示字段和说明。 |
+| 第 138 行 | <code>&#124; 查询最近发布 &#124; 低 &#124; 是 &#124;</code> | Markdown 表格行，用来对齐展示字段和说明。 |
+| 第 139 行 | <code>&#124; 查询错误日志摘要 &#124; 低 &#124; 是 &#124;</code> | Markdown 表格行，用来对齐展示字段和说明。 |
+| 第 140 行 | <code>&#124; 摘除单实例 &#124; 中 &#124; 需要条件和审批 &#124;</code> | Markdown 表格行，用来对齐展示字段和说明。 |
+| 第 141 行 | <code>&#124; 回滚生产 &#124; 高 &#124; 需要人工审批 &#124;</code> | Markdown 表格行，用来对齐展示字段和说明。 |
+
+
 ## Runbook 字段解释
 
 | 字段 | 为什么需要 |
@@ -388,6 +677,17 @@ annotations:
   runbook_url: "https://github.com/quweisheng/zero-to-aiops/tree/main/runbooks/order-api-high-error-rate.md"
   dashboard_url: "https://grafana.example.com/d/order-api"
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>annotations:</code> | 定义 `annotations` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 2 行 | <code>  summary: "order-api high error rate"</code> | 设置 `summary` 字段的值为 `"order-api high error rate"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 3 行 | <code>  description: "More than 5% of order-api requests are returning 5xx."</code> | 设置 `description` 字段的值为 `"More than 5% of order-api requests are returning 5xx."`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 4 行 | <code>  runbook_url: "https://github.com/quweisheng/zero-to-aiops/tree/main/runbooks/order-api-high-error-rate.md"</code> | 设置 `runbook_url` 字段的值为 `"https://github.com/quweisheng/zero-to-aiops/tree/main/runbooks/order-api-high-error-rate.md"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 5 行 | <code>  dashboard_url: "https://grafana.example.com/d/order-api"</code> | 设置 `dashboard_url` 字段的值为 `"https://grafana.example.com/d/order-api"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
 
 如果通知里没有 runbook_url，值班人会浪费时间搜索。
 
@@ -425,6 +725,19 @@ AWS Systems Manager Automation runbook 的概念很适合理解自动化：runbo
   -> 告警触发 + 人工审批
   -> 低风险自动执行
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>人工 Markdown runbook</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; 只读检查脚本</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; 参数化脚本</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; 受控自动化</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; 自助执行</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; 告警触发 + 人工审批</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>  -&gt; 低风险自动执行</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 不要跳过前几步直接让告警自动重启生产。
 
@@ -509,6 +822,23 @@ kubectl get pods -n "$NAMESPACE" -l app="$APP"
 echo "== Recent logs =="
 kubectl logs -n "$NAMESPACE" deploy/"$APP" --since=30m | tail -n 100
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>#!/usr/bin/env bash</code> | 注释行，提前说明下面命令的目的或注意事项。 |
+| 第 2 行 | <code>set -euo pipefail</code> | 设置 shell 或工具变量，具体含义取决于当前终端环境。 |
+| 第 3 行 | <em>空行</em> | 空行，用来把命令分成更容易阅读的几段。 |
+| 第 4 行 | <code>NAMESPACE="${1:-prod}"</code> | 执行 `namespace="${1:-prod}"` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 5 行 | <code>APP="${2:-order-api}"</code> | 执行 `app="${2:-order-api}"` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 6 行 | <em>空行</em> | 空行，用来把命令分成更容易阅读的几段。 |
+| 第 7 行 | <code>echo "== Pods =="</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
+| 第 8 行 | <code>kubectl get pods -n "$NAMESPACE" -l app="$APP"</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
+| 第 9 行 | <em>空行</em> | 空行，用来把命令分成更容易阅读的几段。 |
+| 第 10 行 | <code>echo "== Recent logs =="</code> | 输出一段文本，常用于写入测试内容或验证变量。 |
+| 第 11 行 | <code>kubectl logs -n "$NAMESPACE" deploy/"$APP" --since=30m &#124; tail -n 100</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
+
 
 这个脚本只读，适合作为自动化第一步。
 

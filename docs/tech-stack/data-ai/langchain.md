@@ -56,6 +56,42 @@ LangChain
      -> deployment observability
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>LangChain</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; Get started</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>     -&gt; install</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>     -&gt; quickstart</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; Core components</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>     -&gt; agents</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>     -&gt; models</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 8 行 | <code>     -&gt; messages</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 9 行 | <code>     -&gt; tools</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 10 行 | <code>     -&gt; structured output</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 11 行 | <code>     -&gt; short-term memory</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 12 行 | <code>     -&gt; streaming</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 13 行 | <code>  -&gt; Middleware</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 14 行 | <code>     -&gt; prompt shaping</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 15 行 | <code>     -&gt; retries</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 16 行 | <code>     -&gt; guardrails</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 17 行 | <code>     -&gt; dynamic routing</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 18 行 | <code>  -&gt; Advanced usage</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 19 行 | <code>     -&gt; context engineering</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 20 行 | <code>     -&gt; retrieval</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 21 行 | <code>     -&gt; MCP</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 22 行 | <code>     -&gt; human-in-the-loop</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 23 行 | <code>  -&gt; LangGraph</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 24 行 | <code>     -&gt; durable execution</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 25 行 | <code>     -&gt; deterministic + agentic workflow</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 26 行 | <code>  -&gt; LangSmith</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 27 行 | <code>     -&gt; tracing</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 28 行 | <code>     -&gt; debugging</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 29 行 | <code>     -&gt; evaluation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 30 行 | <code>     -&gt; deployment observability</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 本文覆盖：
 
 1. LangChain 解决什么工程问题。
@@ -71,6 +107,13 @@ LangChain
 ```text
 HighErrorRate service=order-api severity=page
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>HighErrorRate service=order-api severity=page</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 你希望智能助手能做这些事：
 
@@ -122,6 +165,13 @@ AIOps 里的 LLM 应用很少只有“一问一答”。真实场景通常需要
 prompt -> model -> answer
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>prompt -&gt; model -&gt; answer</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 LangChain 关注的是更完整的应用：
 
 ```text
@@ -135,6 +185,21 @@ user alert
   -> model writes structured response
   -> trace / evaluate / log
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>user alert</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; messages</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; system prompt</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; model</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; decide tool call</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; execute tool in your code</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>  -&gt; return tool result</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 8 行 | <code>  -&gt; model writes structured response</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 9 行 | <code>  -&gt; trace / evaluate / log</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 它不是监控系统，不是向量数据库，不是权限系统，也不是自动化执行平台。它更像连接这些系统的 LLM 应用层。
 
@@ -166,6 +231,17 @@ LangChain 把这些通用结构抽出来。
 模型基于结果回答
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>模型提出 tool call</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>服务端代码校验参数</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>服务端代码执行工具</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>工具结果回给模型</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>模型基于结果回答</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 这样才能做权限、审计、超时和错误处理。
 
 ### 问题 3：AIOps 需要证据链
@@ -196,6 +272,22 @@ Harness =
   structured output
   tracing
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Agent = Model + Harness</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
+| 第 3 行 | <code>Harness =</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>  prompt</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>  messages</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>  tools</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 7 行 | <code>  middleware</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 8 行 | <code>  memory / checkpointer</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 9 行 | <code>  structured output</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 10 行 | <code>  tracing</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 官方文档里 `create_agent` 是一个可配置的 agent harness。你把模型、工具和系统提示词交给它，它负责组织模型循环。
 
@@ -234,6 +326,19 @@ user message
   -> final answer
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>user message</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; model call</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; tool call request</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; execute tool</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; tool result</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; model call</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>  -&gt; final answer</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 怎么用：用 `create_agent(model=..., tools=..., system_prompt=...)` 组合。
 
 坏了怎么查：看模型是否选错工具、工具返回是否为空、system prompt 是否约束不清。
@@ -265,6 +370,16 @@ tool: search_runbook(...)
 assistant: 根据 runbook，先检查...
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>system: 你是 AIOps 助手，只能基于证据回答</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>user: HighErrorRate order-api 怎么处理</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>tool: search_runbook(...)</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>assistant: 根据 runbook，先检查...</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 怎么用：把角色、边界、输出格式写进 system prompt。
 
 坏了怎么查：看 prompt 是否把“事实、猜测、动作边界”分开。
@@ -283,6 +398,16 @@ load docs
   -> retrieve relevant chunks
   -> model answers with context
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>load docs</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; split chunks</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; retrieve relevant chunks</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; model answers with context</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 怎么用：把 runbook、事故复盘、服务文档作为检索源。
 
@@ -336,6 +461,29 @@ Alertmanager / ticket / user question
       actions_need_approval
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Alertmanager / ticket / user question</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; normalize alert context</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; LangChain agent</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>      model</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>      system prompt</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>      tools</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 7 行 | <code>        search_runbook</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 8 行 | <code>        get_recent_deployments</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 9 行 | <code>        query_metrics_readonly</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 10 行 | <code>      structured output</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 11 行 | <code>  -&gt; LangSmith trace</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 12 行 | <code>  -&gt; response</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 13 行 | <code>      summary</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 14 行 | <code>      evidence</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 15 行 | <code>      missing_info</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 16 行 | <code>      safe_next_steps</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 17 行 | <code>      actions_need_approval</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 生产边界：
 
 - 只读工具可以先接入。
@@ -355,11 +503,30 @@ pip install -U langchain langchain-openai langgraph python-dotenv
 python -c "import langchain; print('langchain ok')"
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>mkdir aiops-langchain-lab</code> | 创建目录，用来准备实验项目结构。 |
+| 第 2 行 | <code>cd aiops-langchain-lab</code> | 切换当前目录，确保后续命令在正确项目位置执行。 |
+| 第 3 行 | <code>python -m venv .venv</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
+| 第 4 行 | <code>.\.venv\Scripts\Activate.ps1</code> | 执行 `.\.venv\scripts\activate.ps1` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 5 行 | <code>pip install -U langchain langchain-openai langgraph python-dotenv</code> | 管理 Python 依赖包，通常用于安装实验需要的库。 |
+| 第 6 行 | <code>python -c "import langchain; print('langchain ok')"</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
+
+
 预期结果：
 
 ```text
 langchain ok
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>langchain ok</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 如果没有 API key，也可以先运行本文实验里的本地工具部分，确认 runbook 查询函数能工作。
 
@@ -373,6 +540,16 @@ LANGCHAIN_MODEL=openai:gpt-4.1-mini
 LANGSMITH_TRACING=false
 LANGSMITH_API_KEY=
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>OPENAI_API_KEY=sk-...</code> | 环境变量或键值示例，等号左边是名称，右边是要配置的值。 |
+| 第 2 行 | <code>LANGCHAIN_MODEL=openai:gpt-4.1-mini</code> | 环境变量或键值示例，等号左边是名称，右边是要配置的值。 |
+| 第 3 行 | <code>LANGSMITH_TRACING=false</code> | 环境变量或键值示例，等号左边是名称，右边是要配置的值。 |
+| 第 4 行 | <code>LANGSMITH_API_KEY=</code> | 环境变量或键值示例，等号左边是名称，右边是要配置的值。 |
+
 
 | 配置项 | 含义 | 新手容易错在哪里 |
 |---|---|---|
@@ -391,6 +568,16 @@ pip install -U langchain langchain-openai langgraph python-dotenv
 python langchain_runbook_agent.py
 pip freeze > requirements.txt
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>python -m venv .venv</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
+| 第 2 行 | <code>pip install -U langchain langchain-openai langgraph python-dotenv</code> | 管理 Python 依赖包，通常用于安装实验需要的库。 |
+| 第 3 行 | <code>python langchain_runbook_agent.py</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
+| 第 4 行 | <code>pip freeze &gt; requirements.txt</code> | 管理 Python 依赖包，通常用于安装实验需要的库。 |
+
 
 每条命令在检查什么：
 
@@ -425,6 +612,19 @@ observability data
   -> human approval
   -> runbook automation
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>observability data</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; alert candidate</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; LangChain agent / RAG</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; evidence-based summary</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; safe next steps</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; human approval</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>  -&gt; runbook automation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 适合：
 
@@ -541,11 +741,106 @@ print("agent answer:")
 print(result["messages"][-1].content)
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>import os</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
+| 第 2 行 | <code>from textwrap import dedent</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
+| 第 3 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 4 行 | <code>from dotenv import load_dotenv</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
+| 第 5 行 | <code>from langchain.agents import create_agent</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
+| 第 6 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 7 行 | <code>load_dotenv()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 8 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 9 行 | <code>RUNBOOKS = {</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 10 行 | <code>    "HighErrorRate order-api": dedent("""</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 11 行 | <code>        service: order-api</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 12 行 | <code>        alert: HighErrorRate</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 13 行 | <code>        first_checks:</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 14 行 | <code>          - Check recent deployments in the last 30 minutes.</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 15 行 | <code>          - Check /metrics for http_requests_total by status.</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 16 行 | <code>          - Check upstream payment-api latency.</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 17 行 | <code>        safe_actions:</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 18 行 | <code>          - collect logs</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 19 行 | <code>          - compare dashboard before and after deployment</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 20 行 | <code>        risky_actions:</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 21 行 | <code>          - rollback</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 22 行 | <code>          - restart production pods</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 23 行 | <code>    """).strip(),</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 24 行 | <code>    "HighLatency payment-api": dedent("""</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 25 行 | <code>        service: payment-api</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 26 行 | <code>        alert: HighLatency</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 27 行 | <code>        first_checks:</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 28 行 | <code>          - Check database connection pool.</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 29 行 | <code>          - Check external payment provider latency.</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 30 行 | <code>          - Check p95 and p99 latency by endpoint.</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 31 行 | <code>        safe_actions:</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 32 行 | <code>          - collect traces</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 33 行 | <code>          - inspect slow queries</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 34 行 | <code>        risky_actions:</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 35 行 | <code>          - scale database</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 36 行 | <code>          - disable payment provider route</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 37 行 | <code>    """).strip(),</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 38 行 | <code>}</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 39 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 40 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 41 行 | <code>def search_runbook(query: str) -&gt; str:</code> | 定义函数，把一段可复用逻辑命名，后续可以反复调用。 |
+| 第 42 行 | <code>    """Search internal AIOps runbooks by alert name or service name."""</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 43 行 | <code>    query_lower = query.lower()</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 44 行 | <code>    matches = [</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 45 行 | <code>        content</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 46 行 | <code>        for title, content in RUNBOOKS.items()</code> | 循环处理一组数据，常用于逐条处理告警、日志或指标样本。 |
+| 第 47 行 | <code>        if any(token in title.lower() or token in content.lower() for token in query_lower.split())</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
+| 第 48 行 | <code>    ]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 49 行 | <code>    return "\n\n---\n\n".join(matches[:2]) if matches else "No matching runbook found."</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
+| 第 50 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 51 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 52 行 | <code>question = "HighErrorRate on order-api. What should I check first?"</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 53 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 54 行 | <code>print("local tool result:")</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
+| 第 55 行 | <code>print(search_runbook(question))</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
+| 第 56 行 | <code>print()</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
+| 第 57 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 58 行 | <code>if not os.getenv("OPENAI_API_KEY"):</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
+| 第 59 行 | <code>    print("OPENAI_API_KEY is not set. Local tool test passed; set the key to run the agent.")</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
+| 第 60 行 | <code>    raise SystemExit(0)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 61 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 62 行 | <code>model = os.getenv("LANGCHAIN_MODEL", "openai:gpt-4.1-mini")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 63 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 64 行 | <code>agent = create_agent(</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 65 行 | <code>    model=model,</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 66 行 | <code>    tools=[search_runbook],</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 67 行 | <code>    system_prompt=(</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 68 行 | <code>        "You are an AIOps assistant. Use runbook evidence before answering. "</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 69 行 | <code>        "Separate evidence, safe next checks, and actions that require human approval. "</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 70 行 | <code>        "Never execute production changes."</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 71 行 | <code>    ),</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 72 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 73 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 74 行 | <code>result = agent.invoke({</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 75 行 | <code>    "messages": [{</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 76 行 | <code>        "role": "user",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 77 行 | <code>        "content": question,</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 78 行 | <code>    }]</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 79 行 | <code>})</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 80 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 81 行 | <code>print("agent answer:")</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
+| 第 82 行 | <code>print(result["messages"][-1].content)</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
+
+
 运行：
 
 ```powershell
 python langchain_runbook_agent.py
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>python langchain_runbook_agent.py</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
+
 
 ### 验证结果
 
@@ -558,6 +853,17 @@ alert: HighErrorRate
 ...
 OPENAI_API_KEY is not set. Local tool test passed...
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>local tool result:</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>service: order-api</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>alert: HighErrorRate</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>...</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>OPENAI_API_KEY is not set. Local tool test passed...</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 有 API key 时，应该看到 agent 基于 runbook 输出：
 
@@ -573,6 +879,22 @@ Needs approval:
 - rollback
 - restart production pods
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Evidence:</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>- order-api HighErrorRate runbook says to check recent deployments...</code> | 列表项，表示一个要点、条件、文件或检查项。 |
+| 第 3 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
+| 第 4 行 | <code>Safe next checks:</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>1. Check recent deployments in the last 30 minutes.</code> | 编号步骤，表示学习或操作时应该按顺序执行。 |
+| 第 6 行 | <code>2. Query http_requests_total by status.</code> | 编号步骤，表示学习或操作时应该按顺序执行。 |
+| 第 7 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
+| 第 8 行 | <code>Needs approval:</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 9 行 | <code>- rollback</code> | 列表项，表示一个要点、条件、文件或检查项。 |
+| 第 10 行 | <code>- restart production pods</code> | 列表项，表示一个要点、条件、文件或检查项。 |
+
 
 ### 如果没有成功
 
@@ -624,6 +946,13 @@ Needs approval:
 ```text
 LangChain 是我构建 LLM 应用时用来组织模型、工具、消息、RAG、结构化输出和追踪的框架。在 AIOps 里，我不会让模型直接操作生产，而是把 runbook 查询、最近发布查询、指标只读查询做成受控工具，让 agent 基于这些证据生成摘要和下一步检查。真正的重启、回滚、扩缩容必须走审批、审计和 runbook automation。上线前我会用 LangSmith 或类似追踪系统观察工具调用、延迟、错误和回答质量，并准备评估集验证 RAG 和 agent 是否可靠。
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>LangChain 是我构建 LLM 应用时用来组织模型、工具、消息、RAG、结构化输出和追踪的框架。在 AIOps 里，我不会让模型直接操作生产，而是把 runbook 查询、最近发布查询、指标只读查询做成受控工具，让 agent 基于这些证据生成摘要和下一步检查。真正的重启、回滚、扩缩容必须走审批、审计和 runbook automation。上线前我会用 LangSmith 或类似追踪系统观察工具调用、延迟、错误和回答质量，并准备评估集验证 RAG 和 agent 是否可靠。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 ## 学习检查清单
 

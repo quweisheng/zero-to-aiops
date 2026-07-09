@@ -24,6 +24,13 @@
 Alertmanager -> alert-api -> LLM 分析 -> 写数据库 -> 发通知
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Alertmanager -&gt; alert-api -&gt; LLM 分析 -&gt; 写数据库 -&gt; 发通知</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 问题是：LLM 慢、数据库偶尔抖、通知服务偶尔失败。alert-api 如果同步等所有步骤完成，告警入口就会很脆弱。
 
 更合理的做法是：
@@ -41,6 +48,23 @@ RabbitMQ queue
   +--> notify-worker
   +--> rca-worker
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Alertmanager</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>  v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>alert-api</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>  &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>  v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 7 行 | <code>RabbitMQ queue</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 8 行 | <code>  &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 9 行 | <code>  +--&gt; enrich-worker</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 10 行 | <code>  +--&gt; notify-worker</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 11 行 | <code>  +--&gt; rca-worker</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 这样 alert-api 先把告警事件放进队列，后面的分析、通知、RCA 可以异步处理。RabbitMQ 负责暂存消息、分发消息、控制消费速度和处理失败消息。
 
@@ -73,6 +97,13 @@ Producer 是发送消息的一方。
 ```text
 alert-api publishes AlertReceived
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>alert-api publishes AlertReceived</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 生产者要关心：
 
@@ -119,6 +150,15 @@ binding key: alert.*.critical
 queue: critical-alerts
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>exchange: alerts.topic</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>binding key: alert.*.critical</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>queue: critical-alerts</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 当 routing key 是 `alert.order.critical` 时，消息会进入 `critical-alerts`。
 
 ### Consumer
@@ -162,6 +202,13 @@ prefetch 控制 RabbitMQ 一次最多给消费者多少条未确认消息。
 prefetch = 1 到 50，根据任务耗时调整
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>prefetch = 1 到 50，根据任务耗时调整</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 ## 架构和数据流
 
 ```text
@@ -184,6 +231,29 @@ consumer
 RabbitMQ updates message state
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>producer</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>  &#124; publish(exchange, routing_key, message)</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>  v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>exchange</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>  &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 7 行 | <code>  &#124; binding rules</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 8 行 | <code>  v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 9 行 | <code>queue</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 10 行 | <code>  &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 11 行 | <code>  &#124; deliver</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 12 行 | <code>  v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 13 行 | <code>consumer</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 14 行 | <code>  &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 15 行 | <code>  &#124; ack / reject / nack</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 16 行 | <code>  v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 17 行 | <code>RabbitMQ updates message state</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 AIOps 告警队列示例：
 
 ```text
@@ -199,6 +269,23 @@ exchange: alerts.topic
   +-- routing key alert.order.warning  --> queue: normal-alerts
   +-- routing key alert.*.*            --> queue: aiops-analysis
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Alertmanager webhook</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>  v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>alert-api</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>  &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>  v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 7 行 | <code>exchange: alerts.topic</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 8 行 | <code>  &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 9 行 | <code>  +-- routing key alert.order.critical --&gt; queue: critical-alerts</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 10 行 | <code>  +-- routing key alert.order.warning  --&gt; queue: normal-alerts</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 11 行 | <code>  +-- routing key alert.*.*            --&gt; queue: aiops-analysis</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 ## 和 Kafka 的区别
 
@@ -225,6 +312,16 @@ docker run --rm --name rabbitmq \
   rabbitmq:4-management
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker run --rm --name rabbitmq \</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+| 第 2 行 | <code>  -p 5672:5672 \</code> | 执行 `-p` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 3 行 | <code>  -p 15672:15672 \</code> | 执行 `-p` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 4 行 | <code>  rabbitmq:4-management</code> | 执行 `rabbitmq:4-management` 相关命令，后面的参数决定它具体操作什么对象。 |
+
+
 端口：
 
 | 端口 | 用途 |
@@ -238,11 +335,25 @@ docker run --rm --name rabbitmq \
 http://localhost:15672
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>http://localhost:15672</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 默认用户名密码通常是：
 
 ```text
 guest / guest
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>guest / guest</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 注意：默认 guest 用户只适合本地实验，生产环境必须创建独立用户、vhost 和权限。
 
@@ -259,11 +370,30 @@ labs/rabbitmq-alert-queue/
   README.md
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>labs/rabbitmq-alert-queue/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  compose.yaml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>  producer.py</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>  worker.py</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>  requirements.txt</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>  README.md</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 `requirements.txt`：
 
 ```text
 pika==1.3.2
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>pika==1.3.2</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 ### 生产者
 
@@ -298,6 +428,40 @@ channel.basic_publish(
 connection.close()
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>import json</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
+| 第 2 行 | <code>import pika</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
+| 第 3 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 4 行 | <code>connection = pika.BlockingConnection(pika.ConnectionParameters("localhost"))</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 5 行 | <code>channel = connection.channel()</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 6 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 7 行 | <code>channel.exchange_declare(exchange="alerts.topic", exchange_type="topic", durable=True)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 8 行 | <code>channel.queue_declare(queue="critical-alerts", durable=True)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 9 行 | <code>channel.queue_bind(</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 10 行 | <code>    exchange="alerts.topic",</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 11 行 | <code>    queue="critical-alerts",</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 12 行 | <code>    routing_key="alert.*.critical",</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 13 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 14 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 15 行 | <code>message = {</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 16 行 | <code>    "alertname": "OrderApiHighErrorRate",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 17 行 | <code>    "service": "order-api",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 18 行 | <code>    "severity": "critical",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 19 行 | <code>}</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 20 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 21 行 | <code>channel.basic_publish(</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 22 行 | <code>    exchange="alerts.topic",</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 23 行 | <code>    routing_key="alert.order.critical",</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 24 行 | <code>    body=json.dumps(message).encode("utf-8"),</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 25 行 | <code>    properties=pika.BasicProperties(delivery_mode=2),</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 26 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 27 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 28 行 | <code>connection.close()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+
+
 关键点：
 
 - `exchange_declare` 创建 exchange。
@@ -328,6 +492,30 @@ channel.basic_consume(queue="critical-alerts", on_message_callback=handle_messag
 channel.start_consuming()
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>import json</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
+| 第 2 行 | <code>import pika</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
+| 第 3 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 4 行 | <code>connection = pika.BlockingConnection(pika.ConnectionParameters("localhost"))</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 5 行 | <code>channel = connection.channel()</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 6 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 7 行 | <code>channel.queue_declare(queue="critical-alerts", durable=True)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 8 行 | <code>channel.basic_qos(prefetch_count=1)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 9 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 10 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 11 行 | <code>def handle_message(ch, method, properties, body):</code> | 定义函数，把一段可复用逻辑命名，后续可以反复调用。 |
+| 第 12 行 | <code>    alert = json.loads(body)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 13 行 | <code>    print("received:", alert["alertname"], alert["service"])</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
+| 第 14 行 | <code>    ch.basic_ack(delivery_tag=method.delivery_tag)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 15 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 16 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 17 行 | <code>channel.basic_consume(queue="critical-alerts", on_message_callback=handle_message)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 18 行 | <code>channel.start_consuming()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+
+
 关键点：
 
 - `basic_qos(prefetch_count=1)` 控制未 ack 消息数量。
@@ -355,6 +543,25 @@ main queue
   v
 dead letter queue
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>main queue</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>  &#124; consumer fails</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>  v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>retry queue with TTL</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>  &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 7 行 | <code>  &#124; TTL expires</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 8 行 | <code>  v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 9 行 | <code>main queue</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 10 行 | <code>  &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 11 行 | <code>  &#124; exceeds retry limit</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 12 行 | <code>  v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 13 行 | <code>dead letter queue</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 Dead Letter Exchange 适合保存：
 

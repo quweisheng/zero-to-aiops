@@ -40,6 +40,19 @@ Spring Boot 应用
   -> Actuator / Micrometer / Prometheus / OpenTelemetry
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Spring Boot 应用</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; Spring Cloud Gateway</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; Spring Cloud OpenFeign / RestClient</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; 注册中心 / Kubernetes Service</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; Config Server / ConfigMap</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; MySQL / Redis / RabbitMQ / Kafka</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>  -&gt; Actuator / Micrometer / Prometheus / OpenTelemetry</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 所以这篇文章的边界是：
 
 - 以 Spring Boot 讲“单个微服务怎么做成生产可运行应用”。
@@ -58,6 +71,16 @@ one-repo
   -> one-nginx-location
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>one-repo</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; one-war</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; one-database</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; one-nginx-location</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 上线时整包发布，出问题整包回滚。慢是慢一点，但至少排障路径相对直接。
 
 后来系统拆成了很多服务：
@@ -70,6 +93,18 @@ payment-service
 inventory-service
 notification-service
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>gateway-service</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>user-service</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>order-service</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>payment-service</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>inventory-service</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>notification-service</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 这时值班问题变了：
 
@@ -101,6 +136,14 @@ Spring Cloud 再解决“多个服务之间怎么协作”。
 Spring Boot = 把一个服务做成可运行、可管理、可观测的应用
 Spring Cloud = 把很多 Spring Boot 服务连成可治理的分布式系统
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Spring Boot = 把一个服务做成可运行、可管理、可观测的应用</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>Spring Cloud = 把很多 Spring Boot 服务连成可治理的分布式系统</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 ### 有 Kubernetes 了，还要 Spring Cloud 吗？
 
@@ -189,6 +232,43 @@ Spring Boot
      -> Cloud Native Buildpacks
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Spring Boot</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; Getting Started</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>     -&gt; Spring Initializr</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>     -&gt; Maven / Gradle</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>     -&gt; main application</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>     -&gt; embedded server</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>  -&gt; Developing with Spring Boot</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 8 行 | <code>     -&gt; auto-configuration</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 9 行 | <code>     -&gt; dependency management</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 10 行 | <code>     -&gt; configuration properties</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 11 行 | <code>     -&gt; profiles</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 12 行 | <code>     -&gt; logging</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 13 行 | <code>     -&gt; testing</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 14 行 | <code>  -&gt; Web</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 15 行 | <code>     -&gt; Spring MVC</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 16 行 | <code>     -&gt; RestClient / WebClient</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 17 行 | <code>     -&gt; validation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 18 行 | <code>     -&gt; error handling</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 19 行 | <code>  -&gt; Data</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 20 行 | <code>     -&gt; JDBC / JPA / Redis / messaging</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 21 行 | <code>  -&gt; Production-ready Features</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 22 行 | <code>     -&gt; Actuator</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 23 行 | <code>     -&gt; health</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 24 行 | <code>     -&gt; metrics</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 25 行 | <code>     -&gt; tracing</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 26 行 | <code>     -&gt; loggers</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 27 行 | <code>     -&gt; Prometheus / OTLP</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 28 行 | <code>  -&gt; Packaging</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 29 行 | <code>     -&gt; executable jar</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 30 行 | <code>     -&gt; Docker image</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 31 行 | <code>     -&gt; Cloud Native Buildpacks</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 对 AIOps 来说，Spring Boot 最关键的不是“能写 Controller”，而是这些生产能力：
 
 - 外部化配置。
@@ -226,6 +306,32 @@ Spring Cloud
      -> Spring Cloud Kubernetes
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Spring Cloud</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; configuration management</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>     -&gt; Spring Cloud Config</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; service registration and discovery</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>     -&gt; DiscoveryClient</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>     -&gt; Eureka / Consul / Kubernetes</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>  -&gt; service-to-service calls</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 8 行 | <code>     -&gt; OpenFeign</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 9 行 | <code>     -&gt; RestClient / WebClient</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 10 行 | <code>  -&gt; load balancing</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 11 行 | <code>     -&gt; Spring Cloud LoadBalancer</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 12 行 | <code>  -&gt; routing</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 13 行 | <code>     -&gt; Spring Cloud Gateway</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 14 行 | <code>  -&gt; circuit breakers</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 15 行 | <code>     -&gt; Spring Cloud Circuit Breaker</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 16 行 | <code>     -&gt; Resilience4j</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 17 行 | <code>  -&gt; distributed messaging</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 18 行 | <code>     -&gt; Spring Cloud Stream</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 19 行 | <code>  -&gt; Kubernetes integration</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 20 行 | <code>     -&gt; Spring Cloud Kubernetes</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 Spring Cloud 不是一个单独的 jar，而是一组分布式系统模式的工具箱。学习时不要贪多，先抓住这条主线：
 
 ```text
@@ -236,6 +342,18 @@ Spring Cloud 不是一个单独的 jar，而是一组分布式系统模式的工
   -> 容错
   -> 观测
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>配置</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; 发现</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; 调用</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; 路由</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; 容错</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; 观测</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 ## 学习路径
 
@@ -253,6 +371,22 @@ Spring Cloud 不是一个单独的 jar，而是一组分布式系统模式的工
 9. 用 Docker Compose 或 Kubernetes 跑起来
 10. 写一次完整排障记录和 RCA
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>1. 先写一个 Spring Boot REST 服务</code> | 编号步骤，表示学习或操作时应该按顺序执行。 |
+| 第 2 行 | <code>2. 加 Actuator，暴露 health 和 metrics</code> | 编号步骤，表示学习或操作时应该按顺序执行。 |
+| 第 3 行 | <code>3. 加第二个服务，用 RestClient / OpenFeign 调用</code> | 编号步骤，表示学习或操作时应该按顺序执行。 |
+| 第 4 行 | <code>4. 引入服务发现或 Kubernetes Service</code> | 编号步骤，表示学习或操作时应该按顺序执行。 |
+| 第 5 行 | <code>5. 引入 Spring Cloud Gateway 做统一入口</code> | 编号步骤，表示学习或操作时应该按顺序执行。 |
+| 第 6 行 | <code>6. 加 timeout、retry、circuit breaker</code> | 编号步骤，表示学习或操作时应该按顺序执行。 |
+| 第 7 行 | <code>7. 加 Prometheus 指标和 OpenTelemetry trace</code> | 编号步骤，表示学习或操作时应该按顺序执行。 |
+| 第 8 行 | <code>8. 加 RabbitMQ / Kafka 做异步事件</code> | 编号步骤，表示学习或操作时应该按顺序执行。 |
+| 第 9 行 | <code>9. 用 Docker Compose 或 Kubernetes 跑起来</code> | 编号步骤，表示学习或操作时应该按顺序执行。 |
+| 第 10 行 | <code>10. 写一次完整排障记录和 RCA</code> | 编号步骤，表示学习或操作时应该按顺序执行。 |
+
 
 这条线跑通后，你才算真正把“微服务”从概念变成作品集证据。
 
@@ -273,6 +407,18 @@ public class OrderApplication {
 }
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>@SpringBootApplication</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 2 行 | <code>public class OrderApplication {</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 3 行 | <code>  public static void main(String[] args) {</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 4 行 | <code>    SpringApplication.run(OrderApplication.class, args);</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 5 行 | <code>  }</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 6 行 | <code>}</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+
+
 **为什么需要**
 
 它把组件扫描、自动配置、配置绑定、内嵌 Web 容器等能力串起来，让一个服务可以通过 `java -jar` 独立运行。
@@ -289,6 +435,19 @@ main()
   -> 暴露 HTTP 端口
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>main()</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; SpringApplication.run()</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; 创建 ApplicationContext</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; 加载配置</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; 自动配置 Bean</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; 启动内嵌 Tomcat / Jetty / Netty</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>  -&gt; 暴露 HTTP 端口</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 **怎么看 / 怎么用**
 
 常用命令：
@@ -299,6 +458,16 @@ main()
 ./mvnw package
 java -jar target/order-service-0.0.1-SNAPSHOT.jar
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>./mvnw spring-boot:run</code> | 执行 `./mvnw` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 2 行 | <code>./mvnw test</code> | 执行 `./mvnw` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 3 行 | <code>./mvnw package</code> | 执行 `./mvnw` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 4 行 | <code>java -jar target/order-service-0.0.1-SNAPSHOT.jar</code> | 执行 `java` 相关命令，后面的参数决定它具体操作什么对象。 |
+
 
 预期结果：
 
@@ -335,6 +504,17 @@ pom.xml 引入 starter
   -> 自动创建默认 Bean
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>pom.xml 引入 starter</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; Spring Boot 管理依赖版本</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; classpath 中出现特定类</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; auto-configuration 条件匹配</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; 自动创建默认 Bean</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 **怎么看 / 怎么用**
 
 最小 Web 服务常见依赖：
@@ -351,6 +531,22 @@ pom.xml 引入 starter
   </dependency>
 </dependencies>
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>&lt;dependencies&gt;</code> | XML 配置或数据行，标签名表示字段或配置节点。 |
+| 第 2 行 | <code>  &lt;dependency&gt;</code> | XML 配置或数据行，标签名表示字段或配置节点。 |
+| 第 3 行 | <code>    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</code> | XML 配置或数据行，标签名表示字段或配置节点。 |
+| 第 4 行 | <code>    &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</code> | XML 配置或数据行，标签名表示字段或配置节点。 |
+| 第 5 行 | <code>  &lt;/dependency&gt;</code> | XML 配置或数据行，标签名表示字段或配置节点。 |
+| 第 6 行 | <code>  &lt;dependency&gt;</code> | XML 配置或数据行，标签名表示字段或配置节点。 |
+| 第 7 行 | <code>    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</code> | XML 配置或数据行，标签名表示字段或配置节点。 |
+| 第 8 行 | <code>    &lt;artifactId&gt;spring-boot-starter-actuator&lt;/artifactId&gt;</code> | XML 配置或数据行，标签名表示字段或配置节点。 |
+| 第 9 行 | <code>  &lt;/dependency&gt;</code> | XML 配置或数据行，标签名表示字段或配置节点。 |
+| 第 10 行 | <code>&lt;/dependencies&gt;</code> | XML 配置或数据行，标签名表示字段或配置节点。 |
+
 
 **坏了怎么查**
 
@@ -380,6 +576,19 @@ application.yml
   -> @ConfigurationProperties / @Value
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>application.yml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  + application-prod.yml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>  + environment variables</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>  + command line args</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>  + config server</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>  -&gt; Spring Environment</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>  -&gt; @ConfigurationProperties / @Value</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 **怎么看 / 怎么用**
 
 示例：
@@ -400,6 +609,26 @@ management:
       exposure:
         include: health,info,metrics,prometheus,loggers
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>server:</code> | 定义 `server` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 2 行 | <code>  port: 8081</code> | 设置 `port` 字段的值为 `8081`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 3 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 4 行 | <code>spring:</code> | 定义 `spring` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 5 行 | <code>  application:</code> | 定义 `application` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 6 行 | <code>    name: order-service</code> | 设置 `name` 字段的值为 `order-service`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 7 行 | <code>  profiles:</code> | 定义 `profiles` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 8 行 | <code>    active: dev</code> | 设置 `active` 字段的值为 `dev`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 9 行 | <em>空行</em> | 空行，用来分隔不同配置段，方便阅读。 |
+| 第 10 行 | <code>management:</code> | 定义 `management` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 11 行 | <code>  endpoints:</code> | 定义 `endpoints` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 12 行 | <code>    web:</code> | 定义 `web` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 13 行 | <code>      exposure:</code> | 定义 `exposure` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 14 行 | <code>        include: health,info,metrics,prometheus,loggers</code> | 设置 `include` 字段的值为 `health,info,metrics,prometheus,loggers`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
 
 **坏了怎么查**
 
@@ -431,6 +660,18 @@ HTTP request
   -> HTTP response
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>HTTP request</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; DispatcherServlet</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; Controller</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; Service</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; Repository / Client</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; HTTP response</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 **怎么看 / 怎么用**
 
 示例：
@@ -451,6 +692,26 @@ class OrderController {
   }
 }
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>@RestController</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 2 行 | <code>@RequestMapping("/orders")</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 3 行 | <code>class OrderController {</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 4 行 | <code>  private final OrderService orderService;</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 5 行 | <em>空行</em> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 6 行 | <code>  OrderController(OrderService orderService) {</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 7 行 | <code>    this.orderService = orderService;</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 8 行 | <code>  }</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 9 行 | <em>空行</em> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 10 行 | <code>  @PostMapping</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 11 行 | <code>  OrderResponse create(@RequestBody CreateOrderRequest request) {</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 12 行 | <code>    return orderService.create(request);</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 13 行 | <code>  }</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 14 行 | <code>}</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+
 
 **坏了怎么查**
 
@@ -480,6 +741,18 @@ spring-boot-starter-actuator
   -> Prometheus scrape
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>spring-boot-starter-actuator</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; 自动注册 endpoint</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; /actuator/health</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; /actuator/metrics</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; /actuator/prometheus</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; Prometheus scrape</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 **怎么看 / 怎么用**
 
 常用命令：
@@ -490,6 +763,16 @@ curl http://localhost:8081/actuator/metrics
 curl http://localhost:8081/actuator/metrics/http.server.requests
 curl http://localhost:8081/actuator/prometheus
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl http://localhost:8081/actuator/health</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+| 第 2 行 | <code>curl http://localhost:8081/actuator/metrics</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+| 第 3 行 | <code>curl http://localhost:8081/actuator/metrics/http.server.requests</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+| 第 4 行 | <code>curl http://localhost:8081/actuator/prometheus</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+
 
 预期结果：
 
@@ -531,6 +814,17 @@ Spring MVC / RestClient / DataSource
   -> Prometheus / OTLP / Zipkin
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Spring MVC / RestClient / DataSource</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; Micrometer Observation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; metrics: http.server.requests, jdbc.connections...</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; tracing: traceId, spanId</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; Prometheus / OTLP / Zipkin</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 **怎么看 / 怎么用**
 
 常见配置：
@@ -548,6 +842,23 @@ management:
       export:
         enabled: true
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>management:</code> | 定义 `management` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 2 行 | <code>  tracing:</code> | 定义 `tracing` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 3 行 | <code>    sampling:</code> | 定义 `sampling` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 4 行 | <code>      probability: 1.0</code> | 设置 `probability` 字段的值为 `1.0`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 5 行 | <code>  otlp:</code> | 定义 `otlp` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 6 行 | <code>    tracing:</code> | 定义 `tracing` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 7 行 | <code>      endpoint: http://otel-collector:4318/v1/traces</code> | 设置 `endpoint` 字段的值为 `http://otel-collector:4318/v1/traces`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 8 行 | <code>  prometheus:</code> | 定义 `prometheus` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 9 行 | <code>    metrics:</code> | 定义 `metrics` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 10 行 | <code>      export:</code> | 定义 `export` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 11 行 | <code>        enabled: true</code> | 设置 `enabled` 字段的值为 `true`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
 
 **坏了怎么查**
 
@@ -579,6 +890,18 @@ order-service 调 payment-service
   -> 发起 HTTP 请求
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>payment-service 启动</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; 注册到 Eureka / Consul</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>order-service 调 payment-service</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>  -&gt; DiscoveryClient 查询实例</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; LoadBalancer 选择实例</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; 发起 HTTP 请求</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 Kubernetes：
 
 ```text
@@ -587,6 +910,16 @@ Pod
   -> Endpoints / EndpointSlice
   -> DNS: payment-service.default.svc.cluster.local
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Pod</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; Service</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; Endpoints / EndpointSlice</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; DNS: payment-service.default.svc.cluster.local</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 **怎么看 / 怎么用**
 
@@ -597,6 +930,15 @@ kubectl get svc payment-service
 kubectl get endpoints payment-service
 kubectl get endpointslice -l kubernetes.io/service-name=payment-service
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>kubectl get svc payment-service</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
+| 第 2 行 | <code>kubectl get endpoints payment-service</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
+| 第 3 行 | <code>kubectl get endpointslice -l kubernetes.io/service-name=payment-service</code> | 执行 Kubernetes 命令，用来查看集群资源、部署服务或排查 Pod 问题。 |
+
 
 **坏了怎么查**
 
@@ -629,6 +971,17 @@ interface PaymentClient {
 }
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>@FeignClient(name = "payment-service")</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 2 行 | <code>interface PaymentClient {</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 3 行 | <code>  @PostMapping("/payments")</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 4 行 | <code>  PaymentResponse pay(@RequestBody PayRequest request);</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 5 行 | <code>}</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+
+
 调用链：
 
 ```text
@@ -638,6 +991,17 @@ order-service
   -> payment-service instance
   -> response / timeout / error
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>order-service</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; PaymentClient</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; LoadBalancer</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; payment-service instance</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; response / timeout / error</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 **怎么看 / 怎么用**
 
@@ -653,6 +1017,20 @@ spring:
             connectTimeout: 1000
             readTimeout: 3000
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>spring:</code> | 定义 `spring` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 2 行 | <code>  cloud:</code> | 定义 `cloud` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 3 行 | <code>    openfeign:</code> | 定义 `openfeign` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 4 行 | <code>      client:</code> | 定义 `client` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 5 行 | <code>        config:</code> | 定义 `config` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 6 行 | <code>          payment-service:</code> | 定义 `payment-service` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 7 行 | <code>            connectTimeout: 1000</code> | 设置 `connectTimeout` 字段的值为 `1000`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 8 行 | <code>            readTimeout: 3000</code> | 设置 `readTimeout` 字段的值为 `3000`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
 
 **坏了怎么查**
 
@@ -682,6 +1060,18 @@ client
   -> order-service
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>client</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; gateway</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>     -&gt; route predicate match</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>     -&gt; filters</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>     -&gt; load-balanced downstream uri</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; order-service</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 **怎么看 / 怎么用**
 
 示例配置：
@@ -698,6 +1088,22 @@ spring:
           filters:
             - StripPrefix=1
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>spring:</code> | 定义 `spring` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 2 行 | <code>  cloud:</code> | 定义 `cloud` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 3 行 | <code>    gateway:</code> | 定义 `gateway` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 4 行 | <code>      routes:</code> | 定义 `routes` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 5 行 | <code>        - id: order-route</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 6 行 | <code>          uri: lb://order-service</code> | 设置 `uri` 字段的值为 `lb://order-service`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 7 行 | <code>          predicates:</code> | 定义 `predicates` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 8 行 | <code>            - Path=/api/orders/**</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 9 行 | <code>          filters:</code> | 定义 `filters` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 10 行 | <code>            - StripPrefix=1</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+
 
 **坏了怎么查**
 
@@ -740,6 +1146,19 @@ request
      -> half-open: 少量探测
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>request</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; timeout guard</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; retry policy</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; circuit breaker state</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>     -&gt; closed: 正常调用</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>     -&gt; open: 快速失败</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>     -&gt; half-open: 少量探测</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 **怎么看 / 怎么用**
 
 Spring Cloud Circuit Breaker 常搭配 Resilience4j。配置重点不是背字段，而是知道每个字段保护什么：
@@ -757,6 +1176,23 @@ resilience4j:
       payment:
         timeoutDuration: 3s
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>resilience4j:</code> | 定义 `resilience4j` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 2 行 | <code>  circuitbreaker:</code> | 定义 `circuitbreaker` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 3 行 | <code>    instances:</code> | 定义 `instances` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 4 行 | <code>      payment:</code> | 定义 `payment` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 5 行 | <code>        slidingWindowSize: 20</code> | 设置 `slidingWindowSize` 字段的值为 `20`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 6 行 | <code>        failureRateThreshold: 50</code> | 设置 `failureRateThreshold` 字段的值为 `50`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 7 行 | <code>        waitDurationInOpenState: 30s</code> | 设置 `waitDurationInOpenState` 字段的值为 `30s`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 8 行 | <code>  timelimiter:</code> | 定义 `timelimiter` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 9 行 | <code>    instances:</code> | 定义 `instances` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 10 行 | <code>      payment:</code> | 定义 `payment` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 11 行 | <code>        timeoutDuration: 3s</code> | 设置 `timeoutDuration` 字段的值为 `3s`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+
 
 **坏了怎么查**
 
@@ -791,6 +1227,21 @@ cross-service state
   -> eventual consistency
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>order-service owns order tables</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>payment-service owns payment tables</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>inventory-service owns inventory tables</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
+| 第 5 行 | <code>cross-service state</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>  -&gt; event</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>  -&gt; outbox</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 8 行 | <code>  -&gt; saga / compensation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 9 行 | <code>  -&gt; eventual consistency</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 **怎么看 / 怎么用**
 
 Outbox 最小表：
@@ -806,6 +1257,21 @@ CREATE TABLE outbox_events (
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>CREATE TABLE outbox_events (</code> | 创建数据库对象，例如表、索引或视图。 |
+| 第 2 行 | <code>  id BIGSERIAL PRIMARY KEY,</code> | SQL 语句的续行，通常补充字段、条件、函数参数或子查询结构。 |
+| 第 3 行 | <code>  aggregate_type VARCHAR(100) NOT NULL,</code> | SQL 语句的续行，通常补充字段、条件、函数参数或子查询结构。 |
+| 第 4 行 | <code>  aggregate_id VARCHAR(100) NOT NULL,</code> | SQL 语句的续行，通常补充字段、条件、函数参数或子查询结构。 |
+| 第 5 行 | <code>  event_type VARCHAR(100) NOT NULL,</code> | SQL 语句的续行，通常补充字段、条件、函数参数或子查询结构。 |
+| 第 6 行 | <code>  payload JSONB NOT NULL,</code> | SQL 语句的续行，通常补充字段、条件、函数参数或子查询结构。 |
+| 第 7 行 | <code>  status VARCHAR(20) NOT NULL DEFAULT 'NEW',</code> | SQL 语句的续行，通常补充字段、条件、函数参数或子查询结构。 |
+| 第 8 行 | <code>  created_at TIMESTAMPTZ NOT NULL DEFAULT now()</code> | 创建数据库对象，例如表、索引或视图。 |
+| 第 9 行 | <code>);</code> | SQL 语句的续行，通常补充字段、条件、函数参数或子查询结构。 |
+
 
 **坏了怎么查**
 
@@ -828,6 +1294,18 @@ gateway-service
   -> actuator metrics
   -> OpenTelemetry traces
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>gateway-service</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; order-service</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>     -&gt; payment-service</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>     -&gt; RabbitMQ / Kafka</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; actuator metrics</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; OpenTelemetry traces</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 先不要贪多。第一版只要跑通：
 
@@ -857,6 +1335,26 @@ labs/spring-microservices-aiops/
     troubleshooting.md
     rca-sample.md
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>labs/spring-microservices-aiops/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  README.md</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>  compose.yaml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>  pom.xml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>  gateway-service/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>  order-service/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 7 行 | <code>  payment-service/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 8 行 | <code>  observability/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 9 行 | <code>    prometheus.yml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 10 行 | <code>    otel-collector-config.yaml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 11 行 | <code>  docs/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 12 行 | <code>    architecture.md</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 13 行 | <code>    troubleshooting.md</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 14 行 | <code>    rca-sample.md</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 ### 服务端口约定
 
@@ -889,6 +1387,27 @@ class OrderController {
 }
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>@RestController</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 2 行 | <code>@RequestMapping("/orders")</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 3 行 | <code>class OrderController {</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 4 行 | <code>  private final PaymentClient paymentClient;</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 5 行 | <em>空行</em> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 6 行 | <code>  OrderController(PaymentClient paymentClient) {</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 7 行 | <code>    this.paymentClient = paymentClient;</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 8 行 | <code>  }</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 9 行 | <em>空行</em> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 10 行 | <code>  @PostMapping</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 11 行 | <code>  Map&lt;String, Object&gt; create(@RequestBody Map&lt;String, Object&gt; request) {</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 12 行 | <code>    var payment = paymentClient.pay(Map.of("amount", request.get("amount")));</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 13 行 | <code>    return Map.of("status", "CREATED", "payment", payment);</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 14 行 | <code>  }</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 15 行 | <code>}</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+
+
 ### payment-service 模拟慢接口
 
 ```java
@@ -903,6 +1422,21 @@ class PaymentController {
 }
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>@RestController</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 2 行 | <code>class PaymentController {</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 3 行 | <code>  @PostMapping("/payments")</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 4 行 | <code>  Map&lt;String, Object&gt; pay(@RequestBody Map&lt;String, Object&gt; request)</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 5 行 | <code>      throws InterruptedException {</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 6 行 | <code>    Thread.sleep(2000);</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 7 行 | <code>    return Map.of("status", "PAID");</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 8 行 | <code>  }</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+| 第 9 行 | <code>}</code> | 代码行，通常是在声明变量、调用函数、定义对象或控制程序流程。 |
+
+
 ### Prometheus 抓取
 
 ```yaml
@@ -915,6 +1449,20 @@ scrape_configs:
           - "payment-service:8082"
           - "gateway-service:8080"
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>scrape_configs:</code> | 定义 `scrape_configs` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 2 行 | <code>  - job_name: "spring-services"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 3 行 | <code>    metrics_path: "/actuator/prometheus"</code> | 设置 `metrics_path` 字段的值为 `"/actuator/prometheus"`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 4 行 | <code>    static_configs:</code> | 定义 `static_configs` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 5 行 | <code>      - targets:</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 6 行 | <code>          - "order-service:8081"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 7 行 | <code>          - "payment-service:8082"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+| 第 8 行 | <code>          - "gateway-service:8080"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+
 
 ## 命令字典
 
@@ -957,6 +1505,18 @@ team
 region
 cluster
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>service.name</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>service.version</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>deployment.environment</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>team</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>region</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>cluster</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 这些标签要进入：
 
@@ -1175,5 +1735,19 @@ service
   -> runbooks
   -> RCA
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>service</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; metrics</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; logs</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; traces</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; alerts</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; deploy changes</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>  -&gt; runbooks</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 8 行 | <code>  -&gt; RCA</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 当这条链路打通后，微服务才不只是架构名词，而是可以被监控、被诊断、被自动化治理的生产系统。

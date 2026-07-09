@@ -62,6 +62,19 @@ PostgreSQL instance
         -> function
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>PostgreSQL instance</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; database</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>     -&gt; schema</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>        -&gt; table</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>        -&gt; index</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>        -&gt; view</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>        -&gt; function</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 常见理解：
 
 - database 是隔离的数据库空间。
@@ -137,6 +150,26 @@ PostgreSQL
   +--> backup / replica
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>FastAPI / worker</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>  v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>PostgreSQL</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>  &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>  +--&gt; table: alerts</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>  +--&gt; table: incidents</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 8 行 | <code>  +--&gt; table: changes</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 9 行 | <code>  +--&gt; table: runbook_runs</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 10 行 | <code>  +--&gt; table: feedback</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 11 行 | <code>  +--&gt; index: service + started_at</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 12 行 | <code>  +--&gt; JSONB: raw alert payload</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 13 行 | <code>  +--&gt; WAL</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 14 行 | <code>  +--&gt; backup / replica</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 一个 AIOps 事件可以这样落库：
 
 ```text
@@ -148,6 +181,19 @@ Alertmanager webhook
   -> user feedback updates incident status
   -> RCA stores final summary
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Alertmanager webhook</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; alert-api</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; insert alerts</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; dedupe worker creates incident_candidate</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; runbook worker records action</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; user feedback updates incident status</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>  -&gt; RCA stores final summary</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 ## 最小数据模型
 
@@ -172,6 +218,30 @@ CREATE INDEX idx_alerts_labels_gin
 ON alerts USING GIN (labels);
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>CREATE TABLE alerts (</code> | 创建数据库对象，例如表、索引或视图。 |
+| 第 2 行 | <code>  id BIGSERIAL PRIMARY KEY,</code> | SQL 语句的续行，通常补充字段、条件、函数参数或子查询结构。 |
+| 第 3 行 | <code>  fingerprint TEXT NOT NULL,</code> | SQL 语句的续行，通常补充字段、条件、函数参数或子查询结构。 |
+| 第 4 行 | <code>  service_name TEXT NOT NULL,</code> | SQL 语句的续行，通常补充字段、条件、函数参数或子查询结构。 |
+| 第 5 行 | <code>  severity TEXT NOT NULL,</code> | SQL 语句的续行，通常补充字段、条件、函数参数或子查询结构。 |
+| 第 6 行 | <code>  status TEXT NOT NULL,</code> | SQL 语句的续行，通常补充字段、条件、函数参数或子查询结构。 |
+| 第 7 行 | <code>  labels JSONB NOT NULL DEFAULT '{}',</code> | SQL 语句的续行，通常补充字段、条件、函数参数或子查询结构。 |
+| 第 8 行 | <code>  annotations JSONB NOT NULL DEFAULT '{}',</code> | SQL 语句的续行，通常补充字段、条件、函数参数或子查询结构。 |
+| 第 9 行 | <code>  starts_at TIMESTAMPTZ NOT NULL,</code> | SQL 语句的续行，通常补充字段、条件、函数参数或子查询结构。 |
+| 第 10 行 | <code>  ends_at TIMESTAMPTZ,</code> | SQL 语句的续行，通常补充字段、条件、函数参数或子查询结构。 |
+| 第 11 行 | <code>  created_at TIMESTAMPTZ NOT NULL DEFAULT now()</code> | 创建数据库对象，例如表、索引或视图。 |
+| 第 12 行 | <code>);</code> | SQL 语句的续行，通常补充字段、条件、函数参数或子查询结构。 |
+| 第 13 行 | <em>空行</em> | 空行，用来把 SQL 的不同逻辑段分开。 |
+| 第 14 行 | <code>CREATE INDEX idx_alerts_service_time</code> | 创建数据库对象，例如表、索引或视图。 |
+| 第 15 行 | <code>ON alerts (service_name, starts_at DESC);</code> | SQL 语句的续行，通常补充字段、条件、函数参数或子查询结构。 |
+| 第 16 行 | <em>空行</em> | 空行，用来把 SQL 的不同逻辑段分开。 |
+| 第 17 行 | <code>CREATE INDEX idx_alerts_labels_gin</code> | 创建数据库对象，例如表、索引或视图。 |
+| 第 18 行 | <code>ON alerts USING GIN (labels);</code> | SQL 语句的续行，通常补充字段、条件、函数参数或子查询结构。 |
+
+
 查询最近 24 小时告警最多的服务：
 
 ```sql
@@ -182,6 +252,17 @@ GROUP BY service_name
 ORDER BY alert_count DESC;
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>SELECT service_name, COUNT(*) AS alert_count</code> | 选择最终要返回的字段或计算结果，是查询结果表头的来源。 |
+| 第 2 行 | <code>FROM alerts</code> | 指定从哪张表读取数据，是 SQL 逻辑执行的起点。 |
+| 第 3 行 | <code>WHERE starts_at &gt;= now() - interval '24 hours'</code> | 过滤原始数据行，只保留符合条件的记录。 |
+| 第 4 行 | <code>GROUP BY service_name</code> | 按指定字段分组，让每组单独统计或聚合。 |
+| 第 5 行 | <code>ORDER BY alert_count DESC;</code> | 对查询结果排序，让最重要或最新的数据排在前面。 |
+
+
 查询某个标签：
 
 ```sql
@@ -189,6 +270,15 @@ SELECT *
 FROM alerts
 WHERE labels @> '{"team": "platform"}';
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>SELECT *</code> | 选择最终要返回的字段或计算结果，是查询结果表头的来源。 |
+| 第 2 行 | <code>FROM alerts</code> | 指定从哪张表读取数据，是 SQL 逻辑执行的起点。 |
+| 第 3 行 | <code>WHERE labels @&gt; '{"team": "platform"}';</code> | 过滤原始数据行，只保留符合条件的记录。 |
+
 
 ## 常用观测点
 
@@ -216,6 +306,18 @@ labs/postgresql-aiops-store/
   README.md
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>labs/postgresql-aiops-store/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  compose.yaml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>  schema.sql</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>  seed.sql</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>  queries.sql</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>  README.md</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 `compose.yaml` 可以先只跑一个 PostgreSQL：
 
 ```yaml
@@ -229,6 +331,21 @@ services:
     ports:
       - "5432:5432"
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>services:</code> | 定义 `services` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 2 行 | <code>  postgres:</code> | 定义 `postgres` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 3 行 | <code>    image: postgres:17</code> | 设置 `image` 字段的值为 `postgres:17`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 4 行 | <code>    environment:</code> | 定义 `environment` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 5 行 | <code>      POSTGRES_USER: aiops</code> | 设置 `POSTGRES_USER` 字段的值为 `aiops`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 6 行 | <code>      POSTGRES_PASSWORD: aiops</code> | 设置 `POSTGRES_PASSWORD` 字段的值为 `aiops`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 7 行 | <code>      POSTGRES_DB: aiops</code> | 设置 `POSTGRES_DB` 字段的值为 `aiops`，真实 AIOps 环境里要按自己的服务名、端口、路径或策略调整。 |
+| 第 8 行 | <code>    ports:</code> | 定义 `ports` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 9 行 | <code>      - "5432:5432"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+
 
 实验目标：
 

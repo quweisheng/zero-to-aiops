@@ -155,6 +155,46 @@
 学完后在 GitHub 留下什么。
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>## 技术名</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 2 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 3 行 | <code>### 场景开场</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 4 行 | <code>用真实运维场景引入，不直接背定义。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 5 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 6 行 | <code>### 一句话人话版</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 7 行 | <code>先用一句白话讲清楚它接收什么、处理什么、输出什么。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 8 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 9 行 | <code>### 小白可能会问</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 10 行 | <code>把读者可能卡住的 2 到 4 个问题先抛出来。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 11 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 12 行 | <code>### 官方资料</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 13 行 | <code>列出官网教程和参考文档。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 14 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 15 行 | <code>### 是什么</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 16 行 | <code>一句话定义它。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 17 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 18 行 | <code>### 原理</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 19 行 | <code>它底层靠什么机制工作。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 20 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 21 行 | <code>### 架构</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 22 行 | <code>它有哪些核心组件，数据怎么流动。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 23 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 24 行 | <code>### 在 AIOps 中的作用</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 25 行 | <code>它解决 AIOps 链路里的哪一段问题。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 26 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 27 行 | <code>### 配置重点</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 28 行 | <code>必须知道哪些配置文件、端口、命令、参数。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 29 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 30 行 | <code>### 入门练习</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 31 行 | <code>做一个能提交到 GitHub 的小实验。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 32 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 33 行 | <code>### 学习证据</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 34 行 | <code>学完后在 GitHub 留下什么。</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+
+
 ## 不要平均用力
 
 AIOps 的第一阶段不是“所有技术都懂一点”，而是先打通一条小闭环：
@@ -172,6 +212,23 @@ Linux 服务
   -> LangChain / LangGraph / LLM / RAG 生成排障建议
   -> GitHub 记录过程
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Linux 服务</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; Prometheus 指标</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; VictoriaMetrics 长期指标</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; Grafana 仪表盘</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; Alertmanager 告警</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; Python / pandas 分析</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>  -&gt; 机器学习建模</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 8 行 | <code>  -&gt; scikit-learn 异常检测</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 9 行 | <code>  -&gt; FastAPI 暴露接口</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 10 行 | <code>  -&gt; LangChain / LangGraph / LLM / RAG 生成排障建议</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 11 行 | <code>  -&gt; GitHub 记录过程</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 这条链路打通后，再补 Kubernetes、OpenTelemetry、Loki、Ansible、Kafka、向量数据库和更完整的 SRE 流程。
 

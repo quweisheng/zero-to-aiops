@@ -25,6 +25,13 @@
 最近有没有变更？
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>最近有没有变更？</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 变更可能是：
 
 - 代码发布。
@@ -103,6 +110,54 @@ Change
   -> AIOps correlation
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Change</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; request</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>     -&gt; what changes</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>     -&gt; why</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>     -&gt; owner</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>     -&gt; planned window</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>  -&gt; risk assessment</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 8 行 | <code>     -&gt; user impact</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 9 行 | <code>     -&gt; blast radius</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 10 行 | <code>     -&gt; reversibility</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 11 行 | <code>     -&gt; dependency</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 12 行 | <code>     -&gt; data migration</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 13 行 | <code>  -&gt; review / gates</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 14 行 | <code>     -&gt; code review</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 15 行 | <code>     -&gt; tests</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 16 行 | <code>     -&gt; security</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 17 行 | <code>     -&gt; SLO / error budget</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 18 行 | <code>     -&gt; approval</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 19 行 | <code>  -&gt; release engineering</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 20 行 | <code>     -&gt; reproducible build</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 21 行 | <code>     -&gt; artifact</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 22 行 | <code>     -&gt; version</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 23 行 | <code>     -&gt; config snapshot</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 24 行 | <code>     -&gt; deployment plan</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 25 行 | <code>  -&gt; rollout</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 26 行 | <code>     -&gt; canary</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 27 行 | <code>     -&gt; rolling</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 28 行 | <code>     -&gt; blue-green</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 29 行 | <code>     -&gt; feature flag</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 30 行 | <code>  -&gt; verification</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 31 行 | <code>     -&gt; SLI / SLO</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 32 行 | <code>     -&gt; errors</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 33 行 | <code>     -&gt; latency</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 34 行 | <code>     -&gt; traffic</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 35 行 | <code>     -&gt; saturation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 36 行 | <code>     -&gt; business metrics</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 37 行 | <code>  -&gt; rollback / roll-forward</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 38 行 | <code>  -&gt; record</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 39 行 | <code>     -&gt; timeline</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 40 行 | <code>     -&gt; result</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 41 行 | <code>     -&gt; incident link</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 42 行 | <code>  -&gt; AIOps correlation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 初学路线：
 
 ```text
@@ -115,6 +170,20 @@ write change record
   -> record result
   -> link to incident if failed
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>write change record</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; classify risk</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; define verification metrics</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; define rollback plan</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; deploy with canary / rolling</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; observe SLO</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>  -&gt; record result</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 8 行 | <code>  -&gt; link to incident if failed</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 ## 变更不只是代码发布
 
@@ -153,6 +222,13 @@ Google SRE Release Engineering 强调：可靠服务需要可靠发布过程。
 ```text
 某人在某台机器手动改了一些东西。
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>某人在某台机器手动改了一些东西。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 那是事故材料，不是发布工程。
 
@@ -260,6 +336,89 @@ kubectl rollout undo deployment/order-api -n prod
 - 后续事项:
 ````
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code># Change: order-api release 2026.07.02.1</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 2 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 3 行 | <code>## 基本信息</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 4 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 5 行 | <code>- 变更 ID: CHG-2026-0702-001</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 6 行 | <code>- 服务: order-api</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 7 行 | <code>- 类型: 应用发布</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 8 行 | <code>- 风险: 中</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 9 行 | <code>- 执行人:</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 10 行 | <code>- 审批人:</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 11 行 | <code>- 计划时间: 2026-07-02 09:00</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 12 行 | <code>- 关联 PR:</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 13 行 | <code>- 关联制品:</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 14 行 | <code>- 关联 SLO: order-api-availability</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 15 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 16 行 | <code>## 变更内容</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 17 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 18 行 | <code>- 发布 order-api 版本 2026.07.02.1。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 19 行 | <code>- 修改数据库连接池配置。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 20 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 21 行 | <code>## 变更原因</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 22 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 23 行 | <code>- 修复订单状态同步问题。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 24 行 | <code>- 优化数据库连接池参数。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 25 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 26 行 | <code>## 风险评估</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 27 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 28 行 | <code>- 可能影响下单请求。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 29 行 | <code>- 可能导致数据库连接数变化。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 30 行 | <code>- 回滚可恢复代码和配置，但需观察连接池恢复。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 31 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 32 行 | <code>## 前置检查</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 33 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 34 行 | <code>- [ ] CI 通过。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 35 行 | <code>- [ ] 单元测试通过。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 36 行 | <code>- [ ] 集成测试通过。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 37 行 | <code>- [ ] 配置 diff 已评审。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 38 行 | <code>- [ ] 当前错误预算充足。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 39 行 | <code>- [ ] 回滚命令已确认。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 40 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 41 行 | <code>## 验证计划</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 42 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 43 行 | <code>- 观察 5xx 错误率。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 44 行 | <code>- 观察 p95 / p99 延迟。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 45 行 | <code>- 观察数据库连接池使用率。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 46 行 | <code>- 观察下单成功率。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 47 行 | <code>- 观察 payment-api 依赖错误率。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 48 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 49 行 | <code>## 回滚计划</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 50 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 51 行 | <code>```bash</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 52 行 | <code>kubectl rollout undo deployment/order-api -n prod</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 53 行 | <code>```</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 54 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 55 行 | <code>回滚风险：</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 56 行 | <code>- 如果有数据库 migration，必须先确认兼容性。</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 57 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 58 行 | <code>## 执行记录</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 59 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 60 行 | <code>&#124; 时间 &#124; 动作 &#124; 结果 &#124; 证据 &#124;</code> | Markdown 表格行，用来对齐展示字段和说明。 |
+| 第 61 行 | <code>&#124;---&#124;---&#124;---&#124;---&#124;</code> | Markdown 表格行，用来对齐展示字段和说明。 |
+| 第 62 行 | <code>&#124; 09:02 &#124; 开始发布 &#124; 成功 &#124; deploy log &#124;</code> | Markdown 表格行，用来对齐展示字段和说明。 |
+| 第 63 行 | <code>&#124; 09:10 &#124; 观察到错误率升高 &#124; 触发告警 &#124; Alertmanager &#124;</code> | Markdown 表格行，用来对齐展示字段和说明。 |
+| 第 64 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 65 行 | <code>## 变更后观察</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 66 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 67 行 | <code>&#124; 指标 &#124; 期望 &#124; 实际 &#124;</code> | Markdown 表格行，用来对齐展示字段和说明。 |
+| 第 68 行 | <code>&#124;---&#124;---&#124;---&#124;</code> | Markdown 表格行，用来对齐展示字段和说明。 |
+| 第 69 行 | <code>&#124; 5xx 错误率 &#124; 不高于基线 &#124; &#124;</code> | Markdown 表格行，用来对齐展示字段和说明。 |
+| 第 70 行 | <code>&#124; p95 延迟 &#124; 不高于 300ms &#124; &#124;</code> | Markdown 表格行，用来对齐展示字段和说明。 |
+| 第 71 行 | <code>&#124; 下单成功率 &#124; 不低于 99.9% &#124; &#124;</code> | Markdown 表格行，用来对齐展示字段和说明。 |
+| 第 72 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 73 行 | <code>## 结论</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 74 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 75 行 | <code>- 成功 / 失败 / 已回滚</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 76 行 | <code>- 是否关联 incident:</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+| 第 77 行 | <code>- 后续事项:</code> | Markdown 列表项，用来列出步骤、要点或证据清单。 |
+
+
 ## 发布成功不等于变更成功
 
 CI/CD 显示成功，只代表流水线执行完。
@@ -280,6 +439,13 @@ CI/CD 显示成功，只代表流水线执行完。
 发布完成 + 验证指标正常 + 观察窗口通过 + 无用户影响
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>发布完成 + 验证指标正常 + 观察窗口通过 + 无用户影响</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 ## 发布策略
 
 ### 滚动发布
@@ -287,6 +453,13 @@ CI/CD 显示成功，只代表流水线执行完。
 ```text
 一批一批替换实例。
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>一批一批替换实例。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 优点：
 
@@ -307,6 +480,15 @@ green: 新版本
 流量从 blue 切到 green
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>blue: 当前生产</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>green: 新版本</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>流量从 blue 切到 green</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 优点：
 
 - 切换和回滚快。
@@ -322,6 +504,13 @@ green: 新版本
 ```text
 少量流量 -> 观察 -> 扩大流量 -> 全量
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>少量流量 -&gt; 观察 -&gt; 扩大流量 -&gt; 全量</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 优点：
 
@@ -339,6 +528,13 @@ green: 新版本
 ```text
 代码已发布，但功能开关控制是否启用。
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>代码已发布，但功能开关控制是否启用。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 优点：
 
@@ -370,6 +566,13 @@ green: 新版本
 ```text
 如果 order-api 30 天错误预算已消耗 > 80%，禁止普通功能发布，只允许可靠性修复。
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>如果 order-api 30 天错误预算已消耗 &gt; 80%，禁止普通功能发布，只允许可靠性修复。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 这把 SLO 和发布决策连接起来。
 
@@ -420,6 +623,18 @@ green: 新版本
 - 下单成功率低于 99%
 则评估回滚。
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>发布后 15 分钟内：</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>- 5xx 错误率超过 2%，或</code> | 列表项，表示一个要点、条件、文件或检查项。 |
+| 第 3 行 | <code>- p95 延迟超过基线 2 倍，或</code> | 列表项，表示一个要点、条件、文件或检查项。 |
+| 第 4 行 | <code>- order-api SLO burn rate 超过 6，或</code> | 列表项，表示一个要点、条件、文件或检查项。 |
+| 第 5 行 | <code>- 下单成功率低于 99%</code> | 列表项，表示一个要点、条件、文件或检查项。 |
+| 第 6 行 | <code>则评估回滚。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 ## 数据库变更特别处理
 
@@ -486,6 +701,17 @@ incident starts at 09:10
   -> add change as root cause candidate
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>incident starts at 09:10</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; look back 30 minutes</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; change at 09:02</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; compare metrics before and after</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; add change as root cause candidate</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 AIOps 可以做：
 
 - 变更时间线自动补全。
@@ -503,6 +729,13 @@ AIOps 可以做：
 变更发生在故障前，不等于它一定是根因。
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>变更发生在故障前，不等于它一定是根因。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 它只是强候选，需要指标、日志、diff 和实验验证。
 
 ## 入门练习：变更记录和事故关联
@@ -514,11 +747,26 @@ AIOps 可以做：
 {"id":"CHG-002","service":"payment-api","type":"config","time":"2026-07-02T08:20:00Z","summary":"increase timeout","owner":"payment-team"}
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>{"id":"CHG-001","service":"order-api","type":"release","time":"2026-07-02T09:02:00Z","version":"2026.07.02.1","owner":"team-order"}</code> | JSON 列表或对象中的一行，注意逗号和引号必须符合 JSON 语法。 |
+| 第 2 行 | <code>{"id":"CHG-002","service":"payment-api","type":"config","time":"2026-07-02T08:20:00Z","summary":"increase timeout","owner":"payment-team"}</code> | JSON 列表或对象中的一行，注意逗号和引号必须符合 JSON 语法。 |
+
+
 准备 incident：
 
 ```json
 {"id":"INC-001","service":"order-api","start_time":"2026-07-02T09:10:00Z","symptom":"5xx error rate increased"}
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>{"id":"INC-001","service":"order-api","start_time":"2026-07-02T09:10:00Z","symptom":"5xx error rate increased"}</code> | JSON 列表或对象中的一行，注意逗号和引号必须符合 JSON 语法。 |
+
 
 任务：
 
@@ -540,6 +788,21 @@ for change in changes:
     if change["service"] == "order-api" and window_start <= change_time <= incident_time:
         print(change)
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>from datetime import datetime, timedelta, timezone</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
+| 第 2 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 3 行 | <code>incident_time = datetime.fromisoformat("2026-07-02T09:10:00+00:00")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 4 行 | <code>window_start = incident_time - timedelta(minutes=60)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 5 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 6 行 | <code>for change in changes:</code> | 循环处理一组数据，常用于逐条处理告警、日志或指标样本。 |
+| 第 7 行 | <code>    change_time = datetime.fromisoformat(change["time"].replace("Z", "+00:00"))</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 8 行 | <code>    if change["service"] == "order-api" and window_start &lt;= change_time &lt;= incident_time:</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
+| 第 9 行 | <code>        print(change)</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
+
 
 ## 常见错误
 

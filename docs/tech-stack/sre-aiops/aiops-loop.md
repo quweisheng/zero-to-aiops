@@ -50,6 +50,19 @@
 复盘能反哺。
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>数据能采到。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>异常能发现。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>上下文能关联。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>解释能给证据。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>动作有护栏。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>结果能验证。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 7 行 | <code>复盘能反哺。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 少一环，就容易变成孤立 demo。
 
 ## 一句话人话版
@@ -120,6 +133,57 @@ Learn
   -> updated features/models
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Observe</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; metrics</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; logs</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; traces</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; events</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; changes</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>  -&gt; topology</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 8 行 | <code>Detect</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 9 行 | <code>  -&gt; SLO burn-rate alerts</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 10 行 | <code>  -&gt; static thresholds</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 11 行 | <code>  -&gt; anomaly detection</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 12 行 | <code>  -&gt; forecasting</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 13 行 | <code>Correlate</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 14 行 | <code>  -&gt; alert grouping</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 15 行 | <code>  -&gt; service topology</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 16 行 | <code>  -&gt; time window</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 17 行 | <code>  -&gt; recent changes</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 18 行 | <code>  -&gt; similar incidents</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 19 行 | <code>Explain</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 20 行 | <code>  -&gt; evidence</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 21 行 | <code>  -&gt; logs</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 22 行 | <code>  -&gt; metrics</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 23 行 | <code>  -&gt; runbooks</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 24 行 | <code>  -&gt; RCA history</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 25 行 | <code>  -&gt; LLM summary</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 26 行 | <code>Recommend</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 27 行 | <code>  -&gt; next checks</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 28 行 | <code>  -&gt; runbook steps</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 29 行 | <code>  -&gt; safe actions</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 30 行 | <code>  -&gt; approval-needed actions</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 31 行 | <code>Act</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 32 行 | <code>  -&gt; create ticket</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 33 行 | <code>  -&gt; collect diagnostics</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 34 行 | <code>  -&gt; run read-only checks</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 35 行 | <code>  -&gt; execute approved automation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 36 行 | <code>Verify</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 37 行 | <code>  -&gt; SLI back to normal</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 38 行 | <code>  -&gt; alerts stop</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 39 行 | <code>  -&gt; business metrics recover</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 40 行 | <code>Learn</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 41 行 | <code>  -&gt; postmortem</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 42 行 | <code>  -&gt; action items</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 43 行 | <code>  -&gt; updated alerts</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 44 行 | <code>  -&gt; updated runbooks</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 45 行 | <code>  -&gt; updated features/models</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 Microsoft Azure Monitor 的 AIOps / agentic operations 资料也强调：现代运维智能不只是发现异常，还包括跨信号调查、解释发生了什么、说明证据、指导下一步行动。这个思路和 SRE 闭环天然契合。
 
 ## AIOps 不是聊天机器人
@@ -148,6 +212,16 @@ raw logs
   -> auto restart production
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>raw logs</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; LLM</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; "root cause is database"</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; auto restart production</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 好架构：
 
 ```text
@@ -162,6 +236,22 @@ alert
   -> verify SLI
   -> postmortem updates knowledge
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>alert</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; SLO impact</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; recent changes</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; logs / metrics / traces</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; runbook retrieval</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; LLM summary with evidence</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>  -&gt; human approval</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 8 行 | <code>  -&gt; controlled automation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 9 行 | <code>  -&gt; verify SLI</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 10 行 | <code>  -&gt; postmortem updates knowledge</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 ## 闭环总架构
 
@@ -185,6 +275,28 @@ Demo service
   -> Prometheus verifies recovery
   -> RCA updates runbook and rules
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Demo service</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; Prometheus metrics</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; Grafana dashboard</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; Alertmanager alert</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; FastAPI webhook receiver</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; Redis dedup</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>  -&gt; MySQL incident store</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 8 行 | <code>  -&gt; Kafka event stream</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 9 行 | <code>  -&gt; pandas feature table</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 10 行 | <code>  -&gt; scikit-learn anomaly signal</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 11 行 | <code>  -&gt; vector database runbook retrieval</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 12 行 | <code>  -&gt; OpenAI summary</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 13 行 | <code>  -&gt; human approval</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 14 行 | <code>  -&gt; Ansible / script action</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 15 行 | <code>  -&gt; Prometheus verifies recovery</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 16 行 | <code>  -&gt; RCA updates runbook and rules</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 这条链路把本知识库的技术栈串起来了。
 
@@ -245,6 +357,16 @@ SLO burn-rate alert
   + forecast
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>SLO burn-rate alert</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  + static thresholds</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>  + anomaly detection</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>  + forecast</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 各自职责：
 
 | 方法 | 优点 | 风险 |
@@ -272,6 +394,16 @@ SLO burn-rate alert
 是否来自同一个下游依赖？
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>这些告警是不是同一个事故？</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>最近有没有相关变更？</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>和历史哪次事故相似？</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>是否来自同一个下游依赖？</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 最小关联规则：
 
 ```text
@@ -281,6 +413,17 @@ same service
   + same recent change
   -> incident candidate
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>same service</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  + same 10-minute window</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>  + same dependency</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>  + same recent change</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>  -&gt; incident candidate</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 数据模型：
 
@@ -298,6 +441,23 @@ same service
 }
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>{</code> | 对象开始，表示下面是一组键值对配置。 |
+| 第 2 行 | <code>  "incident_candidate_id": "ic-20260702-001",</code> | 设置 `incident_candidate_id` 字段，值是 `"ic-20260702-001"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 3 行 | <code>  "service": "order-api",</code> | 设置 `service` 字段，值是 `"order-api"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 4 行 | <code>  "start_time": "2026-07-02T09:10:00Z",</code> | 设置 `start_time` 字段，值是 `"2026-07-02T09:10:00Z"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 5 行 | <code>  "alerts": ["OrderApiHighErrorRate", "OrderApiHighLatency"],</code> | 设置 `alerts` 字段，值是 `["OrderApiHighErrorRate", "OrderApiHighLatency"]`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 6 行 | <code>  "recent_changes": ["CHG-2026-0702-001"],</code> | 设置 `recent_changes` 字段，值是 `["CHG-2026-0702-001"]`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 7 行 | <code>  "suspected_dependencies": ["mysql", "payment-api"],</code> | 设置 `suspected_dependencies` 字段，值是 `["mysql", "payment-api"]`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 8 行 | <code>  "slo_impact": {</code> | 设置 `slo_impact` 字段，值是 `{`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 9 行 | <code>    "availability_burn_rate": 14.4</code> | 设置 `availability_burn_rate` 字段，值是 `14.4`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 10 行 | <code>  }</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+| 第 11 行 | <code>}</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+
+
 关联不是定根因，只是组织上下文。
 
 ## 解释层
@@ -309,6 +469,13 @@ same service
 ```text
 根因是数据库。
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>根因是数据库。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 好输出：
 
@@ -323,6 +490,21 @@ same service
 - 当前没有数据库连接池 active 指标。
 - 当前没有慢查询统计。
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>候选原因：数据库连接池配置异常。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>证据：</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>1. 09:02 有 order-api 发布 CHG-2026-0702-001。</code> | 编号步骤，表示学习或操作时应该按顺序执行。 |
+| 第 4 行 | <code>2. 09:10 5xx 错误率从 1% 升到 23%。</code> | 编号步骤，表示学习或操作时应该按顺序执行。 |
+| 第 5 行 | <code>3. Loki 日志显示 database connection timeout 占 5xx 的 78%。</code> | 编号步骤，表示学习或操作时应该按顺序执行。 |
+| 第 6 行 | <code>4. Runbook 指出该现象需要检查连接池和最近配置 diff。</code> | 编号步骤，表示学习或操作时应该按顺序执行。 |
+| 第 7 行 | <code>缺失信息：</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 8 行 | <code>- 当前没有数据库连接池 active 指标。</code> | 列表项，表示一个要点、条件、文件或检查项。 |
+| 第 9 行 | <code>- 当前没有慢查询统计。</code> | 列表项，表示一个要点、条件、文件或检查项。 |
+
 
 LLM 适合做：
 
@@ -370,6 +552,26 @@ LLM 不适合做：
   "missing_information": ["数据库慢查询统计"]
 }
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>{</code> | 对象开始，表示下面是一组键值对配置。 |
+| 第 2 行 | <code>  "summary": "order-api 5xx 和延迟升高，时间上接近一次发布。",</code> | 设置 `summary` 字段，值是 `"order-api 5xx 和延迟升高，时间上接近一次发布。"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 3 行 | <code>  "possible_causes": [</code> | 设置 `possible_causes` 字段，值是 `[`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 4 行 | <code>    {</code> | 对象开始，表示下面是一组键值对配置。 |
+| 第 5 行 | <code>      "title": "发布引入数据库连接池配置问题",</code> | 设置 `title` 字段，值是 `"发布引入数据库连接池配置问题"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 6 行 | <code>      "evidence": ["CHG-2026-0702-001", "database timeout logs"],</code> | 设置 `evidence` 字段，值是 `["CHG-2026-0702-001", "database timeout logs"]`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 7 行 | <code>      "confidence": 0.68</code> | 设置 `confidence` 字段，值是 `0.68`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 8 行 | <code>    }</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+| 第 9 行 | <code>  ],</code> | 当前对象或数组结束，逗号表示后面还有同级项目。 |
+| 第 10 行 | <code>  "next_checks": ["检查连接池 active 指标", "对比配置 diff"],</code> | 设置 `next_checks` 字段，值是 `["检查连接池 active 指标", "对比配置 diff"]`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 11 行 | <code>  "safe_actions": ["创建 incident 文档", "生成状态更新草稿"],</code> | 设置 `safe_actions` 字段，值是 `["创建 incident 文档", "生成状态更新草稿"]`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 12 行 | <code>  "approval_required_actions": ["回滚 order-api"],</code> | 设置 `approval_required_actions` 字段，值是 `["回滚 order-api"]`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 13 行 | <code>  "missing_information": ["数据库慢查询统计"]</code> | 设置 `missing_information` 字段，值是 `["数据库慢查询统计"]`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 14 行 | <code>}</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+
 
 ## 行动层
 
@@ -421,6 +623,16 @@ SLO burn rate < 1。
 无新增用户投诉。
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>order-api 5xx &lt; 1% 持续 15 分钟。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>p95 延迟 &lt; 300ms 持续 15 分钟。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>SLO burn rate &lt; 1。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>无新增用户投诉。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 没有验证层，自动化只是“执行了动作”，不是“解决了问题”。
 
 ## 学习层
@@ -445,6 +657,13 @@ SLO burn rate < 1。
 incident -> postmortem -> action items -> updated system -> fewer repeat incidents
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>incident -&gt; postmortem -&gt; action items -&gt; updated system -&gt; fewer repeat incidents</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 如果没有 RCA 和行动项，AIOps 只是一次性分析，不是闭环。
 
 ## 最小作品集项目
@@ -454,6 +673,13 @@ incident -> postmortem -> action items -> updated system -> fewer repeat inciden
 ```text
 zero-to-aiops-lab
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>zero-to-aiops-lab</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 目录：
 
@@ -472,6 +698,25 @@ projects/zero-to-aiops-lab/
   rca/
   changes/
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>projects/zero-to-aiops-lab/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  README.md</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>  docker-compose.yaml</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>  app/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>  prometheus/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>  grafana/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 7 行 | <code>  alertmanager/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 8 行 | <code>  api/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 9 行 | <code>  analysis/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 10 行 | <code>  runbooks/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 11 行 | <code>  incidents/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 12 行 | <code>  rca/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 13 行 | <code>  changes/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 目标链路：
 
@@ -513,6 +758,26 @@ projects/zero-to-aiops-lab/
 }
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>{</code> | 对象开始，表示下面是一组键值对配置。 |
+| 第 2 行 | <code>  "alert_id": "a-001",</code> | 设置 `alert_id` 字段，值是 `"a-001"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 3 行 | <code>  "alertname": "OrderApiHighErrorRate",</code> | 设置 `alertname` 字段，值是 `"OrderApiHighErrorRate"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 4 行 | <code>  "service": "order-api",</code> | 设置 `service` 字段，值是 `"order-api"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 5 行 | <code>  "severity": "page",</code> | 设置 `severity` 字段，值是 `"page"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 6 行 | <code>  "starts_at": "2026-07-02T09:10:00Z",</code> | 设置 `starts_at` 字段，值是 `"2026-07-02T09:10:00Z"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 7 行 | <code>  "labels": {</code> | 设置 `labels` 字段，值是 `{`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 8 行 | <code>    "env": "prod",</code> | 设置 `env` 字段，值是 `"prod"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 9 行 | <code>    "owner": "team-order"</code> | 设置 `owner` 字段，值是 `"team-order"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 10 行 | <code>  },</code> | 当前对象或数组结束，逗号表示后面还有同级项目。 |
+| 第 11 行 | <code>  "annotations": {</code> | 设置 `annotations` 字段，值是 `{`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 12 行 | <code>    "runbook_url": "runbooks/order-api-high-error-rate.md"</code> | 设置 `runbook_url` 字段，值是 `"runbooks/order-api-high-error-rate.md"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 13 行 | <code>  }</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+| 第 14 行 | <code>}</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+
+
 ### incident_candidate
 
 ```json
@@ -528,6 +793,22 @@ projects/zero-to-aiops-lab/
 }
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>{</code> | 对象开始，表示下面是一组键值对配置。 |
+| 第 2 行 | <code>  "incident_id": "inc-001",</code> | 设置 `incident_id` 字段，值是 `"inc-001"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 3 行 | <code>  "service": "order-api",</code> | 设置 `service` 字段，值是 `"order-api"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 4 行 | <code>  "status": "investigating",</code> | 设置 `status` 字段，值是 `"investigating"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 5 行 | <code>  "alerts": ["a-001"],</code> | 设置 `alerts` 字段，值是 `["a-001"]`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 6 行 | <code>  "recent_changes": ["CHG-001"],</code> | 设置 `recent_changes` 字段，值是 `["CHG-001"]`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 7 行 | <code>  "slo_impact": {</code> | 设置 `slo_impact` 字段，值是 `{`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 8 行 | <code>    "burn_rate": 14.4</code> | 设置 `burn_rate` 字段，值是 `14.4`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 9 行 | <code>  }</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+| 第 10 行 | <code>}</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+
+
 ### aiops_analysis
 
 ```json
@@ -541,6 +822,21 @@ projects/zero-to-aiops-lab/
   "sources": []
 }
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>{</code> | 对象开始，表示下面是一组键值对配置。 |
+| 第 2 行 | <code>  "incident_id": "inc-001",</code> | 设置 `incident_id` 字段，值是 `"inc-001"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 3 行 | <code>  "summary": "order-api 5xx increased after a recent release.",</code> | 设置 `summary` 字段，值是 `"order-api 5xx increased after a recent release."`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 4 行 | <code>  "possible_causes": [],</code> | 设置 `possible_causes` 字段，值是 `[]`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 5 行 | <code>  "next_checks": [],</code> | 设置 `next_checks` 字段，值是 `[]`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 6 行 | <code>  "safe_actions": [],</code> | 设置 `safe_actions` 字段，值是 `[]`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 7 行 | <code>  "approval_required_actions": [],</code> | 设置 `approval_required_actions` 字段，值是 `[]`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 8 行 | <code>  "sources": []</code> | 设置 `sources` 字段，值是 `[]`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 9 行 | <code>}</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+
 
 结构化数据越清楚，LLM 和自动化越安全。
 
@@ -565,6 +861,17 @@ projects/zero-to-aiops-lab/
 谨慎进入 L5。
 最后追求 L6。
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>先做到 L2。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>再做 L3。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>再做 L4。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>谨慎进入 L5。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>最后追求 L6。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 不要从“全自动修复”开始。
 
@@ -597,6 +904,16 @@ projects/zero-to-aiops-lab/
 让重复事故更少了吗？
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>它让告警更少了吗？</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>让定位更快了吗？</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>让恢复更快了吗？</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>让重复事故更少了吗？</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 ## Guardrails
 
 AIOps 必须有护栏文档。
@@ -621,6 +938,15 @@ AIOps 必须有护栏文档。
 LLM 只能生成建议。
 回滚必须由 IC 审批，并由自动化平台记录执行人、时间、参数和结果。
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>禁止 LLM 直接执行生产回滚。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>LLM 只能生成建议。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>回滚必须由 IC 审批，并由自动化平台记录执行人、时间、参数和结果。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 ## 常见失败模式
 
@@ -668,6 +994,18 @@ projects/aiops-loop-design/
   guardrails.md
   incident-example.md
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>projects/aiops-loop-design/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  README.md</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>  architecture.md</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>  data-flow.md</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>  guardrails.md</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>  incident-example.md</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 `architecture.md` 必须写：
 

@@ -57,6 +57,46 @@ LangGraph
      -> debugging
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>LangGraph</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; Overview</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>     -&gt; durable execution</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>     -&gt; persistence</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>     -&gt; human-in-the-loop</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>     -&gt; memory</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>     -&gt; streaming</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 8 行 | <code>  -&gt; Graph API</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 9 行 | <code>     -&gt; state</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 10 行 | <code>     -&gt; node</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 11 行 | <code>     -&gt; edge</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 12 行 | <code>     -&gt; conditional edge</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 13 行 | <code>     -&gt; START / END</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 14 行 | <code>  -&gt; Workflows and agents</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 15 行 | <code>     -&gt; fixed workflow</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 16 行 | <code>     -&gt; dynamic agent</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 17 行 | <code>     -&gt; routing</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 18 行 | <code>     -&gt; evaluator-optimizer</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 19 行 | <code>  -&gt; Persistence</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 20 行 | <code>     -&gt; checkpoint</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 21 行 | <code>     -&gt; thread</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 22 行 | <code>     -&gt; resume</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 23 行 | <code>     -&gt; replay</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 24 行 | <code>  -&gt; Memory</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 25 行 | <code>     -&gt; short-term memory</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 26 行 | <code>     -&gt; long-term memory</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 27 行 | <code>  -&gt; Interrupts</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 28 行 | <code>     -&gt; pause</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 29 行 | <code>     -&gt; human approval</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 30 行 | <code>     -&gt; resume</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 31 行 | <code>  -&gt; LangSmith</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 32 行 | <code>     -&gt; tracing</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 33 行 | <code>     -&gt; evaluation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 34 行 | <code>     -&gt; debugging</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 如果你是零基础，阅读顺序建议是：
 
 1. 先读 overview，知道 LangGraph 解决什么问题。
@@ -185,6 +225,21 @@ alert input
   -> END
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>alert input</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; collect_metrics node</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; collect_logs node</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; classify_incident node</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; choose_runbook node</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; approval node</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>  -&gt; execute_action node</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 8 行 | <code>  -&gt; verify_recovery node</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 9 行 | <code>  -&gt; END</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 每个节点都读同一份 state，并返回 state 的更新部分。
 
 ```text
@@ -194,6 +249,17 @@ State before node
   -> merged new state
   -> next edge
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>State before node</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; node function</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; state update</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; merged new state</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; next edge</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 这样做有几个好处：
 
@@ -282,6 +348,16 @@ def route_by_risk(state):
     return "suggestion"
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>def route_by_risk(state):</code> | 定义函数，把一段可复用逻辑命名，后续可以反复调用。 |
+| 第 2 行 | <code>    if state["risk"] == "high":</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
+| 第 3 行 | <code>        return "approval"</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
+| 第 4 行 | <code>    return "suggestion"</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
+
+
 出问题怎么排查：检查条件函数所有可能返回值是否都在映射里，避免返回 `high` 但映射里只有 `approval`。
 
 ### Checkpoint
@@ -364,6 +440,25 @@ Alertmanager webhook
   -> GitHub learning evidence
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Alertmanager webhook</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; FastAPI receiver</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; LangGraph app</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>     -&gt; Prometheus / VictoriaMetrics query node</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>     -&gt; Loki / Elasticsearch log node</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>     -&gt; GitHub deployment node</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>     -&gt; Runbook retrieval node</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 8 行 | <code>     -&gt; LLM summary node</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 9 行 | <code>     -&gt; human approval node</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 10 行 | <code>     -&gt; automation action node</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 11 行 | <code>     -&gt; verification node</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 12 行 | <code>  -&gt; incident record</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 13 行 | <code>  -&gt; GitHub learning evidence</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 ### LangGraph 在 AIOps 链路的位置
 
 ```text
@@ -378,6 +473,21 @@ metrics / logs / traces / alerts / changes / runbooks
   -> incident knowledge base
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>metrics / logs / traces / alerts / changes / runbooks</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; evidence collection</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; LangGraph state</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; routing and reasoning</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; suggested action</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; human approval</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>  -&gt; automation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 8 行 | <code>  -&gt; verification</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 9 行 | <code>  -&gt; incident knowledge base</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 LangGraph 不替代 Prometheus、Loki、OpenTelemetry、Ansible、GitHub Actions 或数据库。它负责把这些工具按“排障流程”编排起来。
 
 ## 安装和启动
@@ -389,6 +499,13 @@ LangGraph 不替代 Prometheus、Loki、OpenTelemetry、Ansible、GitHub Actions
 ```bash
 python -m venv .venv
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>python -m venv .venv</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
+
 
 目的：创建一个隔离的 Python 环境，避免污染系统 Python。
 
@@ -405,11 +522,25 @@ Windows PowerShell：
 .\.venv\Scripts\Activate.ps1
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>.\.venv\Scripts\Activate.ps1</code> | 执行 `.\.venv\scripts\activate.ps1` 相关命令，后面的参数决定它具体操作什么对象。 |
+
+
 macOS / Linux：
 
 ```bash
 source .venv/bin/activate
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>source .venv/bin/activate</code> | 执行 `source` 相关命令，后面的参数决定它具体操作什么对象。 |
+
 
 预期结果：命令行前面出现 `(.venv)`。
 
@@ -419,11 +550,25 @@ source .venv/bin/activate
 pip install -U langgraph
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>pip install -U langgraph</code> | 管理 Python 依赖包，通常用于安装实验需要的库。 |
+
+
 如果后续要接 OpenAI 模型，再安装：
 
 ```bash
 pip install -U langchain-openai python-dotenv
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>pip install -U langchain-openai python-dotenv</code> | 管理 Python 依赖包，通常用于安装实验需要的库。 |
+
 
 本文的第一个实验不需要 API Key，只用普通 Python 函数跑通 graph。
 
@@ -466,6 +611,13 @@ LangGraph 本身不是一个必须先启动的数据库或服务。你在 Python
 alert -> metrics -> logs -> classify -> suggestion -> END
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>alert -&gt; metrics -&gt; logs -&gt; classify -&gt; suggestion -&gt; END</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 适合：
 
 - 新手学习。
@@ -480,6 +632,13 @@ alert -> metrics -> logs -> classify -> suggestion -> END
 ```text
 alert -> LLM decides tool -> tool result -> LLM decides next step -> ...
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>alert -&gt; LLM decides tool -&gt; tool result -&gt; LLM decides next step -&gt; ...</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 适合：
 
@@ -519,6 +678,17 @@ LangGraph 可以接入 AIOps 的这些环节：
   -> 输出最终状态
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>输入告警</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; 匹配 runbook</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; 判断风险</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; 选择下一步动作</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; 输出最终状态</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 这个实验不调用真实 Prometheus，也不调用 LLM。先把 graph 的骨架跑通，避免新手被 API Key、网络和模型费用卡住。
 
 ### 第 1 步：创建目录
@@ -528,11 +698,26 @@ mkdir aiops-langgraph-lab
 cd aiops-langgraph-lab
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>mkdir aiops-langgraph-lab</code> | 创建目录，用来准备实验项目结构。 |
+| 第 2 行 | <code>cd aiops-langgraph-lab</code> | 切换当前目录，确保后续命令在正确项目位置执行。 |
+
+
 ### 第 2 步：创建虚拟环境并安装
 
 ```bash
 python -m venv .venv
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>python -m venv .venv</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
+
 
 Windows PowerShell：
 
@@ -540,17 +725,38 @@ Windows PowerShell：
 .\.venv\Scripts\Activate.ps1
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>.\.venv\Scripts\Activate.ps1</code> | 执行 `.\.venv\scripts\activate.ps1` 相关命令，后面的参数决定它具体操作什么对象。 |
+
+
 macOS / Linux：
 
 ```bash
 source .venv/bin/activate
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>source .venv/bin/activate</code> | 执行 `source` 相关命令，后面的参数决定它具体操作什么对象。 |
+
+
 安装：
 
 ```bash
 pip install -U langgraph
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>pip install -U langgraph</code> | 管理 Python 依赖包，通常用于安装实验需要的库。 |
+
 
 ### 第 3 步：创建 `incident_triage.py`
 
@@ -626,11 +832,93 @@ result = app.invoke(
 print(result)
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>from typing_extensions import TypedDict</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
+| 第 2 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 3 行 | <code>from langgraph.graph import END, START, StateGraph</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
+| 第 4 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 5 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 6 行 | <code>class IncidentState(TypedDict):</code> | 定义类，用来组织一组数据和行为。 |
+| 第 7 行 | <code>    alert: str</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 8 行 | <code>    service: str</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 9 行 | <code>    runbook: str</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 10 行 | <code>    risk: str</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 11 行 | <code>    next_action: str</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 12 行 | <code>    explanation: str</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 13 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 14 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 15 行 | <code>def load_runbook(state: IncidentState) -&gt; dict:</code> | 定义函数，把一段可复用逻辑命名，后续可以反复调用。 |
+| 第 16 行 | <code>    service = state["service"]</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 17 行 | <code>    if service == "order-api":</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
+| 第 18 行 | <code>        return {</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
+| 第 19 行 | <code>            "runbook": "检查最近发布、错误率、下游支付接口、数据库连接池。"</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 20 行 | <code>        }</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 21 行 | <code>    return {</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
+| 第 22 行 | <code>        "runbook": "先检查服务健康、错误日志、依赖状态和最近变更。"</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 23 行 | <code>    }</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 24 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 25 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 26 行 | <code>def classify_risk(state: IncidentState) -&gt; dict:</code> | 定义函数，把一段可复用逻辑命名，后续可以反复调用。 |
+| 第 27 行 | <code>    alert = state["alert"].lower()</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 28 行 | <code>    if "high" in alert or "error" in alert:</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
+| 第 29 行 | <code>        return {"risk": "high"}</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
+| 第 30 行 | <code>    return {"risk": "low"}</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
+| 第 31 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 32 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 33 行 | <code>def choose_action(state: IncidentState) -&gt; dict:</code> | 定义函数，把一段可复用逻辑命名，后续可以反复调用。 |
+| 第 34 行 | <code>    if state["risk"] == "high":</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
+| 第 35 行 | <code>        return {</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
+| 第 36 行 | <code>            "next_action": "needs_human_approval",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 37 行 | <code>            "explanation": "这是高风险告警。先收集证据，再让值班同学确认是否回滚或扩容。"</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 38 行 | <code>        }</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 39 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 40 行 | <code>    return {</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
+| 第 41 行 | <code>        "next_action": "create_ticket",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 42 行 | <code>        "explanation": "这是低风险告警。先创建工单，继续观察趋势。"</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 43 行 | <code>    }</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 44 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 45 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 46 行 | <code>builder = StateGraph(IncidentState)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 47 行 | <code>builder.add_node("load_runbook", load_runbook)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 48 行 | <code>builder.add_node("classify_risk", classify_risk)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 49 行 | <code>builder.add_node("choose_action", choose_action)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 50 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 51 行 | <code>builder.add_edge(START, "load_runbook")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 52 行 | <code>builder.add_edge("load_runbook", "classify_risk")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 53 行 | <code>builder.add_edge("classify_risk", "choose_action")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 54 行 | <code>builder.add_edge("choose_action", END)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 55 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 56 行 | <code>app = builder.compile()</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 57 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 58 行 | <code>result = app.invoke(</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 59 行 | <code>    {</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 60 行 | <code>        "alert": "HighErrorRate: order-api error rate is above 5%",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 61 行 | <code>        "service": "order-api",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 62 行 | <code>        "runbook": "",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 63 行 | <code>        "risk": "",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 64 行 | <code>        "next_action": "",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 65 行 | <code>        "explanation": "",</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 66 行 | <code>    }</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 67 行 | <code>)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 68 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 69 行 | <code>print(result)</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
+
+
 ### 第 4 步：运行
 
 ```bash
 python incident_triage.py
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>python incident_triage.py</code> | 运行 Python 解释器或脚本，用来做实验、数据处理或服务启动。 |
+
 
 ### 预期输出
 
@@ -642,6 +930,16 @@ python incident_triage.py
 'next_action': 'needs_human_approval'
 'runbook': '检查最近发布、错误率、下游支付接口、数据库连接池。'
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>'service': 'order-api'</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>'risk': 'high'</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>'next_action': 'needs_human_approval'</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>'runbook': '检查最近发布、错误率、下游支付接口、数据库连接池。'</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 字段解释：
 
@@ -682,6 +980,15 @@ classify_risk
   -> low risk -> create_ticket
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>classify_risk</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; high risk -&gt; approval_required</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; low risk -&gt; create_ticket</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 思路：
 
 ```python
@@ -690,6 +997,16 @@ def route_by_risk(state: IncidentState) -> str:
         return "approval"
     return "ticket"
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>def route_by_risk(state: IncidentState) -&gt; str:</code> | 定义函数，把一段可复用逻辑命名，后续可以反复调用。 |
+| 第 2 行 | <code>    if state["risk"] == "high":</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
+| 第 3 行 | <code>        return "approval"</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
+| 第 4 行 | <code>    return "ticket"</code> | 返回函数结果，调用方会拿到这个值继续处理。 |
+
 
 这一步的学习重点不是代码多复杂，而是理解“风险不同，流程不同”。
 
@@ -833,6 +1150,20 @@ aiops-langgraph-lab/
     langgraph-state-node-edge.md
     troubleshooting.md
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>aiops-langgraph-lab/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  README.md</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>  incident_triage.py</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>  screenshots/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>    run-result.png</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>  notes/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 7 行 | <code>    langgraph-state-node-edge.md</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 8 行 | <code>    troubleshooting.md</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 `README.md` 建议记录：
 

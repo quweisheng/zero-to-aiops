@@ -54,6 +54,42 @@ VictoriaMetrics
      -> vmselect
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>VictoriaMetrics</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; install</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>     -&gt; single-node</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>     -&gt; cluster</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>     -&gt; cloud</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>     -&gt; helm / operator</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>  -&gt; write data</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 8 行 | <code>     -&gt; Prometheus remote write</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 9 行 | <code>     -&gt; vmagent scrape and remote write</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 10 行 | <code>     -&gt; import APIs</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 11 行 | <code>  -&gt; query data</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 12 行 | <code>     -&gt; Prometheus-compatible API</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 13 行 | <code>     -&gt; MetricsQL</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 14 行 | <code>     -&gt; VMUI</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 15 行 | <code>     -&gt; Grafana</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 16 行 | <code>  -&gt; alerting</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 17 行 | <code>     -&gt; vmalert</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 18 行 | <code>     -&gt; recording rules</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 19 行 | <code>     -&gt; alerting rules</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 20 行 | <code>     -&gt; Alertmanager</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 21 行 | <code>  -&gt; productionization</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 22 行 | <code>     -&gt; retention</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 23 行 | <code>     -&gt; capacity planning</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 24 行 | <code>     -&gt; backups</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 25 行 | <code>     -&gt; limits</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 26 行 | <code>     -&gt; security</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 27 行 | <code>  -&gt; cluster</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 28 行 | <code>     -&gt; vminsert</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 29 行 | <code>     -&gt; vmstorage</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 30 行 | <code>     -&gt; vmselect</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 本文覆盖：
 
 1. VictoriaMetrics 与 Prometheus 的关系。
@@ -72,6 +108,16 @@ Prometheus 本地磁盘越来越大。
 多个集群各有 Prometheus，查询很分散。
 PromQL 查询慢，指标标签越来越多。
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Prometheus 本地磁盘越来越大。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>历史数据只保留 15 天，不够做月度复盘。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>多个集群各有 Prometheus，查询很分散。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>PromQL 查询慢，指标标签越来越多。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 这时候你需要思考：Prometheus 继续负责采集和规则，还是把长期时序数据写到一个更适合存储和查询的后端？
 
@@ -113,11 +159,25 @@ VictoriaMetrics 可以先理解成：
 metrics receiver + time series storage + query API
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>metrics receiver + time series storage + query API</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 它接收的数据通常长这样：
 
 ```text
 http_requests_total{service="order-api",status="500"} 42 1710000000000
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>http_requests_total{service="order-api",status="500"} 42 1710000000000</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 这条数据包含：
 
@@ -146,6 +206,16 @@ Prometheus / vmagent
   -> Grafana / vmalert / API
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Prometheus / vmagent</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; remote write</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; VictoriaMetrics</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; Grafana / vmalert / API</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 ### 问题 2：指标查询需要集中入口
 
 多个 Prometheus 分散在不同环境时，AIOps 分析很难统一查询。VictoriaMetrics 可以做集中存储或查询后端。
@@ -167,6 +237,18 @@ scrape target / remote write
   -> Grafana / API / vmalert
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>scrape target / remote write</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; VictoriaMetrics single-node</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>      ingest</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>      storage</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>      query</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>  -&gt; Grafana / API / vmalert</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 集群版数据流：
 
 ```text
@@ -176,6 +258,17 @@ vmagent / Prometheus
   -> vmselect
   -> Grafana / vmalert / API
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>vmagent / Prometheus</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; vminsert</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; vmstorage</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; vmselect</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; Grafana / vmalert / API</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 ### 关键术语拆解
 
@@ -207,6 +300,15 @@ write API
   -> query API
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>write API</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; local storage</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; query API</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 怎么用：Docker 启动，挂载数据目录，配置 retention。
 
 坏了怎么查：看进程是否启动、端口是否监听、数据目录是否可写、retention 是否过短。
@@ -224,6 +326,15 @@ vminsert accepts writes
 vmstorage stores data
 vmselect handles queries
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>vminsert accepts writes</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>vmstorage stores data</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>vmselect handles queries</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 怎么用：生产上用 Helm、Operator 或官方拓扑建议规划。
 
@@ -245,6 +356,17 @@ targets
   -> VictoriaMetrics
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>targets</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; vmagent scrape</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; relabel / filter / aggregate</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; remote write</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; VictoriaMetrics</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 怎么用：配置 scrape targets 和 remote write URL。
 
 坏了怎么查：看 targets 是否 up、remote write 是否失败、relabel 是否误删指标。
@@ -263,6 +385,16 @@ vmalert
   -> evaluate rules
   -> send alerts to Alertmanager
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>vmalert</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; query VictoriaMetrics</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; evaluate rules</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; send alerts to Alertmanager</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 怎么用：配置 datasource URL、rule 文件、Alertmanager URL。
 
@@ -283,12 +415,30 @@ selector
   -> vector result
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>selector</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; range function</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; aggregation</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; vector result</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 怎么用：
 
 ```text
 rate(http_requests_total[5m])
 sum by (service) (rate(http_requests_total[5m]))
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>rate(http_requests_total[5m])</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>sum by (service) (rate(http_requests_total[5m]))</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 坏了怎么查：先查原始指标是否存在，再查 label，再逐层加函数和聚合。
 
@@ -305,6 +455,18 @@ app / node_exporter
   -> Alertmanager
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>app / node_exporter</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; Prometheus or vmagent scrape</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; VictoriaMetrics single-node</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; Grafana dashboard</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; vmalert rules</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; Alertmanager</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 生产集群架构：
 
 ```text
@@ -316,6 +478,18 @@ many clusters
   -> Grafana / vmalert / API
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>many clusters</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; vmagent</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; vminsert</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; vmstorage</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; vmselect</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; Grafana / vmalert / API</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 AIOps 扩展：
 
 ```text
@@ -325,6 +499,17 @@ VictoriaMetrics query API
   -> LangGraph / RAG summary
   -> incident evidence
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>VictoriaMetrics query API</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; Python / pandas</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; machine learning anomaly score</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; LangGraph / RAG summary</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; incident evidence</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 ## 安装与启动
 
@@ -338,11 +523,29 @@ docker run -d --name victoriametrics `
   -retentionPeriod=30d
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker run -d --name victoriametrics `</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+| 第 2 行 | <code>  -p 8428:8428 `</code> | 执行 `-p` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 3 行 | <code>  -v vmdata:/victoria-metrics-data `</code> | 执行 `-v` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 4 行 | <code>  victoriametrics/victoria-metrics:latest `</code> | 执行 `victoriametrics/victoria-metrics:latest` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 5 行 | <code>  -retentionPeriod=30d</code> | 执行 `-retentionperiod=30d` 相关命令，后面的参数决定它具体操作什么对象。 |
+
+
 预期结果：
 
 ```text
 容器处于 running 状态，浏览器访问 http://localhost:8428/vmui/ 可以打开 VMUI。
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>容器处于 running 状态，浏览器访问 http://localhost:8428/vmui/ 可以打开 VMUI。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 检查：
 
@@ -350,6 +553,14 @@ docker run -d --name victoriametrics `
 docker ps --filter "name=victoriametrics"
 Invoke-WebRequest http://localhost:8428/health
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker ps --filter "name=victoriametrics"</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+| 第 2 行 | <code>Invoke-WebRequest http://localhost:8428/health</code> | PowerShell 发起 Web 请求，用来验证页面、接口或下载文件。 |
+
 
 ## 配置详解
 
@@ -370,6 +581,14 @@ remote_write:
   - url: "http://victoriametrics:8428/api/v1/write"
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>remote_write:</code> | 定义 `remote_write` 配置段，下面缩进的内容都属于这个配置段。 |
+| 第 2 行 | <code>  - url: "http://victoriametrics:8428/api/v1/write"</code> | 列表项，表示同一个配置字段下面可以有多个值或多个对象。 |
+
+
 ## 常用命令
 
 ```powershell
@@ -379,6 +598,17 @@ Invoke-WebRequest "http://localhost:8428/api/v1/query?query=up"
 docker stop victoriametrics
 docker rm victoriametrics
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker logs victoriametrics</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
+| 第 2 行 | <code>Invoke-WebRequest http://localhost:8428/health</code> | PowerShell 发起 Web 请求，用来验证页面、接口或下载文件。 |
+| 第 3 行 | <code>Invoke-WebRequest "http://localhost:8428/api/v1/query?query=up"</code> | PowerShell 发起 Web 请求，用来验证页面、接口或下载文件。 |
+| 第 4 行 | <code>docker stop victoriametrics</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
+| 第 5 行 | <code>docker rm victoriametrics</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
+
 
 每条命令在检查什么：
 
@@ -411,6 +641,16 @@ metrics
   -> anomaly detection / RCA / capacity planning
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>metrics</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; VictoriaMetrics</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; query / dashboard / alert rules</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; anomaly detection / RCA / capacity planning</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 它给 AIOps 提供：
 
 - 更长时间窗口的指标证据。
@@ -437,11 +677,29 @@ Invoke-WebRequest `
   -Body $body
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>$body = 'aiops_demo_requests_total{service="order-api",status="200"} 42'</code> | 执行 `$body` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
+| 第 2 行 | <code>Invoke-WebRequest `</code> | PowerShell 发起 Web 请求，用来验证页面、接口或下载文件。 |
+| 第 3 行 | <code>  -Method Post `</code> | 执行 `-method` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 4 行 | <code>  -Uri "http://localhost:8428/api/v1/import/prometheus" `</code> | 执行 `-uri` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 5 行 | <code>  -Body $body</code> | 执行 `-body` 相关命令，后面的参数决定它具体操作什么对象。 其中 `$` 开头的是 PowerShell 变量，用来保存临时值或配置。 |
+
+
 查询：
 
 ```powershell
 Invoke-RestMethod "http://localhost:8428/api/v1/query?query=aiops_demo_requests_total"
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Invoke-RestMethod "http://localhost:8428/api/v1/query?query=aiops_demo_requests_total"</code> | PowerShell 调用 REST API，用来获取 JSON 接口结果。 |
+
 
 也可以打开：
 
@@ -449,11 +707,25 @@ Invoke-RestMethod "http://localhost:8428/api/v1/query?query=aiops_demo_requests_
 http://localhost:8428/vmui/
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>http://localhost:8428/vmui/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 输入：
 
 ```text
 aiops_demo_requests_total
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>aiops_demo_requests_total</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 ### 验证结果
 
@@ -469,6 +741,20 @@ aiops_demo_requests_total
   "value": [...]
 }
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>{</code> | 对象开始，表示下面是一组键值对配置。 |
+| 第 2 行 | <code>  "metric": {</code> | 设置 `metric` 字段，值是 `{`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 3 行 | <code>    "__name__": "aiops_demo_requests_total",</code> | 设置 `__name__` 字段，值是 `"aiops_demo_requests_total"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 4 行 | <code>    "service": "order-api",</code> | 设置 `service` 字段，值是 `"order-api"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 5 行 | <code>    "status": "200"</code> | 设置 `status` 字段，值是 `"200"`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 6 行 | <code>  },</code> | 当前对象或数组结束，逗号表示后面还有同级项目。 |
+| 第 7 行 | <code>  "value": [...]</code> | 设置 `value` 字段，值是 `[...]`；真实环境要根据自己的告警、服务或接口返回调整。 |
+| 第 8 行 | <code>}</code> | 对象结束，表示这一组键值对配置到这里结束。 |
+
 
 这说明写入路径、存储路径和查询路径都通了。
 
@@ -521,6 +807,13 @@ aiops_demo_requests_total
 ```text
 VictoriaMetrics 是 Prometheus 兼容的时序数据库和监控组件集合。我会把它放在 AIOps 指标存储层，用 Prometheus 或 vmagent 采集指标，通过 remote write 写入 VictoriaMetrics，再由 Grafana 查询展示、vmalert 执行规则、Python 或 AIOps 服务读取历史指标做异常检测和复盘。单机版适合学习和中小规模，集群版通过 vminsert、vmstorage、vmselect 分离写入、存储和查询，适合更大规模。使用时我会重点关注 retention、label cardinality、查询范围、备份和安全访问，不会把它当成万能监控平台。
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>VictoriaMetrics 是 Prometheus 兼容的时序数据库和监控组件集合。我会把它放在 AIOps 指标存储层，用 Prometheus 或 vmagent 采集指标，通过 remote write 写入 VictoriaMetrics，再由 Grafana 查询展示、vmalert 执行规则、Python 或 AIOps 服务读取历史指标做异常检测和复盘。单机版适合学习和中小规模，集群版通过 vminsert、vmstorage、vmselect 分离写入、存储和查询，适合更大规模。使用时我会重点关注 retention、label cardinality、查询范围、备份和安全访问，不会把它当成万能监控平台。</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 ## 学习检查清单
 

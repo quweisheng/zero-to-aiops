@@ -85,6 +85,19 @@ Docker 官方资料可以按这张表理解：
   -> 最后把 AIOps demo 容器化
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>先理解 Docker Engine 架构</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; 再理解镜像和容器对象</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; 再学习 Dockerfile 构建</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; 再学习 docker run 运行参数</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; 再学习网络和存储</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; 再学习日志、资源、安全和排障</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>  -&gt; 最后把 AIOps demo 容器化</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 ## Docker 在 AIOps 链路中的位置
 
 ```text
@@ -107,6 +120,30 @@ AIOps lab or platform
       ├── logs
       └── troubleshooting notes
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>AIOps lab or platform</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  ├── observability</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 3 行 | <code>  │   ├── Prometheus container</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 4 行 | <code>  │   ├── Grafana container</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 5 行 | <code>  │   ├── Loki container</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 6 行 | <code>  │   └── OpenTelemetry Collector container</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 7 行 | <code>  ├── data stores</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 8 行 | <code>  │   ├── MySQL container</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 9 行 | <code>  │   ├── Redis container</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 10 行 | <code>  │   └── Kafka container</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 11 行 | <code>  ├── automation and APIs</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 12 行 | <code>  │   ├── FastAPI container</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 13 行 | <code>  │   └── webhook worker container</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 14 行 | <code>  └── learning evidence</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 15 行 | <code>      ├── Dockerfile</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 16 行 | <code>      ├── run commands</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 17 行 | <code>      ├── logs</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 18 行 | <code>      └── troubleshooting notes</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+
 
 Docker 在 AIOps 中主要有四个用途：
 
@@ -142,6 +179,19 @@ container: web-2
 container: web-3
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>image: nginx:1.27</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>  &#124; docker run</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>  v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>container: web-1</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>container: web-2</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 7 行 | <code>container: web-3</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 一个镜像可以启动多个容器。删除容器不会自动删除镜像。删除镜像也不能删除正在使用它的容器。
 
 ## Docker Engine 架构
@@ -167,6 +217,28 @@ Docker daemon
   +--> registry pull / push
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>user</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>  v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>docker CLI</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>  &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>  v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 7 行 | <code>Docker API</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 8 行 | <code>  &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 9 行 | <code>  v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 10 行 | <code>Docker daemon</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 11 行 | <code>  &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 12 行 | <code>  +--&gt; images</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 13 行 | <code>  +--&gt; containers</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 14 行 | <code>  +--&gt; networks</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 15 行 | <code>  +--&gt; volumes</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 16 行 | <code>  +--&gt; registry pull / push</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 逐层解释：
 
 | 组件 | 是什么 | 为什么需要 |
@@ -182,6 +254,13 @@ Docker daemon
 docker run -d --name web -p 8080:80 nginx:1.27
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker run -d --name web -p 8080:80 nginx:1.27</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
+
 背后大致发生：
 
 ```text
@@ -194,6 +273,20 @@ docker CLI receives command
   -> daemon starts container process
   -> CLI prints container ID
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker CLI receives command</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; sends request to Docker daemon</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; daemon checks whether nginx:1.27 exists locally</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; if missing, daemon pulls image from registry</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; daemon creates container filesystem and metadata</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <code>  -&gt; daemon configures network and port publishing</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 7 行 | <code>  -&gt; daemon starts container process</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 8 行 | <code>  -&gt; CLI prints container ID</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
 
 ## Docker 和虚拟机的区别
 
@@ -214,6 +307,23 @@ Container
   isolated process
   app and dependencies
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Virtual machine</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  host OS</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>  hypervisor</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>  guest OS</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>  app and dependencies</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
+| 第 7 行 | <code>Container</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 8 行 | <code>  host OS kernel</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 9 行 | <code>  container runtime</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 10 行 | <code>  isolated process</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 11 行 | <code>  app and dependencies</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 关键区别：
 
@@ -263,6 +373,13 @@ Docker 运行时可以加资源限制：
 docker run --memory 256m --cpus 0.5 nginx:1.27
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker run --memory 256m --cpus 0.5 nginx:1.27</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
+
 ### 分层文件系统
 
 Docker 镜像是分层的。
@@ -274,6 +391,17 @@ image: aiops-demo:0.1
   layer 2: RUN pip install ...
   layer 1: FROM python:3.12-slim
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>image: aiops-demo:0.1</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  layer 4: CMD ["python", "app.py"]</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>  layer 3: COPY . .</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>  layer 2: RUN pip install ...</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>  layer 1: FROM python:3.12-slim</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 好处：
 
@@ -289,6 +417,16 @@ image read-only layer
 image read-only layer
 image read-only layer
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>container writable layer</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>image read-only layer</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>image read-only layer</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>image read-only layer</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 容器删除后，可写层通常也会被删除。所以数据库数据、Prometheus 数据、Grafana 配置不能只放在容器可写层里，应该用 volume 或 bind mount。
 
@@ -322,11 +460,28 @@ redis:7.4
 prom/prometheus:v2.55.0
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>nginx:1.27</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>python:3.12-slim</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>redis:7.4</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>prom/prometheus:v2.55.0</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 结构：
 
 ```text
 repository:tag
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>repository:tag</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 例如：
 
@@ -347,6 +502,14 @@ nginx:1.27
 nginx@sha256:...
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>nginx:1.27</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>nginx@sha256:...</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 tag 可能被重新指向别的内容，digest 指向具体镜像内容。做严格复现时，digest 更可靠。
 
 ## 容器
@@ -359,6 +522,14 @@ tag 可能被重新指向别的内容，digest 指向具体镜像内容。做严
 docker run -d --name web-a nginx:1.27
 docker run -d --name web-b nginx:1.27
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker run -d --name web-a nginx:1.27</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+| 第 2 行 | <code>docker run -d --name web-b nginx:1.27</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
 
 它们共享镜像层，但有各自的：
 
@@ -381,6 +552,16 @@ created -> running -> exited
            paused      removed
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>created -&gt; running -&gt; exited</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 2 行 | <code>             &#124;           &#124;</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>             v           v</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>           paused      removed</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 常用命令：
 
 ```bash
@@ -390,6 +571,17 @@ docker stop <container>
 docker restart <container>
 docker rm <container>
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker create nginx:1.27</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
+| 第 2 行 | <code>docker start &lt;container&gt;</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
+| 第 3 行 | <code>docker stop &lt;container&gt;</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
+| 第 4 行 | <code>docker restart &lt;container&gt;</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
+| 第 5 行 | <code>docker rm &lt;container&gt;</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
+
 
 `docker run` 可以理解成 `docker create` 加 `docker start` 的组合。
 
@@ -411,11 +603,33 @@ EXPOSE 8000
 CMD ["python", "app.py"]
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>FROM python:3.12-slim</code> | 指定基础镜像，后续镜像会在它的基础上继续构建。 |
+| 第 2 行 | <em>空行</em> | 空行，用来分隔 Dockerfile 的不同构建阶段或逻辑段。 |
+| 第 3 行 | <code>WORKDIR /app</code> | 设置容器内工作目录，后续命令默认在这个目录执行。 |
+| 第 4 行 | <em>空行</em> | 空行，用来分隔 Dockerfile 的不同构建阶段或逻辑段。 |
+| 第 5 行 | <code>COPY app.py .</code> | 把宿主机项目文件复制进镜像。 |
+| 第 6 行 | <em>空行</em> | 空行，用来分隔 Dockerfile 的不同构建阶段或逻辑段。 |
+| 第 7 行 | <code>EXPOSE 8000</code> | 声明容器应用监听的端口，方便读者知道服务入口。 |
+| 第 8 行 | <em>空行</em> | 空行，用来分隔 Dockerfile 的不同构建阶段或逻辑段。 |
+| 第 9 行 | <code>CMD ["python", "app.py"]</code> | 设置容器启动时默认执行的命令。 |
+
+
 构建：
 
 ```bash
 docker build -t aiops-demo:0.1 .
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker build -t aiops-demo:0.1 .</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
+
 
 最后的 `.` 是 build context，也就是发送给构建器的上下文目录。
 
@@ -436,6 +650,13 @@ docker build -t aiops-demo:0.1 .
 ```dockerfile
 FROM python:3.12-slim
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>FROM python:3.12-slim</code> | 指定基础镜像，后续镜像会在它的基础上继续构建。 |
+
 
 常见坑：
 
@@ -459,6 +680,13 @@ FROM python:3.12-slim
 WORKDIR /app
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>WORKDIR /app</code> | 设置容器内工作目录，后续命令默认在这个目录执行。 |
+
+
 ### `COPY`
 
 | 项 | 内容 |
@@ -475,6 +703,14 @@ WORKDIR /app
 COPY requirements.txt .
 COPY app.py .
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>COPY requirements.txt .</code> | 把宿主机项目文件复制进镜像。 |
+| 第 2 行 | <code>COPY app.py .</code> | 把宿主机项目文件复制进镜像。 |
+
 
 常见坑：
 
@@ -509,6 +745,13 @@ COPY app.py .
 RUN python -m pip install --no-cache-dir -r requirements.txt
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>RUN python -m pip install --no-cache-dir -r requirements.txt</code> | 在构建镜像时执行命令，常用于安装依赖或准备文件。 |
+
+
 常见坑：
 
 - 把运行时命令写进 `RUN`，导致构建时执行，容器启动时反而没执行。
@@ -530,11 +773,25 @@ RUN python -m pip install --no-cache-dir -r requirements.txt
 CMD ["python", "app.py"]
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>CMD ["python", "app.py"]</code> | 设置容器启动时默认执行的命令。 |
+
+
 不推荐初学者写成：
 
 ```dockerfile
 CMD python app.py
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>CMD python app.py</code> | 设置容器启动时默认执行的命令。 |
+
 
 exec 形式更清晰，也更利于信号处理。
 
@@ -554,6 +811,14 @@ exec 形式更清晰，也更利于信号处理。
 ENTRYPOINT ["python", "worker.py"]
 CMD ["--help"]
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ENTRYPOINT ["python", "worker.py"]</code> | 设置容器启动时默认执行的命令。 |
+| 第 2 行 | <code>CMD ["--help"]</code> | 设置容器启动时默认执行的命令。 |
+
 
 初学判断：
 
@@ -577,6 +842,14 @@ ENV PYTHONUNBUFFERED=1
 ENV APP_PORT=8000
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ENV PYTHONUNBUFFERED=1</code> | 设置镜像或容器里的环境变量。 |
+| 第 2 行 | <code>ENV APP_PORT=8000</code> | 设置镜像或容器里的环境变量。 |
+
+
 不要把密码、token 写进 Dockerfile 的 `ENV`，因为它会进入镜像历史和元数据。
 
 ### `ARG`
@@ -596,11 +869,26 @@ ARG APP_VERSION=dev
 ENV APP_VERSION=$APP_VERSION
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>ARG APP_VERSION=dev</code> | Dockerfile 构建指令，描述镜像构建或容器启动的一步。 |
+| 第 2 行 | <code>ENV APP_VERSION=$APP_VERSION</code> | 设置镜像或容器里的环境变量。 |
+
+
 构建：
 
 ```bash
 docker build --build-arg APP_VERSION=0.1.0 -t demo-api:0.1 .
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker build --build-arg APP_VERSION=0.1.0 -t demo-api:0.1 .</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
 
 ### `EXPOSE`
 
@@ -617,6 +905,13 @@ docker build --build-arg APP_VERSION=0.1.0 -t demo-api:0.1 .
 ```dockerfile
 EXPOSE 8000
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>EXPOSE 8000</code> | 声明容器应用监听的端口，方便读者知道服务入口。 |
+
 
 重点：`EXPOSE 8000` 不等于 `-p 8000:8000`。前者只是声明，后者才是端口发布。
 
@@ -637,6 +932,14 @@ RUN useradd --create-home appuser
 USER appuser
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>RUN useradd --create-home appuser</code> | 在构建镜像时执行命令，常用于安装依赖或准备文件。 |
+| 第 2 行 | <code>USER appuser</code> | Dockerfile 构建指令，描述镜像构建或容器启动的一步。 |
+
+
 ### `HEALTHCHECK`
 
 | 项 | 内容 |
@@ -653,6 +956,14 @@ USER appuser
 HEALTHCHECK --interval=30s --timeout=3s \
   CMD python -c "import socket; s=socket.create_connection(('127.0.0.1', 8000), timeout=2); s.close()"
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>HEALTHCHECK --interval=30s --timeout=3s \</code> | Dockerfile 构建指令，描述镜像构建或容器启动的一步。 |
+| 第 2 行 | <code>  CMD python -c "import socket; s=socket.create_connection(('127.0.0.1', 8000), timeout=2); s.close()"</code> | 设置容器启动时默认执行的命令。 |
+
 
 ### `VOLUME`
 
@@ -683,6 +994,14 @@ LABEL org.opencontainers.image.title="aiops-demo"
 LABEL org.opencontainers.image.version="0.1.0"
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>LABEL org.opencontainers.image.title="aiops-demo"</code> | Dockerfile 构建指令，描述镜像构建或容器启动的一步。 |
+| 第 2 行 | <code>LABEL org.opencontainers.image.version="0.1.0"</code> | Dockerfile 构建指令，描述镜像构建或容器启动的一步。 |
+
+
 ## build context 和 `.dockerignore`
 
 执行：
@@ -690,6 +1009,13 @@ LABEL org.opencontainers.image.version="0.1.0"
 ```bash
 docker build -t aiops-demo:0.1 .
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker build -t aiops-demo:0.1 .</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
+
 
 最后的 `.` 是 build context。Docker 会把这个目录下的内容作为构建上下文发送给构建器。Dockerfile 里的 `COPY` 只能复制 context 里的文件。
 
@@ -703,11 +1029,29 @@ reports/
 .git/
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>.venv/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>node_modules/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>logs/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>reports/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>.git/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 又写了：
 
 ```dockerfile
 COPY . .
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>COPY . .</code> | 把宿主机项目文件复制进镜像。 |
+
 
 镜像可能会变得很大，甚至把不该进镜像的文件带进去。所以需要 `.dockerignore`：
 
@@ -720,6 +1064,19 @@ logs
 reports
 .env
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>.git</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>.venv</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>__pycache__</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>*.pyc</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>logs</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>reports</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 7 行 | <code>.env</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 `.dockerignore` 的作用类似 `.gitignore`，但它控制的是 Docker build context，不是 Git 提交。
 
@@ -742,6 +1099,22 @@ COPY . .
 CMD ["python", "app.py"]
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>FROM python:3.12-slim</code> | 指定基础镜像，后续镜像会在它的基础上继续构建。 |
+| 第 2 行 | <em>空行</em> | 空行，用来分隔 Dockerfile 的不同构建阶段或逻辑段。 |
+| 第 3 行 | <code>WORKDIR /app</code> | 设置容器内工作目录，后续命令默认在这个目录执行。 |
+| 第 4 行 | <em>空行</em> | 空行，用来分隔 Dockerfile 的不同构建阶段或逻辑段。 |
+| 第 5 行 | <code>COPY requirements.txt .</code> | 把宿主机项目文件复制进镜像。 |
+| 第 6 行 | <code>RUN python -m pip install --no-cache-dir -r requirements.txt</code> | 在构建镜像时执行命令，常用于安装依赖或准备文件。 |
+| 第 7 行 | <em>空行</em> | 空行，用来分隔 Dockerfile 的不同构建阶段或逻辑段。 |
+| 第 8 行 | <code>COPY . .</code> | 把宿主机项目文件复制进镜像。 |
+| 第 9 行 | <em>空行</em> | 空行，用来分隔 Dockerfile 的不同构建阶段或逻辑段。 |
+| 第 10 行 | <code>CMD ["python", "app.py"]</code> | 设置容器启动时默认执行的命令。 |
+
+
 为什么先复制 `requirements.txt`，再复制全部代码？
 
 因为业务代码经常变，依赖文件不一定经常变。这样代码变了以后，依赖安装层还能复用缓存。
@@ -752,6 +1125,14 @@ CMD ["python", "app.py"]
 COPY . .
 RUN python -m pip install --no-cache-dir -r requirements.txt
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>COPY . .</code> | 把宿主机项目文件复制进镜像。 |
+| 第 2 行 | <code>RUN python -m pip install --no-cache-dir -r requirements.txt</code> | 在构建镜像时执行命令，常用于安装依赖或准备文件。 |
+
 
 这种写法会导致任何代码改动都让依赖安装层失效。
 
@@ -777,6 +1158,27 @@ COPY . .
 CMD ["python", "app.py"]
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>FROM python:3.12-slim AS builder</code> | 指定基础镜像，后续镜像会在它的基础上继续构建。 |
+| 第 2 行 | <em>空行</em> | 空行，用来分隔 Dockerfile 的不同构建阶段或逻辑段。 |
+| 第 3 行 | <code>WORKDIR /app</code> | 设置容器内工作目录，后续命令默认在这个目录执行。 |
+| 第 4 行 | <code>COPY requirements.txt .</code> | 把宿主机项目文件复制进镜像。 |
+| 第 5 行 | <code>RUN python -m pip wheel --wheel-dir /wheels -r requirements.txt</code> | 在构建镜像时执行命令，常用于安装依赖或准备文件。 |
+| 第 6 行 | <em>空行</em> | 空行，用来分隔 Dockerfile 的不同构建阶段或逻辑段。 |
+| 第 7 行 | <code>FROM python:3.12-slim</code> | 指定基础镜像，后续镜像会在它的基础上继续构建。 |
+| 第 8 行 | <em>空行</em> | 空行，用来分隔 Dockerfile 的不同构建阶段或逻辑段。 |
+| 第 9 行 | <code>WORKDIR /app</code> | 设置容器内工作目录，后续命令默认在这个目录执行。 |
+| 第 10 行 | <code>COPY --from=builder /wheels /wheels</code> | 把宿主机项目文件复制进镜像。 |
+| 第 11 行 | <code>COPY requirements.txt .</code> | 把宿主机项目文件复制进镜像。 |
+| 第 12 行 | <code>RUN python -m pip install --no-cache-dir --no-index --find-links=/wheels -r requirements.txt</code> | 在构建镜像时执行命令，常用于安装依赖或准备文件。 |
+| 第 13 行 | <code>COPY . .</code> | 把宿主机项目文件复制进镜像。 |
+| 第 14 行 | <em>空行</em> | 空行，用来分隔 Dockerfile 的不同构建阶段或逻辑段。 |
+| 第 15 行 | <code>CMD ["python", "app.py"]</code> | 设置容器启动时默认执行的命令。 |
+
+
 多阶段构建的价值：
 
 - 构建阶段可以安装编译工具。
@@ -793,11 +1195,25 @@ CMD ["python", "app.py"]
 docker run nginx:1.27
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker run nginx:1.27</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
+
+
 更常见：
 
 ```bash
 docker run -d --name web -p 8080:80 nginx:1.27
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker run -d --name web -p 8080:80 nginx:1.27</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
 
 拆开看：
 
@@ -817,17 +1233,38 @@ docker run -d --name web -p 8080:80 nginx:1.27
 docker run -d --name web -p 8080:80 nginx:1.27
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker run -d --name web -p 8080:80 nginx:1.27</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
+
 含义：
 
 ```text
 host:8080  ->  container:80
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>host:8080  -&gt;  container:80</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 访问：
 
 ```bash
 curl http://localhost:8080
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl http://localhost:8080</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+
 
 常见误区：
 
@@ -845,11 +1282,25 @@ curl http://localhost:8080
 docker run --rm -e APP_ENV=dev -e LOG_LEVEL=debug demo-api:0.1
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker run --rm -e APP_ENV=dev -e LOG_LEVEL=debug demo-api:0.1</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
+
 使用 env 文件：
 
 ```bash
 docker run --rm --env-file .env demo-api:0.1
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker run --rm --env-file .env demo-api:0.1</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
 
 `.env` 示例：
 
@@ -858,6 +1309,15 @@ APP_ENV=dev
 LOG_LEVEL=debug
 PROMETHEUS_URL=http://prometheus:9090
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>APP_ENV=dev</code> | 环境变量或键值示例，等号左边是名称，右边是要配置的值。 |
+| 第 2 行 | <code>LOG_LEVEL=debug</code> | 环境变量或键值示例，等号左边是名称，右边是要配置的值。 |
+| 第 3 行 | <code>PROMETHEUS_URL=http://prometheus:9090</code> | 环境变量或键值示例，等号左边是名称，右边是要配置的值。 |
+
 
 注意：不要把 `.env` 里的密钥提交到 Git。
 
@@ -871,6 +1331,13 @@ PROMETHEUS_URL=http://prometheus:9090
 CMD ["python", "app.py"]
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>CMD ["python", "app.py"]</code> | 设置容器启动时默认执行的命令。 |
+
+
 容器启动后，`python app.py` 是主进程。如果它退出，容器就退出。
 
 这解释了一个常见现象：
@@ -879,6 +1346,13 @@ CMD ["python", "app.py"]
 docker run ubuntu:24.04
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker run ubuntu:24.04</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
+
+
 容器马上退出。因为没有长期运行的前台进程。
 
 如果只是想进入 shell：
@@ -886,6 +1360,13 @@ docker run ubuntu:24.04
 ```bash
 docker run --rm -it ubuntu:24.04 bash
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker run --rm -it ubuntu:24.04 bash</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
 
 ## 存储
 
@@ -899,6 +1380,18 @@ external mounts
   ├── bind mount
   └── tmpfs
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>image read-only layers</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>container writable layer</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>external mounts</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>  ├── volume</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 5 行 | <code>  ├── bind mount</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+| 第 6 行 | <code>  └── tmpfs</code> | 树形结构行，表示文件、组件或知识点之间的层级关系。 |
+
 
 ### 容器可写层
 
@@ -921,6 +1414,16 @@ docker run -d --name prometheus \
   prom/prometheus:v2.55.0
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker volume create prometheus-data</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
+| 第 2 行 | <code>docker run -d --name prometheus \</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+| 第 3 行 | <code>  -v prometheus-data:/prometheus \</code> | 执行 `-v` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 4 行 | <code>  prom/prometheus:v2.55.0</code> | 执行 `prom/prometheus:v2.55.0` 相关命令，后面的参数决定它具体操作什么对象。 |
+
+
 优点：
 
 - 由 Docker 管理。
@@ -936,6 +1439,15 @@ docker run --rm \
   -v "$PWD/prometheus.yml:/etc/prometheus/prometheus.yml:ro" \
   prom/prometheus:v2.55.0
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker run --rm \</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+| 第 2 行 | <code>  -v "$PWD/prometheus.yml:/etc/prometheus/prometheus.yml:ro" \</code> | 执行 `-v` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 3 行 | <code>  prom/prometheus:v2.55.0</code> | 执行 `prom/prometheus:v2.55.0` 相关命令，后面的参数决定它具体操作什么对象。 |
+
 
 适合：
 
@@ -956,6 +1468,13 @@ tmpfs 把数据放在内存里，不写入磁盘。
 ```bash
 docker run --rm --tmpfs /tmp nginx:1.27
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker run --rm --tmpfs /tmp nginx:1.27</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
 
 适合临时敏感数据或临时缓存。容器停止后数据消失。
 
@@ -982,11 +1501,25 @@ Docker 网络负责容器之间、容器和宿主机之间的通信。
 docker network ls
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker network ls</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
+
+
 创建自定义网络：
 
 ```bash
 docker network create aiops-net
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker network create aiops-net</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
+
 
 运行两个容器：
 
@@ -994,6 +1527,14 @@ docker network create aiops-net
 docker run -d --name web --network aiops-net nginx:1.27
 docker run --rm --network aiops-net curlimages/curl:8.10.1 http://web
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker run -d --name web --network aiops-net nginx:1.27</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+| 第 2 行 | <code>docker run --rm --network aiops-net curlimages/curl:8.10.1 http://web</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
 
 在自定义 bridge 网络中，容器可以通过容器名互相解析。学习 Docker Compose 和 Kubernetes Service 时，这个概念很重要。
 
@@ -1012,17 +1553,45 @@ on host:
   localhost -> host
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>inside container A:</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  localhost -&gt; container A</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
+| 第 4 行 | <code>inside container B:</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>  localhost -&gt; container B</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 6 行 | <em>空行</em> | 空行，用来把示例结构分成更容易阅读的段落。 |
+| 第 7 行 | <code>on host:</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 8 行 | <code>  localhost -&gt; host</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 如果 `api` 容器要访问 `prometheus` 容器，不应该写：
 
 ```text
 http://localhost:9090
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>http://localhost:9090</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 而应该在同一个自定义网络里写：
 
 ```text
 http://prometheus:9090
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>http://prometheus:9090</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 ## Registry
 
@@ -1043,6 +1612,17 @@ docker build
   -> docker run
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker build</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  -&gt; docker tag</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 3 行 | <code>  -&gt; docker push</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 4 行 | <code>  -&gt; another machine docker pull</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+| 第 5 行 | <code>  -&gt; docker run</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 示例：
 
 ```bash
@@ -1051,11 +1631,27 @@ docker tag demo-api:0.1 registry.example.com/aiops/demo-api:0.1
 docker push registry.example.com/aiops/demo-api:0.1
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker build -t demo-api:0.1 .</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
+| 第 2 行 | <code>docker tag demo-api:0.1 registry.example.com/aiops/demo-api:0.1</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
+| 第 3 行 | <code>docker push registry.example.com/aiops/demo-api:0.1</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
+
+
 拉取：
 
 ```bash
 docker pull registry.example.com/aiops/demo-api:0.1
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker pull registry.example.com/aiops/demo-api:0.1</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
+
 
 ## 日志
 
@@ -1068,6 +1664,15 @@ docker logs web
 docker logs -f web
 docker logs --tail 100 web
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker logs web</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
+| 第 2 行 | <code>docker logs -f web</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
+| 第 3 行 | <code>docker logs --tail 100 web</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
 
 日志排障顺序：
 
@@ -1087,6 +1692,13 @@ AIOps 场景下，容器日志可以被日志采集器收集，例如 Loki、Flu
 docker stats
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker stats</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
+
+
 限制 CPU 和内存：
 
 ```bash
@@ -1095,6 +1707,16 @@ docker run -d --name api \
   --cpus 0.5 \
   demo-api:0.1
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker run -d --name api \</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+| 第 2 行 | <code>  --memory 256m \</code> | 注释行，提前说明下面命令的目的或注意事项。 |
+| 第 3 行 | <code>  --cpus 0.5 \</code> | 注释行，提前说明下面命令的目的或注意事项。 |
+| 第 4 行 | <code>  demo-api:0.1</code> | 执行 `demo-api:0.1` 相关命令，后面的参数决定它具体操作什么对象。 |
+
 
 含义：
 
@@ -1137,6 +1759,20 @@ USER appuser
 
 CMD ["python", "app.py"]
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>FROM python:3.12-slim</code> | 指定基础镜像，后续镜像会在它的基础上继续构建。 |
+| 第 2 行 | <em>空行</em> | 空行，用来分隔 Dockerfile 的不同构建阶段或逻辑段。 |
+| 第 3 行 | <code>RUN useradd --create-home appuser</code> | 在构建镜像时执行命令，常用于安装依赖或准备文件。 |
+| 第 4 行 | <code>WORKDIR /app</code> | 设置容器内工作目录，后续命令默认在这个目录执行。 |
+| 第 5 行 | <code>COPY app.py .</code> | 把宿主机项目文件复制进镜像。 |
+| 第 6 行 | <code>USER appuser</code> | Dockerfile 构建指令，描述镜像构建或容器启动的一步。 |
+| 第 7 行 | <em>空行</em> | 空行，用来分隔 Dockerfile 的不同构建阶段或逻辑段。 |
+| 第 8 行 | <code>CMD ["python", "app.py"]</code> | 设置容器启动时默认执行的命令。 |
+
 
 ## Docker 命令字典
 
@@ -1364,6 +2000,17 @@ aiops-docker-demo/
   README.md
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>aiops-docker-demo/</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>  app.py</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>  Dockerfile</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>  .dockerignore</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>  README.md</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 ### 第 2 步：创建 `app.py`
 
 ```python
@@ -1396,6 +2043,39 @@ if __name__ == "__main__":
     server.serve_forever()
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>import json</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
+| 第 2 行 | <code>import os</code> | 导入 Python 模块，后面的代码会使用这个模块提供的功能。 |
+| 第 3 行 | <code>from http.server import BaseHTTPRequestHandler, HTTPServer</code> | 从某个模块导入指定对象，减少后面代码的书写量。 |
+| 第 4 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 5 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 6 行 | <code>SERVICE_NAME = os.getenv("SERVICE_NAME", "aiops-demo")</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 7 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 8 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 9 行 | <code>class Handler(BaseHTTPRequestHandler):</code> | 定义类，用来组织一组数据和行为。 |
+| 第 10 行 | <code>    def do_GET(self):</code> | 定义函数，把一段可复用逻辑命名，后续可以反复调用。 |
+| 第 11 行 | <code>        if self.path == "/health":</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
+| 第 12 行 | <code>            self.send_response(200)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 13 行 | <code>            self.send_header("Content-Type", "application/json")</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 14 行 | <code>            self.end_headers()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 15 行 | <code>            payload = {"service": SERVICE_NAME, "status": "ok"}</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 16 行 | <code>            self.wfile.write(json.dumps(payload).encode("utf-8"))</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 17 行 | <code>            return</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 18 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 19 行 | <code>        self.send_response(404)</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 20 行 | <code>        self.end_headers()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+| 第 21 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 22 行 | <em>空行</em> | 空行，用来分隔不同逻辑块，让代码更容易阅读。 |
+| 第 23 行 | <code>if __name__ == "__main__":</code> | 条件判断，只有条件成立时才执行下面缩进的代码。 |
+| 第 24 行 | <code>    port = int(os.getenv("APP_PORT", "8000"))</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 25 行 | <code>    server = HTTPServer(("0.0.0.0", port), Handler)</code> | 给变量赋值，把右侧计算结果保存起来供后续代码使用。 |
+| 第 26 行 | <code>    print(f"starting {SERVICE_NAME} on 0.0.0.0:{port}", flush=True)</code> | 打印输出，用来在实验中确认变量、结果或调试信息。 |
+| 第 27 行 | <code>    server.serve_forever()</code> | Python 代码行，通常是在调用函数、处理数据结构或把中间结果传给下一步。 |
+
+
 注意这里监听的是 `0.0.0.0`，不是 `127.0.0.1`。容器里只监听 `127.0.0.1` 时，宿主机通过端口映射访问常常会失败。
 
 ### 第 3 步：创建 Dockerfile
@@ -1415,6 +2095,24 @@ EXPOSE 8000
 CMD ["python", "app.py"]
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>FROM python:3.12-slim</code> | 指定基础镜像，后续镜像会在它的基础上继续构建。 |
+| 第 2 行 | <em>空行</em> | 空行，用来分隔 Dockerfile 的不同构建阶段或逻辑段。 |
+| 第 3 行 | <code>WORKDIR /app</code> | 设置容器内工作目录，后续命令默认在这个目录执行。 |
+| 第 4 行 | <em>空行</em> | 空行，用来分隔 Dockerfile 的不同构建阶段或逻辑段。 |
+| 第 5 行 | <code>COPY app.py .</code> | 把宿主机项目文件复制进镜像。 |
+| 第 6 行 | <em>空行</em> | 空行，用来分隔 Dockerfile 的不同构建阶段或逻辑段。 |
+| 第 7 行 | <code>ENV PYTHONUNBUFFERED=1</code> | 设置镜像或容器里的环境变量。 |
+| 第 8 行 | <code>ENV APP_PORT=8000</code> | 设置镜像或容器里的环境变量。 |
+| 第 9 行 | <em>空行</em> | 空行，用来分隔 Dockerfile 的不同构建阶段或逻辑段。 |
+| 第 10 行 | <code>EXPOSE 8000</code> | 声明容器应用监听的端口，方便读者知道服务入口。 |
+| 第 11 行 | <em>空行</em> | 空行，用来分隔 Dockerfile 的不同构建阶段或逻辑段。 |
+| 第 12 行 | <code>CMD ["python", "app.py"]</code> | 设置容器启动时默认执行的命令。 |
+
+
 ### 第 4 步：创建 `.dockerignore`
 
 ```text
@@ -1427,17 +2125,44 @@ reports
 .env
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>.git</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 2 行 | <code>.venv</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 3 行 | <code>__pycache__</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 4 行 | <code>*.pyc</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 5 行 | <code>logs</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 6 行 | <code>reports</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+| 第 7 行 | <code>.env</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 ### 第 5 步：构建镜像
 
 ```bash
 docker build -t aiops-health-demo:0.1 .
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker build -t aiops-health-demo:0.1 .</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
+
+
 预期看到：
 
 ```text
 Successfully tagged aiops-health-demo:0.1
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>Successfully tagged aiops-health-demo:0.1</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
 
 如果使用 BuildKit，输出格式可能不同，但应该能看到构建步骤完成。
 
@@ -1450,11 +2175,28 @@ docker run -d --name aiops-health \
   aiops-health-demo:0.1
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker run -d --name aiops-health \</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+| 第 2 行 | <code>  -p 8000:8000 \</code> | 执行 `-p` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 3 行 | <code>  -e SERVICE_NAME=health-demo \</code> | 执行 `-e` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 4 行 | <code>  aiops-health-demo:0.1</code> | 执行 `aiops-health-demo:0.1` 相关命令，后面的参数决定它具体操作什么对象。 |
+
+
 检查容器：
 
 ```bash
 docker ps
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker ps</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
+
 
 预期看到 `aiops-health` 状态为 Up，并且 PORTS 有类似：
 
@@ -1462,11 +2204,25 @@ docker ps
 0.0.0.0:8000->8000/tcp
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>0.0.0.0:8000-&gt;8000/tcp</code> | 流程箭头，表示数据、请求或排障步骤从左边流向右边。 |
+
+
 ### 第 7 步：访问服务
 
 ```bash
 curl localhost:8000/health
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>curl localhost:8000/health</code> | 发起 HTTP 请求，用来验证接口、健康检查、指标端点或 API 返回。 |
+
 
 预期输出：
 
@@ -1474,11 +2230,25 @@ curl localhost:8000/health
 {"service": "health-demo", "status": "ok"}
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>{"service": "health-demo", "status": "ok"}</code> | JSON 列表或对象中的一行，注意逗号和引号必须符合 JSON 语法。 |
+
+
 ### 第 8 步：查看日志
 
 ```bash
 docker logs aiops-health
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker logs aiops-health</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
+
 
 预期看到：
 
@@ -1486,11 +2256,25 @@ docker logs aiops-health
 starting health-demo on 0.0.0.0:8000
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>starting health-demo on 0.0.0.0:8000</code> | 文本示例行，用来展示输出、目录、流程、错误信息或学习证据中的一条内容。 |
+
+
 ### 第 9 步：进入容器
 
 ```bash
 docker exec -it aiops-health sh
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker exec -it aiops-health sh</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
+
 
 在容器里：
 
@@ -1500,11 +2284,27 @@ ls -l
 env | grep SERVICE_NAME
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>pwd</code> | 执行 `pwd` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 2 行 | <code>ls -l</code> | 列出文件或目录，用来确认实验文件是否存在。 |
+| 第 3 行 | <code>env &#124; grep SERVICE_NAME</code> | 执行 `env` 相关命令，后面的参数决定它具体操作什么对象。 这一行还包含管道或连接符，表示把多个命令串起来处理。 |
+
+
 退出：
 
 ```sh
 exit
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>exit</code> | 执行 `exit` 相关命令，后面的参数决定它具体操作什么对象。 |
+
 
 ### 第 10 步：清理
 
@@ -1513,11 +2313,26 @@ docker stop aiops-health
 docker rm aiops-health
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker stop aiops-health</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
+| 第 2 行 | <code>docker rm aiops-health</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
+
+
 如果只是临时运行，也可以一开始用：
 
 ```bash
 docker run --rm -p 8000:8000 aiops-health-demo:0.1
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker run --rm -p 8000:8000 aiops-health-demo:0.1</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
 
 `--rm` 表示容器退出后自动删除容器对象。
 
@@ -1530,6 +2345,13 @@ docker run --rm -p 8000:8000 aiops-health-demo:0.1
 ```bash
 docker build --progress=plain -t aiops-health-demo:0.1 .
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker build --progress=plain -t aiops-health-demo:0.1 .</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
 
 检查：
 
@@ -1547,6 +2369,15 @@ docker ps -a
 docker logs aiops-health
 docker inspect aiops-health
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker ps -a</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
+| 第 2 行 | <code>docker logs aiops-health</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
+| 第 3 行 | <code>docker inspect aiops-health</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
+
 
 重点看：
 
@@ -1573,6 +2404,14 @@ docker build -t aiops-health-demo:0.2 .
 docker run --rm -p 8000:8000 aiops-health-demo:0.2
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker build -t aiops-health-demo:0.2 .</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 |
+| 第 2 行 | <code>docker run --rm -p 8000:8000 aiops-health-demo:0.2</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
+
 开发阶段也可以用 bind mount：
 
 ```bash
@@ -1580,6 +2419,15 @@ docker run --rm -p 8000:8000 \
   -v "$PWD/app.py:/app/app.py:ro" \
   aiops-health-demo:0.1
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker run --rm -p 8000:8000 \</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+| 第 2 行 | <code>  -v "$PWD/app.py:/app/app.py:ro" \</code> | 执行 `-v` 相关命令，后面的参数决定它具体操作什么对象。 |
+| 第 3 行 | <code>  aiops-health-demo:0.1</code> | 执行 `aiops-health-demo:0.1` 相关命令，后面的参数决定它具体操作什么对象。 |
+
 
 ## 典型故障排查表
 
@@ -1694,6 +2542,13 @@ docker run --rm -p 8000:8000 \
 docker run --mount type=volume,source=prometheus-data,target=/prometheus prom/prometheus:v2.55.0
 ```
 
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code>docker run --mount type=volume,source=prometheus-data,target=/prometheus prom/prometheus:v2.55.0</code> | 执行 Docker 容器命令，用来启动、查看、停止或构建容器化实验环境。 双横线参数是命令选项，真实环境要按自己的路径、端口或资源名调整。 |
+
+
 ### Docker 和 Kubernetes 什么关系？
 
 Docker 负责构建镜像和运行容器的单机能力。Kubernetes 负责在集群里编排容器，包括调度、服务发现、滚动发布、健康检查、自动恢复等。学 Kubernetes 前，必须先理解镜像、容器、端口、挂载、日志和资源限制。
@@ -1784,5 +2639,36 @@ docker exec -it aiops-health sh
 docker stop aiops-health
 docker rm aiops-health
 ```
+
+逐行解释：
+
+| 行 | 内容 | 说明 |
+|---|---|---|
+| 第 1 行 | <code># AIOps Docker Health Demo</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 2 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 3 行 | <code>## Build</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 4 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 5 行 | <code>docker build -t aiops-health-demo:0.1 .</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 6 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 7 行 | <code>## Run</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 8 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 9 行 | <code>docker run -d --name aiops-health -p 8000:8000 -e SERVICE_NAME=health-demo aiops-health-demo:0.1</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 10 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 11 行 | <code>## Check</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 12 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 13 行 | <code>curl localhost:8000/health</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 14 行 | <code>docker logs aiops-health</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 15 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 16 行 | <code>## Debug</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 17 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 18 行 | <code>docker ps -a</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 19 行 | <code>docker inspect aiops-health</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 20 行 | <code>docker exec -it aiops-health sh</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 21 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 22 行 | <code>## Cleanup</code> | Markdown 标题行，用来组织文档层级。 |
+| 第 23 行 | <em>空行</em> | 空行，用来分隔 Markdown 段落。 |
+| 第 24 行 | <code>docker stop aiops-health</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+| 第 25 行 | <code>docker rm aiops-health</code> | Markdown 正文示例，展示文档里应该怎样写说明内容。 |
+
 
 如果你能解释这个 demo 从 Dockerfile 到镜像、从镜像到容器、从容器端口到宿主机访问、从日志到排障的完整链路，就说明你已经不是只会背 Docker 命令，而是真的理解了 Docker 的核心知识点。
