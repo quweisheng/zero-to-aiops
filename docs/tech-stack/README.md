@@ -29,6 +29,7 @@
 | 可观测性 | Prometheus、VictoriaMetrics、Alertmanager、Grafana、OpenTelemetry、Loki、Elasticsearch | P1 | 能采集指标、日志、链路，能做仪表盘和告警 |
 | 云原生 | Docker、Kubernetes、Helm、NGINX/Ingress、微服务 | P1 | 能容器化服务，理解 K8s 资源和服务拆分，能部署实验环境 |
 | 自动化与 CI/CD | Ansible、Terraform、GitHub Actions、CI/CD、Runbook Automation | P1-P2 | 能把手工操作写成自动化流程，能自动构建文档和项目 |
+| 安全与合规 | 网络安全等级保护（等保 2.0） | P1-P2 | 能理解定级、备案、建设整改、等级测评和持续运营，并用 AIOps 建立证据与整改闭环 |
 | 数据与 AI | MySQL/SQL、Oracle、PostgreSQL、Redis、Kafka、RabbitMQ、pandas、机器学习、scikit-learn、FastAPI、LLM/OpenAI API、LangChain、LangGraph、RAG、向量数据库 | P1-P3 | 能处理运维数据、关系型数据库、消息队列和事件流，做异常检测、告警降噪和智能运维助手 |
 | SRE/AIOps 实践 | SLI/SLO、告警治理、事件响应、Runbook、RCA、变更管理、AIOps 闭环 | P0-P1 | 能把工具能力转成稳定性结果和面试故事 |
 
@@ -42,6 +43,7 @@
 6. [pandas](./data-ai/pandas.md)：用数据做异常检测、告警降噪、智能助手。
 7. [机器学习](./data-ai/machine-learning.md)：理解样本、特征、标签、评估和异常检测边界。
 8. [LangChain](./data-ai/langchain.md)：把 LLM、RAG、工具调用和 runbook 查询组织成应用。
+9. [网络安全等级保护（等保 2.0）](./security-compliance/mlps.md)：把资产、控制、证据、整改和持续监控连成闭环。
 
 ## 一技术一文件
 
@@ -85,6 +87,10 @@
 - [GitHub Actions](./automation/github-actions.md)
 - [CI/CD](./automation/cicd.md)
 - [Runbook Automation](./automation/runbook-automation.md)
+
+### 安全与合规
+
+- [网络安全等级保护（等保 2.0）](./security-compliance/mlps.md)
 
 ### 数据与 AI
 
@@ -192,6 +198,8 @@ Linux 服务
 - [Ansible](https://docs.ansible.com/projects/ansible/latest/index.html)
 - [Terraform](https://developer.hashicorp.com/terraform/docs)
 - [GitHub Actions](https://docs.github.com/actions)
+- [中华人民共和国网络安全法](https://www.cac.gov.cn/2025-12/29/c_1768735112911946.htm)
+- [国家标准全文公开系统：网络安全等级保护](https://openstd.samr.gov.cn/bzgk/std/std_list?p.p1=0&p.p2=%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E7%AD%89%E7%BA%A7%E4%BF%9D%E6%8A%A4&p.p90=circulation_date&p.p91=desc)
 - [MySQL](https://dev.mysql.com/doc/refman/8.4/en/tutorial.html)
 - [Oracle Database](https://docs.oracle.com/en/database/)
 - [PostgreSQL](https://www.postgresql.org/docs/current/)

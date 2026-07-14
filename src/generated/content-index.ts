@@ -343,6 +343,13 @@ export const generatedDocs = [
     "excerpt": "目标：每个技术栈一个 Markdown 文件，并且每个文件都按“官方资料、是什么、原理、架构、配置、入门实验、排障、学习证据”的结构写成原创中文教程。 精讲示范 当前已经按 技术栈精讲写作标准 完成第一批示范文章： 技术栈 文件 示范重点 ..."
   },
   {
+    "path": "../docs/tech-stack/security-compliance/mlps.md",
+    "route": "/tech-stack/security-compliance/mlps",
+    "title": "网络安全等级保护（等保 2.0）深讲",
+    "section": "安全与合规",
+    "excerpt": "学习目标：从零理解网络安全等级保护的法律依据、五个安全保护等级、定级与备案、建设整改、等级测评和持续运营；能读懂等保三级常见技术与管理要求，建立资产、控制、证据和整改台账，并用 AIOps 方法持续发现配置漂移、日志缺口、漏洞超期和恢复能力..."
+  },
+  {
     "path": "../docs/tech-stack/sre-aiops/aiops-loop.md",
     "route": "/tech-stack/sre-aiops/aiops-loop",
     "title": "AIOps 闭环",

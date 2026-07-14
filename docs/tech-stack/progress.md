@@ -22,6 +22,7 @@
 | 已升级开头和面试表达 | Linux、Git、GitHub、Markdown、VitePress、Python、Shell/PowerShell、systemd、网络基础 | 基础工具组已补通俗开场、人话版、小白追问和面试表达 |
 | 已升级开头和面试表达 | Docker、Docker Compose、Kubernetes、Helm、NGINX/Ingress、微服务 | 云原生组已补通俗开场、人话版、小白追问和面试表达 |
 | 已升级开头和面试表达 | Ansible、Terraform、GitHub Actions、CI/CD、Runbook Automation | 自动化组已补通俗开场、人话版、小白追问和面试表达 |
+| 已完成深讲第一版 | 网络安全等级保护（等保 2.0） | 安全与合规组已补法律与标准地图、五级保护、五阶段实施、控制与证据闭环、入门实验、排障和面试表达 |
 | 已升级开头和面试表达 | MySQL、Oracle、PostgreSQL、Redis、Kafka、RabbitMQ、pandas、机器学习、scikit-learn、FastAPI、LLM、LangChain、LangGraph、RAG、向量数据库 | 数据与 AI 组已补通俗开场、人话版、小白追问和面试表达 |
 | 已升级开头和面试表达 | SLI/SLO/SLA、告警治理、事件响应、Runbook、RCA、变更管理、AIOps 闭环 | SRE/AIOps 实践组已补通俗开场、人话版、小白追问和面试表达 |
 
@@ -80,6 +81,7 @@
 | 已完成第一版 | RCA 根因分析 | [rca.md](./sre-aiops/rca.md) | Google SRE 无责复盘文化、postmortem 模板、证据输入、直接原因/促成因素/系统性缺口、5 Whys、鱼骨图文字版、行动项质量、MTTD/MTTA/MTTR、RCA 反哺告警、Runbook 和 AIOps 知识库 |
 | 已完成第一版 | 变更管理 | [change-management.md](./sre-aiops/change-management.md) | Google SRE Release Engineering、可复现构建、制品追踪、策略门禁、变更分类、变更单模板、滚动/蓝绿/金丝雀/Feature Flag、错误预算门禁、验证指标、回滚计划、数据库/配置/紧急变更、AIOps 变更关联 |
 | 已完成第一版 | AIOps 闭环 | [aiops-loop.md](./sre-aiops/aiops-loop.md) | Microsoft Azure Monitor AIOps / agentic operations、Google SRE 闭环、观测/检测/关联/解释/建议/行动/验证/学习分层、最小作品集架构、incident candidate 数据模型、guardrails、成熟度、效果指标 |
+| 已完成第一版 | 网络安全等级保护（等保 2.0） | [mlps.md](./security-compliance/mlps.md) | 现行法律与国家标准、保护对象与五级定级、备案/整改/测评/监督检查、技术与管理控制、云场景、AIOps 持续合规、只读取证实验、证据台账、常见问题和学习证据 |
 
 ## 精讲批次进度
 
@@ -92,6 +94,7 @@
 | 4 | Ansible、Terraform、GitHub Actions、CI/CD、Runbook Automation | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
 | 5 | MySQL、Oracle、PostgreSQL、Redis、Kafka、RabbitMQ、pandas、机器学习、scikit-learn、FastAPI、LLM、LangChain、LangGraph、RAG、向量数据库 | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
 | 6 | SLI/SLO/SLA、告警治理、事件响应、Runbook、RCA、变更管理、AIOps 闭环 | 深讲第一版已完成 | 已补齐官方知识地图、机制、命令/API 字典、实验、排障和学习证据 |
+| 7 | 网络安全等级保护（等保 2.0） | 深讲第一版已完成 | 新增安全与合规分类，补齐现行依据、实施流程、控制与证据闭环、实验、排障和学习证据 |
 
 ## 已完成
 
@@ -124,6 +127,7 @@
 | 自动化 | GitHub Actions | [github-actions.md](./automation/github-actions.md) |
 | 自动化 | CI/CD | [cicd.md](./automation/cicd.md) |
 | 自动化 | Runbook Automation | [runbook-automation.md](./automation/runbook-automation.md) |
+| 安全与合规 | 网络安全等级保护（等保 2.0） | [mlps.md](./security-compliance/mlps.md) |
 | 数据与 AI | MySQL / SQL | [mysql-sql.md](./data-ai/mysql-sql.md) |
 | 数据与 AI | Oracle Database | [oracle.md](./data-ai/oracle.md) |
 | 数据与 AI | PostgreSQL | [postgresql.md](./data-ai/postgresql.md) |

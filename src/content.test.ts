@@ -104,4 +104,10 @@ describe('getDocByRoute', () => {
     )
     expect(getDocByRoute('/tech-stack/data-ai/langgraph')?.title).toBe('LangGraph')
   })
+
+  it('includes the network security level protection document', () => {
+    expect(getDocByRoute('/tech-stack/security-compliance/mlps')?.title).toBe(
+      '网络安全等级保护（等保 2.0）深讲'
+    )
+  })
 })

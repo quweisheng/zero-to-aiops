@@ -91,6 +91,15 @@ export const navGroups: NavGroup[] = [
     ]
   },
   {
+    text: '安全与合规',
+    items: [
+      {
+        text: '网络安全等级保护',
+        route: '/tech-stack/security-compliance/mlps'
+      }
+    ]
+  },
+  {
     text: '数据与 AI',
     items: [
       { text: 'MySQL / SQL', route: '/tech-stack/data-ai/mysql-sql' },

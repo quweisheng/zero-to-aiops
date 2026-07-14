@@ -74,6 +74,10 @@ npm run build
 - [CI/CD](./docs/tech-stack/automation/cicd.md)
 - [Runbook Automation](./docs/tech-stack/automation/runbook-automation.md)
 
+### 安全与合规
+
+- [网络安全等级保护（等保 2.0）](./docs/tech-stack/security-compliance/mlps.md)
+
 ### 数据与 AI
 
 - [MySQL / SQL](./docs/tech-stack/data-ai/mysql-sql.md)
@@ -108,7 +112,7 @@ npm run build
 
 第二阶段打通可观测性和云原生，把指标、日志、链路、容器和 Kubernetes 的基本链路跑起来。
 
-第三阶段学习自动化、数据与 AI，把人工排障经验沉淀成脚本、流水线、异常检测和智能助手。
+第三阶段学习自动化、安全与合规、数据与 AI，把人工排障经验沉淀成脚本、流水线、持续合规检查、异常检测和智能助手。
 
 
 ## 从这里开始

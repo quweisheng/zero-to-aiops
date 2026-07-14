@@ -57,6 +57,10 @@
 - [CI/CD](./tech-stack/automation/cicd.md)
 - [Runbook Automation](./tech-stack/automation/runbook-automation.md)
 
+### 安全与合规
+
+- [网络安全等级保护（等保 2.0）](./tech-stack/security-compliance/mlps.md)
+
 ### 数据与 AI
 
 - [MySQL / SQL](./tech-stack/data-ai/mysql-sql.md)
@@ -93,3 +97,4 @@
 4. [Linux](./tech-stack/foundation/linux.md)
 5. [Git](./tech-stack/foundation/git.md)
 6. [Prometheus](./tech-stack/observability/prometheus.md)
+7. [网络安全等级保护（等保 2.0）](./tech-stack/security-compliance/mlps.md)
