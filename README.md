@@ -66,6 +66,10 @@ npm run build
 - [NGINX / Ingress](./docs/tech-stack/cloud-native/nginx-ingress.md)
 - [微服务](./docs/tech-stack/cloud-native/microservices.md)
 
+### 存储与数据保护
+
+- [IBM Storage](./docs/tech-stack/storage-data-protection/ibm-storage.md)
+
 ### 自动化与 CI/CD
 
 - [Ansible](./docs/tech-stack/automation/ansible.md)
@@ -110,7 +114,7 @@ npm run build
 
 第一阶段先补基础工具和 SRE/AIOps 实践，保证能记录、复盘、提交和表达稳定性问题。
 
-第二阶段打通可观测性和云原生，把指标、日志、链路、容器和 Kubernetes 的基本链路跑起来。
+第二阶段打通可观测性、云原生和企业存储，把指标、日志、链路、容器、Kubernetes 与数据持久化的基本链路跑起来。
 
 第三阶段学习自动化、安全与合规、数据与 AI，把人工排障经验沉淀成脚本、流水线、持续合规检查、异常检测和智能助手。
 

@@ -81,6 +81,15 @@ export const navGroups: NavGroup[] = [
     ]
   },
   {
+    text: '存储与数据保护',
+    items: [
+      {
+        text: 'IBM Storage',
+        route: '/tech-stack/storage-data-protection/ibm-storage'
+      }
+    ]
+  },
+  {
     text: '自动化',
     items: [
       { text: 'Ansible', route: '/tech-stack/automation/ansible' },

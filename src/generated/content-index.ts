@@ -399,6 +399,13 @@ export const generatedDocs = [
     "excerpt": "目标：不是背会三个缩写，而是能从用户体验出发定义 SLI，把 SLI 写成可测量的 SLO，用错误预算指导发布和稳定性工作，并用 burn rate 告警把“服务是否伤害用户”接入 Prometheus、Alertmanager 和 AIO..."
   },
   {
+    "path": "../docs/tech-stack/storage-data-protection/ibm-storage.md",
+    "route": "/tech-stack/storage-data-protection/ibm-storage",
+    "title": "IBM Storage 深讲",
+    "section": "存储与数据保护",
+    "excerpt": "学习目标：从零理解块、文件、对象和磁带存储，能说清 IBM FlashSystem、Storage Virtualize、Storage Scale、Storage Ceph、DS8000、Cloud Object Storage、Stor..."
+  },
+  {
     "path": "../docs/tech-stack/writing-standard.md",
     "route": "/tech-stack/writing-standard",
     "title": "技术栈精讲写作标准",

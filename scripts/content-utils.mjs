@@ -4,6 +4,7 @@ export const sectionByPrefix = [
   ['/tech-stack/foundation/', '基础工具'],
   ['/tech-stack/observability/', '可观测性'],
   ['/tech-stack/cloud-native/', '云原生'],
+  ['/tech-stack/storage-data-protection/', '存储与数据保护'],
   ['/tech-stack/automation/', '自动化'],
   ['/tech-stack/security-compliance/', '安全与合规'],
   ['/tech-stack/data-ai/', '数据与 AI'],

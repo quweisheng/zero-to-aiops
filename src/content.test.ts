@@ -110,4 +110,10 @@ describe('getDocByRoute', () => {
       '网络安全等级保护（等保 2.0）深讲'
     )
   })
+
+  it('includes the IBM Storage tech-stack document', () => {
+    expect(getDocByRoute('/tech-stack/storage-data-protection/ibm-storage')?.title).toBe(
+      'IBM Storage 深讲'
+    )
+  })
 })
