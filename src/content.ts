@@ -90,6 +90,10 @@ export const navGroups: NavGroup[] = [
       {
         text: 'Ceph',
         route: '/tech-stack/storage-data-protection/ceph'
+      },
+      {
+        text: '华为 OceanStor',
+        route: '/tech-stack/storage-data-protection/huawei-oceanstor'
       }
     ]
   },

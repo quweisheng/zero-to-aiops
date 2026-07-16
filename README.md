@@ -70,6 +70,7 @@ npm run build
 
 - [IBM Storage](./docs/tech-stack/storage-data-protection/ibm-storage.md)
 - [Ceph](./docs/tech-stack/storage-data-protection/ceph.md)
+- [华为 OceanStor](./docs/tech-stack/storage-data-protection/huawei-oceanstor.md)
 
 ### 自动化与 CI/CD
 

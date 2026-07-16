@@ -406,6 +406,13 @@ export const generatedDocs = [
     "excerpt": "学习目标：从零理解 Ceph 分布式存储的 RADOS、MON、MGR、OSD、MDS、RGW、pool、PG、CRUSH 和 BlueStore；能区分 RBD 块存储、CephFS 文件存储和 RGW 对象存储，使用 cephadm 搭..."
   },
   {
+    "path": "../docs/tech-stack/storage-data-protection/huawei-oceanstor.md",
+    "route": "/tech-stack/storage-data-protection/huawei-oceanstor",
+    "title": "华为 OceanStor 深讲",
+    "section": "存储与数据保护",
+    "excerpt": "学习目标：从零分清 OceanStor Dorado、OceanStor 混合闪存和 OceanStor Pacific，理解控制器、存储池、LUN、文件系统、主机映射、多路径、快照、远程复制和 HyperMetro；能完成一次不接触生产数..."
+  },
+  {
     "path": "../docs/tech-stack/storage-data-protection/ibm-storage.md",
     "route": "/tech-stack/storage-data-protection/ibm-storage",
     "title": "IBM Storage 深讲",

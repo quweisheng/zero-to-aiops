@@ -111,10 +111,13 @@ describe('getDocByRoute', () => {
     )
   })
 
-  it('includes the IBM Storage and Ceph tech-stack documents', () => {
+  it('includes the storage and data protection tech-stack documents', () => {
     expect(getDocByRoute('/tech-stack/storage-data-protection/ibm-storage')?.title).toBe(
       'IBM Storage 深讲'
     )
     expect(getDocByRoute('/tech-stack/storage-data-protection/ceph')?.title).toBe('Ceph 深讲')
+    expect(getDocByRoute('/tech-stack/storage-data-protection/huawei-oceanstor')?.title).toBe(
+      '华为 OceanStor 深讲'
+    )
   })
 })
