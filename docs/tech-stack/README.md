@@ -28,7 +28,7 @@
 | 基础工具 | Linux、systemd、网络、Git、GitHub、Markdown、VitePress、Python、Shell/PowerShell | P0 | 能排障、能写记录、能提交代码、能跑脚本 |
 | 可观测性 | Prometheus、VictoriaMetrics、Alertmanager、Grafana、OpenTelemetry、Loki、Elasticsearch | P1 | 能采集指标、日志、链路，能做仪表盘和告警 |
 | 云原生 | Docker、Kubernetes、Helm、NGINX/Ingress、微服务 | P1 | 能容器化服务，理解 K8s 资源和服务拆分，能部署实验环境 |
-| 存储与数据保护 | IBM Storage | P1-P2 | 能理解块、文件、对象、SAN、卷、池、多路径、复制、备份与存储 AIOps 排障 |
+| 存储与数据保护 | IBM Storage、Ceph | P1-P2 | 能理解集中式与分布式存储、块/文件/对象、SAN、RADOS、PG、CRUSH、多路径、复制、备份与存储 AIOps 排障 |
 | 自动化与 CI/CD | Ansible、Terraform、GitHub Actions、CI/CD、Runbook Automation | P1-P2 | 能把手工操作写成自动化流程，能自动构建文档和项目 |
 | 安全与合规 | 网络安全等级保护（等保 2.0） | P1-P2 | 能理解定级、备案、建设整改、等级测评和持续运营，并用 AIOps 建立证据与整改闭环 |
 | 数据与 AI | MySQL/SQL、Oracle、PostgreSQL、Redis、Kafka、RabbitMQ、pandas、机器学习、scikit-learn、FastAPI、LLM/OpenAI API、LangChain、LangGraph、RAG、向量数据库 | P1-P3 | 能处理运维数据、关系型数据库、消息队列和事件流，做异常检测、告警降噪和智能运维助手 |
@@ -41,11 +41,12 @@
 3. [Prometheus](./observability/prometheus.md)：先把数据采集跑通。
 4. [Docker](./cloud-native/docker.md)：把服务放进容器。
 5. [IBM Storage](./storage-data-protection/ibm-storage.md)：理解业务数据最终如何落盘、保护、监控和恢复。
-6. [GitHub Actions](./automation/github-actions.md)：把重复动作变成流程。
-7. [pandas](./data-ai/pandas.md)：用数据做异常检测、告警降噪、智能助手。
-8. [机器学习](./data-ai/machine-learning.md)：理解样本、特征、标签、评估和异常检测边界。
-9. [LangChain](./data-ai/langchain.md)：把 LLM、RAG、工具调用和 runbook 查询组织成应用。
-10. [网络安全等级保护（等保 2.0）](./security-compliance/mlps.md)：把资产、控制、证据、整改和持续监控连成闭环。
+6. [Ceph](./storage-data-protection/ceph.md)：理解对象如何经过 pool、PG 和 CRUSH 分布到 OSD，并学会判断集群健康。
+7. [GitHub Actions](./automation/github-actions.md)：把重复动作变成流程。
+8. [pandas](./data-ai/pandas.md)：用数据做异常检测、告警降噪、智能助手。
+9. [机器学习](./data-ai/machine-learning.md)：理解样本、特征、标签、评估和异常检测边界。
+10. [LangChain](./data-ai/langchain.md)：把 LLM、RAG、工具调用和 runbook 查询组织成应用。
+11. [网络安全等级保护（等保 2.0）](./security-compliance/mlps.md)：把资产、控制、证据、整改和持续监控连成闭环。
 
 ## 一技术一文件
 
@@ -75,6 +76,7 @@
 ### 存储与数据保护
 
 - [IBM Storage](./storage-data-protection/ibm-storage.md)
+- [Ceph](./storage-data-protection/ceph.md)
 
 ### 可观测性
 
@@ -202,6 +204,7 @@ Linux 服务
 - [Grafana](https://grafana.com/docs/)
 - [OpenTelemetry](https://opentelemetry.io/docs/)
 - [IBM Storage](https://www.ibm.com/solutions/storage)
+- [Ceph](https://docs.ceph.com/en/latest/)
 - [Ansible](https://docs.ansible.com/projects/ansible/latest/index.html)
 - [Terraform](https://developer.hashicorp.com/terraform/docs)
 - [GitHub Actions](https://docs.github.com/actions)

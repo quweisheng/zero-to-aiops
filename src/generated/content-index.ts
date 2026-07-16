@@ -399,6 +399,13 @@ export const generatedDocs = [
     "excerpt": "目标：不是背会三个缩写，而是能从用户体验出发定义 SLI，把 SLI 写成可测量的 SLO，用错误预算指导发布和稳定性工作，并用 burn rate 告警把“服务是否伤害用户”接入 Prometheus、Alertmanager 和 AIO..."
   },
   {
+    "path": "../docs/tech-stack/storage-data-protection/ceph.md",
+    "route": "/tech-stack/storage-data-protection/ceph",
+    "title": "Ceph 深讲",
+    "section": "存储与数据保护",
+    "excerpt": "学习目标：从零理解 Ceph 分布式存储的 RADOS、MON、MGR、OSD、MDS、RGW、pool、PG、CRUSH 和 BlueStore；能区分 RBD 块存储、CephFS 文件存储和 RGW 对象存储，使用 cephadm 搭..."
+  },
+  {
     "path": "../docs/tech-stack/storage-data-protection/ibm-storage.md",
     "route": "/tech-stack/storage-data-protection/ibm-storage",
     "title": "IBM Storage 深讲",

@@ -52,6 +52,7 @@
 ### 存储与数据保护
 
 - [IBM Storage](./tech-stack/storage-data-protection/ibm-storage.md)
+- [Ceph](./tech-stack/storage-data-protection/ceph.md)
 
 ### 自动化与 CI/CD
 
@@ -102,4 +103,5 @@
 5. [Git](./tech-stack/foundation/git.md)
 6. [Prometheus](./tech-stack/observability/prometheus.md)
 7. [IBM Storage](./tech-stack/storage-data-protection/ibm-storage.md)
-8. [网络安全等级保护（等保 2.0）](./tech-stack/security-compliance/mlps.md)
+8. [Ceph](./tech-stack/storage-data-protection/ceph.md)
+9. [网络安全等级保护（等保 2.0）](./tech-stack/security-compliance/mlps.md)

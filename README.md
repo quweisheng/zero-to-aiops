@@ -69,6 +69,7 @@ npm run build
 ### 存储与数据保护
 
 - [IBM Storage](./docs/tech-stack/storage-data-protection/ibm-storage.md)
+- [Ceph](./docs/tech-stack/storage-data-protection/ceph.md)
 
 ### 自动化与 CI/CD
 

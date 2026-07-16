@@ -22,6 +22,7 @@
 | 已升级开头和面试表达 | Linux、Git、GitHub、Markdown、VitePress、Python、Shell/PowerShell、systemd、网络基础 | 基础工具组已补通俗开场、人话版、小白追问和面试表达 |
 | 已升级开头和面试表达 | Docker、Docker Compose、Kubernetes、Helm、NGINX/Ingress、微服务 | 云原生组已补通俗开场、人话版、小白追问和面试表达 |
 | 已完成深讲第一版 | IBM Storage | 存储与数据保护组已补产品地图、块/文件/对象/磁带基础、FlashSystem 数据路径、容量性能、多路径、复制备份、实验、排障和面试表达 |
+| 已完成深讲第一版 | Ceph | 存储与数据保护组已补 RADOS、RBD/CephFS/RGW、MON/MGR/OSD、pool/PG/CRUSH、cephadm 实验、Prometheus、排障和面试表达 |
 | 已升级开头和面试表达 | Ansible、Terraform、GitHub Actions、CI/CD、Runbook Automation | 自动化组已补通俗开场、人话版、小白追问和面试表达 |
 | 已完成深讲第一版 | 网络安全等级保护（等保 2.0） | 安全与合规组已补法律与标准地图、五级保护、五阶段实施、控制与证据闭环、入门实验、排障和面试表达 |
 | 已升级开头和面试表达 | MySQL、Oracle、PostgreSQL、Redis、Kafka、RabbitMQ、pandas、机器学习、scikit-learn、FastAPI、LLM、LangChain、LangGraph、RAG、向量数据库 | 数据与 AI 组已补通俗开场、人话版、小白追问和面试表达 |
@@ -84,6 +85,7 @@
 | 已完成第一版 | AIOps 闭环 | [aiops-loop.md](./sre-aiops/aiops-loop.md) | Microsoft Azure Monitor AIOps / agentic operations、Google SRE 闭环、观测/检测/关联/解释/建议/行动/验证/学习分层、最小作品集架构、incident candidate 数据模型、guardrails、成熟度、效果指标 |
 | 已完成第一版 | 网络安全等级保护（等保 2.0） | [mlps.md](./security-compliance/mlps.md) | 现行法律与国家标准、保护对象与五级定级、备案/整改/测评/监督检查、技术与管理控制、云场景、AIOps 持续合规、只读取证实验、证据台账、常见问题和学习证据 |
 | 已完成第一版 | IBM Storage | [ibm-storage.md](./storage-data-protection/ibm-storage.md) | IBM 官方产品地图、块/文件/对象/磁带、FlashSystem/Storage Virtualize 架构、卷/池/MDisk/主机映射、双控/SAN/多路径、容量性能、快照复制备份、Storage Insights、离线健康实验和端到端排障 |
+| 已完成第一版 | Ceph | [ceph.md](./storage-data-protection/ceph.md) | Ceph 官方架构、RADOS、RBD/CephFS/RGW、MON/MGR/OSD、pool/PG/CRUSH、复制与纠删码、cephadm 单机实验、Prometheus 指标、常见故障和变更安全 |
 
 ## 精讲批次进度
 
@@ -98,6 +100,7 @@
 | 6 | SLI/SLO/SLA、告警治理、事件响应、Runbook、RCA、变更管理、AIOps 闭环 | 深讲第一版已完成 | 已补齐官方知识地图、机制、命令/API 字典、实验、排障和学习证据 |
 | 7 | 网络安全等级保护（等保 2.0） | 深讲第一版已完成 | 新增安全与合规分类，补齐现行依据、实施流程、控制与证据闭环、实验、排障和学习证据 |
 | 8 | IBM Storage | 深讲第一版已完成 | 新增存储与数据保护分类，补齐产品边界、核心架构、命令字典、指标、实验、排障和学习证据 |
+| 9 | Ceph | 深讲第一版已完成 | 补齐分布式存储数据路径、核心 daemon、PG/CRUSH、部署实验、指标、排障、升级和学习证据 |
 
 ## 已完成
 
@@ -119,6 +122,7 @@
 | 云原生 | NGINX / Ingress | [nginx-ingress.md](./cloud-native/nginx-ingress.md) |
 | 云原生 | 微服务 | [microservices.md](./cloud-native/microservices.md) |
 | 存储与数据保护 | IBM Storage | [ibm-storage.md](./storage-data-protection/ibm-storage.md) |
+| 存储与数据保护 | Ceph | [ceph.md](./storage-data-protection/ceph.md) |
 | 可观测性 | Prometheus | [prometheus.md](./observability/prometheus.md) |
 | 可观测性 | Grafana | [grafana.md](./observability/grafana.md) |
 | 可观测性 | OpenTelemetry | [opentelemetry.md](./observability/opentelemetry.md) |

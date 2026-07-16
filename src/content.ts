@@ -86,6 +86,10 @@ export const navGroups: NavGroup[] = [
       {
         text: 'IBM Storage',
         route: '/tech-stack/storage-data-protection/ibm-storage'
+      },
+      {
+        text: 'Ceph',
+        route: '/tech-stack/storage-data-protection/ceph'
       }
     ]
   },
