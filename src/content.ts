@@ -81,6 +81,15 @@ export const navGroups: NavGroup[] = [
     ]
   },
   {
+    text: '虚拟化与私有云',
+    items: [
+      {
+        text: 'VMware vSphere',
+        route: '/tech-stack/virtualization-private-cloud/vsphere'
+      }
+    ]
+  },
+  {
     text: '存储与数据保护',
     items: [
       {

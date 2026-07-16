@@ -66,6 +66,10 @@ npm run build
 - [NGINX / Ingress](./docs/tech-stack/cloud-native/nginx-ingress.md)
 - [微服务](./docs/tech-stack/cloud-native/microservices.md)
 
+### 虚拟化与私有云
+
+- [VMware vSphere](./docs/tech-stack/virtualization-private-cloud/vsphere.md)
+
 ### 存储与数据保护
 
 - [IBM Storage](./docs/tech-stack/storage-data-protection/ibm-storage.md)

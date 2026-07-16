@@ -427,6 +427,13 @@ export const generatedDocs = [
     "excerpt": "学习目标：从零理解块、文件、对象和磁带存储，能说清 IBM FlashSystem、Storage Virtualize、Storage Scale、Storage Ceph、DS8000、Cloud Object Storage、Stor..."
   },
   {
+    "path": "../docs/tech-stack/virtualization-private-cloud/vsphere.md",
+    "route": "/tech-stack/virtualization-private-cloud/vsphere",
+    "title": "VMware vSphere 深讲",
+    "section": "技术栈",
+    "excerpt": "学习目标：从零理解 vSphere、ESXi（9.x 官方也称 ESX）、vCenter Server、虚拟机和集群的关系，掌握 HA、DRS、vMotion、EVC、虚拟网络、数据存储、资源管理、生命周期、日志与 API；能完成一个不依赖..."
+  },
+  {
     "path": "../docs/tech-stack/writing-standard.md",
     "route": "/tech-stack/writing-standard",
     "title": "技术栈精讲写作标准",

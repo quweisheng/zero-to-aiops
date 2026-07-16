@@ -49,6 +49,10 @@
 - [NGINX / Ingress](./tech-stack/cloud-native/nginx-ingress.md)
 - [微服务](./tech-stack/cloud-native/microservices.md)
 
+### 虚拟化与私有云
+
+- [VMware vSphere](./tech-stack/virtualization-private-cloud/vsphere.md)
+
 ### 存储与数据保护
 
 - [IBM Storage](./tech-stack/storage-data-protection/ibm-storage.md)
@@ -104,8 +108,9 @@
 4. [Linux](./tech-stack/foundation/linux.md)
 5. [Git](./tech-stack/foundation/git.md)
 6. [Prometheus](./tech-stack/observability/prometheus.md)
-7. [IBM Storage](./tech-stack/storage-data-protection/ibm-storage.md)
-8. [Ceph](./tech-stack/storage-data-protection/ceph.md)
-9. [华为 OceanStor](./tech-stack/storage-data-protection/huawei-oceanstor.md)
-10. [爱数 AnyStorage](./tech-stack/storage-data-protection/aishu-anystorage.md)
-11. [网络安全等级保护（等保 2.0）](./tech-stack/security-compliance/mlps.md)
+7. [VMware vSphere](./tech-stack/virtualization-private-cloud/vsphere.md)
+8. [IBM Storage](./tech-stack/storage-data-protection/ibm-storage.md)
+9. [Ceph](./tech-stack/storage-data-protection/ceph.md)
+10. [华为 OceanStor](./tech-stack/storage-data-protection/huawei-oceanstor.md)
+11. [爱数 AnyStorage](./tech-stack/storage-data-protection/aishu-anystorage.md)
+12. [网络安全等级保护（等保 2.0）](./tech-stack/security-compliance/mlps.md)

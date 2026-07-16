@@ -111,6 +111,12 @@ describe('getDocByRoute', () => {
     )
   })
 
+  it('includes the virtualization and private cloud tech-stack documents', () => {
+    expect(getDocByRoute('/tech-stack/virtualization-private-cloud/vsphere')?.title).toBe(
+      'VMware vSphere 深讲'
+    )
+  })
+
   it('includes the storage and data protection tech-stack documents', () => {
     expect(getDocByRoute('/tech-stack/storage-data-protection/ibm-storage')?.title).toBe(
       'IBM Storage 深讲'
