@@ -77,7 +77,11 @@ export const navGroups: NavGroup[] = [
       { text: 'Kubernetes', route: '/tech-stack/cloud-native/kubernetes' },
       { text: 'Helm', route: '/tech-stack/cloud-native/helm' },
       { text: 'NGINX / Ingress', route: '/tech-stack/cloud-native/nginx-ingress' },
-      { text: '微服务', route: '/tech-stack/cloud-native/microservices' }
+      { text: '微服务', route: '/tech-stack/cloud-native/microservices' },
+      { text: 'Rancher', route: '/tech-stack/cloud-native/rancher' },
+      { text: 'Harbor', route: '/tech-stack/cloud-native/harbor' },
+      { text: 'Istio', route: '/tech-stack/cloud-native/istio' },
+      { text: 'KubeSphere', route: '/tech-stack/cloud-native/kubesphere' }
     ]
   },
   {
@@ -86,6 +90,10 @@ export const navGroups: NavGroup[] = [
       {
         text: 'VMware vSphere',
         route: '/tech-stack/virtualization-private-cloud/vsphere'
+      },
+      {
+        text: 'OpenStack',
+        route: '/tech-stack/virtualization-private-cloud/openstack'
       }
     ]
   },
@@ -117,7 +125,19 @@ export const navGroups: NavGroup[] = [
       { text: 'Terraform', route: '/tech-stack/automation/terraform' },
       { text: 'GitHub Actions', route: '/tech-stack/automation/github-actions' },
       { text: 'CI/CD', route: '/tech-stack/automation/cicd' },
-      { text: 'Runbook Automation', route: '/tech-stack/automation/runbook-automation' }
+      { text: 'Runbook Automation', route: '/tech-stack/automation/runbook-automation' },
+      { text: 'GitLab', route: '/tech-stack/automation/gitlab' },
+      { text: 'Jenkins', route: '/tech-stack/automation/jenkins' },
+      { text: 'Nexus Repository', route: '/tech-stack/automation/nexus-repository' }
+    ]
+  },
+  {
+    text: '架构与方案设计',
+    items: [
+      {
+        text: '系统架构与技术方案设计',
+        route: '/tech-stack/architecture-delivery/architecture-solution-design'
+      }
     ]
   },
   {
@@ -170,7 +190,10 @@ export const navGroups: NavGroup[] = [
   },
   {
     text: '面试',
-    items: [{ text: '面试准备', route: '/interview' }]
+    items: [
+      { text: '面试准备', route: '/interview' },
+      { text: 'Kubernetes 平台运维岗位', route: '/interview/kubernetes-platform-operations-role' }
+    ]
   }
 ]
 

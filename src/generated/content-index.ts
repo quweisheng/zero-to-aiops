@@ -11,7 +11,14 @@ export const generatedDocs = [
     "route": "/interview",
     "title": "AIOps 面试准备",
     "section": "面试",
-    "excerpt": "自我介绍结构 1. 我有多年运维经验，熟悉生产系统稳定性、监控告警、故障处理和自动化。 2. 我现在把经验升级到 AIOps：用可观测数据、规则/模型和自动化流程降低 MTTD、MTTR 和告警噪声。 3. 我做了几个公开项目：可观测性实验..."
+    "excerpt": "岗位专项 Kubernetes 平台运维岗位专项路线：对照 Rancher、OpenStack、Harbor、Istio、KubeSphere、GitLab、Jenkins、Nexus、NGINX 和架构方案要求，安排学习优先级与项目证据。..."
+  },
+  {
+    "path": "../docs/interview/kubernetes-platform-operations-role.md",
+    "route": "/interview/kubernetes-platform-operations-role",
+    "title": "Kubernetes 平台运维岗位专项路线",
+    "section": "面试",
+    "excerpt": "目标：针对“5 年以上 Kubernetes 运维、IaaS、容器平台、微服务、CI/CD、脚本、NGINX、架构和方案设计”岗位，按投递优先级补齐知识、实验和面试证据。 先说结论 这份岗位不是只招“会用 Kubernetes 命令”的人，..."
   },
   {
     "path": "../docs/resources.md",
@@ -42,6 +49,13 @@ export const generatedDocs = [
     "excerpt": "这个目录记录我从 0 学 AIOps 过程中会接触到的技术栈。它不是一次性背诵清单，而是一个长期学习地图：每学一项，就补充理解、配置、实验和踩坑记录。 精讲写作标准 后续每个技术栈文件都会按 技术栈精讲写作标准 补齐内容：官方资料、场景开场..."
   },
   {
+    "path": "../docs/tech-stack/architecture-delivery/architecture-solution-design.md",
+    "route": "/tech-stack/architecture-delivery/architecture-solution-design",
+    "title": "系统架构与技术方案设计深讲",
+    "section": "技术栈",
+    "excerpt": "学习目标：能把模糊业务需求整理成约束、质量目标、候选方案和可实施设计，完成一份带容量、高可用、安全、可观测性、上线与回滚的可行性报告，并在评审中解释取舍。 官方资料 AWS Well Architected Framework Google..."
+  },
+  {
     "path": "../docs/tech-stack/automation/ansible.md",
     "route": "/tech-stack/automation/ansible",
     "title": "Ansible",
@@ -61,6 +75,27 @@ export const generatedDocs = [
     "title": "GitHub Actions",
     "section": "自动化",
     "excerpt": "目标：不是只会复制一段 .github/workflows/ .yml ，而是能解释 GitHub Actions 如何从事件触发 workflow，如何把 job 分配到 runner，如何执行 step/action，如何传递变量、产物..."
+  },
+  {
+    "path": "../docs/tech-stack/automation/gitlab.md",
+    "route": "/tech-stack/automation/gitlab",
+    "title": "GitLab 与 GitLab CI/CD 深讲",
+    "section": "自动化",
+    "excerpt": "学习目标：理解 GitLab 项目、流水线、Runner、制品和环境的关系，能写一条最小 CI/CD 流水线，验证配置并按队列、Runner、脚本和发布环境排障。 官方资料 GitLab 文档 CI/CD 文档 Runner 文档 Runn..."
+  },
+  {
+    "path": "../docs/tech-stack/automation/jenkins.md",
+    "route": "/tech-stack/automation/jenkins",
+    "title": "Jenkins 深讲",
+    "section": "自动化",
+    "excerpt": "学习目标：理解 Jenkins Controller、Agent、Pipeline、插件和凭据，能启动学习环境、运行一条声明式流水线，并定位排队、Agent 离线、脚本与插件类故障。 官方资料 Jenkins 用户文档 Pipeline 使..."
+  },
+  {
+    "path": "../docs/tech-stack/automation/nexus-repository.md",
+    "route": "/tech-stack/automation/nexus-repository",
+    "title": "Nexus Repository 深讲",
+    "section": "自动化",
+    "excerpt": "学习目标：理解 hosted、proxy、group 仓库和 blob store，能启动 Nexus、创建学习仓库、上传并下载制品，并定位权限、代理缓存、磁盘和清理策略问题。 官方资料 Nexus Repository 帮助中心 仓库类型..."
   },
   {
     "path": "../docs/tech-stack/automation/runbook-automation.md",
@@ -91,6 +126,13 @@ export const generatedDocs = [
     "excerpt": "学习目标：能用一个 compose.yaml 启动多容器实验环境，理解 project、service、container、network、volume、config、secret、profile、healthcheck、depends o..."
   },
   {
+    "path": "../docs/tech-stack/cloud-native/harbor.md",
+    "route": "/tech-stack/cloud-native/harbor",
+    "title": "Harbor 深讲",
+    "section": "云原生",
+    "excerpt": "学习目标：从零理解 Harbor 为什么不只是一个 Docker Registry，掌握 Project、Repository、Artifact、Tag、Robot Account、扫描、复制、保留、垃圾回收和高可用边界，并能完成一次 He..."
+  },
+  {
     "path": "../docs/tech-stack/cloud-native/helm.md",
     "route": "/tech-stack/cloud-native/helm",
     "title": "Helm",
@@ -98,11 +140,25 @@ export const generatedDocs = [
     "excerpt": "目标：能理解 Helm 为什么被称为 Kubernetes 的包管理器，能讲清 Chart、Release、Values、Template、Repository、Revision、Upgrade、Rollback 的关系，能写一个最小 Ch..."
   },
   {
+    "path": "../docs/tech-stack/cloud-native/istio.md",
+    "route": "/tech-stack/cloud-native/istio",
+    "title": "Istio 深讲",
+    "section": "云原生",
+    "excerpt": "学习目标：理解服务网格的数据面与控制面，能安装 Istio、配置一次灰度流量和双向 TLS，并按请求链路排查 503、配置未生效等常见故障。 官方资料 Istio 官方文档 架构说明 流量管理 安全 可观测性 本文以官方概念和运维文档为依据..."
+  },
+  {
     "path": "../docs/tech-stack/cloud-native/kubernetes.md",
     "route": "/tech-stack/cloud-native/kubernetes",
     "title": "Kubernetes",
     "section": "云原生",
     "excerpt": "目标：能理解 Kubernetes 为什么是容器编排系统，能按官方概念地图理解控制面、节点、Pod、Deployment、Service、ConfigMap、Secret、Namespace、调度、资源、健康检查和排障，能写出最小可运行的 ..."
+  },
+  {
+    "path": "../docs/tech-stack/cloud-native/kubesphere.md",
+    "route": "/tech-stack/cloud-native/kubesphere",
+    "title": "KubeSphere 深讲",
+    "section": "云原生",
+    "excerpt": "学习目标：理解 KubeSphere 与 Kubernetes 的关系，能看懂工作空间、集群、项目和扩展组件，完成一次资源巡检，并从界面问题回到 Kubernetes 原生对象排障。 官方资料 KubeSphere 4.2 文档 产品介绍 ..."
   },
   {
     "path": "../docs/tech-stack/cloud-native/microservices.md",
@@ -117,6 +173,13 @@ export const generatedDocs = [
     "title": "NGINX / Ingress",
     "section": "云原生",
     "excerpt": "目标：能理解 NGINX 反向代理和 Kubernetes Ingress 分别解决什么问题，能读懂 server 、 location 、 upstream 、 proxy pass 、 proxy set header 、timeout..."
+  },
+  {
+    "path": "../docs/tech-stack/cloud-native/rancher.md",
+    "route": "/tech-stack/cloud-native/rancher",
+    "title": "Rancher 深讲",
+    "section": "云原生",
+    "excerpt": "学习目标：从零理解 Rancher Manager、管理集群和下游 Kubernetes 集群的关系，掌握集群导入、RKE2/K3s 边界、权限、应用、监控、备份升级与常见排障，并能完成一次不接触生产集群的 Helm 渲染实验。 官方资料 ..."
   },
   {
     "path": "../docs/tech-stack/data-ai/fastapi.md",
@@ -425,6 +488,13 @@ export const generatedDocs = [
     "title": "IBM Storage 深讲",
     "section": "存储与数据保护",
     "excerpt": "学习目标：从零理解块、文件、对象和磁带存储，能说清 IBM FlashSystem、Storage Virtualize、Storage Scale、Storage Ceph、DS8000、Cloud Object Storage、Stor..."
+  },
+  {
+    "path": "../docs/tech-stack/virtualization-private-cloud/openstack.md",
+    "route": "/tech-stack/virtualization-private-cloud/openstack",
+    "title": "OpenStack 深讲",
+    "section": "技术栈",
+    "excerpt": "学习目标：理解 IaaS 和 OpenStack 核心服务，能用命令行识别项目、网络、镜像、云主机与卷，完成一次只读资产盘点，并按请求链路定位常见故障。 官方资料 OpenStack 文档入口 安装指南概览 逻辑架构 OpenStackCl..."
   },
   {
     "path": "../docs/tech-stack/virtualization-private-cloud/vsphere.md",

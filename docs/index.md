@@ -48,10 +48,15 @@
 - [Helm](./tech-stack/cloud-native/helm.md)
 - [NGINX / Ingress](./tech-stack/cloud-native/nginx-ingress.md)
 - [微服务](./tech-stack/cloud-native/microservices.md)
+- [Rancher](./tech-stack/cloud-native/rancher.md)
+- [Harbor](./tech-stack/cloud-native/harbor.md)
+- [Istio](./tech-stack/cloud-native/istio.md)
+- [KubeSphere](./tech-stack/cloud-native/kubesphere.md)
 
 ### 虚拟化与私有云
 
 - [VMware vSphere](./tech-stack/virtualization-private-cloud/vsphere.md)
+- [OpenStack](./tech-stack/virtualization-private-cloud/openstack.md)
 
 ### 存储与数据保护
 
@@ -67,6 +72,13 @@
 - [GitHub Actions](./tech-stack/automation/github-actions.md)
 - [CI/CD](./tech-stack/automation/cicd.md)
 - [Runbook Automation](./tech-stack/automation/runbook-automation.md)
+- [GitLab 与 GitLab CI/CD](./tech-stack/automation/gitlab.md)
+- [Jenkins](./tech-stack/automation/jenkins.md)
+- [Nexus Repository](./tech-stack/automation/nexus-repository.md)
+
+### 架构与方案设计
+
+- [系统架构与技术方案设计](./tech-stack/architecture-delivery/architecture-solution-design.md)
 
 ### 安全与合规
 
@@ -114,3 +126,4 @@
 10. [华为 OceanStor](./tech-stack/storage-data-protection/huawei-oceanstor.md)
 11. [爱数 AnyStorage](./tech-stack/storage-data-protection/aishu-anystorage.md)
 12. [网络安全等级保护（等保 2.0）](./tech-stack/security-compliance/mlps.md)
+13. [Kubernetes 平台运维岗位专项路线](./interview/kubernetes-platform-operations-role.md)

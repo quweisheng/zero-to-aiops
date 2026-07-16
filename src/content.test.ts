@@ -115,6 +115,29 @@ describe('getDocByRoute', () => {
     expect(getDocByRoute('/tech-stack/virtualization-private-cloud/vsphere')?.title).toBe(
       'VMware vSphere 深讲'
     )
+    expect(getDocByRoute('/tech-stack/virtualization-private-cloud/openstack')?.title).toBe(
+      'OpenStack 深讲'
+    )
+  })
+
+  it('includes the Kubernetes platform operations role gap documents', () => {
+    expect(getDocByRoute('/tech-stack/cloud-native/rancher')?.title).toBe('Rancher 深讲')
+    expect(getDocByRoute('/tech-stack/cloud-native/harbor')?.title).toBe('Harbor 深讲')
+    expect(getDocByRoute('/tech-stack/cloud-native/istio')?.title).toBe('Istio 深讲')
+    expect(getDocByRoute('/tech-stack/cloud-native/kubesphere')?.title).toBe('KubeSphere 深讲')
+    expect(getDocByRoute('/tech-stack/automation/gitlab')?.title).toBe(
+      'GitLab 与 GitLab CI/CD 深讲'
+    )
+    expect(getDocByRoute('/tech-stack/automation/jenkins')?.title).toBe('Jenkins 深讲')
+    expect(getDocByRoute('/tech-stack/automation/nexus-repository')?.title).toBe(
+      'Nexus Repository 深讲'
+    )
+    expect(
+      getDocByRoute('/tech-stack/architecture-delivery/architecture-solution-design')?.title
+    ).toBe('系统架构与技术方案设计深讲')
+    expect(getDocByRoute('/interview/kubernetes-platform-operations-role')?.title).toBe(
+      'Kubernetes 平台运维岗位专项路线'
+    )
   })
 
   it('includes the storage and data protection tech-stack documents', () => {

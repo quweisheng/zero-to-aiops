@@ -1,5 +1,9 @@
 # AIOps 面试准备
 
+## 岗位专项
+
+- [Kubernetes 平台运维岗位专项路线](./kubernetes-platform-operations-role.md)：对照 Rancher、OpenStack、Harbor、Istio、KubeSphere、GitLab、Jenkins、Nexus、NGINX 和架构方案要求，安排学习优先级与项目证据。
+
 ## 自我介绍结构
 
 1. 我有多年运维经验，熟悉生产系统稳定性、监控告警、故障处理和自动化。

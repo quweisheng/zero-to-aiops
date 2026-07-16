@@ -92,6 +92,7 @@
 | 已完成第一版 | 华为 OceanStor | [huawei-oceanstor.md](./storage-data-protection/huawei-oceanstor.md) | 华为官方产品地图、OceanStor Dorado/混合闪存/Pacific 边界、控制器与缓存、存储池/LUN/文件系统、主机映射、多路径、快照/复制/双活、离线健康实验和 AIOps 排障 |
 | 已完成第一版 | 爱数 AnyStorage | [aishu-anystorage.md](./storage-data-protection/aishu-anystorage.md) | 爱数官方产品地图、AnyStorage 7/GX/AnyBackup 边界、控制器/缓存/RAID 2.0、SAN/NAS、卷/映射/多路径、快照/复制/双活/CDP、离线健康实验和 AIOps 排障 |
 | 已完成第一版 | VMware vSphere | [vsphere.md](./virtualization-private-cloud/vsphere.md) | Broadcom 官方产品与版本地图、ESXi/ESX、vCenter、清单、HA/DRS/vMotion/EVC、虚拟网络、数据存储、性能、vLCM、API、离线健康实验和 AIOps 排障 |
+| 已完成第一版 | 岗位缺口技术栈 | [岗位专项路线](../interview/kubernetes-platform-operations-role.md) | 补齐 Rancher、Harbor、Istio、KubeSphere、OpenStack、GitLab、Jenkins、Nexus Repository 与系统架构/技术方案设计，并按 P0/P1/P2 串成岗位项目证据 |
 
 ## 精讲批次进度
 
@@ -110,6 +111,7 @@
 | 10 | 华为 OceanStor | 深讲第一版已完成 | 补齐集中式存储产品边界、SAN/NAS 数据路径、池/LUN/映射、多路径、数据保护、双活、指标、实验、排障和学习证据 |
 | 11 | 爱数 AnyStorage | 深讲第一版已完成 | 补齐统一存储与 GX 边界、SAN/NAS 数据路径、RAID 2.0、卷/映射/多路径、复制、双活、CDP、指标、实验、排障和学习证据 |
 | 12 | VMware vSphere | 深讲第一版已完成 | 新增虚拟化与私有云分类，补齐计算/网络/存储数据路径、HA/DRS/vMotion、性能、生命周期、API、实验、排障和学习证据 |
+| 13 | Kubernetes 平台运维岗位缺口 | 深讲第一版已完成 | 新增 8 个岗位点名技术栈、系统架构与技术方案设计教程，以及 30 天岗位专项学习路线 |
 
 ## 已完成
 
@@ -130,7 +132,12 @@
 | 云原生 | Helm | [helm.md](./cloud-native/helm.md) |
 | 云原生 | NGINX / Ingress | [nginx-ingress.md](./cloud-native/nginx-ingress.md) |
 | 云原生 | 微服务 | [microservices.md](./cloud-native/microservices.md) |
+| 云原生 | Rancher | [rancher.md](./cloud-native/rancher.md) |
+| 云原生 | Harbor | [harbor.md](./cloud-native/harbor.md) |
+| 云原生 | Istio | [istio.md](./cloud-native/istio.md) |
+| 云原生 | KubeSphere | [kubesphere.md](./cloud-native/kubesphere.md) |
 | 虚拟化与私有云 | VMware vSphere | [vsphere.md](./virtualization-private-cloud/vsphere.md) |
+| 虚拟化与私有云 | OpenStack | [openstack.md](./virtualization-private-cloud/openstack.md) |
 | 存储与数据保护 | IBM Storage | [ibm-storage.md](./storage-data-protection/ibm-storage.md) |
 | 存储与数据保护 | Ceph | [ceph.md](./storage-data-protection/ceph.md) |
 | 存储与数据保护 | 华为 OceanStor | [huawei-oceanstor.md](./storage-data-protection/huawei-oceanstor.md) |
@@ -147,6 +154,10 @@
 | 自动化 | GitHub Actions | [github-actions.md](./automation/github-actions.md) |
 | 自动化 | CI/CD | [cicd.md](./automation/cicd.md) |
 | 自动化 | Runbook Automation | [runbook-automation.md](./automation/runbook-automation.md) |
+| 自动化 | GitLab 与 GitLab CI/CD | [gitlab.md](./automation/gitlab.md) |
+| 自动化 | Jenkins | [jenkins.md](./automation/jenkins.md) |
+| 自动化 | Nexus Repository | [nexus-repository.md](./automation/nexus-repository.md) |
+| 架构与方案设计 | 系统架构与技术方案设计 | [architecture-solution-design.md](./architecture-delivery/architecture-solution-design.md) |
 | 安全与合规 | 网络安全等级保护（等保 2.0） | [mlps.md](./security-compliance/mlps.md) |
 | 数据与 AI | MySQL / SQL | [mysql-sql.md](./data-ai/mysql-sql.md) |
 | 数据与 AI | Oracle Database | [oracle.md](./data-ai/oracle.md) |

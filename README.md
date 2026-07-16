@@ -32,6 +32,7 @@ npm run build
 - [面试准备](./docs/interview/README.md)：把运维经验讲成 AIOps 工程故事。
 - [资料清单](./docs/resources.md)：优先官方文档和高可信资源。
 - [技术栈精讲写作标准](./docs/tech-stack/writing-standard.md)：每篇技术文章的统一写法。
+- [Kubernetes 平台运维岗位专项路线](./docs/interview/kubernetes-platform-operations-role.md)：按招聘要求补技术、项目和面试证据。
 
 ## 技术栈入口
 
@@ -65,10 +66,15 @@ npm run build
 - [Helm](./docs/tech-stack/cloud-native/helm.md)
 - [NGINX / Ingress](./docs/tech-stack/cloud-native/nginx-ingress.md)
 - [微服务](./docs/tech-stack/cloud-native/microservices.md)
+- [Rancher](./docs/tech-stack/cloud-native/rancher.md)
+- [Harbor](./docs/tech-stack/cloud-native/harbor.md)
+- [Istio](./docs/tech-stack/cloud-native/istio.md)
+- [KubeSphere](./docs/tech-stack/cloud-native/kubesphere.md)
 
 ### 虚拟化与私有云
 
 - [VMware vSphere](./docs/tech-stack/virtualization-private-cloud/vsphere.md)
+- [OpenStack](./docs/tech-stack/virtualization-private-cloud/openstack.md)
 
 ### 存储与数据保护
 
@@ -84,6 +90,13 @@ npm run build
 - [GitHub Actions](./docs/tech-stack/automation/github-actions.md)
 - [CI/CD](./docs/tech-stack/automation/cicd.md)
 - [Runbook Automation](./docs/tech-stack/automation/runbook-automation.md)
+- [GitLab 与 GitLab CI/CD](./docs/tech-stack/automation/gitlab.md)
+- [Jenkins](./docs/tech-stack/automation/jenkins.md)
+- [Nexus Repository](./docs/tech-stack/automation/nexus-repository.md)
+
+### 架构与方案设计
+
+- [系统架构与技术方案设计](./docs/tech-stack/architecture-delivery/architecture-solution-design.md)
 
 ### 安全与合规
 
@@ -128,4 +141,4 @@ npm run build
 
 ## 从这里开始
 
-先读 [学习路线](./docs/roadmap/README.md) 和 [技术栈总清单](./docs/tech-stack/README.md)，再从 [Linux](./docs/tech-stack/foundation/linux.md)、[Git](./docs/tech-stack/foundation/git.md)、[Prometheus](./docs/tech-stack/observability/prometheus.md) 这几篇开始补基础。
+先读 [学习路线](./docs/roadmap/README.md) 和 [技术栈总清单](./docs/tech-stack/README.md)。准备容器平台岗位时，直接打开 [Kubernetes 平台运维岗位专项路线](./docs/interview/kubernetes-platform-operations-role.md)，按 P0、P1、P2 完成学习和项目证据。

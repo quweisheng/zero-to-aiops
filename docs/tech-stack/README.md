@@ -27,10 +27,11 @@
 |---|---|---:|---|
 | 基础工具 | Linux、systemd、网络、Git、GitHub、Markdown、VitePress、Python、Shell/PowerShell | P0 | 能排障、能写记录、能提交代码、能跑脚本 |
 | 可观测性 | Prometheus、VictoriaMetrics、Alertmanager、Grafana、OpenTelemetry、Loki、Elasticsearch | P1 | 能采集指标、日志、链路，能做仪表盘和告警 |
-| 云原生 | Docker、Kubernetes、Helm、NGINX/Ingress、微服务 | P1 | 能容器化服务，理解 K8s 资源和服务拆分，能部署实验环境 |
-| 虚拟化与私有云 | VMware vSphere | P1-P2 | 能理解 ESXi/ESX、vCenter、集群、HA、DRS、vMotion、网络、存储、性能和虚拟化 AIOps 排障 |
+| 云原生 | Docker、Kubernetes、Helm、NGINX/Ingress、微服务、Rancher、Harbor、Istio、KubeSphere | P1 | 能完成容器交付、多集群管理、镜像治理、流量安全和平台排障 |
+| 虚拟化与私有云 | VMware vSphere、OpenStack | P1-P2 | 能理解虚拟化与 IaaS 的计算、网络、存储、调度、高可用和端到端排障 |
 | 存储与数据保护 | IBM Storage、华为 OceanStor、爱数 AnyStorage、Ceph | P1-P2 | 能理解集中式与分布式存储、块/文件/对象、SAN、存储池、LUN、RADOS、PG、CRUSH、多路径、双活、复制、备份与存储 AIOps 排障 |
-| 自动化与 CI/CD | Ansible、Terraform、GitHub Actions、CI/CD、Runbook Automation | P1-P2 | 能把手工操作写成自动化流程，能自动构建文档和项目 |
+| 自动化与 CI/CD | Ansible、Terraform、GitHub Actions、GitLab、Jenkins、Nexus、CI/CD、Runbook Automation | P1-P2 | 能把提交、测试、构建、制品、部署、审批和回滚连成可审计流程 |
+| 架构与方案设计 | 系统架构、可行性报告、容量、高可用、上线与回滚 | P0-P1 | 能把业务需求转成可解释、可验证、可实施的技术方案 |
 | 安全与合规 | 网络安全等级保护（等保 2.0） | P1-P2 | 能理解定级、备案、建设整改、等级测评和持续运营，并用 AIOps 建立证据与整改闭环 |
 | 数据与 AI | MySQL/SQL、Oracle、PostgreSQL、Redis、Kafka、RabbitMQ、pandas、机器学习、scikit-learn、FastAPI、LLM/OpenAI API、LangChain、LangGraph、RAG、向量数据库 | P1-P3 | 能处理运维数据、关系型数据库、消息队列和事件流，做异常检测、告警降噪和智能运维助手 |
 | SRE/AIOps 实践 | SLI/SLO、告警治理、事件响应、Runbook、RCA、变更管理、AIOps 闭环 | P0-P1 | 能把工具能力转成稳定性结果和面试故事 |
@@ -51,6 +52,7 @@
 12. [机器学习](./data-ai/machine-learning.md)：理解样本、特征、标签、评估和异常检测边界。
 13. [LangChain](./data-ai/langchain.md)：把 LLM、RAG、工具调用和 runbook 查询组织成应用。
 14. [网络安全等级保护（等保 2.0）](./security-compliance/mlps.md)：把资产、控制、证据、整改和持续监控连成闭环。
+15. [Kubernetes 平台运维岗位专项路线](../interview/kubernetes-platform-operations-role.md)：按招聘要求串联平台、交付、IaaS 和方案证据。
 
 ## 一技术一文件
 
@@ -76,10 +78,15 @@
 - [Helm](./cloud-native/helm.md)
 - [NGINX / Ingress](./cloud-native/nginx-ingress.md)
 - [微服务](./cloud-native/microservices.md)
+- [Rancher](./cloud-native/rancher.md)
+- [Harbor](./cloud-native/harbor.md)
+- [Istio](./cloud-native/istio.md)
+- [KubeSphere](./cloud-native/kubesphere.md)
 
 ### 虚拟化与私有云
 
 - [VMware vSphere](./virtualization-private-cloud/vsphere.md)
+- [OpenStack](./virtualization-private-cloud/openstack.md)
 
 ### 存储与数据保护
 
@@ -105,6 +112,13 @@
 - [GitHub Actions](./automation/github-actions.md)
 - [CI/CD](./automation/cicd.md)
 - [Runbook Automation](./automation/runbook-automation.md)
+- [GitLab 与 GitLab CI/CD](./automation/gitlab.md)
+- [Jenkins](./automation/jenkins.md)
+- [Nexus Repository](./automation/nexus-repository.md)
+
+### 架构与方案设计
+
+- [系统架构与技术方案设计](./architecture-delivery/architecture-solution-design.md)
 
 ### 安全与合规
 
@@ -207,6 +221,14 @@ Linux 服务
 - [Python venv](https://docs.python.org/3/library/venv.html)
 - [Docker](https://docs.docker.com/get-started/docker-overview/)
 - [Kubernetes](https://kubernetes.io/docs/concepts/overview/)
+- [Rancher](https://ranchermanager.docs.rancher.com/)
+- [Harbor](https://goharbor.io/docs/)
+- [Istio](https://istio.io/latest/docs/)
+- [KubeSphere](https://docs.kubesphere.co/v4.2.0/)
+- [OpenStack](https://docs.openstack.org/)
+- [GitLab CI/CD](https://docs.gitlab.com/ci/)
+- [Jenkins](https://www.jenkins.io/doc/)
+- [Nexus Repository](https://help.sonatype.com/en/sonatype-nexus-repository.html)
 - [Spring Boot](https://docs.spring.io/spring-boot/index.html)
 - [Spring Cloud](https://docs.spring.io/spring-cloud/docs/current/reference/html/)
 - [Prometheus](https://prometheus.io/docs/introduction/overview/)
