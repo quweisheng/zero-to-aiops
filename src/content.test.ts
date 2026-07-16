@@ -119,5 +119,8 @@ describe('getDocByRoute', () => {
     expect(getDocByRoute('/tech-stack/storage-data-protection/huawei-oceanstor')?.title).toBe(
       '华为 OceanStor 深讲'
     )
+    expect(getDocByRoute('/tech-stack/storage-data-protection/aishu-anystorage')?.title).toBe(
+      '爱数 AnyStorage 深讲'
+    )
   })
 })

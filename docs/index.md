@@ -54,6 +54,7 @@
 - [IBM Storage](./tech-stack/storage-data-protection/ibm-storage.md)
 - [Ceph](./tech-stack/storage-data-protection/ceph.md)
 - [华为 OceanStor](./tech-stack/storage-data-protection/huawei-oceanstor.md)
+- [爱数 AnyStorage](./tech-stack/storage-data-protection/aishu-anystorage.md)
 
 ### 自动化与 CI/CD
 
@@ -106,4 +107,5 @@
 7. [IBM Storage](./tech-stack/storage-data-protection/ibm-storage.md)
 8. [Ceph](./tech-stack/storage-data-protection/ceph.md)
 9. [华为 OceanStor](./tech-stack/storage-data-protection/huawei-oceanstor.md)
-10. [网络安全等级保护（等保 2.0）](./tech-stack/security-compliance/mlps.md)
+10. [爱数 AnyStorage](./tech-stack/storage-data-protection/aishu-anystorage.md)
+11. [网络安全等级保护（等保 2.0）](./tech-stack/security-compliance/mlps.md)

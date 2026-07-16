@@ -24,6 +24,7 @@
 | 已完成深讲第一版 | IBM Storage | 存储与数据保护组已补产品地图、块/文件/对象/磁带基础、FlashSystem 数据路径、容量性能、多路径、复制备份、实验、排障和面试表达 |
 | 已完成深讲第一版 | Ceph | 存储与数据保护组已补 RADOS、RBD/CephFS/RGW、MON/MGR/OSD、pool/PG/CRUSH、cephadm 实验、Prometheus、排障和面试表达 |
 | 已完成深讲第一版 | 华为 OceanStor | 存储与数据保护组已补产品族、控制器/缓存、存储池/LUN、SAN/NAS、多路径、HyperSnap/HyperReplication/HyperMetro、实验和排障 |
+| 已完成深讲第一版 | 爱数 AnyStorage | 存储与数据保护组已补 AnyStorage 7/GX/AnyBackup 边界、SAN/NAS、RAID 2.0、多路径、复制、双活、实验和排障 |
 | 已升级开头和面试表达 | Ansible、Terraform、GitHub Actions、CI/CD、Runbook Automation | 自动化组已补通俗开场、人话版、小白追问和面试表达 |
 | 已完成深讲第一版 | 网络安全等级保护（等保 2.0） | 安全与合规组已补法律与标准地图、五级保护、五阶段实施、控制与证据闭环、入门实验、排障和面试表达 |
 | 已升级开头和面试表达 | MySQL、Oracle、PostgreSQL、Redis、Kafka、RabbitMQ、pandas、机器学习、scikit-learn、FastAPI、LLM、LangChain、LangGraph、RAG、向量数据库 | 数据与 AI 组已补通俗开场、人话版、小白追问和面试表达 |
@@ -88,6 +89,7 @@
 | 已完成第一版 | IBM Storage | [ibm-storage.md](./storage-data-protection/ibm-storage.md) | IBM 官方产品地图、块/文件/对象/磁带、FlashSystem/Storage Virtualize 架构、卷/池/MDisk/主机映射、双控/SAN/多路径、容量性能、快照复制备份、Storage Insights、离线健康实验和端到端排障 |
 | 已完成第一版 | Ceph | [ceph.md](./storage-data-protection/ceph.md) | Ceph 官方架构、RADOS、RBD/CephFS/RGW、MON/MGR/OSD、pool/PG/CRUSH、复制与纠删码、cephadm 单机实验、Prometheus 指标、常见故障和变更安全 |
 | 已完成第一版 | 华为 OceanStor | [huawei-oceanstor.md](./storage-data-protection/huawei-oceanstor.md) | 华为官方产品地图、OceanStor Dorado/混合闪存/Pacific 边界、控制器与缓存、存储池/LUN/文件系统、主机映射、多路径、快照/复制/双活、离线健康实验和 AIOps 排障 |
+| 已完成第一版 | 爱数 AnyStorage | [aishu-anystorage.md](./storage-data-protection/aishu-anystorage.md) | 爱数官方产品地图、AnyStorage 7/GX/AnyBackup 边界、控制器/缓存/RAID 2.0、SAN/NAS、卷/映射/多路径、快照/复制/双活/CDP、离线健康实验和 AIOps 排障 |
 
 ## 精讲批次进度
 
@@ -104,6 +106,7 @@
 | 8 | IBM Storage | 深讲第一版已完成 | 新增存储与数据保护分类，补齐产品边界、核心架构、命令字典、指标、实验、排障和学习证据 |
 | 9 | Ceph | 深讲第一版已完成 | 补齐分布式存储数据路径、核心 daemon、PG/CRUSH、部署实验、指标、排障、升级和学习证据 |
 | 10 | 华为 OceanStor | 深讲第一版已完成 | 补齐集中式存储产品边界、SAN/NAS 数据路径、池/LUN/映射、多路径、数据保护、双活、指标、实验、排障和学习证据 |
+| 11 | 爱数 AnyStorage | 深讲第一版已完成 | 补齐统一存储与 GX 边界、SAN/NAS 数据路径、RAID 2.0、卷/映射/多路径、复制、双活、CDP、指标、实验、排障和学习证据 |
 
 ## 已完成
 
@@ -127,6 +130,7 @@
 | 存储与数据保护 | IBM Storage | [ibm-storage.md](./storage-data-protection/ibm-storage.md) |
 | 存储与数据保护 | Ceph | [ceph.md](./storage-data-protection/ceph.md) |
 | 存储与数据保护 | 华为 OceanStor | [huawei-oceanstor.md](./storage-data-protection/huawei-oceanstor.md) |
+| 存储与数据保护 | 爱数 AnyStorage | [aishu-anystorage.md](./storage-data-protection/aishu-anystorage.md) |
 | 可观测性 | Prometheus | [prometheus.md](./observability/prometheus.md) |
 | 可观测性 | Grafana | [grafana.md](./observability/grafana.md) |
 | 可观测性 | OpenTelemetry | [opentelemetry.md](./observability/opentelemetry.md) |

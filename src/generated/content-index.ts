@@ -399,6 +399,13 @@ export const generatedDocs = [
     "excerpt": "目标：不是背会三个缩写，而是能从用户体验出发定义 SLI，把 SLI 写成可测量的 SLO，用错误预算指导发布和稳定性工作，并用 burn rate 告警把“服务是否伤害用户”接入 Prometheus、Alertmanager 和 AIO..."
   },
   {
+    "path": "../docs/tech-stack/storage-data-protection/aishu-anystorage.md",
+    "route": "/tech-stack/storage-data-protection/aishu-anystorage",
+    "title": "爱数 AnyStorage 深讲",
+    "section": "存储与数据保护",
+    "excerpt": "学习目标：从零理解 AnyStorage 7 统一存储与 AnyStorage GX 存储虚拟化网关的区别，掌握 SAN/NAS 数据路径、控制器、缓存、RAID 2.0、卷、主机映射、多路径、快照、复制、双活和 CDP；能完成一次脱敏健康..."
+  },
+  {
     "path": "../docs/tech-stack/storage-data-protection/ceph.md",
     "route": "/tech-stack/storage-data-protection/ceph",
     "title": "Ceph 深讲",

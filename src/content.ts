@@ -94,6 +94,10 @@ export const navGroups: NavGroup[] = [
       {
         text: '华为 OceanStor',
         route: '/tech-stack/storage-data-protection/huawei-oceanstor'
+      },
+      {
+        text: '爱数 AnyStorage',
+        route: '/tech-stack/storage-data-protection/aishu-anystorage'
       }
     ]
   },
