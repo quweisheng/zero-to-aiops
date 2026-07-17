@@ -33,7 +33,7 @@
 | 自动化与 CI/CD | Ansible、Terraform、GitHub Actions、GitLab、Jenkins、Nexus、CI/CD、Runbook Automation | P1-P2 | 能把提交、测试、构建、制品、部署、审批和回滚连成可审计流程 |
 | 架构与方案设计 | 系统架构、可行性报告、容量、高可用、上线与回滚 | P0-P1 | 能把业务需求转成可解释、可验证、可实施的技术方案 |
 | 安全与合规 | 网络安全等级保护（等保 2.0） | P1-P2 | 能理解定级、备案、建设整改、等级测评和持续运营，并用 AIOps 建立证据与整改闭环 |
-| 数据与 AI | MySQL/SQL、Oracle、PostgreSQL、Redis、Kafka、RabbitMQ、pandas、机器学习、scikit-learn、FastAPI、LLM/OpenAI API、LangChain、LangGraph、RAG、向量数据库 | P1-P3 | 能处理运维数据、关系型数据库、消息队列和事件流，做异常检测、告警降噪和智能运维助手 |
+| 数据与 AI | MySQL/SQL、Oracle、PostgreSQL、Redis、Kafka、RabbitMQ、ZooKeeper、pandas、机器学习、scikit-learn、FastAPI、LLM/OpenAI API、LangChain、LangGraph、RAG、向量数据库 | P1-P3 | 能处理运维数据、数据库、事件流、分布式协调和 AI 应用，做异常检测、告警降噪和智能运维助手 |
 | SRE/AIOps 实践 | SLI/SLO、告警治理、事件响应、Runbook、RCA、变更管理、AIOps 闭环 | P0-P1 | 能把工具能力转成稳定性结果和面试故事 |
 
 ## 推荐学习顺序
@@ -53,6 +53,7 @@
 13. [LangChain](./data-ai/langchain.md)：把 LLM、RAG、工具调用和 runbook 查询组织成应用。
 14. [网络安全等级保护（等保 2.0）](./security-compliance/mlps.md)：把资产、控制、证据、整改和持续监控连成闭环。
 15. [Kubernetes 平台运维岗位专项路线](../interview/kubernetes-platform-operations-role.md)：按招聘要求串联平台、交付、IaaS 和方案证据。
+16. [Apache ZooKeeper](./data-ai/zookeeper.md)：理解分布式协调、会话、Watch、选主、多数派和上层依赖故障。
 
 ## 一技术一文件
 
@@ -132,6 +133,7 @@
 - [Redis](./data-ai/redis.md)
 - [Kafka](./data-ai/kafka.md)
 - [RabbitMQ](./data-ai/rabbitmq.md)
+- [Apache ZooKeeper](./data-ai/zookeeper.md)
 - [pandas](./data-ai/pandas.md)
 - [机器学习](./data-ai/machine-learning.md)
 - [scikit-learn](./data-ai/scikit-learn.md)
@@ -251,6 +253,7 @@ Linux 服务
 - [Redis](https://redis.io/docs/latest/)
 - [Apache Kafka](https://kafka.apache.org/documentation/)
 - [RabbitMQ](https://www.rabbitmq.com/docs)
+- [Apache ZooKeeper](https://zookeeper.apache.org/doc/current/)
 - [Microservices.io](https://microservices.io/patterns/microservices.html)
 - [pandas](https://pandas.pydata.org/docs/)
 - [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course)

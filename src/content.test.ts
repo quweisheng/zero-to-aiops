@@ -80,6 +80,12 @@ describe('getDocByRoute', () => {
     )
   })
 
+  it('includes the Apache ZooKeeper tech-stack document', () => {
+    expect(getDocByRoute('/tech-stack/data-ai/zookeeper')?.title).toBe(
+      'Apache ZooKeeper 深讲'
+    )
+  })
+
   it('includes Oracle and PostgreSQL tech-stack documents', () => {
     expect(getDocByRoute('/tech-stack/data-ai/oracle')?.title).toBe(
       'Oracle Database 深讲'

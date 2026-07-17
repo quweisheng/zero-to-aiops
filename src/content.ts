@@ -158,6 +158,7 @@ export const navGroups: NavGroup[] = [
       { text: 'Redis', route: '/tech-stack/data-ai/redis' },
       { text: 'Kafka', route: '/tech-stack/data-ai/kafka' },
       { text: 'RabbitMQ', route: '/tech-stack/data-ai/rabbitmq' },
+      { text: 'Apache ZooKeeper', route: '/tech-stack/data-ai/zookeeper' },
       { text: 'pandas', route: '/tech-stack/data-ai/pandas' },
       { text: '机器学习', route: '/tech-stack/data-ai/machine-learning' },
       { text: 'scikit-learn', route: '/tech-stack/data-ai/scikit-learn' },

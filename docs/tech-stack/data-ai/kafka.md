@@ -472,7 +472,7 @@ KRaft 模式
   -> Kafka 自己管理元数据和控制面
 ```
 
-初学阶段按官方 quickstart 使用 KRaft 即可。
+初学阶段按官方 quickstart 使用 KRaft 即可。需要维护旧版 Kafka、HBase、SolrCloud 或其他协调服务依赖时，再学习 [Apache ZooKeeper](./zookeeper.md) 的 Session、Watch、Quorum 和迁移边界。
 
 ## 第一个 Kafka 实验
 

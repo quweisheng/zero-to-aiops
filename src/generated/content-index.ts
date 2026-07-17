@@ -287,6 +287,13 @@ export const generatedDocs = [
     "excerpt": "目标：不是只会调用一次 similarity search ，而是能理解向量、embedding、维度、距离、collection、record、metadata/payload、schema、向量索引、标量索引、top k、过滤、hybr..."
   },
   {
+    "path": "../docs/tech-stack/data-ai/zookeeper.md",
+    "route": "/tech-stack/data-ai/zookeeper",
+    "title": "Apache ZooKeeper 深讲",
+    "section": "数据与 AI",
+    "excerpt": "学习目标：理解 ZooKeeper 的 znode、Session、Watch、临时节点、顺序节点、Quorum 和 ACL，能启动学习环境、完成配置/成员/选主实验，并按会话、网络、磁盘和多数派链路排查常见故障。 官方资料 ZooKeep..."
+  },
+  {
     "path": "../docs/tech-stack/foundation/git.md",
     "route": "/tech-stack/foundation/git",
     "title": "Git 深讲",
