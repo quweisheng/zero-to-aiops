@@ -31,6 +31,11 @@ export async function renderMarkdown(raw: string, currentRoute: string): Promise
     return `<a href="${escapeHtml(resolvedHref)}"${titleAttribute}${externalAttributes}>${text}</a>`
   }
 
+  renderer.table = function table(token) {
+    const tableHtml = Renderer.prototype.table.call(this, token)
+    return `<div class="markdown-table-scroll" role="region" aria-label="可横向滚动的表格" tabindex="0">${tableHtml}</div>`
+  }
+
   const marked = new Marked({ renderer, gfm: true, breaks: false })
   return marked.parse(stripBom(raw))
 }

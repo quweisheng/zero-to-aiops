@@ -886,25 +886,46 @@ h3 {
   color: var(--muted);
 }
 
-.markdown-body table {
-  display: block;
+.markdown-table-scroll {
   overflow-x: auto;
   width: 100%;
+  margin: 20px 0;
+  scrollbar-gutter: stable;
+  overscroll-behavior-inline: contain;
+}
+
+.markdown-table-scroll:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.markdown-body table {
+  width: max-content;
+  min-width: 100%;
   border-collapse: collapse;
 }
 
 .markdown-body th,
 .markdown-body td {
+  min-width: 8rem;
   border-bottom: 1px solid var(--line);
   padding: 10px 12px;
   text-align: left;
+  vertical-align: top;
+  word-break: normal;
+  overflow-wrap: break-word;
 }
 
 .markdown-body th:first-child,
 .markdown-body td:first-child {
-  min-width: 4.5em;
+  min-width: 7rem;
   white-space: nowrap;
   word-break: keep-all;
+}
+
+.markdown-body th:nth-child(2),
+.markdown-body td:nth-child(2) {
+  min-width: 9rem;
 }
 
 .article-skeleton {

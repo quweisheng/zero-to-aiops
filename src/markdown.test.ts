@@ -31,6 +31,15 @@ describe('renderMarkdown', () => {
     expect(html).toContain('href="https://example.com"')
   })
 
+  it('wraps markdown tables in a keyboard-scrollable region', async () => {
+    const html = await renderMarkdown('| 名称 | 作用 |\n|---|---|\n| zkCli.sh | 连接命令行客户端 |', '/')
+
+    expect(html).toContain('class="markdown-table-scroll"')
+    expect(html).toContain('role="region"')
+    expect(html).toContain('tabindex="0"')
+    expect(html).toContain('<table>')
+  })
+
   it('extracts stable h2 and h3 anchors for the article table of contents', () => {
     const headings = extractMarkdownHeadings(
       '# Linux 深讲\n\n## 官方资料\n\n### 内核与系统调用\n\n## 官方资料'
