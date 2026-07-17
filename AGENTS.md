@@ -15,6 +15,12 @@
 - Every article must explicitly connect the topic to the AIOps chain: metrics, logs, traces, alerts, automation, anomaly detection, root-cause analysis, runbooks, models, or knowledge bases.
 - Every article must end with learning evidence that can be committed to GitHub, such as config files, screenshots, dashboards, notes, troubleshooting records, or a small runnable project.
 - If the topic is too large to cover every advanced edge case, clearly state the boundary, cover the beginner-to-practical AIOps path completely, and point to the next official or repository section for deeper study.
+- Treat "deep dive" as a zero-to-large-company-interview standard. Each article must have a beginner layer and an advanced interview layer; being able to copy commands is not enough.
+- The advanced layer must cover the topic's internal request/data path, consistency or state model, production architecture, high availability, capacity and performance, security boundaries, upgrades and rollback, observability, and representative failure modes when those concepts apply.
+- Include at least one production design question and one incident scenario. The reader must learn how to gather evidence, form hypotheses, verify them, choose a repair, assess blast radius, and prepare rollback instead of memorizing a command list.
+- Interview sections must include answer guidance and progressive follow-ups, not only a list of questions. Cover definition, mechanism, trade-off, failure diagnosis, and architecture choice so the reader can withstand follow-up questions from large-company interviewers.
+- New or substantially rewritten articles must include a reproducible foundation experiment and a fault-injection or production-simulation experiment. Each experiment needs prerequisites, exact steps, expected results, verification, cleanup, and troubleshooting.
+- Never promise that reading one article guarantees an offer. Write to the technical depth expected in strong platform, SRE, DevOps, and AIOps interviews, while stating that coding, Linux/network fundamentals, system design, project experience, and communication still require separate practice.
 
 ## Publishing
 

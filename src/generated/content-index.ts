@@ -112,6 +112,20 @@ export const generatedDocs = [
     "excerpt": "目标：能理解 Terraform 为什么是基础设施即代码工具，能讲清 configuration、provider、resource、data source、variables、outputs、state、backend、workspace..."
   },
   {
+    "path": "../docs/tech-stack/cloud-native/calico.md",
+    "route": "/tech-stack/cloud-native/calico",
+    "title": "Calico 深讲",
+    "section": "云原生",
+    "excerpt": "学习目标：从零理解 Kubernetes 网络模型、CNI、Calico IPAM、Felix、BGP、IP in IP、VXLAN、NetworkPolicy、GlobalNetworkPolicy、Typha 和路由反射器，能搭建 Ca..."
+  },
+  {
+    "path": "../docs/tech-stack/cloud-native/cilium.md",
+    "route": "/tech-stack/cloud-native/cilium",
+    "title": "Cilium 深讲",
+    "section": "云原生",
+    "excerpt": "学习目标：从零理解 CNI、eBPF、Cilium agent、endpoint、security identity、BPF program/map、Service 负载均衡、NetworkPolicy、Hubble 和 kube prox..."
+  },
+  {
     "path": "../docs/tech-stack/cloud-native/docker.md",
     "route": "/tech-stack/cloud-native/docker",
     "title": "Docker",
@@ -124,6 +138,13 @@ export const generatedDocs = [
     "title": "Docker Compose 精讲",
     "section": "云原生",
     "excerpt": "学习目标：能用一个 compose.yaml 启动多容器实验环境，理解 project、service、container、network、volume、config、secret、profile、healthcheck、depends o..."
+  },
+  {
+    "path": "../docs/tech-stack/cloud-native/etcd.md",
+    "route": "/tech-stack/cloud-native/etcd",
+    "title": "etcd 深讲",
+    "section": "云原生",
+    "excerpt": "学习目标：从零理解 etcd 的 Raft、多数派、MVCC、revision、Watch、Lease、事务和存储维护，能运行一个安全的学习实例，完成读写、并发控制、快照和故障实验，能分析 Kubernetes 因 etcd 延迟、无 Le..."
   },
   {
     "path": "../docs/tech-stack/cloud-native/harbor.md",
@@ -151,7 +172,7 @@ export const generatedDocs = [
     "route": "/tech-stack/cloud-native/kubernetes",
     "title": "Kubernetes",
     "section": "云原生",
-    "excerpt": "目标：能理解 Kubernetes 为什么是容器编排系统，能按官方概念地图理解控制面、节点、Pod、Deployment、Service、ConfigMap、Secret、Namespace、调度、资源、健康检查和排障，能写出最小可运行的 ..."
+    "excerpt": "目标：从零建立 Kubernetes 完整知识体系，不只会写 Deployment 和 Service，还能解释 API 请求、etcd 持久化、List Watch、Informer、控制器、调度、网络、存储、弹性、安全、高可用和升级链路..."
   },
   {
     "path": "../docs/tech-stack/cloud-native/kubesphere.md",

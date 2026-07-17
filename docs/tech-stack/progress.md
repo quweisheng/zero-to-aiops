@@ -20,7 +20,8 @@
 |---|---|---|
 | 已升级开头和面试表达 | Prometheus、VictoriaMetrics、Grafana、Alertmanager、OpenTelemetry、Loki、Elasticsearch | 可观测性组已补通俗开场、人话版、小白追问和面试表达 |
 | 已升级开头和面试表达 | Linux、Git、GitHub、Markdown、VitePress、Python、Shell/PowerShell、systemd、网络基础 | 基础工具组已补通俗开场、人话版、小白追问和面试表达 |
-| 已升级开头和面试表达 | Docker、Docker Compose、Kubernetes、Helm、NGINX/Ingress、微服务 | 云原生组已补通俗开场、人话版、小白追问和面试表达 |
+| 已达到大厂面试级第一版 | Kubernetes、etcd、Calico、Cilium | 已补控制面一致性、API/Informer/调度、CNI 数据路径、生产设计、故障实验、连续追问和系统设计 |
+| 已升级开头和面试表达 | Docker、Docker Compose、Helm、NGINX/Ingress、微服务 | 云原生组已补通俗开场、人话版、小白追问和面试表达，后续继续按大厂面试级标准升级 |
 | 已完成深讲第一版 | VMware vSphere | 虚拟化与私有云组已补 ESXi/ESX、vCenter、集群、HA、DRS、vMotion、网络、存储、生命周期、实验和排障 |
 | 已完成深讲第一版 | IBM Storage | 存储与数据保护组已补产品地图、块/文件/对象/磁带基础、FlashSystem 数据路径、容量性能、多路径、复制备份、实验、排障和面试表达 |
 | 已完成深讲第一版 | Ceph | 存储与数据保护组已补 RADOS、RBD/CephFS/RGW、MON/MGR/OSD、pool/PG/CRUSH、cephadm 实验、Prometheus、排障和面试表达 |
@@ -50,7 +51,10 @@
 | 已完成第一版 | Shell/PowerShell | [shell-powershell.md](./foundation/shell-powershell.md) | Bash / GNU 工具和 PowerShell 官方结构、命令执行模型、文本管道 vs 对象管道、变量、环境变量、引号、通配符、重定向、退出码、脚本、执行策略、常用命令对照、AIOps 健康检查实验 |
 | 已完成第一版 | systemd | [systemd.md](./foundation/systemd.md) | systemd 官方结构、PID 1、unit、service、target、timer、journal、systemctl、journalctl、依赖/排序、重启策略、开机自启、AIOps 健康检查 timer 实验、排障流程 |
 | 已完成第一版 | 网络基础 | [networking.md](./foundation/networking.md) | IETF RFC 知识地图、DNS、IP/CIDR、路由、ARP、TCP、UDP、TLS、HTTP、负载均衡、curl/dig/ip/ss/openssl 命令字典、AIOps 分层网络诊断实验 |
-| 已完成第一版 | Kubernetes | [kubernetes.md](./cloud-native/kubernetes.md) | Kubernetes 官方概念地图、控制面、节点、API 对象模型、Pod、Deployment、ReplicaSet、Service、EndpointSlice、DNS、ConfigMap、Secret、requests/limits、调度、kubectl 字典、AIOps 排障实验 |
+| 已达到大厂面试级第一版 | Kubernetes | [kubernetes.md](./cloud-native/kubernetes.md) | API 请求与 SSA、List-Watch/Informer/Reconcile、调度框架、弹性、优雅终止、CNI/CSI、etcd 高可用、安全、升级、容量、故障推演和连续追问 |
+| 已达到大厂面试级第一版 | etcd | [etcd.md](./cloud-native/etcd.md) | Raft、多数派、MVCC、revision、Watch、Lease、Txn、WAL/snapshot/backend、备份恢复、容量性能、Kubernetes 故障和系统设计 |
+| 已达到大厂面试级第一版 | Calico | [calico.md](./cloud-native/calico.md) | CNI、Felix、IPAM/IPPool、BGP、IPIP/VXLAN、策略层级、MTU、生产拓扑、故障实验和网络排障 |
+| 已达到大厂面试级第一版 | Cilium | [cilium.md](./cloud-native/cilium.md) | eBPF 程序/map、身份策略、Service 负载均衡、kube-proxy replacement、Hubble、map pressure、故障实验和网络排障 |
 | 已完成第一版 | Helm | [helm.md](./cloud-native/helm.md) | Helm 官方结构、Chart、Release、Revision、values、templates、内置对象、常用模板函数、install/upgrade/rollback、dependency、hooks、helm 命令字典、AIOps 发布诊断实验 |
 | 已完成第一版 | NGINX/Ingress | [nginx-ingress.md](./cloud-native/nginx-ingress.md) | NGINX 官方结构、反向代理、server/location/upstream/proxy_pass/proxy_set_header、日志字段、timeout、Kubernetes Ingress、IngressClass、Controller、TLS、annotations、404/502/503/504 排障 |
 | 已完成第一版 | 微服务 | [microservices.md](./cloud-native/microservices.md) | Spring Boot / Spring Cloud 官方知识地图、Boot 应用模型、starter/自动配置、外部化配置、Actuator、Micrometer、tracing、服务发现、OpenFeign、LoadBalancer、Gateway、Circuit Breaker、数据一致性、AIOps 观测和排障 |
@@ -114,6 +118,7 @@
 | 12 | VMware vSphere | 深讲第一版已完成 | 新增虚拟化与私有云分类，补齐计算/网络/存储数据路径、HA/DRS/vMotion、性能、生命周期、API、实验、排障和学习证据 |
 | 13 | Kubernetes 平台运维岗位缺口 | 深讲第一版已完成 | 新增 8 个岗位点名技术栈、系统架构与技术方案设计教程，以及 30 天岗位专项学习路线 |
 | 14 | Apache ZooKeeper | 深讲第一版已完成 | 补齐分布式协调数据模型、会话与 Watch、选主和多数派、存储安全、监控、实验、排障和 Kafka 版本边界 |
+| 15 | Kubernetes、etcd、Calico、Cilium | 大厂面试级第一版已完成 | 重构 Kubernetes 原理与生产面试主线，新增 etcd 一致性和两套主流 CNI 的架构、实验、排障与系统设计 |
 
 ## 已完成
 
@@ -131,6 +136,9 @@
 | 云原生 | Docker | [docker.md](./cloud-native/docker.md) |
 | 云原生 | Docker Compose | [docker-compose.md](./cloud-native/docker-compose.md) |
 | 云原生 | Kubernetes | [kubernetes.md](./cloud-native/kubernetes.md) |
+| 云原生 | etcd | [etcd.md](./cloud-native/etcd.md) |
+| 云原生 | Calico | [calico.md](./cloud-native/calico.md) |
+| 云原生 | Cilium | [cilium.md](./cloud-native/cilium.md) |
 | 云原生 | Helm | [helm.md](./cloud-native/helm.md) |
 | 云原生 | NGINX / Ingress | [nginx-ingress.md](./cloud-native/nginx-ingress.md) |
 | 云原生 | 微服务 | [microservices.md](./cloud-native/microservices.md) |

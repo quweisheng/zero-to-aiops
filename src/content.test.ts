@@ -86,6 +86,12 @@ describe('getDocByRoute', () => {
     )
   })
 
+  it('includes the Kubernetes control-plane and CNI deep-dive documents', () => {
+    expect(getDocByRoute('/tech-stack/cloud-native/etcd')?.title).toBe('etcd 深讲')
+    expect(getDocByRoute('/tech-stack/cloud-native/calico')?.title).toBe('Calico 深讲')
+    expect(getDocByRoute('/tech-stack/cloud-native/cilium')?.title).toBe('Cilium 深讲')
+  })
+
   it('includes Oracle and PostgreSQL tech-stack documents', () => {
     expect(getDocByRoute('/tech-stack/data-ai/oracle')?.title).toBe(
       'Oracle Database 深讲'

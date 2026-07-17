@@ -4,7 +4,7 @@
 
 ## 精讲写作标准
 
-后续每个技术栈文件都会按 [技术栈精讲写作标准](./writing-standard.md) 补齐内容：官方资料、场景开场、是什么、原理、架构、配置、实验、排障、面试题和学习证据。
+后续每个技术栈文件都会按 [技术栈精讲写作标准](./writing-standard.md) 补齐内容：官方资料、场景开场、是什么、原理、架构、配置、实验、排障、面试题和学习证据。验收深度统一提升到“大厂面试级”：既让小白能从零实验，也要能解释内部链路、生产高可用、容量、安全、升级、故障场景和连续追问。
 
 写作目标不是“资料越全越好”，而是像有人带着学一样，把一个新手最容易卡住的地方提前讲出来：为什么要学、术语怎么理解、第一步怎么跑、坏了先查哪里、最后怎么变成 AIOps 项目证据。
 
@@ -13,6 +13,10 @@
 - [Prometheus 精讲](./observability/prometheus.md)
 - [Grafana 精讲](./observability/grafana.md)
 - [Docker Compose 精讲](./cloud-native/docker-compose.md)
+- [Kubernetes 大厂面试级精讲](./cloud-native/kubernetes.md)
+- [etcd 深讲](./cloud-native/etcd.md)
+- [Calico 深讲](./cloud-native/calico.md)
+- [Cilium 深讲](./cloud-native/cilium.md)
 
 ## 学习优先级
 
@@ -27,7 +31,7 @@
 |---|---|---:|---|
 | 基础工具 | Linux、systemd、网络、Git、GitHub、Markdown、VitePress、Python、Shell/PowerShell | P0 | 能排障、能写记录、能提交代码、能跑脚本 |
 | 可观测性 | Prometheus、VictoriaMetrics、Alertmanager、Grafana、OpenTelemetry、Loki、Elasticsearch | P1 | 能采集指标、日志、链路，能做仪表盘和告警 |
-| 云原生 | Docker、Kubernetes、Helm、NGINX/Ingress、微服务、Rancher、Harbor、Istio、KubeSphere | P1 | 能完成容器交付、多集群管理、镜像治理、流量安全和平台排障 |
+| 云原生 | Docker、Kubernetes、etcd、Calico、Cilium、Helm、NGINX/Ingress、微服务、Rancher、Harbor、Istio、KubeSphere | P1 | 能解释容器交付、控制面一致性、Pod/Service 网络、策略、平台治理、高可用、升级和端到端排障 |
 | 虚拟化与私有云 | VMware vSphere、OpenStack | P1-P2 | 能理解虚拟化与 IaaS 的计算、网络、存储、调度、高可用和端到端排障 |
 | 存储与数据保护 | IBM Storage、华为 OceanStor、爱数 AnyStorage、Ceph | P1-P2 | 能理解集中式与分布式存储、块/文件/对象、SAN、存储池、LUN、RADOS、PG、CRUSH、多路径、双活、复制、备份与存储 AIOps 排障 |
 | 自动化与 CI/CD | Ansible、Terraform、GitHub Actions、GitLab、Jenkins、Nexus、CI/CD、Runbook Automation | P1-P2 | 能把提交、测试、构建、制品、部署、审批和回滚连成可审计流程 |
@@ -42,18 +46,22 @@
 2. [SLI / SLO / SLA](./sre-aiops/sli-slo-sla.md)：先知道为什么学这些工具。
 3. [Prometheus](./observability/prometheus.md)：先把数据采集跑通。
 4. [Docker](./cloud-native/docker.md)：把服务放进容器。
-5. [VMware vSphere](./virtualization-private-cloud/vsphere.md)：理解虚拟机如何共享物理资源，以及集群、迁移、网络、存储和平台排障。
-6. [IBM Storage](./storage-data-protection/ibm-storage.md)：理解业务数据最终如何落盘、保护、监控和恢复。
-7. [华为 OceanStor](./storage-data-protection/huawei-oceanstor.md)：理解企业阵列的数据路径、LUN 映射、多路径、双活、复制和存储排障。
-8. [爱数 AnyStorage](./storage-data-protection/aishu-anystorage.md)：理解统一 SAN/NAS、RAID 2.0、GX 虚拟化、双活、复制和存储 AIOps 排障。
-9. [Ceph](./storage-data-protection/ceph.md)：理解对象如何经过 pool、PG 和 CRUSH 分布到 OSD，并学会判断集群健康。
-10. [GitHub Actions](./automation/github-actions.md)：把重复动作变成流程。
-11. [pandas](./data-ai/pandas.md)：用数据做异常检测、告警降噪、智能助手。
-12. [机器学习](./data-ai/machine-learning.md)：理解样本、特征、标签、评估和异常检测边界。
-13. [LangChain](./data-ai/langchain.md)：把 LLM、RAG、工具调用和 runbook 查询组织成应用。
-14. [网络安全等级保护（等保 2.0）](./security-compliance/mlps.md)：把资产、控制、证据、整改和持续监控连成闭环。
-15. [Kubernetes 平台运维岗位专项路线](../interview/kubernetes-platform-operations-role.md)：按招聘要求串联平台、交付、IaaS 和方案证据。
-16. [Apache ZooKeeper](./data-ai/zookeeper.md)：理解分布式协调、会话、Watch、选主、多数派和上层依赖故障。
+5. [Kubernetes](./cloud-native/kubernetes.md)：从对象操作深入 API、控制器、调度、网络、存储、高可用和生产排障。
+6. [etcd](./cloud-native/etcd.md)：理解 Kubernetes 状态存储、Raft 多数派、MVCC、Watch、备份和恢复。
+7. [Calico](./cloud-native/calico.md)：理解 CNI、IPAM、BGP/封装、NetworkPolicy 和网络故障链路。
+8. [Cilium](./cloud-native/cilium.md)：理解 eBPF 数据面、身份策略、Service 负载均衡和 Hubble 可观测性。
+9. [VMware vSphere](./virtualization-private-cloud/vsphere.md)：理解虚拟机如何共享物理资源，以及集群、迁移、网络、存储和平台排障。
+10. [IBM Storage](./storage-data-protection/ibm-storage.md)：理解业务数据最终如何落盘、保护、监控和恢复。
+11. [华为 OceanStor](./storage-data-protection/huawei-oceanstor.md)：理解企业阵列的数据路径、LUN 映射、多路径、双活、复制和存储排障。
+12. [爱数 AnyStorage](./storage-data-protection/aishu-anystorage.md)：理解统一 SAN/NAS、RAID 2.0、GX 虚拟化、双活、复制和存储 AIOps 排障。
+13. [Ceph](./storage-data-protection/ceph.md)：理解对象如何经过 pool、PG 和 CRUSH 分布到 OSD，并学会判断集群健康。
+14. [GitHub Actions](./automation/github-actions.md)：把重复动作变成流程。
+15. [pandas](./data-ai/pandas.md)：用数据做异常检测、告警降噪、智能助手。
+16. [机器学习](./data-ai/machine-learning.md)：理解样本、特征、标签、评估和异常检测边界。
+17. [LangChain](./data-ai/langchain.md)：把 LLM、RAG、工具调用和 runbook 查询组织成应用。
+18. [网络安全等级保护（等保 2.0）](./security-compliance/mlps.md)：把资产、控制、证据、整改和持续监控连成闭环。
+19. [Kubernetes 平台运维岗位专项路线](../interview/kubernetes-platform-operations-role.md)：按招聘要求串联平台、交付、IaaS 和方案证据。
+20. [Apache ZooKeeper](./data-ai/zookeeper.md)：理解分布式协调、会话、Watch、选主、多数派和上层依赖故障。
 
 ## 一技术一文件
 
@@ -76,6 +84,9 @@
 - [Docker](./cloud-native/docker.md)
 - [Docker Compose](./cloud-native/docker-compose.md)
 - [Kubernetes](./cloud-native/kubernetes.md)
+- [etcd](./cloud-native/etcd.md)
+- [Calico](./cloud-native/calico.md)
+- [Cilium](./cloud-native/cilium.md)
 - [Helm](./cloud-native/helm.md)
 - [NGINX / Ingress](./cloud-native/nginx-ingress.md)
 - [微服务](./cloud-native/microservices.md)
@@ -223,6 +234,9 @@ Linux 服务
 - [Python venv](https://docs.python.org/3/library/venv.html)
 - [Docker](https://docs.docker.com/get-started/docker-overview/)
 - [Kubernetes](https://kubernetes.io/docs/concepts/overview/)
+- [etcd](https://etcd.io/docs/)
+- [Calico](https://docs.tigera.io/calico/latest/about/)
+- [Cilium](https://docs.cilium.io/en/stable/)
 - [Rancher](https://ranchermanager.docs.rancher.com/)
 - [Harbor](https://goharbor.io/docs/)
 - [Istio](https://istio.io/latest/docs/)

@@ -19,6 +19,8 @@
 | Python、Shell | [Python](../tech-stack/foundation/python.md)、[Shell / PowerShell](../tech-stack/foundation/shell-powershell.md) | 已有，重点实战 | 一个只读巡检脚本和测试输出 |
 | Docker、容器 | [Docker](../tech-stack/cloud-native/docker.md) | 已有，必须熟练 | 镜像构建、资源限制与故障排查 |
 | Kubernetes | [Kubernetes](../tech-stack/cloud-native/kubernetes.md) | 已有，最高优先级 | 可运行集群项目、升级/故障/备份记录 |
+| etcd | [etcd](../tech-stack/cloud-native/etcd.md) | 控制面必修 | 多数派、Watch、备份恢复和故障演练 |
+| Kubernetes 网络 | [Calico](../tech-stack/cloud-native/calico.md)、[Cilium](../tech-stack/cloud-native/cilium.md) | 至少精通一套，能比较另一套 | 数据路径、策略、流量观测和网络故障记录 |
 | Helm | [Helm](../tech-stack/cloud-native/helm.md) | 已有，必须熟练 | 自写 Chart、values 分环境和回滚记录 |
 | NGINX | [NGINX / Ingress](../tech-stack/cloud-native/nginx-ingress.md) | 已有，必须熟练 | TLS、反代、限流、502/504 排障 |
 | 微服务 | [微服务](../tech-stack/cloud-native/microservices.md) | 已有，结合 Istio 学 | 超时、重试、熔断和链路图 |
@@ -38,7 +40,7 @@
 ### P0：投递前必须能讲清和动手
 
 1. Linux、网络、Shell/Python：能按 CPU、内存、磁盘、网络、进程、日志顺序排障。
-2. Docker、Kubernetes、Helm：能部署、升级、回滚，能处理 Pending、CrashLoopBackOff、ImagePullBackOff、存储和网络故障。
+2. Docker、Kubernetes、etcd、Calico/Cilium、Helm：能解释控制面与网络数据路径，能部署、升级、回滚并处理 Pending、控制面、存储和网络故障。
 3. NGINX / Ingress：能处理域名、TLS、反向代理、负载均衡、502、503、504。
 4. Harbor：能解释镜像从构建到部署的完整链路。
 5. GitLab CI/CD 或 Jenkins：至少一套能真正运行，另一套能解释调度模型和差异。
@@ -63,7 +65,7 @@
 | 时间 | 主线 | 当天必须产出 |
 |---|---|---|
 | 第 1-4 天 | Linux、网络、Shell/Python | 一份主机与网络巡检脚本，一次真实排障记录 |
-| 第 5-10 天 | Docker、Kubernetes、Helm、NGINX | 一个三服务应用、Chart、Ingress、升级与回滚记录 |
+| 第 5-10 天 | Docker、Kubernetes、etcd、Calico/Cilium、Helm、NGINX | 一个三服务应用、Chart、网络策略、控制面/网络排障、升级与回滚记录 |
 | 第 11-13 天 | Harbor | 私有镜像推拉、扫描/保留策略和 ImagePullBackOff 复盘 |
 | 第 14-16 天 | Rancher、KubeSphere | 管理模型对比、集群健康快照和权限说明 |
 | 第 17-19 天 | Istio | 灰度路由、mTLS、请求指标和 503 排障 |
