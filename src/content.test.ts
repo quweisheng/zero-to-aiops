@@ -71,6 +71,10 @@ describe('getDocByRoute', () => {
     )
   })
 
+  it('includes the Go large-company interview deep-dive document', () => {
+    expect(getDocByRoute('/tech-stack/foundation/golang')?.title).toBe('Go（Golang）深讲')
+  })
+
   it('includes the new Microservices and RabbitMQ tech-stack documents', () => {
     expect(getDocByRoute('/tech-stack/cloud-native/microservices')?.title).toBe(
       '微服务深讲'

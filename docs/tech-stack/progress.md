@@ -19,6 +19,7 @@
 | 状态 | 技术栈 | 说明 |
 |---|---|---|
 | 已升级开头和面试表达 | Prometheus、VictoriaMetrics、Grafana、Alertmanager、OpenTelemetry、Loki、Elasticsearch | 可观测性组已补通俗开场、人话版、小白追问和面试表达 |
+| 已达到大厂面试级第一版 | Go（Golang） | 已补语言基础、并发、G-M-P、内存模型、GC、HTTP、测试诊断、AIOps 项目、故障实验、连续追问和系统设计 |
 | 已升级开头和面试表达 | Linux、Git、GitHub、Markdown、VitePress、Python、Shell/PowerShell、systemd、网络基础 | 基础工具组已补通俗开场、人话版、小白追问和面试表达 |
 | 已达到大厂面试级第一版 | Kubernetes、etcd、Calico、Cilium | 已补控制面一致性、API/Informer/调度、CNI 数据路径、生产设计、故障实验、连续追问和系统设计 |
 | 已升级开头和面试表达 | Docker、Docker Compose、Helm、NGINX/Ingress、微服务 | 云原生组已补通俗开场、人话版、小白追问和面试表达，后续继续按大厂面试级标准升级 |
@@ -41,6 +42,7 @@
 | 已完成第一版 | Linux | [linux.md](./foundation/linux.md) | 内核、用户态/内核态、系统调用、启动过程、目录结构、权限、进程、CPU、内存、磁盘、网络、日志、AIOps 必会命令字典 |
 | 已完成第一版 | Git | [git.md](./foundation/git.md) | 官方 Git Book 结构、三棵树、文件状态、对象模型、HEAD、分支、合并、远程、撤销、冲突、AIOps 必会 Git 命令字典 |
 | 已完成第一版 | Python | [python.md](./foundation/python.md) | 官方 Python 文档结构、解释器、虚拟环境、pip、基础类型、控制流、函数、模块、标准库、AIOps 告警日报实验、命令/API 字典 |
+| 已达到大厂面试级第一版 | Go（Golang） | [golang.md](./foundation/golang.md) | Go 1.26、module/package、slice/map/interface/error、goroutine/channel/context、G-M-P、内存模型、GC、HTTP、race/pprof/trace、告警 API 和生产设计 |
 | 已完成第一版 | Docker | [docker.md](./cloud-native/docker.md) | Docker 官方结构、Engine 架构、镜像和容器、Dockerfile 指令、build context、网络、存储、日志、资源限制、安全边界、AIOps 容器化实验、命令字典 |
 | 已完成第一版 | Prometheus | [prometheus.md](./observability/prometheus.md) | Prometheus 官方结构、数据模型、指标类型、jobs/instances、抓取配置、TSDB、PromQL、recording/alerting rules、HTTP API、promtool、AIOps 指标实验 |
 | 已完成第一版 | Grafana | [grafana.md](./observability/grafana.md) | Grafana 官方结构、数据源、Prometheus 查询、dashboard/panel/field/variable/transformation、provisioning、alerting、HTTP API、AIOps 值班 dashboard 实验 |
@@ -119,6 +121,7 @@
 | 13 | Kubernetes 平台运维岗位缺口 | 深讲第一版已完成 | 新增 8 个岗位点名技术栈、系统架构与技术方案设计教程，以及 30 天岗位专项学习路线 |
 | 14 | Apache ZooKeeper | 深讲第一版已完成 | 补齐分布式协调数据模型、会话与 Watch、选主和多数派、存储安全、监控、实验、排障和 Kafka 版本边界 |
 | 15 | Kubernetes、etcd、Calico、Cilium | 大厂面试级第一版已完成 | 重构 Kubernetes 原理与生产面试主线，新增 etcd 一致性和两套主流 CNI 的架构、实验、排障与系统设计 |
+| 16 | Go（Golang） | 大厂面试级第一版已完成 | 新增 Go 1.26 语言、并发、runtime、内存、HTTP、测试、安全、性能诊断、AIOps 项目、故障实验与面试主线 |
 
 ## 已完成
 
@@ -130,6 +133,7 @@
 | 基础工具 | Markdown | [markdown.md](./foundation/markdown.md) |
 | 基础工具 | VitePress | [vitepress.md](./foundation/vitepress.md) |
 | 基础工具 | Python | [python.md](./foundation/python.md) |
+| 基础工具 | Go（Golang） | [golang.md](./foundation/golang.md) |
 | 基础工具 | Shell / PowerShell | [shell-powershell.md](./foundation/shell-powershell.md) |
 | 基础工具 | systemd | [systemd.md](./foundation/systemd.md) |
 | 基础工具 | 网络基础 | [networking.md](./foundation/networking.md) |

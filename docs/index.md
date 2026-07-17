@@ -26,6 +26,7 @@
 - [Markdown](./tech-stack/foundation/markdown.md)
 - [VitePress](./tech-stack/foundation/vitepress.md)
 - [Python](./tech-stack/foundation/python.md)
+- [Go / Golang](./tech-stack/foundation/golang.md)
 - [Shell / PowerShell](./tech-stack/foundation/shell-powershell.md)
 - [systemd](./tech-stack/foundation/systemd.md)
 - [网络基础](./tech-stack/foundation/networking.md)

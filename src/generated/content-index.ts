@@ -329,6 +329,13 @@ export const generatedDocs = [
     "excerpt": "目标：能把学习记录、项目代码、配置、实验截图和文档站托管到 GitHub，理解 repository、README、branch、Issue、Pull Request、Actions、Pages、Release、Token、SSH key、..."
   },
   {
+    "path": "../docs/tech-stack/foundation/golang.md",
+    "route": "/tech-stack/foundation/golang",
+    "title": "Go（Golang）深讲",
+    "section": "基础工具",
+    "excerpt": "学习目标：让零基础读者从安装 Go、写第一个 module 开始，逐步掌握类型、切片、map、方法、接口、错误、泛型、goroutine、channel、context、G M P 调度、内存模型、垃圾回收、HTTP 服务、测试和性能诊断；..."
+  },
+  {
     "path": "../docs/tech-stack/foundation/linux.md",
     "route": "/tech-stack/foundation/linux",
     "title": "Linux 深讲",

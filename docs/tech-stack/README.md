@@ -17,6 +17,7 @@
 - [etcd 深讲](./cloud-native/etcd.md)
 - [Calico 深讲](./cloud-native/calico.md)
 - [Cilium 深讲](./cloud-native/cilium.md)
+- [Go（Golang）大厂面试级深讲](./foundation/golang.md)
 
 ## 学习优先级
 
@@ -29,7 +30,7 @@
 
 | 类别 | 技术 | 优先级 | 学到什么程度 |
 |---|---|---:|---|
-| 基础工具 | Linux、systemd、网络、Git、GitHub、Markdown、VitePress、Python、Shell/PowerShell | P0 | 能排障、能写记录、能提交代码、能跑脚本 |
+| 基础工具 | Linux、systemd、网络、Git、GitHub、Markdown、VitePress、Python、Go、Shell/PowerShell | P0-P1 | 能排障、提交代码、编写脚本，并用 Go 构建并发、可观测、可诊断的云原生与 AIOps 服务 |
 | 可观测性 | Prometheus、VictoriaMetrics、Alertmanager、Grafana、OpenTelemetry、Loki、Elasticsearch | P1 | 能采集指标、日志、链路，能做仪表盘和告警 |
 | 云原生 | Docker、Kubernetes、etcd、Calico、Cilium、Helm、NGINX/Ingress、微服务、Rancher、Harbor、Istio、KubeSphere | P1 | 能解释容器交付、控制面一致性、Pod/Service 网络、策略、平台治理、高可用、升级和端到端排障 |
 | 虚拟化与私有云 | VMware vSphere、OpenStack | P1-P2 | 能理解虚拟化与 IaaS 的计算、网络、存储、调度、高可用和端到端排障 |
@@ -46,22 +47,23 @@
 2. [SLI / SLO / SLA](./sre-aiops/sli-slo-sla.md)：先知道为什么学这些工具。
 3. [Prometheus](./observability/prometheus.md)：先把数据采集跑通。
 4. [Docker](./cloud-native/docker.md)：把服务放进容器。
-5. [Kubernetes](./cloud-native/kubernetes.md)：从对象操作深入 API、控制器、调度、网络、存储、高可用和生产排障。
-6. [etcd](./cloud-native/etcd.md)：理解 Kubernetes 状态存储、Raft 多数派、MVCC、Watch、备份和恢复。
-7. [Calico](./cloud-native/calico.md)：理解 CNI、IPAM、BGP/封装、NetworkPolicy 和网络故障链路。
-8. [Cilium](./cloud-native/cilium.md)：理解 eBPF 数据面、身份策略、Service 负载均衡和 Hubble 可观测性。
-9. [VMware vSphere](./virtualization-private-cloud/vsphere.md)：理解虚拟机如何共享物理资源，以及集群、迁移、网络、存储和平台排障。
-10. [IBM Storage](./storage-data-protection/ibm-storage.md)：理解业务数据最终如何落盘、保护、监控和恢复。
-11. [华为 OceanStor](./storage-data-protection/huawei-oceanstor.md)：理解企业阵列的数据路径、LUN 映射、多路径、双活、复制和存储排障。
-12. [爱数 AnyStorage](./storage-data-protection/aishu-anystorage.md)：理解统一 SAN/NAS、RAID 2.0、GX 虚拟化、双活、复制和存储 AIOps 排障。
-13. [Ceph](./storage-data-protection/ceph.md)：理解对象如何经过 pool、PG 和 CRUSH 分布到 OSD，并学会判断集群健康。
-14. [GitHub Actions](./automation/github-actions.md)：把重复动作变成流程。
-15. [pandas](./data-ai/pandas.md)：用数据做异常检测、告警降噪、智能助手。
-16. [机器学习](./data-ai/machine-learning.md)：理解样本、特征、标签、评估和异常检测边界。
-17. [LangChain](./data-ai/langchain.md)：把 LLM、RAG、工具调用和 runbook 查询组织成应用。
-18. [网络安全等级保护（等保 2.0）](./security-compliance/mlps.md)：把资产、控制、证据、整改和持续监控连成闭环。
-19. [Kubernetes 平台运维岗位专项路线](../interview/kubernetes-platform-operations-role.md)：按招聘要求串联平台、交付、IaaS 和方案证据。
-20. [Apache ZooKeeper](./data-ai/zookeeper.md)：理解分布式协调、会话、Watch、选主、多数派和上层依赖故障。
+5. [Go（Golang）](./foundation/golang.md)：从语言基础深入并发、runtime、网络服务、性能诊断和 AIOps 工程实践。
+6. [Kubernetes](./cloud-native/kubernetes.md)：从对象操作深入 API、控制器、调度、网络、存储、高可用和生产排障。
+7. [etcd](./cloud-native/etcd.md)：理解 Kubernetes 状态存储、Raft 多数派、MVCC、Watch、备份和恢复。
+8. [Calico](./cloud-native/calico.md)：理解 CNI、IPAM、BGP/封装、NetworkPolicy 和网络故障链路。
+9. [Cilium](./cloud-native/cilium.md)：理解 eBPF 数据面、身份策略、Service 负载均衡和 Hubble 可观测性。
+10. [VMware vSphere](./virtualization-private-cloud/vsphere.md)：理解虚拟机如何共享物理资源，以及集群、迁移、网络、存储和平台排障。
+11. [IBM Storage](./storage-data-protection/ibm-storage.md)：理解业务数据最终如何落盘、保护、监控和恢复。
+12. [华为 OceanStor](./storage-data-protection/huawei-oceanstor.md)：理解企业阵列的数据路径、LUN 映射、多路径、双活、复制和存储排障。
+13. [爱数 AnyStorage](./storage-data-protection/aishu-anystorage.md)：理解统一 SAN/NAS、RAID 2.0、GX 虚拟化、双活、复制和存储 AIOps 排障。
+14. [Ceph](./storage-data-protection/ceph.md)：理解对象如何经过 pool、PG 和 CRUSH 分布到 OSD，并学会判断集群健康。
+15. [GitHub Actions](./automation/github-actions.md)：把重复动作变成流程。
+16. [pandas](./data-ai/pandas.md)：用数据做异常检测、告警降噪、智能助手。
+17. [机器学习](./data-ai/machine-learning.md)：理解样本、特征、标签、评估和异常检测边界。
+18. [LangChain](./data-ai/langchain.md)：把 LLM、RAG、工具调用和 runbook 查询组织成应用。
+19. [网络安全等级保护（等保 2.0）](./security-compliance/mlps.md)：把资产、控制、证据、整改和持续监控连成闭环。
+20. [Kubernetes 平台运维岗位专项路线](../interview/kubernetes-platform-operations-role.md)：按招聘要求串联平台、交付、IaaS 和方案证据。
+21. [Apache ZooKeeper](./data-ai/zookeeper.md)：理解分布式协调、会话、Watch、选主、多数派和上层依赖故障。
 
 ## 一技术一文件
 
@@ -75,6 +77,7 @@
 - [Markdown](./foundation/markdown.md)
 - [VitePress](./foundation/vitepress.md)
 - [Python](./foundation/python.md)
+- [Go / Golang](./foundation/golang.md)
 - [Shell / PowerShell](./foundation/shell-powershell.md)
 - [systemd](./foundation/systemd.md)
 - [网络基础](./foundation/networking.md)
@@ -232,6 +235,7 @@ Linux 服务
 - [GitHub README](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes)
 - [VitePress](https://vitepress.dev/)
 - [Python venv](https://docs.python.org/3/library/venv.html)
+- [Go](https://go.dev/doc/)
 - [Docker](https://docs.docker.com/get-started/docker-overview/)
 - [Kubernetes](https://kubernetes.io/docs/concepts/overview/)
 - [etcd](https://etcd.io/docs/)
