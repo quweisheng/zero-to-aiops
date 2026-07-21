@@ -112,6 +112,7 @@ npm run build
 - [Kafka](./docs/tech-stack/data-ai/kafka.md)
 - [RabbitMQ](./docs/tech-stack/data-ai/rabbitmq.md)
 - [Apache ZooKeeper](./docs/tech-stack/data-ai/zookeeper.md)
+- [Apache Hadoop](./docs/tech-stack/data-ai/hadoop.md)
 - [pandas](./docs/tech-stack/data-ai/pandas.md)
 - [机器学习](./docs/tech-stack/data-ai/machine-learning.md)
 - [scikit-learn](./docs/tech-stack/data-ai/scikit-learn.md)

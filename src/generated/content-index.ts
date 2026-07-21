@@ -210,6 +210,13 @@ export const generatedDocs = [
     "excerpt": "目标：不是只会写一个 @app.get(\"/\") ，而是能理解 FastAPI 的请求链路、路径操作、参数解析、Pydantic 校验、响应模型、依赖注入、异常处理、中间件、OpenAPI 文档、测试、项目拆分、部署方式，并能把 AIOps..."
   },
   {
+    "path": "../docs/tech-stack/data-ai/hadoop.md",
+    "route": "/tech-stack/data-ai/hadoop",
+    "title": "Apache Hadoop 深讲",
+    "section": "数据与 AI",
+    "excerpt": "学习目标：让零基础读者从 Hadoop 3.5.0 单机实验开始，理解 HDFS、YARN、MapReduce 和 Hadoop Common 的职责，能画出文件读写与作业执行的数据路径，能完成 WordCount、观察指标、注入 Data..."
+  },
+  {
     "path": "../docs/tech-stack/data-ai/kafka.md",
     "route": "/tech-stack/data-ai/kafka",
     "title": "Kafka",

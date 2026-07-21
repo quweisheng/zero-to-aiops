@@ -90,6 +90,12 @@ describe('getDocByRoute', () => {
     )
   })
 
+  it('includes the Apache Hadoop large-company interview deep-dive document', () => {
+    expect(getDocByRoute('/tech-stack/data-ai/hadoop')?.title).toBe(
+      'Apache Hadoop 深讲'
+    )
+  })
+
   it('includes the Kubernetes control-plane and CNI deep-dive documents', () => {
     expect(getDocByRoute('/tech-stack/cloud-native/etcd')?.title).toBe('etcd 深讲')
     expect(getDocByRoute('/tech-stack/cloud-native/calico')?.title).toBe('Calico 深讲')

@@ -30,6 +30,7 @@
 | 已完成深讲第一版 | 爱数 AnyStorage | 存储与数据保护组已补 AnyStorage 7/GX/AnyBackup 边界、SAN/NAS、RAID 2.0、多路径、复制、双活、实验和排障 |
 | 已升级开头和面试表达 | Ansible、Terraform、GitHub Actions、CI/CD、Runbook Automation | 自动化组已补通俗开场、人话版、小白追问和面试表达 |
 | 已完成深讲第一版 | 网络安全等级保护（等保 2.0） | 安全与合规组已补法律与标准地图、五级保护、五阶段实施、控制与证据闭环、入门实验、排障和面试表达 |
+| 已达到大厂面试级第一版 | Apache Hadoop | 已补 Hadoop 3.5.0、HDFS/YARN/MapReduce 数据路径、QJM/RM HA、容量、安全、升级回滚、双层实验、事故题和系统设计 |
 | 已升级开头和面试表达 | MySQL、Oracle、PostgreSQL、Redis、Kafka、RabbitMQ、ZooKeeper、pandas、机器学习、scikit-learn、FastAPI、LLM、LangChain、LangGraph、RAG、向量数据库 | 数据与 AI 组已补通俗开场、人话版、小白追问和面试表达 |
 | 已升级开头和面试表达 | SLI/SLO/SLA、告警治理、事件响应、Runbook、RCA、变更管理、AIOps 闭环 | SRE/AIOps 实践组已补通俗开场、人话版、小白追问和面试表达 |
 
@@ -77,6 +78,7 @@
 | 已完成第一版 | Kafka | [kafka.md](./data-ai/kafka.md) | Apache Kafka 官方结构、event/record/message、topic、partition、offset、broker、producer、consumer、consumer group、replication、leader/replica/ISR、retention、log compaction、delivery semantics、Kafka Connect、Kafka Streams、配置、命令字典、AIOps 告警事件流实验 |
 | 已完成第一版 | RabbitMQ | [rabbitmq.md](./data-ai/rabbitmq.md) | RabbitMQ 官方结构、producer、exchange、queue、binding、routing key、ack、prefetch、durable、dead letter、TTL、management UI、监控指标、AIOps 告警队列实验和排障 |
 | 已完成第一版 | Apache ZooKeeper | [zookeeper.md](./data-ai/zookeeper.md) | ZooKeeper 3.9 官方地图、znode、Session、Watch、临时/顺序节点、Leader/Follower/Observer、Quorum、事务日志/快照、ACL、Prometheus、节点与会话实验和端到端排障 |
+| 已达到大厂面试级第一版 | Apache Hadoop | [hadoop.md](./data-ai/hadoop.md) | Hadoop 3.5.0、HDFS read/write、YARN application、MapReduce shuffle、QJM/RM HA、Federation、EC、容量、安全、升级、故障实验、事故复盘和系统设计 |
 | 已完成第一版 | pandas | [pandas.md](./data-ai/pandas.md) | pandas 官方用户指南结构、Series/DataFrame/Index、dtype、IO、选择过滤、缺失值、时间处理、groupby、merge/merge_asof、pivot_table、resample、rolling、category、性能边界、API 字典、AIOps 告警日报实验 |
 | 已完成第一版 | 机器学习 | [machine-learning.md](./data-ai/machine-learning.md) | Google ML Crash Course 与 scikit-learn 官方主线、样本/特征/标签、监督/无监督学习、异常检测、训练/测试拆分、precision/recall、数据泄漏、AIOps 告警分类实验 |
 | 已完成第一版 | scikit-learn | [scikit-learn.md](./data-ai/scikit-learn.md) | scikit-learn 官方结构、estimator API、X/y、fit/predict/transform、监督/无监督学习、异常检测、IsolationForest、特征工程、预处理、Pipeline、ColumnTransformer、训练/测试拆分、数据泄漏、模型评估、模型持久化、API 字典、AIOps 指标异常检测实验 |
@@ -122,6 +124,7 @@
 | 14 | Apache ZooKeeper | 深讲第一版已完成 | 补齐分布式协调数据模型、会话与 Watch、选主和多数派、存储安全、监控、实验、排障和 Kafka 版本边界 |
 | 15 | Kubernetes、etcd、Calico、Cilium | 大厂面试级第一版已完成 | 重构 Kubernetes 原理与生产面试主线，新增 etcd 一致性和两套主流 CNI 的架构、实验、排障与系统设计 |
 | 16 | Go（Golang） | 大厂面试级第一版已完成 | 新增 Go 1.26 语言、并发、runtime、内存、HTTP、测试、安全、性能诊断、AIOps 项目、故障实验与面试主线 |
+| 17 | Apache Hadoop | 大厂面试级第一版已完成 | 新增 Hadoop 3.5.0、HDFS/YARN/MapReduce 内部链路、HA、容量、安全、升级回滚、故障注入、事故复盘和系统设计 |
 
 ## 已完成
 
@@ -180,6 +183,7 @@
 | 数据与 AI | Kafka | [kafka.md](./data-ai/kafka.md) |
 | 数据与 AI | RabbitMQ | [rabbitmq.md](./data-ai/rabbitmq.md) |
 | 数据与 AI | Apache ZooKeeper | [zookeeper.md](./data-ai/zookeeper.md) |
+| 数据与 AI | Apache Hadoop | [hadoop.md](./data-ai/hadoop.md) |
 | 数据与 AI | pandas | [pandas.md](./data-ai/pandas.md) |
 | 数据与 AI | 机器学习 | [machine-learning.md](./data-ai/machine-learning.md) |
 | 数据与 AI | scikit-learn | [scikit-learn.md](./data-ai/scikit-learn.md) |

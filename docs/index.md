@@ -94,6 +94,7 @@
 - [Kafka](./tech-stack/data-ai/kafka.md)
 - [RabbitMQ](./tech-stack/data-ai/rabbitmq.md)
 - [Apache ZooKeeper](./tech-stack/data-ai/zookeeper.md)
+- [Apache Hadoop](./tech-stack/data-ai/hadoop.md)
 - [pandas](./tech-stack/data-ai/pandas.md)
 - [机器学习](./tech-stack/data-ai/machine-learning.md)
 - [scikit-learn](./tech-stack/data-ai/scikit-learn.md)
