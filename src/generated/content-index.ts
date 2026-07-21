@@ -532,6 +532,13 @@ export const generatedDocs = [
     "excerpt": "学习目标：从零理解块、文件、对象和磁带存储，能说清 IBM FlashSystem、Storage Virtualize、Storage Scale、Storage Ceph、DS8000、Cloud Object Storage、Stor..."
   },
   {
+    "path": "../docs/tech-stack/virtualization-private-cloud/kvm.md",
+    "route": "/tech-stack/virtualization-private-cloud/kvm",
+    "title": "KVM 虚拟化深讲",
+    "section": "技术栈",
+    "excerpt": "学习目标：从零理解 KVM、QEMU、libvirt 和 virsh 的分工，能在 Linux 上创建一台虚拟机，读懂 CPU、内存、网络和存储数据路径，完成一次可回滚的网络故障实验，并能回答生产高可用、性能、安全、迁移与故障排查问题。 本..."
+  },
+  {
     "path": "../docs/tech-stack/virtualization-private-cloud/openstack.md",
     "route": "/tech-stack/virtualization-private-cloud/openstack",
     "title": "OpenStack 深讲",

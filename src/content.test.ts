@@ -134,6 +134,9 @@ describe('getDocByRoute', () => {
   })
 
   it('includes the virtualization and private cloud tech-stack documents', () => {
+    expect(getDocByRoute('/tech-stack/virtualization-private-cloud/kvm')?.title).toBe(
+      'KVM 虚拟化深讲'
+    )
     expect(getDocByRoute('/tech-stack/virtualization-private-cloud/vsphere')?.title).toBe(
       'VMware vSphere 深讲'
     )

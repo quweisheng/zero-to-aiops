@@ -19,6 +19,7 @@
 - [Cilium 深讲](./cloud-native/cilium.md)
 - [Go（Golang）大厂面试级深讲](./foundation/golang.md)
 - [Apache Hadoop 大厂面试级深讲](./data-ai/hadoop.md)
+- [KVM 虚拟化大厂面试级深讲](./virtualization-private-cloud/kvm.md)
 
 ## 学习优先级
 
@@ -34,7 +35,7 @@
 | 基础工具 | Linux、systemd、网络、Git、GitHub、Markdown、VitePress、Python、Go、Shell/PowerShell | P0-P1 | 能排障、提交代码、编写脚本，并用 Go 构建并发、可观测、可诊断的云原生与 AIOps 服务 |
 | 可观测性 | Prometheus、VictoriaMetrics、Alertmanager、Grafana、OpenTelemetry、Loki、Elasticsearch | P1 | 能采集指标、日志、链路，能做仪表盘和告警 |
 | 云原生 | Docker、Kubernetes、etcd、Calico、Cilium、Helm、NGINX/Ingress、微服务、Rancher、Harbor、Istio、KubeSphere | P1 | 能解释容器交付、控制面一致性、Pod/Service 网络、策略、平台治理、高可用、升级和端到端排障 |
-| 虚拟化与私有云 | VMware vSphere、OpenStack | P1-P2 | 能理解虚拟化与 IaaS 的计算、网络、存储、调度、高可用和端到端排障 |
+| 虚拟化与私有云 | KVM、VMware vSphere、OpenStack | P1-P2 | 能理解虚拟化与 IaaS 的计算、网络、存储、调度、高可用和端到端排障 |
 | 存储与数据保护 | IBM Storage、华为 OceanStor、爱数 AnyStorage、Ceph | P1-P2 | 能理解集中式与分布式存储、块/文件/对象、SAN、存储池、LUN、RADOS、PG、CRUSH、多路径、双活、复制、备份与存储 AIOps 排障 |
 | 自动化与 CI/CD | Ansible、Terraform、GitHub Actions、GitLab、Jenkins、Nexus、CI/CD、Runbook Automation | P1-P2 | 能把提交、测试、构建、制品、部署、审批和回滚连成可审计流程 |
 | 架构与方案设计 | 系统架构、可行性报告、容量、高可用、上线与回滚 | P0-P1 | 能把业务需求转成可解释、可验证、可实施的技术方案 |
@@ -53,19 +54,20 @@
 7. [etcd](./cloud-native/etcd.md)：理解 Kubernetes 状态存储、Raft 多数派、MVCC、Watch、备份和恢复。
 8. [Calico](./cloud-native/calico.md)：理解 CNI、IPAM、BGP/封装、NetworkPolicy 和网络故障链路。
 9. [Cilium](./cloud-native/cilium.md)：理解 eBPF 数据面、身份策略、Service 负载均衡和 Hubble 可观测性。
-10. [VMware vSphere](./virtualization-private-cloud/vsphere.md)：理解虚拟机如何共享物理资源，以及集群、迁移、网络、存储和平台排障。
-11. [IBM Storage](./storage-data-protection/ibm-storage.md)：理解业务数据最终如何落盘、保护、监控和恢复。
-12. [华为 OceanStor](./storage-data-protection/huawei-oceanstor.md)：理解企业阵列的数据路径、LUN 映射、多路径、双活、复制和存储排障。
-13. [爱数 AnyStorage](./storage-data-protection/aishu-anystorage.md)：理解统一 SAN/NAS、RAID 2.0、GX 虚拟化、双活、复制和存储 AIOps 排障。
-14. [Ceph](./storage-data-protection/ceph.md)：理解对象如何经过 pool、PG 和 CRUSH 分布到 OSD，并学会判断集群健康。
-15. [GitHub Actions](./automation/github-actions.md)：把重复动作变成流程。
-16. [pandas](./data-ai/pandas.md)：用数据做异常检测、告警降噪、智能助手。
-17. [机器学习](./data-ai/machine-learning.md)：理解样本、特征、标签、评估和异常检测边界。
-18. [LangChain](./data-ai/langchain.md)：把 LLM、RAG、工具调用和 runbook 查询组织成应用。
-19. [网络安全等级保护（等保 2.0）](./security-compliance/mlps.md)：把资产、控制、证据、整改和持续监控连成闭环。
-20. [Kubernetes 平台运维岗位专项路线](../interview/kubernetes-platform-operations-role.md)：按招聘要求串联平台、交付、IaaS 和方案证据。
-21. [Apache ZooKeeper](./data-ai/zookeeper.md)：理解分布式协调、会话、Watch、选主、多数派和上层依赖故障。
-22. [Apache Hadoop](./data-ai/hadoop.md)：理解 HDFS、YARN、MapReduce、HA、容量、安全、升级和数据平台排障。
+10. [KVM 虚拟化](./virtualization-private-cloud/kvm.md)：理解 KVM、QEMU、libvirt、Virtio、虚拟网络与存储、迁移、高可用和平台排障。
+11. [VMware vSphere](./virtualization-private-cloud/vsphere.md)：理解虚拟机如何共享物理资源，以及集群、迁移、网络、存储和平台排障。
+12. [IBM Storage](./storage-data-protection/ibm-storage.md)：理解业务数据最终如何落盘、保护、监控和恢复。
+13. [华为 OceanStor](./storage-data-protection/huawei-oceanstor.md)：理解企业阵列的数据路径、LUN 映射、多路径、双活、复制和存储排障。
+14. [爱数 AnyStorage](./storage-data-protection/aishu-anystorage.md)：理解统一 SAN/NAS、RAID 2.0、GX 虚拟化、双活、复制和存储 AIOps 排障。
+15. [Ceph](./storage-data-protection/ceph.md)：理解对象如何经过 pool、PG 和 CRUSH 分布到 OSD，并学会判断集群健康。
+16. [GitHub Actions](./automation/github-actions.md)：把重复动作变成流程。
+17. [pandas](./data-ai/pandas.md)：用数据做异常检测、告警降噪、智能助手。
+18. [机器学习](./data-ai/machine-learning.md)：理解样本、特征、标签、评估和异常检测边界。
+19. [LangChain](./data-ai/langchain.md)：把 LLM、RAG、工具调用和 runbook 查询组织成应用。
+20. [网络安全等级保护（等保 2.0）](./security-compliance/mlps.md)：把资产、控制、证据、整改和持续监控连成闭环。
+21. [Kubernetes 平台运维岗位专项路线](../interview/kubernetes-platform-operations-role.md)：按招聘要求串联平台、交付、IaaS 和方案证据。
+22. [Apache ZooKeeper](./data-ai/zookeeper.md)：理解分布式协调、会话、Watch、选主、多数派和上层依赖故障。
+23. [Apache Hadoop](./data-ai/hadoop.md)：理解 HDFS、YARN、MapReduce、HA、容量、安全、升级和数据平台排障。
 
 ## 一技术一文件
 
@@ -102,6 +104,7 @@
 
 ### 虚拟化与私有云
 
+- [KVM 虚拟化](./virtualization-private-cloud/kvm.md)
 - [VMware vSphere](./virtualization-private-cloud/vsphere.md)
 - [OpenStack](./virtualization-private-cloud/openstack.md)
 
@@ -249,6 +252,9 @@ Linux 服务
 - [Istio](https://istio.io/latest/docs/)
 - [KubeSphere](https://docs.kubesphere.co/v4.2.0/)
 - [OpenStack](https://docs.openstack.org/)
+- [KVM](https://www.kernel.org/doc/html/latest/virt/kvm/index.html)
+- [QEMU](https://www.qemu.org/docs/master/)
+- [libvirt](https://libvirt.org/docs.html)
 - [GitLab CI/CD](https://docs.gitlab.com/ci/)
 - [Jenkins](https://www.jenkins.io/doc/)
 - [Nexus Repository](https://help.sonatype.com/en/sonatype-nexus-repository.html)

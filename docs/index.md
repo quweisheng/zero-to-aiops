@@ -56,6 +56,7 @@
 
 ### 虚拟化与私有云
 
+- [KVM 虚拟化](./tech-stack/virtualization-private-cloud/kvm.md)
 - [VMware vSphere](./tech-stack/virtualization-private-cloud/vsphere.md)
 - [OpenStack](./tech-stack/virtualization-private-cloud/openstack.md)
 
@@ -123,10 +124,11 @@
 4. [Linux](./tech-stack/foundation/linux.md)
 5. [Git](./tech-stack/foundation/git.md)
 6. [Prometheus](./tech-stack/observability/prometheus.md)
-7. [VMware vSphere](./tech-stack/virtualization-private-cloud/vsphere.md)
-8. [IBM Storage](./tech-stack/storage-data-protection/ibm-storage.md)
-9. [Ceph](./tech-stack/storage-data-protection/ceph.md)
-10. [华为 OceanStor](./tech-stack/storage-data-protection/huawei-oceanstor.md)
-11. [爱数 AnyStorage](./tech-stack/storage-data-protection/aishu-anystorage.md)
-12. [网络安全等级保护（等保 2.0）](./tech-stack/security-compliance/mlps.md)
-13. [Kubernetes 平台运维岗位专项路线](./interview/kubernetes-platform-operations-role.md)
+7. [KVM 虚拟化](./tech-stack/virtualization-private-cloud/kvm.md)
+8. [VMware vSphere](./tech-stack/virtualization-private-cloud/vsphere.md)
+9. [IBM Storage](./tech-stack/storage-data-protection/ibm-storage.md)
+10. [Ceph](./tech-stack/storage-data-protection/ceph.md)
+11. [华为 OceanStor](./tech-stack/storage-data-protection/huawei-oceanstor.md)
+12. [爱数 AnyStorage](./tech-stack/storage-data-protection/aishu-anystorage.md)
+13. [网络安全等级保护（等保 2.0）](./tech-stack/security-compliance/mlps.md)
+14. [Kubernetes 平台运维岗位专项路线](./interview/kubernetes-platform-operations-role.md)

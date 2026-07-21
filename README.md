@@ -74,6 +74,7 @@ npm run build
 
 ### 虚拟化与私有云
 
+- [KVM 虚拟化](./docs/tech-stack/virtualization-private-cloud/kvm.md)
 - [VMware vSphere](./docs/tech-stack/virtualization-private-cloud/vsphere.md)
 - [OpenStack](./docs/tech-stack/virtualization-private-cloud/openstack.md)
 
