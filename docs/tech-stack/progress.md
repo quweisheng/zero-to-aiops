@@ -26,6 +26,7 @@
 | 已达到大厂面试级第一版 | KVM 虚拟化 | 已补 KVM/QEMU/libvirt 边界、CPU/内存/网络/存储路径、迁移、HA、安全、双层实验、事故题和系统设计 |
 | 已完成深讲第一版 | VMware vSphere | 虚拟化与私有云组已补 ESXi/ESX、vCenter、集群、HA、DRS、vMotion、网络、存储、生命周期、实验和排障 |
 | 已完成深讲第一版 | IBM Storage | 存储与数据保护组已补产品地图、块/文件/对象/磁带基础、FlashSystem 数据路径、容量性能、多路径、复制备份、实验、排障和面试表达 |
+| 已达到大厂面试级第一版 | Dell EMC VPLEX、Dell EMC VMAX、Brocade 6510 | 已补存储虚拟化与 Metro 仲裁、高端阵列 SRP/Masking/SnapVX/SRDF、FC Fabric/zoning/慢排水/EOS 迁移、双层实验、事故题和系统设计 |
 | 已完成深讲第一版 | Ceph | 存储与数据保护组已补 RADOS、RBD/CephFS/RGW、MON/MGR/OSD、pool/PG/CRUSH、cephadm 实验、Prometheus、排障和面试表达 |
 | 已完成深讲第一版 | 华为 OceanStor | 存储与数据保护组已补产品族、控制器/缓存、存储池/LUN、SAN/NAS、多路径、HyperSnap/HyperReplication/HyperMetro、实验和排障 |
 | 已完成深讲第一版 | 爱数 AnyStorage | 存储与数据保护组已补 AnyStorage 7/GX/AnyBackup 边界、SAN/NAS、RAID 2.0、多路径、复制、双活、实验和排障 |
@@ -99,6 +100,9 @@
 | 已完成第一版 | AIOps 闭环 | [aiops-loop.md](./sre-aiops/aiops-loop.md) | Microsoft Azure Monitor AIOps / agentic operations、Google SRE 闭环、观测/检测/关联/解释/建议/行动/验证/学习分层、最小作品集架构、incident candidate 数据模型、guardrails、成熟度、效果指标 |
 | 已完成第一版 | 网络安全等级保护（等保 2.0） | [mlps.md](./security-compliance/mlps.md) | 现行法律与国家标准、保护对象与五级定级、备案/整改/测评/监督检查、技术与管理控制、云场景、AIOps 持续合规、只读取证实验、证据台账、常见问题和学习证据 |
 | 已完成第一版 | IBM Storage | [ibm-storage.md](./storage-data-protection/ibm-storage.md) | IBM 官方产品地图、块/文件/对象/磁带、FlashSystem/Storage Virtualize 架构、卷/池/MDisk/主机映射、双控/SAN/多路径、容量性能、快照复制备份、Storage Insights、离线健康实验和端到端排障 |
+| 已完成第一版 | Dell EMC VPLEX | [dell-emc-vplex.md](./storage-data-protection/dell-emc-vplex.md) | Dell 官方 VPLEX/Metro node 边界、Storage Volume/Extent/Device/Virtual Volume、Storage View、Metro、Consistency Group、Detach Rule、Witness、系统卷、双层实验、分区事故和系统设计 |
+| 已完成第一版 | Dell EMC VMAX | [dell-emc-vmax.md](./storage-data-protection/dell-emc-vmax.md) | Dell 官方 VMAX/PowerMax 代际、Engine/Director/V-Brick、SRP/TDEV、IG/PG/SG/Masking View、SLO、SnapVX、SRDF、SYMCLI、双层实验、事故题和系统设计 |
+| 已完成第一版 | Brocade 6510 | [brocade-6510.md](./storage-data-protection/brocade-6510.md) | Broadcom 官方硬件与 EOS 边界、FC 登录、WWPN/FCID、zoning、FSPF、ISL、BB Credit、慢排水、MAPS、双 Fabric、离线实验、事故题和迁移设计 |
 | 已完成第一版 | Ceph | [ceph.md](./storage-data-protection/ceph.md) | Ceph 官方架构、RADOS、RBD/CephFS/RGW、MON/MGR/OSD、pool/PG/CRUSH、复制与纠删码、cephadm 单机实验、Prometheus 指标、常见故障和变更安全 |
 | 已完成第一版 | 华为 OceanStor | [huawei-oceanstor.md](./storage-data-protection/huawei-oceanstor.md) | 华为官方产品地图、OceanStor Dorado/混合闪存/Pacific 边界、控制器与缓存、存储池/LUN/文件系统、主机映射、多路径、快照/复制/双活、离线健康实验和 AIOps 排障 |
 | 已完成第一版 | 爱数 AnyStorage | [aishu-anystorage.md](./storage-data-protection/aishu-anystorage.md) | 爱数官方产品地图、AnyStorage 7/GX/AnyBackup 边界、控制器/缓存/RAID 2.0、SAN/NAS、卷/映射/多路径、快照/复制/双活/CDP、离线健康实验和 AIOps 排障 |
@@ -128,6 +132,7 @@
 | 16 | Go（Golang） | 大厂面试级第一版已完成 | 新增 Go 1.26 语言、并发、runtime、内存、HTTP、测试、安全、性能诊断、AIOps 项目、故障实验与面试主线 |
 | 17 | Apache Hadoop | 大厂面试级第一版已完成 | 新增 Hadoop 3.5.0、HDFS/YARN/MapReduce 内部链路、HA、容量、安全、升级回滚、故障注入、事故复盘和系统设计 |
 | 18 | KVM 虚拟化 | 大厂面试级第一版已完成 | 新增 KVM/QEMU/libvirt、Virtio、网络存储数据路径、迁移、HA、容量、安全、双层实验、事故复盘和系统设计 |
+| 19 | Dell EMC VPLEX、Dell EMC VMAX、Brocade 6510 | 大厂面试级第一版已完成 | 新增 VPLEX Metro 仲裁、VMAX 高端阵列与复制、Brocade FC Fabric 与 EOS 迁移，补齐双层实验、事故复盘和生产系统设计 |
 
 ## 已完成
 
@@ -160,6 +165,9 @@
 | 虚拟化与私有云 | OpenStack | [openstack.md](./virtualization-private-cloud/openstack.md) |
 | 虚拟化与私有云 | KVM 虚拟化 | [kvm.md](./virtualization-private-cloud/kvm.md) |
 | 存储与数据保护 | IBM Storage | [ibm-storage.md](./storage-data-protection/ibm-storage.md) |
+| 存储与数据保护 | Dell EMC VPLEX | [dell-emc-vplex.md](./storage-data-protection/dell-emc-vplex.md) |
+| 存储与数据保护 | Dell EMC VMAX | [dell-emc-vmax.md](./storage-data-protection/dell-emc-vmax.md) |
+| 存储与数据保护 | Brocade 6510 | [brocade-6510.md](./storage-data-protection/brocade-6510.md) |
 | 存储与数据保护 | Ceph | [ceph.md](./storage-data-protection/ceph.md) |
 | 存储与数据保护 | 华为 OceanStor | [huawei-oceanstor.md](./storage-data-protection/huawei-oceanstor.md) |
 | 存储与数据保护 | 爱数 AnyStorage | [aishu-anystorage.md](./storage-data-protection/aishu-anystorage.md) |

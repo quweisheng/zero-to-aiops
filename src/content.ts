@@ -113,6 +113,18 @@ export const navGroups: NavGroup[] = [
         route: '/tech-stack/storage-data-protection/ibm-storage'
       },
       {
+        text: 'Dell EMC VPLEX',
+        route: '/tech-stack/storage-data-protection/dell-emc-vplex'
+      },
+      {
+        text: 'Dell EMC VMAX',
+        route: '/tech-stack/storage-data-protection/dell-emc-vmax'
+      },
+      {
+        text: 'Brocade 6510',
+        route: '/tech-stack/storage-data-protection/brocade-6510'
+      },
+      {
         text: 'Ceph',
         route: '/tech-stack/storage-data-protection/ceph'
       },

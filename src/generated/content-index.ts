@@ -511,11 +511,32 @@ export const generatedDocs = [
     "excerpt": "学习目标：从零理解 AnyStorage 7 统一存储与 AnyStorage GX 存储虚拟化网关的区别，掌握 SAN/NAS 数据路径、控制器、缓存、RAID 2.0、卷、主机映射、多路径、快照、复制、双活和 CDP；能完成一次脱敏健康..."
   },
   {
+    "path": "../docs/tech-stack/storage-data-protection/brocade-6510.md",
+    "route": "/tech-stack/storage-data-protection/brocade-6510",
+    "title": "Brocade 6510 光纤交换机深讲",
+    "section": "存储与数据保护",
+    "excerpt": "学习目标：从零理解 Fibre Channel SAN、Brocade 6510、Fabric OS、端口登录、zoning、FSPF、BB Credit 与双 Fabric，能使用只读命令建立交换机基线，定位链路错误、慢排水设备、拥塞和卷..."
+  },
+  {
     "path": "../docs/tech-stack/storage-data-protection/ceph.md",
     "route": "/tech-stack/storage-data-protection/ceph",
     "title": "Ceph 深讲",
     "section": "存储与数据保护",
     "excerpt": "学习目标：从零理解 Ceph 分布式存储的 RADOS、MON、MGR、OSD、MDS、RGW、pool、PG、CRUSH 和 BlueStore；能区分 RBD 块存储、CephFS 文件存储和 RGW 对象存储，使用 cephadm 搭..."
+  },
+  {
+    "path": "../docs/tech-stack/storage-data-protection/dell-emc-vmax.md",
+    "route": "/tech-stack/storage-data-protection/dell-emc-vmax",
+    "title": "Dell EMC VMAX 深讲",
+    "section": "存储与数据保护",
+    "excerpt": "学习目标：从零理解 VMAX/VMAX3/VMAX All Flash 的硬件与逻辑架构，能讲清主机 I/O、SRP、Thin Device、Masking View、缓存保护、SnapVX 与 SRDF，能使用只读 SYMCLI 建立容量..."
+  },
+  {
+    "path": "../docs/tech-stack/storage-data-protection/dell-emc-vplex.md",
+    "route": "/tech-stack/storage-data-protection/dell-emc-vplex",
+    "title": "Dell EMC VPLEX 深讲",
+    "section": "存储与数据保护",
+    "excerpt": "学习目标：从零理解 VPLEX 如何把异构块存储虚拟化成主机可访问的虚拟卷，能讲清 Local/Metro、双站点 I/O、Consistency Group、Witness 与故障仲裁，能安全采集健康信息、分析路径故障，并完成一套可复现的..."
   },
   {
     "path": "../docs/tech-stack/storage-data-protection/huawei-oceanstor.md",

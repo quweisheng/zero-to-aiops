@@ -81,6 +81,9 @@ npm run build
 ### 存储与数据保护
 
 - [IBM Storage](./docs/tech-stack/storage-data-protection/ibm-storage.md)
+- [Dell EMC VPLEX](./docs/tech-stack/storage-data-protection/dell-emc-vplex.md)
+- [Dell EMC VMAX](./docs/tech-stack/storage-data-protection/dell-emc-vmax.md)
+- [Brocade 6510 光纤交换机](./docs/tech-stack/storage-data-protection/brocade-6510.md)
 - [Ceph](./docs/tech-stack/storage-data-protection/ceph.md)
 - [华为 OceanStor](./docs/tech-stack/storage-data-protection/huawei-oceanstor.md)
 - [爱数 AnyStorage](./docs/tech-stack/storage-data-protection/aishu-anystorage.md)

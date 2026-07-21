@@ -169,6 +169,15 @@ describe('getDocByRoute', () => {
     expect(getDocByRoute('/tech-stack/storage-data-protection/ibm-storage')?.title).toBe(
       'IBM Storage 深讲'
     )
+    expect(getDocByRoute('/tech-stack/storage-data-protection/dell-emc-vplex')?.title).toBe(
+      'Dell EMC VPLEX 深讲'
+    )
+    expect(getDocByRoute('/tech-stack/storage-data-protection/dell-emc-vmax')?.title).toBe(
+      'Dell EMC VMAX 深讲'
+    )
+    expect(getDocByRoute('/tech-stack/storage-data-protection/brocade-6510')?.title).toBe(
+      'Brocade 6510 光纤交换机深讲'
+    )
     expect(getDocByRoute('/tech-stack/storage-data-protection/ceph')?.title).toBe('Ceph 深讲')
     expect(getDocByRoute('/tech-stack/storage-data-protection/huawei-oceanstor')?.title).toBe(
       '华为 OceanStor 深讲'
