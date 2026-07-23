@@ -210,11 +210,39 @@ export const generatedDocs = [
     "excerpt": "目标：不是只会写一个 @app.get(\"/\") ，而是能理解 FastAPI 的请求链路、路径操作、参数解析、Pydantic 校验、响应模型、依赖注入、异常处理、中间件、OpenAPI 文档、测试、项目拆分、部署方式，并能把 AIOps..."
   },
   {
+    "path": "../docs/tech-stack/data-ai/flink.md",
+    "route": "/tech-stack/data-ai/flink",
+    "title": "Apache Flink 深讲",
+    "section": "数据与 AI",
+    "excerpt": "学习目标：从零理解 Flink 的 JobManager、TaskManager、Operator、Slot、State、Watermark、Checkpoint 和 Savepoint，能运行一个持续流作业并观察恢复，能分析反压、Chec..."
+  },
+  {
     "path": "../docs/tech-stack/data-ai/hadoop.md",
     "route": "/tech-stack/data-ai/hadoop",
     "title": "Apache Hadoop 深讲",
     "section": "数据与 AI",
     "excerpt": "学习目标：让零基础读者从 Hadoop 3.5.0 单机实验开始，理解 HDFS、YARN、MapReduce 和 Hadoop Common 的职责，能画出文件读写与作业执行的数据路径，能完成 WordCount、观察指标、注入 Data..."
+  },
+  {
+    "path": "../docs/tech-stack/data-ai/hawq.md",
+    "route": "/tech-stack/data-ai/hawq",
+    "title": "Apache HAWQ 存量运维与迁移深讲",
+    "section": "数据与 AI",
+    "excerpt": "学习目标：从零理解 HAWQ 的 MPP SQL、Master、Segment、Interconnect、HDFS、YARN 和 PXF 路径，能识别分布键倾斜、资源、网络、Catalog 和 HDFS 故障，能完成离线分布模拟与故障推演，..."
+  },
+  {
+    "path": "../docs/tech-stack/data-ai/hbase.md",
+    "route": "/tech-stack/data-ai/hbase",
+    "title": "Apache HBase 深讲",
+    "section": "数据与 AI",
+    "excerpt": "学习目标：从零理解 HBase 如何在 HDFS 上提供按 RowKey 的低延迟随机读写，能画出写入、读取、Region 定位、WAL 恢复、Flush、Compaction 和 Split 路径，能完成单机表操作与可回收故障实验，并能分..."
+  },
+  {
+    "path": "../docs/tech-stack/data-ai/hive.md",
+    "route": "/tech-stack/data-ai/hive",
+    "title": "Apache Hive 深讲",
+    "section": "数据与 AI",
+    "excerpt": "学习目标：从零理解 Hive 如何把 SQL 转成分布式计算任务，能区分 HiveServer2、Metastore、执行引擎和底层存储的职责，能完成建表与聚合实验，能分析慢查询、元数据故障、小文件、分区、倾斜、事务和高可用问题，并能在面试..."
   },
   {
     "path": "../docs/tech-stack/data-ai/kafka.md",
@@ -306,6 +334,13 @@ export const generatedDocs = [
     "title": "scikit-learn",
     "section": "数据与 AI",
     "excerpt": "scikit learn 目标：不是只会复制 IsolationForest 示例，而是能理解 scikit learn 的 estimator API、 fit / predict / transform 、训练/测试拆分、预处理、Pip..."
+  },
+  {
+    "path": "../docs/tech-stack/data-ai/spark.md",
+    "route": "/tech-stack/data-ai/spark",
+    "title": "Apache Spark 深讲",
+    "section": "数据与 AI",
+    "excerpt": "学习目标：从零理解 Spark 的 Driver、Executor、Job、Stage、Task、Partition 和 Shuffle，能用 PySpark 完成告警聚合实验，能读懂 SQL 执行计划与 Web UI，能分析数据倾斜、OO..."
   },
   {
     "path": "../docs/tech-stack/data-ai/vector-database.md",

@@ -34,6 +34,8 @@
 | 已升级开头和面试表达 | Ansible、Terraform、GitHub Actions、CI/CD、Runbook Automation | 自动化组已补通俗开场、人话版、小白追问和面试表达 |
 | 已完成深讲第一版 | 网络安全等级保护（等保 2.0） | 安全与合规组已补法律与标准地图、五级保护、五阶段实施、控制与证据闭环、入门实验、排障和面试表达 |
 | 已达到大厂面试级第一版 | Apache Hadoop | 已补 Hadoop 3.5.0、HDFS/YARN/MapReduce 数据路径、QJM/RM HA、容量、安全、升级回滚、双层实验、事故题和系统设计 |
+| 已达到大厂面试级第一版 | Apache Hive、Apache HBase、Apache Spark、Apache Flink | 已补 SQL/元数据、随机读写、批处理 DAG、状态流处理的内部路径、一致性、双层实验、容量、安全、事故题和系统设计 |
+| 已完成存量迁移专项第一版 | Apache HAWQ | 已明确 2024 年进入 Apache Attic，补 MPP 架构、离线倾斜实验、只读排障、遗留风险和迁移切换回滚 |
 | 已升级开头和面试表达 | MySQL、Oracle、PostgreSQL、Redis、Kafka、RabbitMQ、ZooKeeper、pandas、机器学习、scikit-learn、FastAPI、LLM、LangChain、LangGraph、RAG、向量数据库 | 数据与 AI 组已补通俗开场、人话版、小白追问和面试表达 |
 | 已升级开头和面试表达 | SLI/SLO/SLA、告警治理、事件响应、Runbook、RCA、变更管理、AIOps 闭环 | SRE/AIOps 实践组已补通俗开场、人话版、小白追问和面试表达 |
 
@@ -83,6 +85,11 @@
 | 已完成第一版 | RabbitMQ | [rabbitmq.md](./data-ai/rabbitmq.md) | RabbitMQ 官方结构、producer、exchange、queue、binding、routing key、ack、prefetch、durable、dead letter、TTL、management UI、监控指标、AIOps 告警队列实验和排障 |
 | 已完成第一版 | Apache ZooKeeper | [zookeeper.md](./data-ai/zookeeper.md) | ZooKeeper 3.9 官方地图、znode、Session、Watch、临时/顺序节点、Leader/Follower/Observer、Quorum、事务日志/快照、ACL、Prometheus、节点与会话实验和端到端排障 |
 | 已达到大厂面试级第一版 | Apache Hadoop | [hadoop.md](./data-ai/hadoop.md) | Hadoop 3.5.0、HDFS read/write、YARN application、MapReduce shuffle、QJM/RM HA、Federation、EC、容量、安全、升级、故障实验、事故复盘和系统设计 |
+| 已达到大厂面试级第一版 | Apache Hive | [hive.md](./data-ai/hive.md) | Hive 4.2.0、HiveServer2/Metastore、SQL 编译优化、Tez/YARN、分区/分桶、ORC/Parquet、ACID、双层实验、事故题和系统设计 |
+| 已达到大厂面试级第一版 | Apache HBase | [hbase.md](./data-ai/hbase.md) | HBase 2.6.6、RowKey/Region、WAL/MemStore/HFile、读写路径、Compaction、热点、复制、双层实验、事故题和系统设计 |
+| 已达到大厂面试级第一版 | Apache Spark | [spark.md](./data-ai/spark.md) | Spark 4.2.0、Driver/Executor、Catalyst/AQE、DAG/Stage/Task、Shuffle、Structured Streaming、双层实验、事故题和系统设计 |
+| 已达到大厂面试级第一版 | Apache Flink | [flink.md](./data-ai/flink.md) | Flink 2.3.0、Event Time/Watermark、State、Checkpoint/Savepoint、反压、Exactly-once 边界、双层实验、事故题和系统设计 |
+| 已完成存量迁移专项第一版 | Apache HAWQ | [hawq.md](./data-ai/hawq.md) | Apache Attic 退休边界、Master/Segment/HDFS/YARN/Interconnect、分布倾斜离线实验、只读诊断、风险隔离和迁移设计 |
 | 已完成第一版 | pandas | [pandas.md](./data-ai/pandas.md) | pandas 官方用户指南结构、Series/DataFrame/Index、dtype、IO、选择过滤、缺失值、时间处理、groupby、merge/merge_asof、pivot_table、resample、rolling、category、性能边界、API 字典、AIOps 告警日报实验 |
 | 已完成第一版 | 机器学习 | [machine-learning.md](./data-ai/machine-learning.md) | Google ML Crash Course 与 scikit-learn 官方主线、样本/特征/标签、监督/无监督学习、异常检测、训练/测试拆分、precision/recall、数据泄漏、AIOps 告警分类实验 |
 | 已完成第一版 | scikit-learn | [scikit-learn.md](./data-ai/scikit-learn.md) | scikit-learn 官方结构、estimator API、X/y、fit/predict/transform、监督/无监督学习、异常检测、IsolationForest、特征工程、预处理、Pipeline、ColumnTransformer、训练/测试拆分、数据泄漏、模型评估、模型持久化、API 字典、AIOps 指标异常检测实验 |
@@ -136,6 +143,7 @@
 | 18 | KVM 虚拟化 | 大厂面试级第一版已完成 | 新增 KVM/QEMU/libvirt、Virtio、网络存储数据路径、迁移、HA、容量、安全、双层实验、事故复盘和系统设计 |
 | 19 | Dell EMC VPLEX、Dell EMC VMAX、Brocade 6510 | 大厂面试级第一版已完成 | 新增 VPLEX Metro 仲裁、VMAX 高端阵列与复制、Brocade FC Fabric 与 EOS 迁移，补齐双层实验、事故复盘和生产系统设计 |
 | 20 | IBM WebSphere | 大厂面试级第一版已完成 | 新增中间件与应用平台分类，补齐 traditional ND 与 Liberty、请求与管理路径、集群和状态、容量安全、双层实验、事故复盘和生产系统设计 |
+| 21 | Apache Hive、Apache HBase、Apache Spark、Apache Flink、Apache HAWQ | 大厂面试级与存量迁移专项第一版已完成 | 补齐 Hadoop 生态 SQL、随机读写、批流计算与遗留 MPP 迁移，覆盖双层实验、生产排障、事故题和系统设计 |
 
 ## 已完成
 
@@ -200,6 +208,11 @@
 | 数据与 AI | RabbitMQ | [rabbitmq.md](./data-ai/rabbitmq.md) |
 | 数据与 AI | Apache ZooKeeper | [zookeeper.md](./data-ai/zookeeper.md) |
 | 数据与 AI | Apache Hadoop | [hadoop.md](./data-ai/hadoop.md) |
+| 数据与 AI | Apache Hive | [hive.md](./data-ai/hive.md) |
+| 数据与 AI | Apache HBase | [hbase.md](./data-ai/hbase.md) |
+| 数据与 AI | Apache Spark | [spark.md](./data-ai/spark.md) |
+| 数据与 AI | Apache Flink | [flink.md](./data-ai/flink.md) |
+| 数据与 AI | Apache HAWQ（已退休） | [hawq.md](./data-ai/hawq.md) |
 | 数据与 AI | pandas | [pandas.md](./data-ai/pandas.md) |
 | 数据与 AI | 机器学习 | [machine-learning.md](./data-ai/machine-learning.md) |
 | 数据与 AI | scikit-learn | [scikit-learn.md](./data-ai/scikit-learn.md) |
@@ -219,7 +232,7 @@
 
 ## 待继续拆分
 
-当前技术栈清单已经全部拆分完成。后续如果学习中新增技术，比如 Thanos、ClickHouse、Airflow、Flink、Argo CD，再继续按“一技术一文件”追加。
+当前技术栈清单已经全部拆分完成。后续如果学习中新增技术，比如 Thanos、ClickHouse、Airflow、Argo CD，再继续按“一技术一文件”追加。
 
 ## 写作规则
 

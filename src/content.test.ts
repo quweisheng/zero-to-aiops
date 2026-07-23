@@ -96,6 +96,16 @@ describe('getDocByRoute', () => {
     )
   })
 
+  it('includes the big-data SQL, store, compute, and migration documents', () => {
+    expect(getDocByRoute('/tech-stack/data-ai/hive')?.title).toBe('Apache Hive 深讲')
+    expect(getDocByRoute('/tech-stack/data-ai/hbase')?.title).toBe('Apache HBase 深讲')
+    expect(getDocByRoute('/tech-stack/data-ai/spark')?.title).toBe('Apache Spark 深讲')
+    expect(getDocByRoute('/tech-stack/data-ai/flink')?.title).toBe('Apache Flink 深讲')
+    expect(getDocByRoute('/tech-stack/data-ai/hawq')?.title).toBe(
+      'Apache HAWQ 存量运维与迁移深讲'
+    )
+  })
+
   it('includes the Kubernetes control-plane and CNI deep-dive documents', () => {
     expect(getDocByRoute('/tech-stack/cloud-native/etcd')?.title).toBe('etcd 深讲')
     expect(getDocByRoute('/tech-stack/cloud-native/calico')?.title).toBe('Calico 深讲')
