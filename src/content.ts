@@ -139,6 +139,15 @@ export const navGroups: NavGroup[] = [
     ]
   },
   {
+    text: '中间件与应用平台',
+    items: [
+      {
+        text: 'IBM WebSphere',
+        route: '/tech-stack/middleware-application-platform/websphere'
+      }
+    ]
+  },
+  {
     text: '自动化',
     items: [
       { text: 'Ansible', route: '/tech-stack/automation/ansible' },

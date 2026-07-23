@@ -70,6 +70,10 @@
 - [华为 OceanStor](./tech-stack/storage-data-protection/huawei-oceanstor.md)
 - [爱数 AnyStorage](./tech-stack/storage-data-protection/aishu-anystorage.md)
 
+### 中间件与应用平台
+
+- [IBM WebSphere](./tech-stack/middleware-application-platform/websphere.md)
+
 ### 自动化与 CI/CD
 
 - [Ansible](./tech-stack/automation/ansible.md)
@@ -136,5 +140,6 @@
 13. [Ceph](./tech-stack/storage-data-protection/ceph.md)
 14. [华为 OceanStor](./tech-stack/storage-data-protection/huawei-oceanstor.md)
 15. [爱数 AnyStorage](./tech-stack/storage-data-protection/aishu-anystorage.md)
-16. [网络安全等级保护（等保 2.0）](./tech-stack/security-compliance/mlps.md)
-17. [Kubernetes 平台运维岗位专项路线](./interview/kubernetes-platform-operations-role.md)
+16. [IBM WebSphere](./tech-stack/middleware-application-platform/websphere.md)
+17. [网络安全等级保护（等保 2.0）](./tech-stack/security-compliance/mlps.md)
+18. [Kubernetes 平台运维岗位专项路线](./interview/kubernetes-platform-operations-role.md)

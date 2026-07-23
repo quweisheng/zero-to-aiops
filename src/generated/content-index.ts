@@ -392,6 +392,13 @@ export const generatedDocs = [
     "excerpt": "目标：能把 Markdown 学习笔记构建成可访问的文档站，理解 source directory、file based routing、config、themeConfig、nav、sidebar、frontmatter、Markdown..."
   },
   {
+    "path": "../docs/tech-stack/middleware-application-platform/websphere.md",
+    "route": "/tech-stack/middleware-application-platform/websphere",
+    "title": "IBM WebSphere 技术栈深讲",
+    "section": "技术栈",
+    "excerpt": "学习目标：从零理解 WebSphere Application Server traditional 与 WebSphere Liberty 的边界，能画出一次请求经过 IBM HTTP Server、Web Server Plug in、..."
+  },
+  {
     "path": "../docs/tech-stack/observability/alertmanager.md",
     "route": "/tech-stack/observability/alertmanager",
     "title": "Alertmanager",

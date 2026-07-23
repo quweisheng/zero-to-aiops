@@ -186,4 +186,10 @@ describe('getDocByRoute', () => {
       '爱数 AnyStorage 深讲'
     )
   })
+
+  it('includes the middleware and application platform documents', () => {
+    expect(
+      getDocByRoute('/tech-stack/middleware-application-platform/websphere')?.title
+    ).toBe('IBM WebSphere 技术栈深讲')
+  })
 })

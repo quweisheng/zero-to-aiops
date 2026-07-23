@@ -88,6 +88,10 @@ npm run build
 - [华为 OceanStor](./docs/tech-stack/storage-data-protection/huawei-oceanstor.md)
 - [爱数 AnyStorage](./docs/tech-stack/storage-data-protection/aishu-anystorage.md)
 
+### 中间件与应用平台
+
+- [IBM WebSphere](./docs/tech-stack/middleware-application-platform/websphere.md)
+
 ### 自动化与 CI/CD
 
 - [Ansible](./docs/tech-stack/automation/ansible.md)
