@@ -88,6 +88,7 @@
 ### 架构与方案设计
 
 - [系统架构与技术方案设计](./tech-stack/architecture-delivery/architecture-solution-design.md)
+- [IT 项目管理 / PMP](./tech-stack/architecture-delivery/it-project-management-pmp.md)
 
 ### 安全与合规
 

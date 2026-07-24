@@ -170,6 +170,9 @@ describe('getDocByRoute', () => {
     expect(
       getDocByRoute('/tech-stack/architecture-delivery/architecture-solution-design')?.title
     ).toBe('系统架构与技术方案设计深讲')
+    expect(
+      getDocByRoute('/tech-stack/architecture-delivery/it-project-management-pmp')?.title
+    ).toBe('IT 项目管理 / PMP 深讲')
     expect(getDocByRoute('/interview/kubernetes-platform-operations-role')?.title).toBe(
       'Kubernetes 平台运维岗位专项路线'
     )

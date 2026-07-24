@@ -166,6 +166,10 @@ export const navGroups: NavGroup[] = [
       {
         text: '系统架构与技术方案设计',
         route: '/tech-stack/architecture-delivery/architecture-solution-design'
+      },
+      {
+        text: 'IT 项目管理 / PMP',
+        route: '/tech-stack/architecture-delivery/it-project-management-pmp'
       }
     ]
   },

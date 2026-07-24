@@ -32,6 +32,7 @@
 | 已完成深讲第一版 | 华为 OceanStor | 存储与数据保护组已补产品族、控制器/缓存、存储池/LUN、SAN/NAS、多路径、HyperSnap/HyperReplication/HyperMetro、实验和排障 |
 | 已完成深讲第一版 | 爱数 AnyStorage | 存储与数据保护组已补 AnyStorage 7/GX/AnyBackup 边界、SAN/NAS、RAID 2.0、多路径、复制、双活、实验和排障 |
 | 已升级开头和面试表达 | Ansible、Terraform、GitHub Actions、CI/CD、Runbook Automation | 自动化组已补通俗开场、人话版、小白追问和面试表达 |
+| 已达到大厂面试级第一版 | IT 项目管理 / PMP | 已补 PMBOK 第八版与 2026 PMP 边界、预测/敏捷/混合交付、WBS、关键路径、EVM、RAID、变更、DevOps/SRE 治理、双层实验、事故题和系统设计 |
 | 已完成深讲第一版 | 网络安全等级保护（等保 2.0） | 安全与合规组已补法律与标准地图、五级保护、五阶段实施、控制与证据闭环、入门实验、排障和面试表达 |
 | 已达到大厂面试级第一版 | Apache Hadoop | 已补 Hadoop 3.5.0、HDFS/YARN/MapReduce 数据路径、QJM/RM HA、容量、安全、升级回滚、双层实验、事故题和系统设计 |
 | 已达到大厂面试级第一版 | Apache Hive、Apache HBase、Apache Spark、Apache Flink | 已补 SQL/元数据、随机读写、批处理 DAG、状态流处理的内部路径、一致性、双层实验、容量、安全、事故题和系统设计 |
@@ -144,6 +145,7 @@
 | 19 | Dell EMC VPLEX、Dell EMC VMAX、Brocade 6510 | 大厂面试级第一版已完成 | 新增 VPLEX Metro 仲裁、VMAX 高端阵列与复制、Brocade FC Fabric 与 EOS 迁移，补齐双层实验、事故复盘和生产系统设计 |
 | 20 | IBM WebSphere | 大厂面试级第一版已完成 | 新增中间件与应用平台分类，补齐 traditional ND 与 Liberty、请求与管理路径、集群和状态、容量安全、双层实验、事故复盘和生产系统设计 |
 | 21 | Apache Hive、Apache HBase、Apache Spark、Apache Flink、Apache HAWQ | 大厂面试级与存量迁移专项第一版已完成 | 补齐 Hadoop 生态 SQL、随机读写、批流计算与遗留 MPP 迁移，覆盖双层实验、生产排障、事故题和系统设计 |
+| 22 | IT 项目管理 / PMP | 大厂面试级第一版已完成 | 新增项目交付与 PMP 主线，覆盖 PMBOK 第八版、预测/敏捷/混合交付、关键路径、EVM、风险变更、DevOps/SRE 治理、双层实验、事故题和系统设计 |
 
 ## 已完成
 
@@ -199,6 +201,7 @@
 | 自动化 | Jenkins | [jenkins.md](./automation/jenkins.md) |
 | 自动化 | Nexus Repository | [nexus-repository.md](./automation/nexus-repository.md) |
 | 架构与方案设计 | 系统架构与技术方案设计 | [architecture-solution-design.md](./architecture-delivery/architecture-solution-design.md) |
+| 架构与方案设计 | IT 项目管理 / PMP | [it-project-management-pmp.md](./architecture-delivery/it-project-management-pmp.md) |
 | 安全与合规 | 网络安全等级保护（等保 2.0） | [mlps.md](./security-compliance/mlps.md) |
 | 数据与 AI | MySQL / SQL | [mysql-sql.md](./data-ai/mysql-sql.md) |
 | 数据与 AI | Oracle Database | [oracle.md](./data-ai/oracle.md) |

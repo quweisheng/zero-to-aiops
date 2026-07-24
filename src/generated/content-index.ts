@@ -56,6 +56,13 @@ export const generatedDocs = [
     "excerpt": "学习目标：能把模糊业务需求整理成约束、质量目标、候选方案和可实施设计，完成一份带容量、高可用、安全、可观测性、上线与回滚的可行性报告，并在评审中解释取舍。 官方资料 AWS Well Architected Framework Google..."
   },
   {
+    "path": "../docs/tech-stack/architecture-delivery/it-project-management-pmp.md",
+    "route": "/tech-stack/architecture-delivery/it-project-management-pmp",
+    "title": "IT 项目管理 / PMP 深讲",
+    "section": "技术栈",
+    "excerpt": "学习目标：从零理解项目、产品、项目集和运营的边界，能为一个 AIOps 项目完成立项、范围拆分、进度与成本计划、风险和变更控制、敏捷或混合交付、上线验收和复盘；同时能按当前 PMP 考纲组织知识，并在面试中解释机制、取舍和事故处理。 学习边..."
+  },
+  {
     "path": "../docs/tech-stack/automation/ansible.md",
     "route": "/tech-stack/automation/ansible",
     "title": "Ansible",
