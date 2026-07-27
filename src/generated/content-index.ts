@@ -350,6 +350,13 @@ export const generatedDocs = [
     "excerpt": "学习目标：从零理解 Spark 的 Driver、Executor、Job、Stage、Task、Partition 和 Shuffle，能用 PySpark 完成告警聚合实验，能读懂 SQL 执行计划与 Web UI，能分析数据倾斜、OO..."
   },
   {
+    "path": "../docs/tech-stack/data-ai/tensorflow.md",
+    "route": "/tech-stack/data-ai/tensorflow",
+    "title": "TensorFlow 深讲",
+    "section": "数据与 AI",
+    "excerpt": "学习目标：从零理解 Tensor、自动微分、Keras、 tf.data 、训练与验证、模型保存和在线推理，能独立完成一个 AIOps 告警风险分类实验，并能回答大型企业面试中关于计算图、分布式训练、性能、数据泄漏、模型漂移、发布回滚和故障..."
+  },
+  {
     "path": "../docs/tech-stack/data-ai/vector-database.md",
     "route": "/tech-stack/data-ai/vector-database",
     "title": "向量数据库",
@@ -488,6 +495,13 @@ export const generatedDocs = [
     "title": "VictoriaMetrics",
     "section": "可观测性",
     "excerpt": "学习目标：能理解 VictoriaMetrics 为什么适合作为 Prometheus 兼容的时序数据存储，能讲清单机版、集群版、vmagent、vmalert、MetricsQL、remote write、retention、cardin..."
+  },
+  {
+    "path": "../docs/tech-stack/observability/zabbix.md",
+    "route": "/tech-stack/observability/zabbix",
+    "title": "Zabbix 深讲",
+    "section": "可观测性",
+    "excerpt": "学习目标：从零理解 Zabbix 的完整监控链路，能独立设计主机、监控项、触发器、动作、模板、自动发现和 Proxy，完成一次可复现的监控与故障注入实验，并能回答大型企业面试中关于高可用、容量、性能、安全、升级和故障排查的追问。 版本边界 ..."
   },
   {
     "path": "../docs/tech-stack/progress.md",

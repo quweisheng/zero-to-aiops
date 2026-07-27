@@ -34,6 +34,7 @@
 ### 可观测性
 
 - [Prometheus](./tech-stack/observability/prometheus.md)
+- [Zabbix](./tech-stack/observability/zabbix.md)
 - [VictoriaMetrics](./tech-stack/observability/victoriametrics.md)
 - [Grafana](./tech-stack/observability/grafana.md)
 - [OpenTelemetry](./tech-stack/observability/opentelemetry.md)
@@ -112,6 +113,7 @@
 - [pandas](./tech-stack/data-ai/pandas.md)
 - [机器学习](./tech-stack/data-ai/machine-learning.md)
 - [scikit-learn](./tech-stack/data-ai/scikit-learn.md)
+- [TensorFlow](./tech-stack/data-ai/tensorflow.md)
 - [FastAPI](./tech-stack/data-ai/fastapi.md)
 - [LLM / OpenAI API](./tech-stack/data-ai/llm-openai.md)
 - [LangChain](./tech-stack/data-ai/langchain.md)

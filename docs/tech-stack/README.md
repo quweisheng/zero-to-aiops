@@ -33,7 +33,7 @@
 | 类别 | 技术 | 优先级 | 学到什么程度 |
 |---|---|---:|---|
 | 基础工具 | Linux、systemd、网络、Git、GitHub、Markdown、VitePress、Python、Go、Shell/PowerShell | P0-P1 | 能排障、提交代码、编写脚本，并用 Go 构建并发、可观测、可诊断的云原生与 AIOps 服务 |
-| 可观测性 | Prometheus、VictoriaMetrics、Alertmanager、Grafana、OpenTelemetry、Loki、Elasticsearch | P1 | 能采集指标、日志、链路，能做仪表盘和告警 |
+| 可观测性 | Prometheus、Zabbix、VictoriaMetrics、Alertmanager、Grafana、OpenTelemetry、Loki、Elasticsearch | P1 | 能采集指标、日志、链路，能覆盖主机、网络设备和混合基础设施，能做仪表盘和告警 |
 | 云原生 | Docker、Kubernetes、etcd、Calico、Cilium、Helm、NGINX/Ingress、微服务、Rancher、Harbor、Istio、KubeSphere | P1 | 能解释容器交付、控制面一致性、Pod/Service 网络、策略、平台治理、高可用、升级和端到端排障 |
 | 虚拟化与私有云 | KVM、VMware vSphere、OpenStack | P1-P2 | 能理解虚拟化与 IaaS 的计算、网络、存储、调度、高可用和端到端排障 |
 | 存储与数据保护 | IBM Storage、Dell EMC VPLEX、Dell EMC VMAX、Brocade 6510、华为 OceanStor、爱数 AnyStorage、Ceph | P1-P2 | 能理解集中式与分布式存储、块/文件/对象、FC SAN、存储虚拟化、高端阵列、存储池、LUN、多路径、双活、复制、备份与存储 AIOps 排障 |
@@ -41,44 +41,46 @@
 | 自动化与 CI/CD | Ansible、Terraform、GitHub Actions、GitLab、Jenkins、Nexus、CI/CD、Runbook Automation | P1-P2 | 能把提交、测试、构建、制品、部署、审批和回滚连成可审计流程 |
 | 架构与方案设计 | 系统架构、可行性报告、IT 项目管理、PMP、敏捷、范围、进度、风险与变更 | P0-P1 | 能把业务需求转成可解释、可验证、可实施的技术方案和项目交付计划 |
 | 安全与合规 | 网络安全等级保护（等保 2.0） | P1-P2 | 能理解定级、备案、建设整改、等级测评和持续运营，并用 AIOps 建立证据与整改闭环 |
-| 数据与 AI | MySQL/SQL、Oracle、PostgreSQL、Redis、Kafka、RabbitMQ、ZooKeeper、Hadoop、Hive、HBase、Spark、Flink、HAWQ 存量迁移、pandas、机器学习、scikit-learn、FastAPI、LLM/OpenAI API、LangChain、LangGraph、RAG、向量数据库 | P1-P3 | 能处理运维数据、数据库、事件流、分布式协调、湖仓 SQL、随机读写、批流计算、遗留平台迁移和 AI 应用，做异常检测、告警降噪与智能运维助手 |
+| 数据与 AI | MySQL/SQL、Oracle、PostgreSQL、Redis、Kafka、RabbitMQ、ZooKeeper、Hadoop、Hive、HBase、Spark、Flink、HAWQ 存量迁移、pandas、机器学习、scikit-learn、TensorFlow、FastAPI、LLM/OpenAI API、LangChain、LangGraph、RAG、向量数据库 | P1-P3 | 能处理运维数据、数据库、事件流、分布式协调、湖仓 SQL、随机读写、批流计算、遗留平台迁移和 AI 应用，做异常检测、深度学习、告警降噪与智能运维助手 |
 | SRE/AIOps 实践 | SLI/SLO、告警治理、事件响应、Runbook、RCA、变更管理、AIOps 闭环 | P0-P1 | 能把工具能力转成稳定性结果和面试故事 |
 
 ## 推荐学习顺序
 
 1. [Linux](./foundation/linux.md)：先会记录、提交、跑命令、读系统状态。
 2. [SLI / SLO / SLA](./sre-aiops/sli-slo-sla.md)：先知道为什么学这些工具。
-3. [Prometheus](./observability/prometheus.md)：先把数据采集跑通。
-4. [Docker](./cloud-native/docker.md)：把服务放进容器。
-5. [Go（Golang）](./foundation/golang.md)：从语言基础深入并发、runtime、网络服务、性能诊断和 AIOps 工程实践。
-6. [Kubernetes](./cloud-native/kubernetes.md)：从对象操作深入 API、控制器、调度、网络、存储、高可用和生产排障。
-7. [etcd](./cloud-native/etcd.md)：理解 Kubernetes 状态存储、Raft 多数派、MVCC、Watch、备份和恢复。
-8. [Calico](./cloud-native/calico.md)：理解 CNI、IPAM、BGP/封装、NetworkPolicy 和网络故障链路。
-9. [Cilium](./cloud-native/cilium.md)：理解 eBPF 数据面、身份策略、Service 负载均衡和 Hubble 可观测性。
-10. [KVM 虚拟化](./virtualization-private-cloud/kvm.md)：理解 KVM、QEMU、libvirt、Virtio、虚拟网络与存储、迁移、高可用和平台排障。
-11. [VMware vSphere](./virtualization-private-cloud/vsphere.md)：理解虚拟机如何共享物理资源，以及集群、迁移、网络、存储和平台排障。
-12. [IBM Storage](./storage-data-protection/ibm-storage.md)：理解业务数据最终如何落盘、保护、监控和恢复。
-13. [Dell EMC VPLEX](./storage-data-protection/dell-emc-vplex.md)：理解异构块存储虚拟化、Metro 同步双活、Consistency Group、Detach Rule 和 Witness 仲裁。
-14. [Dell EMC VMAX](./storage-data-protection/dell-emc-vmax.md)：理解高端阵列 Engine/Director、SRP/TDEV、Masking View、SnapVX、SRDF 和容量性能排障。
-15. [Brocade 6510 光纤交换机](./storage-data-protection/brocade-6510.md)：理解 FC 登录、zoning、FSPF、BB Credit、慢排水、双 Fabric 和 EOS 迁移。
-16. [华为 OceanStor](./storage-data-protection/huawei-oceanstor.md)：理解企业阵列的数据路径、LUN 映射、多路径、双活、复制和存储排障。
-17. [爱数 AnyStorage](./storage-data-protection/aishu-anystorage.md)：理解统一 SAN/NAS、RAID 2.0、GX 虚拟化、双活、复制和存储 AIOps 排障。
-18. [Ceph](./storage-data-protection/ceph.md)：理解对象如何经过 pool、PG 和 CRUSH 分布到 OSD，并学会判断集群健康。
-19. [IBM WebSphere](./middleware-application-platform/websphere.md)：理解 traditional ND 与 Liberty 边界、企业 Java 请求路径、集群、会话、JDBC/JMS/JTA 和生产排障。
-20. [GitHub Actions](./automation/github-actions.md)：把重复动作变成流程。
-21. [pandas](./data-ai/pandas.md)：用数据做异常检测、告警降噪、智能助手。
-22. [机器学习](./data-ai/machine-learning.md)：理解样本、特征、标签、评估和异常检测边界。
-23. [LangChain](./data-ai/langchain.md)：把 LLM、RAG、工具调用和 runbook 查询组织成应用。
-24. [网络安全等级保护（等保 2.0）](./security-compliance/mlps.md)：把资产、控制、证据、整改和持续监控连成闭环。
-25. [IT 项目管理 / PMP](./architecture-delivery/it-project-management-pmp.md)：学习立项、WBS、关键路径、EVM、风险、变更、敏捷与 DevOps/SRE 项目治理。
-26. [Kubernetes 平台运维岗位专项路线](../interview/kubernetes-platform-operations-role.md)：按招聘要求串联平台、交付、IaaS 和方案证据。
-27. [Apache ZooKeeper](./data-ai/zookeeper.md)：理解分布式协调、会话、Watch、选主、多数派和上层依赖故障。
-28. [Apache Hadoop](./data-ai/hadoop.md)：理解 HDFS、YARN、MapReduce、HA、容量、安全、升级和数据平台排障。
-29. [Apache Hive](./data-ai/hive.md)：理解 HiveServer2、Metastore、SQL 编译执行、分区、文件格式、ACID 和数据仓库排障。
-30. [Apache HBase](./data-ai/hbase.md)：理解 RowKey、Region、WAL、MemStore、HFile、Compaction、热点和低延迟随机读写。
-31. [Apache Spark](./data-ai/spark.md)：理解 Driver/Executor、DAG、Stage/Task、Shuffle、SQL、Streaming 和性能排障。
-32. [Apache Flink](./data-ai/flink.md)：理解 Event Time、Watermark、State、Checkpoint、反压和端到端一致性。
-33. [Apache HAWQ 存量运维与迁移](./data-ai/hawq.md)：识别已退休项目的 MPP 架构、遗留风险、只读排障和迁移方法。
+3. [Prometheus](./observability/prometheus.md)：先把云原生指标采集跑通。
+4. [Zabbix](./observability/zabbix.md)：补齐主机、网络设备、传统中间件、分布式采集和事件动作。
+5. [Docker](./cloud-native/docker.md)：把服务放进容器。
+6. [Go（Golang）](./foundation/golang.md)：从语言基础深入并发、runtime、网络服务、性能诊断和 AIOps 工程实践。
+7. [Kubernetes](./cloud-native/kubernetes.md)：从对象操作深入 API、控制器、调度、网络、存储、高可用和生产排障。
+8. [etcd](./cloud-native/etcd.md)：理解 Kubernetes 状态存储、Raft 多数派、MVCC、Watch、备份和恢复。
+9. [Calico](./cloud-native/calico.md)：理解 CNI、IPAM、BGP/封装、NetworkPolicy 和网络故障链路。
+10. [Cilium](./cloud-native/cilium.md)：理解 eBPF 数据面、身份策略、Service 负载均衡和 Hubble 可观测性。
+11. [KVM 虚拟化](./virtualization-private-cloud/kvm.md)：理解 KVM、QEMU、libvirt、Virtio、虚拟网络与存储、迁移、高可用和平台排障。
+12. [VMware vSphere](./virtualization-private-cloud/vsphere.md)：理解虚拟机如何共享物理资源，以及集群、迁移、网络、存储和平台排障。
+13. [IBM Storage](./storage-data-protection/ibm-storage.md)：理解业务数据最终如何落盘、保护、监控和恢复。
+14. [Dell EMC VPLEX](./storage-data-protection/dell-emc-vplex.md)：理解异构块存储虚拟化、Metro 同步双活、Consistency Group、Detach Rule 和 Witness 仲裁。
+15. [Dell EMC VMAX](./storage-data-protection/dell-emc-vmax.md)：理解高端阵列 Engine/Director、SRP/TDEV、Masking View、SnapVX、SRDF 和容量性能排障。
+16. [Brocade 6510 光纤交换机](./storage-data-protection/brocade-6510.md)：理解 FC 登录、zoning、FSPF、BB Credit、慢排水、双 Fabric 和 EOS 迁移。
+17. [华为 OceanStor](./storage-data-protection/huawei-oceanstor.md)：理解企业阵列的数据路径、LUN 映射、多路径、双活、复制和存储排障。
+18. [爱数 AnyStorage](./storage-data-protection/aishu-anystorage.md)：理解统一 SAN/NAS、RAID 2.0、GX 虚拟化、双活、复制和存储 AIOps 排障。
+19. [Ceph](./storage-data-protection/ceph.md)：理解对象如何经过 pool、PG 和 CRUSH 分布到 OSD，并学会判断集群健康。
+20. [IBM WebSphere](./middleware-application-platform/websphere.md)：理解 traditional ND 与 Liberty 边界、企业 Java 请求路径、集群、会话、JDBC/JMS/JTA 和生产排障。
+21. [GitHub Actions](./automation/github-actions.md)：把重复动作变成流程。
+22. [pandas](./data-ai/pandas.md)：用数据做异常检测、告警降噪、智能助手。
+23. [机器学习](./data-ai/machine-learning.md)：理解样本、特征、标签、评估和异常检测边界。
+24. [TensorFlow](./data-ai/tensorflow.md)：把机器学习主线落到张量计算、模型训练、分布式性能和线上交付。
+25. [LangChain](./data-ai/langchain.md)：把 LLM、RAG、工具调用和 runbook 查询组织成应用。
+26. [网络安全等级保护（等保 2.0）](./security-compliance/mlps.md)：把资产、控制、证据、整改和持续监控连成闭环。
+27. [IT 项目管理 / PMP](./architecture-delivery/it-project-management-pmp.md)：学习立项、WBS、关键路径、EVM、风险、变更、敏捷与 DevOps/SRE 项目治理。
+28. [Kubernetes 平台运维岗位专项路线](../interview/kubernetes-platform-operations-role.md)：按招聘要求串联平台、交付、IaaS 和方案证据。
+29. [Apache ZooKeeper](./data-ai/zookeeper.md)：理解分布式协调、会话、Watch、选主、多数派和上层依赖故障。
+30. [Apache Hadoop](./data-ai/hadoop.md)：理解 HDFS、YARN、MapReduce、HA、容量、安全、升级和数据平台排障。
+31. [Apache Hive](./data-ai/hive.md)：理解 HiveServer2、Metastore、SQL 编译执行、分区、文件格式、ACID 和数据仓库排障。
+32. [Apache HBase](./data-ai/hbase.md)：理解 RowKey、Region、WAL、MemStore、HFile、Compaction、热点和低延迟随机读写。
+33. [Apache Spark](./data-ai/spark.md)：理解 Driver/Executor、DAG、Stage/Task、Shuffle、SQL、Streaming 和性能排障。
+34. [Apache Flink](./data-ai/flink.md)：理解 Event Time、Watermark、State、Checkpoint、反压和端到端一致性。
+35. [Apache HAWQ 存量运维与迁移](./data-ai/hawq.md)：识别已退休项目的 MPP 架构、遗留风险、只读排障和迁移方法。
 
 ## 一技术一文件
 
@@ -136,6 +138,7 @@
 ### 可观测性
 
 - [Prometheus](./observability/prometheus.md)
+- [Zabbix](./observability/zabbix.md)
 - [VictoriaMetrics](./observability/victoriametrics.md)
 - [Grafana](./observability/grafana.md)
 - [OpenTelemetry](./observability/opentelemetry.md)
@@ -181,6 +184,7 @@
 - [pandas](./data-ai/pandas.md)
 - [机器学习](./data-ai/machine-learning.md)
 - [scikit-learn](./data-ai/scikit-learn.md)
+- [TensorFlow](./data-ai/tensorflow.md)
 - [FastAPI](./data-ai/fastapi.md)
 - [LLM / OpenAI API](./data-ai/llm-openai.md)
 - [LangChain](./data-ai/langchain.md)
@@ -245,13 +249,14 @@ AIOps 的第一阶段不是“所有技术都懂一点”，而是先打通一�
 
 ```text
 Linux 服务
-  -> Prometheus 指标
+  -> Prometheus / Zabbix 指标与事件
   -> VictoriaMetrics 长期指标
   -> Grafana 仪表盘
   -> Alertmanager 告警
   -> Python / pandas 分析
   -> 机器学习建模
   -> scikit-learn 异常检测
+  -> TensorFlow 训练与交付
   -> FastAPI 暴露接口
   -> LangChain / LangGraph / LLM / RAG 生成排障建议
   -> GitHub 记录过程
@@ -287,6 +292,7 @@ Linux 服务
 - [WebSphere Liberty](https://www.ibm.com/docs/en/was-liberty/base?topic=liberty-overview)
 - [Spring Cloud](https://docs.spring.io/spring-cloud/docs/current/reference/html/)
 - [Prometheus](https://prometheus.io/docs/introduction/overview/)
+- [Zabbix](https://www.zabbix.com/documentation/current/en/manual)
 - [VictoriaMetrics](https://docs.victoriametrics.com/victoriametrics/quick-start/)
 - [Grafana](https://grafana.com/docs/)
 - [OpenTelemetry](https://opentelemetry.io/docs/)
@@ -320,6 +326,7 @@ Linux 服务
 - [pandas](https://pandas.pydata.org/docs/)
 - [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course)
 - [scikit-learn](https://scikit-learn.org/stable/user_guide.html)
+- [TensorFlow](https://www.tensorflow.org/guide)
 - [FastAPI](https://fastapi.tiangolo.com/)
 - [OpenAI API](https://developers.openai.com/api/docs/quickstart)
 - [LangChain](https://docs.langchain.com/oss/python/langchain/overview)

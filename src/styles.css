@@ -1025,7 +1025,7 @@ h3 {
 
   .doc-sidebar {
     position: static;
-    max-height: none;
+    max-height: min(36dvh, 320px);
   }
 }
 

@@ -137,6 +137,15 @@ describe('getDocByRoute', () => {
     expect(getDocByRoute('/tech-stack/data-ai/langgraph')?.title).toBe('LangGraph')
   })
 
+  it('includes the Zabbix and TensorFlow large-company interview deep dives', () => {
+    expect(getDocByRoute('/tech-stack/observability/zabbix')?.title).toBe(
+      'Zabbix 深讲'
+    )
+    expect(getDocByRoute('/tech-stack/data-ai/tensorflow')?.title).toBe(
+      'TensorFlow 深讲'
+    )
+  })
+
   it('includes the network security level protection document', () => {
     expect(getDocByRoute('/tech-stack/security-compliance/mlps')?.title).toBe(
       '网络安全等级保护（等保 2.0）深讲'

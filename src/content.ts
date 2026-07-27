@@ -62,6 +62,7 @@ export const navGroups: NavGroup[] = [
     text: '可观测性',
     items: [
       { text: 'Prometheus', route: '/tech-stack/observability/prometheus' },
+      { text: 'Zabbix', route: '/tech-stack/observability/zabbix' },
       { text: 'VictoriaMetrics', route: '/tech-stack/observability/victoriametrics' },
       { text: 'Grafana', route: '/tech-stack/observability/grafana' },
       { text: 'OpenTelemetry', route: '/tech-stack/observability/opentelemetry' },
@@ -201,6 +202,7 @@ export const navGroups: NavGroup[] = [
       { text: 'pandas', route: '/tech-stack/data-ai/pandas' },
       { text: '机器学习', route: '/tech-stack/data-ai/machine-learning' },
       { text: 'scikit-learn', route: '/tech-stack/data-ai/scikit-learn' },
+      { text: 'TensorFlow', route: '/tech-stack/data-ai/tensorflow' },
       { text: 'FastAPI', route: '/tech-stack/data-ai/fastapi' },
       { text: 'LLM / OpenAI API', route: '/tech-stack/data-ai/llm-openai' },
       { text: 'LangChain', route: '/tech-stack/data-ai/langchain' },

@@ -38,6 +38,8 @@
 | 已达到大厂面试级第一版 | Apache Hive、Apache HBase、Apache Spark、Apache Flink | 已补 SQL/元数据、随机读写、批处理 DAG、状态流处理的内部路径、一致性、双层实验、容量、安全、事故题和系统设计 |
 | 已完成存量迁移专项第一版 | Apache HAWQ | 已明确 2024 年进入 Apache Attic，补 MPP 架构、离线倾斜实验、只读排障、遗留风险和迁移切换回滚 |
 | 已达到大厂面试级第一版 | RabbitMQ | 已补 RabbitMQ 4.3.4、Khepri、Classic/Quorum/Stream、端到端可靠性、容量安全、升级回滚、双层实验、事故题和系统设计 |
+| 已达到大厂面试级第一版 | Zabbix | 已补 Zabbix 7.4.12/7.0 LTS 边界、采集与事件链路、Proxy、Server/数据库 HA、容量安全、升级回滚、故障实验、事故题和系统设计 |
+| 已达到大厂面试级第一版 | TensorFlow | 已补 TensorFlow 2.21、Tensor/自动微分/Keras、tf.data/tf.function、分布式训练、模型交付、漂移监控、脏数据实验、事故题和系统设计 |
 | 已升级开头和面试表达 | MySQL、Oracle、PostgreSQL、Redis、Kafka、ZooKeeper、pandas、机器学习、scikit-learn、FastAPI、LLM、LangChain、LangGraph、RAG、向量数据库 | 数据与 AI 组已补通俗开场、人话版、小白追问和面试表达 |
 | 已升级开头和面试表达 | SLI/SLO/SLA、告警治理、事件响应、Runbook、RCA、变更管理、AIOps 闭环 | SRE/AIOps 实践组已补通俗开场、人话版、小白追问和面试表达 |
 
@@ -53,6 +55,7 @@
 | 已达到大厂面试级第一版 | Go（Golang） | [golang.md](./foundation/golang.md) | Go 1.26、module/package、slice/map/interface/error、goroutine/channel/context、G-M-P、内存模型、GC、HTTP、race/pprof/trace、告警 API 和生产设计 |
 | 已完成第一版 | Docker | [docker.md](./cloud-native/docker.md) | Docker 官方结构、Engine 架构、镜像和容器、Dockerfile 指令、build context、网络、存储、日志、资源限制、安全边界、AIOps 容器化实验、命令字典 |
 | 已完成第一版 | Prometheus | [prometheus.md](./observability/prometheus.md) | Prometheus 官方结构、数据模型、指标类型、jobs/instances、抓取配置、TSDB、PromQL、recording/alerting rules、HTTP API、promtool、AIOps 指标实验 |
+| 已达到大厂面试级第一版 | Zabbix | [zabbix.md](./observability/zabbix.md) | Zabbix 7.4.12/7.0 LTS、Agent/SNMP/HTTP/Proxy 采集、Item/Trigger/Event/Action、history/trends、LLD、NVPS、Server 与数据库 HA、双层实验、事故题和系统设计 |
 | 已完成第一版 | Grafana | [grafana.md](./observability/grafana.md) | Grafana 官方结构、数据源、Prometheus 查询、dashboard/panel/field/variable/transformation、provisioning、alerting、HTTP API、AIOps 值班 dashboard 实验 |
 | 已完成第一版 | Docker Compose | [docker-compose.md](./cloud-native/docker-compose.md) | Compose 官方应用模型、project/service/network/volume/config/secret、Compose 文件字段、healthcheck、profiles、CLI 命令字典、Prometheus + Grafana + demo app 实验 |
 | 已完成第一版 | GitHub | [github.md](./foundation/github.md) | GitHub 官方结构、repository、README、GitHub Flow、Issues、Pull Requests、Actions、Pages、认证、Secrets、安全、AIOps 作品集实验 |
@@ -95,6 +98,7 @@
 | 已完成第一版 | pandas | [pandas.md](./data-ai/pandas.md) | pandas 官方用户指南结构、Series/DataFrame/Index、dtype、IO、选择过滤、缺失值、时间处理、groupby、merge/merge_asof、pivot_table、resample、rolling、category、性能边界、API 字典、AIOps 告警日报实验 |
 | 已完成第一版 | 机器学习 | [machine-learning.md](./data-ai/machine-learning.md) | Google ML Crash Course 与 scikit-learn 官方主线、样本/特征/标签、监督/无监督学习、异常检测、训练/测试拆分、precision/recall、数据泄漏、AIOps 告警分类实验 |
 | 已完成第一版 | scikit-learn | [scikit-learn.md](./data-ai/scikit-learn.md) | scikit-learn 官方结构、estimator API、X/y、fit/predict/transform、监督/无监督学习、异常检测、IsolationForest、特征工程、预处理、Pipeline、ColumnTransformer、训练/测试拆分、数据泄漏、模型评估、模型持久化、API 字典、AIOps 指标异常检测实验 |
+| 已达到大厂面试级第一版 | TensorFlow | [tensorflow.md](./data-ai/tensorflow.md) | TensorFlow 2.21、Tensor/Variable、GradientTape、Keras、tf.data、tf.function、分布式训练、性能容量、SavedModel/Serving、灰度回滚、双层实验、事故题和系统设计 |
 | 已完成第一版 | FastAPI | [fastapi.md](./data-ai/fastapi.md) | FastAPI 官方教程结构、ASGI、Starlette、Pydantic、Uvicorn、路径操作、参数解析、请求体、响应模型、依赖注入、异常处理、中间件、CORS、OpenAPI、APIRouter、配置、测试、部署、AIOps 告警接收和分析 API 实验 |
 | 已完成第一版 | LLM / OpenAI API | [llm-openai.md](./data-ai/llm-openai.md) | OpenAI 官方 API 结构、Responses API、模型选型、instructions/input、提示词合同、结构化输出、function calling、Embeddings、RAG 关系、上下文拼装、安全边界、成本/延迟/降级、评估、AIOps 告警摘要助手实验 |
 | 已完成第一版 | LangChain | [langchain.md](./data-ai/langchain.md) | LangChain 官方结构、agent/model/tool/message/system prompt、structured output、memory、context engineering、RAG、LangGraph/LangSmith 边界、AIOps runbook 查询助手实验 |
@@ -148,6 +152,7 @@
 | 21 | Apache Hive、Apache HBase、Apache Spark、Apache Flink、Apache HAWQ | 大厂面试级与存量迁移专项第一版已完成 | 补齐 Hadoop 生态 SQL、随机读写、批流计算与遗留 MPP 迁移，覆盖双层实验、生产排障、事故题和系统设计 |
 | 22 | IT 项目管理 / PMP | 大厂面试级第一版已完成 | 新增项目交付与 PMP 主线，覆盖 PMBOK 第八版、预测/敏捷/混合交付、关键路径、EVM、风险变更、DevOps/SRE 治理、双层实验、事故题和系统设计 |
 | 23 | RabbitMQ | 大厂面试级第一版已完成 | 重构 RabbitMQ 4.3.4 学习主线，补齐 Khepri、三类队列、确认与幂等、Raft 集群、容量安全、升级灾备、双层实验、事故题和系统设计 |
+| 24 | Zabbix、TensorFlow | 大厂面试级第一版已完成 | 新增传统基础设施监控与深度学习工程主线，覆盖当前稳定版本、内部数据路径、HA/分布式、容量安全、升级回滚、双层实验、事故题和系统设计 |
 
 ## 已完成
 
@@ -188,6 +193,7 @@
 | 存储与数据保护 | 爱数 AnyStorage | [aishu-anystorage.md](./storage-data-protection/aishu-anystorage.md) |
 | 中间件与应用平台 | IBM WebSphere | [websphere.md](./middleware-application-platform/websphere.md) |
 | 可观测性 | Prometheus | [prometheus.md](./observability/prometheus.md) |
+| 可观测性 | Zabbix | [zabbix.md](./observability/zabbix.md) |
 | 可观测性 | Grafana | [grafana.md](./observability/grafana.md) |
 | 可观测性 | OpenTelemetry | [opentelemetry.md](./observability/opentelemetry.md) |
 | 可观测性 | Alertmanager | [alertmanager.md](./observability/alertmanager.md) |
@@ -221,6 +227,7 @@
 | 数据与 AI | pandas | [pandas.md](./data-ai/pandas.md) |
 | 数据与 AI | 机器学习 | [machine-learning.md](./data-ai/machine-learning.md) |
 | 数据与 AI | scikit-learn | [scikit-learn.md](./data-ai/scikit-learn.md) |
+| 数据与 AI | TensorFlow | [tensorflow.md](./data-ai/tensorflow.md) |
 | 数据与 AI | FastAPI | [fastapi.md](./data-ai/fastapi.md) |
 | 数据与 AI | LLM / OpenAI API | [llm-openai.md](./data-ai/llm-openai.md) |
 | 数据与 AI | LangChain | [langchain.md](./data-ai/langchain.md) |

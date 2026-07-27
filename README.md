@@ -52,6 +52,7 @@ npm run build
 ### 可观测性
 
 - [Prometheus](./docs/tech-stack/observability/prometheus.md)
+- [Zabbix](./docs/tech-stack/observability/zabbix.md)
 - [VictoriaMetrics](./docs/tech-stack/observability/victoriametrics.md)
 - [Grafana](./docs/tech-stack/observability/grafana.md)
 - [OpenTelemetry](./docs/tech-stack/observability/opentelemetry.md)
@@ -130,6 +131,7 @@ npm run build
 - [pandas](./docs/tech-stack/data-ai/pandas.md)
 - [机器学习](./docs/tech-stack/data-ai/machine-learning.md)
 - [scikit-learn](./docs/tech-stack/data-ai/scikit-learn.md)
+- [TensorFlow](./docs/tech-stack/data-ai/tensorflow.md)
 - [FastAPI](./docs/tech-stack/data-ai/fastapi.md)
 - [LLM / OpenAI API](./docs/tech-stack/data-ai/llm-openai.md)
 - [LangChain](./docs/tech-stack/data-ai/langchain.md)
