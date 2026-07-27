@@ -319,7 +319,7 @@ export const generatedDocs = [
     "route": "/tech-stack/data-ai/rabbitmq",
     "title": "RabbitMQ 深讲",
     "section": "数据与 AI",
-    "excerpt": "学习目标：理解 RabbitMQ 为什么适合做消息队列，能讲清 producer、exchange、queue、binding、routing key、consumer、ack、prefetch、durable、dead letter、re..."
+    "excerpt": "学习目标：从零理解 RabbitMQ 的消息流转、可靠性和集群机制，能独立搭建实验环境，能判断消息为什么丢失、重复、积压或卡住，并能在面试中说明生产架构的取舍。 版本边界 本文按 RabbitMQ 4.3.4 编写，示例客户端使用 Pika..."
   },
   {
     "path": "../docs/tech-stack/data-ai/rag.md",

@@ -37,7 +37,8 @@
 | 已达到大厂面试级第一版 | Apache Hadoop | 已补 Hadoop 3.5.0、HDFS/YARN/MapReduce 数据路径、QJM/RM HA、容量、安全、升级回滚、双层实验、事故题和系统设计 |
 | 已达到大厂面试级第一版 | Apache Hive、Apache HBase、Apache Spark、Apache Flink | 已补 SQL/元数据、随机读写、批处理 DAG、状态流处理的内部路径、一致性、双层实验、容量、安全、事故题和系统设计 |
 | 已完成存量迁移专项第一版 | Apache HAWQ | 已明确 2024 年进入 Apache Attic，补 MPP 架构、离线倾斜实验、只读排障、遗留风险和迁移切换回滚 |
-| 已升级开头和面试表达 | MySQL、Oracle、PostgreSQL、Redis、Kafka、RabbitMQ、ZooKeeper、pandas、机器学习、scikit-learn、FastAPI、LLM、LangChain、LangGraph、RAG、向量数据库 | 数据与 AI 组已补通俗开场、人话版、小白追问和面试表达 |
+| 已达到大厂面试级第一版 | RabbitMQ | 已补 RabbitMQ 4.3.4、Khepri、Classic/Quorum/Stream、端到端可靠性、容量安全、升级回滚、双层实验、事故题和系统设计 |
+| 已升级开头和面试表达 | MySQL、Oracle、PostgreSQL、Redis、Kafka、ZooKeeper、pandas、机器学习、scikit-learn、FastAPI、LLM、LangChain、LangGraph、RAG、向量数据库 | 数据与 AI 组已补通俗开场、人话版、小白追问和面试表达 |
 | 已升级开头和面试表达 | SLI/SLO/SLA、告警治理、事件响应、Runbook、RCA、变更管理、AIOps 闭环 | SRE/AIOps 实践组已补通俗开场、人话版、小白追问和面试表达 |
 
 ## 深讲样板进度
@@ -83,7 +84,7 @@
 | 已完成第一版 | PostgreSQL | [postgresql.md](./data-ai/postgresql.md) | PostgreSQL 官方结构、database/schema/table、MVCC、WAL、vacuum、autovacuum、EXPLAIN、B-tree/GIN 索引、JSONB、复制、备份、AIOps 事件数据建模和排障 |
 | 已完成第一版 | Redis | [redis.md](./data-ai/redis.md) | Redis 官方结构、内存数据结构服务器、key/TTL、String/Hash/List/Set/Sorted Set/Stream、缓存模式、限流、分布式锁边界、RDB/AOF、内存淘汰、复制、Sentinel、Cluster、安全 ACL、INFO/SLOWLOG、AIOps 告警去重和事件流实验 |
 | 已完成第一版 | Kafka | [kafka.md](./data-ai/kafka.md) | Apache Kafka 官方结构、event/record/message、topic、partition、offset、broker、producer、consumer、consumer group、replication、leader/replica/ISR、retention、log compaction、delivery semantics、Kafka Connect、Kafka Streams、配置、命令字典、AIOps 告警事件流实验 |
-| 已完成第一版 | RabbitMQ | [rabbitmq.md](./data-ai/rabbitmq.md) | RabbitMQ 官方结构、producer、exchange、queue、binding、routing key、ack、prefetch、durable、dead letter、TTL、management UI、监控指标、AIOps 告警队列实验和排障 |
+| 已达到大厂面试级第一版 | RabbitMQ | [rabbitmq.md](./data-ai/rabbitmq.md) | RabbitMQ 4.3.4、Khepri 元数据、Exchange/Binding/Queue 数据路径、Confirm/Ack/幂等、Classic/Quorum/Stream、Raft 多数派、容量安全、监控、升级灾备、可靠队列与故障注入实验、事故题和系统设计 |
 | 已完成第一版 | Apache ZooKeeper | [zookeeper.md](./data-ai/zookeeper.md) | ZooKeeper 3.9 官方地图、znode、Session、Watch、临时/顺序节点、Leader/Follower/Observer、Quorum、事务日志/快照、ACL、Prometheus、节点与会话实验和端到端排障 |
 | 已达到大厂面试级第一版 | Apache Hadoop | [hadoop.md](./data-ai/hadoop.md) | Hadoop 3.5.0、HDFS read/write、YARN application、MapReduce shuffle、QJM/RM HA、Federation、EC、容量、安全、升级、故障实验、事故复盘和系统设计 |
 | 已达到大厂面试级第一版 | Apache Hive | [hive.md](./data-ai/hive.md) | Hive 4.2.0、HiveServer2/Metastore、SQL 编译优化、Tez/YARN、分区/分桶、ORC/Parquet、ACID、双层实验、事故题和系统设计 |
@@ -146,6 +147,7 @@
 | 20 | IBM WebSphere | 大厂面试级第一版已完成 | 新增中间件与应用平台分类，补齐 traditional ND 与 Liberty、请求与管理路径、集群和状态、容量安全、双层实验、事故复盘和生产系统设计 |
 | 21 | Apache Hive、Apache HBase、Apache Spark、Apache Flink、Apache HAWQ | 大厂面试级与存量迁移专项第一版已完成 | 补齐 Hadoop 生态 SQL、随机读写、批流计算与遗留 MPP 迁移，覆盖双层实验、生产排障、事故题和系统设计 |
 | 22 | IT 项目管理 / PMP | 大厂面试级第一版已完成 | 新增项目交付与 PMP 主线，覆盖 PMBOK 第八版、预测/敏捷/混合交付、关键路径、EVM、风险变更、DevOps/SRE 治理、双层实验、事故题和系统设计 |
+| 23 | RabbitMQ | 大厂面试级第一版已完成 | 重构 RabbitMQ 4.3.4 学习主线，补齐 Khepri、三类队列、确认与幂等、Raft 集群、容量安全、升级灾备、双层实验、事故题和系统设计 |
 
 ## 已完成
 
