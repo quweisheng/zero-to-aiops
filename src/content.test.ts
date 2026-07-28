@@ -185,6 +185,9 @@ describe('getDocByRoute', () => {
     expect(getDocByRoute('/interview/kubernetes-platform-operations-role')?.title).toBe(
       'Kubernetes 平台运维岗位专项路线'
     )
+    expect(getDocByRoute('/interview/hebei-eagle-eye-operations-engineer-role')?.title).toBe(
+      '河北鹰眼智能运维工程师岗位专项面试路线'
+    )
   })
 
   it('includes the storage and data protection tech-stack documents', () => {

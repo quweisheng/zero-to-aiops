@@ -14,6 +14,13 @@ export const generatedDocs = [
     "excerpt": "岗位专项 Kubernetes 平台运维岗位专项路线：对照 Rancher、OpenStack、Harbor、Istio、KubeSphere、GitLab、Jenkins、Nexus、NGINX 和架构方案要求，安排学习优先级与项目证据。..."
   },
   {
+    "path": "../docs/interview/hebei-eagle-eye-operations-engineer-role.md",
+    "route": "/interview/hebei-eagle-eye-operations-engineer-role",
+    "title": "河北鹰眼智能运维工程师岗位专项面试路线",
+    "section": "面试",
+    "excerpt": "适用岗位：河北鹰眼智能科技集团有限公司“运维工程师”，岗位编号 CC834928100J40826414816 。 冲刺时间：2026 年 7 月 28 日至 7 月 30 日面试前。 目标：用两天抓住最高概率考点，准备可追问的技术答案、真..."
+  },
+  {
     "path": "../docs/interview/kubernetes-platform-operations-role.md",
     "route": "/interview/kubernetes-platform-operations-role",
     "title": "Kubernetes 平台运维岗位专项路线",

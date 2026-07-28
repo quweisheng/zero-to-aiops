@@ -33,6 +33,7 @@ npm run build
 - [资料清单](./docs/resources.md)：优先官方文档和高可信资源。
 - [技术栈精讲写作标准](./docs/tech-stack/writing-standard.md)：每篇技术文章的统一写法。
 - [Kubernetes 平台运维岗位专项路线](./docs/interview/kubernetes-platform-operations-role.md)：按招聘要求补技术、项目和面试证据。
+- [河北鹰眼智能运维工程师岗位专项面试路线](./docs/interview/hebei-eagle-eye-operations-engineer-role.md)：按岗位原文准备网络、Linux、中间件、数据库、CI/CD、Kubernetes、应急与备份，并安排两天冲刺。
 
 ## 技术栈入口
 

@@ -3,6 +3,7 @@
 ## 岗位专项
 
 - [Kubernetes 平台运维岗位专项路线](./kubernetes-platform-operations-role.md)：对照 Rancher、OpenStack、Harbor、Istio、KubeSphere、GitLab、Jenkins、Nexus、NGINX 和架构方案要求，安排学习优先级与项目证据。
+- [河北鹰眼智能运维工程师岗位专项面试路线](./hebei-eagle-eye-operations-engineer-role.md)：针对网络、Linux、中间件、数据库、CI/CD、Kubernetes、应急、备份和工业 AI 场景，提供两天冲刺、故障演练与岗位反问。
 
 ## 自我介绍结构
 
