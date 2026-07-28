@@ -448,6 +448,13 @@ export const generatedDocs = [
     "excerpt": "目标：能把 Markdown 学习笔记构建成可访问的文档站，理解 source directory、file based routing、config、themeConfig、nav、sidebar、frontmatter、Markdown..."
   },
   {
+    "path": "../docs/tech-stack/middleware-application-platform/tomcat.md",
+    "route": "/tech-stack/middleware-application-platform/tomcat",
+    "title": "Apache Tomcat 技术栈深讲",
+    "section": "技术栈",
+    "excerpt": "学习目标：从零理解 Tomcat 的版本边界、容器层级、HTTP 请求路径、WAR 部署、类加载、线程与连接队列、JNDI/JDBC、会话和集群，能用 Docker 跑通一个可观测的 JSP 应用，完成一次 web.xml 故障注入，并能设..."
+  },
+  {
     "path": "../docs/tech-stack/middleware-application-platform/websphere.md",
     "route": "/tech-stack/middleware-application-platform/websphere",
     "title": "IBM WebSphere 技术栈深讲",

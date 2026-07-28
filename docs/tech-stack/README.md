@@ -37,7 +37,7 @@
 | 云原生 | Docker、Kubernetes、etcd、Calico、Cilium、Helm、NGINX/Ingress、微服务、Rancher、Harbor、Istio、KubeSphere | P1 | 能解释容器交付、控制面一致性、Pod/Service 网络、策略、平台治理、高可用、升级和端到端排障 |
 | 虚拟化与私有云 | KVM、VMware vSphere、OpenStack | P1-P2 | 能理解虚拟化与 IaaS 的计算、网络、存储、调度、高可用和端到端排障 |
 | 存储与数据保护 | IBM Storage、Dell EMC VPLEX、Dell EMC VMAX、Brocade 6510、华为 OceanStor、爱数 AnyStorage、Ceph | P1-P2 | 能理解集中式与分布式存储、块/文件/对象、FC SAN、存储虚拟化、高端阵列、存储池、LUN、多路径、双活、复制、备份与存储 AIOps 排障 |
-| 中间件与应用平台 | IBM WebSphere | P1-P2 | 能解释 traditional ND 与 Liberty、Java 请求与配置同步路径、集群、会话、JDBC/JMS/JTA、容量、高可用、升级回滚和 AIOps 排障 |
+| 中间件与应用平台 | IBM WebSphere、Apache Tomcat | P1-P2 | 能解释企业 Java 与 Servlet 容器的请求路径、部署、类加载、线程/连接/JDBC、会话、集群、容量、高可用、升级回滚和 AIOps 排障 |
 | 自动化与 CI/CD | Ansible、Terraform、GitHub Actions、GitLab、Jenkins、Nexus、CI/CD、Runbook Automation | P1-P2 | 能把提交、测试、构建、制品、部署、审批和回滚连成可审计流程 |
 | 架构与方案设计 | 系统架构、可行性报告、IT 项目管理、PMP、敏捷、范围、进度、风险与变更 | P0-P1 | 能把业务需求转成可解释、可验证、可实施的技术方案和项目交付计划 |
 | 安全与合规 | 网络安全等级保护（等保 2.0） | P1-P2 | 能理解定级、备案、建设整改、等级测评和持续运营，并用 AIOps 建立证据与整改闭环 |
@@ -66,16 +66,17 @@
 18. [爱数 AnyStorage](./storage-data-protection/aishu-anystorage.md)：理解统一 SAN/NAS、RAID 2.0、GX 虚拟化、双活、复制和存储 AIOps 排障。
 19. [Ceph](./storage-data-protection/ceph.md)：理解对象如何经过 pool、PG 和 CRUSH 分布到 OSD，并学会判断集群健康。
 20. [IBM WebSphere](./middleware-application-platform/websphere.md)：理解 traditional ND 与 Liberty 边界、企业 Java 请求路径、集群、会话、JDBC/JMS/JTA 和生产排障。
-21. [GitHub Actions](./automation/github-actions.md)：把重复动作变成流程。
-22. [pandas](./data-ai/pandas.md)：用数据做异常检测、告警降噪、智能助手。
-23. [机器学习](./data-ai/machine-learning.md)：理解样本、特征、标签、评估和异常检测边界。
-24. [TensorFlow](./data-ai/tensorflow.md)：把机器学习主线落到张量计算、模型训练、分布式性能和线上交付。
-25. [LangChain](./data-ai/langchain.md)：把 LLM、RAG、工具调用和 runbook 查询组织成应用。
-26. [网络安全等级保护（等保 2.0）](./security-compliance/mlps.md)：把资产、控制、证据、整改和持续监控连成闭环。
-27. [IT 项目管理 / PMP](./architecture-delivery/it-project-management-pmp.md)：学习立项、WBS、关键路径、EVM、风险、变更、敏捷与 DevOps/SRE 项目治理。
-28. [Kubernetes 平台运维岗位专项路线](../interview/kubernetes-platform-operations-role.md)：按招聘要求串联平台、交付、IaaS 和方案证据。
-29. [Apache ZooKeeper](./data-ai/zookeeper.md)：理解分布式协调、会话、Watch、选主、多数派和上层依赖故障。
-30. [Apache Hadoop](./data-ai/hadoop.md)：理解 HDFS、YARN、MapReduce、HA、容量、安全、升级和数据平台排障。
+21. [Apache Tomcat](./middleware-application-platform/tomcat.md)：理解 Servlet 容器、请求与部署路径、线程/连接/JDBC、会话、可观测性和生产升级回滚。
+22. [GitHub Actions](./automation/github-actions.md)：把重复动作变成流程。
+23. [pandas](./data-ai/pandas.md)：用数据做异常检测、告警降噪、智能助手。
+24. [机器学习](./data-ai/machine-learning.md)：理解样本、特征、标签、评估和异常检测边界。
+25. [TensorFlow](./data-ai/tensorflow.md)：把机器学习主线落到张量计算、模型训练、分布式性能和线上交付。
+26. [LangChain](./data-ai/langchain.md)：把 LLM、RAG、工具调用和 runbook 查询组织成应用。
+27. [网络安全等级保护（等保 2.0）](./security-compliance/mlps.md)：把资产、控制、证据、整改和持续监控连成闭环。
+28. [IT 项目管理 / PMP](./architecture-delivery/it-project-management-pmp.md)：学习立项、WBS、关键路径、EVM、风险、变更、敏捷与 DevOps/SRE 项目治理。
+29. [Kubernetes 平台运维岗位专项路线](../interview/kubernetes-platform-operations-role.md)：按招聘要求串联平台、交付、IaaS 和方案证据。
+30. [Apache ZooKeeper](./data-ai/zookeeper.md)：理解分布式协调、会话、Watch、选主、多数派和上层依赖故障。
+31. [Apache Hadoop](./data-ai/hadoop.md)：理解 HDFS、YARN、MapReduce、HA、容量、安全、升级和数据平台排障。
 31. [Apache Hive](./data-ai/hive.md)：理解 HiveServer2、Metastore、SQL 编译执行、分区、文件格式、ACID 和数据仓库排障。
 32. [Apache HBase](./data-ai/hbase.md)：理解 RowKey、Region、WAL、MemStore、HFile、Compaction、热点和低延迟随机读写。
 33. [Apache Spark](./data-ai/spark.md)：理解 Driver/Executor、DAG、Stage/Task、Shuffle、SQL、Streaming 和性能排障。
@@ -134,6 +135,7 @@
 ### 中间件与应用平台
 
 - [IBM WebSphere](./middleware-application-platform/websphere.md)
+- [Apache Tomcat](./middleware-application-platform/tomcat.md)
 
 ### 可观测性
 
@@ -290,6 +292,7 @@ Linux 服务
 - [Spring Boot](https://docs.spring.io/spring-boot/index.html)
 - [IBM WebSphere Application Server 9.0.5](https://www.ibm.com/docs/en/was/9.0.5)
 - [WebSphere Liberty](https://www.ibm.com/docs/en/was-liberty/base?topic=liberty-overview)
+- [Apache Tomcat](https://tomcat.apache.org/tomcat-11.0-doc/index.html)
 - [Spring Cloud](https://docs.spring.io/spring-cloud/docs/current/reference/html/)
 - [Prometheus](https://prometheus.io/docs/introduction/overview/)
 - [Zabbix](https://www.zabbix.com/documentation/current/en/manual)

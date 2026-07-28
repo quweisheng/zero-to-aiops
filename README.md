@@ -93,6 +93,7 @@ npm run build
 ### 中间件与应用平台
 
 - [IBM WebSphere](./docs/tech-stack/middleware-application-platform/websphere.md)
+- [Apache Tomcat](./docs/tech-stack/middleware-application-platform/tomcat.md)
 
 ### 自动化与 CI/CD
 

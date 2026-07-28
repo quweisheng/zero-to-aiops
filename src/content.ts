@@ -145,6 +145,10 @@ export const navGroups: NavGroup[] = [
       {
         text: 'IBM WebSphere',
         route: '/tech-stack/middleware-application-platform/websphere'
+      },
+      {
+        text: 'Apache Tomcat',
+        route: '/tech-stack/middleware-application-platform/tomcat'
       }
     ]
   },

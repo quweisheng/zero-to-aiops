@@ -74,6 +74,7 @@
 ### 中间件与应用平台
 
 - [IBM WebSphere](./tech-stack/middleware-application-platform/websphere.md)
+- [Apache Tomcat](./tech-stack/middleware-application-platform/tomcat.md)
 
 ### 自动化与 CI/CD
 
@@ -149,11 +150,12 @@
 14. [华为 OceanStor](./tech-stack/storage-data-protection/huawei-oceanstor.md)
 15. [爱数 AnyStorage](./tech-stack/storage-data-protection/aishu-anystorage.md)
 16. [IBM WebSphere](./tech-stack/middleware-application-platform/websphere.md)
-17. [网络安全等级保护（等保 2.0）](./tech-stack/security-compliance/mlps.md)
-18. [Kubernetes 平台运维岗位专项路线](./interview/kubernetes-platform-operations-role.md)
-19. [河北鹰眼智能运维工程师岗位专项面试路线](./interview/hebei-eagle-eye-operations-engineer-role.md)
-20. [Apache Hive](./tech-stack/data-ai/hive.md)
-21. [Apache HBase](./tech-stack/data-ai/hbase.md)
-22. [Apache Spark](./tech-stack/data-ai/spark.md)
-23. [Apache Flink](./tech-stack/data-ai/flink.md)
-24. [Apache HAWQ 存量运维与迁移](./tech-stack/data-ai/hawq.md)
+17. [Apache Tomcat](./tech-stack/middleware-application-platform/tomcat.md)
+18. [网络安全等级保护（等保 2.0）](./tech-stack/security-compliance/mlps.md)
+19. [Kubernetes 平台运维岗位专项路线](./interview/kubernetes-platform-operations-role.md)
+20. [河北鹰眼智能运维工程师岗位专项面试路线](./interview/hebei-eagle-eye-operations-engineer-role.md)
+21. [Apache Hive](./tech-stack/data-ai/hive.md)
+22. [Apache HBase](./tech-stack/data-ai/hbase.md)
+23. [Apache Spark](./tech-stack/data-ai/spark.md)
+24. [Apache Flink](./tech-stack/data-ai/flink.md)
+25. [Apache HAWQ 存量运维与迁移](./tech-stack/data-ai/hawq.md)

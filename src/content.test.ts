@@ -216,5 +216,8 @@ describe('getDocByRoute', () => {
     expect(
       getDocByRoute('/tech-stack/middleware-application-platform/websphere')?.title
     ).toBe('IBM WebSphere 技术栈深讲')
+    expect(
+      getDocByRoute('/tech-stack/middleware-application-platform/tomcat')?.title
+    ).toBe('Apache Tomcat 技术栈深讲')
   })
 })
