@@ -44,6 +44,7 @@
 | 已达到大厂面试级第一版 | SonarQube | 已补 Community Build 与 Server Edition、Scanner/Web/CE/DB/Search 链路、Quality Profile/Gate、容量安全、升级回滚、双层实验、事故题和系统设计 |
 | 已达到大厂面试级第一版 | MongoDB | 已补 8.2.12、BSON/文档模型、WiredTiger、索引与 Explain、复制集/分片/Change Stream、一致性、双层实验、事故题和系统设计 |
 | 已达到大厂面试级第一版 | Apache ActiveMQ | 已补 Classic 6.3.0 与 Artemis 2.55.0 边界、JMS/协议、持久化/Ack/重投/DLQ、HA 迁移、双层实验、事故题和系统设计 |
+| 已达到大厂面试级第一版 | Jenkins | 已补 Jenkins 2.568.1 LTS/2.575 Weekly、Controller/Agent/Queue/Executor、Pipeline CPS 与持久化、JENKINS_HOME、JCasC/Kubernetes Agent、容量安全、备份升级、双层实验、事故题和系统设计 |
 | 已升级开头和面试表达 | MySQL、Oracle、PostgreSQL、Redis、Kafka、ZooKeeper、pandas、机器学习、scikit-learn、FastAPI、LLM、LangChain、LangGraph、RAG、向量数据库 | 数据与 AI 组已补通俗开场、人话版、小白追问和面试表达 |
 | 已升级开头和面试表达 | SLI/SLO/SLA、告警治理、事件响应、Runbook、RCA、变更管理、AIOps 闭环 | SRE/AIOps 实践组已补通俗开场、人话版、小白追问和面试表达 |
 
@@ -85,6 +86,7 @@
 | 已完成第一版 | Terraform | [terraform.md](./automation/terraform.md) | Terraform 官方结构、HCL、terraform block、providers、resources、data sources、variables、locals、outputs、state、backend、plan/apply、dependency graph、meta-arguments、lifecycle、modules、workspaces、drift、import、命令字典、AIOps IaC 诊断实验 |
 | 已完成第一版 | GitHub Actions | [github-actions.md](./automation/github-actions.md) | GitHub Actions 官方结构、event/workflow/job/runner/step/action、workflow syntax、triggers、contexts、expressions、env/vars/secrets、GITHUB_TOKEN/permissions、artifacts/cache、workflow commands、concurrency、environments、Pages 发布、AIOps runbook、命令字典、排障、安全边界 |
 | 已达到大厂面试级第一版 | SonarQube | [sonarqube.md](./automation/sonarqube.md) | Community Build 26.7 与 Server 2026.1 LTA、Scanner/Web/CE/数据库/Search、Profile/Gate/New Code、监控、升级恢复、代码扫描与数据库故障实验、事故题和系统设计 |
+| 已达到大厂面试级第一版 | Jenkins | [jenkins.md](./automation/jenkins.md) | Jenkins 2.568.1 LTS/2.575 Weekly、Controller/Agent/Queue/Executor、Pipeline CPS 与 durability、JENKINS_HOME、JCasC/Kubernetes 动态 Agent、容量安全、备份升级、双层实验、事故题和系统设计 |
 | 已完成第一版 | CI/CD | [cicd.md](./automation/cicd.md) | GitHub Actions 官方 CI/CD 结构、持续集成/持续交付/持续部署边界、pipeline/stage/job/step/runner/artifact/environment、CI 阶段、CD 阶段、发布策略、回滚策略、质量门禁、DORA 指标、AIOps 变更关联、命令字典和排障 |
 | 已完成第一版 | Runbook Automation | [runbook-automation.md](./automation/runbook-automation.md) | AWS/Azure/Google SRE 官方结构、runbook/playbook/automation workflow 边界、触发器、输入参数、上下文补全、runbook 选择、风险分级、L0-L4 自动化、幂等和可重启、权限/审批/审计、安全护栏、LLM 边界、AIOps selector 实验、命令字典和排障 |
 | 已完成第一版 | MySQL / SQL | [mysql-sql.md](./data-ai/mysql-sql.md) | MySQL 8.4 官方结构、client/server、database/table/row/column、数据类型、DDL/DML/DQL、SELECT/WHERE/GROUP BY/HAVING/JOIN/CTE、索引、EXPLAIN、事务、InnoDB、用户权限、备份、慢查询、AIOps 数据建模、命令字典和排障 |
@@ -163,6 +165,7 @@
 | 24 | Zabbix、TensorFlow | 大厂面试级第一版已完成 | 新增传统基础设施监控与深度学习工程主线，覆盖当前稳定版本、内部数据路径、HA/分布式、容量安全、升级回滚、双层实验、事故题和系统设计 |
 | 25 | Apache Tomcat | 大厂面试级第一版已完成 | 新增 Servlet 容器与 Java Web 运行时主线，覆盖版本迁移、请求/部署路径、线程/连接/会话、HA、容量、安全、升级回滚、双层实验、事故题和系统设计 |
 | 26 | SonarQube、MongoDB、Apache ActiveMQ | 大厂面试级第一版已完成 | 新增代码质量门禁、文档数据库和 ActiveMQ 消息平台主线，覆盖当前版本边界、内部数据路径、一致性/可靠性、HA、容量、安全、升级回滚、双层实验、事故题和系统设计 |
+| 27 | Jenkins | 大厂面试级第一版已完成 | 重构 Jenkins 自动化平台主线，覆盖当前 LTS/Weekly 与 Java 边界、调度和 Pipeline 内部路径、状态与恢复、生产架构、容量安全、升级回滚、双层实验、事故题和系统设计 |
 
 ## 已完成
 

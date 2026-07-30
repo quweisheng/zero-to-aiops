@@ -100,9 +100,9 @@ export const generatedDocs = [
   {
     "path": "../docs/tech-stack/automation/jenkins.md",
     "route": "/tech-stack/automation/jenkins",
-    "title": "Jenkins 深讲",
+    "title": "Jenkins 技术栈深讲",
     "section": "自动化",
-    "excerpt": "学习目标：理解 Jenkins Controller、Agent、Pipeline、插件和凭据，能启动学习环境、运行一条声明式流水线，并定位排队、Agent 离线、脚本与插件类故障。 官方资料 Jenkins 用户文档 Pipeline 使..."
+    "excerpt": "学习目标：从零理解 Jenkins Controller、Agent、Queue、Executor、Pipeline、Plugin、Credentials 与 JENKINS HOME 的关系，能启动固定版本的学习环境、运行并验证一条 Pi..."
   },
   {
     "path": "../docs/tech-stack/automation/nexus-repository.md",

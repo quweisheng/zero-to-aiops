@@ -184,7 +184,7 @@ describe('getDocByRoute', () => {
     expect(getDocByRoute('/tech-stack/automation/gitlab')?.title).toBe(
       'GitLab 与 GitLab CI/CD 深讲'
     )
-    expect(getDocByRoute('/tech-stack/automation/jenkins')?.title).toBe('Jenkins 深讲')
+    expect(getDocByRoute('/tech-stack/automation/jenkins')?.title).toBe('Jenkins 技术栈深讲')
     expect(getDocByRoute('/tech-stack/automation/nexus-repository')?.title).toBe(
       'Nexus Repository 深讲'
     )
