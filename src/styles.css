@@ -43,7 +43,6 @@
 }
 
 html {
-  scroll-padding-top: 96px;
   scroll-behavior: smooth;
 }
 
@@ -823,6 +822,8 @@ h3 {
 .markdown-body h2,
 .markdown-body h3 {
   color: var(--ink);
+  /* Keep the sticky-header offset on anchor targets. A global scroll-padding-top
+     makes browsers repeatedly reposition a focused search input while editing. */
   scroll-margin-top: 96px;
 }
 
