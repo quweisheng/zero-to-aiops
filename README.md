@@ -115,6 +115,7 @@ npm run build
 ### 安全与合规
 
 - [网络安全等级保护（等保 2.0）](./docs/tech-stack/security-compliance/mlps.md)
+- [JumpServer](./docs/tech-stack/security-compliance/jumpserver.md)
 
 ### 数据与 AI
 

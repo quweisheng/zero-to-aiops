@@ -546,6 +546,13 @@ export const generatedDocs = [
     "excerpt": "目标：每个技术栈一个 Markdown 文件，并且每个文件都按“官方资料、是什么、原理、架构、配置、入门实验、排障、学习证据”的结构写成原创中文教程。 精讲示范 当前已经按 技术栈精讲写作标准 完成第一批示范文章： 技术栈 文件 示范重点 ..."
   },
   {
+    "path": "../docs/tech-stack/security-compliance/jumpserver.md",
+    "route": "/tech-stack/security-compliance/jumpserver",
+    "title": "JumpServer 技术栈深讲",
+    "section": "安全与合规",
+    "excerpt": "学习目标：从零理解 JumpServer 的用户、资产、账号、授权、连接代理和审计链路，能在隔离实验环境部署固定版本、完成一次 SSH 资产访问与审计闭环、制造并定位一次连接故障，并能设计生产高可用、容量、安全、备份与升级方案。 版本与产品..."
+  },
+  {
     "path": "../docs/tech-stack/security-compliance/mlps.md",
     "route": "/tech-stack/security-compliance/mlps",
     "title": "网络安全等级保护（等保 2.0）深讲",

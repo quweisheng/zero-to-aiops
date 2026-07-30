@@ -40,7 +40,7 @@
 | 中间件与应用平台 | IBM WebSphere、Apache Tomcat | P1-P2 | 能解释企业 Java 与 Servlet 容器的请求路径、部署、类加载、线程/连接/JDBC、会话、集群、容量、高可用、升级回滚和 AIOps 排障 |
 | 自动化与 CI/CD | Ansible、Terraform、GitHub Actions、GitLab、Jenkins、Nexus、SonarQube、CI/CD、Runbook Automation | P1-P2 | 能把提交、测试、代码质量与安全门禁、构建、制品、部署、审批和回滚连成可审计流程 |
 | 架构与方案设计 | 系统架构、可行性报告、IT 项目管理、PMP、敏捷、范围、进度、风险与变更 | P0-P1 | 能把业务需求转成可解释、可验证、可实施的技术方案和项目交付计划 |
-| 安全与合规 | 网络安全等级保护（等保 2.0） | P1-P2 | 能理解定级、备案、建设整改、等级测评和持续运营，并用 AIOps 建立证据与整改闭环 |
+| 安全与合规 | 网络安全等级保护（等保 2.0）、JumpServer | P1-P2 | 能理解定级、备案与持续合规，并能设计 PAM/堡垒机的身份、资产、账号、授权、会话代理和审计闭环 |
 | 数据与 AI | MySQL/SQL、Oracle、PostgreSQL、MongoDB、Redis、Kafka、ActiveMQ、RabbitMQ、ZooKeeper、Hadoop、Hive、HBase、Spark、Flink、HAWQ 存量迁移、pandas、机器学习、scikit-learn、TensorFlow、FastAPI、LLM/OpenAI API、LangChain、LangGraph、RAG、向量数据库 | P1-P3 | 能处理关系与文档数据、消息队列、事件流、分布式协调、湖仓 SQL、随机读写、批流计算、遗留平台迁移和 AI 应用，做异常检测、告警降噪与智能运维助手 |
 | SRE/AIOps 实践 | SLI/SLO、告警治理、事件响应、Runbook、RCA、变更管理、AIOps 闭环 | P0-P1 | 能把工具能力转成稳定性结果和面试故事 |
 
@@ -76,15 +76,16 @@
 28. [TensorFlow](./data-ai/tensorflow.md)：把机器学习主线落到张量计算、模型训练、分布式性能和线上交付。
 29. [LangChain](./data-ai/langchain.md)：把 LLM、RAG、工具调用和 runbook 查询组织成应用。
 30. [网络安全等级保护（等保 2.0）](./security-compliance/mlps.md)：把资产、控制、证据、整改和持续监控连成闭环。
-31. [IT 项目管理 / PMP](./architecture-delivery/it-project-management-pmp.md)：学习立项、WBS、关键路径、EVM、风险、变更、敏捷与 DevOps/SRE 项目治理。
-32. [Kubernetes 平台运维岗位专项路线](../interview/kubernetes-platform-operations-role.md)：按招聘要求串联平台、交付、IaaS 和方案证据。
-33. [Apache ZooKeeper](./data-ai/zookeeper.md)：理解分布式协调、会话、Watch、选主、多数派和上层依赖故障。
-34. [Apache Hadoop](./data-ai/hadoop.md)：理解 HDFS、YARN、MapReduce、HA、容量、安全、升级和数据平台排障。
-35. [Apache Hive](./data-ai/hive.md)：理解 HiveServer2、Metastore、SQL 编译执行、分区、文件格式、ACID 和数据仓库排障。
-36. [Apache HBase](./data-ai/hbase.md)：理解 RowKey、Region、WAL、MemStore、HFile、Compaction、热点和低延迟随机读写。
-37. [Apache Spark](./data-ai/spark.md)：理解 Driver/Executor、DAG、Stage/Task、Shuffle、SQL、Streaming 和性能排障。
-38. [Apache Flink](./data-ai/flink.md)：理解 Event Time、Watermark、State、Checkpoint、反压和端到端一致性。
-39. [Apache HAWQ 存量运维与迁移](./data-ai/hawq.md)：识别已退休项目的 MPP 架构、遗留风险、只读排障和迁移方法。
+31. [JumpServer](./security-compliance/jumpserver.md)：把自然人、资产账号、最小授权、连接代理、录像与命令审计连成 PAM 闭环。
+32. [IT 项目管理 / PMP](./architecture-delivery/it-project-management-pmp.md)：学习立项、WBS、关键路径、EVM、风险、变更、敏捷与 DevOps/SRE 项目治理。
+33. [Kubernetes 平台运维岗位专项路线](../interview/kubernetes-platform-operations-role.md)：按招聘要求串联平台、交付、IaaS 和方案证据。
+34. [Apache ZooKeeper](./data-ai/zookeeper.md)：理解分布式协调、会话、Watch、选主、多数派和上层依赖故障。
+35. [Apache Hadoop](./data-ai/hadoop.md)：理解 HDFS、YARN、MapReduce、HA、容量、安全、升级和数据平台排障。
+36. [Apache Hive](./data-ai/hive.md)：理解 HiveServer2、Metastore、SQL 编译执行、分区、文件格式、ACID 和数据仓库排障。
+37. [Apache HBase](./data-ai/hbase.md)：理解 RowKey、Region、WAL、MemStore、HFile、Compaction、热点和低延迟随机读写。
+38. [Apache Spark](./data-ai/spark.md)：理解 Driver/Executor、DAG、Stage/Task、Shuffle、SQL、Streaming 和性能排障。
+39. [Apache Flink](./data-ai/flink.md)：理解 Event Time、Watermark、State、Checkpoint、反压和端到端一致性。
+40. [Apache HAWQ 存量运维与迁移](./data-ai/hawq.md)：识别已退休项目的 MPP 架构、遗留风险、只读排障和迁移方法。
 
 ## 一技术一文件
 
@@ -171,6 +172,7 @@
 ### 安全与合规
 
 - [网络安全等级保护（等保 2.0）](./security-compliance/mlps.md)
+- [JumpServer](./security-compliance/jumpserver.md)
 
 ### 数据与 AI
 
@@ -319,6 +321,7 @@ Linux 服务
 - [GitHub Actions](https://docs.github.com/actions)
 - [中华人民共和国网络安全法](https://www.cac.gov.cn/2025-12/29/c_1768735112911946.htm)
 - [国家标准全文公开系统：网络安全等级保护](https://openstd.samr.gov.cn/bzgk/std/std_list?p.p1=0&p.p2=%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E7%AD%89%E7%BA%A7%E4%BF%9D%E6%8A%A4&p.p90=circulation_date&p.p91=desc)
+- [JumpServer 官方文档](https://docs.jumpserver.org/zh/v4/)
 - [MySQL](https://dev.mysql.com/doc/refman/8.4/en/tutorial.html)
 - [Oracle Database](https://docs.oracle.com/en/database/)
 - [PostgreSQL](https://www.postgresql.org/docs/current/)

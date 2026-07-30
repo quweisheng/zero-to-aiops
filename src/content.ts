@@ -185,6 +185,10 @@ export const navGroups: NavGroup[] = [
       {
         text: '网络安全等级保护',
         route: '/tech-stack/security-compliance/mlps'
+      },
+      {
+        text: 'JumpServer',
+        route: '/tech-stack/security-compliance/jumpserver'
       }
     ]
   },

@@ -158,9 +158,12 @@ describe('getDocByRoute', () => {
     )
   })
 
-  it('includes the network security level protection document', () => {
+  it('includes the security and compliance documents', () => {
     expect(getDocByRoute('/tech-stack/security-compliance/mlps')?.title).toBe(
       '网络安全等级保护（等保 2.0）深讲'
+    )
+    expect(getDocByRoute('/tech-stack/security-compliance/jumpserver')?.title).toBe(
+      'JumpServer 技术栈深讲'
     )
   })
 

@@ -96,6 +96,7 @@
 ### 安全与合规
 
 - [网络安全等级保护（等保 2.0）](./tech-stack/security-compliance/mlps.md)
+- [JumpServer](./tech-stack/security-compliance/jumpserver.md)
 
 ### 数据与 AI
 
@@ -158,10 +159,11 @@
 19. [MongoDB](./tech-stack/data-ai/mongodb.md)
 20. [Apache ActiveMQ](./tech-stack/data-ai/activemq.md)
 21. [网络安全等级保护（等保 2.0）](./tech-stack/security-compliance/mlps.md)
-22. [Kubernetes 平台运维岗位专项路线](./interview/kubernetes-platform-operations-role.md)
-23. [河北鹰眼智能运维工程师岗位专项面试路线](./interview/hebei-eagle-eye-operations-engineer-role.md)
-24. [Apache Hive](./tech-stack/data-ai/hive.md)
-25. [Apache HBase](./tech-stack/data-ai/hbase.md)
-26. [Apache Spark](./tech-stack/data-ai/spark.md)
-27. [Apache Flink](./tech-stack/data-ai/flink.md)
-28. [Apache HAWQ 存量运维与迁移](./tech-stack/data-ai/hawq.md)
+22. [JumpServer](./tech-stack/security-compliance/jumpserver.md)
+23. [Kubernetes 平台运维岗位专项路线](./interview/kubernetes-platform-operations-role.md)
+24. [河北鹰眼智能运维工程师岗位专项面试路线](./interview/hebei-eagle-eye-operations-engineer-role.md)
+25. [Apache Hive](./tech-stack/data-ai/hive.md)
+26. [Apache HBase](./tech-stack/data-ai/hbase.md)
+27. [Apache Spark](./tech-stack/data-ai/spark.md)
+28. [Apache Flink](./tech-stack/data-ai/flink.md)
+29. [Apache HAWQ 存量运维与迁移](./tech-stack/data-ai/hawq.md)
