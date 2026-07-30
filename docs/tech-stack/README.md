@@ -38,10 +38,10 @@
 | 虚拟化与私有云 | KVM、VMware vSphere、OpenStack | P1-P2 | 能理解虚拟化与 IaaS 的计算、网络、存储、调度、高可用和端到端排障 |
 | 存储与数据保护 | IBM Storage、Dell EMC VPLEX、Dell EMC VMAX、Brocade 6510、华为 OceanStor、爱数 AnyStorage、Ceph | P1-P2 | 能理解集中式与分布式存储、块/文件/对象、FC SAN、存储虚拟化、高端阵列、存储池、LUN、多路径、双活、复制、备份与存储 AIOps 排障 |
 | 中间件与应用平台 | IBM WebSphere、Apache Tomcat | P1-P2 | 能解释企业 Java 与 Servlet 容器的请求路径、部署、类加载、线程/连接/JDBC、会话、集群、容量、高可用、升级回滚和 AIOps 排障 |
-| 自动化与 CI/CD | Ansible、Terraform、GitHub Actions、GitLab、Jenkins、Nexus、CI/CD、Runbook Automation | P1-P2 | 能把提交、测试、构建、制品、部署、审批和回滚连成可审计流程 |
+| 自动化与 CI/CD | Ansible、Terraform、GitHub Actions、GitLab、Jenkins、Nexus、SonarQube、CI/CD、Runbook Automation | P1-P2 | 能把提交、测试、代码质量与安全门禁、构建、制品、部署、审批和回滚连成可审计流程 |
 | 架构与方案设计 | 系统架构、可行性报告、IT 项目管理、PMP、敏捷、范围、进度、风险与变更 | P0-P1 | 能把业务需求转成可解释、可验证、可实施的技术方案和项目交付计划 |
 | 安全与合规 | 网络安全等级保护（等保 2.0） | P1-P2 | 能理解定级、备案、建设整改、等级测评和持续运营，并用 AIOps 建立证据与整改闭环 |
-| 数据与 AI | MySQL/SQL、Oracle、PostgreSQL、Redis、Kafka、RabbitMQ、ZooKeeper、Hadoop、Hive、HBase、Spark、Flink、HAWQ 存量迁移、pandas、机器学习、scikit-learn、TensorFlow、FastAPI、LLM/OpenAI API、LangChain、LangGraph、RAG、向量数据库 | P1-P3 | 能处理运维数据、数据库、事件流、分布式协调、湖仓 SQL、随机读写、批流计算、遗留平台迁移和 AI 应用，做异常检测、深度学习、告警降噪与智能运维助手 |
+| 数据与 AI | MySQL/SQL、Oracle、PostgreSQL、MongoDB、Redis、Kafka、ActiveMQ、RabbitMQ、ZooKeeper、Hadoop、Hive、HBase、Spark、Flink、HAWQ 存量迁移、pandas、机器学习、scikit-learn、TensorFlow、FastAPI、LLM/OpenAI API、LangChain、LangGraph、RAG、向量数据库 | P1-P3 | 能处理关系与文档数据、消息队列、事件流、分布式协调、湖仓 SQL、随机读写、批流计算、遗留平台迁移和 AI 应用，做异常检测、告警降噪与智能运维助手 |
 | SRE/AIOps 实践 | SLI/SLO、告警治理、事件响应、Runbook、RCA、变更管理、AIOps 闭环 | P0-P1 | 能把工具能力转成稳定性结果和面试故事 |
 
 ## 推荐学习顺序
@@ -68,20 +68,23 @@
 20. [IBM WebSphere](./middleware-application-platform/websphere.md)：理解 traditional ND 与 Liberty 边界、企业 Java 请求路径、集群、会话、JDBC/JMS/JTA 和生产排障。
 21. [Apache Tomcat](./middleware-application-platform/tomcat.md)：理解 Servlet 容器、请求与部署路径、线程/连接/JDBC、会话、可观测性和生产升级回滚。
 22. [GitHub Actions](./automation/github-actions.md)：把重复动作变成流程。
-23. [pandas](./data-ai/pandas.md)：用数据做异常检测、告警降噪、智能助手。
-24. [机器学习](./data-ai/machine-learning.md)：理解样本、特征、标签、评估和异常检测边界。
-25. [TensorFlow](./data-ai/tensorflow.md)：把机器学习主线落到张量计算、模型训练、分布式性能和线上交付。
-26. [LangChain](./data-ai/langchain.md)：把 LLM、RAG、工具调用和 runbook 查询组织成应用。
-27. [网络安全等级保护（等保 2.0）](./security-compliance/mlps.md)：把资产、控制、证据、整改和持续监控连成闭环。
-28. [IT 项目管理 / PMP](./architecture-delivery/it-project-management-pmp.md)：学习立项、WBS、关键路径、EVM、风险、变更、敏捷与 DevOps/SRE 项目治理。
-29. [Kubernetes 平台运维岗位专项路线](../interview/kubernetes-platform-operations-role.md)：按招聘要求串联平台、交付、IaaS 和方案证据。
-30. [Apache ZooKeeper](./data-ai/zookeeper.md)：理解分布式协调、会话、Watch、选主、多数派和上层依赖故障。
-31. [Apache Hadoop](./data-ai/hadoop.md)：理解 HDFS、YARN、MapReduce、HA、容量、安全、升级和数据平台排障。
-31. [Apache Hive](./data-ai/hive.md)：理解 HiveServer2、Metastore、SQL 编译执行、分区、文件格式、ACID 和数据仓库排障。
-32. [Apache HBase](./data-ai/hbase.md)：理解 RowKey、Region、WAL、MemStore、HFile、Compaction、热点和低延迟随机读写。
-33. [Apache Spark](./data-ai/spark.md)：理解 Driver/Executor、DAG、Stage/Task、Shuffle、SQL、Streaming 和性能排障。
-34. [Apache Flink](./data-ai/flink.md)：理解 Event Time、Watermark、State、Checkpoint、反压和端到端一致性。
-35. [Apache HAWQ 存量运维与迁移](./data-ai/hawq.md)：识别已退休项目的 MPP 架构、遗留风险、只读排障和迁移方法。
+23. [SonarQube](./automation/sonarqube.md)：把静态分析、质量规则和 Quality Gate 接入 CI/CD 与变更风险闭环。
+24. [MongoDB](./data-ai/mongodb.md)：理解文档模型、索引、WiredTiger、复制集、分片和 Change Stream。
+25. [Apache ActiveMQ](./data-ai/activemq.md)：理解 Classic 与 Artemis、JMS、持久化、确认、死信和高可用边界。
+26. [pandas](./data-ai/pandas.md)：用数据做异常检测、告警降噪、智能助手。
+27. [机器学习](./data-ai/machine-learning.md)：理解样本、特征、标签、评估和异常检测边界。
+28. [TensorFlow](./data-ai/tensorflow.md)：把机器学习主线落到张量计算、模型训练、分布式性能和线上交付。
+29. [LangChain](./data-ai/langchain.md)：把 LLM、RAG、工具调用和 runbook 查询组织成应用。
+30. [网络安全等级保护（等保 2.0）](./security-compliance/mlps.md)：把资产、控制、证据、整改和持续监控连成闭环。
+31. [IT 项目管理 / PMP](./architecture-delivery/it-project-management-pmp.md)：学习立项、WBS、关键路径、EVM、风险、变更、敏捷与 DevOps/SRE 项目治理。
+32. [Kubernetes 平台运维岗位专项路线](../interview/kubernetes-platform-operations-role.md)：按招聘要求串联平台、交付、IaaS 和方案证据。
+33. [Apache ZooKeeper](./data-ai/zookeeper.md)：理解分布式协调、会话、Watch、选主、多数派和上层依赖故障。
+34. [Apache Hadoop](./data-ai/hadoop.md)：理解 HDFS、YARN、MapReduce、HA、容量、安全、升级和数据平台排障。
+35. [Apache Hive](./data-ai/hive.md)：理解 HiveServer2、Metastore、SQL 编译执行、分区、文件格式、ACID 和数据仓库排障。
+36. [Apache HBase](./data-ai/hbase.md)：理解 RowKey、Region、WAL、MemStore、HFile、Compaction、热点和低延迟随机读写。
+37. [Apache Spark](./data-ai/spark.md)：理解 Driver/Executor、DAG、Stage/Task、Shuffle、SQL、Streaming 和性能排障。
+38. [Apache Flink](./data-ai/flink.md)：理解 Event Time、Watermark、State、Checkpoint、反压和端到端一致性。
+39. [Apache HAWQ 存量运维与迁移](./data-ai/hawq.md)：识别已退休项目的 MPP 架构、遗留风险、只读排障和迁移方法。
 
 ## 一技术一文件
 
@@ -158,6 +161,7 @@
 - [GitLab 与 GitLab CI/CD](./automation/gitlab.md)
 - [Jenkins](./automation/jenkins.md)
 - [Nexus Repository](./automation/nexus-repository.md)
+- [SonarQube](./automation/sonarqube.md)
 
 ### 架构与方案设计
 
@@ -173,8 +177,10 @@
 - [MySQL / SQL](./data-ai/mysql-sql.md)
 - [Oracle Database](./data-ai/oracle.md)
 - [PostgreSQL](./data-ai/postgresql.md)
+- [MongoDB](./data-ai/mongodb.md)
 - [Redis](./data-ai/redis.md)
 - [Kafka](./data-ai/kafka.md)
+- [Apache ActiveMQ](./data-ai/activemq.md)
 - [RabbitMQ](./data-ai/rabbitmq.md)
 - [Apache ZooKeeper](./data-ai/zookeeper.md)
 - [Apache Hadoop](./data-ai/hadoop.md)
@@ -289,6 +295,7 @@ Linux 服务
 - [GitLab CI/CD](https://docs.gitlab.com/ci/)
 - [Jenkins](https://www.jenkins.io/doc/)
 - [Nexus Repository](https://help.sonatype.com/en/sonatype-nexus-repository.html)
+- [SonarQube Community Build](https://docs.sonarsource.com/sonarqube-community-build)
 - [Spring Boot](https://docs.spring.io/spring-boot/index.html)
 - [IBM WebSphere Application Server 9.0.5](https://www.ibm.com/docs/en/was/9.0.5)
 - [WebSphere Liberty](https://www.ibm.com/docs/en/was-liberty/base?topic=liberty-overview)
@@ -315,8 +322,10 @@ Linux 服务
 - [MySQL](https://dev.mysql.com/doc/refman/8.4/en/tutorial.html)
 - [Oracle Database](https://docs.oracle.com/en/database/)
 - [PostgreSQL](https://www.postgresql.org/docs/current/)
+- [MongoDB](https://www.mongodb.com/docs/manual/)
 - [Redis](https://redis.io/docs/latest/)
 - [Apache Kafka](https://kafka.apache.org/documentation/)
+- [Apache ActiveMQ](https://activemq.apache.org/)
 - [RabbitMQ](https://www.rabbitmq.com/docs)
 - [Apache ZooKeeper](https://zookeeper.apache.org/doc/current/)
 - [Apache Hadoop](https://hadoop.apache.org/docs/current/)

@@ -121,6 +121,18 @@ describe('getDocByRoute', () => {
     )
   })
 
+  it('includes the SonarQube, MongoDB, and ActiveMQ deep-dive documents', () => {
+    expect(getDocByRoute('/tech-stack/automation/sonarqube')?.title).toBe(
+      'SonarQube 技术栈深讲'
+    )
+    expect(getDocByRoute('/tech-stack/data-ai/mongodb')?.title).toBe(
+      'MongoDB 技术栈深讲'
+    )
+    expect(getDocByRoute('/tech-stack/data-ai/activemq')?.title).toBe(
+      'Apache ActiveMQ 技术栈深讲：Classic 与 Artemis'
+    )
+  })
+
   it('includes Machine Learning and LangChain tech-stack documents', () => {
     expect(getDocByRoute('/tech-stack/data-ai/machine-learning')?.title).toBe(
       '机器学习'

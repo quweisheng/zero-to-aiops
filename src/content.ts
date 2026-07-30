@@ -162,7 +162,8 @@ export const navGroups: NavGroup[] = [
       { text: 'Runbook Automation', route: '/tech-stack/automation/runbook-automation' },
       { text: 'GitLab', route: '/tech-stack/automation/gitlab' },
       { text: 'Jenkins', route: '/tech-stack/automation/jenkins' },
-      { text: 'Nexus Repository', route: '/tech-stack/automation/nexus-repository' }
+      { text: 'Nexus Repository', route: '/tech-stack/automation/nexus-repository' },
+      { text: 'SonarQube', route: '/tech-stack/automation/sonarqube' }
     ]
   },
   {
@@ -193,8 +194,10 @@ export const navGroups: NavGroup[] = [
       { text: 'MySQL / SQL', route: '/tech-stack/data-ai/mysql-sql' },
       { text: 'Oracle Database', route: '/tech-stack/data-ai/oracle' },
       { text: 'PostgreSQL', route: '/tech-stack/data-ai/postgresql' },
+      { text: 'MongoDB', route: '/tech-stack/data-ai/mongodb' },
       { text: 'Redis', route: '/tech-stack/data-ai/redis' },
       { text: 'Kafka', route: '/tech-stack/data-ai/kafka' },
+      { text: 'Apache ActiveMQ', route: '/tech-stack/data-ai/activemq' },
       { text: 'RabbitMQ', route: '/tech-stack/data-ai/rabbitmq' },
       { text: 'Apache ZooKeeper', route: '/tech-stack/data-ai/zookeeper' },
       { text: 'Apache Hadoop', route: '/tech-stack/data-ai/hadoop' },

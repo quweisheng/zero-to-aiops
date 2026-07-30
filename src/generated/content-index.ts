@@ -119,6 +119,13 @@ export const generatedDocs = [
     "excerpt": "目标：能把人工故障处理手册设计成可执行、可审批、可验证、可审计、可回滚的自动化流程，并知道哪些动作只能“辅助诊断”，哪些动作可以“人工确认后执行”，哪些动作才适合“自动修复”。 官方资料 Runbook Automation 没有一个唯一标..."
   },
   {
+    "path": "../docs/tech-stack/automation/sonarqube.md",
+    "route": "/tech-stack/automation/sonarqube",
+    "title": "SonarQube 技术栈深讲",
+    "section": "自动化",
+    "excerpt": "学习目标：从零理解 SonarQube Community Build 与商业版 SonarQube Server 的边界、扫描与计算链路、Quality Profile、Quality Gate、数据库和搜索索引状态，能搭建本地分析环境、..."
+  },
+  {
     "path": "../docs/tech-stack/automation/terraform.md",
     "route": "/tech-stack/automation/terraform",
     "title": "Terraform",
@@ -217,6 +224,13 @@ export const generatedDocs = [
     "excerpt": "学习目标：从零理解 Rancher Manager、管理集群和下游 Kubernetes 集群的关系，掌握集群导入、RKE2/K3s 边界、权限、应用、监控、备份升级与常见排障，并能完成一次不接触生产集群的 Helm 渲染实验。 官方资料 ..."
   },
   {
+    "path": "../docs/tech-stack/data-ai/activemq.md",
+    "route": "/tech-stack/data-ai/activemq",
+    "title": "Apache ActiveMQ 技术栈深讲：Classic 与 Artemis",
+    "section": "数据与 AI",
+    "excerpt": "学习目标：从零理解 ActiveMQ Classic 与 Apache Artemis 的产品边界、Queue/Topic、JMS、持久化、确认、重投、死信、流控、KahaDB/Journal、集群与高可用，能启动当前 Classic 版本..."
+  },
+  {
     "path": "../docs/tech-stack/data-ai/fastapi.md",
     "route": "/tech-stack/data-ai/fastapi",
     "title": "FastAPI",
@@ -292,6 +306,13 @@ export const generatedDocs = [
     "title": "机器学习",
     "section": "数据与 AI",
     "excerpt": "学习目标：能从 0 理解机器学习为什么能用于 AIOps，能讲清样本、特征、标签、训练、预测、评估、过拟合、数据泄漏和异常检测，能用一个最小 Python 实验把运维指标变成可评估的模型结果。 官方资料 优先读这些官方资料： Google ..."
+  },
+  {
+    "path": "../docs/tech-stack/data-ai/mongodb.md",
+    "route": "/tech-stack/data-ai/mongodb",
+    "title": "MongoDB 技术栈深讲",
+    "section": "数据与 AI",
+    "excerpt": "学习目标：从零理解 MongoDB 文档模型、BSON、CRUD、索引与查询计划、WiredTiger、复制集、读写关注、事务、分片和 Change Stream，能跑通可验证的文档数据库实验与主节点故障切换，并能设计生产一致性、高可用、容..."
   },
   {
     "path": "../docs/tech-stack/data-ai/mysql-sql.md",

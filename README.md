@@ -105,6 +105,7 @@ npm run build
 - [GitLab 与 GitLab CI/CD](./docs/tech-stack/automation/gitlab.md)
 - [Jenkins](./docs/tech-stack/automation/jenkins.md)
 - [Nexus Repository](./docs/tech-stack/automation/nexus-repository.md)
+- [SonarQube](./docs/tech-stack/automation/sonarqube.md)
 
 ### 架构与方案设计
 
@@ -120,8 +121,10 @@ npm run build
 - [MySQL / SQL](./docs/tech-stack/data-ai/mysql-sql.md)
 - [Oracle Database](./docs/tech-stack/data-ai/oracle.md)
 - [PostgreSQL](./docs/tech-stack/data-ai/postgresql.md)
+- [MongoDB](./docs/tech-stack/data-ai/mongodb.md)
 - [Redis](./docs/tech-stack/data-ai/redis.md)
 - [Kafka](./docs/tech-stack/data-ai/kafka.md)
+- [Apache ActiveMQ](./docs/tech-stack/data-ai/activemq.md)
 - [RabbitMQ](./docs/tech-stack/data-ai/rabbitmq.md)
 - [Apache ZooKeeper](./docs/tech-stack/data-ai/zookeeper.md)
 - [Apache Hadoop](./docs/tech-stack/data-ai/hadoop.md)
