@@ -105,6 +105,13 @@ export const generatedDocs = [
     "excerpt": "学习目标：从零理解 Jenkins Controller、Agent、Queue、Executor、Pipeline、Plugin、Credentials 与 JENKINS HOME 的关系，能启动固定版本的学习环境、运行并验证一条 Pi..."
   },
   {
+    "path": "../docs/tech-stack/automation/maven.md",
+    "route": "/tech-stack/automation/maven",
+    "title": "Apache Maven 技术栈深讲",
+    "section": "自动化",
+    "excerpt": "适用版本：Apache Maven 3.9.16（当前稳定版），兼顾 Maven 3.10.0 rc 1 与 Maven 4.0.0 rc 5 的迁移认知。 文档基线：2026 年 7 月 30 日。版本会继续变化，安装或升级前请再次核对官..."
+  },
+  {
     "path": "../docs/tech-stack/automation/nexus-repository.md",
     "route": "/tech-stack/automation/nexus-repository",
     "title": "Nexus Repository 深讲",

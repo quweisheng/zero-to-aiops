@@ -46,6 +46,7 @@
 | 已达到大厂面试级第一版 | Apache ActiveMQ | 已补 Classic 6.3.0 与 Artemis 2.55.0 边界、JMS/协议、持久化/Ack/重投/DLQ、HA 迁移、双层实验、事故题和系统设计 |
 | 已达到大厂面试级第一版 | Jenkins | 已补 Jenkins 2.568.1 LTS/2.575 Weekly、Controller/Agent/Queue/Executor、Pipeline CPS 与持久化、JENKINS_HOME、JCasC/Kubernetes Agent、容量安全、备份升级、双层实验、事故题和系统设计 |
 | 已达到大厂面试级第一版 | JumpServer | 已补 v4.10.18 LTS、社区版/X-Pack 边界、身份/资产/账号/授权、Core 与连接组件、状态恢复、容量安全、升级回滚、双层实验、事故题和系统设计 |
+| 已达到大厂面试级第一版 | Apache Maven | 已补 Maven 3.9.16 与 Maven 4 RC 边界、Effective POM、生命周期与插件、依赖解析与 Reactor、制品状态、容量安全、升级回滚、双层实验、事故题和系统设计 |
 | 已升级开头和面试表达 | MySQL、Oracle、PostgreSQL、Redis、Kafka、ZooKeeper、pandas、机器学习、scikit-learn、FastAPI、LLM、LangChain、LangGraph、RAG、向量数据库 | 数据与 AI 组已补通俗开场、人话版、小白追问和面试表达 |
 | 已升级开头和面试表达 | SLI/SLO/SLA、告警治理、事件响应、Runbook、RCA、变更管理、AIOps 闭环 | SRE/AIOps 实践组已补通俗开场、人话版、小白追问和面试表达 |
 
@@ -88,6 +89,7 @@
 | 已完成第一版 | GitHub Actions | [github-actions.md](./automation/github-actions.md) | GitHub Actions 官方结构、event/workflow/job/runner/step/action、workflow syntax、triggers、contexts、expressions、env/vars/secrets、GITHUB_TOKEN/permissions、artifacts/cache、workflow commands、concurrency、environments、Pages 发布、AIOps runbook、命令字典、排障、安全边界 |
 | 已达到大厂面试级第一版 | SonarQube | [sonarqube.md](./automation/sonarqube.md) | Community Build 26.7 与 Server 2026.1 LTA、Scanner/Web/CE/数据库/Search、Profile/Gate/New Code、监控、升级恢复、代码扫描与数据库故障实验、事故题和系统设计 |
 | 已达到大厂面试级第一版 | Jenkins | [jenkins.md](./automation/jenkins.md) | Jenkins 2.568.1 LTS/2.575 Weekly、Controller/Agent/Queue/Executor、Pipeline CPS 与 durability、JENKINS_HOME、JCasC/Kubernetes 动态 Agent、容量安全、备份升级、双层实验、事故题和系统设计 |
+| 已达到大厂面试级第一版 | Apache Maven | [maven.md](./automation/maven.md) | Maven 3.9.16/Maven 4 RC、POM/坐标/生命周期/插件、依赖仲裁/BOM、Reactor/仓库/Wrapper/Toolchains、可复现构建、容量安全、双层实验、事故题和系统设计 |
 | 已达到大厂面试级第一版 | JumpServer | [jumpserver.md](./security-compliance/jumpserver.md) | JumpServer v4.10.18 LTS、PAM 身份/资产/账号/授权、Core/Koko/Lion/Chen、Redis 与审计状态、HA、容量安全、备份升级、双层实验、事故题和系统设计 |
 | 已完成第一版 | CI/CD | [cicd.md](./automation/cicd.md) | GitHub Actions 官方 CI/CD 结构、持续集成/持续交付/持续部署边界、pipeline/stage/job/step/runner/artifact/environment、CI 阶段、CD 阶段、发布策略、回滚策略、质量门禁、DORA 指标、AIOps 变更关联、命令字典和排障 |
 | 已完成第一版 | Runbook Automation | [runbook-automation.md](./automation/runbook-automation.md) | AWS/Azure/Google SRE 官方结构、runbook/playbook/automation workflow 边界、触发器、输入参数、上下文补全、runbook 选择、风险分级、L0-L4 自动化、幂等和可重启、权限/审批/审计、安全护栏、LLM 边界、AIOps selector 实验、命令字典和排障 |
@@ -169,6 +171,7 @@
 | 26 | SonarQube、MongoDB、Apache ActiveMQ | 大厂面试级第一版已完成 | 新增代码质量门禁、文档数据库和 ActiveMQ 消息平台主线，覆盖当前版本边界、内部数据路径、一致性/可靠性、HA、容量、安全、升级回滚、双层实验、事故题和系统设计 |
 | 27 | Jenkins | 大厂面试级第一版已完成 | 重构 Jenkins 自动化平台主线，覆盖当前 LTS/Weekly 与 Java 边界、调度和 Pipeline 内部路径、状态与恢复、生产架构、容量安全、升级回滚、双层实验、事故题和系统设计 |
 | 28 | JumpServer | 大厂面试级第一版已完成 | 新增 PAM/堡垒机主线，覆盖 v4.10.18、社区版/X-Pack、身份与资产授权、连接和审计链路、状态恢复、HA、容量安全、升级回滚、双层实验、事故题和系统设计 |
+| 29 | Apache Maven | 大厂面试级第一版已完成 | 新增 Java 构建与依赖治理主线，覆盖 Maven 3.9.16/Maven 4 RC、模型与执行路径、依赖/插件/仓库、可复现性、容量安全、升级回滚、双层实验、事故题和系统设计 |
 
 ## 已完成
 
@@ -224,6 +227,7 @@
 | 自动化 | Runbook Automation | [runbook-automation.md](./automation/runbook-automation.md) |
 | 自动化 | GitLab 与 GitLab CI/CD | [gitlab.md](./automation/gitlab.md) |
 | 自动化 | Jenkins | [jenkins.md](./automation/jenkins.md) |
+| 自动化 | Apache Maven | [maven.md](./automation/maven.md) |
 | 自动化 | Nexus Repository | [nexus-repository.md](./automation/nexus-repository.md) |
 | 自动化 | SonarQube | [sonarqube.md](./automation/sonarqube.md) |
 | 架构与方案设计 | 系统架构与技术方案设计 | [architecture-solution-design.md](./architecture-delivery/architecture-solution-design.md) |

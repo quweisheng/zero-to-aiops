@@ -104,6 +104,7 @@ npm run build
 - [Runbook Automation](./docs/tech-stack/automation/runbook-automation.md)
 - [GitLab 与 GitLab CI/CD](./docs/tech-stack/automation/gitlab.md)
 - [Jenkins](./docs/tech-stack/automation/jenkins.md)
+- [Apache Maven](./docs/tech-stack/automation/maven.md)
 - [Nexus Repository](./docs/tech-stack/automation/nexus-repository.md)
 - [SonarQube](./docs/tech-stack/automation/sonarqube.md)
 
