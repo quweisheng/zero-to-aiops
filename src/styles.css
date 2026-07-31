@@ -848,6 +848,11 @@ h3 {
   color: var(--muted);
 }
 
+.markdown-body li {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
 .markdown-body p {
   margin: 0 0 18px;
 }

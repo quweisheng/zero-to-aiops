@@ -118,6 +118,7 @@
 | 已完成第一版 | LLM / OpenAI API | [llm-openai.md](./data-ai/llm-openai.md) | OpenAI 官方 API 结构、Responses API、模型选型、instructions/input、提示词合同、结构化输出、function calling、Embeddings、RAG 关系、上下文拼装、安全边界、成本/延迟/降级、评估、AIOps 告警摘要助手实验 |
 | 已完成第一版 | LangChain | [langchain.md](./data-ai/langchain.md) | LangChain 官方结构、agent/model/tool/message/system prompt、structured output、memory、context engineering、RAG、LangGraph/LangSmith 边界、AIOps runbook 查询助手实验 |
 | 已完成第一版 | LangGraph | [langgraph.md](./data-ai/langgraph.md) | LangGraph 官方结构、StateGraph、state、node、edge、checkpoint、memory、interrupt、human-in-the-loop、streaming、AIOps 排障流程编排实验 |
+| 已达到大厂面试级第一版 | Dify | [dify.md](./data-ai/dify.md) | Dify 1.16.1、修改版 Apache 2.0 许可边界、App/Workflow/Chatflow/Agent、Knowledge/RAG、Model/Tool/Plugin、API/Worker/Redis/向量库数据路径、HA、容量安全、备份升级、无模型基础实验、Worker 故障注入、事故题和系统设计 |
 | 已完成第一版 | RAG | [rag.md](./data-ai/rag.md) | RAG 官方主线、离线入库、在线检索、chunk、metadata、embedding、向量库、关键词/向量/hybrid search、rerank、上下文拼装、prompt injection 防护、OpenAI File Search、自建 Runbook RAG 实验、检索和回答评估 |
 | 已完成第一版 | 向量数据库 | [vector-database.md](./data-ai/vector-database.md) | OpenAI embeddings、Chroma、Milvus、Qdrant 官方结构、embedding、维度、距离、top-k、collection/entity/point、metadata/payload、schema、向量索引、payload index、metadata filter、hybrid search、更新删除、权限、AIOps 相似故障检索实验 |
 | 已完成第一版 | SLI / SLO / SLA | [sli-slo-sla.md](./sre-aiops/sli-slo-sla.md) | Google SRE 官方结构、用户旅程、SLI/SLO/SLA 边界、good events / total events、延迟 SLI、错误预算、burn rate、多窗口告警、Prometheus recording/alerting rules、低流量服务、SLO 与 AIOps 告警治理实验 |
@@ -261,6 +262,7 @@
 | 数据与 AI | LLM / OpenAI API | [llm-openai.md](./data-ai/llm-openai.md) |
 | 数据与 AI | LangChain | [langchain.md](./data-ai/langchain.md) |
 | 数据与 AI | LangGraph | [langgraph.md](./data-ai/langgraph.md) |
+| 数据与 AI | Dify | [dify.md](./data-ai/dify.md) |
 | 数据与 AI | RAG | [rag.md](./data-ai/rag.md) |
 | 数据与 AI | 向量数据库 | [vector-database.md](./data-ai/vector-database.md) |
 | SRE/AIOps | SLI / SLO / SLA | [sli-slo-sla.md](./sre-aiops/sli-slo-sla.md) |

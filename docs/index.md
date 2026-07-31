@@ -125,6 +125,7 @@
 - [LLM / OpenAI API](./tech-stack/data-ai/llm-openai.md)
 - [LangChain](./tech-stack/data-ai/langchain.md)
 - [LangGraph](./tech-stack/data-ai/langgraph.md)
+- [Dify](./tech-stack/data-ai/dify.md)
 - [RAG](./tech-stack/data-ai/rag.md)
 - [向量数据库](./tech-stack/data-ai/vector-database.md)
 
@@ -170,3 +171,4 @@
 28. [Apache Spark](./tech-stack/data-ai/spark.md)
 29. [Apache Flink](./tech-stack/data-ai/flink.md)
 30. [Apache HAWQ 存量运维与迁移](./tech-stack/data-ai/hawq.md)
+31. [Dify](./tech-stack/data-ai/dify.md)

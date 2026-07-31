@@ -148,6 +148,12 @@ describe('getDocByRoute', () => {
     )
   })
 
+  it('includes the Dify large-company interview deep-dive document', () => {
+    expect(getDocByRoute('/tech-stack/data-ai/dify')?.title).toBe(
+      'Dify 技术栈深讲'
+    )
+  })
+
   it('includes VictoriaMetrics and LangGraph tech-stack documents', () => {
     expect(getDocByRoute('/tech-stack/observability/victoriametrics')?.title).toBe(
       'VictoriaMetrics'

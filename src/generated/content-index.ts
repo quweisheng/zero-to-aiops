@@ -238,6 +238,13 @@ export const generatedDocs = [
     "excerpt": "学习目标：从零理解 ActiveMQ Classic 与 Apache Artemis 的产品边界、Queue/Topic、JMS、持久化、确认、重投、死信、流控、KahaDB/Journal、集群与高可用，能启动当前 Classic 版本..."
   },
   {
+    "path": "../docs/tech-stack/data-ai/dify.md",
+    "route": "/tech-stack/data-ai/dify",
+    "title": "Dify 技术栈深讲",
+    "section": "数据与 AI",
+    "excerpt": "学习目标：从零理解 Dify 的应用、工作流、知识库、模型与插件体系，能用 Docker Compose 启动自托管环境，发布并调用第一个 Workflow API，能解释一次 AIOps 请求和一次知识索引任务经过哪些组件，并能按证据排查..."
+  },
+  {
     "path": "../docs/tech-stack/data-ai/fastapi.md",
     "route": "/tech-stack/data-ai/fastapi",
     "title": "FastAPI",

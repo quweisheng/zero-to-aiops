@@ -220,6 +220,7 @@ export const navGroups: NavGroup[] = [
       { text: 'LLM / OpenAI API', route: '/tech-stack/data-ai/llm-openai' },
       { text: 'LangChain', route: '/tech-stack/data-ai/langchain' },
       { text: 'LangGraph', route: '/tech-stack/data-ai/langgraph' },
+      { text: 'Dify', route: '/tech-stack/data-ai/dify' },
       { text: 'RAG', route: '/tech-stack/data-ai/rag' },
       { text: '向量数据库', route: '/tech-stack/data-ai/vector-database' }
     ]

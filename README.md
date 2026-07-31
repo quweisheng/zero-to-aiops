@@ -144,6 +144,7 @@ npm run build
 - [LLM / OpenAI API](./docs/tech-stack/data-ai/llm-openai.md)
 - [LangChain](./docs/tech-stack/data-ai/langchain.md)
 - [LangGraph](./docs/tech-stack/data-ai/langgraph.md)
+- [Dify](./docs/tech-stack/data-ai/dify.md)
 - [RAG](./docs/tech-stack/data-ai/rag.md)
 - [向量数据库](./docs/tech-stack/data-ai/vector-database.md)
 
