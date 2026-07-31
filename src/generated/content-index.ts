@@ -455,6 +455,13 @@ export const generatedDocs = [
     "excerpt": "目标：能用 Python 处理运维数据、写自动化脚本、做异常检测原型、提供简单 API。 官方资料 Python Tutorial Python Language Reference Python Standard Library venv..."
   },
   {
+    "path": "../docs/tech-stack/foundation/restful-api.md",
+    "route": "/tech-stack/foundation/restful-api",
+    "title": "RESTful API 技术栈深讲",
+    "section": "基础工具",
+    "excerpt": "学习目标：从零理解 REST、HTTP 与 API 契约的边界；能设计资源、URI、方法、状态码、错误体、分页、缓存、并发控制、幂等、鉴权、限流和版本演进；能看懂一次请求在网关、服务、缓存与数据库之间的完整路径；能运行一个只依赖 Node...."
+  },
+  {
     "path": "../docs/tech-stack/foundation/shell-powershell.md",
     "route": "/tech-stack/foundation/shell-powershell",
     "title": "Shell / PowerShell",

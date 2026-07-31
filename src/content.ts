@@ -55,7 +55,8 @@ export const navGroups: NavGroup[] = [
       { text: 'Go / Golang', route: '/tech-stack/foundation/golang' },
       { text: 'Shell / PowerShell', route: '/tech-stack/foundation/shell-powershell' },
       { text: 'systemd', route: '/tech-stack/foundation/systemd' },
-      { text: '网络基础', route: '/tech-stack/foundation/networking' }
+      { text: '网络基础', route: '/tech-stack/foundation/networking' },
+      { text: 'RESTful API', route: '/tech-stack/foundation/restful-api' }
     ]
   },
   {

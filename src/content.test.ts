@@ -84,6 +84,12 @@ describe('getDocByRoute', () => {
     )
   })
 
+  it('includes the RESTful API large-company interview deep-dive document', () => {
+    expect(getDocByRoute('/tech-stack/foundation/restful-api')?.title).toBe(
+      'RESTful API 技术栈深讲'
+    )
+  })
+
   it('includes the Apache ZooKeeper tech-stack document', () => {
     expect(getDocByRoute('/tech-stack/data-ai/zookeeper')?.title).toBe(
       'Apache ZooKeeper 深讲'

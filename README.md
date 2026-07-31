@@ -49,6 +49,7 @@ npm run build
 - [Shell / PowerShell](./docs/tech-stack/foundation/shell-powershell.md)
 - [systemd](./docs/tech-stack/foundation/systemd.md)
 - [网络基础](./docs/tech-stack/foundation/networking.md)
+- [RESTful API](./docs/tech-stack/foundation/restful-api.md)
 
 ### 可观测性
 

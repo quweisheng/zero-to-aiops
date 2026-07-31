@@ -21,6 +21,7 @@
 | 已升级开头和面试表达 | Prometheus、VictoriaMetrics、Grafana、Alertmanager、OpenTelemetry、Loki、Elasticsearch | 可观测性组已补通俗开场、人话版、小白追问和面试表达 |
 | 已达到大厂面试级第一版 | Go（Golang） | 已补语言基础、并发、G-M-P、内存模型、GC、HTTP、测试诊断、AIOps 项目、故障实验、连续追问和系统设计 |
 | 已升级开头和面试表达 | Linux、Git、GitHub、Markdown、VitePress、Python、Shell/PowerShell、systemd、网络基础 | 基础工具组已补通俗开场、人话版、小白追问和面试表达 |
+| 已达到大厂面试级第一版 | RESTful API | 已补 REST 约束、HTTP 方法与状态、缓存与条件请求、幂等与并发、契约演进、安全、容量、可观测、双层实验、事故题和系统设计 |
 | 已达到大厂面试级第一版 | Kubernetes、etcd、Calico、Cilium | 已补控制面一致性、API/Informer/调度、CNI 数据路径、生产设计、故障实验、连续追问和系统设计 |
 | 已升级开头和面试表达 | Docker、Docker Compose、Helm、NGINX/Ingress、微服务 | 云原生组已补通俗开场、人话版、小白追问和面试表达，后续继续按大厂面试级标准升级 |
 | 已达到大厂面试级第一版 | KVM 虚拟化 | 已补 KVM/QEMU/libvirt 边界、CPU/内存/网络/存储路径、迁移、HA、安全、双层实验、事故题和系统设计 |
@@ -71,6 +72,7 @@
 | 已完成第一版 | Shell/PowerShell | [shell-powershell.md](./foundation/shell-powershell.md) | Bash / GNU 工具和 PowerShell 官方结构、命令执行模型、文本管道 vs 对象管道、变量、环境变量、引号、通配符、重定向、退出码、脚本、执行策略、常用命令对照、AIOps 健康检查实验 |
 | 已完成第一版 | systemd | [systemd.md](./foundation/systemd.md) | systemd 官方结构、PID 1、unit、service、target、timer、journal、systemctl、journalctl、依赖/排序、重启策略、开机自启、AIOps 健康检查 timer 实验、排障流程 |
 | 已完成第一版 | 网络基础 | [networking.md](./foundation/networking.md) | IETF RFC 知识地图、DNS、IP/CIDR、路由、ARP、TCP、UDP、TLS、HTTP、负载均衡、curl/dig/ip/ss/openssl 命令字典、AIOps 分层网络诊断实验 |
+| 已达到大厂面试级第一版 | RESTful API | [restful-api.md](./foundation/restful-api.md) | Fielding REST 与 HTTP 规范、资源/表示/统一接口、方法/状态/Header、缓存、ETag、幂等、OpenAPI、安全、容量、双层实验、事故题和系统设计 |
 | 已达到大厂面试级第一版 | Kubernetes | [kubernetes.md](./cloud-native/kubernetes.md) | API 请求与 SSA、List-Watch/Informer/Reconcile、调度框架、弹性、优雅终止、CNI/CSI、etcd 高可用、安全、升级、容量、故障推演和连续追问 |
 | 已达到大厂面试级第一版 | etcd | [etcd.md](./cloud-native/etcd.md) | Raft、多数派、MVCC、revision、Watch、Lease、Txn、WAL/snapshot/backend、备份恢复、容量性能、Kubernetes 故障和系统设计 |
 | 已达到大厂面试级第一版 | Calico | [calico.md](./cloud-native/calico.md) | CNI、Felix、IPAM/IPPool、BGP、IPIP/VXLAN、策略层级、MTU、生产拓扑、故障实验和网络排障 |
@@ -172,6 +174,7 @@
 | 27 | Jenkins | 大厂面试级第一版已完成 | 重构 Jenkins 自动化平台主线，覆盖当前 LTS/Weekly 与 Java 边界、调度和 Pipeline 内部路径、状态与恢复、生产架构、容量安全、升级回滚、双层实验、事故题和系统设计 |
 | 28 | JumpServer | 大厂面试级第一版已完成 | 新增 PAM/堡垒机主线，覆盖 v4.10.18、社区版/X-Pack、身份与资产授权、连接和审计链路、状态恢复、HA、容量安全、升级回滚、双层实验、事故题和系统设计 |
 | 29 | Apache Maven | 大厂面试级第一版已完成 | 新增 Java 构建与依赖治理主线，覆盖 Maven 3.9.16/Maven 4 RC、模型与执行路径、依赖/插件/仓库、可复现性、容量安全、升级回滚、双层实验、事故题和系统设计 |
+| 30 | RESTful API | 大厂面试级第一版已完成 | 新增 REST 与 HTTP API 契约主线，覆盖统一接口、方法/状态/Header、缓存与并发控制、幂等、OpenAPI、兼容演进、安全、容量、双层实验、事故题和系统设计 |
 
 ## 已完成
 
@@ -187,6 +190,7 @@
 | 基础工具 | Shell / PowerShell | [shell-powershell.md](./foundation/shell-powershell.md) |
 | 基础工具 | systemd | [systemd.md](./foundation/systemd.md) |
 | 基础工具 | 网络基础 | [networking.md](./foundation/networking.md) |
+| 基础工具 | RESTful API | [restful-api.md](./foundation/restful-api.md) |
 | 云原生 | Docker | [docker.md](./cloud-native/docker.md) |
 | 云原生 | Docker Compose | [docker-compose.md](./cloud-native/docker-compose.md) |
 | 云原生 | Kubernetes | [kubernetes.md](./cloud-native/kubernetes.md) |

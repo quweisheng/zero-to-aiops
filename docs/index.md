@@ -30,6 +30,7 @@
 - [Shell / PowerShell](./tech-stack/foundation/shell-powershell.md)
 - [systemd](./tech-stack/foundation/systemd.md)
 - [网络基础](./tech-stack/foundation/networking.md)
+- [RESTful API](./tech-stack/foundation/restful-api.md)
 
 ### 可观测性
 
