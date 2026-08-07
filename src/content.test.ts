@@ -175,6 +175,9 @@ describe('getDocByRoute', () => {
     expect(getDocByRoute('/tech-stack/data-ai/transformer')?.title).toBe(
       'Transformer 技术栈深讲'
     )
+    expect(getDocByRoute('/tech-stack/data-ai/ollama')?.title).toBe(
+      'Ollama 技术栈深讲'
+    )
   })
 
   it('includes the security and compliance documents', () => {

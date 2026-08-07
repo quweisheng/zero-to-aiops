@@ -218,6 +218,7 @@ export const navGroups: NavGroup[] = [
       { text: 'scikit-learn', route: '/tech-stack/data-ai/scikit-learn' },
       { text: 'TensorFlow', route: '/tech-stack/data-ai/tensorflow' },
       { text: 'Transformer', route: '/tech-stack/data-ai/transformer' },
+      { text: 'Ollama', route: '/tech-stack/data-ai/ollama' },
       { text: 'FastAPI', route: '/tech-stack/data-ai/fastapi' },
       { text: 'LLM / OpenAI API', route: '/tech-stack/data-ai/llm-openai' },
       { text: 'LangChain', route: '/tech-stack/data-ai/langchain' },

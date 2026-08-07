@@ -123,6 +123,7 @@
 - [scikit-learn](./tech-stack/data-ai/scikit-learn.md)
 - [TensorFlow](./tech-stack/data-ai/tensorflow.md)
 - [Transformer](./tech-stack/data-ai/transformer.md)
+- [Ollama](./tech-stack/data-ai/ollama.md)
 - [FastAPI](./tech-stack/data-ai/fastapi.md)
 - [LLM / OpenAI API](./tech-stack/data-ai/llm-openai.md)
 - [LangChain](./tech-stack/data-ai/langchain.md)
@@ -176,3 +177,4 @@
 31. [Transformer](./tech-stack/data-ai/transformer.md)
 32. [Dify](./tech-stack/data-ai/dify.md)
 33. [n8n](./tech-stack/automation/n8n.md)
+34. [Ollama](./tech-stack/data-ai/ollama.md)

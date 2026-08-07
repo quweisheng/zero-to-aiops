@@ -343,6 +343,13 @@ export const generatedDocs = [
     "excerpt": "目标：不是只会写几条 SELECT ，而是能理解 MySQL Server、数据库、表、行、列、索引、事务、锁、InnoDB、执行计划、权限、备份、慢查询和 AIOps 数据建模之间的关系，并能用 SQL 回答真实运维问题。 官方资料 优先..."
   },
   {
+    "path": "../docs/tech-stack/data-ai/ollama.md",
+    "route": "/tech-stack/data-ai/ollama",
+    "title": "Ollama 技术栈深讲",
+    "section": "数据与 AI",
+    "excerpt": "学习目标：从零理解 Ollama、模型与推理服务的边界，能在 Windows 或 Linux 上完成第一个本地模型实验，读懂模型拉取、加载、推理和卸载路径，使用 REST API 接入 AIOps，并能分析显存、并发、安全、升级与生产故障。..."
+  },
+  {
     "path": "../docs/tech-stack/data-ai/oracle.md",
     "route": "/tech-stack/data-ai/oracle",
     "title": "Oracle Database 深讲",
