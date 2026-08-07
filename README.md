@@ -103,6 +103,7 @@ npm run build
 - [GitHub Actions](./docs/tech-stack/automation/github-actions.md)
 - [CI/CD](./docs/tech-stack/automation/cicd.md)
 - [Runbook Automation](./docs/tech-stack/automation/runbook-automation.md)
+- [n8n](./docs/tech-stack/automation/n8n.md)
 - [GitLab 与 GitLab CI/CD](./docs/tech-stack/automation/gitlab.md)
 - [Jenkins](./docs/tech-stack/automation/jenkins.md)
 - [Apache Maven](./docs/tech-stack/automation/maven.md)

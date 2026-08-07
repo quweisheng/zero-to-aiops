@@ -38,7 +38,7 @@
 | 虚拟化与私有云 | KVM、VMware vSphere、OpenStack | P1-P2 | 能理解虚拟化与 IaaS 的计算、网络、存储、调度、高可用和端到端排障 |
 | 存储与数据保护 | IBM Storage、Dell EMC VPLEX、Dell EMC VMAX、Brocade 6510、华为 OceanStor、爱数 AnyStorage、Ceph | P1-P2 | 能理解集中式与分布式存储、块/文件/对象、FC SAN、存储虚拟化、高端阵列、存储池、LUN、多路径、双活、复制、备份与存储 AIOps 排障 |
 | 中间件与应用平台 | IBM WebSphere、Apache Tomcat | P1-P2 | 能解释企业 Java 与 Servlet 容器的请求路径、部署、类加载、线程/连接/JDBC、会话、集群、容量、高可用、升级回滚和 AIOps 排障 |
-| 自动化与 CI/CD | Ansible、Terraform、GitHub Actions、GitLab、Jenkins、Apache Maven、Nexus、SonarQube、CI/CD、Runbook Automation | P1-P2 | 能把提交、依赖解析、编译测试、代码质量与安全门禁、制品、部署、审批和回滚连成可审计流程 |
+| 自动化与 CI/CD | Ansible、Terraform、GitHub Actions、GitLab、Jenkins、Apache Maven、Nexus、SonarQube、CI/CD、Runbook Automation、n8n | P1-P2 | 能把提交、依赖解析、编译测试、代码质量与安全门禁、事件集成、审批、受控执行和回滚连成可审计流程 |
 | 架构与方案设计 | 系统架构、可行性报告、IT 项目管理、PMP、敏捷、范围、进度、风险与变更 | P0-P1 | 能把业务需求转成可解释、可验证、可实施的技术方案和项目交付计划 |
 | 安全与合规 | 网络安全等级保护（等保 2.0）、JumpServer | P1-P2 | 能理解定级、备案与持续合规，并能设计 PAM/堡垒机的身份、资产、账号、授权、会话代理和审计闭环 |
 | 数据与 AI | MySQL/SQL、Oracle、PostgreSQL、MongoDB、Redis、Kafka、ActiveMQ、RabbitMQ、ZooKeeper、Hadoop、Hive、HBase、Spark、Flink、HAWQ 存量迁移、pandas、机器学习、scikit-learn、TensorFlow、Transformer、FastAPI、LLM/OpenAI API、LangChain、LangGraph、Dify、RAG、向量数据库 | P1-P3 | 能处理关系与文档数据、消息队列、事件流、分布式协调、湖仓 SQL、随机读写、批流计算、遗留平台迁移和 AI 应用，做异常检测、告警降噪与智能运维助手 |
@@ -90,6 +90,7 @@
 42. [Apache Spark](./data-ai/spark.md)：理解 Driver/Executor、DAG、Stage/Task、Shuffle、SQL、Streaming 和性能排障。
 43. [Apache Flink](./data-ai/flink.md)：理解 Event Time、Watermark、State、Checkpoint、反压和端到端一致性。
 44. [Apache HAWQ 存量运维与迁移](./data-ai/hawq.md)：识别已退休项目的 MPP 架构、遗留风险、只读排障和迁移方法。
+45. [n8n](./automation/n8n.md)：把告警、工单、审批、API 与受控 Runbook 编排成可观察的 AIOps 工作流。
 
 ## 一技术一文件
 
@@ -164,6 +165,7 @@
 - [GitHub Actions](./automation/github-actions.md)
 - [CI/CD](./automation/cicd.md)
 - [Runbook Automation](./automation/runbook-automation.md)
+- [n8n](./automation/n8n.md)
 - [GitLab 与 GitLab CI/CD](./automation/gitlab.md)
 - [Jenkins](./automation/jenkins.md)
 - [Apache Maven](./automation/maven.md)
@@ -278,6 +280,7 @@ Linux 服务
   -> Transformer 上下文建模与生成
   -> FastAPI 暴露接口
   -> LangChain / LangGraph / LLM / RAG 生成排障建议
+  -> n8n 编排告警、审批与受控执行
   -> GitHub 记录过程
 ```
 
@@ -358,6 +361,7 @@ Linux 服务
 - [LangChain](https://docs.langchain.com/oss/python/langchain/overview)
 - [LangGraph](https://docs.langchain.com/oss/python/langgraph/overview)
 - [Dify](https://docs.dify.ai/)
+- [n8n](https://docs.n8n.io/)
 - [LangChain RAG](https://docs.langchain.com/oss/python/langchain/rag)
 - [Milvus](https://milvus.io/docs)
 - [Chroma](https://docs.trychroma.com/docs/overview/introduction)

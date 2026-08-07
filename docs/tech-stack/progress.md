@@ -43,6 +43,7 @@
 | 已达到大厂面试级第一版 | Zabbix | 已补 Zabbix 7.4.12/7.0 LTS 边界、采集与事件链路、Proxy、Server/数据库 HA、容量安全、升级回滚、故障实验、事故题和系统设计 |
 | 已达到大厂面试级第一版 | TensorFlow | 已补 TensorFlow 2.21、Tensor/自动微分/Keras、tf.data/tf.function、分布式训练、模型交付、漂移监控、脏数据实验、事故题和系统设计 |
 | 已达到大厂面试级第一版 | Transformer | 已补 Token/Embedding/Position、Q/K/V 与多头注意力、Mask、Encoder/Decoder、训练与 KV Cache 推理、容量安全、双层实验、事故题和系统设计 |
+| 已达到大厂面试级第一版 | n8n | 已补 2.33.5 稳定版与许可边界、Workflow/Node/Execution、Webhook 与队列数据路径、任务运行器、状态与幂等、容量安全、升级回滚、双层实验、事故题和系统设计 |
 | 已达到大厂面试级第一版 | SonarQube | 已补 Community Build 与 Server Edition、Scanner/Web/CE/DB/Search 链路、Quality Profile/Gate、容量安全、升级回滚、双层实验、事故题和系统设计 |
 | 已达到大厂面试级第一版 | MongoDB | 已补 8.2.12、BSON/文档模型、WiredTiger、索引与 Explain、复制集/分片/Change Stream、一致性、双层实验、事故题和系统设计 |
 | 已达到大厂面试级第一版 | Apache ActiveMQ | 已补 Classic 6.3.0 与 Artemis 2.55.0 边界、JMS/协议、持久化/Ack/重投/DLQ、HA 迁移、双层实验、事故题和系统设计 |
@@ -96,6 +97,7 @@
 | 已达到大厂面试级第一版 | JumpServer | [jumpserver.md](./security-compliance/jumpserver.md) | JumpServer v4.10.18 LTS、PAM 身份/资产/账号/授权、Core/Koko/Lion/Chen、Redis 与审计状态、HA、容量安全、备份升级、双层实验、事故题和系统设计 |
 | 已完成第一版 | CI/CD | [cicd.md](./automation/cicd.md) | GitHub Actions 官方 CI/CD 结构、持续集成/持续交付/持续部署边界、pipeline/stage/job/step/runner/artifact/environment、CI 阶段、CD 阶段、发布策略、回滚策略、质量门禁、DORA 指标、AIOps 变更关联、命令字典和排障 |
 | 已完成第一版 | Runbook Automation | [runbook-automation.md](./automation/runbook-automation.md) | AWS/Azure/Google SRE 官方结构、runbook/playbook/automation workflow 边界、触发器、输入参数、上下文补全、runbook 选择、风险分级、L0-L4 自动化、幂等和可重启、权限/审批/审计、安全护栏、LLM 边界、AIOps selector 实验、命令字典和排障 |
+| 已达到大厂面试级第一版 | n8n | [n8n.md](./automation/n8n.md) | n8n 2.33.5、Workflow/Node/Connection/Item/Execution、Webhook 测试与生产路径、表达式与凭据、Task Runner、Regular/Queue Mode、PostgreSQL/Redis 状态边界、双层实验、容量安全、事故题和系统设计 |
 | 已完成第一版 | MySQL / SQL | [mysql-sql.md](./data-ai/mysql-sql.md) | MySQL 8.4 官方结构、client/server、database/table/row/column、数据类型、DDL/DML/DQL、SELECT/WHERE/GROUP BY/HAVING/JOIN/CTE、索引、EXPLAIN、事务、InnoDB、用户权限、备份、慢查询、AIOps 数据建模、命令字典和排障 |
 | 已完成第一版 | Oracle Database | [oracle.md](./data-ai/oracle.md) | Oracle 官方结构、instance/database、CDB/PDB、schema、tablespace、datafile、redo、undo、archive log、optimizer、AWR、RAC、Data Guard、RMAN、慢 SQL 和表空间排障 |
 | 已完成第一版 | PostgreSQL | [postgresql.md](./data-ai/postgresql.md) | PostgreSQL 官方结构、database/schema/table、MVCC、WAL、vacuum、autovacuum、EXPLAIN、B-tree/GIN 索引、JSONB、复制、备份、AIOps 事件数据建模和排障 |
@@ -151,7 +153,7 @@
 | 1 | Linux、Git、GitHub、Markdown、VitePress、Python、Shell/PowerShell、systemd、网络基础 | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
 | 2 | Docker、Kubernetes、Helm、NGINX/Ingress、微服务 | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
 | 3 | Alertmanager、OpenTelemetry、Loki、Elasticsearch、VictoriaMetrics | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
-| 4 | Ansible、Terraform、GitHub Actions、CI/CD、Runbook Automation | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
+| 4 | Ansible、Terraform、GitHub Actions、CI/CD、Runbook Automation、n8n | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
 | 5 | MySQL、Oracle、PostgreSQL、Redis、Kafka、RabbitMQ、pandas、机器学习、scikit-learn、Transformer、FastAPI、LLM、LangChain、LangGraph、RAG、向量数据库 | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
 | 6 | SLI/SLO/SLA、告警治理、事件响应、Runbook、RCA、变更管理、AIOps 闭环 | 深讲第一版已完成 | 已补齐官方知识地图、机制、命令/API 字典、实验、排障和学习证据 |
 | 7 | 网络安全等级保护（等保 2.0） | 深讲第一版已完成 | 新增安全与合规分类，补齐现行依据、实施流程、控制与证据闭环、实验、排障和学习证据 |
@@ -179,6 +181,7 @@
 | 29 | Apache Maven | 大厂面试级第一版已完成 | 新增 Java 构建与依赖治理主线，覆盖 Maven 3.9.16/Maven 4 RC、模型与执行路径、依赖/插件/仓库、可复现性、容量安全、升级回滚、双层实验、事故题和系统设计 |
 | 30 | RESTful API | 大厂面试级第一版已完成 | 新增 REST 与 HTTP API 契约主线，覆盖统一接口、方法/状态/Header、缓存与并发控制、幂等、OpenAPI、兼容演进、安全、容量、双层实验、事故题和系统设计 |
 | 31 | Transformer | 大厂面试级第一版已完成 | 新增序列建模与注意力主线，覆盖原始架构、Mask、Encoder/Decoder、训练与 KV Cache 推理、容量、安全、升级回滚、双层实验、事故题和系统设计 |
+| 32 | n8n | 大厂面试级第一版已完成 | 新增工作流自动化与 AIOps 编排主线，覆盖稳定版与许可边界、事件数据路径、状态与幂等、队列扩展、任务运行器、容量安全、升级回滚、双层实验、事故题和系统设计 |
 
 ## 已完成
 
@@ -233,6 +236,7 @@
 | 自动化 | GitHub Actions | [github-actions.md](./automation/github-actions.md) |
 | 自动化 | CI/CD | [cicd.md](./automation/cicd.md) |
 | 自动化 | Runbook Automation | [runbook-automation.md](./automation/runbook-automation.md) |
+| 自动化 | n8n | [n8n.md](./automation/n8n.md) |
 | 自动化 | GitLab 与 GitLab CI/CD | [gitlab.md](./automation/gitlab.md) |
 | 自动化 | Jenkins | [jenkins.md](./automation/jenkins.md) |
 | 自动化 | Apache Maven | [maven.md](./automation/maven.md) |

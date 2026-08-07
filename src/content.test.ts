@@ -139,6 +139,10 @@ describe('getDocByRoute', () => {
     )
   })
 
+  it('includes the n8n large-company interview deep-dive document', () => {
+    expect(getDocByRoute('/tech-stack/automation/n8n')?.title).toBe('n8n 技术栈深讲')
+  })
+
   it('includes Machine Learning and LangChain tech-stack documents', () => {
     expect(getDocByRoute('/tech-stack/data-ai/machine-learning')?.title).toBe(
       '机器学习'

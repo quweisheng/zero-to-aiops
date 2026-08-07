@@ -84,6 +84,7 @@
 - [GitHub Actions](./tech-stack/automation/github-actions.md)
 - [CI/CD](./tech-stack/automation/cicd.md)
 - [Runbook Automation](./tech-stack/automation/runbook-automation.md)
+- [n8n](./tech-stack/automation/n8n.md)
 - [GitLab 与 GitLab CI/CD](./tech-stack/automation/gitlab.md)
 - [Jenkins](./tech-stack/automation/jenkins.md)
 - [Apache Maven](./tech-stack/automation/maven.md)
@@ -174,3 +175,4 @@
 30. [Apache HAWQ 存量运维与迁移](./tech-stack/data-ai/hawq.md)
 31. [Transformer](./tech-stack/data-ai/transformer.md)
 32. [Dify](./tech-stack/data-ai/dify.md)
+33. [n8n](./tech-stack/automation/n8n.md)

@@ -112,6 +112,13 @@ export const generatedDocs = [
     "excerpt": "适用版本：Apache Maven 3.9.16（当前稳定版），兼顾 Maven 3.10.0 rc 1 与 Maven 4.0.0 rc 5 的迁移认知。 文档基线：2026 年 7 月 30 日。版本会继续变化，安装或升级前请再次核对官..."
   },
   {
+    "path": "../docs/tech-stack/automation/n8n.md",
+    "route": "/tech-stack/automation/n8n",
+    "title": "n8n 技术栈深讲",
+    "section": "自动化",
+    "excerpt": "很多人会搜索“N8N”，但官方产品名写作小写 n8n ，读作 “n eight n”。本文后续统一使用官方写法。 学习目标 学完这篇文章，你应该能做到： 1. 用一句人话解释 n8n，不把它误说成大模型、脚本语言或单纯的定时任务工具。 2...."
+  },
+  {
     "path": "../docs/tech-stack/automation/nexus-repository.md",
     "route": "/tech-stack/automation/nexus-repository",
     "title": "Nexus Repository 深讲",

@@ -161,6 +161,7 @@ export const navGroups: NavGroup[] = [
       { text: 'GitHub Actions', route: '/tech-stack/automation/github-actions' },
       { text: 'CI/CD', route: '/tech-stack/automation/cicd' },
       { text: 'Runbook Automation', route: '/tech-stack/automation/runbook-automation' },
+      { text: 'n8n', route: '/tech-stack/automation/n8n' },
       { text: 'GitLab', route: '/tech-stack/automation/gitlab' },
       { text: 'Jenkins', route: '/tech-stack/automation/jenkins' },
       { text: 'Apache Maven', route: '/tech-stack/automation/maven' },
