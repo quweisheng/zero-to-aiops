@@ -399,6 +399,13 @@ export const generatedDocs = [
     "excerpt": "学习目标：从零理解 Tensor、自动微分、Keras、 tf.data 、训练与验证、模型保存和在线推理，能独立完成一个 AIOps 告警风险分类实验，并能回答大型企业面试中关于计算图、分布式训练、性能、数据泄漏、模型漂移、发布回滚和故障..."
   },
   {
+    "path": "../docs/tech-stack/data-ai/transformer.md",
+    "route": "/tech-stack/data-ai/transformer",
+    "title": "Transformer 技术栈深讲",
+    "section": "数据与 AI",
+    "excerpt": "学习目标：从零理解 Transformer 如何把 Token 变成向量、通过注意力建立上下文关系，并完成训练和逐 Token 推理；能运行一个不依赖第三方库的注意力实验，能解释 Encoder、Decoder、Mask、KV Cache、..."
+  },
+  {
     "path": "../docs/tech-stack/data-ai/vector-database.md",
     "route": "/tech-stack/data-ai/vector-database",
     "title": "向量数据库",

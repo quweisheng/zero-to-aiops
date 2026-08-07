@@ -42,6 +42,7 @@
 | 已达到大厂面试级第一版 | RabbitMQ | 已补 RabbitMQ 4.3.4、Khepri、Classic/Quorum/Stream、端到端可靠性、容量安全、升级回滚、双层实验、事故题和系统设计 |
 | 已达到大厂面试级第一版 | Zabbix | 已补 Zabbix 7.4.12/7.0 LTS 边界、采集与事件链路、Proxy、Server/数据库 HA、容量安全、升级回滚、故障实验、事故题和系统设计 |
 | 已达到大厂面试级第一版 | TensorFlow | 已补 TensorFlow 2.21、Tensor/自动微分/Keras、tf.data/tf.function、分布式训练、模型交付、漂移监控、脏数据实验、事故题和系统设计 |
+| 已达到大厂面试级第一版 | Transformer | 已补 Token/Embedding/Position、Q/K/V 与多头注意力、Mask、Encoder/Decoder、训练与 KV Cache 推理、容量安全、双层实验、事故题和系统设计 |
 | 已达到大厂面试级第一版 | SonarQube | 已补 Community Build 与 Server Edition、Scanner/Web/CE/DB/Search 链路、Quality Profile/Gate、容量安全、升级回滚、双层实验、事故题和系统设计 |
 | 已达到大厂面试级第一版 | MongoDB | 已补 8.2.12、BSON/文档模型、WiredTiger、索引与 Explain、复制集/分片/Change Stream、一致性、双层实验、事故题和系统设计 |
 | 已达到大厂面试级第一版 | Apache ActiveMQ | 已补 Classic 6.3.0 与 Artemis 2.55.0 边界、JMS/协议、持久化/Ack/重投/DLQ、HA 迁移、双层实验、事故题和系统设计 |
@@ -114,6 +115,7 @@
 | 已完成第一版 | 机器学习 | [machine-learning.md](./data-ai/machine-learning.md) | Google ML Crash Course 与 scikit-learn 官方主线、样本/特征/标签、监督/无监督学习、异常检测、训练/测试拆分、precision/recall、数据泄漏、AIOps 告警分类实验 |
 | 已完成第一版 | scikit-learn | [scikit-learn.md](./data-ai/scikit-learn.md) | scikit-learn 官方结构、estimator API、X/y、fit/predict/transform、监督/无监督学习、异常检测、IsolationForest、特征工程、预处理、Pipeline、ColumnTransformer、训练/测试拆分、数据泄漏、模型评估、模型持久化、API 字典、AIOps 指标异常检测实验 |
 | 已达到大厂面试级第一版 | TensorFlow | [tensorflow.md](./data-ai/tensorflow.md) | TensorFlow 2.21、Tensor/Variable、GradientTape、Keras、tf.data、tf.function、分布式训练、性能容量、SavedModel/Serving、灰度回滚、双层实验、事故题和系统设计 |
+| 已达到大厂面试级第一版 | Transformer | [transformer.md](./data-ai/transformer.md) | Transformer 原始架构、Token/Embedding/Position、Q/K/V、多头注意力、Mask、Encoder/Decoder、FFN/Residual/Norm、Prefill/Decode/KV Cache、分布式与容量、安全升级、纯 Python 基础实验、未来泄漏故障注入、事故题和系统设计 |
 | 已完成第一版 | FastAPI | [fastapi.md](./data-ai/fastapi.md) | FastAPI 官方教程结构、ASGI、Starlette、Pydantic、Uvicorn、路径操作、参数解析、请求体、响应模型、依赖注入、异常处理、中间件、CORS、OpenAPI、APIRouter、配置、测试、部署、AIOps 告警接收和分析 API 实验 |
 | 已完成第一版 | LLM / OpenAI API | [llm-openai.md](./data-ai/llm-openai.md) | OpenAI 官方 API 结构、Responses API、模型选型、instructions/input、提示词合同、结构化输出、function calling、Embeddings、RAG 关系、上下文拼装、安全边界、成本/延迟/降级、评估、AIOps 告警摘要助手实验 |
 | 已完成第一版 | LangChain | [langchain.md](./data-ai/langchain.md) | LangChain 官方结构、agent/model/tool/message/system prompt、structured output、memory、context engineering、RAG、LangGraph/LangSmith 边界、AIOps runbook 查询助手实验 |
@@ -150,7 +152,7 @@
 | 2 | Docker、Kubernetes、Helm、NGINX/Ingress、微服务 | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
 | 3 | Alertmanager、OpenTelemetry、Loki、Elasticsearch、VictoriaMetrics | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
 | 4 | Ansible、Terraform、GitHub Actions、CI/CD、Runbook Automation | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
-| 5 | MySQL、Oracle、PostgreSQL、Redis、Kafka、RabbitMQ、pandas、机器学习、scikit-learn、FastAPI、LLM、LangChain、LangGraph、RAG、向量数据库 | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
+| 5 | MySQL、Oracle、PostgreSQL、Redis、Kafka、RabbitMQ、pandas、机器学习、scikit-learn、Transformer、FastAPI、LLM、LangChain、LangGraph、RAG、向量数据库 | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
 | 6 | SLI/SLO/SLA、告警治理、事件响应、Runbook、RCA、变更管理、AIOps 闭环 | 深讲第一版已完成 | 已补齐官方知识地图、机制、命令/API 字典、实验、排障和学习证据 |
 | 7 | 网络安全等级保护（等保 2.0） | 深讲第一版已完成 | 新增安全与合规分类，补齐现行依据、实施流程、控制与证据闭环、实验、排障和学习证据 |
 | 8 | IBM Storage | 深讲第一版已完成 | 新增存储与数据保护分类，补齐产品边界、核心架构、命令字典、指标、实验、排障和学习证据 |
@@ -176,6 +178,7 @@
 | 28 | JumpServer | 大厂面试级第一版已完成 | 新增 PAM/堡垒机主线，覆盖 v4.10.18、社区版/X-Pack、身份与资产授权、连接和审计链路、状态恢复、HA、容量安全、升级回滚、双层实验、事故题和系统设计 |
 | 29 | Apache Maven | 大厂面试级第一版已完成 | 新增 Java 构建与依赖治理主线，覆盖 Maven 3.9.16/Maven 4 RC、模型与执行路径、依赖/插件/仓库、可复现性、容量安全、升级回滚、双层实验、事故题和系统设计 |
 | 30 | RESTful API | 大厂面试级第一版已完成 | 新增 REST 与 HTTP API 契约主线，覆盖统一接口、方法/状态/Header、缓存与并发控制、幂等、OpenAPI、兼容演进、安全、容量、双层实验、事故题和系统设计 |
+| 31 | Transformer | 大厂面试级第一版已完成 | 新增序列建模与注意力主线，覆盖原始架构、Mask、Encoder/Decoder、训练与 KV Cache 推理、容量、安全、升级回滚、双层实验、事故题和系统设计 |
 
 ## 已完成
 
@@ -258,6 +261,7 @@
 | 数据与 AI | 机器学习 | [machine-learning.md](./data-ai/machine-learning.md) |
 | 数据与 AI | scikit-learn | [scikit-learn.md](./data-ai/scikit-learn.md) |
 | 数据与 AI | TensorFlow | [tensorflow.md](./data-ai/tensorflow.md) |
+| 数据与 AI | Transformer | [transformer.md](./data-ai/transformer.md) |
 | 数据与 AI | FastAPI | [fastapi.md](./data-ai/fastapi.md) |
 | 数据与 AI | LLM / OpenAI API | [llm-openai.md](./data-ai/llm-openai.md) |
 | 数据与 AI | LangChain | [langchain.md](./data-ai/langchain.md) |

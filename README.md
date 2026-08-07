@@ -140,6 +140,7 @@ npm run build
 - [机器学习](./docs/tech-stack/data-ai/machine-learning.md)
 - [scikit-learn](./docs/tech-stack/data-ai/scikit-learn.md)
 - [TensorFlow](./docs/tech-stack/data-ai/tensorflow.md)
+- [Transformer](./docs/tech-stack/data-ai/transformer.md)
 - [FastAPI](./docs/tech-stack/data-ai/fastapi.md)
 - [LLM / OpenAI API](./docs/tech-stack/data-ai/llm-openai.md)
 - [LangChain](./docs/tech-stack/data-ai/langchain.md)
