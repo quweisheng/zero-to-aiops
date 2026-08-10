@@ -66,7 +66,7 @@
 18. [华为 OceanStor](./storage-data-protection/huawei-oceanstor.md)：理解企业阵列的数据路径、LUN 映射、多路径、双活、复制和存储排障。
 19. [爱数 AnyStorage](./storage-data-protection/aishu-anystorage.md)：理解统一 SAN/NAS、RAID 2.0、GX 虚拟化、双活、复制和存储 AIOps 排障。
 20. [Ceph](./storage-data-protection/ceph.md)：理解对象如何经过 pool、PG 和 CRUSH 分布到 OSD，并学会判断集群健康。
-21. [IBM WebSphere](./middleware-application-platform/websphere.md)：理解 traditional ND 与 Liberty 边界、企业 Java 请求路径、集群、会话、JDBC/JMS/JTA 和生产排障。
+21. [IBM WebSphere](./middleware-application-platform/websphere.md)：理解 traditional ND 与 Liberty 边界、企业 Java 请求路径、EAR 更新、BLA/Composition Unit、集群、会话、JDBC/JMS/JTA 和生产排障。
 22. [Apache Tomcat](./middleware-application-platform/tomcat.md)：理解 Servlet 容器、请求与部署路径、线程/连接/JDBC、会话、可观测性和生产升级回滚。
 23. [GitHub Actions](./automation/github-actions.md)：把重复动作变成流程。
 24. [Apache Maven](./automation/maven.md)：理解 POM、生命周期、依赖解析、插件、多模块、企业制品库和可复现构建。

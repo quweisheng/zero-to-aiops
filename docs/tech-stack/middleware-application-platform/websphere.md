@@ -1,6 +1,6 @@
 # IBM WebSphere 技术栈深讲
 
-> 学习目标：从零理解 WebSphere Application Server traditional 与 WebSphere Liberty 的边界，能画出一次请求经过 IBM HTTP Server、Web Server Plug-in、Cluster Member、JDBC/JMS 和后端系统的完整路径，能完成 Liberty 入门与故障注入实验，并能分析传统 WAS 的部署、会话、线程池、连接池、JVM、证书、集群和配置同步故障。
+> 学习目标：从零理解 WebSphere Application Server traditional 与 WebSphere Liberty 的边界，能画出一次请求经过 IBM HTTP Server、Web Server Plug-in、Cluster Member、JDBC/JMS 和后端系统的完整路径，能安全完成 EAR 更新前检查、控制台或 `wsadmin` 更新、节点同步、启动验证与回滚，能识别 BLA/Composition Unit 残留，并能分析传统 WAS 的部署、会话、线程池、连接池、JVM、证书、集群和配置同步故障。
 
 ## 官方资料
 
@@ -12,6 +12,13 @@
 - [Open Liberty 入门指南](https://openliberty.io/guides/getting-started.html)
 - [Open Liberty Server 配置说明](https://www.openliberty.io/docs/latest/reference/config/server-configuration-overview.html)
 - [WebSphere `wsadmin` 入门](https://www.ibm.com/docs/en/was/9.0.5?topic=clients-getting-started-wsadmin-scripting)
+- [更新企业应用文件的官方方法](https://www.ibm.com/docs/en/was/9.0.5?topic=files-ways-update-enterprise-application)
+- [`AdminApp` 命令参考](https://www.ibm.com/docs/en/was/9.0.5?topic=scripting-commands-adminapp-object-using-wsadmin)
+- [删除 Business-level Application](https://www.ibm.com/docs/en/was-nd/9.0.5?topic=applications-deleting-business-level)
+- [使用 `wsadmin` 删除 Business-level Application](https://www.ibm.com/docs/en/was/9.0.5?topic=scripting-deleting-business-level-applications-using-wsadmin)
+- [备份和恢复管理配置](https://www.ibm.com/docs/en/was/9.0.5?topic=files-backing-up-restoring-administrative-configuration)
+- [模块到 Server/Cluster/Web Server 的映射](https://www.ibm.com/docs/en/was/9.0.5?topic=files-mapping-modules-servers)
+- [应用 Edition 兼容性](https://www.ibm.com/docs/en/was-nd/9.0.5?topic=concepts-edition-compatibility)
 - [WebSphere PMI 性能监控](https://www.ibm.com/docs/en/was-nd/9.0.5?topic=health-performance-monitoring-infrastructure-pmi)
 
 说明：本文基于 IBM 和 Open Liberty 官方资料重新组织，不复制官方全文。IBM 当前声明 WebSphere Application Server traditional 8.5.5 和 9.0.5 没有计划中的结束支持日期，但这不代表旧 Fix Pack、旧 Java、旧操作系统和第三方依赖可以无限期不升级。生产环境必须核对 IBM Recommended Updates、详细系统要求、Java 支持、操作系统生命周期、授权和安全公告。
@@ -25,6 +32,8 @@ WebSphere 官方资料
   -> 运行时：Application Server、JVM、Web/EJB Container、Cluster
   -> 接入：IBM HTTP Server、Web Server Plug-in、plugin-cfg.xml、Session Affinity
   -> 资源：JNDI、JDBC、JMS、JTA、Thread Pool、Connection Pool
+  -> 应用变更：EAR、Enterprise Application、Asset、BLA、Composition Unit、Edition
+  -> 发布链路：制品校验、Update、保存、同步、展开、启动、路由、业务验证、回滚
   -> 运维：Admin Console、wsadmin、PMI、日志、FFDC、Dump、备份
   -> 生产治理：高可用、容量、安全、升级、回滚、现代化迁移
 ```
@@ -36,10 +45,12 @@ WebSphere 官方资料
   -> 区分 traditional 与 Liberty
   -> 认识 Cell、Node、Server、Cluster
   -> 跑通 Open Liberty 健康检查
+  -> 看懂一次 EAR 安装、更新、启动和访问验证
   -> 看懂日志、线程池和 JDBC 连接池
 
 进阶层
   -> 画出请求、配置、会话和事务路径
+  -> 按阶段排查 EAR 制品、绑定、同步、启动、路由和 Composition Unit 残留
   -> 设计多节点高可用与滚动发布
   -> 分析 JVM、线程、连接、插件和依赖故障
   -> 完成安全、容量、升级、回滚和现代化取舍
@@ -468,6 +479,7 @@ productInfo version                # 查看 Liberty 产品版本
 | `AdminConfig` | 查询和修改配置仓库 | `AdminConfig.list('Server')` | 输出配置对象 ID | 修改后忘记 `AdminConfig.save()`，或保存错误对象 |
 | `AdminControl` | 操作运行中的 MBean | `AdminControl.queryNames('type=Server,*')` | 输出运行对象 | Server 未运行时查不到 Runtime MBean |
 | `AdminTask` | 面向任务的管理命令 | `AdminTask.help('-commands')` | 输出命令组 | 不同 Edition/版本可用命令不同 |
+| `AdminTask` BLA 命令组 | 查询或删除 BLA/CU | `listBLAs`、`listCompUnits`、`deleteCompUnit`、`deleteBLA` | 输出对象或删除结果 | 删除前没查引用，或把示例 `cuID` 当真实值 |
 | `Help` | 查看 wsadmin 帮助 | `Help.help()` | 输出帮助 | Jacl 与 Jython 语法混用 |
 
 IBM 官方提醒：Server 运行时不建议在 local mode 下做冲突配置变更，因为本地配置与运行/DMgr 配置可能互相覆盖甚至损坏。自动化应默认连接 DMgr，使用 Jython、版本控制脚本、变更审计和幂等检查。
@@ -480,6 +492,11 @@ IBM 官方提醒：Server 运行时不建议在 local mode 下做冲突配置变
 | `startServer` | 启动 Application Server | `startServer.sh server1` | Profile、Server name | `ADMU3000I` | 从错误 Profile 启动同名 Server |
 | `wsadmin` | 脚本化管理 | `wsadmin.sh -lang jython` | host、SOAP port、user、language | 连接 DMgr 并进入提示符 | 把密码明文写入 Shell History |
 | `AdminApp.list` | 只读列出应用 | `print AdminApp.list()` | 可选 Target scope | 返回应用列表 | 配置存在不代表每个成员运行成功 |
+| `AdminApp.update` | 更新完整 EAR、模块或文件 | `AdminApp.update(app, 'app', [...])` | content type、operation、contents、binding options | 返回更新任务结果 | 更新成功后忘记 Save/Sync/Start/业务验证 |
+| `AdminTask.listBLAs` | 列出 Business-level Applications | `print AdminTask.listBLAs()` | 无参数或版本支持选项 | 返回 BLA 清单 | 损坏 CU 可能让查询本身报 `CWWMH0121E` |
+| `AdminTask.listCompUnits` | 列出 BLA 中的 CU | `listCompUnits('-blaID ...')` | 准确 `blaID` | 返回 CU 清单 | `blaID` 与应用显示名混淆 |
+| `AdminTask.deleteCompUnit` | 从 BLA 删除一个 CU | `deleteCompUnit('-blaID ... -cuID ...')` | 准确 `blaID`、`cuID` | 返回删除结果 | 未核对引用或删错 Edition；高风险写操作 |
+| `AdminTask.deleteBLA` | 删除已经没有 CU 的 BLA | `deleteBLA('-blaID ...')` | 准确 `blaID` | 返回被删配置 ID | BLA 仍被引用、未保存配置；高风险写操作 |
 | `syncNode` | 从 DMgr 同步 Node | `syncNode.sh <dmgr-host> <soap-port>` | DMgr host、SOAP port | Node 同步成功 | Node Agent 状态和认证问题未解决就反复同步 |
 | `backupConfig` | 备份 Profile 配置 | `backupConfig.sh backup.zip` | 输出路径、是否停止 Server | 生成可验证 ZIP | 备份文件和当前 Fix Pack/二进制不匹配 |
 | `plugin-cfg.xml` | Web Server Plug-in 路由配置 | 通过 Console/脚本生成传播 | URI、Cluster、Server、Transport | 与当前应用/成员一致 | 手工改后被下次生成覆盖 |
@@ -492,6 +509,8 @@ IBM 官方提醒：Server 运行时不建议在 local mode 下做冲突配置变
 |---|---|---|
 | `SystemOut.log` | 应用、容器和标准运行日志 | 错误时间、线程、应用名、异常链 |
 | `SystemErr.log` | 标准错误输出 | JVM/Native/库加载错误 |
+| DMgr `SystemOut` / FFDC | EAR 分析、配置保存、Rollout Update 和管理任务 | `ADMA`/`CWWMH` 消息、应用名、任务开始与最终结果 |
+| Node Agent / `syncNode.log` | Node 同步与应用二进制分发 | 连接 DMgr、下载、权限、磁盘和同步完成状态 |
 | `native_stderr.log` | JVM Native 层错误 | 崩溃、内存、JVM 启动问题 |
 | `trace.log` | 按 Trace Specification 产生的详细日志 | 是否在受控时间窗开启、磁盘增长 |
 | `ffdc/` | 首次故障自动捕获 | Exception、Probe ID、时间和关联线程 |
@@ -543,6 +562,836 @@ IBM PMI 可以提供 Servlet 响应时间、JDBC Pool、Thread Pool、JVM GC/Hea
 - 适合自动化：只读清单、节点同步检查、应用版本比对、PMI 采集、日志归档、Thread Dump 采集审批、Runbook 推荐。
 - 需审批：重启成员、扩线程池、刷新连接池、重新传播 Plug-in、滚动发布。
 - 高风险人工确认：删除事务日志、强制停止整个 Cluster、卸载应用、修改全局安全、替换证书、恢复配置仓库。
+
+## EAR 更新与部署：从发布门禁到故障闭环
+
+这一节来自一次已经脱敏的真实故障复盘：旧应用卸载或失败回滚后，普通企业应用列表里已经没有目标应用，但 Business-level Application（BLA，业务级应用）和 Composition Unit（CU，组合单元）仍留在配置仓库，再次安装同名 EAR 时出现：
+
+```text
+A composition unit with name ExampleApp already exists.
+ADMA5014E: Application ExampleApp installation failed.
+```
+
+继续查询 BLA 时又出现 `CWWMH0121E`，说明 CU 的企业应用配置无法正常读取。这个案例很典型，但不能因此把“移动 `blas` 和 `cus` 目录”当成所有部署问题的通用答案。大多数 EAR 故障应先在制品、应用身份、绑定、配置保存、节点同步、应用启动或 HTTP 路由层解决。
+
+### 先说边界：“所有问题”应该怎么理解
+
+WebSphere 版本、Java 级别、应用模块、第三方库、数据库、MQ 和安全配置组合非常多，没人能列出未来所有错误码。更可靠的学习方式，是覆盖一次更新会经过的所有阶段，并让未知错误也能归到某一阶段：
+
+```text
+制品生成
+  -> 上传与解包
+  -> 应用分析
+  -> 模块、资源和安全绑定
+  -> 写入主配置仓库
+  -> 节点同步与二进制分发
+  -> JVM 加载和应用启动
+  -> Plug-in / Virtual Host / Context Root 路由
+  -> 数据库、MQ、外部接口和业务验证
+  -> 回滚与配置收敛
+```
+
+本文覆盖每一层的高频故障、证据和操作方法。若出现新的 `ADMA`、`CWWMH`、`J2CA` 或其他消息，先看它发生在哪一层，再查 IBM 对应版本的消息参考和 APAR，不要只搜索一条命令照抄。
+
+### 安装、更新、卸载重装和 Edition 不是一回事
+
+| 操作 | 人话解释 | 适用场景 | 主要风险 |
+|---|---|---|---|
+| Install | 第一次在 Cell 中创建这个应用身份 | 应用确实不存在 | 同名应用、BLA/CU 或 Asset 已存在时冲突 |
+| Update | 保留应用身份，用新 EAR、模块或文件替换旧内容 | 正常版本发布 | 旧绑定合并、自动重启、部分节点未同步 |
+| Uninstall + Install | 先删除旧身份，再重新创建 | 应用身份、模块结构或元数据变化必须重建时 | 中断更长、绑定丢失、卸载不完整留下孤儿对象 |
+| Rollout Update | 按节点顺序传播 Cluster 中的更新 | 多节点 Cluster，尽量缩短单成员不可用时间 | 不是零中断保证；HTTP/JMS 在途工作可能受影响 |
+| Application Edition | 同一应用保留多个 Edition，再激活、验证或按路由切换 | 支持 Edition 管理且新旧版本兼容 | 数据库和 Session 不兼容时仍不能无损切换 |
+
+[IBM 的更新方式说明](https://www.ibm.com/docs/en/was/9.0.5?topic=files-ways-update-enterprise-application)把完整 EAR、单模块、单文件和 Partial Application 区分开。第一次处理正常版本发布时，优先选 **Update**，不要为了“干净”习惯性卸载重装。
+
+Update 内部还分四种，选错对象会把一个小变更扩大成整包重启，或者把本应完整替换的内容更新残缺：
+
+| Update 类型 | 实际更新什么 | 适合什么变更 | 新手最容易犯的错 |
+|---|---|---|---|
+| Full application | 用一个完整新 EAR 更新现有应用 | 模块、公共依赖或多个描述符一起变化 | 以为它只覆盖新文件；实际上新 EAR 中缺少的旧内容可能被移除 |
+| Single module | 更新 EAR 内一个 WAR、EJB JAR 或 RAR | 模块 URI 不变且影响范围清楚 | 模块 URI 写错，被识别成新增模块或找不到原模块 |
+| Single file | 更新归档内一个精确 URI 的文件 | 经过验证的极小变更 | `contenturi` 写错，文件落到错误位置，元数据没有重新分析 |
+| Partial application | 用一组相对路径更新部分内容 | 有成熟流水线能生成、审计和回滚差异包 | 差异包漏文件，节点最终内容不再等于任何完整构建产物 |
+
+对新手和生产常规发版，完整 EAR Update 最容易审计：新 EAR 的哈希、模块清单和测试结果能一一对应。Single Module/File/Partial 不是“更高级”，只是影响范围不同，必须能证明 URI、依赖和回滚都正确。
+
+如果更新改变了注解相关的部署描述、类层次或元数据，仅重启应用可能不足，IBM 明确提示某些变化需要重新安装。是否重装应由变更内容和测试结果决定，不是看到报错就先卸载。
+
+### 小白必须先懂的部署对象
+
+| 对象 | 是什么 | 放在哪里或由谁管理 | 坏了会怎样 |
+|---|---|---|---|
+| EAR | 包含 WAR、EJB JAR、RAR、公共 JAR 和描述符的发布制品 | 发布仓库和上传临时目录 | ZIP 损坏、缺模块、描述符错误会在分析阶段失败 |
+| Enterprise Application | 控制台“WebSphere 企业应用程序”里管理的应用身份 | Cell 配置仓库 | 同名存在时应 Update；目标和绑定错误会启动失败 |
+| Asset | 被产品管理域登记的可部署二进制资产 | Asset Repository | 旧 Asset 或版本引用可能阻止删除或替换 |
+| BLA | 把一个或多个可部署单元组织成业务级应用的管理对象 | `config/cells/<cell>/blas` | 引用没清理时，删除或重装可能冲突 |
+| Composition Unit | BLA 中指向具体 Asset、共享库或其他 BLA 的单元 | `config/cells/<cell>/cus` | 同名孤儿 CU 会让同名安装失败 |
+| Deployment | 应用部署目标、模块、Classloader 等配置对象 | Cell 主配置仓库 | `deployment.xml` 等配置损坏会影响应用加载 |
+| Application Binary | 同步并展开到目标 Node 的应用文件 | 通常在 Node 的 `installedApps/<cell>` | 磁盘、权限、同步或文件锁会造成部分成员缺文件 |
+| Application Edition | 同一应用的一个可管理版本身份 | Edition Control Center | Edition 未激活、路由未保存或版本不兼容会切换失败 |
+
+这里最容易混淆的是：**控制台企业应用列表没有应用，不等于所有相关对象都已删除。** BLA、CU、Asset、Deployment 和 Node 上的应用二进制可能处于不同状态。反过来，磁盘上看到一个目录也不等于它仍是有效配置对象。
+
+### 一次完整 EAR 更新到底改了什么
+
+```text
+发布人员提交新 EAR
+  -> DMgr / stand-alone Server 接收文件
+  -> 在临时工作目录解包并分析模块、注解、描述符和绑定
+  -> AdminApp 更新 Enterprise Application 配置
+  -> 保存到 Cell 主配置仓库
+  -> Node Agent 与 DMgr 同步
+  -> 新二进制传到目标 Node 并写入 installedApps
+  -> 目标 JVM 停止旧应用、加载新类和资源、启动新应用
+  -> 必要时重新生成和传播 plugin-cfg.xml
+  -> 健康检查、业务冒烟、日志和指标确认
+```
+
+在 ND 中，配置真相以 DMgr 的 Master Repository 为准；Node Profile 是同步副本。IBM 的 `AdminApp` 参考也强调，ND 配置更新只有连接 DMgr 才可用。不要连接 Managed Node 后用 local mode 修改配置，也不要把 Node 的 `config` 目录当主仓库。
+
+### 用“失败阶段”代替“看到报错就重启”
+
+| 失败阶段 | 常见现象 | 第一批证据 |
+|---|---|---|
+| 制品 | 上传前就无法解压，EAR 哈希不符 | 制品哈希、`unzip -t`、构建记录 |
+| 应用分析 | Update Wizard 或 `AdminApp.update` 在校验时报错 | DMgr/SystemOut、FFDC、EAR 描述符和模块清单 |
+| 身份与对象 | `already exists`、`CWWMH0121E` | `AdminApp.list()`、BLA/CU/Asset 清单、四处目录只读检查 |
+| 绑定与目标 | JNDI、EJB、资源引用或 Module Mapping 未完成 | 安装任务输出、当前绑定、目标 Server/Cluster 版本 |
+| 配置保存 | Finish 成功但 Save 失败，或存在冲突工作区 | DMgr 日志、未保存变更、管理员并发操作 |
+| 节点同步 | DMgr 有新版本，Node 仍是旧版本 | Node Sync 状态、Node Agent 日志、同步时间和错误 |
+| 二进制分发 | 某些 Node 的 `installedApps` 未更新 | Node 磁盘/权限、Node Agent/SystemOut、制品时间和哈希 |
+| 应用启动 | 安装成功但应用 Failed/Stopped | Member SystemOut/SystemErr、FFDC、Classloader/JNDI/JDBC/JMS |
+| HTTP 路由 | 应用 Started，但 IHS 路径 404/503 | Context Root、Virtual Host、`plugin-cfg.xml`、Plug-in 日志 |
+| 业务运行 | 健康页成功，但登录、交易或消息失败 | 业务日志、数据库/MQ/API、事务、指标和 Trace |
+| 回滚 | 旧 EAR 恢复后仍失败 | 配置、数据库 Schema、缓存、Session、Plug-in 和绑定差异 |
+
+### 更新前门禁：还没点 Update 就先做完
+
+#### 1. 识别拓扑和唯一目标
+
+先记录：
+
+- WAS Edition、Fix Pack、Java SDK 和操作系统；
+- stand-alone 还是 ND；
+- DMgr、Cell、Node、Cluster、Server 和 IHS 名称；
+- 应用名、当前 Edition、模块名、Context Root 和目标；
+- 当前 EAR 的版本、SHA-256、发布时间和变更单；
+- 本次是 Update、重装还是 Edition Rollout。
+
+```bash
+PROFILE_ROOT=/opt/IBM/WebSphere/AppServer/profiles/AppSrv01
+
+"$PROFILE_ROOT/bin/versionInfo.sh"       # 查看产品与 Fix Pack；保存完整输出
+"$PROFILE_ROOT/bin/serverStatus.sh" -all # 确认当前 Profile 中有哪些进程
+```
+
+如果命令来自 AppSrv Profile，却误以为自己连接的是 DMgr，后续结论会全部偏掉。ND 环境应从 DMgr Profile 启动 `wsadmin`，并在提示信息中确认连接进程类型。
+
+#### 2. 验证 EAR 是同一个制品
+
+```bash
+EAR=/release/ExampleApp-2026.08.10.ear
+
+sha256sum "$EAR"       # 与构建流水线记录对比；不一致就停止发布
+unzip -t "$EAR"        # 校验 ZIP 结构；正常结尾应说明未发现错误
+jar tf "$EAR" | sed -n '1,120p' # 查看模块和 META-INF，不会修改 EAR
+```
+
+小白要记住：文件名相同不代表内容相同。哈希能证明“现在服务器上的字节”和评审通过的字节是否一致。`unzip -t` 通过只说明压缩结构可读，不证明 Java EE 版本、类库和业务逻辑兼容。
+
+#### 3. 保存当前应用配置，不只保存 EAR
+
+至少记录：
+
+- 模块到 Cluster/Server/Web Server 的映射；
+- Virtual Host、Context Root；
+- JNDI 资源引用、DataSource、JMS、EJB Binding；
+- 安全角色到用户/组的映射和 RunAs；
+- Classloader Order、WAR Classloader Policy、Shared Library；
+- Session、事务、启动顺序和应用自定义属性。
+
+旧 EAR 只能恢复代码，不能自动恢复被错误覆盖的绑定。生产应把 `AdminApp.view()` 输出、脱敏控制台截图或受控导出脚本纳入发布证据。
+
+若应用对象当前可读，可先从正确的管理 Profile 导出已安装版本：
+
+```python
+app_name = 'ExampleApp'
+AdminApp.export(app_name, '/safe/backup/ExampleApp-before-update.ear')
+```
+
+`AdminApp.export` 解决“上一版应用包还能不能取回”的问题；`backupConfig` 解决“整个管理配置仓库能不能恢复”的问题；绑定、模块映射和外部资源快照解决“配置含义能不能复原”的问题。三者不能互相替代。导出后还要计算哈希并确认文件非 0 字节。参考 [IBM 导出应用说明](https://www.ibm.com/docs/en/was/9.0.5?topic=scripting-exporting-applications-using-wsadmin)。
+
+#### 4. 检查配置、临时目录和 Node 容量
+
+```bash
+df -h "$PROFILE_ROOT" /tmp # 检查容量；上传、解包、同步和备份都会占空间
+df -i "$PROFILE_ROOT" /tmp # 检查 inode；大量小文件时容量未满也可能写不进去
+```
+
+还要检查 DMgr 与每个目标 Node。只看 DMgr 有空间不够，因为应用二进制最终要传到各 Node。不要在进程运行时为“腾空间”随意清空 `wstemp`、`temp`、`config` 或 `installedApps`。
+
+大型 EAR 还要额外检查：
+
+- Windows 上 Profile、Cell、应用名和归档内部路径叠加后是否过长；`CWWMH0187E` 可能指向 259 字符路径限制；
+- 杀毒、备份或索引进程是否锁住 EAR/JAR/DLL；
+- WebSphere 运行账号能否读源 EAR、写临时区和展开目录；
+- Shell `ulimit`、可打开文件数和进程内存是否足够；
+- OOM 出现在 `wsadmin` 客户端、DMgr、stand-alone Server 还是目标 Member，不能只给业务 JVM 加堆。
+
+#### 5. 准备三类回滚材料
+
+1. **配置回滚：** `backupConfig` ZIP，版本和 Fix Pack 必须与恢复目标一致。
+2. **应用回滚：** 上一版 EAR、哈希、绑定和启动参数。
+3. **业务回滚：** 数据库 Schema、缓存、消息格式和外部接口的向后兼容方案。
+
+IBM 明确说明，`restoreConfig` 应使用与当前产品 Release 和 Fix Level 相同的备份。`backupConfig` 也不保留 UNIX/Linux 原始权限与所有者；恢复后要验证权限，不能只看到 ZIP 成功就认为万无一失。
+
+#### 6. 为 Cluster 留出故障容量
+
+滚动更新时至少有一个成员会暂时不可用。更新前要证明剩余成员可以承载流量，并确定：
+
+- 如何从负载均衡或 Plug-in 中排空成员；
+- 等待多长时间算在途请求结束；
+- Session 是否兼容、是否会丢失；
+- 每个成员用什么技术和业务探针验收；
+- 哪个条件触发停止发布并回滚。
+
+### 使用控制台更新完整 EAR
+
+适合第一次操作、需要人工确认绑定的场景：
+
+1. 打开 `Applications > Application Types > WebSphere enterprise applications`。
+2. 先确认目标应用存在且名称完全一致；若不存在，不要点 Update 后猜原因。
+3. 选中应用，点击 **Update**。
+4. 选择 **Full application**，上传经过哈希核对的 EAR。
+5. 逐页核对模块目标、Virtual Host、资源引用、安全角色和安装选项。
+6. 点击 **Finish** 后阅读全部消息；成功分析不等于已经持久化。
+7. 点击 **Save** 保存到主配置。
+8. ND 环境确认各 Node 同步；Cluster 使用经过评审的 Rollout Update 或逐成员发布流程。
+9. 检查每个成员的应用状态、日志、版本和业务探针。
+
+IBM 说明：应用在运行时更新，产品通常会停止、更新并重启应用；若未自动启动，需要人工启动。不要因此省略停机影响评估，因为停止和重启本身会影响请求。
+
+### 使用 `wsadmin` 更新完整 EAR
+
+下面是最小 Jython 逻辑。生产建议放入版本控制脚本，增加参数校验、日志、审批号和失败退出；不要把管理员密码写进脚本或 Shell History。
+
+```python
+app_name = 'ExampleApp'
+ear_path = '/release/ExampleApp-2026.08.10.ear'
+
+print(AdminApp.list())
+
+# content type=app 表示更新完整应用；operation=update 表示替换现有内容。
+result = AdminApp.update(
+    app_name,
+    'app',
+    ['-operation', 'update', '-contents', ear_path]
+)
+print(result)
+
+# 只有前面的更新任务成功后，才保存配置。
+if AdminConfig.hasChanges():
+    AdminConfig.save()
+```
+
+正常输出通常包含 `ADMA5078I`（更新开始）、目标版本校验、解包、文件合并和配置写入消息。消息编号会因版本和更新类型不同而变化，判断标准是任务无异常、配置已保存、节点已同步且业务验证通过。
+
+如果更新命令抛异常且配置尚未保存，可以用 `AdminConfig.reset()` 放弃当前 `wsadmin` 工作区中的未保存配置。但这不是万能回滚：IBM 的 `AdminApp` 文档指出，完整应用更新时，Application Analysis Report 可能在未保存前已被删除。因此，生产仍要提前备份并保留旧制品。
+
+更新命令成功返回，也可能早于全部 Node 完成分发和展开。保存后继续查询：
+
+```python
+app_name = 'ExampleApp'
+
+# true 说明产品判断应用二进制已准备好；ND 中尤其不能跳过。
+print(AdminApp.isAppReady(app_name))
+
+# 查看每个目标的 distribution / expansion 状态和失败信息。
+print(AdminApp.getDeployStatus(app_name))
+
+# 有返回值才说明运行时存在该应用的 Application MBean。
+print(AdminControl.completeObjectName('type=Application,name=' + app_name + ',*'))
+```
+
+这三项分别回答“文件准备好了吗”“分发到哪里、是否展开成功”“JVM 里真的运行了吗”。它们仍不能替代 HTTP 和业务验证。参考 [IBM 安装应用的异步分发说明](https://www.ibm.com/docs/en/was/9.0.5?topic=scripting-installing-enterprise-applications-using-wsadmin)与[运行状态查询](https://www.ibm.com/docs/en/was-zos/9.0.5?topic=scripting-querying-application-state-using-wsadmin)。
+
+### 为什么不推荐直接改 `installedApps`
+
+直接替换 `installedApps` 中的文件属于 Hot Deployment/手工热部署思路。IBM 把它定位为更复杂的方式，并建议新手使用控制台更新。它的问题包括：
+
+- DMgr 主配置不知道你改了什么；
+- 下一次节点同步或 `restoreConfig` 可能覆盖手工修改；
+- 注解、描述符、类层次和绑定可能没有重新分析；
+- 集群不同 Node 容易出现不同字节；
+- 没有稳定的审计和回滚证据。
+
+开发环境中受控热部署不等于生产可以复制 EAR 到目录。生产默认使用 Console、`wsadmin`、属性文件或经过验证的发布工具。
+
+### EAR 更新故障库：按阶段检查
+
+下面不是“看到关键字就执行修复”的自动匹配表。每一类都按现象、概念、证据、修复和验证走完整闭环。
+
+#### 1. EAR 损坏、传错版本或内容不完整
+
+**现象：** 上传失败、解包异常、`AdminApp` 在 Extract/Analyze 阶段报错，或发布成功后发现版本不对。
+
+**概念：** EAR 本质是 ZIP 格式的企业应用归档。WebSphere 必须先读出模块、描述符和类，才能建立部署配置。
+
+**先查：**
+
+1. 构建流水线与服务器文件的 SHA-256 是否一致；
+2. `unzip -t` 是否完整通过；
+3. `jar tf` 是否包含预期 WAR/EJB JAR、`META-INF` 和依赖；
+4. 上传用户是否能读文件，路径是否写错；
+5. DMgr/Server 的临时目录、Profile 和 Node 是否有磁盘与 inode。
+6. Windows 完整展开路径是否过长，是否出现 `CWWMH0187E`；
+7. 杀毒、备份或索引进程是否锁住了 EAR/JAR，是否出现 `ADMA0053E`。
+
+**修复：** 从可信制品库重新获取固定版本，重新核对哈希。不要从聊天软件传来的同名文件继续重试，也不要在服务器上临时修改 EAR 后绕过构建流程。
+
+**验证：** 构建记录、发布机和 DMgr 接收的文件哈希一致；解包测试通过；版本端点或 Manifest 显示目标版本。
+
+#### 2. 应用名已存在，却又执行 Install
+
+**现象：** 安装向导或脚本提示同名应用已存在。
+
+**概念：** Install 创建新的应用身份；Update 修改已经存在的身份。相同 EAR 文件名与相同应用名不是一回事，应用名可由部署选项、描述符或人工输入决定。
+
+**先查：**
+
+```python
+print(AdminApp.list())
+```
+
+再到控制台同时检查 WebSphere Enterprise Applications、Business-level Applications 和 Assets。
+
+**修复：** 正常发版使用 Update。只有应用身份必须重建、已验证卸载完整且回滚方案就绪时，才采用 Uninstall + Install。
+
+**验证：** 发布前后应用身份、模块映射和资源绑定符合设计，没有多出同名或近似名对象。
+
+#### 3. Java、Java EE/Jakarta 或目标 Server 版本不兼容
+
+**现象：** 应用分析提示模块版本不受目标支持；启动时出现 `UnsupportedClassVersionError`、缺少 `javax.*`/`jakarta.*` 类，或注解无法识别。
+
+**概念：** 编译字节码级别、企业规范级别和包名空间是三条不同兼容线。WAS traditional 9.0.5 属于 Java EE 时代的运行时，使用 `jakarta.*` 命名空间的新 Jakarta EE 应用不能假设无需改造就能运行。
+
+**先查：**
+
+- `versionInfo` 和 `managesdk` 输出；
+- EAR/WAR 的 `web.xml`、`application.xml`、`ejb-jar.xml` 版本；
+- 编译工具链和 `maven.compiler.release`/Gradle Toolchain；
+- 目标 Cluster 是否混有更旧版本 Node；
+- IBM Detailed System Requirements 和目标 Fix Pack 文档。
+
+**修复：** 用目标支持的 Java 和规范重新构建，或先升级受支持运行时。不要把旧 Node 留在同一部署目标后强行跳过校验。
+
+**验证：** 在与生产相同 WAS/Java/Fix Pack 的环境完成安装、启动和接口测试；不是只在开发 Tomcat 或新 JDK 上通过。
+
+#### 4. 部署描述符、注解或模块结构错误
+
+**现象：** `web.xml`、`application.xml`、EJB 描述符或 IBM Binding/Extension 文件解析失败；应用分析阶段报 Schema、URI、重复模块或 Annotation 错误。
+
+**概念：** 描述符告诉容器模块是什么、如何装配、需要哪些资源。注解也会参与元数据合并。更新了元数据，却只替换单个类或文件，可能留下旧的合并结果。
+
+**先查：**
+
+1. EAR 内实际描述符，而不是源码目录中的文件；
+2. XML Namespace、Schema、版本、编码和闭合标签；
+3. `application.xml` 的模块 URI 是否与归档路径一致；
+4. `web-fragment.xml`、Annotation 与 `metadata-complete` 的关系；
+5. Java EE 5 之前的 `.xmi` 与 Java EE 5+ `.xml` Binding 文件边界。
+
+**修复：** 在构建阶段做 XML/归档校验；涉及描述符、注解或类层次的大变化时，用完整 EAR Update 或经过评审的重新安装，不要只做 Single File 热替换。
+
+**验证：** 安装分析无警告，Web/EJB 模块清单正确，启动日志没有持续的 Metadata/Annotation 错误。
+
+#### 5. Module Mapping、Context Root 或 Virtual Host 错误
+
+**现象：** 安装完成但某个模块没在目标成员运行，或应用 Started 而访问 404。
+
+**概念：** EAR 里的每个模块都要映射到 Server/Cluster；Web 模块还要有 Context Root 和 Virtual Host。Web Server 作为目标时，映射还影响 `plugin-cfg.xml` 的生成。
+
+**先查：**
+
+- `Applications > ... > <application> > Manage modules`；
+- 每个模块的目标 Server/Cluster/Web Server；
+- Context Root 是否与访问 URL 一致；
+- Virtual Host Alias 是否包含实际 Host 和 Port；
+- 直连 Cluster Member 与经过 IHS 的结果差异。
+
+**修复：** 把模块映射到正确、兼容的目标；修正 Context Root/Virtual Host；保存、同步，并在路由变化时重新生成和传播 Plug-in 配置。
+
+**验证：** 每个成员都启动正确模块；直连和 IHS 路径都返回预期状态；Plug-in 日志显示目标 URI 被正确匹配。
+
+#### 6. JNDI、JDBC、JMS、EJB 或安全角色绑定缺失
+
+**现象：** 安装向导停在 Binding Task；应用能安装但启动时报 `NameNotFound`、`J2CA`、JMS、EJB Binding 或安全角色错误。
+
+**概念：** 应用代码通常只写逻辑名称，例如 `jdbc/orderDB`；部署时要把它绑定到 WebSphere 中真实资源。Update 默认可能合并旧模块绑定，但新增或改名的资源引用仍要重新映射。
+
+**先查：**
+
+1. EAR 中资源引用和部署描述符；
+2. 当前应用 Binding 与旧版本导出记录；
+3. DataSource/JMS/Shared Library 的 Scope 是否覆盖所有目标成员；
+4. Authentication Alias 是否存在且有权限；
+5. 安全角色、RunAs、用户组和 Access ID。
+
+**修复：** 在正确 Scope 创建或修复资源，然后在安装任务中完成映射。不要把真实数据库密码写进 EAR、Jython 或 Git。
+
+**验证：** 每个成员都能完成 JNDI 查找、数据库连接测试、JMS 连接和受控业务调用；不是只在一个 Node 验证。
+
+#### 7. DMgr 配置保存失败或多人并发变更
+
+**现象：** Update Wizard 显示 Finish，但 Save 失败；另一个管理员保存后覆盖了当前变更；`wsadmin` 有未保存工作区。
+
+**概念：** Console/`wsadmin` 先在管理工作区准备变更，`Save` 才写入 Cell 主配置。多个管理会话同时改同一应用会产生竞态和漂移。
+
+**先查：**
+
+- DMgr `SystemOut.log`、`SystemErr.log` 和 FFDC；
+- 控制台是否显示待保存变更；
+- 同时段管理员、流水线和 Monitored Directory 是否也在发布；
+- DMgr Profile 的磁盘、inode、权限与文件系统状态；
+- 审计日志和变更单时间线。
+
+**修复：** 冻结并发发布，确认唯一变更所有者；对未保存工作区选择 Save 或 Discard。配置仓库出现异常时先备份并升级管理员/IBM 支持，不要手工改 `deployment.xml`、`serverindex.xml` 或其他 XML。
+
+**验证：** 主配置保存成功，审计记录只有预期变更，Node 同步后配置一致。
+
+#### 8. Node Agent 不通、节点 Out of Sync 或同步到一半
+
+**现象：** DMgr 显示新版本，但一个 Node 仍运行旧版本；应用在部分 Cluster Member 成功、部分失败。
+
+**概念：** ND 中配置和应用二进制从 DMgr 主仓库同步到 Node。同步是发布链路的一部分，不是安装完成后的可选整理动作。
+
+**先查：**
+
+- Node Agent 和 DMgr 进程、SOAP 端口、网络与证书；
+- `System administration > Nodes` 的同步状态；
+- Node Agent/SystemOut、`syncNode.log` 和 DMgr 同时段日志；
+- DMgr 与 Node 时间、磁盘、inode、权限；
+- 每个 Node 的制品时间、大小和哈希。
+
+**修复：** 先修网络、认证、证书、Node Agent 或磁盘，再执行受支持同步。不要在 Managed Node 的配置副本上手改并等待 DMgr“接受”。
+
+**验证：** 所有目标 Node 为同步状态，各成员加载同一制品哈希和版本，重启后仍一致。
+
+#### 9. 二进制分发、展开目录或文件锁失败
+
+**现象：** 配置已同步，但某个 Node 的应用文件缺失；复制、解压或删除旧文件时报权限、空间或文件占用错误。
+
+**概念：** 应用二进制在同步期间从 DMgr 下载到 Node，并写入指定安装位置。`installedApps` 是分发结果，不是独立发布源。
+
+**先查：**
+
+1. Node 的磁盘、inode、挂载只读状态和目录权限；
+2. WAS 进程运行用户与文件所有者；
+3. 安全软件、备份软件或其他进程是否占用文件；
+4. 自定义 `application binaries` 路径和共享文件系统健康；
+5. Node Agent/Server 日志中的复制与展开错误。
+
+**修复：** 恢复受支持的容量和权限，解除外部文件锁，再从 DMgr 重新同步或受控重新部署。不要用 `chmod -R 777` 或复制另一个 Node 的整个目录来掩盖根因。
+
+**验证：** 所有 Node 文件所有者、大小、哈希和时间符合发布记录；应用重新启动后无展开错误。
+
+#### 10. 类加载或共享库冲突
+
+**现象：** `ClassNotFoundException`、`NoClassDefFoundError`、`NoSuchMethodError`、`LinkageError`，或一个成员成功、另一个成员失败。
+
+**概念：** 缺类和“加载了错误版本的同名类”是两类问题。Parent First/Last、WAR Classloader Policy、Shared Library 和 EAR 自带 JAR 都会影响最终类来源。
+
+**先查：**
+
+- 异常链中第一个业务类和 Classloader 信息；
+- EAR/WAR 的 `WEB-INF/lib`、`APP-INF/lib` 与 Manifest Class-Path；
+- Shared Library 内容、Scope 与关联；
+- 当前 Classloader Order 和 WAR Classloader Policy；
+- 所有 Node 是否真的使用同一 EAR 和共享库版本。
+- 控制台 `Troubleshooting > Class loader viewer` 中，目标类实际由哪个 Classloader、哪个 JAR 加载。
+
+**修复：** 补齐缺失依赖或消除重复版本；只有经过兼容测试才调整 Parent Last。不要把 JAR 逐个扔进全局目录试错。
+
+**验证：** 所有成员都启动，关键类来自预期位置，完整接口与批处理路径通过，而不只是首页能打开。
+
+#### 11. 应用启动时依赖不可用
+
+**现象：** 安装和同步成功，应用启动失败或持续 Initializing；日志出现数据库、MQ、LDAP、证书、外部 API 或事务恢复错误。
+
+**概念：** “部署成功”只说明配置和文件阶段完成。应用初始化还会建立资源、扫描组件、恢复事务、加载缓存并连接外部系统。
+
+**先查：**
+
+- Member 的 SystemOut/SystemErr/FFDC 第一条根异常；
+- DataSource Test Connection 与数据库账户/网络；
+- MQ/JMS、LDAP、外部 HTTPS 的证书和超时；
+- JTA Transaction Log 和未决事务；
+- 应用启动顺序及其他应用依赖。
+- `dumpNameSpace` 的真实 JNDI 树，确认应用查找名、绑定名和 Scope 一致。
+
+**修复：** 修复对应依赖或配置；若新版应用在启动阶段改变了数据库 Schema 或消息格式，按业务回滚计划处理。不要删除事务日志来让错误“消失”。
+
+如果强制停止留下了 active 或 in-doubt XA 事务，应先恢复数据库、MQ 等参与方连接，再由管理员评估事务恢复模式：
+
+```bash
+"$PROFILE_ROOT/bin/startServer.sh" server1 -recovery
+```
+
+Recovery Mode（恢复模式）只处理未决事务，不接收新业务；恢复完成后 Server 会停止，再正常启动。它不是每次发版都要执行的固定步骤。`tranlog` 与 `partnerlog` 是事务恢复证据，不能作为“清缓存”删除。参考 [IBM 事务恢复模式说明](https://www.ibm.com/docs/en/was/9.0.5?topic=servers-restarting-application-server-in-recovery-mode)。
+
+**验证：** 应用状态、依赖连接、事务、健康检查和业务冒烟同时通过，日志没有持续重试风暴。
+
+#### 12. 应用 Started，但 IHS 返回 404、503 或旧页面
+
+**现象：** 直连成员正常，经 IHS/负载均衡失败；或部分请求仍命中旧版本。
+
+**概念：** 应用状态与入口路由是两层。Context Root、Virtual Host、Web Server Module Mapping 和 `plugin-cfg.xml` 决定请求能否进入正确成员。
+
+**先查：**
+
+1. 直连每个成员；
+2. IHS access/error log 和 Plug-in log；
+3. `plugin-cfg.xml` 中 URI、VirtualHostGroup、ServerCluster、Transport；
+4. 生成、传播和 IHS reload/restart 的时间；
+5. 上游缓存、CDN、浏览器缓存和旧 Session Affinity。
+
+**修复：** 修正映射后通过受支持流程重新生成、传播并加载 Plug-in 配置；按需清理应用级缓存。不要长期手改生成文件，因为下次生成会覆盖。
+
+**验证：** 带唯一版本标记的探针通过 IHS 和每个成员，访问日志显示请求只进入期望版本。
+
+#### 13. Cluster 滚动更新造成新旧版本混跑
+
+**现象：** 同一请求有时成功、有时失败；Session 反序列化异常；不同成员输出不同字段。
+
+**概念：** Node 同步是异步的。IBM 对高可用更新的说明明确指出，普通同步过程中应用可用性与工作负载路由并不自动对应，因此不能把 Rollout Update 理解成绝对零中断。
+
+**先查：**
+
+- 每个成员的版本、启动时间、应用状态和制品哈希；
+- 负载均衡/Plug-in 是否在更新前排空成员；
+- Session 对象和 Cookie 是否跨版本兼容；
+- 数据库 Schema、消息和 API 是否向后兼容；
+- HTTP/JMS 在途工作是否在停止时丢失。
+
+**修复：** 停止继续滚动，把不一致成员移出流量；按兼容矩阵决定完成升级还是整体回退。大变化使用 Edition + Routing Rule、蓝绿环境或明确停机，而不是强行混跑。
+
+**验证：** 所有成员版本一致，切换成员和新建/旧 Session 的业务用例都通过。
+
+#### 14. Console 或 `wsadmin` 超时，不知道更新到底成功没有
+
+**现象：** 浏览器会话或 SOAP Client 超时，但后台仍可能继续分析、同步或滚动；操作人员重复点击导致并发发布。
+
+**概念：** 客户端超时只说明客户端没有等到结果，不等于服务端已经回滚。
+
+**先查：**
+
+- DMgr/Node/Member 日志中的同一开始时间、应用名和任务；
+- `AdminApp.list()`、当前应用版本和未保存变更；
+- Node 同步、Member 状态和制品哈希；
+- 是否已有另一个管理任务仍在运行。
+- `wsadmin`、DMgr/stand-alone Server 和业务 Member 中哪一个进程出现 Heap Dump、Javacore 或 `OutOfMemoryError`；
+- `soap.client.props` 中 `com.ibm.SOAP.requestTimeout` 是否小于本次部署真实耗时。
+
+**修复：** 先停止重复操作，确认服务端最终状态。若任务仍运行，等待或按 IBM 支持流程处理；只有明确状态后才决定保存、回滚或重新发布。确认确实只是客户端等待不足后，才按发布耗时调整 SOAP timeout；把它设为 `0` 会取消超时保护，不应作为默认修复。若是 OOM，必须给实际 OOM 的进程做容量和堆分析，不能盲目扩大所有 JVM。
+
+[IBM SOAP Connector 属性说明](https://www.ibm.com/docs/en/was-nd/9.0.5?topic=services-java-management-extensions-connector-properties)给出的常见客户端默认值是 180 秒，但实际值以现场文件和版本为准；大型 EAR 部署还可能让 `wsadmin` 客户端自身 OOM，见 [IBM 部署期间 OOM 排查](https://www.ibm.com/support/pages/outofmemory-errors-while-deploying-applications-websphere-application-server)。
+
+**验证：** 任务只有一次、配置只有一个目标版本、所有 Node 收敛，审计时间线完整。
+
+#### 15. 回滚旧 EAR 后仍未恢复
+
+**现象：** 旧制品重新部署成功，但业务仍报错，或只有部分用户恢复。
+
+**概念：** 应用回滚不等于系统回滚。数据库 Schema、缓存、Session、MQ 消息、外部 API、绑定和 Plug-in 都可能已经变化。
+
+**先查：**
+
+- 旧 EAR 哈希与旧绑定是否准确；
+- 数据库迁移是否向后兼容；
+- 新版是否写入旧版无法读取的数据/消息；
+- Session、缓存、插件和路由是否仍指向新结构；
+- 是否只回退部分成员。
+
+**修复：** 按预先评审的业务回滚顺序处理，必要时切回完整旧环境而不是反复覆盖同一应用。数据库回退必须由数据负责人审批并验证恢复点。
+
+**验证：** 技术状态、业务交易、数据一致性、消息积压、错误率和延迟同时恢复到基线。
+
+### 案例深挖：同名 Composition Unit 残留
+
+#### 脱敏后的现场证据
+
+| 检查项 | 结果 | 能证明什么 |
+|---|---|---|
+| WebSphere Enterprise Applications | 没有 `ExampleApp` | 正常企业应用身份已经不在列表中 |
+| `AdminApp.list()` | 没有 `ExampleApp` | 脚本视角也没有正常 Enterprise Application |
+| `AdminTask.listBLAs()` | 对 `ExampleApp` 报 `CWWMH0121E` | BLA/CU 配置读取异常，可能损坏 |
+| `AdminTask.listAssets()` | 需要现场查询 | 确认同名 Asset 是否存在、是否仍被其他 CU 引用 |
+| `config/cells/<cell>/blas` | 有 `ExampleApp` | 同名 BLA 配置仍在 |
+| `config/cells/<cell>/cus` | 有 `ExampleApp` | 同名 CU 配置仍在 |
+| `applications` / `installedApps` | 没有 `ExampleApp` | 正常应用配置和 Node 二进制不在原位置 |
+
+不能只凭一条 `find` 就下结论。这个案例之所以指向孤儿 BLA/CU，是因为“管理对象、四处目录和错误消息”同时支持同一个假设。
+
+#### 先走受支持的删除路径
+
+[IBM 的 BLA 删除文档](https://www.ibm.com/docs/en/was-nd/9.0.5?topic=applications-deleting-business-level)要求先删除 BLA 中的 Composition Unit，再删除 BLA，最后保存配置。`wsadmin` 的准确顺序是：
+
+```python
+app_name = 'ExampleApp'
+bla_id = 'WebSphere:blaname=' + app_name
+
+print(AdminTask.listBLAs())
+print(AdminTask.listAssets())
+print(AdminTask.listCompUnits('-blaID ' + bla_id))
+
+# 只有 listCompUnits 能准确返回目标，而且已确认没有其他 BLA 引用时才删除。
+print(AdminTask.deleteCompUnit('-blaID ' + app_name + ' -cuID ' + app_name))
+print(AdminTask.deleteBLA('-blaID ' + app_name))
+AdminConfig.save()
+```
+
+真实 `cuID` 不一定等于应用名。必须使用 `listCompUnits` 或控制台显示的准确值，不能把示例直接复制到生产。
+
+`-force true` 会绕过一部分依赖保护，不是“删得更干净”的常规参数。遇到 `CWWMH0149E`，通常表示 BLA 里仍有 CU；遇到 `CWWMH0151E`，通常表示该 BLA 仍被上层 BLA 引用；Asset 被 CU 使用时也不能先删。先画清依赖，再决定顺序。
+
+控制台路径是：
+
+```text
+Applications
+  -> Application Types
+  -> Business-level applications
+  -> <目标 BLA>
+  -> 先删除每个 Composition Unit
+  -> 再删除空 BLA
+  -> Save
+```
+
+如果控制台和 `listCompUnits` 可以正常读取并删除，就到这里为止。不要继续碰文件系统。
+
+#### 什么时候才进入手工仓库处理
+
+IBM 只在下面前提成立时，把手工处理 `blas/<BLA>` 与 `cus/<BLA>` 作为最后兜底：
+
+1. 控制台 Delete 没有完整删除 BLA/CU，或损坏对象已经无法通过管理接口读取；
+2. 已确认目标 BLA 不被其他 BLA 引用；
+3. 精确确认应用名、BLA、CU、Cell 和拓扑；
+4. 在 stand-alone Server 或 DMgr 主仓库侧处理，而不是 Managed Node 副本；
+5. 已完成配置备份、维护窗口、回滚和影响面审批；
+6. 多服务器环境随后从 DMgr 同步 Node。
+
+> **高风险边界：** 下面是配置仓库恢复，不是日常发布步骤。`AdminApp.list()` 中仍有正常应用、引用关系不清、ND 同步异常、同名目录不只两处、或存在大量其他仓库错误时，立即停止并升级 WebSphere 资深管理员或 IBM Support。
+
+IBM 原文使用“删除精确目录”。为了降低误删且保留对象级回退，本文示例先把两个精确目录移动到 Profile 外的隔离目录。这是可恢复的运维安全改写，不是对 IBM 命令的逐字引用；正式执行仍要服从现场版本文档、变更审批和 IBM Support 意见。
+
+#### 第一步：只读确认 Profile、Cell 和拓扑
+
+```bash
+PROFILE_ROOT=/opt/IBM/WebSphere/AppServer/profiles/AppSrv01
+CELL_NAME=exampleCell
+SERVER_NAME=server1
+APP_NAME=ExampleApp
+
+cd "$PROFILE_ROOT"
+ls -la config/cells/ # 先看真实 Cell 名，不要照抄 exampleCell
+"$PROFILE_ROOT/bin/serverStatus.sh" -all
+```
+
+进入 `wsadmin` 后确认连接对象并查询：
+
+```python
+print(AdminApp.list())
+print(AdminTask.listBLAs())
+print(AdminTask.listAssets())
+print(AdminTask.listCompUnits('-blaID WebSphere:blaname=ExampleApp'))
+```
+
+如果输出显示连接 DMgr，就是 ND 管理面；如果连接 `server1` 且只有一个 AppSrv Profile，才可能是 stand-alone。不能只根据目录名猜拓扑。
+
+#### 第二步：只读检查四类位置
+
+```bash
+cd "$PROFILE_ROOT"
+
+find "config/cells/$CELL_NAME/blas" -iname "*$APP_NAME*" -print
+find "config/cells/$CELL_NAME/cus" -iname "*$APP_NAME*" -print
+find "config/cells/$CELL_NAME/applications" -iname "*$APP_NAME*" -print
+find "installedApps" -iname "*$APP_NAME*" -print
+```
+
+只有 `blas/<APP_NAME>` 和 `cus/<APP_NAME>` 命中，且管理清单无正常应用、BLA/CU 读取损坏时，才符合本案例。若 `applications` 或 `installedApps` 也命中，说明状态不同，不能套用这个清理步骤。
+
+#### 第三步：停服并生成可验证配置备份
+
+stand-alone 示例：
+
+```bash
+cd "$PROFILE_ROOT/bin"
+./stopServer.sh "$SERVER_NAME" # 安全启用时用公司批准的凭据方式，不把密码写进命令历史
+
+CONFIG_ZIP=/tmp/AppSrv01_before_${APP_NAME}_cleanup_$(date +%Y%m%d_%H%M%S).zip
+./backupConfig.sh "$CONFIG_ZIP" -nostop # 已经停服，所以不再让 backupConfig 尝试停服
+ls -lh "$CONFIG_ZIP"
+```
+
+继续条件：
+
+- 停止命令明确成功，且该 Profile 没有仍在写配置的 Java 进程；
+- `backupConfig` 返回成功；
+- ZIP 存在、非 0 字节，完整路径已经记录；
+- 备份与当前 WAS Release/Fix Pack 一致。
+
+ND 不是只停止一个 Member 就可以手工改仓库。若进入 IBM 的手工兜底，目标是 **DMgr Profile 的主配置仓库**，需要按审批决定 DMgr、Node Agent 和成员的停止/恢复顺序，并评估整个 Cell 的影响。
+
+#### 第四步：移动前再次锁定两个精确目录
+
+```bash
+cd "$PROFILE_ROOT"
+
+BLA_DIR="config/cells/$CELL_NAME/blas/$APP_NAME"
+CU_DIR="config/cells/$CELL_NAME/cus/$APP_NAME"
+CASE_BACKUP=/tmp/${APP_NAME}_orphan_$(date +%Y%m%d_%H%M%S)
+
+ls -ld "$BLA_DIR" "$CU_DIR" # 两项都必须精确显示，不能是通配符返回的一组目录
+mkdir -p "$CASE_BACKUP"
+printf 'quarantine=%s\n' "$CASE_BACKUP"
+```
+
+源故障手册有一处排版错误，把续行后的目标写成了 `+"$BACKUP/..."`。前面的 `+` 会变成路径的一部分，不能照抄。这里使用完整单行命令避免歧义：
+
+```bash
+mv "$BLA_DIR" "$CASE_BACKUP/blas_$APP_NAME"
+mv "$CU_DIR" "$CASE_BACKUP/cus_$APP_NAME"
+```
+
+不要移动整个 `blas` 或 `cus`，不要处理 `applications`、`installedApps`、`deployment.xml`、`serverindex.xml` 或其他应用目录，也不要使用 `rm -rf`。
+
+#### 第五步：立刻核对移动结果
+
+```bash
+ls -la "$CASE_BACKUP"
+
+find "config/cells/$CELL_NAME/blas" -iname "*$APP_NAME*" -print
+find "config/cells/$CELL_NAME/cus" -iname "*$APP_NAME*" -print
+```
+
+预期是隔离目录中恰好有两个对象，原位置两个 `find` 无输出。如果数量、名称或路径不符合预期，不要启动后继续重装，先按对象级备份恢复并复核。
+
+#### 第六步：启动并先验证配置层
+
+stand-alone 示例：
+
+```bash
+cd "$PROFILE_ROOT/bin"
+./startServer.sh "$SERVER_NAME"
+./serverStatus.sh "$SERVER_NAME"
+```
+
+再进入 `wsadmin`：
+
+```python
+print(AdminTask.listBLAs())
+print(AdminTask.listAssets())
+print(AdminApp.list())
+```
+
+预期：不再出现针对 `ExampleApp` 的 `CWWMH0121E`，正常应用清单未受影响。此时还没有重装 `ExampleApp`，所以不要把“列表里仍没有它”误判成清理失败。
+
+ND 需要先恢复 DMgr 管理面、保存/确认主配置，再同步每个 Node；同步成功后才能验证成员。不要从 Node 副本反向覆盖 DMgr。
+
+#### 第七步：重新安装 EAR 并完成全链路验证
+
+1. 用固定哈希 EAR 执行 Install；
+2. 核对应用名、模块目标、Virtual Host、Context Root、JNDI/JDBC/JMS 和安全角色；
+3. Save，并在 ND 中完成 Node 同步；
+4. 启动应用；
+5. 检查 DMgr、Node Agent、Member、IHS/Plug-in 日志；
+6. 完成健康检查和关键业务冒烟；
+7. 记录 EAR 哈希、备份路径、变更单和验证人。
+
+只有“同名安装成功”还不够。它只能证明 CU 冲突解除，不能证明数据库、MQ、事务、路由和业务都正常。
+
+#### stand-alone 与 ND 的操作边界
+
+| 项目 | stand-alone | ND / Cluster |
+|---|---|---|
+| 配置真相 | AppSrv Profile 自己的仓库 | DMgr Profile 的 Master Repository |
+| `wsadmin` 连接 | Application Server | DMgr |
+| 手工兜底位置 | stand-alone Profile | 只在 DMgr 主仓库，不能改 Managed Node 副本 |
+| 影响面 | 一个 Server 上的应用 | 整个 Cell、多个 Node/Cluster Member |
+| 后续动作 | 启动 Server、验证、重装 | 恢复 DMgr、保存/同步 Node、逐成员验证 |
+| 何时升级 | 状态与证据不一致 | 默认更早升级资深管理员/IBM Support |
+
+#### Composition Unit 清理如何回退
+
+如果启动失败、其他应用异常或证据与预期不一致：
+
+1. 停止继续安装和保存新变更；
+2. 保存启动日志、FFDC、目录清单和时间线；
+3. 在对应管理进程停止后，把隔离目录中的两个对象移回原精确位置；
+4. 如果对象级恢复不足，由管理员评估 `restoreConfig`；
+5. `restoreConfig` 前确认备份版本/Fix Pack 一致，并评估备份之后的其他配置变更；
+6. ND 恢复后重新同步所有 Node，并验证其他应用。
+
+整体 `restoreConfig` 会回退整个 Profile，不只是一个应用。它可能覆盖故障之后的其他合法变更，所以不能把它当作第一步。
+
+### 更新后的验收清单
+
+#### 配置与制品
+
+- [ ] DMgr/stand-alone 主配置已保存；
+- [ ] 所有 Node 同步；
+- [ ] `AdminApp.isAppReady()` 为 `true`，`getDeployStatus()` 无未完成分发或展开失败；
+- [ ] 每个目标成员的 EAR 版本和哈希一致；
+- [ ] BLA/CU/Asset/Enterprise Application 没有孤儿或重复对象；
+- [ ] 模块目标、Context Root、Virtual Host 和绑定符合基线。
+
+#### 运行与入口
+
+- [ ] 所有目标成员应用 Started，启动日志无持续错误；
+- [ ] 每个目标成员都能查询到预期 Application MBean；
+- [ ] 直连成员和 IHS/负载均衡路径都通过；
+- [ ] `plugin-cfg.xml` 在需要时已重新生成、传播和加载；
+- [ ] 新旧 Session、Cookie 和缓存行为符合预期；
+- [ ] 错误率、延迟、线程池、JDBC Pool、Heap/GC 没有异常回归。
+
+#### 业务与回滚
+
+- [ ] 数据库、JMS/MQ、LDAP 和外部 API 连接正常；
+- [ ] 登录、查询、写入、交易或消息至少完成一轮冒烟；
+- [ ] 数据库 Schema 和消息格式与回滚版本兼容；
+- [ ] 旧 EAR、配置备份和对象隔离目录仍在保留期内；
+- [ ] 变更单记录实际开始/结束、异常、处置和验证人。
+
+### 把 EAR 发布接入 AIOps
+
+不要只采集“部署成功/失败”一个布尔值。建议把下面事件写入变更和观测平台：
+
+```json
+{
+  "change_id": "CHG-20260810-001",
+  "cell": "prodCell",
+  "cluster": "orderCluster",
+  "application": "ExampleApp",
+  "artifact_sha256": "<sha256>",
+  "stage": "node-sync",
+  "node": "appNode01",
+  "result": "failed",
+  "message_id": "<IBM message id>",
+  "rollback_ready": true
+}
+```
+
+AIOps 可以做：
+
+- 把发布窗口与 5xx、延迟、JDBC Wait、GC 和告警自动关联；
+- 检测同一 Cluster 成员版本或哈希不一致；
+- 检测 Node Out of Sync、应用状态漂移和 Plug-in 版本过旧；
+- 根据消息 ID 推荐只读 Runbook 和证据清单；
+- 在未通过容量、备份、审批和探针门禁时阻止继续滚动。
+
+AIOps 不应自动做：删除 BLA/CU、修改配置仓库 XML、执行 `restoreConfig`、回退数据库或强制停止整个 Cluster。这些动作影响面大，需要人工确认和可验证回滚。
 
 ## 入门实验：运行 Open Liberty 健康端点
 
@@ -840,7 +1689,7 @@ Cluster Member 数量
 ### 30 秒版本
 
 ```text
-WebSphere 是企业 Java 应用服务器。traditional ND 用 Cell、Deployment Manager、Node Agent、Application Server 和 Cluster 做集中管理与高可用；请求通常从 IHS 的 Web Server Plug-in 进入 Cluster Member，再由 WebContainer 线程调用 JDBC/JMS/JTA 和后端系统。排障时我会把入口路由、应用状态、线程池、连接池、JVM、会话、事务和最近变更串成证据链，而不是看到进程 Started 就判断健康。
+WebSphere 是企业 Java 应用服务器。traditional ND 用 Cell、Deployment Manager、Node Agent、Application Server 和 Cluster 做集中管理与高可用；EAR 更新会经过制品分析、配置保存、节点同步、二进制分发、应用启动和入口路由。排障时我会把应用身份、BLA/CU、同步、类加载、资源绑定、线程池、连接池、JVM、会话、事务和最近变更串成证据链，而不是看到安装完成或进程 Started 就判断健康。
 ```
 
 ### 3 分钟版本
@@ -851,8 +1700,10 @@ WebSphere 是企业 Java 应用服务器。traditional ND 用 Cell、Deployment 
 4. 解释主配置同步、应用发布、Session Affinity/Replication 和 JTA 恢复。
 5. 解释 Thread Pool、JDBC Pool、Heap/GC 的背压关系。
 6. 说明 PMI、日志、FFDC、Thread/Heap Dump 和 AIOps 关联。
-7. 说明双 Node/IHS、高可用、滚动升级、安全和回滚。
-8. 补充 traditional 到 Liberty 的迁移边界，不承诺零改造。
+7. 说明 EAR 的 Install、Update、Rollout Update、Edition 和卸载重装边界。
+8. 说明制品校验、配置备份、BLA/CU 残留、Node Sync、业务验证和回滚。
+9. 说明双 Node/IHS、高可用、滚动升级、安全和回滚。
+10. 补充 traditional 到 Liberty 的迁移边界，不承诺零改造。
 
 ## 面试题与递进追问
 
@@ -888,6 +1739,18 @@ WebSphere 是企业 Java 应用服务器。traditional ND 用 Cell、Deployment 
 
 **参考答案：** 新应用、标准 API、容器化、配置即代码和独立发布更适合 Liberty；强依赖 traditional 专有能力、复杂存量 Cell 资源和第三方认证的应用要先扫描与验证。选型是迁移成本、支持、性能、运维模型和团队能力的综合权衡。
 
+### 7. EAR 更新时报“同名 Composition Unit 已存在”怎么查？
+
+**第一问，先判断操作类型：** 如果 `AdminApp.list()` 中仍有正常同名应用，正常发版应走 Update，不应再次 Install。
+
+**第二问，建立证据链：** 交叉检查 Enterprise Application、BLA、CU、Asset，以及 `applications`、`installedApps`、`blas`、`cus` 四类位置。单独看到目录不能直接判定孤儿对象。
+
+**第三问，优先受支持删除：** 若 BLA/CU 能正常读取，先用控制台或 `listCompUnits -> deleteCompUnit -> deleteBLA -> AdminConfig.save()` 清理，并确认没有其他 BLA 引用。
+
+**第四问，损坏对象怎么处理：** 只有管理接口不能完整删除、引用关系明确、备份和维护窗口就绪时，才按 IBM 文档在 stand-alone 或 DMgr 主仓库精确处理同名 `blas/cus`；ND 不能改 Managed Node 副本。
+
+**第五问，如何证明恢复：** 清理后先验证 `listBLAs` 不再报错、其他应用未受影响，再重装 EAR，完成节点同步、所有成员启动、IHS 路由和业务冒烟。必须保留配置 ZIP、隔离目录、EAR 哈希和回滚条件。
+
 ## 学习检查清单
 
 - [ ] 我能区分 WAS traditional、Network Deployment、WebSphere Liberty、Open Liberty 和 IHS。
@@ -895,6 +1758,13 @@ WebSphere 是企业 Java 应用服务器。traditional ND 用 Cell、Deployment 
 - [ ] 我能画出请求、配置同步、应用发布、Session 和事务路径。
 - [ ] 我能解释 WebContainer、JDBC Pool、JMS、JTA、JNDI 和 Classloader。
 - [ ] 我能使用只读命令查询进程、版本、应用和运行 MBean。
+- [ ] 我能区分 EAR Install、Update、Uninstall + Install、Rollout Update 和 Application Edition。
+- [ ] 我能画出 EAR 从上传、分析、保存、同步、展开、启动到 IHS 路由的完整路径。
+- [ ] 我能在更新前核对 EAR 哈希、模块与绑定、Node 容量、配置备份和业务回滚。
+- [ ] 我能按制品、身份、绑定、仓库、同步、启动、路由和业务阶段定位部署失败。
+- [ ] 我能解释 Asset、BLA、Composition Unit、Enterprise Application 和 `installedApps` 的区别。
+- [ ] 我知道 Composition Unit 残留必须先走控制台/`wsadmin`，手工处理仅是有前提的最后兜底。
+- [ ] 我能说明 stand-alone 与 ND 在配置真相、处理位置、同步和影响面上的差异。
 - [ ] 我知道部署、同步、重启、证书和事务日志操作的风险边界。
 - [ ] 我能完成 Open Liberty 健康实验和 Feature 故障注入。
 - [ ] 我能按证据排查 404、Hung Thread、连接池、OOM、同步和 SSL 故障。
@@ -912,10 +1782,15 @@ websphere-lab/
   health-result.json          # /health 脱敏结果
   startup.log                 # 保留 Ready 和故障消息，删除主机/IP/凭据
   incident-feature-error.md   # Feature 故障注入证据、假设、修复和清理
+  ear-update-checklist.md     # 制品、绑定、容量、备份、发布和回滚门禁
+  ear-inventory-redacted.txt # 应用、BLA/CU、模块目标和版本的脱敏只读清单
+  incident-orphan-cu.md       # Composition Unit 残留证据链与安全恢复复盘
+  artifact-sha256.txt         # 新旧 EAR 哈希和制品来源
+  rollback-evidence.md        # 配置、应用、数据库与路由回滚验证
   incident-pool-exhaustion.md # JDBC Pool 耗尽事故推理练习
   capacity-model.md           # Thread/JDBC/JVM/Session 容量估算
   rolling-upgrade.md          # 滚动升级、验证和回滚清单
   screenshots/                # 仅保存脱敏截图
 ```
 
-README 必须说明：本地实验运行的是 Open Liberty，不是生产 traditional ND；未在真实 WebSphere 上执行应用部署、全局安全修改、证书替换、事务日志删除或集群重启。真实日志、Heap Dump、FFDC 和配置备份进入 GitHub 前必须脱敏。
+README 必须说明：本地实验运行的是 Open Liberty，不是生产 traditional ND；未在真实 WebSphere 上执行应用部署、BLA/CU 删除、配置仓库修改、全局安全修改、证书替换、事务日志删除或集群重启。真实应用名、Cell/Node、主机/IP、日志、Heap Dump、FFDC、EAR 和配置备份进入 GitHub 前必须脱敏；不要提交真实 EAR、密码或配置备份 ZIP。

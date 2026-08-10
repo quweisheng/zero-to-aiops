@@ -28,7 +28,7 @@
 | 已完成深讲第一版 | VMware vSphere | 虚拟化与私有云组已补 ESXi/ESX、vCenter、集群、HA、DRS、vMotion、网络、存储、生命周期、实验和排障 |
 | 已完成深讲第一版 | IBM Storage | 存储与数据保护组已补产品地图、块/文件/对象/磁带基础、FlashSystem 数据路径、容量性能、多路径、复制备份、实验、排障和面试表达 |
 | 已达到大厂面试级第一版 | Dell EMC VPLEX、Dell EMC VMAX、Brocade 6510 | 已补存储虚拟化与 Metro 仲裁、高端阵列 SRP/Masking/SnapVX/SRDF、FC Fabric/zoning/慢排水/EOS 迁移、双层实验、事故题和系统设计 |
-| 已达到大厂面试级第一版 | IBM WebSphere | 已补 traditional ND 与 Liberty 边界、请求与配置同步路径、集群、会话、JDBC/JMS/JTA、容量、高可用、安全、升级回滚、双层实验、事故题和系统设计 |
+| 已达到大厂面试级第一版 | IBM WebSphere | 已补 traditional ND 与 Liberty 边界、请求与配置同步路径、EAR 更新、BLA/CU 残留、集群、会话、JDBC/JMS/JTA、容量、高可用、安全、升级回滚、双层实验、事故题和系统设计 |
 | 已达到大厂面试级第一版 | Apache Tomcat | 已补 11.0.24/10.1.57/9.0.120 版本边界、容器树、请求与部署路径、线程/连接/JDBC、会话、容量安全、升级回滚、双层实验、事故题和系统设计 |
 | 已完成深讲第一版 | Ceph | 存储与数据保护组已补 RADOS、RBD/CephFS/RGW、MON/MGR/OSD、pool/PG/CRUSH、cephadm 实验、Prometheus、排障和面试表达 |
 | 已完成深讲第一版 | 华为 OceanStor | 存储与数据保护组已补产品族、控制器/缓存、存储池/LUN、SAN/NAS、多路径、HyperSnap/HyperReplication/HyperMetro、实验和排障 |
@@ -143,7 +143,7 @@
 | 已完成第一版 | 华为 OceanStor | [huawei-oceanstor.md](./storage-data-protection/huawei-oceanstor.md) | 华为官方产品地图、OceanStor Dorado/混合闪存/Pacific 边界、控制器与缓存、存储池/LUN/文件系统、主机映射、多路径、快照/复制/双活、离线健康实验和 AIOps 排障 |
 | 已完成第一版 | 爱数 AnyStorage | [aishu-anystorage.md](./storage-data-protection/aishu-anystorage.md) | 爱数官方产品地图、AnyStorage 7/GX/AnyBackup 边界、控制器/缓存/RAID 2.0、SAN/NAS、卷/映射/多路径、快照/复制/双活/CDP、离线健康实验和 AIOps 排障 |
 | 已完成第一版 | VMware vSphere | [vsphere.md](./virtualization-private-cloud/vsphere.md) | Broadcom 官方产品与版本地图、ESXi/ESX、vCenter、清单、HA/DRS/vMotion/EVC、虚拟网络、数据存储、性能、vLCM、API、离线健康实验和 AIOps 排障 |
-| 已达到大厂面试级第一版 | IBM WebSphere | [websphere.md](./middleware-application-platform/websphere.md) | IBM 官方产品与生命周期边界、traditional ND 与 Liberty、IHS/Plug-in/JVM/JDBC/JMS/JTA 请求路径、配置同步、会话与事务状态、PMI、双层实验、事故题和系统设计 |
+| 已达到大厂面试级第一版 | IBM WebSphere | [websphere.md](./middleware-application-platform/websphere.md) | IBM 官方产品与生命周期边界、traditional ND 与 Liberty、IHS/Plug-in/JVM/JDBC/JMS/JTA 请求路径、EAR 更新与 BLA/Composition Unit 残留、配置同步、会话与事务状态、PMI、双层实验、事故题和系统设计 |
 | 已达到大厂面试级第一版 | Apache Tomcat | [tomcat.md](./middleware-application-platform/tomcat.md) | Tomcat 11.0.24/10.1.57/9.0.120、Coyote/Catalina、容器树、WAR/类加载、线程/连接/JDBC/Session、JMX、双层实验、事故题和系统设计 |
 | 已完成第一版 | 岗位缺口技术栈 | [岗位专项路线](../interview/kubernetes-platform-operations-role.md) | 补齐 Rancher、Harbor、Istio、KubeSphere、OpenStack、GitLab、Jenkins、Nexus Repository 与系统架构/技术方案设计，并按 P0/P1/P2 串成岗位项目证据 |
 
@@ -171,7 +171,7 @@
 | 17 | Apache Hadoop | 大厂面试级第一版已完成 | 新增 Hadoop 3.5.0、HDFS/YARN/MapReduce 内部链路、HA、容量、安全、升级回滚、故障注入、事故复盘和系统设计 |
 | 18 | KVM 虚拟化 | 大厂面试级第一版已完成 | 新增 KVM/QEMU/libvirt、Virtio、网络存储数据路径、迁移、HA、容量、安全、双层实验、事故复盘和系统设计 |
 | 19 | Dell EMC VPLEX、Dell EMC VMAX、Brocade 6510 | 大厂面试级第一版已完成 | 新增 VPLEX Metro 仲裁、VMAX 高端阵列与复制、Brocade FC Fabric 与 EOS 迁移，补齐双层实验、事故复盘和生产系统设计 |
-| 20 | IBM WebSphere | 大厂面试级第一版已完成 | 新增中间件与应用平台分类，补齐 traditional ND 与 Liberty、请求与管理路径、集群和状态、容量安全、双层实验、事故复盘和生产系统设计 |
+| 20 | IBM WebSphere | 大厂面试级第一版已完成 | 新增中间件与应用平台分类，补齐 traditional ND 与 Liberty、请求与管理路径、EAR 更新与 Composition Unit 残留、集群和状态、容量安全、双层实验、事故复盘和生产系统设计 |
 | 21 | Apache Hive、Apache HBase、Apache Spark、Apache Flink、Apache HAWQ | 大厂面试级与存量迁移专项第一版已完成 | 补齐 Hadoop 生态 SQL、随机读写、批流计算与遗留 MPP 迁移，覆盖双层实验、生产排障、事故题和系统设计 |
 | 22 | IT 项目管理 / PMP | 大厂面试级第一版已完成 | 新增项目交付与 PMP 主线，覆盖 PMBOK 第八版、预测/敏捷/混合交付、关键路径、EVM、风险变更、DevOps/SRE 治理、双层实验、事故题和系统设计 |
 | 23 | RabbitMQ | 大厂面试级第一版已完成 | 重构 RabbitMQ 4.3.4 学习主线，补齐 Khepri、三类队列、确认与幂等、Raft 集群、容量安全、升级灾备、双层实验、事故题和系统设计 |
