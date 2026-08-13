@@ -165,12 +165,15 @@ describe('getDocByRoute', () => {
     expect(getDocByRoute('/tech-stack/data-ai/langgraph')?.title).toBe('LangGraph')
   })
 
-  it('includes the Zabbix, TensorFlow and Transformer large-company interview deep dives', () => {
+  it('includes the Zabbix, TensorFlow, PyTorch and Transformer large-company interview deep dives', () => {
     expect(getDocByRoute('/tech-stack/observability/zabbix')?.title).toBe(
       'Zabbix 深讲'
     )
     expect(getDocByRoute('/tech-stack/data-ai/tensorflow')?.title).toBe(
       'TensorFlow 深讲'
+    )
+    expect(getDocByRoute('/tech-stack/data-ai/pytorch')?.title).toBe(
+      'PyTorch 技术栈深讲'
     )
     expect(getDocByRoute('/tech-stack/data-ai/transformer')?.title).toBe(
       'Transformer 技术栈深讲'

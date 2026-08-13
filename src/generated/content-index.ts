@@ -371,6 +371,13 @@ export const generatedDocs = [
     "excerpt": "学习目标：理解 PostgreSQL 为什么适合做 AIOps 后端数据底座，能讲清 database、schema、table、index、MVCC、WAL、vacuum、autovacuum、EXPLAIN、extension、repl..."
   },
   {
+    "path": "../docs/tech-stack/data-ai/pytorch.md",
+    "route": "/tech-stack/data-ai/pytorch",
+    "title": "PyTorch 技术栈深讲",
+    "section": "数据与 AI",
+    "excerpt": "学习目标：从零理解 Tensor、Autograd、 nn.Module 、Loss、Optimizer、Dataset/DataLoader、设备与精度、训练和推理状态，能在 Windows CPU 环境完成一个 AIOps 指标异常分类..."
+  },
+  {
     "path": "../docs/tech-stack/data-ai/rabbitmq.md",
     "route": "/tech-stack/data-ai/rabbitmq",
     "title": "RabbitMQ 深讲",

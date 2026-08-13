@@ -217,6 +217,7 @@ export const navGroups: NavGroup[] = [
       { text: '机器学习', route: '/tech-stack/data-ai/machine-learning' },
       { text: 'scikit-learn', route: '/tech-stack/data-ai/scikit-learn' },
       { text: 'TensorFlow', route: '/tech-stack/data-ai/tensorflow' },
+      { text: 'PyTorch', route: '/tech-stack/data-ai/pytorch' },
       { text: 'Transformer', route: '/tech-stack/data-ai/transformer' },
       { text: 'Ollama', route: '/tech-stack/data-ai/ollama' },
       { text: 'FastAPI', route: '/tech-stack/data-ai/fastapi' },

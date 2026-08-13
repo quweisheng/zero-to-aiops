@@ -42,6 +42,7 @@
 | 已达到大厂面试级第一版 | RabbitMQ | 已补 RabbitMQ 4.3.4、Khepri、Classic/Quorum/Stream、端到端可靠性、容量安全、升级回滚、双层实验、事故题和系统设计 |
 | 已达到大厂面试级第一版 | Zabbix | 已补 Zabbix 7.4.12/7.0 LTS 边界、采集与事件链路、Proxy、Server/数据库 HA、容量安全、升级回滚、故障实验、事故题和系统设计 |
 | 已达到大厂面试级第一版 | TensorFlow | 已补 TensorFlow 2.21、Tensor/自动微分/Keras、tf.data/tf.function、分布式训练、模型交付、漂移监控、脏数据实验、事故题和系统设计 |
+| 已达到大厂面试级第一版 | PyTorch | 已补 PyTorch 2.13、Tensor/Autograd/Module、DataLoader、AMP/compile、DDP/FSDP2、状态恢复、服务观测、安全、CPU 实跑与 NaN 故障实验、事故题和系统设计 |
 | 已达到大厂面试级第一版 | Transformer | 已补 Token/Embedding/Position、Q/K/V 与多头注意力、Mask、Encoder/Decoder、训练与 KV Cache 推理、容量安全、双层实验、事故题和系统设计 |
 | 已达到大厂面试级第一版 | n8n | 已补 2.33.5 稳定版与许可边界、Workflow/Node/Execution、Webhook 与队列数据路径、任务运行器、状态与幂等、容量安全、升级回滚、双层实验、事故题和系统设计 |
 | 已达到大厂面试级第一版 | Ollama | 已补 v0.32.6 与模型许可边界、模型制品与 Modelfile、调度加载、流式 API、上下文与 KV Cache、容量安全、升级回滚、双层实验、事故题和系统设计 |
@@ -118,6 +119,7 @@
 | 已完成第一版 | 机器学习 | [machine-learning.md](./data-ai/machine-learning.md) | Google ML Crash Course 与 scikit-learn 官方主线、样本/特征/标签、监督/无监督学习、异常检测、训练/测试拆分、precision/recall、数据泄漏、AIOps 告警分类实验 |
 | 已完成第一版 | scikit-learn | [scikit-learn.md](./data-ai/scikit-learn.md) | scikit-learn 官方结构、estimator API、X/y、fit/predict/transform、监督/无监督学习、异常检测、IsolationForest、特征工程、预处理、Pipeline、ColumnTransformer、训练/测试拆分、数据泄漏、模型评估、模型持久化、API 字典、AIOps 指标异常检测实验 |
 | 已达到大厂面试级第一版 | TensorFlow | [tensorflow.md](./data-ai/tensorflow.md) | TensorFlow 2.21、Tensor/Variable、GradientTape、Keras、tf.data、tf.function、分布式训练、性能容量、SavedModel/Serving、灰度回滚、双层实验、事故题和系统设计 |
+| 已达到大厂面试级第一版 | PyTorch | [pytorch.md](./data-ai/pytorch.md) | PyTorch 2.13、Tensor/Autograd/Module、Dataset/DataLoader、状态与恢复、AMP/compile、DDP/FSDP2、容量安全、服务观测、CPU 基础实验、NaN 故障注入、事故题和系统设计 |
 | 已达到大厂面试级第一版 | Transformer | [transformer.md](./data-ai/transformer.md) | Transformer 原始架构、Token/Embedding/Position、Q/K/V、多头注意力、Mask、Encoder/Decoder、FFN/Residual/Norm、Prefill/Decode/KV Cache、分布式与容量、安全升级、纯 Python 基础实验、未来泄漏故障注入、事故题和系统设计 |
 | 已达到大厂面试级第一版 | Ollama | [ollama.md](./data-ai/ollama.md) | Ollama v0.32.6、Client/Server/Runner/Scheduler、模型 manifest/blob/tag、Modelfile、Chat/Generate/Embed 与流式 API、上下文/KV Cache、显存容量、鉴权边界、双层实验、事故题和系统设计 |
 | 已完成第一版 | FastAPI | [fastapi.md](./data-ai/fastapi.md) | FastAPI 官方教程结构、ASGI、Starlette、Pydantic、Uvicorn、路径操作、参数解析、请求体、响应模型、依赖注入、异常处理、中间件、CORS、OpenAPI、APIRouter、配置、测试、部署、AIOps 告警接收和分析 API 实验 |
@@ -156,7 +158,7 @@
 | 2 | Docker、Kubernetes、Helm、NGINX/Ingress、微服务 | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
 | 3 | Alertmanager、OpenTelemetry、Loki、Elasticsearch、VictoriaMetrics | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
 | 4 | Ansible、Terraform、GitHub Actions、CI/CD、Runbook Automation、n8n | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
-| 5 | MySQL、Oracle、PostgreSQL、Redis、Kafka、RabbitMQ、pandas、机器学习、scikit-learn、Transformer、Ollama、FastAPI、LLM、LangChain、LangGraph、RAG、向量数据库 | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
+| 5 | MySQL、Oracle、PostgreSQL、Redis、Kafka、RabbitMQ、pandas、机器学习、scikit-learn、TensorFlow、PyTorch、Transformer、Ollama、FastAPI、LLM、LangChain、LangGraph、RAG、向量数据库 | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
 | 6 | SLI/SLO/SLA、告警治理、事件响应、Runbook、RCA、变更管理、AIOps 闭环 | 深讲第一版已完成 | 已补齐官方知识地图、机制、命令/API 字典、实验、排障和学习证据 |
 | 7 | 网络安全等级保护（等保 2.0） | 深讲第一版已完成 | 新增安全与合规分类，补齐现行依据、实施流程、控制与证据闭环、实验、排障和学习证据 |
 | 8 | IBM Storage | 深讲第一版已完成 | 新增存储与数据保护分类，补齐产品边界、核心架构、命令字典、指标、实验、排障和学习证据 |
@@ -185,6 +187,7 @@
 | 31 | Transformer | 大厂面试级第一版已完成 | 新增序列建模与注意力主线，覆盖原始架构、Mask、Encoder/Decoder、训练与 KV Cache 推理、容量、安全、升级回滚、双层实验、事故题和系统设计 |
 | 32 | n8n | 大厂面试级第一版已完成 | 新增工作流自动化与 AIOps 编排主线，覆盖稳定版与许可边界、事件数据路径、状态与幂等、队列扩展、任务运行器、容量安全、升级回滚、双层实验、事故题和系统设计 |
 | 33 | Ollama | 大厂面试级第一版已完成 | 新增本地模型运行与服务化主线，覆盖版本和模型许可、模型拉取与加载、流式推理、状态与并发、容量安全、升级回滚、双层实验、事故题和系统设计 |
+| 34 | PyTorch | 大厂面试级第一版已完成 | 新增动态图训练与扩展主线，覆盖 PyTorch 2.13、张量与自动微分、状态恢复、AMP/compile、DDP/FSDP2、容量安全、服务观测、CPU 实跑、NaN 故障实验、事故题和系统设计 |
 
 ## 已完成
 
@@ -268,6 +271,7 @@
 | 数据与 AI | 机器学习 | [machine-learning.md](./data-ai/machine-learning.md) |
 | 数据与 AI | scikit-learn | [scikit-learn.md](./data-ai/scikit-learn.md) |
 | 数据与 AI | TensorFlow | [tensorflow.md](./data-ai/tensorflow.md) |
+| 数据与 AI | PyTorch | [pytorch.md](./data-ai/pytorch.md) |
 | 数据与 AI | Transformer | [transformer.md](./data-ai/transformer.md) |
 | 数据与 AI | Ollama | [ollama.md](./data-ai/ollama.md) |
 | 数据与 AI | FastAPI | [fastapi.md](./data-ai/fastapi.md) |
