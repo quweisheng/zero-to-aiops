@@ -88,7 +88,8 @@ export const navGroups: NavGroup[] = [
       { text: 'Rancher', route: '/tech-stack/cloud-native/rancher' },
       { text: 'Harbor', route: '/tech-stack/cloud-native/harbor' },
       { text: 'Istio', route: '/tech-stack/cloud-native/istio' },
-      { text: 'KubeSphere', route: '/tech-stack/cloud-native/kubesphere' }
+      { text: 'KubeSphere', route: '/tech-stack/cloud-native/kubesphere' },
+      { text: 'Kubeflow', route: '/tech-stack/cloud-native/kubeflow' }
     ]
   },
   {

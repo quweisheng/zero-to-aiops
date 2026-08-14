@@ -203,6 +203,13 @@ export const generatedDocs = [
     "excerpt": "学习目标：理解服务网格的数据面与控制面，能安装 Istio、配置一次灰度流量和双向 TLS，并按请求链路排查 503、配置未生效等常见故障。 官方资料 Istio 官方文档 架构说明 流量管理 安全 可观测性 Istio 1.30.3 re..."
   },
   {
+    "path": "../docs/tech-stack/cloud-native/kubeflow.md",
+    "route": "/tech-stack/cloud-native/kubeflow",
+    "title": "Kubeflow 技术栈深讲",
+    "section": "云原生",
+    "excerpt": "学习目标：从零理解 Kubeflow 为什么不是一个单体程序，而是一组运行在 Kubernetes 上的 AI 平台子项目与生态集成；能解释一次 Notebook、Pipeline、Katib 搜索、分布式训练、模型登记和推理交付经过哪些组..."
+  },
+  {
     "path": "../docs/tech-stack/cloud-native/kubernetes.md",
     "route": "/tech-stack/cloud-native/kubernetes",
     "title": "Kubernetes",

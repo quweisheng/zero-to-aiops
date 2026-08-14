@@ -212,6 +212,9 @@ describe('getDocByRoute', () => {
     expect(getDocByRoute('/tech-stack/cloud-native/harbor')?.title).toBe('Harbor 深讲')
     expect(getDocByRoute('/tech-stack/cloud-native/istio')?.title).toBe('Istio 深讲')
     expect(getDocByRoute('/tech-stack/cloud-native/kubesphere')?.title).toBe('KubeSphere 深讲')
+    expect(getDocByRoute('/tech-stack/cloud-native/kubeflow')?.title).toBe(
+      'Kubeflow 技术栈深讲'
+    )
     expect(getDocByRoute('/tech-stack/automation/gitlab')?.title).toBe(
       'GitLab 与 GitLab CI/CD 深讲'
     )

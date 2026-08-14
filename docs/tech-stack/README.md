@@ -18,6 +18,7 @@
 - [Calico 深讲](./cloud-native/calico.md)
 - [Cilium 深讲](./cloud-native/cilium.md)
 - [Traefik 技术栈深讲](./cloud-native/traefik.md)
+- [Kubeflow 技术栈深讲](./cloud-native/kubeflow.md)
 - [Go（Golang）大厂面试级深讲](./foundation/golang.md)
 - [Apache Hadoop 大厂面试级深讲](./data-ai/hadoop.md)
 - [KVM 虚拟化大厂面试级深讲](./virtualization-private-cloud/kvm.md)
@@ -35,7 +36,7 @@
 |---|---|---:|---|
 | 基础工具 | Linux、systemd、网络、RESTful API、Git、GitHub、Markdown、VitePress、Python、Go、Shell/PowerShell | P0-P1 | 能排障、提交代码、编写脚本，设计可演进、可重试、可观测的 HTTP API，并用 Go 构建并发、可诊断的云原生与 AIOps 服务 |
 | 可观测性 | Prometheus、Zabbix、VictoriaMetrics、Alertmanager、Grafana、OpenTelemetry、Loki、Elasticsearch | P1 | 能采集指标、日志、链路，能覆盖主机、网络设备和混合基础设施，能做仪表盘和告警 |
-| 云原生 | Docker、Compose、Kubernetes、containerd/CRI、etcd、CNI、Calico、Cilium、CSI、CoreDNS、Helm、NGINX/Ingress/Gateway API、Traefik、微服务、Rancher、Harbor、Istio、KubeSphere | P1 | 能解释容器交付、控制面一致性、Pod/Service 网络、存储/DNS/入口、动态路由、策略、平台治理、高可用、升级和端到端排障 |
+| 云原生 | Docker、Compose、Kubernetes、containerd/CRI、etcd、CNI、Calico、Cilium、CSI、CoreDNS、Helm、NGINX/Ingress/Gateway API、Traefik、微服务、Rancher、Harbor、Istio、KubeSphere、Kubeflow | P1 | 能解释容器交付、控制面一致性、Pod/Service 网络、存储/DNS/入口、动态路由、策略、平台治理、机器学习流水线与分布式训练、高可用、升级和端到端排障 |
 | 虚拟化与私有云 | KVM、VMware vSphere、OpenStack | P1-P2 | 能理解虚拟化与 IaaS 的计算、网络、存储、调度、高可用和端到端排障 |
 | 存储与数据保护 | IBM Storage、Dell EMC VPLEX、Dell EMC VMAX、Brocade 6510、华为 OceanStor、爱数 AnyStorage、Ceph | P1-P2 | 能理解集中式与分布式存储、块/文件/对象、FC SAN、存储虚拟化、高端阵列、存储池、LUN、多路径、双活、复制、备份与存储 AIOps 排障 |
 | 中间件与应用平台 | IBM WebSphere、Apache Tomcat | P1-P2 | 能解释企业 Java 与 Servlet 容器的请求路径、部署、类加载、线程/连接/JDBC、会话、集群、容量、高可用、升级回滚和 AIOps 排障 |
@@ -79,22 +80,23 @@
 30. [机器学习](./data-ai/machine-learning.md)：理解样本、特征、标签、评估和异常检测边界。
 31. [TensorFlow](./data-ai/tensorflow.md)：把机器学习主线落到张量计算、模型训练、分布式性能和线上交付。
 32. [PyTorch](./data-ai/pytorch.md)：理解 Tensor、Autograd、训练状态、性能、分布式扩展、模型交付和 AIOps 故障排查。
-33. [Transformer](./data-ai/transformer.md)：理解 Token、Q/K/V、自注意力、Encoder/Decoder、KV Cache、长上下文容量和模型生产故障。
-34. [Ollama](./data-ai/ollama.md)：理解本地模型拉取、加载、推理、流式 API、显存容量、安全边界和 AIOps 服务化。
-35. [LangChain](./data-ai/langchain.md)：理解 v1 Agent Harness、Tool Loop、Middleware、状态恢复、RAG/MCP、生产安全与 AIOps 证据助手。
-36. [Dify](./data-ai/dify.md)：把模型、知识、工具和工作流组装成可发布、可观察、受控的 AIOps 应用。
-37. [网络安全等级保护（等保 2.0）](./security-compliance/mlps.md)：把资产、控制、证据、整改和持续监控连成闭环。
-38. [JumpServer](./security-compliance/jumpserver.md)：把自然人、资产账号、最小授权、连接代理、录像与命令审计连成 PAM 闭环。
-39. [IT 项目管理 / PMP](./architecture-delivery/it-project-management-pmp.md)：学习立项、WBS、关键路径、EVM、风险、变更、敏捷与 DevOps/SRE 项目治理。
-40. [Kubernetes 平台运维岗位专项路线](../interview/kubernetes-platform-operations-role.md)：按招聘要求串联平台、交付、IaaS 和方案证据。
-41. [Apache ZooKeeper](./data-ai/zookeeper.md)：理解分布式协调、会话、Watch、选主、多数派和上层依赖故障。
-42. [Apache Hadoop](./data-ai/hadoop.md)：理解 HDFS、YARN、MapReduce、HA、容量、安全、升级和数据平台排障。
-43. [Apache Hive](./data-ai/hive.md)：理解 HiveServer2、Metastore、SQL 编译执行、分区、文件格式、ACID 和数据仓库排障。
-44. [Apache HBase](./data-ai/hbase.md)：理解 RowKey、Region、WAL、MemStore、HFile、Compaction、热点和低延迟随机读写。
-45. [Apache Spark](./data-ai/spark.md)：理解 Driver/Executor、DAG、Stage/Task、Shuffle、SQL、Streaming 和性能排障。
-46. [Apache Flink](./data-ai/flink.md)：理解 Event Time、Watermark、State、Checkpoint、反压和端到端一致性。
-47. [Apache HAWQ 存量运维与迁移](./data-ai/hawq.md)：识别已退休项目的 MPP 架构、遗留风险、只读排障和迁移方法。
-48. [n8n](./automation/n8n.md)：把告警、工单、审批、API 与受控 Runbook 编排成可观察的 AIOps 工作流。
+33. [Kubeflow](./cloud-native/kubeflow.md)：把 Kubernetes、流水线、超参数搜索、分布式训练、模型元数据和推理交付连成可治理的机器学习平台。
+34. [Transformer](./data-ai/transformer.md)：理解 Token、Q/K/V、自注意力、Encoder/Decoder、KV Cache、长上下文容量和模型生产故障。
+35. [Ollama](./data-ai/ollama.md)：理解本地模型拉取、加载、推理、流式 API、显存容量、安全边界和 AIOps 服务化。
+36. [LangChain](./data-ai/langchain.md)：理解 v1 Agent Harness、Tool Loop、Middleware、状态恢复、RAG/MCP、生产安全与 AIOps 证据助手。
+37. [Dify](./data-ai/dify.md)：把模型、知识、工具和工作流组装成可发布、可观察、受控的 AIOps 应用。
+38. [网络安全等级保护（等保 2.0）](./security-compliance/mlps.md)：把资产、控制、证据、整改和持续监控连成闭环。
+39. [JumpServer](./security-compliance/jumpserver.md)：把自然人、资产账号、最小授权、连接代理、录像与命令审计连成 PAM 闭环。
+40. [IT 项目管理 / PMP](./architecture-delivery/it-project-management-pmp.md)：学习立项、WBS、关键路径、EVM、风险、变更、敏捷与 DevOps/SRE 项目治理。
+41. [Kubernetes 平台运维岗位专项路线](../interview/kubernetes-platform-operations-role.md)：按招聘要求串联平台、交付、IaaS 和方案证据。
+42. [Apache ZooKeeper](./data-ai/zookeeper.md)：理解分布式协调、会话、Watch、选主、多数派和上层依赖故障。
+43. [Apache Hadoop](./data-ai/hadoop.md)：理解 HDFS、YARN、MapReduce、HA、容量、安全、升级和数据平台排障。
+44. [Apache Hive](./data-ai/hive.md)：理解 HiveServer2、Metastore、SQL 编译执行、分区、文件格式、ACID 和数据仓库排障。
+45. [Apache HBase](./data-ai/hbase.md)：理解 RowKey、Region、WAL、MemStore、HFile、Compaction、热点和低延迟随机读写。
+46. [Apache Spark](./data-ai/spark.md)：理解 Driver/Executor、DAG、Stage/Task、Shuffle、SQL、Streaming 和性能排障。
+47. [Apache Flink](./data-ai/flink.md)：理解 Event Time、Watermark、State、Checkpoint、反压和端到端一致性。
+48. [Apache HAWQ 存量运维与迁移](./data-ai/hawq.md)：识别已退休项目的 MPP 架构、遗留风险、只读排障和迁移方法。
+49. [n8n](./automation/n8n.md)：把告警、工单、审批、API 与受控 Runbook 编排成可观察的 AIOps 工作流。
 
 ## 一技术一文件
 
@@ -130,6 +132,7 @@
 - [Harbor](./cloud-native/harbor.md)
 - [Istio](./cloud-native/istio.md)
 - [KubeSphere](./cloud-native/kubesphere.md)
+- [Kubeflow](./cloud-native/kubeflow.md)
 
 ### 虚拟化与私有云
 
@@ -311,6 +314,7 @@ Linux 服务
 - [Harbor](https://goharbor.io/docs/)
 - [Istio](https://istio.io/latest/docs/)
 - [KubeSphere](https://docs.kubesphere.co/v4.2.0/)
+- [Kubeflow](https://www.kubeflow.org/docs/)
 - [OpenStack](https://docs.openstack.org/)
 - [KVM](https://www.kernel.org/doc/html/latest/virt/kvm/index.html)
 - [QEMU](https://www.qemu.org/docs/master/)

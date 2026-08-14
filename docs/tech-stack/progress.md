@@ -23,7 +23,7 @@
 | 已升级开头和面试表达 | Linux、Git、GitHub、Markdown、VitePress、Python、Shell/PowerShell、systemd、网络基础 | 基础工具组已补通俗开场、人话版、小白追问和面试表达 |
 | 已达到大厂面试级第一版 | RESTful API | 已补 REST 约束、HTTP 方法与状态、缓存与条件请求、幂等与并发、契约演进、安全、容量、可观测、双层实验、事故题和系统设计 |
 | 已达到大厂面试级第一版 | Kubernetes、etcd、Calico、Cilium | 已更新到 Kubernetes 1.36.3、etcd 3.7.1、Calico 3.32.1、Cilium 1.20.0，并补 CRI/containerd、CNI、CSI、CoreDNS、状态一致性、故障实验、事故题和系统设计 |
-| 已达到大厂面试级第一版 | Docker、Docker Compose、Helm、NGINX/Ingress/Gateway API、Traefik、微服务、Rancher、Harbor、Istio、KubeSphere | 已补当前版本与退役边界、内部路径、HA/容量/安全/升级回滚、双层实验、事故题、系统设计和递进追问 |
+| 已达到大厂面试级第一版 | Docker、Docker Compose、Helm、NGINX/Ingress/Gateway API、Traefik、微服务、Rancher、Harbor、Istio、KubeSphere、Kubeflow | 已补当前版本与退役边界、内部路径、HA/容量/安全/升级回滚、双层实验、事故题、系统设计和递进追问 |
 | 已达到大厂面试级第一版 | KVM 虚拟化 | 已补 KVM/QEMU/libvirt 边界、CPU/内存/网络/存储路径、迁移、HA、安全、双层实验、事故题和系统设计 |
 | 已完成深讲第一版 | VMware vSphere | 虚拟化与私有云组已补 ESXi/ESX、vCenter、集群、HA、DRS、vMotion、网络、存储、生命周期、实验和排障 |
 | 已完成深讲第一版 | IBM Storage | 存储与数据保护组已补产品地图、块/文件/对象/磁带基础、FlashSystem 数据路径、容量性能、多路径、复制备份、实验、排障和面试表达 |
@@ -91,6 +91,7 @@
 | 已达到大厂面试级第一版 | Harbor | [harbor.md](./cloud-native/harbor.md) | 2.15.2、401/Token/Registry/Blob 路径、Digest/GC/复制一致性、PostgreSQL/Valkey/存储 HA、Robot 故障实验与事故题 |
 | 已达到大厂面试级第一版 | Istio | [istio.md](./cloud-native/istio.md) | 1.30.3、Sidecar/Ambient/ztunnel/waypoint、xDS/mTLS/策略、容量安全、revision canary、503 故障实验与系统设计 |
 | 已达到大厂面试级第一版 | KubeSphere | [kubesphere.md](./cloud-native/kubesphere.md) | 产品 4.2.1/文档 4.2.0/OSS 4.1.3、Edition/License、LuBan 扩展、HA/容量/RBAC、故障实验、事故题与升级边界 |
+| 已达到大厂面试级第一版 | Kubeflow | [kubeflow.md](./cloud-native/kubeflow.md) | KCD 26.03.1、Profile/Notebook/KFP/Katib/Trainer/Hub/KServe、状态与多租户、GPU 队列、HA 容量安全、KFP 实跑与类型故障、事故题和系统设计 |
 | 已完成第一版 | Alertmanager | [alertmanager.md](./observability/alertmanager.md) | Prometheus Alertmanager 官方结构、alert labels/annotations、route tree、receiver、grouping、deduplication、silence、inhibition、notification template、webhook、API、amtool、AIOps 告警诊断实验 |
 | 已完成第一版 | OpenTelemetry | [opentelemetry.md](./observability/opentelemetry.md) | OpenTelemetry 官方结构、traces/metrics/logs、Trace/Span/Context、resource、semantic conventions、instrumentation、API/SDK、OTLP、Collector receiver/processor/exporter/pipeline、AIOps 遥测诊断实验 |
 | 已完成第一版 | Loki | [loki.md](./observability/loki.md) | Grafana Loki 官方结构、log stream、labels、cardinality、chunks、index、写入/查询路径、组件、storage schema、Alloy/Promtail EOL、LogQL、日志告警、AIOps 日志诊断实验 |
@@ -161,7 +162,7 @@
 |---|---|---|---|
 | 0 | Prometheus、Grafana、Docker Compose | 已完成 | 第一批示范级文章 |
 | 1 | Linux、Git、GitHub、Markdown、VitePress、Python、Shell/PowerShell、systemd、网络基础 | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
-| 2 | Docker、Compose、Kubernetes 全生态、Helm、NGINX/Ingress/Gateway API、微服务、Rancher、Harbor、Istio、KubeSphere | 大厂面试级第一版已完成 | 已更新当前版本/退役边界，补齐内部链路、状态、生产 HA/容量/安全/升级、双层实验、事故与系统设计 |
+| 2 | Docker、Compose、Kubernetes 全生态、Helm、NGINX/Ingress/Gateway API、微服务、Rancher、Harbor、Istio、KubeSphere、Kubeflow | 大厂面试级第一版已完成 | 已更新当前版本/退役边界，补齐内部链路、状态、生产 HA/容量/安全/升级、双层实验、事故与系统设计 |
 | 3 | Alertmanager、OpenTelemetry、Loki、Elasticsearch、VictoriaMetrics | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
 | 4 | Ansible、Terraform、GitHub Actions、CI/CD、Runbook Automation、n8n | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
 | 5 | MySQL、Oracle、PostgreSQL、Redis、Kafka、RabbitMQ、pandas、机器学习、scikit-learn、TensorFlow、PyTorch、Transformer、Ollama、FastAPI、LLM、LangChain、LangGraph、RAG、向量数据库 | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
@@ -195,6 +196,7 @@
 | 33 | Ollama | 大厂面试级第一版已完成 | 新增本地模型运行与服务化主线，覆盖版本和模型许可、模型拉取与加载、流式推理、状态与并发、容量安全、升级回滚、双层实验、事故题和系统设计 |
 | 34 | PyTorch | 大厂面试级第一版已完成 | 新增动态图训练与扩展主线，覆盖 PyTorch 2.13、张量与自动微分、状态恢复、AMP/compile、DDP/FSDP2、容量安全、服务观测、CPU 实跑、NaN 故障实验、事故题和系统设计 |
 | 35 | LangChain | 大厂面试级第一版已完成 | 重构 LangChain v1 Agent 工程主线，覆盖 Tool Loop、Middleware、结构化输出、状态恢复、RAG/MCP/LangSmith、HA 容量安全、无 Key 实跑、HITL 故障实验、事故题和系统设计 |
+| 36 | Kubeflow | 大厂面试级第一版已完成 | 新增 Kubernetes 原生 AI 平台主线，覆盖 KCD 26.03.1、版本组合、多租户、KFP/Katib/Trainer/Hub/KServe、GPU 队列、状态恢复、双层实验、事故题和系统设计 |
 
 ## 已完成
 
@@ -225,6 +227,7 @@
 | 云原生 | Harbor | [harbor.md](./cloud-native/harbor.md) |
 | 云原生 | Istio | [istio.md](./cloud-native/istio.md) |
 | 云原生 | KubeSphere | [kubesphere.md](./cloud-native/kubesphere.md) |
+| 云原生 | Kubeflow | [kubeflow.md](./cloud-native/kubeflow.md) |
 | 虚拟化与私有云 | VMware vSphere | [vsphere.md](./virtualization-private-cloud/vsphere.md) |
 | 虚拟化与私有云 | OpenStack | [openstack.md](./virtualization-private-cloud/openstack.md) |
 | 虚拟化与私有云 | KVM 虚拟化 | [kvm.md](./virtualization-private-cloud/kvm.md) |

@@ -78,6 +78,7 @@ npm run build
 - [Harbor](./docs/tech-stack/cloud-native/harbor.md)
 - [Istio](./docs/tech-stack/cloud-native/istio.md)
 - [KubeSphere](./docs/tech-stack/cloud-native/kubesphere.md)
+- [Kubeflow](./docs/tech-stack/cloud-native/kubeflow.md)
 
 ### 虚拟化与私有云
 
