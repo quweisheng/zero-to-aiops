@@ -67,6 +67,70 @@ body {
   min-height: 100dvh;
 }
 
+.back-to-top {
+  position: fixed;
+  right: max(18px, env(safe-area-inset-right));
+  bottom: max(18px, env(safe-area-inset-bottom));
+  z-index: 18;
+  display: grid;
+  width: 58px;
+  min-height: 58px;
+  place-items: center;
+  gap: 1px;
+  border: 1px solid color-mix(in srgb, var(--accent) 58%, var(--line));
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  box-shadow: 0 14px 38px rgb(9 55 43 / 22%);
+  color: var(--accent-strong);
+  padding: 7px 6px 6px;
+  backdrop-filter: blur(14px);
+  animation: back-to-top-in 180ms ease-out both;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.back-to-top svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
+.back-to-top span {
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.back-to-top:hover {
+  border-color: var(--accent);
+  background: var(--surface);
+  box-shadow: 0 18px 44px rgb(9 55 43 / 28%);
+  transform: translateY(-3px);
+}
+
+.back-to-top:active {
+  transform: translateY(1px);
+}
+
+@keyframes back-to-top-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.94);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 .cursor-trace {
   position: fixed;
   inset: 0;
@@ -993,6 +1057,10 @@ h3 {
   .cursor-trace {
     display: none;
   }
+
+  .back-to-top {
+    animation: none;
+  }
 }
 
 @media (max-width: 1280px) {
@@ -1092,5 +1160,13 @@ h3 {
 
   .doc-content {
     padding: 22px;
+  }
+
+  .back-to-top {
+    right: max(14px, env(safe-area-inset-right));
+    bottom: max(14px, env(safe-area-inset-bottom));
+    width: 52px;
+    min-height: 52px;
+    border-radius: 12px;
   }
 }

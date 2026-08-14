@@ -303,9 +303,9 @@ export const generatedDocs = [
   {
     "path": "../docs/tech-stack/data-ai/langchain.md",
     "route": "/tech-stack/data-ai/langchain",
-    "title": "LangChain",
+    "title": "LangChain 技术栈深讲",
     "section": "数据与 AI",
-    "excerpt": "学习目标：能理解 LangChain 在 LLM 应用工程里的位置，能讲清 agent、model、message、tool、system prompt、structured output、memory、RAG、LangGraph、Lang..."
+    "excerpt": "学习目标：从零理解 LangChain 1.x 的 model、message、tool、agent harness、structured output、middleware、memory、streaming、RAG、MCP，以及 Lang..."
   },
   {
     "path": "../docs/tech-stack/data-ai/langgraph.md",

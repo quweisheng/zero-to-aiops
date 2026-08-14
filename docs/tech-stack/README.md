@@ -79,7 +79,7 @@
 31. [PyTorch](./data-ai/pytorch.md)：理解 Tensor、Autograd、训练状态、性能、分布式扩展、模型交付和 AIOps 故障排查。
 32. [Transformer](./data-ai/transformer.md)：理解 Token、Q/K/V、自注意力、Encoder/Decoder、KV Cache、长上下文容量和模型生产故障。
 33. [Ollama](./data-ai/ollama.md)：理解本地模型拉取、加载、推理、流式 API、显存容量、安全边界和 AIOps 服务化。
-34. [LangChain](./data-ai/langchain.md)：把 LLM、RAG、工具调用和 runbook 查询组织成应用。
+34. [LangChain](./data-ai/langchain.md)：理解 v1 Agent Harness、Tool Loop、Middleware、状态恢复、RAG/MCP、生产安全与 AIOps 证据助手。
 35. [Dify](./data-ai/dify.md)：把模型、知识、工具和工作流组装成可发布、可观察、受控的 AIOps 应用。
 36. [网络安全等级保护（等保 2.0）](./security-compliance/mlps.md)：把资产、控制、证据、整改和持续监控连成闭环。
 37. [JumpServer](./security-compliance/jumpserver.md)：把自然人、资产账号、最小授权、连接代理、录像与命令审计连成 PAM 闭环。

@@ -7,6 +7,8 @@ import type { SearchDocument, SearchResult } from './search'
 
 type Theme = 'light' | 'dark'
 
+const backToTopThreshold = 480
+
 const featuredRoutes = [
   '/tech-stack/foundation/linux',
   '/tech-stack/foundation/git',
@@ -79,7 +81,42 @@ export default function App() {
       ) : (
         <NotFound onNavigate={navigate} />
       )}
+      <BackToTopButton />
     </div>
+  )
+}
+
+function BackToTopButton() {
+  const [isVisible, setIsVisible] = useState(() => window.scrollY >= backToTopThreshold)
+
+  useEffect(() => {
+    const updateVisibility = () => setIsVisible(window.scrollY >= backToTopThreshold)
+
+    updateVisibility()
+    window.addEventListener('scroll', updateVisibility, { passive: true })
+
+    return () => window.removeEventListener('scroll', updateVisibility)
+  }, [])
+
+  if (!isVisible) {
+    return null
+  }
+
+  const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+
+  return (
+    <button
+      className="back-to-top"
+      type="button"
+      aria-label="回到顶部"
+      title="回到顶部"
+      onClick={() => scrollToTop(prefersReducedMotion ? 'auto' : 'smooth')}
+    >
+      <svg aria-hidden="true" viewBox="0 0 24 24">
+        <path d="m6.75 10.75 5.25-5.25 5.25 5.25M12 5.5v13" />
+      </svg>
+      <span>顶部</span>
+    </button>
   )
 }
 
@@ -663,9 +700,9 @@ function canonicalUrlForRoute(route: string): string {
   return url.toString()
 }
 
-function scrollToTop() {
+function scrollToTop(behavior: ScrollBehavior = 'auto') {
   try {
-    window.scrollTo({ top: 0 })
+    window.scrollTo({ top: 0, behavior })
   } catch {
     // Some non-browser environments expose scrollTo but do not implement it.
   }

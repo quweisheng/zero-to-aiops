@@ -148,7 +148,7 @@ describe('getDocByRoute', () => {
       '机器学习'
     )
     expect(getDocByRoute('/tech-stack/data-ai/langchain')?.title).toBe(
-      'LangChain'
+      'LangChain 技术栈深讲'
     )
   })
 

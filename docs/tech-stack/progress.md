@@ -43,6 +43,7 @@
 | 已达到大厂面试级第一版 | Zabbix | 已补 Zabbix 7.4.12/7.0 LTS 边界、采集与事件链路、Proxy、Server/数据库 HA、容量安全、升级回滚、故障实验、事故题和系统设计 |
 | 已达到大厂面试级第一版 | TensorFlow | 已补 TensorFlow 2.21、Tensor/自动微分/Keras、tf.data/tf.function、分布式训练、模型交付、漂移监控、脏数据实验、事故题和系统设计 |
 | 已达到大厂面试级第一版 | PyTorch | 已补 PyTorch 2.13、Tensor/Autograd/Module、DataLoader、AMP/compile、DDP/FSDP2、状态恢复、服务观测、安全、CPU 实跑与 NaN 故障实验、事故题和系统设计 |
+| 已达到大厂面试级第一版 | LangChain | 已补 LangChain 1.3.15、v1 create_agent/Tool Loop、Middleware、结构化输出、短期/长期记忆、Checkpoint 一致性、RAG/MCP/LangSmith 边界、容量安全、无 Key 工具循环、HITL 故障实验、事故题和系统设计 |
 | 已达到大厂面试级第一版 | Transformer | 已补 Token/Embedding/Position、Q/K/V 与多头注意力、Mask、Encoder/Decoder、训练与 KV Cache 推理、容量安全、双层实验、事故题和系统设计 |
 | 已达到大厂面试级第一版 | n8n | 已补 2.33.5 稳定版与许可边界、Workflow/Node/Execution、Webhook 与队列数据路径、任务运行器、状态与幂等、容量安全、升级回滚、双层实验、事故题和系统设计 |
 | 已达到大厂面试级第一版 | Ollama | 已补 v0.32.6 与模型许可边界、模型制品与 Modelfile、调度加载、流式 API、上下文与 KV Cache、容量安全、升级回滚、双层实验、事故题和系统设计 |
@@ -52,7 +53,7 @@
 | 已达到大厂面试级第一版 | Jenkins | 已补 Jenkins 2.568.1 LTS/2.575 Weekly、Controller/Agent/Queue/Executor、Pipeline CPS 与持久化、JENKINS_HOME、JCasC/Kubernetes Agent、容量安全、备份升级、双层实验、事故题和系统设计 |
 | 已达到大厂面试级第一版 | JumpServer | 已补 v4.10.18 LTS、社区版/X-Pack 边界、身份/资产/账号/授权、Core 与连接组件、状态恢复、容量安全、升级回滚、双层实验、事故题和系统设计 |
 | 已达到大厂面试级第一版 | Apache Maven | 已补 Maven 3.9.16 与 Maven 4 RC 边界、Effective POM、生命周期与插件、依赖解析与 Reactor、制品状态、容量安全、升级回滚、双层实验、事故题和系统设计 |
-| 已升级开头和面试表达 | MySQL、Oracle、PostgreSQL、Redis、Kafka、ZooKeeper、pandas、机器学习、scikit-learn、FastAPI、LLM、LangChain、LangGraph、RAG、向量数据库 | 数据与 AI 组已补通俗开场、人话版、小白追问和面试表达 |
+| 已升级开头和面试表达 | MySQL、Oracle、PostgreSQL、Redis、Kafka、ZooKeeper、pandas、机器学习、scikit-learn、FastAPI、LLM、LangGraph、RAG、向量数据库 | 数据与 AI 组已补通俗开场、人话版、小白追问和面试表达 |
 | 已升级开头和面试表达 | SLI/SLO/SLA、告警治理、事件响应、Runbook、RCA、变更管理、AIOps 闭环 | SRE/AIOps 实践组已补通俗开场、人话版、小白追问和面试表达 |
 
 ## 深讲样板进度
@@ -124,7 +125,7 @@
 | 已达到大厂面试级第一版 | Ollama | [ollama.md](./data-ai/ollama.md) | Ollama v0.32.6、Client/Server/Runner/Scheduler、模型 manifest/blob/tag、Modelfile、Chat/Generate/Embed 与流式 API、上下文/KV Cache、显存容量、鉴权边界、双层实验、事故题和系统设计 |
 | 已完成第一版 | FastAPI | [fastapi.md](./data-ai/fastapi.md) | FastAPI 官方教程结构、ASGI、Starlette、Pydantic、Uvicorn、路径操作、参数解析、请求体、响应模型、依赖注入、异常处理、中间件、CORS、OpenAPI、APIRouter、配置、测试、部署、AIOps 告警接收和分析 API 实验 |
 | 已完成第一版 | LLM / OpenAI API | [llm-openai.md](./data-ai/llm-openai.md) | OpenAI 官方 API 结构、Responses API、模型选型、instructions/input、提示词合同、结构化输出、function calling、Embeddings、RAG 关系、上下文拼装、安全边界、成本/延迟/降级、评估、AIOps 告警摘要助手实验 |
-| 已完成第一版 | LangChain | [langchain.md](./data-ai/langchain.md) | LangChain 官方结构、agent/model/tool/message/system prompt、structured output、memory、context engineering、RAG、LangGraph/LangSmith 边界、AIOps runbook 查询助手实验 |
+| 已达到大厂面试级第一版 | LangChain | [langchain.md](./data-ai/langchain.md) | LangChain 1.3.15、v1 create_agent/Tool Loop、结构化输出、Middleware、Thread/Checkpoint/Store、RAG/MCP/LangGraph/LangSmith 边界、HA 容量安全、无 Key 基础实验、HITL 故障注入、事故题和系统设计 |
 | 已完成第一版 | LangGraph | [langgraph.md](./data-ai/langgraph.md) | LangGraph 官方结构、StateGraph、state、node、edge、checkpoint、memory、interrupt、human-in-the-loop、streaming、AIOps 排障流程编排实验 |
 | 已达到大厂面试级第一版 | Dify | [dify.md](./data-ai/dify.md) | Dify 1.16.1、修改版 Apache 2.0 许可边界、App/Workflow/Chatflow/Agent、Knowledge/RAG、Model/Tool/Plugin、API/Worker/Redis/向量库数据路径、HA、容量安全、备份升级、无模型基础实验、Worker 故障注入、事故题和系统设计 |
 | 已完成第一版 | RAG | [rag.md](./data-ai/rag.md) | RAG 官方主线、离线入库、在线检索、chunk、metadata、embedding、向量库、关键词/向量/hybrid search、rerank、上下文拼装、prompt injection 防护、OpenAI File Search、自建 Runbook RAG 实验、检索和回答评估 |
@@ -188,6 +189,7 @@
 | 32 | n8n | 大厂面试级第一版已完成 | 新增工作流自动化与 AIOps 编排主线，覆盖稳定版与许可边界、事件数据路径、状态与幂等、队列扩展、任务运行器、容量安全、升级回滚、双层实验、事故题和系统设计 |
 | 33 | Ollama | 大厂面试级第一版已完成 | 新增本地模型运行与服务化主线，覆盖版本和模型许可、模型拉取与加载、流式推理、状态与并发、容量安全、升级回滚、双层实验、事故题和系统设计 |
 | 34 | PyTorch | 大厂面试级第一版已完成 | 新增动态图训练与扩展主线，覆盖 PyTorch 2.13、张量与自动微分、状态恢复、AMP/compile、DDP/FSDP2、容量安全、服务观测、CPU 实跑、NaN 故障实验、事故题和系统设计 |
+| 35 | LangChain | 大厂面试级第一版已完成 | 重构 LangChain v1 Agent 工程主线，覆盖 Tool Loop、Middleware、结构化输出、状态恢复、RAG/MCP/LangSmith、HA 容量安全、无 Key 实跑、HITL 故障实验、事故题和系统设计 |
 
 ## 已完成
 

@@ -6,6 +6,11 @@ import App from './App'
 describe('App', () => {
   beforeEach(() => {
     window.history.pushState({}, '', '/')
+    Object.defineProperty(window, 'scrollY', {
+      configurable: true,
+      value: 0
+    })
+    vi.mocked(window.scrollTo).mockClear()
   })
 
   afterEach(() => {
@@ -81,5 +86,55 @@ describe('App', () => {
       expect(window.location.pathname).toBe('/tech-stack/observability/prometheus')
     })
     expect(screen.getByLabelText('搜索文章')).toHaveValue('')
+  })
+
+  it('shows a back-to-top button after scrolling and scrolls smoothly', () => {
+    render(<App />)
+
+    expect(screen.queryByRole('button', { name: '回到顶部' })).not.toBeInTheDocument()
+
+    Object.defineProperty(window, 'scrollY', {
+      configurable: true,
+      value: 600
+    })
+    fireEvent.scroll(window)
+
+    fireEvent.click(screen.getByRole('button', { name: '回到顶部' }))
+
+    expect(window.scrollTo).toHaveBeenCalledWith({ top: 0, behavior: 'smooth' })
+
+    Object.defineProperty(window, 'scrollY', {
+      configurable: true,
+      value: 0
+    })
+    fireEvent.scroll(window)
+
+    expect(screen.queryByRole('button', { name: '回到顶部' })).not.toBeInTheDocument()
+  })
+
+  it('respects reduced-motion preferences when returning to the top', () => {
+    vi.stubGlobal(
+      'matchMedia',
+      vi.fn((query: string) => ({
+        matches: query === '(prefers-reduced-motion: reduce)',
+        media: query,
+        onchange: null,
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+        addListener: vi.fn(),
+        removeListener: vi.fn(),
+        dispatchEvent: vi.fn()
+      }))
+    )
+
+    Object.defineProperty(window, 'scrollY', {
+      configurable: true,
+      value: 600
+    })
+    render(<App />)
+
+    fireEvent.click(screen.getByRole('button', { name: '回到顶部' }))
+
+    expect(window.scrollTo).toHaveBeenCalledWith({ top: 0, behavior: 'auto' })
   })
 })
