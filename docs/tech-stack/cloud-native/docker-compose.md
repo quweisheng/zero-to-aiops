@@ -14,8 +14,20 @@
 - [Configs reference](https://docs.docker.com/reference/compose-file/configs/)
 - [Secrets reference](https://docs.docker.com/reference/compose-file/secrets/)
 - [Docker Compose CLI reference](https://docs.docker.com/reference/cli/docker/compose/)
+- [Docker Compose v5.4.0](https://github.com/docker/compose/releases/tag/v5.4.0)
+- [Compose releases](https://github.com/docker/compose/releases)
+- [Compose dry run](https://docs.docker.com/reference/cli/docker/compose/dry-run/)
+- [Compose include](https://docs.docker.com/compose/how-tos/multiple-compose-files/include/)
 
-说明：本文基于 Docker 官方 Compose 文档和 AIOps 学习场景整理，保留官方链接，不复制官方全文。官方文档负责定义 Compose 模型和字段边界，本文负责把它讲成可学习、可复现、可放进 GitHub 的教程。
+说明：本文基于 Docker 官方 Compose 文档和 AIOps 学习场景整理。截至 2026-08-14，Compose CLI 当前版本为 v5.4.0。这里的 v5 是 CLI 版本，不是“Compose 文件格式 v5”；现代 `compose.yaml` 仍遵循 Compose Specification，顶层 `version` 已不再作为能力开关。
+
+## Compose v5 先知道什么
+
+- Compose v5 跳过 3 和 4，是为了避免和旧 Compose file `2.x/3.x` 混淆。
+- v5 移除了内部 builder，构建交给 Docker Bake/BuildKit；构建插件版本也进入排障范围。
+- v5.2 引入新的 reconciliation algorithm，v5.4 继续加强 volume/network 调和。升级 CLI 可能改变资源替换行为，先在一次性项目比较 `--dry-run`、labels、config hash 和实际结果。
+- Compose 是命令触发的一次性调和，不是持续运行的 Kubernetes controller。手工修改容器后，直到下次执行 Compose 命令才可能被纠正。
+- `expose` 主要声明内部端口，不是容器间防火墙；同一 Compose network 中，服务通常可以直连对方实际监听端口。
 
 ## 场景开场
 
@@ -207,7 +219,7 @@ Service 是 Compose 文件里的服务定义。
 ```yaml
 services:
   prometheus:
-    image: prom/prometheus:v3.5.0
+    image: prom/prometheus:v3.13.2
 ```
 
 `prometheus` 是 service name。Compose 会根据这个定义创建容器。
@@ -332,14 +344,14 @@ services:
       - "8000:8000"
 
   prometheus:
-    image: prom/prometheus:v3.5.0
+    image: prom/prometheus:v3.13.2
     ports:
       - "9090:9090"
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
 
   grafana:
-    image: grafana/grafana:latest
+    image: grafana/grafana:13.1.3
     ports:
       - "3000:3000"
     volumes:
@@ -370,7 +382,7 @@ volumes:
 |---|---|
 | 是什么 | service 使用的镜像 |
 | 为什么需要 | 告诉 Compose 用哪个镜像创建容器 |
-| 怎么用 | `image: prom/prometheus:v3.5.0` |
+| 怎么用 | `image: prom/prometheus:v3.13.2` |
 | 坏了怎么查 | 拉取失败看镜像名、tag、网络和 registry 认证 |
 
 示例：
@@ -378,7 +390,7 @@ volumes:
 ```yaml
 services:
   prometheus:
-    image: prom/prometheus:v3.5.0
+    image: prom/prometheus:v3.13.2
 ```
 
 不要长期依赖裸 `latest`，学习实验可以，正式项目最好固定版本。
@@ -583,7 +595,7 @@ Prometheus 示例：
 ```yaml
 services:
   prometheus:
-    image: prom/prometheus:v3.5.0
+    image: prom/prometheus:v3.13.2
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
       - "--storage.tsdb.path=/prometheus"
@@ -644,7 +656,7 @@ services:
 ```yaml
 services:
   prometheus:
-    image: prom/prometheus:v3.5.0
+    image: prom/prometheus:v3.13.2
     healthcheck:
       test: ["CMD", "wget", "-qO-", "localhost:9090/-/ready"]
       interval: 10s
@@ -709,7 +721,7 @@ networks:
 ```yaml
 services:
   loki:
-    image: grafana/loki:latest
+    image: grafana/loki:3.7.6
     profiles:
       - logs
 ```
@@ -1198,7 +1210,7 @@ services:
       - observability
 
   prometheus:
-    image: prom/prometheus:v3.5.0
+    image: prom/prometheus:v3.13.2
     ports:
       - "9090:9090"
     volumes:
@@ -1220,7 +1232,7 @@ services:
       - observability
 
   grafana:
-    image: grafana/grafana:latest
+    image: grafana/grafana:13.1.3
     ports:
       - "3000:3000"
     environment:
@@ -1597,6 +1609,79 @@ Compose 会为 project 创建网络，并在网络里提供服务名 DNS。Grafa
 
 因为 `-v` 会删除 volumes。数据库、Grafana dashboard、Prometheus 历史数据如果存在 volume 里，会一起被删。
 
+## Compose 的内部调和路径
+
+```text
+.env / shell environment
+  -> 变量插值
+  -> 多文件 merge / include / profiles
+  -> 生成 Compose application model
+  -> 校验 service / network / volume / secret
+  -> 调 Docker Engine API
+  -> 依据 project labels、resource labels、config hash
+  -> create / recreate / start / stop
+```
+
+`docker compose config` 看的是解析后的期望模型，`docker compose ps`/`inspect` 看的是 Engine 实际状态，容器内探针才证明应用行为。三种证据不能互相替代。
+
+### 单机高可用边界
+
+Compose 的 `restart`、healthcheck 和 `depends_on` 能改善单机恢复与启动顺序，但不能把容器调度到第二台主机。Engine、Docker Desktop VM、宿主磁盘或网络故障时，整个 project 都可能不可用。需要跨主机容错、滚动发布和持续调和时，应迁移到 Kubernetes 等编排系统。
+
+### 安全与数据边界
+
+- `.env` 用于插值，`env_file` 把变量传入容器；两者都不是加密保险箱。
+- Compose secrets 通常以文件方式挂载，但安全性仍取决于来源、宿主权限、镜像和应用读取方式。
+- bind mount 直接暴露宿主路径，容器内写操作可能破坏源码或配置；生产优先最小只读挂载。
+- Docker socket 代表宿主级控制权，不把它随意挂给监控或自动化容器。
+- `docker compose down` 默认保留 named volume；`down -v` 会删除项目卷，执行前必须备份并确认 project name。
+- 固定镜像版本与 digest；Grafana、Loki 等示例已去掉 `latest`，升级时仍要看各组件迁移说明。
+
+## 故障注入实验：Grafana 把 Prometheus 写成 localhost
+
+前置条件：已经跑通本文的 Prometheus + Grafana 实验，并保留 datasource 文件备份。把 datasource URL 临时改成：
+
+```yaml
+url: http://localhost:9090
+```
+
+重建 Grafana 并取证：
+
+```bash
+docker compose up -d --force-recreate grafana
+docker compose ps
+docker compose logs --since 5m grafana
+docker compose exec grafana getent hosts prometheus
+```
+
+预期：Grafana 容器本身可能仍是 Running，但查询 Prometheus 失败。原因是 Grafana 容器里的 `localhost` 指向 Grafana 自己，不是 Prometheus。`getent hosts prometheus` 应解析出同一 Compose network 中 Prometheus 容器的地址。
+
+把 URL 恢复为 `http://prometheus:9090`：
+
+```bash
+docker compose up -d --force-recreate grafana
+docker compose logs --since 2m grafana
+```
+
+用 Grafana datasource “Save & test”或 Explore 查询 `up` 复验。清理整个实验时使用 `docker compose down`；只有确认不再需要历史数据并已备份时才加 `-v`。
+
+如果没有出现预期故障，检查你是否用了 host network、是否改对了正在挂载的 provisioning 文件，以及 Compose 合并后的最终配置：
+
+```bash
+docker compose config
+docker compose config --environment
+```
+
+## 生产事故题
+
+题目：升级 Compose CLI 后执行 `up -d`，多个容器被意外重建，Grafana 数据源和网络访问同时异常。怎么处理？
+
+答案主线：停止继续执行变更，保存新旧 CLI 版本、`docker compose config`、dry-run、project labels/config hash、events、容器 inspect 和 volume/network 清单；确认是否由 v5 调和变化、project name、合并文件、环境变量或手工漂移触发。数据卷不要删除。若镜像与配置向后兼容，使用已验证的旧 CLI/配置在测试项目重放，再按停止条件决定回退；复验必须包含 DNS、volume 数据、health 和真实查询。
+
+## 系统设计题
+
+题目：Compose 适合在什么规模做 AIOps 实验室，什么时候必须迁移 Kubernetes？回答要从单主机故障域、容器数、磁盘/日志、Secret、备份、升级窗口、跨主机调度、持续调和和团队权限判断。Compose 很适合个人或 CI 的可复现实验；一旦要求跨主机 HA、多租户、自动扩缩容和滚动发布，就不应继续用 `restart` 假装编排平台。
+
 ## 面试怎么讲
 
 Docker Compose 用来定义和运行多容器应用。它通过 `compose.yaml` 描述 project 下的 services、networks、volumes、configs 和 secrets，让 Prometheus、Grafana、demo app 这类 AIOps 实验环境可以一键启动和复现。Compose 会自动创建项目网络，服务之间可以用 service name 通信，所以 Grafana 访问 Prometheus 应该写 `prometheus:9090`，不是 `localhost:9090`。排障时我会先用 `docker compose config` 检查配置，再用 `ps` 看状态、`logs` 看日志、`exec` 进容器测试网络，并特别注意端口映射、volume 挂载和 `depends_on` 不等于 ready。
@@ -1658,3 +1743,7 @@ Docker Compose 用来定义和运行多容器应用。它通过 `compose.yaml` �
 - 一篇排障记录：`Grafana 连接 Prometheus 失败怎么查.md`
 
 如果别人 clone 你的仓库后，能进入 `labs/observability-compose` 执行 `docker compose up -d --build`，并按照 README 打开 Prometheus 和 Grafana，你的 Compose 学习就不是停留在概念上，而是形成了可复现的 AIOps 实验环境。
+
+## 本文验证边界
+
+本文更新完成了 Compose v5.4.0 行为、配置、镜像标签和 Markdown 静态核验；当前 Docker daemon 未连接，因此没有声称 Prometheus/Grafana、v5 调和差异或故障实验已在本机运行。不同 Docker Desktop/Engine、Buildx/Bake、第三方扩展字段和已有 project 漂移必须在一次性环境先回归。

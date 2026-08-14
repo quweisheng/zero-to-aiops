@@ -10,8 +10,23 @@
 - [生产架构建议](https://ranchermanager.docs.rancher.com/reference-guides/rancher-manager-architecture/architecture-recommendations)
 - [备份与恢复](https://ranchermanager.docs.rancher.com/how-to-guides/new-user-guides/backup-restore-and-disaster-recovery)
 - [Rancher CLI](https://ranchermanager.docs.rancher.com/reference-guides/cli-with-rancher/rancher-cli)
+- [Rancher 2.15.0 release](https://github.com/rancher/rancher/releases/tag/v2.15.0)
+- [Rancher 版本入口](https://ranchermanager.docs.rancher.com/versions)
+- [Rancher 2.15 支持矩阵](https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/rancher-v2-15-0/)
+- [RKE1 生命周期边界](https://ranchermanager.docs.rancher.com/reference-guides/rancher-manager-architecture/rancher-kubernetes-engine-built-in)
 
 说明：Rancher、Kubernetes、cert-manager、RKE2/K3s 和 Helm 有明确兼容关系。安装、升级前必须按准确 Rancher 版本读取支持矩阵与发行说明，不能直接复制旧教程的镜像标签。
+
+## 2026-08-14 版本、兼容与退役边界
+
+| 对象 | 本文锚点 | 操作边界 |
+|---|---|---|
+| Rancher Manager | 2.15.0 | 先核对 2.15 支持矩阵，再选择 Kubernetes、RKE2/K3s、Helm、cert-manager、Ingress、Fleet 和 Backup Operator 的精确版本 |
+| Kubernetes | 2.15 新增 1.36、移除 1.33 支持 | “上游 Kubernetes 还维护”不等于“这版 Rancher 已认证”；patch 组合也要按矩阵确认 |
+| RKE2 / K3s | 当前创建集群主线 | Rancher Manager 是管理平台，RKE2/K3s 是 Kubernetes 发行版，不是同一个东西 |
+| RKE1 | 2025-07-31 EOL | Rancher 2.12 及以后不再创建或管理 RKE1；旧集群应做迁移计划，不要继续套新文档 |
+
+版本矩阵像“插头规格表”：每个组件单独看都能工作，不代表插在一起就受支持。生产升级应记录源版本、目标版本、Kubernetes patch、Chart、证书方案、身份源、扩展与回滚点。
 
 ## 官方知识地图
 
@@ -61,7 +76,7 @@ Rancher 是多 Kubernetes 集群管理平台：它在独立管理集群上运行
 |---|---|---|
 | Rancher Manager | 集中管理入口与 API | 不是容器运行时 |
 | management cluster | 承载 Rancher Server | 官方建议生产使用独立 HA 集群 |
-| downstream cluster | 被 Rancher 管理的业务集群 | 管理面故障时业务通常仍由自身控制面运行 |
+| downstream cluster | 被 Rancher 管理的业务集群 | 已运行工作负载通常仍由自身控制面维持，但新变更、Webhook、策略、Fleet 和运维动作可能受影响 |
 | RKE2 | 强调安全与合规的 Kubernetes 发行版 | 可被 Rancher 创建和管理 |
 | K3s | 轻量 Kubernetes 发行版 | 常用于边缘、小型或管理集群 |
 | agent | 建立 Rancher 与下游集群的管理通道 | 异常不等于业务数据面立即停止 |
@@ -131,13 +146,16 @@ Rancher 是多 Kubernetes 集群管理平台：它在独立管理集群上运行
 admin / API / automation
   -> load balancer / ingress / TLS
   -> Rancher replicas on management cluster
-  -> Rancher API and controllers
-  -> cluster agent secure connection
+  -> Rancher API aggregation and controllers
+  -> management-cluster CRD / etcd desired state
+  -> cluster-agent remotedialer / WebSocket
   -> downstream Kubernetes API
   -> namespace / workload / app
 ```
 
-Rancher 不应成为业务访问链路的一部分。管理平台故障和业务数据面故障必须分别监控。
+浏览器的一次管理请求通常经过 Rancher Server、管理集群里的 CRD/控制器缓存，再通过 cluster-agent 的反向连接到下游 API。Node Agent 是节点相关和兜底路径，不是每次请求的必经跳。控制器看到的是“期望状态”，下游 API 才是“实际状态”；断线重连后需要重新同步，因此页面状态还要带采集时间。
+
+Rancher 不应成为业务请求数据面的必经点。Rancher 故障时，已经运行的 Pod 通常继续服务，但 Rancher 安装的 admission webhook、策略、Fleet/Provisioning 控制器仍可能影响新资源和运维变更。管理面健康与业务健康必须分别探测。
 
 ## 安装与启动
 
@@ -157,7 +175,6 @@ Rancher 不应成为业务访问链路的一部分。管理平台故障和业务
 ```yaml
 hostname: rancher.lab.local # Rancher 对外 FQDN，证书与下游 agent 都依赖它
 replicas: 3                 # 生产示例使用多副本，真实数量按官方架构与容量设计
-bootstrapPassword: ""       # 不在公开 Values 中保存真实初始密码
 ingress:
   tls:
     source: secret           # 证书由预先创建的 Kubernetes Secret 提供
@@ -169,6 +186,46 @@ ingress:
 | `replicas` | Rancher Server 副本数 | 多副本不等于管理集群本身高可用 |
 | TLS source | 证书管理方式 | CA 链不完整导致导入失败 |
 | proxy/noProxy | 外部访问与内网直连 | 漏掉集群网段和内部域名 |
+
+初始密码不要写进公开 Values 或命令历史。按目标 Chart 文档通过一次性 bootstrap Secret 或受保护的发布变量注入，首次登录后立即轮换，并保存 break-glass（紧急管理员）流程。真实 Token、注册 YAML 和 kubeconfig 都属于凭据。
+
+## 一致性、生产高可用与容量
+
+### Rancher 的状态到底存在哪里
+
+```text
+用户提交变更
+  -> Rancher API 接受请求
+  -> management cluster CRD / Secret / ConfigMap 写入 etcd
+  -> controller / informer cache 观察期望状态
+  -> agent 把动作送到 downstream apiserver
+  -> downstream object/status 返回
+  -> Rancher 页面显示最新已观察状态
+```
+
+页面的 `Active` 不是瞬时真相。要同时记录 resourceVersion、最后更新时间、agent 重连时间和下游原生对象。出现差异时先停止重复点击，避免相同动作在重连后被多次调和。
+
+### 高可用不是把 replicas 改成 3
+
+- 管理集群的控制面与 etcd 必须跨故障域，Rancher Server 副本设置反亲和和 PodDisruptionBudget。
+- 入口负载均衡、DNS、TLS/CA、证书续期、外部身份源和镜像仓库都要有恢复设计。
+- Backup Operator 的备份要放在独立故障域；备份成功只证明“文件产生”，隔离恢复成功才证明可用。
+- 给每个下游保存受控的原生 kubeconfig。Rancher 入口故障时，值班人员仍要能直接验证下游 API。
+
+### 容量从 watch 和重连风暴计算
+
+主要压力不是网页人数，而是被管理集群数、资源对象数、watch 数、WebSocket 长连接、API 延迟、Fleet Bundle、审计量和 management etcd 大小。Rancher 或网络恢复时，大量 agent 同时重连会形成尖峰；容量测试必须包含重连风暴，而不只是稳定态浏览页面。
+
+建议监控 Rancher API P95/P99、5xx、management etcd 延迟/容量、server CPU/内存、cluster-agent/node-agent 重启与连接错误、证书到期、Fleet Bundle 就绪率和状态新鲜度。
+
+## 安全、升级与回滚
+
+- 外部 OIDC/LDAP 负责日常登录，同时保留受控的本地 break-glass 管理员；定期验证而不是只在事故时想起。
+- 分清 Global、Cluster、Project Role 与 Kubernetes 原生 RBAC。用 `kubectl auth can-i` 和最小复现用户验证权限，不靠管理员截图猜。
+- API Token 设置最小权限、过期和轮换；审计日志要能关联用户、集群、资源和请求 ID。
+- 私有 CA、代理和 `noProxy` 同时影响 server、agent、Chart 仓库和身份源；不要通过关闭 TLS 校验“修复”。
+- 升级前按支持矩阵逐 minor，先做 Backup Operator 备份和隔离恢复，再核对 CRD、Webhook、Fleet、监控 Chart 与身份源。
+- `helm rollback` 只能回退 Helm 管理的部分清单，不能自动逆转已迁移的 CRD/管理数据。跨数据格式边界时，真正回滚通常是恢复已验证备份。
 
 ## 命令字典
 
@@ -197,8 +254,10 @@ ingress:
 ```powershell
 helm repo add rancher-stable https://releases.rancher.com/server-charts/stable # 添加官方稳定仓库
 helm repo update                                                              # 刷新 Chart 索引
-helm show chart rancher-stable/rancher                                        # 查看 Chart 名称和版本
+$chartVersion = '2.15.0'                                                       # 固定本次学习基线
+helm show chart rancher-stable/rancher --version $chartVersion                # 查看固定 Chart 元数据
 helm template rancher rancher-stable/rancher `                                # 只在本地渲染，不连接集群
+  --version $chartVersion `                                                   # 防止仓库更新后实验漂移
   --namespace cattle-system `                                                 # 指定 Rancher 官方常用命名空间
   --set hostname=rancher.lab.local `                                          # 写入虚构实验域名
   --set replicas=3 > rancher-rendered.yaml                                    # 保存三副本渲染结果
@@ -215,6 +274,61 @@ Select-String -Path rancher-rendered.yaml -Pattern 'rancher.lab.local|replicas: 
 2. 是否能访问官方 Chart 仓库。
 3. 代理和 CA 是否信任 HTTPS。
 4. Chart 名称是否仍为当前官方文档所列名称。
+
+### 清理
+
+这个实验没有创建集群资源。检查并提交脱敏后的 `rancher-rendered.yaml`；若不需要两个下载缓存文件，可由学习者在确认路径后自行清理。不要把真实 hostname、密码、Token 或 CA 私钥替换进公开证据。
+
+## 故障注入实验：cluster-agent 中断时业务是否还活着
+
+仅在可丢弃的下游实验集群执行，并确保你有不经过 Rancher 的原生 kubeconfig。这个实验改变 agent 副本数，不能在生产执行。
+
+### 前置条件与基线
+
+1. Rancher 2.15.0 管理一个一次性下游集群。
+2. 下游已有一个可验证的测试工作负载。
+3. 记录 Rancher UI、直接 `kubectl` 和业务探针的基线。
+
+```powershell
+kubectl config current-context
+kubectl get --raw=/readyz
+kubectl -n cattle-system get deployment cattle-cluster-agent -o wide
+$agentReplicas = [int](kubectl -n cattle-system get deployment cattle-cluster-agent -o jsonpath='{.spec.replicas}')
+if ($agentReplicas -lt 1) { throw 'cluster-agent 基线异常，停止实验' }
+kubectl -n demo get deploy,pod,service
+```
+
+### 注入、观察与恢复
+
+```powershell
+kubectl -n cattle-system scale deployment cattle-cluster-agent --replicas=0
+kubectl -n cattle-system get pods -l app=cattle-cluster-agent -w
+```
+
+看到 agent Pod 消失后停止 `-w`。继续用原生 kubeconfig执行 `kubectl get --raw=/readyz` 和测试业务探针，同时观察 Rancher 页面状态、Rancher Server 日志和 node-agent 日志。页面可能在心跳超时后才显示断开；若仍可管理，记录 node-agent 兜底证据，不要为了制造“预期截图”继续破坏网络。
+
+```powershell
+kubectl -n cattle-system scale deployment cattle-cluster-agent --replicas=$agentReplicas
+kubectl -n cattle-system rollout status deployment/cattle-cluster-agent --timeout=5m
+kubectl -n cattle-system logs deployment/cattle-cluster-agent --since=10m
+kubectl get --raw=/readyz
+```
+
+预期结论：Rancher 管理链路异常与下游 API/已运行业务是两个信号；恢复后 agent 重新连接并同步状态。若直接 API 也失败，事故已经超出 Rancher agent 范围，应转查下游控制面和网络。若 agent 无法恢复，停止实验并使用保存的副本数、事件、日志和变更时间回退。
+
+## 生产事故题：页面全红，但业务告警没有触发
+
+**先收证据**：同一时间窗保存 Rancher 入口探测、API 延迟、Server 日志、management etcd、cluster-agent/node-agent 日志、DNS/TLS/代理、下游原生 `/readyz`、业务 SLI 和最近变更。
+
+**提出假设**：Rancher Server 故障、入口证书过期、remotedialer/WebSocket 被代理断开、agent 证书或时间异常、management etcd 慢，或者下游 API 真的不可用。先用原生 kubeconfig把“管理面故障”和“业务集群故障”分开。
+
+**修复与爆炸半径**：若下游健康，冻结通过 Rancher 的高风险变更，修复入口/agent/管理集群；若 Rancher Webhook 影响新资源，还要临时评估发布冻结。不要删除 Finalizer、重装 Rancher或重新导入所有集群来掩盖症状。
+
+**复验与回滚**：确认入口、Rancher API、agent 连接、状态新鲜度、Fleet/Apps 和至少一个真实下游变更都恢复。若升级引发问题，按备份恢复决策点处理，不能只看 `helm rollback` 显示成功。
+
+## 系统设计题：管理 200 个下游集群
+
+答案应覆盖独立 HA management cluster、etcd 与备份、LB/TLS、外部身份与 break-glass、RBAC/审计、私有 CA/代理、agent 长连接、重连风暴、Fleet 分批交付、API 限流、容量压测、原生 kubeconfig 逃生路径、逐 minor 升级和隔离恢复演练。追问“Rancher 挂了业务是否一定没事”时，要说明已运行数据面通常继续，但 Webhook、策略、Fleet、Provisioning 和运维变更仍可能受影响。
 
 ## 常见故障排查
 
@@ -241,6 +355,12 @@ Select-String -Path rancher-rendered.yaml -Pattern 'rancher.lab.local|replicas: 
 ## 面试怎么讲
 
 Rancher Manager 运行在独立管理集群，通过 agent 管理下游 Kubernetes。它提供多集群清单、认证授权、项目、应用与 GitOps 等能力，但不进入业务请求数据面。故障时我先用原生 kubeconfig 判断下游集群是否健康，再沿 Rancher 入口、Server、agent、DNS/TLS 和 Kubernetes API 排查。生产安装使用独立 HA 集群、Helm、多副本、负载均衡和可恢复备份。
+
+递进追问可以这样接：
+
+- **“Rancher 挂了是否完全不影响业务？”** 已运行 Pod 通常继续，但 Webhook、Fleet、Provisioning、策略与新运维动作可能受影响；必须用业务 SLI 和下游原生 API 证明。
+- **“三副本为什么还不算 HA？”** 因为 management etcd、Kubernetes 控制面、LB/TLS、DNS、身份源和备份仍可能单点。
+- **“升级失败为什么不直接 helm rollback？”** CRD/管理数据可能已经迁移，Helm 只管理部分清单；要在不可逆点前停住，否则按已验证备份恢复或 forward-fix。
 
 ## 学习检查清单
 
@@ -272,4 +392,4 @@ Rancher Manager 运行在独立管理集群，通过 agent 管理下游 Kubernet
 
 ## 本文边界与下一步
 
-本文覆盖岗位所需 Rancher 主线，不展开 RKE2/K3s 内部实现和 Fleet 大规模设计。下一步在隔离实验环境完成集群导入、项目权限、应用安装、备份恢复和升级演练。
+本文覆盖岗位所需 Rancher 主线，不展开 RKE2/K3s 内部实现和 Fleet 超大规模调优。本次更新只静态核对官方资料与 Chart 渲染命令，没有安装 Rancher、导入下游集群、阻断 agent 或执行备份恢复；2.15.0 与目标 Kubernetes patch、OS、cert-manager、Fleet、Backup Operator、身份源和私有 CA 的组合仍须按实际支持矩阵确认。下一步在隔离环境完整运行两项实验并保存证据。

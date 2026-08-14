@@ -42,8 +42,58 @@
 - [Debug Services](https://kubernetes.io/docs/tasks/debug/debug-application/debug-service/)
 - [kubectl reference](https://kubernetes.io/docs/reference/kubectl/)
 - [kubectl quick reference](https://kubernetes.io/docs/reference/kubectl/quick-reference/)
+- [Kubernetes v1.36 release](https://kubernetes.io/blog/2026/04/22/kubernetes-v1-36-release/)
+- [Container runtimes](https://kubernetes.io/docs/setup/production-environment/container-runtimes/)
+- [Gateway API](https://kubernetes.io/docs/concepts/services-networking/gateway/)
+- [Gateway API v1.6.1](https://github.com/kubernetes-sigs/gateway-api/releases/tag/v1.6.1)
+- [ingress-nginx 退役公告](https://kubernetes.io/blog/2025/11/11/ingress-nginx-retirement/)
 
-说明：本文是基于 Kubernetes 官方文档整理的原创中文教程，不复制官方全文。本文更新时 Kubernetes 最新 patch 为 v1.36.2，官方维护最近三个 minor 分支 v1.36、v1.35、v1.34；版本与功能状态会继续变化。真实生产环境必须先用 `kubectl version` 确认服务端版本，再阅读对应 minor 版本的官方文档、版本偏差策略和弃用说明。
+说明：本文是基于 Kubernetes 官方文档整理的原创中文教程，不复制官方全文。截至 2026-08-14，Kubernetes 最新 patch 为 v1.36.3，官方维护最近三个 minor 分支 v1.36、v1.35、v1.34；版本与功能状态会继续变化。真实生产环境必须先用 `kubectl version` 确认服务端版本，再阅读对应 minor 版本的官方文档、版本偏差策略和弃用说明。
+
+## 2026-08-14 版本快照与迁移红线
+
+先记住一句话：**上游最新版、Kubernetes 发行版固定版、你所在公司的受支持版，可能是三个不同版本。**生产升级时，支持矩阵比“数字最大”更重要。
+
+| 层 | 本次上游快照 | Kubernetes 1.36 的实际边界 |
+|---|---|---|
+| Kubernetes | `1.36.3` | 维护线为 1.36、1.35、1.34，控制面与节点要遵守版本偏差策略 |
+| containerd | `2.3.4` | Kubernetes 1.36 不再支持 containerd 1.x；发行版验证组合优先 |
+| etcd | 上游 `3.7.1` | kubeadm 1.36.3 固定 `3.6.8-0`，不能直接把内置 etcd 换成上游 latest |
+| CoreDNS | 上游 `1.14.6` | kubeadm 1.36.3 固定 `1.14.2`，Addon 跟随发行版验证组合 |
+| CNI 规范 | `1.3.0` | 规范版本、reference plugins、Calico/Cilium 产品版本是三件事 |
+| CSI 规范 | `1.13.0` | Driver、sidecar、Kubernetes 和存储后端必须采用厂商验证组合 |
+| Gateway API | `1.6.1` | 还要选择并安装通过相应 conformance 的 controller |
+
+几个必须在升级计划里显式处理的退役项：
+
+- Kubernetes 1.36 永久禁用了 `gitRepo` volume；改用 init container、CSI 或经过安全评审的同步 sidecar。
+- cgroup v1 已不再是 1.36 的正常支持路径，节点升级前先迁移 cgroup v2。
+- kube-proxy 的 IPVS 模式已在 1.35 弃用；nftables 自 1.33 稳定，但切换前仍要检查内核、`nft`、源 IP 和会话行为。
+- Service `.spec.externalIPs` 在 1.36 弃用，新设计优先使用受控 LoadBalancer、Gateway 或平台网络方案。
+- 社区 `kubernetes/ingress-nginx` 已于 2026-03-24 退役；Ingress API 仍是 GA 但功能冻结，新入口应评估 Gateway API。
+
+### Kubernetes 生态不是一组可以同时改成 latest 的镜像
+
+一次 Pod 从提交到真正可服务，会经过下面这条链：
+
+```text
+kubectl / CI
+  -> kube-apiserver 身份认证、授权和准入
+  -> etcd revision 与 API watch cache
+  -> controller 创建 Pod
+  -> scheduler 绑定 Node
+  -> kubelet PodWorkers
+  -> CRI -> containerd -> shim -> runc
+  -> CNI ADD -> netns / IP / route / policy
+  -> CSI Controller / Node -> attach / mount
+  -> readiness -> EndpointSlice
+  -> kube-proxy / eBPF / Gateway -> 真实请求
+  -> event / status / log / metric / trace 回流
+```
+
+小白可以把 CRI、CNI、CSI 分别理解为“容器、网络、存储的标准插座”。标准只规定双方怎么说话，真正完成工作的仍是 containerd、Calico/Cilium 和具体 CSI Driver。CoreDNS 负责集群内名字解析；Gateway API 描述入口意图，具体数据面仍由 Gateway controller 和代理实现。
+
+验证时不能停在 `Pod Running`：至少还要检查 readiness、EndpointSlice、DNS、PVC/挂载、Route conditions 和一条真实业务请求。任何一层失败，都要优先保留同一时间窗口里的 event、status condition、controller/runtime 日志和探针结果，再形成根因假设。
 
 ## 场景开场
 
@@ -3369,3 +3419,7 @@ readiness 决定是否接流量；liveness 决定是否重启容器。readiness 
 - 一份最小 RBAC、Pod Security、NetworkPolicy 和 Secret 加密基线。
 - 一段 3 分钟“Pod 创建全流程”录音及连续追问复盘。
 - 一个可提交到 GitHub 的 `kubernetes-interview-lab/`，包含 YAML、脚本、故障注入步骤、预期结果和复盘。
+
+## 本次验证边界
+
+本文按 Kubernetes 1.36.3 和 2026-08-14 的官方生态边界完成静态更新，当前电脑只确认了 `kubectl` 客户端版本，没有创建或升级 1.36 集群，也没有实跑 containerd 2.x、CNI/CSI/CoreDNS、Gateway API、etcd 恢复、节点驱逐或故障注入。托管集群、具体 Linux 内核、云厂商 CSI/CNI 和版本跳跃规则必须以目标平台支持矩阵及预生产演练为准；文章中的“预期结果”不能冒充本次真实运行结果。

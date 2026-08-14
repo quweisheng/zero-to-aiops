@@ -200,7 +200,7 @@ export const generatedDocs = [
     "route": "/tech-stack/cloud-native/istio",
     "title": "Istio 深讲",
     "section": "云原生",
-    "excerpt": "学习目标：理解服务网格的数据面与控制面，能安装 Istio、配置一次灰度流量和双向 TLS，并按请求链路排查 503、配置未生效等常见故障。 官方资料 Istio 官方文档 架构说明 流量管理 安全 可观测性 本文以官方概念和运维文档为依据..."
+    "excerpt": "学习目标：理解服务网格的数据面与控制面，能安装 Istio、配置一次灰度流量和双向 TLS，并按请求链路排查 503、配置未生效等常见故障。 官方资料 Istio 官方文档 架构说明 流量管理 安全 可观测性 Istio 1.30.3 re..."
   },
   {
     "path": "../docs/tech-stack/cloud-native/kubernetes.md",
@@ -226,9 +226,9 @@ export const generatedDocs = [
   {
     "path": "../docs/tech-stack/cloud-native/nginx-ingress.md",
     "route": "/tech-stack/cloud-native/nginx-ingress",
-    "title": "NGINX / Ingress",
+    "title": "NGINX / Ingress / Gateway API",
     "section": "云原生",
-    "excerpt": "目标：能理解 NGINX 反向代理和 Kubernetes Ingress 分别解决什么问题，能读懂 server 、 location 、 upstream 、 proxy pass 、 proxy set header 、timeout..."
+    "excerpt": "目标：能理解 NGINX 反向代理、Kubernetes Ingress 和 Gateway API 分别解决什么问题，能读懂 server 、 location 、 upstream 、 proxy pass 、timeout 与 acc..."
   },
   {
     "path": "../docs/tech-stack/cloud-native/rancher.md",

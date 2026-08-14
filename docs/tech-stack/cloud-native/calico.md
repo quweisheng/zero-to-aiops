@@ -15,8 +15,11 @@
 - [默认拒绝策略](https://docs.tigera.io/calico/latest/network-policy/get-started/kubernetes-default-deny)
 - [故障排查命令](https://docs.tigera.io/calico/latest/operations/troubleshoot/commands)
 - [Calico 指标](https://docs.tigera.io/calico/latest/operations/monitor/monitor-component-metrics)
+- [Calico 3.32.1 发布](https://github.com/projectcalico/calico/releases/tag/v3.32.1)
+- [Calico 兼容要求](https://docs.tigera.io/calico/latest/getting-started/kubernetes/requirements)
+- [组件版本](https://docs.tigera.io/calico/latest/reference/component-versions)
 
-截至 2026-07-17，官方 latest 文档标识 Calico Open Source 3.32。实验固定版本是为了可复现，生产部署前必须重新核对 Kubernetes 版本、Linux 内核、安装方式和数据平面兼容矩阵。
+截至 2026-08-14，当前稳定补丁为 Calico Open Source 3.32.1，官方 3.32 测试 Kubernetes 1.34、1.35、1.36，并要求 Linux kernel 5.10 或受支持的等价 backport。实验固定版本是为了可复现，生产部署前仍须核对托管平台、发行版、Windows 节点、安装方式和数据平面兼容矩阵。
 
 ## 官方知识地图
 
@@ -379,7 +382,8 @@ networking:
 
 ```bash
 kind create cluster --name calico-lab --config kind-calico.yaml # 节点暂时 NotReady 是正常现象
-kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.32.1/manifests/tigera-operator.yaml # 安装 operator 和 CRD
+kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.32.1/manifests/v1_crd_projectcalico_org.yaml # 先安装 Calico CRD
+kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.32.1/manifests/tigera-operator.yaml # 再安装 operator
 kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.32.1/manifests/custom-resources.yaml # 创建默认 Installation 和 IPPool
 watch kubectl get tigerastatus # 等 apiserver、calico 等状态 Available=True
 kubectl get nodes -o wide # Calico 就绪后节点应变为 Ready
@@ -603,6 +607,18 @@ Calico 为 AIOps 提供四类证据：
 - 清理残留前先确认工作负载真的不存在。
 - 扩池要同步评估底层路由、NAT 和安全策略。
 
+## 生产事故题：新发布的全局策略让多个 Namespace 断网
+
+**现象**：策略发布后，多个应用同时出现 DNS 超时、数据库连接失败和跨节点调用失败，但 Pod 仍显示 Running。
+
+**先固定证据**：记录精确变更时间、策略 YAML 与 Git commit、受影响 Namespace/Pod/Node、Felix/BIRD 状态、路由、EndpointSlice、DNS 探针、源到目标五元组和抓包。Pod Running 只证明进程在，不证明网络允许。
+
+**提出假设**：selector 选大了、Tier/Order 把平台允许规则压住、Egress 未放 DNS、HostEndpoint 策略影响节点，或网络策略无关而是 BGP/隧道故障。用一个成功流和一个失败流比较实际匹配策略，不要看到策略刚发布就跳过网络证据。
+
+**止损与爆炸半径**：冻结后续策略发布；若确认新策略导致，回退精确的 Git 变更或应用预先评审的临时 allow，而不是清空全部策略。影响面按 selector、方向、协议、端口、Namespace 和节点统计；特别检查 DNS、监控、控制面与恢复通道。
+
+**复验与回滚门**：验证 DNS、同节点/跨节点、关键数据库、外部出口、Felix 同步和业务 SLI；观察一个策略调和窗口。若回退后仍失败，停止继续改策略，转查 BGP、隧道、MTU、conntrack 与底层网络。
+
 ## 生产设计题
 
 为 500 节点、三个可用区的自建 Kubernetes 集群设计 Calico：
@@ -690,4 +706,4 @@ kind delete cluster --name calico-lab # 删除整个学习集群
 
 ## 本文边界与下一步
 
-本文覆盖 Calico Open Source 3.32 的 Kubernetes 主线，不展开企业版全部流量分析、多集群商业能力、BIRD 源码和 eBPF 程序实现。下一步学习 [Kubernetes](./kubernetes.md)、[Cilium](./cilium.md)、[etcd](./etcd.md) 和 [网络基础](../foundation/networking.md)，把控制面状态、Linux 转发和策略证据串成端到端排障能力。
+本文覆盖 Calico Open Source 3.32.1 的 Kubernetes 主线，不展开企业版全部流量分析、多集群商业能力、BIRD 源码和 eBPF 程序实现。本次没有实际创建 kind 集群，命令按 3.32.1 官方安装顺序完成静态核验；托管 Kubernetes、Windows 节点和具体内核 backport 仍需实测。下一步学习 [Kubernetes](./kubernetes.md)、[Cilium](./cilium.md)、[etcd](./etcd.md) 和 [网络基础](../foundation/networking.md)，把控制面状态、Linux 转发和策略证据串成端到端排障能力。

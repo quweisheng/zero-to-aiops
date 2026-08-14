@@ -18,8 +18,19 @@
 - [Bridge network driver](https://docs.docker.com/engine/network/drivers/bridge/)
 - [Docker daemon configuration](https://docs.docker.com/engine/daemon/)
 - [Docker Engine security](https://docs.docker.com/engine/security/)
+- [Docker Engine 29 release notes](https://docs.docker.com/engine/release-notes/29/)
+- [Docker Engine 29.7.2](https://github.com/moby/moby/releases/tag/docker-v29.7.2)
+- [Containerd image store](https://docs.docker.com/engine/storage/containerd/)
+- [Rootless mode](https://docs.docker.com/engine/security/rootless/)
+- [Daemon Prometheus metrics](https://docs.docker.com/engine/daemon/prometheus/)
 
-说明：本文是基于 Docker 官方文档写成的原创中文学习教程，不复制官方全文。官方文档负责给出 Docker 的对象、命令和配置边界，本文负责把这些知识组织成 AIOps 学习路径。
+说明：本文是基于 Docker 官方文档写成的原创中文学习教程，不复制官方全文。截至 2026-08-14，Docker Engine/Moby 当前补丁为 29.7.2。Docker Desktop 还包含 Linux VM、桌面更新和商业许可边界，不能与原生 Linux Engine 混为一谈。
+
+## 2026 版本边界
+
+Engine 29 的新安装默认采用 containerd image store，旧主机升级后可能继续使用传统 graphdriver。切换存储后端时，旧镜像和容器可能在当前视图中“消失”，但这不等于数据被自动删除；切回原后端又可能重新可见。生产操作前必须先用 `docker info` 记录 storage driver、Docker Root Dir、containerd image store 状态、磁盘与备份，不能照着实验机直接切换。
+
+Docker Engine 不是 Kubernetes 的现代 CRI runtime。Kubernetes 的 dockershim 已移除，节点运行时主线是 containerd、CRI-O 等 CRI 实现；本文 Docker 主要服务单机容器、构建和 Compose 学习。
 
 ## 场景开场
 
@@ -1698,6 +1709,84 @@ docker run --mount type=volume,source=prometheus-data,target=/prometheus prom/pr
 
 Docker 负责构建镜像和运行容器的单机能力。Kubernetes 负责在集群里编排容器，包括调度、服务发现、滚动发布、健康检查、自动恢复等。学 Kubernetes 前，必须先理解镜像、容器、端口、挂载、日志和资源限制。
 
+## Docker Engine 的完整运行链
+
+```text
+docker CLI
+  -> Docker Engine API
+  -> dockerd 校验配置、网络、卷和容器请求
+  -> containerd 管理 image、snapshot、task
+  -> containerd-shim 承接容器生命周期
+  -> runc 创建 namespace、cgroup、mount 和进程
+  -> Linux kernel 实际调度和隔离
+```
+
+每层都有不同证据：CLI 报连接失败先查 context/socket；daemon 拒绝请求看 dockerd 日志；镜像和 snapshot 问题看 `docker info`、pull/build 输出与磁盘；进程退出看 `docker inspect` 的 `State`、容器日志、OOM 标记和宿主内核日志。不要把所有问题都归结成“镜像坏了”。
+
+### 状态、一致性与高可用边界
+
+单机 Engine 的镜像、容器元数据、named volume、日志和 BuildKit cache 都在本机。`restart: always` 或 `--restart` 只能在同一 daemon 恢复容器，不能在主机损坏后把服务调度到另一台机器。需要跨主机调度、高可用和声明式控制循环时，应使用 Kubernetes 等编排平台，并让数据库、对象存储和 Registry 各自具备复制与恢复能力。
+
+### 生产容量看什么
+
+| 资源 | 常见故障 | 关键证据 |
+|---|---|---|
+| 磁盘字节与 inode | pull/build 失败、日志写不进、容器异常 | `docker system df`、`docker info`、宿主磁盘/inode |
+| 内存与 swap | OOMKilled、宿主抖动 | inspect、stats、cgroup、kernel OOM log |
+| CPU | throttling、延迟升高 | `docker stats`、cgroup throttled time、应用 P99 |
+| PID/FD/连接 | fork 失败、accept 失败 | `--pids-limit`、ulimit、进程/FD/conntrack |
+| 日志 | JSON 文件撑满磁盘 | logging driver、rotation、日志写入速率 |
+| Build cache | CI 磁盘持续增长 | `docker buildx du`、cache policy、构建频率 |
+
+清理前先区分可再生成的 image/cache 与唯一业务数据。`docker system prune`、`volume prune` 和删除 Docker Root Dir 都可能造成数据损失，不能作为“不看清单的一键修复”。
+
+### 安全基线
+
+- 优先非 root 用户、最小 capabilities、默认 seccomp、AppArmor/SELinux 与 `no-new-privileges`。
+- 能只读就使用 `--read-only`，需要写入的目录单独挂载 volume/tmpfs。
+- rootless 和 user namespace remap 能缩小 daemon/container 权限，但网络、端口和文件 owner 行为要单测。
+- `/var/run/docker.sock` 基本等于宿主 root 级控制权，不能随意挂进业务容器。
+- 不把密码写进 Dockerfile、image layer 或普通 build arg；BuildKit secret mount 只在构建步骤临时提供。
+- 镜像固定 digest，保存 SBOM、provenance、漏洞扫描和来源验证证据；`latest` 不是安全版本策略。
+
+### 升级与回滚
+
+升级前记录 client/server API、daemon 配置、storage backend、network、volume、日志驱动和插件。先在测试主机执行配置校验与同负载回归，再小批升级。`live-restore` 只能在有限 daemon 停机期间尽量让既有容器继续运行，不等于应用高可用，也不能覆盖网络、插件、存储格式或宿主重启风险。
+
+## 故障注入实验：看懂 OOMKilled
+
+仅在一次性本地环境执行。前置条件是 Linux Engine 或 Docker Desktop Linux 容器模式，且没有同名容器：
+
+```bash
+docker run -d --name docker-oom-lab --memory 64m --memory-swap 64m \
+  python:3.12-alpine python -c "x=bytearray(256*1024*1024); print(len(x))"
+docker wait docker-oom-lab
+docker inspect docker-oom-lab --format 'exit={{.State.ExitCode}} oom={{.State.OOMKilled}} error={{.State.Error}}'
+docker events --since 10m --filter container=docker-oom-lab
+```
+
+预期容器被终止，常见退出码是 137，`OOMKilled=true`。若不是，检查当前 daemon 是否真的启用内存控制、容器是否在分配前因其他错误退出，并查看宿主 OOM/cgroup 日志。
+
+恢复与复验：
+
+```bash
+docker rm docker-oom-lab
+docker run --rm --name docker-oom-lab-fixed --memory 384m --memory-swap 384m \
+  python:3.12-alpine python -c "x=bytearray(256*1024*1024); print(len(x))"
+```
+
+预期打印 `268435456` 并以 0 退出。实验后确认两个容器均不存在。生产处理不能只盲目调大 limit：还要判断正常峰值、内存泄漏、并发、缓存、宿主容量和相邻容器影响。
+
+## 生产事故题
+
+题目：凌晨大量容器先后退出，业务报 5xx，`docker ps` 只剩少量容器，主机磁盘 100%。
+
+回答应先冻结时间线，收集 daemon/kernel 日志、`docker events`、`docker system df`、磁盘/inode、容器 exit/OOM/health 和日志文件增长；区分日志、可写层、volume、image/cache 哪类占满。止血时先限流或摘除主机，优先截断可再生成的缓存/轮转日志，禁止未经确认删除 volume。修复后用同一业务探针、容器数量和磁盘增长率复验，并补日志轮转、容量告警、备份与清理审批。
+
+## 系统设计题
+
+题目：设计一套 200 个内部服务的容器交付基线。答案至少覆盖 BuildKit 隔离构建、固定 digest/SBOM/签名、Registry、非 root/seccomp/capability、资源限制、日志驱动、只读根文件系统、Secret、镜像缓存、主机故障域、监控、升级和回滚。若仍用单机 Engine，必须明确它不是跨主机 HA；生产编排应交给 Kubernetes 等平台。
+
 ## 面试怎么讲
 
 Docker 主要解决应用运行环境一致性和分发问题。它通过 Dockerfile 把应用和依赖构建成镜像，通过 registry 分发镜像，再由 Docker Engine 创建容器运行。容器不是虚拟机，它共享宿主机内核，依赖 namespaces 做隔离，依赖 cgroups 做资源限制，镜像使用分层文件系统复用和缓存。实际排障时我会先看 `docker ps -a`、`docker logs`、`docker inspect`，再检查端口映射、应用监听地址、环境变量、挂载和网络。在 AIOps 中，我会用 Docker 快速搭建 Prometheus、Grafana、Redis、MySQL 等实验组件，也会把 Python 自动化服务或异常检测 API 打包成镜像。
@@ -1786,3 +1875,7 @@ docker rm aiops-health
 ```
 
 如果你能解释这个 demo 从 Dockerfile 到镜像、从镜像到容器、从容器端口到宿主机访问、从日志到排障的完整链路，就说明你已经不是只会背 Docker 命令，而是真的理解了 Docker 的核心知识点。
+
+## 本文验证边界
+
+本文更新完成了 Docker Engine 29.7.2 官方资料、命令和 Markdown 静态核验；当前机器只确认 Docker client 为 29.7.2，daemon 未连接，因此没有声称 OOM、rootless、storage backend 切换或 daemon 升级已在本机跑通。Linux 发行版、cgroup v2、nftables、SELinux/AppArmor 与 Docker Desktop/WSL 差异必须在目标环境验证。

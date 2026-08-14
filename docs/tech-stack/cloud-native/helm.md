@@ -21,8 +21,25 @@
 - [Helm rollback](https://helm.sh/docs/helm/helm_rollback/)
 - [Helm lint](https://helm.sh/docs/helm/helm_lint/)
 - [Helm dependency](https://helm.sh/docs/helm/helm_dependency/)
+- [Helm 4 overview](https://helm.sh/docs/overview/)
+- [Helm 4.2.4 release](https://github.com/helm/helm/releases/tag/v4.2.4)
+- [Helm 3 end of life](https://helm.sh/blog/helm-v3-end-of-life/)
+- [Helm 与 Kubernetes 版本偏差](https://helm.sh/docs/topics/version_skew/)
+- [Kubernetes API 弃用检查](https://helm.sh/docs/topics/kubernetes_apis/)
 
-说明：本文是基于 Helm 官方文档整理的原创中文教程，不复制官方全文。Helm 版本会演进，部分官方页面会同时提示 Helm 3/4 差异；真实环境请先执行 `helm version`，再以当前版本官方文档为准。
+说明：本文是基于 Helm 官方文档整理的原创中文教程，不复制官方全文。截至 2026-08-14，当前主线为 Helm 4.2.4，官方 version skew 表覆盖 Kubernetes 1.33–1.36。Helm 3 仍可运行，但已进入退役时间表；真实环境先执行 `helm version`，再核对 Chart、plugin、post-renderer、SDK 和 CI wrapper 的兼容性。
+
+## Helm 4 迁移红线
+
+| 行为 | Helm 4 主线 | 小白最容易踩的坑 |
+|---|---|---|
+| Apply | 新 release 默认 Server-Side Apply | Helm 3 创建的 release 默认保留原方法，不会随 CLI 自动全量切换 |
+| 失败回滚参数 | `--rollback-on-failure` | 旧教程常写 `--atomic`，迁移脚本要核对当前帮助 |
+| 强制替换参数 | `--force-replace` | 强制替换可能造成资源短暂删除，不是通用修复 |
+| 服务端预检 | `--dry-run=server` | 普通 `--dry-run` 不等于经过 apiserver、admission 和权限校验 |
+| Chart API | 稳定生产 Chart 仍可用 `apiVersion: v2` | 不要因为 Helm 4 就把所有 Chart 盲改实验性 v3 |
+
+Helm 4 对新 release 默认使用 Server-Side Apply（SSA，服务端应用），会记录 field ownership。若别的 controller 或人工也管理同一字段，升级可能产生 ownership conflict。迁移前要在测试集群检查 `managedFields`、插件、hooks、CRD 和数据库副作用。
 
 ## 场景开场
 
@@ -72,7 +89,7 @@ Chart
 - Chart 目录结构。
 - `Chart.yaml`、`values.yaml`、`templates/`、`_helpers.tpl`。
 - `.Values`、`.Release`、`.Chart`、`.Capabilities`。
-- `helm template`、`helm lint`、`helm install --dry-run --debug`。
+- `helm template`、`helm lint`、`helm install --dry-run=server --debug`。
 - `helm install`、`helm upgrade --install`、`helm rollback`。
 - values 覆盖优先级。
 - 常用模板函数：`default`、`quote`、`toYaml`、`nindent`、`include`、`required`。
@@ -758,7 +775,7 @@ helm upgrade aiops-api ./aiops-api -n aiops
 helm upgrade --install aiops-api ./aiops-api -n aiops --create-namespace
 ```
 
-CI/CD 常用 `upgrade --install`，因为它适合幂等发布。
+CI/CD 常用 `upgrade --install`，因为它能把“首次安装”和“后续升级”收敛到一条命令。它不等于严格幂等：Hook、随机模板值、可变镜像标签、CRD 和外部数据库变更都可能产生额外副作用。
 
 常用安全参数：
 
@@ -768,7 +785,7 @@ helm upgrade --install aiops-api ./aiops-api \
   -f values-prod.yaml \
   --wait \
   --timeout 5m \
-  --atomic
+  --rollback-on-failure
 ```
 
 含义：
@@ -777,12 +794,12 @@ helm upgrade --install aiops-api ./aiops-api \
 |---|---|
 | `--wait` | 等待资源达到 ready 条件 |
 | `--timeout` | 等待超时时间 |
-| `--atomic` | 失败时自动回滚，通常会启用 wait 语义 |
+| `--rollback-on-failure` | Helm 4 中升级失败时尝试回滚；回滚本身也可能失败，数据库等外部副作用不会自动撤销 |
 | `--create-namespace` | namespace 不存在则创建 |
 | `-f` | 使用 values 文件 |
 | `--set` | 命令行覆盖 values |
 
-注意：`--atomic` 很有用，但也可能让失败现场变化。AIOps runbook 要保存 Helm 和 Kubernetes 事件证据。
+注意：`--rollback-on-failure` 会改变失败现场。AIOps runbook 要在回滚前后保存 Helm 状态、Kubernetes Events、Pod 日志和业务探针结果。
 
 ## dry-run、debug、template、lint
 
@@ -804,7 +821,7 @@ helm template aiops-api ./aiops-api -n aiops -f values-prod.yaml
 helm install aiops-api ./aiops-api \
   -n aiops \
   -f values-prod.yaml \
-  --dry-run \
+  --dry-run=server \
   --debug
 ```
 
@@ -814,7 +831,8 @@ helm install aiops-api ./aiops-api \
 |---|---|---|
 | `helm lint` | 不一定需要 | Chart 结构和常见问题检查 |
 | `helm template` | 默认本地渲染 | 看最终 YAML |
-| `helm install --dry-run --debug` | 会考虑安装流程和调试输出 | 安装前调试 |
+| `helm install --dry-run=client --debug` | 不把资源提交给 API Server | 本地安装流程调试 |
+| `helm install --dry-run=server --debug` | 连接 API Server 做服务端模拟，可暴露部分权限、Admission 和集群 API 问题 | 上线前预检；仍不会创建资源 |
 
 排查模板问题时，先让 Helm 把最终 YAML 打出来，不要凭模板猜。
 
@@ -1093,7 +1111,7 @@ helm install aiops-api ./aiops-api -n aiops --create-namespace
 ### 安装前模拟
 
 ```bash
-helm install aiops-api ./aiops-api -n aiops --dry-run --debug
+helm install aiops-api ./aiops-api -n aiops --dry-run=server --debug
 ```
 
 调试安装输出。
@@ -1125,7 +1143,7 @@ helm upgrade --install aiops-api ./aiops-api -n aiops --wait --timeout 5m
 ### 失败自动回滚
 
 ```bash
-helm upgrade --install aiops-api ./aiops-api -n aiops --atomic --timeout 5m
+helm upgrade --install aiops-api ./aiops-api -n aiops --rollback-on-failure --timeout 5m
 ```
 
 失败时回滚。适合生产发布，但仍要保存失败证据。
@@ -1375,7 +1393,7 @@ helm uninstall aiops-web -n aiops
 | install 失败 | `helm status`、events | RBAC、API 版本、资源冲突 | 看 release 和 Kubernetes events |
 | values 不生效 | `helm get values --all`、manifest | 覆盖层级错、key 路径错、类型错 | 看合并 values 和渲染 manifest |
 | upgrade 卡住 | `helm status`、`kubectl rollout` | Pod 不 ready、镜像拉取失败、探针失败 | 查 Deployment/Pod events |
-| `--atomic` 后现场不见 | helm history、events | 失败后自动回滚 | 保存 CI 日志和 events |
+| 自动回滚后现场变化 | `helm history`、events、Pod 日志 | `--rollback-on-failure` 已触发回滚 | 在回滚前后保存 CI 日志、release 状态和集群证据 |
 | rollback 后 revision 变大 | `helm history` | Helm 回滚也创建新 revision | 正常现象 |
 | uninstall 后资源还在 | `kubectl get` | PVC、CRD、hook 资源、finalizer | 看资源 owner 和回收策略 |
 | 依赖没下载 | `helm dependency list` | 未 update/build、repo 未添加 | `helm dependency update` |
@@ -1419,7 +1437,7 @@ helm template aiops-api ./aiops-api -n aiops --set image.tag=1.0.1 | rg "image:"
 ## 排障流程：安装失败
 
 ```bash
-helm install aiops-api ./aiops-api -n aiops --dry-run --debug
+helm install aiops-api ./aiops-api -n aiops --dry-run=server --debug
 helm lint ./aiops-api
 helm template aiops-api ./aiops-api -n aiops
 ```
@@ -1523,13 +1541,81 @@ kubectl get events -n "$ns" --sort-by=.lastTimestamp || true
 - 所有资源打上 `app.kubernetes.io/instance`。
 - 用 `helm lint` 和 `helm template` 进 CI。
 - 生产发布用 `helm upgrade --install --wait --timeout`。
-- 慎用 `--atomic`，同时保存失败证据。
+- 谨慎使用 `--rollback-on-failure`，并在自动回滚前后保存失败证据。
 - values key 不要过度抽象。
 - 不要把真实 Secret 写进 values 文件提交 Git。
 - 对关键 values 使用 `required` 或 `values.schema.json`。
 - 依赖版本要锁定，提交 `Chart.lock`。
 - helper 里统一生成 name 和 labels。
 - 不要让 template 复杂到像程序，复杂逻辑应该往应用或上层工具移动。
+
+## Release 状态模型与真实回滚边界
+
+Helm 默认把每个 revision 的 release 记录存成 Kubernetes Secret。它记住“上一次渲染了什么”，但不是常驻控制器：资源可能被 HPA、Operator、admission 或人工修改，release record 与集群实际状态会漂移。
+
+`helm rollback` 会创建新的 revision，并尝试把 Kubernetes manifest 恢复到旧版本；它不能自动撤销：
+
+- 已执行的数据库迁移和业务数据写入；
+- PVC/对象存储中的数据变化；
+- CRD schema、storedVersion 和 Operator 状态迁移；
+- hook 调用的外部系统副作用；
+- 可变 tag 指向的新镜像。
+
+因此生产回滚要把 Chart、镜像、数据库、CRD、配置、流量和外部依赖分别列出。能 `helm rollback` 不等于业务能恢复。
+
+### HA、容量和安全
+
+Helm 本身没有服务端 HA 问题，真正故障域在 Kubernetes API、release Secret、hook Job、CRD controller 和应用。大 release 会增加 Secret 大小与 API 压力；大量 hooks、等待条件和历史 revision 会增加超时与存储。敏感 values 可能进入 release Secret，kubeconfig/RBAC、plugin、post-renderer 都能执行高权限操作，必须纳入供应链与审计。
+
+Kubernetes 升级前还要扫描旧 revision 中已经移除的 API。即使当前 Pod 正常，旧 manifest 里的 removed API 也可能让下一次 upgrade 或 rollback 失败。
+
+## 故障注入实验：坏镜像与自动回滚
+
+前置条件：一次性集群已安装本文 `aiops-web` Chart 的健康 revision，Helm 为 4.2.4，values 中使用 `image.repository` 与 `image.tag`。
+
+先保存基线：
+
+```bash
+helm status aiops-web -n aiops
+helm history aiops-web -n aiops
+kubectl get deploy,pod -n aiops -o wide
+```
+
+注入不存在的镜像：
+
+```bash
+helm upgrade aiops-web ./aiops-web -n aiops \
+  --set image.repository=registry.invalid/aiops-web \
+  --set image.tag=broken \
+  --rollback-on-failure --wait --timeout 2m
+```
+
+预期升级失败并触发回滚。保存证据：
+
+```bash
+helm status aiops-web -n aiops
+helm history aiops-web -n aiops
+kubectl get pods -n aiops
+kubectl get events -n aiops --sort-by=.metadata.creationTimestamp
+kubectl describe pod -n aiops -l app.kubernetes.io/instance=aiops-web
+```
+
+验证健康 revision 的 Pod 与真实 HTTP 请求恢复。若没有自动恢复，检查 Chart selector/label、等待对象、hook、timeout 和回滚目标；不要立即删除 release，因为这会丢掉最有价值的 history 和 manifest 证据。
+
+清理故障值：下一次正常升级显式传回固定的健康 image tag/digest。实验集群不再使用时再执行：
+
+```bash
+helm uninstall aiops-web -n aiops
+kubectl delete namespace aiops
+```
+
+### 生产事故题
+
+题目：Helm 显示 `deployed`，但新版本接口 5xx，回滚后数据库仍报字段不存在。回答要点：release 状态只说明 Helm 操作结果，不证明业务；关联 history、manifest、Pod events/logs、真实请求和数据库 migration 记录。若 schema 不是向后兼容，代码回滚会失败。先按 runbook 限流/切流，执行经验证的 forward fix 或数据恢复，不反复 rollback；复盘采用 expand-contract schema 和 canary。
+
+### 系统设计题
+
+题目：设计企业级 Chart 发布平台。应覆盖 Chart/OCI digest、provenance、values schema、环境分层、Secret 外置、RBAC、server-side dry-run、policy/admission、diff、hooks/CRD/数据库门禁、发布锁、canary、真实业务探针、history、审计和分层回滚。还要说明 Helm 是发布客户端，不是 GitOps 持续调和器。
 
 ## 面试怎么讲
 
@@ -1632,14 +1718,14 @@ Chart 是包，Release 是这个包安装到某个 namespace 后形成的实例�
 3. Helm install 的大致流程是什么？
 4. `values.yaml` 和用户传入 values 的关系是什么？
 5. values 覆盖优先级是什么？
-6. `helm template` 和 `helm install --dry-run --debug` 有什么区别？
+6. `helm template`、`--dry-run=client` 和 `--dry-run=server` 有什么区别？
 7. `helm lint` 能发现哪些问题？
 8. `version` 和 `appVersion` 有什么区别？
 9. `.Values`、`.Release`、`.Chart` 分别是什么？
 10. `toYaml | nindent` 为什么常一起用？
 11. `include` 和命名模板有什么作用？
 12. `helm upgrade --install` 为什么适合 CI/CD？
-13. `--wait`、`--timeout`、`--atomic` 分别做什么？
+13. `--wait`、`--timeout`、`--rollback-on-failure` 分别做什么？Helm 3 的 `--atomic` 迁移到 Helm 4 时要检查什么？
 14. `helm history` 和 `helm rollback` 怎么用？
 15. 回滚后 revision 为什么会继续增加？
 16. values 不生效时怎么排查？
@@ -1658,3 +1744,7 @@ Chart 是包，Release 是这个包安装到某个 namespace 后形成的实例�
 - 一份 `helm history` 和 `helm rollback` 记录。
 - 一份安装失败或 ImagePullBackOff 的 Helm + Kubernetes 联合排障笔记。
 - 一个 Helm release 诊断脚本，能采集 status、history、values、manifest 和 Kubernetes events。
+
+## 本文验证边界
+
+本文更新完成了 Helm 4.2.4、Helm 3 退役、SSA、参数和 Markdown 静态核验。本机只确认 Helm CLI 为 v4.1.3，且当前没有可用 Kubernetes 实验集群；因此没有声称 Helm 3→4、SSA ownership、坏镜像回滚或 CRD/数据库迁移已实跑。目标 Chart、plugin、CI wrapper 和 Operator 必须逐个在预生产环境验证。

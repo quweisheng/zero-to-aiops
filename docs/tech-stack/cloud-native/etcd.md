@@ -4,19 +4,31 @@
 
 ## 官方资料
 
-- [etcd v3.6 文档](https://etcd.io/docs/v3.6/)
-- [etcd API 设计](https://etcd.io/docs/v3.6/learning/api/)
-- [Raft 学习资料](https://etcd.io/docs/v3.6/learning/)
-- [运维指南](https://etcd.io/docs/v3.6/op-guide/)
-- [配置参数](https://etcd.io/docs/v3.6/op-guide/configuration/)
-- [维护指南](https://etcd.io/docs/v3.6/op-guide/maintenance/)
-- [灾难恢复](https://etcd.io/docs/v3.6/op-guide/recovery/)
-- [监控指标](https://etcd.io/docs/v3.6/metrics/)
-- [性能与硬件建议](https://etcd.io/docs/v3.6/op-guide/performance/)
-- [传输安全](https://etcd.io/docs/v3.6/op-guide/security/)
+- [etcd v3.7 文档](https://etcd.io/docs/v3.7/)
+- [etcd API 设计](https://etcd.io/docs/v3.7/learning/api/)
+- [Raft 学习资料](https://etcd.io/docs/v3.7/learning/)
+- [运维指南](https://etcd.io/docs/v3.7/op-guide/)
+- [配置参数](https://etcd.io/docs/v3.7/op-guide/configuration/)
+- [维护指南](https://etcd.io/docs/v3.7/op-guide/maintenance/)
+- [灾难恢复](https://etcd.io/docs/v3.7/op-guide/recovery/)
+- [监控指标](https://etcd.io/docs/v3.7/metrics/)
+- [性能与硬件建议](https://etcd.io/docs/v3.7/op-guide/performance/)
+- [传输安全](https://etcd.io/docs/v3.7/op-guide/security/)
+- [etcd 3.7.1 发布](https://github.com/etcd-io/etcd/releases/tag/v3.7.1)
+- [3.6 升 3.7](https://etcd.io/docs/v3.7/upgrades/upgrade_3_7/)
 - [Kubernetes 运维 etcd](https://kubernetes.io/docs/tasks/administer-cluster/configure-upgrade-etcd/)
 
-说明：本文以 etcd 3.6 API 和运维文档为主。实验固定使用明确版本，生产部署应核对 Kubernetes 兼容矩阵、etcd 发布说明和最新补丁，不要只把镜像标签改成 `latest`。
+说明：本文以 etcd 3.7 API 和运维文档为主，实验固定到 3.7.1。截至 2026-08-14，kubeadm 1.36.3 自带的 etcd 仍固定为 3.6.8-0；Kubernetes 集群必须服从发行版兼容矩阵，不能因为上游已有 3.7.1 就直接替换控制面镜像。
+
+## etcd 3.7 版本边界
+
+- 3.7 已完全移除 v2 store、v2 client、v2 discovery 和 v2 request 支持；升级前必须证明环境没有遗留依赖。
+- 已弃用的 `--experimental-*` 参数被移除；先在当前版本扫描配置，再迁移到稳定参数或 feature gate。
+- 3.6 升 3.7 只支持相邻 minor 的滚动升级，并要求所有成员先至少到 3.6.11。
+- 3.7 全部成员完成版本提升后，不能把“换回旧二进制”当作可靠回滚；回退要按官方 downgrade 或经验证的快照恢复方案执行。
+- 普通 snapshot restore 会让 revision 回退。Kubernetes 灾备要评估 `--bump-revision` 与 `--mark-compacted`，迫使 informer/watch 重新 List，而不是继续相信旧缓存。
+
+3.7 的 RangeStream、Unix socket 和新增指标属于能力更新，不等于旧客户端、监控规则或安全基线自动兼容。生产升级必须记录成员版本、Leader、cluster version、健康状态、WAL fsync、DB 大小和一份已实测可恢复的快照。
 
 ## 官方知识地图
 
@@ -400,13 +412,13 @@ etcd 保存的是 API Server 序列化后的资源状态
 
 ## 安装与启动：单节点学习环境
 
-下面实验使用 Docker 和 etcd 3.6.0，只用于学习。生产必须使用受支持补丁、TLS、独立故障域、备份和容量监控。
+下面实验使用 Docker 和 etcd 3.7.1，只用于学习。生产必须使用受支持补丁、TLS、独立故障域、备份和容量监控。
 
 ```powershell
 docker run -d --name etcd-lab `
   -p 2379:2379 -p 2380:2380 `
-  quay.io/coreos/etcd:v3.6.0 `
-  etcd `
+  gcr.io/etcd-development/etcd:v3.7.1 `
+  /usr/local/bin/etcd `
   --name s1 `
   --data-dir /etcd-data `
   --listen-client-urls http://0.0.0.0:2379 `
@@ -534,13 +546,13 @@ docker cp etcd-lab:/tmp/etcd-snapshot.db .\etcd-snapshot.db # 把备份复制到
 
 ### 恢复边界
 
-恢复会生成新的数据目录和集群身份。生产 Kubernetes 恢复前应停止所有 API Server，避免旧控制面继续向正在恢复的 etcd 写入。etcd 3.6 应使用 `etcdutl snapshot restore`，不要把旧教程里的 `etcdctl snapshot restore` 当成长期方案。
+恢复会生成新的数据目录和集群身份。是否停止全部 API Server、如何替换成员和何时恢复写流量，必须服从你的发行版与拓扑 runbook。etcd 3.7 应使用 `etcdutl snapshot restore`，不要把旧教程里的 `etcdctl snapshot restore` 当成长期方案。
 
 ```powershell
 docker run --rm `
   -v ${PWD}:/backup `
   -v etcd-restore-data:/restore `
-  quay.io/coreos/etcd:v3.6.0 `
+  gcr.io/etcd-development/etcd:v3.7.1 `
   etcdutl snapshot restore /backup/etcd-snapshot.db --data-dir=/restore
 ```
 
@@ -807,4 +819,4 @@ etcd 是基于 Raft 的强一致分布式键值存储，Kubernetes 用它保存�
 
 ## 本文边界与下一步
 
-本文覆盖 etcd 3.6 从零到 Kubernetes 平台岗位面试所需主线，不展开 Raft 数学证明、源码中的 raft node 状态机、BoltDB 页结构和超大规模基准测试实现。下一步结合 [Kubernetes](./kubernetes.md)、[Calico](./calico.md)、[Cilium](./cilium.md) 和 [Apache ZooKeeper](../data-ai/zookeeper.md)，比较控制面状态、协调服务和网络数据面的不同故障模型。
+本文覆盖 etcd 3.7 从零到 Kubernetes 平台岗位面试所需主线，不展开 Raft 数学证明、源码中的 raft node 状态机、BoltDB 页结构和超大规模基准测试实现。本次只完成官方资料与文章静态验证，没有执行三节点滚动升级、真实 Kubernetes 恢复或跨故障域压测。下一步结合 [Kubernetes](./kubernetes.md)、[Calico](./calico.md)、[Cilium](./cilium.md) 和 [Apache ZooKeeper](../data-ai/zookeeper.md)，比较控制面状态、协调服务和网络数据面的不同故障模型。

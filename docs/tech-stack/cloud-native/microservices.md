@@ -21,8 +21,26 @@
 - [Spring Cloud Gateway](https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/)
 - [Spring Cloud Kubernetes DiscoveryClient](https://docs.spring.io/spring-cloud-kubernetes/reference/discovery-client.html)
 - [Spring Initializr](https://start.spring.io/)
+- [Spring Boot 4.0.7 release](https://github.com/spring-projects/spring-boot/releases/tag/v4.0.7)
+- [Spring Boot 4.1.0 release](https://github.com/spring-projects/spring-boot/releases/tag/v4.1.0)
+- [Spring Cloud supported versions](https://github.com/spring-cloud/spring-cloud-release/wiki/Supported-Versions)
+- [Spring Cloud 2025.1.2 release](https://github.com/spring-cloud/spring-cloud-release/releases/tag/v2025.1.2)
+- [Spring Cloud Gateway 配置属性](https://docs.spring.io/spring-cloud-gateway/reference/configprops.html)
+- [Spring Boot 4.0 迁移指南](https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-4.0-Migration-Guide)
 
 说明：本文按 Spring Boot 和 Spring Cloud 官网重新组织，重点服务 AIOps 学习路线。它不是照搬官网，也不是要你一天学完 Spring 全家桶，而是把“Java 微服务在生产里怎么跑、坏了怎么查、指标怎么进 AIOps”讲成一条可执行路径。
+
+## 2026-08-14 版本快照与兼容边界
+
+| 对象 | 本文锚点 | 小白必须知道的边界 |
+|---|---|---|
+| Java | 17 或更高 | Spring Boot 4 的最低 Java 是 17；公司版本还要看运行时和中间件认证 |
+| Spring Boot | 实验固定 4.0.7 | Boot 单项目已有 4.1.0，但不能因此推断所有 Spring Cloud 组合都已认证 |
+| Spring Cloud | 实验固定 2025.1.2 | 必须按官方 supported versions 表与 Boot 配对，不要分别挑两个“最新”版本硬拼 |
+| Gateway | 当前 Server WebFlux 属性 | 路由前缀是 `spring.cloud.gateway.server.webflux.routes`，旧教程的 `spring.cloud.gateway.routes` 不再作为本文主线 |
+| 服务客户端 | HTTP Service Client / `RestClient` 为新项目优先评估方向 | OpenFeign 已进入 feature-complete 阶段，仍要会维护，但新项目应先评估 Spring HTTP Service Clients |
+
+版本号不是装饰。若 BOM（Bill of Materials，统一依赖版本清单）不匹配，常见结果是应用能编译但启动时报 `NoSuchMethodError`，或者某个自动配置悄悄没有生效。升级前先锁定 Java、Boot、Cloud、Gateway 和观测依赖，再看迁移指南与支持矩阵。
 
 ## 先说边界
 
@@ -33,7 +51,7 @@
 ```text
 Spring Boot 应用
   -> Spring Cloud Gateway
-  -> Spring Cloud OpenFeign / RestClient
+  -> HTTP Service Client / RestClient / 遗留 OpenFeign
   -> 注册中心 / Kubernetes Service
   -> Config Server / ConfigMap
   -> MySQL / Redis / RabbitMQ / Kafka
@@ -211,8 +229,8 @@ Spring Cloud
      -> DiscoveryClient
      -> Eureka / Consul / Kubernetes
   -> service-to-service calls
-     -> OpenFeign
-     -> RestClient / WebClient
+     -> HTTP Service Client / RestClient / WebClient
+     -> OpenFeign（遗留系统维护）
   -> load balancing
      -> Spring Cloud LoadBalancer
   -> routing
@@ -690,13 +708,15 @@ client
 spring:
   cloud:
     gateway:
-      routes:
-        - id: order-route
-          uri: lb://order-service
-          predicates:
-            - Path=/api/orders/**
-          filters:
-            - StripPrefix=1
+      server:
+        webflux:
+          routes:
+            - id: order-route
+              uri: lb://order-service
+              predicates:
+                - Path=/api/orders/**
+              filters:
+                - StripPrefix=1
 ```
 
 **坏了怎么查**
@@ -916,6 +936,345 @@ scrape_configs:
           - "gateway-service:8080"
 ```
 
+## 可复现基础实验：两个服务、一次调用、三个证据面
+
+这次先把最小链路真正跑通，再扩展 Gateway、消息队列和 OpenTelemetry。实验固定 Spring Boot 4.0.7、Spring Cloud 2025.1.2、Java 17；不要让 Initializr 自动换成另一个版本。
+
+### 前置条件
+
+- Windows PowerShell 7 或 Windows PowerShell 5.1。
+- `java -version` 显示 17 或更高。
+- 能访问 `start.spring.io` 和 Maven Central。
+- 端口 8081、8082 未占用。
+
+### 第 1 步：生成两个项目
+
+```powershell
+New-Item -ItemType Directory -Force labs\spring-microservices-aiops | Out-Null
+Set-Location labs\spring-microservices-aiops
+
+$paymentUrl = 'https://start.spring.io/starter.zip?type=maven-project&language=java&bootVersion=4.0.7&baseDir=payment-service&groupId=lab.aiops&artifactId=payment-service&name=payment-service&packageName=lab.aiops.payment&packaging=jar&javaVersion=17&dependencies=web,actuator,prometheus'
+$orderUrl = 'https://start.spring.io/starter.zip?type=maven-project&language=java&bootVersion=4.0.7&baseDir=order-service&groupId=lab.aiops&artifactId=order-service&name=order-service&packageName=lab.aiops.order&packaging=jar&javaVersion=17&dependencies=web,actuator,prometheus'
+
+Invoke-WebRequest $paymentUrl -OutFile payment-service.zip
+Invoke-WebRequest $orderUrl -OutFile order-service.zip
+Expand-Archive payment-service.zip -DestinationPath . -Force
+Expand-Archive order-service.zip -DestinationPath . -Force
+```
+
+正常结果：当前目录出现 `payment-service` 和 `order-service`，两个目录都有 `mvnw.cmd`。如果下载到的是 JSON 错误而不是 ZIP，先检查 URL、代理和 Initializr 是否仍提供固定版本。
+
+### 第 2 步：实现 payment-service
+
+把 `payment-service/src/main/java/lab/aiops/payment/PaymentServiceApplication.java` 替换为：
+
+```java
+package lab.aiops.payment;
+
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
+
+@SpringBootApplication
+public class PaymentServiceApplication {
+  public static void main(String[] args) {
+    SpringApplication.run(PaymentServiceApplication.class, args);
+  }
+}
+
+@RestController
+class PaymentController {
+  @Value("${lab.payment.fail:false}")
+  private boolean fail;
+
+  @Value("${lab.payment.delay-ms:0}")
+  private long delayMs;
+
+  @PostMapping("/payments")
+  Map<String, Object> pay(@RequestBody Map<String, Object> request) throws InterruptedException {
+    TimeUnit.MILLISECONDS.sleep(delayMs);
+    if (fail) {
+      throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, "fault injection");
+    }
+    return Map.of("status", "PAID", "amount", request.get("amount"));
+  }
+}
+```
+
+创建 `payment-service/src/main/resources/application.yml`：
+
+```yaml
+spring:
+  application:
+    name: payment-service
+server:
+  port: 8082
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,prometheus
+```
+
+### 第 3 步：给 order-service 加熔断依赖
+
+在 `order-service/pom.xml` 的 `<properties>` 中增加：
+
+```xml
+<spring-cloud.version>2025.1.2</spring-cloud.version>
+```
+
+在 `<dependencies>` 中增加：
+
+```xml
+<dependency>
+  <groupId>org.springframework.cloud</groupId>
+  <artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
+</dependency>
+```
+
+在 `<dependencies>` 结束后、`<build>` 之前增加 BOM：
+
+```xml
+<dependencyManagement>
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-dependencies</artifactId>
+      <version>${spring-cloud.version}</version>
+      <type>pom</type>
+      <scope>import</scope>
+    </dependency>
+  </dependencies>
+</dependencyManagement>
+```
+
+### 第 4 步：实现 order-service
+
+把 `order-service/src/main/java/lab/aiops/order/OrderServiceApplication.java` 替换为：
+
+```java
+package lab.aiops.order;
+
+import java.util.Map;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestClient;
+
+@SpringBootApplication
+public class OrderServiceApplication {
+  public static void main(String[] args) {
+    SpringApplication.run(OrderServiceApplication.class, args);
+  }
+
+  @Bean
+  PaymentClient paymentClient(
+      RestClient.Builder builder,
+      @Value("${payment.base-url}") String baseUrl) {
+    return new PaymentClient(builder.baseUrl(baseUrl).build());
+  }
+}
+
+final class PaymentClient {
+  private final RestClient client;
+
+  PaymentClient(RestClient client) {
+    this.client = client;
+  }
+
+  Map<?, ?> pay(Object amount) {
+    return client.post()
+        .uri("/payments")
+        .body(Map.of("amount", amount))
+        .retrieve()
+        .body(Map.class);
+  }
+}
+
+@RestController
+class OrderController {
+  private final PaymentClient payment;
+  private final CircuitBreakerFactory<?, ?> breakers;
+
+  OrderController(PaymentClient payment, CircuitBreakerFactory<?, ?> breakers) {
+    this.payment = payment;
+    this.breakers = breakers;
+  }
+
+  @PostMapping("/orders")
+  Map<String, Object> create(@RequestBody Map<String, Object> request) {
+    return breakers.create("payment").run(
+        () -> Map.of("status", "CREATED", "payment", payment.pay(request.get("amount"))),
+        error -> Map.of("status", "DEGRADED", "reason", error.getClass().getSimpleName()));
+  }
+}
+```
+
+创建 `order-service/src/main/resources/application.yml`：
+
+```yaml
+spring:
+  application:
+    name: order-service
+server:
+  port: 8081
+payment:
+  base-url: http://localhost:8082
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,prometheus
+resilience4j:
+  circuitbreaker:
+    instances:
+      payment:
+        slidingWindowType: COUNT_BASED
+        slidingWindowSize: 4
+        minimumNumberOfCalls: 4
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+```
+
+### 第 5 步：构建、启动和验证
+
+分别打开两个 PowerShell 窗口：
+
+```powershell
+# 窗口 1
+Set-Location labs\spring-microservices-aiops\payment-service
+.\mvnw.cmd test
+.\mvnw.cmd spring-boot:run
+```
+
+```powershell
+# 窗口 2
+Set-Location labs\spring-microservices-aiops\order-service
+.\mvnw.cmd test
+.\mvnw.cmd spring-boot:run
+```
+
+第三个窗口验证：
+
+```powershell
+Invoke-RestMethod http://localhost:8081/actuator/health
+Invoke-RestMethod http://localhost:8082/actuator/health
+Invoke-RestMethod -Method Post -Uri http://localhost:8081/orders `
+  -ContentType 'application/json' -Body '{"amount":100}'
+(Invoke-WebRequest http://localhost:8081/actuator/prometheus).Content |
+  Select-String 'http_server_requests'
+```
+
+预期：两个健康端点都是 `UP`；订单响应包含 `CREATED` 和 `PAID`；Prometheus 文本里出现 HTTP 请求指标。三个证据分别证明进程活着、业务调用成功、机器可采集指标，不要只保存一个绿色页面。
+
+### 没跑通先查这些
+
+1. `java -version` 与 `pom.xml` 的 Java 版本是否一致。
+2. 8081/8082 是否被占用；日志打印的实际端口是什么。
+3. order 的 `payment.base-url` 是否指向 8082。
+4. POM 中 Cloud BOM 是否在 `<dependencyManagement>`，而不是误放进普通依赖。
+5. `/actuator/prometheus` 为 404 时，检查 Prometheus registry 依赖和 exposure 配置。
+
+## 故障注入实验：下游 503 与熔断状态
+
+只在本机实验目录执行。不要用真实支付接口、生产 Token 或生产端口。
+
+1. 在 payment 窗口按 `Ctrl+C` 停止服务。
+2. 用故障开关重启：
+
+```powershell
+$env:LAB_PAYMENT_FAIL='true'
+.\mvnw.cmd spring-boot:run
+```
+
+3. 在验证窗口连续请求 6 次，并记录耗时：
+
+```powershell
+1..6 | ForEach-Object {
+  $elapsed = Measure-Command {
+    $result = Invoke-RestMethod -Method Post -Uri http://localhost:8081/orders `
+      -ContentType 'application/json' -Body '{"amount":100}'
+  }
+  [pscustomobject]@{ Attempt = $_; Status = $result.status; Milliseconds = $elapsed.TotalMilliseconds }
+}
+
+Invoke-RestMethod 'http://localhost:8081/actuator/metrics/resilience4j.circuitbreaker.state?tag=name:payment'
+```
+
+预期：请求得到明确的 `DEGRADED`，达到最小调用数后熔断器进入 OPEN，后续请求会快速降级，而不是继续压向 payment。若一直 CLOSED，核对实例名 `payment`、Actuator 指标标签和 Resilience4j 配置是否真的被绑定。
+
+恢复与清理：停止 payment，执行 `Remove-Item Env:LAB_PAYMENT_FAIL -ErrorAction SilentlyContinue`，正常重启；等待 10 秒后再次请求，确认响应恢复为 `CREATED/PAID`。最后用 `Ctrl+C` 停止两个本地进程，保留日志、指标响应和故障记录作为学习证据。
+
+## 生产请求路径、状态与容量模型
+
+```text
+client
+  -> Gateway predicate/filter/auth/rate-limit
+  -> discovery cache 或 Kubernetes Service
+  -> client-side/server-side load balancing
+  -> HTTP connection pool + timeout/deadline
+  -> downstream thread/event-loop
+  -> database / cache / message broker
+  -> response + metric + log + trace span
+```
+
+每一跳都要回答五件事：超时由谁控制、最多重试几次、请求能否安全重放、容量瓶颈在哪里、失败证据去哪找。调用方的超时应小于上游 deadline，并给回滚/降级留时间；重试要有预算、退避和抖动，且只能用于确认可重放的操作。
+
+| 生产问题 | 人话解释 | 设计与观测 |
+|---|---|---|
+| 幂等 | 同一个请求重复到达，结果不能重复扣款 | `Idempotency-Key`、业务唯一键、去重表、重复命中指标 |
+| Outbox | 业务数据和“待发送事件”先写进同一数据库事务 | outbox backlog、最老事件年龄、发送失败日志 |
+| Saga/补偿 | 多服务没有一个大事务，失败后执行可审计的反向业务动作 | Saga 状态、补偿次数、人工兜底队列 |
+| 注册/配置陈旧 | 调用方缓存还认为旧实例可用 | 实例更新时间、缓存年龄、EndpointSlice、配置版本 |
+| 消息至少一次 | Broker 可能重复投递，消费者必须幂等 | lag、redelivery、DLQ、去重命中、处理耗时 |
+
+### 高可用与容量
+
+- 多可用区副本只能降低单点风险；数据库、消息队列、配置、DNS 和入口也必须有独立故障域。
+- 容量从入口 QPS 开始，乘以 fan-out 和重试放大系数，再检查线程池、event loop、连接池、数据库连接、队列 lag 与下游限额。
+- 用限流、bulkhead（舱壁隔离）、backpressure（反压）和 load shedding（过载丢弃）保护系统，而不是让请求无限排队。
+- 指标标签使用 `service.name`、`service.version`、环境、路由和下游依赖；不要把用户 ID、订单号直接做指标标签，避免高基数拖垮监控。
+
+### 安全、升级与回滚
+
+- 外部身份常用 OAuth2/OIDC；服务间身份可用 mTLS。Secret 和 Token 必须轮换，不能写进镜像或 Git。
+- 依赖升级要生成 SBOM、扫描漏洞并验证序列化/反序列化边界；入口到服务、服务到数据库分别定义信任边界。
+- API 与消息 Schema 使用向后兼容的 expand-contract：先让消费者兼容新旧字段，再升级提供者，最后删除旧字段。
+- 数据库 migration、已发送消息和第三方副作用不会因代码回滚自动消失。发布前写清 canary 停止条件、feature flag、数据修复和 forward-fix 路径。
+
+## 生产事故题：支付变慢后订单服务雪崩
+
+**现象**：发布后 Gateway P99、订单 5xx、连接池等待和 payment QPS 同时上升。
+
+**先保全证据**：固定同一时间窗，保存发布 ID、Gateway/订单/payment 的 RED 指标、trace、错误日志、熔断状态、重试次数、线程/连接池、数据库和队列指标。不要先重启全部服务把状态冲掉。
+
+**形成假设**：可能是 payment 本身变慢，也可能是订单新版本把重试从 1 次改成 5 次，造成流量放大；还可能是连接池耗尽让“看起来下游慢”。用 trace 的每跳耗时和版本维度指标逐一证伪。
+
+**修复与影响面**：先停止扩散——限流、关闭额外重试、熔断或把新版本流量降为 0；确认老版本与数据库 Schema 兼容后再回滚。影响面要包括已超时但后台可能成功的订单，不能把客户端重试当作全都失败。
+
+**复验与回滚门**：观察至少一个业务峰值窗口，确认错误率、P99、连接池、重试放大系数和支付成功对账恢复。若回滚后仍异常，停止继续切流，转查数据层/第三方并执行补偿 runbook。
+
+## 系统设计题：设计可承受单个下游故障的订单平台
+
+答案应覆盖：服务边界、同步与异步取舍、deadline、有限重试、幂等键、Outbox/Saga、数据库拥有者、多可用区、容量模型、限流/舱壁/反压、OIDC/mTLS、指标日志追踪、变更关联、canary、Schema 演进和可恢复备份。追问“消息重复怎么办”时，要落到唯一约束、去重状态和可重放测试；追问“为什么不全用同步调用”时，要讨论即时反馈、耦合、延迟和一致性成本。
+
+## 本次验证边界
+
+本文给出了固定版本、完整文件和可恢复实验步骤，但本次文档更新没有在当前电脑生成或编译这两个 Spring 项目，也没有启动 Prometheus、OTLP Collector 或 Kubernetes。示例的真实 build 输出、依赖解析、指标名和故障截图必须由学习者在自己的隔离环境运行后保存，不能把“文章写了步骤”说成“实验已通过”。
+
 ## 命令字典
 
 | 命令 | 作用 | 预期结果 | 常见坑 |
@@ -938,7 +1297,7 @@ scrape_configs:
 | `management.endpoints.web.exposure.include` | 暴露 Actuator endpoint | 最小暴露 health、metrics、prometheus |
 | `management.tracing.sampling.probability` | trace 采样率 | 实验可 1.0，生产按成本调 |
 | `management.otlp.tracing.endpoint` | trace 上报地址 | 指向 OTel Collector |
-| `spring.cloud.gateway.routes` | 网关路由 | 404/502/504 排障关键 |
+| `spring.cloud.gateway.server.webflux.routes` | Gateway Server WebFlux 路由 | 5.x 主线；404/502/504 排障关键 |
 | `spring.cloud.openfeign.client.config` | Feign 超时 | 避免默认超时不符合生产 |
 | `resilience4j.circuitbreaker.instances` | 熔断配置 | 防止下游故障扩散 |
 | `spring.config.import` | 导入外部配置 | Config Server / configtree |

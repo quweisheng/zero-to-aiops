@@ -22,8 +22,8 @@
 | 已达到大厂面试级第一版 | Go（Golang） | 已补语言基础、并发、G-M-P、内存模型、GC、HTTP、测试诊断、AIOps 项目、故障实验、连续追问和系统设计 |
 | 已升级开头和面试表达 | Linux、Git、GitHub、Markdown、VitePress、Python、Shell/PowerShell、systemd、网络基础 | 基础工具组已补通俗开场、人话版、小白追问和面试表达 |
 | 已达到大厂面试级第一版 | RESTful API | 已补 REST 约束、HTTP 方法与状态、缓存与条件请求、幂等与并发、契约演进、安全、容量、可观测、双层实验、事故题和系统设计 |
-| 已达到大厂面试级第一版 | Kubernetes、etcd、Calico、Cilium | 已补控制面一致性、API/Informer/调度、CNI 数据路径、生产设计、故障实验、连续追问和系统设计 |
-| 已升级开头和面试表达 | Docker、Docker Compose、Helm、NGINX/Ingress、微服务 | 云原生组已补通俗开场、人话版、小白追问和面试表达，后续继续按大厂面试级标准升级 |
+| 已达到大厂面试级第一版 | Kubernetes、etcd、Calico、Cilium | 已更新到 Kubernetes 1.36.3、etcd 3.7.1、Calico 3.32.1、Cilium 1.20.0，并补 CRI/containerd、CNI、CSI、CoreDNS、状态一致性、故障实验、事故题和系统设计 |
+| 已达到大厂面试级第一版 | Docker、Docker Compose、Helm、NGINX/Ingress/Gateway API、微服务、Rancher、Harbor、Istio、KubeSphere | 已补当前版本与退役边界、内部路径、HA/容量/安全/升级回滚、双层实验、事故题、系统设计和递进追问 |
 | 已达到大厂面试级第一版 | KVM 虚拟化 | 已补 KVM/QEMU/libvirt 边界、CPU/内存/网络/存储路径、迁移、HA、安全、双层实验、事故题和系统设计 |
 | 已完成深讲第一版 | VMware vSphere | 虚拟化与私有云组已补 ESXi/ESX、vCenter、集群、HA、DRS、vMotion、网络、存储、生命周期、实验和排障 |
 | 已完成深讲第一版 | IBM Storage | 存储与数据保护组已补产品地图、块/文件/对象/磁带基础、FlashSystem 数据路径、容量性能、多路径、复制备份、实验、排障和面试表达 |
@@ -66,11 +66,11 @@
 | 已完成第一版 | Git | [git.md](./foundation/git.md) | 官方 Git Book 结构、三棵树、文件状态、对象模型、HEAD、分支、合并、远程、撤销、冲突、AIOps 必会 Git 命令字典 |
 | 已完成第一版 | Python | [python.md](./foundation/python.md) | 官方 Python 文档结构、解释器、虚拟环境、pip、基础类型、控制流、函数、模块、标准库、AIOps 告警日报实验、命令/API 字典 |
 | 已达到大厂面试级第一版 | Go（Golang） | [golang.md](./foundation/golang.md) | Go 1.26、module/package、slice/map/interface/error、goroutine/channel/context、G-M-P、内存模型、GC、HTTP、race/pprof/trace、告警 API 和生产设计 |
-| 已完成第一版 | Docker | [docker.md](./cloud-native/docker.md) | Docker 官方结构、Engine 架构、镜像和容器、Dockerfile 指令、build context、网络、存储、日志、资源限制、安全边界、AIOps 容器化实验、命令字典 |
+| 已达到大厂面试级第一版 | Docker | [docker.md](./cloud-native/docker.md) | Engine 29.7.2、CLI→daemon→containerd→shim→runc 路径、镜像/网络/存储、rootless、安全、容量、升级、OOM 故障实验、事故题和系统设计 |
 | 已完成第一版 | Prometheus | [prometheus.md](./observability/prometheus.md) | Prometheus 官方结构、数据模型、指标类型、jobs/instances、抓取配置、TSDB、PromQL、recording/alerting rules、HTTP API、promtool、AIOps 指标实验 |
 | 已达到大厂面试级第一版 | Zabbix | [zabbix.md](./observability/zabbix.md) | Zabbix 7.4.12/7.0 LTS、Agent/SNMP/HTTP/Proxy 采集、Item/Trigger/Event/Action、history/trends、LLD、NVPS、Server 与数据库 HA、双层实验、事故题和系统设计 |
 | 已完成第一版 | Grafana | [grafana.md](./observability/grafana.md) | Grafana 官方结构、数据源、Prometheus 查询、dashboard/panel/field/variable/transformation、provisioning、alerting、HTTP API、AIOps 值班 dashboard 实验 |
-| 已完成第一版 | Docker Compose | [docker-compose.md](./cloud-native/docker-compose.md) | Compose 官方应用模型、project/service/network/volume/config/secret、Compose 文件字段、healthcheck、profiles、CLI 命令字典、Prometheus + Grafana + demo app 实验 |
+| 已达到大厂面试级第一版 | Docker Compose | [docker-compose.md](./cloud-native/docker-compose.md) | Compose 5.4.0、应用模型与调和、project/service/network/volume、health、固定镜像实验、单机 HA 边界、容量安全、故障实验和事故题 |
 | 已完成第一版 | GitHub | [github.md](./foundation/github.md) | GitHub 官方结构、repository、README、GitHub Flow、Issues、Pull Requests、Actions、Pages、认证、Secrets、安全、AIOps 作品集实验 |
 | 已完成第一版 | Markdown | [markdown.md](./foundation/markdown.md) | CommonMark、GitHub Flavored Markdown、块级/行内语法、表格、任务列表、链接、图片、代码块、Frontmatter、AIOps 文档模板、排障字典 |
 | 已完成第一版 | VitePress | [vitepress.md](./foundation/vitepress.md) | VitePress v1 官方结构、source directory、文件路由、config、themeConfig、nav/sidebar、Markdown 扩展、base、构建、GitHub Pages 部署、排障 |
@@ -78,14 +78,18 @@
 | 已完成第一版 | systemd | [systemd.md](./foundation/systemd.md) | systemd 官方结构、PID 1、unit、service、target、timer、journal、systemctl、journalctl、依赖/排序、重启策略、开机自启、AIOps 健康检查 timer 实验、排障流程 |
 | 已完成第一版 | 网络基础 | [networking.md](./foundation/networking.md) | IETF RFC 知识地图、DNS、IP/CIDR、路由、ARP、TCP、UDP、TLS、HTTP、负载均衡、curl/dig/ip/ss/openssl 命令字典、AIOps 分层网络诊断实验 |
 | 已达到大厂面试级第一版 | RESTful API | [restful-api.md](./foundation/restful-api.md) | Fielding REST 与 HTTP 规范、资源/表示/统一接口、方法/状态/Header、缓存、ETag、幂等、OpenAPI、安全、容量、双层实验、事故题和系统设计 |
-| 已达到大厂面试级第一版 | Kubernetes | [kubernetes.md](./cloud-native/kubernetes.md) | API 请求与 SSA、List-Watch/Informer/Reconcile、调度框架、弹性、优雅终止、CNI/CSI、etcd 高可用、安全、升级、容量、故障推演和连续追问 |
-| 已达到大厂面试级第一版 | etcd | [etcd.md](./cloud-native/etcd.md) | Raft、多数派、MVCC、revision、Watch、Lease、Txn、WAL/snapshot/backend、备份恢复、容量性能、Kubernetes 故障和系统设计 |
-| 已达到大厂面试级第一版 | Calico | [calico.md](./cloud-native/calico.md) | CNI、Felix、IPAM/IPPool、BGP、IPIP/VXLAN、策略层级、MTU、生产拓扑、故障实验和网络排障 |
-| 已达到大厂面试级第一版 | Cilium | [cilium.md](./cloud-native/cilium.md) | eBPF 程序/map、身份策略、Service 负载均衡、kube-proxy replacement、Hubble、map pressure、故障实验和网络排障 |
+| 已达到大厂面试级第一版 | Kubernetes | [kubernetes.md](./cloud-native/kubernetes.md) | 1.36.3、API/SSA/List-Watch/Reconcile、调度、CRI/containerd、CNI/CSI/CoreDNS、Gateway API、etcd HA、安全、容量、升级与故障推演 |
+| 已达到大厂面试级第一版 | etcd | [etcd.md](./cloud-native/etcd.md) | 3.7.1 与 kubeadm pin 边界、Raft/MVCC/Watch/Lease/Txn、WAL/snapshot/backend、备份恢复、容量性能、事故与系统设计 |
+| 已达到大厂面试级第一版 | Calico | [calico.md](./cloud-native/calico.md) | 3.32.1、CRD→operator 安装顺序、CNI/Felix/IPAM、BGP/IPIP/VXLAN、策略/MTU、故障注入、事故题与生产拓扑 |
+| 已达到大厂面试级第一版 | Cilium | [cilium.md](./cloud-native/cilium.md) | 1.20.0、eBPF map/身份策略/Service、kube-proxy replacement、Hubble、升级红线、map pressure、故障实验和网络排障 |
 | 已达到大厂面试级第一版 | KVM 虚拟化 | [kvm.md](./virtualization-private-cloud/kvm.md) | KVM/QEMU/libvirt、vCPU/内存、Virtio、虚拟网络与存储、迁移、HA、容量、安全、故障实验、事故复盘和系统设计 |
-| 已完成第一版 | Helm | [helm.md](./cloud-native/helm.md) | Helm 官方结构、Chart、Release、Revision、values、templates、内置对象、常用模板函数、install/upgrade/rollback、dependency、hooks、helm 命令字典、AIOps 发布诊断实验 |
-| 已完成第一版 | NGINX/Ingress | [nginx-ingress.md](./cloud-native/nginx-ingress.md) | NGINX 官方结构、反向代理、server/location/upstream/proxy_pass/proxy_set_header、日志字段、timeout、Kubernetes Ingress、IngressClass、Controller、TLS、annotations、404/502/503/504 排障 |
-| 已完成第一版 | 微服务 | [microservices.md](./cloud-native/microservices.md) | Spring Boot / Spring Cloud 官方知识地图、Boot 应用模型、starter/自动配置、外部化配置、Actuator、Micrometer、tracing、服务发现、OpenFeign、LoadBalancer、Gateway、Circuit Breaker、数据一致性、AIOps 观测和排障 |
+| 已达到大厂面试级第一版 | Helm | [helm.md](./cloud-native/helm.md) | Helm 4.2.4、Helm 3 EOL、SSA、Chart/Release/Revision、server dry-run、失败回滚、CRD/Hook 边界、故障实验、事故题和系统设计 |
+| 已达到大厂面试级第一版 | NGINX/Ingress/Gateway API | [nginx-ingress.md](./cloud-native/nginx-ingress.md) | NGINX 数据路径、Ingress API 冻结、社区 ingress-nginx 退役、Gateway API 1.6.1、迁移、双层实验、事故题与 4xx/5xx 排障 |
+| 已达到大厂面试级第一版 | 微服务 | [microservices.md](./cloud-native/microservices.md) | Boot 4.0.7/Cloud 2025.1.2、Gateway 5 属性、HTTP Client、deadline/幂等/Outbox/Saga、容量安全、熔断实验、事故题与系统设计 |
+| 已达到大厂面试级第一版 | Rancher | [rancher.md](./cloud-native/rancher.md) | 2.15.0、RKE1 EOL、管理 CRD/agent 路径、多集群状态、HA/容量/RBAC、备份升级、agent 故障实验、事故题与系统设计 |
+| 已达到大厂面试级第一版 | Harbor | [harbor.md](./cloud-native/harbor.md) | 2.15.2、401/Token/Registry/Blob 路径、Digest/GC/复制一致性、PostgreSQL/Valkey/存储 HA、Robot 故障实验与事故题 |
+| 已达到大厂面试级第一版 | Istio | [istio.md](./cloud-native/istio.md) | 1.30.3、Sidecar/Ambient/ztunnel/waypoint、xDS/mTLS/策略、容量安全、revision canary、503 故障实验与系统设计 |
+| 已达到大厂面试级第一版 | KubeSphere | [kubesphere.md](./cloud-native/kubesphere.md) | 产品 4.2.1/文档 4.2.0/OSS 4.1.3、Edition/License、LuBan 扩展、HA/容量/RBAC、故障实验、事故题与升级边界 |
 | 已完成第一版 | Alertmanager | [alertmanager.md](./observability/alertmanager.md) | Prometheus Alertmanager 官方结构、alert labels/annotations、route tree、receiver、grouping、deduplication、silence、inhibition、notification template、webhook、API、amtool、AIOps 告警诊断实验 |
 | 已完成第一版 | OpenTelemetry | [opentelemetry.md](./observability/opentelemetry.md) | OpenTelemetry 官方结构、traces/metrics/logs、Trace/Span/Context、resource、semantic conventions、instrumentation、API/SDK、OTLP、Collector receiver/processor/exporter/pipeline、AIOps 遥测诊断实验 |
 | 已完成第一版 | Loki | [loki.md](./observability/loki.md) | Grafana Loki 官方结构、log stream、labels、cardinality、chunks、index、写入/查询路径、组件、storage schema、Alloy/Promtail EOL、LogQL、日志告警、AIOps 日志诊断实验 |
@@ -156,7 +160,7 @@
 |---|---|---|---|
 | 0 | Prometheus、Grafana、Docker Compose | 已完成 | 第一批示范级文章 |
 | 1 | Linux、Git、GitHub、Markdown、VitePress、Python、Shell/PowerShell、systemd、网络基础 | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
-| 2 | Docker、Kubernetes、Helm、NGINX/Ingress、微服务 | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
+| 2 | Docker、Compose、Kubernetes 全生态、Helm、NGINX/Ingress/Gateway API、微服务、Rancher、Harbor、Istio、KubeSphere | 大厂面试级第一版已完成 | 已更新当前版本/退役边界，补齐内部链路、状态、生产 HA/容量/安全/升级、双层实验、事故与系统设计 |
 | 3 | Alertmanager、OpenTelemetry、Loki、Elasticsearch、VictoriaMetrics | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
 | 4 | Ansible、Terraform、GitHub Actions、CI/CD、Runbook Automation、n8n | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
 | 5 | MySQL、Oracle、PostgreSQL、Redis、Kafka、RabbitMQ、pandas、机器学习、scikit-learn、TensorFlow、PyTorch、Transformer、Ollama、FastAPI、LLM、LangChain、LangGraph、RAG、向量数据库 | 深讲第一版已完成 | 已补齐官方知识地图、核心机制、命令/配置/API 字典、实验、排障和学习证据 |
@@ -213,7 +217,7 @@
 | 云原生 | Calico | [calico.md](./cloud-native/calico.md) |
 | 云原生 | Cilium | [cilium.md](./cloud-native/cilium.md) |
 | 云原生 | Helm | [helm.md](./cloud-native/helm.md) |
-| 云原生 | NGINX / Ingress | [nginx-ingress.md](./cloud-native/nginx-ingress.md) |
+| 云原生 | NGINX / Ingress / Gateway API | [nginx-ingress.md](./cloud-native/nginx-ingress.md) |
 | 云原生 | 微服务 | [microservices.md](./cloud-native/microservices.md) |
 | 云原生 | Rancher | [rancher.md](./cloud-native/rancher.md) |
 | 云原生 | Harbor | [harbor.md](./cloud-native/harbor.md) |

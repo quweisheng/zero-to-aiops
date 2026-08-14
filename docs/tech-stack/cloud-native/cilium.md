@@ -16,8 +16,19 @@
 - [监控指标](https://docs.cilium.io/en/stable/observability/metrics/)
 - [故障排查](https://docs.cilium.io/en/stable/operations/troubleshooting/)
 - [性能调优](https://docs.cilium.io/en/stable/operations/performance/tuning/)
+- [Cilium 1.20.0 发布](https://github.com/cilium/cilium/releases/tag/v1.20.0)
+- [1.20 Kubernetes 兼容范围](https://raw.githubusercontent.com/cilium/cilium/v1.20.0/Documentation/network/kubernetes/requirements.rst)
+- [升级指南](https://docs.cilium.io/en/latest/operations/upgrade/)
 
-本文以 Cilium 1.19 stable 文档为主，实验固定到官方 quick install 当前给出的 1.19.5。生产升级前必须核对 Kubernetes、Linux 内核、发行版、Cilium CLI、Helm Chart 和数据平面功能矩阵。
+本文以 Cilium 1.20.0 固定版本资料为主。截至 2026-08-14，该版本保证/e2e 测试的 Kubernetes 范围为 1.33–1.36，Linux kernel 至少 5.10 或发行版等价 backport。动态 `stable` 文档快照可能短暂落后于 release；生产升级前仍须核对 Kubernetes、内核、发行版、Cilium CLI、Helm Chart 和数据平面功能矩阵。
+
+### 1.20 升级红线
+
+- 官方只测试相邻 minor 的升级与回滚，先把当前 minor 升到最新 patch，再进入 1.20。
+- 1.20 已移除弃用的 Envoy Go extensions/proxylib；旧 Kafka-aware 以及 `kafka`、`l7`、`l7proto` 规则必须先清理。
+- HTTP、Ingress、Gateway 等 L7 流量会经过 Envoy；DNS/FQDN policy 使用 DNS proxy 路径，二者不能混写成同一个代理链。
+- 通过用户态代理的 L7/Ingress/Gateway 连接在升级时可能需要断开重连，不能承诺完全无损。
+- Gateway API、kube-proxy replacement、ClusterMesh、BGP 和云 CNI chaining 都会扩大变更面，生产窗口一次只改一个主要变量。
 
 ## 官方知识地图
 
@@ -352,7 +363,7 @@ map 有固定或动态上限，并消耗内核内存。高连接数、大量 Ser
 4. 评估调 GC 间隔或 map 上限的 CPU/内存代价。
 5. 扩大 map 是最后手段，不是代替根因分析。
 
-## 安装实验：kind + Cilium 1.19.5
+## 安装实验：kind + Cilium 1.20.0
 
 ### 前置条件
 
@@ -379,7 +390,7 @@ networking:
 
 ```bash
 kind create cluster --name cilium-lab --config kind-cilium.yaml # 创建无默认 CNI 的三节点集群
-cilium install --version 1.19.5 # 使用 Cilium CLI 安装官方 quick install 当前固定版本
+cilium install --version 1.20.0 # 使用 Cilium CLI 安装本文固定版本
 cilium status --wait # 等 agent、operator 和 endpoint 健康
 cilium connectivity test # 运行官方连通性和策略测试
 kubectl get nodes -o wide # 节点应为 Ready
@@ -727,4 +738,4 @@ kind delete cluster --name cilium-lab # 删除学习集群
 
 ## 本文边界与下一步
 
-本文覆盖 Cilium 1.19 的 Kubernetes 主线，不展开 verifier 指令级证明、所有 helper、XDP 驱动实现、Cluster Mesh 和 Gateway API 全部高级配置。下一步结合 [Kubernetes](./kubernetes.md)、[Calico](./calico.md)、[etcd](./etcd.md)、[网络基础](../foundation/networking.md) 和 [OpenTelemetry](../observability/opentelemetry.md)，把控制面、网络数据面和应用链路证据合并分析。
+本文覆盖 Cilium 1.20.0 的 Kubernetes 主线，不展开 verifier 指令级证明、所有 helper、XDP 驱动实现、Cluster Mesh 和 Gateway API 全部高级配置。本次没有实际运行 1.20 集群；云 CNI chaining、kube-proxy-free、ClusterMesh、BGP 与 Gateway 组合仍需在目标平台实测。下一步结合 [Kubernetes](./kubernetes.md)、[Calico](./calico.md)、[etcd](./etcd.md)、[网络基础](../foundation/networking.md) 和 [OpenTelemetry](../observability/opentelemetry.md)，把控制面、网络数据面和应用链路证据合并分析。

@@ -1,6 +1,8 @@
-# NGINX / Ingress
+# NGINX / Ingress / Gateway API
 
-> 目标：能理解 NGINX 反向代理和 Kubernetes Ingress 分别解决什么问题，能读懂 `server`、`location`、`upstream`、`proxy_pass`、`proxy_set_header`、timeout、access log，能写一个最小 Ingress，能排查 404、502、503、504、TLS 证书和后端 endpoints 问题。
+> 目标：能理解 NGINX 反向代理、Kubernetes Ingress 和 Gateway API 分别解决什么问题，能读懂 `server`、`location`、`upstream`、`proxy_pass`、timeout 与 access log；能维护遗留 Ingress，能为新系统选择 Gateway API 实现，并按入口到 EndpointSlice 的证据链排查 404、502、503、504 和 TLS 故障。
+
+> **重要退役警告**：社区项目 `kubernetes/ingress-nginx` 已于 2026-03-24 结束维护，不再发布版本、修复缺陷或修复安全问题。已有实例不会自动停止，但不能再把它作为新生产集群的推荐入口。本文保留它的存量识别与排障知识，新部署主线改为 Gateway API。
 
 ## 官方资料
 
@@ -16,11 +18,26 @@
 - [Kubernetes IngressClass](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class)
 - [Kubernetes Service](https://kubernetes.io/docs/concepts/services-networking/service/)
 - [Kubernetes DNS for Services and Pods](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/)
-- [ingress-nginx documentation](https://kubernetes.github.io/ingress-nginx/)
-- [ingress-nginx annotations](https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/)
+- [ingress-nginx 退役公告](https://kubernetes.io/blog/2025/11/11/ingress-nginx-retirement/)
+- [ingress-nginx 遗留文档](https://kubernetes.github.io/ingress-nginx/)
+- [Gateway API](https://kubernetes.io/docs/concepts/services-networking/gateway/)
+- [Gateway API v1.6.1](https://github.com/kubernetes-sigs/gateway-api/releases/tag/v1.6.1)
+- [从 ingress-nginx 迁移](https://gateway-api.sigs.k8s.io/guides/getting-started/migrating-from-ingress-nginx/)
+- [Ingress2Gateway 1.0](https://kubernetes.io/blog/2026/03/20/ingress2gateway-1-0-release/)
 - [NGINX Ingress Controller docs](https://docs.nginx.com/nginx-ingress-controller/)
 
-说明：本文是基于 NGINX 官方文档、Kubernetes 官方 Ingress 文档、ingress-nginx 文档和 NGINX Ingress Controller 文档整理的原创中文教程，不复制官方全文。Ingress 是 Kubernetes API，具体行为由 Ingress Controller 实现；不同控制器的注解和细节可能不同，生产请以你集群实际安装的 controller 文档为准。
+说明：本文基于 NGINX、Kubernetes 和 Gateway API 官方资料重新整理，不复制官方全文。截至 2026-08-14，NGINX OSS stable 为 1.30.4、mainline 为 1.31.3；社区 ingress-nginx 最后可见 controller-v1.15.1 且已经退役。F5 维护的 `nginx/kubernetes-ingress` 是另一个项目，不是社区 ingress-nginx 的后续版本，owner、功能、配置和许可都应分别核对。
+
+## 先把四个名字分清
+
+| 名称 | 它是什么 | 当前应该怎么用 |
+|---|---|---|
+| NGINX OSS | 通用 Web Server、反向代理和负载均衡软件 | 继续学习配置、reload、日志、连接和上游排障 |
+| Ingress API | Kubernetes 中描述 HTTP/HTTPS 入口规则的 GA API | 仍可维护，但功能已冻结，行为取决于 controller |
+| 社区 ingress-nginx | `kubernetes/ingress-nginx` controller | 只做遗留盘点、只读诊断和迁移，不新建生产方案 |
+| Gateway API | 角色化、可扩展的下一代入口 API | 新入口主线；仍需选择并安装维护中的 controller |
+
+Ingress API 没有因为 ingress-nginx 退役而被 Kubernetes 删除。真正退役的是一个具体 controller 项目。反过来，安装 Gateway API CRD 也不等于已经有网关：还必须有 controller 创建负载均衡器或代理，并在 `Gateway`、`HTTPRoute` 的 status 中写回结果。
 
 ## 场景开场
 
@@ -810,9 +827,9 @@ openssl s_client -connect aiops.example.com:443 -servername aiops.example.com </
 - 中间证书链不完整。
 - 没带 SNI 测试导致看到默认证书。
 
-## ingress-nginx annotations
+## 遗留 ingress-nginx annotations
 
-ingress-nginx 用 annotations 扩展 Ingress 行为。
+以下内容只用于识别和迁移已有 ingress-nginx 环境，不代表建议新装这个已退役 controller。ingress-nginx 用 annotations 扩展 Ingress 行为；迁移时必须逐项映射到 Gateway API 标准字段或目标实现扩展。
 
 示例：
 
@@ -1350,6 +1367,201 @@ kubectl get events -n "$ns" --sort-by=.lastTimestamp || true
 - 和请求 ID 关联。
 - 输出 JSON 诊断报告。
 
+## Gateway API：新入口主线
+
+### 小白一句话
+
+Ingress 像“应用团队把所有要求都写在一张表上”；Gateway API 把责任拆成三层：基础设施团队提供 `GatewayClass`，平台团队管理 `Gateway` 和监听端口，应用团队只维护自己的 `HTTPRoute`。
+
+```text
+GatewayClass
+  -> 选择哪个 controller
+Gateway
+  -> 地址、listener、TLS、允许哪些 namespace 挂路由
+HTTPRoute
+  -> host、path、filter、backendRefs
+ReferenceGrant
+  -> 目标 namespace 是否允许被跨 namespace 引用
+controller
+  -> Accepted / ResolvedRefs / Programmed
+data plane
+  -> Service -> EndpointSlice -> Pod
+```
+
+三个 condition 是入门排障核心：
+
+| Condition | 人话 | False 时先查什么 |
+|---|---|---|
+| `Accepted` | controller 是否接受这条配置 | parentRef、host、listener、冲突规则 |
+| `ResolvedRefs` | Service、Secret 等引用能否找到且被授权 | 名称、端口、namespace、ReferenceGrant |
+| `Programmed` | controller 是否已把期望状态下发到数据面 | controller 日志、LB 地址、代理配置与资源容量 |
+
+condition 变绿仍不等于业务成功。还要检查 Gateway 地址、DNS、TLS、Service、EndpointSlice、Pod readiness，并从客户端发起一条真实请求。
+
+### 基础实验：已有 Gateway controller 的一次性集群
+
+#### 前置条件
+
+- 一次性 Kubernetes 1.30+ 集群。
+- 已选择一个仍维护且有 Gateway API conformance 报告的 controller。
+- `kubectl get gatewayclass` 至少返回一个 `ACCEPTED=True` 的 class。
+- 以下实验不在共享生产集群执行。
+
+安装 Standard channel CRD；部分 controller 会代装 CRD，执行前先看它自己的安装文档：
+
+```bash
+kubectl apply --server-side -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.6.1/standard-install.yaml
+kubectl get crd gateways.gateway.networking.k8s.io httproutes.gateway.networking.k8s.io
+kubectl get gatewayclass
+```
+
+把 `<your-gateway-class>` 替换为上一步真实 class 名，然后保存为 `gateway-lab.yaml`：
+
+```yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: gateway-lab
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+  namespace: gateway-lab
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+        - name: web
+          image: nginx:1.30.4
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web
+  namespace: gateway-lab
+spec:
+  selector:
+    app: web
+  ports:
+    - port: 80
+      targetPort: 80
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: web-gateway
+  namespace: gateway-lab
+spec:
+  gatewayClassName: <your-gateway-class>
+  listeners:
+    - name: http
+      protocol: HTTP
+      port: 80
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: web
+  namespace: gateway-lab
+spec:
+  parentRefs:
+    - name: web-gateway
+  rules:
+    - backendRefs:
+        - name: web
+          port: 80
+```
+
+执行与验证：
+
+```bash
+kubectl apply -f gateway-lab.yaml
+kubectl wait -n gateway-lab --for=condition=Available deploy/web --timeout=120s
+kubectl get gateway,httproute -n gateway-lab -o wide
+kubectl describe gateway web-gateway -n gateway-lab
+kubectl describe httproute web -n gateway-lab
+kubectl get endpointslice -n gateway-lab -l kubernetes.io/service-name=web
+```
+
+预期：Gateway/Route 被接受，引用解析成功，Gateway 被编程，EndpointSlice 有两个 ready endpoint。最后按照所选 controller 的文档获取地址并 `curl`，HTTP 200 才算完整通过。
+
+如果没有成功，先检查：GatewayClass 是否被 controller 接受、controller 是否有资源或 LoadBalancer 权限、Route 的 `parentRefs` 是否匹配 listener、Service 端口与 EndpointSlice 是否正确。
+
+清理：
+
+```bash
+kubectl delete -f gateway-lab.yaml
+```
+
+不要随手删除共享集群的 Gateway API CRD；其他团队的 Route 可能也依赖它。
+
+### 故障注入：后端引用写错
+
+仅在上面的实验环境执行：
+
+```bash
+kubectl patch httproute web -n gateway-lab --type=json \
+  -p='[{"op":"replace","path":"/spec/rules/0/backendRefs/0/name","value":"web-missing"}]'
+kubectl describe httproute web -n gateway-lab
+```
+
+预期：`ResolvedRefs=False`，原因接近 `BackendNotFound`；真实请求会失败或返回 controller 定义的 5xx。证据顺序是 Route condition → controller log → Service/EndpointSlice → HTTP 结果，不能一上来重启代理。
+
+恢复并用同一探针复验：
+
+```bash
+kubectl patch httproute web -n gateway-lab --type=json \
+  -p='[{"op":"replace","path":"/spec/rules/0/backendRefs/0/name","value":"web"}]'
+kubectl get httproute web -n gateway-lab -o yaml
+```
+
+跨 namespace 引用还要由目标 namespace 创建 `ReferenceGrant`。它用于防止“源 namespace 擅自借用别人的 Service 或 Secret”，不是可省略的麻烦配置。
+
+## 从 ingress-nginx 迁移，而不是原地改名
+
+官方 `ingress2gateway` 1.0 可以转换多种 Ingress 和三十多项 ingress-nginx annotation，但“生成 YAML 成功”不代表行为等价。regex/path、rewrite、timeout、body size、snippet、认证、WebSocket、gRPC 和源 IP 都必须实测。
+
+生产迁移顺序：
+
+1. 导出全部 Ingress、IngressClass、annotation、Secret、外部 LB/DNS 和 controller 版本。
+2. 将规则分成 Gateway 标准字段、目标实现扩展、必须重写、没有等价能力四类。
+3. 新旧 controller 使用不同 LB IP 并行，禁止两个 controller 抢同一资源。
+4. 对 host/path/rewrite/header/body/TLS/WebSocket/gRPC/超时和性能跑回归。
+5. 小流量或测试域名切换，比较状态码、延迟、错误率和日志。
+6. 切换正式 DNS/LB，保留旧入口和明确回滚时间窗。
+7. 观察期结束后再下线遗留 controller；退役项目不能长期作为“临时兜底”。
+
+### 生产事故题
+
+题目：迁移后支付接口出现间歇性 503，但 Gateway、HTTPRoute 都显示 `Accepted=True`。怎么查？
+
+回答主线：
+
+1. 用同一时间窗口的客户端状态码、Gateway 访问日志、Route conditions 和发布记录确认影响范围。
+2. 检查 `ResolvedRefs`、`Programmed`、Service、EndpointSlice ready 数和 Pod readiness；`Accepted` 只说明对象被接收。
+3. 对比新旧入口的 host/path/rewrite/header、连接超时和上游 TLS，确认是否只有某一版本或节点失败。
+4. 假设可能包括 EndpointSlice 抖动、错误 backend port、代理 reload 不一致、连接 draining 或注解迁移语义不同；逐项用证据排除。
+5. 修复前评估回切旧 LB/DNS 的传播时间和退役项目安全风险；若达到停止条件，先按预案回切并保留现场证据。
+6. 修复后用同一请求集、错误率和 P99 复验，不因控制台变绿就结束事故。
+
+### 系统设计题
+
+题目：设计一个三可用区、多团队共享的 Kubernetes 入口平台。
+
+答案应覆盖：GatewayClass 与 controller 的所有权、每区副本和 PDB、外部 LB/DNS、Gateway/listener 委派、namespace `allowedRoutes`、ReferenceGrant、证书与 Secret 权限、连接/FD/TLS/日志容量、真实请求探针、变更审计、Gateway API conformance、版本升级和双入口回滚。多租户环境还要限制实现特有的任意配置注入，不能让应用团队通过 snippet 获得代理进程级权限。
+
 ## 面试怎么讲
 
 NGINX 常作为反向代理，它根据监听端口和 `server_name` 选择虚拟主机，再根据 `location` 匹配路径，用 `proxy_pass` 转发到 upstream，并通过 access log/error log 暴露状态码、upstream 地址和耗时。Kubernetes Ingress 是 HTTP/HTTPS 路由规则，声明 host/path 到 Service 的映射，但真正处理流量的是 Ingress Controller。排障时我会按链路查：DNS/LB 到 Ingress Controller，IngressClass 和 rules 是否匹配，Service selector 是否选到 Pod，EndpointSlice 是否有 ready 后端，targetPort 是否正确，Pod 是否监听，最后看 controller 日志和后端日志区分 404、502、503、504。
@@ -1453,11 +1665,15 @@ Service 存在不代表有后端。要看 EndpointSlice 是否有 ready Pod 地�
 13. EndpointSlice 在排查 Ingress 中有什么用？
 14. TLS Secret 必须和 Ingress 在同一个 namespace 吗？
 15. ingress-nginx annotations 为什么不能随便套到其他 controller？
-16. 如何排查 Ingress 404？
-17. 如何排查 Ingress 502？
-18. 如何排查 Ingress 504？
-19. 为什么调大 timeout 不是解决 504 的根因？
-20. Ingress/NGINX 在 AIOps 里提供哪些关键证据？
+16. ingress-nginx 退役是否等于 Ingress API 被删除？
+17. GatewayClass、Gateway、HTTPRoute 和 ReferenceGrant 分别属于谁？
+18. `Accepted=True` 为什么仍可能返回 503？
+19. 如何用双入口把 ingress-nginx 迁移到 Gateway API？
+20. 如何排查 Ingress 404？
+21. 如何排查 Ingress 502？
+22. 如何排查 Ingress 504？
+23. 为什么调大 timeout 不是解决 504 的根因？
+24. Ingress/NGINX/Gateway 在 AIOps 里提供哪些关键证据？
 
 ## 学习证据
 
@@ -1470,3 +1686,10 @@ Service 存在不代表有后端。要看 EndpointSlice 是否有 ready Pod 地�
 - 一份 502/503 排障记录。
 - 一份 504 慢请求分析记录。
 - 一个 Ingress 诊断脚本，能采集 Ingress、Service、EndpointSlice、Pod、controller logs 和 events。
+- 一个 Gateway API 1.6.1 实验，保存 GatewayClass、Gateway、HTTPRoute condition 与真实请求结果。
+- 一份 ingress-nginx annotation 盘点、目标实现映射、双入口回归和回滚记录。
+- 一份后端引用错误导致 `ResolvedRefs=False` 的故障注入复盘。
+
+## 本文验证边界
+
+本文已完成 NGINX、Ingress、Gateway API 与 ingress-nginx 退役事实的官方资料核验，以及 Markdown/命令静态检查；没有替读者选择具体 Gateway controller，也没有实际运行 conformance、入口迁移、TLS/性能回归或生产切流。文中的 ingress-nginx 命令只用于授权的遗留环境，任何新生产方案都必须重新核对所选实现的支持矩阵、conformance、许可、安全公告和回滚能力。

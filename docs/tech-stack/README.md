@@ -34,7 +34,7 @@
 |---|---|---:|---|
 | 基础工具 | Linux、systemd、网络、RESTful API、Git、GitHub、Markdown、VitePress、Python、Go、Shell/PowerShell | P0-P1 | 能排障、提交代码、编写脚本，设计可演进、可重试、可观测的 HTTP API，并用 Go 构建并发、可诊断的云原生与 AIOps 服务 |
 | 可观测性 | Prometheus、Zabbix、VictoriaMetrics、Alertmanager、Grafana、OpenTelemetry、Loki、Elasticsearch | P1 | 能采集指标、日志、链路，能覆盖主机、网络设备和混合基础设施，能做仪表盘和告警 |
-| 云原生 | Docker、Kubernetes、etcd、Calico、Cilium、Helm、NGINX/Ingress、微服务、Rancher、Harbor、Istio、KubeSphere | P1 | 能解释容器交付、控制面一致性、Pod/Service 网络、策略、平台治理、高可用、升级和端到端排障 |
+| 云原生 | Docker、Compose、Kubernetes、containerd/CRI、etcd、CNI、Calico、Cilium、CSI、CoreDNS、Helm、NGINX/Ingress/Gateway API、微服务、Rancher、Harbor、Istio、KubeSphere | P1 | 能解释容器交付、控制面一致性、Pod/Service 网络、存储/DNS/入口、策略、平台治理、高可用、升级和端到端排障 |
 | 虚拟化与私有云 | KVM、VMware vSphere、OpenStack | P1-P2 | 能理解虚拟化与 IaaS 的计算、网络、存储、调度、高可用和端到端排障 |
 | 存储与数据保护 | IBM Storage、Dell EMC VPLEX、Dell EMC VMAX、Brocade 6510、华为 OceanStor、爱数 AnyStorage、Ceph | P1-P2 | 能理解集中式与分布式存储、块/文件/对象、FC SAN、存储虚拟化、高端阵列、存储池、LUN、多路径、双活、复制、备份与存储 AIOps 排障 |
 | 中间件与应用平台 | IBM WebSphere、Apache Tomcat | P1-P2 | 能解释企业 Java 与 Servlet 容器的请求路径、部署、类加载、线程/连接/JDBC、会话、集群、容量、高可用、升级回滚和 AIOps 排障 |
@@ -121,7 +121,7 @@
 - [Calico](./cloud-native/calico.md)
 - [Cilium](./cloud-native/cilium.md)
 - [Helm](./cloud-native/helm.md)
-- [NGINX / Ingress](./cloud-native/nginx-ingress.md)
+- [NGINX / Ingress / Gateway API](./cloud-native/nginx-ingress.md)
 - [微服务](./cloud-native/microservices.md)
 - [Rancher](./cloud-native/rancher.md)
 - [Harbor](./cloud-native/harbor.md)
