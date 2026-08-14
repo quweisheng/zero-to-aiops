@@ -17,6 +17,7 @@
 - [etcd 深讲](./cloud-native/etcd.md)
 - [Calico 深讲](./cloud-native/calico.md)
 - [Cilium 深讲](./cloud-native/cilium.md)
+- [Traefik 技术栈深讲](./cloud-native/traefik.md)
 - [Go（Golang）大厂面试级深讲](./foundation/golang.md)
 - [Apache Hadoop 大厂面试级深讲](./data-ai/hadoop.md)
 - [KVM 虚拟化大厂面试级深讲](./virtualization-private-cloud/kvm.md)
@@ -34,7 +35,7 @@
 |---|---|---:|---|
 | 基础工具 | Linux、systemd、网络、RESTful API、Git、GitHub、Markdown、VitePress、Python、Go、Shell/PowerShell | P0-P1 | 能排障、提交代码、编写脚本，设计可演进、可重试、可观测的 HTTP API，并用 Go 构建并发、可诊断的云原生与 AIOps 服务 |
 | 可观测性 | Prometheus、Zabbix、VictoriaMetrics、Alertmanager、Grafana、OpenTelemetry、Loki、Elasticsearch | P1 | 能采集指标、日志、链路，能覆盖主机、网络设备和混合基础设施，能做仪表盘和告警 |
-| 云原生 | Docker、Compose、Kubernetes、containerd/CRI、etcd、CNI、Calico、Cilium、CSI、CoreDNS、Helm、NGINX/Ingress/Gateway API、微服务、Rancher、Harbor、Istio、KubeSphere | P1 | 能解释容器交付、控制面一致性、Pod/Service 网络、存储/DNS/入口、策略、平台治理、高可用、升级和端到端排障 |
+| 云原生 | Docker、Compose、Kubernetes、containerd/CRI、etcd、CNI、Calico、Cilium、CSI、CoreDNS、Helm、NGINX/Ingress/Gateway API、Traefik、微服务、Rancher、Harbor、Istio、KubeSphere | P1 | 能解释容器交付、控制面一致性、Pod/Service 网络、存储/DNS/入口、动态路由、策略、平台治理、高可用、升级和端到端排障 |
 | 虚拟化与私有云 | KVM、VMware vSphere、OpenStack | P1-P2 | 能理解虚拟化与 IaaS 的计算、网络、存储、调度、高可用和端到端排障 |
 | 存储与数据保护 | IBM Storage、Dell EMC VPLEX、Dell EMC VMAX、Brocade 6510、华为 OceanStor、爱数 AnyStorage、Ceph | P1-P2 | 能理解集中式与分布式存储、块/文件/对象、FC SAN、存储虚拟化、高端阵列、存储池、LUN、多路径、双活、复制、备份与存储 AIOps 排障 |
 | 中间件与应用平台 | IBM WebSphere、Apache Tomcat | P1-P2 | 能解释企业 Java 与 Servlet 容器的请求路径、部署、类加载、线程/连接/JDBC、会话、集群、容量、高可用、升级回滚和 AIOps 排障 |
@@ -57,42 +58,43 @@
 9. [etcd](./cloud-native/etcd.md)：理解 Kubernetes 状态存储、Raft 多数派、MVCC、Watch、备份和恢复。
 10. [Calico](./cloud-native/calico.md)：理解 CNI、IPAM、BGP/封装、NetworkPolicy 和网络故障链路。
 11. [Cilium](./cloud-native/cilium.md)：理解 eBPF 数据面、身份策略、Service 负载均衡和 Hubble 可观测性。
-12. [KVM 虚拟化](./virtualization-private-cloud/kvm.md)：理解 KVM、QEMU、libvirt、Virtio、虚拟网络与存储、迁移、高可用和平台排障。
-13. [VMware vSphere](./virtualization-private-cloud/vsphere.md)：理解虚拟机如何共享物理资源，以及集群、迁移、网络、存储和平台排障。
-14. [IBM Storage](./storage-data-protection/ibm-storage.md)：理解业务数据最终如何落盘、保护、监控和恢复。
-15. [Dell EMC VPLEX](./storage-data-protection/dell-emc-vplex.md)：理解异构块存储虚拟化、Metro 同步双活、Consistency Group、Detach Rule 和 Witness 仲裁。
-16. [Dell EMC VMAX](./storage-data-protection/dell-emc-vmax.md)：理解高端阵列 Engine/Director、SRP/TDEV、Masking View、SnapVX、SRDF 和容量性能排障。
-17. [Brocade 6510 光纤交换机](./storage-data-protection/brocade-6510.md)：理解 FC 登录、zoning、FSPF、BB Credit、慢排水、双 Fabric 和 EOS 迁移。
-18. [华为 OceanStor](./storage-data-protection/huawei-oceanstor.md)：理解企业阵列的数据路径、LUN 映射、多路径、双活、复制和存储排障。
-19. [爱数 AnyStorage](./storage-data-protection/aishu-anystorage.md)：理解统一 SAN/NAS、RAID 2.0、GX 虚拟化、双活、复制和存储 AIOps 排障。
-20. [Ceph](./storage-data-protection/ceph.md)：理解对象如何经过 pool、PG 和 CRUSH 分布到 OSD，并学会判断集群健康。
-21. [IBM WebSphere](./middleware-application-platform/websphere.md)：理解 traditional ND 与 Liberty 边界、企业 Java 请求路径、EAR 更新、BLA/Composition Unit、集群、会话、JDBC/JMS/JTA 和生产排障。
-22. [Apache Tomcat](./middleware-application-platform/tomcat.md)：理解 Servlet 容器、请求与部署路径、线程/连接/JDBC、会话、可观测性和生产升级回滚。
-23. [GitHub Actions](./automation/github-actions.md)：把重复动作变成流程。
-24. [Apache Maven](./automation/maven.md)：理解 POM、生命周期、依赖解析、插件、多模块、企业制品库和可复现构建。
-25. [SonarQube](./automation/sonarqube.md)：把静态分析、质量规则和 Quality Gate 接入 CI/CD 与变更风险闭环。
-26. [MongoDB](./data-ai/mongodb.md)：理解文档模型、索引、WiredTiger、复制集、分片和 Change Stream。
-27. [Apache ActiveMQ](./data-ai/activemq.md)：理解 Classic 与 Artemis、JMS、持久化、确认、死信和高可用边界。
-28. [pandas](./data-ai/pandas.md)：用数据做异常检测、告警降噪、智能助手。
-29. [机器学习](./data-ai/machine-learning.md)：理解样本、特征、标签、评估和异常检测边界。
-30. [TensorFlow](./data-ai/tensorflow.md)：把机器学习主线落到张量计算、模型训练、分布式性能和线上交付。
-31. [PyTorch](./data-ai/pytorch.md)：理解 Tensor、Autograd、训练状态、性能、分布式扩展、模型交付和 AIOps 故障排查。
-32. [Transformer](./data-ai/transformer.md)：理解 Token、Q/K/V、自注意力、Encoder/Decoder、KV Cache、长上下文容量和模型生产故障。
-33. [Ollama](./data-ai/ollama.md)：理解本地模型拉取、加载、推理、流式 API、显存容量、安全边界和 AIOps 服务化。
-34. [LangChain](./data-ai/langchain.md)：理解 v1 Agent Harness、Tool Loop、Middleware、状态恢复、RAG/MCP、生产安全与 AIOps 证据助手。
-35. [Dify](./data-ai/dify.md)：把模型、知识、工具和工作流组装成可发布、可观察、受控的 AIOps 应用。
-36. [网络安全等级保护（等保 2.0）](./security-compliance/mlps.md)：把资产、控制、证据、整改和持续监控连成闭环。
-37. [JumpServer](./security-compliance/jumpserver.md)：把自然人、资产账号、最小授权、连接代理、录像与命令审计连成 PAM 闭环。
-38. [IT 项目管理 / PMP](./architecture-delivery/it-project-management-pmp.md)：学习立项、WBS、关键路径、EVM、风险、变更、敏捷与 DevOps/SRE 项目治理。
-39. [Kubernetes 平台运维岗位专项路线](../interview/kubernetes-platform-operations-role.md)：按招聘要求串联平台、交付、IaaS 和方案证据。
-40. [Apache ZooKeeper](./data-ai/zookeeper.md)：理解分布式协调、会话、Watch、选主、多数派和上层依赖故障。
-41. [Apache Hadoop](./data-ai/hadoop.md)：理解 HDFS、YARN、MapReduce、HA、容量、安全、升级和数据平台排障。
-42. [Apache Hive](./data-ai/hive.md)：理解 HiveServer2、Metastore、SQL 编译执行、分区、文件格式、ACID 和数据仓库排障。
-43. [Apache HBase](./data-ai/hbase.md)：理解 RowKey、Region、WAL、MemStore、HFile、Compaction、热点和低延迟随机读写。
-44. [Apache Spark](./data-ai/spark.md)：理解 Driver/Executor、DAG、Stage/Task、Shuffle、SQL、Streaming 和性能排障。
-45. [Apache Flink](./data-ai/flink.md)：理解 Event Time、Watermark、State、Checkpoint、反压和端到端一致性。
-46. [Apache HAWQ 存量运维与迁移](./data-ai/hawq.md)：识别已退休项目的 MPP 架构、遗留风险、只读排障和迁移方法。
-47. [n8n](./automation/n8n.md)：把告警、工单、审批、API 与受控 Runbook 编排成可观察的 AIOps 工作流。
+12. [Traefik](./cloud-native/traefik.md)：理解动态 Provider、入口路由、Gateway API、TLS、可观测性和 4xx/5xx 证据链。
+13. [KVM 虚拟化](./virtualization-private-cloud/kvm.md)：理解 KVM、QEMU、libvirt、Virtio、虚拟网络与存储、迁移、高可用和平台排障。
+14. [VMware vSphere](./virtualization-private-cloud/vsphere.md)：理解虚拟机如何共享物理资源，以及集群、迁移、网络、存储和平台排障。
+15. [IBM Storage](./storage-data-protection/ibm-storage.md)：理解业务数据最终如何落盘、保护、监控和恢复。
+16. [Dell EMC VPLEX](./storage-data-protection/dell-emc-vplex.md)：理解异构块存储虚拟化、Metro 同步双活、Consistency Group、Detach Rule 和 Witness 仲裁。
+17. [Dell EMC VMAX](./storage-data-protection/dell-emc-vmax.md)：理解高端阵列 Engine/Director、SRP/TDEV、Masking View、SnapVX、SRDF 和容量性能排障。
+18. [Brocade 6510 光纤交换机](./storage-data-protection/brocade-6510.md)：理解 FC 登录、zoning、FSPF、BB Credit、慢排水、双 Fabric 和 EOS 迁移。
+19. [华为 OceanStor](./storage-data-protection/huawei-oceanstor.md)：理解企业阵列的数据路径、LUN 映射、多路径、双活、复制和存储排障。
+20. [爱数 AnyStorage](./storage-data-protection/aishu-anystorage.md)：理解统一 SAN/NAS、RAID 2.0、GX 虚拟化、双活、复制和存储 AIOps 排障。
+21. [Ceph](./storage-data-protection/ceph.md)：理解对象如何经过 pool、PG 和 CRUSH 分布到 OSD，并学会判断集群健康。
+22. [IBM WebSphere](./middleware-application-platform/websphere.md)：理解 traditional ND 与 Liberty 边界、企业 Java 请求路径、EAR 更新、BLA/Composition Unit、集群、会话、JDBC/JMS/JTA 和生产排障。
+23. [Apache Tomcat](./middleware-application-platform/tomcat.md)：理解 Servlet 容器、请求与部署路径、线程/连接/JDBC、会话、可观测性和生产升级回滚。
+24. [GitHub Actions](./automation/github-actions.md)：把重复动作变成流程。
+25. [Apache Maven](./automation/maven.md)：理解 POM、生命周期、依赖解析、插件、多模块、企业制品库和可复现构建。
+26. [SonarQube](./automation/sonarqube.md)：把静态分析、质量规则和 Quality Gate 接入 CI/CD 与变更风险闭环。
+27. [MongoDB](./data-ai/mongodb.md)：理解文档模型、索引、WiredTiger、复制集、分片和 Change Stream。
+28. [Apache ActiveMQ](./data-ai/activemq.md)：理解 Classic 与 Artemis、JMS、持久化、确认、死信和高可用边界。
+29. [pandas](./data-ai/pandas.md)：用数据做异常检测、告警降噪、智能助手。
+30. [机器学习](./data-ai/machine-learning.md)：理解样本、特征、标签、评估和异常检测边界。
+31. [TensorFlow](./data-ai/tensorflow.md)：把机器学习主线落到张量计算、模型训练、分布式性能和线上交付。
+32. [PyTorch](./data-ai/pytorch.md)：理解 Tensor、Autograd、训练状态、性能、分布式扩展、模型交付和 AIOps 故障排查。
+33. [Transformer](./data-ai/transformer.md)：理解 Token、Q/K/V、自注意力、Encoder/Decoder、KV Cache、长上下文容量和模型生产故障。
+34. [Ollama](./data-ai/ollama.md)：理解本地模型拉取、加载、推理、流式 API、显存容量、安全边界和 AIOps 服务化。
+35. [LangChain](./data-ai/langchain.md)：理解 v1 Agent Harness、Tool Loop、Middleware、状态恢复、RAG/MCP、生产安全与 AIOps 证据助手。
+36. [Dify](./data-ai/dify.md)：把模型、知识、工具和工作流组装成可发布、可观察、受控的 AIOps 应用。
+37. [网络安全等级保护（等保 2.0）](./security-compliance/mlps.md)：把资产、控制、证据、整改和持续监控连成闭环。
+38. [JumpServer](./security-compliance/jumpserver.md)：把自然人、资产账号、最小授权、连接代理、录像与命令审计连成 PAM 闭环。
+39. [IT 项目管理 / PMP](./architecture-delivery/it-project-management-pmp.md)：学习立项、WBS、关键路径、EVM、风险、变更、敏捷与 DevOps/SRE 项目治理。
+40. [Kubernetes 平台运维岗位专项路线](../interview/kubernetes-platform-operations-role.md)：按招聘要求串联平台、交付、IaaS 和方案证据。
+41. [Apache ZooKeeper](./data-ai/zookeeper.md)：理解分布式协调、会话、Watch、选主、多数派和上层依赖故障。
+42. [Apache Hadoop](./data-ai/hadoop.md)：理解 HDFS、YARN、MapReduce、HA、容量、安全、升级和数据平台排障。
+43. [Apache Hive](./data-ai/hive.md)：理解 HiveServer2、Metastore、SQL 编译执行、分区、文件格式、ACID 和数据仓库排障。
+44. [Apache HBase](./data-ai/hbase.md)：理解 RowKey、Region、WAL、MemStore、HFile、Compaction、热点和低延迟随机读写。
+45. [Apache Spark](./data-ai/spark.md)：理解 Driver/Executor、DAG、Stage/Task、Shuffle、SQL、Streaming 和性能排障。
+46. [Apache Flink](./data-ai/flink.md)：理解 Event Time、Watermark、State、Checkpoint、反压和端到端一致性。
+47. [Apache HAWQ 存量运维与迁移](./data-ai/hawq.md)：识别已退休项目的 MPP 架构、遗留风险、只读排障和迁移方法。
+48. [n8n](./automation/n8n.md)：把告警、工单、审批、API 与受控 Runbook 编排成可观察的 AIOps 工作流。
 
 ## 一技术一文件
 
@@ -122,6 +124,7 @@
 - [Cilium](./cloud-native/cilium.md)
 - [Helm](./cloud-native/helm.md)
 - [NGINX / Ingress / Gateway API](./cloud-native/nginx-ingress.md)
+- [Traefik](./cloud-native/traefik.md)
 - [微服务](./cloud-native/microservices.md)
 - [Rancher](./cloud-native/rancher.md)
 - [Harbor](./cloud-native/harbor.md)
@@ -303,6 +306,7 @@ Linux 服务
 - [etcd](https://etcd.io/docs/)
 - [Calico](https://docs.tigera.io/calico/latest/about/)
 - [Cilium](https://docs.cilium.io/en/stable/)
+- [Traefik Proxy](https://doc.traefik.io/traefik/)
 - [Rancher](https://ranchermanager.docs.rancher.com/)
 - [Harbor](https://goharbor.io/docs/)
 - [Istio](https://istio.io/latest/docs/)

@@ -23,7 +23,7 @@
 | 已升级开头和面试表达 | Linux、Git、GitHub、Markdown、VitePress、Python、Shell/PowerShell、systemd、网络基础 | 基础工具组已补通俗开场、人话版、小白追问和面试表达 |
 | 已达到大厂面试级第一版 | RESTful API | 已补 REST 约束、HTTP 方法与状态、缓存与条件请求、幂等与并发、契约演进、安全、容量、可观测、双层实验、事故题和系统设计 |
 | 已达到大厂面试级第一版 | Kubernetes、etcd、Calico、Cilium | 已更新到 Kubernetes 1.36.3、etcd 3.7.1、Calico 3.32.1、Cilium 1.20.0，并补 CRI/containerd、CNI、CSI、CoreDNS、状态一致性、故障实验、事故题和系统设计 |
-| 已达到大厂面试级第一版 | Docker、Docker Compose、Helm、NGINX/Ingress/Gateway API、微服务、Rancher、Harbor、Istio、KubeSphere | 已补当前版本与退役边界、内部路径、HA/容量/安全/升级回滚、双层实验、事故题、系统设计和递进追问 |
+| 已达到大厂面试级第一版 | Docker、Docker Compose、Helm、NGINX/Ingress/Gateway API、Traefik、微服务、Rancher、Harbor、Istio、KubeSphere | 已补当前版本与退役边界、内部路径、HA/容量/安全/升级回滚、双层实验、事故题、系统设计和递进追问 |
 | 已达到大厂面试级第一版 | KVM 虚拟化 | 已补 KVM/QEMU/libvirt 边界、CPU/内存/网络/存储路径、迁移、HA、安全、双层实验、事故题和系统设计 |
 | 已完成深讲第一版 | VMware vSphere | 虚拟化与私有云组已补 ESXi/ESX、vCenter、集群、HA、DRS、vMotion、网络、存储、生命周期、实验和排障 |
 | 已完成深讲第一版 | IBM Storage | 存储与数据保护组已补产品地图、块/文件/对象/磁带基础、FlashSystem 数据路径、容量性能、多路径、复制备份、实验、排障和面试表达 |
@@ -85,6 +85,7 @@
 | 已达到大厂面试级第一版 | KVM 虚拟化 | [kvm.md](./virtualization-private-cloud/kvm.md) | KVM/QEMU/libvirt、vCPU/内存、Virtio、虚拟网络与存储、迁移、HA、容量、安全、故障实验、事故复盘和系统设计 |
 | 已达到大厂面试级第一版 | Helm | [helm.md](./cloud-native/helm.md) | Helm 4.2.4、Helm 3 EOL、SSA、Chart/Release/Revision、server dry-run、失败回滚、CRD/Hook 边界、故障实验、事故题和系统设计 |
 | 已达到大厂面试级第一版 | NGINX/Ingress/Gateway API | [nginx-ingress.md](./cloud-native/nginx-ingress.md) | NGINX 数据路径、Ingress API 冻结、社区 ingress-nginx 退役、Gateway API 1.6.1、迁移、双层实验、事故题与 4xx/5xx 排障 |
+| 已达到大厂面试级第一版 | Traefik | [traefik.md](./cloud-native/traefik.md) | Proxy 3.7.10/Chart 41.2.0、Provider 动态配置、EntryPoint/Router/Middleware/Service、Gateway API、ACME HA、安全容量、502 故障实验、事故题和系统设计 |
 | 已达到大厂面试级第一版 | 微服务 | [microservices.md](./cloud-native/microservices.md) | Boot 4.0.7/Cloud 2025.1.2、Gateway 5 属性、HTTP Client、deadline/幂等/Outbox/Saga、容量安全、熔断实验、事故题与系统设计 |
 | 已达到大厂面试级第一版 | Rancher | [rancher.md](./cloud-native/rancher.md) | 2.15.0、RKE1 EOL、管理 CRD/agent 路径、多集群状态、HA/容量/RBAC、备份升级、agent 故障实验、事故题与系统设计 |
 | 已达到大厂面试级第一版 | Harbor | [harbor.md](./cloud-native/harbor.md) | 2.15.2、401/Token/Registry/Blob 路径、Digest/GC/复制一致性、PostgreSQL/Valkey/存储 HA、Robot 故障实验与事故题 |
@@ -218,6 +219,7 @@
 | 云原生 | Cilium | [cilium.md](./cloud-native/cilium.md) |
 | 云原生 | Helm | [helm.md](./cloud-native/helm.md) |
 | 云原生 | NGINX / Ingress / Gateway API | [nginx-ingress.md](./cloud-native/nginx-ingress.md) |
+| 云原生 | Traefik | [traefik.md](./cloud-native/traefik.md) |
 | 云原生 | 微服务 | [microservices.md](./cloud-native/microservices.md) |
 | 云原生 | Rancher | [rancher.md](./cloud-native/rancher.md) |
 | 云原生 | Harbor | [harbor.md](./cloud-native/harbor.md) |

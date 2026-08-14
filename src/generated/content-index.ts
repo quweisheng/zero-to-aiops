@@ -238,6 +238,13 @@ export const generatedDocs = [
     "excerpt": "学习目标：从零理解 Rancher Manager、管理集群和下游 Kubernetes 集群的关系，掌握集群导入、RKE2/K3s 边界、权限、应用、监控、备份升级与常见排障，并能完成一次不接触生产集群的 Helm 渲染实验。 官方资料 ..."
   },
   {
+    "path": "../docs/tech-stack/cloud-native/traefik.md",
+    "route": "/tech-stack/cloud-native/traefik",
+    "title": "Traefik 技术栈深讲",
+    "section": "云原生",
+    "excerpt": "学习目标：从零理解 Traefik Proxy 如何发现 Docker、Kubernetes 和文件中的路由配置，能沿着 EntryPoint Router Middleware Service Backend 解释一次请求，能完成 Doc..."
+  },
+  {
     "path": "../docs/tech-stack/data-ai/activemq.md",
     "route": "/tech-stack/data-ai/activemq",
     "title": "Apache ActiveMQ 技术栈深讲：Classic 与 Artemis",

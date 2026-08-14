@@ -72,6 +72,7 @@ npm run build
 - [Cilium](./docs/tech-stack/cloud-native/cilium.md)
 - [Helm](./docs/tech-stack/cloud-native/helm.md)
 - [NGINX / Ingress / Gateway API](./docs/tech-stack/cloud-native/nginx-ingress.md)
+- [Traefik](./docs/tech-stack/cloud-native/traefik.md)
 - [微服务](./docs/tech-stack/cloud-native/microservices.md)
 - [Rancher](./docs/tech-stack/cloud-native/rancher.md)
 - [Harbor](./docs/tech-stack/cloud-native/harbor.md)

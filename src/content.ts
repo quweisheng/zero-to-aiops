@@ -83,6 +83,7 @@ export const navGroups: NavGroup[] = [
       { text: 'Cilium', route: '/tech-stack/cloud-native/cilium' },
       { text: 'Helm', route: '/tech-stack/cloud-native/helm' },
       { text: 'NGINX / Ingress / Gateway API', route: '/tech-stack/cloud-native/nginx-ingress' },
+      { text: 'Traefik', route: '/tech-stack/cloud-native/traefik' },
       { text: '微服务', route: '/tech-stack/cloud-native/microservices' },
       { text: 'Rancher', route: '/tech-stack/cloud-native/rancher' },
       { text: 'Harbor', route: '/tech-stack/cloud-native/harbor' },
