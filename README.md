@@ -34,6 +34,7 @@ npm run build
 - [技术栈精讲写作标准](./docs/tech-stack/writing-standard.md)：每篇技术文章的统一写法。
 - [Kubernetes 平台运维岗位专项路线](./docs/interview/kubernetes-platform-operations-role.md)：按招聘要求补技术、项目和面试证据。
 - [河北鹰眼智能运维工程师岗位专项面试路线](./docs/interview/hebei-eagle-eye-operations-engineer-role.md)：按岗位原文准备网络、Linux、中间件、数据库、CI/CD、Kubernetes、应急与备份，并安排两天冲刺。
+- [FDE 岗位技术栈与实战路线](./docs/interview/forward-deployed-engineer-role.md)：串联需求发现、全栈、数据、AI 评测、生产交付、安全、采用和产品反馈，并明确 AIOps 只是可选应用方向。
 
 ## 技术栈入口
 
@@ -120,6 +121,7 @@ npm run build
 
 - [系统架构与技术方案设计](./docs/tech-stack/architecture-delivery/architecture-solution-design.md)
 - [IT 项目管理 / PMP](./docs/tech-stack/architecture-delivery/it-project-management-pmp.md)
+- [FDE 岗位技术栈与实战路线](./docs/interview/forward-deployed-engineer-role.md)
 
 ### 安全与合规
 
@@ -179,4 +181,4 @@ npm run build
 
 ## 从这里开始
 
-先读 [学习路线](./docs/roadmap/README.md) 和 [技术栈总清单](./docs/tech-stack/README.md)。准备容器平台岗位时，直接打开 [Kubernetes 平台运维岗位专项路线](./docs/interview/kubernetes-platform-operations-role.md)，按 P0、P1、P2 完成学习和项目证据。
+先读 [学习路线](./docs/roadmap/README.md) 和 [技术栈总清单](./docs/tech-stack/README.md)。准备容器平台岗位时，直接打开 [Kubernetes 平台运维岗位专项路线](./docs/interview/kubernetes-platform-operations-role.md)；准备客户现场工程交付或 AI FDE 时，打开 [FDE 岗位技术栈与实战路线](./docs/interview/forward-deployed-engineer-role.md)，按岗位原文选择技术并完成项目证据。

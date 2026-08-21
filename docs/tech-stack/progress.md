@@ -157,6 +157,7 @@
 | 已达到大厂面试级第一版 | IBM WebSphere | [websphere.md](./middleware-application-platform/websphere.md) | IBM 官方产品与生命周期边界、traditional ND 与 Liberty、IHS/Plug-in/JVM/JDBC/JMS/JTA 请求路径、EAR 更新与 BLA/Composition Unit 残留、配置同步、会话与事务状态、PMI、双层实验、事故题和系统设计 |
 | 已达到大厂面试级第一版 | Apache Tomcat | [tomcat.md](./middleware-application-platform/tomcat.md) | Tomcat 11.0.24/10.1.57/9.0.120、Coyote/Catalina、容器树、WAR/类加载、线程/连接/JDBC/Session、JMX、双层实验、事故题和系统设计 |
 | 已完成第一版 | 岗位缺口技术栈 | [岗位专项路线](../interview/kubernetes-platform-operations-role.md) | 补齐 Rancher、Harbor、Istio、KubeSphere、OpenStack、GitLab、Jenkins、Nexus Repository 与系统架构/技术方案设计，并按 P0/P1/P2 串成岗位项目证据 |
+| 已达到岗位实战与面试级第一版 | FDE 岗位技术栈 | [FDE 岗位路线](../interview/forward-deployed-engineer-role.md) | 基于 OpenAI、Anthropic、Palantir 与 Databricks 一手资料，覆盖角色边界、需求发现、全栈/数据/AI、Eval、生产交付、安全、采用、双层实验、事故题和系统设计 |
 
 ## 精讲批次进度
 
@@ -200,6 +201,7 @@
 | 35 | LangChain | 大厂面试级第一版已完成 | 重构 LangChain v1 Agent 工程主线，覆盖 Tool Loop、Middleware、结构化输出、状态恢复、RAG/MCP/LangSmith、HA 容量安全、无 Key 实跑、HITL 故障实验、事故题和系统设计 |
 | 36 | Kubeflow | 大厂面试级第一版已完成 | 新增 Kubernetes 原生 AI 平台主线，覆盖 KCD 26.03.1、版本组合、多租户、KFP/Katib/Trainer/Hub/KServe、GPU 队列、状态恢复、双层实验、事故题和系统设计 |
 | 37 | Java | 大厂面试级第一版已完成 | 新增企业 Java 与 JVM 主线，覆盖当前版本/LTS/许可、语言和工具链、类加载/JIT、内存/GC/并发、JFR 诊断、容量安全、真实死锁实验、事故题和系统设计 |
+| 38 | FDE 岗位技术栈 | 岗位实战与面试级第一版已完成 | 新增通用 FDE、AI FDE 与 AIOps 边界，串联仓库已有技术，补齐 discovery、scoping、成功指标、Eval、采用和产品反馈，并提供只读事件证据助手与安全故障注入 |
 
 ## 已完成
 
@@ -265,6 +267,7 @@
 | 自动化 | SonarQube | [sonarqube.md](./automation/sonarqube.md) |
 | 架构与方案设计 | 系统架构与技术方案设计 | [architecture-solution-design.md](./architecture-delivery/architecture-solution-design.md) |
 | 架构与方案设计 | IT 项目管理 / PMP | [it-project-management-pmp.md](./architecture-delivery/it-project-management-pmp.md) |
+| 架构与方案设计 | FDE 岗位技术栈与实战路线 | [forward-deployed-engineer-role.md](../interview/forward-deployed-engineer-role.md) |
 | 安全与合规 | 网络安全等级保护（等保 2.0） | [mlps.md](./security-compliance/mlps.md) |
 | 安全与合规 | JumpServer | [jumpserver.md](./security-compliance/jumpserver.md) |
 | 数据与 AI | MySQL / SQL | [mysql-sql.md](./data-ai/mysql-sql.md) |

@@ -4,6 +4,7 @@
 
 - [Kubernetes 平台运维岗位专项路线](./kubernetes-platform-operations-role.md)：对照 Rancher、OpenStack、Harbor、Istio、KubeSphere、GitLab、Jenkins、Nexus、NGINX 和架构方案要求，安排学习优先级与项目证据。
 - [河北鹰眼智能运维工程师岗位专项面试路线](./hebei-eagle-eye-operations-engineer-role.md)：针对网络、Linux、中间件、数据库、CI/CD、Kubernetes、应急、备份和工业 AI 场景，提供两天冲刺、故障演练与岗位反问。
+- [FDE（Forward Deployed Engineer）岗位技术栈与实战路线](./forward-deployed-engineer-role.md)：从客户需求发现串到生产代码、数据/API、AI 评测、部署、安全、采用和产品反馈，并用只读 AIOps 事件助手完成双层实验。
 
 ## 自我介绍结构
 

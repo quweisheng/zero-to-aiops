@@ -241,6 +241,9 @@ describe('getDocByRoute', () => {
     expect(getDocByRoute('/interview/hebei-eagle-eye-operations-engineer-role')?.title).toBe(
       '河北鹰眼智能运维工程师岗位专项面试路线'
     )
+    expect(getDocByRoute('/interview/forward-deployed-engineer-role')?.title).toBe(
+      'FDE（Forward Deployed Engineer）岗位技术栈与实战路线'
+    )
   })
 
   it('includes the storage and data protection tech-stack documents', () => {

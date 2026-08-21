@@ -14,6 +14,13 @@ export const generatedDocs = [
     "excerpt": "岗位专项 Kubernetes 平台运维岗位专项路线：对照 Rancher、OpenStack、Harbor、Istio、KubeSphere、GitLab、Jenkins、Nexus、NGINX 和架构方案要求，安排学习优先级与项目证据。..."
   },
   {
+    "path": "../docs/interview/forward-deployed-engineer-role.md",
+    "route": "/interview/forward-deployed-engineer-role",
+    "title": "FDE（Forward Deployed Engineer）岗位技术栈与实战路线",
+    "section": "面试",
+    "excerpt": "学习目标：从零理解 FDE 到底做什么，知道通用 FDE、AI FDE 与 AIOps 的边界；能按目标岗位选择技术，而不是盲学所有工具；最终完成一个有需求简报、可运行代码、评测、故障降级、安全审批和交付文档的作品集项目。 信息快照：202..."
+  },
+  {
     "path": "../docs/interview/hebei-eagle-eye-operations-engineer-role.md",
     "route": "/interview/hebei-eagle-eye-operations-engineer-role",
     "title": "河北鹰眼智能运维工程师岗位专项面试路线",

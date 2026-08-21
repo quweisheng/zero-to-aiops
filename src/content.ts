@@ -255,6 +255,7 @@ export const navGroups: NavGroup[] = [
     text: '面试',
     items: [
       { text: '面试准备', route: '/interview' },
+      { text: 'FDE 岗位技术栈', route: '/interview/forward-deployed-engineer-role' },
       { text: 'Kubernetes 平台运维岗位', route: '/interview/kubernetes-platform-operations-role' },
       {
         text: '河北鹰眼智能运维岗',
