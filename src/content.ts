@@ -53,6 +53,7 @@ export const navGroups: NavGroup[] = [
       { text: 'VitePress', route: '/tech-stack/foundation/vitepress' },
       { text: 'Python', route: '/tech-stack/foundation/python' },
       { text: 'Go / Golang', route: '/tech-stack/foundation/golang' },
+      { text: 'Java', route: '/tech-stack/foundation/java' },
       { text: 'Shell / PowerShell', route: '/tech-stack/foundation/shell-powershell' },
       { text: 'systemd', route: '/tech-stack/foundation/systemd' },
       { text: '网络基础', route: '/tech-stack/foundation/networking' },

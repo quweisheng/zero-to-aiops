@@ -46,6 +46,7 @@ npm run build
 - [VitePress](./docs/tech-stack/foundation/vitepress.md)
 - [Python](./docs/tech-stack/foundation/python.md)
 - [Go / Golang](./docs/tech-stack/foundation/golang.md)
+- [Java](./docs/tech-stack/foundation/java.md)
 - [Shell / PowerShell](./docs/tech-stack/foundation/shell-powershell.md)
 - [systemd](./docs/tech-stack/foundation/systemd.md)
 - [网络基础](./docs/tech-stack/foundation/networking.md)

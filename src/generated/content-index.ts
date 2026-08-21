@@ -476,6 +476,13 @@ export const generatedDocs = [
     "excerpt": "学习目标：让零基础读者从安装 Go、写第一个 module 开始，逐步掌握类型、切片、map、方法、接口、错误、泛型、goroutine、channel、context、G M P 调度、内存模型、垃圾回收、HTTP 服务、测试和性能诊断；..."
   },
   {
+    "path": "../docs/tech-stack/foundation/java.md",
+    "route": "/tech-stack/foundation/java",
+    "title": "Java 技术栈深讲",
+    "section": "基础工具",
+    "excerpt": "学习目标：让零基础读者先分清 Java、JDK、JRE、JVM、OpenJDK 和不同 JDK 发行版，再从第一段源码一路理解编译、字节码、类加载、解释执行、JIT、内存、GC、线程与并发；最终能写出一个可编译、可测试、可观测的 AIOps..."
+  },
+  {
     "path": "../docs/tech-stack/foundation/linux.md",
     "route": "/tech-stack/foundation/linux",
     "title": "Linux 深讲",

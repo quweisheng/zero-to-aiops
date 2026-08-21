@@ -20,6 +20,7 @@
 |---|---|---|
 | 已升级开头和面试表达 | Prometheus、VictoriaMetrics、Grafana、Alertmanager、OpenTelemetry、Loki、Elasticsearch | 可观测性组已补通俗开场、人话版、小白追问和面试表达 |
 | 已达到大厂面试级第一版 | Go（Golang） | 已补语言基础、并发、G-M-P、内存模型、GC、HTTP、测试诊断、AIOps 项目、故障实验、连续追问和系统设计 |
+| 已达到大厂面试级第一版 | Java | 已补 JDK/JRE/JVM、语言与工具链、字节码/类加载/JIT、内存/GC、JMM/虚拟线程、JFR、容量安全、双层实跑、事故题和系统设计 |
 | 已升级开头和面试表达 | Linux、Git、GitHub、Markdown、VitePress、Python、Shell/PowerShell、systemd、网络基础 | 基础工具组已补通俗开场、人话版、小白追问和面试表达 |
 | 已达到大厂面试级第一版 | RESTful API | 已补 REST 约束、HTTP 方法与状态、缓存与条件请求、幂等与并发、契约演进、安全、容量、可观测、双层实验、事故题和系统设计 |
 | 已达到大厂面试级第一版 | Kubernetes、etcd、Calico、Cilium | 已更新到 Kubernetes 1.36.3、etcd 3.7.1、Calico 3.32.1、Cilium 1.20.0，并补 CRI/containerd、CNI、CSI、CoreDNS、状态一致性、故障实验、事故题和系统设计 |
@@ -66,6 +67,7 @@
 | 已完成第一版 | Git | [git.md](./foundation/git.md) | 官方 Git Book 结构、三棵树、文件状态、对象模型、HEAD、分支、合并、远程、撤销、冲突、AIOps 必会 Git 命令字典 |
 | 已完成第一版 | Python | [python.md](./foundation/python.md) | 官方 Python 文档结构、解释器、虚拟环境、pip、基础类型、控制流、函数、模块、标准库、AIOps 告警日报实验、命令/API 字典 |
 | 已达到大厂面试级第一版 | Go（Golang） | [golang.md](./foundation/golang.md) | Go 1.26、module/package、slice/map/interface/error、goroutine/channel/context、G-M-P、内存模型、GC、HTTP、race/pprof/trace、告警 API 和生产设计 |
+| 已达到大厂面试级第一版 | Java | [java.md](./foundation/java.md) | Java 26/25 LTS 边界、JDK 工具链、字节码/类加载/JIT、Heap/native/GC、JMM/虚拟线程、JFR/Thread Dump、告警摘要器与死锁实验、生产设计 |
 | 已达到大厂面试级第一版 | Docker | [docker.md](./cloud-native/docker.md) | Engine 29.7.2、CLI→daemon→containerd→shim→runc 路径、镜像/网络/存储、rootless、安全、容量、升级、OOM 故障实验、事故题和系统设计 |
 | 已完成第一版 | Prometheus | [prometheus.md](./observability/prometheus.md) | Prometheus 官方结构、数据模型、指标类型、jobs/instances、抓取配置、TSDB、PromQL、recording/alerting rules、HTTP API、promtool、AIOps 指标实验 |
 | 已达到大厂面试级第一版 | Zabbix | [zabbix.md](./observability/zabbix.md) | Zabbix 7.4.12/7.0 LTS、Agent/SNMP/HTTP/Proxy 采集、Item/Trigger/Event/Action、history/trends、LLD、NVPS、Server 与数据库 HA、双层实验、事故题和系统设计 |
@@ -197,6 +199,7 @@
 | 34 | PyTorch | 大厂面试级第一版已完成 | 新增动态图训练与扩展主线，覆盖 PyTorch 2.13、张量与自动微分、状态恢复、AMP/compile、DDP/FSDP2、容量安全、服务观测、CPU 实跑、NaN 故障实验、事故题和系统设计 |
 | 35 | LangChain | 大厂面试级第一版已完成 | 重构 LangChain v1 Agent 工程主线，覆盖 Tool Loop、Middleware、结构化输出、状态恢复、RAG/MCP/LangSmith、HA 容量安全、无 Key 实跑、HITL 故障实验、事故题和系统设计 |
 | 36 | Kubeflow | 大厂面试级第一版已完成 | 新增 Kubernetes 原生 AI 平台主线，覆盖 KCD 26.03.1、版本组合、多租户、KFP/Katib/Trainer/Hub/KServe、GPU 队列、状态恢复、双层实验、事故题和系统设计 |
+| 37 | Java | 大厂面试级第一版已完成 | 新增企业 Java 与 JVM 主线，覆盖当前版本/LTS/许可、语言和工具链、类加载/JIT、内存/GC/并发、JFR 诊断、容量安全、真实死锁实验、事故题和系统设计 |
 
 ## 已完成
 
@@ -209,6 +212,7 @@
 | 基础工具 | VitePress | [vitepress.md](./foundation/vitepress.md) |
 | 基础工具 | Python | [python.md](./foundation/python.md) |
 | 基础工具 | Go（Golang） | [golang.md](./foundation/golang.md) |
+| 基础工具 | Java | [java.md](./foundation/java.md) |
 | 基础工具 | Shell / PowerShell | [shell-powershell.md](./foundation/shell-powershell.md) |
 | 基础工具 | systemd | [systemd.md](./foundation/systemd.md) |
 | 基础工具 | 网络基础 | [networking.md](./foundation/networking.md) |
