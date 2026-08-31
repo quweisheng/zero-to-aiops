@@ -21,6 +21,9 @@
 - [Kubeflow 技术栈深讲](./cloud-native/kubeflow.md)
 - [Go（Golang）大厂面试级深讲](./foundation/golang.md)
 - [Java 技术栈深讲](./foundation/java.md)
+- [HTML 技术栈深讲](./frontend/html.md)
+- [TypeScript 技术栈深讲](./frontend/typescript.md)
+- [React 技术栈深讲](./frontend/react.md)
 - [Apache Hadoop 大厂面试级深讲](./data-ai/hadoop.md)
 - [KVM 虚拟化大厂面试级深讲](./virtualization-private-cloud/kvm.md)
 
@@ -33,13 +36,14 @@
 
 ## FDE 岗位技术栈入口
 
-[FDE（Forward Deployed Engineer）岗位技术栈与实战路线](../interview/forward-deployed-engineer-role.md) 会先区分通用 FDE、AI FDE 和 AIOps，再把本仓库已有的编程、API、数据、部署、可观测性、安全与项目交付教程串成一条完整路线。它还包含一个零外部依赖的事件证据助手、确定性评测和故障注入，避免把工具清单误当成端到端交付能力。
+[FDE（Forward Deployed Engineer）岗位技术栈与实战路线](../interview/forward-deployed-engineer-role.md) 会先区分通用 FDE、AI FDE 和 AIOps，再把本仓库已有的编程、前端、API、数据、部署、可观测性、安全与项目交付教程串成一条完整路线。前端主线已补齐 HTML、CSS、JavaScript、Ajax、TypeScript、Vue 和 React，可直接完成带失败状态、权限边界和可观测证据的客户界面。FDE 路线还包含一个零外部依赖的事件证据助手、确定性评测和故障注入，避免把工具清单误当成端到端交付能力。
 
 ## 技术栈地图
 
 | 类别 | 技术 | 优先级 | 学到什么程度 |
 |---|---|---:|---|
 | 基础工具 | Linux、systemd、网络、RESTful API、Git、GitHub、Markdown、VitePress、Python、Go、Java、Shell/PowerShell | P0-P1 | 能排障、提交代码、编写脚本，设计可演进、可重试、可观测的 HTTP API，并用 Go 或 Java 构建并发、可诊断的云原生与 AIOps 服务 |
+| 前端工程 | HTML、CSS、JavaScript、Ajax/Fetch、TypeScript、Vue、React | P0-P2 | 能从语义 DOM、布局和事件循环走到浏览器请求、类型契约与组件状态；能构建加载/空/错误/取消齐全、可访问、可观测、可灰度回滚的 AIOps 控制台 |
 | 可观测性 | Prometheus、Zabbix、VictoriaMetrics、Alertmanager、Grafana、OpenTelemetry、Loki、Elasticsearch | P1 | 能采集指标、日志、链路，能覆盖主机、网络设备和混合基础设施，能做仪表盘和告警 |
 | 云原生 | Docker、Compose、Kubernetes、containerd/CRI、etcd、CNI、Calico、Cilium、CSI、CoreDNS、Helm、NGINX/Ingress/Gateway API、Traefik、微服务、Rancher、Harbor、Istio、KubeSphere、Kubeflow | P1 | 能解释容器交付、控制面一致性、Pod/Service 网络、存储/DNS/入口、动态路由、策略、平台治理、机器学习流水线与分布式训练、高可用、升级和端到端排障 |
 | 虚拟化与私有云 | KVM、VMware vSphere、OpenStack | P1-P2 | 能理解虚拟化与 IaaS 的计算、网络、存储、调度、高可用和端到端排障 |
@@ -104,6 +108,13 @@
 49. [Apache HAWQ 存量运维与迁移](./data-ai/hawq.md)：识别已退休项目的 MPP 架构、遗留风险、只读排障和迁移方法。
 50. [n8n](./automation/n8n.md)：把告警、工单、审批、API 与受控 Runbook 编排成可观察的 AIOps 工作流。
 51. [FDE 岗位技术栈与实战路线](../interview/forward-deployed-engineer-role.md)：把通用工程、AI 增量能力、客户交付、评测、安全和生产闭环串成可验证作品集。
+52. [HTML](./frontend/html.md)：理解语义、DOM、表单、无障碍树、资源和缓存一致性。
+53. [CSS](./frontend/css.md)：理解层叠、盒模型、Flex/Grid、响应式、主题和渲染性能。
+54. [JavaScript](./frontend/javascript.md)：理解类型、作用域、原型、模块、事件循环、异步竞态和内存。
+55. [Ajax / Fetch](./frontend/ajax.md)：理解浏览器请求链、CORS、超时取消、缓存、重试和幂等。
+56. [TypeScript](./frontend/typescript.md)：用严格类型、联合状态和运行时边界构建可演进契约。
+57. [Vue](./frontend/vue.md)：用 Vue 3 响应式、组件和生命周期完成事件看板。
+58. [React](./frontend/react.md)：用 React 19.2 状态快照、render/commit、Effect 和错误边界完成事件看板。
 
 ## 一技术一文件
 
@@ -123,6 +134,16 @@
 - [systemd](./foundation/systemd.md)
 - [网络基础](./foundation/networking.md)
 - [RESTful API](./foundation/restful-api.md)
+
+### 前端工程
+
+- [HTML](./frontend/html.md)
+- [CSS](./frontend/css.md)
+- [JavaScript](./frontend/javascript.md)
+- [Ajax / Fetch](./frontend/ajax.md)
+- [TypeScript](./frontend/typescript.md)
+- [Vue](./frontend/vue.md)
+- [React](./frontend/react.md)
 
 ### 云原生
 

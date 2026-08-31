@@ -546,6 +546,55 @@ export const generatedDocs = [
     "excerpt": "目标：能把 Markdown 学习笔记构建成可访问的文档站，理解 source directory、file based routing、config、themeConfig、nav、sidebar、frontmatter、Markdown..."
   },
   {
+    "path": "../docs/tech-stack/frontend/ajax.md",
+    "route": "/tech-stack/frontend/ajax",
+    "title": "Ajax 技术栈深讲",
+    "section": "技术栈",
+    "excerpt": "学习目标：从零理解页面怎样在不整页刷新的情况下与服务器交换数据；能使用 Fetch、AbortController、HTTP 状态、Header 和 JSON；能处理同源/CORS、Cookie/Token、缓存、超时、重试、幂等和竞态；能..."
+  },
+  {
+    "path": "../docs/tech-stack/frontend/css.md",
+    "route": "/tech-stack/frontend/css",
+    "title": "CSS 技术栈深讲",
+    "section": "技术栈",
+    "excerpt": "学习目标：从零理解 CSS 如何选中元素、参与层叠、计算尺寸并完成布局和绘制；能使用盒模型、Flexbox、Grid、响应式、变量、状态和动画构建 AIOps 控制台；能用开发者工具定位覆盖失败、溢出、抖动、性能和可访问性问题，并能回答生产..."
+  },
+  {
+    "path": "../docs/tech-stack/frontend/html.md",
+    "route": "/tech-stack/frontend/html",
+    "title": "HTML 技术栈深讲",
+    "section": "技术栈",
+    "excerpt": "学习目标：从零理解浏览器如何把 HTML 文档变成可访问的页面结构；能正确使用语义标签、表单、表格、图片和元数据；能用开发者工具检查 DOM、网络和无障碍树；能完成一个无需框架的 AIOps 事件页面，并能排查结构、资源、表单、安全、性能和..."
+  },
+  {
+    "path": "../docs/tech-stack/frontend/javascript.md",
+    "route": "/tech-stack/frontend/javascript",
+    "title": "JavaScript 技术栈深讲",
+    "section": "技术栈",
+    "excerpt": "学习目标：从零理解 JavaScript 的值、作用域、对象、函数、模块、异常和异步模型；能在浏览器与 Node.js 中运行代码，能读懂事件循环、Promise 和网络请求；能编写可测试、可观测、可取消的 AIOps 页面逻辑，并能排查闭..."
+  },
+  {
+    "path": "../docs/tech-stack/frontend/react.md",
+    "route": "/tech-stack/frontend/react",
+    "title": "React 技术栈深讲",
+    "section": "技术栈",
+    "excerpt": "学习目标：从零理解 React 19.2 的组件、JSX、props、状态快照、render/commit、key、Effect、Context 和 reducer；能用 TypeScript 完成有加载/空/错误/取消状态的 AIOps ..."
+  },
+  {
+    "path": "../docs/tech-stack/frontend/typescript.md",
+    "route": "/tech-stack/frontend/typescript",
+    "title": "TypeScript 技术栈深讲",
+    "section": "技术栈",
+    "excerpt": "学习目标：从零理解 TypeScript 如何在 JavaScript 之上提供静态类型检查；能使用基本类型、联合、收窄、接口、泛型、模块和严格配置；能为 API 边界做运行时校验、为状态建模、生成可追踪制品，并能排查类型声明、模块解析、构..."
+  },
+  {
+    "path": "../docs/tech-stack/frontend/vue.md",
+    "route": "/tech-stack/frontend/vue",
+    "title": "Vue 技术栈深讲",
+    "section": "技术栈",
+    "excerpt": "学习目标：从零理解 Vue 3 的应用、单文件组件、模板、响应式、组件通信、生命周期和渲染更新；能用 TypeScript 构建有加载/空/错误/取消状态的 AIOps 事件看板；能排查响应丢失、请求竞态、重复监听、key 错位、水合、安全..."
+  },
+  {
     "path": "../docs/tech-stack/middleware-application-platform/tomcat.md",
     "route": "/tech-stack/middleware-application-platform/tomcat",
     "title": "Apache Tomcat 技术栈深讲",

@@ -35,6 +35,7 @@ npm run build
 - [Kubernetes 平台运维岗位专项路线](./docs/interview/kubernetes-platform-operations-role.md)：按招聘要求补技术、项目和面试证据。
 - [河北鹰眼智能运维工程师岗位专项面试路线](./docs/interview/hebei-eagle-eye-operations-engineer-role.md)：按岗位原文准备网络、Linux、中间件、数据库、CI/CD、Kubernetes、应急与备份，并安排两天冲刺。
 - [FDE 岗位技术栈与实战路线](./docs/interview/forward-deployed-engineer-role.md)：串联需求发现、全栈、数据、AI 评测、生产交付、安全、采用和产品反馈，并明确 AIOps 只是可选应用方向。
+- [前端事件看板实验](./examples/frontend-incident-lab/README.md)：用同一套合成 API 对照原生页面、Vue 和 React，并复现空结果、503、慢响应、取消和契约错误。
 
 ## 技术栈入口
 
@@ -52,6 +53,16 @@ npm run build
 - [systemd](./docs/tech-stack/foundation/systemd.md)
 - [网络基础](./docs/tech-stack/foundation/networking.md)
 - [RESTful API](./docs/tech-stack/foundation/restful-api.md)
+
+### 前端工程
+
+- [HTML](./docs/tech-stack/frontend/html.md)
+- [CSS](./docs/tech-stack/frontend/css.md)
+- [JavaScript](./docs/tech-stack/frontend/javascript.md)
+- [Ajax / Fetch](./docs/tech-stack/frontend/ajax.md)
+- [TypeScript](./docs/tech-stack/frontend/typescript.md)
+- [Vue](./docs/tech-stack/frontend/vue.md)
+- [React](./docs/tech-stack/frontend/react.md)
 
 ### 可观测性
 

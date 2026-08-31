@@ -16,6 +16,8 @@
 - 把生产问题转成数据、告警、自动化、复盘和智能排障方案。
 - 围绕 AIOps / SRE / DevOps / 智能运维岗位准备简历和面试。
 
+前端七篇共用一个可运行的 [故障事件看板实验](https://github.com/quweisheng/zero-to-aiops/tree/main/examples/frontend-incident-lab)：原生页面、Vue 和 React 使用同一套合成 API，可复现空结果、HTTP 503、慢响应、取消和运行时契约错误。
+
 ## 技术栈入口
 
 ### 基础工具
@@ -31,6 +33,16 @@
 - [systemd](./tech-stack/foundation/systemd.md)
 - [网络基础](./tech-stack/foundation/networking.md)
 - [RESTful API](./tech-stack/foundation/restful-api.md)
+
+### 前端工程
+
+- [HTML](./tech-stack/frontend/html.md)
+- [CSS](./tech-stack/frontend/css.md)
+- [JavaScript](./tech-stack/frontend/javascript.md)
+- [Ajax / Fetch](./tech-stack/frontend/ajax.md)
+- [TypeScript](./tech-stack/frontend/typescript.md)
+- [Vue](./tech-stack/frontend/vue.md)
+- [React](./tech-stack/frontend/react.md)
 
 ### 可观测性
 

@@ -164,8 +164,8 @@ FDE 的价值是把业务、数据、软件、AI、基础设施和组织协作�
 | 能力层 | P0：必须掌握 | P1：按岗位加深 | P2：场景需要再学 | 本仓库入口 |
 |---|---|---|---|---|
 | 需求与交付 | discovery、范围、成功指标、验收、风险、文档 | 培训、采用、项目治理、产品反馈 | 特定行业流程 | [系统架构与技术方案设计](../tech-stack/architecture-delivery/architecture-solution-design.md)、[IT 项目管理 / PMP](../tech-stack/architecture-delivery/it-project-management-pmp.md) |
-| 编程与工程 | Python、Git、测试、调试、数据结构、HTTP | Java/Go/TypeScript 中至少一种 | C++、移动端等岗位特定语言 | [Python](../tech-stack/foundation/python.md)、[Java](../tech-stack/foundation/java.md)、[Go](../tech-stack/foundation/golang.md)、[Git](../tech-stack/foundation/git.md) |
-| 前端与用户体验 | 浏览器、HTML/CSS/JavaScript 基础、表单和错误状态 | TypeScript、React、可访问性、前端测试 | 复杂可视化、移动端 | 当前路线给出最低要求；目标岗明确点名时需另做完整前端项目 |
+| 编程与工程 | Python、Git、测试、调试、数据结构、HTTP | Java/Go/TypeScript 中至少一种 | C++、移动端等岗位特定语言 | [Python](../tech-stack/foundation/python.md)、[Java](../tech-stack/foundation/java.md)、[Go](../tech-stack/foundation/golang.md)、[TypeScript](../tech-stack/frontend/typescript.md)、[Git](../tech-stack/foundation/git.md) |
+| 前端与用户体验 | 浏览器、HTML/CSS/JavaScript、表单和错误状态 | Ajax、TypeScript、Vue 或 React、可访问性、前端测试 | 复杂可视化、移动端 | [HTML](../tech-stack/frontend/html.md)、[CSS](../tech-stack/frontend/css.md)、[JavaScript](../tech-stack/frontend/javascript.md)、[Ajax](../tech-stack/frontend/ajax.md)、[Vue](../tech-stack/frontend/vue.md)、[React](../tech-stack/frontend/react.md) |
 | API 与集成 | REST、JSON、认证、超时、重试、幂等、Webhook | FastAPI、消息队列、OpenAPI、SDK | GraphQL、gRPC、遗留协议 | [RESTful API](../tech-stack/foundation/restful-api.md)、[FastAPI](../tech-stack/data-ai/fastapi.md)、[微服务](../tech-stack/cloud-native/microservices.md) |
 | 数据 | SQL、数据质量、Schema、脱敏、迁移 | PostgreSQL/MySQL、对象存储、缓存、消息 | MongoDB、Kafka、Spark 等场景产品 | [MySQL / SQL](../tech-stack/data-ai/mysql-sql.md)、[PostgreSQL](../tech-stack/data-ai/postgresql.md)、[pandas](../tech-stack/data-ai/pandas.md) |
 | 部署与运行 | Linux、网络、配置、密钥、CI/CD、可回滚发布 | Docker、一朵云或 Kubernetes | 多云、边缘、私有云 | [Linux](../tech-stack/foundation/linux.md)、[网络基础](../tech-stack/foundation/networking.md)、[Docker](../tech-stack/cloud-native/docker.md)、[CI/CD](../tech-stack/automation/cicd.md) |
@@ -300,7 +300,7 @@ FDE 的价值是把业务、数据、软件、AI、基础设施和组织协作�
 | 企业后端与传统系统集成 | Java | 类型、生态、JVM、中间件和企业系统常见 |
 | 平台、云原生和高并发工具 | Go | 部署简单，云原生与基础设施生态常见 |
 
-选择一门做深比三门只会语法更有价值。本仓库已有 [Java](../tech-stack/foundation/java.md) 和 [Go](../tech-stack/foundation/golang.md)；若目标岗位点名 TypeScript/React，应完成一个带表单、API、鉴权、错误态和测试的独立前端项目。
+选择一门做深比三门只会语法更有价值。本仓库已有 [Java](../tech-stack/foundation/java.md)、[Go](../tech-stack/foundation/golang.md) 和 [TypeScript](../tech-stack/frontend/typescript.md)；若目标岗位点名全栈、Vue 或 React，先按 [HTML](../tech-stack/frontend/html.md) -> [CSS](../tech-stack/frontend/css.md) -> [JavaScript](../tech-stack/frontend/javascript.md) -> [Ajax](../tech-stack/frontend/ajax.md) 打好浏览器底座，再在 [Vue](../tech-stack/frontend/vue.md) 或 [React](../tech-stack/frontend/react.md) 中至少选一个完成带表单、API、鉴权、加载/空/错误/取消状态、可访问性、测试和观测的独立项目。
 
 ### 代码审查清单
 
@@ -313,6 +313,8 @@ FDE 的价值是把业务、数据、软件、AI、基础设施和组织协作�
 - 能否从制品追到 Git Commit，能否回滚。
 
 ## 前端与用户体验：FDE 不能只交付一个命令行
+
+推荐学习路线：[HTML](../tech-stack/frontend/html.md) -> [CSS](../tech-stack/frontend/css.md) -> [JavaScript](../tech-stack/frontend/javascript.md) -> [Ajax / Fetch](../tech-stack/frontend/ajax.md) -> [TypeScript](../tech-stack/frontend/typescript.md) -> [Vue](../tech-stack/frontend/vue.md) 或 [React](../tech-stack/frontend/react.md)。Vue 和 React 不要求一开始同时做深，但必须能解释所选框架的状态、请求、副作用、错误、测试和发布边界。
 
 前端最低知识包括：
 
@@ -714,7 +716,7 @@ Customer Identity Provider
 
 ### 第 7-8 周：全栈或第二语言
 
-- 按目标岗位选 TypeScript/React、Java 或 Go。
+- 按目标岗位选 TypeScript + Vue/React、Java 或 Go；选前端时按本仓库七篇路线完成一个事件看板。
 - 产出：客户可以完成核心任务的 UI 或第二语言集成服务。
 
 ### 第 9-10 周：AI FDE 专项

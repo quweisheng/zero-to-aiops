@@ -1,6 +1,12 @@
 import { describe, expect, it } from 'vitest'
 
-import { getDocByRoute, loadDocByRoute, markdownLinkToRoute, normalizeDocPath } from './content'
+import {
+  getDocByRoute,
+  loadDocByRoute,
+  markdownLinkToRoute,
+  navGroups,
+  normalizeDocPath
+} from './content'
 
 describe('normalizeDocPath', () => {
   it('maps the docs index to the app root', () => {
@@ -92,6 +98,28 @@ describe('getDocByRoute', () => {
     expect(getDocByRoute('/tech-stack/foundation/restful-api')?.title).toBe(
       'RESTful API 技术栈深讲'
     )
+  })
+
+  it('includes the frontend engineering deep-dive documents', async () => {
+    const expectedTitles = new Map([
+      ['/tech-stack/frontend/html', 'HTML 技术栈深讲'],
+      ['/tech-stack/frontend/css', 'CSS 技术栈深讲'],
+      ['/tech-stack/frontend/javascript', 'JavaScript 技术栈深讲'],
+      ['/tech-stack/frontend/ajax', 'Ajax 技术栈深讲'],
+      ['/tech-stack/frontend/typescript', 'TypeScript 技术栈深讲'],
+      ['/tech-stack/frontend/vue', 'Vue 技术栈深讲'],
+      ['/tech-stack/frontend/react', 'React 技术栈深讲']
+    ])
+
+    for (const [route, title] of expectedTitles) {
+      expect(getDocByRoute(route)?.title).toBe(title)
+      const loaded = await loadDocByRoute(route)
+      expect(loaded?.raw).toContain('故障实验')
+      expect(loaded?.raw).toContain('GitHub 学习证据')
+    }
+
+    const frontendNav = navGroups.find((group) => group.text === '前端工程')
+    expect(frontendNav?.items.map((item) => item.route)).toEqual([...expectedTitles.keys()])
   })
 
   it('includes the Apache ZooKeeper tech-stack document', () => {

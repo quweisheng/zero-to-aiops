@@ -61,6 +61,18 @@ export const navGroups: NavGroup[] = [
     ]
   },
   {
+    text: '前端工程',
+    items: [
+      { text: 'HTML', route: '/tech-stack/frontend/html' },
+      { text: 'CSS', route: '/tech-stack/frontend/css' },
+      { text: 'JavaScript', route: '/tech-stack/frontend/javascript' },
+      { text: 'Ajax / Fetch', route: '/tech-stack/frontend/ajax' },
+      { text: 'TypeScript', route: '/tech-stack/frontend/typescript' },
+      { text: 'Vue', route: '/tech-stack/frontend/vue' },
+      { text: 'React', route: '/tech-stack/frontend/react' }
+    ]
+  },
+  {
     text: '可观测性',
     items: [
       { text: 'Prometheus', route: '/tech-stack/observability/prometheus' },

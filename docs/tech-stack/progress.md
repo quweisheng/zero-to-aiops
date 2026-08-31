@@ -23,6 +23,7 @@
 | 已达到大厂面试级第一版 | Java | 已补 JDK/JRE/JVM、语言与工具链、字节码/类加载/JIT、内存/GC、JMM/虚拟线程、JFR、容量安全、双层实跑、事故题和系统设计 |
 | 已升级开头和面试表达 | Linux、Git、GitHub、Markdown、VitePress、Python、Shell/PowerShell、systemd、网络基础 | 基础工具组已补通俗开场、人话版、小白追问和面试表达 |
 | 已达到大厂面试级第一版 | RESTful API | 已补 REST 约束、HTTP 方法与状态、缓存与条件请求、幂等与并发、契约演进、安全、容量、可观测、双层实验、事故题和系统设计 |
+| 已达到大厂面试级第一版 | HTML、CSS、JavaScript、Ajax、TypeScript、Vue、React | 新增前端工程分类，覆盖语义与渲染、布局与层叠、语言与异步、浏览器请求、类型契约、组件状态、安全/性能/可访问性、双层实验、事故题和系统设计 |
 | 已达到大厂面试级第一版 | Kubernetes、etcd、Calico、Cilium | 已更新到 Kubernetes 1.36.3、etcd 3.7.1、Calico 3.32.1、Cilium 1.20.0，并补 CRI/containerd、CNI、CSI、CoreDNS、状态一致性、故障实验、事故题和系统设计 |
 | 已达到大厂面试级第一版 | Docker、Docker Compose、Helm、NGINX/Ingress/Gateway API、Traefik、微服务、Rancher、Harbor、Istio、KubeSphere、Kubeflow | 已补当前版本与退役边界、内部路径、HA/容量/安全/升级回滚、双层实验、事故题、系统设计和递进追问 |
 | 已达到大厂面试级第一版 | KVM 虚拟化 | 已补 KVM/QEMU/libvirt 边界、CPU/内存/网络/存储路径、迁移、HA、安全、双层实验、事故题和系统设计 |
@@ -158,6 +159,13 @@
 | 已达到大厂面试级第一版 | Apache Tomcat | [tomcat.md](./middleware-application-platform/tomcat.md) | Tomcat 11.0.24/10.1.57/9.0.120、Coyote/Catalina、容器树、WAR/类加载、线程/连接/JDBC/Session、JMX、双层实验、事故题和系统设计 |
 | 已完成第一版 | 岗位缺口技术栈 | [岗位专项路线](../interview/kubernetes-platform-operations-role.md) | 补齐 Rancher、Harbor、Istio、KubeSphere、OpenStack、GitLab、Jenkins、Nexus Repository 与系统架构/技术方案设计，并按 P0/P1/P2 串成岗位项目证据 |
 | 已达到岗位实战与面试级第一版 | FDE 岗位技术栈 | [FDE 岗位路线](../interview/forward-deployed-engineer-role.md) | 基于 OpenAI、Anthropic、Palantir 与 Databricks 一手资料，覆盖角色边界、需求发现、全栈/数据/AI、Eval、生产交付、安全、采用、双层实验、事故题和系统设计 |
+| 已达到大厂面试级第一版 | HTML | [html.md](./frontend/html.md) | Living Standard、语义/DOM/无障碍树、表单与资源、安全、缓存一致性、键盘基础实验、表单故障实验与生产设计 |
+| 已达到大厂面试级第一版 | CSS | [css.md](./frontend/css.md) | CSS 模块地图、层叠/盒模型、Flex/Grid、响应式/主题、堆叠上下文、渲染性能、溢出/覆盖故障与生产设计 |
+| 已达到大厂面试级第一版 | JavaScript | [javascript.md](./frontend/javascript.md) | ECMAScript/宿主边界、值/作用域/闭包/原型/模块、事件循环/Promise、取消竞态、内存安全、基础与故障实验 |
+| 已达到大厂面试级第一版 | Ajax | [ajax.md](./frontend/ajax.md) | Fetch/XHR、请求响应、CORS/凭据、超时取消、缓存/幂等/退避、Network 证据、错误/慢响应实验与生产设计 |
+| 已达到大厂面试级第一版 | TypeScript | [typescript.md](./frontend/typescript.md) | TypeScript 6、推断/联合/收窄/泛型、结构类型、运行时边界、tsconfig/模块/声明、假安全故障实验与契约演进 |
+| 已达到大厂面试级第一版 | Vue | [vue.md](./frontend/vue.md) | Vue 3/SFC、ref/reactive/computed/watch、track/trigger、props/events、生命周期清理、SSR、类型门禁、响应丢失与竞态实验 |
+| 已达到大厂面试级第一版 | React | [react.md](./frontend/react.md) | React 19.2/JSX、状态快照、render/commit/key、Effect cleanup、reducer/context、错误边界、SSR/RSC、重复副作用与 key 故障实验 |
 
 ## 精讲批次进度
 
@@ -202,6 +210,7 @@
 | 36 | Kubeflow | 大厂面试级第一版已完成 | 新增 Kubernetes 原生 AI 平台主线，覆盖 KCD 26.03.1、版本组合、多租户、KFP/Katib/Trainer/Hub/KServe、GPU 队列、状态恢复、双层实验、事故题和系统设计 |
 | 37 | Java | 大厂面试级第一版已完成 | 新增企业 Java 与 JVM 主线，覆盖当前版本/LTS/许可、语言和工具链、类加载/JIT、内存/GC/并发、JFR 诊断、容量安全、真实死锁实验、事故题和系统设计 |
 | 38 | FDE 岗位技术栈 | 岗位实战与面试级第一版已完成 | 新增通用 FDE、AI FDE 与 AIOps 边界，串联仓库已有技术，补齐 discovery、scoping、成功指标、Eval、采用和产品反馈，并提供只读事件证据助手与安全故障注入 |
+| 39 | HTML、CSS、JavaScript、Ajax、TypeScript、Vue、React | 大厂面试级第一版已完成 | 新增七篇前端工程深讲，串联故障事件看板、浏览器渲染/请求、类型契约、组件状态、性能安全、双层实验和 FDE 全栈路线 |
 
 ## 已完成
 
@@ -219,6 +228,13 @@
 | 基础工具 | systemd | [systemd.md](./foundation/systemd.md) |
 | 基础工具 | 网络基础 | [networking.md](./foundation/networking.md) |
 | 基础工具 | RESTful API | [restful-api.md](./foundation/restful-api.md) |
+| 前端工程 | HTML | [html.md](./frontend/html.md) |
+| 前端工程 | CSS | [css.md](./frontend/css.md) |
+| 前端工程 | JavaScript | [javascript.md](./frontend/javascript.md) |
+| 前端工程 | Ajax / Fetch | [ajax.md](./frontend/ajax.md) |
+| 前端工程 | TypeScript | [typescript.md](./frontend/typescript.md) |
+| 前端工程 | Vue | [vue.md](./frontend/vue.md) |
+| 前端工程 | React | [react.md](./frontend/react.md) |
 | 云原生 | Docker | [docker.md](./cloud-native/docker.md) |
 | 云原生 | Docker Compose | [docker-compose.md](./cloud-native/docker-compose.md) |
 | 云原生 | Kubernetes | [kubernetes.md](./cloud-native/kubernetes.md) |
