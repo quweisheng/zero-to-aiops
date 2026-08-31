@@ -262,6 +262,258 @@ Media query 关注视口或设备偏好；container query 关注组件容器。�
 - 发布使用带哈希 CSS 文件，HTML 与资源清单作为同一制品；回滚整包，不手工覆盖某个线上样式。
 - 第三方 CSS 要锁版本、评估许可和全局污染范围。
 
+## 进阶层一：级联不是只比较选择器分数
+
+当多个声明竞争同一属性时，浏览器大致按下面顺序裁决：
+
+```text
+相关性（选择器是否匹配、条件规则是否成立）
+  -> 来源与重要性（浏览器、用户、作者、动画、过渡、!important）
+  -> cascade layer（级联层）
+  -> specificity（特异性）
+  -> scoping proximity（作用域接近程度，适用时）
+  -> 源码顺序
+```
+
+所以“选择器分数更高就一定赢”是不完整的。不同来源、`!important`、级联层和动画/过渡都可能先决定结果。
+
+### 级联层怎样控制大型项目
+
+```css
+@layer reset, base, components, utilities, overrides;
+
+@layer reset {
+  *, *::before, *::after { box-sizing: border-box; }
+}
+
+@layer components {
+  .incident-card { border-inline-start: 0.25rem solid var(--severity-color); }
+}
+
+@layer utilities {
+  .visually-hidden { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; }
+}
+```
+
+层顺序在团队设计时就明确，组件不必用更深选择器与工具类“军备竞赛”。注意：普通声明中后声明的层优先；`!important` 的层顺序会反转，以保护低层重要规则。实际排查应直接看 DevTools 显示的 layer，不要凭记忆猜。
+
+### specificity 的实用心智模型
+
+可以把特异性看成三栏：ID；类/属性/伪类；元素/伪元素。内联样式、`!important` 和来源不属于这个三栏比较，必须先在更高层级处理。
+
+```css
+#app .card p        { color: red; }   /* 1-1-1 */
+.card[data-state] p { color: blue; }  /* 0-2-1 */
+:where(.card) p     { color: green; } /* 0-0-1，:where 本身为零 */
+```
+
+`:where()` 适合提供容易覆盖的默认值；`:is()`、`:not()` 的特异性来自参数中最强选择器。复杂选择器能匹配不等于易维护，优先设计边界而不是算分获胜。
+
+### 值从声明到像素经历哪些阶段
+
+一个属性的值会经历 declared、cascaded、specified、computed、used、actual 等阶段。`width: 50%` 的 computed value 可能仍是百分比，到了布局阶段才根据包含块得到 used value。字体栅格化或设备像素还可能让 actual value 与理论值略有差异。
+
+这解释了为什么只看源码中的 `width` 不够：排障要同时看获胜规则、Computed 和实际盒模型尺寸。
+
+## 进阶层二：格式化上下文决定布局规则
+
+CSS 不只有“块元素和行内元素”。不同 formatting context（格式化上下文）有不同的子项布局算法：
+
+| 上下文 | 常见创建方式 | 主要规则 | 高频故障 |
+|---|---|---|---|
+| block formatting context | 根元素、`flow-root`、部分 overflow/position 场景 | 块沿块轴排列，涉及外边距折叠 | 浮动包不住、margin 穿透 |
+| inline formatting context | 文本和行内容 | 行盒、基线、换行 | 图标文字不齐、长词溢出 |
+| flex formatting context | `display:flex` | 主轴分配、交叉轴对齐 | `min-width:auto` 导致不收缩 |
+| grid formatting context | `display:grid` | 行列轨道与网格区域 | 隐式轨道意外变大 |
+| table formatting context | 原生表格/对应 display | 表格算法协商列宽 | 巨长字段撑宽整表 |
+
+### containing block：绝对定位到底相对谁
+
+百分比尺寸和 positioned 元素常依赖 containing block（包含块）。它不一定是视觉上最近的父元素。定位、transform、contain 等属性都可能改变参照系。
+
+排查绝对定位错位：
+
+1. 在 Elements 中逐级检查祖先的 `position`、`transform`、`filter`、`contain`。
+2. 确认 top/right/bottom/left 或 inset 百分比相对哪个尺寸。
+3. 检查滚动容器和裁剪边界。
+4. 不要靠增加随机偏移修补错误参照系。
+
+### margin collapsing 与 flow-root
+
+普通块流中，相邻垂直 margin 可能折叠；父元素没有边框、内边距或行内内容时，首/末子项 margin 也可能与父元素折叠。Flex/Grid 子项的 margin 不按同样规则折叠。
+
+`display: flow-root` 可以创建新的块格式化上下文，常用于包住浮动和隔离外部布局，但应理解原因，避免把 `overflow: hidden` 当万能清除方案并意外裁剪内容。
+
+## 进阶层三：内在尺寸与“为什么 min-width:0 能救命”
+
+浏览器布局会考虑内容的内在尺寸：
+
+- `min-content`：在允许换行处尽量收窄后的最小尺寸。
+- `max-content`：不主动换行时内容希望占用的尺寸。
+- `fit-content`：在可用空间和内在边界之间取值。
+
+Flex 子项默认 `min-width: auto`，常以内容最小尺寸为下限。一个很长的 request ID 会让子项拒绝继续缩小，最终撑破容器。
+
+```css
+.toolbar__main {
+  min-inline-size: 0; /* 允许 flex 子项小于内容的自动最小宽度 */
+}
+
+.request-id {
+  overflow-wrap: anywhere; /* 极长不可断字符串也允许换行 */
+}
+```
+
+这不是“背一个神奇修复”。证据应包括：哪个 flex item 的 min-size 限制了收缩、内容的 min-content 是什么、修复后是否影响可读性。
+
+## 进阶层四：Flexbox 分配算法与常见误判
+
+`flex: 1` 通常展开为 `flex-grow:1; flex-shrink:1; flex-basis:0%`，不等同于“宽度就是一份”。分配过程会考虑 flex basis、可用空间、最小/最大尺寸、冻结项和舍入。
+
+| 属性 | 控制什么 | 新手误区 |
+|---|---|---|
+| `flex-basis` | 分配空间前的基础尺寸 | 以为永远等于 width |
+| `flex-grow` | 有剩余空间时怎样分 | 以为值就是百分比 |
+| `flex-shrink` | 空间不足时怎样收缩 | 忽略基础尺寸和 min-size |
+| `align-items` | 单行内交叉轴对齐 | 与 `align-content` 混淆 |
+| `gap` | 项之间稳定间距 | 用子项 margin 导致边缘额外间距 |
+
+故障案例：左右布局中左侧固定、右侧 `flex:1` 仍溢出。先检查右侧 `min-inline-size`、长内容和后代固定宽度，再看父容器是否有可用空间。
+
+## 进阶层五：Grid 轨道算法与响应式组件
+
+```css
+.incident-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(18rem, 100%), 1fr));
+  gap: var(--space-4);
+}
+```
+
+这里不是简单的“自动几列”：
+
+- `minmax()` 给轨道最小和最大边界。
+- `auto-fit` 会折叠空轨道，让已有卡片扩展。
+- `min(18rem, 100%)` 防止容器比 18rem 更窄时仍溢出。
+- `1fr` 分配的是扣除固定轨道、gap 等之后的剩余空间。
+
+`auto-fill` 会保留可放置的空轨道，`auto-fit` 会折叠空轨道。选择取决于希望空位保留还是卡片拉伸，而不是谁“更高级”。
+
+容器查询适合可复用组件：同一个事件卡片放在主区和窄侧栏时按自身容器变化，不依赖整个 viewport。
+
+```css
+.panel { container-type: inline-size; }
+
+@container (min-width: 42rem) {
+  .incident-card { grid-template-columns: 10rem 1fr auto; }
+}
+```
+
+## 进阶层六：堆叠上下文与弹层事故
+
+`z-index: 999999` 仍可能盖不过另一个元素，因为比较首先发生在各自祖先的 stacking context（堆叠上下文）中。常见创建条件包括 positioned + 非 auto z-index、opacity 小于 1、transform、filter、isolation、contain 等。
+
+排查顺序：
+
+```text
+弹层被遮挡
+  -> 找弹层所在堆叠上下文
+  -> 找遮挡元素所在堆叠上下文
+  -> 比较两个上下文在共同祖先中的顺序
+  -> 检查 overflow / clip 是否直接裁剪
+  -> 决定使用顶层 top layer、portal 或调整上下文
+```
+
+原生 `dialog.showModal()` 和 Popover API 可进入浏览器 top layer，避免部分 z-index 竞赛；但仍需设计焦点、关闭、背景交互和兼容性降级。
+
+## 进阶层七：style、layout、paint、composite
+
+浏览器一次视觉更新可能经过：
+
+```text
+JavaScript 改状态或 DOM
+  -> style recalculation
+  -> layout（几何尺寸和位置）
+  -> paint（生成绘制记录/位图）
+  -> composite（合成图层）
+```
+
+并非每次都走完全部阶段。改变 `color` 常需 paint，不一定 layout；改变几何属性通常需要 layout；适当条件下 transform/opacity 可主要在 composite 处理。但图层提升有内存成本，`will-change` 不能全站乱加。
+
+### 强制同步布局与布局抖动
+
+如果代码交替写样式、读布局，浏览器可能被迫立即完成尚未执行的布局：
+
+```js
+for (const row of rows) {
+  row.style.width = `${target}px`;
+  console.log(row.offsetWidth); // 写后立刻读，可能重复触发布局
+}
+```
+
+改进方向是批量读取、批量写入，减少受影响节点，并用 Performance 证明确实降低 Layout 时间。不要只依据“某属性理论上快”。
+
+### Core Web Vitals 的 CSS 责任
+
+- LCP：关键内容样式和字体阻塞、LCP 图片布局会影响时间。
+- CLS：图片无尺寸、字体替换、异步插入内容会造成布局偏移。
+- INP：巨量样式计算、布局与绘制会拉长交互响应。
+
+前端指标要携带 route、release、设备类别和网络信息，但避免把用户输入、Token 和敏感 URL 作为标签造成泄露与高基数。
+
+## 进阶层八：CSS 工程治理与发布
+
+一套可维护的层次可以是：
+
+```text
+reset：统一浏览器差异
+  -> base：元素基础语义样式
+  -> tokens：颜色、字号、间距、层级、动效语义
+  -> layout：页面级布局原语
+  -> components：组件内部规则和状态
+  -> utilities：单一职责工具
+  -> overrides：受控、带退出计划的临时覆盖
+```
+
+生产门禁至少覆盖：
+
+1. 关键页面多视口截图差异。
+2. 200%/400% 缩放与长中文、长英文、长 URL。
+3. 键盘焦点、深色模式、高对比和 reduced motion。
+4. 未使用 CSS 与首屏阻塞预算。
+5. 主流目标浏览器的兼容性和 `@supports` 降级。
+6. 入口 HTML 与带哈希 CSS 的原子制品发布。
+
+## 进阶故障实验：从 computed style 找到根因
+
+### 故障一：级联层覆盖错误
+
+1. 在 `overrides` 层故意把 critical 卡片颜色改成普通灰色。
+2. 在 Styles 中找到获胜声明、层和来源文件。
+3. 不使用更高特异性硬压，删除过期 override 或修正层职责。
+4. 回归 light/dark/high-contrast 和截图测试。
+
+### 故障二：Flex 长内容横向溢出
+
+1. 把 request ID 改成 200 个连续字符。
+2. 在 390px 视口记录 `innerWidth`、`scrollWidth` 和溢出节点。
+3. 检查 flex item 的自动最小尺寸，应用 `min-inline-size:0` 与安全换行。
+4. 验证文本仍可选择、复制和完整查看。
+
+### 故障三：弹窗被 transform 祖先困住
+
+1. 给页面容器加 `transform: translateZ(0)`，让 fixed 弹层行为改变。
+2. 记录 stacking context、containing block 与裁剪祖先。
+3. 将模态层放入合适的顶层/portal，或移除不必要的上下文。
+4. 回归滚动、缩放、键盘焦点和屏幕阅读器。
+
+### 故障四：布局抖动
+
+1. 移除卡片图片尺寸并延迟加载图片。
+2. 用 Performance/布局偏移高亮记录发生变化的节点。
+3. 恢复尺寸或 aspect-ratio，并比较前后 CLS 证据。
+4. 保存实验环境、视口、网络条件和两次记录，避免只保存结论。
+
 ## 常用属性/工具字典
 
 | 项 | 作用 | 怎么观察 | 常见坑 |

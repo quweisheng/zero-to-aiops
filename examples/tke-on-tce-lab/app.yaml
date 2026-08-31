@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: tce-learning
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: incident-web
+  namespace: tce-learning
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: incident-web
+  template:
+    metadata:
+      labels:
+        app: incident-web
+    spec:
+      containers:
+        - name: web
+          image: nginx:1.28.0
+          ports:
+            - name: http
+              containerPort: 80
+          resources:
+            requests:
+              cpu: 50m
+              memory: 32Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 2
+            periodSeconds: 3
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: incident-web
+  namespace: tce-learning
+spec:
+  selector:
+    app: incident-web
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+  type: ClusterIP

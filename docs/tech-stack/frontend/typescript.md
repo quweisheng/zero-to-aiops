@@ -249,6 +249,299 @@ TypeScript 检查大型单体项目可能耗时。用项目引用、增量检查
 
 类型不能防止 XSS、越权和密钥泄露；品牌类型也不能替代服务端授权。升级 TypeScript 时先读 breaking changes，检查废弃选项、DOM/Node 类型、框架插件、测试工具和生成器；小批提交、双版本验证、保留 lockfile 回滚。
 
+## 进阶层一：结构类型与可赋值性
+
+TypeScript 主要采用 structural typing（结构类型）：两个值是否兼容，主要看它们拥有的成员结构，而不是必须继承同一个显式类。
+
+```ts
+type IncidentRef = { id: string }
+
+const full = { id: 'INC-1024', severity: 'critical' }
+const ref: IncidentRef = full // 结构包含所需成员，所以可赋值
+```
+
+这让 JavaScript 生态组合更自然，但也会出现“形状相同、业务含义不同”的误混：
+
+```ts
+type UserId = string
+type TenantId = string
+
+function loadTenant(id: TenantId) {}
+const userId: UserId = 'u-1'
+loadTenant(userId) // 纯 string 别名无法阻止误用
+```
+
+可在关键边界使用 branded type（品牌类型）增强区分：
+
+```ts
+declare const tenantIdBrand: unique symbol
+type TenantId = string & { readonly [tenantIdBrand]: true }
+
+function parseTenantId(value: unknown): TenantId {
+  if (typeof value !== 'string' || !/^tenant-[a-z0-9-]+$/.test(value)) {
+    throw new TypeError('invalid tenant id')
+  }
+  return value as TenantId // 断言集中在已完成运行时校验的边界
+}
+```
+
+品牌只帮助编译期防误传，不是权限。服务端仍要确认调用者是否有权访问该 tenant。
+
+### excess property check 不是密封对象
+
+对象字面量直接赋给目标类型时会有额外属性检查，但通过变量传递时结构兼容仍可能允许多余字段。TypeScript 对象类型默认不是“只有这些键”的运行时密封 schema。
+
+```ts
+type Filter = { severity: 'warning' | 'critical' }
+
+const raw = { severity: 'critical' as const, tenant: 'tenant-a' }
+const filter: Filter = raw // 允许，raw 至少包含所需结构
+```
+
+API 边界要用运行时 schema 决定是否拒绝未知字段，不能依赖 excess property check。
+
+## 进阶层二：联合、交叉、never 与状态机
+
+联合类型表示“可能是其中一种”，交叉类型表示“同时满足多种结构”。业务状态通常更适合可辨识联合，而不是很多互相独立的布尔值。
+
+```ts
+type RequestState =
+  | { status: 'idle' }
+  | { status: 'loading'; requestId: number }
+  | { status: 'success'; incidents: readonly Incident[]; receivedAt: string }
+  | { status: 'empty'; receivedAt: string }
+  | { status: 'error'; message: string; retryable: boolean }
+  | { status: 'cancelled'; reason: 'superseded' | 'navigation' | 'user' }
+```
+
+这样 `loading=true` 同时 `error=true` 的非法组合无法表示。处理分支时用 `never` 做穷尽检查：
+
+```ts
+function assertNever(value: never): never {
+  throw new Error(`unhandled state: ${JSON.stringify(value)}`)
+}
+
+function renderState(state: RequestState): string {
+  switch (state.status) {
+    case 'idle': return '尚未查询'
+    case 'loading': return '加载中'
+    case 'success': return `${state.incidents.length} 条`
+    case 'empty': return '没有结果'
+    case 'error': return state.message
+    case 'cancelled': return '已取消'
+    default: return assertNever(state)
+  }
+}
+```
+
+新增状态后漏改 switch，类型检查会报错。这是“把状态设计进类型”，不是只给变量加注解。
+
+### never、void 和 unknown 的区别
+
+- `never`：理论上不会产生值，例如总是抛错或穷尽后的不可能分支。
+- `void`：调用者不应依赖返回值，不代表函数绝不会实际返回某个值。
+- `unknown`：存在某个值，但使用前必须证明类型。
+- `any`：跳过大部分检查并向外传播风险。
+
+## 进阶层三：控制流分析与类型谓词
+
+TypeScript 会根据 `typeof`、`instanceof`、`in`、字面量判断、空值检查和提前 return 等控制流缩窄类型。
+
+自定义 predicate 可以把运行时判断告诉编译器：
+
+```ts
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null
+}
+
+function isIncident(value: unknown): value is Incident {
+  return isRecord(value)
+    && typeof value.id === 'string'
+    && (value.severity === 'warning' || value.severity === 'critical')
+}
+```
+
+predicate 是开发者的承诺。实现写错时，编译器会被误导。因此高风险 schema 要有正反例测试、深度/长度限制，并考虑使用可审计的 schema 库或生成器。
+
+### assertion function
+
+```ts
+function assertIncident(value: unknown): asserts value is Incident {
+  if (!isIncident(value)) throw new TypeError('invalid incident')
+}
+```
+
+断言函数适合在失败就终止的入口统一收窄。不要写空实现只为让类型通过。
+
+## 进阶层四：泛型是表达关系，不是把类型变复杂
+
+泛型最有价值的地方是保留输入与输出关系：
+
+```ts
+function first<T>(items: readonly T[]): T | undefined {
+  return items[0]
+}
+```
+
+如果返回写成 unknown，调用者丢失关系；写成 any 则失去检查。
+
+### 约束和 keyof
+
+```ts
+function pick<T, K extends keyof T>(object: T, keys: readonly K[]): Pick<T, K> {
+  return Object.fromEntries(keys.map((key) => [key, object[key]])) as Pick<T, K>
+}
+```
+
+这里的断言来自 `Object.fromEntries` 标准库类型难以表达精确映射，应该集中、测试并说明，而不是把整个函数改成 any。
+
+### 方差的实际含义
+
+方差回答 `A` 是 `B` 的子类型时，容器或函数之间如何兼容。函数参数通常需要逆向考虑：能处理“任意事件”的函数可以放到只会收到“严重事件”的位置；反过来不安全。
+
+`strictFunctionTypes` 有助于发现回调参数不安全，但方法和生态兼容仍有细节。面试不必背术语图，能用“消费者不能假装能处理更宽输入”解释即可。
+
+## 进阶层五：映射类型、条件类型与模板字面量
+
+映射类型遍历键生成新结构：
+
+```ts
+type Patch<T> = {
+  readonly [K in keyof T]?: T[K]
+}
+```
+
+条件类型根据类型关系选择分支：
+
+```ts
+type ApiResult<T> =
+  T extends Error ? { ok: false; error: T } : { ok: true; data: T }
+```
+
+当条件类型的被检查参数是裸类型参数时，会对联合分发。复杂嵌套可能让错误难读并拖慢编译器。公共 API 类型应优先清晰、稳定，避免仅为了炫技构造递归迷宫。
+
+模板字面量类型适合表达有限字符串协议：
+
+```ts
+type Severity = 'warning' | 'critical'
+type MetricName = `incident_${Severity}_total`
+```
+
+它不能验证运行时字符串。来自配置或网络的数据仍要 parse。
+
+## 进阶层六：类型推断、satisfies 与 literal widening
+
+```ts
+const config = {
+  mode: 'readonly',
+  timeoutMs: 2000
+} satisfies { mode: 'readonly' | 'write'; timeoutMs: number }
+```
+
+`satisfies` 检查表达式满足目标，同时尽量保留表达式自己的精确类型；类型注解可能把变量直接视为较宽目标；断言则可能跳过不安全信息。三者职责不同。
+
+`as const` 保留字面量并添加只读推断，但只发生在类型层，不会运行时冻结对象。运行时不变性要靠封装、复制或 Object.freeze（且它也只是浅层）。
+
+## 进阶层七：编译管线与“类型检查通过”边界
+
+```text
+.ts/.tsx 源码
+  -> parse AST
+  -> bind symbols
+  -> resolve modules and types
+  -> check assignability/control flow
+  -> emit JavaScript / declarations / source maps（若启用）
+  -> bundler 转换、分包、压缩
+  -> 浏览器/Node 运行
+```
+
+很多工具只做快速转译而不调用完整 type checker。Vite/esbuild/SWC 构建成功不代表 `tsc --noEmit` 或 `vue-tsc` 通过。因此 CI 至少分开显示 typecheck、test、build 三道门禁。
+
+`target` 主要控制输出语言级别，`lib` 控制编译时可见的环境 API 类型。把 target 设低不会自动注入所有 polyfill；声明存在也不证明目标浏览器实现了 API。
+
+### declaration emit 与公共 API
+
+库项目的 `.d.ts` 是消费者看到的契约。发布前要检查：
+
+1. public 类型是否意外引用内部路径。
+2. exports 与 types 条件是否匹配 ESM/CJS。
+3. 声明生成是否泄露私有实现或巨大类型。
+4. 新版本是否造成 breaking type change。
+5. `skipLibCheck` 是否让不兼容声明悄悄通过。
+
+## 进阶层八：模块解析不是找同名文件那么简单
+
+TypeScript 的 `moduleResolution` 要模拟目标运行时/打包器如何理解 imports、package exports、扩展名和条件导出。NodeNext、Bundler 等模式适用边界不同。
+
+排查顺序：
+
+```text
+源码 import specifier
+  -> tsconfig 的 baseUrl/paths/moduleResolution
+  -> package.json exports/imports/types
+  -> 实际解析到哪个 .ts/.d.ts/.js
+  -> 构建器输出什么 specifier
+  -> Node/浏览器运行时能否加载
+```
+
+`paths` 通常只帮助编译器理解别名，不保证运行时自动重写。打包器、测试工具和生产运行时必须配置一致。
+
+## 进阶层九：大型仓库的项目引用与性能
+
+Project References 把大型代码库拆成可独立构建的 TypeScript 项目，并用 `composite` 与声明输出形成边界：
+
+```text
+packages/contracts
+  -> packages/api-client
+  -> apps/incident-console
+```
+
+好处是增量构建和所有权更清晰；代价是配置、构建顺序、声明边界和编辑器工程复杂度。不要为几千行项目过早引入。
+
+性能排查用 `--extendedDiagnostics`、`--generateTrace` 等证据，关注文件数、声明依赖、类型实例化和内存。常见改进：缩小 include、避免重复版本、拆公共接口、给复杂推断增加命名边界、减少巨大联合和递归条件类型。
+
+## 进阶层十：契约生成与版本演进
+
+前后端共享类型有三种常见路线：
+
+1. 以 OpenAPI/JSON Schema/Protobuf 为源，生成客户端类型与运行时校验。
+2. 以运行时 schema 为源，推导 TypeScript 类型。
+3. 同一 monorepo 共享纯类型包，同时保留网络边界校验。
+
+不论哪种，都要管理版本：字段新增是否可选、枚举扩展旧客户端会怎样、删除字段何时生效、服务端与多个前端版本并存多久、契约测试在哪一侧运行。
+
+类型包同步成功不等于生产兼容。渐进发布时必须用真实请求/响应样本的脱敏契约测试验证旧客户端。
+
+## 进阶故障实验：让类型系统暴露真实边界
+
+### 故障一：any 污染链
+
+1. 把网络响应声明为 any，访问不存在字段并调用方法。
+2. 记录 typecheck 通过、运行时报错的反差。
+3. 改为 unknown + schema 校验，并加入无效 payload 测试。
+4. 搜索 any 进入了哪些下游函数，逐步收紧边界。
+
+### 故障二：联合状态漏分支
+
+1. 给 RequestState 增加 `cancelled`，故意不改 render switch。
+2. 验证 assertNever 让 typecheck 失败。
+3. 添加明确 UI 和观测字段，重新通过类型与行为测试。
+4. 记录编译器如何把遗漏提前发现。
+
+### 故障三：paths 本地通过、运行时失败
+
+1. 在 tsconfig 增加 `@contracts/*` paths，但不配置运行时。
+2. 让 tsc 通过后直接运行输出，记录 module not found。
+3. 选择真实方案：相对路径、包 exports 或打包器一致别名。
+4. 在 CI 增加生产制品运行烟测。
+
+### 故障四：升级产生静默契约变化
+
+1. 在独立分支锁定旧/新 TypeScript 与 DOM types。
+2. 分别运行 showConfig、typecheck、test、build，分类差异。
+3. 不用大范围 `skipLibCheck`/any 压错，逐项修复或记录有期限例外。
+4. 保留 lockfile 和上一制品，灰度验证后再扩大。
+
 ## 常用工具字典
 
 | 命令/操作 | 作用 | 预期 | 常见坑 |

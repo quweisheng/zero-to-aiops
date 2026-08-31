@@ -23,7 +23,8 @@
 | 已达到大厂面试级第一版 | Java | 已补 JDK/JRE/JVM、语言与工具链、字节码/类加载/JIT、内存/GC、JMM/虚拟线程、JFR、容量安全、双层实跑、事故题和系统设计 |
 | 已升级开头和面试表达 | Linux、Git、GitHub、Markdown、VitePress、Python、Shell/PowerShell、systemd、网络基础 | 基础工具组已补通俗开场、人话版、小白追问和面试表达 |
 | 已达到大厂面试级第一版 | RESTful API | 已补 REST 约束、HTTP 方法与状态、缓存与条件请求、幂等与并发、契约演进、安全、容量、可观测、双层实验、事故题和系统设计 |
-| 已达到大厂面试级第一版 | HTML、CSS、JavaScript、Ajax、TypeScript、Vue、React | 新增前端工程分类，覆盖语义与渲染、布局与层叠、语言与异步、浏览器请求、类型契约、组件状态、安全/性能/可访问性、双层实验、事故题和系统设计 |
+| 已达到大厂面试级第二版 | HTML、CSS、JavaScript、Ajax、TypeScript、Vue、React | 在第一版上补齐浏览器解析/渲染树、格式化上下文、执行上下文/原型/事件循环、HTTP/CORS/缓存/幂等、结构类型/控制流/模块解析、Vue/React 编译调度/SSR 水合、容量安全、组合故障实验和连续追问 |
+| 已达到大厂面试级第一版 | FusionSphere/FusionCompute、腾讯 TCE、TCE IaaS、TCE 运维安全、TKE on TCE、TCE 存储、TDSQL-C MySQL、Apache Pulsar、TCE 数据中间件 | 新增私有云全链路专题，覆盖产品边界、版本/BOM/License、计算网络存储、容器、数据库、缓存消息、运营安全、只读证据、双层实验、HA/容量/安全/升级回滚、事故题和系统设计 |
 | 已达到大厂面试级第一版 | Kubernetes、etcd、Calico、Cilium | 已更新到 Kubernetes 1.36.3、etcd 3.7.1、Calico 3.32.1、Cilium 1.20.0，并补 CRI/containerd、CNI、CSI、CoreDNS、状态一致性、故障实验、事故题和系统设计 |
 | 已达到大厂面试级第一版 | Docker、Docker Compose、Helm、NGINX/Ingress/Gateway API、Traefik、微服务、Rancher、Harbor、Istio、KubeSphere、Kubeflow | 已补当前版本与退役边界、内部路径、HA/容量/安全/升级回滚、双层实验、事故题、系统设计和递进追问 |
 | 已达到大厂面试级第一版 | KVM 虚拟化 | 已补 KVM/QEMU/libvirt 边界、CPU/内存/网络/存储路径、迁移、HA、安全、双层实验、事故题和系统设计 |
@@ -166,6 +167,9 @@
 | 已达到大厂面试级第一版 | TypeScript | [typescript.md](./frontend/typescript.md) | TypeScript 6、推断/联合/收窄/泛型、结构类型、运行时边界、tsconfig/模块/声明、假安全故障实验与契约演进 |
 | 已达到大厂面试级第一版 | Vue | [vue.md](./frontend/vue.md) | Vue 3/SFC、ref/reactive/computed/watch、track/trigger、props/events、生命周期清理、SSR、类型门禁、响应丢失与竞态实验 |
 | 已达到大厂面试级第一版 | React | [react.md](./frontend/react.md) | React 19.2/JSX、状态快照、render/commit/key、Effect cleanup、reducer/context、错误边界、SSR/RSC、重复副作用与 key 故障实验 |
+| 已达到大厂面试级第一版 | 华为 FusionSphere / FusionCompute | [fusionsphere.md](./virtualization-private-cloud/fusionsphere.md) | 产品族边界、VRM/CNA、虚机计算网络存储路径、HA/迁移/容量/安全/升级、合成巡检与事故系统设计 |
+| 已达到大厂面试级第一版 | 腾讯专有云 TCE 全栈 | [tencent-tce.md](./virtualization-private-cloud/tencent-tce.md) | TCE/TCS/TStack 边界、平台必修+BOM 选修、region/AZ/租户、CVM/VPC/CBS/TKE/数据/运维、安全、容灾和版本证据 |
+| 已达到大厂面试级第一版 | TCE 专题组 | [TCE IaaS](./virtualization-private-cloud/tce-iaas.md)、[运维安全](./virtualization-private-cloud/tce-operations-security.md)、[TKE](./cloud-native/tke-on-tce.md)、[存储](./storage-data-protection/tce-storage.md)、[TDSQL](./data-ai/tdsql-mysql.md)、[Pulsar](./data-ai/apache-pulsar.md)、[数据中间件](./data-ai/tce-data-middleware.md) | 将 TCE 计算网络存储、容器、数据库、缓存消息、搜索与运维安全按独立请求/状态路径展开，含可复现实验、故障注入与生产边界 |
 
 ## 精讲批次进度
 
@@ -211,6 +215,7 @@
 | 37 | Java | 大厂面试级第一版已完成 | 新增企业 Java 与 JVM 主线，覆盖当前版本/LTS/许可、语言和工具链、类加载/JIT、内存/GC/并发、JFR 诊断、容量安全、真实死锁实验、事故题和系统设计 |
 | 38 | FDE 岗位技术栈 | 岗位实战与面试级第一版已完成 | 新增通用 FDE、AI FDE 与 AIOps 边界，串联仓库已有技术，补齐 discovery、scoping、成功指标、Eval、采用和产品反馈，并提供只读事件证据助手与安全故障注入 |
 | 39 | HTML、CSS、JavaScript、Ajax、TypeScript、Vue、React | 大厂面试级第一版已完成 | 新增七篇前端工程深讲，串联故障事件看板、浏览器渲染/请求、类型契约、组件状态、性能安全、双层实验和 FDE 全栈路线 |
+| 40 | FusionSphere/FusionCompute、腾讯 TCE 全栈专题、前端七篇第二版 | 大厂面试级第一/二版已完成 | 新增 9 篇私有云/TCE 专题和 4 组可复现实验；前端七篇补到浏览器/运行时/框架内部路径、状态一致性、生产 HA/容量/安全/升级、组合故障和连续面试追问 |
 
 ## 已完成
 
@@ -235,6 +240,7 @@
 | 前端工程 | TypeScript | [typescript.md](./frontend/typescript.md) |
 | 前端工程 | Vue | [vue.md](./frontend/vue.md) |
 | 前端工程 | React | [react.md](./frontend/react.md) |
+| 云原生 | TKE on TCE | [tke-on-tce.md](./cloud-native/tke-on-tce.md) |
 | 云原生 | Docker | [docker.md](./cloud-native/docker.md) |
 | 云原生 | Docker Compose | [docker-compose.md](./cloud-native/docker-compose.md) |
 | 云原生 | Kubernetes | [kubernetes.md](./cloud-native/kubernetes.md) |
@@ -253,6 +259,14 @@
 | 虚拟化与私有云 | VMware vSphere | [vsphere.md](./virtualization-private-cloud/vsphere.md) |
 | 虚拟化与私有云 | OpenStack | [openstack.md](./virtualization-private-cloud/openstack.md) |
 | 虚拟化与私有云 | KVM 虚拟化 | [kvm.md](./virtualization-private-cloud/kvm.md) |
+| 虚拟化与私有云 | 华为 FusionSphere / FusionCompute | [fusionsphere.md](./virtualization-private-cloud/fusionsphere.md) |
+| 虚拟化与私有云 | 腾讯专有云 TCE 全栈地图 | [tencent-tce.md](./virtualization-private-cloud/tencent-tce.md) |
+| 虚拟化与私有云 | TCE IaaS | [tce-iaas.md](./virtualization-private-cloud/tce-iaas.md) |
+| 虚拟化与私有云 | TCE 运营、运维与安全 | [tce-operations-security.md](./virtualization-private-cloud/tce-operations-security.md) |
+| 存储与数据保护 | TCE 存储与数据保护 | [tce-storage.md](./storage-data-protection/tce-storage.md) |
+| 数据与 AI | TDSQL-C MySQL | [tdsql-mysql.md](./data-ai/tdsql-mysql.md) |
+| 数据与 AI | Apache Pulsar | [apache-pulsar.md](./data-ai/apache-pulsar.md) |
+| 数据与 AI | TCE 数据库、缓存、消息与数据平台地图 | [tce-data-middleware.md](./data-ai/tce-data-middleware.md) |
 | 存储与数据保护 | IBM Storage | [ibm-storage.md](./storage-data-protection/ibm-storage.md) |
 | 存储与数据保护 | Dell EMC VPLEX | [dell-emc-vplex.md](./storage-data-protection/dell-emc-vplex.md) |
 | 存储与数据保护 | Dell EMC VMAX | [dell-emc-vmax.md](./storage-data-protection/dell-emc-vmax.md) |

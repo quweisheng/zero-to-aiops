@@ -1,0 +1,14 @@
+# Teaching fault: Pods listen on 80 but this Service forwards to 8080.
+apiVersion: v1
+kind: Service
+metadata:
+  name: incident-web
+  namespace: tce-learning
+spec:
+  selector:
+    app: incident-web
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+  type: ClusterIP

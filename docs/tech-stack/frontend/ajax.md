@@ -225,6 +225,234 @@ GET 通常更适合有限重试；写请求只有服务端支持稳定幂等键�
 
 搜索等高频接口要限制输入频率、分页、并发和响应大小；批量页面用并发上限和部分失败呈现，不能 `Promise.all` 无上限打爆服务。
 
+## 进阶层一：一次 Fetch 的完整网络路径
+
+把“调用接口”展开，真实路径可能是：
+
+```text
+用户操作
+  -> JavaScript 构造 Request
+  -> 浏览器安全策略与缓存判断
+  -> Service Worker（若注册且命中范围）
+  -> DNS
+  -> TCP + TLS / QUIC
+  -> 企业代理 / CDN / WAF / 负载均衡 / API 网关
+  -> 应用服务
+  -> 数据库、缓存、消息等下游
+  -> Response 返回并经过同样链路
+  -> 浏览器 CORS 检查、解压、流读取
+  -> JSON/文本解析与运行时契约验证
+  -> 状态提交与渲染
+```
+
+因此 `TypeError: Failed to fetch` 不是“后端 500”的同义词。它可能是 DNS、TLS、代理、CORS、客户端取消、离线或连接中断，而且由于安全原因，JavaScript 未必能看到更细原因。Network、浏览器安全错误、网关日志和 trace 必须联合判断。
+
+### Request 与 Response 都有流和一次消费边界
+
+Body 通常由 ReadableStream 表示。调用 `response.json()` 会读取并消费 body；再次读取会失败。需要在多个消费者之间共享时，可以在合适大小下 `clone()`，但克隆并不消除内存和背压成本。
+
+大响应不应先全部转文本再多次解析。使用流式处理时要设计：字符解码、消息边界、部分消息、取消、最大长度、解析错误和 UI 增量更新频率。
+
+### HTTP 状态与业务状态分开
+
+```text
+传输是否完成
+  -> HTTP status 是否符合契约
+  -> Content-Type 是否正确
+  -> body 是否可解析
+  -> schema 是否有效
+  -> 业务结果是否成功
+```
+
+200 响应可能携带错误结构；404 可能是预期“资源不存在”；202 表示已受理但后台仍处理；204 没有 body，不应无条件 `json()`；429 应结合 `Retry-After` 和总预算。前端错误模型要保留这些层次。
+
+## 进阶层二：HTTP 方法、安全性与幂等性
+
+HTTP 语义中的 safe 表示只读意图，idempotent 表示重复同一请求的预期效果与一次相同。它们不是“请求绝不会有任何副作用”的绝对保证。
+
+| 方法 | 常见语义 | 默认是否幂等 | 前端设计重点 |
+|---|---|---|---|
+| GET | 获取资源 | 是 | 缓存、分页、新鲜度、不要写业务状态 |
+| HEAD | 只取响应头 | 是 | 服务端实现需与 GET 元数据一致 |
+| POST | 创建/触发处理 | 否 | 幂等键、未知结果、重复提交 |
+| PUT | 用完整表示替换资源 | 是 | 版本条件、避免覆盖并发修改 |
+| PATCH | 部分修改 | 取决于补丁语义 | 明确冲突与重放语义 |
+| DELETE | 删除目标状态 | 是（语义上） | 软删、重复返回、审计、恢复 |
+
+`PUT` 幂等不代表并发安全。两个客户端都基于旧版本 PUT，后到者仍可能覆盖先到者。使用 ETag/If-Match、资源 version 或业务事务实现乐观并发控制。
+
+### 幂等键生命周期
+
+写操作的幂等键应由客户端为一次业务意图生成并在重试中复用；服务端保存键、请求摘要、状态和结果，拒绝同键不同参数。
+
+```text
+客户端生成 operation-id
+  -> POST + Idempotency-Key
+  -> 服务端原子登记 processing
+  -> 执行业务
+  -> 保存 success/failure + response
+  -> 重试同键返回同一结果或处理状态
+```
+
+要定义保存期限、跨租户隔离、并发同键、处理中查询和失败是否允许重放。按钮 disabled 不能替代服务端实现。
+
+## 进阶层三：CORS 预检逐步拆解
+
+同源由 scheme、host、port 三元组决定。不同路径仍同源；不同子域、协议或端口通常不同源。
+
+跨源请求可能先发 OPTIONS 预检：
+
+```text
+浏览器
+  -> OPTIONS /incidents
+     Origin: https://console.example
+     Access-Control-Request-Method: PATCH
+     Access-Control-Request-Headers: authorization, content-type
+  <- Access-Control-Allow-Origin
+     Access-Control-Allow-Methods
+     Access-Control-Allow-Headers
+     Access-Control-Allow-Credentials（需要时）
+  -> 实际 PATCH
+```
+
+服务端收到实际请求不等于浏览器允许脚本读取响应。CORS 是浏览器读取保护，不是服务端认证或网络防火墙。
+
+高频故障：
+
+- OPTIONS 被认证中间件要求登录，导致预检先 401。
+- 只给实际响应加允许头，错误响应或预检缺头。
+- 携带 credentials 时使用通配 `*` origin。
+- 反射任意 Origin 且允许 credentials，放大跨站风险。
+- CDN 未把 Origin 纳入缓存键，错误复用允许头。
+
+修复应使用精确允许列表、完整方法/Header、正确 `Vary: Origin`，并在成功与失败状态上统一验证。
+
+## 进阶层四：Cookie、SameSite、CSRF 与 Token
+
+Cookie 的关键属性共同决定发送边界：
+
+| 属性 | 作用 | 常见坑 |
+|---|---|---|
+| `HttpOnly` | JavaScript 不能读取 | 不代表 XSS 无法借浏览器发请求 |
+| `Secure` | 只经安全连接发送 | 本地/代理 TLS 终止配置误判 |
+| `SameSite` | 限制跨站上下文携带 | same-site 与 same-origin 混淆 |
+| `Domain` | 决定可发送到哪些主机 | 设置过宽扩大信任边界 |
+| `Path` | 限制 URL 路径匹配 | 不是安全隔离机制 |
+| `Max-Age/Expires` | 生命周期 | 会话吊销与浏览器保存不一致 |
+
+CSRF 防护可以组合 SameSite、CSRF token、Origin/Referer 校验和重新认证；具体取决于浏览器支持与架构。Bearer token 免受传统 Cookie 自动携带式 CSRF 的一部分风险，但若暴露给 JavaScript，则 XSS 可直接窃取或使用它。
+
+不要给出“LocalStorage 一定危险、Cookie 一定安全”这种绝对答案。先画威胁模型：攻击者能执行脚本吗、能跨站诱导吗、是否需要跨子域、会话如何吊销、敏感操作是否二次确认。
+
+## 进阶层五：缓存、验证器与多层一致性
+
+一次 GET 可能经过 Service Worker、内存缓存、磁盘缓存、企业代理、CDN、网关和应用缓存。每层都有键、TTL 和失效机制。
+
+### Cache-Control 关键指令
+
+| 指令 | 人话含义 | 典型场景 |
+|---|---|---|
+| `max-age=N` | N 秒内可视为新鲜 | 公共静态或可缓存 API |
+| `s-maxage=N` | 共享缓存的新鲜期 | CDN 与浏览器策略分离 |
+| `no-cache` | 可存，但复用前必须验证 | 入口 HTML/需协商资源 |
+| `no-store` | 不应存储 | 高敏或一次性响应 |
+| `private` | 只能私有缓存 | 用户个性化数据 |
+| `immutable` | 新鲜期内内容不会变化 | 内容哈希静态资源 |
+
+`no-cache` 不是“不缓存”。协商验证器 `ETag`/`If-None-Match` 或 `Last-Modified`/`If-Modified-Since` 可得到 304，无需重复传输完整 body。
+
+业务一致性还要问：确认事件后列表何时更新？缓存 key 是否含 tenant/filter/page？失败回滚如何处理？离线数据是否允许展示、怎样标记时间？HTTP 缓存不能自动回答这些问题。
+
+## 进阶层六：超时预算、重试放大与背压
+
+前端 5 秒超时不是下游每层都能各用 5 秒。一个合理预算需要从用户体验反推并逐层留出取消、日志和错误返回时间：
+
+```text
+用户预算 5s
+  -> 浏览器与网络 0.8s
+  -> 网关预算 4.0s
+  -> 服务预算 3.2s
+  -> 数据库/下游更短
+  -> 预留错误包装和返回
+```
+
+如果浏览器、网关、服务都各自重试 3 次，最坏请求数会乘法放大。通常选择最了解幂等性和剩余预算的一层有限重试，并在全链路记录 attempt。
+
+指数退避示例：
+
+```text
+delay = min(cap, base * 2^attempt) + random_jitter
+```
+
+还要设置总 deadline、最大尝试、可重试状态和并发上限。收到 429/503 时尊重服务端节流信号；页面隐藏或用户取消时停止无意义重试。
+
+背压意味着消费者处理不过来时，上游不能无限推送。SSE/WebSocket/streaming UI 要限制队列、批量刷新、丢弃/合并低价值事件或请求重新同步，否则浏览器内存会持续增长。
+
+## 进阶层七：实时方案的断线恢复
+
+### SSE
+
+Server-Sent Events 适合服务端到浏览器单向文本事件。生产需要：事件 ID、`Last-Event-ID` 恢复、心跳、代理禁缓冲、认证过期和全量重同步。
+
+### WebSocket
+
+WebSocket 建立双向长连接后，应用自己定义消息、心跳、确认、重连和版本。连接“open”不代表订阅成功；重连后要重新认证/订阅，并处理断线期间缺失事件。
+
+### 轮询
+
+轮询并不低级。低频事件、严格 HTTP 基础设施或简单一致性要求下，带 ETag、退避、页面可见性判断和游标的轮询更可靠。选型依据是方向、频率、允许延迟、恢复语义和容量。
+
+## 进阶层八：前后端可观测关联
+
+前端记录的不是“接口失败”四个字，而是一组可关联证据：
+
+```json
+{
+  "operation": "incident.search",
+  "route": "/incidents",
+  "release": "web-20260831.1",
+  "status": 503,
+  "duration_ms": 1820,
+  "attempt": 2,
+  "outcome": "server_error",
+  "trace_id": "synthetic-demo-id"
+}
+```
+
+不要记录 Authorization、Cookie、完整查询词、真实事件内容和个人信息。traceparent 等追踪头是否允许跨域，要在 CORS allow headers 和后端采样策略中设计。
+
+RUM（Real User Monitoring，真实用户监控）能看到用户侧网络和浏览器差异；服务端 trace 能看到网关与下游。两者通过 trace/request ID、release、route 和时间窗口关联，不能用用户 IP 猜同一请求。
+
+## 进阶故障实验：预检、缓存、重试与未知结果
+
+### 故障一：OPTIONS 被鉴权拦截
+
+1. 本地 API 对所有方法都要求 Authorization，前端跨端口发送 PATCH。
+2. 记录 OPTIONS 401 和实际 PATCH 未发送。
+3. 修复预检处理并精确返回允许 Origin/Method/Header。
+4. 同时验证允许与不允许的 Origin，防止“修成任意跨域”。
+
+### 故障二：缓存键漏 tenant
+
+1. 合成两租户响应，让缓存只按 path 保存。
+2. 先访问 tenant-a，再访问 tenant-b，观察错误复用。
+3. 立即停用错误共享缓存并清理合成条目。
+4. 修复 key/Vary/Cache-Control；加入跨租户回归用例。
+
+### 故障三：重试风暴
+
+1. API 固定返回 503，三个页面客户端无退避重试。
+2. 记录每秒请求数和浏览器并发。
+3. 加总预算、指数退避、抖动、最大次数和 Retry-After。
+4. 比较前后请求数、恢复耗时和用户提示。
+
+### 故障四：写入完成但响应超时
+
+1. 服务端落库后延迟返回，客户端 2 秒取消等待。
+2. 用户重试，记录重复动作或同键返回。
+3. 实现幂等键与 GET operation status。
+4. 验证超时页面显示“结果待确认”，而不是错误宣称失败。
+
 ## 常用 Fetch 配置字典
 
 | 字段/API | 目的 | 预期 | 常见坑 |

@@ -91,6 +91,7 @@ export const navGroups: NavGroup[] = [
       { text: 'Docker', route: '/tech-stack/cloud-native/docker' },
       { text: 'Docker Compose', route: '/tech-stack/cloud-native/docker-compose' },
       { text: 'Kubernetes', route: '/tech-stack/cloud-native/kubernetes' },
+      { text: 'TKE on TCE', route: '/tech-stack/cloud-native/tke-on-tce' },
       { text: 'etcd', route: '/tech-stack/cloud-native/etcd' },
       { text: 'Calico', route: '/tech-stack/cloud-native/calico' },
       { text: 'Cilium', route: '/tech-stack/cloud-native/cilium' },
@@ -119,6 +120,22 @@ export const navGroups: NavGroup[] = [
       {
         text: 'OpenStack',
         route: '/tech-stack/virtualization-private-cloud/openstack'
+      },
+      {
+        text: '华为 FusionSphere',
+        route: '/tech-stack/virtualization-private-cloud/fusionsphere'
+      },
+      {
+        text: '腾讯 TCE 全栈地图',
+        route: '/tech-stack/virtualization-private-cloud/tencent-tce'
+      },
+      {
+        text: 'TCE IaaS',
+        route: '/tech-stack/virtualization-private-cloud/tce-iaas'
+      },
+      {
+        text: 'TCE 运营运维安全',
+        route: '/tech-stack/virtualization-private-cloud/tce-operations-security'
       }
     ]
   },
@@ -152,6 +169,10 @@ export const navGroups: NavGroup[] = [
       {
         text: '爱数 AnyStorage',
         route: '/tech-stack/storage-data-protection/aishu-anystorage'
+      },
+      {
+        text: 'TCE 存储与数据保护',
+        route: '/tech-stack/storage-data-protection/tce-storage'
       }
     ]
   },
@@ -214,11 +235,14 @@ export const navGroups: NavGroup[] = [
     text: '数据与 AI',
     items: [
       { text: 'MySQL / SQL', route: '/tech-stack/data-ai/mysql-sql' },
+      { text: 'TDSQL-C MySQL', route: '/tech-stack/data-ai/tdsql-mysql' },
       { text: 'Oracle Database', route: '/tech-stack/data-ai/oracle' },
       { text: 'PostgreSQL', route: '/tech-stack/data-ai/postgresql' },
       { text: 'MongoDB', route: '/tech-stack/data-ai/mongodb' },
       { text: 'Redis', route: '/tech-stack/data-ai/redis' },
       { text: 'Kafka', route: '/tech-stack/data-ai/kafka' },
+      { text: 'Apache Pulsar', route: '/tech-stack/data-ai/apache-pulsar' },
+      { text: 'TCE 数据与中间件', route: '/tech-stack/data-ai/tce-data-middleware' },
       { text: 'Apache ActiveMQ', route: '/tech-stack/data-ai/activemq' },
       { text: 'RabbitMQ', route: '/tech-stack/data-ai/rabbitmq' },
       { text: 'Apache ZooKeeper', route: '/tech-stack/data-ai/zookeeper' },

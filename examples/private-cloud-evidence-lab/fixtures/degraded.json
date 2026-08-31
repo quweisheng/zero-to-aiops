@@ -1,0 +1,45 @@
+{
+  "snapshotAt": "2026-08-31T10:05:00+08:00",
+  "dataClassification": "synthetic-demo-fault-injection",
+  "platforms": [
+    {
+      "platform": "FusionSphere",
+      "productForm": "FusionCompute lab model",
+      "version": "DEMO-8.x",
+      "patch": "DEMO-SPH",
+      "evidenceSource": "synthetic fixture",
+      "managementNodes": [
+        { "role": "active", "status": "online" },
+        { "role": "standby", "status": "offline" }
+      ],
+      "capacity": [
+        { "resource": "cpu-allocation", "used": 700, "total": 800, "unit": "vCPU" },
+        { "resource": "memory-allocation", "used": 1800, "total": 2048, "unit": "GiB" },
+        { "resource": "datastore-used", "used": 78, "total": 100, "unit": "TiB" }
+      ],
+      "components": [
+        { "layer": "compute", "name": "cna-hosts", "ready": 12, "expected": 12, "status": "online" }
+      ]
+    },
+    {
+      "platform": "Tencent TCE",
+      "productForm": "enterprise private cloud lab model",
+      "version": "DEMO-3.x",
+      "patch": "DEMO-Hotfix",
+      "evidenceSource": "synthetic fixture",
+      "managementNodes": [
+        { "role": "management-a", "status": "online" },
+        { "role": "management-b", "status": "online" }
+      ],
+      "capacity": [
+        { "resource": "cvm-vcpu-allocation", "used": 2150, "total": 2400, "unit": "vCPU" },
+        { "resource": "object-storage-used", "used": 460, "total": 500, "unit": "TiB" }
+      ],
+      "components": [
+        { "layer": "iaas", "name": "cvm-control", "ready": 3, "expected": 3, "status": "online" },
+        { "layer": "cloud-native", "name": "tke-control-plane", "ready": 2, "expected": 3, "status": "degraded" },
+        { "layer": "observability", "name": "log-and-monitor", "ready": 2, "expected": 2, "status": "online" }
+      ]
+    }
+  ]
+}

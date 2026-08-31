@@ -245,6 +245,295 @@ CPU 密集规则、巨大 JSON 解析和一次渲染万条 DOM 会产生 long ta
 - 浏览器里的前端代码和环境变量都可被用户查看，不能存放服务端秘密。
 - 危险操作的授权、租户边界和参数校验必须在服务端重新执行。
 
+## 进阶层一：执行上下文、词法环境与调用栈
+
+JavaScript 执行一段代码时，会为全局、模块或函数建立 execution context（执行上下文）。上下文里至少要理解三件事：当前代码、变量/函数怎样解析、`this` 如何确定。
+
+```text
+调用函数
+  -> 创建执行上下文
+  -> 建立词法环境并连接外层环境
+  -> 压入 call stack
+  -> 执行语句
+  -> 返回或抛错
+  -> 弹出调用栈
+```
+
+词法作用域由源码位置决定，不由“从哪里调用”决定。闭包是函数和它创建时可访问的词法环境组合，因此回调在外层函数结束后仍能读取那些绑定。
+
+```js
+function createIncidentCounter() {
+  let count = 0
+  return () => ++count
+}
+
+const next = createIncidentCounter()
+console.log(next()) // 1
+console.log(next()) // 2
+```
+
+这里的 `count` 被返回函数保持可达。闭包不是内存泄漏；只有当闭包长期持有不再需要的大对象、DOM 节点或缓存，且入口仍可达时才形成问题。
+
+### hoisting 到底是什么
+
+“变量提升”是便于理解的说法，准确心智模型是：进入作用域时先创建绑定，再按规则初始化。
+
+- 函数声明在执行前已有可调用绑定。
+- `var` 绑定初始化为 `undefined`，作用域是函数/全局。
+- `let`、`const` 绑定已创建但在声明执行前未初始化，处于 temporal dead zone（暂时性死区）。
+- `class` 也有声明前不可访问的边界。
+
+不要为了利用提升打乱代码顺序；生产代码应让定义和依赖关系容易阅读。
+
+### this 的四类来源
+
+`this` 不是函数定义处的外层变量。普通函数的 `this` 由调用形式决定：方法调用、显式 `call/apply/bind`、构造调用、普通调用。箭头函数没有自己的 `this`，它捕获外层词法 `this`。
+
+把对象方法直接传给事件或定时器可能丢失接收者：
+
+```js
+const board = {
+  name: 'incident-board',
+  report() { console.log(this.name) }
+}
+
+setTimeout(board.report, 0) // this 不再是 board
+setTimeout(() => board.report(), 0) // 明确保留调用形式
+```
+
+排查时看实际调用点，而不是只看函数定义。
+
+## 进阶层二：值、对象身份与属性模型
+
+原始值按值比较，对象按身份比较：
+
+```js
+{} === {} // false，两次创建的是不同对象
+const a = {}
+const b = a
+a === b // true，指向同一个对象
+```
+
+浅拷贝只复制第一层属性。展开运算符不会递归复制嵌套对象，也不会自动保留所有属性描述符、原型和内部槽。状态更新中误以为“展开就是深拷贝”，会让旧状态和新状态继续共享嵌套对象。
+
+### property descriptor
+
+对象属性不仅有值，还有 writable、enumerable、configurable，或 getter/setter：
+
+```js
+const incident = {}
+Object.defineProperty(incident, 'id', {
+  value: 'INC-1024',
+  writable: false,
+  enumerable: true,
+  configurable: false
+})
+```
+
+`Object.freeze()` 也是浅层的；它不能让嵌套对象深度不可变。Proxy、Vue 响应式和许多框架能力都建立在对象操作拦截之上，但 Proxy 也不能拦截所有语言内部槽行为。
+
+### prototype chain 与 class
+
+读取 `obj.key` 时，若对象自身没有该属性，会沿 prototype chain（原型链）查找。`class` 提供更熟悉的语法，但方法通常仍放在原型上。
+
+```text
+instance own properties
+  -> Constructor.prototype
+  -> Object.prototype
+  -> null
+```
+
+原型污染是安全风险：不可信键被递归合并到 `__proto__`、`constructor.prototype` 等位置时，可能改变许多对象的属性查找结果。边界处使用安全解析、键白名单、无原型字典或维护良好的合并库。
+
+## 进阶层三：类型转换与相等为什么容易出事故
+
+`===` 不执行常见的隐式类型转换，通常比 `==` 更容易推理。仍要理解这些边界：
+
+- `NaN !== NaN`，用 `Number.isNaN` 判断。
+- `Object.is(NaN, NaN)` 为 true，`Object.is(0, -0)` 为 false。
+- `''`、`0`、`-0`、`NaN`、`null`、`undefined`、`false` 是 falsy。
+- `[]`、`{}`、字符串 `'0'` 都是 truthy。
+- `??` 只对 null/undefined 回退，`||` 对所有 falsy 回退。
+
+AIOps 阈值 `0` 是有效值，不能用 `value || defaultValue` 把它误判为缺失。对 URL、表单和 JSON 的字符串数字要显式解析并验证有限范围。
+
+## 进阶层四：Promise 是状态机，不是线程
+
+Promise 有 pending、fulfilled、rejected 三种状态；settled 后不能再次改变。`then` 返回新的 Promise，使错误和值沿链传播。
+
+```text
+pending
+  -> fulfilled(value)
+  -> rejected(reason)
+```
+
+Promise executor 在创建 Promise 时同步执行；`then/catch/finally` 的反应作为 microtask（微任务）调度。
+
+```js
+console.log('A')
+Promise.resolve().then(() => console.log('C'))
+console.log('B')
+// A B C
+```
+
+`async function` 总是返回 Promise。`await` 暂停当前 async 函数后续部分，不阻塞整个线程；await 的值完成后，继续执行也通过微任务恢复。
+
+### 错误传播的常见断链
+
+```js
+async function load() {
+  fetch('/api/incidents') // 忘记 return/await，外层无法等待或捕获
+}
+```
+
+如果异步工作属于当前操作，明确 `return` 或 `await`。如果确实是 fire-and-forget，仍要有错误处理、取消、容量上限和生命周期所有者，不要用 `void` 掩盖无人负责的失败。
+
+### Promise 并发工具的取舍
+
+| API | 完成语义 | 适合 | 风险 |
+|---|---|---|---|
+| `Promise.all` | 任一拒绝就整体拒绝 | 所有结果缺一不可 | 不会自动取消剩余工作 |
+| `Promise.allSettled` | 等全部结束并返回每项状态 | 面板允许部分失败 | 容易忽略失败比例 |
+| `Promise.race` | 第一个 settled 决定 | 超时包装等 | 败者仍可能继续执行 |
+| `Promise.any` | 第一个 fulfilled 决定 | 多副本择一成功 | 全失败得到 AggregateError |
+
+真正的并发上限需要队列或 semaphore，不能对十万项直接 `Promise.all`。
+
+## 进阶层五：事件循环、渲染与饥饿
+
+浏览器主线程大致循环处理 task，清空 microtask，再获得渲染机会：
+
+```text
+取一个 task（点击、timer、网络回调等）
+  -> 执行到调用栈清空
+  -> 清空 microtask checkpoint
+  -> 可能进行 style/layout/paint
+  -> 进入下一轮
+```
+
+具体调度由 HTML 标准和浏览器实现共同决定，不能把它简化为固定两条队列。`setTimeout(fn, 0)` 也不是立即执行，还受嵌套节流、后台页策略和前面任务影响。
+
+### 微任务饥饿
+
+微任务中不断追加微任务，浏览器可能迟迟得不到渲染机会：
+
+```js
+function starve() {
+  queueMicrotask(starve)
+}
+starve()
+```
+
+真实应用中的无限 Promise 链也可能产生类似效果。用 Performance 观察长时间无绘制、主线程调用栈和任务边界；修复为有界批次并主动让出调度机会。
+
+### requestAnimationFrame 与 requestIdleCallback
+
+`requestAnimationFrame` 适合在下一次绘制前更新动画状态，不是网络重试计时器。`requestIdleCallback` 只适合可延迟且有超时/降级的低优先任务，繁忙或后台环境可能很久不执行。
+
+## 进阶层六：模块图、循环依赖与构建边界
+
+ES modules 使用静态 import/export，浏览器或构建器可以先解析依赖图。静态结构有利于 tree shaking，但“导出了却没使用”不等于一定能删：模块副作用、动态访问和打包器配置都会影响结果。
+
+```text
+entry module
+  -> parse dependencies
+  -> link bindings
+  -> evaluate modules
+```
+
+ESM 导入是 live binding，不是简单复制值。循环依赖可能在初始化顺序上暴露暂时不可用的绑定。解决方式通常是重划模块职责、提取稳定接口或反转依赖，而不是随机调整 import 顺序。
+
+### ESM、CommonJS 与运行时
+
+浏览器原生 ESM、Node ESM、CommonJS 和构建器模拟规则并不完全相同。排查“本地能跑、生产模块找不到”时核对：
+
+1. `package.json` 的 `type` 与 exports/imports。
+2. 文件扩展名和大小写。
+3. tsconfig/bundler 的 module 与 moduleResolution。
+4. 浏览器 base URL、MIME type、CORS。
+5. 测试运行器是否替换了真实环境行为。
+
+## 进阶层七：垃圾回收、弱引用与内存泄漏
+
+现代引擎使用可达性判断并结合分代、增量等策略。开发者不能要求某个时刻一定回收，也不应把 `WeakRef` 当缓存万能方案。
+
+常见保留链：
+
+```text
+window / module singleton
+  -> event listener
+  -> callback closure
+  -> detached DOM / large incident array
+```
+
+排查步骤：
+
+1. 复现稳定操作序列，记录 heap 基线。
+2. 重复打开/关闭或切路由多次。
+3. 强制 GC 仅作为实验辅助，比较 retained size。
+4. 从意外对象沿 retaining path 找到根。
+5. 修复监听、timer、订阅、缓存上限或生命周期所有权。
+6. 再跑同一序列，不以单次内存波动下结论。
+
+`WeakMap` 适合把元数据关联到对象且不独立阻止 key 回收，但它不可枚举，不能替代需要盘点和容量控制的业务缓存。
+
+## 进阶层八：主线程容量与 Worker
+
+浏览器 UI、DOM、许多脚本和输入事件共享主线程。CPU 密集的聚合、正则、压缩或巨大 JSON 解析会推迟交互。
+
+Web Worker 在独立线程运行 JavaScript，不能直接操作 DOM；数据通过 structured clone 或 transferable object 传递。Worker 不是免费：启动、复制、消息协议、错误与版本都要治理。
+
+适合移入 Worker：
+
+- 大批量合成告警聚合与排序。
+- 可分离的日志解析和文本处理。
+- 不依赖 DOM 的模型推理或压缩。
+
+不适合只为几十条数据增加 Worker 复杂度。先设性能预算并测量主线程 long task、INP、序列化成本和内存。
+
+## 进阶层九：生产状态、一致性与副作用
+
+前端状态至少分四类：
+
+| 状态 | 示例 | 所有者建议 | 一致性风险 |
+|---|---|---|---|
+| server state | 事件列表、确认结果 | 数据请求层/缓存层 | 新鲜度、重复、乱序、权限 |
+| URL state | 筛选、分页、事件 ID | 路由/URL | 刷新和分享不一致 |
+| local UI state | 弹窗、展开项、草稿 | 最近组件/模块 | 无故全局化 |
+| derived state | 按等级统计 | 从源状态计算 | 重复存储后互相矛盾 |
+
+不要把所有状态塞进一个全局对象。每个副作用都要回答：由谁启动、怎样取消、结果仍有资格提交吗、失败谁处理、离开页面怎样清理。
+
+## 进阶故障实验：事件循环、内存与竞态
+
+### 故障一：微任务淹没渲染
+
+1. 本地按钮启动一个有上限的 50 万次 Promise/queueMicrotask 链。
+2. 同时运行 CSS loading 动画，记录动画停止和输入延迟。
+3. 用 Performance 找到微任务链，不要只看 CPU 百分比。
+4. 改为分批处理并在批次间让出任务；比较 INP/long task。
+
+### 故障二：监听器泄漏
+
+1. 每次打开事件详情都给 window 添加 resize listener，故意不移除。
+2. 打开关闭 20 次，记录一次 resize 触发次数和 heap retaining path。
+3. 保存 handler 引用并在关闭时 removeEventListener，或使用 AbortSignal 管理生命周期。
+4. 重复相同步骤，确认触发次数不再增长。
+
+### 故障三：旧请求覆盖新请求
+
+1. 搜索 A 的响应延迟 1500ms，搜索 B 延迟 100ms。
+2. 快速输入 A 再 B，记录 B 先显示后被 A 覆盖。
+3. 修复为 AbortController + 单调 request version；只有当前请求可提交状态。
+4. 验证取消、后端仍执行、组件卸载和异常路径。
+
+### 故障四：重复写与未知结果
+
+1. 合成“确认事件”接口在服务端已写入后故意延迟响应。
+2. 客户端超时后再次点击，观察是否产生重复审计记录。
+3. 加业务幂等键和结果查询；客户端按钮防重复只作为体验层。
+4. 记录服务端唯一约束、两次请求 ID 和最终业务状态。
+
 ## 常用语法/API 字典
 
 | 项 | 作用 | 预期/观察 | 常见坑 |

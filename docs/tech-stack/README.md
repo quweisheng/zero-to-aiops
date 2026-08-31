@@ -24,6 +24,8 @@
 - [HTML 技术栈深讲](./frontend/html.md)
 - [TypeScript 技术栈深讲](./frontend/typescript.md)
 - [React 技术栈深讲](./frontend/react.md)
+- [华为 FusionSphere / FusionCompute 技术栈深讲](./virtualization-private-cloud/fusionsphere.md)
+- [腾讯专有云 TCE 全栈技术地图](./virtualization-private-cloud/tencent-tce.md)
 - [Apache Hadoop 大厂面试级深讲](./data-ai/hadoop.md)
 - [KVM 虚拟化大厂面试级深讲](./virtualization-private-cloud/kvm.md)
 
@@ -43,11 +45,11 @@
 | 类别 | 技术 | 优先级 | 学到什么程度 |
 |---|---|---:|---|
 | 基础工具 | Linux、systemd、网络、RESTful API、Git、GitHub、Markdown、VitePress、Python、Go、Java、Shell/PowerShell | P0-P1 | 能排障、提交代码、编写脚本，设计可演进、可重试、可观测的 HTTP API，并用 Go 或 Java 构建并发、可诊断的云原生与 AIOps 服务 |
-| 前端工程 | HTML、CSS、JavaScript、Ajax/Fetch、TypeScript、Vue、React | P0-P2 | 能从语义 DOM、布局和事件循环走到浏览器请求、类型契约与组件状态；能构建加载/空/错误/取消齐全、可访问、可观测、可灰度回滚的 AIOps 控制台 |
+| 前端工程 | HTML、CSS、JavaScript、Ajax/Fetch、TypeScript、Vue、React | P0-P2 | 能从浏览器解析/渲染、层叠布局、作用域/原型/事件循环走到请求一致性、类型系统、框架调度与 SSR 水合；能完成容量、安全、升级、故障注入和系统设计 |
 | 可观测性 | Prometheus、Zabbix、VictoriaMetrics、Alertmanager、Grafana、OpenTelemetry、Loki、Elasticsearch | P1 | 能采集指标、日志、链路，能覆盖主机、网络设备和混合基础设施，能做仪表盘和告警 |
-| 云原生 | Docker、Compose、Kubernetes、containerd/CRI、etcd、CNI、Calico、Cilium、CSI、CoreDNS、Helm、NGINX/Ingress/Gateway API、Traefik、微服务、Rancher、Harbor、Istio、KubeSphere、Kubeflow | P1 | 能解释容器交付、控制面一致性、Pod/Service 网络、存储/DNS/入口、动态路由、策略、平台治理、机器学习流水线与分布式训练、高可用、升级和端到端排障 |
-| 虚拟化与私有云 | KVM、VMware vSphere、OpenStack | P1-P2 | 能理解虚拟化与 IaaS 的计算、网络、存储、调度、高可用和端到端排障 |
-| 存储与数据保护 | IBM Storage、Dell EMC VPLEX、Dell EMC VMAX、Brocade 6510、华为 OceanStor、爱数 AnyStorage、Ceph | P1-P2 | 能理解集中式与分布式存储、块/文件/对象、FC SAN、存储虚拟化、高端阵列、存储池、LUN、多路径、双活、复制、备份与存储 AIOps 排障 |
+| 云原生 | Docker、Compose、Kubernetes、TKE on TCE、containerd/CRI、etcd、CNI、Calico、Cilium、CSI、CoreDNS、Helm、NGINX/Ingress/Gateway API、Traefik、微服务、Rancher、Harbor、Istio、KubeSphere、Kubeflow | P1 | 能解释容器交付、控制面一致性、Pod/Service 网络、TCE 云资源集成、存储/DNS/入口、动态路由、策略、平台治理、机器学习流水线与分布式训练、高可用、升级和端到端排障 |
+| 虚拟化与私有云 | KVM、VMware vSphere、OpenStack、FusionSphere/FusionCompute、腾讯 TCE/IaaS/运维安全 | P1-P2 | 能从虚拟机控制与数据路径走到私有云区域/AZ/租户、CVM/VPC/CBS、BOM/License、容量、升级、容灾和跨产品证据排障 |
+| 存储与数据保护 | IBM Storage、Dell EMC VPLEX、Dell EMC VMAX、Brocade 6510、华为 OceanStor、爱数 AnyStorage、Ceph、TCE 存储 | P1-P2 | 能理解集中式与分布式存储、块/文件/对象、FC SAN、存储虚拟化、高端阵列、存储池、LUN、多路径、双活、复制、备份与存储 AIOps 排障 |
 | 中间件与应用平台 | IBM WebSphere、Apache Tomcat | P1-P2 | 能解释企业 Java 与 Servlet 容器的请求路径、部署、类加载、线程/连接/JDBC、会话、集群、容量、高可用、升级回滚和 AIOps 排障 |
 | 自动化与 CI/CD | Ansible、Terraform、GitHub Actions、GitLab、Jenkins、Apache Maven、Nexus、SonarQube、CI/CD、Runbook Automation、n8n | P1-P2 | 能把提交、依赖解析、编译测试、代码质量与安全门禁、事件集成、审批、受控执行和回滚连成可审计流程 |
 | 架构与方案设计 | FDE、系统架构、可行性报告、IT 项目管理、PMP、敏捷、范围、进度、风险与变更 | P0-P1 | 能把客户问题从需求发现、范围和成功指标串到生产实现、采用、交接与产品反馈 |
@@ -150,6 +152,7 @@
 - [Docker](./cloud-native/docker.md)
 - [Docker Compose](./cloud-native/docker-compose.md)
 - [Kubernetes](./cloud-native/kubernetes.md)
+- [TKE on TCE](./cloud-native/tke-on-tce.md)
 - [etcd](./cloud-native/etcd.md)
 - [Calico](./cloud-native/calico.md)
 - [Cilium](./cloud-native/cilium.md)
@@ -168,6 +171,10 @@
 - [KVM 虚拟化](./virtualization-private-cloud/kvm.md)
 - [VMware vSphere](./virtualization-private-cloud/vsphere.md)
 - [OpenStack](./virtualization-private-cloud/openstack.md)
+- [华为 FusionSphere / FusionCompute](./virtualization-private-cloud/fusionsphere.md)
+- [腾讯专有云 TCE 全栈地图](./virtualization-private-cloud/tencent-tce.md)
+- [TCE IaaS](./virtualization-private-cloud/tce-iaas.md)
+- [TCE 运营、运维与安全](./virtualization-private-cloud/tce-operations-security.md)
 
 ### 存储与数据保护
 
@@ -178,6 +185,7 @@
 - [Ceph](./storage-data-protection/ceph.md)
 - [华为 OceanStor](./storage-data-protection/huawei-oceanstor.md)
 - [爱数 AnyStorage](./storage-data-protection/aishu-anystorage.md)
+- [TCE 存储与数据保护](./storage-data-protection/tce-storage.md)
 
 ### 中间件与应用平台
 
@@ -223,11 +231,14 @@
 ### 数据与 AI
 
 - [MySQL / SQL](./data-ai/mysql-sql.md)
+- [TDSQL-C MySQL](./data-ai/tdsql-mysql.md)
 - [Oracle Database](./data-ai/oracle.md)
 - [PostgreSQL](./data-ai/postgresql.md)
 - [MongoDB](./data-ai/mongodb.md)
 - [Redis](./data-ai/redis.md)
 - [Kafka](./data-ai/kafka.md)
+- [Apache Pulsar](./data-ai/apache-pulsar.md)
+- [TCE 数据库、缓存、消息与数据平台地图](./data-ai/tce-data-middleware.md)
 - [Apache ActiveMQ](./data-ai/activemq.md)
 - [RabbitMQ](./data-ai/rabbitmq.md)
 - [Apache ZooKeeper](./data-ai/zookeeper.md)

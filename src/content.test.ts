@@ -239,6 +239,39 @@ describe('getDocByRoute', () => {
     )
   })
 
+  it('includes the FusionSphere and TCE full-stack deep dives with production evidence', async () => {
+    const expectedTitles = new Map([
+      ['/tech-stack/virtualization-private-cloud/fusionsphere', '华为 FusionSphere / FusionCompute 技术栈深讲'],
+      ['/tech-stack/virtualization-private-cloud/tencent-tce', '腾讯专有云 TCE 全栈技术地图'],
+      ['/tech-stack/virtualization-private-cloud/tce-iaas', 'Tencent TCE IaaS 技术栈深讲'],
+      ['/tech-stack/virtualization-private-cloud/tce-operations-security', 'Tencent TCE 运营、运维与安全技术栈深讲'],
+      ['/tech-stack/cloud-native/tke-on-tce', 'TKE on TCE 技术栈深讲'],
+      ['/tech-stack/storage-data-protection/tce-storage', 'Tencent TCE 存储与数据保护技术栈深讲'],
+      ['/tech-stack/data-ai/tdsql-mysql', 'Tencent TDSQL-C MySQL 技术栈深讲'],
+      ['/tech-stack/data-ai/apache-pulsar', 'Apache Pulsar 技术栈深讲'],
+      ['/tech-stack/data-ai/tce-data-middleware', 'Tencent TCE 数据库、缓存、消息与数据平台技术地图']
+    ])
+
+    for (const [route, title] of expectedTitles) {
+      expect(getDocByRoute(route)?.title).toBe(title)
+      const loaded = await loadDocByRoute(route)
+      expect(loaded?.raw).toContain('官方')
+      expect(loaded?.raw).toContain('故障')
+      expect(loaded?.raw).toContain('升级')
+      expect(loaded?.raw).toContain('GitHub 学习证据')
+    }
+
+    const privateCloudNav = navGroups.find((group) => group.text === '虚拟化与私有云')
+    expect(privateCloudNav?.items.map((item) => item.route)).toEqual(
+      expect.arrayContaining([
+        '/tech-stack/virtualization-private-cloud/fusionsphere',
+        '/tech-stack/virtualization-private-cloud/tencent-tce',
+        '/tech-stack/virtualization-private-cloud/tce-iaas',
+        '/tech-stack/virtualization-private-cloud/tce-operations-security'
+      ])
+    )
+  })
+
   it('includes the Kubernetes platform operations role gap documents', () => {
     expect(getDocByRoute('/tech-stack/cloud-native/rancher')?.title).toBe('Rancher 深讲')
     expect(getDocByRoute('/tech-stack/cloud-native/harbor')?.title).toBe('Harbor 深讲')

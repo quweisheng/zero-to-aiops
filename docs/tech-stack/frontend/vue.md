@@ -306,6 +306,301 @@ app.config.errorHandler = (error, instance, info) => {
 
 Vue 2 到 3 属于迁移项目，需要逐项核对 API、生态包和行为，不能只改主版本号。
 
+## 进阶层一：从 SFC 到浏览器 DOM 的编译路径
+
+Vue Single-File Component（SFC，单文件组件）通常包含 template、script 和 style。它不是浏览器原生格式，构建工具会分别处理：
+
+```text
+Component.vue
+  -> SFC parser 拆分 block
+  -> template compiler 生成 render function
+  -> script/TypeScript 转译
+  -> style 处理 scoped/CSS modules/preprocessor
+  -> bundler 建依赖图、分包、压缩
+  -> 浏览器加载 JavaScript
+  -> createApp 创建组件树
+  -> render effect 生成 vnode
+  -> patch DOM
+```
+
+模板编译器能在构建期分析静态节点、动态绑定和事件，并生成 patch flag（补丁标志）等优化提示。运行时不必盲目比较整棵树的每个属性。
+
+### 编译时与运行时版本必须匹配
+
+`@vue/compiler-sfc` 与 `vue` 核心版本不匹配，可能出现模板转换、宏类型或 HMR 问题。脚手架通常锁定相容组合，升级时要同时核对 Vue、compiler-sfc、Vite 插件、vue-tsc 和 TypeScript。
+
+运行时编译版可以在浏览器把模板字符串编译为 render function，体积与安全边界更大。生产应用通常预编译 SFC，不允许用户输入成为模板。
+
+## 进阶层二：响应式依赖图怎样建立
+
+可以用下面的简化模型理解 Vue 3 响应式：
+
+```text
+reactive target
+  -> key
+  -> dependent effects set
+
+effect 执行并读取属性
+  -> track(target, key, activeEffect)
+
+属性写入
+  -> trigger(target, key)
+  -> scheduler 把 effect 放入队列
+  -> 批量执行并 patch DOM
+```
+
+实际实现还有 WeakMap、Set、Proxy handler、computed dirty flag、effect scope 等细节。面试不必伪装背源码，但要能解释“谁读过哪个响应式属性，变更时只通知相关 effect”。
+
+### ref 与 reactive 的边界
+
+`ref` 用一个稳定容器表示可替换值；对象 ref 的内部值也会深度响应式转换。`reactive` 返回 Proxy，响应性依赖通过该 Proxy 访问。
+
+```ts
+const state = reactive({ count: 0 })
+let { count } = state
+count++ // 只是局部 number，不再经过 state Proxy
+```
+
+要保留属性级响应性可使用 `toRef/toRefs`，但不要把所有对象机械转成一堆 ref。先设计状态所有权和 API 形状。
+
+### computed 的缓存和脏标记
+
+computed 本质上是带缓存的响应式派生：依赖没变化时多次读取复用结果；依赖触发后先标记 dirty，下次读取再求值。getter 应保持无副作用，否则求值时机变化会让行为难以预测。
+
+### watch 的来源与 flush 时机
+
+watch source 可以是 ref、reactive object、getter 或数组。默认回调在父组件更新后、当前组件 DOM 更新前附近执行；根据需求可选 `flush:'post'` 读取已更新 DOM，或极少数场景使用 sync。
+
+同步多次修改会被批处理。`flush:'sync'` 会失去批处理保护，对数组循环修改尤其危险。使用前必须说明为何不能等待队列。
+
+## 进阶层三：调度队列与 nextTick
+
+状态变更通常不会每次立即 patch DOM，而是把更新任务去重后放到当前 tick 的队列。这样多次同步更新可以合并。
+
+```ts
+count.value++
+count.value++
+console.log(element.textContent) // 可能仍是旧 DOM
+await nextTick()
+console.log(element.textContent) // 本轮 Vue DOM 更新已提交
+```
+
+`nextTick` 只等待 Vue 当前批次更新，不保证图片加载、网络完成或浏览器一定已绘制到屏幕。需要测绘制时机时结合 requestAnimationFrame 和 Performance，而不是叠加多个 nextTick。
+
+## 进阶层四：组件实例、渲染与 patch
+
+首次挂载：
+
+```text
+创建组件实例
+  -> setup 建立状态和依赖
+  -> render 读取响应式值
+  -> 生成 vnode 子树
+  -> mount 真实 DOM
+  -> mounted hooks
+```
+
+更新：
+
+```text
+响应式 trigger
+  -> scheduler 去重
+  -> 重新运行组件 render effect
+  -> 新旧 vnode patch
+  -> 更新必要 DOM
+  -> updated hooks
+```
+
+组件边界不是越细越好。每个组件实例、响应式依赖和更新都有成本；超大组件又难复用、测试和局部更新。按业务职责、状态所有权和稳定接口拆分。
+
+### key 与身份
+
+列表 diff 使用 key 识别同一业务实体。索引 key 在插入、排序、过滤时会把旧组件状态错误复用给另一个事件。
+
+```vue
+<IncidentRow
+  v-for="incident in incidents"
+  :key="incident.id"
+  :incident="incident"
+/>
+```
+
+key 必须在兄弟范围稳定且唯一，不要每次 render 生成随机值；随机 key 会强制卸载和重建，丢失输入、焦点和缓存。
+
+## 进阶层五：props、emits、slots 与 v-model 契约
+
+`props down, events up` 是默认数据流：父组件拥有状态，通过 props 传入；子组件通过 emit 描述发生了什么，而不是偷偷修改父状态。
+
+```vue
+<script setup lang="ts">
+const props = defineProps<{ incident: Incident; busy: boolean }>()
+const emit = defineEmits<{
+  acknowledge: [id: string]
+  retry: []
+}>()
+</script>
+```
+
+props 在子组件侧是只读的，但对象内部仍可能被间接修改。关键领域对象可用 readonly 类型、不可变更新和组件 API 约束。
+
+slot 让父组件提供结构，子组件控制布局位置；scoped slot 会把数据暴露给父模板。slot contract 也要版本化，避免组件库升级后静默破坏。
+
+`v-model` 是 prop + update event 的语法协议。自定义组件要明确值、事件和修饰符，不把复杂副作用塞进 setter。
+
+## 进阶层六：生命周期、Effect Scope 与资源所有权
+
+组件生命周期不只是 mounted/unmounted。setup 在实例创建期执行；渲染 effect 和 watcher 归属某个 effect scope；卸载时同步创建且归属组件的 effect 会停止。
+
+但这些资源需要显式清理：
+
+- window/document 事件监听。
+- setInterval、外部计时器。
+- WebSocket/SSE/第三方订阅。
+- Fetch 请求和 Worker。
+- 手工创建且脱离组件 scope 的 watcher。
+
+```ts
+watch(query, async (value, _old, onCleanup) => {
+  const controller = new AbortController()
+  onCleanup(() => controller.abort('superseded'))
+  incidents.value = await search(value, controller.signal)
+})
+```
+
+cleanup 在下一次 watcher 执行或停止前运行。取消客户端等待不保证服务端写入回滚。
+
+## 进阶层七：状态管理与服务端状态
+
+不是所有共享值都需要 Pinia。判断顺序：
+
+1. 只在一个组件使用：local ref。
+2. 父子共享：props/emits 或受控 v-model。
+3. 一棵子树共享稳定依赖：provide/inject。
+4. 多路由、跨域业务状态且需要 DevTools/插件：Pinia。
+5. 服务端数据缓存：明确新鲜度、失效、重试和权限，不要与纯客户端状态混为一谈。
+
+store 中也要避免存派生重复数据和浏览器不可序列化对象。SSR 时每个请求创建独立 store，不能共享模块级单例状态。
+
+### Pinia action 的一致性
+
+action 可以封装业务动作，但不能让客户端成为权威事务。确认事件仍需服务端授权、幂等和审计。前端 optimistic update 必须定义失败回滚、并发修改和刷新后的权威同步。
+
+## 进阶层八：Router 完整导航链路
+
+```text
+用户点击 router-link / 调用 push
+  -> 解析目标 location
+  -> 匹配 route records
+  -> 运行离开/全局/路由/组件守卫
+  -> 异步组件与数据准备
+  -> 确认导航
+  -> 更新 currentRoute
+  -> 渲染 RouterView
+  -> afterEach / 可观测记录
+```
+
+守卫适合导航规则，不适合承担所有数据获取。权限不能只在前端守卫；用户可以直接请求 API。路由失败要区分取消、重定向、重复导航、懒加载 chunk 失败和服务端深链 404。
+
+滚动行为、焦点移动和页面标题也属于导航完成。无障碍用户切路由后若焦点仍停在已消失按钮，会迷失上下文。
+
+## 进阶层九：错误边界、Suspense 与异步组件
+
+Vue 可用 `errorCaptured` 或 `app.config.errorHandler` 收集渲染、事件、生命周期等错误，但错误分类和恢复 UI 仍需设计。局部错误边界应显示可操作降级，不要让整个控制台白屏。
+
+异步组件支持加载与错误组件、延迟和超时。动态 import 的 chunk 404 常来自旧 HTML/新资源错配、CDN 缓存或 base path。重试前先识别 release，避免无限刷新。
+
+`Suspense` 可协调异步依赖的 fallback，但需要理解当前 Vue/框架支持边界，不应把所有请求都包进一个全页 fallback。局部内容允许部分成功时要保留已加载区域。
+
+## 进阶层十：SSR、hydration 与跨请求隔离
+
+SSR 完整路径：
+
+```text
+HTTP request
+  -> 每请求创建 app/router/store
+  -> router 跳到目标
+  -> 获取授权后的数据
+  -> renderToString
+  -> 安全序列化初始状态
+  -> HTML 返回
+  -> 浏览器加载客户端 bundle
+  -> hydrate 复用已有 DOM
+```
+
+高风险点：
+
+- 模块级 store 让 A 用户状态泄露给 B 用户。
+- 初始状态序列化未转义形成 XSS。
+- 服务端和客户端时区、随机数、窗口尺寸不同。
+- 无效 HTML 被浏览器修正。
+- 只在客户端判断权限造成敏感 HTML 已发送。
+
+hydration warning 是状态/标记不一致证据，不要全局 suppress。对确实只在客户端存在的内容，使用框架提供的客户端边界并给稳定占位。
+
+## 进阶层十一：性能证据与优化顺序
+
+先建立性能预算：首屏 JS、LCP、INP、路由切换、列表规模、组件更新时间和内存。再用构建分析、浏览器 Performance 与 Vue DevTools 找瓶颈。
+
+常见优化按收益验证：
+
+1. 路由级动态 import，减少首屏无关代码。
+2. 稳定 props，避免父层每次创建无意义新对象。
+3. 大型只读对象使用 shallowRef/markRaw 等减少深追踪，但明确更新协议。
+4. 列表分页/虚拟化；验证键盘与读屏。
+5. `v-once`/`v-memo` 只用于有证据的稳定子树。
+6. 避免深度 watcher 扫描巨大对象。
+7. 控制第三方组件、图表和 polyfill 体积。
+
+优化不能改变业务状态语义。性能很好但显示旧租户数据是更严重的事故。
+
+## 进阶层十二：生产架构与微前端边界
+
+大型 Vue 控制台可按领域模块组织：
+
+```text
+app shell
+  -> identity/tenant context
+  -> router
+  -> shared design system
+  -> incident domain
+  -> topology domain
+  -> automation domain
+  -> API client + runtime schemas
+  -> observability adapter
+```
+
+微前端只有在独立团队、独立发布和组织边界足够强时才可能值得。它会增加运行时隔离、共享依赖、路由、样式、认证、可观测和版本协调成本。模块化单体常是更好的第一步。
+
+## 进阶故障实验：响应式、路由、SSR 与性能
+
+### 故障一：深度 watch 引发卡顿
+
+1. 创建一万条嵌套事件，对整个对象设置 deep watch。
+2. 每次输入触发小改动，记录 watcher 与组件更新时间。
+3. 改为监听必要字段、规范化状态或 shallow 边界。
+4. 对比同一设备和数据下的 profile。
+
+### 故障二：列表索引 key 造成草稿错位
+
+1. 每行有本地草稿输入，使用数组索引作 key。
+2. 排序列表，观察草稿跟到错误事件。
+3. 改为 incident.id 并加入排序回归测试。
+4. 记录组件身份与业务身份为何必须一致。
+
+### 故障三：懒加载 chunk 发布后 404
+
+1. 构建 v1 并保留旧页面，再构建 v2 删除旧 chunk。
+2. 让旧标签页导航到尚未加载的路由，记录 404 和 release。
+3. 发布时保留一段时间旧哈希资源，或提供受控刷新/回滚策略。
+4. 验证错误 UI 不会无限 reload 且草稿得到保护。
+
+### 故障四：SSR 跨请求状态污染
+
+1. 本地 SSR 实验故意复用模块级 store。
+2. 用两个合成租户并发请求，记录串数据。
+3. 改为每请求创建 app/router/store，加入并发隔离测试。
+4. 清理所有输出，不保留真实身份或数据。
+
 ## 常用 API 字典
 
 | API | 作用 | 预期 | 常见坑 |

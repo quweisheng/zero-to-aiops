@@ -252,6 +252,13 @@ export const generatedDocs = [
     "excerpt": "学习目标：从零理解 Rancher Manager、管理集群和下游 Kubernetes 集群的关系，掌握集群导入、RKE2/K3s 边界、权限、应用、监控、备份升级与常见排障，并能完成一次不接触生产集群的 Helm 渲染实验。 官方资料 ..."
   },
   {
+    "path": "../docs/tech-stack/cloud-native/tke-on-tce.md",
+    "route": "/tech-stack/cloud-native/tke-on-tce",
+    "title": "TKE on TCE 技术栈深讲",
+    "section": "云原生",
+    "excerpt": "学习目标：理解 TCE 私有云里的 Kubernetes 从哪里获得计算、网络、存储和镜像；能把一次 Pod 创建和一次用户请求拆成逐层证据，并完成 Service 故障实验、容量设计和升级回滚推演。 官方资料与版本边界 TKE on TC..."
+  },
+  {
     "path": "../docs/tech-stack/cloud-native/traefik.md",
     "route": "/tech-stack/cloud-native/traefik",
     "title": "Traefik 技术栈深讲",
@@ -264,6 +271,13 @@ export const generatedDocs = [
     "title": "Apache ActiveMQ 技术栈深讲：Classic 与 Artemis",
     "section": "数据与 AI",
     "excerpt": "学习目标：从零理解 ActiveMQ Classic 与 Apache Artemis 的产品边界、Queue/Topic、JMS、持久化、确认、重投、死信、流控、KahaDB/Journal、集群与高可用，能启动当前 Classic 版本..."
+  },
+  {
+    "path": "../docs/tech-stack/data-ai/apache-pulsar.md",
+    "route": "/tech-stack/data-ai/apache-pulsar",
+    "title": "Apache Pulsar 技术栈深讲",
+    "section": "数据与 AI",
+    "excerpt": "学习目标：理解 Pulsar 的 broker、BookKeeper、topic、subscription、ack、backlog、保留和多租户；能完成生产消费与消费者停机积压实验，并能设计容量、高可用、升级、安全和消息一致性方案。 官方资..."
   },
   {
     "path": "../docs/tech-stack/data-ai/dify.md",
@@ -432,6 +446,20 @@ export const generatedDocs = [
     "title": "Apache Spark 深讲",
     "section": "数据与 AI",
     "excerpt": "学习目标：从零理解 Spark 的 Driver、Executor、Job、Stage、Task、Partition 和 Shuffle，能用 PySpark 完成告警聚合实验，能读懂 SQL 执行计划与 Web UI，能分析数据倾斜、OO..."
+  },
+  {
+    "path": "../docs/tech-stack/data-ai/tce-data-middleware.md",
+    "route": "/tech-stack/data-ai/tce-data-middleware",
+    "title": "Tencent TCE 数据库、缓存、消息与数据平台技术地图",
+    "section": "数据与 AI",
+    "excerpt": "学习目标：面对一套 TCE，不再问“所有数据都放哪一个产品”，而能按权威数据、缓存、异步消息、检索、对象/大数据分析选择组件；能画跨组件一致性路径，完成重复消息实验，并按现场 BOM 建立可运维清单。 官方资料与严格边界 TCE 官方方案 ..."
+  },
+  {
+    "path": "../docs/tech-stack/data-ai/tdsql-mysql.md",
+    "route": "/tech-stack/data-ai/tdsql-mysql",
+    "title": "Tencent TDSQL-C MySQL 技术栈深讲",
+    "section": "数据与 AI",
+    "excerpt": "Tencent TDSQL C MySQL 技术栈深讲 学习目标：从 MySQL/InnoDB 基础走到 TCE 数据库服务的访问链、事务一致性、复制/容灾、容量性能、备份恢复与事故排查；能完成事务和锁等待实验，并明确哪些是本地 MySQL..."
   },
   {
     "path": "../docs/tech-stack/data-ai/tensorflow.md",
@@ -784,6 +812,20 @@ export const generatedDocs = [
     "excerpt": "学习目标：从零理解块、文件、对象和磁带存储，能说清 IBM FlashSystem、Storage Virtualize、Storage Scale、Storage Ceph、DS8000、Cloud Object Storage、Stor..."
   },
   {
+    "path": "../docs/tech-stack/storage-data-protection/tce-storage.md",
+    "route": "/tech-stack/storage-data-protection/tce-storage",
+    "title": "Tencent TCE 存储与数据保护技术栈深讲",
+    "section": "存储与数据保护",
+    "excerpt": "学习目标：从零分清 TCE 场景里的块、文件、对象和备份恢复；能画出读写路径、解释容量/性能/一致性/故障域，并用内容校验实验理解“复制成功不等于可恢复”。 官方资料与范围边界 TCE 官方方案 云硬盘 CBS 文件存储 CFS 文档 对象..."
+  },
+  {
+    "path": "../docs/tech-stack/virtualization-private-cloud/fusionsphere.md",
+    "route": "/tech-stack/virtualization-private-cloud/fusionsphere",
+    "title": "华为 FusionSphere / FusionCompute 技术栈深讲",
+    "section": "技术栈",
+    "excerpt": "学习目标：从零分清 FusionSphere 产品族、FusionCompute、FusionSphere OpenStack、DCS 与 FusionCube；能画出 VRM/CNA、虚拟机、网络、存储和管理面的完整链路，完成只读资产与容..."
+  },
+  {
     "path": "../docs/tech-stack/virtualization-private-cloud/kvm.md",
     "route": "/tech-stack/virtualization-private-cloud/kvm",
     "title": "KVM 虚拟化深讲",
@@ -796,6 +838,27 @@ export const generatedDocs = [
     "title": "OpenStack 深讲",
     "section": "技术栈",
     "excerpt": "学习目标：理解 IaaS 和 OpenStack 核心服务，能用命令行识别项目、网络、镜像、云主机与卷，完成一次只读资产盘点，并按请求链路定位常见故障。 官方资料 OpenStack 文档入口 安装指南概览 逻辑架构 OpenStackCl..."
+  },
+  {
+    "path": "../docs/tech-stack/virtualization-private-cloud/tce-iaas.md",
+    "route": "/tech-stack/virtualization-private-cloud/tce-iaas",
+    "title": "Tencent TCE IaaS 技术栈深讲",
+    "section": "技术栈",
+    "excerpt": "学习目标：理解 TCE 基础设施、DCOS、CVM、镜像、VPC、CLB 与 CBS 的职责和完整请求链；能用只读证据定位实例创建、业务访问、云盘和容量问题，并设计高可用、安全、升级和回滚方案。 官方资料 Tencent TCE 官方概览 ..."
+  },
+  {
+    "path": "../docs/tech-stack/virtualization-private-cloud/tce-operations-security.md",
+    "route": "/tech-stack/virtualization-private-cloud/tce-operations-security",
+    "title": "Tencent TCE 运营、运维与安全技术栈深讲",
+    "section": "技术栈",
+    "excerpt": "学习目标：把账号、权限、审计、监控、容量、备份、安全产品、升级和原厂支持串成可执行的值班闭环。能解释“控制台绿色却业务失败”，也能给出有证据、有审批、有停止条件的处置方案。 官方资料与适用范围 TCE 官方方案 TCE 安全套件 访问管理 ..."
+  },
+  {
+    "path": "../docs/tech-stack/virtualization-private-cloud/tencent-tce.md",
+    "route": "/tech-stack/virtualization-private-cloud/tencent-tce",
+    "title": "腾讯专有云 TCE 全栈技术地图",
+    "section": "技术栈",
+    "excerpt": "学习目标：从零分清 Tencent TCE、TCS、TStack 和公有云；掌握 TCE 的必修能力域、地域/AZ/租户/资源模型、IaaS 与 PaaS 请求链、版本/BOM/License、交付升级、安全容灾和 AIOps 排障，并能按..."
   },
   {
     "path": "../docs/tech-stack/virtualization-private-cloud/vsphere.md",

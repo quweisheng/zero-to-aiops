@@ -302,6 +302,260 @@ React StrictMode/测试中的额外执行应推动你修副作用，而不是写
 
 发布步骤：锁 Node/React/TypeScript/框架与 lockfile；可复现构建；单元/组件/E2E/类型/构建门禁；带哈希资源与入口原子发布；按 release 灰度；观察白屏、recoverable error、API 失败、关键动作、INP/LCP；保留上一整包制品和兼容 API，必要时回滚。
 
+## 进阶层一：React element、组件实例与 DOM 的关系
+
+JSX 会转换成 React element 描述。element 是不可变的普通描述对象，不是真实 DOM，也不是组件实例：
+
+```tsx
+const view = <IncidentRow incident={incident} />
+```
+
+函数组件被 React 调用后返回下一层 element tree。React 根据 type、位置和 key 把前后两次描述关联起来，再决定哪些宿主节点（例如 div、button）需要创建、更新或删除。
+
+```text
+JSX
+  -> React elements
+  -> Fiber tree（React 内部工作单元/组件树表示）
+  -> render/reconciliation 计算变化
+  -> commit 更新 DOM、ref 和布局 effect
+  -> 浏览器 style/layout/paint
+  -> passive Effect 运行
+```
+
+不要把 Fiber 私有字段当业务 API。面试应理解它让 React 能把渲染工作拆分、标记优先级和保存组件状态关联，而不是背某个版本的内部源码字段。
+
+## 进阶层二：render 可以被重做，commit 才改变外部世界
+
+render 阶段计算下一棵 UI，应保持纯：同样 props/state/context 应得到同样结果，不修改外部系统。并发渲染下，React 可能开始、暂停、放弃或重新执行 render；只有 commit 的结果真正应用到 DOM。
+
+因此下面行为不应放在组件函数里：
+
+- 发起不可撤销写请求。
+- 修改全局对象或 DOM。
+- 启动 timer/listener。
+- 生成必须只出现一次的审计记录。
+- 依赖随机数/当前时间决定首次 SSR 内容。
+
+用户动作放 event handler；与已提交 UI 同步外部系统放 Effect；服务端事务放受控 API。
+
+### StrictMode 为什么暴露问题
+
+开发 StrictMode 会额外调用部分 render、Effect setup/cleanup 等流程，帮助发现不纯渲染和清理不对称。这不是生产必然重复执行的承诺，也不能靠全局 `hasRun` 标志跳过。正确修复是让 setup/cleanup 可重入、让写操作绑定明确用户事件和幂等服务端。
+
+## 进阶层三：Fiber 身份、key 与状态保留
+
+React 将 state 与组件在渲染树中的身份关联。相同位置、相同 type、相同 key 通常保留 state；type/key 改变会重置对应子树。
+
+```tsx
+{incidents.map((incident) => (
+  <IncidentEditor key={incident.id} incident={incident} />
+))}
+```
+
+索引 key 在重排后会把编辑草稿、焦点或本地错误状态错误关联。随机 key 则每次重建所有行。key 只需要在当前兄弟集合唯一，不会自动作为 prop 传给组件。
+
+有意重置表单时可以改变 key，但要明确用户草稿丢失和焦点行为，不把 key 当普通刷新按钮。
+
+## 进阶层四：更新队列、批处理与函数式更新
+
+每次 render 读取的是固定 state snapshot。setter 把 update 加入队列，并请求后续 render：
+
+```tsx
+setCount(count + 1)
+setCount(count + 1) // 两次都基于当前快照，通常结果只加 1
+
+setCount((current) => current + 1)
+setCount((current) => current + 1) // updater 串行应用，结果加 2
+```
+
+updater 应保持纯，因为 React 可能在开发中额外调用验证。React 18+ 在更多异步边界自动批处理更新，减少无意义 commit；需要立即读取已提交 DOM 的极少数集成场景才考虑同步刷新，并评估性能。
+
+### state 设计规则
+
+1. 相关且一起变化的值可以合并。
+2. 不互相矛盾的状态用联合或 reducer 表示。
+3. 能从 props/state 计算的值不重复存。
+4. 避免同一数据在多个组件复制并双向同步。
+5. 对象和数组使用不可变更新，让引用变化表达新快照。
+
+## 进阶层五：reconciliation 的取舍
+
+任意两棵树的最优差异计算成本很高。React 使用启发式：不同 element type 通常替换子树；同类型继续比较 props/children；列表依赖 key 识别身份。
+
+React 重新 render 组件不等于真实 DOM 全部重建。render 是计算，commit 才执行必要宿主更新。性能排查要用 Profiler 看哪些组件 render、哪些 commit 花时，再结合浏览器 Performance 看 DOM/layout/paint。
+
+`memo` 只能根据 props 浅比较跳过部分 render；组件读取的 context 或自身 state 变化仍更新。若父组件每次创建新对象/函数，memo 可能无效。不要为追求“零 render”增加更大复杂度。
+
+## 进阶层六：Effect 的生命周期与闭包
+
+Effect 不是组件生命周期方法的简单替代，而是“当前已提交 UI 与某个外部系统之间的同步过程”。每次相关依赖变化：先清理旧同步，再建立新同步。
+
+```text
+commit with room=A
+  -> setup subscription A
+state changes to room=B
+  -> cleanup subscription A
+  -> setup subscription B
+unmount
+  -> cleanup subscription B
+```
+
+Effect 回调捕获创建它的 render 快照。依赖遗漏会产生 stale closure（旧闭包）；无脑把对象/函数加入依赖又可能每次 render 重连。优先重构状态和逻辑边界，而不是禁用 lint。
+
+### Effect Event、useEffectEvent 与边界
+
+React 19 的 `useEffectEvent` 可把 Effect 中需要读取最新值、但不应触发重新同步的逻辑分离出来。它不是绕过依赖的通用工具，不能在普通事件或任意位置调用；按当前官方规则和 lint 版本使用。
+
+### 数据请求为什么常不应散落在 Effect
+
+手写 Effect 请求需要自己处理 SSR 不执行、瀑布、缓存、预加载、竞态、取消和重复。小型客户端页可以明确实现；复杂应用优先采用框架数据 API 或集中数据层，并保留运行时校验和错误状态。
+
+## 进阶层七：ref、DOM 与 imperative escape hatch
+
+`useRef` 在 render 间保留同一对象，修改 `.current` 不触发 render。适合 DOM ref、timer ID、与 UI 无关的可变句柄；不能把应该显示的业务状态藏进 ref。
+
+访问 DOM 通常在事件或 Effect/布局 Effect。`useLayoutEffect` 在浏览器绘制前同步运行，会阻塞绘制，只用于需要测量并立即调整的少量场景。多数副作用使用普通 Effect。
+
+组件暴露 imperative handle 时接口应小而稳定，例如 `focus()`，不要把整个内部 DOM 暴露给父组件形成强耦合。
+
+## 进阶层八：Context、外部 store 与 tearing
+
+Context 适合低频、跨层的配置/依赖，如主题、当前租户句柄、服务接口。Provider value 每次变更会让读取它的消费者重新 render；一个巨大且高频对象会扩大更新范围。
+
+可拆分 context、稳定 value、把状态放近使用者。外部 store 与并发渲染集成应使用 `useSyncExternalStore`，提供一致 snapshot 和订阅协议，避免同一 render 树看到撕裂的不同状态。
+
+Context 不是安全边界。前端 tenant context 只能帮助构造请求，服务端仍必须从可信身份授权。
+
+## 进阶层九：Scheduler、lanes 与 transition 心智模型
+
+React 会给更新分配优先级，内部以 lanes 等机制组织工作。用户输入等紧急更新应尽快反映；大列表筛选结果可标为 transition，让 React 优先保持输入响应。
+
+```tsx
+const [isPending, startTransition] = useTransition()
+
+function handleChange(value: string) {
+  setQuery(value) // 紧急：输入框立即显示
+  startTransition(() => {
+    setVisibleFilter(value) // 非紧急：昂贵列表可以稍后完成
+  })
+}
+```
+
+transition 不会让 CPU 计算本身变快，也不会自动减少网络请求。对巨大同步循环仍要优化算法、分页或移到 Worker；请求仍需取消与竞态保护。
+
+## 进阶层十：Suspense、lazy 与错误边界协作
+
+`lazy` 配合 Suspense 可在组件代码尚未加载时显示 fallback。数据 Suspense 的正式用法高度依赖框架/数据源支持，不能假设任意 Effect fetch 会自动进入 Suspense。
+
+边界设计原则：
+
+```text
+route shell 保持可用
+  -> 局部 Suspense 显示骨架
+  -> 局部 Error Boundary 显示可恢复错误
+  -> 已成功区域不因一个小组件失败而消失
+```
+
+懒加载 chunk 404 常是部署版本错配。错误边界要识别 release，保护草稿，提供一次受控刷新或回滚提示，避免无限 reload。
+
+## 进阶层十一：SSR、streaming 与 hydration
+
+SSR 基本路径：
+
+```text
+HTTP request
+  -> 服务端读取授权数据
+  -> render React tree to HTML/stream
+  -> 浏览器逐步显示 HTML
+  -> 下载 client bundle
+  -> hydrateRoot 绑定事件并校验结构
+```
+
+Streaming SSR 可以让不同 Suspense 边界分段到达，但增加错误、缓存、代理缓冲和监控复杂度。服务端必须隔离每个请求状态，并安全序列化数据。
+
+hydration mismatch 常来自 Date.now/Math.random、时区、本地存储分支、无效 HTML、服务端与客户端不同权限/数据。`suppressHydrationWarning` 只适合已理解且局部不可避免的差异，不应覆盖整棵树。
+
+### useId 与稳定身份
+
+需要 SSR/客户端一致的表单 id 时使用 `useId`，不要在 render 用随机数。useId 不用作列表 key；列表 key 来自业务数据身份。
+
+## 进阶层十二：Server Components 与 Server Actions 边界
+
+Server Component 在服务端执行，可直接靠近数据源并不把其组件代码发送给客户端；Client Component 承担状态、事件和浏览器 API。二者之间通过框架定义的序列化边界传递 props。
+
+不要把 RSC 说成“更快的 SSR”：
+
+- RSC 的输出是组件传输协议，不只是 HTML。
+- SSR 负责初始 HTML，可渲染 Client/Server 组合的结果。
+- Client Component 仍可能 SSR 后 hydration。
+- 底层 RSC bundler API 的版本兼容需要锁定框架支持组合。
+
+Server Action/服务端函数仍是网络入口，必须认证、授权、校验、CSRF 防护、限流、幂等和审计。把函数写在服务器文件里不会自动安全。
+
+## 进阶层十三：React 性能模型和容量
+
+一次慢交互可能分布在：事件处理、状态更新、React render、commit、浏览器 layout/paint 和网络。用 Profiler 的 commit 信息与浏览器 trace 对齐，不要只看到一个组件 render 就认定根因。
+
+关键指标：
+
+- 首屏 JS、route chunk、第三方依赖体积。
+- 每次关键动作 render/commit 时间。
+- INP、long task、LCP、CLS。
+- 列表规模、DOM 数、内存、订阅和请求数。
+- API 成功率、取消率、重复写、恢复时间。
+
+列表虚拟化减少 DOM，但会改变屏幕阅读器、查找、焦点和滚动行为。大规模 AIOps 表格可能采用服务端分页 + 窗口化 + 可访问替代视图，并验证导出/复制需求。
+
+## 进阶层十四：测试并发与用户行为
+
+测试重点是可见行为和契约：
+
+1. reducer/selector 的纯状态转换。
+2. 组件通过 role/name 操作，验证 loading/empty/error/cancelled。
+3. 使用真实 timer/受控 fake timer 验证 cleanup，避免测试泄漏。
+4. StrictMode 下请求不会产生错误副作用。
+5. E2E 验证真实构建、路由深链、chunk、权限、移动端和键盘。
+6. 对 SSR 测 hydration warning 和跨请求状态隔离。
+
+测试中的 `act` 用于把可能触发 React 更新的操作包在一个可观察单元；用户事件工具通常会帮助处理。不要用大量随意 waitFor 掩盖竞态。
+
+## 进阶故障实验：状态身份、Effect 与发布
+
+### 故障一：索引 key 让处置草稿串行
+
+1. 每行 IncidentEditor 保存本地草稿，列表使用 index key。
+2. 按严重级别排序，观察草稿跟到另一事件。
+3. 改用稳定 incident.id，补排序/筛选组件测试。
+4. 记录“组件位置身份”与“业务实体身份”的关系。
+
+### 故障二：Effect 缺 cleanup 造成连接增长
+
+1. 每次切事件都订阅合成 EventSource，故意不 close。
+2. 切换 20 次，记录连接数和重复消息。
+3. Effect 返回 cleanup，并验证依赖变更先关旧连接。
+4. 在 StrictMode 和真实生产构建分别回归。
+
+### 故障三：stale closure 覆盖新状态
+
+1. Effect 内定时读取旧 query，遗漏依赖。
+2. 快速输入后记录请求使用旧值。
+3. 重构为事件参数、正确依赖或 Effect Event（适用时）。
+4. 不通过禁用 lint 或把一切塞进 ref 掩盖。
+
+### 故障四：旧标签页懒加载 chunk 404
+
+1. 构建并部署合成 v1，保留打开的标签页。
+2. 构建 v2 并删除 v1 chunk，让旧页导航。
+3. 记录 resource URL、HTML release、404 和错误边界。
+4. 实施旧哈希资源保留期、原子发布和受控恢复，验证草稿不丢。
+
+### 故障五：hydration 不一致
+
+1. SSR 首次 render 中直接使用当前时间或随机数。
+2. 记录 onRecoverableError 和服务端/客户端输出。
+3. 把稳定值从服务端序列化，或在 hydration 后再显示客户端专属信息。
+4. 验证无警告、无布局跳变并保持可访问名称一致。
+
 ## 常用 API 字典
 
 | API | 作用 | 预期 | 常见坑 |

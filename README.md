@@ -64,6 +64,8 @@ npm run build
 - [Vue](./docs/tech-stack/frontend/vue.md)
 - [React](./docs/tech-stack/frontend/react.md)
 
+七篇前端教程已升级到与 Kubernetes 主线相同的机制深度：补浏览器解析/渲染、事件循环、请求一致性、类型系统、Vue/React 调度与水合，以及生产容量、安全、升级、故障注入和连续面试追问。
+
 ### 可观测性
 
 - [Prometheus](./docs/tech-stack/observability/prometheus.md)
@@ -80,6 +82,7 @@ npm run build
 - [Docker](./docs/tech-stack/cloud-native/docker.md)
 - [Docker Compose](./docs/tech-stack/cloud-native/docker-compose.md)
 - [Kubernetes](./docs/tech-stack/cloud-native/kubernetes.md)
+- [TKE on TCE](./docs/tech-stack/cloud-native/tke-on-tce.md)
 - [etcd](./docs/tech-stack/cloud-native/etcd.md)
 - [Calico](./docs/tech-stack/cloud-native/calico.md)
 - [Cilium](./docs/tech-stack/cloud-native/cilium.md)
@@ -98,6 +101,10 @@ npm run build
 - [KVM 虚拟化](./docs/tech-stack/virtualization-private-cloud/kvm.md)
 - [VMware vSphere](./docs/tech-stack/virtualization-private-cloud/vsphere.md)
 - [OpenStack](./docs/tech-stack/virtualization-private-cloud/openstack.md)
+- [华为 FusionSphere / FusionCompute](./docs/tech-stack/virtualization-private-cloud/fusionsphere.md)
+- [腾讯专有云 TCE 全栈地图](./docs/tech-stack/virtualization-private-cloud/tencent-tce.md)
+- [TCE IaaS](./docs/tech-stack/virtualization-private-cloud/tce-iaas.md)
+- [TCE 运营、运维与安全](./docs/tech-stack/virtualization-private-cloud/tce-operations-security.md)
 
 ### 存储与数据保护
 
@@ -108,6 +115,7 @@ npm run build
 - [Ceph](./docs/tech-stack/storage-data-protection/ceph.md)
 - [华为 OceanStor](./docs/tech-stack/storage-data-protection/huawei-oceanstor.md)
 - [爱数 AnyStorage](./docs/tech-stack/storage-data-protection/aishu-anystorage.md)
+- [TCE 存储与数据保护](./docs/tech-stack/storage-data-protection/tce-storage.md)
 
 ### 中间件与应用平台
 
@@ -142,11 +150,14 @@ npm run build
 ### 数据与 AI
 
 - [MySQL / SQL](./docs/tech-stack/data-ai/mysql-sql.md)
+- [TDSQL-C MySQL](./docs/tech-stack/data-ai/tdsql-mysql.md)
 - [Oracle Database](./docs/tech-stack/data-ai/oracle.md)
 - [PostgreSQL](./docs/tech-stack/data-ai/postgresql.md)
 - [MongoDB](./docs/tech-stack/data-ai/mongodb.md)
 - [Redis](./docs/tech-stack/data-ai/redis.md)
 - [Kafka](./docs/tech-stack/data-ai/kafka.md)
+- [Apache Pulsar](./docs/tech-stack/data-ai/apache-pulsar.md)
+- [TCE 数据库、缓存、消息与数据平台地图](./docs/tech-stack/data-ai/tce-data-middleware.md)
 - [Apache ActiveMQ](./docs/tech-stack/data-ai/activemq.md)
 - [RabbitMQ](./docs/tech-stack/data-ai/rabbitmq.md)
 - [Apache ZooKeeper](./docs/tech-stack/data-ai/zookeeper.md)
