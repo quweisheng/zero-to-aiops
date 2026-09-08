@@ -4,14 +4,14 @@ export const generatedDocs = [
     "route": "/",
     "title": "To Be Better AIOps Engineer",
     "section": "开始",
-    "excerpt": "这是一个面向转岗的 AIOps 学习知识库。它不追求一次性学完所有概念，而是用公开项目把能力做出来。 知识库精讲标准 这个仓库会按“像教程一样讲清楚”的方式持续扩展。写法参考了 二哥的 Java 进阶之路 那种通俗、对话感强、循序拆解的讲法..."
+    "excerpt": "这是一个面向转岗的 AIOps 学习知识库。它不追求一次性学完所有概念，而是用公开项目把能力做出来。 知识库精讲标准 全站采用老师带学生的学习方式：先解释前置概念，再沿业务场景追机制，完成基础和故障实验，最后练习设计取舍与面试追问。官方英文..."
   },
   {
     "path": "../docs/interview/README.md",
     "route": "/interview",
     "title": "AIOps 面试准备",
     "section": "面试",
-    "excerpt": "岗位专项 Kubernetes 平台运维岗位专项路线：对照 Rancher、OpenStack、Harbor、Istio、KubeSphere、GitLab、Jenkins、Nexus、NGINX 和架构方案要求，安排学习优先级与项目证据。..."
+    "excerpt": "老师带你从“知道答案”走到“经得住追问” 先把目标放对：面试训练是在检验你能否解释和处理问题。完全零基础时，可以从本地实验说明学习能力；已有工作经验时，把真实案例里的证据和责任讲清楚。下面的自我介绍结构是可替换的写法，只有实际做过的事情才能..."
   },
   {
     "path": "../docs/interview/forward-deployed-engineer-role.md",
@@ -32,35 +32,35 @@ export const generatedDocs = [
     "route": "/interview/kubernetes-platform-operations-role",
     "title": "Kubernetes 平台运维岗位专项路线",
     "section": "面试",
-    "excerpt": "目标：针对“5 年以上 Kubernetes 运维、IaaS、容器平台、微服务、CI/CD、脚本、NGINX、架构和方案设计”岗位，按投递优先级补齐知识、实验和面试证据。 先说结论 这份岗位不是只招“会用 Kubernetes 命令”的人，..."
+    "excerpt": "目标：针对“5 年以上 Kubernetes 运维、IaaS、容器平台、微服务、CI/CD、脚本、NGINX、架构和方案设计”岗位，按投递优先级补齐知识、实验和面试证据。 老师带你把岗位要求变成学习顺序 先读一个完整请求：用户访问域名，入口..."
   },
   {
     "path": "../docs/resources.md",
     "route": "/resources",
     "title": "资料清单",
     "section": "开始",
-    "excerpt": "这里放高可信资料入口。学习时优先看官方文档、权威教材和成熟社区资料，不用一次看完，按项目需要查。 AIOps 与智能运维 Red Hat: The journey from observability to AIOps automation..."
+    "excerpt": "这里放高可信资料入口。学习时优先看官方文档、权威教材和成熟社区资料，不用一次看完，按项目需要查。 老师带你读英文官方文档 先带着一个问题去读，例如“程序重启后数据还在吗”。在目录找到 Persistence（持久化：进程结束后怎样保留数据）..."
   },
   {
     "path": "../docs/roadmap/README.md",
     "route": "/roadmap",
     "title": "AIOps 学习路线",
     "section": "路线",
-    "excerpt": "这条路线按“转岗作品集”设计，不按教材目录设计。每一阶段都要产出可以放到 GitHub 的证据。 0. 起点盘点 先写清楚自己的已有能力： Linux：排障、性能、网络、系统服务。 脚本：Shell、Python、自动化任务。 监控：是否用..."
+    "excerpt": "这条路线按“转岗作品集”设计，不按教材目录设计。每一阶段都要产出可以放到 GitHub 的证据。 从完全零基础开始：先跟老师走完一圈 如果你还不认识命令行、文件路径和端口，先别用下面的周数衡量自己。周数是一份可调整的课程安排，验收通过再向后..."
   },
   {
     "path": "../docs/roadmap/00-skill-map.md",
     "route": "/roadmap/00-skill-map",
     "title": "AIOps 工程师能力地图",
     "section": "路线",
-    "excerpt": "基础运维 Linux：进程、文件系统、网络、systemd、性能分析。 网络：DNS、HTTP、TLS、负载均衡、常见故障定位。 数据库与中间件：MySQL、Redis、MQ 的基础监控和排障。 自动化：Shell、Python、Ansib..."
+    "excerpt": "老师先解释这张地图怎么用 能力地图像课程导航：帮你找到前后依赖，不要求一次掌握所有格子。AIOps 是 Artificial Intelligence for IT Operations，意思是把数据分析和人工智能用于 IT 运维。它需要先..."
   },
   {
     "path": "../docs/tech-stack/README.md",
     "route": "/tech-stack",
     "title": "AIOps 技术栈总清单",
     "section": "技术栈",
-    "excerpt": "这个目录记录我从 0 学 AIOps 过程中会接触到的技术栈。它不是一次性背诵清单，而是一个长期学习地图：每学一项，就补充理解、配置、实验和踩坑记录。 精讲写作标准 后续每个技术栈文件都会按 技术栈精讲写作标准 补齐内容：官方资料、场景开场..."
+    "excerpt": "这个目录记录我从 0 学 AIOps 过程中会接触到的技术栈。它不是一次性背诵清单，而是一个长期学习地图：每学一项，就补充理解、配置、实验和踩坑记录。 精讲写作标准 2026 年 9 月开始全站老师带学修订：用零基础能理解的前置概念、中文注..."
   },
   {
     "path": "../docs/tech-stack/architecture-delivery/architecture-solution-design.md",
@@ -116,7 +116,7 @@ export const generatedDocs = [
     "route": "/tech-stack/automation/maven",
     "title": "Apache Maven 技术栈深讲",
     "section": "自动化",
-    "excerpt": "适用版本：Apache Maven 3.9.16（当前稳定版），兼顾 Maven 3.10.0 rc 1 与 Maven 4.0.0 rc 5 的迁移认知。 文档基线：2026 年 7 月 30 日。版本会继续变化，安装或升级前请再次核对官..."
+    "excerpt": "适用版本：以 Apache Maven 3.9.16 为历史教学基线，兼顾基线时的 Maven 3.10.0 rc 1 与 Maven 4.0.0 rc 5 迁移认知。下文“当前”“尚未 GA”均指下面注明的历史日期，不代表阅读时最新发布状..."
   },
   {
     "path": "../docs/tech-stack/automation/n8n.md",
@@ -697,7 +697,7 @@ export const generatedDocs = [
     "route": "/tech-stack/progress",
     "title": "技术栈拆分进度",
     "section": "技术栈",
-    "excerpt": "目标：每个技术栈一个 Markdown 文件，并且每个文件都按“官方资料、是什么、原理、架构、配置、入门实验、排障、学习证据”的结构写成原创中文教程。 精讲示范 当前已经按 技术栈精讲写作标准 完成第一批示范文章： 技术栈 文件 示范重点 ..."
+    "excerpt": "目标：每个技术栈一个 Markdown 文件，并且每个文件都按“官方资料、是什么、原理、架构、配置、入门实验、排障、学习证据”的结构写成原创中文教程。 2026 09 老师带学全站修订 本轮范围是全部 114 篇技术栈，以及路线、能力地图、..."
   },
   {
     "path": "../docs/tech-stack/security-compliance/jumpserver.md",
@@ -819,6 +819,13 @@ export const generatedDocs = [
     "excerpt": "学习目标：从零分清 TCE 场景里的块、文件、对象和备份恢复；能画出读写路径、解释容量/性能/一致性/故障域，并用内容校验实验理解“复制成功不等于可恢复”。 官方资料与范围边界 TCE 官方方案 云硬盘 CBS 文件存储 CFS 文档 对象..."
   },
   {
+    "path": "../docs/tech-stack/teaching-coverage.md",
+    "route": "/tech-stack/teaching-coverage",
+    "title": "全站老师带学修订与篇幅复核",
+    "section": "技术栈",
+    "excerpt": "这张表来自实际文章内容，帮助你看到每篇的篇幅和继续补强的方向。正文汉字数排除代码、终端输出和文字图；英文术语不折算成汉字。数字达到目标只说明篇幅，不证明内容已经掌握或通过人工终审。 当前纳入 114 篇技术栈，26 篇中文正文不少于 10,..."
+  },
+  {
     "path": "../docs/tech-stack/virtualization-private-cloud/fusionsphere.md",
     "route": "/tech-stack/virtualization-private-cloud/fusionsphere",
     "title": "华为 FusionSphere / FusionCompute 技术栈深讲",
@@ -872,27 +879,27 @@ export const generatedDocs = [
     "route": "/tech-stack/writing-standard",
     "title": "技术栈精讲写作标准",
     "section": "技术栈",
-    "excerpt": "这个标准用来约束本仓库后续所有“一技术一文件”的文章。目标是写成小白能照着学、面试能拿来复盘、项目能直接引用的 AIOps 学习笔记。 参考站扫描结论 参考：二哥的 Java 进阶之路：一文让你彻底了解 Java。 这个站点值得借鉴的不是具..."
+    "excerpt": "这个标准约束本仓库所有技术栈文章，也约束学习路线、面试准备、资料导读和项目模板中的教学内容。目标是让完全零基础的读者在老师带领下，逐步做到解释机制、完成实验、分析生产事故，并用自己的证据回答深入的面试追问。 2026 09 全站老师带学版要..."
   },
   {
     "path": "../docs/templates/project-note.md",
     "route": "/templates/project-note",
     "title": "项目记录模板",
     "section": "文档",
-    "excerpt": "项目名称 解决的问题 输入数据 处理流程 输出结果 运行方式 效果评估 局限性 简历表达"
+    "excerpt": "老师建议你边做边填写，而不是项目结束后凭记忆补材料。先保留原始输入和实际输出，再解释结论。示例、假设、实测要写清楚；没有跑过的步骤标“待验证”。 老师带你把一项任务讲完整 按这条线写：Problem（问题：谁受影响）→ Evidence（证..."
   },
   {
     "path": "../docs/templates/tech-stack-deep-dive.md",
     "route": "/templates/tech-stack-deep-dive",
     "title": "技术名",
     "section": "文档",
-    "excerpt": "学习目标：用一句话说明学完以后能做什么。比如：能启动服务、读懂配置、完成第一个实验、定位常见问题。 官方资料 官方入门文档 官方配置参考 说明：本文基于官方资料和个人实操整理，保留官方链接，不复制官方全文。 官方知识地图 先按官方资料拆出这..."
+    "excerpt": "学习目标：用一句话说明学完以后能做什么。比如：能启动服务、读懂配置、完成第一个实验、定位常见问题。 老师先带你认路 交代我们要一起解决的具体问题、你现在无需掌握但马上会用到的前置概念、实验操作系统与工具、预计资源和今天的验收结果。用自然对话..."
   },
   {
     "path": "../docs/templates/weekly-review.md",
     "route": "/templates/weekly-review",
     "title": "每周学习复盘模板",
     "section": "文档",
-    "excerpt": "本周目标 本周完成 学到的关键概念 动手成果 遇到的问题 和求职的关系 这周的内容能写进简历或面试吗？如果能，写成一句话： 下周计划"
+    "excerpt": "老师先提醒你：这份复盘衡量“能独立做什么”，不是累计读了多少页。先合上文章，解释本周最重要的一个概念，独立重做一次实验，再回来填表。 本周的一次完整学习回路 Goal（目标：学会哪项能力）→ Experiment（实验：动手做什么）→ Ev..."
   }
 ] as const

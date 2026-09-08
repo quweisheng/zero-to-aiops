@@ -16,6 +16,10 @@
 
 ## 本地运行
 
+全站正在按 [老师带学精讲标准](./docs/tech-stack/writing-standard.md) 更新全部技术栈：补零基础概念、英文地图中文注释、机制推理、两级实验与连续面试追问。每篇以接近一万字有效正文为目标，实际篇幅与复核方向公开在 [逐篇修订与篇幅复核](./docs/tech-stack/teaching-coverage.md)。
+
+运行 `npm run audit:teaching` 可从文章重新生成复核表；统计排除代码和终端输出，篇幅达标不代替技术审校。新手可以先做 [可靠性与可观测性课堂实验](./examples/teacher-led-reliability-lab/README.md)，用本地合成数据练习判断。
+
 这个网站现在使用 React、TypeScript 和 Vite 构建，Markdown 内容仍然保留在 `docs/` 目录。
 
 ```bash

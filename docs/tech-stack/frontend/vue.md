@@ -22,12 +22,12 @@
 ## 官方知识地图与边界
 
 ```text
-createApp -> root component -> mount
-  -> SFC compiler: template / script setup / style
-  -> component tree: props / events / slots / provide-inject
-  -> reactivity: ref / reactive / computed / watch
-  -> render effect -> virtual DOM -> patch real DOM
-  -> router / shared state / SSR when the application needs them
+createApp（创建应用）-> root component（根组件）-> mount（挂载）
+  -> SFC compiler（单文件组件编译器）: template（模板）/ script setup（组合逻辑）/ style（样式）
+  -> component tree（组件树）: props（输入）/ events（事件）/ slots（插槽）/ provide-inject（跨层依赖）
+  -> reactivity（响应式）: ref（值容器）/ reactive（对象代理）/ computed（派生计算）/ watch（监听副作用）
+  -> render effect（渲染响应任务）-> virtual DOM（虚拟节点树）-> patch real DOM（更新真实文档）
+  -> router（路由）/ shared state（共享状态）/ SSR（服务端渲染），按应用需要引入
 ```
 
 本文覆盖 Vue 3 核心与生产主线，不穷举 Vue Router、Pinia、Nuxt 和所有组件库。框架不能替代 HTML 语义、CSS 布局、JavaScript、HTTP、权限或后端可靠性。
@@ -84,12 +84,12 @@ app.mount('#app')
 ```
 
 ```text
-App.vue
-  -> SFC parser splits template/script/style
-  -> template compiler creates render function
-  -> script is transformed/transpiled
-  -> bundler builds module graph and assets
-  -> browser runs createApp and mounts root
+App.vue（应用根组件文件）
+  -> SFC parser splits template/script/style（单文件组件解析器拆出模板、脚本和样式）
+  -> template compiler creates render function（模板编译器生成渲染函数）
+  -> script is transformed/transpiled（脚本转换与转译）
+  -> bundler builds module graph and assets（打包器构建模块依赖图与资源）
+  -> browser runs createApp and mounts root（浏览器创建应用并挂载根组件）
 ```
 
 同一个 app 实例只 mount 一次。`mount` 容器已有内容会成为接管边界；SSR 已有服务端 HTML 时走 hydration，而不是把普通客户端挂载当水合。
@@ -212,6 +212,7 @@ watch(query, async (newQuery, _oldQuery, onCleanup) => {
   status.value = 'loading'
   try {
     const result = await fetchIncidents(newQuery, controller.signal)
+    if (controller.signal.aborted) return // 即使底层忽略取消，过期结果也不能更新状态
     incidents.value = result
     status.value = result.length ? 'success' : 'empty'
   } catch (error) {
@@ -311,7 +312,7 @@ Vue 2 到 3 属于迁移项目，需要逐项核对 API、生态包和行为，�
 Vue Single-File Component（SFC，单文件组件）通常包含 template、script 和 style。它不是浏览器原生格式，构建工具会分别处理：
 
 ```text
-Component.vue
+Component.vue（单文件组件）
   -> SFC parser 拆分 block
   -> template compiler 生成 render function
   -> script/TypeScript 转译
@@ -320,7 +321,7 @@ Component.vue
   -> 浏览器加载 JavaScript
   -> createApp 创建组件树
   -> render effect 生成 vnode
-  -> patch DOM
+  -> patch DOM（把差异应用到页面节点）
 ```
 
 模板编译器能在构建期分析静态节点、动态绑定和事件，并生成 patch flag（补丁标志）等优化提示。运行时不必盲目比较整棵树的每个属性。
@@ -336,15 +337,15 @@ Component.vue
 可以用下面的简化模型理解 Vue 3 响应式：
 
 ```text
-reactive target
-  -> key
-  -> dependent effects set
+reactive target（被跟踪的响应式对象）
+  -> key（属性键）
+  -> dependent effects set（依赖该属性的响应作用集合）
 
 effect 执行并读取属性
-  -> track(target, key, activeEffect)
+  -> track(target, key, activeEffect)（记录当前作用对对象属性的依赖）
 
 属性写入
-  -> trigger(target, key)
+  -> trigger(target, key)（属性变化时通知相应依赖）
   -> scheduler 把 effect 放入队列
   -> 批量执行并 patch DOM
 ```
@@ -397,7 +398,7 @@ console.log(element.textContent) // 本轮 Vue DOM 更新已提交
   -> render 读取响应式值
   -> 生成 vnode 子树
   -> mount 真实 DOM
-  -> mounted hooks
+  -> mounted hooks（挂载完成钩子）
 ```
 
 更新：
@@ -408,7 +409,7 @@ console.log(element.textContent) // 本轮 Vue DOM 更新已提交
   -> 重新运行组件 render effect
   -> 新旧 vnode patch
   -> 更新必要 DOM
-  -> updated hooks
+  -> updated hooks（更新完成钩子）
 ```
 
 组件边界不是越细越好。每个组件实例、响应式依赖和更新都有成本；超大组件又难复用、测试和局部更新。按业务职责、状态所有权和稳定接口拆分。
@@ -463,7 +464,12 @@ slot 让父组件提供结构，子组件控制布局位置；scoped slot 会把
 watch(query, async (value, _old, onCleanup) => {
   const controller = new AbortController()
   onCleanup(() => controller.abort('superseded'))
-  incidents.value = await search(value, controller.signal)
+  try {
+    const result = await search(value, controller.signal)
+    if (!controller.signal.aborted) incidents.value = result
+  } catch (error) {
+    if (!controller.signal.aborted) console.error('查询失败，请记录脱敏错误类型')
+  }
 })
 ```
 
@@ -516,11 +522,11 @@ Vue 可用 `errorCaptured` 或 `app.config.errorHandler` 收集渲染、事件�
 SSR 完整路径：
 
 ```text
-HTTP request
+HTTP request（网络请求）
   -> 每请求创建 app/router/store
   -> router 跳到目标
   -> 获取授权后的数据
-  -> renderToString
+  -> renderToString（将组件渲染成字符串的服务端接口）
   -> 安全序列化初始状态
   -> HTML 返回
   -> 浏览器加载客户端 bundle
@@ -558,15 +564,15 @@ hydration warning 是状态/标记不一致证据，不要全局 suppress。对�
 大型 Vue 控制台可按领域模块组织：
 
 ```text
-app shell
-  -> identity/tenant context
-  -> router
-  -> shared design system
-  -> incident domain
-  -> topology domain
-  -> automation domain
-  -> API client + runtime schemas
-  -> observability adapter
+app shell（应用外壳）
+  -> identity/tenant context（身份与租户上下文）
+  -> router（路由器）
+  -> shared design system（共享设计系统）
+  -> incident domain（事件业务域）
+  -> topology domain（拓扑业务域）
+  -> automation domain（自动化业务域）
+  -> API client + runtime schemas（接口客户端与运行时结构校验）
+  -> observability adapter（可观测适配器）
 ```
 
 微前端只有在独立团队、独立发布和组织边界足够强时才可能值得。它会增加运行时隔离、共享依赖、路由、样式、认证、可观测和版本协调成本。模块化单体常是更好的第一步。
@@ -745,6 +751,107 @@ Vue 3 用组件和声明式模板描述 UI，通过 ref/reactive 的依赖追踪
 - [ ] 能运行 type-check、测试、生产构建和浏览器验证。
 - [ ] 能说明 v-html、SSR、性能、依赖和升级风险。
 - [ ] 能完成三类故障注入并形成复盘。
+
+## 老师带你从一张事件卡片看懂 Vue
+
+我们先做两件事：把事件显示出来，点击按钮后改变状态。原生 JavaScript 可以自己找 DOM、改文本、切 class；组件变多时，你要记住许多“状态改变后还要改哪里”。Vue 让你先声明状态对应的页面，框架负责追踪依赖和提交更新。
+
+学生问：“是不是 Vue 每次把整个页面重画？”不是。模板编译与运行时会定位动态部分并复用节点，最终只做必要的 DOM 操作；浏览器还要完成自己的样式、布局和绘制。组件 render 重新执行，不等于每个 DOM 都被删除重建，更不等于每个像素都重新绘制。
+
+### 响应式像登记读者：读了才知道通知谁
+
+你可以把每个响应式字段看成一本会登记借阅人的资料。当 computed 或渲染过程读取它，Vue 记住依赖；字段变化时，相关计算收到更新通知。这是帮助理解的模型，真实实现细节随版本演进，稳定理解应放在读取追踪、写入触发与调度上。[深入响应式](https://vuejs.org/guide/extras/reactivity-in-depth.html)
+
+`const snapshot = state.count` 相当于抄下当时一个数字，以后修改原字段不会让这张纸自动变化。`toRef(state, 'count')` 则保留访问原属性的联系。注意这里讨论普通 reactive 对象属性；Vue 某些编译器宏有专门的响应式解构转换，不能把一个场景的限制套到所有语法上。
+
+### 可运行的解构故障实验
+
+使用本文已经创建的 Vue 项目，先备份 App.vue，再把组件内容替换成下例。运行项目 dev 脚本，在本机页面操作；不连接真实告警 API。
+
+```vue
+<script setup>
+import { reactive, toRef } from 'vue'
+const state = reactive({ count: 0 })
+const snapshot = state.count
+const linked = toRef(state, 'count')
+</script>
+
+<template>
+  <main>
+    <h1>响应连接实验</h1>
+    <button @click="state.count++">增加一次</button>
+    <p>原对象：{{ state.count }}</p>
+    <p>普通快照：{{ snapshot }}</p>
+    <p>保持连接：{{ linked }}</p>
+  </main>
+</template>
+```
+
+初始三项都是 0。点击三次后，预期原对象和保持连接都为 3，普通快照仍为 0。这里“故障”不是 Vue 不更新，而是程序主动选择了快照。修复业务代码时保留 state 属性访问或 toRef；不要靠刷新页面获取新快照。
+
+用 DevTools 同时观察 state 与 DOM，把数据变化和视图变化对上。若点击无效，先看控制台与脚本 import；若三个数都变化，核对是否误把 snapshot 也写成 ref。实验结束恢复备份 App.vue，运行类型检查和构建，再停止 dev 服务；保留截图和原因说明。
+
+### computed 与 watch：计算结果和做事要分开
+
+过滤事件、统计严重数量是从现有状态推导的新值，适合 computed。发 HTTP 请求、同步订阅或把状态保存到外部系统是副作用，适合有明确触发源和清理逻辑的 watch。把过滤结果通过 watch 再写到另一个 ref，就多出第二份需要保持一致的状态。
+
+watch 的异步回调尤其需要失效判断。底层请求若不支持 AbortSignal，controller.abort 只是改变信号，并不会让你的自定义 Promise 消失；返回后检查失效标记或请求编号才能避免旧结果覆盖。清理要在合适时机注册，细节见[watchers 官方说明](https://vuejs.org/guide/essentials/watchers.html)。
+
+### 组件边界里的“谁说了算”
+
+事件行展示 props，点击后 emit 事件意图，父层或领域逻辑决定发送请求并接收权威状态。这个方向让数据来源容易找。若子组件直接修改传入对象的深层属性，技术上可能生效，却让父层难以知道变化是谁发起的，也让取消编辑和失败恢复更难。
+
+`v-model` 提供双向绑定协议，不等于任意共享可变对象。把草稿与服务端已保存值分开，用户取消时丢弃草稿，保存成功后才更新权威视图。高级状态管理工具不会自动替你定义这些业务含义。
+
+### 从开发调试到生产面试
+
+问“为什么切路由越多请求越多”，先数订阅与监听，核对组件有没有真正卸载、是否被 KeepAlive 缓存、资源是否在停用阶段仍该暂停。`onUnmounted` 适合销毁清理；缓存组件的激活与停用可能需要对应生命周期策略。先画组件生命周期，再决定关闭哪类资源。
+
+问“Vue 怎么支持高可用”，要回答前端静态资源/CDN、SSR 进程与后端 API 各自的可用性。Vue 本身不是跨服务器复制系统；页面可降级展示已有数据并标记新鲜度，写操作仍依赖服务端状态和审计。SSR 多实例必须按请求隔离用户数据，缓存也要包含身份语义。
+
+最后把一个完整讲述练熟：状态由谁拥有，谁读取依赖，何时触发更新，旧异步工作怎样失效，DOM 何时可观察，失败怎样恢复。你能沿这条链解释自己的事件看板，就从“会拼组件”走到了“能分析运行机制”。
+
+## Vue 项目答辩课堂：从一个组件走到可维护的系统
+
+### watchEffect 为什么可能漏掉 await 后的依赖
+
+先把依赖跟踪想成老师在同步讲课时记录谁举过手：同步执行阶段读到的响应式值，才有机会被这一轮自动跟踪。异步函数遇到第一个 `await` 后，后面的读取不属于同一段同步依赖收集。如果你只在等待结束后读取租户，租户变化未必按你想的方式重新执行。
+
+因此重要查询条件适合用 `watch` 明确列出来源，例如租户、时间范围和筛选项；或者在等待之前读取所需依赖并保存本次快照。不要为了方便把整个巨大状态对象都深度监听，那会增加遍历成本，也使触发原因难以理解。观察时记录来源的新旧值与请求标识，区分“没有跟踪到”与“触发了但旧结果覆盖”。[Vue 侦听器说明](https://vuejs.org/guide/essentials/watchers.html)
+
+`deep` 不会自动给你一个修改前的深拷贝。嵌套对象原地变化时，新旧参数可能仍指向同一个对象。要审计具体修改，可以在业务动作入口记录字段差异、使用不可变快照，或单独监听真正关心的字段。把一个共享对象引用保存到日志数组里，随后它继续变化，回头看历史记录可能全部像最终值。
+
+### nextTick 等待的是 Vue 更新，不是世界全部就绪
+
+当你给 `ref` 赋新值，JavaScript 中的状态已改变，但 DOM 更新可能还在批处理队列里。`nextTick` 用于等待相关 DOM 更新完成，适合之后测量元素或聚焦新出现的输入框。它不保证图片已经下载、字体已加载、网络请求已完成，也不意味着浏览器已经完成最终绘制。
+
+例如展开图表面板后计算尺寸，应先等 Vue 放入节点，再使用图表库要求的更新流程；图表依赖容器尺寸变化时，可借助适当的尺寸观察机制。不要反复加多个 nextTick 和固定延迟直到“看起来好了”，那只是在猜执行时序。把需要等待的具体条件说出来，才能找到正确的 API 和失败时限。
+
+### 本地草稿、全局身份、服务端数据不能混成一团
+
+组件里的编辑草稿属于当前交互，切换事件时要决定保存、提示还是丢弃；登录身份与租户上下文属于全局会话；告警状态属于服务端权威数据，需要刷新与版本控制。把三者都放进一个全局 store，可能让不同页面互相污染；全部放本地，又会造成多个组件重复请求与状态不一致。
+
+老师会先画所有权，而不是先选状态库：谁创建、谁更新、谁负责清理、何时失效。一个 composable 每次调用可创建独立状态，也可能返回模块级共享状态；使用者必须看实现契约，不能仅凭函数以 `use` 开头就判断其生命周期。服务端渲染中尤其不能把用户数据放进跨请求共享的可变单例。
+
+异步 action 也不会天然按发起顺序提交结果。切租户后，旧租户的请求晚到，若直接写共享 store 就可能串数据。用租户与条件构成查询身份，切换时失效旧请求，提交结果前再次核对当前身份；服务端还要独立授权。前端防止误显示，后端防止越权读取，两层职责不能互相替代。
+
+### computed 应该像计算题，不像操作按钮
+
+computed 适合从已有状态求值，例如按级别筛选事件、计算可见数量。它的缓存依据依赖而不是“这个函数运行很贵”的主观判断。不要在 getter 里提交工单、修改源数组或发请求，因为读取计算值的时机由渲染和依赖决定，不是一个明确获准执行副作用的用户动作。
+
+如果排序时调用原数组的原地 `sort`，可能在计算过程中改变共享状态，导致其他消费者看到不同顺序。根据数据模型使用副本排序或适合环境的非修改方法，并保持身份稳定。渲染优化可以减少不必要更新，却不能修复业务数据被原地改写的问题。
+
+### 组件库与业务组件的边界怎么设计
+
+通用按钮负责外观、禁用、焦点和触发事件，不应直接知道哪个生产服务可以重启；业务处置组件负责目标、权限提示和审批状态；API 层负责协议、错误和关联标识。这样样式升级不会顺带改变发布权限，接口演进也不要求所有按钮改实现。
+
+`v-model` 方便双向协作，但本质仍是值与更新事件的契约。输入组件可以发送用户的新值，父层决定如何保存与验证；子组件悄悄修改嵌套 prop，会绕过这条数据路径。故障时应沿事件记录检查“子组件是否发出、父组件是否接收、权威状态是否更新、渲染是否读取正确对象”，而不是立即给所有对象加深度监听。
+
+### 一道实际面试追问：路由离开后请求数仍增长
+
+先复现固定次数的进入与离开，统计每轮活跃请求、定时器和订阅数量。检查组件是卸载还是被 KeepAlive 暂存；被暂存不意味着业务资源自动停止。再查 watcher 创建时机、全局事件、定时器和外部订阅的所有者。如果只是旧请求完成后的响应，不等于持续泄漏；如果每进入一次多一个周期性请求，才更像重复建立未清理的资源。
+
+修复后重复原操作，证明资源数量回到稳定基线，并验证返回页面后能正确恢复订阅。把初始、峰值、离开后与再次进入的数据放进证据，配上实际版本和提交；不要只说“加了 onUnmounted，所以好了”。能把生命周期、响应式依赖和网络状态串起来，你就具备了分析真实 Vue 控制台故障的能力。
 
 ## GitHub 学习证据
 

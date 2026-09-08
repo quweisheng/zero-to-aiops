@@ -48,28 +48,28 @@ JumpServer 官方知识可以拆成七块：
 
 ```text
 身份
-  -> User / User Group / MFA / SSO / System Role
+  -> User / User Group / MFA / SSO / System Role（用户、用户组、多因素认证、单点登录与系统角色）
 
 资源
-  -> Asset / Node / Platform / Protocol / Account
+  -> Asset / Node / Platform / Protocol / Account（资产、资产树节点、平台、协议和账号）
 
 授权
-  -> User + Asset + Account + Protocol + Action + Validity
-  -> ACL / Approval / Command Filter
+  -> User + Asset + Account + Protocol + Action + Validity（用户、资产、账号、协议、动作与有效期）
+  -> ACL / Approval / Command Filter（访问控制列表、审批与命令过滤）
 
 连接
-  -> Core / Koko / Lion / Chen / Magnus
-  -> Lina / Luna / Nginx / Load Balancer
+  -> Core / Koko / Lion / Chen / Magnus（核心及终端、图形、数据库连接组件）
+  -> Lina / Luna / Nginx / Load Balancer（管理界面、工作台、Web代理与负载均衡）
 
 状态
-  -> Database / Redis / SECRET_KEY
-  -> Recording Storage / Command Storage
+  -> Database / Redis / SECRET_KEY（数据库、缓存与凭据加密密钥）
+  -> Recording Storage / Command Storage（录像与命令存储）
 
 审计
-  -> Login / Session / Command / File Transfer / Replay / Activity
+  -> Login / Session / Command / File Transfer / Replay / Activity（登录、会话、命令、文件传输、回放和活动记录）
 
 运维
-  -> Install / Health / Capacity / HA / Backup / Upgrade / API
+  -> Install / Health / Capacity / HA / Backup / Upgrade / API（安装、健康、容量、高可用、备份、升级和接口）
 ```
 
 本文学习顺序：
@@ -80,6 +80,34 @@ JumpServer 官方知识可以拆成七块：
 4. 在隔离环境部署固定版本，完成 SSH 访问和审计。
 5. 故意写错 SSH 端口，用日志和网络证据定位。
 6. 最后进入生产架构、状态、高可用、容量、安全、升级和面试。
+
+## 老师带你把“谁能进哪台机器”说清楚
+
+先画四个对象：User（用户：登录堡垒机的人）、Asset（资产：被访问的目标）、Account（账号：目标系统上的身份）、Authorization（授权：谁在什么条件下用哪个账号访问哪项资产）。用户能登录平台，只证明平台身份通过，还要匹配资产、账号和动作权限。目标账号可用，也不等于所有平台用户都应能使用。
+
+你可以把平台理解为受管理的通行入口，但它不替代目标系统自己的权限和网络。完整连接要经过用户认证、平台授权、连接代理、目标网络与账号认证，再生成会话与审计。失败时沿这条链逐段验证，比反复重置密码更容易定位。
+
+### 老师带练：用两张授权记录预测结果
+
+先在纸上写一条课堂规则：用户甲在工作时间访问测试 Linux，只能使用只读账号；用户乙不在授权组。分别预测登录平台、看见资产、建立连接和执行写操作的结果。四项状态不能合并成一个“有权限”。按 [资产授权官方说明](https://docs.jumpserver.org/zh/v4/manual/admin/console/authorization_manage/assets_authorization/) 核对规则对象和必填项，再使用后文隔离环境基础实验验证。
+
+故障实验只在测试环境移除用户甲的资产授权，记录撤销时间和新建连接的行为；既有会话是否受影响需按实际产品版本与策略验证。恢复原测试授权后再次新建会话，确认允许的只读命令正常。保存变更前后规则，清理测试会话与账号，不触碰生产用户。没有部署条件时保留纸面结果并标“待实机验证”。
+
+### 连接成功后还要检查什么
+
+Session（会话）关联用户、资产、目标账号、时间和连接协议。命令、文件操作与录像的采集能力受协议和组件影响，不要把某一类连接的审计保证套到全部协议。验证一条实际动作能否在审计里检索，录像能否读取，时间和身份能否关联，才形成完整证据。
+
+平台数据库保存配置与授权等状态，录制存储保存会话证据，密钥影响凭据解密。备份需要匹配这些对象与版本；只备份数据库而丢失密钥或录制文件，可能无法完整恢复。高可用节点共用依赖时，要检查共享数据库、缓存和存储的故障域，不能只增加 Web 实例。
+
+生产容量看并发会话、代理带宽、协议成本、录像写入和保留。最小权限同时作用于平台管理员、审计员、普通用户和目标账号；凭据轮换要验证目标同步，避免一边已更新另一边仍用旧值。升级时回归认证、授权、连接、审计与恢复，避免仅登录页面正常就验收。
+
+### 面试课堂：30 秒到 3 分钟
+
+30 秒：“JumpServer 把用户、资产、账号和授权关联起来，通过连接代理完成受控访问，并保留会话审计。我会分别验证认证、授权、目标连接和证据完整性。”
+
+3 分钟讲用户甲访问测试机器的全过程，再解释撤权、既有会话、凭据与备份。追问：“堡垒机可登录但连不上？”查授权对象、账号、协议端口、目标日志与代理链。“有录像就足够审计？”还需时间、身份、存储完整性和可检索性。“多节点能否防所有故障？”共享依赖仍需单独设计。
+
+设计题：多部门、多个网络区的访问与审计隔离。事故题：改密后大量连接失败，先查目标与平台凭据版本，不扩大重试。GitHub 学习证据保存脱敏授权图、测试动作、审计验证与恢复步骤，商业版能力按授权范围标注。
 
 ## 场景开场
 
@@ -216,9 +244,9 @@ JumpServer 可以记录会话、命令、文件传输和活动，并保存录像
 ### 一次 SSH 登录经过什么
 
 ```text
-User Browser / SSH Client
+User Browser / SSH Client（用户浏览器或SSH客户端）
   -> HTTPS / SSH 入口
-  -> Nginx / Load Balancer
+  -> Nginx / Load Balancer（Web代理或负载均衡）
   -> Core 认证用户与 MFA
   -> Core 计算资产授权
   -> 生成短期连接上下文
@@ -235,12 +263,12 @@ User Browser / SSH Client
 ### 一次 RDP 登录经过什么
 
 ```text
-Browser / JumpServer Client
+Browser / JumpServer Client（浏览器或堡垒机客户端）
   -> Core 身份与授权
   -> Lion / Razor 图形连接组件
-  -> RDP / VNC Target
+  -> RDP / VNC Target（远程桌面或图形连接目标）
   -> 画面与输入回传
-  -> Session Metadata + Recording
+  -> Session Metadata + Recording（会话元数据与录像）
   -> Video 组件按需做录像格式转换
 ```
 
@@ -249,15 +277,15 @@ RDP 录像带宽和容量通常远高于字符终端。生产容量规划必须�
 ### 一次数据库访问经过什么
 
 ```text
-Browser SQL Console
-  -> Chen
-  -> Core Authorization
-  -> Database Target
+Browser SQL Console（浏览器SQL控制台）
+  -> Chen（浏览器数据库访问组件）
+  -> Core Authorization（核心授权校验）
+  -> Database Target（目标数据库）
 
-Native Database Client
-  -> Magnus / Database Proxy
-  -> Core Authorization
-  -> Database Target
+Native Database Client（原生数据库客户端）
+  -> Magnus / Database Proxy（数据库连接代理）
+  -> Core Authorization（核心授权校验）
+  -> Database Target（目标数据库）
 ```
 
 不同数据库类型、客户端代理、数据脱敏和高级审计能力存在社区版与企业版差异，选型时必须按目标版本实测。
@@ -389,17 +417,17 @@ Chen 在当前安装器的社区版常规服务中；Magnus 在 X-Pack 服务组
 ### 最小学习架构
 
 ```text
-Admin Browser
-  -> Isolated Linux VM
-      -> JumpServer Installer
-          -> Core / Koko / Lion / Web
-          -> Local PostgreSQL
-          -> Local Redis
-          -> Local Recording Storage
+Admin Browser（管理员浏览器）
+  -> Isolated Linux VM（隔离Linux虚拟机）
+      -> JumpServer Installer（堡垒机安装器）
+          -> Core / Koko / Lion / Web（核心、终端代理、图形代理与网页组件）
+          -> Local PostgreSQL（本地数据库）
+          -> Local Redis（本地缓存）
+          -> Local Recording Storage（本地录像存储）
 
-Test User
-  -> JumpServer
-  -> Separate Test Asset VM via SSH
+Test User（测试用户）
+  -> JumpServer（堡垒机平台）
+  -> Separate Test Asset VM via SSH（通过SSH连接独立测试资产虚拟机）
 ```
 
 最小环境用于学习，不满足生产高可用、数据保护和安全隔离。
@@ -407,23 +435,23 @@ Test User
 ### 常见生产架构
 
 ```text
-Users / Admins / Auditors
-  -> SSO + MFA
-  -> WAF / Load Balancer / TLS
-      -> JumpServer Node A
-          -> Core / Koko / Lion / Chen
-      -> JumpServer Node B
-          -> Core / Koko / Lion / Chen
+Users / Admins / Auditors（普通用户、管理员与审计员）
+  -> SSO + MFA（单点登录与多因素认证）
+  -> WAF / Load Balancer / TLS（应用防火墙、负载均衡与加密连接）
+      -> JumpServer Node A（堡垒机节点A）
+          -> Core / Koko / Lion / Chen（核心授权及终端、图形与数据库访问组件）
+      -> JumpServer Node B（堡垒机节点B）
+          -> Core / Koko / Lion / Chen（核心授权及终端、图形与数据库访问组件）
 
-Shared State
-  -> HA PostgreSQL / MariaDB
-  -> HA Redis
-  -> Object Storage / Ceph for recordings
-  -> Elasticsearch for command search (optional)
+Shared State（共享状态）
+  -> HA PostgreSQL / MariaDB（高可用关系数据库）
+  -> HA Redis（高可用缓存）
+  -> Object Storage / Ceph for recordings（对象存储或Ceph保存录像）
+  -> Elasticsearch for command search (optional)（可选的命令检索后端）
 
-Targets
-  -> Production / Test network zones
-  -> Linux / Windows / Database / Kubernetes
+Targets（目标资产）
+  -> Production / Test network zones（生产与测试网络区）
+  -> Linux / Windows / Database / Kubernetes（操作系统、数据库或容器平台目标）
 ```
 
 负载均衡要同时理解 HTTP、WebSocket、SSH 和数据库代理端口。第三方 LB 若忽略会话保持、WebSocket Upgrade、长连接空闲超时和真实源 IP，会出现“页面能开但终端频繁断线”。
@@ -469,13 +497,13 @@ JumpServer 是通往大量高权限资产的中枢，不应直接暴露公网，
 ### 一致恢复单元
 
 ```text
-Database
-  + SECRET_KEY / BOOTSTRAP_TOKEN
-  + config.txt
-  + Component registration keys
-  + Recording / static files
-  + Command storage
-  + Exact JumpServer / installer version
+Database（数据库）
+  + SECRET_KEY / BOOTSTRAP_TOKEN（凭据加密密钥与组件注册令牌）
+  + config.txt（安装配置文件）
+  + Component registration keys（组件注册密钥）
+  + Recording / static files（录像与静态文件）
+  + Command storage（命令审计存储）
+  + Exact JumpServer / installer version（精确匹配的平台与安装器版本）
   -> 可验证恢复
 ```
 
@@ -869,11 +897,11 @@ sudo ./jmsctl.sh backup_db
 真正的回滚单元：
 
 ```text
-Old JumpServer / Images
-  + Pre-upgrade Database
-  + Matching SECRET_KEY and Config
-  + Matching Recording / Command Storage
-  -> Verified Rollback
+Old JumpServer / Images（旧版堡垒机与镜像）
+  + Pre-upgrade Database（升级前数据库）
+  + Matching SECRET_KEY and Config（匹配的密钥与配置）
+  + Matching Recording / Command Storage（匹配的录像和命令存储）
+  -> Verified Rollback（经过验证的回滚）
 ```
 
 只把容器镜像标签改回旧版，可能无法读取已经迁移的数据库。升级期间产生的新会话和授权如何处理，也要在回滚计划中说明。
@@ -902,13 +930,13 @@ Old JumpServer / Images
 ### 变更与事故关联
 
 ```text
-Application Alert
-  -> Find Deployment / Change Window
-  -> Query JumpServer Sessions
-  -> Correlate User + Asset + Account + Command + File
-  -> Compare Target Logs
-  -> Form Hypothesis
-  -> Verify with Rollback or State Check
+Application Alert（应用告警）
+  -> Find Deployment / Change Window（查找部署或变更窗口）
+  -> Query JumpServer Sessions（查询堡垒机会话）
+  -> Correlate User + Asset + Account + Command + File（关联用户、资产、账号、命令与文件）
+  -> Compare Target Logs（比较目标系统日志）
+  -> Form Hypothesis（形成假设）
+  -> Verify with Rollback or State Check（通过回滚或状态检查验证）
 ```
 
 时间接近不等于因果。仍需目标系统日志、配置差异和修复结果共同验证。
@@ -1121,7 +1149,7 @@ sudo ss -lntp | grep ':22'
 编辑 `ubuntu-ssh-lab`：
 
 ```text
-SSH Port: 22 -> 2223
+SSH Port: 22 -> 2223（SSH端口从22改为2223的示例）
 ```
 
 不要修改测试资产真实 SSH 服务。

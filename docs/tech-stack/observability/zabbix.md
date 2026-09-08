@@ -4,12 +4,12 @@
 
 ## 版本边界
 
-本文写作时采用以下版本边界：
+以下保留原课程的固定版本，便于复现实验，不表示今天的最新版本或生产升级建议：
 
 - 实验版本：Zabbix `7.4.12`。
 - 长期维护选择：Zabbix `7.0.28 LTS`。
-- `7.4` 是当前标准版本，适合学习当前能力；生产环境如果更重视较长维护周期，应评估 `7.0 LTS`。
-- `8.0` 仍属于开发版本，不作为本文生产方案基线。
+- 本文按 `7.4` 文档讲解；LTS 指长期支持，正式选型应核对当时仍受支持的版本和兼容矩阵。
+- 新版本的发布状态以官网为准；本文实验不自动切换到其他主版本。
 - Zabbix `7.4` 已不再支持 Oracle 作为 Zabbix 后端数据库。升级前必须核对数据库、PHP、Proxy 和 Agent 的兼容矩阵。
 
 版本号会继续变化。实际安装或升级前，以 [Zabbix release notes](https://www.zabbix.com/release_notes) 和 [生命周期策略](https://www.zabbix.com/life_cycle_and_release_policy) 为准。
@@ -37,40 +37,79 @@
 ## 官方知识地图
 
 ```text
-Zabbix
-  ├── data collection
-  │   ├── agent / agent 2
-  │   ├── SNMP / JMX / IPMI
-  │   ├── HTTP agent / browser item
-  │   ├── database monitor / ODBC
-  │   └── trapper / sender / log monitoring
-  ├── configuration model
-  │   ├── host and host group
-  │   ├── template and macros
-  │   ├── item and preprocessing
-  │   ├── trigger and event
-  │   └── action and media type
-  ├── automation
-  │   ├── network discovery
-  │   ├── active agent autoregistration
-  │   └── low-level discovery
-  ├── storage
-  │   ├── configuration
-  │   ├── history
-  │   ├── trends
-  │   └── housekeeping
-  ├── distributed monitoring
-  │   ├── proxy
-  │   ├── proxy group
-  │   └── server high availability
-  └── integration
-      ├── API
-      ├── webhooks
-      ├── scripts
-      └── dashboards and reports
+Zabbix（基础设施监控系统）
+  ├── data collection（数据采集）
+  │   ├── agent / agent 2（第一代与第二代采集代理）
+  │   ├── SNMP / JMX / IPMI（网络设备、Java运行状态与服务器硬件管理协议）
+  │   ├── HTTP agent / browser item（HTTP采集与浏览器监控项）
+  │   ├── database monitor / ODBC（数据库监控与开放数据库连接接口）
+  │   └── trapper / sender / log monitoring（主动提交接收项、发送工具与日志监控）
+  ├── configuration model（配置对象模型）
+  │   ├── host and host group（主机与主机组）
+  │   ├── template and macros（模板与宏变量）
+  │   ├── item and preprocessing（监控项与预处理）
+  │   ├── trigger and event（触发器与事件）
+  │   └── action and media type（动作与通知媒介类型）
+  ├── automation（自动化）
+  │   ├── network discovery（网络发现）
+  │   ├── active agent autoregistration（主动代理自动注册）
+  │   └── low-level discovery（低层资源发现）
+  ├── storage（存储）
+  │   ├── configuration（配置）
+  │   ├── history（历史值）
+  │   ├── trends（汇总趋势）
+  │   └── housekeeping（历史数据清理维护）
+  ├── distributed monitoring（分布式监控）
+  │   ├── proxy（监控代理）
+  │   ├── proxy group（监控代理组）
+  │   └── server high availability（服务端高可用）
+  └── integration（集成）
+      ├── API（程序调用接口）
+      ├── webhooks（HTTP回调）
+      ├── scripts（脚本）
+      └── dashboards and reports（仪表盘与报告）
 ```
 
 `SNMP` 是简单网络管理协议，常用于交换机、路由器和存储设备；`JMX` 是 Java 管理扩展，常用于 JVM；`IPMI` 是服务器带外管理接口；`LLD` 是 Low-Level Discovery，即低级别自动发现。
+
+## 老师带你从一项采集数据走到一条事件
+
+先认识 Host（主机：被监控对象）、Item（监控项：要采集什么）、Trigger（触发器：怎样判断异常）、Event（事件：一次状态变化）和 Action（动作：如何响应）。网页里配置很多对象并不自动构成监控，必须能沿一条数据解释谁采集、如何处理、何时判定、通知谁。
+
+例如接口返回延迟 `0.6`，它的单位是秒。如果触发器阈值是 500 毫秒，先转换为 600 毫秒再比较。值类型、单位、预处理和阈值共同决定判断，名称叫“毫秒”并不会自动把数值乘一千。
+
+### 基础实验与故障实验：一个单位错误怎样形成漏报
+
+准备 Node.js，在仓库根目录运行课堂数据检查：
+
+```powershell
+node examples/teacher-led-reliability-lab/telemetry.mjs zabbix
+node examples/teacher-led-reliability-lab/telemetry.mjs zabbix --fault
+```
+
+正常 `comparedValue` 为 600，`problem: true`；故障省去单位转换，拿 0.6 和 500 比较，得到 `problem: false`，`issue: true` 标记漏报。先手算再观察。脚本并未启动 Zabbix，后文固定版本实验验证真实采集与触发器。
+
+运行失败检查 Node、目录和参数；程序不创建资源，无须清理。保留两份输出与单位合同。实际监控中还应验证数字类型、JSON 路径、预处理失败行为和数据新鲜度，不能仅凭最新值“看起来像数字”就通过。
+
+### 第一课：模板继承与依赖项怎样节省工作
+
+Template（模板）复用监控项和触发器，Macro（宏）让同一模板按主机填不同阈值。检查真正生效的宏值与作用范围，避免只看模板默认值。Dependent item（依赖监控项）从主监控项的结果中提取不同字段，减少重复请求；主项失败时，多个依赖项可能一起失去新数据。
+
+Proxy（代理）在靠近设备的位置采集和缓冲，减轻跨站连接压力，但不是 Server 的等价替代。网络恢复后的排空速度、缓存和时间会影响历史补传。History（历史）保留较细数据，Trends（趋势）保存按规则汇总的数据，汇总不能还原全部原始波动。
+
+### 第二课：生产设计从链路而不是设备数量开始
+
+容量同时看监控项数、采集间隔、预处理、发现规则、历史保留和数据库负载。低层发现创建大量对象时，先检查原型与过滤，防止重复或失控增长。告警发不出沿事件、动作条件、用户媒介、渠道响应排查，不能直接把问题归因于邮件服务器。
+
+Server、数据库、前端、Proxy 和录制或外部依赖各有故障域。升级记录兼容矩阵、数据库结构变化、模板差异和备份恢复步骤；旧程序能启动不代表能读取升级后的数据库。安全上区分查看监控、修改模板和执行远程动作的权限。
+
+### 面试课堂：30 秒与 3 分钟
+
+30 秒：“Zabbix 把对象、监控项、触发器、事件和动作连成监控链。我要验证原始值、预处理、阈值和通知路径，特别注意单位与数据是否仍新鲜。”
+
+3 分钟用延迟指标讲采集、模板、依赖项、触发与恢复，再说明跨站代理和数据库容量。追问：“值正常但用户报慢？”检查单位、聚合和目标对象。“有 Proxy 就没有数据缺口？”受缓冲和恢复能力约束。“升级失败可直接退包吗？”先看数据库兼容和匹配备份。
+
+设计题：多站点监控如何布置代理与中心故障域。事故题：模板调整后全部延迟告警消失，比较宏、预处理和触发器版本。GitHub 保存课堂输出、真实采集链图、模板与故障恢复记录。
 
 ## 场景开场
 
@@ -173,25 +212,25 @@ agent / SNMP / JMX / HTTP / ODBC / sender
 ## 整体架构
 
 ```text
-monitored host             remote site
-  ├── agent 2                ├── agents
-  ├── application            ├── SNMP devices
-  └── local logs             └── Zabbix Proxy
+monitored host             remote site（被监控主机与远程站点）
+  ├── agent 2                ├── agents（第二代采集代理及远端采集代理）
+  ├── application            ├── SNMP devices（应用与简单网络管理协议设备）
+  └── local logs             └── Zabbix Proxy（本地日志与监控代理）
           |                         |
           +------------+------------+
                        |
                        v
-             Zabbix Server cluster
-               active / standby
+             Zabbix Server cluster（监控服务端集群）
+               active / standby（活动与备用）
                        |
           +------------+-------------+
           |                          |
           v                          v
-   PostgreSQL / MySQL           web frontend
-   configuration/history        Nginx + PHP
+   PostgreSQL / MySQL           web frontend（关系数据库与网页前端）
+   configuration/history        Nginx + PHP（配置及历史数据与网页运行组件）
           |
           v
- history / trends / events / audit
+ history / trends / events / audit（历史值、趋势、事件与审计）
 ```
 
 ### Zabbix Server
@@ -265,20 +304,20 @@ monitored host             remote site
 ## 配置对象关系
 
 ```text
-host group
+host group（主机组）
     |
     v
-host <------ template
+host <------ template（模板关联主机）
  |              |
- |              +--> items
- |              +--> triggers
- |              +--> discovery rules
- |              +--> graphs / dashboards
+ |              +--> items（监控项）
+ |              +--> triggers（触发器）
+ |              +--> discovery rules（自动发现规则）
+ |              +--> graphs / dashboards（图表与仪表盘）
  |
- +--> interfaces
- +--> macros
- +--> tags
- +--> inventory
+ +--> interfaces（连接接口）
+ +--> macros（宏变量）
+ +--> tags（标签）
+ +--> inventory（资产清单）
 ```
 
 ### Host、Interface 与 Host Group
@@ -299,13 +338,13 @@ host <------ template
 生产做法是“通用模板 + 业务模板 + 环境宏”：
 
 ```text
-Template OS Linux
+Template OS Linux（Linux操作系统模板）
         |
-        +--> Template App Order API
+        +--> Template App Order API（订单接口应用模板）
                      |
                      v
-               host order-api-01
-               macro {$LATENCY.WARN}=500
+               host order-api-01（订单服务主机示例）
+               macro {$LATENCY.WARN}=500（延迟告警宏的阈值示例）
 ```
 
 这样既复用公共能力，又允许不同业务用宏覆盖阈值。
@@ -373,13 +412,13 @@ log[/var/log/app/error.log,ERROR]
 **为什么需要：** 如果一个 HTTP API 返回 30 个指标，不应请求 30 次。请求一次 JSON，再拆成 30 个 dependent items，可以降低网络和服务端压力。
 
 ```text
-HTTP agent master item
+HTTP agent master item（HTTP主监控项）
         |
         v
-JSON response
-  ├── JSONPath $.latency_ms --> dependent item latency
-  ├── JSONPath $.error_rate --> dependent item error rate
-  └── JSONPath $.queue      --> dependent item queue depth
+JSON response（JSON响应）
+  ├── JSONPath $.latency_ms --> dependent item latency（从JSON提取毫秒延迟到依赖项）
+  ├── JSONPath $.error_rate --> dependent item error rate（从JSON提取错误率到依赖项）
+  └── JSONPath $.queue      --> dependent item queue depth（从JSON提取队列深度到依赖项）
 ```
 
 **如何工作：** 主监控项更新后，预处理管理器把结果送给依赖项；每个依赖项按自己的步骤提取或转换。
@@ -446,21 +485,21 @@ max(/order-api/aiops.demo.latency,5m)<300
 ### Event、Problem 与 Recovery
 
 ```text
-new value
+new value（新采样值）
    |
    v
-trigger expression changes to PROBLEM
+trigger expression changes to PROBLEM（触发器表达式变为问题状态）
    |
    v
-problem event
+problem event（问题事件）
    |
-   +--> action and notification
-   +--> acknowledgement / tags / escalation
+   +--> action and notification（动作与通知）
+   +--> acknowledgement / tags / escalation（确认、标签与升级）
    |
-new value makes recovery expression true
+new value makes recovery expression true（新数值满足恢复表达式）
    |
    v
-recovery event and problem closed
+recovery event and problem closed（产生恢复事件并关闭问题）
 ```
 
 事件标签，例如 `service=order-api`、`env=prod`、`team=payment`，可用于路由、相关性分析和自动化。标签应采用稳定字典，避免同一环境同时出现 `prod`、`production`、`prd`。
@@ -516,15 +555,15 @@ LLD 自动发现“一台主机内部数量会变化的对象”，例如：
 - 交换机端口。
 
 ```text
-discovery rule
+discovery rule（自动发现规则）
      |
      v
-LLD JSON rows
+LLD JSON rows（低层发现返回的JSON记录）
      |
-     +--> item prototypes
-     +--> trigger prototypes
-     +--> graph prototypes
-     +--> host prototypes
+     +--> item prototypes（监控项原型）
+     +--> trigger prototypes（触发器原型）
+     +--> graph prototypes（图形原型）
+     +--> host prototypes（主机原型）
 ```
 
 LLD 宏例如 `{#FSNAME}` 表示本次发现到的文件系统名。原型会为每个发现对象实例化具体监控项。
@@ -663,27 +702,27 @@ Zabbix Server 原生 HA 是 active/standby：
 ### 一套完整生产拓扑
 
 ```text
-users
+users（用户）
   |
   v
-load balancer
+load balancer（负载均衡器）
   |
-  +--> web-1
-  +--> web-2
+  +--> web-1（前端节点一）
+  +--> web-2（前端节点二）
           |
           v
-PostgreSQL HA cluster
-  primary + standby + tested backups
+PostgreSQL HA cluster（高可用PostgreSQL数据库集群）
+  primary + standby + tested backups（主副本、备用副本和已验证备份）
           ^
           |
-Zabbix Server HA
-  active + standby
+Zabbix Server HA（Zabbix服务端高可用）
+  active + standby（活动节点与备用节点）
           ^
           |
   +-------+--------+
   |                |
-proxy group A   proxy group B
-site agents     site agents
+proxy group A   proxy group B（代理组A和代理组B）
+site agents     site agents（各站点采集代理）
 ```
 
 必须分别回答以下问题：
@@ -1194,12 +1233,12 @@ Housekeeper 清理过期数据。大量历史一次到期可能产生长事务�
 按下面顺序检查：
 
 ```text
-problem exists
-  -> action condition matched
-  -> operation selected user/group
-  -> user media enabled for severity and time
-  -> media type executed
-  -> remote endpoint accepted
+problem exists（问题事件存在）
+  -> action condition matched（动作条件命中）
+  -> operation selected user/group（操作选中用户或用户组）
+  -> user media enabled for severity and time（用户媒介满足级别与时段）
+  -> media type executed（执行通知媒介）
+  -> remote endpoint accepted（远端渠道接受）
 ```
 
 同时检查维护窗口、抑制、升级步骤、Webhook HTTP 响应和第三方渠道限流。
@@ -1281,9 +1320,9 @@ Server、Proxy 和 Agent 可以存在一定版本差异，但边界有限。新 
 企业里经常不是二选一：
 
 ```text
-Zabbix --> physical servers / network / storage / legacy middleware
-Prometheus --> Kubernetes / microservices / application metrics
-both --> event platform / Grafana / AIOps correlation
+Zabbix --> physical servers / network / storage / legacy middleware（Zabbix覆盖物理机、网络、存储和传统中间件）
+Prometheus --> Kubernetes / microservices / application metrics（Prometheus覆盖容器平台、微服务和应用指标）
+both --> event platform / Grafana / AIOps correlation（两者汇入事件平台、图形展示与智能关联）
 ```
 
 关键是统一标签、资产标识、时间和事件路由，否则两个平台会形成两个告警孤岛。
@@ -1321,14 +1360,14 @@ Zabbix 提供时间线和基础设施证据，但根因需要结合：
 推荐链路：
 
 ```text
-Zabbix problem
-  -> webhook
-  -> automation platform
-  -> evidence check
-  -> approval or policy
-  -> idempotent runbook
-  -> post-check
-  -> result written back
+Zabbix problem（Zabbix问题事件）
+  -> webhook（HTTP回调）
+  -> automation platform（自动化平台）
+  -> evidence check（证据检查）
+  -> approval or policy（审批或策略校验）
+  -> idempotent runbook（可重复而不增加业务效果的操作手册）
+  -> post-check（操作后检查）
+  -> result written back（结果回写）
 ```
 
 自动化必须有最大执行次数、影响范围、超时、回滚和人工接管条件。
@@ -1465,19 +1504,19 @@ Zabbix 更擅长传统基础设施、SNMP、资产和事件动作；Prometheus �
 建议建立：
 
 ```text
-zabbix-lab/
-  ├── README.md
-  ├── compose.yml
-  ├── agent2.d/
-  │   └── aiops.conf
-  ├── templates/
-  │   └── template-aiops-demo.yaml
-  ├── screenshots/
-  │   ├── latest-data.png
-  │   ├── problem-event.png
-  │   └── recovery-event.png
-  └── incident-notes/
-      └── high-latency-drill.md
+zabbix-lab/（监控实验目录）
+  ├── README.md（学习说明文件）
+  ├── compose.yml（容器组合配置文件）
+  ├── agent2.d/（第二代采集代理的配置目录）
+  │   └── aiops.conf（智能运维示例配置）
+  ├── templates/（模板目录）
+  │   └── template-aiops-demo.yaml（智能运维监控模板）
+  ├── screenshots/（截图目录）
+  │   ├── latest-data.png（最新数据截图）
+  │   ├── problem-event.png（问题事件截图）
+  │   └── recovery-event.png（恢复事件截图）
+  └── incident-notes/（事故笔记目录）
+      └── high-latency-drill.md（高延迟演练记录）
 ```
 
 `README.md` 至少记录：

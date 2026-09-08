@@ -50,12 +50,12 @@
 
 ```text
 Spring Boot 应用
-  -> Spring Cloud Gateway
+  -> Spring Cloud Gateway（应用入口网关）
   -> HTTP Service Client / RestClient / 遗留 OpenFeign
   -> 注册中心 / Kubernetes Service
-  -> Config Server / ConfigMap
-  -> MySQL / Redis / RabbitMQ / Kafka
-  -> Actuator / Micrometer / Prometheus / OpenTelemetry
+  -> Config Server / ConfigMap（集中配置服务或集群配置对象）
+  -> MySQL / Redis / RabbitMQ / Kafka（数据库、缓存、消息队列与事件日志）
+  -> Actuator / Micrometer / Prometheus / OpenTelemetry（管理端点、观测埋点门面、指标系统与遥测标准）
 ```
 
 所以这篇文章的边界是：
@@ -70,10 +70,10 @@ Spring Boot 应用
 你原来维护的是一个单体 Java 系统：
 
 ```text
-one-repo
-  -> one-war
-  -> one-database
-  -> one-nginx-location
+one-repo（一个代码仓库）
+  -> one-war（一个应用包）
+  -> one-database（一个数据库）
+  -> one-nginx-location（一个入口路径）
 ```
 
 上线时整包发布，出问题整包回滚。慢是慢一点，但至少排障路径相对直接。
@@ -81,12 +81,12 @@ one-repo
 后来系统拆成了很多服务：
 
 ```text
-gateway-service
-user-service
-order-service
-payment-service
-inventory-service
-notification-service
+gateway-service（网关）
+user-service（用户）
+order-service（订单）
+payment-service（支付）
+inventory-service（库存）
+notification-service（通知）
 ```
 
 这时值班问题变了：
@@ -174,37 +174,37 @@ AIOps 很少只处理一个进程。真实故障通常发生在服务关系里�
 Spring Boot 官网主线可以按这张图理解：
 
 ```text
-Spring Boot
-  -> Getting Started
-     -> Spring Initializr
-     -> Maven / Gradle
-     -> main application
-     -> embedded server
-  -> Developing with Spring Boot
-     -> auto-configuration
-     -> dependency management
-     -> configuration properties
-     -> profiles
-     -> logging
-     -> testing
-  -> Web
-     -> Spring MVC
-     -> RestClient / WebClient
-     -> validation
-     -> error handling
-  -> Data
-     -> JDBC / JPA / Redis / messaging
-  -> Production-ready Features
-     -> Actuator
-     -> health
-     -> metrics
-     -> tracing
-     -> loggers
-     -> Prometheus / OTLP
-  -> Packaging
-     -> executable jar
-     -> Docker image
-     -> Cloud Native Buildpacks
+Spring Boot（简化 Spring 应用启动和配置的框架）
+  -> Getting Started（入门）
+     -> Spring Initializr（项目生成器）
+     -> Maven / Gradle（构建工具）
+     -> main application（启动入口）
+     -> embedded server（内嵌服务器）
+  -> Developing with Spring Boot（开发）
+     -> auto-configuration（自动配置）
+     -> dependency management（依赖版本管理）
+     -> configuration properties（配置绑定）
+     -> profiles（环境分组）
+     -> logging（日志）
+     -> testing（测试）
+  -> Web（网页与接口）
+     -> Spring MVC（请求处理框架）
+     -> RestClient / WebClient（同步与响应式 HTTP 客户端）
+     -> validation（输入校验）
+     -> error handling（错误处理）
+  -> Data（数据）
+     -> JDBC / JPA / Redis / messaging（数据库接口、持久化、缓存、消息）
+  -> Production-ready Features（生产能力）
+     -> Actuator（运维端点）
+     -> health（健康）
+     -> metrics（指标）
+     -> tracing（追踪）
+     -> loggers（日志配置）
+     -> Prometheus / OTLP（指标系统与遥测协议）
+  -> Packaging（打包）
+     -> executable jar（可运行 Java 包）
+     -> Docker image（容器镜像）
+     -> Cloud Native Buildpacks（自动化应用构建工具）
 ```
 
 对 AIOps 来说，Spring Boot 最关键的不是“能写 Controller”，而是这些生产能力：
@@ -222,26 +222,26 @@ Spring Boot
 Spring Cloud 官网主线可以按这张图理解：
 
 ```text
-Spring Cloud
-  -> configuration management
-     -> Spring Cloud Config
-  -> service registration and discovery
-     -> DiscoveryClient
-     -> Eureka / Consul / Kubernetes
-  -> service-to-service calls
-     -> HTTP Service Client / RestClient / WebClient
+Spring Cloud（分布式应用常见能力的集成项目群）
+  -> configuration management（配置管理）
+     -> Spring Cloud Config（配置中心集成）
+  -> service registration and discovery（服务注册与发现）
+     -> DiscoveryClient（发现客户端抽象）
+     -> Eureka / Consul / Kubernetes（可选发现体系）
+  -> service-to-service calls（服务间调用）
+     -> HTTP Service Client / RestClient / WebClient（声明式、同步、响应式客户端）
      -> OpenFeign（遗留系统维护）
-  -> load balancing
-     -> Spring Cloud LoadBalancer
-  -> routing
-     -> Spring Cloud Gateway
-  -> circuit breakers
-     -> Spring Cloud Circuit Breaker
-     -> Resilience4j
-  -> distributed messaging
-     -> Spring Cloud Stream
-  -> Kubernetes integration
-     -> Spring Cloud Kubernetes
+  -> load balancing（负载均衡）
+     -> Spring Cloud LoadBalancer（客户端负载均衡）
+  -> routing（路由）
+     -> Spring Cloud Gateway（网关）
+  -> circuit breakers（熔断）
+     -> Spring Cloud Circuit Breaker（熔断抽象）
+     -> Resilience4j（容错实现）
+  -> distributed messaging（分布式消息）
+     -> Spring Cloud Stream（消息绑定与处理）
+  -> Kubernetes integration（容器平台集成）
+     -> Spring Cloud Kubernetes（平台适配）
 ```
 
 Spring Cloud 不是一个单独的 jar，而是一组分布式系统模式的工具箱。学习时不要贪多，先抓住这条主线：
@@ -298,8 +298,8 @@ public class OrderApplication {
 **怎么工作**
 
 ```text
-main()
-  -> SpringApplication.run()
+main()（Java 程序入口方法）
+  -> SpringApplication.run()（启动 Spring 应用的方法）
   -> 创建 ApplicationContext
   -> 加载配置
   -> 自动配置 Bean
@@ -389,13 +389,13 @@ pom.xml 引入 starter
 **怎么工作**
 
 ```text
-application.yml
-  + application-prod.yml
-  + environment variables
-  + command line args
-  + config server
-  -> Spring Environment
-  -> @ConfigurationProperties / @Value
+application.yml（通用应用配置）
+  + application-prod.yml（生产环境分组配置）
+  + environment variables（环境变量）
+  + command line args（命令行参数）
+  + config server（配置服务器）
+  -> Spring Environment（配置环境）
+  -> @ConfigurationProperties / @Value（类型绑定与值注入）
 ```
 
 **怎么看 / 怎么用**
@@ -441,12 +441,12 @@ REST API 是服务对外提供 HTTP 接口的常见方式。
 **怎么工作**
 
 ```text
-HTTP request
-  -> DispatcherServlet
-  -> Controller
-  -> Service
-  -> Repository / Client
-  -> HTTP response
+HTTP request（接口请求）
+  -> DispatcherServlet（请求分派入口）
+  -> Controller（接口控制器）
+  -> Service（业务逻辑）
+  -> Repository / Client（数据访问或下游客户端）
+  -> HTTP response（响应）
 ```
 
 **怎么看 / 怎么用**
@@ -490,12 +490,12 @@ AIOps 需要机器可读的健康状态、指标和运行信息。Actuator 是 S
 **怎么工作**
 
 ```text
-spring-boot-starter-actuator
+spring-boot-starter-actuator（引入运维端点的依赖集合）
   -> 自动注册 endpoint
-  -> /actuator/health
-  -> /actuator/metrics
-  -> /actuator/prometheus
-  -> Prometheus scrape
+  -> /actuator/health（健康检查端点）
+  -> /actuator/metrics（指标名称和单项观测端点）
+  -> /actuator/prometheus（供 Prometheus 读取的指标格式端点）
+  -> Prometheus scrape（监控系统定期拉取指标）
 ```
 
 **怎么看 / 怎么用**
@@ -542,11 +542,11 @@ metrics 是可聚合的数值指标，tracing 是一次请求跨服务经过哪�
 **怎么工作**
 
 ```text
-Spring MVC / RestClient / DataSource
-  -> Micrometer Observation
-  -> metrics: http.server.requests, jdbc.connections...
-  -> tracing: traceId, spanId
-  -> Prometheus / OTLP / Zipkin
+Spring MVC / RestClient / DataSource（请求处理 / HTTP 客户端 / 数据源）
+  -> Micrometer Observation（统一观测埋点）
+  -> metrics: http.server.requests, jdbc.connections...（请求与连接指标）
+  -> tracing: traceId, spanId（整条链路与单步调用标识）
+  -> Prometheus / OTLP / Zipkin（指标后端 / 遥测传输协议 / 链路后端）
 ```
 
 **怎么看 / 怎么用**
@@ -600,10 +600,10 @@ order-service 调 payment-service
 Kubernetes：
 
 ```text
-Pod
-  -> Service
-  -> Endpoints / EndpointSlice
-  -> DNS: payment-service.default.svc.cluster.local
+Pod（实际运行实例）
+  -> Service（服务入口）
+  -> Endpoints / EndpointSlice（旧端点对象 / 分片端点清单）
+  -> DNS: payment-service.default.svc.cluster.local（服务域名）
 ```
 
 **怎么看 / 怎么用**
@@ -650,11 +650,11 @@ interface PaymentClient {
 调用链：
 
 ```text
-order-service
-  -> PaymentClient
-  -> LoadBalancer
-  -> payment-service instance
-  -> response / timeout / error
+order-service（订单服务）
+  -> PaymentClient（支付调用接口）
+  -> LoadBalancer（选择服务实例）
+  -> payment-service instance（支付服务实例）
+  -> response / timeout / error（响应 / 超时 / 错误）
 ```
 
 **怎么看 / 怎么用**
@@ -692,12 +692,12 @@ Spring Cloud Gateway 是 API 网关，用来做统一入口、路由、过滤、
 **怎么工作**
 
 ```text
-client
-  -> gateway
-     -> route predicate match
-     -> filters
-     -> load-balanced downstream uri
-  -> order-service
+client（客户端）
+  -> gateway（网关）
+     -> route predicate match（匹配路由条件）
+     -> filters（执行过滤逻辑）
+     -> load-balanced downstream uri（选择下游实例地址）
+  -> order-service（订单服务）
 ```
 
 **怎么看 / 怎么用**
@@ -751,10 +751,10 @@ spring:
 **怎么工作**
 
 ```text
-request
-  -> timeout guard
-  -> retry policy
-  -> circuit breaker state
+request（一次服务请求）
+  -> timeout guard（超时时间限制）
+  -> retry policy（符合条件时重试的策略）
+  -> circuit breaker state（熔断器当前状态）
      -> closed: 正常调用
      -> open: 快速失败
      -> half-open: 少量探测
@@ -800,15 +800,15 @@ resilience4j:
 推荐方向：
 
 ```text
-order-service owns order tables
-payment-service owns payment tables
-inventory-service owns inventory tables
+order-service owns order tables（订单服务拥有订单表）
+payment-service owns payment tables（支付服务拥有支付表）
+inventory-service owns inventory tables（库存服务拥有库存表）
 
-cross-service state
-  -> event
-  -> outbox
-  -> saga / compensation
-  -> eventual consistency
+cross-service state（跨服务状态）
+  -> event（事件）
+  -> outbox（事务发件箱）
+  -> saga / compensation（长事务编排与补偿）
+  -> eventual consistency（在条件满足后收敛的一致性）
 ```
 
 **怎么看 / 怎么用**
@@ -841,12 +841,12 @@ CREATE TABLE outbox_events (
 做一个能放进 GitHub 的最小微服务实验：
 
 ```text
-gateway-service
-  -> order-service
-     -> payment-service
-     -> RabbitMQ / Kafka
-  -> actuator metrics
-  -> OpenTelemetry traces
+gateway-service（网关服务）
+  -> order-service（订单服务）
+     -> payment-service（支付服务）
+     -> RabbitMQ / Kafka（消息中间件）
+  -> actuator metrics（应用运行指标）
+  -> OpenTelemetry traces（分布式调用链路）
 ```
 
 先不要贪多。第一版只要跑通：
@@ -1221,14 +1221,14 @@ Invoke-RestMethod 'http://localhost:8081/actuator/metrics/resilience4j.circuitbr
 ## 生产请求路径、状态与容量模型
 
 ```text
-client
-  -> Gateway predicate/filter/auth/rate-limit
-  -> discovery cache 或 Kubernetes Service
-  -> client-side/server-side load balancing
-  -> HTTP connection pool + timeout/deadline
-  -> downstream thread/event-loop
-  -> database / cache / message broker
-  -> response + metric + log + trace span
+client（客户端）
+  -> Gateway predicate/filter/auth/rate-limit（网关匹配、过滤、鉴权、限流）
+  -> discovery cache 或 Kubernetes Service（发现缓存或服务）
+  -> client-side/server-side load balancing（客户端或服务端负载均衡）
+  -> HTTP connection pool + timeout/deadline（连接池、超时、整体截止时间）
+  -> downstream thread/event-loop（下游线程或事件循环）
+  -> database / cache / message broker（数据库、缓存、消息代理）
+  -> response + metric + log + trace span（响应、指标、日志、追踪片段）
 ```
 
 每一跳都要回答五件事：超时由谁控制、最多重试几次、请求能否安全重放、容量瓶颈在哪里、失败证据去哪找。调用方的超时应小于上游 deadline，并给回滚/降级留时间；重试要有预算、退避和抖动，且只能用于确认可重放的操作。
@@ -1499,6 +1499,50 @@ cluster
 17. AIOps 如何利用微服务拓扑做根因分析？
 18. 你会如何设计一个 Spring 微服务作品集项目？
 
+## 老师带你把“会调用接口”升级成“能设计业务状态”
+
+### 一、订单超时，不等于支付失败
+
+我们沿着实验的订单→支付链想一想：支付已经完成扣款，但响应在网络里丢失，订单服务只看到超时。这时如果简单重试，一个没有幂等保护的支付接口可能再次扣款。超时的真实含义是“调用方没有及时得到结果”，不是“服务端一定没执行”。
+
+因此真实系统应设计明确状态，例如 `PENDING`（处理中）、`PAID`（已支付）、`FAILED`（确认失败）、`UNKNOWN`（结果待核实）。未知状态要通过同一业务标识查询、支付对账或人工流程收敛，不伪装成成功，也不立即当失败重复执行副作用。本文示例返回 `DEGRADED` 是教学展示，不能拿来直接结算真实资金。
+
+### 二、幂等不是在内存里放一个 Set
+
+幂等键要绑定业务操作和请求参数，并由可靠存储里的唯一约束或等价机制防止并发重复执行。服务重启后记录仍要有效，两个副本同时收到请求也要能协调。相同键但不同金额不能直接返回上一次结果；要拒绝冲突并留审计。
+
+还要考虑崩溃时刻：若先记“处理完成”再扣款，崩溃会漏执行；若先扣款再记完成，崩溃可能重复执行。要把能放在同一数据库事务中的变化放一起；对外部副作用使用对方支持的幂等能力与可查询业务标识。工程设计真正难在失败窗口，不在正常流程的箭头数量。
+
+### 三、Outbox 为什么仍然会重复消息
+
+事务发件箱把业务表修改和待发送事件写进同一个本地事务，解决“订单写成功但事件完全没记录”的窗口。后台发送器读取发件箱，投递到消息系统，再标记已发送。如果投递成功后、标记前进程崩溃，恢复后可能再次投递。
+
+所以 Outbox 通常仍需消费者幂等，不能宣称天然恰好一次。事件应带唯一 ID、业务聚合 ID、类型和 schema 版本；监控既看条数，也看最老未发事件年龄。只看积压 10 条无法判断风险，10 条等了两秒和两小时意义不同。
+
+Saga 的补偿也不是数据库回滚：已发送短信无法撤回，已出库商品可能只能走退货流程。补偿动作本身会失败，需要幂等、重试期限、终止状态和人工兜底。老师建议你先用状态表把正向和补偿每一步列出来，标出“谁负责、能否重试、怎样证明完成”。
+
+### 四、算一次重试预算与排队容量
+
+假设入口 100 QPS，每个订单调用支付两次，而网关、订单客户端、支付客户端三个层级都允许总共三次尝试，极端情况请求量可能被成倍放大。虽然具体实现和失败位置影响实际数值，但独立叠加重试足以把故障系统进一步压垮。必须统一总 deadline、每跳超时、重试次数、退避与抖动，并明确哪一层负责重试。
+
+稳定条件下，在途请求数近似等于到达率乘平均耗时。100 QPS、平均 0.2 秒约有 20 个在途；耗时涨到 5 秒则约 500 个。线程池和连接池没有变，排队自然陡增。无限加队列只是把拒绝变成更长等待，应结合舱壁隔离、限流和过载丢弃，让关键操作保留资源。
+
+### 五、从实验读出正确的监控结论
+
+本文 order 的降级路径返回一个普通 Map，默认 HTTP 状态仍可能是 200。若监控只数 HTTP 5xx，会错误地认为“熔断后服务恢复健康”。生产应有独立的业务结果、降级计数与熔断状态指标，是否使用 202、503 或领域状态由 API 契约决定，不能随意改状态码。
+
+实验每次恢复不应只看一次成功：连续请求经过半开探测，观察熔断状态回到 CLOSED，确认下游请求量没有异常放大，错误和降级比例下降。熔断器的 `minimumNumberOfCalls` 决定样本达到多少才判断失败率，`slidingWindowSize` 决定观察窗口，不代表每次都重试这么多次。把阈值含义解释清楚，才不会把容错配置变成另一场故障。
+
+### 六、面试从定义追问到架构取舍
+
+**30 秒：**微服务按业务能力划分独立发布和数据责任，Spring Boot 解决单服务运行与观测，Spring Cloud 提供分布式协作能力。代价是远程失败、状态一致性、接口演进和运维复杂度，服务数量不是成熟度指标。
+
+**3 分钟：**先讲订单、支付、库存边界，再讲同步调用的 deadline、幂等与未知结果，随后用 Outbox/Saga 解释异步状态收敛，最后用指标、日志、trace、版本和变更定位故障，并说明数据兼容条件下的灰度与回滚。
+
+**设计追问：什么时候不拆？**团队小、业务边界未稳定、独立扩缩容和发布收益不足时，模块化单体常更容易保证事务和交付效率。先把模块接口与数据责任做清楚，等收益超过分布式成本再拆。
+
+**事故追问：只有新版本支付慢，能立即回滚吗？**先确认新版本是否已写入旧版不识别的字段或消息，保全未知交易并对账，降低新版本流量；若数据不向后兼容，考虑开关关闭、前向修复与受控补偿，不能把旧 JAR 上线当成所有副作用都撤销。
+
 ## 学习证据
 
 学完后建议提交到 GitHub：
@@ -1525,14 +1569,14 @@ Spring Cloud 给你分布式协作能力：配置、发现、调用、负载均�
 AIOps 要做的，是把这些能力变成可关联的数据：
 
 ```text
-service
-  -> metrics
-  -> logs
-  -> traces
-  -> alerts
-  -> deploy changes
-  -> runbooks
-  -> RCA
+service（服务）
+  -> metrics（指标）
+  -> logs（日志）
+  -> traces（追踪）
+  -> alerts（告警）
+  -> deploy changes（发布变更）
+  -> runbooks（操作手册）
+  -> RCA（根因分析）
 ```
 
 当这条链路打通后，微服务才不只是架构名词，而是可以被监控、被诊断、被自动化治理的生产系统。

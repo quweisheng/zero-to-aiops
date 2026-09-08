@@ -27,6 +27,11 @@ describe('App', () => {
       'href',
       '/tech-stack/foundation/linux'
     )
+    expect(screen.getByText(/从完全零基础开始，跟老师读懂中文知识地图/)).toBeInTheDocument()
+    expect(screen.getByText('学习过程示意 · 以下不是终端命令')).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: '查看精讲复核' })).toHaveAttribute(
+      'href', '/tech-stack/teaching-coverage'
+    )
   })
 
   it('renders a markdown article from a direct route', async () => {

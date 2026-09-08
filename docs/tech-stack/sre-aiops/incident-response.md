@@ -60,58 +60,149 @@ p95 延迟 1800ms
 事件响应可以按这张地图理解：
 
 ```text
-Detection
-  -> alert / user report / synthetic check
-  -> triage
-  -> incident declaration
-  -> severity
-  -> roles
-     -> Incident Commander
-     -> Operations Lead
-     -> Communications Lead
-     -> Scribe
-     -> Subject Matter Experts
-  -> incident doc
-     -> status
-     -> impact
-     -> timeline
-     -> hypotheses
-     -> actions
-     -> decisions
-  -> mitigation
-     -> rollback
-     -> failover
-     -> disable feature
-     -> rate limit
-     -> traffic shift
-  -> communication
-     -> internal updates
-     -> stakeholder updates
-     -> customer-facing updates
-  -> resolution
-     -> monitoring
-     -> handoff
-     -> postmortem
-  -> learning
-     -> action items
-     -> runbook updates
-     -> alert improvements
-     -> automation
+Detection（发现）
+  -> alert / user report / synthetic check（告警、用户报告或合成探测）
+  -> triage（初步分类与判断）
+  -> incident declaration（宣布进入事件响应）
+  -> severity（严重级别）
+  -> roles（角色分工）
+     -> Incident Commander（事件指挥）
+     -> Operations Lead（技术处理负责人）
+     -> Communications Lead（沟通负责人）
+     -> Scribe（记录员）
+     -> Subject Matter Experts（领域专家）
+  -> incident doc（事件记录文档）
+     -> status（状态）
+     -> impact（影响）
+     -> timeline（时间线）
+     -> hypotheses（待验证假设）
+     -> actions（动作）
+     -> decisions（决策）
+  -> mitigation（缓解）
+     -> rollback（回滚）
+     -> failover（故障切换）
+     -> disable feature（停用功能）
+     -> rate limit（限流）
+     -> traffic shift（流量切换）
+  -> communication（沟通）
+     -> internal updates（内部状态更新）
+     -> stakeholder updates（向相关方更新）
+     -> customer-facing updates（面向客户更新）
+  -> resolution（解决与恢复）
+     -> monitoring（持续监控）
+     -> handoff（交接）
+     -> postmortem（事故复盘）
+  -> learning（学习改进）
+     -> action items（改进行动项）
+     -> runbook updates（手册更新）
+     -> alert improvements（告警改进）
+     -> automation（自动化）
 ```
 
 初学路线：
 
 ```text
-declare early
-  -> assign roles
-  -> write status doc
-  -> state impact
-  -> mitigate first
-  -> update every 15 minutes
-  -> record decisions
-  -> resolve and monitor
-  -> create postmortem inputs
+declare early（及早宣布事件）
+  -> assign roles（分配角色）
+  -> write status doc（建立状态文档）
+  -> state impact（说明影响）
+  -> mitigate first（优先缓解）
+  -> update every 15 minutes（每十五分钟更新的课堂示例）
+  -> record decisions（记录决策）
+  -> resolve and monitor（恢复并持续观察）
+  -> create postmortem inputs（整理复盘输入）
 ```
+
+## 老师带你练一次“忙而不乱”的故障现场
+
+用户说支付失败，群里有人查数据库，有人准备重启，还有人在问谁负责。你先做的事是建立共同事实：影响哪个功能、哪些用户、什么时候开始、当前知道什么。事件响应负责让团队有序地减轻影响并验证恢复，根因分析可以在恢复后继续深入。
+
+Incident Commander（事件指挥）协调优先级和决策，Operations Lead（技术处理负责人）安排具体检查与动作，Communications Lead（沟通负责人）同步状态，Scribe（记录员）保存时间线。小团队可以兼任，但职责要明确。技术专家并不自动成为所有沟通的出口，否则他会被消息打断而无法排障。
+
+### 第一课：用时间线区分发现、缓解和恢复
+
+课堂设定 10:00 用户开始失败，10:04 告警发现，10:12 回滚完成，10:15 业务验证通过。发现用时是 4 分钟，恢复用户功能用时是 15 分钟。10:12 只是执行动作完成，不能提前记为恢复。实际组织里 MTTR 可以指恢复或修复时间，必须写明起止定义才可比较。
+
+状态更新写事实、行动、下一次更新时间。例如“订单提交错误升高，正在比较两个版本；已暂停继续放量；下一次更新十分钟后”。不要在证据不足时给确定根因，也不要靠无依据承诺恢复时间缓解焦虑。可以给下一项确认工作和估计更新时间。
+
+### 基础实验与故障实验：为什么事件还不能关
+
+前置条件是 Node.js，在仓库根目录运行，无需真实告警或服务。
+
+```powershell
+node examples/teacher-led-reliability-lab/lab.mjs incident
+node examples/teacher-led-reliability-lab/lab.mjs incident --fault
+```
+
+正常输出发现时间 4 分钟、恢复时间 15 分钟，以及 `BUSINESS_RECOVERY_VERIFIED`（业务恢复已验证）。故障模式移除业务验收，`recoveryMinutes` 为 `null`（未知），决策为 `KEEP_INCIDENT_OPEN`（继续保持事件打开）。`null` 不是 0，也不能用回滚完成时间补填。
+
+你先用纸笔排列四个时刻，预测缺一条证据后哪些数字不能计算。若输出不符，检查参数、当前目录和脚本版本。实验无持久资源，无须清理；保存两份输出和一句恢复判定。真实恢复还需代表性业务、持续观察和依赖验证，脚本只演示决策口径。
+
+### 第二课：选择缓解动作要看影响面
+
+回滚可能解除新版本故障，但要检查数据与配置兼容；限流保护核心功能，但会主动拒绝部分请求；流量切换减少坏节点影响，但目标侧必须有容量；降级关闭非核心功能，但应明确用户看见什么。每个动作都写执行对象、预期收益、风险和退出条件。
+
+同一时间限制改动数量，保留基线与时间线。多个团队各改一个看似合理的参数，会让结果难以解释。动作结束先检查效果再继续，关键证据同时保留。避免在恢复之后发现原始日志已轮转、配置差异已丢失。
+
+交接时说明当前影响、已证伪假设、已执行动作、生效版本、未结束任务和下一步。只说“还在查数据库”不足以让接班人继续工作。跨地区团队统一时间格式与状态文档，防止沟通差异成为额外故障源。
+
+生产值班体系也有容量：同一团队能同时处理多少事件、告警风暴怎样排序、外部供应商如何联系。高优先级依据影响和紧迫性，而非发消息人的职位。AIOps 可以汇总时间线、关联证据和建议下一项检查，但状态判断与风险动作仍需要规定的证据和权限。
+
+### 面试课堂：30 秒到 3 分钟
+
+30 秒：“事件响应先确认用户影响并明确角色，建立时间线，选择影响可控的缓解动作，持续沟通，最后按业务证据验证恢复，再转入复盘。”
+
+3 分钟用四个时刻讲清发现、响应、缓解与恢复，说明为什么 10:12 不能直接关单，再比较回滚、限流和切换的条件。追问：“先查根因还是恢复？”优先减少用户影响，同时保存诊断证据。“没有告警但用户投诉怎么办？”用独立业务验证确认范围，不能把监控当绝对事实。“两项动作都可能有效怎么选？”比较风险、可逆性、预计见效时间和现有证据。
+
+生产设计题：跨三个团队建立值班与升级机制，要求明确角色、状态源和接管条件。事故题：回滚完成后用户仍不能登录，沿身份服务、缓存和数据状态继续验证。GitHub 学习证据为模拟时间线、角色表、动作取舍记录和恢复检查单。
+
+## 现场推演课堂：你第一次值班，前二十分钟怎么做
+
+### 第零分钟：承认有影响，不急着宣布原因
+
+同学，收到“订单接口超时”时，你暂时只知道一种症状。先确认是否存在用户影响、影响哪些接口和人群、是否仍在发生，并保存最初观察。不要在群里直接宣布数据库故障，因为这会让后来加入的人被未经验证的结论引导。
+
+状态更新可以写成：“已确认部分订单查询超时，写入影响仍在核实；正在比较新旧版本与依赖耗时；下一次更新将在约定时间给出。”它区分事实、未知和行动。时间承诺应是你能控制的下一次沟通时间，不是没有依据的恢复时间。
+
+是否声明事故按团队预先定义的影响标准决定。严重等级不是给技术组件排重要性，而是为了决定响应资源、沟通范围与处理优先级。即使根因未知，也可以先启动合适级别响应。
+
+### 接下来：一个人协调，不等于一个人解决所有问题
+
+事件指挥负责保持共同目标、分工和决策节奏；技术处理者验证假设与执行受控动作；沟通者更新用户与相关方；记录者保存时间线和证据。小团队可以兼任，但要让大家知道当前职责由谁承担。
+
+没有分工时，常见问题是几个人同时重启、改配置或切流，之后无法判断哪个动作有效。把动作提交到同一条决策记录，写明目标、原因、风险、执行者和预期结果，再让对应负责人执行。只读检查可并行，影响状态的动作要特别注意协调。
+
+引入更多专家不代表要让所有人同时下命令。请数据库同事验证连接与查询，请网络同事验证具体路径，给每组一个能区分假设的问题。任务太泛，会收回大量无关截图，反而拖慢决策。
+
+### 第五分钟：优先找能降低影响的安全选项
+
+缓解目标是减少用户损失，不要求先完成全部根因证明。可以考虑回退已知变更、切到验证过的健康实例、限流或关闭非核心功能，但每种动作都要理解副作用。限流能保护核心依赖，也会主动拒绝部分请求；切流会改变另一侧容量；回滚可能遇到数据兼容问题。
+
+选择时比较生效时间、证据强度、影响范围和可逆性。不要因为某动作最快就自动选它，也不要因为原因尚未百分百确定就完全不行动。把当时可用信息与取舍记录下来，后续复盘才能理解现场决策。
+
+如果涉及删除数据、重建存储、恢复数据库或跨区域切换等高风险动作，按既定权限与审批流程执行。事故紧急不会自动扩大操作者权限。证据不足时可以升级请求专业支持，同时继续做安全的状态确认与用户保护。
+
+### 第十分钟：把“命令执行了”转成“影响减少了”
+
+动作后先验证预期系统状态，再验证用户结果。应用实例变健康，只说明探针通过；业务请求仍可能在另一条路径失败。观察入口请求、错误、延迟、关键交易结果以及依赖状态，确认改善与动作时间相符，同时检查是否把影响转移给其他服务。
+
+比较时考虑流量变化。用户放弃重试后请求减少，错误总数下降不代表错误率改善；把问题请求路由到错误页面也可能返回 HTTP 200。恢复指标应与事故前定义的用户成功条件一致，不临时选择最容易变绿的图。
+
+保留未解决事项，例如部分订单待补偿、历史队列仍积压、只有一个区域恢复。状态可以是“主要路径恢复，正在处理残余影响”，不必在完全故障与全部恢复之间二选一。
+
+### 交接：让下一班接的是状态，而不是一串聊天记录
+
+交接摘要至少说明当前影响、已验证事实、当前假设、已执行动作、正在运行的任务、禁止重复的动作、下一步检查和升级联系人。尤其要注明长时间任务是否仍在执行，避免下一班误以为超时失败而重复提交。
+
+先让接班人复述当前状态与下一步，确认共同理解，再明确移交指挥或执行责任。截图和聊天记录可以是证据，但不能替代一段有结构的状态说明。敏感信息只放在受控位置，交接摘要使用必要的脱敏引用。
+
+### 恢复以后：事件结束与复盘结束可以分开
+
+事件恢复验收关注用户影响是否解除、关键指标是否稳定、残余风险是否被接管；复盘继续解释原因与改善防线。原因未定不妨碍在证据充分时确认业务恢复，但未定原因必须保留，不能为了关单强行补一个答案。
+
+复盘也不应该等于评价谁更勇敢。检查哪些防线有效、哪些信息缺失、为什么某个选择当时合理，以及如何让下次更容易做对。把改进行动转成可验收工作，再跟踪它是否真正降低风险。
+
+课堂练习让三位同学分别扮演协调、技术和沟通，使用文章中的合成时间线，故意插入“动作成功但业务未验证”的信息。预期是保留事故状态、补做验收并清楚更新，而不是立即庆祝恢复。结束后保留时间线和决策，清理只涉及演练材料。
 
 ## 什么是 Incident
 
@@ -154,14 +245,14 @@ Google SRE Emergency Response 的核心提醒很朴素：事情会坏，关键�
 ## 事件生命周期
 
 ```text
-detected
-  -> triaged
-  -> declared
-  -> investigating
-  -> mitigating
-  -> monitoring
-  -> resolved
-  -> postmortem
+detected（已发现）
+  -> triaged（已初步判断）
+  -> declared（已宣布响应）
+  -> investigating（调查中）
+  -> mitigating（缓解中）
+  -> monitoring（持续监控）
+  -> resolved（已解决）
+  -> postmortem（事故复盘）
 ```
 
 | 状态 | 含义 | 关键输出 |
@@ -407,12 +498,12 @@ Scribe：Dave
 推荐顺序：
 
 ```text
-SLO / symptom dashboard
-  -> recent changes
-  -> error logs
-  -> dependency status
-  -> saturation
-  -> rollback / failover / degrade
+SLO / symptom dashboard（服务目标或症状仪表盘）
+  -> recent changes（近期变更）
+  -> error logs（错误日志）
+  -> dependency status（依赖状态）
+  -> saturation（资源饱和度）
+  -> rollback / failover / degrade（回滚、切换或降级）
 ```
 
 不要一开始就沉迷根因细节。事件中最重要的是降低用户影响。
@@ -424,11 +515,11 @@ SLO / symptom dashboard
 优先级：
 
 ```text
-protect users
-  -> stabilize service
-  -> preserve evidence
-  -> understand root cause
-  -> prevent recurrence
+protect users（保护用户）
+  -> stabilize service（稳定服务）
+  -> preserve evidence（保留证据）
+  -> understand root cause（理解原因）
+  -> prevent recurrence（防止重复发生）
 ```
 
 常见缓解动作：

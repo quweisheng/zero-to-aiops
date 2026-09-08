@@ -34,12 +34,12 @@
 ```text
 Tomcat 官方资料
   -> 版本：Tomcat 11 / 10.1 / 9 与 Java、Jakarta 规范
-  -> 启动：Bootstrap、Catalina、CATALINA_HOME、CATALINA_BASE
-  -> 容器：Server、Service、Engine、Host、Context、Wrapper
-  -> 接入：Coyote、HTTP/1.1、HTTP/2、TLS、AJP、反向代理
-  -> 应用：WAR、Servlet、Filter、Listener、JSP、WebSocket
-  -> 资源：JNDI、JDBC DataSource、Realm、Session
-  -> 运维：Manager、JMX、JULI、Access Log、Thread Dump、Heap Dump
+  -> 启动：Bootstrap（引导入口）、Catalina（容器核心）、CATALINA_HOME（程序目录）、CATALINA_BASE（实例目录）
+  -> 容器：Server（实例）、Service（连接器与引擎组合）、Engine（请求引擎）、Host（虚拟主机）、Context（应用）、Wrapper（Servlet 包装）
+  -> 接入：Coyote（协议处理）、HTTP（网页协议）、TLS（加密传输）、AJP（代理连接协议）、反向代理
+  -> 应用：WAR（应用归档）、Servlet（请求处理组件）、Filter（过滤器）、Listener（事件监听器）、JSP（动态页面）、WebSocket（双向长连接）
+  -> 资源：JNDI（资源命名）、JDBC DataSource（数据库连接来源）、Realm（认证域）、Session（会话）
+  -> 运维：Manager（管理应用）、JMX（管理扩展）、JULI（日志实现）、Access Log（访问日志）、Thread Dump（线程快照）、Heap Dump（堆快照）
   -> 生产：集群、容量、安全、升级、回滚、故障诊断
 ```
 
@@ -87,11 +87,11 @@ Tomcat 广泛出现在 Java 单体应用、Spring MVC、传统 WAR 部署、政�
 
 ```text
 入口流量
-  -> Connector 连接与线程
-  -> Engine / Host / Context 路由
-  -> Filter / Servlet / Framework
+  -> Connector（连接器）连接与线程
+  -> Engine / Host / Context（引擎、虚拟主机、应用上下文）路由
+  -> Filter / Servlet / Framework（过滤器、请求处理组件、应用框架）
   -> JDBC / 缓存 / 消息 / 外部 API
-  -> JVM Heap / GC / OS / 容器资源
+  -> JVM Heap / GC / OS（虚拟机堆、垃圾回收、操作系统）/ 容器资源
   -> 响应、Access Log、指标和链路
 ```
 
@@ -147,14 +147,14 @@ Tomcat 不自动解决：
 ### 启动路径
 
 ```text
-catalina.sh / catalina.bat
-  -> Bootstrap.main()
+catalina.sh / catalina.bat（Linux 与 Windows 的管理启动脚本）
+  -> Bootstrap.main()（引导类入口方法）
   -> 创建 Tomcat 类加载器
   -> Catalina 解析 server.xml
-  -> 初始化 Server / Service / Connector / Container
-  -> 部署 Host appBase 下的 Context
-  -> 初始化 Filter / Listener / Servlet
-  -> Connector 开始接收请求
+  -> 初始化 Server / Service / Connector / Container（服务器、服务分组、连接器、请求处理容器）
+  -> 部署 Host appBase 下的 Context（虚拟主机应用目录中的应用上下文）
+  -> 初始化 Filter / Listener / Servlet（过滤器、生命周期监听器、请求处理组件）
+  -> Connector（连接器）开始接收请求
 ```
 
 启动日志出现 `Server startup in ... milliseconds` 只能证明 Tomcat Server 完成启动。每个应用是否成功部署，还要检查部署日志、Context 状态和业务探针。
@@ -162,15 +162,15 @@ catalina.sh / catalina.bat
 ### 一次 HTTP 请求的数据路径
 
 ```text
-浏览器 / API Client
+浏览器 / API Client（接口客户端）
   -> DNS / 负载均衡 / 反向代理
-  -> Coyote HTTP Connector
-  -> Socket、连接限制和请求线程
-  -> Catalina Engine
+  -> Coyote HTTP Connector（负责网络协议的连接器）
+  -> Socket（套接字）、连接限制和请求线程
+  -> Catalina Engine（请求处理容器的顶层引擎）
   -> Host：按域名选择虚拟主机
   -> Context：按 URL 前缀选择 Web 应用
   -> Wrapper：选择目标 Servlet
-  -> Valve / Filter Chain
+  -> Valve / Filter Chain（容器处理阀与应用过滤器链）
   -> Servlet / Spring MVC / 业务代码
   -> JDBC / Redis / MQ / 外部 API
   -> 响应沿原路径返回
@@ -347,11 +347,11 @@ Tomcat 本身没有像 Kubernetes API Server 或 WebSphere Deployment Manager �
 ### 单实例学习拓扑
 
 ```text
-Client
-  -> localhost:18080
-  -> Tomcat Connector
-  -> ROOT Context
-  -> index.jsp
+Client（客户端）
+  -> localhost:18080（本机实验端口）
+  -> Tomcat Connector（连接器）
+  -> ROOT Context（根路径应用）
+  -> index.jsp（动态页面）
 ```
 
 它适合学习，不是生产高可用。
@@ -360,23 +360,23 @@ Client
 
 ```text
 用户
-  -> DNS / WAF
+  -> DNS / WAF（域名解析与应用防火墙）
   -> 四层或七层负载均衡
-  -> NGINX / Apache HTTP Server / Ingress
+  -> NGINX / Apache HTTP Server / Ingress（反向代理或集群入口路由）
   -> Tomcat A（可用区 A）
   -> Tomcat B（可用区 B）
   -> Tomcat C（容量冗余）
        -> 数据库高可用
-       -> Redis / Session Store
-       -> MQ
+       -> Redis / Session Store（缓存或集中会话存储）
+       -> MQ（消息队列）
        -> 外部服务
 
 每一层
-  -> Metrics
-  -> Logs
-  -> Traces
-  -> Change Events
-  -> Alert / RCA / Runbook
+  -> Metrics（指标）
+  -> Logs（日志）
+  -> Traces（调用链）
+  -> Change Events（变更事件）
+  -> Alert / RCA / Runbook（告警、根因分析、处置手册）
 ```
 
 ### 故障域
@@ -414,7 +414,7 @@ Client
 java -version # 确认 Java 版本；Tomcat 11 至少需要 Java 17
 echo "$JAVA_HOME" # 确认 Tomcat 会使用哪套 Java
 ./bin/version.sh # 查看 Tomcat、CATALINA_BASE、JVM 和操作系统信息
-./bin/configtest.sh # 解析关键配置；看到配置无严重错误才继续
+./bin/catalina.sh configtest # 解析关键配置；检查退出码，无严重错误才继续
 ./bin/startup.sh # 启动 Tomcat
 tail -f logs/catalina.out # 观察启动和应用部署日志
 ```
@@ -425,7 +425,7 @@ Windows PowerShell 使用：
 java -version # 确认 Java 版本
 $env:JAVA_HOME # 查看当前 JAVA_HOME
 .\bin\version.bat # 查看 Tomcat 与 JVM 信息
-.\bin\configtest.bat # 检查配置
+.\bin\catalina.bat configtest # 检查配置，这是 catalina 脚本的子命令
 .\bin\startup.bat # 启动
 Get-Content .\logs\catalina.*.log -Wait # 持续读取 Catalina 日志
 ```
@@ -545,7 +545,7 @@ export CATALINA_OPTS="-Xms2g -Xmx2g -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDump
 </Context>
 ```
 
-生产不要把真实密码提交到 Git。应通过受控 Secret、凭据文件、JNDI 工厂或平台密钥机制注入，并限制配置文件权限。池参数还要与数据库总连接预算协调。
+这里的 `${orders.db.url}` 等是待解析的属性，不会因为系统里存在同名环境变量就天然生效。应按 Tomcat 属性替换机制由系统属性或已配置的 PropertySource 提供；不要把凭据直接写到可被进程列表、日志或 Git 看见的启动参数里。数据库驱动与连接池工厂还必须位于创建资源的类加载器可见范围。生产通过受控 Secret、凭据文件、JNDI 工厂或平台密钥机制注入，并限制配置文件权限。池参数与数据库总连接预算一起评审。
 
 ### 反向代理后的地址
 
@@ -559,7 +559,7 @@ export CATALINA_OPTS="-Xms2g -Xmx2g -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDump
 
 ```bash
 ./bin/version.sh # 查看 Tomcat、JVM、CATALINA_HOME 和 CATALINA_BASE
-./bin/configtest.sh # 在启动或重启前检查配置解析
+./bin/catalina.sh configtest # 在启动或重启前检查配置解析
 ./bin/catalina.sh run # 前台运行，适合容器和调试
 ./bin/catalina.sh start # 后台启动
 ./bin/catalina.sh stop # 请求优雅停止
@@ -601,9 +601,11 @@ JFR 是 Java Flight Recorder。它能记录线程、锁、CPU、分配、GC 和 
 ### Manager 文本接口
 
 ```bash
-curl -u "$TOMCAT_USER:$TOMCAT_PASSWORD" \
+curl --user "$TOMCAT_USER" \
   http://127.0.0.1:8080/manager/text/list # 列出 Context、状态、Session 和路径
 ```
+
+交互式执行时 curl 会提示输入密码，避免把密码拼到可被进程列表读取的命令参数中。自动化应使用受控凭据注入或受限客户端配置并保护临时文件，不把用户名和密码复制到日志、脚本或 Git。
 
 自动化用户只授予 `manager-script` 等必要角色，Manager 只开放给管理网络。不要把用户名和密码直接写进脚本、命令历史或仓库。
 
@@ -612,7 +614,7 @@ curl -u "$TOMCAT_USER:$TOMCAT_PASSWORD" \
 | 名称 | 作用 | 常用写法 | 关键字段 / 参数 | 正常结果 | 常见坑 |
 |---|---|---|---|---|---|
 | `version.sh` / `version.bat` | 查看运行基础信息 | `bin/version.sh` | Base、Home、Java Home | 版本与预期一致 | 查的是另一套实例 |
-| `configtest` | 启动前解析配置 | `bin/configtest.sh` | XML、组件初始化 | 无严重配置错误 | 通过不代表应用业务可用 |
+| `configtest` | 启动前解析配置 | `bin/catalina.sh configtest` | XML、组件初始化 | 无严重配置错误 | 通过不代表应用业务可用 |
 | `catalina run` | 前台启动 | `catalina.sh run` | 当前环境变量 | 日志在标准输出 | 终端退出会结束进程 |
 | `curl -i` | 验证 HTTP | `curl -i URL` | 状态码、Header、Body | 200 与正确业务内容 | 只测主页，没有测依赖 |
 | `jcmd Thread.print` | 抓线程快照 | `jcmd PID Thread.print` | 线程状态、栈、锁 | 得到可分析 Dump | 只抓一次看不到变化趋势 |
@@ -687,7 +689,7 @@ OpenTelemetry Java Agent 可以在不大改代码的情况下采集常见 Servle
 
 - 收集版本、配置哈希、应用列表、日志片段和只读 JMX 指标。
 - 在告警时抓取有频率限制的 Thread Dump。
-- 把异常实例从负载均衡摘除，再执行业务探针。
+- 按已批准的单实例处置预案摘除异常实例，再执行业务探针；摘流本身是写操作，必须先确认剩余容量与恢复方法，不能归为只读取证。
 - 比对发布前后错误率、延迟和资源指标。
 
 需要审批或强保护的动作：
@@ -735,7 +737,7 @@ services:
   tomcat:
     image: tomcat:11.0.24-jdk21-temurin-noble
     ports:
-      - "18080:8080" # 主机 18080 映射到容器 Tomcat 8080
+      - "127.0.0.1:18080:8080" # 只允许本机访问，不把学习 JSP 暴露到共享网络
     volumes:
       - ./webapps/ROOT:/usr/local/tomcat/webapps/ROOT:ro # 只读挂载实验应用
     restart: "no" # 学习环境不自动重启，避免掩盖故障
@@ -765,14 +767,14 @@ services:
 <%@ page contentType="application/json; charset=UTF-8" %>
 <%
   String requestId = request.getHeader("X-Request-ID");
-  if (requestId == null || requestId.isBlank()) {
+  if (requestId == null || !requestId.matches("[A-Za-z0-9._-]{1,64}")) {
     requestId = "missing";
   }
 %>
 {"status":"UP","requestId":"<%= requestId %>","server":"<%= application.getServerInfo() %>"}
 ```
 
-这是学习用 JSP。生产 JSON 接口应使用框架和 JSON 序列化库，并校验、转义外部输入。
+这是学习用 JSP，先把请求 ID 限制为 1–64 位字母、数字、点、下划线和短横线，避免双引号与换行破坏示例 JSON。生产 JSON 接口应使用框架和 JSON 序列化库，不能用字符串拼接代替完整转义。
 
 ### 第五步：启动并观察日志
 
@@ -827,10 +829,10 @@ docker compose exec tomcat sh -lc "tail -n 5 /usr/local/tomcat/logs/localhost_ac
 5. 目录是否真的是 `webapps/ROOT/WEB-INF/web.xml`，大小写是否正确。
 6. 使用的是 `curl.exe` 还是 PowerShell 的旧 `curl` 别名。
 
-### 清理
+### 清理：两个实验结束后执行
 
 ```powershell
-docker compose down # 停止并删除实验容器和网络，不删除本地实验文件
+docker compose down # 如果还要做下一节故障实验，先跳过；全部结束再清理
 ```
 
 ## 故障注入实验：让 Tomcat 进程活着但应用部署失败
@@ -1046,8 +1048,8 @@ Little's Law 的实用近似：
 入口并发
   -> Connector 连接
   -> 请求线程
-  -> JVM CPU / Heap / Native Memory
-  -> JDBC / Redis / HTTP Client 连接池
+  -> JVM CPU / Heap / Native Memory（虚拟机处理器消耗、堆内存、堆外及本地内存）
+  -> JDBC / Redis / HTTP Client（数据库、缓存、网页接口客户端）连接池
   -> 数据库 / 缓存 / 外部服务容量
 ```
 
@@ -1301,7 +1303,23 @@ Tomcat 由 Connector 和 Catalina 容器体系组成。Connector 负责连接、
 - CPU 不高为什么线程仍会耗尽？
 - 如何自动取证但避免告警风暴？
 
-## 学习检查清单
+## 老师带你串起来：从第一次 JSP 请求到生产发布
+
+先观察一个容易忽略的现象：第一次访问 JSP 比后续慢。JSP 是页面模板，Jasper 需要把它转换成 Java 类并编译，之后才能像 Servlet 一样处理请求；第一次请求还可能触发类加载和应用懒初始化。因此发布验收要包含预热与冷启动两种情形。`work/` 中出现编译产物是正常机制，不是它“自动生成垃圾”；如果编译失败，先查磁盘、权限、JDK 与具体错误，不无条件清空工作目录。
+
+再问线程。Servlet 实例一般会被多个请求并发调用，不能把“当前用户”“当前订单”随手放进 Servlet 的可变成员变量，否则甲的请求可能看见乙的数据。请求局部变量与受控会话状态的生命周期不同。ThreadLocal（线程本地变量）也不是随用随忘：线程池复用线程，忘记清理可能泄漏上下文或让旧应用类加载器被引用。代码层在 `finally` 中清理，运维层对比连续发布后的线程、类加载和 Metaspace（类元数据空间）增长；重启只能暂时回收，不能证明缺陷已修复。
+
+数据库连接也是借来的，不是请求自己的私有资产。假设三个 Tomcat 各有 30 条池连接，总预算已经是 90；滚动发布新旧实例短暂并存到六个，就可能达到 180。即使每个节点的参数没有改，数据库仍可能被发布过程压满。使用 try-with-resources（自动关闭资源语法）归还连接，设置有限等待，并把批处理、监控与管理连接扣除后再分配。平台扩容必须连带评估所有实例总连接数。
+
+命名空间迁移再追问一层：Tomcat 9 到 11 要把所有 `javax` 都替换为 `jakarta` 吗？不能。Servlet 等从 Java EE 迁出的规范包需要迁移，但 Java SE 自身的 `javax.sql.DataSource` 仍是正确名字，文中 JNDI 示例故意保留它。先按库与规范归属建立依赖清单，再升级框架与第三方包；全局文本替换可能把本来正确的 Java API 改坏。
+
+讲 Session 时，不要把粘性会话说成备份。粘性只是尽量把同一用户送回原节点；原节点掉电后，如果没有可用复制或外部存储，会话仍会丢。复制也有取舍：大对象要序列化与传输，新旧应用中的对象结构可能不兼容，复制成功更不等于用户刚提交的数据库事务已成功。生产把会话保持、业务数据一致性和用户重新登录体验分开设计。
+
+现在回答“Access Log 有记录而应用日志没有”这个追问。先核对它是不是同一时间、请求 ID、实例和 Context；容器可能在解析、路由或过滤器阶段拒绝了请求，也可能应用日志级别关闭或采集丢失。使用 `%I`（处理请求的线程名）可以辅助和线程快照关联；`%D` 在本文 Tomcat 11 文档中为微秒，跨系统比较前转换统一单位，不能把 200000 微秒误读成 200000 毫秒。字段语义以 [官方 AccessLogValve 参考](https://tomcat.apache.org/tomcat-11.0-doc/config/valve.html) 为准。
+
+最后是回滚追问：旧 WAR、旧配置、旧 JDK 都在，是不是可以放心一键回退？还要检查数据库字段、消息格式、会话对象、外部接口和写入数据是否兼容。老师会让你先列出回退不会撤销的副作用，再给出停止阈值、流量摘除、旧实例预热和同一订单查询探针。把这份回答与正常/错误 `web.xml` 的实验记录一起提交，你就既能解释容器机制，也能说明生产变更的真实边界。
+
+## 完成前自查
 
 - [ ] 我能说明 Tomcat 11、10.1、9 与 Java、`jakarta.*`、`javax.*` 的边界。
 - [ ] 我能区分 JDK、Tomcat、NGINX、Spring Boot 和完整应用服务器。

@@ -6,6 +6,16 @@
 >
 > 适用人群：想从运维、SRE、DevOps、后端、数据或 AI 应用开发转向客户现场工程交付的人。
 
+## 老师带你从客户一句话开始
+
+客户说“做个 AI 运维助手”，先别急着选框架。我们先问他现在处理哪类事件、输入从哪里来、谁使用结果、什么叫有帮助。FDE 是 Forward Deployed Engineer（贴近客户现场交付的工程师），需要把需求、代码、数据、部署和使用反馈连起来。AI FDE 在其中增加模型能力；AIOps 是智能运维这个应用方向之一。
+
+零基础先做只读版本：输入脱敏告警，检索一份手册，输出证据和建议检查。API 是程序之间的调用接口，SQL 是查询结构化数据的语言，RAG 是检索增强生成，Tool Calling 是让模型提出结构化工具调用，MCP 是模型上下文协议。名字不同，但你每一步都要确认输入、输出、权限和失败时怎么办。
+
+老师带练的顺序是需求简报、最小接口、可用数据、可重复评估、部署与恢复、用户试用。评估先用固定样例判断引用是否正确、建议是否可执行，再测延迟和成本。一个错误引用比一句语气不自然的回答更影响交付，样例应包含缺资料、冲突资料和工具超时。
+
+用后文基础与故障实验练到能独立说明：“我在哪一步发现证据不足，系统怎样表达未知，人工怎样接手。”30 秒讲用户问题和交付结果；3 分钟讲一条请求从页面到数据再返回的路径，解释为何先做只读和怎样验证。没有实际运行或真实采用的数据，就写待验证，不把模拟节省时间当客户实测。
+
 ## 先说结论
 
 FDE 不是某个软件，也不是“会调用大模型 API 的售前”。它是一类贴近客户真实业务、把模糊问题做成可运行生产系统、再把共性需求反馈给产品团队的工程岗位。
@@ -392,7 +402,7 @@ Identity 身份
 ```text
 用户任务
   -> 输入与权限校验
-  -> Prompt / Context
+  -> Prompt / Context（给模型的任务提示与当前可用上下文）
   -> 模型选择与结构化输出
   -> 可选的检索和工具循环
   -> 策略门禁与人工审批
@@ -636,15 +646,15 @@ python .\evals.py
 ### 参考设计
 
 ```text
-Customer Identity Provider
-  -> API Gateway / Web Application Firewall
-  -> Tenant-aware Application Service
-       -> Workflow State Store
-       -> Policy and Approval Service
-       -> Connector Workers
-       -> Model Gateway
-       -> Retrieval Service
-  -> Audit Store / Metrics / Logs / Traces / Eval Pipeline
+Customer Identity Provider（客户身份提供方）
+  -> API Gateway / Web Application Firewall（接口网关与应用防火墙）
+  -> Tenant-aware Application Service（识别并隔离租户的应用服务）
+       -> Workflow State Store（工作流状态存储）
+       -> Policy and Approval Service（策略与审批服务）
+       -> Connector Workers（执行外部连接任务的工作进程）
+       -> Model Gateway（模型调用网关）
+       -> Retrieval Service（检索服务）
+  -> Audit Store / Metrics / Logs / Traces / Eval Pipeline（审计存储、指标、日志、链路与评估流水线）
 ```
 
 ### 关键取舍

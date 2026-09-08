@@ -33,33 +33,33 @@
 ## 官方知识地图
 
 ```text
-etcd
-  -> KV API
-     -> Range / Put / Delete
-     -> Transaction
-     -> revision / version
-  -> Watch API
+etcd（分布式一致性键值存储）
+  -> KV API（键值接口）
+     -> Range / Put / Delete（读取/写入/删除）
+     -> Transaction（条件事务）
+     -> revision / version（全局修订号/单键修改次数）
+  -> Watch API（变化监听接口）
      -> 按 key 或前缀监听
      -> 从指定 revision 续看
      -> compacted revision 后重新 List
-  -> Lease API
-     -> TTL
-     -> KeepAlive
+  -> Lease API（租约接口）
+     -> TTL（剩余生存时间）
+     -> KeepAlive（持续续租）
      -> 过期删除绑定 key
-  -> Raft
-     -> Leader / Follower / Learner
+  -> Raft（多数派共识算法）
+     -> Leader / Follower / Learner（领导者/跟随者/非投票学习者）
      -> 日志复制
      -> 多数派提交
-  -> Storage
-     -> WAL
-     -> snapshot
-     -> MVCC backend
-     -> compact / defrag
-  -> Operations
-     -> TLS / Auth
-     -> member management
-     -> metrics / alarm
-     -> backup / restore / upgrade
+  -> Storage（持久化存储）
+     -> WAL（预写日志）
+     -> snapshot（快照）
+     -> MVCC backend（多版本存储后端）
+     -> compact / defrag（清理历史/回收文件碎片）
+  -> Operations（运维）
+     -> TLS / Auth（加密传输/认证授权）
+     -> member management（成员管理）
+     -> metrics / alarm（指标/告警）
+     -> backup / restore / upgrade（备份/恢复/升级）
 ```
 
 本文按“先单机理解 API，再理解三节点一致性，最后进入 Kubernetes 生产运维”的顺序学习。
@@ -129,16 +129,16 @@ etcd 是一个强一致、高可用的分布式键值存储。它通过 gRPC 提
 
 ```text
 基础层
-  -> key / value
-  -> revision / version
-  -> put / get / delete
-  -> watch / lease / txn
-  -> snapshot
+  -> key / value（键与值）
+  -> revision / version（全局修订号与单键修改次数）
+  -> put / get / delete（写入、读取、删除）
+  -> watch / lease / txn（监听、租约、条件事务）
+  -> snapshot（快照）
 
 原理层
-  -> Raft Leader
+  -> Raft Leader（共识算法中的领导者）
   -> WAL 与多数派提交
-  -> MVCC
+  -> MVCC（多版本并发控制）
   -> 线性一致读
   -> compact 与 defrag
 
@@ -155,15 +155,15 @@ etcd 是一个强一致、高可用的分布式键值存储。它通过 gRPC 提
 
 ```text
 客户端 / kube-apiserver
-  -> 2379 client URL
-  -> etcd member
-     -> KV / Watch / Lease API
-     -> Raft
-     -> WAL + snapshot + backend
+  -> 2379 client URL（客户端访问地址，2379 是常见默认端口）
+  -> etcd member（集群成员）
+     -> KV / Watch / Lease API（键值、变化监听、租约接口）
+     -> Raft（多数派共识算法）
+     -> WAL + snapshot + backend（预写日志、快照、后端存储）
 
-member-1 <-> 2380 peer URL <-> member-2
-member-2 <-> 2380 peer URL <-> member-3
-member-3 <-> 2380 peer URL <-> member-1
+member-1（成员一）<-> 2380 peer URL（成员间通信地址）<-> member-2（成员二）
+member-2（成员二）<-> 2380 peer URL（成员间通信地址）<-> member-3（成员三）
+member-3（成员三）<-> 2380 peer URL（成员间通信地址）<-> member-1（成员一）
 ```
 
 | 概念 | 作用 | 排障重点 |
@@ -275,7 +275,7 @@ MVCC 是 Multi-Version Concurrency Control，多版本并发控制。etcd 不只
 ```text
 读取 key 和 mod_revision=20
   -> 计算新值
-  -> txn compare mod_revision == 20
+  -> txn compare mod_revision == 20（事务比较：键的最后修改修订号仍为 20）
      -> 成功：写入新值
      -> 失败：说明别人先改了，重新读取
 ```
@@ -335,7 +335,7 @@ Lease 是带 TTL 的租约。key 可以绑定到租约；客户端持续 KeepAli
 etcd Transaction 由三部分组成：
 
 ```text
-Compare
+Compare（比较条件）
   -> 条件成立执行 Success 操作
   -> 条件不成立执行 Failure 操作
 ```
@@ -383,7 +383,7 @@ Compare
 确认集群当前有多数派和备份
   -> 添加 Learner
   -> 等待追平
-  -> promote
+  -> promote（提升为有投票权的正式成员）
   -> 删除旧成员
   -> 验证 endpoint 与告警
 ```
@@ -393,10 +393,10 @@ Compare
 ## etcd 与 Kubernetes 的关系
 
 ```text
-kubectl / controller / scheduler
-  -> kube-apiserver
+kubectl / controller / scheduler（命令行工具、控制器、调度器）
+  -> kube-apiserver（集群资源接口服务）
   -> 认证 / 鉴权 / 准入 / 校验
-  -> etcd
+  -> etcd（资源状态存储）
 
 etcd 不直接理解 Pod
 etcd 保存的是 API Server 序列化后的资源状态
@@ -416,7 +416,7 @@ etcd 保存的是 API Server 序列化后的资源状态
 
 ```powershell
 docker run -d --name etcd-lab `
-  -p 2379:2379 -p 2380:2380 `
+  -p 127.0.0.1:2379:2379 `
   gcr.io/etcd-development/etcd:v3.7.1 `
   /usr/local/bin/etcd `
   --name s1 `
@@ -805,6 +805,54 @@ etcd 是基于 Raft 的强一致分布式键值存储，Kubernetes 用它保存�
 - [ ] 能解释 etcd 故障对 Kubernetes 数据面和控制面的不同影响。
 - [ ] 能按 Leader、多数派、磁盘、网络、容量、证书顺序排障。
 - [ ] 能设计生产高可用、监控、升级和灾备方案。
+
+## 老师带你理解“多数派”：不是三份数据投一次少数服从多数
+
+先假设三个同学共同维护一本班费账。只要求每个人各抄一份还不够，断网时他们可能分别记入相互矛盾的支出。Raft 的核心是建立同一个日志顺序，并按协议选举和提交，让已确认结果不被任意推翻。
+
+Leader 给修改排序，Follower 接收复制，获得法定确认后提交。日志里存在一条记录，与这条记录已经 committed（提交）不同；不同成员的日志尾部也可能暂时不同。判断一致性不能只比较某一瞬间文件大小。
+
+Term（任期）像一次领导任期编号，用来判断信息是否过时。网络分区后，少数派不能安全提交新状态，已有 Leader 也不能凭旧身份继续对外承诺写成功。这种选择保护一致性，但会牺牲少数派一侧的写可用性。
+
+增加投票成员主要改变容错和复制成本，不会把一个写入变成可以分给五台独立并行完成的工作。跨城部署把网络往返放入确认路径，因此应先明确能接受的延迟与故障模型，再决定成员放置。
+
+## 版本课堂：revision 为什么不是时间，也不是计数器值
+
+一次修改事务可以更新多个键，它们共享提交修订号。单键 `version` 计算的是该键自创建以来的修改次数，`mod_revision` 表示最后修改发生在哪个全局修订点。删除后重建一个同名键，它的创建历史和版本语义会改变。
+
+CAS 的价值可以用抢座位理解：你读到座位空闲，准备预订前要确认它仍是刚才那一版。如果别人已经占用，条件事务失败，你应重新读取。直接把“已占用”覆盖为自己的名字，会丢掉他人的操作。
+
+Lease 到期能删除临时状态，但不能直接停止一个失联进程执行外部动作。比如一个进程长时间暂停后恢复，它可能还以为自己持有锁。涉及外部存储写入时，还需要 Fencing token（隔离令牌）等方案，让下游拒绝过期持有者；仅有租约并不自动保证所有外部操作互斥。
+
+## Watch 课堂：断线恢复要防两种误区
+
+第一种是先读列表，再从任意时间开始监听，中间可能漏掉变化。应使用列表对应的 revision，从下一修订开始衔接。第二种是无限重试已经压缩的旧 revision，历史已不存在，正确行为是重新获取当前快照并重建监听。
+
+本地缓存也要有“正在重同步”状态。无法确认新鲜时，不应让它继续参与需要最新状态的关键决策。Kubernetes 的 informer（资源缓存与通知组件）有自己的重新列举机制，灾备恢复中的 revision 回退需要额外处理，不能只把数据库恢复出来就认为所有控制器缓存立即正确。
+
+老师让你在前面的故障实验中记录三项：请求监听的 revision、压缩点、重新读取后的 revision。你应该能解释为什么旧历史不可用，而当前键值仍然正确。这个解释比记住一个 compact 命令更重要。
+
+## 存储与恢复课堂：fsync 慢为什么能让选主也抖动
+
+fsync 是要求把相关写入同步到稳定存储的系统操作。CPU 空闲不代表它很快：共享磁盘上的备份、阵列重建、宿主暂停或设备错误都可能让它长时间等待。共识确认依赖持久化时，底层延迟会向 API、控制器队列和发布传导。
+
+先看提案积压与 WAL 时延是否同时间变化，再看各成员和宿主。不要只盯当前 Leader，因为 Leader 可能已经由于故障切换，问题节点曾经承担关键角色。保留 term、Leader 变化和时间线能帮助还原过程。
+
+快照检查通过仅说明备份文件能被解析。完成隔离恢复后，还需启动恢复实例并读取实验键，确认关键内容、revision 和访问配置。真实 Kubernetes 快照包含 Secret，恢复目录与文件要按敏感状态保护。
+
+### 收尾：明确回收本课资源
+
+本节单节点容器不向局域网公开客户端端口，也没有暴露无需使用的 peer 端口。完成实验后，先按 Ctrl+C 结束 Watch，再核对容器 `etcd-lab` 与卷 `etcd-restore-data` 确实由本课创建，执行：
+
+```powershell
+docker rm -f etcd-lab # 删除本课单节点容器及其中未导出的实验数据
+docker volume inspect etcd-restore-data # 先核对这是本课恢复目标
+docker volume rm etcd-restore-data # 仅在没有容器使用且不需保留时回收实验恢复数据
+```
+
+如果你还没做恢复实验，卷不存在是正常的。保留脱敏脚本、实验输出和快照结构验证记录即可；公开仓库不保存真实集群快照。
+
+三分钟答题时用“写入顺序、多数派、版本与监听、存储恢复”四段展开。追问客户端超时，要说明结果未知与幂等；追问锁过期，要说明旧持有者仍可能执行外部操作；追问节点维护，要先确认当前多数派、备份和单成员窗口。
 
 ## 学习证据
 

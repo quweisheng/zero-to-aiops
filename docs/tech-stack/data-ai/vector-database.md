@@ -67,68 +67,68 @@ inc-003: Redis 内存打满，原因是告警去重 key 没有过期时间。
 向量数据库可以按这张地图理解：
 
 ```text
-Vector Database
-  -> Input representation
-     -> text
-     -> embedding model
-     -> vector dimension
-     -> dense vector
-     -> sparse vector
-  -> Data model
-     -> collection
-     -> record / entity / point
-     -> id
-     -> vector field
-     -> payload / metadata / scalar fields
-     -> source text
-  -> Indexing
-     -> vector index
-     -> payload / scalar index
-     -> HNSW / IVF / other ANN indexes
-     -> metric type
-  -> Search
-     -> vector search
-     -> top-k
-     -> metadata filtering
-     -> hybrid search
-     -> rerank
-  -> Operations
-     -> insert / upsert
-     -> delete
-     -> update metadata
-     -> reindex
-     -> backup
-     -> migration
-  -> AIOps
-     -> similar incidents
-     -> runbook retrieval
-     -> alert dedup explanation
-     -> RAG recall layer
+Vector Database（向量数据库）
+  -> Input representation（输入表示）
+     -> text（文本）
+     -> embedding model（向量编码模型）
+     -> vector dimension（向量维度）
+     -> dense vector（稠密向量）
+     -> sparse vector（稀疏向量）
+  -> Data model（数据模型）
+     -> collection（集合）
+     -> record（记录） / entity（实体） / point（数据点）
+     -> id（编号）
+     -> vector field（向量字段）
+     -> payload（附属业务数据） / metadata（元数据） / scalar fields（标量字段）
+     -> source text（原始文本）
+  -> Indexing（构建索引）
+     -> vector index（向量索引）
+     -> payload（附属业务数据） / scalar index（标量索引）
+     -> HNSW（分层小世界图索引） / IVF（倒排分桶向量索引） / other ANN indexes（近似最近邻索引）
+     -> metric type（距离度量类型）
+  -> Search（搜索）
+     -> vector search（向量搜索）
+     -> top-k（最相关的 k 条）
+     -> metadata filtering（元数据过滤）
+     -> hybrid search（混合搜索）
+     -> rerank（重排序）
+  -> Operations（运维操作）
+     -> insert（插入） / upsert（按键更新或插入）
+     -> delete（删除）
+     -> update metadata（更新元数据）
+     -> reindex（重建索引）
+     -> backup（备份）
+     -> migration（迁移）
+  -> AIOps（智能运维）
+     -> similar incidents（相似故障）
+     -> runbook retrieval（操作手册检索）
+     -> alert dedup explanation（告警去重解释）
+     -> RAG recall layer（检索增强生成的召回层）
 ```
 
 初学路线：
 
 ```text
-OpenAI embeddings
-  -> Chroma local collection
-  -> insert incident records
-  -> query by new alert
-  -> metadata filter by service
-  -> Milvus Lite collection
-  -> schema and dimension
-  -> evaluate top-k
+OpenAI embeddings（向量编码）
+  -> Chroma local collection（集合）
+  -> insert（插入） incident（故障） records
+  -> query（查询） by new alert（告警）
+  -> metadata filter（元数据过滤） by service（服务）
+  -> Milvus Lite collection（集合）
+  -> schema（数据结构约定） and dimension
+  -> evaluate top-k（最相关的 k 条）
 ```
 
 ## 向量数据库在 AIOps 链路中的位置
 
 ```text
-runbooks / incidents / service docs / alert summaries
-  -> chunk
-  -> embedding
-  -> vector database
-  -> retrieve similar records
-  -> LLM / RAG answer
-  -> on-call engineer
+runbooks（操作手册） / incidents / service docs（服务文档） / alert（告警） summaries
+  -> chunk（文本切块）
+  -> embedding（向量编码）
+  -> vector database（向量数据库）
+  -> retrieve（检索） similar records
+  -> LLM（大语言模型） / RAG（检索增强生成） answer（回答）
+  -> on-call engineer（值班工程师）
 ```
 
 它不替代其他数据库：
@@ -156,7 +156,7 @@ runbooks / incidents / service docs / alert summaries
 Embedding 是把文本变成一串浮点数。
 
 ```text
-"order-api 5xx after deploy"
+"order-api 5xx after deploy"（订单服务发布后出现服务端错误）
   -> [0.012, -0.083, 0.451, ...]
 ```
 
@@ -384,7 +384,7 @@ ANN 索引不一定返回数学上绝对最近的结果，但速度更快。
 ### 纯向量检索
 
 ```text
-query -> embedding -> vector search -> top-k
+query（查询） -> embedding（向量编码） -> vector search（向量搜索） -> top-k（最相关的 k 条）
 ```
 
 适合语义相似。
@@ -392,7 +392,7 @@ query -> embedding -> vector search -> top-k
 ### 向量 + metadata filter
 
 ```text
-query -> embedding -> vector search where service = order-api
+query（查询） -> embedding（向量编码） -> vector search（向量搜索） where service（服务） = order-api
 ```
 
 适合 AIOps 大多数场景。
@@ -436,11 +436,11 @@ Qdrant hybrid queries 文档里展示了 dense 和 sparse 结果融合的思路�
 常见策略：
 
 ```text
-source file changed
-  -> delete chunks by source
-  -> re-split document
-  -> embed new chunks
-  -> upsert new records
+source（来源） file（文件） changed
+  -> delete（删除） chunks by source（来源）
+  -> re-split document（文档）
+  -> embed（嵌入） new chunks
+  -> upsert（按键更新或插入） new records
 ```
 
 稳定 ID 设计：
@@ -484,10 +484,10 @@ source file changed
 基本做法：
 
 ```text
-user
-  -> allowed services / teams / visibility
-  -> metadata filter
-  -> retrieve only authorized records
+user（用户）
+  -> allowed services / teams / visibility（允许的服务、团队与可见范围）
+  -> metadata filter（元数据过滤）
+  -> retrieve（检索） only authorized records
 ```
 
 示例 metadata：
@@ -1071,7 +1071,118 @@ Remove-Item -Force .\milvus_aiops.db
 19. 向量数据库在 RAG 中属于哪一层？
 20. Chroma、Milvus、Qdrant、OpenAI File Search 怎么选择？
 
-## 学习证据
+## 老师带你把“相似”与“正确”分开
+
+先想象图书馆。关系数据库回答“编号 INC-001 的负责人是谁”，向量检索回答“哪些历史记录在语义上像这次问题”。它需要先把文本编码成向量，再按距离找到候选。候选只是需要阅读的资料，不是根因判决，更不能因为一篇文档相似就自动执行里面的重启命令。
+
+学生：“向量维度一样，不就能一起比较？”老师：“两张地图都是三维坐标，但原点和方向不同，数值也不能直接拼起来。”不同 embedding（嵌入）模型即使维度相同，也可能定义不同语义空间；模型版本、分词、输入预处理、归一化和距离度量应作为一组索引合同保存。
+
+### HNSW、IVF 与过滤各解决一部分问题
+
+HNSW（分层可导航小世界图）把向量组织成多层邻接图，搜索先粗找方向，再在较细层探索邻居。更多连接和更大搜索范围通常增加内存或延迟，换取召回；具体参数名称与含义以数据库实现为准。IVF（倒排文件索引）先按聚类区域分桶，搜索只访问部分桶，访问更多桶通常更接近精确搜索，也更慢。
+
+ANN（近似最近邻）牺牲一定精确性换取速度。必须用小规模精确搜索作为参照，区分“索引没找到数学上的近邻”和“近邻本来就不是业务相关文档”。前者调索引，后者调切分、模型、查询或业务过滤；换一台更大的机器不能自动修正语义偏差。
+
+权限过滤会改变候选集合。若先全库取前五条再删除无权限结果，最后可能一条都没有，而授权范围内原本有相关文档。检索必须在可信服务端根据身份约束候选；回传文本、缓存和引用也要遵守相同权限。`visibility='internal'` 只是一个字段，不是完整身份认证与授权系统。
+
+### 零 API 费用的基础实验与故障注入
+
+下面用标准 Python 手工向量展示排序和权限，避免第一节就被 API 密钥或模型下载卡住。它只是精确检索教学，不是语言 embedding 模型，也没有生产索引、复制与持久化。保存为 `vector_lesson.py`，运行 `python vector_lesson.py`：
+
+```python
+import math
+
+records = [
+    {'id':'public-runbook','team':'a','v':[1.0,0.0]},
+    {'id':'private-incident','team':'b','v':[0.99,0.01]},
+    {'id':'another-topic','team':'a','v':[0.0,1.0]},
+]
+def cosine(a,b):
+    if len(a) != len(b):
+        raise ValueError('向量维度不一致')
+    na = math.sqrt(sum(x*x for x in a))
+    nb = math.sqrt(sum(x*x for x in b))
+    if na == 0 or nb == 0:
+        raise ValueError('零向量没有可用方向')
+    return sum(x*y for x,y in zip(a,b))/(na*nb)
+
+query = [1.0,0.0]
+authorized = [r for r in records if r['team']=='a']
+ranked = sorted(authorized, key=lambda r: cosine(query,r['v']), reverse=True)
+print('normal:', [r['id'] for r in ranked[:2]])
+assert all(r['team']=='a' for r in ranked)
+try:
+    cosine(query, [1.0,0.0,0.0])
+except ValueError as error:
+    print('DETECTED:',error)
+print('recovered:',cosine(query,[1.0,0.0]))
+```
+
+预期只返回团队 a 的两条记录，维度错误被明确发现，修复后相似度为 1.0。再故意把 `authorized` 换成全部 `records`，权限断言应失败；恢复过滤后通过。失败先看维度、零向量和过滤是否执行；清理删除教学脚本即可。真实向量库实验继续用前文 Chroma 或 Milvus，并把这里的断言变成接口验收用例。
+
+### 更新删除课堂：新文档上线不能让旧权限一直活着
+
+一份手册拆成多个 chunk（片段），它们共享文档 ID，却有各自片段 ID。更新后章节数量可能减少，只 upsert 新片段会遗留旧片段。应记录文档版本与片段清单，发布新版本后让查询只使用生效版本，再按保留政策回收旧版本。
+
+稳定 ID 用于识别业务对象，内容哈希用于识别内容变化，两者可以配合。若把内容哈希放进 ID，正文变化会产生新 ID，必须显式处理旧 ID；不能一边宣称“哈希 ID 自动防旧文档”，一边只追加不删除。权限撤销也要同步索引、检索缓存和引用缓存，并测试撤销后的访问结果。
+
+大规模升级先新建集合，按新模型生成全部向量，验证维度、数量、权限及固定查询，再灰度切流。保留旧模型和旧索引作为回退；新旧模型向量不能混搜后简单比较分数。迁移期间容量包含双份索引、回填任务与正常查询，对象文本与元数据也需要备份。
+
+### 生产设计与事故追问
+
+设计相似事故检索先列数据量、维度、每秒查询、更新频率、过滤选择性、延迟目标和召回目标。原始 float32 向量空间近似为“记录数 × 维度 × 4 字节”，再计算图索引、元数据、复制和构建临时空间。量化可能减少内存，但要重新评估召回，不能只看存储压缩率。
+
+事故题：模型换版后结果不相关，但服务都健康。第一假设是向量空间不一致，核对查询模型、索引模型、维度、归一化和生效版本；第二假设是片段或过滤变化，比较固定问题的候选列表；最后再查 ANN 参数。回退应切回匹配的一组模型与索引，验证相关性、权限和延迟共同恢复。
+
+30 秒回答：向量数据库提供相似候选，依靠向量合同、近似索引、元数据与权限过滤；我用精确基准和业务问答集评估，并保证更新删除及版本可回退。3 分钟沿文档切分、索引、查询过滤、排序和证据输出展开，再拿维度与权限实验解释为什么 HTTP 成功不代表检索正确。
+
+追问“召回差就增大 top-k 吗”：先定位分块、模型、过滤和索引哪一层丢了候选，大 k 可能增加噪声与生成成本。追问“检索到根因记录就能下结论吗”：相似历史只是候选证据，还要比较当前指标、拓扑和变更，避免把历史巧合当成因果。
+
+## 向量机制继续讲：距离、索引和业务相关性
+
+### 三种距离为什么会给出不同排序
+
+点积同时受方向和长度影响，余弦相似度关注方向，欧氏距离衡量坐标空间里的直线距离。若所有向量都经过相同的单位长度归一化，某些度量之间可出现等价排序关系；没有这个前提，不能随意替换。向量模型训练时适合什么相似性度量，也要按模型说明确认。
+
+归一化不是“把每个维度变成零到一”，而是按明确规则缩放整个向量，例如除以向量长度。零向量没有可定义的方向，非有限值会破坏距离计算，输入检查应拒绝这些情况。日志文本为空、解析失败却仍生成占位向量，可能让索引看起来有记录却没有有效语义。
+
+同一个分数在不同模型、语料和检索方式下不一定可比较。余弦 0.8 不能一概翻译成“八成概率是同一根因”；混合检索可能还融合关键词分数和重排分数。阈值应在本场景标注数据上校验，保留分数类型、模型和版本，而不是把不同分数直接相加当成通用置信度。
+
+### 精确近邻与业务相关是两张考卷
+
+精确搜索对所有允许候选逐一计算距离，适合作为小规模基准。近似索引用较少访问换低延迟，可以比较它找回多少精确前 k 邻居；这衡量索引近似损失。另一张考卷问“这些资料是否真正帮助处理当前故障”，需要人工或业务标注。索引召回 100% 也可能只是完美找到了语义上不合适的向量。
+
+因此调优先固定数据与查询集，一次只改变一层。若精确搜索都找不到正确手册，检查切分、语义模型、查询表达与版本过滤；若精确搜索能找到、ANN 找不到，再调整索引探索预算或结构。若正确资料已经在候选里却排序靠后，再考虑重排。这样能避免无效扩机器或无限增加 k。
+
+### 过滤选择性与查询成本
+
+选择性描述过滤后还剩多少数据。某租户只有全库千分之一记录，先全库搜几个近邻再过滤，可能没有结果；过滤太严也可能把本应可读的旧版本或共享手册误排除。数据库实现可能采用不同过滤与索引执行策略，须按实现和数据分布压测，不能假定所有产品都在同一阶段过滤。
+
+字段过滤索引与向量索引解决不同问题：前者帮助找满足租户、服务、日期条件的记录，后者找距离邻近。只建向量索引不保证复杂权限过滤快，只建字段索引又不能高效替代语义近邻。设计时列出真实查询组合、候选数量、更新频率和延迟分布，再选择索引，不按一张吞吐榜决定架构。
+
+## 数据生命周期：写成功、可查询、可恢复
+
+不同向量系统的写入确认、索引构建和查询可见性边界不同。有些写入先进入可持久记录，再异步建立索引或刷新可见状态；某些产品还暴露一致性或等待选项。不能把一个通用 HTTP 成功码当成“所有副本立即可搜到”。入库任务应记录已接收、已处理、可检索和失败状态，具体检查按产品接口实现。
+
+更新时不仅要比较记录总量，还要核对文档版本、片段集合、删除标记与权限。原文从十段缩成六段，若只覆盖前六段，旧的后四段仍可能被召回。完整发布清单应表达新版本有哪些片段，旧版本何时停止可见，后台何时回收。语义检索越能找到隐蔽旧片段，版本治理越不能省略。
+
+重建是一种恢复手段，但需要保留原文与确定的处理链。如果原始资料已删、模型版本无法取得、切分代码未保存，仅凭一堆向量很难还原当时索引。备份设计至少分别考虑原文、元数据、权限、索引文件与配置；是否能够只备份原文然后重建，要计算重建时间、模型费用和服务目标。
+
+## 容量与可用性课堂
+
+向量原始容量能用数量乘维度乘元素字节初算，但图结构、标量索引、元数据、日志、版本、副本和构建峰值都需要另算。比如一千万条、每条一千五百三十六维、单精度四字节，仅向量就约 61.44 GB 十进制容量；完整集群需求会更大，且不能把这个总量直接当成单节点内存需求或采购规格。
+
+量化通过压缩数值表示降低空间或加快访问，代价可能是距离误差和重排需求。分片可以扩大容量，但查询需要合并多个分片候选，热点租户和过滤条件又会影响负载。副本可以提高读取能力和故障承受，仍要验证一致性、路由与重建过程。存活副本数正常，不代表每个副本都加载了相同的最新索引。
+
+高可用验收至少包含实例失效后的路由、恢复期间查询延迟、写入是否重复、权限是否保持、索引版本是否正确和重新建立冗余。托管服务提供的 SLA 不能代替你的应用验证；本课手工向量实验只证明算法与门禁逻辑，没有验证任何产品的副本故障。
+
+## 面试故障题：数据库正常，但十个问题全部找错资料
+
+先固定一个旧版曾命中的问题，查看请求身份、过滤条件、查询向量模型、集合版本和返回片段。若文档正文最新而向量仍来自旧模型，修复重建匹配索引；若索引正确但租户过滤范围错，修复身份映射；若正确候选在第二十名而最终只取五条，评估召回和重排预算，不盲目把所有请求 k 加到一千。
+
+回退验证要同时满足相关性、权限、版本与时延。只恢复速度却返回过期操作是不合格；只命中答案但跨租户泄露更不能接受。最终记录一条问题在旧链、新链与修复链的全部候选和证据，说明改变了哪一层、为什么改变、还未覆盖哪些数据。这是向量数据库面试从名词走到工程判断的关键。
+
+## 本课 GitHub 学习证据
 
 学完后，在 GitHub 留下这些证据：
 

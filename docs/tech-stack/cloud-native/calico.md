@@ -24,33 +24,31 @@
 ## 官方知识地图
 
 ```text
-Calico
-  -> Installation
-     -> Tigera Operator
-     -> Installation / APIServer CR
-  -> Networking
-     -> CNI
-     -> IPAM / IPPool / block affinity
-     -> BGP / route reflector
-     -> IP-in-IP / VXLAN / no overlay
-     -> MTU / NAT outgoing
-  -> Data plane
-     -> Felix
-     -> Linux routes and ACLs
-     -> iptables or eBPF mode
-  -> Policy
-     -> Kubernetes NetworkPolicy
-     -> Calico NetworkPolicy
-     -> GlobalNetworkPolicy / tiers
-     -> host endpoints
-  -> Scale
-     -> Typha
-     -> route reflector
-  -> Operations
-     -> component health
-     -> metrics
-     -> troubleshooting
-     -> upgrades
+Calico（容器网络与网络策略项目）
+  -> Installation（安装）
+     -> Tigera Operator（安装维护控制器）
+     -> Installation / APIServer CR（安装/接口服务自定义对象）
+  -> Networking（联网）
+     -> CNI（容器网络接口）
+     -> IPAM / IPPool / block affinity（地址管理/地址池/块归属）
+     -> BGP / route reflector（路由协议/路由反射器）
+     -> IP-in-IP / VXLAN / no overlay（两种封装方式/不封装）
+     -> MTU / NAT outgoing（最大传输单元/出站地址转换）
+  -> Data plane（实际转发数据面）
+     -> Felix（节点规则执行代理）
+     -> Linux routes and ACLs（路由与访问控制表）
+     -> iptables or eBPF mode（传统规则或内核可编程模式）
+  -> Policy（网络策略）
+     -> Kubernetes NetworkPolicy（标准网络策略）
+     -> Calico NetworkPolicy（Calico 扩展策略）
+     -> GlobalNetworkPolicy / tiers（全局策略/策略层级）
+     -> host endpoints（主机端点）
+  -> Scale（规模扩展）
+     -> Typha（状态分发缓存）
+     -> route reflector（路由反射器）
+  -> Operations（运维）
+     -> component health（组件健康）/ metrics（指标）
+     -> troubleshooting（排障）/ upgrades（升级）
 ```
 
 ## 场景开场
@@ -169,10 +167,10 @@ Pod sandbox 创建
 IPAM 是 IP Address Management，地址管理。Calico 从 IPPool 为 Pod 分配 IP，并通常把地址按 block 划给节点，减少每次分配都访问全局状态的开销。
 
 ```text
-IPPool 192.168.0.0/16
-  -> block 192.168.0.0/26 归 node-a
-  -> block 192.168.0.64/26 归 node-b
-  -> Pod 从本节点 block 取 IP
+IPPool（地址池）192.168.0.0/16
+  -> block（地址块）192.168.0.0/26 归 node-a（节点 A）
+  -> block（地址块）192.168.0.64/26 归 node-b（节点 B）
+  -> Pod（容器组）从本节点 block（地址块）取 IP（网络地址）
 ```
 
 关键对象：
@@ -199,12 +197,12 @@ IPPool 192.168.0.0/16
 ### 无 Overlay 的 BGP 路由
 
 ```text
-Pod A
-  -> Node A 路由表
-  -> BGP 学到目标 PodCIDR 下一跳
+Pod A（源容器组）
+  -> Node A（源节点）路由表
+  -> BGP（边界网关路由协议）学到目标 PodCIDR（容器组地址段）下一跳
   -> 物理网络
-  -> Node B
-  -> Pod B
+  -> Node B（目标节点）
+  -> Pod B（目标容器组）
 ```
 
 优点：没有额外隧道头，路径清晰，Pod 地址可成为底层网络中的可路由地址。
@@ -234,17 +232,17 @@ BGP 是 Border Gateway Protocol，边界网关协议。可以把每个 Calico �
 小集群 full mesh：
 
 ```text
-node-a <-> node-b
-node-a <-> node-c
-node-b <-> node-c
+node-a（节点甲） <-> node-b（节点乙）
+node-a（节点甲） <-> node-c（节点丙）
+node-b（节点乙） <-> node-c（节点丙）
 ```
 
 节点数增长时，邻居关系约按平方增长。路由反射器把拓扑改成：
 
 ```text
-nodes
-  -> route reflectors
-  -> other nodes / ToR routers
+nodes（计算节点）
+  -> route reflectors（路由反射器，传播路由而非集中转发业务包）
+  -> other nodes / ToR routers（其他节点 / 机架顶端路由设备）
 ```
 
 ### BGP 不通怎么查
@@ -413,6 +411,8 @@ kubectl -n policy-lab exec deploy/client -- wget -qO- --timeout=3 http://web # �
 
 ### 默认拒绝 Ingress 和 Egress
 
+将本节 YAML 保存为 `default-deny.yaml`，执行 `kubectl apply -f default-deny.yaml`。Ingress/Egress 在本节分别指入站/出站方向；不是要求部署网站入口控制器。
+
 ```yaml
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -429,6 +429,8 @@ spec:
 应用后再次 `wget`，预期超时。这是策略生效，不是 Service 消失。
 
 ### 放行 DNS
+
+将本节 YAML 保存为 `allow-dns.yaml`，执行 `kubectl apply -f allow-dns.yaml`。先恢复名称解析，再验证应用连接，避免把两种失败混在一起。
 
 ```yaml
 apiVersion: networking.k8s.io/v1
@@ -458,6 +460,8 @@ spec:
 不同发行版的 DNS Pod 标签可能不同，先执行 `kubectl -n kube-system get pod --show-labels` 确认。
 
 ### 只允许 client 访问 web
+
+将下面两个文档保存在同一个 `allow-web.yaml` 文件中，执行 `kubectl apply -f allow-web.yaml`。中间 `---` 表示同一 YAML 文件中的下一份资源。
 
 ```yaml
 apiVersion: networking.k8s.io/v1
@@ -505,7 +509,7 @@ spec:
 
 ## 故障实验：selector 写错导致策略不放行
 
-把允许策略中的 `app: client` 故意改成 `app: cllent`。现象是：
+复制 `allow-web.yaml` 留作恢复基线，再把第一份入站允许策略中的 `app: client` 故意改成 `app: cllent`，保持第二份出站策略不变，执行 `kubectl apply -f allow-web.yaml`。现象是：
 
 - Pod Running。
 - Service 有 EndpointSlice。
@@ -521,7 +525,7 @@ calicoctl get wep -n policy-lab -o wide # 看 endpoint 标签和 IP
 calicoctl get networkpolicy -n policy-lab -o yaml # 看 Calico 实际接收的策略
 ```
 
-修正 selector 后重新验证。复盘时记录：为什么 Service、DNS、Pod 状态都正常，仍然不能证明网络策略允许流量。
+恢复原 `allow-web.yaml` 并重新 apply，再执行基础实验的 `wget`，预期恢复。若未恢复，检查是否误改了出站策略、DNS 放行是否仍在，以及 Felix 是否收敛。复盘时记录：为什么 Service、DNS、Pod 状态都正常，仍然不能证明网络策略允许流量。
 
 ## 常用命令字典
 
@@ -694,6 +698,96 @@ Calico 是 Kubernetes 常用 CNI 和网络策略实现。CNI 在 Pod 创建时�
 kubectl delete namespace policy-lab # 删除策略实验资源
 kind delete cluster --name calico-lab # 删除整个学习集群
 ```
+
+## 老师带你分清“路怎么走”和“允不允许走”
+
+先画一条 client 到 web 的路径。路由回答去哪里，策略回答是否允许，Service 转发回答稳定入口对应哪一个后端，DNS 回答名字对应什么地址。这四件事可以分别失败，不能看到超时就立刻归因 DNS。
+
+假设 DNS 成功解析，直接访问目标 Pod 也成功，只有 Service 失败，重点应该转向 Service 后端与转发实现。假设同节点访问成功、跨节点失败，则优先看路由、隧道和底层网络。假设只有一个标签的调用者失败，就用允许策略做对照。这是通过改变一个条件缩小范围的排障方法。
+
+Veth pair（虚拟网卡对）像两头相连的虚拟网线，一头在 Pod 的网络空间，一头在节点。Network namespace（网络命名空间）让 Pod 看见自己的接口和路由视图。Felix 负责把期望对象转成节点实际规则，但它不是每个包都来咨询的中央路由服务器。
+
+### BGP 与 VXLAN 为什么不是完全同类的选择
+
+BGP 通告“某段地址从哪个下一跳可以到达”，VXLAN 决定“数据包怎样套上外层封装跨节点传送”。前者偏控制信息，后者偏数据传输形式。具体 Calico 模式决定它们是否组合，不要把所有网络名词都当成互斥插件。
+
+Full mesh 是节点两两建立路由邻居。10 个节点需要 45 对关系，100 个需要 4,950 对。Route reflector（路由反射器）减少这种邻接规模，但不是让全部业务数据都绕经反射器；它主要反射路由信息，数据路径仍按学到的路由转发。
+
+Typha 则处理另一种规模问题：向很多 Felix 分发控制状态。它与路由反射器服务的对象不同，一个缓解 API 状态分发压力，一个缓解 BGP 邻居规模。面试时能区分这两种“中间层”，说明你理解控制路径，而不是只背组件名称。
+
+### 默认拒绝之后，为什么还要同时允许两端
+
+当客户端出站和服务端入站都被隔离时，请求需要两端分别允许。只给 web 写一条允许 client 的入站规则，不会自动解除 client 的出站限制。DNS 也是网络请求，默认拒绝出站会先把名称解析挡住。
+
+Kubernetes NetworkPolicy 的允许规则取并集，新增另一份允许策略可能扩大访问；Calico 自定义策略有自己的顺序、动作和层级。审查时必须先确认是哪类 API，不能把标准策略按防火墙“第一条匹配”顺序阅读。
+
+实验中的 selector 故障只改入站来源标签。老师希望你保存三个证据：真实 Pod 标签、策略匹配条件、同一请求失败/恢复结果。三者对齐后才能说根因是 selector 写错；只凭拼写看着不对，还不足以证明受影响流量确实被它控制。
+
+## 容量与升级课堂：地址也会成为资源瓶颈
+
+地址池总体有空余，不代表每个节点或特定池选择器都能得到地址。Block（地址块）分配可能造成碎片，节点标签可能排除可用池，清理延迟可能留下暂未回收的地址。先查池、块和端点对应关系，再考虑扩池。
+
+迁移网络模式时，旧连接、NAT 状态、路由收敛和 MTU 都可能改变。只测新建连接成功会漏掉长连接中断，只测小包会漏掉大请求。把同节点、跨节点、DNS、Service、出站、策略拒绝和长连接都放进验证矩阵。
+
+课堂三分钟汇报用一个失败包串起来：确定源与目标和节点，说明 CNI/IPAM 创建网络、Felix 编程规则、BGP/封装提供跨节点可达、策略决定是否允许。然后给出选型取舍和规模边界，最后展示一条精确回退的策略实验。你的结论应能解释成功流和失败流的差异。
+
+## 策略精讲课堂：缩进不同，安全边界就不同
+
+老师请你读一句需求：“只允许 payment 命名空间里的订单客户端访问账单服务。”这里同时限制了“哪个命名空间”和“哪类 Pod”。Kubernetes NetworkPolicy 的一个 `from` 列表项同时放 `namespaceSelector` 和 `podSelector`，表示两项同时成立；拆成两个列表项，则是任一项成立即可。这个细节能把精确放行变成跨租户放行。
+
+```yaml
+ingress:
+  - from:
+      - namespaceSelector: # 同一个列表项：两个条件同时满足
+          matchLabels:
+            kubernetes.io/metadata.name: payment
+        podSelector:
+          matchLabels:
+            app: order-client
+    ports:
+      - protocol: TCP
+        port: 8080
+```
+
+这只是完整 NetworkPolicy 的片段，不可单独 apply。还需要 API 版本、类型、名字、目标命名空间、目标 `podSelector` 和 `policyTypes`。命名空间选择器选的是 Namespace 对象的标签，不是 Pod 上名为 namespace 的普通标签。只写 `podSelector` 时，来源范围是该策略所在命名空间；来源与目标方向要分别分析。规则语义可继续对照 [Calico 的 Kubernetes 策略进阶教程](https://docs.tigera.io/calico/latest/network-policy/get-started/kubernetes-policy/kubernetes-policy-advanced)，但照抄其环境标签之前仍需核对本地标签。
+
+再问权限：如果租户能随意改自己命名空间上被安全策略信任的标签，就可能影响跨命名空间策略边界。因此网络隔离还依赖 Kubernetes RBAC 和准入治理。标签不是由神秘网络硬件担保的身份，谁能创建带某标签的 Pod、谁能改 Namespace 标签，必须写进安全模型。允许业务团队维护自己服务的细规则，与允许他们改全局策略，是两种完全不同的权限。
+
+### 用四个请求验收一条规则
+
+一个成功请求只能证明这条路径被允许，不能证明其他路径都被拒绝。最小验收应包括：正确来源到正确端口成功；错误来源到正确端口失败；正确来源到错误端口失败；正确来源在依赖 DNS 时仍可解析目标。进一步分同节点和跨节点，避免两个 Pod 恰好落在同一节点而掩盖跨节点问题。
+
+这里的失败必须有对照。目标端口本来就没有进程监听，连接被拒绝不能证明策略拒绝生效；先在允许条件下建立可访问基线，再改变一个条件。对默认拒绝后的 DNS，`nslookup` 失败与 TCP 请求超时是两个独立现象。DNS 正常仅证明名称可解析，后续端口仍需要精确放行。使用 BusyBox 的有限超时命令，避免课堂终端一直挂起；每次记录目标、节点、标签、时间和退出结果。
+
+原基础实验的错误标签 Pod 还受默认出站拒绝约束，所以失败可能同时来自源出站与目标入站。若要单独验证目标入站规则，需要保持测试源出站条件与成功源一致，或先按审批添加仅到目标端口的专用出站允许；不能拿一个被两边都拦住的请求声称“已证明只有入站 selector 是原因”。恢复后仍应删除新增测试策略和测试 Pod，最后回收专用命名空间。
+
+## 路由精讲课堂：有 BGP 邻居，不等于有可用业务路由
+
+BGP 会话建立说明邻居之间能交换控制信息，不能证明目标 Pod 的前缀已经被正确接收、选中并装进内核转发表。排查时先记源 Pod IP、目的 Pod IP 和所在节点，再问三次：目的前缀是否被通告，源节点是否选到可用下一跳，报文是否能按该下一跳到达目标。观察的是“这条业务前缀”，不是只看总邻居状态绿色。
+
+路由反射器减少全互联会话规模：一百个节点两两建立需要 4950 对关系，接入反射器后每个节点只维护少量控制邻居。但是反射器不是业务包的中心交换机，它主要传播路由；断掉一台反射器的业务影响与现有路由、剩余邻居和收敛行为有关。生产配置多个反射器并跨故障域，验证维护与重启后新路由能继续传播，不能只验证老连接还活着。
+
+底层网络不知道 Pod 网段时，封装把内部 Pod 报文包进节点之间能转发的外层报文。IP-in-IP 与 VXLAN 使用不同封装，需要放行不同协议或端口；“节点 SSH 正常”并不证明隧道可通过。底层改造前先与网络团队确认地址范围、路由控制、隧道开销与抓包位置。只在两节点之间开通隧道，不代表第三节点也有同样规则，抽样验证要覆盖故障域。
+
+MTU 是单个链路可容纳的数据包大小。假设物理路径允许 1500 字节，而隧道增加包头，内层可用空间就要减去相应开销；具体值受 IPv4/IPv6 和封装类型影响，不能把一个数字套所有环境。路径 MTU 发现依赖必要的反馈报文，反馈被拦可能形成“小请求通，大响应挂”的黑洞。验证时比较包大小、重传、两端抓包和 ICMP 反馈，不以一次 ping 断言 MTU 正确。调整 MTU 会影响新旧接口和现有连接，先小范围验证再滚动推进。
+
+## IPAM 精讲课堂：为什么全网有空地址，单节点仍分配失败
+
+IPAM 是 IP Address Management，即地址分配管理。IPPool 定义候选地址范围及用途，分配块把一段地址交给某节点管理，block affinity 记录块与节点的关联。你可以把地址池看成仓库、分配块看成发给各教室的整盒文具：总仓库还有空位，不代表每个教室当前都能得到合适的新盒子。
+
+容量先数“可分配地址”，再扣掉已分配、被保留、不能用于当前节点或用途的部分。节点选择器限制了某个池在哪些节点使用；不同封装或 NAT 选项也会改变池的预期用途。仅看 CIDR 大小，不看池是否禁用、节点匹配和实际 block 分布，会漏掉局部耗尽。地址借用等具体行为随模式配置而异，按目标版本观察，不把“每个节点固定一整段永不变化”当通用模型。
+
+还有一种问题不是没地址，而是地址冲突。Pod CIDR 与物理机、VPN 或外部服务网段重叠时，系统可能把本应去远端的包送进本地集群。设计前汇总节点网段、Pod 网段、Service 网段、专线、VPN 和未来互联范围，不能在出问题后才问网络团队。重编号涉及所有引用与运行中 Pod，不是简单改一个池配置；通常需要新池、小范围迁移、验证、排空旧地址，再按支持流程处理旧池。
+
+## 大厂事故追问：策略发布之后只在一个节点上失败
+
+先给出证据而非结论：同一客户端标签、同一目标端口，同节点请求成功，跨到节点乙失败；Kubernetes 策略对象已更新，但节点乙 Felix 日志出现规则同步错误。这个证据提高了“节点乙策略或数据面未收敛”的可能性，却还没有排除路由或隧道错误。下一步读取节点乙的端点、相关规则、路由与 Felix 错误时间线，同其他正常节点对比。
+
+若只有新建 Pod 失败、旧 Pod 正常，继续区分 CNI 创建阶段、IPAM 分配和已有端点策略更新。CNI 日志是创建网络的证据，Felix 日志是持续编排数据面的证据，两者不是同一个阶段。生产取证尽量限定目标与时间窗，抓包只采必要头信息并保护业务内容，不把全节点原始流量上传公共仓库。
+
+修复选择从小到大：回退已证实错误的策略，或者按支持流程处理局部 agent 问题；保留仍可服务的节点和恢复基线。重启全部 `calico-node` 会同时影响新端点配置和观测，不能作为第一招。故障恢复验收包括旧连接、新连接、新 Pod、同节点、跨节点和 DNS；只看 DaemonSet 全部 Ready 无法证明这些业务路径。
+
+最后面试官问“如何让 AIOps 自动处理”。答案是先自动关联策略变更、端点标签、节点和丢包证据，生成影响范围与建议；高风险全局策略回退必须有明确版本、目标范围和审批。模型不能根据一条超时告警修改整个集群网络。把一次允许和拒绝的真实证据保存到学习仓库，才能把定义讲成可检验的工程能力。
 
 ## 学习证据
 

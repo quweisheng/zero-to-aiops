@@ -56,9 +56,9 @@ Alertmanager -> MySQL 写入服务
 Kafka 的价值，是把事件放进一个可持久、可订阅、可回放、可扩展的事件流平台：
 
 ```text
-producers
-  -> Kafka topics
-  -> many independent consumer groups
+producers（生产者）
+  -> Kafka topics（Kafka 主题）
+  -> many independent consumer groups（多个独立消费组）
 ```
 
 生产者只负责写事件。消费者按自己的节奏读事件。多个系统可以独立消费同一批事件。
@@ -87,67 +87,67 @@ Kafka 是分布式事件流平台：生产者把事件写入 topic，topic 被�
 Kafka 官方文档可以按这张地图理解：
 
 ```text
-Apache Kafka
-  -> Get Started
-     -> Introduction
-     -> Quickstart
-     -> Use Cases
-     -> KRaft vs ZooKeeper
-     -> Docker
-  -> Core Concepts
-     -> event / record / message
-     -> topic
-     -> partition
-     -> offset
-     -> producer
-     -> consumer
-     -> consumer group
-     -> broker
-     -> replication
-     -> retention
-  -> APIs
-     -> Admin API
-     -> Producer API
-     -> Consumer API
-     -> Kafka Streams API
-     -> Kafka Connect API
-  -> Configuration
-     -> broker configs
-     -> topic configs
-     -> producer configs
-     -> consumer configs
-     -> group configs
-  -> Operations
-     -> topic operations
-     -> partitions
-     -> graceful shutdown
-     -> monitoring
-     -> KRaft
-     -> tiered storage
-     -> rebalance protocol
-  -> Security
-     -> listeners
-     -> TLS / SSL
-     -> SASL
-     -> ACL
-  -> Ecosystem
-     -> Kafka Connect
-     -> Kafka Streams
-     -> clients
+Apache Kafka（持久事件流平台）
+  -> Get Started（入门）
+     -> Introduction（简介）
+     -> Quickstart（快速开始）
+     -> Use Cases（使用场景）
+     -> KRaft vs ZooKeeper（自管元数据模式与旧协调模式）
+     -> Docker（容器运行工具）
+  -> Core Concepts（核心概念）
+     -> event（事件） / record（记录） / message（消息）
+     -> topic（主题）
+     -> partition（分区）
+     -> offset（日志位置）
+     -> producer（生产者）
+     -> consumer（消费者）
+     -> consumer group（消费组）
+     -> broker（消息服务节点）
+     -> replication（复制）
+     -> retention（保留策略）
+  -> APIs（编程接口）
+     -> Admin API（管理接口）
+     -> Producer API（生产接口）
+     -> Consumer API（消费接口）
+     -> Kafka Streams API（流处理接口）
+     -> Kafka Connect API（数据连接接口）
+  -> Configuration（配置）
+     -> broker configs（节点配置）
+     -> topic configs（主题配置）
+     -> producer configs（生产端配置）
+     -> consumer configs（消费端配置）
+     -> group configs（消费组配置）
+  -> Operations（运维操作）
+     -> topic operations（主题操作）
+     -> partitions（分区）
+     -> graceful shutdown（平稳停机）
+     -> monitoring（监控）
+     -> KRaft（Kafka 内置元数据共识机制）
+     -> tiered storage（分层存储）
+     -> rebalance protocol（消费分工重平衡协议）
+  -> Security（安全）
+     -> listeners（监听地址配置）
+     -> TLS（传输层加密） / SSL（旧称安全套接层）
+     -> SASL（可插拔认证框架）
+     -> ACL（访问控制列表）
+  -> Ecosystem（生态）
+     -> Kafka Connect（数据连接框架）
+     -> Kafka Streams（流处理库）
+     -> clients（客户端）
 ```
 
 初学主线：
 
 ```text
-Quickstart
-  -> create topic
-  -> produce events
-  -> consume events
-  -> topic / partition / offset
-  -> consumer group
-  -> replication / retention
-  -> lag and troubleshooting
-  -> AIOps event pipeline
+Quickstart（快速开始）
+  -> create topic（创建主题）
+  -> produce events（生产事件）
+  -> consume events（消费事件）
+  -> topic（主题） / partition（分区） / offset（日志位置）
+  -> consumer group（消费组）
+  -> replication（复制） / retention（保留策略）
+  -> lag and troubleshooting（积压与故障排查）
+  -> AIOps event pipeline（智能运维事件链）
 ```
 
 ## Kafka 在 AIOps 链路中的位置
@@ -155,27 +155,27 @@ Quickstart
 Kafka 适合做 AIOps 的事件总线：
 
 ```text
-Event sources
-  -> Alertmanager
-  -> log parser
-  -> CI/CD deployment event
-  -> runbook execution event
-  -> user feedback
+Event sources（事件来源）
+  -> Alertmanager（告警管理器）
+  -> log parser（日志解析器）
+  -> CI/CD deployment event（持续集成与交付的部署事件）
+  -> runbook execution event（操作手册执行事件）
+  -> user feedback（用户反馈）
 
-Kafka topics
-  -> aiops-alerts
-  -> aiops-log-events
-  -> aiops-deployments
-  -> aiops-runbook-events
-  -> aiops-feedback
+Kafka topics（Kafka 主题）
+  -> aiops-alerts（教学告警主题）
+  -> aiops-log-events（教学日志事件主题）
+  -> aiops-deployments（教学部署事件主题）
+  -> aiops-runbook-events（教学操作手册执行事件主题）
+  -> aiops-feedback（教学反馈主题）
 
-Consumer groups
-  -> anomaly-detector
-  -> alert-enricher
-  -> incident-writer
-  -> notification-worker
-  -> llm-triage-worker
-  -> feature-builder
+Consumer groups（消费组）
+  -> anomaly-detector（异常检测消费者）
+  -> alert-enricher（告警上下文补充消费者）
+  -> incident-writer（故障记录写入消费者）
+  -> notification-worker（通知消费者）
+  -> llm-triage-worker（模型分诊消费者）
+  -> feature-builder（特征构建消费者）
 ```
 
 Kafka 负责“事件流动和可回放”。MySQL 负责“长期结构化事实”。Redis 负责“短期状态和缓存”。Prometheus/Loki 负责“指标和日志原始信号”。
@@ -195,11 +195,11 @@ Kafka 官方把 Kafka 描述为 event streaming platform。
 传统队列里，一条消息常常被消费后就消失。Kafka 的核心抽象更像“可追加日志”：
 
 ```text
-partition log
-  offset 0 -> event
-  offset 1 -> event
-  offset 2 -> event
-  offset 3 -> event
+partition log（分区日志）
+  offset（日志位置） 0 -> event（事件）
+  offset（日志位置） 1 -> event（事件）
+  offset（日志位置） 2 -> event（事件）
+  offset（日志位置） 3 -> event（事件）
 ```
 
 消费者不是把消息拿走，而是记录自己读到了哪个 offset。
@@ -344,15 +344,15 @@ Consumer group 是一组共同完成同一个逻辑任务的消费者。
 例子：
 
 ```text
-topic: aiops-alerts
+topic: aiops-alerts（主题名为教学告警流）
 
-consumer group: notification-worker
+consumer（消费者） group: notification-worker
   -> 负责发通知
 
-consumer group: incident-writer
+consumer（消费者） group: incident-writer
   -> 负责写 MySQL
 
-consumer group: llm-triage-worker
+consumer（消费者） group: llm-triage-worker
   -> 负责生成排障摘要
 ```
 
@@ -361,19 +361,19 @@ consumer group: llm-triage-worker
 ## 架构
 
 ```text
-producers
-  -> Kafka cluster
-      broker 0
-      broker 1
-      broker 2
-        topic aiops-alerts
-          partition 0 leader + replicas
-          partition 1 leader + replicas
-          partition 2 leader + replicas
-  -> consumers
-      group notification-worker
-      group incident-writer
-      group anomaly-detector
+producers（生产者）
+  -> Kafka cluster（Kafka 集群）
+      broker（消息服务节点） 0
+      broker（消息服务节点） 1
+      broker（消息服务节点） 2
+        topic（主题） aiops-alerts
+          partition（分区） 0 leader（主副本） + replicas（副本）
+          partition（分区） 1 leader（主副本） + replicas（副本）
+          partition（分区） 2 leader（主副本） + replicas（副本）
+  -> consumers（消费者）
+      group（分组） notification-worker
+      group（分组） incident-writer
+      group（分组） anomaly-detector
 ```
 
 ### Leader 和 Replica
@@ -420,13 +420,13 @@ Kafka 官方 quickstart 当前给了两种学习方式：下载二进制包运�
 ### Docker 启动
 
 ```bash
-docker run -p 9092:9092 apache/kafka:4.3.1
+docker run -p 127.0.0.1:9092:9092 apache/kafka:4.3.1
 ```
 
 Native 镜像：
 
 ```bash
-docker run -p 9092:9092 apache/kafka-native:4.3.1
+docker run -p 127.0.0.1:9092:9092 apache/kafka-native:4.3.1
 ```
 
 ### 下载包启动
@@ -573,9 +573,9 @@ bin/kafka-topics.sh --create \
 如果一个 topic 有 3 个 partition，一个 consumer group 最多可以让 3 个 consumer 并行处理这个 topic。
 
 ```text
-partition 0 -> consumer A
-partition 1 -> consumer B
-partition 2 -> consumer C
+partition（分区） 0 -> consumer（消费者） A
+partition（分区） 1 -> consumer（消费者） B
+partition（分区） 2 -> consumer（消费者） C
 ```
 
 如果 group 里有 5 个 consumer，但 topic 只有 3 个 partition，则最多 3 个 consumer 有活干，另外 2 个空闲。
@@ -731,9 +731,9 @@ for message in consumer:
 自动提交简单：
 
 ```text
-poll
-  -> process
-  -> auto commit periodically
+poll（拉取消息）
+  -> process（处理）
+  -> auto commit periodically（定期自动提交位置）
 ```
 
 风险：处理失败但 offset 已提交，消息可能被跳过。
@@ -741,9 +741,9 @@ poll
 更稳的模式：
 
 ```text
-poll
-  -> process successfully
-  -> commit offset
+poll（拉取消息）
+  -> process successfully（成功处理）
+  -> commit offset（提交消费位置）
 ```
 
 这能实现更接近 at-least-once 的处理语义。
@@ -755,19 +755,19 @@ poll
 同一个 group 内，partition 会分配给 consumer：
 
 ```text
-topic: aiops-alerts, partitions=3
+topic: aiops-alerts, partitions（分区）=3
 
-group: incident-writer
-  consumer-1 -> partition 0
-  consumer-2 -> partition 1
-  consumer-3 -> partition 2
+group: incident-writer（消费组名为故障记录写入者）
+  consumer-1 -> partition（分区） 0
+  consumer-2 -> partition（分区） 1
+  consumer-3 -> partition（分区） 2
 ```
 
 如果 consumer-2 挂了，group 会 rebalance：
 
 ```text
-consumer-1 -> partition 0, partition 1
-consumer-3 -> partition 2
+consumer-1 -> partition（分区） 0, partition（分区） 1
+consumer-3 -> partition（分区） 2
 ```
 
 ### 查看 consumer group
@@ -884,11 +884,11 @@ AIOps 初学项目建议先接受 at-least-once：
 Kafka Connect 用来连接外部系统和 Kafka。
 
 ```text
-source connector
-  -> external system to Kafka
+source connector（来源连接器）
+  -> external system to Kafka（从外部系统写入 Kafka）
 
-sink connector
-  -> Kafka to external system
+sink connector（下游连接器）
+  -> Kafka to external system（从 Kafka 写入外部系统）
 ```
 
 例子：
@@ -1258,7 +1258,100 @@ Kafka 是分布式事件流平台。生产者把事件写入 topic，topic 被�
 15. AIOps 中哪些事件适合进入 Kafka？
 16. Kafka 和 Redis Stream 如何选？
 
-## 学习证据
+## 老师带你区分事件、位置和业务完成
+
+把一个 Partition（分区）看成只能向后追加的记录簿，Offset（位移）是记录在该分区的位置。Topic（主题）由一个或多个这样的记录簿组成，Consumer Group（消费组）保存自己的阅读进度。两个组可以独立读同一批事件，同一组内则分担分区；位移不是整个主题统一的业务编号。
+
+学生：“消费位移提交了，是不是工单一定建立？”老师：“提交位移只是告诉组下次从哪里继续，数据库事务是否成功是另一件事。”先提交位移后建工单，崩溃会漏处理；先建工单后提交，崩溃会重放，所以常用稳定事件键与事务内去重。Kafka 事务覆盖的边界也不能自动延伸到任意外部 HTTP 系统。
+
+### 生产确认和副本集合怎么一起看
+
+`acks=all` 表示按当前副本确认规则等待，但还要结合 ISR（同步副本集合）、`min.insync.replicas`（最少同步副本数）、副本布局和故障选举策略理解可靠性。它不是“所有配置下所有副本都一定写完”的口号。副本不足时拒绝写入，可能是保护持久性边界，而不是应该立即降参数的故障。
+
+Producer（生产者）幂等可以处理适用会话与协议边界下的发送重试；业务主动创建一条新的同义事件仍需业务键去重。客户端超时要分类：没连接上、发送失败、确认丢失、事务结果不确定，后续策略各不相同。日志至少关联业务事件 ID、主题、分区、位移及发送错误类别。
+
+### 保序课堂：收到的顺序与完成顺序不同
+
+同分区内记录有顺序，但消费者把它们交给线程池后，第二条可能比第一条先完成。要保持某设备状态迁移顺序，应选稳定 key（键）、合理分区路由，并控制同键处理方式；增加分区可能改变后续路由，业务版本检查仍有价值。
+
+Rebalance（组内分区重新分配）改变谁负责哪个分区。处理过慢、会话故障或成员变动可能触发重新分配；交接期间未提交位置会影响重放。持续加消费者却超过分区数，不一定增加有效并行；单热点键也不靠消费者总数解决。
+
+### 补一条可回收故障验证路线
+
+在前文教学主题与消费组实验里，先记录正常消费后的位移和 Lag（积压差），关闭教学消费者而保留生产者，写入固定数量的合成事件。预期生产仍成功、该组积压增加；恢复同一组后，记录处理数量和最终位移，确认积压下降。不要换组名后看到能读就宣布旧组恢复。
+
+若积压不降，比较生产速率与可持续消费速率，核对是否卡在数据库或外部 API。理论清空时间为积压除以净消费速率，净速率小于等于零就不会清空。删除记录或重置位移是改变数据处理语义，不能作为让监控转绿的普通修复。完成后按前文实验清理，只处理专用主题与容器。
+
+### 生产容量与面试课堂
+
+容量要算消息平均字节、峰值、保留时间、复制、索引和恢复余量；日志压缩 Compaction（按键保留有效较新值）与压缩编码 Compression（减少字节）是不同概念。按时间/大小保留也不等于收到 ACK 就立即删除，所以消费进度与磁盘占用需要分别解释。
+
+故障切换需要元数据控制面、分区副本和客户端网络路径一起正常。`bootstrap.servers` 只是初始接入点，客户端随后按元数据连接 broker 广播地址；初始连接成功后又失败，常要检查 `advertised.listeners` 对客户端网络是否可达。
+
+30 秒回答聚焦分区日志、独立消费进度和可重放。3 分钟沿生产确认、副本、消费处理、位移提交和失败重试展开，再讲分区顺序、积压容量和外部幂等。事故题设置消费者发布后 SQL 变慢，证据链是版本—处理耗时—位移停滞—数据库等待；恢复先回退或限流坏版本，再按下游能力追赶并核对业务唯一性。
+
+## 一套可以照着做的独立基础与故障实验
+
+前提是 Docker 使用 Linux 容器，机器有约 3 GiB 可用内存、数 GiB 磁盘，端口 19092 空闲。它与前面的安装方式二选一，不要求同时运行。这里所有客户端在容器内访问 `localhost:9092`，映射端口不用于宿主机 SDK 测试；这样避免把 advertised listener（向客户端公布的地址）配置混进第一堂课。
+
+### 建立基线
+
+在 PowerShell 中逐条执行，若 Topic 创建提示服务暂未就绪，先看日志确认启动阶段，再重试该条，不能忽略错误继续：
+
+```powershell
+docker run --name kafka-lesson -d -p 127.0.0.1:19092:9092 apache/kafka:4.3.1
+docker logs kafka-lesson
+docker exec kafka-lesson /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic lesson-alerts --partitions 1 --replication-factor 1
+'eventId=baseline-001' | docker exec -i kafka-lesson /opt/kafka/bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic lesson-alerts
+docker exec kafka-lesson /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic lesson-alerts --group lesson-worker --from-beginning --max-messages 1
+docker exec kafka-lesson /opt/kafka/bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group lesson-worker
+```
+
+预期读到 `baseline-001`，组提交位置最终追平日志末端。`CURRENT-OFFSET` 是已提交的下一读取位置，`LOG-END-OFFSET` 是日志末端位置，`LAG` 是两者差；它不是消费者业务数据库里还有多少条未完成事务。消费组初始化与位置提交可能存在短暂延迟，重复查看直到该单分区基线 Lag 为零，再继续后面的故障步骤。若始终没有组位置，检查消费是否真正完成、组名和消费者日志。
+
+`--partitions 1` 让第一课只有一条日志，`--replication-factor 1` 明确这里只演示单副本，不能容忍丢失这份存储。`--from-beginning` 影响没有有效提交位置时的起点，不会把已有消费组每次都自动重置到最早；想重放与恢复原进度是两件事。用新组演示重放时，要给它新名字并记录目的，不能把新组读到数据说成旧组已恢复。
+
+### 故障注入：消费者故意保持离线
+
+上面的消费命令取一条后已经退出，现在不启动它，发送三条教学事件：
+
+```powershell
+@('eventId=paused-001','eventId=paused-002','eventId=paused-003') | docker exec -i kafka-lesson /opt/kafka/bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic lesson-alerts
+docker exec kafka-lesson /opt/kafka/bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group lesson-worker
+```
+
+预期生产成功，消费组 Lag 从零变成三，可能提示该组没有活跃成员。此时 Kafka 服务本身没有失败，故障对象是消费处理链路。保留发送内容、组位置和观察时间，恢复同一个组：
+
+```powershell
+docker exec kafka-lesson /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic lesson-alerts --group lesson-worker --max-messages 3
+docker exec kafka-lesson /opt/kafka/bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group lesson-worker
+```
+
+预期看到三条 `paused` 事件，提交传播后 Lag 回到零。若 Lag 不等于三，先检查是否重复发送、基线提交未完成、另一个消费者还在运行或 Topic 中已有上次实验数据。不要通过重置位移或删 Topic 让数字归零；那会绕过需要验证的恢复过程。
+
+结束后用 `docker inspect kafka-lesson --format '{{.Name}}'` 核对目标，保存输出与镜像身份，再执行 `docker rm -f -v kafka-lesson`。删除教学容器及匿名卷后数据不可恢复，复做需从头开始。这个实验没有验证副本选举、生产者事务或外部工单幂等，单副本成功收发不代表生产高可用。
+
+## 机制再讲深一层：消费完成和消费存活
+
+消费者心跳用于证明成员还在，`poll` 调用及处理进度约束又关注它是否持续推进工作。程序心跳正常但业务处理卡住，也可能因为超出允许的轮询间隔而触发组调整；具体参数归属会随消费组协议变化，必须按客户端与 broker 版本查 [消费配置说明](https://kafka.apache.org/43/configuration/consumer-configs/)。不要把不同协议时代的参数行为混写。
+
+`max.poll.records` 控制一次返回给应用的记录上限，不自动把一条慢任务变快。若一次批量处理上限太大，每轮总耗时超过预算，降低批量或改成受控异步处理可能有帮助；异步又要求正确管理每个分区的已完成位置，不能提交尚未完成的前序消息。你要对“收到了”“处理完了”“提交了”分别记状态。
+
+消费者数量超过分区数量时，在常见消费组分担方式下可能出现闲置成员；频繁伸缩还会反复调整分区分配。单一热点分区需要查 key 分布、处理时间和数据大小，而不只看总消费者数。稳定业务版本可以防止乱序更新覆盖新状态，但它不等于 Kafka 为任意多分区提供全局顺序。
+
+### 数据保留不是等消费者读完才删
+
+Kafka 的日志保留由 Topic 策略决定，不是每个消费者的阅读进度决定。消费者停机太久，所需历史可能已经到期，即使应用从未处理也无法从当前日志读取。容量与保留期应覆盖可接受故障时间和追赶时间，监控最老待处理事件年龄，而不只看 Lag 条数。
+
+日志压实关注相同键的最新状态视图，与按时间删除不同；压实后的日志也不等于任意时刻都只剩一条最新键值。业务事件流水若需要每次变化都保留，不能把状态主题的压实规则直接搬来。删除标记、保留与跨集群镜像的时序要在消费重放方案中解释，避免旧状态错误复活。
+
+### 事故回答：位移归零，工单却缺了
+
+先问是否在业务提交前提交了位置，是否更换组名、重置位置、到期丢历史或把异常记录直接跳过。用业务键与 Topic、分区、位移关联生产日志、消费日志和数据库，找到哪一步首先缺少证据。Kafka Lag 反映日志阅读进度，不能替代业务对账。
+
+修复通常包含正确提交边界、持久幂等、错误隔离和受控重放。重放先使用影子消费或隔离下游验证范围，确认不会重复发通知或执行操作，再按批准的业务补偿路径进行。回滚消费者版本也要兼容积压中的消息结构；旧程序读不了新字段语义时，单独退镜像不能解决问题。
+
+## 本课 GitHub 学习证据
 
 学完这篇，建议留下这些证据：
 

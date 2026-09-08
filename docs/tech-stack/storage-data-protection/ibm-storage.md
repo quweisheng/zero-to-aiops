@@ -32,8 +32,8 @@ IBM Storage 不是一个软件包，也不是一台固定型号的设备。先�
   -> 统一块、文件、对象：Storage Ceph
   -> 对象存储：Cloud Object Storage
   -> 备份与恢复：Storage Protect
-  -> 长期保留和物理隔离：Tape
-  -> 统一监控与支持：Storage Insights
+  -> 长期保留和物理隔离：Tape（磁带）
+  -> 统一监控与支持：Storage Insights（存储洞察与监控服务）
 ```
 
 本文按下面的顺序学习：
@@ -143,10 +143,10 @@ Fibre Channel，简称 FC，是为存储流量设计的高速网络协议。SAN 
   -> HBA 或以太网存储接口
   -> SAN Fabric A 和 Fabric B
   -> FlashSystem 前端端口
-  -> I/O Group 中的两个 node canister
-  -> volume / vdisk
-  -> storage pool / MDisk group
-  -> MDisk / array
+  -> I/O Group（读写服务组）中的两个 node canister（节点控制器模块）
+  -> volume / vdisk（主机可见的逻辑卷，vdisk 为历史命名）
+  -> storage pool / MDisk group（存储池与受管磁盘组）
+  -> MDisk / array（受管磁盘与后端磁盘阵列）
   -> FlashCore Module、NVMe SSD 或被虚拟化的外部存储
 ```
 
@@ -463,8 +463,8 @@ Storage Insights 可以采集和展示存储健康、容量、配置和性能元
 
 ```text
 FlashSystem / DS8000 / 交换机 / 主机
-  -> Data Collector、Call Home、probe、performance monitor
-  -> Storage Insights
+  -> Data Collector、Call Home、probe、performance monitor（数据采集器、设备主动上报、配置探测、性能采集）
+  -> Storage Insights（存储健康、容量与性能分析平台）
   -> 健康、容量、性能、配置和事件
   -> 告警 / 工单 / Runbook / RCA
   -> 变更、扩容、路径修复、复制修复或恢复演练
@@ -692,6 +692,52 @@ IBM Storage 不是单一阵列，而是一套覆盖块、文件、对象、备�
 16. 如何用 AIOps 做存储容量预测和异常检测？
 17. 如何证明复制或备份满足业务 RPO 和 RTO？
 18. Storage Virtualize 升级前必须验证哪些依赖？
+
+## 老师带练：把“备份成功”升级为“可恢复”
+
+先设想一个具体任务：订单数据库误删了一张表。双控还在线，SAN 路径完整，远程镜像也正常。这些好消息能找回表吗？不能自动找回，因为错误删除可能已经同步过去。你需要找到事故前的恢复点、对应日志和可用恢复目录，才能在隔离环境还原并校验。
+
+这解释了为什么产品地图不是采购清单：FlashSystem 管块，Storage Scale 管共享文件，Storage Protect 管备份策略和恢复；名字都含 Storage，并不说明现场全部部署，更不说明恢复链已打通。先从业务数据清单开始，记录源、保护策略、最新可恢复时间、目标介质、密钥、责任人和恢复演练，而不是从品牌名推断能力。
+
+### 离线故障实验：备份任务绿了，关键卷却漏保
+
+前提是 Windows PowerShell；本段仅操作内存中的虚构数据，不连接任何 IBM 设备。复制下面完整代码执行：
+
+```powershell
+$requiredVolumes = @('orders-data', 'orders-log', 'orders-control')
+$protectedVolumes = @('orders-data', 'orders-log', 'orders-control')
+function Test-LabBackupCoverage {
+    param([string[]]$Required, [string[]]$Protected)
+    $missing = @($Required | Where-Object { $_ -notin $Protected })
+    if ($missing.Count) { "INCOMPLETE: $($missing -join ', ')" }
+    else { 'COVERAGE_OK' }
+}
+Test-LabBackupCoverage $requiredVolumes $protectedVolumes
+# 模拟新增控制卷后没有加入备份策略；只改本地样例数组。
+$protectedVolumes = @('orders-data', 'orders-log')
+Test-LabBackupCoverage $requiredVolumes $protectedVolumes
+# 恢复完整覆盖，再次验证。
+$protectedVolumes = @('orders-data', 'orders-log', 'orders-control')
+Test-LabBackupCoverage $requiredVolumes $protectedVolumes
+Remove-Item Function:\Test-LabBackupCoverage
+Remove-Variable requiredVolumes, protectedVolumes
+```
+
+预期按顺序输出 `COVERAGE_OK`、`INCOMPLETE: orders-control`、`COVERAGE_OK`。末尾清理临时函数和变量，不删除文件或设备。若函数找不到，检查是否整段执行；若输出没有缺失卷，确认故障阶段数组只有两项。
+
+请注意，这个检查只证明清单覆盖，不证明备份有效。下一层还应检查成功恢复点的时间、文件完整性、数据库恢复日志、关键业务查询和实际耗时。前面的健康实验中 `unfixed_events > 0` 是教学简化；实际应按事件严重度、是否仍活动、是否已在维护处理和业务影响分级，不能把所有未修复事件等同同一紧急程度。
+
+### 容量、性能与恢复设计题
+
+假设数据库有 2 TiB 数据，恢复有效带宽只有 100 MiB/s，光搬数据的理想下限就约 5.8 小时，还没算审批、磁带取回、日志重放和验收。如果业务要求 30 分钟恢复，仅有慢介质备份不满足目标；可能需要快速恢复层、可用快照或已准备的灾备系统，同时仍保留独立历史副本。
+
+再追问：数据缩减显示 3:1，能不能只采购三分之一原始空间？不能直接承诺。已有数据的平均比率不能保证新加密备份、压缩视频或随机数据继续达到这个效果。容量计划应带不缩减的保守情景、增长峰值和复制/恢复余量，并注明哪个口径来自物理池、哪个来自逻辑卷。
+
+**30 秒回答：**IBM Storage 是多产品体系，要先按块、文件、对象和保护职责分层。端到端可用性依赖主机、SAN、控制器、卷与池共同健康，恢复能力则另外依赖历史副本、目录、密钥和实际演练。
+
+**3 分钟展开：**从一个订单写入说明主机映射、双 Fabric、多路径和 I/O Group，再解释 thin 容量和复制确认边界，最后用漏保实验说明“任务成功≠资产覆盖≠应用可恢复”。
+
+**事故追问：恢复出来的库能启动就算成功吗？**还要验证恢复点是否符合 RPO、关键事务与对象是否完整、凭据和外部依赖是否可用、实际用时是否满足 RTO。先隔离恢复环境避免给生产发送重复消息，再由业务确认；回切方案也必须说明如何处理恢复期间产生的新数据。
 
 ## 学习证据
 

@@ -22,16 +22,16 @@
 ## 官方知识地图与边界
 
 ```text
-createRoot / hydrateRoot
-  -> component functions + JSX + props
-  -> state snapshot / events / reducer / context
-  -> render phase creates UI description
-  -> reconciliation uses type, position and key
-  -> commit phase updates DOM and refs
-  -> Effect synchronizes external systems after commit
+createRoot（客户端创建根）/ hydrateRoot（接管服务端标记）
+  -> component functions（组件函数）+ JSX（界面描述语法）+ props（组件输入）
+  -> state snapshot（状态快照）/ events（事件）/ reducer（状态转换函数）/ context（跨层上下文）
+  -> render phase creates UI description（渲染阶段计算界面描述）
+  -> reconciliation uses type, position and key（协调阶段按类型、位置和键匹配身份）
+  -> commit phase updates DOM and refs（提交阶段更新文档节点与引用）
+  -> Effect synchronizes external systems after commit（提交后同步外部系统）
 
-rendering architecture
-  -> client rendering / SSR + hydration / framework + RSC
+rendering architecture（渲染架构）
+  -> client rendering（客户端渲染）/ SSR + hydration（服务端渲染与水合）/ framework + RSC（框架与服务端组件）
 ```
 
 React 是 UI 库，不自带完整路由、数据层、认证、后端和部署方案。真实项目通常使用框架或构建工具；选型必须说明具体组合和版本。
@@ -40,7 +40,7 @@ React 是 UI 库，不自带完整路由、数据层、认证、后端和部署�
 
 ```text
 HTML/CSS/JavaScript -> JSX/组件/props -> state 与事件
-  -> render/commit/key -> Effect cleanup -> reducer/context/hooks
+  -> render/commit/key -> Effect cleanup -> reducer/context/hooks（渲染、提交与身份；副作用清理；状态归约、上下文与钩子）
   -> TypeScript/测试 -> 性能/SSR/RSC/安全 -> 两级实验
 ```
 
@@ -168,12 +168,11 @@ type RequestState =
 ## render、reconciliation 与 commit
 
 ```text
-trigger: initial render or state update
-  -> render: call components, produce next element tree (must be pure)
-  -> reconcile: compare type, position and key with previous tree
-  -> commit: apply DOM changes and refs
-  -> browser paint
-  -> passive Effects run/synchronize
+trigger: initial render or state update（触发：初次渲染或状态更新）
+  -> render: call components, produce next element tree (must be pure)（渲染：调用组件产生下一棵元素树，必须保持纯净）
+  -> reconcile: compare type, position and key with previous tree（协调：与旧树比较类型、位置和键）
+  -> commit: apply DOM changes and refs（提交：应用节点变更与引用）
+  -> browser paint / passive Effects（浏览器绘制与副作用同步，具体先后取决于交互与调度，见正文）
 ```
 
 React 不承诺“逐个 DOM 差异算法的所有内部细节永远不变”。面试应讲稳定心智模型：type、树位置和 key 决定身份；render 可重做；commit 才改变 DOM。
@@ -197,7 +196,9 @@ useEffect(() => {
   const controller = new AbortController()
 
   loadIncidents(query, controller.signal)
-    .then((data) => dispatch({ type: 'loaded', data }))
+    .then((data) => {
+      if (!controller.signal.aborted) dispatch({ type: 'loaded', data })
+    })
     .catch((error) => {
       if (!controller.signal.aborted) dispatch({ type: 'failed', error })
     })
@@ -313,8 +314,8 @@ const view = <IncidentRow incident={incident} />
 函数组件被 React 调用后返回下一层 element tree。React 根据 type、位置和 key 把前后两次描述关联起来，再决定哪些宿主节点（例如 div、button）需要创建、更新或删除。
 
 ```text
-JSX
-  -> React elements
+JSX（用于描述界面的 JavaScript 语法扩展）
+  -> React elements（界面元素描述对象）
   -> Fiber tree（React 内部工作单元/组件树表示）
   -> render/reconciliation 计算变化
   -> commit 更新 DOM、ref 和布局 effect
@@ -391,13 +392,13 @@ React 重新 render 组件不等于真实 DOM 全部重建。render 是计算，
 Effect 不是组件生命周期方法的简单替代，而是“当前已提交 UI 与某个外部系统之间的同步过程”。每次相关依赖变化：先清理旧同步，再建立新同步。
 
 ```text
-commit with room=A
-  -> setup subscription A
-state changes to room=B
-  -> cleanup subscription A
-  -> setup subscription B
-unmount
-  -> cleanup subscription B
+commit with room=A（提交房间甲）
+  -> setup subscription A（建立甲的订阅）
+state changes to room=B（状态改为房间乙）
+  -> cleanup subscription A（清理甲的订阅）
+  -> setup subscription B（建立乙的订阅）
+unmount（卸载）
+  -> cleanup subscription B（清理乙的订阅）
 ```
 
 Effect 回调捕获创建它的 render 快照。依赖遗漏会产生 stale closure（旧闭包）；无脑把对象/函数加入依赖又可能每次 render 重连。优先重构状态和逻辑边界，而不是禁用 lint。
@@ -463,9 +464,9 @@ route shell 保持可用
 SSR 基本路径：
 
 ```text
-HTTP request
+HTTP request（网络请求）
   -> 服务端读取授权数据
-  -> render React tree to HTML/stream
+  -> render React tree to HTML/stream（把组件树渲染为页面标记或流）
   -> 浏览器逐步显示 HTML
   -> 下载 client bundle
   -> hydrateRoot 绑定事件并校验结构
@@ -705,6 +706,105 @@ React 用组件、props 和 state 描述 UI。状态更新触发新的 render �
 - [ ] 能设计 Error Boundary、性能和前后端观测。
 - [ ] 能说明 XSS、SSR、hydration、RSC 和版本锁定。
 - [ ] 能完成基础与故障实验，跑类型/测试/构建/浏览器回归。
+
+## 老师带你从“快照”理解 React，而不是记口诀
+
+你在值班页面看到“已确认 0 条”，点击按钮。事件处理函数来自这一次 render，它读到的 count 是 0；调用 setter 后，React 安排后续计算，下一次 render 才得到 1。学生问：“为什么不用立刻改掉 count？”因为固定快照能让同一次渲染的计算保持一致，不会在函数运行一半时突然换成另一份数据。[状态快照官方解释](https://react.dev/learn/state-as-a-snapshot)
+
+不要把它简单背成“setState 总是异步”。更准确地问：当前代码持有哪次 render 的值，setter 把什么更新排进队列，下一次 render 得到了什么。这个模型同时解释事件处理器、定时器闭包、批处理和 Effect 依赖。
+
+### 完整课堂实验：同样三行为什么只加一
+
+使用本文 React 本地项目，备份当前 App.tsx，把下面组件作为页面入口渲染。只用本地状态，不访问后端。
+
+```tsx
+import { useState } from 'react'
+
+export default function App() {
+  const [count, setCount] = useState(0)
+  function fromSnapshot() {
+    setCount(count + 1)
+    setCount(count + 1)
+    setCount(count + 1)
+  }
+  function fromQueue() {
+    setCount((n) => n + 1)
+    setCount((n) => n + 1)
+    setCount((n) => n + 1)
+  }
+  return <main>
+    <h1>状态快照实验</h1>
+    <p role="status">当前：{count}</p>
+    <button onClick={fromSnapshot}>快照方式</button>
+    <button onClick={fromQueue}>队列方式</button>
+    <button onClick={() => setCount(0)}>归零</button>
+  </main>
+}
+```
+
+基础验证：点击队列方式一次，预期从 0 到 3。故障验证：归零后点击快照方式一次，预期只到 1。如果产品要求增加三次，这就是可复现错误。修复使用纯函数 updater（更新函数），让每一步接收队列中的前一值。
+
+打开 DevTools 看状态，记录按钮动作和最终值。若一次出现 6，检查是否给按钮重复绑定或在 updater 中做了外部累加；updater 必须纯，开发工具可能额外调用来帮助验证。恢复原 App.tsx 后运行项目类型检查、测试和构建，停止 dev 服务。实验没有持久化数据，关闭页面即结束状态。
+
+### key 是身份，不是消除警告的装饰
+
+两张事件卡片各自有草稿：A 写“检查数据库”，B 写“检查网关”。列表排序以后，草稿应该跟事件走，而非跟第一行第二行走。key 让 React 把两次渲染中的同一个实体对起来；数组索引描述位置，事件 ID 描述业务身份。[状态保留与重置](https://react.dev/learn/preserving-and-resetting-state)
+
+随机 key 每次变化会让 React 认为是新实体，输入、焦点、订阅和局部状态一起重建。主动改变 key 可以实现“切事件就清空草稿”，但必须是明确交互设计。老师让你把“我想保留什么、什么时候重置”先写成一句话，再选 key。
+
+### Effect 是同步关系，cleanup 是断开旧关系
+
+事件详情订阅 A 的日志，切到 B 时应先停止 A 再订阅 B。Effect 的依赖描述这条同步关系用到哪些响应值；cleanup 关闭旧连接。把依赖写成空数组并不意味着“更省性能”，它可能意味着永远订阅第一次的事件。
+
+取消请求后也要防旧结果提交，尤其你的数据函数可能忽略 AbortSignal。将失效标记或编号与请求一起保存，在成功与失败分支都检查资格。Effect 相对浏览器绘制的时机还有交互相关例外，不能把“普通 Effect 永远在 paint 后”当绝对承诺；依照[useEffect 文档](https://react.dev/reference/react/useEffect)选择，必须在绘制前测量时才考虑 layout Effect。
+
+### 你不需要用 Effect 保存所有派生值
+
+例如筛选列表从 `incidents` 与 `query` 计算即可。额外存 `filtered` 并在 Effect 里同步，会先用旧派生值渲染，再触发第二次更新，还增加遗漏依赖的机会。计算真的很贵时再测量 memo，数据太多则先考虑分页和算法。缓存是性能工具，源数据和状态设计才决定正确性。
+
+Context 负责把值传到深处，自定义 Hook 复用逻辑，reducer 集中状态转换，三者都不自动提供服务端一致性。确认事件成功与否仍由后端权威记录决定；前端乐观更新需要明确失败回滚、并发冲突和刷新后的再同步。
+
+### 面试课堂：从解释机制走到设计系统
+
+30 秒讲清“纯 render 计算、commit 修改 DOM、Effect 同步外部系统”；3 分钟用上面的加三实验和事件切换说明快照、队列、身份与清理。面试官继续问性能，就把 React render、commit、浏览器布局、网络等待分开测量，不把组件重新执行次数当唯一指标。
+
+设计实时告警台时，先定每秒事件量、最大保留条数、断线补偿方式和用户暂停语义，再选状态层与列表窗口化。十万条消息无上限塞进 state，框架再快也会耗尽内存；收到同一事件的多次更新，可以按业务版本合并，保留审计顺序的部分则进入另一条存储链。
+
+发生发布后白屏，先核对入口 HTML、chunk、运行版本、错误边界和接口契约。若某一图表失败，不应让确认事件的主体操作一起消失；局部恢复边界、整包回滚和按版本观测能减少影响。你的回答最终落到“用户还能完成什么、如何证明恢复”，就比只列 Hook 名字完整得多。
+
+## React 工程课堂：减少需要同步的状态，增加可验证的边界
+
+### 为什么少一个 state，反而少一类故障
+
+设想看板保存 `incidents`、`query` 和 `filteredIncidents` 三个状态。第三个完全可以由前两个算出，却被 Effect 另存一份。每次查询变化，页面先用旧筛选结果渲染，再执行 Effect 更新，随后又渲染一次；如果条件不完整，还可能永远不同步。这里的问题不是 React 太慢，而是你维护了两份本应相同的事实。
+
+老师让你先问：“这个值能不能直接从当前 props 和 state 推导？”能的话先在渲染中计算。确实昂贵再测量是否需要缓存；缓存是性能选择，不是维持业务正确性的条件。用户点击处置产生的请求应在事件处理器或明确的数据操作层中发出，不必先设置一个 `shouldSubmit` 状态再让 Effect 猜测何时提交。[不需要 Effect 的场景](https://react.dev/learn/you-might-not-need-an-effect)
+
+### useMemo 与 memo 没有承诺业务只执行一次
+
+`useMemo` 缓存计算结果，`memo` 可帮助组件在满足条件时跳过部分重新渲染，但它们都不适合承担一次性发送、审计或资源锁的职责。渲染必须能被重新执行而不产生危险副作用；即使某次优化减少了调用次数，也不能据此保证永远只运行一次。
+
+比较依赖与 props 时，对象身份很重要。每次渲染新建的对象、数组或函数，即使内容看起来相同，也可能让相应浅比较认为变化。先缩小传递数据与组件职责，再有证据地稳定引用；不要为了“全部稳定”引入更多难读的缓存层。只有 Profiler 显示相关组件确实造成可感知成本时，优化才有明确目标。
+
+### Context 解决传递，不自动解决所有更新成本
+
+Context 让深层组件读取共享值，但一个经常变化的大对象可能使很多消费者需要更新。身份信息、主题、实时告警列表和每毫秒变化的计时器放在同一个值中，容易扩大影响范围。按变化频率和业务所有权拆分，或者使用适合需求的状态选择机制，比盲目给所有子组件套 memo 更有解释力。
+
+外部 store 的订阅还需要正确的快照语义，避免一次界面更新中不同消费者看见不一致状态。React 提供相关订阅接口是为了解决与框架外可变状态同步的问题，不是鼓励随处修改全局对象。设计时明确谁发布变更、快照何时变化以及订阅何时释放；测试中加入并发更新与卸载路径。
+
+### 错误边界和重试按钮也有职责范围
+
+错误边界用于隔离子树的某类渲染错误，但不会替所有事件处理器和异步任务自动捕获失败。接口请求的错误仍需要进入明确的请求状态；用户事件里的异常需要适当捕获与上报。把整站只包一个边界，可能使一个图表错误让整个处置界面消失；过度拆分又会增加状态协调复杂度，要按业务可降级单元选择。
+
+重试按钮应重试哪一层也要说清：重新加载懒加载模块、重新请求只读数据、重新执行带副作用的操作，是三种不同风险。前两者可以在有界条件下尝试，最后一种必须先查真实任务结果与幂等键。错误界面应该保留请求标识和可采取动作，但不显示内部堆栈、访问令牌或敏感业务载荷。
+
+### 从一次组件测试走到发布可靠性
+
+测试状态身份时，不只断言列表文本。先在某一行输入草稿，再排序或在前面插入新事件，检查草稿和焦点仍属于同一个事件 ID；这才能发现索引 key 的真实影响。测试 Effect 时，建立、更新依赖、卸载后分别检查订阅数量，而不是只统计组件函数运行了几次。
+
+测试竞态时，让旧请求故意晚到，确认当前查询结果不被覆盖；再让旧请求失败，确认它也不能把当前成功界面改成错误态。成功与失败两条路径都必须检查。开发模式的额外检查有助于暴露清理问题，但生产验证还要看实际构建、路由、资源路径和服务端返回，不能把开发控制台全部安静当成上线证明。
+
+最后，前端回滚需要保留旧入口与其引用的资源，并兼容正在使用旧页面的用户。新版 API 如果立即删除旧字段，即使站点可以切回旧 JavaScript，业务也未必恢复。发布记录应关联前端构建、API 契约和功能开关；监控同时观察白屏错误、资源加载失败、交互延迟与真实业务成功率。这样你讲的是一个可恢复系统，而不是只会组织组件树。
 
 ## GitHub 学习证据
 

@@ -76,64 +76,66 @@ Compose 很适合学习、本地开发、实验环境和小规模部署。真正
 Docker Compose 官方资料可以按这棵树理解：
 
 ```text
-Docker Compose docs
-  ├── Overview
+Docker Compose docs（官方文档）
+  ├── Overview（总览）
   │   └── Compose 是什么，适合什么
-  ├── Quickstart
+  ├── Quickstart（快速入门）
   │   └── 第一个 compose.yaml
-  ├── Application model
-  │   ├── project
-  │   ├── services
-  │   ├── networks
-  │   ├── volumes
-  │   ├── configs
-  │   └── secrets
-  ├── Compose file reference
-  │   ├── services
-  │   ├── networks
-  │   ├── volumes
-  │   ├── configs
-  │   ├── secrets
-  │   ├── fragments
-  │   ├── merge
-  │   ├── include
-  │   └── profiles
-  └── CLI reference
-      ├── docker compose up
-      ├── docker compose down
-      ├── docker compose ps
-      ├── docker compose logs
-      ├── docker compose exec
-      ├── docker compose config
-      ├── docker compose build
-      ├── docker compose pull
-      ├── docker compose restart
-      ├── docker compose watch
-      └── docker compose wait
+  ├── Application model（应用对象模型）
+  │   ├── project（整套环境的名字）
+  │   ├── services（服务定义）
+  │   ├── networks（通信网络）
+  │   ├── volumes（持久数据卷）
+  │   ├── configs（普通配置）
+  │   └── secrets（敏感配置）
+  ├── Compose file reference（配置字段参考）
+  │   ├── services（服务）
+  │   ├── networks（网络）
+  │   ├── volumes（卷）
+  │   ├── configs（配置）
+  │   ├── secrets（敏感配置）
+  │   ├── fragments（片段复用）
+  │   ├── merge（合并规则）
+  │   ├── include（包含其他模型）
+  │   └── profiles（可选服务分组）
+  └── CLI reference（命令行参考）
+      ├── docker compose up（创建并启动）
+      ├── docker compose down（停止并回收项目资源）
+      ├── docker compose ps（查看容器状态）
+      ├── docker compose logs（查看日志）
+      ├── docker compose exec（在运行中的容器内执行命令）
+      ├── docker compose config（解析并校验配置）
+      ├── docker compose build（构建镜像）
+      ├── docker compose pull（拉取镜像）
+      ├── docker compose restart（重启容器）
+      ├── docker compose watch（按开发规则同步或重建）
+      └── docker compose wait（等待容器停止）
 ```
 
 本篇按这条线讲：先讲模型，再讲文件字段，再讲命令，最后用 AIOps 实验串起来。
 
+地图中的命令依次是：`up` 创建并启动，`down` 停止并移除项目资源，`ps` 查看容器，`logs` 看日志，`exec` 在运行中的容器执行命令，`config` 渲染配置，`build` 构建镜像，`pull` 下载镜像，`restart` 重启已有容器，`watch` 监听开发文件变化，`wait` 等待容器停止。它们不是同一个“启动”动作的不同写法，后面会逐项比较。
+
 ## Docker Compose 在 AIOps 链路中的位置
 
 ```text
-compose.yaml
+compose.yaml（多服务应用配置文件）
   |
   v
-local AIOps lab
-  ├── demo app
-  ├── Prometheus
-  ├── Grafana
-  ├── Loki
-  ├── Redis / MySQL
-  └── exporters
+local AIOps lab（本地运维智能实验室）
+  ├── demo app（示例应用）
+  ├── Prometheus（指标采集和查询）
+  ├── Grafana（可视化）
+  ├── Loki（日志查询）
+  ├── Redis / MySQL（缓存与数据库）
+  └── exporters（把监控数据转换成指标的采集器）
         |
         v
-repeatable learning evidence
-  ├── configuration files
-  ├── dashboards
-  ├── screenshots
-  └── troubleshooting notes
+repeatable learning evidence（别人能重复验证的学习证据）
+  ├── configuration files（配置文件）
+  ├── dashboards（仪表盘）
+  ├── screenshots（截图）
+  └── troubleshooting notes（排障记录）
 ```
 
 AIOps 学习需要能反复搭环境。Compose 的价值是把“我电脑上手动跑起来了”变成“这个仓库里有一套别人也能跑的实验环境”。
@@ -173,13 +175,13 @@ Compose 不是 Docker 的替代品。它是 Docker 上的一层多容器编排�
 Compose 官方应用模型包含这些对象：
 
 ```text
-project
-  ├── services
-  │   └── containers
-  ├── networks
-  ├── volumes
-  ├── configs
-  └── secrets
+project（项目，一组关联资源的管理边界）
+  ├── services（服务定义）
+  │   └── containers（按定义创建的容器实例）
+  ├── networks（网络）
+  ├── volumes（持久化卷）
+  ├── configs（配置内容）
+  └── secrets（敏感配置的挂载声明）
 ```
 
 ### Project
@@ -227,8 +229,8 @@ services:
 service 和 container 的关系：
 
 ```text
-service definition
-  -> one or more containers
+service definition（服务定义）
+  -> one or more containers（一个或多个实际容器）
 ```
 
 默认一个 service 一个容器。某些场景可以 scale：
@@ -258,8 +260,8 @@ Network 是服务之间通信的网络。
 Compose 默认会创建一个 default network。同一个 project 的 services 默认加入这个网络，可以通过 service name 互相访问：
 
 ```text
-grafana -> prometheus:9090
-prometheus -> demo-app:8000
+grafana（看板） -> prometheus:9090（按服务名访问指标库）
+prometheus（采集器） -> demo-app:8000（采集演示应用指标）
 ```
 
 这里的 `prometheus` 和 `demo-app` 是 Compose 内部 DNS 名称。
@@ -341,19 +343,19 @@ services:
   demo-app:
     build: ./demo-app
     ports:
-      - "8000:8000"
+      - "127.0.0.1:8000:8000"
 
   prometheus:
     image: prom/prometheus:v3.13.2
     ports:
-      - "9090:9090"
+      - "127.0.0.1:9090:9090"
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
 
   grafana:
     image: grafana/grafana:13.1.3
     ports:
-      - "3000:3000"
+      - "127.0.0.1:3000:3000"
     volumes:
       - grafana-data:/var/lib/grafana
     depends_on:
@@ -463,7 +465,7 @@ ports:
 含义：
 
 ```text
-host:3000 -> container:3000
+host:3000（宿主机端口） -> container:3000（容器内端口）
 ```
 
 如果宿主机 3000 被占用：
@@ -781,10 +783,10 @@ project_default
 同一 project 里的服务默认加入它，并获得服务名 DNS。
 
 ```text
-grafana container
-  -> DNS resolve prometheus
-  -> prometheus container IP
-  -> connect 9090
+grafana container（看板容器）
+  -> DNS resolve prometheus（把服务名解析为地址）
+  -> prometheus container IP（当前指标库容器地址）
+  -> connect 9090（连接容器内的 9090 端口）
 ```
 
 自定义网络：
@@ -812,9 +814,9 @@ services:
 这是 Compose 最重要的新手坑：
 
 ```text
-host localhost
-  != grafana container localhost
-  != prometheus container localhost
+host localhost（宿主机自身的回环地址）
+ != grafana container localhost（Grafana 容器自身的回环地址）
+ != prometheus container localhost（Prometheus 容器自身的回环地址）
 ```
 
 Grafana 访问 Prometheus 应该写：
@@ -1200,7 +1202,7 @@ services:
       context: ./demo-app
     image: aiops-demo-app:0.1
     ports:
-      - "8000:8000"
+      - "127.0.0.1:8000:8000"
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=2)"]
       interval: 10s
@@ -1212,7 +1214,7 @@ services:
   prometheus:
     image: prom/prometheus:v3.13.2
     ports:
-      - "9090:9090"
+      - "127.0.0.1:9090:9090"
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - prometheus-data:/prometheus
@@ -1234,7 +1236,7 @@ services:
   grafana:
     image: grafana/grafana:13.1.3
     ports:
-      - "3000:3000"
+      - "127.0.0.1:3000:3000"
     environment:
       GF_SECURITY_ADMIN_USER: admin
       GF_SECURITY_ADMIN_PASSWORD: admin
@@ -1612,14 +1614,14 @@ Compose 会为 project 创建网络，并在网络里提供服务名 DNS。Grafa
 ## Compose 的内部调和路径
 
 ```text
-.env / shell environment
+.env / shell environment（变量文件或当前命令环境）
   -> 变量插值
   -> 多文件 merge / include / profiles
   -> 生成 Compose application model
   -> 校验 service / network / volume / secret
   -> 调 Docker Engine API
   -> 依据 project labels、resource labels、config hash
-  -> create / recreate / start / stop
+  -> create / recreate / start / stop（创建、重建、启动、停止）
 ```
 
 `docker compose config` 看的是解析后的期望模型，`docker compose ps`/`inspect` 看的是 Engine 实际状态，容器内探针才证明应用行为。三种证据不能互相替代。
@@ -1726,6 +1728,50 @@ Docker Compose 用来定义和运行多容器应用。它通过 `compose.yaml` �
 - [ ] 我能进入容器测试服务间网络。
 - [ ] 我能搭建 demo app + Prometheus + Grafana 实验室。
 - [ ] 我能把 Compose 实验环境作为 GitHub 学习证据提交。
+
+## 老师带你把实验解释成工程能力
+
+### 一、不要把“三个绿色容器”当成业务成功
+
+我们用本地监控实验想一想：应用负责产生指标，Prometheus 定期来取，Grafana 把查询结果画出来。容器状态是这条链最底层的证据。应用活着但 `/metrics` 返回错误，Prometheus 活着但目标地址写错，Grafana 活着但数据源认证失败，都可能出现“三个容器都 Up，图却没有数据”。
+
+老师会让你分别留下四张收据：应用指标响应、Prometheus Targets 的采集结果、表达式查询结果、Grafana 同一表达式的图。不要只留下首页截图。AIOps 模型吃的是数据；采集链断了，模型的“正常”结论可能只是没收到异常，而不是真的正常。
+
+本篇实验的发布端口绑定 `127.0.0.1`，表示只供本机访问。特别是演示用的 Grafana 初始口令，不能随着 `0.0.0.0` 监听一起暴露给办公网或公网。需要别人访问时，应另行设计身份认证、TLS 加密、防火墙和临时访问期限，而不是只把 IP 改成全部地址。
+
+### 二、文件、容器、进程是三个不同的时间点
+
+`compose.yaml` 是你写下来的目标，Docker 容器保存创建时的配置，容器里的进程再读取启动时的环境变量。你改了文件，并不会穿越时间自动改掉已经启动的进程。
+
+例如把 `environment` 中的日志级别改了，再执行 `restart`，只是用容器原配置重启；通常要执行 `up -d` 让 Compose 对照配置并按需重建。若变化的是镜像中的应用代码，还要构建新镜像并确保重建使用它。若变化的是 bind mount 里的配置文件，文件内容可能立即可见，但应用是否重新读取，要看应用的热加载能力。排障时先问“修改发生在哪层”，再选命令。
+
+`.env` 首先可以给 Compose 做变量替换；`env_file` 则用于向容器进程提供环境变量。它们不是同一根管道。`docker compose config` 能帮助你观察最终模型，但输出可能包含解析后的秘密值，不能未经脱敏提交。需要把美元符号留给容器内命令解释时还要理解 `$$` 的转义规则；不要看到变量为空就把真实密码写死进 YAML。
+
+### 三、为什么服务名能通，localhost 却不通
+
+把每个容器当成一间独立房间。网络命名空间给房间独立的网卡、路由和回环地址；`localhost` 是“这个房间自己”。Grafana 房间里访问 `localhost:9090`，是在找 Grafana 房间内的 9090 端口，并没有走到 Prometheus。
+
+同一个 Compose 网络提供服务名解析，因此数据源写 `http://prometheus:9090`。这里用容器监听端口，不用给宿主机映射的端口。`ports` 解决“从宿主机怎么进来”；`expose` 不会建立防火墙，也不是允许同网服务访问的必需条件。要限制横向访问，应划分网络、减少不必要的网络连接，并配合应用身份认证，而不是删除 `expose` 自我安慰。
+
+如果解析得到地址仍然连不上，继续查目标是否真的监听 `0.0.0.0`、两者是否加入同一网络、目标进程是否就绪。不要直接在业务容器里安装整套诊断软件；可以使用经过批准的一次性诊断容器，加入同一实验网络观察，结束后移除。
+
+### 四、重启、健康检查和持久化各自保护什么
+
+`restart` 策略通常针对容器进程退出，不会因为健康检查变成 `unhealthy` 就自动替你治好应用。`depends_on` 的健康条件帮助启动编排，也不能保证依赖以后永远正常。应用仍需连接超时、有限重试、退避和重新连接。比如数据库重启，API 应该暂时返回可理解的失败并恢复连接，而不是永久卡死或无限刷日志。
+
+容器内主进程还有一个重要身份：PID 1，即该进程命名空间中的第一个进程。停止时应能收到并处理结束信号，先停止接收新请求，再让在途请求结束，最后退出。若入口脚本吞掉信号，超时后被强制结束，写入和日志可能来不及完成。应在一次性环境观察停止耗时和退出码，并按应用需要设置停止宽限期，不能只把超时无限增大。
+
+数据卷保护数据不随着容器重建消失，却不等于备份。误写、逻辑删除、勒索和磁盘损坏都可能影响卷。Prometheus 历史指标和 Grafana 面板要明确哪些能由配置再生成、哪些必须备份；`down -v` 只能用于确认可丢弃的实验卷。生产恢复要在独立路径验证备份，不能拿唯一数据卷当试验田。
+
+### 五、面试从 30 秒讲到 3 分钟
+
+**30 秒回答：**Compose 用声明式文件描述单机多容器环境，统一服务、网络和数据卷，让开发与运维实验可以复现。它由命令触发对实际资源的调和，不提供 Kubernetes 那样的跨节点调度和持续控制循环。
+
+**3 分钟展开：**先讲本实验的应用→采集→查询→可视化链，再讲服务名与宿主端口的区别、镜像与持久卷的区别、配置变更为何有时需要重建。随后说明 healthcheck 不是自愈，最后补上默认口令隔离、镜像版本固定、备份恢复和资源上限。
+
+**递进追问：服务器坏了怎么办？**单机 Compose 本身不提供节点故障转移；恢复要依靠宿主机或云基础设施、可重建配置、可获取镜像、已验证备份及入口切换。不能把 `restart: always` 当成多机高可用。
+
+**事故追问：升级后 Grafana 面板丢了怎么办？**先对比 project name、实际卷名称、挂载路径和镜像版本，判断是连到了新空卷还是原数据损坏。保留旧卷和现场，不执行 `down -v`。确认版本兼容后在隔离环境恢复；原库已经迁移时，旧镜像未必能直接读取。提交脱敏的变更差异、证据时间线和恢复验证，才算讲清楚一次运维闭环。
 
 ## 学习证据
 

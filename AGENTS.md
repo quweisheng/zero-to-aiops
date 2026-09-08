@@ -2,6 +2,11 @@
 
 ## Tech Stack Deep-Dive Writing
 
+- Apply the September 2026 teacher-led standard to every tech-stack article and to teaching content in roadmaps, interview guides, resource guides, and templates. Explain prerequisites from zero; teach through a concrete scenario, predictions, evidence, mechanisms, and independent practice.
+- Aim for about 10,000 meaningful Chinese prose characters per substantial tech-stack article where justified. Preserve longer useful explanations; never pad with repeated boilerplate, code, URLs, or command output. Report prose counts honestly and keep unfinished depth targets visible.
+- Annotate English official knowledge maps, architecture diagrams, state transitions, and other teaching modules with adjacent Chinese explanations. Keep executable identifiers unchanged; use valid comments or nearby prose for code, JSON, configuration keys, and logs.
+- Review annotations in their technical context, including English-only branches inside bilingual diagrams. Never apply one cross-domain translation blindly to terms such as buffer, index, key, rank, memory, or state; Chinese text being present is not proof of a correct explanation.
+
 - When adding or expanding any `docs/tech-stack/**/*.md` article, first read `docs/tech-stack/writing-standard.md` and `docs/templates/tech-stack-deep-dive.md`.
 - Treat the writing standard as mandatory, not optional. A tech-stack article is not complete until a beginner can follow it from zero, understand the core ideas, run the first experiment, troubleshoot common failures, and explain the topic in an interview.
 - Do not write shallow outlines or copied documentation. Reorganize official docs and hands-on learning into an original Chinese tutorial for AIOps learners. Link to official sources, but do not translate or copy long official passages.

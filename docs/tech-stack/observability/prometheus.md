@@ -68,65 +68,152 @@ Prometheus 是一个面向指标的监控和告警系统：它定时抓取 `/met
 Prometheus 官方文档可以按这棵树理解：
 
 ```text
-Prometheus docs
-  ├── Introduction
+Prometheus docs（指标系统官方文档）
+  ├── Introduction（介绍）
   │   └── Overview: 是什么、适合什么、不适合什么
-  ├── Concepts
-  │   ├── Data model: metric、label、sample、time series
-  │   ├── Metric types: Counter、Gauge、Histogram、Summary
-  │   └── Jobs and instances: job、instance、target
-  ├── Prometheus Server
-  │   ├── Getting started and installation
-  │   ├── Configuration
-  │   ├── Recording rules
-  │   └── Alerting rules
-  ├── Querying
-  │   ├── PromQL basics
-  │   ├── Operators
-  │   ├── Functions
-  │   └── HTTP API
-  ├── Storage
-  │   ├── local TSDB
-  │   ├── retention
-  │   └── remote read / write
-  ├── Command Line
-  │   ├── prometheus
-  │   └── promtool
-  ├── Instrumenting
-  │   ├── client libraries
-  │   ├── exporters
-  │   └── exposition formats
-  └── Best practices
-      ├── naming
-      ├── histograms and summaries
-      ├── alerting
-      └── recording rules
+  ├── Concepts（概念）
+  │   ├── Data model: metric、label、sample、time series（指标、标签、样本与时间序列）
+  │   ├── Metric types: Counter、Gauge、Histogram、Summary（计数器、仪表值、直方图与摘要）
+  │   └── Jobs and instances: job、instance、target（任务、实例和抓取目标）
+  ├── Prometheus Server（Prometheus服务端）
+  │   ├── Getting started and installation（入门与安装）
+  │   ├── Configuration（配置）
+  │   ├── Recording rules（预计算记录规则）
+  │   └── Alerting rules（告警规则）
+  ├── Querying（查询）
+  │   ├── PromQL basics（指标查询语言基础）
+  │   ├── Operators（运算符）
+  │   ├── Functions（函数）
+  │   └── HTTP API（HTTP接口）
+  ├── Storage（存储）
+  │   ├── local TSDB（本地时序数据库）
+  │   ├── retention（保留期）
+  │   └── remote read / write（远端读写）
+  ├── Command Line（命令行）
+  │   ├── prometheus（时序指标采集与查询系统）
+  │   └── promtool（Prometheus校验与测试工具）
+  ├── Instrumenting（为应用增加埋点）
+  │   ├── client libraries（客户端埋点库）
+  │   ├── exporters（导出器）
+  │   └── exposition formats（指标暴露格式）
+  └── Best practices（实践建议）
+      ├── naming（命名规范）
+      ├── histograms and summaries（直方图与摘要）
+      ├── alerting（告警处理）
+      └── recording rules（预计算记录规则）
 ```
 
 本篇按官方这条线来讲。你学完以后再去看官方文档，会知道每一块在解决什么问题，而不是迷失在参数列表里。
 
+## 老师带你从一个数字理解整条监控链
+
+先想象停车场入口累计计数：今天 10,000，昨天 9,000，差值才表示新增。Counter（计数器）保存累计事件，Gauge（仪表值）表示当前状态，如排队人数，可以升降。先问数字代表什么，再选查询方法；否则一条合法表达式也可能给出错误结论。
+
+程序在 `/metrics` 暴露指标，Prometheus 周期抓取，按指标名、标签、时间和值保存样本。标签组合确定时间序列：同名指标的实例或状态不同，可能就是另一条序列。10,000 条序列每 15 秒抓一次，一天约 5,760 万样本；标签基数、保留时间、索引和压缩决定实际成本。
+
+### 第一课：计数器重启后，为什么不能只算首尾差
+
+课堂观测值是 `0、3、7、1、4`，其中一次归零。按已知重置处理，观测增量为 `3+4+1+3=11`，首尾差只有 4。真实 `rate`（单位时间增长率）还包含窗口和采样外推，这个演示不是完整 PromQL 实现。采样间未观测的事件也不能凭空补回。
+
+先按各序列计算增长率，再汇总，通常能避免一个实例归零被其他实例增长掩盖。不要对 Gauge 无条件套 Counter 的规则。计算整体错误比例时，先汇总失败和总请求，再除；不能简单平均不同流量实例的比例。
+
+### 基础实验与故障实验：亲手找出算法误差
+
+本机准备 Node.js，在仓库根目录执行，不需要启动监控服务。
+
+```powershell
+node examples/teacher-led-reliability-lab/telemetry.mjs prometheus
+node examples/teacher-led-reliability-lab/telemetry.mjs prometheus --fault
+```
+
+正常输出 `resetAware: 11`、`estimate: 11`；故障模式使用首尾差，输出 `estimate: 4` 和 `issue: true`。先手算，再解释哪段重启信息被丢掉。若输出不同，检查参数、目录和脚本版本。程序不写文件、不创建服务，无须清理；保存两次输出。后文真实安装与查询实验再验证产品行为。
+
+### 第二课：分位数、持久化和告警各自回答什么
+
+Histogram（直方图）保存延迟分布，经典格式的桶计数是累计的；P95 表示约 95% 请求不超过的耗时，不是最慢 5% 的平均值。不同实例的 P95 通常不能直接平均。经典直方图聚合时保留 `le`（小于等于某桶上界）再估计分位数；原生直方图表示不同，要按版本选择查询。详见 [官方直方图实践](https://prometheus.io/docs/practices/histograms/)。
+
+WAL 是 Write-Ahead Log（预写日志），用于恢复尚未形成持久块的数据；它不免除磁盘和备份管理。双 Prometheus 可以独立抓取以降低采集单点，远端查询去重、长期保留和重复告警仍要单独设计。不要把两个独立本地库当成自动一致的分布式数据库。
+
+`up=1` 证明抓取成功，不证明业务完成。空结果可能是标签变化、数据过期或过滤，并非数值零。监控自身的抓取、规则计算、存储与远端队列；配置变更先校验并测试规则，再观察实际生效。回滚保留旧配置和规则，避免通过删除数据目录处理未知问题。
+
+### 面试课堂：30 秒到 3 分钟
+
+30 秒：“Prometheus 周期抓指标，按指标名和标签保存时序样本，用 PromQL 查询并计算规则。我先确定指标语义与标签成本，再验证抓取、存储和通知链。”
+
+3 分钟沿暴露、发现、抓取、存储、查询、规则和通知讲流程，拿归零和分位数说明取舍。追问：“规则不报警先看什么？”从原始样本、表达式、窗口和规则状态查到通知。“为什么请求标识不适合普通指标标签？”因为持续新增组合会扩大基数，更适合日志和追踪。
+
+设计题：多个集群长期查询，怎样安排本地抓取、远端存储、去重和中断缓冲。事故题：发布后图断但指标名未变，比较标签、时间和抓取状态。GitHub 学习证据包括指标合同、算术实验、真实抓取配置与一条故障查询记录。
+
+## 深入课堂：从抓取配置走到可解释的 PromQL
+
+### 服务发现找到目标，重标记决定保留什么
+
+同学，采集之前先要知道去哪里拿指标。静态目标适合简单实验，服务发现则从集群、云平台或其他注册信息获得候选目标。发现到一个地址不等于已经成功采集，也不等于它适合当前监控职责。
+
+Relabeling（重标记）可以在不同阶段选择目标或调整标签。目标重标记发生在抓取前，指标重标记处理已抓取的样本，远端写入还可能有独立规则。阶段不同，能看到的字段和产生的成本也不同。想减少网络抓取成本，却只在抓取后丢弃样本，就没有省掉前面的传输与解析。
+
+配置变更后先查看目标发现与标签结果，再看抓取状态和实际样本。若目标消失，查发现与筛选；若目标存在但抓取失败，查地址、路径、协议和认证；若抓取成功但某个指标缺失，查指标生成与过滤。这个顺序比同时修改所有相关参数更容易定位原因。
+
+### 每种指标先讲业务意义，再讲函数
+
+Counter 表示累计事件，通常用区间增长或增长率理解；Gauge 表示当前状态，可以升降；Histogram 和 Summary 用于观察分布，但它们的聚合能力和误差机制不同。函数能接受某种输入，不代表业务语义就正确。
+
+例如“当前队列长度”下降可能说明消费追上了，也可能说明队列被清空或数据源切换。对它套计数器重置逻辑，会把正常下降错误地理解成累计重置。反过来，直接展示累计请求数常只会看到持续上升，无法看出最近流量变化。
+
+给每个自定义指标写合同：名称、单位、类型、标签取值、何时更新、是否跨重启保留、用于哪条判断。路由模板通常比原始 URL 更适合标签；请求标识更适合日志与链路关联。命名清楚只能减少误解，不能代替实际数据验证。
+
+### 向量匹配：两边都查得到，为什么相除却为空
+
+PromQL 中很多表达式的结果是一组带标签的序列。两组结果做运算时，要按规则找到对应关系。分子按服务与实例区分，分母只有服务标签，若匹配关系没有按预期表达，就可能得到空结果或匹配错误，而不是正常的逐项除法。
+
+先分别执行分子和分母，列出标签集合，确认它们代表相同统计对象，再决定聚合或显式匹配。不要为了让表达式返回数字随意添加 `group_left`。它表达特定的一对多匹配关系，必须能解释多出来的标签来自哪边、每组是否唯一以及结果是否符合业务。
+
+课堂先不用记复杂语法：写两张小表，一张是各实例失败数，一张是各服务请求总数，尝试手工配对。若连纸面配对都说不清，先修统计口径，再写查询。AIOps 特征流水线也要遵循这个原则，否则合法结果仍可能混合不同服务的数据。
+
+### 记录规则是预计算，也是一份新的数据合同
+
+Recording rule（记录规则）周期计算常用表达式并把结果存成新序列。它能减少看板重复查询成本，统一统计口径，但会增加规则评估与存储负担。记录结果保留哪些标签、使用什么窗口、以什么周期更新，都要与使用者约定。
+
+若原始标签改变，记录规则可能变空；若规则计算变慢，结果可能迟到；若把过多维度保留在结果中，预计算反而制造更多序列。监控规则评估失败、耗时与输出新鲜度，并用有重置、缺失和边界值的样本测试。
+
+告警规则再使用记录结果时，还要把两层评估延迟算进去。图上看似每分钟刷新，不代表新故障一分钟内必然送达值班人员；采集、规则、持续时间和通知等待共同决定端到端延迟。
+
+### 存储为什么怕不断出生的新序列
+
+样本数影响容量，序列数与序列变化也影响索引和内存。一万个稳定实例与不断出现的一万个新请求标识，后者会持续创建新组合。即使某一瞬间活跃序列看起来不高，频繁变化也可能造成长期负担。
+
+先量化活跃序列、采集样本、标签取值增长、磁盘增量和查询成本，再调整采集范围与保留。Prometheus 本地存储适合其定位下的时序任务，不应被当成需要精确逐笔结算的业务账本。重试、重启和采样窗口都可能影响统计，财务或订单事实应以业务系统为准。
+
+高可用部署要说明两份采集的标签、规则与通知如何处理，远端汇总如何避免不恰当重复。副本、远端保存和备份各有职责；恢复时核对历史查询、规则、目标配置和数据缺口，而不是只看进程重新运行。
+
+### 面试反问练习：一个漂亮的数值能否被证明
+
+面试官给你“错误率突然变成零”。先提出至少四种解释：业务真的改善、错误序列被过滤、分子标签改变、分母暴增或时间窗口不合适，再用原始指标和请求日志区分。不要看到绿色就停止检查。
+
+为本章做一张查询卡片：业务问题、原始指标合同、分子分母、标签配对、缺失处理、预期值和反例。选一条真实实验中的表达式完成卡片并保存输出。如果只能背 PromQL 函数名，却无法说出数字代表什么，就继续练这一步。
+
 ## Prometheus 在 AIOps 链路中的位置
 
 ```text
-applications / hosts / databases / middleware
+applications / hosts / databases / middleware（应用、主机、数据库和中间件）
         |
         v
-/metrics or exporters
+/metrics or exporters（指标接口或指标导出器）
         |
         v
-Prometheus scrape
+Prometheus scrape（Prometheus周期抓取）
         |
         v
-local TSDB
+local TSDB（本地时序数据库）
         |
-        +--> PromQL queries
-        +--> Grafana dashboards
-        +--> recording rules
-        +--> alerting rules
-        +--> HTTP API
+        +--> PromQL queries（指标查询语言）
+        +--> Grafana dashboards（Grafana仪表盘）
+        +--> recording rules（预计算记录规则）
+        +--> alerting rules（告警规则）
+        +--> HTTP API（HTTP接口）
                  |
                  v
-        Python / AIOps analysis
+        Python / AIOps analysis（Python或智能运维分析）
 ```
 
 在 AIOps 里，Prometheus 通常承担“指标数据入口”和“实时查询计算层”：
@@ -195,23 +282,23 @@ Prometheus 的设计重点是可靠和可查询。它的本地单节点模式很
 Prometheus 生态可以简化成：
 
 ```text
-instrumented app
-node exporter
-database exporter
-pushgateway
+instrumented app（完成埋点的应用）
+node exporter（主机指标导出器）
+database exporter（数据库指标导出器）
+pushgateway（短生命周期任务的指标推送网关）
         |
         v
-Prometheus server
-  ├── service discovery
-  ├── scrape manager
-  ├── TSDB
-  ├── PromQL engine
-  ├── rule manager
-  └── notification sender
+Prometheus server（Prometheus服务端）
+  ├── service discovery（服务发现）
+  ├── scrape manager（抓取管理器）
+  ├── TSDB（时序数据库）
+  ├── PromQL engine（查询计算引擎）
+  ├── rule manager（规则管理器）
+  └── notification sender（告警发送组件）
         |
-        +--> Grafana
-        +--> Alertmanager
-        +--> HTTP API clients
+        +--> Grafana（仪表盘平台）
+        +--> Alertmanager（告警处理器）
+        +--> HTTP API clients（HTTP接口客户端）
 ```
 
 核心组件：
@@ -753,10 +840,10 @@ Prometheus 本地存储叫 TSDB，也就是 time series database。
 你可以把它理解成：
 
 ```text
-scraped samples
-  -> write-ahead log
-  -> head block
-  -> compacted blocks on disk
+scraped samples（抓取的样本）
+  -> write-ahead log（预写日志）
+  -> head block（活跃数据块）
+  -> compacted blocks on disk（磁盘上的合并数据块）
 ```
 
 你需要知道的重点：
@@ -1112,7 +1199,7 @@ groups:
 告警状态：
 
 ```text
-inactive -> pending -> firing
+inactive -> pending -> firing（未激活、等待持续时间、触发中的规则状态）
 ```
 
 解释：
@@ -1138,14 +1225,14 @@ inactive -> pending -> firing
 Prometheus 负责计算告警，Alertmanager 负责处理告警通知。
 
 ```text
-Prometheus alerting rule fires
+Prometheus alerting rule fires（指标告警规则进入触发状态）
         |
         v
-Alertmanager
-  ├── group
-  ├── inhibit
-  ├── silence
-  └── notify
+Alertmanager（告警处理器）
+  ├── group（告警组）
+  ├── inhibit（抑制通知）
+  ├── silence（静默）
+  └── notify（发送通知）
 ```
 
 Prometheus 配置：

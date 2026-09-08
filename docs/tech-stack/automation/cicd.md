@@ -66,66 +66,66 @@ CI/CD 就是把代码变更从提交到上线的过程流水线化：每次变�
 可以把 CI/CD 学成这棵树：
 
 ```text
-CI/CD
-  -> Source control
-     -> commit
-     -> branch
-     -> pull request
-     -> merge
-     -> tag / release
-  -> CI: Continuous Integration
-     -> trigger
-     -> checkout
-     -> dependency install
-     -> lint / format
-     -> unit test
-     -> integration test
-     -> build
-     -> security scan
-     -> artifact
-     -> status check
-  -> CD: Continuous Delivery / Deployment
-     -> artifact registry
-     -> environment
-     -> deployment
-     -> approval
-     -> secrets
-     -> rollout
-     -> smoke test
-     -> observability verification
-     -> rollback
-  -> Release strategy
-     -> rolling update
-     -> blue / green
-     -> canary
-     -> feature flag
-  -> Operational feedback
-     -> deployment history
-     -> logs
-     -> metrics
-     -> alerts
-     -> incidents
-     -> postmortem
-  -> Delivery metrics
-     -> deployment frequency
-     -> change lead time
-     -> change fail rate
-     -> failed deployment recovery time
-     -> deployment rework rate
+CI/CD（持续集成与持续交付或部署）
+  -> Source control（源代码版本管理）
+     -> commit（提交）
+     -> branch（分支）
+     -> pull request（合并请求）
+     -> merge（合并）
+     -> tag / release（标签／发布）
+  -> CI: Continuous Integration（持续集成）
+     -> trigger（触发）
+     -> checkout（检出源码）
+     -> dependency install（安装依赖）
+     -> lint / format（静态检查／格式检查）
+     -> unit test（单元测试）
+     -> integration test（集成测试）
+     -> build（构建）
+     -> security scan（安全扫描）
+     -> artifact（制品）
+     -> status check（状态检查）
+  -> CD: Continuous Delivery / Deployment（持续交付／持续部署）
+     -> artifact registry（制品仓库）
+     -> environment（环境）
+     -> deployment（部署）
+     -> approval（审批）
+     -> secrets（机密配置）
+     -> rollout（逐步发布）
+     -> smoke test（基础可用性测试）
+     -> observability verification（通过观测验证）
+     -> rollback（回滚）
+  -> Release strategy（发布策略）
+     -> rolling update（滚动更新）
+     -> blue / green（蓝绿发布）
+     -> canary（金丝雀灰度）
+     -> feature flag（功能开关）
+  -> Operational feedback（运行反馈）
+     -> deployment history（部署历史）
+     -> logs（日志）
+     -> metrics（指标）
+     -> alerts（告警）
+     -> incidents（事故）
+     -> postmortem（复盘）
+  -> Delivery metrics（交付度量）
+     -> deployment frequency（部署频率）
+     -> change lead time（变更前置时间）
+     -> change fail rate（变更失败率）
+     -> failed deployment recovery time（失败部署恢复时间）
+     -> deployment rework rate（部署返工率）
 ```
 
 最小主线：
 
 ```text
-commit
-  -> CI checks
-  -> artifact
-  -> deploy to staging
-  -> approval
-  -> deploy to production
-  -> verify
-  -> monitor
-  -> rollback or continue
+commit（提交）
+  -> CI checks（集成检查）
+  -> artifact（制品）
+  -> deploy to staging（部署预发）
+  -> approval（批准）
+  -> deploy to production（部署生产）
+  -> verify（验证）
+  -> monitor（观察）
+  -> rollback or continue（回滚或继续）
 ```
 
 ## CI/CD 在 AIOps 链路中的位置
@@ -175,12 +175,12 @@ CI 是持续集成。
 核心思想：频繁把代码合入共享仓库，并自动构建和测试，尽早发现错误。
 
 ```text
-developer commit
-  -> push / pull request
-  -> build
-  -> lint
-  -> test
-  -> report status
+developer commit（开发者提交）
+  -> push / pull request（推送或合并请求）
+  -> build（构建）
+  -> lint（静态风格检查）
+  -> test（测试）
+  -> report status（回报状态）
 ```
 
 CI 关注的是“这个变更能不能安全合入”。
@@ -203,14 +203,14 @@ CI 不一定发布。
 流水线会自动构建、测试、打包、部署到预发环境，但生产发布通常需要人工确认。
 
 ```text
-merge main
-  -> build
-  -> test
-  -> package artifact
-  -> deploy staging
-  -> smoke test
-  -> manual approval
-  -> deploy production
+merge main（合并到主分支）
+  -> build（构建）
+  -> test（测试）
+  -> package artifact（打包制品）
+  -> deploy staging（部署预发布环境）
+  -> smoke test（冒烟测试）
+  -> manual approval（人工批准）
+  -> deploy production（部署生产环境）
 ```
 
 持续交付关注的是“我们是否随时能可靠发布”。
@@ -228,12 +228,12 @@ merge main
 持续部署是更进一步：通过所有验证的变更会自动部署到生产。
 
 ```text
-merge main
-  -> build
-  -> test
-  -> package
-  -> deploy production automatically
-  -> verify
+merge main（合并到主分支）
+  -> build（构建）
+  -> test（测试）
+  -> package（打包）
+  -> deploy production automatically（自动部署生产）
+  -> verify（验证）
 ```
 
 持续部署关注的是“发布是否完全自动化”。
@@ -284,21 +284,21 @@ merge main
 一条典型 pipeline：
 
 ```text
-Trigger
-  -> Checkout
-  -> Setup runtime
-  -> Install dependencies
-  -> Lint
-  -> Unit test
-  -> Build
-  -> Package artifact
-  -> Upload artifact
-  -> Deploy staging
-  -> Smoke test
-  -> Approval
-  -> Deploy production
-  -> Verify
-  -> Notify / record deployment
+Trigger（触发器）
+  -> Checkout（检出源码）
+  -> Setup runtime（准备运行时）
+  -> Install dependencies（安装依赖）
+  -> Lint（静态检查）
+  -> Unit test（单元测试）
+  -> Build（构建）
+  -> Package artifact（打包制品）
+  -> Upload artifact（上传制品）
+  -> Deploy staging（部署预发布）
+  -> Smoke test（冒烟测试）
+  -> Approval（批准）
+  -> Deploy production（部署生产）
+  -> Verify（验证）
+  -> Notify / record deployment（通知并记录发布）
 ```
 
 每个阶段都应该有清晰输入和输出：
@@ -341,17 +341,17 @@ CI/CD 从 Git 变更开始。
 推荐分层：
 
 ```text
-pull_request
-  -> lint + test + build
+pull_request（合并请求触发）
+  -> lint（静态风格检查） + test（测试） + build（构建）
 
-push main
-  -> build artifact + deploy staging
+push main（推送主分支）
+  -> build artifact + deploy staging（构建制品并部署预发布）
 
-workflow_dispatch or approval
-  -> deploy production
+workflow_dispatch or approval（人工触发或批准）
+  -> deploy production（部署生产环境）
 
-tag v*
-  -> publish release artifact
+tag v*（版本标签触发）
+  -> publish release artifact（发布正式制品）
 ```
 
 为什么 PR 阶段不直接生产发布？
@@ -549,7 +549,8 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: docs-dist
-          path: docs/.vitepress/dist
+          path: dist
+          if-no-files-found: error
 ```
 
 这条流水线做了：
@@ -754,7 +755,8 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: docs-dist
-          path: docs/.vitepress/dist
+          path: dist
+          if-no-files-found: error
 
   deploy-staging:
     needs: build
@@ -783,7 +785,9 @@ jobs:
       - run: echo "verify production"
 ```
 
-为什么这是持续交付？
+这个示例展示持续交付的编排骨架，但 `echo` 步骤没有真的部署或验证，不能把绿色结果当成 staging 或 production 发布成功。要连接真实环境，必须实现部署、健康验证和回滚，并配置实际环境审批规则。
+
+它表达的持续交付关系是：
 
 - 构建和 staging 自动。
 - production 通过 environment 可以配置人工审批。
@@ -798,11 +802,11 @@ jobs:
 滚动更新是一批一批替换旧实例。
 
 ```text
-old old old old
-  -> new old old old
-  -> new new old old
-  -> new new new old
-  -> new new new new
+old（旧版） old（旧版） old（旧版） old（旧版）
+  -> new（新版） old（旧版） old（旧版） old（旧版）
+  -> new（新版） new（新版） old（旧版） old（旧版）
+  -> new（新版） new（新版） new（新版） old（旧版）
+  -> new（新版） new（新版） new（新版） new（新版）
 ```
 
 优点：
@@ -856,13 +860,13 @@ switch traffic to green
 金丝雀发布先给少量流量：
 
 ```text
-1% users -> new version
-observe
-10% users -> new version
-observe
-50% users -> new version
-observe
-100% users -> new version
+1% users（用户） -> new version（新版本）
+observe（观察）
+10% users（用户） -> new version（新版本）
+observe（观察）
+50% users（用户） -> new version（新版本）
+observe（观察）
+100% users（用户） -> new version（新版本）
 ```
 
 优点：
@@ -888,11 +892,11 @@ observe
 功能开关把“部署代码”和“开启功能”拆开。
 
 ```text
-deploy code with feature off
-  -> enable for internal users
-  -> enable for 5%
-  -> enable for 50%
-  -> enable for 100%
+deploy code with feature off（部署代码但关闭功能）
+  -> enable for internal users（向内部用户启用）
+  -> enable for 5%（向百分之五用户启用）
+  -> enable for 50%（向半数用户启用）
+  -> enable for 100%（向全部用户启用）
 ```
 
 优点：
@@ -984,11 +988,11 @@ helm rollback aiops-api 3 -n prod
 更安全的模式：
 
 ```text
-expand
+expand（先扩展兼容结构）
   -> 先添加新字段，旧字段保留
-migrate
+migrate（迁移数据与使用方）
   -> 双写或后台迁移数据
-contract
+contract（最后收缩旧结构）
   -> 确认旧版本不再使用后再删除旧字段
 ```
 
@@ -1044,12 +1048,12 @@ AIOps 项目里，质量门禁还能加入：
 这样 AIOps 可以做：
 
 ```text
-deployment event
-  + Prometheus metrics
-  + Loki logs
-  + OpenTelemetry traces
-  + Alertmanager alerts
-  -> change-aware diagnosis
+deployment event（部署事件）
+  + Prometheus metrics（监控指标）
+  + Loki logs（日志）
+  + OpenTelemetry traces（链路数据）
+  + Alertmanager alerts（告警）
+  -> change-aware diagnosis（结合变更的诊断）
 ```
 
 例子：
@@ -1174,7 +1178,7 @@ npm ci
 npm run docs:build
 ```
 
-作用：构建 VitePress 文档站。
+作用：运行项目定义的文档构建脚本。当前仓库 `docs:build` 是 `npm run build` 的别名，构建 React/Vite 网站，产物是 `dist`；历史 VitePress 项目使用不同目录，不可混用。
 
 在这个知识库里，它就是最重要的 CI 检查之一。
 
@@ -1324,7 +1328,8 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: docs-dist
-          path: docs/.vitepress/dist
+          path: dist
+          if-no-files-found: error
 ```
 
 验证：
@@ -1385,9 +1390,9 @@ JSON
 
 做一次受控失败：
 
-1. 在 Markdown 中写一个错误代码块。
-2. push。
-3. 观察 CI 失败。
+1. 在独立练习分支的 CI 中加入一个明确的 `run: exit 42` 步骤，不修改生产部署流程。
+2. push 该练习分支并发起匹配触发条件的 PR。
+3. 观察 CI 在指定步骤失败。错误 Markdown 围栏未必会让解析器报错，不适合作为确定性故障。
 4. 找到失败 step。
 5. 修复。
 6. 再 push。
@@ -1553,6 +1558,120 @@ CI/CD 是把软件从提交到发布的过程自动化和标准化。CI 关注�
 16. change fail rate 为什么不统计普通 CI 失败？
 17. Failed deployment recovery time 和 MTTR 有什么关系？
 18. AIOps 如何利用 CI/CD 变更记录做根因分析？
+
+## 老师带练：发布系统首先是一台“状态机”
+
+我们以支付服务的一次规则变更贯穿这一节。先不记流水线插件名称，先给每一张凭证编号：源码提交 A、构建运行 B、制品摘要 C、审批记录 D、部署记录 E、验证报告 F。只有它们指向同一批内容，才能回答“批准的、测试的、部署的究竟是不是同一个东西”。缺一个环节，可能出现测试了 A、生产却重新构建出另一个结果的情况。
+
+前面的英文图中 developer 是开发者，staging 是预发环境，production 是生产环境，old/new 是旧版/新版，observe 是观察，serving traffic 是承接流量，change-aware diagnosis 是结合变更上下文的诊断。时间线里的 error_rate、p95 latency、alert fires 分别表示错误率、95 分位延迟和告警触发。把这些词还原成业务行为，才能知道一个阶段该拿什么证据。
+
+### 为什么状态要比绿色按钮更细
+
+“命令已经发送”不等于“服务已应用配置”，“服务开始运行”不等于“用户请求已恢复”。一条可用的部署状态机至少区分 queued（排队）、running（执行）、waiting_approval（待批）、applied（变更已应用）、verifying（验证）、succeeded（验收成功）、failed（已知失败）和 unknown（结果未知）。超时后的 unknown 尤其重要：操作可能已到远端，只是回复没回来。
+
+所以重试不能简单从第一个步骤开始。下载制品失败通常可安全重试；创建发布记录要有幂等键；执行数据库迁移则要查询迁移版本和锁；切流量后中断，应查询实际流量指向再决定继续验证或恢复。状态机需要持久化关键转移，执行器重启后能查回原 execution ID（执行标识），不能靠终端里的一行成功文本猜状态。
+
+### 制品身份、缓存和供应链是三回事
+
+制品摘要（digest，用文件内容计算的指纹）让你发现内容是否变化，签名用于验证来源及签发身份，SBOM（Software Bill of Materials，软件物料清单）说明包含哪些组件。它们彼此补充，摘要相同不自动证明代码安全，签名正确也不自动证明功能没有 bug。制品仓库应禁止覆盖已发布版本，限制删除，并为回滚保留已验证产物。
+
+缓存只是加速。缓存丢失后应能按锁文件重新构建；如果只有缓存里有一个手工安装的包，流水线本身就不可复现。第三方 action、基础镜像、构建脚本和依赖源都属于供应链输入；生产固定经审查的版本或摘要，定期升级后重新验证，而不是永远不升级。前面 workflow 中的版本标签是教学样例，落地前按项目运行时和执行器兼容性核对。
+
+### 本地基础与故障实验：制品通过测试后，被改过还会不会发布
+
+前提：有 Python 3，一个新建空目录 `delivery-classroom`，不需要 Docker、云账号或生产凭据。用编辑器创建 `delivery_lab.py`：
+
+```python
+import hashlib
+import json
+import sys
+import tempfile
+from pathlib import Path
+
+def digest(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+def verify(payload):
+    if payload.get("threshold") != 5:
+        raise ValueError("smoke test failed: threshold must be 5")
+
+def main():
+    mode = sys.argv[1] if len(sys.argv) > 1 else "normal"
+    if mode not in {"normal", "tamper", "bad-release"}:
+        raise SystemExit("mode: normal | tamper | bad-release")
+    with tempfile.TemporaryDirectory(prefix="delivery-classroom-") as folder:
+        root = Path(folder)
+        artifact = root / "release.json"
+        payload = {"version": "v2", "threshold": 9 if mode == "bad-release" else 5}
+        artifact.write_text(json.dumps(payload), encoding="utf-8")
+        approved_digest = digest(artifact)
+        current = {"version": "v1", "threshold": 5}
+        previous = dict(current)
+        if mode == "tamper":
+            artifact.write_text('{"version":"v2","threshold":99}', encoding="utf-8")
+        if digest(artifact) != approved_digest:
+            print("blocked: artifact changed; current=v1")
+            return 2
+        current = json.loads(artifact.read_text(encoding="utf-8"))
+        try:
+            verify(current)
+        except ValueError as error:
+            current = previous
+            verify(current)
+            print(f"rolled_back: {error}; current={current['version']}")
+            return 3
+        print(f"verified: current={current['version']}")
+        return 0
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+```
+
+依次执行 `python delivery_lab.py normal`、`python delivery_lab.py tamper`、`python delivery_lab.py bad-release`，每次执行后立即看 Bash 的 `$?` 或 PowerShell 的 `$LASTEXITCODE`。预期分别是 `verified: current=v2` 且 0、`blocked...current=v1` 且 2、`rolled_back...current=v1` 且 3。第二种在变更前拦截，第三种是合法制品但业务验证失败后恢复旧状态；这两个故障不是同一回事。
+
+这只是本地状态模拟，不是真实服务器部署，也不是数字签名实验。`TemporaryDirectory` 只清理自己新建的临时目录；运行结束没有后台进程。保留源码与三次输出作为证据，要结束学习仅删除自己创建的 `delivery_lab.py` 和空目录即可。若输出不符，先核对 mode 拼写、保存的阈值和是否用了完整文件；若写临时目录失败，检查当前账户临时目录权限，不改系统根目录权限。
+
+### 金丝雀判断：没有流量时，错误率为零也不算通过
+
+给新版本 1% 流量，不代表一定有足够样本。总共只有 20 个请求时没有错误，很难证明新版本可靠。验收规则应同时要求最小请求量、足够观察窗口、错误率与尾延迟不恶化，并按版本、区域和用户群对比。低流量服务可以加入合成测试，但不能把模拟流量等同于所有真实用户行为。
+
+指标缺失应得到“无法判断”，不能自动当成健康。若新版本 exporter（指标导出器）本身崩溃，查询可能没有数据；若代码把标签改名，仪表盘看起来可能归零。发布门禁先检验观测链路，再评价业务。观测数据也有采集与聚合延迟，刚切流立即读取上一分钟指标，可能是在给旧版本发合格证。
+
+设计错误率门禁还要明确分母：失败数/请求数，排除或纳入哪些状态码；相对恶化与绝对上限分开。基线已经很差时“没有进一步恶化”不代表可以继续。AIOps 推荐回滚时应给出证据窗口、样本量、版本对比和影响范围，由确定策略和授权流程决定动作。
+
+### 数据迁移：代码回滚为什么可能更危险
+
+例如 v2 把 `owner` 改成 `owner_id` 并立刻删旧列，回滚 v1 后读不到它需要的字段。正确讨论不是“有没有 helm rollback”，而是新旧二进制、配置、消息和数据库结构在共存期间能否互相理解。扩展阶段先增加兼容结构，迁移阶段带校验和限速，收缩阶段等旧版本与回滚窗口退出后再删除。
+
+迁移还可能有锁表、索引创建、回填流量和复制延迟，需要容量评估与中止条件。恢复数据库备份可能丢弃发布后合法业务写入，不能当成无成本回滚。发布前应明确哪些动作可逆、哪些只能向前修复、谁有批准权、如何保护已经产生的业务数据。
+
+### 并发发布和控制面灾备
+
+同一环境同时跑两条发布，旧任务可能比新任务更晚结束，最后把环境切回旧版。需要环境级互斥或明确代次检查，而不只是限制一个 job 的并行线程。取消工作流只发送取消信号，不保证远端副作用已停止；先确认部署目标的实际状态，再释放锁或启动下一次。
+
+控制面故障时，已经运行的应用通常应继续服务，不能因为 CI 平台断连就停止。灾备至少保存流水线定义、制品、权限恢复流程、配置和发布记录；恢复演练需证明可以找到最后稳定版本并重新验证。执行器采用短生命周期隔离，减少上个 job 遗留的文件、进程和凭据污染。自托管执行器能访问内网，更需要限制谁能让它运行代码。
+
+### DORA 与面试：讲改进，不刷数字
+
+DORA 当前资料列出五项交付表现指标，本文保留历史 Four Keys 链接用于了解演变，统计时要声明所用定义。部署频率与失败率应按同一服务和相同口径分析，不把 CI 重跑或文档修改次数冒充生产价值；恢复时间的起止定义也要写进统计说明。拿指标发现审查等待、测试不稳定和回滚慢，再检验改进效果，不给个人按部署次数排队。[DORA 当前度量说明](https://dora.dev/guides/dora-metrics/)
+
+30 秒：CI 让变更持续集成并验证，持续交付让产物保持可发布，持续部署把合格变更自动送到生产；可靠交付还要有同一制品、权限、发布后验证和回滚。
+
+3 分钟：以 A 到 F 的证据链说明源码、制品和部署关系，展示篡改拦截与业务回滚两个实验，再讲金丝雀样本、数据库兼容和并发状态。追问“CI 全绿为何仍事故”，回答测试覆盖、环境差异、数据规模和运行时依赖；追问“发布命令超时可以重跑吗”，回答先查实际状态与幂等记录；追问“如何设计千万用户平台发布”，应给出分批比例、观测窗口、停止条件、容量余量、权限及恢复路径，而不只是列工具名称。
+
+## 交付答辩：测试通过与可发布之间还缺哪几道证明
+
+老师给你一个很常见的现象：同一提交在自己的电脑成功，在干净执行器失败。先别认为云端太慢。列出构建输入：源码、锁文件、运行时、操作系统、环境变量、构建参数和依赖下载来源。只要其中某项没有声明，构建就可能借用了本机残留状态。可重复构建首先是输入清楚，然后才讨论字节级一致性；有些构建包含时间戳或路径，还需要额外措施才能实现同字节输出。
+
+测试也有不同职责。单元测试验证小范围逻辑，集成测试验证真实组件边界，契约测试验证生产者与消费者约定，端到端测试验证关键用户路径。不是端到端越多就越可靠：它通常更慢、定位更难；也不是只跑单元测试就能覆盖数据库、网络和权限。按风险分配测试，关键发布要求哪几类证据，要在流水线里明确而不是口头约定。
+
+Flaky test（不稳定测试）指相同预期条件下结果不稳定，可能源于时钟、随机性、共享状态、网络依赖和错误等待。自动重跑可以帮助诊断偶发性，却不能让团队忽略失败。记录首次失败率与重跑通过率，隔离不稳定因素并限期修复；如果只统计最后一次绿色结果，指标会掩盖交付系统真实质量。
+
+Secrets（秘密）与配置也应分层。构建公共前端时，注入到浏览器产物的值最终可能被用户读取，因此不能把服务端密钥当作普通构建变量。环境地址可以是配置，生产访问令牌不是前端公开配置。检查制品是否意外包含秘密，应发生在制品离开可信边界之前；凭据轮换则需要平台权限和依赖方协调，不能仅删除 Git 中的一行就认为历史泄漏已消失。
+
+发布平台还应区分“能重跑”和“应该重跑”。构建失败可用相同输入重试，已部分部署的任务必须先检查目标状态。一个安全恢复入口应读取当前版本、期望版本和发布代次，识别操作是否已完成；环境锁与幂等记录一起使用。若锁服务暂时不可用，高风险发布应停止而不是默认放行；已有应用继续提供服务，控制面故障不应自动演变为数据面停机。
+
+最后用一份真实交付记录回答面试：哪个提交、哪些检查、哪份制品、谁批准、何时到达哪个环境、目标返回什么版本、观察了多久、如果失败如何恢复。缺少任何一环都要准确说明边界。比如仅完成构建可以说“已生成并校验制品”，没有运行环境证据就不能说“生产更新成功”。这种表达不是保守措辞，而是交付工程对事实负责的基本能力。
 
 ## 学习证据
 

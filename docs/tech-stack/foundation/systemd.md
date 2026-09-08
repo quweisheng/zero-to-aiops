@@ -81,50 +81,52 @@ systemd 是 Linux 的系统和服务管理器：它通常作为 PID 1 启动，�
 官方资料不是按“新手教程”组织的，而是按 man page 和组件边界组织的。读 systemd 要先知道资料应该怎么分层：
 
 ```text
-systemd.io
+systemd.io（项目官方文档入口）
   -> 项目总览：systemd 是什么、包含哪些系统基础组件
 
-systemd(1)
-  -> systemd manager 本体
-  -> PID 1、user manager、unit、job、transaction、cgroup、unit 路径
+systemd(1)（系统与服务管理器手册）
+  -> systemd manager（常驻管理器）本体
+  -> PID 1（第一个用户态进程）、user manager（用户级管理器）
+  -> unit（管理单元）、job（状态变更作业）、transaction（组合启动事务）
+  -> cgroup（进程资源控制组）、unit 路径
 
-systemd.unit(5)
+systemd.unit(5)（单元文件格式手册）
   -> 所有 unit 共享的语法和配置
-  -> [Unit]、[Install]
-  -> Description、Documentation、Wants、Requires、After、Before、Condition
+  -> [Unit]、[Install]（单元关系与安装关联配置段）
+  -> Description、Documentation、Wants、Requires、After、Before、Condition（描述、文档、弱依赖、强依赖、先后顺序与启动条件）
 
-systemd.service(5)
+systemd.service(5)（服务单元手册）
   -> .service 专属配置
-  -> [Service]
-  -> Type、ExecStart、ExecReload、ExecStop、Restart、User、Group、WorkingDirectory
+  -> [Service]（服务执行配置段）
+  -> Type、ExecStart、ExecReload、ExecStop、Restart、User、Group、WorkingDirectory（服务类型、启动、重载、停止、重启策略、用户、组与工作目录）
 
-systemctl(1)
+systemctl(1)（系统服务控制命令手册）
   -> 管理和观察 systemd manager
-  -> status、start、stop、restart、reload、enable、disable、daemon-reload、list-units
+  -> status、start、stop、restart、reload、enable、disable、daemon-reload、list-units（状态、启动、停止、重启、重载、启用、禁用、重读定义与列出单元）
 
-journalctl(1)
+journalctl(1)（日志查询命令手册）
   -> 查询 systemd journal
-  -> -u、-n、-f、--since、--until、-p、-b、-o
+  -> -u、-n、-f、--since、--until、-p、-b、-o（单元、条数、跟随、时间范围、优先级、启动批次与格式）
 
-systemd.timer(5)
+systemd.timer(5)（定时单元手册）
   -> 定时触发 unit
-  -> OnCalendar、OnBootSec、OnUnitActiveSec、Persistent
+  -> OnCalendar、OnBootSec、OnUnitActiveSec、Persistent（日历计划、开机后时长、上次激活后时长与持久触发记录）
 
-systemd.special(7)
-  -> 特殊 target 和 unit 名称
-  -> default.target、multi-user.target、graphical.target、rescue.target
+systemd.special(7)（特殊目标单元手册）
+  -> 特殊 target（同步目标）和 unit（管理单元）名称
+  -> default.target、multi-user.target、graphical.target、rescue.target（默认、多用户、图形与救援目标）
 
-systemd.exec(5)
+systemd.exec(5)（执行环境配置手册）
   -> 进程执行环境
-  -> Environment、EnvironmentFile、User、Group、WorkingDirectory、StandardOutput
+  -> Environment、EnvironmentFile、User、Group、WorkingDirectory、StandardOutput（环境变量、变量文件、用户、组、工作目录与标准输出）
 
-systemd.kill(5)
+systemd.kill(5)（进程终止行为手册）
   -> 停止服务时如何发信号
-  -> KillMode、KillSignal、TimeoutStopSec
+  -> KillMode、KillSignal、TimeoutStopSec（终止范围、信号与服务停止超时；超时字段见服务手册）
 
-systemd.resource-control(5)
+systemd.resource-control(5)（资源控制手册）
   -> cgroup 资源控制
-  -> CPUWeight、MemoryMax、IOWeight
+  -> CPUWeight、MemoryMax、IOWeight（处理器权重、内存上限与输入输出权重）
 ```
 
 新手真正要学的不是背命令，而是把这张地图连起来：
@@ -136,7 +138,7 @@ unit 文件描述期望状态
   -> systemd 生成 job 和 transaction
   -> systemd 按依赖和顺序执行
   -> 服务进程放进该 unit 的 cgroup
-  -> stdout/stderr 和系统日志进入 journal
+  -> stdout/stderr（标准输出／标准错误）和系统日志进入 journal（日志存储）
   -> journalctl 查询证据
 ```
 
@@ -146,7 +148,7 @@ unit 文件描述期望状态
 
 ```text
 用户请求
-  -> NGINX / Ingress
+  -> NGINX / Ingress（反向代理或集群入口）
   -> 应用进程
   -> systemd service 管理进程生命周期
   -> journald 收集服务日志
@@ -200,8 +202,8 @@ PID 1 有特殊地位：
 
 ```text
 内核启动
-  -> /sbin/init
-  -> systemd (PID 1)
+  -> /sbin/init（初始用户态进程入口）
+  -> systemd (PID 1)（进程号为一的系统管理器）
   -> 读取 unit
   -> 计算依赖
   -> 启动基础系统
@@ -418,6 +420,8 @@ systemctl status nginx.service --no-pager
      CGroup: /system.slice/nginx.service
              ├─1234 nginx: master process
              └─1235 nginx: worker process
+（示意输出：Loaded 表示加载来源，Active 表示运行状态，Main PID 是主进程号；
+ Tasks 为任务数，Memory 为内存，CGroup 为控制组；master/worker 是主进程/工作进程。）
 ```
 
 逐项解释：
@@ -634,7 +638,7 @@ Conflicts=rescue.service
 
 ```ini
 ConditionPathExists=/etc/aiops/config.yaml
-ConditionUser=!root
+ConditionPathIsDirectory=/opt/aiops-api
 ```
 
 如果条件不满足，unit 通常不是“失败”，而是被跳过。排障时要注意 `systemctl status` 里的 condition 信息。
@@ -870,7 +874,7 @@ RestartSec=10s
 
 ### StartLimitIntervalSec 和 StartLimitBurst
 
-限制一定时间内最多重启多少次。
+限制一定时间窗口内的启动尝试次数，不只是自动重启；手工启动也可能受影响。
 
 ```ini
 [Unit]
@@ -1309,9 +1313,9 @@ AIOps 项目中，日志证据要能跨重启保留，建议确认持久化策�
 一个 timer 通常对应一个同名 service：
 
 ```text
-aiops-healthcheck.timer
+aiops-healthcheck.timer（健康检查定时单元）
   -> 触发
-aiops-healthcheck.service
+aiops-healthcheck.service（健康检查服务单元）
 ```
 
 service：
@@ -1332,8 +1336,7 @@ timer：
 Description=Run AIOps healthcheck every minute
 
 [Timer]
-OnBootSec=1min
-OnUnitActiveSec=1min
+OnCalendar=*-*-* *:*:00
 Persistent=true
 
 [Install]
@@ -1367,7 +1370,7 @@ journalctl -u aiops-healthcheck.service -n 100
 | `OnBootSec` | 开机后多久触发 |
 | `OnUnitActiveSec` | 上次该 unit 激活后多久再次触发 |
 | `OnCalendar` | 日历表达式，如每天、每小时 |
-| `Persistent` | 错过的触发是否在下次启动补跑 |
+| `Persistent` | 对 `OnCalendar` 日历定时器补一次错过的运行，不是逐次回放所有漏掉的触发；对纯单调时间定时器不生效 |
 | `Unit` | 指定触发哪个 unit，不写时默认同名 service |
 
 例子：
@@ -1767,7 +1770,7 @@ set -euo pipefail
 target="${AIOPS_HEALTH_URL:-http://127.0.0.1:8000/health}"
 timestamp="$(date -Is)"
 
-if curl -fsS --max-time 3 "$target" >/tmp/aiops-healthcheck.out; then
+if curl -fsS --connect-timeout 1 --max-time 3 "$target" >/dev/null; then
   printf '%s status=ok target=%s\n' "$timestamp" "$target"
 else
   code="$?"
@@ -1846,8 +1849,7 @@ journalctl -u aiops-healthcheck.service -n 50 --no-pager
 Description=Run AIOps local healthcheck every minute
 
 [Timer]
-OnBootSec=1min
-OnUnitActiveSec=1min
+OnCalendar=*-*-* *:*:00
 Persistent=true
 Unit=aiops-healthcheck.service
 
@@ -2258,6 +2260,74 @@ unit 文件、`systemctl show`、备份、日志和排障截图都可能泄漏�
 18. systemd timer 和 cron 有什么区别？
 19. systemd 如何帮助 AIOps 做自动化恢复？
 20. 自动化重启服务前应该采集哪些证据？
+
+## 老师带练：把“已启动、已就绪、业务成功”分成三层
+
+想象你请一位新同学去教室做实验。`Type=simple` 像是确认人已经出发，`Type=exec` 像是确认他确实进了指定教室，`Type=notify` 则要求他主动报告“器材已经准备好”。这些比喻只解释启动判定，不能替代后续健康检查：即使器材准备好，做出的结果仍可能不对。
+
+因此排障时依次看 unit 加载成功没有、主程序是否执行、进程是否还活着、应用是否完成初始化、真实业务是否通过。`active (exited)` 可能是 `oneshot` 配合 `RemainAfterExit=yes` 的正常状态，不代表有一个后台进程；`inactive (dead)` 也可能是一次性任务成功结束。把状态名直接等同于成功失败，会让自动化产生误报。
+
+### 依赖事务不是数据库事务
+
+systemd 的 transaction 是为一次请求组织相关 job，处理启动依赖和排序；它不是“任何一步失败就自动撤回所有业务副作用”的数据库事务。启动脚本已经创建的外部工单、写入的数据不会因为后续 unit 失败而被 systemd 回滚。
+
+`Requires` 与 `After` 配合才表达某些常见的强依赖启动顺序；应用退出、条件跳过、显式停止的传播也各有规则，不要把 Requires 背成“对方任何变化我都跟着停”。数据库的可读写状态和网络的持续可达性要由应用与健康检查验证。`network-online.target` 是启动阶段的等待点，不是长期网络监视器。
+
+地图中 `fork/exec` 是创建进程并装载程序，`dependency` 是依赖，`drop-in override` 是补充覆盖配置，`readiness` 是可接业务的就绪状态，`watchdog` 是程序按约定定期汇报存活的看门狗机制。看门狗只有应用遵守协议时才有效，不是加个字段便能识别所有卡死。
+
+### 用户级安全实验：一条命令退出 42 时留下了什么
+
+前提：Linux 有 systemd 和可用的用户会话管理器，`systemctl --user status` 能工作，`/bin/sh` 存在。普通容器、未启用 systemd 的 WSL 或没有用户总线的会话可能不适用；不要为跑实验改整台机器启动方式。此实验不用 root、不启用开机自启、不修改现有服务。
+
+1. 用编辑器新建 `~/.config/systemd/user/aiops-classroom.service`。先确认这个文件名没有被使用；目录不存在时仅创建这一级用户配置目录。
+
+```ini
+[Unit]
+Description=AIOps classroom exit-code observation
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c 'echo classroom-ok; exit 0'
+StandardOutput=journal
+StandardError=journal
+```
+
+2. 执行并观察：
+
+```bash
+systemctl --user daemon-reload
+systemctl --user start aiops-classroom.service
+systemctl --user show aiops-classroom.service -p ActiveState -p Result -p ExecMainStatus
+journalctl --user -u aiops-classroom.service -n 20 --no-pager
+```
+
+预期 `Result=success`、`ExecMainStatus=0`，状态通常是 `inactive`，日志含 `classroom-ok`。这是基础实验的成功标准，不要求显示 running。
+
+3. 故障注入：仅把命令改为 `ExecStart=/bin/sh -c 'echo classroom-failure >&2; exit 42'`。重新 `daemon-reload`、`start`，预期 start 非零退出，`Result=exit-code`、`ExecMainStatus=42`，日志有错误标记。`42` 是我们指定的应用退出码，不是 systemd 通用错误类型。
+4. 修复：恢复原来的 `exit 0` 行，`daemon-reload` 后重新 start，确认成功；保留故障和恢复的时间范围与输出。先证实修复，再清除失败标记；`reset-failed` 自己不会修程序。
+5. 清理：执行 `systemctl --user stop aiops-classroom.service`；用编辑器或文件管理器仅删除自己创建的这个 unit 文件，再执行 `systemctl --user daemon-reload`。若仍有该 unit 的失败记录，可针对它执行 `systemctl --user reset-failed aiops-classroom.service`。不清空全部 journal，也不删整个用户配置目录。
+
+失败回路：找不到 unit 查文件路径与 `--user` 是否一致；日志为空查用户会话、日志权限和时间窗口；改动不生效查是否保存及 daemon-reload；出现 `203/EXEC` 查 `/bin/sh` 路径与执行权限，不先修改重启策略。最后把上面的系统级 healthcheck 实验也补上回收：停止并禁用本实验 timer，停止本实验 service，恢复改错的 URL；只移除自己新建的两个 unit 与脚本，再 daemon-reload。已有共享 `/opt/aiops` 目录不可整目录删除。
+
+### 定时任务的时间语义
+
+本文每分钟实验使用 `OnCalendar=*-*-* *:*:00`，即每分钟的第 0 秒触发；实际允许的调度精度还受 `AccuracySec` 等设置影响。`Persistent=true` 对日历任务记录是否错过运行，重新激活时可补跑一次，并不把关机期间每一分钟逐个重放。`OnUnitActiveSec` 则以此前激活为基准，属于另一类时间语义；若想“上次运行结束后再等一分钟”，需理解 `OnUnitInactiveSec`。任务还在运行时，普通同名服务不会因为每次 timer 到点就自动创建无限并发副本。[systemd timer 手册](https://www.freedesktop.org/software/systemd/man/latest/systemd.timer.html)
+
+设计日报不能只依赖定时器：任务需要明确处理哪个时间窗口、是否已处理、失败后补跑如何去重。机器时间跳变、跨时区、夏令时、关机漏跑都应进入测试。跨多台机器的互斥和分布式状态，也不是单机 timer 能单独解决的问题。
+
+### 生产设计：进程管理的边界与安全回滚
+
+systemd 可以在一台主机上监督进程，但主机断电、磁盘损坏、机房不可用时，单机 Restart 无法把服务搬到另一台机器。高可用要在外部设计多实例、负载均衡、状态存储与故障切换；并保证重启风暴不会同时冲击数据库。`NRestarts` 是管理器当前维护的计数，不应当作永不重置的跨主机恢复预算，自动修复还需自己的持久审计与限额。
+
+资源控制按业务观测渐进启用：`CPUWeight` 主要表达争用时的相对份额，不是硬上限；`MemoryMax` 可能触发 cgroup 内存不足处理，配置前测峰值和启动内存，观察 `Result`、内核日志和 cgroup 事件。不要看到 OOM（内存不足）就无限增加上限，也不要把过小配额导致的失败归咎于代码泄漏。
+
+权限应从专用用户、只读程序目录、明确可写路径开始，再逐项试验 `NoNewPrivileges`、`ProtectSystem` 等沙箱设置。硬化设置可能阻止应用写缓存或访问设备，新增一项就跑业务验证。升级通过 drop-in 保存本地修改；改变 `ExecStart` 列表时通常需要先用空赋值清除旧值。回滚还要恢复二进制、应用配置和兼容数据状态，`daemon-reload` 只重新加载管理器配置，不会自动恢复业务数据。[systemd service 手册](https://www.freedesktop.org/software/systemd/man/latest/systemd.service.html)
+
+### 面试递进：会说命令以后再说因果
+
+30 秒：systemd 用 unit 管单机对象生命周期；我区分配置加载、启动依赖、进程状态和业务就绪，先用 show 与 journal 收证据再恢复。
+
+3 分钟：解释 systemctl 客户端、manager、job、cgroup 和 journal 的关系，用退出 42 实验说明状态与日志，再谈 timer 语义、权限和资源控制。追问“已 enable 但没启动”，回答安装关系不等于当前 start；追问“进程一直活着但不处理请求”，回答业务探针、支持的 watchdog、线程或连接池证据；追问“系统启动图怎么设计”，讨论哪些依赖必须串行、哪些可并发、何时判断 ready、启动超时与失败传播，而不把所有服务都写成互相 Requires。
 
 ## 学习证据
 

@@ -36,17 +36,17 @@
 
 ```text
 数据模型
-  -> BSON / Document / Collection / Database
-  -> Schema Validation / Embedded / Reference
+  -> BSON / Document（文档） / Collection（集合） / Database
+  -> Schema（数据结构约定） Validation（验证） / Embedded / Reference
 
 读写与查询
-  -> CRUD / Aggregation / Index / Query Planner
-  -> Session / Transaction / Read Concern / Write Concern
+  -> CRUD（增删改查） / Aggregation（聚合） / Index（查询索引） / Query Planner（查询计划器）
+  -> Session / Transaction / Read Concern / Write Concern（会话、事务、读取一致性与写入确认要求）
 
 分布式
-  -> Replica Set / Election / Oplog
-  -> Sharding / mongos / Config Server / Balancer
-  -> Change Stream
+  -> Replica Set（副本集） / Election（选举） / Oplog（复制操作日志）
+  -> Sharding / mongos / Config Server / Balancer（分片、路由进程、配置服务与均衡器）
+  -> Change Stream（数据变更流）
 
 运维
   -> 配置 / 安全 / 监控 / 备份
@@ -109,11 +109,11 @@ MongoDB 是面向文档的数据库。数据以 BSON（Binary JSON，二进制 J
 基本层级：
 
 ```text
-MongoDB Deployment
-  -> Database
-      -> Collection
-          -> Document
-              -> Field
+MongoDB Deployment（部署）
+  -> Database（数据库）
+      -> Collection（集合）
+          -> Document（文档）
+              -> Field（字段）
 ```
 
 它不是“完全没有 Schema”。Schema 可以由应用、JSON Schema Validation、索引、唯一约束和数据治理共同定义。灵活 Schema 的正确含义是文档可以演进，不是字段可以随便写。
@@ -325,11 +325,11 @@ Secondary
 
 ```text
 应用 Driver
-  -> Seed List / Topology Discovery
-  -> Primary
-      -> Oplog
-      -> Secondary A
-      -> Secondary B
+  -> Seed List（初始连接节点列表） / Topology Discovery（拓扑发现）
+  -> Primary（主节点）
+      -> Oplog（用于复制的操作日志）
+      -> Secondary A（从副本 A）
+      -> Secondary B（从副本 B）
 ```
 
 应用不应只写一个固定 Primary 地址。Driver 需要多个 Seed 才能在拓扑变化后发现新 Primary。
@@ -339,10 +339,10 @@ Secondary
 ```text
 应用
   -> mongos 路由
-      -> Config Server Replica Set
-      -> Shard A Replica Set
-      -> Shard B Replica Set
-      -> Shard C Replica Set
+      -> Config Server Replica Set（配置服务器副本集）
+      -> Shard A Replica Set（分片 A 的副本集）
+      -> Shard B Replica Set（分片 B 的副本集）
+      -> Shard C Replica Set（分片 C 的副本集）
 ```
 
 Shard 自己通常也是复制集。分片解决容量和吞吐，复制解决单个 Shard 的可用性，两者不是同一件事。
@@ -580,7 +580,7 @@ MongoDB 适合保存字段可能随来源扩展，但仍有公共核心字段的
 Change Stream 可把新告警、事件状态更新和自动化结果推到关联分析服务：
 
 ```text
-MongoDB Change Stream
+MongoDB Change Stream（MongoDB 数据变更流）
   -> 事件标准化
   -> 去重 / 关联 / 富化
   -> Runbook 建议
@@ -1171,7 +1171,35 @@ MongoDB 是 BSON 文档数据库。单文档写入原子，WiredTiger 负责缓�
 - [ ] 我能设计认证、TLS、RBAC、备份、FCV 和回滚。
 - [ ] 我能回答事故题和生产系统设计题。
 
-## 学习证据
+## 老师带你从一张告警卡片理解文档模型
+
+Document（文档）像一张业务卡片，可以把告警摘要、标签和少量上下文放在一起。嵌入适合经常一起读取、生命周期接近且数量有上限的子数据；引用适合独立增长、独立维护或多人共享的数据。把所有历史执行记录无限塞进同一个数组，会放大更新、读取和文档大小风险。
+
+学生：“文档灵活，是不是字段随便写？”老师：“灵活让我们可以逐步演进，不代表同一个字段今天是数字、明天是字符串也没关系。”Schema Validation（结构校验）、索引、字段命名与业务约束仍需要设计。BSON（带类型的二进制文档格式）支持比 JSON 更丰富的类型，日期、数值精度和对象 ID 不能靠外观猜测。
+
+### 单文档原子性怎样保护领取操作
+
+在 `updateOne` 过滤中同时写 `_id` 与预期版本，再用 `$set` 修改状态、`$inc` 增加版本，就能表达“仅当没人改过时领取”。同一文档多个字段的单次更新具有原子性；多文档操作整体是否需要事务则是另一层。官方 [原子性说明](https://www.mongodb.com/docs/manual/core/write-operations-atomicity/) 明确区分这些范围。
+
+在本篇教学库创建专用集合，插入 `{_id:'lesson-claim',status:'OPEN',version:1}`。连续两次执行 `db.lesson_claim.updateOne({_id:'lesson-claim',version:1},{$set:{status:'ACKED'},$inc:{version:1}})`，预期第一次匹配 1 条，第二次匹配 0 条。再查询版本应为 2，这是可回收的并发旧版本模拟。
+
+恢复方式是重读并按业务决定下一次合法变化，不是删除版本条件。清理只执行 `db.lesson_claim.drop()` 删除这个新建教学集合；如集合预先已存在，应另取专用名字。若两次都成功，检查是否重置了记录或没有使用版本条件。该实验验证单文档竞争，前文复制集故障实验才用于验证节点切换。
+
+### 读写关注与路由不能混在一起
+
+Read Preference（读路由偏好）选择从哪类成员读取，Read Concern（读关注）约束读取可见性，Write Concern（写关注）约束写入确认。选择从备成员读取不等于保证读到刚写的新状态；`majority` 确认也要结合复制配置、会话语义和故障范围讨论。
+
+复制集负责副本与选举，分片负责把数据分到多个分片；它们可以组合但不互相替代。Shard Key（分片键）决定路由与分布，单调热点和低基数可能造成倾斜。查询不带有效路由条件时可能散发到多个分片，延迟受最慢分片影响，不能把“加分片”直接等同于所有查询都变快。
+
+### 生产与面试课堂
+
+`explain` 看返回数量、扫描文档和索引项、排序与分片访问。返回十条却扫描百万文档，要评估复合索引和条件；新增索引也增加写入和内存成本。Change Stream（变更流）消费者保存 resume token（恢复令牌），还要考虑历史窗口和恢复位置失效，不能把它当无限期完整备份。
+
+30 秒讲文档聚合、单文档原子性、索引与副本。3 分钟走一次告警写入与领取，解释结构校验、乐观版本、关注级别、复制集和分片，再用两类实验区分业务竞争和节点故障。事故题设为索引变更后 P99 变差，先比计划、扫描量、热点和复制延迟，恢复后核对结果及读写语义。
+
+升级要把二进制、FCV（功能兼容版本）、驱动和 Schema 变更分别记录，按版本支持的顺序操作。回滚窗口何时关闭、是否存在不支持降级的新特性，必须在变更前明确；备份恢复需要实际演练，不能只看备份文件存在。
+
+## 本课 GitHub 学习证据
 
 ```text
 mongodb-aiops-lab/

@@ -61,14 +61,14 @@ Ansible 是无 agent 的自动化工具：你在 control node 上写 inventory �
 入门 Ansible 先抓住这条线：
 
 ```text
-control node
-  -> ansible.cfg
-  -> inventory
-  -> variables
-  -> ad hoc command / playbook
-  -> modules
-  -> managed nodes
-  -> result: ok / changed / failed / skipped
+control node（控制节点）
+  -> ansible.cfg（控制端配置文件）
+  -> inventory（主机清单）
+  -> variables（变量）
+  -> ad hoc command（临时命令）/ playbook（任务剧本）
+  -> modules（具体操作模块）
+  -> managed nodes（被管理节点）
+  -> result（执行结果）: ok（符合预期）/ changed（发生改变）/ failed（失败）/ skipped（跳过）
 ```
 
 第一阶段必须掌握：
@@ -104,60 +104,60 @@ control node
 Ansible 官方文档可以按这些模块读：
 
 ```text
-Installation and getting started
-  -> install ansible-core
-  -> control node requirements
-  -> managed node connection
+Installation and getting started（安装与起步）
+  -> install ansible-core（安装核心执行工具）
+  -> control node requirements（控制节点要求）
+  -> managed node connection（连接被管理节点）
 
-Inventory
-  -> inventory sources
-  -> groups
-  -> host variables
-  -> group variables
-  -> patterns
-  -> dynamic inventory
-  -> connection variables
+Inventory（主机清单）
+  -> inventory sources（清单来源）
+  -> groups（主机组）
+  -> host variables（主机变量）
+  -> group variables（组变量）
+  -> patterns（选择目标的匹配表达式）
+  -> dynamic inventory（动态清单）
+  -> connection variables（连接参数）
 
-Command line tools
-  -> ansible
-  -> ansible-playbook
-  -> ansible-inventory
-  -> ansible-doc
-  -> ansible-config
-  -> ansible-vault
+Command line tools（命令行工具）
+  -> ansible（临时执行）
+  -> ansible-playbook（运行剧本）
+  -> ansible-inventory（检查主机清单）
+  -> ansible-doc（查看模块手册）
+  -> ansible-config（查看配置）
+  -> ansible-vault（加解密变量文件）
 
-Playbooks
-  -> plays
-  -> tasks
-  -> modules
-  -> variables
-  -> facts
-  -> conditionals
-  -> loops
-  -> handlers
-  -> templates
-  -> tags
-  -> blocks
-  -> error handling
+Playbooks（任务剧本）
+  -> plays（一组目标主机的任务安排）
+  -> tasks（任务）
+  -> modules（操作模块）
+  -> variables（变量）
+  -> facts（采集到的主机事实）
+  -> conditionals（条件判断）
+  -> loops（循环）
+  -> handlers（被变化通知触发的任务）
+  -> templates（模板渲染）
+  -> tags（标签选择）
+  -> blocks（任务块）
+  -> error handling（错误处理）
 
-Reuse
-  -> roles
-  -> includes
-  -> imports
-  -> collections
+Reuse（复用）
+  -> roles（结构化角色）
+  -> includes（运行时包含）
+  -> imports（静态导入）
+  -> collections（内容集合）
 
-Security and validation
-  -> become
-  -> vault
-  -> check mode
-  -> diff mode
+Security and validation（安全与验证）
+  -> become（切换执行身份）
+  -> vault（加密敏感文件）
+  -> check mode（预演模式）
+  -> diff mode（差异展示）
 
-Reference
-  -> playbook keywords
-  -> configuration settings
-  -> module index
-  -> plugin index
-  -> precedence rules
+Reference（参考手册）
+  -> playbook keywords（剧本关键字）
+  -> configuration settings（配置设置）
+  -> module index（模块索引）
+  -> plugin index（插件索引）
+  -> precedence rules（覆盖优先级规则）
 ```
 
 学习顺序：
@@ -176,12 +176,12 @@ Reference
 Ansible 在 AIOps 里常扮演“自动化执行器”和“配置收敛器”。
 
 ```text
-Prometheus / Alertmanager / Loki / Elasticsearch
+Prometheus / Alertmanager / Loki / Elasticsearch（指标、告警管理、日志与检索系统）
   -> 发现异常
   -> AIOps 诊断
   -> 选择 runbook
   -> Ansible playbook 执行检查或修复
-  -> systemd / files / packages / services
+  -> systemd / files / packages / services（服务管理、文件、软件包与运行服务）
   -> 验证指标恢复
 ```
 
@@ -228,9 +228,9 @@ Ansible 是自动化工具，常用于：
 基本模型：
 
 ```text
-control node
-  -> SSH
-managed node
+control node（控制节点）
+  -> SSH（安全远程连接）
+managed node（被管理节点）
 ```
 
 Ansible 会把模块代码传到远端执行，拿回 JSON 结果，再显示 `ok`、`changed`、`failed` 等状态。
@@ -1012,7 +1012,7 @@ inventory = inventory.ini
 roles_path = roles
 host_key_checking = True
 retry_files_enabled = False
-stdout_callback = yaml
+stdout_callback = default
 timeout = 30
 
 [privilege_escalation]
@@ -1137,7 +1137,7 @@ ansible-config dump
 
 ## AIOps 入门实验
 
-目标：用 Ansible 管理本机或一台测试机，创建目录、渲染配置、安装 systemd service，并通过 handler 只在配置变化时重启。
+目标：用 Ansible 管理本机或一台测试机，创建目录、渲染配置，并通过 handler 观察“变化才通知”。本例 handler 仅打印提示，不安装 systemd service，也不实际重启服务。
 
 ### 1. Inventory
 
@@ -1496,6 +1496,195 @@ Ansible 是无 agent 的自动化工具，通常在 control node 上读取 inven
 18. 变量不生效如何排查？
 19. 任务每次 changed 如何排查？
 20. Ansible 在 AIOps 自动化中适合做什么？
+
+## 老师带你理解一次“配置收敛”
+
+假设 30 台服务器的日志级别应该都是 `info`，其中两台被临时改为 `debug`。你希望恢复两台，另外 28 台保持原状。Ansible 的价值就在这里：先读你声明的目标，再由模块判断当前状态，必要时改变，最后返回结构化结果。这个过程叫收敛，就是让实际状态逐渐靠近期望状态。
+
+学生问：“把 `changed_when: false` 加上，是不是就幂等了？”不是。它只改变报告的状态。若命令每次追加一行，副作用仍然重复发生，只是你把黄灯涂成了绿灯。判断幂等要看文件、服务或外部系统实际状态；报告必须忠实于事实，不能拿来装饰流水线。
+
+再想一个问题：前 10 台成功，第 11 台失败，剩余机器怎么办？Ansible 不是跨机器数据库事务，不会自动把已修改的 10 台回滚。你需要控制批次、停止条件、健康验证和恢复步骤。`serial` 控制每批主机数量，`forks` 控制并行执行能力，二者不是同一个概念；提高并发可能压垮 SSH、包仓库或依赖服务。[执行策略说明](https://docs.ansible.com/projects/ansible/latest/playbook_guide/playbooks_strategies.html)
+
+### 变量、事实与任务结果：三类数据别混在一起
+
+变量表达输入与配置，例如期望端口是 8000。Facts（事实）表达采集时观察到的主机信息，例如操作系统版本。`register` 保存某次任务的结果，例如 HTTP 检查返回 200。事实与结果都带时间性，不能把上周缓存的事实当作此刻健康证明。
+
+排查模板值错误时，先确认目标主机，再检查清单合并和变量来源，最后只打印必要的非敏感字段。命令行 `-e` 的高优先级可能覆盖文件值；组名拼写错则可能根本没加载 `group_vars`。输出完整 inventory 可能含密钥或连接信息，交给模型或写入 Git 前先脱敏。
+
+Handler 可以把多次配置变化合并成少量后续动作，但触发依赖任务报告 `changed`。中途失败时 handler 是否仍运行，还受失败处理和 `force_handlers` 等设置影响，不能仅凭模板任务成功就认定服务已经加载新配置。[错误处理说明](https://docs.ansible.com/projects/ansible/latest/playbook_guide/playbooks_error_handling.html)
+
+### 预演为什么不是一次无副作用的正式执行
+
+Check mode（检查模式）由模块决定如何模拟。一个前置任务只是在预演里“预计创建文件”，后置读取命令可能看不到文件；依赖注册变量的条件也可能无法完整推演。因此第一次基础实验先跑语法检查，再了解 check mode 的限制，最终仍要在隔离目标正式执行和验证。
+
+Diff mode（差异模式）会展示文件内容变化，配置里若有密码就可能泄漏。Vault 保护文件静态存储，解密后仍会进入内存、模块参数或日志。使用 `no_log` 减少敏感输出，并限制日志访问；它也不能替代可信模块、目标权限和密钥生命周期治理。
+
+## 本地双层带练：验证参数，再修改文件
+
+在 Linux 或 WSL 控制节点准备 Python 虚拟环境，按官方支持矩阵安装 ansible-core，记录 `ansible --version`。新建专用实验目录，将下面内容保存为 `classroom.yml`。它只连接 localhost，在剧本目录的 `classroom-output` 下写一个文件，不需要 SSH 或提权。
+
+```yaml
+- name: 课堂配置收敛实验
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    alert_threshold: 5
+    lab_output: "{{ playbook_dir }}/classroom-output"
+  tasks:
+    - name: 先拒绝超出范围的输入
+      ansible.builtin.assert:
+        that:
+          - alert_threshold | int >= 1
+          - alert_threshold | int <= 100
+        fail_msg: "阈值必须在 1 到 100 之间"
+    - name: 创建实验目录
+      ansible.builtin.file:
+        path: "{{ lab_output }}"
+        state: directory
+        mode: "0700"
+    - name: 写入目标配置
+      ansible.builtin.copy:
+        content: "threshold={{ alert_threshold | int }}\n"
+        dest: "{{ lab_output }}/rule.conf"
+        mode: "0600"
+      notify: 记录配置变化
+    - name: 读取真实文件
+      ansible.builtin.slurp:
+        src: "{{ lab_output }}/rule.conf"
+      register: actual_rule
+    - name: 验证真实内容
+      ansible.builtin.assert:
+        that:
+          - "(actual_rule.content | b64decode | trim) == ('threshold=' ~ (alert_threshold | int | string))"
+  handlers:
+    - name: 记录配置变化
+      ansible.builtin.debug:
+        msg: "实验配置已变化；真实服务还需单独验证加载版本"
+```
+
+`slurp` 读取文件并以 Base64 编码返回，`b64decode` 解码回文本；编码不是加密。`assert` 是断言：条件不成立就让任务失败。它放在写入前，防止把明显错误输入发到目标。这个校验使用整型转换演示范围检查，业务中还应对输入类型与允许格式做更严格校验。
+
+```bash
+ansible-playbook -i localhost, classroom.yml --syntax-check
+ansible-playbook -i localhost, classroom.yml
+ansible-playbook -i localhost, classroom.yml
+ansible-playbook -i localhost, classroom.yml -e alert_threshold=999
+cat classroom-output/rule.conf
+ansible-playbook -i localhost, classroom.yml -e alert_threshold=8
+```
+
+`localhost,` 末尾逗号表示直接给一项主机列表。基础实验预期第二次运行 `changed=0`；故障实验传入 999 应在第一任务失败，文件仍为 `threshold=5`；修复为 8 后文件变成 8，handler 出现一次。若第二次仍变化，查看文件内容、权限和其他进程是否改写；若 999 真被写入，核对是否运行了另一份剧本。
+
+保存三次 recap（执行汇总）和配置对照。清理时确认 `classroom-output` 在本次实验目录内，手动删除该目录；保留剧本与脱敏日志作为证据。本实验不包含真实服务重启，不能据此声称已验证滚动发布。
+
+## 生产与面试：把 30 台机器的风险讲清楚
+
+一个实际服务配置变更可按“清单确认、备份当前配置、校验新文件、小批写入、重载、请求检查、再扩大批次”推进。备份只证明旧文件存在，回滚还要确认旧程序能读取、服务加载成功及健康恢复。`rescue` 中仅打印一句失败提示不是回滚实现。
+
+把控制节点放到受控环境，使用专用执行身份、限制目标组和提权范围；生产与测试清单避免仅靠一个易输错的变量区分。大规模执行评估连接并发、包仓库负载、主机资源与任务时长，记录每台主机的版本和结果。多个控制器同时管理同一配置会相互覆盖，要用调度互斥或所有权划分解决。
+
+升级 ansible-core、collection 或 Python 前锁定测试矩阵。核心版本兼容不代表所有 collection 都兼容；通过依赖清单固定内容版本，先在试验组验证模板、条件、返回结构和幂等性。AIOps 自动触发还需要告警去重、同目标互斥、执行时限和恢复验证，否则一阵重复告警可能变成重启风暴。
+
+**30 秒回答。** Ansible 在控制节点解析清单和剧本，通过连接插件调用模块，使目标收敛到声明状态。可靠自动化需要真实幂等、参数校验、批次控制和执行后验证，状态显示成功不自动代表业务恢复。
+
+**3 分钟回答。** 从一条日志级别配置出发，讲清主机选择、变量合并、模板、模块比较状态、文件写入、handler 和健康检查；再解释 check mode 的模拟边界、跨机器不是原子事务、失败后的局部状态；最后说明如何用串行小批、回滚文件、版本锁定、最小权限与审计，把剧本变成可控的 AIOps 执行器。
+
+1. **任务每次 changed 怎么判断？** 比较实际前后状态；检查 command/shell 是否重复写入；优先状态模块，而非隐藏 changed。
+2. **一批机器部分失败怎么办？** 保存每主机结果，停止扩大范围，读取已变更目标状态，再恢复或收敛；不能无差别重跑全部机器。
+3. **设计 exporter 灰度升级？** 固定下载摘要和版本、先一台验证指标兼容、检查服务和采集状态，再扩批；恢复旧二进制与配置并再次确认采集。
+4. **事故：文件更新但服务读旧值？** 检查 handler 是否触发、失败是否阻止执行、服务是否支持 reload、进程真实读取路径和加载版本，以证据区分模板层与运行层。
+
+## 进阶带练：先看清 Ansible 的五个决定，再批量执行
+
+### 第一个决定：到底选中了谁
+
+老师先给你一个操作习惯：不要一拿到剧本就执行，先问清“清单中的名字代表什么”。Inventory（主机清单）里的 `web-a` 是 Ansible 用来组织目标的别名，不一定是能解析的域名；真正连接的地址可以来自 `ansible_host`。同一台机器若以两个别名出现，可能被执行两次；同名条目在多个清单中合并变量，也可能让你看到的配置与预想不同。
+
+执行前用 `ansible-inventory -i inventory.ini --graph` 看分组，用 `ansible-playbook -i inventory.ini site.yml --list-hosts` 看这次剧本实际选中的目标，再把目标数量与变更单核对。前者回答组织结构，后者回答具体选择，不可互相替代。`--limit` 是在本次目标集合上进一步限制，不会把剧本完全没选中的主机变成目标。动态清单可能随云资源变化，正式变更应保存审批时的资源标识快照，执行前再核对变化，不能只保存一个可能持续扩大的标签。
+
+学生问：“我用了测试组，为什么连到了生产地址？”先查别名解析后的 `ansible_host`、组成员和变量来源，而不是先重置 SSH 密钥。日志里要保留脱敏后的别名、环境和不可变资产标识。生产边界最好同时由账号权限、网络访问和独立清单限制；只靠命名中出现 `test`，不构成可靠隔离。
+
+### 第二个决定：同一个变量最后取什么值
+
+把变量想成不同来源送来的便签：清单变量、组变量、主机变量、角色默认值、剧本变量、命令行额外变量都可能写着相同名字。Ansible 根据规定的优先级决定结果，而不是按你最后打开哪个文件决定。不要强背整张优先级表后就自信上线；生产排查要在不泄露秘密的前提下打印最终的非敏感配置，并定位为什么它来自这一层。
+
+例如 `alert_threshold` 在组中设为 5，执行命令又传 `-e alert_threshold=8`，排障时只查看 `group_vars` 就会误判。额外变量优先级很高，适合显式覆盖，却也容易绕过原本的默认值。将允许覆盖的字段做成白名单，检查类型和范围；对环境、目标路径、下载地址等高风险输入，不接受任意字符串直接拼接命令。
+
+`register` 保存的是模块结果对象，不一定是字符串。`result.stdout` 是命令输出，`result.rc` 是退出码，`result.changed` 是模块报告的变更状态。循环任务会产生结果列表，不能再照搬没有循环时的访问路径。遇到变量未定义，先打印安全的结构或检查 `is defined`，分清任务被条件跳过、作用域不对、返回结构改变这三种原因，不要统一用空字符串兜底后继续危险操作。
+
+Facts（主机事实）是采集时看到的系统信息，例如操作系统家族和网卡；它们不是实时监控流。长时间剧本中磁盘空间、进程状态可能早已变化。若事实被缓存，更要记录采集时间。涉及删除、重启和切流的关键前置条件，应在动作附近重新读取，而不是依赖几个小时前的缓存。
+
+### 第三个决定：模块说 changed，究竟发生了什么
+
+`ansible.builtin.copy` 这类完全限定名称把 collection（内容集合）和模块名一起写出来，减少同名插件冲突。模块通常会读取目标状态，比较期望值，再决定是否执行；这才是幂等的主要来源。`command` 只知道命令如何退出，不能凭空知道命令是否改变业务，所以执行一次外部程序经常会被报告为 changed。
+
+`changed_when: false` 可以修正只读命令的报告，但不能把一个每次追加文件的命令变成幂等。老师会让你检查实际文件行数：第二次运行若又增加了一行，即使 recap 显示零变更，状态仍在变化。同样，`failed_when` 是重新定义失败条件，不是消除真实故障。合理使用是命令的某个非零状态有明确业务含义，并且能用后置检查证明；错误做法是无条件忽略退出码，只为让界面变绿。
+
+Handler（变更通知处理器）适合把多次配置变更合并成一次重载。它不是一个独立常驻的事件总线，而是当前执行过程中被通知后再运行的任务。如果前面的任务失败，后续执行路径和 handler 是否运行会受到策略影响；强制运行 handler 也不一定安全，因为新配置可能尚未完整写入。正确顺序通常是先验证配置语法，再替换文件，再按服务能力重载，最后读取实际运行版本。
+
+配置文件落盘与服务生效是两种证据。模板显示新端口，只证明目标路径的字节更新；服务可能读另一个路径、重载失败、或者需要重启才能应用该字段。因此后置验证至少包含进程状态、监听端口、健康请求和版本信息中的适用项。如果读到旧值，先定位哪一层未生效，不要每次都扩大为整机重启。
+
+### 第四个决定：一次失败会挡住哪些机器
+
+`forks` 控制控制端并行执行工作的大致上限，`serial` 将一个 play 的主机分批，`throttle` 可对特定任务进一步限并发，strategy（执行策略）决定任务如何推进。这几个开关回答不同问题，不是同一个“并发数”的四种写法。默认线性策略强调当前批次任务的推进次序；`free` 策略允许主机按自身速度向前走，适合互不依赖的任务，却可能不适合有严格全局屏障的发布。[执行策略与批次官方说明](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_strategies.html)
+
+假设 30 台服务组成三个机架，每次拿 10 台不等于安全：若恰好把一个分片的全部副本都放进同一批，会同时失去服务。先按故障域和副本关系设计批次，再选 serial。容量也要看摘除这一批后剩余实例能否承载流量；“一次只一台”对只有一台实例的系统依然意味着全停。
+
+`run_once` 容易被误解为整次发布永远执行一次；结合分批执行时，它可能在各批次执行。数据库迁移、全局锁申请等工作应放入明确的独立阶段，并依靠外部幂等记录或锁约束，不要把全局一致性押在这个参数上。`delegate_to` 只是把任务放到另一个执行位置；多个目标同时委派到同一台机器写同一个文件，仍会竞争，必要时使用单独 play、串行任务或可靠外部存储。
+
+### 一个只改本地文件的部分失败实验
+
+前置条件是 Linux 或 WSL 中已安装与本文兼容的 Ansible，当前目录是新建的 `ansible-partial-lab`，不加载其他清单、不使用提权。用编辑器创建 `inventory.ini`，两条别名都指向本机，只是模拟两个独立目标，绝不是两台真实机器：
+
+```ini
+[lab]
+lab_a ansible_connection=local allow_update=true
+lab_b ansible_connection=local allow_update=false
+```
+
+再创建 `partial.yml`：
+
+```yaml
+- name: 观察部分成功，不操作真实服务
+  hosts: lab
+  gather_facts: false
+  serial: 1
+  tasks:
+    - name: 验证本目标获准更新
+      ansible.builtin.assert:
+        that: allow_update | bool
+        fail_msg: "实验主动拒绝此目标"
+    - name: 写入每个别名自己的证据文件
+      ansible.builtin.copy:
+        dest: "{{ playbook_dir }}/{{ inventory_hostname }}.txt"
+        content: "version=2\n"
+        mode: '0600'
+```
+
+先运行 `ansible-playbook -i inventory.ini partial.yml --list-hosts`，应只看到两个实验别名；再执行 `ansible-playbook -i inventory.ini partial.yml`。预期第一个文件生成，第二个目标在断言处失败，整体命令非零。用 `ls -l lab_a.txt` 和 `test ! -e lab_b.txt` 验证：失败没有把已成功主机的文件自动撤销。这就是“跨主机不是事务”的可见证据。
+
+修复时先把清单中 `lab_b` 的允许值改成 `true`，再用 `ansible-playbook -i inventory.ini partial.yml --limit lab_b` 只处理失败目标。预期第二个文件生成，随后完整重跑两个目标应不再有文件内容变化。若两个文件一开始就都生成，检查输入值是否被额外变量覆盖；若写错路径，核对 `playbook_dir` 和实际运行文件。保留初次失败、有限恢复与最终幂等三组结果，清理只删除本实验的两个 `.txt` 文件和清单、剧本；不要清理机器级目录。
+
+### 第五个决定：失败后如何收敛，而不把事故放大
+
+`block`、`rescue`、`always` 可以组织任务错误处理，但不是数据库事务。`rescue` 只对符合条件的任务失败触发；语法错误、连接不可达等情况不等于普通模块任务返回失败，不能假设全部都会走入同一恢复分支。`always` 也不是进程被强制终止后仍必定执行的魔法。需要关键审计时，把执行身份、目标和请求标识先写入受控外部记录，再进行动作。
+
+失败后的第一步是建立每个目标的状态表：未开始、前置检查通过、已写文件、已重载、健康通过、回滚完成。不要只记最终成功或失败，因为同样一个失败状态可能对应“根本没连上”和“服务已经换版但验证超时”。只有知道动作走到哪里，才知道重新执行是安全重试、恢复旧配置还是需要人工确认。
+
+一次 exporter 升级可把健康验证分为两层：本机接口返回指标，监控端确实重新采到该实例。前者验证进程，后者验证网络、采集配置和时间窗口。业务停止条件应写成可观察条件，比如新实例持续不可采、关键指标消失或其他副本容量不足；阈值来自业务目标与基线，不从教程里随意抄一个百分比。
+
+最后，Windows 目标不是把 SSH 地址换一下就能复用所有 Linux 剧本。连接方式、PowerShell 运行环境、路径、权限与模块集合有差异，应选对应 Windows 模块并验证版本支持。把 Linux 的 `systemd` 模块发到 Windows，只会制造错误；把 Windows 路径拼进 Bash 也容易改变转义语义。平台自动化的抽象应统一业务意图，同时保留操作系统适配层，而不是强迫所有机器接受同一组命令。
+
+## 参数与证据的最后一课
+
+同学先看一个容易混淆的词：`--check` 叫检查模式，不等于所有模块都能完整预测结果，也不等于所有插件绝不会产生副作用。模块有各自的支持边界，依赖前序运行结果的后续任务在模拟时可能缺少真实输入。把它用于发现明显变更范围，再用测试环境与小批执行验证，才是合理定位；不得把检查输出当成生产实际验收。
+
+`--diff` 展示变更内容很有帮助，也可能把密码、证书或业务配置写进日志。敏感任务按需禁止差异输出并采用受控日志策略；`no_log` 也不是任意秘密都可以传播的通行证。尽量使用秘密引用而不是把完整凭据放进额外变量、命令行历史或 Git 文件。对手册学习证据而言，字段结构与错误类别比真实密钥更有价值。
+
+跨团队复用 Role（角色）时，把输入、默认值、支持系统、返回证据和可变更路径写清楚。一个叫“安装监控”的角色若顺便修改防火墙、重启数据库、删除旧目录，就超出了可理解的接口。把高风险动作拆开，要求显式启用和审批；角色版本升级也要测试输入兼容、幂等性与回滚行为。
+
+最后做一次自查：你是否能从执行记录还原目标、版本、参数来源、每台机器完成到哪一步，以及哪些检查只做了模拟？如果不能，补证据比再加十个自动任务更重要。面试官问“你如何验证变更安全”，应回答可检查的步骤和局部失败恢复，而不是只展示一次全部绿色的 recap。
 
 ## 学习证据
 

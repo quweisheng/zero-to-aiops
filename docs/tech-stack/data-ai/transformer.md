@@ -44,10 +44,10 @@ Transformer 的资料不是一本线性手册，可以拆成六条线：
 ```text
 原始架构
   -> Embedding 与位置
-  -> Scaled Dot-Product Attention
-  -> Multi-Head Attention
-  -> Feed-Forward / Residual / LayerNorm
-  -> Encoder / Decoder / Cross-Attention
+  -> Scaled Dot-Product Attention（缩放点积注意力）
+  -> Multi-Head Attention（多头注意力）
+  -> Feed-Forward / Residual / LayerNorm（前馈网络、残差连接与层归一化）
+  -> Encoder / Decoder / Cross-Attention（编码器、解码器与交叉注意力）
 
 训练
   -> Tokenizer 与数据
@@ -57,11 +57,11 @@ Transformer 的资料不是一本线性手册，可以拆成六条线：
   -> Checkpoint 与评估
 
 推理
-  -> Prefill
-  -> Autoregressive Decode
-  -> KV Cache
-  -> Batching / Sampling
-  -> Quantization / Serving
+  -> Prefill（预填充）
+  -> Autoregressive Decode（逐词元解码）
+  -> KV Cache（键值注意力缓存）
+  -> Batching / Sampling（批处理与采样）
+  -> Quantization（量化） / Serving（推理服务）
 
 生产工程
   -> 容量与延迟
@@ -70,7 +70,7 @@ Transformer 的资料不是一本线性手册，可以拆成六条线：
   -> 可观测性
   -> 灰度、升级与回滚
 
-AIOps
+AIOps（智能运维）
   -> 日志与告警分类
   -> 事件摘要
   -> 根因候选排序
@@ -205,15 +205,15 @@ Transformer 是处理序列或集合数据的神经网络架构。它通过注�
 
 ```text
 源语言 Token
-  -> Embedding + Position
+  -> Embedding（向量编码） + Position
   -> Encoder 层重复 N 次
   -> 上下文表示
                          \
 目标语言历史 Token       -> Decoder Cross-Attention
-  -> Embedding + Position /
-  -> Masked Self-Attention
-  -> Feed-Forward
-  -> Linear + Softmax
+  -> Embedding（向量编码） + Position /
+  -> Masked Self-Attention（带遮罩的自注意力）
+  -> Feed-Forward（前馈网络）
+  -> Linear + Softmax（线性映射与归一化概率）
   -> 下一个 Token 概率
 ```
 
@@ -302,7 +302,7 @@ Tokenizer 把原始文本转换为 Token，再把 Token 映射成整数 ID。Tra
   -> Tokenizer 切分
   -> ["数据库", "连接", "告警"]  # 仅为示意，真实切分由词表决定
   -> [1842, 907, 331]
-  -> Embedding Lookup
+  -> Embedding（向量编码） Lookup
   -> 三个 d_model 维向量
 ```
 
@@ -345,10 +345,10 @@ ID `331` 的数值大小没有语义，Embedding 才把它放进可学习的向�
 原始论文把 Token Embedding 与正弦/余弦位置编码相加。现代模型还常见可学习绝对位置、相对位置和旋转位置等变体。
 
 ```text
-Token ID
-  -> Token Embedding ---------+
+Token ID（编号）
+  -> Token Embedding（词元嵌入向量） -----+
                               + -> 初始隐藏状态 X
-Position 0..S-1 -> Position --+
+Position 0..S-1 -> Position --+（序列位置编号进入位置表示）
 ```
 
 ### 怎么用或观察
@@ -485,10 +485,10 @@ Mask 错误常常不会报错，只会产生看似合理的错误结果，所以
 
 ```text
 X
-  -> Head 1: Q1 K1 V1 -> Attention 1 --+
-  -> Head 2: Q2 K2 V2 -> Attention 2 --+ -> Concat -> Output Projection
+  -> Head（注意力头） 1: Q1 K1 V1 -> Attention（注意力计算） 1 --+
+  -> Head（注意力头） 2: Q2 K2 V2 -> Attention（注意力计算） 2 --+ -> Concat（拼接） -> Output Projection（输出线性映射）
   -> ...                                |
-  -> Head H: QH KH VH -> Attention H ---+
+  -> Head（注意力头） H: QH KH VH -> Attention（注意力计算） H ---+
 ```
 
 通常要求 `d_model` 能被 `num_heads` 整除，每个头维度约为 `d_model / num_heads`。
@@ -631,13 +631,13 @@ Transformer 结构只定义怎样计算表示，不会凭空获得语言、日�
 以 Decoder-only 的下一 Token 训练为例：
 
 ```text
-Token IDs
+Token IDs（词元编号）
   -> 模型前向
   -> 每个位置的词表 Logits
   -> 与右移一位的真实 Token 计算 Cross-Entropy
   -> 反向传播
   -> 梯度裁剪 / 混合精度检查
-  -> Optimizer Step
+  -> Optimizer（优化器） Step
   -> 学习率调度
   -> 定期保存 Checkpoint 与评估
 ```
@@ -677,7 +677,7 @@ Token IDs
 ### 怎么工作
 
 ```text
-Prompt: [t0, t1, ... t999]
+Prompt: [t0, t1, ... t999]（包含一千个词元的示例提示）
   -> Prefill 一次
   -> 每层保存 K0..K999、V0..V999
   -> 得到第一个新 Token
@@ -713,9 +713,9 @@ Hugging Face Transformers 提供动态、静态、量化和可卸载等缓存策
 
 ```text
 告警文本
-  -> Tokenizer
-  -> Input IDs + Attention Mask
-  -> Embedding + Position
+  -> Tokenizer（分词器）
+  -> Input IDs（输入词元编号） + Attention Mask（注意力遮罩）
+  -> Embedding（向量编码） + Position
   -> 双向 Encoder 层
   -> Pooling / 特殊位置表示
   -> 分类头
@@ -728,14 +728,14 @@ Hugging Face Transformers 提供动态、静态、量化和可卸载等缓存策
 
 ```text
 告警 + 日志 + 变更 + Runbook
-  -> Prompt Template
-  -> Tokenizer / Truncation
-  -> Prefill
-  -> KV Cache
-  -> Decode Token 1
+  -> Prompt（提示词） Template
+  -> Tokenizer（分词器） / Truncation
+  -> Prefill（预填充）
+  -> KV Cache（键值注意力缓存）
+  -> Decode（逐词元解码） Token 1
   -> 更新 Cache
-  -> Decode Token 2 ...
-  -> Stop Token / Length Limit
+  -> Decode（逐词元解码） Token 2 ...
+  -> Stop Token / Length Limit（停止词元或长度上限）
   -> 结构校验与安全策略
 ```
 
@@ -746,8 +746,8 @@ Hugging Face Transformers 提供动态、静态、量化和可卸载等缓存策
 ```text
 原始日志
   -> Encoder 读取完整输入
-  -> Encoder Context
-  -> Decoder Masked Self-Attention
+  -> Encoder Context（上下文）
+  -> Decoder Masked Self-Attention（解码器遮罩自注意力）
   -> Cross-Attention 读取 Context
   -> 逐 Token 生成 JSON 字段
   -> Schema 校验
@@ -1221,12 +1221,12 @@ Transformer 是 RAG 的生成或编码组件。知识时效性、权限过滤、
 数据源
   -> 权限与脱敏
   -> 采样 / 去重 / 质量检查
-  -> Tokenize
-  -> Shard / Batch / Padding
-  -> Distributed Training
-  -> Checkpoint
+  -> Tokenize（切分词元）
+  -> Shard / Batch（批次） / Padding
+  -> Distributed Training（分布式训练）
+  -> Checkpoint（检查点）
   -> 离线评估 / 安全评估
-  -> Model Registry
+  -> Model（模型） Registry
   -> 灰度部署
   -> 在线质量与漂移监控
   -> 反馈进入下一版本数据
@@ -1271,18 +1271,18 @@ Transformer 是 RAG 的生成或编码组件。知识时效性、权限过滤、
 ## 推理生产路径
 
 ```text
-Client
-  -> API Gateway / Auth / Rate Limit
-  -> Request Queue
-  -> Tokenizer Pool
-  -> Scheduler / Continuous Batching
-  -> Model Replica
-       -> Prefill
-       -> KV Cache Allocation
-       -> Decode Loop
-  -> Detokenize
-  -> Schema / Safety / Evidence Validation
-  -> Stream or JSON Response
+Client（客户端）
+  -> API Gateway（接口网关） / Auth（身份鉴别） / Rate Limit（限流）
+  -> Request Queue（请求队列）
+  -> Tokenizer Pool（分词器池）
+  -> Scheduler（调度器） / Continuous Batching（连续批处理）
+  -> Model Replica（模型副本）
+       -> Prefill（预填充）
+       -> KV Cache Allocation（注意力缓存分配）
+       -> Decode Loop（解码循环）
+  -> Detokenize（词元还原文本）
+  -> Schema（数据结构约定） / Safety（安全） / Evidence Validation（证据验证）
+  -> Stream or JSON Response（流式或 JSON 响应）
 ```
 
 ### Prefill 与 Decode 要分开观测
@@ -1393,17 +1393,17 @@ KV 字节 ≈ KV 元素 × dtype_bytes
 一个可讨论的生产架构：
 
 ```text
-              +-> Replica A -> GPU Group A
-Gateway ------+-> Replica B -> GPU Group B
-              +-> Replica C -> GPU Group C
+              +-> Replica（副本） A -> GPU（图形计算处理器） Group（分组） A
+Gateway ------+-> Replica（副本） B -> GPU（图形计算处理器） Group（分组） B
+              +-> Replica（副本） C -> GPU（图形计算处理器） Group（分组） C
                     |
                     +-> Model Artifact Store（只读）
 
-Control Plane
-  -> Model Registry
-  -> Deployment / Autoscaling
-  -> Config and Secret Management
-  -> Metrics / Logs / Traces / Evaluation
+Control Plane（控制面）
+  -> Model（模型） Registry
+  -> Deployment（部署） / Autoscaling
+  -> Config and Secret Management（配置与凭据管理）
+  -> Metrics（指标） / Logs（日志） / Traces（链路追踪） / Evaluation（评估）
 ```
 
 设计重点：
@@ -1777,25 +1777,25 @@ Weights
 ### 一个可讨论的架构
 
 ```text
-Alert / Incident / Log / Change
-  -> Ingestion Gateway
-  -> Auth + Tenant + Redaction
-  -> Evidence Retriever
-  -> Prompt Budgeter
-  -> Transformer Serving Pool
-       -> Short-context Pool
-       -> Long-context Pool
-  -> Structured Output Validator
-  -> Policy / Approval
-  -> Ticket or Read-only Runbook
-  -> Outcome Verification
+Alert（告警） / Incident（故障） / Log（日志） / Change（变更）
+  -> Ingestion Gateway（数据接入网关）
+  -> Auth（身份鉴别） + Tenant（租户） + Redaction（敏感信息脱敏）
+  -> Evidence Retriever（证据检索器）
+  -> Prompt Budgeter（提示词预算器）
+  -> Transformer Serving Pool（Transformer 推理服务池）
+       -> Short-context Pool（短上下文池）
+       -> Long-context Pool（长上下文池）
+  -> Structured Output Validator（结构化输出校验器）
+  -> Policy（策略） / Approval（审批）
+  -> Ticket or Read-only Runbook（工单或只读操作手册）
+  -> Outcome Verification（结果验证）
 
-Control Plane
-  -> Model Registry and Manifest
-  -> Evaluation Sets
-  -> Canary Deployment
-  -> Metrics / Logs / Traces
-  -> Cost and Capacity Controller
+Control Plane（控制面）
+  -> Model Registry and Manifest（模型注册表与清单）
+  -> Evaluation Sets（评估集）
+  -> Canary Deployment（灰度部署）
+  -> Metrics（指标） / Logs（日志） / Traces（链路追踪）
+  -> Cost and Capacity Controller（成本与容量控制器）
 ```
 
 ### 关键取舍
@@ -2008,7 +2008,27 @@ Transformer 是一种以注意力为核心的神经网络架构。它先把 Toke
 - [ ] 我能说明 Prompt Injection、供应链和工具调用安全边界。
 - [ ] 我能用证据回答系统设计和事故复盘题。
 
-## GitHub 学习证据
+## 老师带你从一句告警走到注意力计算
+
+先把“订单接口在发布后超时”分成 Token（模型分词单元），再映射成数值向量。模型不会直接看汉字含义，而是在训练得到的表示中计算关系。位置编码告诉它顺序，Attention（注意力）让某个位置按相关性组合其他位置的信息，前馈层再做逐位置的非线性变换。
+
+学生：“Q、K、V 是三份不同句子吗？”老师：“它们通常是同一输入经不同参数投影得到的三种角色。”Query（查询）表达当前位置要找什么，Key（键）用于匹配，Value（值）提供被加权汇总的信息。这个比喻帮助记职责，但实际计算是矩阵乘法、缩放、掩码与 softmax（归一化权重），不是人工写的关键词匹配。
+
+### 先看形状，再看公式
+
+假设批次有 2 条序列、每条 4 个位置、隐藏维度 8，输入形状是 `[2,4,8]`。多头注意力把表示投影到多个子空间，各头分别计算关系，再拼接与输出投影。头数不等于模型能同时处理多少用户，也不保证某一头总固定负责语法或因果；这类解释需要实证。
+
+Causal Mask（因果掩码）阻止自回归位置看到后续答案，Padding Mask（补齐掩码）避免补齐位置影响有效计算。掩码错误可能让训练分数异常好、真实生成却差。做前文基础与故障实验时，把形状、掩码允许位置、标签位移和损失范围一起保存，这比只存最终输出更能证明理解。
+
+### 训练与推理的成本为什么不同
+
+训练可以在已知序列上并行计算多个位置的损失，还要保存反向传播所需中间量；自回归推理通常逐步生成新 Token，前面的位置产生的 K/V 可以缓存在 KV Cache（键值缓存）中。缓存省掉一部分重复计算，但会随上下文、层数、批量和精度增长，长上下文并发容易耗尽显存。
+
+Prefill（预填充）处理输入上下文，Decode（逐步解码）生成后续内容，首 Token 延迟与持续生成速度应分开监控。量化减少权重或缓存的表示成本，也可能改变数值精度与质量，必须回归固定任务。上下文窗口更长只是容量能力，不保证模型能正确使用所有证据。
+
+30 秒回答用“按位置间相关性组合信息的序列模型”说明核心；3 分钟从分词、嵌入、位置、Q/K/V、掩码、前馈到训练目标，再讲 KV 缓存与服务容量。事故题可以是掩码方向反了或上下文突增，先比较形状与输入长度、显存和阶段延迟，再修复契约，不能只降低输出长度掩盖问题。
+
+## 本课 GitHub 学习证据清单
 
 建议建立一个小仓库：
 

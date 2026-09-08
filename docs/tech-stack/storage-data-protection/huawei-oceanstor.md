@@ -130,7 +130,7 @@ OceanStor 集中式块存储的主线可以先记成：
 应用读写
   -> 主机文件系统或数据库
   -> 主机多路径软件
-  -> HBA / NIC
+  -> HBA / NIC（存储主机适配器或以太网卡）
   -> FC fabric 或 IP 网络
   -> 存储前端端口
   -> 控制器、缓存和数据服务
@@ -144,7 +144,7 @@ OceanStor 集中式块存储的主线可以先记成：
 
 ```text
 客户端
-  -> NFS / SMB
+  -> NFS / SMB（客户端访问共享文件的两类协议）
   -> 文件业务逻辑端口
   -> vStore、共享与文件系统
   -> 存储池
@@ -304,14 +304,14 @@ OceanStor 集中式块存储的主线可以先记成：
 ```text
 数据库写入
   -> 操作系统块设备
-  -> UltraPath / DM-Multipath
-  -> FC HBA 或 iSCSI NIC
+  -> UltraPath / DM-Multipath（华为多路径软件或 Linux 设备映射多路径组件）
+  -> FC HBA 或 iSCSI NIC（光纤通道适配器或承载块存储协议的以太网卡）
   -> 双 fabric / 双 IP 网络
   -> OceanStor 前端端口
   -> 控制器与受保护缓存
   -> LUN 地址映射和数据服务
   -> 存储池冗余布局
-  -> SSD / HDD
+  -> SSD / HDD（固态盘或机械硬盘）
 ```
 
 排障时从业务端开始往下走，也可以从故障部件往上找影响对象。最重要的是把 `LUN WWN`、`Host ID`、initiator、前端端口和应用 owner 关联起来。
@@ -321,10 +321,10 @@ OceanStor 集中式块存储的主线可以先记成：
 ```text
 Linux / Windows 客户端
   -> DNS 和业务 IP
-  -> NFS / SMB
+  -> NFS / SMB（网络文件共享协议）
   -> OceanStor 逻辑端口
   -> vStore 与认证
-  -> share、Dtree、quota
+  -> share、Dtree、quota（共享入口、可独立管理的目录树、容量或文件数配额）
   -> 文件系统
   -> 存储池与介质
 ```
@@ -503,16 +503,16 @@ iscsiadm -m session                       # iSCSI 场景查看当前登录会话
 ### 建议的拓扑模型
 
 ```text
-service
-  -> application instance
-  -> host / VM / cluster
-  -> initiator
-  -> SAN zone / VLAN / IP route
-  -> storage front-end port
-  -> LUN / file system / share
-  -> storage pool
-  -> controller / enclosure / drive
-  -> snapshot / replication / HyperMetro relationship
+service（业务服务）
+  -> application instance（应用实例）
+  -> host / VM / cluster（主机、虚拟机、集群）
+  -> initiator（主机发起端）
+  -> SAN zone / VLAN / IP route（存储通信组、虚拟局域网、网络路由）
+  -> storage front-end port（存储主机侧端口）
+  -> LUN / file system / share（逻辑块设备、文件系统、共享）
+  -> storage pool（存储池）
+  -> controller / enclosure / drive（控制器、盘框、介质）
+  -> snapshot / replication / HyperMetro relationship（快照、复制、双活关系）
 ```
 
 只有建立拓扑，AIOps 才能回答“端口故障影响了哪些业务”“最满的池承载哪些数据库”“某次变更后哪些 LUN 延迟升高”。
@@ -778,6 +778,36 @@ OceanStor 是华为企业存储产品族。我会先区分集中式 OceanStor Do
 18. 双活通信中断时为什么不能随意 forcible start？
 19. 如何设计 OceanStor 的 AIOps 拓扑和告警富化？
 20. 哪些 OceanStor 操作适合自动化，哪些必须人工审批？
+
+## 老师带你从“绿色面板”走到业务验收
+
+### 先问清是块业务还是文件业务
+
+如果同事说“存储目录打不开”，先别急着运行 LUN 命令。Linux 上的目录可能是本机文件系统，底下使用 OceanStor LUN；也可能是 NFS 共享，由 OceanStor 提供文件服务。两条路径都能呈现目录，责任边界却不同。前者要查主机文件系统、多路径和块设备；后者先查业务逻辑 IP、共享、身份、配额和文件服务。
+
+这里再补三个容易混淆的词：WWID 是操作系统识别逻辑设备的稳定标识；WWPN 是 FC 端口身份；Host ID 是阵列主机对象编号。排障需要它们之间的映射，不是拿其中一个去替换另一个。容量和名称相同也不足以确认是同一块盘，格式化之前必须核对稳定标识与变更单。
+
+### 用一张订单解释写确认与双活
+
+数据库保存订单时，事务日志、主机缓存、阵列受保护缓存、介质和远端副本各自提供不同保证。HyperMetro 的同步与仲裁解决两端数据访问和故障裁决，却不会替数据库处理事务提交，也不会替应用切换入口、缓存或消息队列。双活存储旁边还要画出这些依赖，才能讨论业务连续性。
+
+老师会追问：“本端和远端都活着，只是它们互相看不到，能都强制启动吗？”不可以。双方可能各自产生不同的新写入，恢复链路后不一定能自动合并。先保留两端状态与业务写入证据，确定唯一权威侧，再按现场版本的支持流程恢复。仲裁不能被当成一台可随意绕过的普通监控服务器。
+
+### 完成前面故障实验的回归与清理
+
+前面的阈值实验已经让池使用率从 82 改到 92，也让路径从降级恢复。现在请在同一个 `oceanstor-lab` 目录，用编辑器把样例四行分别恢复为：池 `70`、LUN 延迟 `3.6`、路径 `100`、复制延迟 `0`，保留原表头、单位与阈值。再次运行 `powershell -ExecutionPolicy Bypass -File .\check-oceanstor.ps1`，立即检查 `$LASTEXITCODE`，应为 `0`，四行应全部 `OK`。
+
+若仍出现 WARN，检查是否只修了路径却忘了池容量；若出现 CRITICAL，先看具体行，不靠把阈值升高消警。用截图记录“原始 WARN→容量故障 CRITICAL→恢复 OK”，同时注明只是离线规则验证，没有在阵列上制造故障。需要清理时，先保存证据，再仅移除当前实验目录内的两个已确认样例文件：`Remove-Item -LiteralPath .\oceanstor-health.csv, .\check-oceanstor.ps1`。不要用通配命令删除其他巡检材料。
+
+### 生产设计与面试追问
+
+**30 秒：**OceanStor 是产品族，要先确认型号、代码、许可和块/文件协议。块路径从主机多路径到前端端口、控制器、LUN、池与介质；文件还多了共享、逻辑端口、身份与配额。快照、复制、双活和备份分别处理不同故障。
+
+**3 分钟：**以订单库讲完整写入路径和标识映射，说明双控不等于端到端冗余，再用池 82% 与路径减半的例子讲如何按业务影响排序，最后说明恢复点、RPO/RTO、升级门禁和变更回归。
+
+**设计追问：两个数据库共享池，批处理把在线业务拖慢，怎么办？**先比较对象级 I/O 大小、读写比例、端口、控制器与池的时间线，确认资源竞争而不是单路径或介质问题。SmartQoS 可以控制争用，但策略要绑定正确对象、设置可解释的目标并验证批处理完成窗口；它不能凭空增加硬件能力。
+
+**事故追问：换了故障部件就结束吗？**还要确认重构完成、所有预期路径归位、延迟回到基线、保护关系同步完成、告警到达并自动恢复。部件修好、存储冗余恢复、业务验证通过，是三个相继完成的状态。把每一项的时间和证据写进工单，才便于下一次故障和 AIOps 模型正确学习。
 
 ## 学习证据
 

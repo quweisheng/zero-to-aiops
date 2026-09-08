@@ -80,39 +80,39 @@ LangChain、LangGraph 和 LangSmith SDK 仓库采用 MIT 许可证；LangSmith �
 ## 官方知识地图
 
 ```text
-LangChain
-  ├── model interface
-  │   ├── provider:model
-  │   ├── messages and content blocks
-  │   ├── invoke / stream / batch
-  │   └── tool calling / structured output
-  ├── create_agent harness
-  │   ├── system prompt
-  │   ├── tools
-  │   ├── model-tool loop
-  │   ├── agent state
-  │   └── runtime context
-  ├── middleware
-  │   ├── before / after model
-  │   ├── wrap model / tool call
-  │   ├── retry / fallback / rate limit
-  │   ├── summarization / PII / guardrail
-  │   └── human-in-the-loop
-  ├── context
-  │   ├── short-term memory: thread + checkpointer
-  │   ├── long-term memory: namespace + key + store
-  │   ├── retrieval / RAG
-  │   └── MCP tools, resources and prompts
-  ├── LangGraph runtime
-  │   ├── durable execution
-  │   ├── persistence
-  │   ├── interrupt and resume
-  │   └── deterministic + agentic workflow
-  └── LangSmith platform
-      ├── tracing and debugging
-      ├── datasets and evaluation
-      ├── monitoring
-      └── deployment
+LangChain（模型与工具编排库）
+  ├── model interface（模型接口）
+  │   ├── provider:model（模型提供方与模型名的标识形式）
+  │   ├── messages and content blocks（消息与内容块）
+  │   ├── invoke（一次调用） / stream（流式调用） / batch（批量调用）
+  │   └── tool calling（工具调用） / structured output（结构化输出）
+  ├── create_agent harness（智能体创建与运行骨架）
+  │   ├── system prompt（系统提示）
+  │   ├── tools（工具）
+  │   ├── model-tool loop（模型与工具循环）
+  │   ├── agent state（智能体状态）
+  │   └── runtime context（运行时上下文）
+  ├── middleware（中间件）
+  │   ├── before / after model（模型调用前后钩子）
+  │   ├── wrap model / tool call（包装模型或工具调用）
+  │   ├── retry（重试） / fallback（备用路径） / rate limit（限流）
+  │   ├── summarization（摘要压缩） / PII（个人可识别信息） / guardrail（安全约束）
+  │   └── human-in-the-loop（人工参与决策）
+  ├── context（上下文）
+  │   ├── short-term memory: thread（会话执行线） + checkpointer（检查点保存器）
+  │   ├── long-term memory: namespace（命名空间） + key（键） + store（存储）
+  │   ├── retrieval（检索） / RAG（检索增强生成）
+  │   └── MCP（模型上下文协议） tools（工具）, resources（资源） and prompts（提示词）
+  ├── LangGraph runtime（LangGraph 执行引擎）
+  │   ├── durable execution（可持久恢复执行）
+  │   ├── persistence（持久化）
+  │   ├── interrupt and resume（中断与恢复）
+  │   └── deterministic（确定性） + agentic workflow（智能体工作流）
+  └── LangSmith platform（LangSmith 观测评估平台）
+      ├── tracing and debugging（追踪与调试）
+      ├── datasets and evaluation（数据集与评估）
+      ├── monitoring（监控）
+      └── deployment（部署）
 ```
 
 第一次看这张图，只记一条主线：
@@ -134,11 +134,11 @@ LangChain
 ### 第一天：先跑通一条安全工具链
 
 ```text
-Message
-  -> Model
-  -> Tool Call
-  -> ToolMessage
-  -> Final Answer
+Message（消息）
+  -> Model（模型）
+  -> Tool Call（工具调用请求）
+  -> ToolMessage（工具返回消息）
+  -> Final Answer（最终回答）
 ```
 
 目标：知道工具不是模型亲自执行，能看懂一次完整消息序列，能运行本文基础实验。
@@ -146,13 +146,13 @@ Message
 ### 第一周：理解上下文和失败
 
 ```text
-create_agent
-  -> system_prompt
-  -> structured output
-  -> middleware
-  -> checkpointer + thread_id
-  -> streaming
-  -> trace + evaluation
+create_agent（创建智能体入口）
+  -> system_prompt（系统提示参数）
+  -> structured output（结构化输出）
+  -> middleware（中间件）
+  -> checkpointer（检查点保存器） + thread_id（会话执行标识）
+  -> streaming（流式输出）
+  -> trace（链路追踪） + evaluation（评估）
 ```
 
 目标：能区分状态、运行时上下文和长期记忆，能解释工具为何重复、对话为何串线、输出为何解析失败。
@@ -160,13 +160,13 @@ create_agent
 ### 生产与面试层：能设计边界和恢复
 
 ```text
-API gateway
-  -> stateless agent replicas
-  -> durable checkpoint / store
-  -> model and tool dependencies
-  -> approval / idempotency / audit
-  -> metrics / logs / traces / quality evaluation
-  -> canary / rollback / disaster recovery
+API gateway（接口网关）
+  -> stateless agent replicas（无状态智能体副本）
+  -> durable checkpoint（检查点） / store（存储）
+  -> model（模型） and tool（工具） dependencies（依赖项）
+  -> approval（审批） / idempotency（幂等性） / audit（审计）
+  -> metrics（指标） / logs（日志） / traces（链路追踪） / quality evaluation（质量评估）
+  -> canary（灰度发布） / rollback（回滚） / disaster recovery（灾难恢复）
 ```
 
 目标：不只会写 Prompt，而是能回答容量、高可用、安全、升级、故障恢复和事故处置问题。
@@ -336,10 +336,10 @@ LangChain 解决的是应用工程组织问题，不会自动解决模型能力�
 一个常见组合是：
 
 ```text
-LangChain create_agent
-  -> compiled LangGraph runtime
-  -> Postgres-backed checkpointer / store
-  -> LangSmith tracing and evaluation
+LangChain create_agent（LangChain 智能体创建入口）
+  -> compiled LangGraph runtime（LangGraph 执行引擎）
+  -> Postgres-backed checkpointer（检查点保存器） / store（存储）
+  -> LangSmith tracing（追踪） and evaluation（评估）
 ```
 
 如果流程明确是“查询指标 → 判断阈值 → 创建工单”，用普通代码或 LangGraph 的确定性节点可能更合适；不要为了叫 Agent 而把确定规则交给模型猜。
@@ -381,11 +381,11 @@ HTTP `200` 不能证明后两种成功。
 **怎么工作：** 应用把标准 Message 交给模型适配器；适配器转换成供应商协议，再把响应转回 LangChain Message 和标准 Content Block。
 
 ```text
-LangChain messages
-  -> provider integration package
-  -> provider API / local runtime
-  -> provider response
-  -> AIMessage + metadata + content blocks
+LangChain messages（消息）
+  -> provider integration package（提供方集成包）
+  -> provider API / local runtime（提供方接口或本地运行环境）
+  -> provider response（响应）
+  -> AIMessage（模型消息） + metadata（元数据） + content blocks
 ```
 
 **怎么用或观察：**
@@ -422,10 +422,10 @@ model = init_chat_model(
 **怎么工作：**
 
 ```text
-HumanMessage
-  -> AIMessage(tool_calls=[...])
-  -> ToolMessage(tool_call_id=...)
-  -> AIMessage(final content)
+HumanMessage（用户消息）
+  -> AIMessage（模型消息）(tool_calls=[...])
+  -> ToolMessage（工具返回消息）(tool_call_id=...)
+  -> AIMessage（模型消息）(final content)
 ```
 
 `tool_call_id` 把一次工具结果和模型提出的具体请求对应起来。删除或裁剪历史消息时，不能留下孤立的 Tool Call 或 ToolMessage，否则供应商可能拒绝消息序列。
@@ -510,12 +510,12 @@ agent = create_agent(
 **怎么工作：** Middleware 可以按用户角色动态生成 Prompt、裁剪或总结消息、选择工具、读取 Store，并只把当前步骤需要的内容交给模型。
 
 ```text
-stable rules
-  + current user and permission context
-  + current incident state
-  + selected evidence
-  + bounded recent messages
-  -> model context
+stable rules（规则）
+  + current user and permission context（上下文）
+  + current incident（故障） state（状态）
+  + selected evidence（证据）
+  + bounded recent messages（消息）
+  -> model（模型） context（上下文）
 ```
 
 **怎么用或观察：** 把“事实”“不可信外部内容”“允许动作”“输出合同”分开；为检索片段附来源和时间；统计每类上下文占用 Token。
@@ -615,11 +615,11 @@ def handle_known_tool_errors(request, handler):
 **怎么工作：**
 
 ```text
-invoke(thread_id=INC-001)
-  -> read latest checkpoint
-  -> run model or tool step
-  -> write checkpoint
-  -> next step / return
+invoke(thread_id=INC-001)（按会话执行标识发起一次调用的示意）
+  -> read latest checkpoint（检查点）
+  -> run model（模型） or tool（工具） step
+  -> write checkpoint（检查点）
+  -> next step / return（下一步或返回）
 ```
 
 Agent 每次调用开始和步骤完成时会读写 Thread 状态。基础实验使用 `InMemorySaver`；生产应使用官方支持的数据库 Checkpointer，并对其做备份、恢复和容量治理。
@@ -728,12 +728,12 @@ for chunk in agent.stream(
 **怎么工作：**
 
 ```text
-offline
-  document -> clean -> split -> metadata -> embed/index
+offline（离线）
+  document（文档） -> clean（清洗） -> split -> metadata（元数据） -> embed/index
 
-online
-  question -> retrieve/filter/rerank -> evidence chunks
-           -> model or agent -> cited answer
+online（在线）
+  question（问题） -> retrieve/filter/rerank -> evidence chunks（证据文本块）
+           -> model（模型） or agent（智能体） -> cited answer（带引用的回答）
 ```
 
 当前官方资料把常见 RAG 架构分成：
@@ -755,11 +755,11 @@ online
 **怎么工作：**
 
 ```text
-LangChain agent
-  -> MCP client
-     -> approved MCP server
-        -> tools / resources / prompts
-        -> downstream system
+LangChain agent（智能体）
+  -> MCP client（MCP 客户端）
+     -> approved MCP server（模型上下文协议服务端）
+        -> tools（工具） / resources（资源） / prompts（提示词）
+        -> downstream system（下游系统）
 ```
 
 连接方式可能是本地子进程或远程传输。MCP Server 不是天然可信；它返回的 Tool Schema、内容和错误都属于外部输入。
@@ -783,11 +783,11 @@ LangGraph 在 Super-step（可理解为图运行的一“拍”）边界保存 C
 最危险的窗口是：
 
 ```text
-Tool calls external change API
-  -> external API accepts the change
-  -> worker crashes before checkpoint records success
-  -> run resumes
-  -> tool may be called again
+Tool（工具） calls external（外部依赖） change（变更） API
+  -> external（外部依赖） API accepts the change（变更）
+  -> worker（工作进程） crashes before checkpoint（检查点） records success
+  -> run resumes（流程恢复运行）
+  -> tool（工具） may be called again
 ```
 
 发邮件、建工单、重启、回滚、数据库写入都要使用服务端幂等键。重试前还要查询外部任务状态，不能只因为本地没看到成功就再执行一次。
@@ -1114,10 +1114,10 @@ persisted_message_count=4
 消息数是 4，因为完整循环是：
 
 ```text
-HumanMessage
-  -> AIMessage(tool call)
-  -> ToolMessage(runbook result)
-  -> AIMessage(final report)
+HumanMessage（用户消息）
+  -> AIMessage（模型消息）(tool call（工具调用请求）)
+  -> ToolMessage（工具返回消息）(runbook（操作手册） result（结果）)
+  -> AIMessage（模型消息）(final report)
 ```
 
 ### 如果没有成功，先查这些
@@ -1316,17 +1316,17 @@ write_tool_execution_count=0
 ## LangChain 在 AIOps 链路中的位置
 
 ```text
-metrics / logs / traces / changes / CMDB
-  -> detection and alert correlation
-  -> incident candidate
-  -> LangChain evidence agent
-       read-only tools
-       RAG / runbook retrieval
-       structured incident report
-  -> human decision and approval
-  -> runbook automation platform
-  -> post-action verification
-  -> incident timeline / RCA / evaluation dataset
+metrics（指标） / logs（日志） / traces（链路追踪） / changes / CMDB
+  -> detection and alert（告警） correlation
+  -> incident（故障） candidate
+  -> LangChain evidence（证据） agent（智能体）
+       read-only tools（只读工具）
+       RAG（检索增强生成） / runbook retrieval（操作手册检索）
+       structured incident（故障） report
+  -> human（人工） decision and approval（审批）
+  -> runbook（操作手册） automation（自动化） platform
+  -> post-action verification（验证）
+  -> incident（故障） timeline / RCA / evaluation dataset（评估数据集）
 ```
 
 LangChain 适合“解释和受控编排层”，不应替代 Prometheus 告警规则、日志平台、CMDB、IAM 或自动化执行平台。
@@ -1428,36 +1428,36 @@ Incident 结束后，把经过人工确认的时间线、直接原因、促成�
 ### 推荐的通用架构
 
 ```text
-Web / ChatOps / Alert platform
-  -> API Gateway
-       authentication
-       tenant isolation
-       rate limit
-       request id
-  -> Agent API
-       input schema
-       run/thread control
-       streaming endpoint
-  -> Queue / backpressure
-  -> Agent Worker replicas
-       LangChain create_agent
-       LangGraph runtime
-       middleware and policy
-       read-only tools
-       approval-gated write tools
-  -> Durable state
-       checkpointer
-       long-term store
-  -> Dependencies
-       model provider
-       metrics / logs / traces
-       CMDB / change system
-       runbook index
-       automation platform
-  -> Observability and evaluation
-       metrics / logs / traces
-       audit
-       offline and online eval
+Web / ChatOps / Alert（告警） platform
+  -> API Gateway（接口网关）
+       authentication（身份鉴别）
+       tenant（租户） isolation
+       rate limit（限流）
+       request（请求） id（编号）
+  -> Agent（智能体） API
+       input schema（数据结构约定）
+       run/thread control（运行与会话控制）
+       streaming（流式输出） endpoint
+  -> Queue / backpressure（队列与反压）
+  -> Agent（智能体） Worker（工作进程） replicas（副本）
+       LangChain create_agent（LangChain 智能体创建入口）
+       LangGraph runtime（LangGraph 执行引擎）
+       middleware（中间件） and policy（策略）
+       read-only tools（只读工具）
+       approval-gated write tools（工具）
+  -> Durable state（状态）
+       checkpointer（检查点保存器）
+       long-term store（存储）
+  -> Dependencies（依赖项）
+       model（模型） provider
+       metrics（指标） / logs（日志） / traces（链路追踪）
+       CMDB / change（变更） system
+       runbook index（操作手册检索索引）
+       automation（自动化） platform
+  -> Observability（可观测性） and evaluation（评估）
+       metrics（指标） / logs（日志） / traces（链路追踪）
+       audit（审计）
+       offline and online eval（离线与在线评估）
 ```
 
 ### 各层负责什么
@@ -1476,18 +1476,18 @@ Web / ChatOps / Alert platform
 推荐分成不同凭据和网络策略：
 
 ```text
-readonly-agent identity
-  -> metrics query
-  -> logs query
-  -> trace query
-  -> CMDB read
-  -> runbook retrieval
+readonly-agent identity（只读取证智能体身份）
+  -> metrics（指标） query（查询）
+  -> logs（日志） query（查询）
+  -> trace（链路追踪） query（查询）
+  -> CMDB read（读取配置管理数据库）
+  -> runbook retrieval（操作手册检索）
 
-change-executor identity
-  -> approved automation platform only
-  -> strict target allowlist
-  -> idempotency key
-  -> audit + rollback
+change-executor identity（变更执行者身份）
+  -> approved automation（自动化） platform only
+  -> strict target allowlist（严格限制目标白名单）
+  -> idempotency（幂等性） key（键）
+  -> audit（审计） + rollback（回滚）
 ```
 
 即使模型误选写 Tool，普通只读 Agent 身份也不应具备直接操作生产的能力。
@@ -1729,16 +1729,16 @@ Trace 不能替代外部自动化平台审计，也不能仅凭一条“看起�
 正确思路是分层降低风险：
 
 ```text
-untrusted content
-  -> input size and type validation
-  -> permission-aware retrieval
-  -> data/instruction separation
-  -> allowlisted tools
-  -> server-side authorization
-  -> argument and business validation
-  -> human approval for risk
-  -> idempotency and audit
-  -> post-action verification
+untrusted content（不可信内容）
+  -> input size and type validation（验证）
+  -> permission-aware retrieval（检索）
+  -> data/instruction separation（数据与指令分离）
+  -> allowlisted tools（工具）
+  -> server-side authorization（服务端授权校验）
+  -> argument and business validation（验证）
+  -> human approval（人工审批） for risk
+  -> idempotency（幂等性） and audit（审计）
+  -> post-action verification（验证）
 ```
 
 Prompt 里的“忽略文档指令”只能帮助模型理解，不能代替权限控制。
@@ -1874,11 +1874,11 @@ v1 的重要迁移点：
 安全迁移顺序：
 
 ```text
-add new optional field / node
-  -> keep old path readable
-  -> dual read or compatibility layer
-  -> wait for busy/interrupted threads to drain
-  -> remove old field / node in later release
+add new optional field / node（节点）
+  -> keep old path readable（保持旧状态路径可读）
+  -> dual read or compatibility layer（双读或兼容层）
+  -> wait for busy/interrupted threads to drain（等待执行中或暂停会话完成迁移）
+  -> remove old field / node（节点） in later release
 ```
 
 State 新字段先设为 Optional/NotRequired。回滚前检查新版本写出的 Checkpoint 能否被旧版本读取。
@@ -2122,18 +2122,18 @@ restart checkout-api production
 ### 一个可讨论的答案
 
 ```text
-Gateway
-  -> Incident API
-  -> durable queue
-  -> stateless Agent Workers
-       -> LangChain create_agent
-       -> policy middleware
-       -> read-only evidence tools
-       -> permission-filtered RAG
-       -> HITL-gated change request tool
-  -> Postgres checkpointer/store
-  -> automation platform with idempotency
-  -> trace + audit + evaluation
+Gateway（接入网关）
+  -> Incident（故障） API
+  -> durable queue（持久任务队列）
+  -> stateless Agent（智能体） Workers（工作进程）
+       -> LangChain create_agent（LangChain 智能体创建入口）
+       -> policy（策略） middleware（中间件）
+       -> read-only evidence（证据） tools（工具）
+       -> permission-filtered RAG（检索增强生成）
+       -> HITL-gated change（变更） request（请求） tool（工具）
+  -> Postgres checkpointer/store（PostgreSQL 检查点与状态存储）
+  -> automation（自动化） platform with idempotency（幂等性）
+  -> trace（链路追踪） + audit（审计） + evaluation（评估）
 ```
 
 ### 关键设计决定
@@ -2187,11 +2187,11 @@ Gateway
 现实系统经常组合：
 
 ```text
-LangChain explains and proposes
-  -> LangGraph controls stateful workflow
-  -> RAG supplies evidence
-  -> LangSmith observes and evaluates
-  -> n8n / Ansible / internal platform executes approved change
+LangChain explains and proposes（LangChain 解释并提出建议）
+  -> LangGraph controls stateful workflow（工作流）
+  -> RAG（检索增强生成） supplies evidence（证据）
+  -> LangSmith observes and evaluates（LangSmith 观测与评估）
+  -> n8n / Ansible / internal platform executes approved change（变更）
 ```
 
 不要让多个框架重复管理同一份状态和重试。明确谁是 Workflow 真相源、谁是 Tool 执行者、谁保存审计。
@@ -2345,7 +2345,27 @@ LangChain 是一个 LLM 应用框架。当前 Python v1 主线用 `create_agent`
 - [ ] 能说明何时不用 LangChain；
 - [ ] 能在追问中讲清取舍和未验证边界。
 
-## GitHub 学习证据
+## 老师带你辨认 Agent 每一轮究竟在做什么
+
+一轮 Agent（智能体）并不是“模型自己在服务器里操作一切”。应用准备 Message（消息）与 Tool（工具）定义，模型输出 Tool Call（调用请求），应用验证后执行，再把 ToolMessage（工具结果消息）交回模型。请在脑海里把“建议调用”和“真正执行”画成两个方框，权限边界就在这里。
+
+学生：“框架帮我编排了，还需要自己管错误吗？”老师：“框架提供路径，业务仍要定义什么时候算成功。”数据库查到了空结果、模型返回结构不完整、工具提交超时，都需要不同处理。把所有异常统一重试，可能扩大费用、重复副作用或隐藏缺失证据。
+
+### 消息、状态和记忆不是同一份东西
+
+消息是这次对话或工具循环的表达，State（状态）还可以包含结构化事实、风险与进度，Checkpoint（检查点）保存可恢复边界，长期 Store（存储）保留跨会话资料。把所有日志都塞进消息，会让上下文膨胀；把临时权限写进长期记忆，又可能在权限变化后继续使用旧授权。
+
+模型供应商适配层统一一部分接口，但多模态、工具并行、结构化输出与流事件能力仍有差异。切换模型前用契约样本验证，不要只检查 `invoke` 是否返回对象。流式出现文字并不意味着最后的工具、结构校验和业务提交已完成。
+
+### 本篇实验怎么变成你的真实能力
+
+先用确定性本地模型跑通基础循环，逐条看 HumanMessage、带工具请求的 AIMessage、对应调用 ID 的 ToolMessage 和最终回答。接着做高风险工具审批故障实验，关键断言是“未批准时执行次数为 0”，不是“页面显示过审批提示”。最后才接真实模型评估工具选择与证据质量。
+
+若恢复后工具再次调用，回头看外部副作用与检查点是否同一事务边界。使用稳定业务操作 ID 和下游结果查询，让重复请求返回已有结果；不要把内存计数器当成跨进程可靠幂等。生产多个 Agent worker 的资源预算还包括模型请求、工具连接、检索、检查点写入和追踪成本。
+
+30 秒回答讲应用组件、工具循环与生产边界；3 分钟以告警取证串起模型、工具、结构化报告、检查点、审批和审计。追问“为什么有了 Agent 还需要固定流程”，说明高风险动作和业务校验必须有确定的约束；事故题“只见一次成功却执行两次”，从调用 ID、业务操作 ID、检查点和外部结果建立因果链。
+
+## 本课 GitHub 学习证据清单
 
 建议建立：
 

@@ -25,10 +25,10 @@
   -> AnyBackup 独立备份与恢复
 
 统一存储主线
-  -> SAN / NAS 接入
+  -> SAN（块存储网络）/ NAS（网络文件服务）接入
   -> 控制器、缓存、介质和 RAID 2.0
   -> 卷、共享、主机映射和多路径
-  -> 快照、克隆、远程复制、双活和 WORM
+  -> 快照、克隆、远程复制、双活和 WORM（一次写入、多次读取）
   -> 性能、容量、告警、变更和生命周期
 ```
 
@@ -128,13 +128,13 @@ AnyStorage 7 的 SAN 数据路径可以先这样理解：
 应用读写
   -> 操作系统文件系统 / 数据库
   -> 主机多路径软件
-  -> FC HBA 或 iSCSI NIC
-  -> 双 SAN fabric 或双 IP 网络
+  -> FC HBA 或 iSCSI NIC（光纤通道主机适配器或承载块存储协议的以太网卡）
+  -> 双 SAN fabric（存储交换网络）或双 IP 网络
   -> AnyStorage 前端端口
   -> 控制器、缓存和 SAN 服务
   -> 卷 / LUN
   -> 存储池、RAID 2.0 或 RAID 资源
-  -> SSD / SAS / NL-SAS
+  -> SSD / SAS / NL-SAS（固态盘、串行连接 SCSI 硬盘、近线 SAS 硬盘）
 ```
 
 NAS 数据路径是：
@@ -334,7 +334,7 @@ NAS 数据路径是：
   -> 多控制器与缓存
   -> SAN 卷 / LUN
   -> 存储池和 RAID 2.0
-  -> SSD / SAS / NL-SAS
+  -> SSD / SAS / NL-SAS（固态盘、串行连接 SCSI 硬盘、近线 SAS 硬盘）
 ```
 
 ### AnyStorage 7 NAS 访问
@@ -504,28 +504,28 @@ backup_policy: daily-30           # 独立备份频率和保留意图
 ### 建议拓扑
 
 ```text
-service
-  -> application / database / VM
-  -> host
-  -> initiator and multipath
-  -> FC fabric / iSCSI network / NAS network
-  -> AnyStorage front-end port
-  -> volume / file system / share
-  -> controller and cache
-  -> storage pool and media tier
-  -> drive / enclosure
-  -> snapshot / replication / active-active / backup
+service（业务服务）
+  -> application / database / VM（应用、数据库、虚拟机）
+  -> host（主机）
+  -> initiator and multipath（发起端与多路径）
+  -> FC fabric / iSCSI network / NAS network（光纤、IP 块、文件服务网络）
+  -> AnyStorage front-end port（主机侧端口）
+  -> volume / file system / share（卷、文件系统、共享）
+  -> controller and cache（控制器与缓存）
+  -> storage pool and media tier（存储池与介质层）
+  -> drive / enclosure（硬盘与盘框）
+  -> snapshot / replication / active-active / backup（快照、复制、双活、备份）
 ```
 
 GX 场景还要插入：
 
 ```text
-host
-  -> GX virtual volume
-  -> GX node and front-end path
-  -> GX back-end path
-  -> heterogeneous array volume
-  -> back-end pool and drive
+host（主机）
+  -> GX virtual volume（网关虚拟卷）
+  -> GX node and front-end path（网关节点与主机侧路径）
+  -> GX back-end path（网关后端路径）
+  -> heterogeneous array volume（不同品牌阵列卷）
+  -> back-end pool and drive（后端池与硬盘）
 ```
 
 ### 建议采集
@@ -793,6 +793,40 @@ AnyStorage 7 是爱数的企业统一存储，当前官网主线包括 AS5210 �
 18. CDP 为什么仍不能替代离线或不可变备份？
 19. 如何建立 AnyStorage 的 AIOps 拓扑？
 20. 哪些 AnyStorage 操作可以自动化，哪些必须人工审批？
+
+## 老师带你把产品介绍变成可执行的判断
+
+### 采购一项能力，需要哪三份证据
+
+你看到官网写了双活、CDP 或 WORM，第一步不是往现场拓扑上补一个勾，而是找三份证据：当前型号和软件是否支持，合同许可是否包含，现场是否正确启用并验收。公开案例证明某个方案可以实现，不证明你面前的旧型号、网络和许可已经具备同样能力。
+
+CDP 保存更细粒度的历史变化，但“更细”不等于无限保留。要问 journal，也就是变化日志，能保留多久、空间不足时怎样处理、能否找到误操作前的有效时间点，以及恢复出来的数据库是否需要日志重放。公开资料不足时记录待厂商确认项，不凭常见产品经验编出 GX 内部实现。
+
+WORM 的关键问题也不是“能不能打开”。先确认哪些对象受保护、保留期从何时计算、时间可信度、管理员能否改变策略、合规模式与恢复目标。错误的长期保留设置可能让实验数据无法提前删除，所以这类试验必须先用隔离对象和经批准的短周期策略，不能直接对业务共享启用。
+
+### 缓存与分层为什么不能只看命中率
+
+把 Flash Cache 想成桌面的常用资料，把慢介质想成档案库。重复读取同一小批资料时桌面很有效；全盘顺序扫描一遍时，大量数据可能只读一次，缓存命中低未必是故障。数据分层是把资料搬到不同存放层，缓存则侧重加速访问，二者的管理和空间口径不能混为一谈。
+
+如果一个模型训练任务扫描巨大数据集，数据库的热点数据可能受到资源竞争。先比较工作集、读写比、端口、池与后台迁移时间线，再决定调整任务窗口或服务质量策略。QoS 的作用是分配有限能力，而不是把故障盘修好；任何调整要同时验收关键数据库延迟和批处理完成时间。
+
+### 补齐离线故障演练的恢复证据
+
+在前面的 `anystorage-lab` 中，先保留一次初始 WARN 输出；把池使用率改为 92，运行脚本并保存 CRITICAL 与退出码 2；随后用编辑器将四个样例值依次设为池 70、路径 100、复制延迟 0、NAS 错误率 0.2。再次运行 `powershell -ExecutionPolicy Bypass -File .\check-anystorage.ps1`，应全部 OK，`$LASTEXITCODE` 应为 0。
+
+如果仍为 WARN，先检查复制延迟是否还保留 45，而不是把它的门槛调高。实验的收尾要明确修复了哪一行以及为什么，避免“为了变绿而改规则”。这只验证样例规则，不证明真实路径切换、复制或恢复成功。
+
+保存所需截图与代码后，若不再学习，可在确认当前目录确实为个人实验目录后只删除两项：`Remove-Item -LiteralPath .\anystorage-health.csv, .\check-anystorage.ps1`。原始设备导出与客户材料不在这个清理范围内。
+
+### 面试从概念走向事故处置
+
+**30 秒：**AnyStorage 7 是统一存储，GX 是前置虚拟化网关，AnyBackup 是独立备份平台。先分清产品与数据路径，再谈冗余、保护和监控，不能因为名称接近就混用命令和能力。
+
+**3 分钟：**从数据库写入讲主机多路径、前端、控制器、卷和后端；GX 再增加前后端两段映射。接着解释缓存、分层与 QoS，最后用路径减半加复制落后说明如何关联证据、保护剩余路径和设置恢复验收。
+
+**设计题：异构存储在线迁移要满足什么？**明确源和目标支持矩阵、容量与性能余量、稳定卷身份、迁移进度、业务高峰、暂停点及回退保留时间。不能在目标尚未验证之前清除源卷，也不能假设切换后新写入会自动倒回原阵列。
+
+**事故追问：网关前后端各有四条路径是否够？**数量不是结论。要标出 HBA、Fabric、GX 节点、阵列控制器及它们的共同故障域，再按单部件和单站点故障逐项推演。先保证没有双写、没有唯一副本覆盖，再恢复性能与冗余；这是存储事故比普通无状态服务重启更需要审慎的原因。
 
 ## 学习证据
 

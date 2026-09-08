@@ -26,41 +26,41 @@
 - [`context`](https://pkg.go.dev/context)
 - [`runtime/metrics`](https://pkg.go.dev/runtime/metrics)
 
-说明：本文根据 Go 官方资料重新组织，不复制官方全文。本文更新时官方 featured download 为 Go 1.26.5，另一个稳定分支为 Go 1.25.12；真实项目先执行 `go version`，再阅读对应版本的 release notes。Go 的运行时实现会演进，例如 Go 1.24 已把内置 `map` 改为基于 Swiss Tables 的实现，所以面试时要区分语言规范保证、公开 API 和当前版本实现细节。
+说明：本文根据 Go 官方资料重新组织，不复制官方全文。下面安装包及镜像使用 Go 1.26.5 作为既有示例基线，不表示阅读时的最新安全补丁；真实项目先核对官方下载页、执行 `go version`，再阅读对应版本的 release notes。Go 的运行时实现会演进，例如 Go 1.24 已把内置 `map` 改为基于 Swiss Tables 的实现，所以面试时要区分语言规范保证、公开 API 和当前版本实现细节。
 
 ## 官方知识地图
 
 Go 官方资料可以按下面的路径理解：
 
 ```text
-Learn
-  -> Getting started
-  -> Tour of Go
-  -> Modules / Workspaces
-  -> Generics / Fuzzing / Database / Web API tutorials
+Learn（学习入口）
+  -> Getting started（从第一个程序开始）
+  -> Tour of Go（交互式语言之旅）
+  -> Modules / Workspaces（模块与多模块工作区）
+  -> Generics / Fuzzing / Database / Web API tutorials（泛型、模糊测试、数据库与网络接口教程）
 
-Language
-  -> Specification
-  -> Types / declarations / expressions / statements
-  -> Methods / interfaces / type parameters
-  -> Goroutines / channels / memory model
+Language（语言）
+  -> Specification（语言规范）
+  -> Types / declarations / expressions / statements（类型、声明、表达式与语句）
+  -> Methods / interfaces / type parameters（方法、接口与类型参数）
+  -> Goroutines / channels / memory model（轻量并发任务、通道与内存模型）
 
-Toolchain
-  -> go fmt / vet / test / build / run / install
-  -> go mod / work / env
-  -> compiler / assembler / linker
+Toolchain（工具链）
+  -> go fmt / vet / test / build / run / install（格式化、静态检查、测试、构建、运行、安装）
+  -> go mod / work / env（模块、工作区、环境管理）
+  -> compiler / assembler / linker（编译器、汇编器、链接器）
 
-Standard library
-  -> io / os / strings / bytes / encoding
-  -> context / sync / time
-  -> net / net/http / database/sql
-  -> log/slog / testing / runtime
+Standard library（标准库）
+  -> io / os / strings / bytes / encoding（输入输出、系统、字符串、字节与编码）
+  -> context / sync / time（取消传播、同步与时间）
+  -> net / net/http / database/sql（网络、HTTP 与数据库访问）
+  -> log/slog / testing / runtime（结构化日志、测试与运行时）
 
-Production
-  -> modules and supply chain
-  -> race / fuzz / govulncheck
-  -> pprof / trace / runtime metrics
-  -> GC / memory limit / graceful shutdown
+Production（生产工程）
+  -> modules and supply chain（模块与软件供应链）
+  -> race / fuzz / govulncheck（数据竞争、模糊测试与漏洞检查）
+  -> pprof / trace / runtime metrics（资源剖析、执行轨迹与运行时指标）
+  -> GC / memory limit / graceful shutdown（垃圾回收、软内存限制与优雅退出）
 ```
 
 本文按“语言基础 -> 工具链 -> 并发 -> 运行时 -> 网络服务 -> 测试诊断 -> 生产设计 -> AIOps 项目 -> 面试追问”推进。
@@ -127,7 +127,7 @@ Go 程序通常不依赖像 JVM 那样单独安装的虚拟机，但编译产物
 ## Go 在 AIOps 链路中的位置
 
 ```text
-Agent / Exporter / Controller / Webhook / API
+Agent / Exporter / Controller / Webhook / API（代理、指标导出器、控制器、事件回调与接口）
   -> Go 并发采集和处理
   -> slog 输出结构化日志
   -> metrics 暴露运行与业务指标
@@ -195,7 +195,8 @@ Get-Command go # 确认实际调用的 go.exe 路径，避免旧版本抢占 PAT
 ```bash
 curl -LO https://go.dev/dl/go1.26.5.linux-amd64.tar.gz # 下载官方归档
 sha256sum go1.26.5.linux-amd64.tar.gz # 与官方下载页当前校验值比对
-sudo rm -rf /usr/local/go # 清理旧的手工安装目录；确认路径后再执行
+test ! -e /usr/local/go.previous # 先确认回退目录不存在；失败则停止并人工核查
+sudo mv /usr/local/go /usr/local/go.previous # 仅当 /usr/local/go 确为旧的手工安装目录时执行，保留回退副本；首次安装跳过
 sudo tar -C /usr/local -xzf go1.26.5.linux-amd64.tar.gz # 解压到 /usr/local/go
 export PATH="$PATH:/usr/local/go/bin" # 当前 shell 临时加入 PATH
 go version # 验证版本和架构
@@ -274,12 +275,12 @@ go build -o aiops-lab.exe . # 构建可重复运行的 Windows 可执行文件
 一个常见服务结构：
 
 ```text
-go-aiops-lab/
+go-aiops-lab/（学习项目根目录）
   -> go.mod                 module 和 Go 版本
   -> go.sum                 依赖内容校验记录
   -> cmd/alert-api/main.go  进程入口和装配
-  -> internal/alert/        只允许当前 module 导入的业务 package
-  -> internal/httpapi/      HTTP handler
+  -> internal/alert/        仅允许 internal 父目录对应子树内的代码导入
+  -> internal/httpapi/      HTTP handler（内部接口包与请求处理函数）
   -> internal/store/        存储接口和实现
   -> configs/               示例配置，不放真实密钥
 ```
@@ -685,7 +686,7 @@ case <-time.After(2 * time.Second):
 
 多个 case 同时可执行时，runtime 会选择一个可执行分支，代码不应依赖固定顺序。`default` 会让 select 变成非阻塞尝试，但在循环里无等待地使用可能造成 busy loop 和 CPU 空转。
 
-高频循环不要每次 `time.After` 都创建新 timer；可复用 `time.Timer`，并正确处理 Stop、Reset 和 channel 排空语义。
+高频循环若分配开销已被测量为热点，可考虑复用 `time.Timer`。但不能复制一套无条件排空通道的旧代码：Go 1.23 引入了新的通道定时器语义，实际是否启用还受主模块 Go 版本和 `GODEBUG` 设置影响。先按当前 [`time.Timer` 文档](https://pkg.go.dev/time#Timer)理解 Stop/Reset，再写测试；新语义下盲目从已停止定时器接收，反而可能阻塞。
 
 ## context：取消、deadline 和请求范围值
 
@@ -777,7 +778,7 @@ data race 的定义：两个 goroutine 并发访问同一内存位置，至少�
 - Once 执行完成与任意 Once.Do 返回。
 - atomic 操作按其 API 定义建立顺序。
 
-普通 goroutine 启动、`time.Sleep` 或打印日志都不是保护共享变量的可靠同步方案。
+`go` 语句之前的操作与被启动 goroutine 开始之间有内存模型定义的同步关系，但 goroutine 的结束不会自动同步到调用方。因而“启动后等一会儿再读取结果”仍不安全；`time.Sleep` 或打印日志不能替代 channel、锁或其他明确的完成协议。
 
 ```bash
 go test -race ./... # 在测试覆盖到的执行路径中检测 data race
@@ -970,7 +971,7 @@ Go 标准库 `net/http` 已包含生产服务的基础构件：Server、Handler�
 
 ```text
 client 建立或复用 TCP/TLS 连接
-  -> http.Server accept connection
+  -> http.Server accept connection（服务器接收连接）
   -> 解析 request line、header 和 body
   -> 为请求调用 Handler.ServeHTTP
   -> handler 读取 context、执行业务和下游调用
@@ -1306,7 +1307,7 @@ trace 适合定位调度延迟、并行度不足、goroutine 阻塞、syscall �
 - 下游 request duration、timeout、连接池和错误分类。
 - build info、Go version、配置版本和发布 commit。
 
-不要把 service、request ID、完整 URL 等高基数值放进 metrics label；这些更适合日志或 trace。
+不要把 request ID、用户提供的完整 URL 等无界高基数值放进 metrics label；这些更适合日志或 trace。受控、数量有限的 service 名称通常可以作为标签，关键是先估算取值数量及标签组合，而不是把所有 service 标签一律禁掉。
 
 ## AIOps 入门项目：告警聚合 API
 
@@ -1325,10 +1326,10 @@ trace 适合定位调度延迟、并行度不足、goroutine 阻塞、syscall �
 ### 目录
 
 ```text
-go-alert-api/
-  -> go.mod
-  -> main.go
-  -> main_test.go
+go-alert-api/（告警接口实验目录）
+  -> go.mod（模块与依赖声明）
+  -> main.go（服务实现）
+  -> main_test.go（自动化测试）
 ```
 
 ### go.mod
@@ -1483,7 +1484,7 @@ func main() {
 	}
 
 	server := &http.Server{
-		Addr:              ":8080",
+		Addr:              "127.0.0.1:8080", // 无鉴权的入门实验只监听本机
 		Handler:           newHandler(jobs, aggregator),
 		ReadHeaderTimeout: 5 * time.Second,
 		ReadTimeout:       10 * time.Second,
@@ -1568,7 +1569,7 @@ func TestAlertLifecycle(t *testing.T) {
 go fmt ./... # 统一格式
 go vet ./... # 检查可疑代码
 go test -race ./... # 运行测试并检测 race
-go run . # 启动服务，预期日志显示 address=:8080
+go run . # 启动服务，预期日志显示 address=127.0.0.1:8080
 ```
 
 另开终端：
@@ -1602,7 +1603,41 @@ Invoke-RestMethod http://127.0.0.1:8080/summary # 预期看到聚合字段和计
 
 ## 故障实验一：制造并修复 data race
 
-先暂时删除 `Aggregator.Add` 与 `Snapshot` 中的锁，再用并发测试向同一个 map 写入。预期 `go test -race ./...` 报告 `WARNING: DATA RACE`，并给出冲突访问与 goroutine 创建 stack。
+请在独立练习目录中做，不删除告警服务已有的锁。为了避免并发 map 写直接终止进程干扰观察，我们用一个共享整数制造同样的同步错误。创建单独 module 并保存下面文件为 `race_test.go`；需要本机支持 `-race` 的 Go 工具链与 C 编译器。
+
+```go
+package raceclass
+
+import (
+    "os"
+    "sync"
+    "testing"
+)
+
+func TestCounter(t *testing.T) {
+    var mu sync.Mutex
+    var wg sync.WaitGroup
+    n := 0
+    broken := os.Getenv("CLASSROOM_BROKEN") == "1"
+    for worker := 0; worker < 2; worker++ {
+        wg.Add(1)
+        go func() {
+            defer wg.Done()
+            for i := 0; i < 10000; i++ {
+                if !broken { mu.Lock() }
+                n++
+                if !broken { mu.Unlock() }
+            }
+        }()
+    }
+    wg.Wait()
+    if n != 20000 { t.Fatalf("count=%d, want 20000", n) }
+}
+```
+
+先 `go mod init example.com/raceclass`，执行 `go test -race -count=1 .`，预期成功。PowerShell 设置 `$env:CLASSROOM_BROKEN='1'` 后再执行相同命令，预期报告 `WARNING: DATA RACE` 并返回非零；计数有时仍刚好是 20000，这不能推翻检测到的竞争。读报告时找两处 `n++` 的访问位置和各自 goroutine 创建位置，解释“都在写同一整数，之间没有锁”。如果只是 C 编译器缺失，这是环境失败，还没跑到竞争检测；不要把它当故障实验完成。
+
+然后执行 `Remove-Item Env:CLASSROOM_BROKEN` 恢复正常分支。此实验只启动两个 goroutine，各执行一万次，进程结束后全部回收，没有常驻服务或外部资源。保留带故障开关的测试作证据，但不要把主动失败开关加入正式 CI 默认环境。
 
 修复时恢复 Mutex/RWMutex，重新运行：
 
@@ -1950,6 +1985,40 @@ heap profile 只覆盖 Go heap 采样。还要看 goroutine stack、OS thread、
 43. cgo 对构建和运行带来什么复杂度？
 44. 如何在 Kubernetes 容器中设置 GOMAXPROCS 和 GOMEMLIMIT？
 45. 怎样设计一个高可用 Go AIOps 告警服务？
+
+## 老师带你把告警 API 从“会运行”讲到“讲得清承诺”
+
+现在回到最初的业务：值班同事发来一条告警。请你沿着代码用手指走一遍：请求正文被限制为 1 MiB，JSON 被解析为结构体，字段被规范化，事件尝试写入有界通道，HTTP 返回 202，某个 worker 再修改聚合 map，查询接口复制一份快照后编码输出。每走一步就问“数据现在在哪里，谁拥有它，失败会丢还是会重试”。这是理解服务的主线，不是另背一套术语。
+
+### 接受、处理、持久化，是三个不同的承诺
+
+本实验的 202 只承诺“写入了这个进程的内存队列”，没有承诺已经处理，更没有承诺落盘。马上查询汇总偶尔看不到结果，是异步消费尚未完成，不一定是锁失效。进程退出后计数消失则是内存状态的设计结果；加锁只解决并发访问，不解决持久性。给 HTTP 接口多加几个副本，也不会自动让几个 map 合成同一本账。
+
+假设两个副本各收到一次同一告警，它们可能各自计数为 1，轮询查询也只看到其中一个。要全局一致计数，可以把原子更新放在可靠共享存储，或让同一业务键路由到同一分区消费者；前者增加远端调用成本，后者需要处理分区迁移与热点。若上游超时后重发，没有事件唯一标识时还可能计数两次。请先定义事件 ID、去重窗口和重复判定，再讨论用哪一种数据库，不能只靠增加 goroutine 数解决可靠性。
+
+### 为什么 Snapshot 要复制，而不是把原 map 返回出去
+
+如果返回原 map，锁一释放，JSON 编码器仍在读它，而 worker 可能正在写。错误并不发生在函数返回之前，而是发生在调用者使用共享对象之后。这像把账本借出去后说“我刚刚借出时锁过柜子，所以别人读时安全”。现在的实现是在读锁内复制，锁释放后编码的是自己的副本，因此长时间网络写出不会把锁一直占住。
+
+代价也要讲：记录越多，复制与编码越耗 CPU 和内存；字段值若将来变成指针或 slice，浅复制 map 不一定让嵌套对象独立。生产可以评估分页、预聚合或不可变快照，但每种方案都要说明查询看见的是哪个时间点，以及写入与读出的延迟是否可接受。
+
+### 取消不是排空，优雅退出要画出顺序
+
+示例把 worker 的 context 与进程停止信号关联，因此信号到达后 worker 可以立刻退出，HTTP 的 Shutdown 并不会替你把队列里的告警处理完。这是明确的课堂简化，不是“优雅退出零丢失”。要排空，通常先让 readiness 表示暂不接流量，停止新的 producer，确认没有 handler 继续发送后，由唯一协调者关闭 jobs，让 worker 用接收循环处理剩余事件，然后等待 worker 完成。整个过程还要有总超时，超时之后对未处理事件作持久化或重投安排。
+
+特别注意：不能一看到 SIGTERM 就 `close(jobs)`，同时还让 HTTP handler 继续发送，否则会触发向已关闭 channel 发送的 panic。也不能关闭后又重用同一通道“重启工作池”。关闭是协议状态的终点，不是暂停按钮。容器强制终止的时间预算要大于摘流、处理和收尾所需时间，且需要测量负载均衡传播延迟，不能只设置一个十秒参数就宣称完成。
+
+### 把泄漏实验变成可以回收的观察实验
+
+上面的 `leak` 是反例函数，不要在生产服务中循环运行。单独创建实验程序，最多启动二十个等待任务，在同一进程里记录启动前后的 goroutine 数，随后用统一的 `close(done)` 或 `cancel()` 让它们结束，再通过 WaitGroup 等待。重点是比较“同一类栈是否消失”，而不是要求全局 goroutine 数绝对等于某个固定数字，运行时或测试框架可能还有自己的后台任务。
+
+如果保留反例的永不结束分支，也只在独立短命进程中运行，采集完摘要后用 Ctrl+C 结束该进程；进程内存和 goroutine 随进程退出回收。不要把未设上限的泄漏循环当压测。服务基础实验结束时同样 Ctrl+C，确认 8080 不再由该实验进程监听；示例不持久化，所以再次启动查询汇总为空是预期结果。若端口仍在，先识别 PID 和命令行，不要按端口批量终止别人的服务。
+
+### 一道容量题，练会推理而不是背参数
+
+假设经过实际测量，一个 worker 平均每秒处理 50 条，四个 worker 理想上限约 200 条每秒；这只是粗估，锁竞争和下游限额会让真实值更低。输入持续每秒 300 条时，每秒净积压约 100 条，容量 100 的队列很快就满。把容量改成一万，只是延后拒绝，不能让稳态吞吐增加。若允许队列等待最多两秒，还要把队列长度与真实处理速率一起限制，并关注高优先级事件是否被低优先级挤住。
+
+面试追问“那就开一百个 worker？”先问瓶颈：CPU 计算可测试并行收益；下游连接池只有十个连接时，多余 worker 可能只是排队；远端有速率限制时，盲加 worker 会产生更多 429 和重试风暴。证据选择是 queue wait、worker busy、下游延迟、锁剖析和 CPU 剖析，不是单看 goroutine 总数。最终回答应带上“这是依据测量得出的参数，目前尚未运行的示例不声称压测通过”。
 
 ## 学习证据
 

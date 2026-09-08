@@ -52,6 +52,14 @@ describe('markdownLinkToRoute', () => {
 })
 
 describe('getDocByRoute', () => {
+  it('exposes the teacher-led coverage report in navigation and content', async () => {
+    const route = '/tech-stack/teaching-coverage'
+    expect(navGroups.flatMap(group => group.items).some(item => item.route === route)).toBe(true)
+    const doc = await loadDocByRoute(route)
+    expect(doc?.raw).toContain('正文汉字数排除代码')
+    expect(doc?.raw).toMatch(/当前纳入 \d+ 篇技术栈/)
+  })
+
   it('returns existing markdown documents by normalized route', () => {
     expect(getDocByRoute('/tech-stack/foundation/linux')?.title).toBe('Linux 深讲')
   })

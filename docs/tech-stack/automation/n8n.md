@@ -49,7 +49,7 @@ Community 可以使用 Queue mode，但不代表所有生产治理能力都免�
 - [n8n 2.34.2 Pre-release](https://github.com/n8n-io/n8n/releases/tag/n8n%402.34.2)
 - [Docker 安装](https://docs.n8n.io/deploy/host-n8n/install-options/install-with-docker/)
 - [Community 与付费功能边界](https://docs.n8n.io/deploy/host-n8n/community-edition-features/)
-- [Sustainable Use License](https://docs.n8n.io/privacy-and-security/sustainable-use-license/)
+- [Sustainable Use License（可持续使用许可证）](https://docs.n8n.io/n8n-community-license/sustainable-use-license.md)
 - [Queue mode](https://docs.n8n.io/deploy/host-n8n/configure-n8n/scaling/enable-queue-mode/)
 - [Task Runner](https://docs.n8n.io/deploy/host-n8n/configure-n8n/set-up-task-runners/)
 - [Execution 并发控制](https://docs.n8n.io/deploy/host-n8n/configure-n8n/scaling/control-concurrency/)
@@ -64,33 +64,33 @@ Community 可以使用 Queue mode，但不代表所有生产治理能力都免�
 ## 官方知识地图
 
 ```text
-n8n
+n8n（可视化自动化编排平台）
 ├─ Build：在画布上构建
-│  ├─ Workflow / Node / Connection
-│  ├─ Trigger / Webhook / Schedule
-│  ├─ Item / JSON / Binary data
-│  ├─ Expression / Data mapping / Item linking
-│  └─ Sub-workflow / Wait / Error Workflow
+│  ├─ Workflow / Node / Connection（工作流、节点、连接）
+│  ├─ Trigger / Webhook / Schedule（触发器、事件回调、定时计划）
+│  ├─ Item / JSON / Binary data（数据项、结构化对象、二进制数据）
+│  ├─ Expression / Data mapping / Item linking（表达式、字段映射、数据项关联）
+│  └─ Sub-workflow / Wait / Error Workflow（子流程、等待、错误处理流程）
 ├─ Run：一次执行如何发生
-│  ├─ Execution status / Retry / Timeout
-│  ├─ Regular mode / Concurrency limit
-│  ├─ Queue mode / Redis / Worker
-│  └─ Code node / Task Broker / Task Runner
+│  ├─ Execution status / Retry / Timeout（执行状态、重试、超时）
+│  ├─ Regular mode / Concurrency limit（常规模式、并发上限）
+│  ├─ Queue mode / Redis / Worker（队列模式、队列协调服务、执行进程）
+│  └─ Code node / Task Broker / Task Runner（代码节点、任务协调端、代码执行器）
 ├─ Store：状态放在哪里
 │  ├─ SQLite（入门默认）
 │  ├─ PostgreSQL（生产共享状态）
-│  ├─ Encryption key / Credentials
-│  └─ Binary data / Retention / Pruning
+│  ├─ Encryption key / Credentials（加密密钥、连接凭据）
+│  └─ Binary data / Retention / Pruning（二进制数据、保存期限、过期清理）
 ├─ Operate：如何长期运行
-│  ├─ Health / Readiness / Metrics / Logs
-│  ├─ HA / Capacity / Backup / Recovery
-│  ├─ Security / RBAC / SSO / Audit
-│  └─ Upgrade / Migration / Rollback
+│  ├─ Health / Readiness / Metrics / Logs（健康、就绪、指标、日志）
+│  ├─ HA / Capacity / Backup / Recovery（高可用、容量、备份、恢复）
+│  ├─ Security / RBAC / SSO / Audit（安全、基于角色授权、单点登录、审计）
+│  └─ Upgrade / Migration / Rollback（升级、迁移、回滚）
 └─ AIOps：如何形成闭环
-   ├─ Metrics / Logs / Traces / Alerts
-   ├─ Enrichment / Dedupe / RCA hypothesis
-   ├─ Approval / Runbook / Automation
-   └─ Verification / Ticket / Knowledge base
+   ├─ Metrics / Logs / Traces / Alerts（指标、日志、调用轨迹、告警）
+   ├─ Enrichment / Dedupe / RCA hypothesis（补全信息、去重、根因分析假设）
+   ├─ Approval / Runbook / Automation（审批、操作手册、自动化）
+   └─ Verification / Ticket / Knowledge base（结果验证、工单、知识库）
 ```
 
 这里的英文第一次出现时要理解含义：Workflow 是工作流，Node 是处理步骤，Trigger 是触发入口，Execution 是某次运行记录，Credential 是加密保存的连接凭据，Runner 是隔离执行代码任务的进程。
@@ -269,10 +269,10 @@ Execution 保存输入、节点输出、耗时、状态和错误。结合外部�
 Trigger 产生一个或多个 Item；节点接收输入 Item，返回零个、一个或多个 Item；Connection 决定这些输出接下来进入哪个节点。If、Switch 等节点根据条件把 Item 送到不同分支。
 
 ```text
-Webhook
-  -> Item 1: {service, severity, fingerprint}
-  -> Edit Fields
-  -> If
+Webhook（事件回调入口）
+  -> Item 1: {service, severity, fingerprint}（第一条数据项，包含服务、级别和指纹）
+  -> Edit Fields（编辑字段节点）
+  -> If（条件分支节点）
       ├─ critical -> 审批分支
       └─ other    -> 观察分支
 ```
@@ -435,10 +435,10 @@ Code node 运行用户编写的 JavaScript 或 Python 逻辑。Task Broker 是 n
 ### 怎么工作
 
 ```text
-Code node（Task Requester）
-  -> Task Broker
-  -> WebSocket + shared auth token
-  -> Task Runner
+Code node（Task Requester）（代码节点，作为任务请求者）
+  -> Task Broker（任务分发中介）
+  -> WebSocket + shared auth token（双向连接与共享认证令牌）
+  -> Task Runner（代码执行器）
   -> 返回结果，Workflow 继续
 ```
 
@@ -471,7 +471,7 @@ Regular mode 由一个 n8n 进程接收并执行工作流；Queue mode 将入口
 Queue mode 的关键路径是：
 
 ```text
-main / webhook processor
+main / webhook processor（主进程或回调接收进程）
   -> PostgreSQL 创建 execution
   -> Redis 入队 execution ID
   -> worker 取 ID
@@ -529,25 +529,25 @@ alert fingerprint + action type + time window
 
 ## 架构与内部数据流
 
-## 最小学习架构
+### 最小学习架构
 
 ```text
-Browser / Manual Trigger / Webhook
+Browser / Manual Trigger / Webhook（浏览器、人工触发或回调）
               |
               v
        一个 n8n 进程
        ├─ Editor 与 API
        ├─ Trigger 与 Scheduler
-       ├─ Workflow execution
+       ├─ Workflow execution（工作流执行）
        └─ internal Task Runner（学习环境）
               |
               v
-       .n8n volume + SQLite
+       .n8n volume + SQLite（配置数据卷与嵌入式数据库）
 ```
 
 这个架构足够学习节点、表达式、Webhook 和 Execution，但它有单进程、单数据库和本地存储边界，不是生产 HA。
 
-## Regular Mode 的一次 Webhook 路径
+### Regular Mode 的一次 Webhook 路径
 
 ```text
 调用方 POST /webhook/aiops-alert
@@ -562,22 +562,22 @@ Browser / Manual Trigger / Webhook
 
 需要同时观察两个结果：调用方拿到的 HTTP 状态，以及 Execution/业务系统的最终状态。若选择“立即响应”，HTTP 2xx 只表示工作流已被接受，不表示后续节点成功。
 
-## Queue Mode 的生产数据路径
+### Queue Mode 的生产数据路径
 
 ```text
-                 ┌──────────── Editor / API ────────────┐
-Client -> LB/WAF ┼-> main(s)                             |
-                 └-> webhook processor(s) -> Redis queue|
+                 ┌──────────── Editor / API（编辑器与接口） ────────────┐
+Client（客户端） -> LB/WAF（负载均衡与应用防火墙） ┼-> main(s)（主进程）                             |
+                 └-> webhook processor(s)（回调接收进程） -> Redis queue（消息队列）|
                                                 |       |
                           ┌─────────────────────┘       |
                           v                             |
-                    worker pool                        |
-                    ├─ normal nodes                    |
-                    └─ Task Broker -> Runner sidecar   |
+                    worker pool（工作者池）                        |
+                    ├─ normal nodes（普通节点）                    |
+                    └─ Task Broker（任务中介） -> Runner sidecar（执行器边车）   |
                           |                             |
                           v                             |
-                    PostgreSQL <───────────────────────┘
-                    workflow / credential / execution
+                    PostgreSQL（关系数据库） <───────────────────────┘
+                    workflow / credential / execution（工作流、凭据与执行记录）
 ```
 
 生产路由建议：
@@ -587,25 +587,25 @@ Client -> LB/WAF ┼-> main(s)                             |
 - 不把 main 放进生产 Webhook 负载池，避免突发流量拖慢 Editor 和内部 API。
 - 可用 `N8N_DISABLE_PRODUCTION_MAIN_PROCESS=true` 禁止 main 处理生产 Webhook。
 
-## Task Runner 数据路径
+### Task Runner 数据路径
 
 Queue mode 中，每个 worker 的 Code node 应尽量只把任务交给它旁边的 Runner：
 
 ```text
-worker-a -> runner-a
-worker-b -> runner-b
-worker-c -> runner-c
+worker-a（工作者甲） -> runner-a（执行器甲）
+worker-b（工作者乙） -> runner-b（执行器乙）
+worker-c（工作者丙） -> runner-c（执行器丙）
 ```
 
 不要让所有 worker 依赖一个没有容量与 HA 的共享 Runner。Runner 镜像版本、token、CPU/内存限制、只读根文件系统、非 root 用户和网络范围都属于生产设计。
 
-## 定时任务与 Multi-main
+### 定时任务与 Multi-main
 
 增加 worker 不会让 main 高可用。Self-hosted Enterprise 的 Multi-main 使用 leader/follower：leader 承担需要 at-most-once 的任务，leader 失联后 follower 接管。所有 main、worker 必须同版本并连接同一 PostgreSQL/Redis，负载均衡器还需要 sticky sessions。
 
 即使使用 Multi-main，也不能宣称绝对 exactly-once。leader 切换、第三方持久连接和外部副作用仍需业务幂等与补偿。
 
-## 状态、一致性与恢复模型
+### 状态、一致性与恢复模型
 
 | 状态对象 | 权威位置 | 常见误区 | 恢复要点 |
 | --- | --- | --- | --- |
@@ -634,7 +634,7 @@ n8n 能保存运行状态，但不为所有外部系统提供分布式事务。�
 
 ## 安装与启动
 
-## 前置条件
+### 前置条件
 
 准备：
 
@@ -654,9 +654,9 @@ Get-NetTCPConnection -LocalPort 5678 -ErrorAction SilentlyContinue
 
 `docker version` 必须同时看到 Client 和 Server。只有 Client 而 Server 报连接失败，说明 Docker Engine 没启动，不能继续声称容器实验成功。
 
-## 生成 Encryption Key
+### 生成 Encryption Key
 
-在实验目录中运行：
+在实验目录中运行；以下使用 PowerShell 7 的 .NET API，旧版 Windows PowerShell 5.1 应先升级终端或使用经过审核的密码管理器生成随机密钥：
 
 ```powershell
 $bytes = New-Object byte[] 32
@@ -672,7 +672,7 @@ N8N_ENCRYPTION_KEY=替换为刚才生成的随机字符串
 
 不要把 `.env`、截图中的密钥或 decrypted credential export 提交到 GitHub。
 
-## 固定版本 Compose
+### 固定版本 Compose
 
 创建 `compose.yaml`：
 
@@ -707,10 +707,10 @@ volumes:
 - `/metrics` 只在本机实验开放；生产必须限制 Prometheus 来源。
 - 2.x 不再需要已经 deprecated 的 `N8N_RUNNERS_ENABLED=true`。
 
-## 启动与验证
+### 启动与验证
 
 ```powershell
-docker compose config
+docker compose config --quiet
 docker compose pull
 docker compose up -d
 docker compose ps
@@ -719,7 +719,7 @@ docker compose logs --tail 100 n8n
 
 预期：
 
-- `docker compose config` 展开成功且 key 非空；
+- `docker compose config --quiet` 静默验证成功，并确认 `.env` 已填写非空密钥；不要把完整展开配置保存为证据，因为展开后可能含真实密钥；
 - n8n 容器处于 running；
 - 日志没有 SQLite 权限、端口或 key 错误；
 - 浏览器可以打开 `http://127.0.0.1:5678`。
@@ -817,10 +817,10 @@ docker exec -u node -it <n8n-container-name> n8n audit
 
 ## n8n 在 AIOps 中的作用
 
-## 场景一：告警接入、补全与路由
+### 场景一：告警接入、补全与路由
 
 ```text
-Alertmanager / Zabbix / Cloud Monitor
+Alertmanager / Zabbix / Cloud Monitor（告警管理、监控系统与云监控来源）
   -> Webhook 验签
   -> 规范化 alertId/service/severity/fingerprint
   -> 查询 CMDB owner、最近变更、Grafana、Logs、Traces
@@ -831,7 +831,7 @@ Alertmanager / Zabbix / Cloud Monitor
 
 n8n 适合作为跨系统编排层，不适合存储全量高频指标。原始指标留在 Prometheus/TSDB，日志留在日志平台，n8n 只传递事件与必要证据链接。
 
-## 场景二：受控 Runbook 自动化
+### 场景二：受控 Runbook 自动化
 
 ```text
 事件证据
@@ -847,15 +847,15 @@ n8n 适合作为跨系统编排层，不适合存储全量高频指标。原始�
 
 n8n 负责控制流程，真正的主机配置变更可以交给 Ansible/AWX；不要把几十行 SSH 命令塞进一个不可审计的 Code node。
 
-## 场景三：变更关联与发布观察
+### 场景三：变更关联与发布观察
 
 GitHub Actions、GitLab CI 或 Jenkins 发布后向 n8n 发送变更事件。n8n 将 commit、服务、环境、负责人和发布时间写入事件平台，并在观察窗口查询错误率、延迟和关键日志。若指标恶化，只生成回滚建议还是自动回滚，取决于风险等级和组织授权。
 
-## 场景四：RCA 助手与知识闭环
+### 场景四：RCA 助手与知识闭环
 
 n8n 可以从指标、日志、Trace 和变更系统收集证据，再调用 Dify/LLM/RAG 生成“假设和建议”。模型输出必须标成建议，不能直接成为生产事实。受控节点验证假设，人工审批高风险动作，事件结束后把真实根因和有效 Runbook 写回知识库。
 
-## AIOps 数据契约示例
+### AIOps 数据契约示例
 
 跨系统工作流应先定义事件契约：
 
@@ -892,13 +892,13 @@ n8n 可以从指标、日志、Trace 和变更系统收集证据，再调用 Dif
 
 ## 基础实验：用 Webhook 跑通第一条 AIOps 告警路由
 
-## 实验目标
+### 实验目标
 
 完成下面的无副作用流程：
 
 ```text
 POST 告警 JSON
-  -> Webhook
+  -> Webhook（事件回调入口）
   -> Edit Fields 规范化字段
   -> If 判断 severity
   -> 设置 route 与 idempotencyKey
@@ -907,18 +907,18 @@ POST 告警 JSON
 
 你将验证 Test URL、Production URL、Item、Expression、分支、发布、Execution 和持久化。
 
-## 实验边界
+### 实验边界
 
 实验不创建真实工单、不发真实消息、不重启任何服务。它只返回 JSON，因此可以安全重复。本文给出预期结果，但仓库写作环境未启动 Docker Engine，不能替代你的实际执行证据。
 
-## 前置条件
+### 前置条件
 
 1. 已按“安装与启动”运行固定版 `2.33.5`。
 2. 三个端点均返回 `200`。
 3. 浏览器已创建本地 Owner 并登录。
 4. PowerShell 可以访问 `127.0.0.1:5678`。
 
-## 第一步：创建 Workflow
+### 第一步：创建 Workflow
 
 新建 Workflow，命名：
 
@@ -937,7 +937,7 @@ n8n-lab-alert-router
 
 此时节点顶部会显示 Test URL 与 Production URL。不要把两者混用。
 
-## 第二步：规范化字段
+### 第二步：规范化字段
 
 添加 **Edit Fields (Set)** 节点，命名 `Normalize Alert`。保留以下字段：
 
@@ -950,7 +950,7 @@ n8n-lab-alert-router
 
 Webhook 接收到 JSON 后，请求体位于当前 Item 的 `body` 中。先用测试数据观察真实结构，再确认表达式预览有值。
 
-## 第三步：建立风险分支
+### 第三步：建立风险分支
 
 添加 **If** 节点，命名 `Is Critical`：
 
@@ -978,7 +978,7 @@ idempotencyKey = {{ $json.alertId + ':record-event' }}
 
 保留上游字段，这样响应仍包含 `alertId`、`service`、`severity` 和 `summary`。
 
-## 第四步：返回结果
+### 第四步：返回结果
 
 添加一个 **Respond to Webhook** 节点：
 
@@ -989,7 +989,7 @@ Response Code: 200
 
 把 true 和 false 两个 Edit Fields 分支都连接到它。一次请求只会进入其中一个分支，因此只响应一次。
 
-## 第五步：使用 Test URL
+### 第五步：使用 Test URL
 
 打开 Webhook 节点，选择 **Test URL**，点击 **Listen for test event**。测试监听约 120 秒，随后在 PowerShell 立即运行：
 
@@ -1024,7 +1024,7 @@ Invoke-RestMethod `
 
 字段顺序可能不同，不影响语义。若返回额外 Webhook 元数据，检查 `Normalize Alert` 是否设置成只输出目标字段。
 
-## 第六步：验证另一条分支
+### 第六步：验证另一条分支
 
 再次点击 **Listen for test event**，把 `severity` 改为 `warning`：
 
@@ -1057,7 +1057,7 @@ Invoke-RestMethod `
 }
 ```
 
-## 第七步：发布并验证 Production URL
+### 第七步：发布并验证 Production URL
 
 1. 保存 Workflow。
 2. 点击 **Publish**。
@@ -1078,7 +1078,7 @@ http://127.0.0.1:5678/webhook/aiops-alert
 - 最终输出包含稳定的 `idempotencyKey`；
 - HTTP 响应与最终 Item 一致。
 
-## 第八步：验证持久化
+### 第八步：验证持久化
 
 ```powershell
 docker compose restart n8n
@@ -1093,7 +1093,7 @@ docker compose restart n8n
 
 这证明 named volume 保存了实验状态，但不等于已经验证生产数据库灾备。
 
-## 基础实验的验证清单
+### 基础实验的验证清单
 
 - [ ] `docker compose config` 成功。
 - [ ] `/healthz`、`/healthz/readiness`、`/metrics` 都返回 200。
@@ -1104,9 +1104,9 @@ docker compose restart n8n
 - [ ] 重启后 Workflow 与 Execution 仍可查看。
 - [ ] 没有把 `.env` 或密钥提交 Git。
 
-## 如果基础实验没有成功，先查这些
+### 如果基础实验没有成功，先查这些
 
-### 页面打不开
+#### 页面打不开
 
 ```powershell
 docker compose ps -a
@@ -1116,27 +1116,27 @@ Get-NetTCPConnection -LocalPort 5678 -ErrorAction SilentlyContinue
 
 确认 Docker Engine、容器退出码、端口占用和 `.env`。不要一上来删除 volume。
 
-### Test URL 返回 404
+#### Test URL 返回 404
 
 确认刚点击 **Listen for test event**，测试监听没有超过 120 秒，URL 中是 `/webhook-test/`，Path 拼写为 `aiops-alert`。
 
-### Production URL 返回 404
+#### Production URL 返回 404
 
 确认 Workflow 已保存并 Publish，使用 `/webhook/` 而不是 `/webhook-test/`，且没有其他 Webhook 占用相同 method + path。
 
-### Expression 返回 undefined
+#### Expression 返回 undefined
 
 打开 Webhook 的 Output，看请求字段是否在 `body` 中。确认客户端发送了 `Content-Type: application/json`，字段大小写与表达式一致。
 
-### critical 进入 false 分支
+#### critical 进入 false 分支
 
 检查实际值是否为 `Critical`、`critical ` 或其他类型。生产前应增加标准化与枚举校验，不要默默接受未知严重度。
 
-### HTTP 200 但 Executions 没有预期结果
+#### HTTP 200 但 Executions 没有预期结果
 
 确认响应模式、请求使用的环境和 Workflow ID。HTTP 层成功不等于你查看的是同一次 Execution；用 `alertId` 关联。
 
-## 基础实验清理
+### 基础实验清理
 
 停止容器但保留学习数据：
 
@@ -1154,7 +1154,7 @@ docker compose down -v
 
 ## 故障注入实验：让主流程失败并验证 Error Workflow
 
-## 实验目标
+### 实验目标
 
 模拟“下游服务故障”，验证：
 
@@ -1168,14 +1168,14 @@ docker compose down -v
 
 实验使用 Stop And Error，不断网、不删库、不改 volume，也不调用真实生产系统。
 
-## 前置条件
+### 前置条件
 
 1. 基础实验的 Production URL 已成功。
 2. 主 Workflow 已发布。
 3. 你已保存一条成功 Execution 作为健康基线。
 4. 记录当前 `/metrics` 和 n8n 日志时间点。
 
-## 第一步：创建 Error Workflow
+### 第一步：创建 Error Workflow
 
 新建 Workflow，命名：
 
@@ -1195,7 +1195,7 @@ handledAt = {{ $now }}
 
 不同错误类型的输入结构可能不同。先观察 Error Trigger 的真实 Input，再用数据面板映射，不要盲抄路径。保存 Error Workflow。
 
-## 第二步：关联错误流程
+### 第二步：关联错误流程
 
 打开 `n8n-lab-alert-router`：
 
@@ -1205,7 +1205,7 @@ handledAt = {{ $now }}
 
 保存设置。
 
-## 第三步：注入错误
+### 第三步：注入错误
 
 在 critical true 分支的 `Route Human Review` 后、`Respond to Webhook` 前增加 **Stop And Error** 节点：
 
@@ -1217,12 +1217,12 @@ Error Message: LAB_FAULT: simulate downstream outage
 连接：
 
 ```text
-Route Human Review -> Stop And Error
+Route Human Review（人工审核路由） -> Stop And Error（主动报错节点）
 ```
 
 故障期间不要让 critical 分支直接到 Respond 节点。保存并重新 Publish。
 
-## 第四步：通过生产入口触发
+### 第四步：通过生产入口触发
 
 使用新的 `alertId`，避免和基础实验混淆：
 
@@ -1247,7 +1247,7 @@ try {
 
 因为错误发生在响应前，调用方可能收到 5xx；实际响应由版本和节点设置决定。实验判断重点是 Execution，而不是强行要求某一段错误文本完全一致。
 
-## 第五步：验证预期结果
+### 第五步：验证预期结果
 
 在 **Executions** 页面确认：
 
@@ -1260,7 +1260,7 @@ try {
 
 把主 execution ID、错误处理 execution ID、时间和 `alertId` 记录在同一份实验笔记中。
 
-## 第六步：形成假设而不是只读错误文案
+### 第六步：形成假设而不是只读错误文案
 
 真实事故中的 `downstream outage` 可能代表：
 
@@ -1272,7 +1272,7 @@ try {
 
 第五种情况最危险，因为直接 Retry 可能重复产生副作用。真实流程要先用 idempotency key 查询下游，再决定重试。
 
-## 第七步：恢复
+### 第七步：恢复
 
 1. 删除或 Disable `Stop And Error`。
 2. 重新连接 `Route Human Review -> Respond to Webhook`。
@@ -1282,7 +1282,7 @@ try {
 
 恢复验证还应确认 Error Workflow 没有继续产生新错误记录。
 
-## 爆炸半径与回滚
+### 爆炸半径与回滚
 
 本实验的影响范围只有本地 critical 分支。真实生产中，注入前要：
 
@@ -1292,7 +1292,7 @@ try {
 - 准备一键恢复连接或旧 Workflow 版本；
 - 记录负责人、开始时间、停止条件和回滚时间。
 
-## 故障实验清理与证据
+### 故障实验清理与证据
 
 保留以下学习证据：
 
@@ -1305,7 +1305,7 @@ try {
 
 清理时移除故障节点、取消测试用错误关联（若不再需要），并确认生产入口恢复。不要为了“清空红色记录”删除所有 Execution；故障记录正是学习证据。
 
-## 如果 Error Workflow 没运行
+### 如果 Error Workflow 没运行
 
 依次检查：
 
@@ -1318,7 +1318,7 @@ try {
 
 ## 生产排障手册
 
-## 先建立时间线
+### 先建立时间线
 
 任何事故先记录：
 
@@ -1335,7 +1335,7 @@ PostgreSQL/Redis/下游 API 状态
 
 不要先重启所有组件。重启会丢失内存、连接、时间和部分现场证据，也可能造成 Queue 重处理和重复副作用。
 
-## 分层证据顺序
+### 分层证据顺序
 
 ```text
 业务层：工单、通知、自动修复是否真的完成
@@ -1349,7 +1349,7 @@ Runner 层：Code task、heartbeat、内存、版本和 token
 
 从业务影响开始，再沿数据路径向下查。只看到容器 running 不能结束调查。
 
-## 常见故障一：Editor 正常，Production Webhook 404
+### 常见故障一：Editor 正常，Production Webhook 404
 
 **证据**：Test URL 可用、Editor 可登录，但 `/webhook/...` 404。
 
@@ -1359,7 +1359,7 @@ Runner 层：Code task、heartbeat、内存、版本和 token
 
 **回滚**：恢复上一版已发布 Workflow 或上一条 LB 规则，避免临时把所有流量打到 main。
 
-## 常见故障二：Webhook 很快返回 202，工单却延迟
+### 常见故障二：Webhook 很快返回 202，工单却延迟
 
 **证据**：入口 HTTP 成功，queue waiting 增长，业务结果迟到。
 
@@ -1369,7 +1369,7 @@ Runner 层：Code task、heartbeat、内存、版本和 token
 
 **边界**：入口可用性和工作流完成 SLO 是两个指标，不能用 HTTP 2xx 代替业务完成率。
 
-## 常见故障三：Queue waiting 一直增长
+### 常见故障三：Queue waiting 一直增长
 
 **证据**：`n8n_scaling_mode_queue_jobs_waiting` 上升，completed rate 低于到达率。
 
@@ -1384,7 +1384,7 @@ Runner 层：Code task、heartbeat、内存、版本和 token
 
 **修复**：只有在 DB、Redis、Runner 和下游都有余量时才小步扩 worker。若瓶颈在下游，扩容只会制造更大重试风暴。
 
-## 常见故障四：只有 Code Node 超时
+### 常见故障四：只有 Code Node 超时
 
 **证据**：普通 HTTP/Edit Fields 节点正常，Code node 出现 task request timeout。
 
@@ -1392,7 +1392,7 @@ Runner 层：Code task、heartbeat、内存、版本和 token
 
 **处置**：查 worker 与对应 Runner 日志、heartbeat、镜像 tag、资源限制和输入大小。先用最小无副作用 Code 验证链路，再恢复业务代码。
 
-## 常见故障五：恢复数据库后所有 Credential 失效
+### 常见故障五：恢复数据库后所有 Credential 失效
 
 **证据**：Workflow 和 Credential 名称都在，但节点报解密或认证异常。
 
@@ -1400,7 +1400,7 @@ Runner 层：Code task、heartbeat、内存、版本和 token
 
 **处置**：停止写入，核对备份批次与 key 指纹/Secret 版本，先在隔离环境恢复。不要通过重建同名 Credential 覆盖原始现场。
 
-## 常见故障六：数据库快速增长
+### 常见故障六：数据库快速增长
 
 **证据**：Execution 表、binary data 或磁盘持续增长。
 
@@ -1410,7 +1410,7 @@ Runner 层：Code task、heartbeat、内存、版本和 token
 
 **SQLite 提醒**：删除记录后文件大小可能不立即缩小，空间会被后续重用；释放文件需要理解 VACUUM 边界，不能在事故中盲目执行。
 
-## 常见故障七：同一告警创建多张工单
+### 常见故障七：同一告警创建多张工单
 
 **证据**：多个 execution ID 对应相同 fingerprint 和下游动作。
 
@@ -1420,7 +1420,7 @@ Runner 层：Code task、heartbeat、内存、版本和 token
 
 **复盘指标**：重复动作率应成为业务 SLI，而不是藏在工单清理记录里。
 
-## 常见故障八：Schedule 漏跑或错时
+### 常见故障八：Schedule 漏跑或错时
 
 **证据**：计划任务未在预期北京时间运行，main 曾切换或重启。
 
@@ -1428,7 +1428,7 @@ Runner 层：Code task、heartbeat、内存、版本和 token
 
 **处置**：核对时区、发布状态、main/leader 日志、Execution 与外部业务记录。补跑前先检查幂等和观察窗口。
 
-## 常见故障九：升级后大量 Execution crashed
+### 常见故障九：升级后大量 Execution crashed
 
 **证据**：组件版本混杂、DB migration 或 Runner 协议错误、启动恢复将 in-progress 状态标为 crashed。
 
@@ -1438,7 +1438,7 @@ Runner 层：Code task、heartbeat、内存、版本和 token
 
 ## 可观测性
 
-## Health、Readiness 与业务探针
+### Health、Readiness 与业务探针
 
 | 检查 | 能证明 | 不能证明 |
 | --- | --- | --- |
@@ -1451,7 +1451,7 @@ Runner 层：Code task、heartbeat、内存、版本和 token
 
 探针要分层。最小合成探针可以每五分钟发送一条带固定测试标识的无副作用告警，验证 Production URL、队列、worker、数据库和响应；不能用真实生产变更作为健康探针。
 
-## Prometheus 指标
+### Prometheus 指标
 
 `N8N_METRICS=true` 开启 `/metrics`。Queue 指标需额外设置：
 
@@ -1470,15 +1470,15 @@ n8n_scaling_mode_queue_jobs_failed
 
 Multi-main 还可用 `instance_role_leader` 区分 leader。指标端点可能暴露敏感运行信息，只允许内部 Prometheus 网段抓取。
 
-## 推荐 SLI 与告警
+### 推荐 SLI 与告警
 
-### 入口 SLI
+#### 入口 SLI
 
 - Webhook 请求率、4xx/5xx、p95/p99 latency。
 - 验签失败率、请求体超限率、重复 event rate。
 - LB 到 main/processor 的分布和拒绝数。
 
-### Queue 与执行 SLI
+#### Queue 与执行 SLI
 
 - waiting 数和 oldest job age。
 - active、completed/failed rate。
@@ -1486,14 +1486,14 @@ Multi-main 还可用 `instance_role_leader` 区分 leader。指标端点可能�
 - 按 Workflow/节点类型拆分的 p50/p95/p99 duration。
 - waiting 状态年龄、timeout 与 Retry 数。
 
-### 组件 SLI
+#### 组件 SLI
 
 - main/worker/processor/runner readiness。
 - 容器 restart、CPU、RSS、event-loop lag。
 - Runner task waiting/timeout/heartbeat。
 - PostgreSQL pool、锁、慢查询、磁盘；Redis memory、connection、eviction、stalled。
 
-### 业务 SLI
+#### 业务 SLI
 
 - 告警到工单创建时延。
 - 自动修复后 SLI 恢复率。
@@ -1501,7 +1501,7 @@ Multi-main 还可用 `instance_role_leader` 区分 leader。指标端点可能�
 - 人工审批 backlog 与超时。
 - 回滚率和需要人工接管的比例。
 
-## 日志
+### 日志
 
 `N8N_LOG_LEVEL` 支持 `silent`、`error`、`warn`、`info`、`debug`，默认 `info`。`N8N_LOG_OUTPUT` 可输出到 console、file 或两者。生产日志应关联：
 
@@ -1518,13 +1518,13 @@ instance / worker / runner
 
 不要长期打开 debug，也不要把 token、Webhook Secret、Credential、完整告警敏感字段或 LLM Prompt 原文写入日志。
 
-## Trace 与外部审计
+### Trace 与外部审计
 
 若使用 OpenTelemetry 或外部网关，应传播 trace ID，把入口请求、n8n Execution、下游 API 和 Runbook 关联起来。n8n 的 `audit` 命令是某一时刻的风险扫描，不等于持续审计；付费 Log streaming 能持续发送更多 workflow、user、credential、worker、runner 和 queue 事件，但仍要核对计划边界。
 
 ## 容量与性能
 
-## 先建立容量模型
+### 先建立容量模型
 
 用 Little's Law 的近似关系做第一步估算：
 
@@ -1535,7 +1535,7 @@ worker 数 ≈ ceil(C / 单 worker 安全并发) × 冗余系数
 
 例如峰值 200 RPS、平均执行时间 2 秒，理论同时执行约 400。如果单 worker 实测安全并发为 10，基础数量约 40；乘 1.3 冗余约 52。这个数字只用于暴露量级，**不是 n8n 官方容量承诺**。如果下游工单 API 只能承受 20 RPS，52 个 worker 只会把它打垮。
 
-## 压测方法
+### 压测方法
 
 1. 用真实大小但脱敏的 payload。
 2. 分开测试纯映射、HTTP、Code、binary、AI 节点。
@@ -1544,7 +1544,7 @@ worker 数 ≈ ceil(C / 单 worker 安全并发) × 冗余系数
 5. 记录 p50/p95/p99、错误率、oldest queue age 和恢复时间。
 6. 验证限流、超时、退避、熔断和停止条件。
 
-## 常见容量瓶颈
+### 常见容量瓶颈
 
 - 下游 API 429 或连接限制。
 - PostgreSQL connection pool、锁、慢查询和磁盘。
@@ -1556,7 +1556,7 @@ worker 数 ≈ ceil(C / 单 worker 安全并发) × 冗余系数
 
 不要把 worker concurrency 设置成越大越好。CPU 型 Code、长连接、内存型 binary 和慢下游需要不同隔离池或 Workflow 拆分。
 
-## 背压与容量保护
+### 背压与容量保护
 
 生产系统要定义：
 
@@ -1569,11 +1569,11 @@ worker 数 ≈ ceil(C / 单 worker 安全并发) × 冗余系数
 
 ## 高可用与灾难恢复
 
-## Community Queue Mode 的边界
+### Community Queue Mode 的边界
 
 Community 可以增加 worker 和 webhook processor，但单 main 仍是 Editor/API、定时器和部分 Trigger 的关键点。它提高数据面吞吐，不等于控制面 HA。
 
-## Multi-main
+### Multi-main
 
 Self-hosted Enterprise 的 Multi-main 才用于 main 控制面高可用。设计要求包括：
 
@@ -1585,14 +1585,14 @@ Self-hosted Enterprise 的 Multi-main 才用于 main 控制面高可用。设计
 
 PostgreSQL、Redis、对象存储和负载均衡器也必须单独 HA。两个 n8n main 无法修复单实例 PostgreSQL 的磁盘损坏。
 
-## RPO 与 RTO
+### RPO 与 RTO
 
 - **RPO**：最多能丢多少状态。例如 RPO 5 分钟意味着数据库、binary 与 Secret 备份链路要支撑这个目标。
 - **RTO**：故障后多久恢复。例如 RTO 30 分钟要求有预创建环境、自动化恢复和演练，而不是事故时第一次读文档。
 
 Workflow 导出不是数据库一致性备份；数据库备份也不自动包含 encryption key 和外部 binary。RPO/RTO 必须覆盖完整恢复对象。
 
-## 备份对象
+### 备份对象
 
 至少包含：
 
@@ -1604,7 +1604,7 @@ Workflow 导出不是数据库一致性备份；数据库备份也不自动包�
 6. 版本、插件/Community node 清单和镜像 digest。
 7. 恢复 Runbook、负责人、RPO/RTO 与最近演练报告。
 
-## 恢复验证
+### 恢复验证
 
 在隔离环境按顺序验证：
 
@@ -1614,10 +1614,10 @@ Workflow 导出不是数据库一致性备份；数据库备份也不自动包�
   -> 启动同版本组件
   -> readiness 与迁移
   -> Credential 解密和最小 API 调用
-  -> Manual Workflow
-  -> Production Webhook
-  -> Schedule / Wait / Error Workflow
-  -> Queue / Worker / Runner
+  -> Manual Workflow（人工执行工作流）
+  -> Production Webhook（正式回调入口）
+  -> Schedule / Wait / Error Workflow（计划、等待与错误处理工作流）
+  -> Queue / Worker / Runner（队列、工作者与代码执行器）
   -> 业务对账
 ```
 
@@ -1625,11 +1625,11 @@ Workflow 导出不是数据库一致性备份；数据库备份也不自动包�
 
 ## 安全边界
 
-## 把编辑权视为高权限
+### 把编辑权视为高权限
 
 能编辑 Workflow 的人可能使用 Expression、HTTP Request、Code、文件系统或命令类节点触达凭据和内网。只给可信工程人员最小编辑权限；运行者、观察者和审批者应使用更窄角色。Projects、SSO、自定义角色的能力要按计划核对。
 
-## Webhook 安全
+### Webhook 安全
 
 - HTTPS 和可信反向代理。
 - Header/JWT/Basic 等认证，优先签名校验。
@@ -1639,7 +1639,7 @@ Workflow 导出不是数据库一致性备份；数据库备份也不自动包�
 - Production 与 Test 路由分开。
 - 外部响应不回显内部错误、Secret 或堆栈。
 
-## 网络与 Credential
+### 网络与 Credential
 
 - PostgreSQL、Redis、Runner Broker 不暴露公网。
 - 只允许需要的组件和目标域名。
@@ -1647,7 +1647,7 @@ Workflow 导出不是数据库一致性备份；数据库备份也不自动包�
 - 生产使用外部 Secret 管理时核对付费功能；否则至少用平台 Secret 和 ACL。
 - 数据库备份和 key 分离，访问与恢复都留审计。
 
-## Node 与供应链
+### Node 与供应链
 
 Community/Custom nodes 会在实例中执行代码。安装前审核来源、维护状态、版本和权限；固定版本，先在隔离环境测试。对不需要的高风险节点建立 blocklist。定期运行：
 
@@ -1657,11 +1657,11 @@ docker exec -u node -it <n8n-container-name> n8n audit
 
 审计报告会检查未使用 Credential、数据库表达式、文件系统节点、风险节点、未保护 Webhook、安全设置和版本。它只能发现部分风险，不是安全保证。
 
-## Task Runner 加固
+### Task Runner 加固
 
 生产建议：external sidecar、distroless、非 root 用户 `65532`、只读根文件系统、最小可写 `/tmp`、AppArmor/容器策略、模块 allowlist、CPU/内存/任务超时和受限网络。
 
-## 安全升级
+### 安全升级
 
 n8n 历史上出现过官方 Critical Expression Injection RCE 公告。现实教训是：
 
@@ -1673,7 +1673,7 @@ n8n 历史上出现过官方 Critical Expression Injection RCE 公告。现实�
 
 ## 升级与回滚
 
-## 升级前
+### 升级前
 
 1. 阅读从当前版本到目标版本的 Release notes 和 breaking changes。
 2. 固定目标数字版本与镜像 digest。
@@ -1682,7 +1682,7 @@ n8n 历史上出现过官方 Critical Expression Injection RCE 公告。现实�
 5. 建立前后基线：错误率、duration、queue age、DB migration、Runner timeout 和业务重复率。
 6. 明确停止条件、负责人和回滚决策点。
 
-## 升级中
+### 升级中
 
 Docker Compose 的基本动作是：
 
@@ -1694,7 +1694,7 @@ docker compose up -d
 
 生产不能只执行三条命令。所有 main、worker、webhook processor 和 Runner 应升级到同一版本；观察 readiness、迁移日志、Queue 和合成 Workflow，再逐步恢复流量。
 
-## 升级后
+### 升级后
 
 - 核对运行版本而不是只看配置文件。
 - 验证 Test/Production Webhook、Schedule、Wait 和 Error Workflow。
@@ -1702,7 +1702,7 @@ docker compose up -d
 - 比较 p95、失败率、waiting age、DB/Redis 与业务重复率。
 - 观察一个完整业务周期后再删除旧环境和备份。
 
-## 回滚边界
+### 回滚边界
 
 如果只是应用无状态代码且 schema 向后兼容，可能切回旧镜像；但如果数据库迁移、Workflow 格式或 encryption key 格式已改变，旧版本可能无法读取。特别是 encryption key rotation 功能开启后会写入新格式，官方文档说明不能简单关 flag 或降级；可靠回退是恢复开启前的完整数据库备份。
 
@@ -1710,11 +1710,11 @@ docker compose up -d
 
 ## 生产事故场景：Webhook 正常，工单延迟 20 分钟
 
-## 现象
+### 现象
 
 09:30 起，Webhook 仍返回 202；main `/healthz` 为 200；worker 容器都显示 running。但告警到工单的时延从 10 秒升到 20 分钟，queue waiting 持续上涨。
 
-## 先判断影响面
+### 先判断影响面
 
 - 所有 Workflow 还是只有 Code node Workflow？
 - 只有工单系统还是所有下游？
@@ -1724,7 +1724,7 @@ docker compose up -d
 
 若存在破坏性自动修复，应先降级为人工审批或只记录事件，防止积压恢复后集中执行旧动作。
 
-## 证据顺序
+### 证据顺序
 
 1. 查 main `/healthz/readiness`，不把 health 当 ready。
 2. 查 queue waiting、active、completed、failed 和 oldest age。
@@ -1735,25 +1735,25 @@ docker compose up -d
 7. 按 Workflow/node type 分解 duration，查下游 429/5xx/timeout。
 8. 用 eventId 对账工单系统，确认是否“已成功但响应丢失”。
 
-## 假设与验证
+### 假设与验证
 
-### 假设一：worker 容量不足
+#### 假设一：worker 容量不足
 
 表现为 active 接近安全并发，CPU/内存合理，DB/Redis/下游仍有余量。小步增加一个 worker，若 completed rate 上升且 DB/下游稳定，假设得到支持。
 
-### 假设二：Runner 故障
+#### 假设二：Runner 故障
 
 只有包含 Code node 的 Workflow 积压，Runner task timeout 增长。恢复对应 sidecar 后该类任务恢复，支持假设。
 
-### 假设三：数据库连接耗尽
+#### 假设三：数据库连接耗尽
 
 worker 看似空闲但 readiness/日志报 DB，连接池满或慢查询增加。降低 worker 并发后错误减少，支持假设；继续加 worker 会恶化。
 
-### 假设四：下游限流
+#### 假设四：下游限流
 
 HTTP Request 节点出现 429，重试放大请求。降低消费、加退避后成功率恢复，支持假设。
 
-## 修复
+### 修复
 
 - worker 饱和且全链路有余量：小步扩容并观察。
 - Runner 饱和：修复或扩对应 sidecar，不开 insecure mode。
@@ -1761,7 +1761,7 @@ HTTP Request 节点出现 429，重试放大请求。降低消费、加退避后
 - 下游限流：限速、指数退避、熔断，必要时暂停非关键 Workflow。
 - Redis 异常：先保证队列一致性和持久状态可对账，再恢复消费。
 
-## 验证
+### 验证
 
 恢复标准不只是 waiting 归零：
 
@@ -1772,11 +1772,11 @@ HTTP Request 节点出现 429，重试放大请求。降低消费、加退避后
 - 按 idempotency key 对账，无新增重复副作用；
 - critical 事件的业务 SLI 真正恢复。
 
-## 爆炸半径与回滚
+### 爆炸半径与回滚
 
 记录调整了哪些 worker、并发、限速或超时，影响哪些 Workflow 和下游。若扩容导致 DB 或下游恶化，立即恢复旧并发/副本数；如果暂停自动化，明确人工接管列表和恢复顺序。
 
-## 复盘改进
+### 复盘改进
 
 - 为 queue oldest age 和业务完成时延建告警。
 - 将 Workflow 按下游/风险/资源类型隔离。
@@ -1786,7 +1786,7 @@ HTTP Request 节点出现 429，重试放大请求。降低消费、加退避后
 
 ## 生产系统设计题：设计企业级 n8n AIOps 编排平台
 
-## 题目
+### 题目
 
 设计一个每天接收 50 万条告警、峰值 200 RPS 的平台。它需要：
 
@@ -1797,7 +1797,7 @@ HTTP Request 节点出现 429，重试放大请求。降低消费、加退避后
 - Credential 隔离与持续审计；
 - 可观测、可扩容、可升级和可回滚。
 
-## 先澄清需求
+### 先澄清需求
 
 面试中不要直接画图，先问：
 
@@ -1809,62 +1809,62 @@ HTTP Request 节点出现 429，重试放大请求。降低消费、加退避后
 6. RPO、RTO、数据保留与合规要求是什么？
 7. Workflow 编辑者、审批者和运行者如何分权？
 
-## 一个可讨论的设计
+### 一个可讨论的设计
 
 ```text
-External alert sources
+External alert sources（外部告警来源）
         |
         v
-DNS -> WAF/LB -> webhook processor pool
-        |          ├─ auth/signature/replay protection
-        |          └─ fast accept + event contract
+DNS（域名解析） -> WAF/LB（应用防火墙与负载均衡） -> webhook processor pool（回调接收池）
+        |          ├─ auth/signature/replay protection（认证、签名与防重放）
+        |          └─ fast accept + event contract（快速受理与事件契约）
         |
-        +------> main pool (Editor/API, sticky session)
+        +------> main pool (Editor/API, sticky session)（主进程池，编辑接口及粘滞会话）
                        |
                        v
-                 Redis HA queue
+                 Redis HA queue（高可用队列）
                        |
           +------------+------------+
           v            v            v
-      worker pool  worker pool  worker pool
-       HTTP/light   Code/Runner   high-risk flow
+      worker pool（工作者池）  worker pool（工作者池）  worker pool（工作者池）
+       HTTP/light（网络调用或轻任务）   Code/Runner（代码与执行器）   high-risk flow（高风险流程）
           |            |            |
-          |       runner sidecars    +-> approval gateway
-          |            |            +-> Runbook platform
+          |       runner sidecars（执行器边车）    +-> approval gateway（审批网关）
+          |            |            +-> Runbook platform（操作手册执行平台）
           +------------+------------+
                        |
                        v
-                 PostgreSQL HA
-          workflow / credential / execution
+                 PostgreSQL HA（关系数据库高可用）
+          workflow / credential / execution（工作流、凭据与执行记录）
                        |
        +---------------+----------------+
        v                                v
- shared binary/object store       metrics/logs/traces
+ shared binary/object store（共享二进制或对象存储）       metrics/logs/traces（指标、日志与链路）
 ```
 
-## 入口设计
+### 入口设计
 
 - 多个 webhook processor 由 LB 分流，main 不进入生产 Webhook 池。
 - WAF/LB 做 TLS、速率和大小限制；Workflow 做签名、时间戳、nonce 与事件契约校验。
 - 入口快速返回 202 时，必须另建“端到端完成时延”SLO，不能只报入口可用。
 - `/webhook-test/*` 只到 main，生产和测试域名/路由分开。
 
-## 编排与状态
+### 编排与状态
 
 - Queue mode 只把 execution ID 经 Redis 分发；worker 从 PostgreSQL 读写共享状态。
 - PostgreSQL 是 Workflow、Credential 密文、Execution 状态/结果的权威存储。
 - Redis、PostgreSQL 和 binary store 分别做 HA、备份、容量和告警。
 - Wait/审批状态持久化，审批回调必须鉴权、防重放并校验 change ID。
 
-## 隔离与容量
+### 隔离与容量
 
-- 按资源类型拆 worker pool：轻量 HTTP、Code/Runner、长耗时/AI、高风险动作。
+- 按资源类型规划隔离域：轻量 HTTP、Code/Runner、长耗时/AI、高风险动作。普通共享 Queue mode 不会仅凭 worker 名称或容器标签，把指定 Workflow 自动路由到某一 worker 池；需要先核验目标版本能力，或采用独立 n8n 部署及明确的入口分流。上图表达逻辑隔离目标，不是开箱即用的队列路由配置。
 - 每个需要 Code 的 worker 配同版本 external Runner sidecar。
 - 用实测 `λ × W` 算并发，结合 DB pool、下游限流和冗余决定 worker 数。
 - 设置 per-downstream rate limit、timeout、Retry budget 与熔断。
 - backlog 超阈值时降级：暂停自动修复，保留事件登记和人工响应。
 
-## 幂等与一致性
+### 幂等与一致性
 
 稳定 key 示例：
 
@@ -1874,7 +1874,7 @@ fingerprint + environment + action + incident-window
 
 在外部动作账本使用唯一约束。流程先 claim，再执行，再写外部 resource ID；重试先查账本和下游。对不可逆动作使用审批、dry-run、影响面、回滚 token 和事后业务验证。系统提供的是 at-least-once 风险下的可控副作用，不宣称 exactly-once。
 
-## 高可用
+### 高可用
 
 - Enterprise Multi-main + sticky sessions + leader/follower。
 - main、worker、processor、Runner 全部同版本和同 encryption key。
@@ -1883,7 +1883,7 @@ fingerprint + environment + action + incident-window
 
 如果预算只允许 Community，要明确单 main 风险，设计热备、快速恢复和人工降级；不能把方案包装成完整控制面 HA。
 
-## 安全与治理
+### 安全与治理
 
 - SSO/RBAC/Projects 按计划启用；生产编辑权最小化。
 - Credential 由统一 key 加密，key 和 DB 备份分离；外部 Secret 功能按计划核对。
@@ -1891,7 +1891,7 @@ fingerprint + environment + action + incident-window
 - Security audit 周期执行，安全公告进入升级流程。
 - Event、Execution、审批、Runbook 和外部结果用统一 ID 关联。
 
-## 可观测与 SLO
+### 可观测与 SLO
 
 至少定义：
 
@@ -1904,35 +1904,35 @@ fingerprint + environment + action + incident-window
 - 人工审批时延；
 - RPO/RTO 演练结果。
 
-## 升级与灾备
+### 升级与灾备
 
 固定版本，staging 回放代表性 Workflow，全组件同版本升级。备份 DB、key、binary、配置和导出；隔离恢复后验证 Credential、Webhook、Schedule、Wait、Error Workflow、Queue 和 Runner。数据库 schema/key 格式变化时，用完整备份回退，不能只换镜像。
 
-## 关键取舍
+### 关键取舍
 
-### 同步响应还是异步接受
+#### 同步响应还是异步接受
 
 同步能直接告诉调用方结果，但会占连接并放大下游延迟；异步 202 更能吸收峰值，但必须提供状态查询、完成通知和端到端 SLO。
 
-### 一个大 Workflow 还是多个子流程
+#### 一个大 Workflow 还是多个子流程
 
 一个大图容易入门，但权限、发布和故障范围过大。生产可按接入、补全、决策、执行、验证拆子工作流，通过清晰契约连接；避免无限嵌套让 Execution 难追踪。
 
-### n8n 内直接执行还是调用 Runbook 平台
+#### n8n 内直接执行还是调用 Runbook 平台
 
 低风险 API 映射可直接做；主机配置、批量变更和高风险动作更适合交给 AWX/Rundeck/内部平台，由 n8n 负责编排、审批和验证。
 
-### 保存全部 Execution 还是只存错误
+#### 保存全部 Execution 还是只存错误
 
 全存便于调试但成本和敏感数据风险高；只存错误又可能缺成功基线。按 Workflow 风险、审计要求和 payload 大小制定策略，并把关键业务结果写入独立审计系统。
 
 ## 面试怎么讲
 
-## 30 秒版本
+### 30 秒版本
 
 > n8n 是一个 source-available 的工作流自动化平台，用 Trigger 接收事件，让 Item 在节点间流动，并把每次运行保存为 Execution。AIOps 中它适合连接监控、日志、CMDB、工单、审批和 Runbook。单机用 Regular mode；需要扩展时，main 把 execution ID 放入 Redis，worker 从 PostgreSQL 读取并执行。生产重点不是拖节点，而是业务幂等、Credential/Runner 隔离、Queue 和数据库容量、HA、可观测、备份与升级回滚。
 
-## 3 分钟版本
+### 3 分钟版本
 
 > 我会把 n8n 分成入口、编排、执行、状态和治理五层。Webhook、Schedule 等 Trigger 创建 Execution；节点处理 JSON Item、调用外部系统，Expression 完成字段映射。Regular mode 适合学习，Queue mode 中 main 或 webhook processor 先在数据库创建执行，再把 execution ID 放进 Redis，worker 读取 PostgreSQL 中的 Workflow 和执行数据，完成后写回并通知 main。Redis 不是权威状态库，PostgreSQL 才是共享持久状态。
 >
@@ -2080,30 +2080,66 @@ DB 与 encryption key 不匹配，或进程之间 key 不一致。备份必须�
 - [ ] 能设计 50 万告警平台并说明计划/许可边界。
 - [ ] 能按证据、假设、验证、修复、影响面、回滚回答事故题。
 
+## 老师带你再走一遍：节点绿色，但为什么可能处理错了告警
+
+前面的本地流程只接收一条告警，所以很容易产生错觉：“我的字段表达式预览有值，映射就正确了。”现在把输入想成两张表格：第一条是结算服务，负责人小陈；第二条是订单服务，负责人小李。若查询 CMDB 后返回顺序变化，你按第一个输入配第一个输出，可能给两个人发错工单。字段不空、HTTP 成功、所有节点绿色，业务仍然错。
+
+### Item linking 是来源关系，不是数组下标碰巧相等
+
+Item 是带结构的数据项，Item linking（数据项关联）记录它从哪里来。读取 `$('Query CMDB').item` 时，平台需要找到当前项对应的上游项。节点拆分、聚合或代码重新创建输出后，这个对应关系可能不再唯一。解决思路不是到处换成 `.first()`，因为那相当于让所有告警都拿第一条记录的负责人。
+
+先保留业务键 `eventId`、`service`，再决定连接方式：一对一映射保留来源；按服务查询后用服务键匹配；多个输入汇总成一个结果时明确这个结果代表一组事件，不再假装有唯一原始项。遇到关联错误，先数每个节点输入输出的项数，再查关键字段和值的对应。官方[数据项关联说明](https://docs.n8n.io/build/work-with-data/reference-data/link-data-items/how-items-link-through-workflows.md)负责解释平台机制，业务键仍需要你设计。
+
+基础实验还没有严格枚举校验，因此 `critical ` 或未知严重度可能进入观察分支。生产前要先规范化大小写与空格，再拒绝未知枚举，不能把“不是 critical”都解释成“低风险”。缺少 service、eventId 或环境时应进入错误队列/人工审阅，并返回明确的契约错误。尤其不能让请求方自己填 `approvalRequired=false` 就越过审批：风险等级应由可信策略计算，外部字段最多是输入证据。
+
+### 再做一组可回收的契约实验
+
+使用已经跑通的本地路由，先在画布复制一份为 `n8n-lab-contract`，Webhook 路径改成 `aiops-contract`，避免改变原实验入口。保存并发布。第一条请求使用 `lab-contract-001` 和 `critical`，预期走人工审阅；第二条把严重度改为 `critical `，在未加入规范化前可能错误进入观察。这是明确的数据语义故障，不用停服务或修改数据库。
+
+在 Normalize 节点把严重度表达式改为 `{{ String($json.body.severity ?? '').trim().toLowerCase() }}`，然后在风险分支前增加 If 校验：值只能是 `critical` 或 `warning`，`alertId` 和 `service` 必须非空。校验失败分支使用 Stop And Error，或专门的 Respond to Webhook 返回 400；两种方式对应不同运行状态，选择后把合同写进 README。生产级类型检查应先确认输入是字符串，不能把数组或对象自动 String 后当正常业务值。
+
+再次发布后重复前两条请求，二者都应得到人工审阅路由；再发送 `severity=unknown`，预期进入明确拒绝分支，不再默默观察。逐次在 Executions 中核对输入原值、规范化值、校验分支和最终响应，用三个不同 alertId 避免串错记录。如果画布修改后生产入口还用旧逻辑，先查是否 Publish，而不是清空执行历史。完成后停用并删除这份实验副本，原 `aiops-alert` 不受影响；保留脱敏导出与三次结果，容器按基础实验 `down` 回收。这里没有真实工单或消息副作用。
+
+### claim 之后崩溃怎么办：唯一约束还差一张状态表
+
+“先用唯一约束占住幂等键”只能阻止两个执行同时领取，不能单独解决领取后崩溃。若账本里只有一条 `key exists`，第二次执行不知道第一次是否已经建工单：直接跳过可能丢动作，直接重做可能重复。因此账本至少区分待处理、处理中、已确认成功、明确失败和结果未知，并记录外部操作编号、首次尝试时间、最近核验时间。
+
+拿到处理权后请求下游，下游返回资源 ID 才记为已确认。请求超时先记未知，通过下游支持的幂等键或查询接口核验是否已有工单。若下游不提供可靠查询或幂等能力，就需要人工对账或业务补偿，不能保证自动无重复。租约过期允许重新领取时，还要防旧执行晚到覆盖新执行的结论；使用版本条件更新或栅栏令牌，拒绝过期持有者继续写。这些是你自己的业务账本设计，不是 n8n 自动附赠的事务保证。
+
+### 审批等待后，原来的证据可能已经过期
+
+上午审批“重启一台故障实例”，下午流程恢复时实例可能已替换、错误率已恢复、维护窗口已结束。Wait 能持久化等待状态，不等于原动作永远有效。恢复后先核验审批身份、动作参数摘要、目标资源不可变 ID、有效期和最新前置条件，再执行。审批链接应防重放，重复点击不能创建两个变更。模型生成的文本也不能改变已经审批的参数；如需改目标或影响范围，应重新审批。
+
+容量估算同样要区分工作流等待与实际执行。持续在数据库中等待人工审批的记录不一定一直占 worker 执行槽，但会占数据库空间并形成运营积压。`λ × W` 必须给出边界：算入口到最终完成的在途记录数量，还是算活跃节点占用并发；把三小时人工等待直接折算成三小时 CPU 并发会严重失真。分别观察待审批年龄、队列等待年龄和节点执行时长，才能选对扩容对象。
+
+### 课堂交付的最后一道自查
+
+你应该能口述一条告警从入口到动作账本再到结果验证的全程，并回答“这次是草稿还是发布版、哪个事件项、用哪个凭据、谁批准、是否已经执行、如何证明业务恢复”。如果只能打开一张漂亮流程图，证据还不够；如果有三次契约实验、一次错误工作流实验和一份未知结果的对账设计，即使暂未部署生产，也能诚实地展示已理解的机制和仍需验证的边界。
+
 ## GitHub 学习证据
 
 完成实验后，可在自己的学习仓库提交如下结构：
 
 ```text
-n8n-aiops-lab/
-├─ README.md
-├─ compose.yaml
-├─ .env.example
-├─ workflows/
-│  ├─ n8n-lab-alert-router.json
-│  └─ n8n-lab-error-handler.json
-├─ samples/
-│  ├─ critical-alert.json
-│  └─ warning-alert.json
-├─ evidence/
-│  ├─ version-and-compose-config.txt
-│  ├─ health-readiness-metrics.txt
-│  ├─ baseline-execution.png
-│  ├─ fault-execution.png
-│  ├─ error-workflow-execution.png
-│  └─ recovery-execution.png
-└─ incident-notes/
-   └─ lab-fault-review.md
+n8n-aiops-lab/（学习项目目录）
+├─ README.md（学习说明）
+├─ compose.yaml（容器编排）
+├─ .env.example（变量示例，不含真实秘密）
+├─ workflows/（导出的工作流）
+│  ├─ n8n-lab-alert-router.json（告警路由工作流）
+│  └─ n8n-lab-error-handler.json（故障处理工作流）
+├─ samples/（脱敏输入样本）
+│  ├─ critical-alert.json（严重告警样本）
+│  └─ warning-alert.json（警告样本）
+├─ evidence/（执行与恢复证据）
+│  ├─ version-and-compose-config.txt（版本与脱敏编排配置）
+│  ├─ health-readiness-metrics.txt（健康、就绪与指标证据）
+│  ├─ baseline-execution.png（正常执行截图）
+│  ├─ fault-execution.png（故障执行截图）
+│  ├─ error-workflow-execution.png（错误工作流截图）
+│  └─ recovery-execution.png（恢复截图）
+└─ incident-notes/（故障复盘）
+   └─ lab-fault-review.md（实验复盘）
 ```
 
 `.env.example` 只放变量名：

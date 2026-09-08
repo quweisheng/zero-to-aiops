@@ -66,79 +66,79 @@ scikit-learn 是 Python 的传统机器学习工具箱：它用统一的 estimat
 scikit-learn 官方用户指南可以按这张地图理解：
 
 ```text
-scikit-learn
-  -> Getting started
-     -> estimator
-     -> fit
-     -> predict
-     -> transform
-     -> X shape: n_samples x n_features
-  -> Supervised learning
-     -> classification
-     -> regression
-     -> linear models
-     -> SVM
-     -> trees
-     -> ensembles
-  -> Unsupervised learning
-     -> clustering
-     -> dimensionality reduction
-     -> novelty and outlier detection
-  -> Model selection and evaluation
-     -> train_test_split
-     -> cross-validation
-     -> metrics
-     -> hyperparameter tuning
-     -> threshold tuning
-  -> Dataset transformations
-     -> preprocessing
-     -> imputation
-     -> encoding categorical features
-     -> Pipeline
-     -> ColumnTransformer
-  -> Computing with scikit-learn
-     -> performance
-     -> parallelism
-     -> scaling to larger data
-  -> Model persistence
-     -> pickle/joblib/skops/ONNX
-     -> security and version compatibility
-  -> Common pitfalls
-     -> inconsistent preprocessing
-     -> data leakage
-     -> bad train/test evaluation
+scikit-learn（传统机器学习工具库）
+  -> Getting started（入门）
+     -> estimator（估计器）
+     -> fit（从训练数据学习）
+     -> predict（预测）
+     -> transform（按已拟合规则变换特征）
+     -> X shape: n_samples（样本数） x n_features（特征数）
+  -> Supervised learning（监督学习）
+     -> classification（分类）
+     -> regression（回归）
+     -> linear models（线性模型）
+     -> SVM（支持向量机）
+     -> trees（决策树）
+     -> ensembles（集成模型）
+  -> Unsupervised learning（无监督学习）
+     -> clustering（聚类）
+     -> dimensionality reduction（降维）
+     -> novelty and outlier detection（新颖性与离群检测）
+  -> Model selection and evaluation（模型选择与评估）
+     -> train_test_split（训练测试集拆分）
+     -> cross-validation（交叉验证）
+     -> metrics（指标）
+     -> hyperparameter tuning（超参数搜索）
+     -> threshold tuning（阈值调整）
+  -> Dataset transformations（数据集变换）
+     -> preprocessing（预处理）
+     -> imputation（缺失值填补）
+     -> encoding categorical features（类别特征编码）
+     -> Pipeline（串联处理流水线）
+     -> ColumnTransformer（按列应用不同变换）
+  -> Computing with scikit-learn（计算资源使用）
+     -> performance（性能）
+     -> parallelism（并行度）
+     -> scaling to larger data（扩展到更大数据）
+  -> Model persistence（模型持久化）
+     -> pickle/joblib/skops/ONNX（不同模型持久化或交换格式）
+     -> security and version compatibility（安全与版本兼容）
+  -> Common pitfalls（常见误区）
+     -> inconsistent preprocessing（训练预测预处理不一致）
+     -> data leakage（数据泄漏）
+     -> bad train/test evaluation（错误的训练测试评估）
 ```
 
 初学路线：
 
 ```text
-pandas feature table
-  -> X and y
-  -> train/test split
-  -> preprocessing
-  -> model
-  -> Pipeline
-  -> fit
-  -> predict / decision_function / score_samples
-  -> metrics / review
-  -> persist model
-  -> AIOps report
+pandas feature table（pandas 特征数据表）
+  -> X and y（特征矩阵与标签）
+  -> train/test split（训练集与测试集拆分）
+  -> preprocessing（预处理）
+  -> model（模型）
+  -> Pipeline（串联处理流水线）
+  -> fit（从训练数据学习）
+  -> predict（预测） / decision_function（判别分数接口） / score_samples（样本评分接口）
+  -> metrics（指标） / review
+  -> persist model（保存模型）
+  -> AIOps report（智能运维报告）
 ```
 
 ## scikit-learn 在 AIOps 链路中的位置
 
 ```text
-Prometheus / MySQL / Kafka export / CSV
-  -> pandas cleaning
-  -> feature engineering
-  -> scikit-learn
-      anomaly detection
-      classification
-      clustering
-      regression
-  -> anomaly score / class / cluster / prediction
-  -> report / dashboard / alert enrichment
-  -> human feedback
+Prometheus / MySQL / Kafka export / CSV（逗号分隔表格文件）
+  -> pandas cleaning（用 pandas 清洗）
+  -> feature engineering（特征工程）
+  -> scikit-learn（传统机器学习工具库）
+      anomaly detection（异常检测）
+      classification（分类）
+      clustering（聚类）
+      regression（回归）
+  -> anomaly score（异常分数） / class（预测类别） / cluster（聚类簇） / prediction（预测结果）
+  -> report / dashboard（仪表盘） / alert（告警） enrichment
+  -> human（人工） feedback（反馈）
 ```
 
 适合 scikit-learn 的 AIOps 入门任务：
@@ -1017,7 +1017,181 @@ scikit-learn 是传统机器学习库，核心是统一的 estimator API。模�
 15. 模型保存有什么安全和版本风险？
 16. 为什么模型结果不能直接触发高风险自动修复？
 
-## 学习证据
+## 老师带你理解工具箱里的三个动作
+
+先别记算法名字。`fit` 像老师根据训练卷总结规律；`transform` 按已学规则改写输入，例如按训练集的均值和标准差缩放；`predict` 才输出预测答案。转换器也会学习，所以标准化、缺失值填补和类别编码都必须遵守训练与测试分离。
+
+`X` 是二维输入，行是样本、列是特征；单个告警也通常要保持一行多列，不能随意压成一维。`y` 是监督学习的标签，并不是每个模型都需要。观察 `X.shape`、列名和类型，是报错时的第一站。训练五列、上线四列不只是少了数字，而是改变模型输入合同。
+
+Pipeline（处理流水线）把步骤按顺序绑在一起，但它不能替你修复输入里本来就包含未来信息的字段。ColumnTransformer（按列处理器）让数值列填补和缩放、类别列编码分别进行；上线遇到新类别时 `handle_unknown='ignore'` 可避免直接报错，但未知类别比例突然上升仍应监控，不能把静默兼容当成数据健康。
+
+### IsolationForest 为什么会觉得一个点奇怪
+
+IsolationForest（孤立森林）反复随机选择特征与切分值。孤立、少见的点往往只需较少切分就能与其他点分开；多数密集正常点需要更长路径。它学习的是样本在特征空间中的相对孤立程度，不会理解“服务发布失败”的业务含义。
+
+`contamination` 主要影响异常阈值的确定，不等于经过人工验证的事故比例。把它从 0.01 调到 0.2，报告更多异常不代表召回真的提高。先看原始分数排名、服务分组、人工标注和阈值带来的处理量，再决定策略。异常分数和概率也不是同一东西，不能把 `decision_function` 输出 0.8 说成事故概率 80%。
+
+KMeans（K 均值聚类）按距离寻找分组中心，适合相似行为归类；它会给输入安排分组，并不保证每组都对应一个根因。不同量纲会影响距离，服务流量大小也可能盖过错误率形状。用业务样本检查聚类解释，再结合标准化、窗口定义和分组指标迭代。
+
+### 可回收故障实验：训练记住了正确顺序，输入却偷偷换位
+
+前提是安装本篇依赖。保存以下代码为 `feature_contract_lesson.py`，运行 `python feature_contract_lesson.py`，只在内存使用合成数据：
+
+```python
+import pandas as pd
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+
+features = ['error_rate', 'latency_ms']
+x = pd.DataFrame([[0.01,100],[0.02,120],[0.2,900],[0.3,1200]], columns=features)
+y = [0,0,1,1]
+model = make_pipeline(StandardScaler(), LogisticRegression()).fit(x,y)
+current = pd.DataFrame([[0.25,1000]], columns=features)
+print('normal:', model.predict(current).tolist())
+
+def checked_predict(frame):
+    if list(frame.columns) != features:
+        raise ValueError('特征名或顺序与模型合同不一致')
+    if not frame['error_rate'].between(0,1).all():
+        raise ValueError('错误率必须使用 0 到 1 的比例')
+    return model.predict(frame)
+
+try:
+    checked_predict(current[['latency_ms','error_rate']])
+except ValueError as error:
+    print('DETECTED:', error)
+print('recovered:', checked_predict(current[features]).tolist())
+```
+
+预期正常结果 `[1]`、明确检测列顺序错误、修复后 `[1]`。我们自己加合同检查，是为了让失败原因靠近输入，而不是等下游产生奇怪分数。再把错误率改成 `25`，应触发比例范围错误；恢复 `0.25` 即可。若未拦截，确认预测走了 `checked_predict`，没有绕过检查函数。清理删除教学脚本，无数据库或服务遗留。
+
+### 参数搜索、持久化与生产推理
+
+超参数搜索会反复使用验证数据作选择，所以最后仍需要一次未参与选型的测试评估。时间序列用符合时间方向的拆分，多个窗口来自同一事故时还要防组间泄漏。`random_state` 固定部分随机行为，不保证跨硬件、库版本和并行配置完全一致；记录环境与输入哈希更完整。
+
+并行要计算总线程数。外层搜索开多进程，模型自身又开多线程，底层数学库再并行，可能发生资源过量竞争。先设并发上限，观察 CPU、内存峰值和任务完成时间，不能见到 `n_jobs=-1` 就当成最佳配置。
+
+保存模型同时保存预处理、特征列表、单位、训练区间、指标和阈值。`pickle`、`joblib` 载入不可信文件可能执行代码，只载入可信、经过校验的构建产物；不同 sklearn 版本之间直接载入也没有通用兼容保证。按官方 [模型持久化](https://scikit-learn.org/stable/model_persistence.html) 选择部署格式，并用同一批输入校验导出前后结果。
+
+无状态推理副本需要加载相同版本、设置输入大小与批量上限；模型加载成功只是就绪的一部分，仍应跑固定探针确认字段和预测契约。升级采用小流量对照，比较延迟、异常比例与人工标签；回滚整个 Pipeline 与阈值，不单独替换分类器。
+
+### 面试带练
+
+30 秒回答聚焦统一接口、训练边界和证据：我用 Pipeline 管预处理与模型，用时间合理的拆分评估，输入合同检查防止上线字段漂移，结果通过阈值和人工复核进入告警流程。
+
+3 分钟用一个服务窗口走完 `X/y`、填补、标准化、拟合、评估和部署，接着讲孤立森林分数为什么不是事故概率，再展示特征错位实验。追问效果下降，先查输入合同与数据分布，再查标签与模型；追问换深度学习，要求在同一测试和资源预算下证明提升。
+
+事故设计题：发布把延迟单位改成秒，异常比例从 2% 变成 40%。先冻结新模型推广，抽取脱敏输入与旧版对照，验证单位假设；恢复数据合同并回放影子样本，最后对比业务召回和误报。直接把 `contamination` 调回 2% 会掩盖输入错误。
+
+## 第二轮精讲：从一个分数追问到上线决策
+
+### 一、模型不是从列名读懂业务的
+
+我们拿五分钟服务窗口做例子。每行包含请求总数、错误请求数、延迟分位数、CPU 使用率和是否处在发布窗口。机器只得到数值或编码后的类别，不会因为列名叫“错误率”就自动知道它应该在零到一之间。数据合同必须先表达单位、缺测、时间边界和取值范围，再交给估计器学习。
+
+监督学习多了一个答案列，例如未来十分钟是否发生需人工处置的事故。这个答案通常在十分钟以后，甚至工单复核以后才能确定；训练时可以使用未来结果作标签，但不能把未来才出现的处理记录放进输入。请把“标签来自未来”和“特征偷看未来”分开理解：前者是预测问题本身，后者使离线成绩虚高。
+
+逻辑回归不是简单的“名字里有回归，所以只能预测数值”。它先把特征按权重相加，再映射为分类得分或概率形式。权重受正则化约束，避免模型过分依赖少数样本。标准化后权重解释的是不同尺度下的作用，不是业务因果关系；几个高度相关的特征可能相互分担权重，不能只看某列权重小就宣布它与事故无关。
+
+决策树像连续问问题：“错误率是否超过某值？延迟是否进一步升高？”每个叶子代表一组满足条件的样本。树很深时可以记住训练数据的细节，训练准确率很高而新数据差。限制深度、叶子最少样本和特征选择，是控制复杂度的方式；随机森林通过多棵有差异的树聚合降低某些方差，但并不能消除数据泄漏或错误标签。
+
+这几类模型没有永久赢家。对少量结构化服务指标，简单模型往往易训练、易部署、易解释；对复杂非线性关系，树集成可能更好。选择必须在相同数据拆分、相同业务指标和相同资源预算下比较。把不同测试集上的两个分数放到一起，不构成算法优劣证据。
+
+### 二、转换器的状态藏在哪里
+
+`StandardScaler` 拟合时保存训练数据的均值和尺度，预测时用这些已保存值变换新数据；它不是每次接到一个新告警就重新计算那一条告警的均值。若你在每批线上数据重新 `fit_transform`，同一个原始数值的含义会随着同批其他请求变化，训练和预测不再处于同一坐标系。
+
+`SimpleImputer` 也会记住填补统计，`OneHotEncoder` 记住类别集合。独热编码把类别展开成一组指示列，让模型不把服务编号当成有自然大小的数值。服务 A、B、C 被写成 1、2、3 时，某些模型可能利用不存在的距离关系；独热编码避免这种假大小关系，但类别过多会增加维度，因此还要控制字段选择和未知类别比例。
+
+`ColumnTransformer` 按列把不同处理路径拼接，输出列的次序与编码展开都有约定。排障时不能只核对原始输入列，还应观察变换后维度和特征名。尤其在模型导出或线上非 Python 重写预处理时，编码顺序、空值规则、类别大小写和单位都要与训练保持一致。固定一组金样本逐层比对，是验证两套实现等价的有效办法。
+
+如果转换后得到稀疏矩阵，不要为了打印方便就对全量数据调用转稠密操作。稀疏结构只保存大量零中的非零项，变成稠密后会为每个位置分配空间。某些缩放和模型对稀疏输入有参数要求，应按相应版本文档检查；内存报错先查数据形状、类别基数和意外稠密化，不先升级机器。
+
+### 三、训练集、验证集和测试集分别扮演谁
+
+老师给你三套卷子。训练集用于学规律，验证集用于挑模型与阈值，测试集最后检验选择是否泛化。如果看了测试分数又改特征，再看测试分数又改参数，这套“测试集”事实上变成了验证集，需要新的最终评估数据。名字叫 `test.csv` 不会自动保持独立性。
+
+交叉验证让多组训练与验证轮换，可以减少一次拆分的偶然性，但拆分方式必须符合未来部署。随机划分适合近似独立同分布样本；同一事故拆出的多个窗口不独立，应按事故分组；时间上前后相关的服务数据，应按时间向前验证。`GroupKFold` 解决分组隔离，不自动保证时间向前；`TimeSeriesSplit` 解决顺序扩展，也不自动识别跨边界的同一事故。业务可能需要兼顾时间与分组的自定义拆分。
+
+预测未来十分钟事故时，训练末尾和验证开头若共享同一个未来标签窗口，仍可能泄漏。两段之间留出符合预测跨度和数据到达延迟的间隔，是需要考虑的处理；间隔不能机械写成固定一天，要从特征窗口、标签窗口和延迟推导。官方 [交叉验证指南](https://scikit-learn.org/stable/modules/cross_validation.html) 给出拆分器能力，真正选哪个要由样本独立性和上线场景决定。
+
+`GridSearchCV` 的参数名里出现双下划线，例如 `classifier__max_depth`，含义是“把参数交给 Pipeline 中名为 classifier 的步骤”。搜索会克隆并重复拟合候选管道，因此预处理也应放在里面，不能先在全数据上缩放后再搜索。一次实验要记录搜索空间、折数、评分函数、随机状态、最佳参数和每折分数，不只保留最高的那一格。
+
+### 四、把模型分数翻译成值班同学的工作量
+
+假设测试集有一万条窗口，真正事故有一百条。模型挑出二百条，里面八十条真事故：精确率是八十除以二百，即 40%；召回率是八十除以一百，即 80%。一百二十条误报就是值班同学实际要额外处理的工作，二十条漏报则是没有被模型提示的风险。准确率在这里可能仍然很高，但它把大量容易猜对的正常窗口也算进分母，容易遮住问题。
+
+再想一步：一场事故连续二十分钟触发二十条正确窗口预测，窗口级召回很好，却可能只帮你发现了一场事故。因此需要同时看事件级召回、首次告警提前量、每小时通知数和合并后工单数。时间窗口评分与业务事件评分回答不同问题，不要只挑对模型有利的口径。
+
+阈值是在漏报与误报之间做取舍。降低阈值通常让更多样本被标为正，但变化幅度取决于分数分布。AUC 一类排序指标有助于整体比较，却不能告诉你每天最多能处理多少条告警。上线前应画阈值与召回、误报量、人工预算的关系，按实际值班能力选点，而不是永远使用 0.5。评价函数的含义和约定见 [scikit-learn 评价指标](https://scikit-learn.org/stable/modules/model_evaluation.html)。
+
+下面的基础决策实验不依赖模型训练，仅用 Python 演示同一组分数更换阈值后的业务结果。保存为 `threshold_lesson.py` 后执行 `python threshold_lesson.py`。这些分数是教学构造，不代表真实模型性能。
+
+```python
+labels = [1, 0, 1, 0, 0, 1]
+scores = [0.95, 0.85, 0.75, 0.65, 0.20, 0.10]
+
+def report(threshold):
+    predicted = [score >= threshold for score in scores]
+    tp = sum(p and y == 1 for p, y in zip(predicted, labels))
+    fp = sum(p and y == 0 for p, y in zip(predicted, labels))
+    fn = sum((not p) and y == 1 for p, y in zip(predicted, labels))
+    precision = tp / (tp + fp) if tp + fp else None
+    recall = tp / (tp + fn)
+    return {'alerts': sum(predicted), 'tp': tp, 'fp': fp,
+            'fn': fn, 'precision': precision, 'recall': recall}
+
+normal = report(0.9)
+assert normal['alerts'] == 1 and normal['tp'] == 1
+overload = report(0.6)
+assert overload['alerts'] == 4 and overload['fp'] == 2
+print('normal:', normal)
+print('DETECTED budget overflow:', overload['alerts'] > 2)
+print('recovered:', report(0.9))
+```
+
+预期高阈值只通知一条，低阈值通知四条且其中两条误报，超过设定的两条预算。故障注入改变的是策略，不是权重，所以回滚也应恢复阈值版本。清理退出进程即可，无文件数据或服务残留。若结果不同，先核对 `>=` 的边界和标签顺序；把标签与分数分别排序后再相配，是另一种会让统计完全失真的错误。
+
+### 五、一次单位事故如何从现象查到恢复
+
+假设新发布后模型接口仍返回 200，推理时延正常，却突然多出十倍异常。不要立刻调阈值。先分别检查输入字段存在率、类型、单位、取值分位数、未知类别比例与空值率，再比对当前 Pipeline、特征版本和阈值版本。接口成功仅代表请求处理成功，不代表输入语义正确。
+
+收集一小批脱敏金样本，同时送给旧版和新版离线实例，逐层比较原始值、变换后值、原始分数和最终决策。如果原始延迟由毫秒改成秒，差异在模型之前已经出现；如果原始值一致但转换输出不同，检查预处理产物或列顺序；如果分数一致但告警数不同，检查阈值和去重策略。这样把假设拆开，才能选择最小修复。
+
+缓解先停止新版本继续推广，保留旧版本服务和确定性规则兜底；确认问题后恢复数据合同或完整模型包。业务回放只对只读或影子通道执行，避免把历史预测重新触发成真实自动化任务。恢复标准要同时包括特征合同通过、分数分布合理、固定金样本一致、告警量回归和人工抽检；不能只看 HTTP 错误归零。
+
+### 六、生产设计与面试递进答案
+
+设计“每秒处理一千个告警窗口”的服务时，先问允许多大延迟、是否每条都独立预测、能否微批、模型大小与每批内存。无状态 API 副本可以水平扩展，但每个副本都可能加载一份模型；进程数乘模型驻留大小会改变内存预算。底层数学库线程与服务工作进程要一起限额，防止多层并行争抢同一 CPU。
+
+特征读取往往比 `predict` 更慢，因此追踪应拆成排队、特征查询、转换、模型计算和下游发布。缓存需绑定特征时间与模型版本，不能只按服务名缓存不同时间窗口的结果。高可用还包括模型注册存储、特征源和队列的故障策略；模型不可用时应明确降级为规则、排队延后或只告警，不隐式把分数填成正常。
+
+面试官问“为什么 Pipeline 能防泄漏”，回答它让每个训练折里的转换器只从该折训练数据学习，但它防不住未来字段、同事故跨折和不正确时间标签。追问“怎么证明”，给出特征可用时间表和分组时间拆分的断言，不只说“用了 Pipeline”。再问“怎么回滚”，回答权重、预处理、特征合同、阈值与依赖组成一个版本单元，并用金样本和流量对照验证回退。
+
+最后问“什么时候不用 scikit-learn”，你可以从数据、任务和交付回答：超过单机训练或内存边界、需要复杂端到端深度网络或特定流式状态更新时，应评估其他框架；但仍复用这里的数据合同、无泄漏评估和受控上线原则。能说出工具边界，比列举更多算法名更能表现判断力。
+
+## 老师再追问：概率、异常分数和可信程度
+
+`predict_proba` 给出的数值需要结合估计器类别顺序解释。二分类输出两列，哪一列代表事故应核对 `classes_`，不能在标签后来改成字符串后仍假定第二列永远是你要的正类。多分类每一行的各类分数与最终类别也有自己的约定，接口层应显式返回类别名，避免调用方自己猜列顺序。
+
+概率校准关注“预测为八成的一组样本，是否大约八成真为正”，与排序能力不同。一个模型可能把危险样本排在前面，却把数值报得过于自信；另一个概率较准，却不一定在极低误报预算下召回最好。校准需要独立于拟合的合理数据，不能用训练样本校准后再在同一批上宣布可靠。更详细能力按目标版本 [概率校准指南](https://scikit-learn.org/stable/modules/calibration.html) 学习。
+
+IsolationForest 等异常检测输出相对异常程度，不应通过随意线性变换冒充真实事故概率。某个新服务因流量远小于训练中的所有服务而被标异常，可能只是训练覆盖不足；系统应能标注分布外或未知服务情况，交给规则与人工，而不是强行给出高置信结论。
+
+### 缺失不是都能自动填补
+
+若 CPU 缺失是偶发采集故障，中位数填补加缺失指示也许能提供一个稳健基线；若所有特征都缺失，填补后的“平均服务”会让模型看起来很正常。输入合同应规定最低有效信息，超过缺失边界就返回数据不可用或降级，不把缺失自动翻译成无事故。
+
+类别未知同样要观察。允许新类别不报错只是可用性策略，不代表模型真正学会新类别的风险。假设新版本把 `critical` 改名为 `fatal`，编码器静默忽略后模型失去关键输入，接口却仍然正常。监控未知比例、枚举版本和模型解释差异，可以让这种语义断裂在业务恶化之前暴露。
+
+### 完整发布包的可核对清单
+
+一份发布包至少包含可信模型产物、预处理与特征合同、类别顺序、阈值、依赖版本、训练区间、评估摘要、金样本和校验值。加载后先跑金样本，观察预测类别、概率或分数、输入异常处理与耗时；精确浮点比较要考虑合理容差，但不能大到掩盖错误模型。
+
+回滚时还要查线上窗口状态和特征源是否已经迁移。旧模型依赖旧单位，新特征源只提供新单位，单独换回旧权重并不能恢复。保持兼容转换或同时回退相关版本，才是业务可执行的回滚。把这一依赖关系画出来并演练一次，比在文档里只写“保留上一版本”更完整。
+
+## 本课 GitHub 学习证据
 
 学完这篇，建议留下这些证据：
 

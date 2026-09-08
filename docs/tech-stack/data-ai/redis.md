@@ -75,57 +75,57 @@ Redis 是一个高性能内存数据结构服务器：每个 key 对应一种数
 Redis 官方文档可以按这张地图理解：
 
 ```text
-Redis
-  -> Get started
-     -> install
-     -> redis-server
-     -> redis-cli
-     -> clients
-  -> Data types
-     -> strings
-     -> hashes
-     -> lists
-     -> sets
-     -> sorted sets
-     -> streams
-     -> bitmaps / bitfields
-     -> geospatial
-     -> HyperLogLog / probabilistic
-     -> JSON / time series / vector sets
-  -> Commands
-     -> key commands
-     -> string commands
-     -> hash commands
-     -> list commands
-     -> set commands
-     -> sorted set commands
-     -> stream commands
-     -> server commands
-  -> Operate
-     -> persistence
-     -> replication
-     -> Sentinel
-     -> Cluster
-     -> security / ACL
-     -> memory optimization
-     -> latency troubleshooting
-     -> monitoring with INFO / SLOWLOG
+Redis（内存数据结构服务）
+  -> Get started（入门）
+     -> install（安装）
+     -> redis-server（Redis 服务端进程）
+     -> redis-cli（Redis 命令行客户端）
+     -> clients（客户端）
+  -> Data types（数据类型）
+     -> strings（字符串）
+     -> hashes（字段映射）
+     -> lists（列表）
+     -> sets（集合）
+     -> sorted sets（有序集合）
+     -> streams（追加式消息流）
+     -> bitmaps（位图） / bitfields（位字段）
+     -> geospatial（地理位置）
+     -> HyperLogLog（近似基数统计结构） / probabilistic（概率数据结构）
+     -> JSON（结构化文本数据格式） / time series（时间序列） / vector sets（向量集合）
+  -> Commands（命令）
+     -> key commands（键操作命令）
+     -> string commands（字符串命令）
+     -> hash commands（哈希命令）
+     -> list commands（列表命令）
+     -> set commands（集合命令）
+     -> sorted set commands（有序集合命令）
+     -> stream commands（消息流命令）
+     -> server commands（服务器命令）
+  -> Operate（运行管理）
+     -> persistence（持久化）
+     -> replication（复制）
+     -> Sentinel（哨兵故障检测与切换机制）
+     -> Cluster（分片集群）
+     -> security（安全） / ACL（访问控制列表）
+     -> memory optimization（内存优化）
+     -> latency troubleshooting（延迟排查）
+     -> monitoring（监控） with INFO（运行信息命令） / SLOWLOG（慢命令日志）
 ```
 
 初学路线：
 
 ```text
-redis-cli
-  -> key / TTL
-  -> String / Hash / Set / List / Sorted Set / Stream
-  -> key naming
-  -> memory and eviction
-  -> persistence: RDB / AOF
-  -> replication
-  -> Sentinel / Cluster concept
-  -> security / ACL
-  -> INFO / SLOWLOG / latency
-  -> AIOps alert dedup and event stream
+redis-cli（Redis 命令行客户端）
+  -> key（键） / TTL（剩余生存时间）
+  -> String（字符串） / Hash（字段映射） / Set（集合） / List（列表） / Sorted Set（有序集合） / Stream（消息流）
+  -> key naming（键命名）
+  -> memory and eviction（内存与淘汰）
+  -> persistence: RDB（内存快照文件） / AOF（追加写操作日志）
+  -> replication（复制）
+  -> Sentinel（哨兵故障检测与切换机制） / Cluster（分片集群） concept
+  -> security（安全） / ACL（访问控制列表）
+  -> INFO（运行信息命令） / SLOWLOG（慢命令日志） / latency（延迟）
+  -> AIOps alert（告警） dedup and event（事件） stream（消息流）
 ```
 
 ## Redis 在 AIOps 链路中的位置
@@ -144,8 +144,8 @@ AIOps 常见数据系统分工：
 一个 AIOps 告警处理链路：
 
 ```text
-Alertmanager webhook
-  -> FastAPI receiver
+Alertmanager（告警管理器） webhook
+  -> FastAPI receiver（FastAPI 请求接收服务）
   -> Redis Set/String 做去重和限流
   -> Redis Stream 写入待处理事件
   -> worker 消费事件
@@ -183,15 +183,15 @@ Redis 不是“小号 MySQL”。MySQL 的核心是关系模型、事务和长�
 简化架构：
 
 ```text
-client
-  -> TCP 6379
-  -> redis-server
-      -> command parser
-      -> event loop
-      -> in-memory keyspace
-      -> data structures
-      -> persistence: RDB / AOF
-      -> replication
+client（客户端）
+  -> TCP 6379（Redis 常见 TCP 端口）
+  -> redis-server（Redis 服务端进程）
+      -> command parser（命令解析器）
+      -> event loop（事件循环）
+      -> in-memory keyspace（内存键空间）
+      -> data structures（数据结构）
+      -> persistence: RDB（内存快照文件） / AOF（追加写操作日志）
+      -> replication（复制）
 ```
 
 关键概念：
@@ -689,11 +689,11 @@ PFCOUNT alert:unique-services:20260702
 最常见模式：
 
 ```text
-app reads Redis
-  -> hit: return cache
-  -> miss: read MySQL / API
-  -> write Redis with TTL
-  -> return result
+app reads Redis（应用读取缓存）
+  -> hit: return cache（缓存）
+  -> miss: read MySQL / API（未命中时读取数据库或接口）
+  -> write Redis with TTL（剩余生存时间）
+  -> return result（结果）
 ```
 
 Python 伪代码：
@@ -891,9 +891,9 @@ AIOps 缓存通常可以用 LRU/LFU，但告警去重 key 丢失会导致重复�
 Redis replication 让一个 primary 把数据复制到 replica。
 
 ```text
-client writes
-  -> primary
-  -> replicate to replicas
+client（客户端） writes
+  -> primary（主节点）
+  -> replicate to replicas（副本）
 ```
 
 用途：
@@ -937,13 +937,13 @@ Sentinel 解决非 Cluster 架构下的高可用。
 简化模型：
 
 ```text
-clients
-  -> ask Sentinel for current primary
-  -> connect Redis primary
+clients（客户端）
+  -> ask Sentinel（哨兵故障检测与切换机制） for current primary（主节点）
+  -> connect Redis primary（主节点）
 
-Sentinels
-  -> monitor primary / replicas
-  -> failover when needed
+Sentinels（哨兵节点集合）
+  -> monitor（监控） primary（主节点） / replicas（副本）
+  -> failover when needed（按策略执行故障切换）
 ```
 
 要点：
@@ -959,9 +959,9 @@ Redis Cluster 用于水平扩展。
 核心：
 
 ```text
-key
-  -> hash slot
-  -> node
+key（键）
+  -> hash slot（哈希槽）
+  -> node（节点）
 ```
 
 Redis Cluster 把 key 空间拆成 16384 个 hash slots，不同节点负责不同 slot。
@@ -1406,7 +1406,7 @@ ACL LIST
 ### 连接问题
 
 ```text
-PING
+PING（连通性探测命令）
   -> 检查 host/port
   -> 检查密码/ACL
   -> 检查 bind/protected-mode
@@ -1416,7 +1416,7 @@ PING
 ### 内存问题
 
 ```text
-INFO memory
+INFO memory（查看 Redis 内存使用信息）
   -> 看 used_memory / maxmemory
   -> 看 evicted_keys
   -> 找大 key
@@ -1427,8 +1427,8 @@ INFO memory
 ### 延迟问题
 
 ```text
-SLOWLOG GET
-  -> LATENCY DOCTOR
+SLOWLOG（慢命令日志） GET
+  -> LATENCY（延迟） DOCTOR
   -> 查大 key
   -> 查阻塞命令
   -> 查 CPU / swap / 磁盘持久化压力
@@ -1492,7 +1492,41 @@ Redis 是内存数据结构服务器，不只是缓存。它用 key 映射不同
 17. Redis Stream 的消费组和 `XACK` 有什么作用？
 18. AIOps 项目里 Redis 适合放在哪些环节？
 
-## 学习证据
+## 老师带你看一把键的完整生命周期
+
+告警去重键 `dedup:alert-001` 像值班桌上的临时登记贴。第一次收到告警时用一条 `SET key value NX EX seconds` 尝试贴上，只有不存在才成功，并同时设过期。把“先查有没有”和“再写入”拆成两条命令，会给并发请求留下空档；把设置与过期拆开，又可能在中间失败后留下永久键。
+
+学生：“去重键在，就代表工单已创建吗？”老师：“只能代表登记动作发生过。程序可能登记后就退出了，工单还没建立。”如果去重直接抑制后续处理，要设计执行状态和恢复，否则防重机制反而会漏处理。重要工单的最终幂等仍适合落在可靠事务与业务唯一约束中。
+
+### 单线程、原子命令和事务不是同一个承诺
+
+Redis 的很多命令执行以串行处理为核心，但网络、持久化和后台任务还涉及其他线程或进程，版本也会演进。单条原子命令不代表任意多条组合自动原子；`MULTI/EXEC` 排队执行一组命令，也没有关系数据库那样通用的执行错误回滚语义。
+
+Lua 脚本可把检查和修改放在一次服务端执行中，但脚本耗时会影响其他请求，不能把复杂循环无限搬进去。Cluster（集群分片）下多键操作还受哈希槽约束；hash tag（键中的分组标签）可以把相关键放同槽，却也可能制造热点。先画业务需要的原子边界，再挑命令。
+
+### 缓存故障课堂：命中率高也可能业务错误
+
+Cache Aside（旁路缓存）通常读缓存，未命中读权威库再填缓存；更新权威库后失效缓存。并发旧值回写、失效消息丢失和权限变化都可能造成陈旧。缓存值携带版本与生成时间，重要状态写后读直连权威源，配合合理 TTL（存活时间）与重试，才能把陈旧窗口变成可观测约束。
+
+大 key 是一个键装了很多元素或字节，热 key 是访问集中在某个键，两者不等价。大对象读取占网络和序列化，热键集中占单节点处理能力；平均内存正常也可能某一分片热点。排障应看命令延迟、字节、键分布和后台持久化，不能只用 CPU 总值判断。
+
+### 基础实验与故障注入：去重键和错误键名
+
+在本篇已经启动的教学 Redis 中，先运行 `SET lesson:dedup first NX EX 30`，再立即运行相同命令，预期第一次 OK、第二次空结果；`TTL lesson:dedup` 应在 0 到 30 的剩余秒数范围。故意把观察键拼成 `lesson:dedupp`，TTL 预期是 -2，表示不存在；对存在但未设过期的键则是 -1。两种负数不是“已经过期一两秒”。
+
+恢复使用正确键名，验证值与 TTL；结束用 `DEL lesson:dedup` 只删该教学键。若第二次也 OK，核对是不是间隔已超过 30 秒、连了不同数据库或不同实例。把命令、返回和时间写进故障笔记，证明你能区别身份错误和真正过期。
+
+### 持久化、高可用与恢复预算
+
+RDB（时间点快照）和 AOF（追加写操作日志）解决不同恢复取舍；备份频率与刷盘策略会影响恢复点和写入开销。复制默认相关语义不能被简单当成强同步持久化保证；官方 [复制说明](https://redis.io/docs/latest/operate/oss_and_stack/management/replication/) 明确需要结合复制与持久化配置理解故障数据风险。
+
+Sentinel（哨兵）监控角色并协调故障切换，Cluster 负责分片与相应故障恢复，它们不替代历史备份。切换后客户端需要发现新入口、重建连接并处理结果未知写入；缓存冷启动还会把压力转给数据库。恢复速度要受权威库可承受回源量约束。
+
+内存预算包含数据结构开销、复制缓冲、客户端缓冲和持久化期间峰值。达到 `maxmemory` 后的淘汰策略改变哪些数据可能消失，不能把限流状态、队列和可重建缓存混在一个随意淘汰策略里。应用账号按键空间和命令设最小权限，备份、连接串和认证信息不能进入教程仓库。
+
+30 秒回答用“内存数据结构、原子操作、过期和持久化取舍”讲清定位。3 分钟沿告警去重与缓存回源展开，解释为何去重键不证明外部动作完成，再讲大键、热键、复制、恢复和权限。事故题设置缓存失效后数据库二次过载，先限制回源与合并热点请求，验证业务正确性和净恢复能力后逐步放流。
+
+## 本课 GitHub 学习证据
 
 学完这篇，建议留下这些证据：
 

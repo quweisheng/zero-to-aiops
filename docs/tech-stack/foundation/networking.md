@@ -60,7 +60,7 @@ Payment API 5xx rate > 10%
   -> HTTP 发送请求
   -> 负载均衡转发
   -> 后端应用处理
-  -> 响应按原路径返回
+  -> 响应经服务端所选路由返回（回程不保证与去程相同）
 ```
 
 先学会这些：
@@ -89,18 +89,18 @@ Payment API 5xx rate > 10%
 网络资料很分散，建议这样读：
 
 ```text
-IETF RFC
+IETF RFC（互联网工程任务组发布的协议文档）
   -> 协议标准
-  -> DNS: RFC 1034 / RFC 1035 / RFC 8499
-  -> TCP: RFC 9293
-  -> TLS: RFC 8446
-  -> HTTP: RFC 9110 / RFC 9111 / RFC 9112 / RFC 9113 / RFC 9114
+  -> DNS: RFC 1034 / RFC 1035 / RFC 8499（域名系统的基础规范与术语）
+  -> TCP: RFC 9293（传输控制协议规范）
+  -> TLS: RFC 8446（安全传输协议规范）
+  -> HTTP: RFC 9110 / RFC 9111 / RFC 9112 / RFC 9113 / RFC 9114（网页协议语义、缓存与各版本传输规范）
 
-Linux man pages
+Linux man pages（系统手册）
   -> 本机如何使用网络
   -> ip(8): 查看和修改地址、链路、路由
   -> ip-route(8): 路由表
-  -> resolv.conf(5): DNS resolver 配置
+  -> resolv.conf(5): DNS resolver（解析器）配置
   -> getaddrinfo(3): 应用如何把名字解析成地址
 
 工具官方文档
@@ -108,7 +108,8 @@ Linux man pages
   -> OpenSSL s_client: TLS 证书和握手诊断
 
 发行版和云厂商文档
-  -> NetworkManager、systemd-resolved、防火墙、负载均衡、VPC
+  -> NetworkManager（网络管理器）、systemd-resolved（本机解析服务）
+  -> 防火墙、负载均衡、VPC（虚拟私有云网络）
 ```
 
 把它们连起来：
@@ -126,16 +127,16 @@ AIOps 把证据变成告警、排障和自动化恢复
 
 ```text
 用户
-  -> DNS
-  -> CDN / WAF
-  -> Load Balancer
-  -> NGINX / Ingress
-  -> Service / Pod / VM
+  -> DNS（域名解析）
+  -> CDN（内容分发网络）/ WAF（网站应用防火墙）
+  -> Load Balancer（负载均衡器）
+  -> NGINX / Ingress（反向代理／集群入口）
+  -> Service / Pod / VM（服务入口／容器组／虚拟机）
   -> 应用进程
   -> 数据库 / 缓存 / 队列
 
 观测链路
-  -> exporter 暴露指标
+  -> exporter（指标导出器）暴露指标
   -> Prometheus 抓取
   -> Alertmanager 发告警
   -> Grafana 展示
@@ -180,8 +181,8 @@ https://api.example.com:443/v1/alerts?severity=critical
 客户端要先把 `api.example.com` 变成 IP：
 
 ```text
-api.example.com
-  -> DNS resolver
+api.example.com（示例接口主机名）
+  -> DNS resolver（域名解析器）
   -> A / AAAA 记录
   -> 203.0.113.10
 ```
@@ -202,8 +203,8 @@ api.example.com
 客户端从本地临时端口连接目标：
 
 ```text
-client 192.168.1.20:53124
-  -> server 203.0.113.10:443
+client（客户端） 192.168.1.20:53124
+  -> server（服务端） 203.0.113.10:443
 ```
 
 TCP 通过三次握手建立连接：
@@ -249,8 +250,8 @@ Accept: */*
 服务端可能经过：
 
 ```text
-Load Balancer
-  -> NGINX / Ingress
+Load Balancer（负载均衡器）
+  -> NGINX / Ingress（反向代理或集群入口）
   -> 后端 API
   -> 数据库 / 缓存
 ```
@@ -362,10 +363,10 @@ api.example.com -> AAAA 记录 -> IPv6 地址
 DNS 是分布式、层级化系统：
 
 ```text
-.
-  -> com
-    -> example.com
-      -> api.example.com
+.（根域）
+  -> com（顶级域）
+    -> example.com（注册域，此处作演示）
+      -> api.example.com（接口主机名）
 ```
 
 常见角色：
@@ -383,10 +384,10 @@ DNS 是分布式、层级化系统：
 ```text
 应用调用 getaddrinfo("api.example.com")
   -> 本机 resolver
-  -> /etc/hosts
+  -> /etc/hosts（本机静态主机名映射文件）
   -> /etc/resolv.conf 指定的 nameserver
-  -> recursive resolver
-  -> root / TLD / authoritative
+  -> recursive resolver（递归解析器）
+  -> root / TLD / authoritative（根、顶级域与权威域名服务器）
   -> 返回 A / AAAA
 ```
 
@@ -548,7 +549,7 @@ CIDR：
 ```text
 255.255.255.0
 ```
-常见私有地址：
+常见私有地址及本地回环地址（回环不是私有网段的同义词）：
 
 | 范围 | 常见用途 |
 |---|---|
@@ -698,7 +699,7 @@ ip neigh
 
 - 同网段偶发不通。
 - 默认网关 ping 不通。
-- `ip neigh` 显示 `FAILED`、`STALE` 等状态。
+- `ip neigh` 显示 `FAILED` 可提示邻居解析失败；`STALE` 只是邻居信息等待再次确认，单独出现是正常状态，不能据此判故障。
 
 AIOps 入门阶段只需要知道：如果路由指向某个网关，但二层找不到它，包也发不出去。
 
@@ -727,10 +728,10 @@ TCP 不负责：
 建立连接：
 
 ```text
-Client                          Server
-  | -------- SYN --------------> |
-  | <------ SYN + ACK ---------- |
-  | -------- ACK --------------> |
+Client（客户端）                          Server（服务端）
+  | -------- SYN（同步序号请求） --------------> |
+  | <------ SYN + ACK（同步请求与确认） ---------- |
+  | -------- ACK（确认） --------------> |
 ```
 
 如果成功，连接进入 `ESTABLISHED`。
@@ -918,12 +919,12 @@ HTTP 关键元素：
 生产请求很少直接到应用进程。常见链路：
 
 ```text
-Client
-  -> DNS
-  -> Load Balancer
-  -> NGINX / Ingress
-  -> App instance 1
-  -> App instance 2
+Client（客户端）
+  -> DNS（域名解析）
+  -> Load Balancer（负载均衡）
+  -> NGINX / Ingress（代理或集群入口）
+  -> App instance 1（应用实例一）
+  -> App instance 2（应用实例二）
 ```
 
 负载均衡负责：
@@ -991,8 +992,8 @@ curl -sS -o /dev/null \
 | 指标 | 含义 |
 |---|---|
 | `time_namelookup` | DNS 解析耗时 |
-| `time_connect` | TCP 连接建立耗时 |
-| `time_appconnect` | TLS 握手完成耗时 |
+| `time_connect` | 从请求开始到连接建立的累计时间，通常包含解析时间 |
+| `time_appconnect` | 从请求开始到应用层握手完成的累计时间 |
 | `time_starttransfer` | 首字节耗时 |
 | `time_total` | 总耗时 |
 | `http_code` | HTTP 状态码 |
@@ -1231,8 +1232,8 @@ LISTEN 0      128    0.0.0.0:8000      0.0.0.0:*     users:(("python",pid=1234,f
 | 字段 | 含义 |
 |---|---|
 | `State` | TCP 状态 |
-| `Recv-Q` | 接收队列 |
-| `Send-Q` | 发送队列 |
+| `Recv-Q` | LISTEN 行通常表示已完成握手、等待应用接受的连接数量；已建立连接行是未读取的接收字节数 |
+| `Send-Q` | LISTEN 行通常表示监听队列上限；已建立连接行表示尚未确认的发送字节数 |
 | `Local Address:Port` | 本地监听地址和端口 |
 | `Peer Address:Port` | 对端地址和端口 |
 | `Process` | 进程信息 |
@@ -1313,7 +1314,7 @@ status:
 把解析出的 IP 放进去：
 
 ```bash
-ip route get 93.184.216.34
+ip route get <刚才实际解析到的IPv4地址>
 ```
 
 记录：
@@ -1445,7 +1446,7 @@ openssl s_client -connect api.example.com:443 -servername api.example.com </dev/
 常见链路：
 
 ```text
-Client -> NGINX -> App
+Client（客户端） -> NGINX（反向代理） -> App（应用）
 ```
 
 先看客户端：
@@ -1486,7 +1487,7 @@ journalctl -u aiops-api -n 100 --no-pager
 
 ## 排障流程：504
 
-504 通常是网关连接后端成功了，但等待响应超时。
+504 表示网关没有及时得到上游响应，可能发生在连接或等待响应阶段；不能仅靠状态码就断定连接已经成功。
 
 要区分：
 
@@ -1699,6 +1700,65 @@ refused 通常说明目标主机可达，但端口没人监听或主动拒绝。
 18. 大量 CLOSE-WAIT 可能说明什么？
 19. 网关到后端超时时，你会看哪些日志和指标？
 20. AIOps 如何把网络诊断自动化？
+
+## 老师带你从“网络不通”推导到可验证的故障位置
+
+假设浏览器访问支付接口超时，监控又显示“网关正常”。别急着争论谁对谁错。先画两条独立连接：浏览器到网关、网关到支付服务。若网关终止 TLS（解密并作为新的客户端转发），它们不是同一个 TCP 连接。浏览器成功握手只证明第一段；第二段可能在解析、连接、应用排队或数据库调用中失败。
+
+图中的 Client/Server 是客户端/服务端，SYN 是发起同步序号的连接请求，ACK 是确认；ClientHello/ServerHello 是 TLS 双方开始协商的信息，Certificate 是证书，Finished 是验证握手完整性的结束消息。现代 TLS 可能有恢复会话等不同流程，图展示主干而非逐字报文时序。HTTP/3 使用 QUIC（运行在 UDP 上的安全传输协议），不能把“HTTP 必经 TCP”当成没有例外的定律。
+
+### DNS 成功为什么仍可能访问错服务
+
+解析成功只说明某条解析路径返回了记录。`dig` 直接问 DNS，应用可能先按 NSS（Name Service Switch，名称服务选择规则）查本机文件，也可能使用自己的解析器、代理或缓存。系统并不固定“先 resolver 再 hosts”；具体顺序要看 `/etc/nsswitch.conf`，`systemd-resolved` 等服务也可能在中间。调查时先确认客户端进程实际使用什么，而不是只看你终端的一次查询。
+
+TTL 是缓存允许保留多久，不是“改完 DNS 最晚多少秒所有连接都切换”的全球承诺。已有连接可能继续复用旧地址，应用可能缓存，递归服务还有负缓存等行为；故障切换要测实际客户端。向公共 DNS 查询企业内部域名还可能泄露内部命名，排障应使用批准的解析器，不把内部服务名随手发到公网。
+
+### 先会读时间，再谈优化
+
+在一次新建、无代理、无重定向的简单 HTTPS 连接中，假设 curl 显示 `namelookup=0.020`、`connect=0.050`、`appconnect=0.100`、`starttransfer=0.400`、`total=0.450`。它们大多是从开始时刻累计的时间点，不是五段可以相加的独立耗时。近似推算：解析 20 毫秒，连接阶段 30 毫秒，TLS 阶段 50 毫秒，首字节前后续等待 300 毫秒，响应体接收 50 毫秒。
+
+这 300 毫秒仍不是纯粹的数据库时间，还包括请求传输、服务排队、网关、应用及下游。复用连接、代理、重定向和协议变化也会改变解释；要结合 `remote_ip`（实际对端地址）、协议、连接是否复用以及请求追踪。优化应先确定是哪段慢，再查该段指标，不要看到 `total` 大就调 TCP 参数。[curl 时间字段](https://curl.se/docs/manpage.html#-w)
+
+### 可复现本地实验：同一服务的 200、404 与连接拒绝
+
+前提：Python 3、curl 可用，两个终端，有一个新建空目录 `network-classroom`。全程仅绑定本机 `127.0.0.1`，不改防火墙或 DNS，不把生产日志放进被服务的目录。用编辑器创建 `health.txt`，内容 `ok`。
+
+第一个终端进入该目录执行：
+
+```bash
+python -m http.server 18080 --bind 127.0.0.1
+```
+
+Linux 若只有 `python3` 命令就替换解释器名。第二个终端执行；Windows PowerShell 中将 `curl` 写成 `curl.exe`：
+
+```bash
+curl --noproxy '*' --connect-timeout 2 --max-time 3 -i http://127.0.0.1:18080/health.txt
+curl --noproxy '*' --connect-timeout 2 --max-time 3 -i http://127.0.0.1:18080/missing.txt
+```
+
+预期第一条 `200` 且正文 `ok`，第二条 `404`。两次都建立了 TCP，也都收到 HTTP 响应；404 不属于“端口不通”。`--noproxy '*'` 仅让此次请求不走代理，避免系统代理干扰本机实验，不需要关闭机器的代理服务。
+
+现在做故障注入：在第一个终端按 Ctrl+C 停止自己启动的服务器，再执行第一条 curl。预期连接失败，常见为 `Connection refused`；若仍返回 200，先核对端口是否被另一个进程使用，不能直接杀掉未知进程。重启同一条 Python 命令，验证恢复 200。Linux 可用 `ss -ltnp 'sport = :18080'` 对照监听从有到无再到有。
+
+清理：再次 Ctrl+C，确认本实验监听消失；仅删除自己创建的 `health.txt` 和空实验目录，或保留它们作证据。不需要任何系统级清理。失败回路：Python 报端口占用就选另一个未用端口并同步修改请求；200 没有 `ok` 查工作目录和文件；连接走代理查命令是否确实用了 `--noproxy`；本课没有 TLS，不能用这个实验声称证书校验已通过。
+
+### TLS 校验不是只看“证书没过期”
+
+证书要同时满足有效期、域名身份、可信链等条件。SNI（Server Name Indication，服务端名称指示）告诉对方你想访问哪个域名，不等于客户端已经验证证书匹配该域名。`openssl s_client -servername` 只解决发送 SNI；需要明确验证时加 `-verify_hostname`，失败即停止可用 `-verify_return_error`，并指定适用的信任根。OpenSSL 的调试连接默认行为不能不加区分地当成浏览器验收。[OpenSSL s_client](https://docs.openssl.org/3.0/man1/openssl-s_client/)
+
+`curl -k` 会跳过重要证书校验，最多用于隔离原因的临时对照，不是生产修复。若确因私有 CA 未信任，应按组织流程分发正确的 CA；若域名不匹配，检查访问名、代理证书和负载均衡配置。抓包和 `curl -v` 也可能含 Authorization（授权头）、Cookie（会话数据），提交日志前必须脱敏。
+
+### 生产设计和事故推演
+
+设计一个跨可用区的告警 API：先明确入口、后端、DNS 和证书责任，再定义健康检查、超时预算、连接复用、限流与降级。客户端总截止时间要留出网络和处理余量，网关重试次数要有限；三层各重试三次会放大后端压力，不能把“重试更多”当成高可用。
+
+容量估算要看同时占用的连接数，而不仅是每秒请求数。稳定状态下可用“平均并发约等于吞吐量乘平均耗时”做第一轮估计；尾延迟升高时连接和线程可能先耗尽。监控连接池等待、活动连接、监听队列、重传、请求错误率和分段延迟。`TIME_WAIT` 多可能是正常短连接负载，是否有端口耗尽需要进一步证据；不先修改内核回收参数掩盖应用没有复用连接的问题。
+
+事故题：“发布后 10% 请求 502”。先按后端实例、版本、区域分组，看是否只落到新实例；比对 readiness（是否可接流量）和进程启动先后，检查网关 upstream（上游）地址与请求日志。若证实仅新实例未准备好，可在审批范围内暂停发布、从流量中摘除有问题实例，验证错误率下降，再修启动与就绪条件。把“新版本相关”当假设，通过实例分布和日志验证，别直接宣判网络设备故障。
+
+### 面试答案的递进层次
+
+30 秒：沿解析、路由、连接、TLS、HTTP 与依赖拆路径，并区分每一层证据能证明什么。3 分钟：进一步解释代理把连接切成多段，DNS/连接缓存影响观察，curl 时间是累计值，HTTP 错误码不能独立确定根因。追问“去程通回程不通怎么办”，答源/目的地址、回程路由、NAT（地址转换）和有状态防火墙，说明需要双方证据；追问“丢包一定降低吞吐吗”，讨论重传、往返时延、拥塞控制和应用量级，不凭一个 ping 丢包百分比推断所有业务。
 
 ## 学习证据
 

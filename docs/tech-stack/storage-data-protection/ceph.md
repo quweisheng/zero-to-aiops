@@ -26,11 +26,11 @@ Ceph 官方文档可以先拆成五层：
 
 ```text
 基础存储层
-  -> RADOS、OSD、BlueStore、pool、PG、CRUSH
-  -> 集群控制层：MON、MGR、Cephx、cluster map
-  -> 数据服务层：RBD、CephFS + MDS、RGW
-  -> 生命周期：cephadm、编排、扩容、升级、恢复
-  -> 运维观测：health、events、logs、metrics、dashboard
+  -> RADOS（对象底座）、OSD（数据进程）、BlueStore（本地存储后端）、pool（策略池）、PG（放置组）、CRUSH（放置算法）
+  -> 集群控制层：MON（地图共识）、MGR（管理模块）、Cephx（认证）、cluster map（集群地图）
+  -> 数据服务层：RBD（块）、CephFS + MDS（文件与元数据服务）、RGW（对象网关）
+  -> 生命周期：cephadm（部署管理工具）、编排、扩容、升级、恢复
+  -> 运维观测：health（健康）、events（事件）、logs（日志）、metrics（指标）、dashboard（仪表盘）
 ```
 
 本文按下面的学习路径展开：
@@ -119,14 +119,14 @@ RBD image、CephFS file 和 RGW object 最终都会变成 RADOS object，但三�
 Ceph 最关键的数据映射链是：
 
 ```text
-client data
-  -> RADOS object
-  -> pool
-  -> placement group (PG)
-  -> CRUSH rule + cluster map
-  -> primary OSD + replica OSDs
-  -> BlueStore
-  -> block device
+client data（客户端数据）
+  -> RADOS object（底层对象）
+  -> pool（逻辑池）
+  -> placement group (PG，放置组)
+  -> CRUSH rule + cluster map（放置规则与集群地图）
+  -> primary OSD + replica OSDs（主副本与其他副本）
+  -> BlueStore（本地存储引擎）
+  -> block device（块设备）
 ```
 
 客户端先从 MON 获得 cluster map，再在本地计算对象应该属于哪个 PG，以及该 PG 当前由哪些 OSD 负责。客户端直接连接 primary OSD，primary OSD 再协调其他副本 OSD。
@@ -255,13 +255,13 @@ MON 不转发正常数据流。它维护地图与集群共识。如果所有 I/O
 ### RBD 写入
 
 ```text
-VM / database / Kubernetes PVC
-  -> librbd or kernel RBD
-  -> MON: obtain cluster map and authenticate
-  -> object -> pool -> PG -> CRUSH
-  -> primary OSD
-  -> replica OSDs
-  -> acknowledgement to client
+VM / database / Kubernetes PVC（虚拟机 / 数据库 / 持久卷申请）
+  -> librbd or kernel RBD（用户态库或内核块设备客户端）
+  -> MON（监视器）：获取集群地图并认证
+  -> object（对象） -> pool（存储池） -> PG（放置组） -> CRUSH（放置算法）
+  -> primary OSD（主数据守护进程）
+  -> replica OSDs（副本数据守护进程）
+  -> acknowledgement to client（返回客户端确认）
 ```
 
 RBD image 会被切成多个 RADOS object。客户端直接与 OSD 通信，所以 MON 不在每个读写请求的数据路径上。
@@ -269,9 +269,9 @@ RBD image 会被切成多个 RADOS object。客户端直接与 OSD 通信，所�
 ### CephFS 访问
 
 ```text
-POSIX client
-  -> MDS: directory, inode, permission and metadata
-  -> OSD: file data objects
+POSIX client（按文件系统接口访问的客户端）
+  -> MDS（元数据服务）：目录、索引节点、权限等元数据
+  -> OSD（数据服务）：文件内容对应的数据对象
 ```
 
 MDS 是 Metadata Server。它管理目录、文件属性和客户端 metadata cache，不保存普通文件内容。MDS 出问题时，CephFS 可能不可用，但 RBD 与 RGW 不一定同时中断。
@@ -279,11 +279,11 @@ MDS 是 Metadata Server。它管理目录、文件属性和客户端 metadata ca
 ### RGW 访问
 
 ```text
-S3 / Swift client
-  -> load balancer
-  -> RGW HTTP daemon
-  -> bucket index and metadata
-  -> RADOS data objects
+S3 / Swift client（对象接口客户端）
+  -> load balancer（负载均衡入口）
+  -> RGW HTTP daemon（对象网关进程）
+  -> bucket index and metadata（桶索引与元数据）
+  -> RADOS data objects（底层数据对象）
 ```
 
 RGW 有自己的用户、bucket、index 和 multisite 体系。RGW 不使用 CephFS 的 MDS。
@@ -300,11 +300,11 @@ Ceph 常把网络分为：
 生产 CRUSH 拓扑至少应真实反映：
 
 ```text
-root
-  -> datacenter or room
-  -> row or rack
-  -> host
-  -> osd device
+root（根层级）
+  -> datacenter or room（数据中心或机房）
+  -> row or rack（列或机架）
+  -> host（主机）
+  -> osd device（OSD 使用的设备）
 ```
 
 选择 `host` 作为副本故障域，可以防单机故障；要防整个机架断电，需要副本分散到 `rack`。故障域越大，对可用主机数量、网络和容量余量要求越高。
@@ -608,13 +608,13 @@ curl --fail http://127.0.0.1:9283/metrics | head # 在 endpoint 所在主机验�
 ### AIOps 数据流
 
 ```text
-Ceph daemon metrics + logs + health checks
-  -> Prometheus / log platform / event bus
-  -> topology: service -> pool -> PG -> OSD -> host -> rack
-  -> anomaly detection and change correlation
-  -> alert + evidence + Runbook
-  -> approved action
-  -> verify PG, latency, capacity and business SLO
+Ceph daemon metrics + logs + health checks（守护进程指标、日志与健康检查）
+  -> Prometheus / log platform / event bus（指标库、日志平台与事件总线）
+  -> topology（拓扑）：service（服务） -> pool（池） -> PG（放置组） -> OSD（数据进程） -> host（主机） -> rack（机架）
+  -> anomaly detection and change correlation（异常检测与变更关联）
+  -> alert + evidence + Runbook（告警、证据与操作手册）
+  -> approved action（经审批执行）
+  -> verify PG, latency, capacity and business SLO（复核放置组、延迟、容量与业务目标）
 ```
 
 适合自动化的低风险动作包括查询健康、收集日志、保存 map、关联最近变更和生成工单。`ceph osd lost`、purge OSD、强制 PG 修复、降低 `min_size`、修改 CRUSH 或删除 pool 都可能造成数据损失，不能由模型根据单条告警直接执行。
@@ -778,6 +778,77 @@ Ceph 的底层是 RADOS。客户端从 MON 获取 cluster map 并通过 Cephx �
 18. 为什么单主机 3 OSD 实验不能证明生产高可用？
 19. 如何用 AIOps 降低 Ceph 告警噪声？
 20. Cephadm 升级前必须完成哪些检查？
+
+## 老师带练：读懂降级，并把副本真正恢复
+
+### 先讲清两个“多数”并不是同一个规则
+
+MON 的多数派决定集群地图等控制状态能否达成共识；数据池的 `size` 与 `min_size` 则影响数据副本与继续 I/O 的条件。不能把 MON 的三台坏一台结论，直接套在任意 EC 或副本池上。OSD 的 `up/down` 表示进程可达状态，`in/out` 表示是否参与放置；一个 OSD 可以暂时 down 但仍 in，等待恢复或后续迁移。
+
+再看 PG：`active` 表示能服务，`clean` 表示副本达到完整状态。两者像“今天还可以开门营业”和“仓库备货恢复齐全”，不是同一件事。服务恢复但冗余未恢复时，还处于风险窗口；值班事件不能只因为首页打开就结束。
+
+### 实验前提与停止条件
+
+只在本文新建的、没有任何业务数据的三 OSD 单机虚拟机中做下面实验。必须已完成基础实验。`--single-host-defaults` 的默认副本数未必是 3，因此先核对三个 OSD 都 `up/in`、实验池使用单机 OSD 故障域规则，再仅给这个新建的 `aiops-lab` 池设置下列实验保护目标。这是在有足够 OSD 时建立三副本基线，不是在故障后降低安全阈值：
+
+```bash
+sudo cephadm shell -- ceph osd pool set aiops-lab size 3
+sudo cephadm shell -- ceph osd pool set aiops-lab min_size 2
+sudo cephadm shell -- ceph -s
+```
+
+等待所有 PG `active+clean`，确认 `size=3`、`min_size=2`，且 `osd.0` 确实属于这台实验机。若放置规则无法满足三副本或任何 PG 未完成同步，停止并排查，不继续故障注入，更不能改生产池。
+
+本实验只停一个数据进程，不停整个 OSD service，不拔盘，不清空设备，不强行声明数据丢失。官方提供单 daemon 的停止与启动接口，同时明确警告不要随意并行重启整组 OSD。[Cephadm 运维文档](https://docs.ceph.com/en/tentacle/cephadm/operations/)
+
+### 精确步骤、预期与恢复
+
+在实验 Linux 主机运行以下命令。`osd.0` 中的 0 是确认后的进程编号，不是磁盘名称。
+
+```bash
+sudo cephadm shell -- ceph osd pool get aiops-lab size
+sudo cephadm shell -- ceph osd pool get aiops-lab min_size
+sudo cephadm shell -- ceph osd tree
+sudo cephadm shell -- ceph -s
+sudo cephadm shell -- ceph orch daemon stop osd.0
+sudo cephadm shell -- ceph health detail
+sudo cephadm shell -- ceph pg stat
+sudo cephadm shell -- rbd info aiops-lab/demo
+```
+
+等待状态传播后，应看到一个 OSD down、部分 PG 降级或副本不足；因为剩余两个副本满足前提，`rbd info` 应仍可读取元数据。它只证明这个元数据请求成功，不证明数据库读写压测或持久化验收成功。不同状态出现顺序受故障检测和放置影响，不要求输出逐字一致；记录实际时间和状态，不长期停着等待更多 OSD 自动退出放置。
+
+随后立即恢复同一个进程：
+
+```bash
+sudo cephadm shell -- ceph orch daemon start osd.0
+sudo cephadm shell -- ceph osd tree
+sudo cephadm shell -- ceph pg stat
+sudo cephadm shell -- ceph health detail
+sudo cephadm shell -- rbd info aiops-lab/demo
+```
+
+持续查询直到 OSD `up/in`、PG 恢复 `active+clean`。若 OSD 被自动标记 out，先确认原进程与磁盘完整，再按官方 OSD 恢复流程评估重新加入；不要继续停第二个 OSD。启动失败先查 `ceph orch ps --daemon-type osd`、该 daemon 日志、容器运行时、设备及主机空间，不使用 purge、zap 或降低 `min_size`。
+
+清理只针对实验对象：确认 `aiops-lab/demo` 没有任何需要保留的数据后，可执行 `sudo cephadm shell -- rbd rm aiops-lab/demo` 移除这一个测试镜像。pool 和集群可以保留用于下一课；不在教程里给出通配清盘命令。整套环境废弃时，在虚拟化平台核对这台专用虚拟机及三块实验磁盘的归属，再按实验资产销毁流程处理。
+
+### 从三副本走到生产容量题
+
+假设 3 台主机各提供 10 TiB 原始容量，三副本理论上只能容纳约 10 TiB 业务数据，还未扣元数据和恢复余量。更重要的是：副本故障域设为 host 时，坏一台后只剩两个 host，无法在它们上面重新凑出三个不同主机副本。总空间看起来还很多，规则也可能根本放不下第三份。
+
+所以生产设计要回答“坏掉一个故障域后，能否在剩余故障域恢复到目标副本数”，不只是“现在能存多少”。若要求故障后仍完成重建，主机数、机架数、网络与剩余容量要一起满足。把故障域偷偷改成 OSD 虽可能让图变绿，却降低了原本承诺的保护等级。
+
+### 面试答案与递进追问
+
+**30 秒：**Ceph 用 RADOS 统一保存对象，客户端从 MON 获取地图后直接访问 OSD。PG 是对象放置与恢复的中间单位，CRUSH 按真实故障域选 OSD；上层 RBD、CephFS、RGW 提供不同接口，不能混为一种文件格式。
+
+**3 分钟：**沿一次请求讲对象、PG、主副本、其他副本和持久化，再讲 MON 共识与数据副本的差别；用本实验解释 active 与 clean；最后讲容量余量、恢复对前台延迟的竞争、最小权限、备份和升级停止条件。
+
+**追问：全局只有 70% 为什么停止回填？**先找最满的 OSD、CRUSH 约束和目标池的可用空间，全局平均值会掩盖局部满盘。提高 full 阈值不能创造物理空间，应查分布、故障域余量和增长来源。
+
+**追问：如何处理一次扩容后 slow ops？**先确认扩容时间、PG remap、回填进度、网络与磁盘排队；用未参与本次迁移的池或 OSD 作对照。经审批调整恢复调度时，同时监控业务 p99 和副本风险窗口，写下恢复原参数的条件。不要把所有后台恢复永久关掉换取一时“快”。
+
+**追问：升级失败能直接换旧镜像吗？**不保证。磁盘格式、特性位和集群要求可能已经变化；先暂停后续升级、保护健康多数派与副本，再按该发行版支持路径恢复。应用镜像回滚经验不能直接套在存储数据格式上。
 
 ## 学习证据
 

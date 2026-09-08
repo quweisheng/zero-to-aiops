@@ -86,76 +86,76 @@ MySQL 是保存结构化数据的关系型数据库，SQL 是查询和操作这�
 MySQL 官方手册可以按这张地图理解：
 
 ```text
-MySQL
-  -> Tutorial
-     -> connect
-     -> enter queries
-     -> create database
-     -> create table
-     -> load data
-     -> retrieve data
-     -> batch mode
-     -> common queries
-  -> MySQL Programs
-     -> mysql client
-     -> mysqld server
-     -> mysqladmin
-     -> mysqldump
-     -> mysqlimport
-     -> mysqlshow
-     -> mysqlbinlog
-  -> SQL Language
-     -> language structure
-     -> data types
-     -> functions and operators
-     -> SQL statements
-       -> DDL
-       -> DML
-       -> transaction statements
-       -> administration statements
-       -> utility statements
-  -> Optimization
-     -> indexes
-     -> optimizer
-     -> EXPLAIN
-     -> slow query log
-  -> InnoDB
-     -> ACID
-     -> MVCC
-     -> buffer pool
-     -> clustered index
-     -> secondary index
-     -> redo log
-     -> undo log
-     -> locks
-     -> transactions
-     -> deadlocks
-  -> Administration
-     -> users
-     -> privileges
-     -> variables
-     -> backup and recovery
-     -> logs
-  -> Observability
-     -> INFORMATION_SCHEMA
-     -> Performance Schema
-     -> sys schema
+MySQL（关系型数据库）
+  -> Tutorial（入门教程）
+     -> connect（建立连接）
+     -> enter queries（输入查询）
+     -> create database（创建数据库）
+     -> create table（创建表）
+     -> load data（数据）
+     -> retrieve（检索） data（数据）
+     -> batch（批次） mode
+     -> common queries（常见查询）
+  -> MySQL Programs（MySQL 工具程序）
+     -> mysql client（客户端）
+     -> mysqld server（数据库服务器进程）
+     -> mysqladmin（管理命令工具）
+     -> mysqldump（逻辑导出工具）
+     -> mysqlimport（数据导入工具）
+     -> mysqlshow（对象查看工具）
+     -> mysqlbinlog（二进制日志查看工具）
+  -> SQL（结构化查询语言） Language
+     -> language structure（语言结构）
+     -> data types（数据类型）
+     -> functions and operators（函数与运算符）
+     -> SQL（结构化查询语言） statements
+       -> DDL（数据定义语言）
+       -> DML（数据操作语言）
+       -> transaction statements（事务语句）
+       -> administration statements（管理语句）
+       -> utility statements（辅助语句）
+  -> Optimization（优化）
+     -> indexes（索引）
+     -> optimizer（优化器）
+     -> EXPLAIN（查看执行计划）
+     -> slow query（查询） log（日志）
+  -> InnoDB（事务存储引擎）
+     -> ACID（事务的原子性、一致性、隔离性与持久性）
+     -> MVCC（多版本并发控制）
+     -> buffer pool（缓冲池：缓存数据页与索引页）
+     -> clustered index（聚簇索引：叶子页保存行数据）
+     -> secondary index（辅助索引：叶子记录包含主键值）
+     -> redo log（重做日志）
+     -> undo log（撤销日志：支持回滚与多版本读取）
+     -> locks（锁）
+     -> transactions（事务）
+     -> deadlocks（死锁）
+  -> Administration（管理）
+     -> users（用户）
+     -> privileges（权限）
+     -> variables（变量）
+     -> backup（备份） and recovery
+     -> logs（日志）
+  -> Observability（可观测性）
+     -> INFORMATION_SCHEMA（对象元数据视图）
+     -> Performance Schema（性能观测系统库）
+     -> sys schema（便于分析性能的系统视图库）
 ```
 
 初学路线：
 
 ```text
-mysql client
-  -> database/table/row/column
-  -> SELECT/WHERE/GROUP BY/JOIN
-  -> INSERT/UPDATE/DELETE
-  -> data types
-  -> primary key/index
-  -> transaction
-  -> EXPLAIN
-  -> InnoDB
-  -> users/privileges
-  -> backup/slow query/troubleshooting
+mysql client（客户端）
+  -> database/table/row/column（数据库、表、行、列）
+  -> SELECT/WHERE/GROUP BY/JOIN（查询、筛选、分组与关联）
+  -> INSERT/UPDATE/DELETE（插入、更新与删除）
+  -> data types（数据类型）
+  -> primary key/index（主键与主键索引）
+  -> transaction（事务）
+  -> EXPLAIN（查看执行计划）
+  -> InnoDB（事务存储引擎）
+  -> users/privileges（用户与权限）
+  -> backup/slow query/troubleshooting（备份、慢查询与故障排查）
 ```
 
 ## MySQL / SQL 在 AIOps 链路中的位置
@@ -177,18 +177,18 @@ AIOps 里常见数据源：
 MySQL 在 AIOps 项目里通常处在这个位置：
 
 ```text
-Alertmanager / GitHub Actions / Runbook / Incident
-  -> collector
-  -> MySQL
-      alerts
-      incidents
-      deployments
-      runbook_executions
-      feedback_labels
-  -> SQL analysis
-  -> pandas / scikit-learn
-  -> FastAPI dashboard
-  -> RAG / LLM explanation
+Alertmanager（告警管理器） / GitHub Actions / Runbook（操作手册） / Incident（故障）
+  -> collector（采集器）
+  -> MySQL（关系型数据库）
+      alerts（告警表）
+      incidents（故障表）
+      deployments（部署记录表）
+      runbook_executions（操作手册执行表）
+      feedback_labels（反馈标签表）
+  -> SQL（结构化查询语言） analysis
+  -> pandas / scikit-learn（数据处理与机器学习）
+  -> FastAPI dashboard（仪表盘）
+  -> RAG（检索增强生成） / LLM（大语言模型） explanation（解释）
 ```
 
 MySQL 不替代 Prometheus 和 Loki。它保存的是“结构化事实”和“关联上下文”。
@@ -214,12 +214,12 @@ MySQL 是关系型数据库管理系统。
 你可以把它理解成一个长期运行的服务：
 
 ```text
-client
-  -> sends SQL
-  -> MySQL Server
-  -> parser / optimizer / executor
-  -> storage engine
-  -> data files and logs
+client（客户端）
+  -> sends SQL（结构化查询语言）
+  -> MySQL Server（数据库服务进程）
+  -> parser / optimizer（优化器） / executor
+  -> storage（存储） engine
+  -> data（数据） files（文件） and logs（日志）
 ```
 
 客户端可以是：
@@ -244,14 +244,14 @@ database: aiops_lab
 “关系”不只是表格，而是表和表之间可以通过键关联：
 
 ```text
-alerts.service_name
-  -> services.name
+alerts.service_name（告警所属服务）
+  -> services.name（服务名称）
 
-alerts.incident_id
-  -> incidents.id
+alerts.incident_id（告警归属故障编号）
+  -> incidents.id（故障主键）
 
-runbook_executions.alert_id
-  -> alerts.id
+runbook_executions.alert_id（执行记录中的告警编号）
+  -> alerts.id（告警主键）
 ```
 
 这就是为什么 SQL 能回答“告警是否和事故、变更、runbook 有关”。
@@ -261,21 +261,21 @@ runbook_executions.alert_id
 一个简化架构：
 
 ```text
-mysql client
-  -> TCP 3306 / socket
-  -> MySQL Server
-      -> connection manager
-      -> SQL parser
-      -> optimizer
-      -> executor
-      -> storage engine API
-      -> InnoDB
-          -> buffer pool
-          -> clustered index
-          -> secondary indexes
-          -> redo log
-          -> undo log
-          -> data files
+mysql client（客户端）
+  -> TCP 3306 / socket（TCP 端口或本地套接字）
+  -> MySQL Server（数据库服务进程）
+      -> connection manager（连接管理）
+      -> SQL（结构化查询语言） parser
+      -> optimizer（优化器）
+      -> executor（语句执行器）
+      -> storage（存储） engine API
+      -> InnoDB（事务存储引擎）
+          -> buffer pool（缓冲池）
+          -> clustered index（聚簇索引）
+          -> secondary indexes（二级索引）
+          -> redo log（重做日志）
+          -> undo log（撤销日志）
+          -> data（数据） files（文件）
 ```
 
 | 组件 | 是什么 | 为什么要懂 |
@@ -989,10 +989,10 @@ WHERE service_name = 'order-api'
 常见判断：
 
 ```text
-type = ALL
+type = ALL（计划显示全表扫描）
   -> 可能全表扫描
 
-key = NULL
+key = NULL（执行计划未选择索引）
   -> 没有用索引
 
 rows 很大
@@ -1121,10 +1121,10 @@ InnoDB 是 MySQL 默认存储引擎，也是学习 MySQL 必须理解的核心�
 MySQL Server 负责解析和执行 SQL，存储引擎负责真正存数据。
 
 ```text
-SQL layer
-  -> parse / optimize / execute
-storage engine layer
-  -> read/write rows
+SQL layer（SQL 处理层）
+  -> parse（解析） / optimize（优化） / execute（执行）
+storage engine layer（存储引擎层）
+  -> read/write rows（读写数据行）
 ```
 
 InnoDB 提供：
@@ -1143,10 +1143,10 @@ Buffer Pool 是 InnoDB 用来缓存数据页和索引页的内存区域。
 读数据时：
 
 ```text
-query
-  -> check buffer pool
-  -> if page exists, read from memory
-  -> if not, read from disk into buffer pool
+query（查询）
+  -> check buffer pool（检查缓冲池中是否已有目标数据页）
+  -> if page exists, read from memory（缓冲池命中时直接读取内存页）
+  -> if not, read from disk into buffer pool（未命中时从磁盘读取到缓冲池）
 ```
 
 生产调优里 `innodb_buffer_pool_size` 很重要。
@@ -1164,8 +1164,8 @@ InnoDB 表数据按主键组织。主键索引的叶子节点里存整行数据�
 简单理解：
 
 ```text
-primary key index
-  -> contains full row data
+primary key index（主键索引）
+  -> contains full row data（包含完整行数据）
 ```
 
 二级索引叶子节点通常保存二级索引键和主键值，再通过主键找到整行。
@@ -1186,9 +1186,9 @@ redo log 用于崩溃恢复。
 简单理解：
 
 ```text
-commit
-  -> write redo log
-  -> later flush dirty pages
+commit（提交）
+  -> write redo log（写入重做日志）
+  -> later flush dirty pages（之后刷写脏页）
 ```
 
 ### Undo Log
@@ -1402,12 +1402,12 @@ SET GLOBAL long_query_time = 1;
 一个实用的 AIOps 小库可以这样设计：
 
 ```text
-services
-  -> alerts
-  -> incidents
-  -> deployments
-  -> runbook_executions
-  -> feedback_labels
+services（服务清单）
+  -> alerts（告警）
+  -> incidents（故障）
+  -> deployments（发布）
+  -> runbook_executions（操作手册执行记录）
+  -> feedback_labels（人工反馈标签）
 ```
 
 ### services
@@ -1753,7 +1753,7 @@ mysql -h 127.0.0.1 -u aiops -p aiops_lab < queries.sql
 
 ```text
 找到 SQL
-  -> EXPLAIN
+  -> EXPLAIN（查看执行计划）
   -> 看是否全表扫描
   -> 看 rows 估算
   -> 看 key 是否为空
@@ -1764,7 +1764,7 @@ mysql -h 127.0.0.1 -u aiops -p aiops_lab < queries.sql
 ### 写入卡住
 
 ```text
-SHOW PROCESSLIST
+SHOW PROCESSLIST（显示会话和当前活动）
   -> 找等待连接
   -> 找长事务
   -> 看 InnoDB status
@@ -1829,7 +1829,53 @@ MySQL 是关系型数据库，SQL 是操作和查询关系型数据的语言。�
 17. 如何用 SQL 判断告警是否和近期发布有关？
 18. AIOps 项目里 MySQL 可以保存哪些结构化事实？
 
-## 学习证据
+## 老师带你把 SQL 看成一连串筛选决定
+
+我们要找“昨天仍未恢复、严重级别最高的服务”。先确定数据从哪张表来，再筛时间和状态，再分组统计，最后排序取前几名。SQL 的书写顺序不等于逻辑处理顺序，更不等于优化器实际执行顺序。你要能分别解释这三层，才不会看到执行计划与代码顺序不同就认为数据库出错。
+
+`WHERE` 筛分组前的行，`HAVING` 筛聚合后的组；`COUNT(*)` 数行，`COUNT(resolved_at)` 数该列非空值。未恢复时间为 NULL，要写 `IS NULL`，不能用 `= NULL`。NULL 表示未知或不存在值，比较时涉及三值逻辑；它不是空字符串，也不是数字零。
+
+### JOIN 为什么可能让结果翻倍
+
+告警一行、对应三次操作记录，连接后就出现三行。此时直接 `COUNT(*)` 统计的是连接结果，不是独立告警数量。应按问题决定先聚合操作表、使用唯一键计数，或保持明细粒度。数据库没有替你决定“一个事故”的定义，SQL 正确运行不等于报表口径正确。
+
+主键保证行身份，唯一业务键保证重试不会建立多份对象；外键约束引用关系，CHECK 约束合法取值。索引负责访问路径，不能替代业务约束。建模时把 `alerts` 原始告警、`incidents` 归并事件、`runbook_executions` 执行记录分清，避免一条重发通知被统计成一次新事故。
+
+### 基础实验与故障注入：条件更新拒绝过期版本
+
+在本篇教学数据库客户端中执行以下 SQL，只创建一张明确命名的实验表：
+
+```sql
+CREATE TABLE lesson_claim (
+  id INT PRIMARY KEY, status VARCHAR(16) NOT NULL, version_no INT NOT NULL
+) ENGINE=InnoDB;
+INSERT INTO lesson_claim VALUES (1,'OPEN',1);
+UPDATE lesson_claim SET status='ACKED', version_no=2 WHERE id=1 AND version_no=1;
+SELECT ROW_COUNT() AS first_claim; -- 预期 1
+UPDATE lesson_claim SET status='ACKED', version_no=2 WHERE id=1 AND version_no=1;
+SELECT ROW_COUNT() AS stale_claim; -- 预期 0：模拟另一个客户端使用旧版本
+SELECT * FROM lesson_claim;
+```
+
+第二次更新 0 行是版本保护发挥作用，恢复方式是读取当前状态并由业务决定下一步，不是去掉条件强制覆盖。用两个终端执行相同旧版本更新，也能观察仅一位成功。若第二次仍为 1，检查条件、表名与是否重新插入了初始记录。保存结果后只执行 `DROP TABLE lesson_claim;` 清理本课表，不操作其他表。
+
+### InnoDB 课堂：日志、可见性和锁各管什么
+
+Redo（重做日志）帮助崩溃恢复，Undo（撤销记录）参与回滚与历史版本读取，Binlog（二进制日志）服务复制等上层机制。它们不互相替代。缓冲池先缓存数据页，提交并非要求所有数据页立即写回；持久性要结合日志刷盘、复制与存储保障解释。
+
+MVCC（多版本并发控制）让普通快照读按规则看历史版本，写与锁定读仍会争夺锁。长事务延长版本保留并可能持锁，慢 SQL 与锁等待也不能混为一谈。先找等待关系与事务年龄，再决定是否取消某请求；杀连接后大事务回滚本身可能很久。
+
+死锁是循环等待，锁超时只是等得过久。预防可用固定加锁顺序、缩短事务、合理索引与有界重试。所有重试都要覆盖完整业务事务并保持幂等，不能只重放一条已失去上下文的 SQL。
+
+### 面试和生产设计课堂
+
+30 秒说明 SQL 描述数据需求，MySQL 用优化器与 InnoDB 完成查找、并发和恢复。3 分钟以领取告警讲表约束、条件更新、索引、事务、日志和结果未知，再讲连接池与副本一致性。
+
+设计题要求一天百万告警、快速领取和历史报表。答案包括事件身份、联合索引与保留、在线事务和报表隔离、连接预算、备份恢复与 Schema（结构）兼容。事故题设为发布后慢查询增多，先比较 SQL 指纹、计划、扫描量、锁与流量；修复可以是回退查询、恢复兼容索引或限流，但必须验证业务结果和复制健康。
+
+升级采用扩展—迁移—收缩：先新增可选字段，让新旧应用都能工作，再回填与切读，最后删除旧字段。删除旧字段后，仍依赖该字段的旧应用可能无法回滚运行，所以兼容窗口本身就是回滚方案的一部分。
+
+## 本课 GitHub 学习证据
 
 学完这篇，建议留下这些证据：
 

@@ -18,15 +18,15 @@ Ajax 是 Asynchronous JavaScript and XML 的历史名称。现代应用更常交
 ## 官方知识地图与边界
 
 ```text
-user event / page lifecycle
-  -> JavaScript builds Request
-  -> browser security and cache rules
-  -> DNS / TCP or QUIC / TLS / HTTP
-  -> gateway / authentication / service / database
-  -> HTTP Response
-  -> parse stream/body
-  -> validate payload
-  -> update application state and DOM
+user event / page lifecycle（用户事件与页面生命周期）
+  -> JavaScript builds Request（构造请求）
+  -> browser security and cache rules（浏览器安全与缓存规则）
+  -> DNS（域名解析）/ TCP or QUIC（传输连接）/ TLS（加密）/ HTTP（请求响应）
+  -> gateway（网关）/ authentication（认证）/ service（业务服务）/ database（数据库）
+  -> HTTP Response（响应）
+  -> parse stream/body（解析响应流或正文）
+  -> validate payload（校验数据结构）
+  -> update application state and DOM（更新应用状态和文档节点）
 ```
 
 本文重点是浏览器 Fetch 主线。REST 资源设计见 [RESTful API](../foundation/restful-api.md)，JavaScript 事件循环见 [JavaScript](./javascript.md)，后端实现见 [FastAPI](../data-ai/fastapi.md)。
@@ -150,7 +150,11 @@ async function searchIncidents(query) {
     if (controller !== activeController) return
     render(validateIncidents(data))
   } catch (error) {
-    if (controller.signal.aborted) return
+    if (controller !== activeController) return // 旧请求连错误提示也不再有权覆盖当前界面
+    if (controller.signal.aborted) {
+      if (controller.signal.reason === 'timeout') showError(new Error('查询超时，请重试'))
+      return
+    }
     showError(error)
   } finally {
     clearTimeout(timer)
@@ -167,12 +171,12 @@ origin（源）由 scheme、host、port 组成。`https://app.example.com` 与 `
 跨源非简单请求通常先发送 OPTIONS preflight（预检），询问服务器是否允许目标源、方法和 Header。凭据请求不能使用任意源通配符；服务端应返回明确允许源并处理缓存的 `Vary: Origin`，否则共享缓存可能串策略。
 
 ```text
-browser Origin header
-  -> OPTIONS preflight
-  <- Access-Control-Allow-Origin / Methods / Headers / Credentials
-  -> actual request with allowed credentials policy
-  <- response
-  -> browser decides whether script may read it
+browser Origin header（浏览器声明请求来源）
+  -> OPTIONS preflight（跨源预检）
+  <- Access-Control-Allow-Origin / Methods / Headers / Credentials（允许的来源、方法、请求头与凭据）
+  -> actual request with allowed credentials policy（按允许的凭据策略发送实际请求）
+  <- response（响应）
+  -> browser decides whether script may read it（浏览器决定脚本能否读取响应）
 ```
 
 常见误区：
@@ -234,8 +238,8 @@ GET 通常更适合有限重试；写请求只有服务端支持稳定幂等键�
   -> JavaScript 构造 Request
   -> 浏览器安全策略与缓存判断
   -> Service Worker（若注册且命中范围）
-  -> DNS
-  -> TCP + TLS / QUIC
+  -> DNS（域名解析）
+  -> TCP + TLS / QUIC（传输连接加安全握手，或基于 QUIC 的安全传输）
   -> 企业代理 / CDN / WAF / 负载均衡 / API 网关
   -> 应用服务
   -> 数据库、缓存、消息等下游
@@ -287,7 +291,7 @@ HTTP 语义中的 safe 表示只读意图，idempotent 表示重复同一请求�
 
 ```text
 客户端生成 operation-id
-  -> POST + Idempotency-Key
+  -> POST + Idempotency-Key（创建请求携带幂等键）
   -> 服务端原子登记 processing
   -> 执行业务
   -> 保存 success/failure + response
@@ -304,13 +308,13 @@ HTTP 语义中的 safe 表示只读意图，idempotent 表示重复同一请求�
 
 ```text
 浏览器
-  -> OPTIONS /incidents
-     Origin: https://console.example
-     Access-Control-Request-Method: PATCH
-     Access-Control-Request-Headers: authorization, content-type
-  <- Access-Control-Allow-Origin
-     Access-Control-Allow-Methods
-     Access-Control-Allow-Headers
+  -> OPTIONS /incidents（对事件接口发起预检）
+     Origin: https://console.example（声明控制台来源）
+     Access-Control-Request-Method: PATCH（预检声明后续使用局部更新方法）
+     Access-Control-Request-Headers: authorization, content-type（声明后续认证头与内容类型头）
+  <- Access-Control-Allow-Origin（服务端允许的来源）
+     Access-Control-Allow-Methods（服务端允许的方法）
+     Access-Control-Allow-Headers（服务端允许的请求头）
      Access-Control-Allow-Credentials（需要时）
   -> 实际 PATCH
 ```
@@ -597,6 +601,111 @@ Ajax 是页面通过 JavaScript 异步发 HTTP 请求并局部更新界面的模
 - [ ] 能通过 Network 与 trace ID 分层排障。
 - [ ] 能完成本地基础/故障实验并清理。
 - [ ] 能设计多租户、容量、灰度和回滚。
+
+## 老师带你从浏览器看到服务端：成功要分几层
+
+假设页面要查询“订单服务最近十分钟的严重告警”。我们先不写 fetch，先把合同写清：URL 是什么，允许哪些筛选，谁有权查看，响应是列表还是分页对象，没结果与查询失败怎样区分，最多等多久。接口调用只有建立在这份合同上，才能解释什么叫成功。
+
+学生问：“后端日志写 200，页面为什么还是失败？”200 可能只说明某层返回了 HTTP 响应。它可能是登录页 HTML，可能 JSON 结构变化，也可能浏览器因为 CORS 不允许脚本读取。老师让你按网络响应、内容类型、解析、结构校验、业务结果、界面更新六层逐个确认。
+
+### 一个无需服务端的 Fetch 语义实验
+
+在现代浏览器任意本地测试页的控制台运行下面代码。`Response` 是浏览器提供的响应对象；这里只在内存中构造它，不向网站发送请求。
+
+```js
+async function inspectResponse(status, body) {
+  const response = new Response(body, {
+    status,
+    headers: { 'Content-Type': 'application/json' }
+  })
+  console.log('状态:', response.status, 'ok:', response.ok)
+  if (!response.ok) throw new Error(`HTTP ${response.status}`)
+  return response.json()
+}
+
+await inspectResponse(200, '{"count":2}') // 正常得到对象
+await inspectResponse(503, '{"error":"busy"}').catch((e) => console.log(e.message))
+await inspectResponse(200, '<html>登录页</html>').catch((e) => console.log(e.name))
+```
+
+依次观察正常对象、`HTTP 503`、JSON 解析错误。第二次是故意注入的 HTTP 故障，第三次是状态成功但正文不符合约定。清理无需删除服务，关闭测试页即可。若运行环境不认识 Response，请用现代浏览器而不是旧 Node 环境。这个实验只验证响应处理逻辑；真正的 DNS、TLS、CORS 还需要本文本地 API 和 Network 实验。
+
+### CORS 到底在保护哪一步
+
+把同源策略理解成浏览器对网页脚本的读取边界：一个网页不能因为用户打开它，就任意读另一个源的私有数据。服务器可以通过 CORS 响应头授予某些读取能力，但用户身份和业务权限仍须单独检查。详情见[Fetch CORS 协议](https://fetch.spec.whatwg.org/#http-cors-protocol)。
+
+预检失败时，真正业务请求可能根本没有发出；简单请求则可能已经发出，但脚本无权读响应。两种情况的服务端日志不同，所以“浏览器报跨域”不能直接推导“服务端没收到”。先看 OPTIONS 与实际请求是否都存在，再看每个响应头。
+
+开发代理把浏览器请求统一送到同源入口，可简化本地联调，却不能证明生产跨源策略正确。生产域名、HTTPS、Cookie 属性和网关都不同，必须在目标拓扑上验证。`no-cors` 得到不透明响应时，你读不到 JSON，它不能用于绕过这条安全边界。
+
+### 超时以后，该显示失败还是待确认
+
+读取查询超时，可以告诉用户结果暂不可用并允许有限重试；写入确认超时，可能已经成功，所以更准确的状态是“结果待确认”。服务端保存操作 ID，客户端查询它的进度与结果；重复请求复用同一业务幂等键，而非每次生成新键。
+
+两秒超时也要清理 loading 状态。把所有 `signal.aborted` 都直接 return，可能让真正超时的用户一直看到转圈。区分被新查询替代、用户主动取消、页面卸载与超时，分别定义界面和观测语义；旧请求既不能覆盖数据，也不能覆盖错误提示。
+
+### 新鲜度与一致性，别用“刷新一下”代替设计
+
+确认事件成功后，你希望列表立即显示已确认，这是 read-your-writes（读到自己刚写入的结果）需求。可以使用写响应中的权威对象更新缓存，或等待状态查询收敛。若列表来自延迟副本，马上重新 GET 仍可能读到旧数据，单纯刷新并不保证满足要求。
+
+给用户显示数据更新时间和部分失败源，能帮助其判断证据是否足够新。缓存键必须包含会影响结果的筛选、租户和权限语义；退出登录时还要处理旧身份缓存。可用性提高不能以跨租户泄漏为代价。
+
+### 面试推导：从一次请求扩大到万人同时使用
+
+一人每两秒轮询一次是每秒约 0.5 次请求，一万人就是约 5000 次请求，还没算重试和多标签页。后台暂停、退避、ETag、游标和按需订阅都可能降低负载。选择 SSE 或 WebSocket 时还要管理长连接、恢复位点和背压，不能只说“换实时协议就更省”。
+
+面试官问“请求慢”时，先划分浏览器排队、连接、服务等待、下载、解析和渲染；问“重复写”时，先讲未知结果和幂等记录；问“跨域失败”时，先区分预检与实际响应。三条证据路线讲清楚，再谈框架封装，才不会把问题藏进一个巨大请求拦截器。
+
+## 进阶客户端课堂：请求结束以后，还有哪些一致性问题
+
+### 分页不是把一个大数组随便切开
+
+假设告警列表按最新时间排序，你正在看第一页时又进来十条告警。使用固定偏移量取第二页，可能再次看到第一页末尾的记录，也可能漏掉部分事件。Offset（偏移量）回答“跳过前多少条”，Cursor（游标）回答“从哪条排序位置继续”，两者对持续变化数据的行为不同。
+
+老师会先问清业务目标：值班屏幕追求最新事件，审计导出追求一个确定时间点的完整集合。前者可以显示“有新事件，点击刷新”，后者更适合由服务端提供快照或固定查询窗口。游标通常应作为不透明字符串传回服务端，客户端不要自行解码修改；筛选条件、租户和排序改变后，旧游标也不应继续沿用。
+
+去重只能解决一部分问题。把相同事件 ID 去掉可减少重复显示，却无法补回因分页变化漏掉的记录，也不能把同一事件的新版本误删。数据合并应同时考虑对象 ID、版本或更新时间，以及排序规则。AIOps 页面若把重复项减少误当成事件量下降，就可能给异常检测输入错误数据。
+
+### 乐观更新不是先显示成功然后忘记服务器
+
+用户确认告警后，界面可以先标记为“提交中”，甚至暂时显示预期状态以减少等待，但必须保留旧值和请求标识。成功响应到来后以服务端确认版本收敛；明确失败时恢复或提示重试；超时且结果未知时显示待确认并查询任务状态。不要把三种情况都变成“操作失败，再点一次”。
+
+两个操作同时发生时，回滚也可能出错。第一次把级别从高改为严重，第二次又改为警告；若第一次稍后失败，无条件恢复最初的“高”会覆盖第二次已成功的“警告”。回滚动作应检查它仍对应当前待确认版本，或重新读取权威状态。这个问题与请求竞态相似，但涉及写入副作用，不能只靠取消旧 Fetch 解决。
+
+对于批量确认，服务端可能逐项成功与失败。客户端应保留每项结果，允许只重试失败或未知的项，并用稳定幂等键约束重复执行。一个总状态为 200 的批处理响应，不意味着所有目标都成功；一个网关 504 也不证明所有目标都失败。面试时要讲清总请求状态与各业务项状态的关系。
+
+### 流式返回时，一个网络块不等于一条完整消息
+
+浏览器读到的字节分块由传输与缓冲决定，可能在一个汉字、一个 JSON 对象甚至一行中间断开。你不能把每个 `reader.read()` 返回值直接当成独立 JSON。正确的思路是分层：先连续解码字节，再按协议边界拼消息，最后做结构与业务校验；同时给未完成消息缓冲设置大小上限。
+
+下面在自己的本地实验页控制台执行，不需要网络也不会修改页面，用两段字节证明这一点：
+
+```javascript
+{
+  const bytes = new TextEncoder().encode('告警已恢复')
+  const first = bytes.slice(0, 2) // 故意切在第一个汉字内部
+  const rest = bytes.slice(2)
+  const broken = new TextDecoder().decode(first) + new TextDecoder().decode(rest)
+  const decoder = new TextDecoder()
+  const correct = decoder.decode(first, { stream: true }) +
+    decoder.decode(rest, { stream: true }) + decoder.decode()
+  console.assert(broken !== '告警已恢复', '错误方法应破坏字符')
+  console.assert(correct === '告警已恢复', '连续解码应恢复完整文本')
+  console.log({ broken, correct })
+}
+```
+
+基础预期是 `correct` 完整显示中文，故障结果 `broken` 包含替代字符。验证通过后把切分位置改成 3，再改成 4，观察只有部分边界碰巧正确；这说明不能依赖本次网络分块的幸运位置。恢复为连续解码即可，清理只需关闭实验标签页，未创建服务器或文件。若两种方法都正确，检查是否真的切开了多字节字符；若 API 不存在，核对运行环境支持，不把随机替换乱码当成修复。
+
+SSE 还需要按事件边界处理、记录恢复游标并处理重连；WebSocket 要定义消息序号、心跳和重放窗口。浏览器内存不是无限队列，生产页面应在处理速度跟不上时合并展示、限制保留数量，或者让服务端按订阅条件减少输入。不能每来一条消息就重绘全部图表。
+
+### 页面不可见以后，请求为什么还在增加
+
+一个页面上十个组件各自每五秒轮询，十个标签页就是持续叠加的请求负载。切换路由后若定时器未清理，离开的页面也会继续请求。老师建议记录每次请求的触发原因：初始加载、筛选变化、定时刷新、重连还是人工重试。原因不明的重复请求，比总量本身更难修复。
+
+页面隐藏时可按业务要求降低普通看板轮询频率，但不能把浏览器定时器当成准点后台任务。恢复可见后重新检查数据时间和权限，必要时刷新；关键告警投递应由服务端可靠通道承担，不依靠某个浏览器窗口一直存活。共享请求缓存可合并同条件读请求，但缓存键必须包含用户权限相关上下文，且退出登录或切租户时清除相应状态。
+
+最后把这些行为纳入发布验收：快速切筛选、并发确认、隐藏再恢复页面、断网再联网、切租户、分页期间新增事件。每项都观察请求数、界面版本和业务结果。能解释这些边界，才真正从“会调用接口”走到“能维护可靠的交互系统”。
 
 ## GitHub 学习证据
 

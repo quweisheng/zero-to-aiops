@@ -76,27 +76,27 @@ java --enable-preview Main
 ## 官方知识地图
 
 ```text
-Java language
-  -> syntax / types / classes / interfaces / generics
-  -> exceptions / annotations / lambdas / streams
-  -> Java Memory Model and concurrency rules
+Java language（语言）
+  -> syntax / types / classes / interfaces / generics（语法、类型、类、接口与泛型）
+  -> exceptions / annotations / lambdas / streams（异常、注解、函数表达式与数据流处理）
+  -> Java Memory Model and concurrency rules（Java 内存模型与并发规则）
 
-JDK toolchain
-  -> javac / java / jar / javap / javadoc / jshell
-  -> jdeps / jlink / keytool
-  -> jcmd / jstack / jmap / jstat / jfr
+JDK toolchain（开发工具链）
+  -> javac / java / jar / javap / javadoc / jshell（编译、运行、归档、反汇编、文档与交互环境）
+  -> jdeps / jlink / keytool（依赖分析、裁剪运行时与密钥证书管理）
+  -> jcmd / jstack / jmap / jstat / jfr（综合诊断、线程、堆、统计与事件记录）
 
-JVM runtime
-  -> class loading / verification / linking / initialization
-  -> interpreter / JIT / code cache
-  -> heap / metaspace / thread stack / native memory
-  -> garbage collection / safepoint / threads
+JVM runtime（虚拟机运行时）
+  -> class loading / verification / linking / initialization（类加载、验证、链接与初始化）
+  -> interpreter / JIT / code cache（解释器、即时编译与机器码缓存）
+  -> heap / metaspace / thread stack / native memory（对象堆、元空间、线程栈与本地内存）
+  -> garbage collection / safepoint / threads（垃圾回收、安全点与线程）
 
-Production engineering
-  -> package and dependency governance
-  -> configuration / logs / metrics / traces / JFR
-  -> capacity / security / HA / deployment
-  -> upgrade / rollback / incident evidence
+Production engineering（生产工程）
+  -> package and dependency governance（制品与依赖治理）
+  -> configuration / logs / metrics / traces / JFR（配置、日志、指标、调用轨迹与事件记录）
+  -> capacity / security / HA / deployment（容量、安全、高可用与部署）
+  -> upgrade / rollback / incident evidence（升级、回滚与事故证据）
 ```
 
 本文按“语言与工具链 -> JVM 执行路径 -> 并发与内存 -> 生产运行 -> AIOps 实验 -> 故障排查 -> 面试与系统设计”推进。
@@ -190,19 +190,19 @@ Java 把一套强类型语言、标准类库、字节码格式、虚拟机规范
 ## Java 在 AIOps 链路中的位置
 
 ```text
-metrics / logs / traces / alerts / tickets
+metrics / logs / traces / alerts / tickets（指标、日志、链路、告警与工单）
                  |
                  v
-Java service / collector / rule engine / automation API
-  -> threads and virtual threads process work
-  -> HTTP / JDBC / messaging call dependencies
-  -> logs describe events
-  -> metrics describe rates and resources
-  -> traces connect cross-service latency
-  -> JFR and thread dumps expose JVM internals
+Java service / collector / rule engine / automation API（服务、采集器、规则引擎与自动化接口）
+  -> threads and virtual threads process work（线程和虚拟线程处理任务）
+  -> HTTP / JDBC / messaging call dependencies（通过网络、数据库驱动或消息访问依赖）
+  -> logs describe events（日志描述事件）
+  -> metrics describe rates and resources（指标描述速率和资源）
+  -> traces connect cross-service latency（链路串联跨服务耗时）
+  -> JFR and thread dumps expose JVM internals（飞行记录和线程转储暴露虚拟机内部状态）
                  |
                  v
-alert correlation / anomaly detection / RCA / runbook automation
+alert correlation / anomaly detection / RCA / runbook automation（告警关联、异常检测、根因分析与手册自动化）
 ```
 
 Java 常见于银行、保险、政企、运营商、电商和大型平台的核心服务，也常用于流处理、消息消费、监控后台、CMDB、任务调度和自动化编排。AIOps 工程师不一定每天写复杂业务，但必须能把 JVM 指标、应用日志、Trace、线程栈、GC 和变更记录关联起来。
@@ -223,18 +223,18 @@ Java 常见于银行、保险、政企、运营商、电商和大型平台的核
 ## 架构与数据流：一段代码怎样变成运行中的进程
 
 ```text
-AlertDigest.java
-  -> javac parses and type-checks source
-  -> AlertDigest.class bytecode
-  -> java starts a JVM process
-  -> class loader finds the class
-  -> verifier checks bytecode safety
-  -> linking prepares and resolves symbols
-  -> class initialization runs static initialization
-  -> interpreter starts execution
-  -> JIT compiles hot methods to machine code
-  -> GC reclaims unreachable managed objects
-  -> OS schedules threads and performs I/O
+AlertDigest.java（告警汇总程序源文件）
+  -> javac parses and type-checks source（编译器解析源码并检查类型）
+  -> AlertDigest.class bytecode（编译得到字节码）
+  -> java starts a JVM process（启动虚拟机进程）
+  -> class loader finds the class（类加载器寻找类）
+  -> verifier checks bytecode safety（校验字节码安全）
+  -> linking prepares and resolves symbols（连接阶段准备存储并解析符号）
+  -> class initialization runs static initialization（初始化静态字段和代码块）
+  -> interpreter starts execution（解释器开始执行）
+  -> JIT compiles hot methods to machine code（即时编译器把热点编译为机器码）
+  -> GC reclaims unreachable managed objects（垃圾回收器回收不可达托管对象）
+  -> OS schedules threads and performs I/O（操作系统调度线程并执行输入输出）
 ```
 
 这条链路解释了许多错误为何发生在不同阶段：
@@ -403,7 +403,7 @@ var service = "order-api";
 String left = new String("critical");
 String right = new String("critical");
 
-System.out.println(left == right);      // 比较引用身份，通常是 false
+System.out.println(left == right);      // 两次 new 得到不同对象，此例确定为 false
 System.out.println(left.equals(right)); // 比较 String 内容，是 true
 ```
 
@@ -752,14 +752,14 @@ JDK 21 编译的普通 class 主版本是 65。较新的 JVM 通常能运行较�
 JVM 对类的大致过程：
 
 ```text
-loading
-  -> read class bytes and create Class object
-linking
-  -> verify bytecode
-  -> prepare static storage
-  -> resolve symbolic references when required
-initialization
-  -> execute static field initializers and static blocks
+loading（加载）
+  -> read class bytes and create Class object（读取字节并创建类对象）
+linking（连接）
+  -> verify bytecode（校验字节码）
+  -> prepare static storage（准备静态存储）
+  -> resolve symbolic references when required（按需解析符号引用）
+initialization（初始化）
+  -> execute static field initializers and static blocks（执行静态字段初始化表达式和静态块）
 ```
 
 ### 常见类加载器
@@ -799,15 +799,15 @@ HotSpot 启动后会收集方法调用和分支等 profile。冷代码可解释�
 ## JVM 内存地图
 
 ```text
-process virtual memory
-  -> Java heap
-       -> young / old organization depends on GC
-  -> metaspace for class metadata
-  -> code cache for compiled machine code
-  -> one native stack per platform thread
-  -> direct buffers and mapped files
-  -> GC / JIT / JVM native structures
-  -> JNI and other native libraries
+process virtual memory（进程虚拟内存）
+  -> Java heap（对象堆）
+       -> young / old organization depends on GC（年轻代和老年代的组织取决于回收器）
+  -> metaspace for class metadata（元空间保存类元数据）
+  -> code cache for compiled machine code（代码缓存保存编译后的机器码）
+  -> one native stack per platform thread（每个平台线程有原生栈）
+  -> direct buffers and mapped files（直接缓冲区与映射文件）
+  -> GC / JIT / JVM native structures（回收器、编译器和虚拟机的原生结构）
+  -> JNI and other native libraries（原生接口与其他本地库）
 ```
 
 ### Heap
@@ -1244,7 +1244,7 @@ Java 升级不是只换 `java.exe`：
 JDK distribution and patch
   + bytecode target
   + framework and middleware
-  + build plugins and annotation processors
+  + build（构建） plugins and annotation processors
   + JDBC / messaging / TLS drivers
   + APM / profiler / security agents
   + GC and JVM flags
@@ -1268,25 +1268,25 @@ JDK distribution and patch
 以告警处理服务为例，先列资源预算：
 
 ```text
-arrival rate
-  x average service time
-  -> in-flight work
+arrival rate（到达速率）
+  x average service time（平均服务时间）
+  -> in-flight work（在途工作量）
 
-in-flight work
-  x per-request retained bytes
-  -> request memory
+in-flight work（在途工作量）
+  x per-request retained bytes（单请求保留字节数）
+  -> request memory（请求内存）
 
-base live set
-  + caches
-  + queues
-  + request memory
-  + allocation/GC headroom
-  -> heap target
+base live set（基础存活对象集）
+  + caches（缓存）
+  + queues（队列）
+  + request memory（请求内存）
+  + allocation/GC headroom（分配与回收余量）
+  -> heap target（堆预算）
 
-platform threads x stack size
-  + direct buffers
-  + metaspace/code cache/native
-  -> non-heap/native target
+platform threads x stack size（平台线程数乘栈大小）
+  + direct buffers（直接缓冲）
+  + metaspace/code cache/native（元空间、代码缓存与原生内存）
+  -> non-heap/native target（非堆与原生内存预算）
 ```
 
 再用压测和故障测试修正。平均值会隐藏长尾；重试会放大到达率；队列会让吞吐看似稳定但延迟持续增长。容量告警应同时看 utilization、saturation、errors 和 queue age。
@@ -1711,19 +1711,19 @@ private static void updateBoth() {
 ### 设计主线
 
 ```text
-load balancer / message broker
-  -> stateless Java consumers
-  -> bounded validation and enrichment
-  -> partitioned aggregation state
-  -> idempotent ticket / notification outbox
-  -> durable store
+load balancer / message broker（负载均衡器或消息中间件）
+  -> stateless Java consumers（无会话依赖的消费者）
+  -> bounded validation and enrichment（有边界的验证与信息补全）
+  -> partitioned aggregation state（按分区保存聚合状态）
+  -> idempotent ticket / notification outbox（幂等工单与通知发件箱）
+  -> durable store（持久存储）
 
-observability
-  -> business rate/error/latency
-  -> queue lag and age
-  -> executor/connection pools
-  -> JVM/GC/JFR
-  -> logs and traces
+observability（可观测性）
+  -> business rate/error/latency（业务速率、错误率与延迟）
+  -> queue lag and age（队列积压与最老消息年龄）
+  -> executor/connection pools（执行线程池与连接池）
+  -> JVM/GC/JFR（虚拟机、垃圾回收与飞行记录）
+  -> logs and traces（日志与链路）
 ```
 
 ### 面试回答要点
@@ -1927,6 +1927,81 @@ JFR 是一段时间的事件记录；Heap Dump 是某一时刻对象图。前者
 - [ ] 我能给出 JDK/框架/Agent/依赖的升级与回滚方案。
 - [ ] 我能完成生产事故题和高吞吐告警平台设计题。
 - [ ] 我能把实验、截图、JFR 摘要和排障记录提交到 GitHub。
+
+## 老师串讲：先知道程序等什么，再决定调哪一个参数
+
+让我们再回到开头“CPU 不高但请求很慢”的事故。初学时容易把 CPU 当成学生努力程度：利用率不高，好像机器还很闲。其实处理请求的线程可能都在等数据库连接，新的请求在队列里等待，CPU 自然不忙。此时加大堆不会增加数据库连接，换 GC 也不能让 SQL 更快。正确思考是沿着一条请求走：入口排队、获取线程、获取连接、等待下游、计算结果、写出响应；在哪一段停住，就收哪一段证据。
+
+### ThreadPoolExecutor 的顺序，是一道经常被追问的机制题
+
+提交任务时，线程池不是简单“先把线程加到最大”。通常先在未达到核心线程数时创建线程；达到核心数后尝试入队；队列放不下时才尝试增加到最大线程数；再无法接受就调用拒绝策略。因而使用无界队列时，最大线程数往往根本起不到你想象中的扩容效果，任务一直排在队列里。具体规则见[官方线程池文档](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ThreadPoolExecutor.html)。
+
+CallerRunsPolicy 是让提交者亲自执行任务，常能把慢速传递回上游；但如果提交者是事件循环线程或持锁线程，它可能把原本短小的入口阻塞很久。更容易漏的是：线程池已 shutdown 时，这个策略会丢弃任务，而不是继续在调用方执行。选策略前要定义拒绝是否返回错误、是否登记丢弃、是否保留关键告警，不能只因为名字带“反馈”就认为安全。
+
+### 一个 timeout，不能替你停止所有子任务
+
+`CompletableFuture.orTimeout` 让 Future 以超时异常完成，不保证实际网络请求、数据库查询或后台计算已经停止。调用方看见超时后立即重试，旧任务仍可能继续执行，形成“双份工作”。`cancel` 也不能替代下游协议支持的取消和幂等确认；要把取消信号传到实际执行边界，并限制总时间预算。参见[CompletableFuture 官方 API](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/CompletableFuture.html)。
+
+因此生产日志至少区分“调用方已超时”和“工作已结束”。对于写操作，超时状态应该暂记为结果未知，查询业务流水或幂等键后再决定重做。对于只读查询，也要关闭响应体、释放连接并防止超时任务无限留在后台。虚拟线程降低等待的线程成本，但这些生命周期规则一条都没有消失。
+
+### record 为什么不能直接等同于不可变对象
+
+假设 `record Batch(List<String> services) {}`，record 保护的是组件引用不能重新赋值，调用者仍可能修改传入的 ArrayList。你已经把 Batch 放入异步队列，另一个线程再改原列表，消费者看到的就不是提交时快照。常见做法是在构造时 `List.copyOf`，并要求元素本身也满足所需不可变性；如果列表里是可变对象，复制列表仍只是浅复制。
+
+排这类问题时先画对象引用：是谁创建、谁共享、何时允许修改。不能因为变量声明带 final 就认定线程安全，final 的初始化与发布规则也不是“所有嵌套状态自动加锁”。面试官从 record 追问到并发，本质上是在检查你是否能从语法走到对象所有权。
+
+### 死锁修复给出能独立编译的完整版本
+
+上面的修复片段说明锁顺序，下面把省略的业务方法换成可运行课堂输出。仍在同一独立实验目录中，新建 `src/lab/aiops/DeadlockFixed.java`，不要直接把原故障代码两把锁换成相同顺序却保留“两个线程都持有第一把锁”的 CountDownLatch，那会制造新的等待问题。
+
+```java
+package lab.aiops;
+
+import java.util.concurrent.locks.ReentrantLock;
+
+public final class DeadlockFixed {
+    private static final ReentrantLock ALERT = new ReentrantLock();
+    private static final ReentrantLock TICKET = new ReentrantLock();
+
+    public static void main(String[] args) throws InterruptedException {
+        Thread a = new Thread(DeadlockFixed::update, "alert-to-ticket");
+        Thread b = new Thread(DeadlockFixed::update, "ticket-to-alert");
+        a.start();
+        b.start();
+        a.join();
+        b.join();
+        System.out.println("result=completed_without_deadlock");
+    }
+
+    private static void update() {
+        ALERT.lock();
+        try {
+            TICKET.lock();
+            try {
+                System.out.println(Thread.currentThread().getName() + ": updated");
+            } finally {
+                TICKET.unlock();
+            }
+        } finally {
+            ALERT.unlock();
+        }
+    }
+}
+```
+
+执行 `javac --release 21 -d out src\lab\aiops\DeadlockFixed.java`，然后 `java -cp out lab.aiops.DeadlockFixed`。预期两个线程各打印一次 updated，顺序不要求固定，最后出现 completed_without_deadlock 并退出。若仍卡住，先核对实际启动类名和源码是否保留旧闩锁，不要继续启动更多进程。修复版自动退出，故障版仍按前面的精确 PID 回收；最后保留源码与脱敏线程分析，生成的 class/JFR 按实验目录策略清理。
+
+这证明的是两条路径按统一顺序获得锁后不形成原来的环，不证明复杂生产业务已经无死锁。真实系统还要检查所有加锁路径、回调、隐藏的框架锁和持锁网络请求，并将锁顺序写成团队可审查的不变量。
+
+### 一份内存预算练习，建立参数的单位感
+
+假设容器限制为 2 GiB，给堆 1.5 GiB，剩余约 0.5 GiB 还要容纳 Metaspace、Code Cache、线程栈、直接缓冲区和 JVM 自身。平台线程一千个时，即使每个栈只保留部分实际页，虚拟地址预留与实际驻留也不能简单当同一指标。不要把 `线程数 × -Xss` 直接宣称为实时 RSS，更不能认为堆未到 Xmx 就不会被容器杀死。
+
+先收集 heap used/committed、RSS、线程数、直接缓冲指标与 NMT 分类，再按同一负载趋势比较。NMT reserved 是预留地址范围，committed 是 JVM 已提交内存，RSS 是操作系统看见的驻留页，三者口径不同。新手第一步不是追求三个数字完全相等，而是学会解释为什么它们不同，以及哪个已接近实际限制。
+
+### 面试时如何使用历史实验记录
+
+本文已有 Windows + Oracle JDK 24 的历史验证说明；本轮新增课堂推理与修复代码不能自动继承为“所有版本实测”。回答时把已有记录、这次实际运行、尚未验证的生产场景分开。你可以说“我用线程转储理解了环形等待，设计了统一锁顺序的修复，下一步在目标 JDK 和应用负载上回归”，不要把课堂输出写成自己处理过真实生产事故。证据边界清楚，本身就是工程能力的一部分。
 
 ## GitHub 学习证据
 

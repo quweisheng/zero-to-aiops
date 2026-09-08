@@ -39,35 +39,35 @@
 官方资料可以拆成六条主线：
 
 ```text
-Dify
-  -> Build
-     -> Basic Apps
-     -> Workflow / Chatflow
-     -> Agent
-     -> nodes / variables / error handling
-  -> Knowledge
-     -> datasource
-     -> parse / clean / chunk
-     -> embedding / index
-     -> retrieve / rerank
-  -> Integrations
-     -> model providers
-     -> tools
-     -> plugins
-  -> Publish
-     -> Web App
-     -> REST API
-     -> embed
-     -> MCP Server
-  -> Monitor
-     -> dashboard
-     -> logs / feedback
-     -> tracing integrations
-  -> Self-host
-     -> Docker Compose
-     -> environment variables
-     -> storage / migration
-     -> troubleshooting
+Dify（可视化 AI 应用平台）
+  -> Build（构建应用）
+     -> Basic Apps（基础应用）
+     -> Workflow（工作流） / Chatflow（对话流）
+     -> Agent（智能体）
+     -> nodes（节点） / variables（变量） / error handling（错误处理）
+  -> Knowledge（知识库）
+     -> datasource（数据源）
+     -> parse（解析） / clean（清洗） / chunk（文本切块）
+     -> embedding（向量编码） / index（检索索引）
+     -> retrieve（检索） / rerank（重排序）
+  -> Integrations（集成）
+     -> model providers（模型提供方）
+     -> tools（工具）
+     -> plugins（插件）
+  -> Publish（发布）
+     -> Web App（网页应用）
+     -> REST API（基于 HTTP 的接口）
+     -> embed（嵌入）
+     -> MCP Server（模型上下文协议服务端）
+  -> Monitor（监控）
+     -> dashboard（仪表盘）
+     -> logs（日志） / feedback（反馈）
+     -> tracing integrations（链路追踪集成）
+  -> Self-host（自行部署）
+     -> Docker Compose（多容器编排工具）
+     -> environment variables（环境变量）
+     -> storage（存储） / migration（迁移）
+     -> troubleshooting（故障排查）
 ```
 
 本文按下面的运维主线学习：
@@ -229,31 +229,31 @@ Dify 不负责替你保证：
 
 ## 核心原理
 
-## 核心概念一：Workspace、App 与发布版本
+### 核心概念一：Workspace、App 与发布版本
 
-### 是什么
+#### 是什么
 
 Workspace 是团队资源边界，App 是一套可运行的 AI 应用配置。发布把编辑中的配置变成用户或 API 可调用的版本。
 
-### 为什么需要
+#### 为什么需要
 
 如果编辑画布的每次修改立即影响线上用户，测试一个 Prompt 就可能造成生产事故。工作区、应用和发布边界让研发与运行状态分开。
 
-### 怎么工作
+#### 怎么工作
 
 ```text
-workspace
-  -> model credentials / plugins / members
-  -> app draft
-     -> nodes / prompts / variables / knowledge references
-  -> test run
-  -> publish
-  -> Web App / API consumers
+workspace（工作空间）
+  -> model credentials（模型凭据） / plugins（插件） / members（成员）
+  -> app draft（应用草稿）
+     -> nodes（节点） / prompts（提示词） / variables（变量） / knowledge references（知识引用）
+  -> test run（试运行）
+  -> publish（发布）
+  -> Web App（网页应用） / API consumers（接口调用方）
 ```
 
 草稿和已发布版本不是同一个概念。修改后必须重新发布，调用方才会使用新配置。
 
-### 怎么用或观察
+#### 怎么用或观察
 
 - 在 Studio 创建应用。
 - Test Run 验证草稿。
@@ -261,7 +261,7 @@ workspace
 - 从运行日志确认请求实际用了哪个应用和工作流版本。
 - 把 DSL 导出到 Git，保留评审和回滚证据。
 
-### 坏了怎么查
+#### 坏了怎么查
 
 看到“页面已经改了但 API 结果没变”时，先查：
 
@@ -271,32 +271,32 @@ workspace
 4. 线上运行记录的 Workflow 版本是否正确。
 5. 缓存、网关或调用方是否复用了旧响应。
 
-## 核心概念二：Workflow、Chatflow 与节点
+### 核心概念二：Workflow、Chatflow 与节点
 
-### 是什么
+#### 是什么
 
 Workflow 是一次性有向执行图；Chatflow 在执行图上增加会话交互。节点负责输入、模型、知识检索、代码、工具、条件、循环、人工确认和输出等单项工作。
 
-### 为什么需要
+#### 为什么需要
 
 模型擅长不确定性理解，规则和 API 擅长确定性处理。把它们拆成节点，可以让关键判断可测试、可重试、可观察。
 
-### 怎么工作
+#### 怎么工作
 
 ```text
-User Input / Trigger
-  -> validate
-  -> IF/ELSE
-  -> Knowledge Retrieval
-  -> LLM
-  -> Tool / HTTP Request
-  -> Human Input
-  -> Output / Answer
+User Input（用户输入） / Trigger（触发器）
+  -> validate（校验）
+  -> IF/ELSE（条件分支）
+  -> Knowledge Retrieval（知识检索）
+  -> LLM（大语言模型）
+  -> Tool（工具） / HTTP Request（HTTP 请求）
+  -> Human Input（人工输入）
+  -> Output（输出） / Answer（回答）
 ```
 
 Workflow 通常从 User Input 或 Trigger 开始，可以用 Output 返回结果。Chatflow 从用户输入开始，并用 Answer 节点生成对话响应。
 
-### 怎么用或观察
+#### 怎么用或观察
 
 - 给节点和变量使用业务含义明确的名称。
 - 对关键节点单独 Test Run。
@@ -304,7 +304,7 @@ Workflow 通常从 User Input 或 Trigger 开始，可以用 Output 返回结果
 - 为外部调用设置超时、错误分支和降级结果。
 - 对写操作增加 Human Input 或审批工具。
 
-### 坏了怎么查
+#### 坏了怎么查
 
 1. 在运行历史定位第一个失败节点，不要只看最终错误。
 2. 检查上游变量类型和值是否符合节点输入。
@@ -312,34 +312,34 @@ Workflow 通常从 User Input 或 Trigger 开始，可以用 Output 返回结果
 4. 检查循环次数、并行度和最大执行时间。
 5. 检查模型、工具或 HTTP 节点的外部依赖。
 
-## 核心概念三：Model Provider、Tool 与 Plugin
+### 核心概念三：Model Provider、Tool 与 Plugin
 
-### 是什么
+#### 是什么
 
 - Model Provider 把聊天、Embedding、Rerank、语音等模型接入 Dify。
 - Tool 是可被节点或 Agent 调用的外部能力。
 - Plugin 是扩展包装，可以提供模型、工具、数据源、Agent 策略、触发器或 Endpoint。
 - Plugin Daemon 是自托管架构里运行和管理插件的重要服务。
 
-### 为什么需要
+#### 为什么需要
 
 平台核心不可能内置所有模型和外部系统。插件体系把变化快、权限不同的能力从核心服务中分离。
 
-### 怎么工作
+#### 怎么工作
 
 ```text
-Workflow / Agent
-  -> Dify API
-  -> Plugin Daemon
-  -> installed plugin runtime
-  -> model / tool / datasource / external API
-  -> result
-  -> workflow node
+Workflow（工作流） / Agent（智能体）
+  -> Dify API（Dify 接口服务）
+  -> Plugin Daemon（插件后台服务）
+  -> installed plugin runtime（已安装插件的运行环境）
+  -> model（模型） / tool（工具） / datasource（数据源） / external（外部依赖） API
+  -> result（结果）
+  -> workflow node（工作流节点）
 ```
 
 Agent Strategy 决定“怎样选择和调用工具”，Tool 负责“执行一个具体能力”，两者不能混为一谈。
 
-### 怎么用或观察
+#### 怎么用或观察
 
 - 在 Workspace 的 Model Providers 配置模型凭据。
 - 在 Plugins 检查安装版本、权限和来源。
@@ -347,7 +347,7 @@ Agent Strategy 决定“怎样选择和调用工具”，Tool 负责“执行一
 - 查看 `plugin_daemon` 日志和插件自己的结构化日志。
 - 生产使用签名插件，并固定版本和来源。
 
-### 坏了怎么查
+#### 坏了怎么查
 
 1. 模型凭据是否有效，Endpoint 是否可达。
 2. Plugin Daemon 是否健康。
@@ -355,42 +355,42 @@ Agent Strategy 决定“怎样选择和调用工具”，Tool 负责“执行一
 4. 外部 API 是否超时、限流或证书失败。
 5. 插件是否请求了不必要的网络、文件或凭据权限。
 
-## 核心概念四：Knowledge 与 RAG
+### 核心概念四：Knowledge 与 RAG
 
-### 是什么
+#### 是什么
 
 Knowledge 是 Dify 的知识管理与检索能力。RAG 是先检索证据，再把证据交给模型生成回答的模式。
 
-### 为什么需要
+#### 为什么需要
 
 模型参数里的知识可能过时，也不知道公司的 Runbook、CMDB 和事故记录。检索可以在不重新训练模型的情况下提供当前私有证据。
 
-### 怎么工作
+#### 怎么工作
 
 离线索引路径：
 
 ```text
-file / text / datasource
-  -> upload
-  -> parse
-  -> clean
-  -> split into chunks
-  -> embedding model
-  -> vector index
-  -> indexing completed
+file（文件） / text（文本） / datasource（数据源）
+  -> upload（上传）
+  -> parse（解析）
+  -> clean（清洗）
+  -> split into chunks（分成文本块）
+  -> embedding model（向量编码模型）
+  -> vector index（向量索引）
+  -> indexing completed（索引处理完成）
 ```
 
 在线检索路径：
 
 ```text
-user query
-  -> query embedding
-  -> vector / full-text / hybrid retrieval
-  -> metadata filter
-  -> optional rerank
-  -> top-k chunks
-  -> prompt context
-  -> LLM answer with evidence
+user query（用户查询）
+  -> query embedding（查询向量）
+  -> vector / full-text（全文） / hybrid retrieval（混合检索）
+  -> metadata filter（元数据过滤）
+  -> optional rerank（可选重排序）
+  -> top-k chunks（最相关的 k 个文本块）
+  -> prompt context（提示上下文）
+  -> LLM answer with evidence（带证据的模型回答）
 ```
 
 高质量索引使用 Embedding，把 Chunk 变成向量。检索策略可以是向量、全文或混合检索。向量相近只表示语义相似，不等于答案一定正确。
@@ -401,7 +401,7 @@ user query
 - 经济索引使用倒排索引，更接近关键词匹配，成本较低。
 - 高质量知识库创建后不能直接切换为经济索引；变更索引方式要先确认迁移或重建路径。
 
-### 怎么用或观察
+#### 怎么用或观察
 
 - 先设计文档边界、Chunk 大小、重叠和元数据。
 - 上传后等待索引状态完成。
@@ -409,7 +409,7 @@ user query
 - 给知识检索节点显式配置知识库、Top K、阈值和元数据过滤。
 - 更新文档后做回归问题集，不只看一个样例。
 
-### 坏了怎么查
+#### 坏了怎么查
 
 1. 索引状态是否停在 waiting、parsing、splitting 或 indexing。
 2. Worker 和 Redis 是否正常。
@@ -419,38 +419,38 @@ user query
 6. Chunk 是否太碎、太长或缺少标题上下文。
 7. 检索命中正确但回答错误时，再检查 Prompt 和模型忠实度。
 
-## 核心概念五：App API、SSE 与 End User
+### 核心概念五：App API、SSE 与 End User
 
-### 是什么
+#### 是什么
 
 发布后的应用可以通过 REST API 调用。`response_mode` 可以使用阻塞 JSON，或使用 Server-Sent Events（SSE，服务器持续向客户端推送事件）流式返回。
 
-### 为什么需要
+#### 为什么需要
 
 企业应用通常不会让用户直接进入 Dify 控制台，而是由自己的后端调用 Dify API，并接入权限、审计和业务界面。
 
-### 怎么工作
+#### 怎么工作
 
 ```text
-business backend
-  -> Authorization: Bearer app-api-key
-  -> POST /v1/workflows/run
-  -> Dify executes workflow
-  -> blocking JSON
+business backend（业务后端）
+  -> Authorization: Bearer app-api-key（用应用密钥作为持有者令牌鉴权）
+  -> POST /v1/workflows/run（调用工作流运行接口）
+  -> Dify executes workflow（工作流）
+  -> blocking JSON（结构化文本数据格式）
      or
-  -> text/event-stream
+  -> text/event-stream（服务器发送事件流格式）
 ```
 
 每次调用还要带稳定的 `user`，用于区分终端用户和限定相关数据访问范围。这个值由调用方定义，不等于 Dify 管理员账号。
 
-### 怎么用或观察
+#### 怎么用或观察
 
 - API Key 只保存在后端或密钥系统。
 - 阻塞模式适合短任务；流式模式适合长时间生成和即时反馈。
 - 记录 `task_id`、`workflow_run_id`、HTTP 状态、总耗时和调用方请求 ID。
 - 客户端要处理 SSE 断线、重复事件、结束事件和错误事件。
 
-### 坏了怎么查
+#### 坏了怎么查
 
 1. 401：Key 缺失、错误或属于另一个应用。
 2. 404：Base URL 或路由错误。
@@ -458,33 +458,33 @@ business backend
 4. SSE 中断：检查代理缓冲、读超时、连接上限和客户端解析。
 5. 200 但业务失败：检查响应体里的运行状态和节点错误，不要只看 HTTP。
 
-## 核心概念六：API、Worker、Beat 与 Redis 队列
+### 核心概念六：API、Worker、Beat 与 Redis 队列
 
-### 是什么
+#### 是什么
 
 - `api` 处理控制台和应用 API。
 - `worker` 消费 Celery 后台任务，例如知识索引等异步工作。
 - `worker_beat` 负责周期任务调度。
 - Redis 可以作为 Celery Broker（任务中转队列），也承担缓存和部分运行时协调。
 
-### 为什么需要
+#### 为什么需要
 
 解析大文件、生成 Embedding、发送邮件和清理日志不应长期阻塞 HTTP 请求。异步队列让前台快速受理，后台慢慢处理。
 
-### 怎么工作
+#### 怎么工作
 
 ```text
-API accepts job
-  -> write job state
-  -> enqueue message to Redis
-  -> Worker consumes
-  -> call parser / embedding / vector store
-  -> update progress and final state
+API accepts job（接口接受任务）
+  -> write job state（记录任务状态）
+  -> enqueue message to Redis（把消息放入 Redis 队列）
+  -> Worker consumes（工作进程消费任务）
+  -> call parser（调用解析器） / embedding（向量编码） / vector store（向量存储）
+  -> update progress and final state（更新进度和最终状态）
 ```
 
 这条链路通常是最终一致：API 返回“已受理”时，不代表向量已经可检索。
 
-### 怎么用或观察
+#### 怎么用或观察
 
 - `docker compose ps` 检查服务状态。
 - `docker compose logs worker` 看任务消费。
@@ -492,7 +492,7 @@ API accepts job
 - Worker 可以按队列和负载扩容。
 - Beat 应避免多个调度器同时产生重复周期任务。
 
-### 坏了怎么查
+#### 坏了怎么查
 
 1. Redis 连接是否正常。
 2. Worker 是否启动、是否订阅正确队列。
@@ -500,30 +500,30 @@ API accepts job
 4. 任务是在重试还是永久失败。
 5. 下游模型、向量库、对象存储是否拖慢 Worker。
 
-## 核心概念七：Code、Sandbox 与 SSRF Proxy
+### 核心概念七：Code、Sandbox 与 SSRF Proxy
 
-### 是什么
+#### 是什么
 
 Code 节点可以执行受限 Python 或 JavaScript；Sandbox 提供隔离执行环境。SSRF Proxy 用于限制服务端请求伪造风险，防止任意 URL 访问内部敏感网络。
 
-### 为什么需要
+#### 为什么需要
 
 允许工作流执行代码或访问 URL 会扩大攻击面。没有隔离、超时、网络边界和资源限制，Prompt 或用户输入可能被转化成危险动作。
 
-### 怎么工作
+#### 怎么工作
 
 ```text
-workflow Code node
-  -> sandbox service
-  -> limited runtime
-  -> result
+workflow（工作流） Code node（节点）
+  -> sandbox service（隔离执行服务）
+  -> limited runtime（受限运行环境）
+  -> result（结果）
 
-HTTP / tool outbound request
-  -> SSRF proxy policy
-  -> allowed external target
+HTTP / tool（工具） outbound request（出站请求）
+  -> SSRF proxy policy（服务端请求伪造防护代理策略）
+  -> allowed external target（允许访问的外部目标）
 ```
 
-### 怎么用或观察
+#### 怎么用或观察
 
 - 代码节点只做纯计算和格式转换。
 - 不在代码里硬编码密钥。
@@ -531,7 +531,7 @@ HTTP / tool outbound request
 - 查看 `sandbox`、`ssrf_proxy` 和 `agent_ssrf_proxy` 日志。
 - 把危险写操作放到受控工具中，而不是任意代码节点。
 
-### 坏了怎么查
+#### 坏了怎么查
 
 1. Sandbox API Key 和内部地址是否匹配。
 2. 代码是否超时、超内存或使用了不支持的库。
@@ -539,35 +539,35 @@ HTTP / tool outbound request
 4. DNS、TLS、代理和防火墙是否正常。
 5. 不要为了“先跑通”直接关闭所有安全控制。
 
-## 核心概念八：运行日志、Trace 与评估
+### 核心概念八：运行日志、Trace 与评估
 
-### 是什么
+#### 是什么
 
 运行日志记录输入、输出、节点、模型、Token、延迟和错误。Trace 把一次请求跨节点和外部服务的时间关系串起来。评估则判断答案质量，而不仅是接口成功。
 
-### 为什么需要
+#### 为什么需要
 
 AI 应用可能技术上 200 成功、业务上却回答错误。只看容器健康不能证明检索质量和回答质量。
 
-### 怎么工作
+#### 怎么工作
 
 ```text
-request
-  -> application log
-  -> workflow run
-  -> node execution
-  -> model / retrieval / tool spans
-  -> feedback / evaluation dataset
+request（请求）
+  -> application log（应用日志）
+  -> workflow run（工作流运行记录）
+  -> node execution（节点执行）
+  -> model（模型） / retrieval（检索） / tool spans（工具调用追踪片段）
+  -> feedback（反馈） / evaluation dataset（评估数据集）
 ```
 
-### 怎么用或观察
+#### 怎么用或观察
 
 - 在应用 Logs 查看真实调用，不把 Test Run 当生产流量。
 - 开启结构化平台日志并进入集中日志系统。
 - 接入官方支持的 Langfuse、LangSmith、Phoenix、Arize、Opik 或 OpenTelemetry 目标时，先做数据脱敏。
 - 建立固定问题集，记录召回、引用、正确性、延迟和成本。
 
-### 坏了怎么查
+#### 坏了怎么查
 
 1. 先用请求 ID 或 `workflow_run_id` 找到一次完整运行。
 2. 定位最慢或第一个失败节点。
@@ -575,7 +575,7 @@ request
 4. 检查日志是否因为保留策略被清理。
 5. 检查追踪采样、Exporter、网络和敏感数据策略。
 
-## Agent 与 New Agent 的生产边界
+### Agent 与 New Agent 的生产边界
 
 截至本文版本，经典 Agent 与 New Agent 不是同一个运行边界：
 
@@ -595,7 +595,7 @@ request
 
 ## 架构和数据流
 
-## 官方 Docker Compose 组件
+### 官方 Docker Compose 组件
 
 Dify 1.16.1 官方快速部署会启动七个核心服务：
 
@@ -613,28 +613,28 @@ Dify 1.16.1 官方快速部署会启动七个核心服务：
 
 默认依赖只是学习起点，不等于生产必须使用同一数据库、向量库或存储实现。
 
-## 在线 Workflow 请求路径
+### 在线 Workflow 请求路径
 
 ```text
-client / business backend
-  -> Load Balancer / Nginx
-  -> api
-     -> authenticate App API Key
-     -> load published app and workflow from database
-     -> create workflow run state
-     -> execute graph
-        -> Knowledge Retrieval
-           -> vector store
-        -> LLM / Rerank
-           -> model provider plugin
-           -> external or local model endpoint
-        -> Code
-           -> sandbox
-        -> Tool / HTTP
-           -> plugin daemon / SSRF proxy
-     -> persist logs and outputs
-  -> blocking JSON or SSE events
-  -> client
+client（客户端） / business backend（业务后端）
+  -> Load Balancer（负载均衡器） / Nginx
+  -> api（接口服务）
+     -> authenticate App API Key（接口密钥）
+     -> load published app and workflow（工作流） from database
+     -> create workflow run（工作流运行记录） state（状态）
+     -> execute（执行） graph
+        -> Knowledge Retrieval（知识检索）
+           -> vector store（向量存储）
+        -> LLM（大语言模型） / Rerank（重排序）
+           -> model（模型） provider plugin
+           -> external（外部依赖） or local model（模型） endpoint
+        -> Code（代码节点）
+           -> sandbox（隔离执行环境）
+        -> Tool（工具） / HTTP
+           -> plugin daemon（插件后台服务） / SSRF proxy（代理）
+     -> persist logs（日志） and outputs
+  -> blocking JSON（结构化文本数据格式） or SSE events
+  -> client（客户端）
 ```
 
 排障时必须回答“慢在哪里”：
@@ -647,24 +647,24 @@ client / business backend
 - 工具调用。
 - SSE 代理缓冲或客户端消费。
 
-## 知识索引路径
+### 知识索引路径
 
 ```text
-user uploads document
-  -> api stores metadata and original file
-  -> task enters Redis broker
-  -> worker consumes task
-  -> parser extracts content
-  -> cleaner and splitter create chunks
-  -> embedding provider creates vectors
-  -> vector store writes index
-  -> database updates indexing status
-  -> knowledge becomes retrievable
+user uploads document（文档）
+  -> api stores metadata（元数据） and original file（文件）
+  -> task enters Redis broker（消息服务节点）
+  -> worker consumes（工作进程消费任务） task
+  -> parser extracts content（解析器提取正文）
+  -> cleaner（清洗器） and splitter（切分器） create chunks
+  -> embedding（向量编码） provider creates vectors
+  -> vector store writes index（向量存储写入检索索引）
+  -> database updates indexing（构建索引） status
+  -> knowledge（知识库） becomes retrievable
 ```
 
 上传成功、任务入队、向量写入和状态完成是不同的阶段。只恢复数据库而没有恢复对象存储和向量数据，页面可能看得到文档记录，却无法正确预览或检索。
 
-## 状态与一致性
+### 状态与一致性
 
 | 状态 | 常见保存位置 | 一致性重点 |
 |---|---|---|
@@ -685,7 +685,7 @@ user uploads document
 
 ## 安装与启动
 
-## 前置条件
+### 前置条件
 
 官方最低硬件要求是：
 
@@ -704,7 +704,7 @@ git --version
 
 预期结果：三条命令都能输出版本，Docker Engine 状态为可连接。
 
-## 固定版本部署
+### 固定版本部署
 
 学习和生产都不要无意中追随 `main`。本文基线：
 
@@ -735,7 +735,7 @@ PLUGIN_DAEMON_KEY=<新的随机值>
 
 不要把真实 `.env`、模型 API Key、应用 API Key 提交到 GitHub。
 
-## 启动后的最小检查
+### 启动后的最小检查
 
 ```powershell
 docker compose ps
@@ -762,7 +762,7 @@ Invoke-WebRequest http://localhost -UseBasicParsing
 
 ## 配置详解
 
-## URL 与反向代理
+### URL 与反向代理
 
 | 配置 | 用途 | 生产提示 |
 |---|---|---|
@@ -784,7 +784,7 @@ Invoke-WebRequest http://localhost -UseBasicParsing
 - 上传大小要覆盖知识文档上限。
 - TLS 终止后要正确传递 Host 和协议头。
 
-## 服务与安全配置
+### 服务与安全配置
 
 | 配置 | 用途 | 常见坑 |
 |---|---|---|
@@ -801,7 +801,7 @@ Invoke-WebRequest http://localhost -UseBasicParsing
 | `VECTOR_STORE` | 向量库实现 | 切换时需要数据迁移或重建索引 |
 | `STORAGE_TYPE` | 文件存储实现 | 多副本不能依赖只存在某台机器的本地文件 |
 
-## 模型配置
+### 模型配置
 
 模型提供方至少要分开管理：
 
@@ -882,40 +882,40 @@ Invoke-RestMethod `
 
 ## 在 AIOps 中的作用
 
-## 场景一：只读告警分析助手
+### 场景一：只读告警分析助手
 
 ```text
-Alertmanager / ticket
-  -> normalize fields
-  -> query metrics read-only
-  -> retrieve runbook and recent incidents
-  -> LLM produces structured hypothesis
-  -> output
-     evidence
-     missing information
-     ranked hypotheses
-     safe next checks
+Alertmanager（告警管理器） / ticket
+  -> normalize（标准化） fields
+  -> query（查询） metrics（指标） read-only
+  -> retrieve（检索） runbook（操作手册） and recent incidents
+  -> LLM（大语言模型） produces structured hypothesis
+  -> output（输出）
+     evidence（证据）
+     missing information（尚缺的信息）
+     ranked hypotheses（排序后的候选原因）
+     safe next checks（安全的下一步检查）
 ```
 
 第一版只接只读工具。没有证据时明确返回“不足以判断”，而不是编造根因。
 
-## 场景二：变更风险审查
+### 场景二：变更风险审查
 
 输入变更单、服务依赖、历史事故和 SLO：
 
 ```text
-change request
-  -> validate required fields
-  -> retrieve similar changes
-  -> query current SLO and error budget
-  -> classify risk
-  -> human approval
-  -> return checklist
+change（变更） request（请求）
+  -> validate（校验） required fields
+  -> retrieve（检索） similar changes
+  -> query（查询） current SLO and error budget
+  -> classify（分类） risk
+  -> human approval（人工审批）
+  -> return checklist（返回检查清单）
 ```
 
 Dify 可以编排审查，但最终发布权限仍在 CI/CD 和审批系统，不把集群管理员凭据交给模型。
 
-## 场景三：Runbook 建议到受控执行
+### 场景三：Runbook 建议到受控执行
 
 成熟度应分层：
 
@@ -938,7 +938,7 @@ L0 仅检索证据
 - 超时、取消和回滚。
 - 完整审计记录。
 
-## AIOps 数据契约示例
+### AIOps 数据契约示例
 
 模型自由文本不适合作为自动化输入。让 Workflow 输出稳定结构：
 
@@ -971,25 +971,25 @@ L0 仅检索证据
 
 ## 入门实验：不用模型跑通第一个 AIOps Workflow
 
-## 实验目标
+### 实验目标
 
 建立一个“告警标准化”Workflow：
 
 ```text
-User Input
-  -> Template
-  -> Output
+User Input（用户输入）
+  -> Template（模板节点）
+  -> Output（输出）
 ```
 
 它不调用大模型，因此不需要模型 API Key。实验完成后，你能通过界面和 API 输入一条告警，得到结构化结果。
 
-## 前置条件
+### 前置条件
 
 - 本地 Dify 1.16.1 已按前文启动。
 - 已初始化管理员并登录。
 - 实验环境不存放真实生产告警和密钥。
 
-## 第一步：创建 Workflow
+### 第一步：创建 Workflow
 
 1. 进入 Studio。
 2. 选择 Create from Blank。
@@ -999,7 +999,7 @@ User Input
 
 预期结果：画布出现 User Input 起始节点。
 
-## 第二步：定义输入
+### 第二步：定义输入
 
 在 User Input 节点添加：
 
@@ -1015,7 +1015,7 @@ Severity 的选项：
 
 变量名是 API 契约。发布后改名会让旧调用方报输入错误，因此生产变更要做兼容评审。
 
-## 第三步：添加 Template 节点
+### 第三步：添加 Template 节点
 
 连接 User Input 到 Template，模板填写：
 
@@ -1041,7 +1041,7 @@ needs_human_review=true
 
 不要为了实验在 Code 节点里自行拼接不可信 JSON。
 
-## 第四步：添加 Output 节点
+### 第四步：添加 Output 节点
 
 1. 连接 Template 到 Output。
 2. 添加输出变量 `normalized_alert`。
@@ -1050,10 +1050,10 @@ needs_human_review=true
 完整路径应为：
 
 ```text
-User Input -> Template -> Output
+User Input（用户输入） -> Template -> Output（输出）
 ```
 
-## 第五步：Test Run
+### 第五步：Test Run
 
 输入：
 
@@ -1078,7 +1078,7 @@ needs_human_review=true
 - Output 中存在 `normalized_alert`。
 - Run History 能看到这次测试的节点输入和输出。
 
-## 第六步：发布和创建 API Key
+### 第六步：发布和创建 API Key
 
 1. 点击 Publish。
 2. 打开应用的 API Access。
@@ -1091,7 +1091,7 @@ $env:DIFY_APP_API_KEY = "<你的 App API Key>"
 
 不要截图或提交包含完整 Key 的页面。
 
-## 第七步：调用 API
+### 第七步：调用 API
 
 ```powershell
 $headers = @{
@@ -1124,7 +1124,7 @@ $result | ConvertTo-Json -Depth 10
 - `data.status` 为成功状态。
 - 输出中包含 `normalized_alert`。
 
-## 第八步：保存学习证据
+### 第八步：保存学习证据
 
 保存：
 
@@ -1134,9 +1134,9 @@ $result | ConvertTo-Json -Depth 10
 - 脱敏响应。
 - 一页实验记录，写明版本、输入、预期、实际和问题。
 
-## 如果没有成功，先查这些
+### 如果没有成功，先查这些
 
-### 页面打不开
+#### 页面打不开
 
 ```powershell
 docker compose ps
@@ -1145,33 +1145,33 @@ docker compose logs --tail 100 web
 docker compose logs --tail 100 api
 ```
 
-### API 返回 401
+#### API 返回 401
 
 - 环境变量是否真的有值。
 - Key 是否来自当前 App。
 - Header 是否是 `Authorization: Bearer ...`。
 - 是否误用了 Knowledge API Key。
 
-### API 返回输入错误
+#### API 返回输入错误
 
 - `inputs` Key 是否与 User Input 的 Variable Name 完全一致。
 - Select 的值是否属于选项。
 - 是否在修改后重新发布。
 
-### Template 节点失败
+#### Template 节点失败
 
 - 变量绑定是否存在。
 - 当前版本支持哪些 Jinja 过滤器。
 - 先把模板缩减为一行纯文本，确认变量本身可用。
 
-### HTTP 200 但结果不对
+#### HTTP 200 但结果不对
 
 - 检查 `data.status`。
 - 用 `workflow_run_id` 找运行详情。
 - 检查 Output 是否选中了 Template 输出。
 - 确认 API 调用的是已发布版本。
 
-## 实验清理
+### 实验清理
 
 - 删除或吊销实验 API Key。
 - 保留脱敏 DSL 和实验记录。
@@ -1180,27 +1180,27 @@ docker compose logs --tail 100 api
 
 ## 故障注入实验：停止 Worker，观察知识索引积压并恢复
 
-## 实验目标
+### 实验目标
 
 主动停止后台 Worker，上传一份无敏感信息的实验文档，观察索引任务不能完成；然后从状态、日志和服务健康形成假设，恢复 Worker 并验证索引完成。
 
 链路：
 
 ```text
-upload accepted
-  -> Redis queue
-  -X-> Worker stopped
-  -> indexing does not complete
+upload（上传） accepted
+  -> Redis queue（Redis 任务队列）
+  -X-> Worker（工作进程） stopped
+  -> indexing（构建索引） does not complete
 ```
 
-## 实验边界
+### 实验边界
 
 - 只在本地专用实验环境执行。
 - 不在生产环境停止共享 Worker。
 - 文档只包含虚构 Runbook。
 - 不删除卷，不执行 `docker compose down -v`。
 
-## 第一步：准备实验文档
+### 第一步：准备实验文档
 
 创建 `payment-api-runbook.txt`：
 
@@ -1214,7 +1214,7 @@ Owner: payments-oncall
 
 这份文件可以作为 GitHub 学习证据，不包含生产地址和密钥。
 
-## 第二步：确认基线
+### 第二步：确认基线
 
 ```powershell
 docker compose ps worker redis db_postgres
@@ -1226,7 +1226,7 @@ docker compose logs --tail 50 worker
 - Worker、Redis、PostgreSQL 正常运行。
 - Worker 日志没有持续连接错误。
 
-## 第三步：停止 Worker
+### 第三步：停止 Worker
 
 ```powershell
 docker compose stop worker
@@ -1235,7 +1235,7 @@ docker compose ps worker
 
 预期：Worker 显示 Exited 或 Stopped，API 页面仍然可以打开。
 
-## 第四步：创建知识库并上传文档
+### 第四步：创建知识库并上传文档
 
 1. 进入 Knowledge。
 2. 创建 `aiops-worker-fault-lab`。
@@ -1249,7 +1249,7 @@ docker compose ps worker
 - 文档处理状态停在等待或处理中，不能进入 completed。
 - 具体阶段文字可能随版本变化，以“索引未完成”为判断标准。
 
-## 第五步：收集证据
+### 第五步：收集证据
 
 ```powershell
 docker compose ps
@@ -1269,7 +1269,7 @@ docker compose logs --tail 100 redis
 
 假设：上传元数据已被 API 接受，但知识索引依赖 Worker，停止消费者后任务无法完成。
 
-## 第六步：恢复 Worker
+### 第六步：恢复 Worker
 
 ```powershell
 docker compose start worker
@@ -1284,7 +1284,7 @@ docker compose logs --tail 200 -f worker
 - 任务经过解析、切分、Embedding 和索引。
 - 文档最终变为已完成。
 
-## 第七步：验证检索
+### 第七步：验证检索
 
 在 Test Retrieval 输入：
 
@@ -1307,7 +1307,7 @@ payment-api 高延迟首先检查什么？
 4. 文档解析是否得到非空文本。
 5. 数据库状态是否记录了明确错误。
 
-## 第八步：清理
+### 第八步：清理
 
 1. 删除实验知识库。
 2. 删除本地虚构文档，或保留为脱敏学习证据。
@@ -1325,7 +1325,7 @@ docker compose down
 
 该命令默认保留命名卷。需要删除卷时必须先确认这是纯实验环境且数据不再需要。
 
-## 故障实验复盘
+### 故障实验复盘
 
 你应该能回答：
 
@@ -1338,7 +1338,7 @@ docker compose down
 
 ## 生产排障手册
 
-## 先建立时间线
+### 先建立时间线
 
 收集：
 
@@ -1349,7 +1349,7 @@ docker compose down
 - Dify 版本和镜像摘要。
 - 错误是否持续、间歇或只影响某种输入。
 
-## 分层证据顺序
+### 分层证据顺序
 
 | 层 | 先看什么 | 证明什么 |
 |---|---|---|
@@ -1362,9 +1362,9 @@ docker compose down
 | 数据 | DB、对象存储、向量库 | 状态是否完整一致 |
 | 业务质量 | 检索 Chunk、引用、评估集 | 结果是否正确而非仅成功 |
 
-## 常见故障
+### 常见故障
 
-### 502 或 504
+#### 502 或 504
 
 可能原因：
 
@@ -1383,7 +1383,7 @@ docker compose logs --tail 200 api
 
 修复思路：先定位慢层，再调整超时或并发；不要只把所有超时无限加大。
 
-### 知识索引一直等待
+#### 知识索引一直等待
 
 检查顺序：
 
@@ -1393,7 +1393,7 @@ docker compose logs --tail 200 api
 4. 向量库是否只读、磁盘满或连接失败。
 5. 文档解析是否失败。
 
-### 检索不到新文档
+#### 检索不到新文档
 
 - 索引是否 completed。
 - Test Retrieval 是否能命中。
@@ -1402,7 +1402,7 @@ docker compose logs --tail 200 api
 - Metadata Filter 是否排除了文档。
 - Embedding 模型或向量维度是否改变。
 
-### 模型节点 429
+#### 模型节点 429
 
 - 检查 Provider 配额和速率限制。
 - 按 `Retry-After` 或供应商规则退避。
@@ -1410,7 +1410,7 @@ docker compose logs --tail 200 api
 - 对可重试的只读生成做抖动退避。
 - 不对有副作用的 Tool 节点盲目重跑整条 Workflow。
 
-### Plugin Daemon 调用失败
+#### Plugin Daemon 调用失败
 
 - 插件是否安装成功、签名是否有效。
 - Daemon Key 是否一致。
@@ -1418,14 +1418,14 @@ docker compose logs --tail 200 api
 - 容器是否能访问 Marketplace、模型或工具端点。
 - 是否被 SSRF 或网络策略阻止。
 
-### 文件预览失败
+#### 文件预览失败
 
 - `FILES_URL` 与 `INTERNAL_FILES_URL` 是否正确。
 - 签名 URL 是否过期。
 - 对象存储权限、CORS、TLS 和 DNS 是否正常。
 - `SECRET_KEY` 是否被变更。
 
-### 多人编辑不同步
+#### 多人编辑不同步
 
 - `api_websocket` 是否健康。
 - 公网 WebSocket URL 是否正确。
@@ -1433,7 +1433,7 @@ docker compose logs --tail 200 api
 - 多副本是否按官方要求处理会话粘滞。
 - Redis 协作事件是否可用。
 
-### 数据库连接耗尽
+#### 数据库连接耗尽
 
 - API 和 Worker 总连接池是否超过数据库容量。
 - 新增副本是否同时放大连接数。
@@ -1445,33 +1445,33 @@ docker compose logs --tail 200 api
 一个可讨论的企业自托管架构：
 
 ```text
-users / business services
-  -> WAF / Load Balancer
-  -> Nginx or Ingress
-     -> web replicas
-     -> api replicas
-     -> api_websocket replicas
-  -> worker pools
-     -> general queue
-     -> indexing queue
-     -> latency-sensitive queue
-  -> one controlled scheduler
-  -> plugin daemon pool
-  -> sandbox / SSRF proxy
+users / business services（用户与业务服务）
+  -> WAF / Load Balancer（负载均衡器）
+  -> Nginx or Ingress（反向代理或集群流量入口）
+     -> web replicas（副本）
+     -> api replicas（副本）
+     -> api_websocket replicas（副本）
+  -> worker（工作进程） pools
+     -> general queue（通用任务队列）
+     -> indexing（构建索引） queue
+     -> latency-sensitive queue（延迟敏感任务队列）
+  -> one controlled scheduler（调度器）
+  -> plugin daemon（插件后台服务） pool
+  -> sandbox / SSRF proxy（代理）
 
-state
-  -> HA relational database
-  -> HA Redis
-  -> durable object storage
-  -> production vector database
+state（状态）
+  -> HA relational database（高可用关系数据库）
+  -> HA Redis（高可用 Redis）
+  -> durable object storage（存储）
+  -> production vector database（向量数据库）
 
-external
-  -> model gateways
-  -> tools / CMDB / metrics / ticket systems
-  -> log / metric / trace platform
+external（外部依赖）
+  -> model gateways（模型网关）
+  -> tools（工具） / CMDB / metrics（指标） / ticket systems
+  -> log / metric / trace platform（日志、监控指标与链路追踪平台）
 ```
 
-## 单点与扩展
+### 单点与扩展
 
 - Web 和 API 可以水平扩展，但迁移任务不能让每个副本随意并发执行。
 - WebSocket 多副本需要正确的负载均衡和会话处理。
@@ -1483,7 +1483,7 @@ external
 
 ## 容量与性能
 
-## 建立容量模型
+### 建立容量模型
 
 在线请求粗略拆分：
 
@@ -1514,7 +1514,7 @@ total latency
 - SSE/WebSocket 活跃连接和断连。
 - 对象存储容量、请求错误和延迟。
 
-## 容量保护
+### 容量保护
 
 - 为每个 App 设置并发上限。
 - 为每种外部 Provider 设置速率限制。
@@ -1525,7 +1525,7 @@ total latency
 - 对非关键功能使用降级模型或无模型路径。
 - 在过载时快速拒绝，而不是让所有请求一起超时。
 
-## 性能排查不要只看模型
+### 性能排查不要只看模型
 
 模型常常最慢，但不是唯一瓶颈：
 
@@ -1538,7 +1538,7 @@ total latency
 
 ## 安全边界
 
-## 身份与权限
+### 身份与权限
 
 - Workspace 成员按职责分配角色。
 - App API Key 与 Knowledge API Key 分开。
@@ -1546,7 +1546,7 @@ total latency
 - 业务后端验证终端用户身份，不能只信客户端传入的 `user`。
 - 管理控制台不直接暴露公网，至少放在 SSO、VPN、零信任或访问网关后。
 
-## 密钥与凭据
+### 密钥与凭据
 
 - Key 进入专用密钥管理系统。
 - 不放前端、不写 Workflow 文本、不进入截图。
@@ -1555,7 +1555,7 @@ total latency
 - 插件凭据按 Workspace 和最小权限管理。
 - 自托管插件签名校验默认应保持开启；关闭校验只适合受控开发环境，不能作为生产排障常规手段。
 
-## Prompt Injection 与工具安全
+### Prompt Injection 与工具安全
 
 知识文档和用户输入都可能包含恶意指令。
 
@@ -1569,7 +1569,7 @@ total latency
 - 不让模型直接拼接 Shell、SQL 或 Kubernetes 管理命令执行。
 - 输出给下游前做结构化校验和策略检查。
 
-## 网络与隔离
+### 网络与隔离
 
 - 保留 Sandbox 和 SSRF Proxy。
 - 对插件和工具做出口白名单。
@@ -1577,7 +1577,7 @@ total latency
 - 外部模型通信使用 TLS。
 - 网络策略把前端、API、Worker、数据层和执行层分区。
 
-## 数据与隐私
+### 数据与隐私
 
 - 明确哪些 Prompt、文档和日志会发送给外部模型。
 - 对生产日志、告警和工单做脱敏。
@@ -1585,7 +1585,7 @@ total latency
 - 删除用户数据时要覆盖数据库、文件、向量和第三方追踪系统。
 - 备份也属于敏感数据，必须加密和限制访问。
 
-## 许可证边界
+### 许可证边界
 
 部署前由法务或授权负责人核验当前 LICENSE：
 
@@ -1598,7 +1598,7 @@ total latency
 
 ## 备份、恢复与灾备
 
-## 备份对象
+### 备份对象
 
 至少覆盖：
 
@@ -1612,19 +1612,19 @@ total latency
 
 Redis 是否作为必须恢复的持久状态，要按当前部署的 Broker、缓存和运行任务语义决定。即使不恢复队列，也要有失败任务重放和业务对账方案。
 
-## 一致恢复顺序
+### 一致恢复顺序
 
 ```text
-freeze writes
-  -> record recovery point
-  -> restore database
-  -> restore object storage
-  -> restore vector store or rebuild index
-  -> restore plugin state
-  -> start dependencies
-  -> run migrations once
-  -> start API and Workers
-  -> verify business invariants
+freeze writes（暂停新增写入）
+  -> record recovery point（记录可恢复的数据时间点）
+  -> restore database（恢复数据库）
+  -> restore object storage（存储）
+  -> restore vector store or rebuild index（恢复向量存储或重建检索索引）
+  -> restore plugin state（状态）
+  -> start dependencies（启动依赖服务）
+  -> run migrations once（受控执行一次结构迁移）
+  -> start API and Workers（启动接口服务与后台工作进程）
+  -> verify business invariants（验证业务约束始终成立）
 ```
 
 业务校验不能只看容器：
@@ -1636,7 +1636,7 @@ freeze writes
 - Workflow API 是否成功。
 - 插件和模型凭据是否可用。
 
-## RPO 与 RTO
+### RPO 与 RTO
 
 - RPO（恢复点目标）：最多允许丢多少时间的数据。
 - RTO（恢复时间目标）：多长时间内恢复服务。
@@ -1645,7 +1645,7 @@ freeze writes
 
 ## 升级与回滚
 
-## 升级前
+### 升级前
 
 1. 阅读目标版本 Release Notes 和安全公告。
 2. 对比当前 `.env` 与目标版本 `.env.example` 及 `docker/envs`。
@@ -1655,7 +1655,7 @@ freeze writes
 6. 跑固定 API、RAG、插件和 SSE 回归集。
 7. 记录旧镜像摘要、当前 Schema 版本和回滚条件。
 
-## 升级中
+### 升级中
 
 - 固定镜像 tag 或 digest。
 - 先处理数据库迁移，并保证只执行一次。
@@ -1663,7 +1663,7 @@ freeze writes
 - 不让旧 Worker 消费新版本不兼容任务。
 - 观察错误率、队列、数据库、向量库和模型调用。
 
-## 回滚边界
+### 回滚边界
 
 镜像回滚不等于数据库回滚。Schema 迁移可能不向后兼容。
 
@@ -1681,7 +1681,7 @@ application rollback
 
 ## 可观测性与 AIOps
 
-## 平台指标
+### 平台指标
 
 建议通过容器、数据库、Redis、向量库、网关和自建 Exporter 形成统一指标：
 
@@ -1698,7 +1698,7 @@ application rollback
 
 这些名字是推荐的自建语义，不代表 Dify 默认就导出同名指标。
 
-## 日志
+### 日志
 
 平台日志至少包含：
 
@@ -1711,23 +1711,23 @@ application rollback
 
 官方环境变量支持 JSON 日志格式，便于进入 Loki、Elasticsearch 或其他日志平台。
 
-## Trace
+### Trace
 
 Trace 要连接：
 
 ```text
-business request id
-  -> gateway trace
-  -> Dify workflow run
-  -> retrieval
-  -> model
-  -> tool
-  -> downstream system
+business request id（业务请求编号）
+  -> gateway trace（网关追踪）
+  -> Dify workflow run（工作流运行记录）
+  -> retrieval（检索）
+  -> model（模型）
+  -> tool（工具）
+  -> downstream system（下游系统）
 ```
 
 接入外部 LLM Observability 平台前，检查采样、保留、数据出境、Prompt 脱敏和权限。
 
-## 告警
+### 告警
 
 高价值告警：
 
@@ -1746,14 +1746,14 @@ business request id
 
 ## 事故案例：新 Runbook 已上传，助手仍返回旧操作
 
-## 现象
+### 现象
 
 - Knowledge 页面看得到新文件。
 - Chatflow 正常返回 200。
 - 回答仍建议直接重启。
 - 新 Runbook 已明确禁止无证据重启。
 
-## 证据
+### 证据
 
 收集：
 
@@ -1765,7 +1765,7 @@ business request id
 - 应用发布版本和知识节点配置。
 - 最近知识库、模型、Chunk 策略变更。
 
-## 假设
+### 假设
 
 按证据排序：
 
@@ -1776,21 +1776,21 @@ business request id
 5. 检索已正确，但 Prompt 没要求基于证据回答。
 6. 模型忽略证据并生成了旧经验。
 
-## 验证
+### 验证
 
 - 如果 Test Retrieval 不命中，问题在索引或检索层。
 - 如果 Test Retrieval 命中但线上节点不命中，检查应用配置和发布版本。
 - 如果节点命中但最终回答错误，检查 Prompt、上下文顺序和模型忠实度。
 - 对相同问题保存旧版与新版完整 Trace，逐层比较。
 
-## 缓解
+### 缓解
 
 - 临时下线危险自动化动作。
 - 在回答前增加“引用当前 Runbook”校验。
 - 把高风险建议改为需要人工确认。
 - 必要时回退到经过验证的旧知识快照和应用版本。
 
-## 修复
+### 修复
 
 - 修复 Worker、Embedding 或向量写入故障并重新索引。
 - 修正知识库引用、Filter 或 Chunk 策略。
@@ -1798,7 +1798,7 @@ business request id
 - 跑固定回归问题集。
 - 在输出中展示证据来源和更新时间。
 
-## 爆炸半径
+### 爆炸半径
 
 确认：
 
@@ -1807,14 +1807,14 @@ business request id
 - 是否已有自动化动作依据错误答案执行。
 - 错误答案和敏感内容是否已进入第三方 Trace。
 
-## 回滚
+### 回滚
 
 - 回退应用发布版本。
 - 切回已验证知识库快照。
 - 禁用写工具，只保留只读查询。
 - 无法保证检索正确时返回明确降级信息。
 
-## 复盘改进
+### 复盘改进
 
 - 知识更新完成标准加入 Test Retrieval 回归。
 - 监控索引任务最老年龄和失败率。
@@ -1824,7 +1824,7 @@ business request id
 
 ## 生产系统设计题：设计企业 AIOps Copilot
 
-## 需求澄清
+### 需求澄清
 
 先问：
 
@@ -1838,37 +1838,37 @@ business request id
 
 多租户业务还必须先确认 Dify 当前许可证和商业授权。
 
-## 一个可讨论的设计
+### 一个可讨论的设计
 
 ```text
-internal portal
-  -> enterprise identity / RBAC
-  -> AIOps gateway
-     -> input validation
-     -> tenant and user mapping
-     -> rate limit / idempotency / audit
-  -> Dify Workflow API
-     -> intent classify
-     -> read-only observability tools
-     -> change and CMDB tools
-     -> versioned Runbook knowledge
-     -> structured diagnosis
-     -> human approval for write actions
-  -> execution platform
-     -> approved runbook
-     -> result verification
-     -> rollback
+internal portal（内部使用门户）
+  -> enterprise identity / RBAC（企业身份与基于角色的权限）
+  -> AIOps gateway（智能运维接入网关）
+     -> input validation（验证）
+     -> tenant（租户） and user mapping
+     -> rate limit（限流） / idempotency（幂等性） / audit（审计）
+  -> Dify Workflow（工作流） API
+     -> intent classify（分类）
+     -> read-only observability（可观测性） tools（工具）
+     -> change（变更） and CMDB tools（工具）
+     -> versioned Runbook（操作手册） knowledge（知识库）
+     -> structured diagnosis（结构化诊断）
+     -> human approval（人工审批） for write actions
+  -> execution（执行） platform
+     -> approved runbook（操作手册）
+     -> result（结果） verification（验证）
+     -> rollback（回滚）
 
-platform
-  -> HA API / Worker
-  -> HA database / Redis / vector store / object storage
-  -> model gateway
-  -> metrics / logs / traces / evaluations
+platform（平台支撑层）
+  -> HA API / Worker（工作进程）
+  -> HA database / Redis / vector store（向量存储） / object storage（存储）
+  -> model（模型） gateway
+  -> metrics（指标） / logs（日志） / traces（链路追踪） / evaluations
 ```
 
-## 关键取舍
+### 关键取舍
 
-### Dify 直连业务系统还是增加 Gateway
+#### Dify 直连业务系统还是增加 Gateway
 
 企业场景建议增加 Gateway：
 
@@ -1878,13 +1878,13 @@ platform
 - 对工具参数做二次策略校验。
 - Dify 升级时保持业务契约稳定。
 
-### Agent 还是 Workflow
+#### Agent 还是 Workflow
 
 - 关键步骤固定、合规要求高：Workflow 优先。
 - 开放探索、工具选择变化大：受限 Agent。
 - 高风险动作：Agent 只能建议，执行交给审批后的确定性系统。
 
-### 自建模型还是外部模型
+#### 自建模型还是外部模型
 
 比较：
 
@@ -1896,11 +1896,11 @@ platform
 - 运维复杂度。
 - Provider 锁定和降级能力。
 
-### 单知识库还是按域拆分
+#### 单知识库还是按域拆分
 
 按权限、更新频率、文档类型和责任人拆分更容易治理。一个巨大知识库容易造成权限、检索噪声和重建成本问题。
 
-## 发布与回滚
+### 发布与回滚
 
 - Workflow DSL 进入 Git。
 - Prompt、模型、知识、插件变化关联变更单。
@@ -1933,11 +1933,11 @@ platform
 
 ## 面试回答
 
-## 30 秒回答：什么是 Dify
+### 30 秒回答：什么是 Dify
 
 Dify 是一个生成式 AI 应用开发与运行平台，把模型提供方、可视化 Workflow/Chatflow、Agent、知识库 RAG、插件、Web App、REST API 和运行日志整合起来。自托管时它不是单体程序，而是 API、Web、Worker、Plugin Daemon、数据库、Redis、向量库、对象存储和 Sandbox 等组件共同工作。在 AIOps 中我会先把它用于只读证据检索和结构化诊断，再通过审批、幂等和审计逐步接入自动化。
 
-## 3 分钟回答：如何把 Dify 用到生产 AIOps
+### 3 分钟回答：如何把 Dify 用到生产 AIOps
 
 我会先从业务链路而不是画布开始。入口由企业网关完成身份、限流、审计和 Dify Key 保护；Dify Workflow 负责意图分类、指标/日志/CMDB 只读查询、Runbook 检索和结构化假设；任何写动作都经过参数校验、策略门禁和人工审批，再交给确定性 Runbook 平台执行。
 
@@ -2127,7 +2127,7 @@ Dify 是一个生成式 AI 应用开发与运行平台，把模型提供方、�
 
 ## 学习检查清单
 
-## 入门层
+### 入门层
 
 - [ ] 我能解释 Dify 不是大模型。
 - [ ] 我能区分 Workflow、Chatflow 和 Agent。
@@ -2135,7 +2135,7 @@ Dify 是一个生成式 AI 应用开发与运行平台，把模型提供方、�
 - [ ] 我能测试、发布并通过 API 调用。
 - [ ] 我知道 API Key 只能保存在后端。
 
-## 实战层
+### 实战层
 
 - [ ] 我能画出在线请求和知识索引路径。
 - [ ] 我能解释 API、Worker、Redis、数据库、向量库和对象存储。
@@ -2144,7 +2144,7 @@ Dify 是一个生成式 AI 应用开发与运行平台，把模型提供方、�
 - [ ] 我能完成 Worker 故障注入和恢复。
 - [ ] 我能设计 Prompt、工具和数据安全护栏。
 
-## 大厂面试层
+### 大厂面试层
 
 - [ ] 我能解释多存储状态和最终一致。
 - [ ] 我能设计高可用和容量保护。
@@ -2154,7 +2154,27 @@ Dify 是一个生成式 AI 应用开发与运行平台，把模型提供方、�
 - [ ] 我能说明当前许可证边界。
 - [ ] 我能用事故证据而不是猜测根因。
 
-## GitHub 学习证据
+## 老师带你从画布走到真正运行的系统
+
+画布上的一个节点并不等于一台独立机器。Workflow（工作流）描述步骤，API 服务接请求并协调运行，Worker（后台工作进程）处理适用的异步任务，数据库保存配置和状态，向量库保存检索索引，插件与模型服务提供外部能力。你看见网页能打开，只证明这条页面访问链可用。
+
+学生：“知识文件上传成功，为什么助手还不知道？”老师：“上传、解析、切分、生成向量、写索引和可检索是不同阶段。”本篇停止 Worker 的故障实验正是让你看到：原文件已收下，后台处理却没推进。把文件 ID、任务状态、队列年龄、索引状态与测试问题串起来，才能证明更新完成。
+
+### 调试成功与发布成功的差别
+
+应用草稿、测试运行和对外发布版本各有身份。画布测试用了新节点，不代表外部 API 已执行新版本。排查“网页里正常、接口里还是旧结果”，先查应用 ID、发布记录、API Key 所属应用、知识库绑定与请求参数，再查浏览器缓存。
+
+用户输入变量、节点输出变量、环境凭据的作用也不同。模型访问凭据属于受保护配置，不是给用户填的业务变量；`user` 这类终端用户标识通常需要业务系统映射，并不自动等同于企业身份认证。多租户权限要由可信入口与资源授权落地。
+
+### 老师希望你怎样做这篇长课
+
+第一遍只完成无模型 Workflow 实验，确认输入、模板、输出、发布与调用。第二遍完成 Worker 故障实验，记录停机前、积压中和恢复后的证据。第三遍再加入检索和真实模型，分别评估候选文档、引用、超时和费用。每增加一层就多一个可能失败的阶段，保持之前的最小验收样本能帮助定位。
+
+生产升级需一起考虑应用 DSL（工作流定义）、数据库迁移、插件版本、模型接口、存储与知识索引。DSL 导出便于追踪图结构，但不必然包含所有外部凭据、模型资产和数据，所以它不是完整备份。恢复后应重新验证固定问题与权限，而不是只确认容器全部启动。
+
+面试 30 秒说低代码 AI 应用平台的编排、知识与发布能力；3 分钟用一条请求和一次索引任务画两条数据流，再讲后台积压、版本、持久状态与权限。事故题“新手册上传仍答旧操作”，先定位索引与版本，保留旧版本回退，验证来源和答案支持关系；不要通过重启所有组件来掩盖断点。
+
+## 本课 GitHub 学习证据清单
 
 建议仓库：
 

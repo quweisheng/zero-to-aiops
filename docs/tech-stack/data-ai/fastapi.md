@@ -76,70 +76,70 @@ FastAPI 是一个用 Python 类型注解构建 HTTP API 的 Web 框架：你把�
 FastAPI 官方文档可以按这张地图理解：
 
 ```text
-FastAPI
-  -> First Steps
-     -> FastAPI app
-     -> path operation decorator
-     -> path operation function
-     -> automatic docs
-  -> Parameters
-     -> path parameters
-     -> query parameters
-     -> request body
-     -> header / cookie
-     -> validation
-  -> Response
-     -> return dict / list / Pydantic model
-     -> response_model
-     -> status_code
-     -> JSON serialization
-  -> Dependencies
-     -> Depends
-     -> shared query / auth / database session
-     -> nested dependencies
-  -> Error Handling
-     -> HTTPException
-     -> validation errors
-     -> custom exception handlers
-  -> Middleware
-     -> request before/after hook
-     -> logging
-     -> timing
-     -> CORS
-  -> Application Structure
-     -> APIRouter
-     -> multiple files
-     -> settings
-     -> startup/lifespan
-  -> Background Tasks
-     -> after-response work
-     -> small async follow-up
-     -> queue for heavy work
-  -> Testing
-     -> TestClient
-     -> dependency override
-     -> API contract tests
-  -> Deployment
-     -> fastapi dev
-     -> fastapi run
-     -> ASGI server
-     -> containers
-     -> HTTPS / proxy / workers
+FastAPI（Python 接口框架）
+  -> First Steps（第一步）
+     -> FastAPI app（FastAPI 应用实例）
+     -> path operation decorator（路径操作装饰器）
+     -> path operation function（路径处理函数）
+     -> automatic docs（自动生成接口文档）
+  -> Parameters（参数）
+     -> path parameters（路径参数）
+     -> query parameters（查询参数）
+     -> request body（请求体）
+     -> header（请求头） / cookie（浏览器状态字段）
+     -> validation（验证）
+  -> Response（响应）
+     -> return dict（返回字典） / list（列表） / Pydantic model（Pydantic 数据校验模型）
+     -> response_model（响应数据模型）
+     -> status_code（响应状态码）
+     -> JSON serialization（转换为 JSON）
+  -> Dependencies（依赖项）
+     -> Depends（依赖注入声明）
+     -> shared query（共享查询参数） / auth（身份鉴别） / database session（数据库会话）
+     -> nested dependencies（嵌套依赖）
+  -> Error Handling（错误处理）
+     -> HTTPException（HTTP 异常）
+     -> validation errors（数据校验错误）
+     -> custom exception handlers（自定义异常处理器）
+  -> Middleware（中间件）
+     -> request before/after hook（请求前后处理钩子）
+     -> logging（记录日志）
+     -> timing（计时）
+     -> CORS（跨域资源共享）
+  -> Application Structure（应用结构）
+     -> APIRouter（路由分组器）
+     -> multiple files（多文件组织）
+     -> settings（设置）
+     -> startup/lifespan（启动与生命周期）
+  -> Background Tasks（后台任务）
+     -> after-response work（返回响应后的任务）
+     -> small async follow-up（轻量异步后续任务）
+     -> queue for heavy work（用队列承接重任务）
+  -> Testing（测试）
+     -> TestClient（测试客户端）
+     -> dependency override（替换测试依赖）
+     -> API contract tests（接口契约测试）
+  -> Deployment（部署）
+     -> fastapi dev（开发模式启动命令）
+     -> fastapi run（生产模式启动命令）
+     -> ASGI server（异步服务器接口实现）
+     -> containers（容器）
+     -> HTTPS（加密 HTTP） / proxy（代理） / workers（工作进程）
 ```
 
 初学路线：
 
 ```text
-first API
-  -> path/query/body
-  -> Pydantic model
-  -> response_model
-  -> HTTPException
-  -> Depends
-  -> APIRouter
-  -> TestClient
-  -> Docker / health check
-  -> AIOps alert API
+first API（第一个接口）
+  -> path/query/body（路径、查询与请求体）
+  -> Pydantic model（Pydantic 数据校验模型）
+  -> response_model（响应数据模型）
+  -> HTTPException（HTTP 异常）
+  -> Depends（依赖注入声明）
+  -> APIRouter（路由分组器）
+  -> TestClient（测试客户端）
+  -> Docker（容器运行工具） / health check（健康检查）
+  -> AIOps alert API（智能运维告警接口）
 ```
 
 不要一上来就纠结微服务、网关、服务网格和复杂鉴权。先把请求怎么进来、数据怎么校验、函数怎么调用、响应怎么返回讲清楚。
@@ -149,18 +149,18 @@ first API
 FastAPI 通常位于“系统入口层”：
 
 ```text
-Alertmanager / Grafana / script / frontend / CI
-  -> FastAPI
-      -> validate request
-      -> authenticate caller
-      -> deduplicate alert with Redis
-      -> store event in MySQL
-      -> publish message to Kafka
-      -> call pandas / scikit-learn model
-      -> call LLM / RAG service
-      -> trigger runbook automation
-  -> JSON response
-  -> OpenAPI contract
+Alertmanager（告警管理器） / Grafana（可视化面板工具） / script（脚本） / frontend（前端） / CI（持续集成）
+  -> FastAPI（Python 接口框架）
+      -> validate request（校验请求）
+      -> authenticate caller（鉴别调用者身份）
+      -> deduplicate alert with Redis（用 Redis 去重告警）
+      -> store event in MySQL（把事件存入 MySQL）
+      -> publish message to Kafka（把消息写入 Kafka）
+      -> call pandas / scikit-learn model（模型）
+      -> call LLM（大语言模型） / RAG（检索增强生成） service（服务）
+      -> trigger runbook automation（触发操作手册自动化）
+  -> JSON response（JSON 响应）
+  -> OpenAPI contract（OpenAPI 接口约定）
 ```
 
 它不应该承担所有职责。
@@ -182,13 +182,13 @@ Alertmanager / Grafana / script / frontend / CI
 初学 FastAPI 时，最容易混在一起的是这四个名字。
 
 ```text
-client
-  -> Uvicorn
-      -> ASGI
-          -> Starlette
-              -> FastAPI
-                  -> Pydantic
-                      -> your function
+client（客户端）
+  -> Uvicorn（ASGI 服务器）
+      -> ASGI（异步服务器网关接口）
+          -> Starlette（底层异步 Web 框架）
+              -> FastAPI（Python 接口框架）
+                  -> Pydantic（数据模型与校验库）
+                      -> your function（你编写的处理函数）
 ```
 
 ### FastAPI
@@ -611,12 +611,12 @@ curl -X POST http://127.0.0.1:8000/alerts \
 FastAPI 会做几件事：
 
 ```text
-JSON body
-  -> Pydantic model
-  -> type conversion
-  -> validation
-  -> Python object
-  -> your function
+JSON body（JSON 请求体）
+  -> Pydantic model（Pydantic 数据校验模型）
+  -> type conversion（类型转换）
+  -> validation（验证）
+  -> Python object（Python 对象）
+  -> your function（你编写的处理函数）
 ```
 
 如果 `metric_value` 传成不能转换为数字的字符串，就会返回 422。
@@ -936,14 +936,14 @@ async def ack_alert(alert_id: str, background_tasks: BackgroundTasks):
 对于 AIOps，生产上更常见：
 
 ```text
-FastAPI receives request
-  -> stores request metadata
-  -> publishes job to Kafka / Redis / queue
-  -> returns 202
-worker consumes job
-  -> runs analysis
-  -> stores result
-client polls result API
+FastAPI receives request（请求）
+  -> stores request（请求） metadata（元数据）
+  -> publishes job to Kafka / Redis / queue（把任务写入消息或任务队列）
+  -> returns 202（返回已接受任务状态）
+worker consumes（工作进程消费任务） job
+  -> runs analysis（执行分析）
+  -> stores result（结果）
+client（客户端） polls result（结果） API
 ```
 
 ## 中间件
@@ -1357,14 +1357,14 @@ curl -X POST http://127.0.0.1:8000/webhooks/alertmanager \
 这个接口现在只是接收和校验。真实系统里下一步通常是：
 
 ```text
-receive webhook
-  -> validate
-  -> normalize labels
-  -> generate fingerprint
-  -> deduplicate with Redis
-  -> store raw event
-  -> enqueue analysis job
-  -> return 202
+receive webhook（接收回调请求）
+  -> validate（校验）
+  -> normalize（标准化） labels
+  -> generate fingerprint（生成稳定事件指纹）
+  -> deduplicate with Redis（使用 Redis 去重）
+  -> store（存储） raw event（事件）
+  -> enqueue analysis job（把分析任务入队）
+  -> return 202（返回已接受状态）
 ```
 
 不要在 webhook 请求里直接做长时间根因分析。Alertmanager 希望 webhook 接收方尽快响应。
@@ -1386,18 +1386,18 @@ receive webhook
 状态流：
 
 ```text
-received
-  -> queued
-  -> analyzing
-  -> completed
+received（已接收）
+  -> queued（已排队）
+  -> analyzing（分析中）
+  -> completed（已完成）
 ```
 
 或：
 
 ```text
-received
-  -> queued
-  -> failed
+received（已接收）
+  -> queued（已排队）
+  -> failed（已失败）
 ```
 
 响应要让调用方知道“现在处于哪一步”，不要只返回一句 `ok`。
@@ -1663,16 +1663,16 @@ FastAPI 是接口层，不是数据层、缓存层、消息层、模型层。
 典型边界：
 
 ```text
-router
-  -> parse HTTP request
-  -> call service
-service
-  -> business logic
-  -> call repository / client / model
-repository
-  -> MySQL / Redis / Kafka / file
-model code
-  -> pandas / scikit-learn / LLM
+router（路由层）
+  -> parse（解析） HTTP request（HTTP 请求）
+  -> call service（服务）
+service（服务）
+  -> business logic（业务逻辑）
+  -> call repository（数据访问层） / client（客户端） / model（模型）
+repository（数据访问层）
+  -> MySQL / Redis / Kafka / file（文件）
+model code（模型代码）
+  -> pandas / scikit-learn / LLM（大语言模型）
 ```
 
 ### MySQL
@@ -1709,10 +1709,10 @@ model code
 适合封装成服务逻辑：
 
 ```text
-FastAPI request
-  -> load features
-  -> call model.predict
-  -> return score / label / explanation
+FastAPI request（请求）
+  -> load features（加载特征）
+  -> call model.predict（调用模型预测方法）
+  -> return score（分数） / label（标签） / explanation（解释）
 ```
 
 但要注意：
@@ -1842,10 +1842,10 @@ level=info method=POST path=/alerts status=201 elapsed_ms=12 request_id=req-001 
 追踪示例：
 
 ```text
-POST /alerts
-  -> Redis dedup
-  -> MySQL insert
-  -> Kafka publish
+POST /alerts（提交告警的接口）
+  -> Redis dedup（Redis 去重）
+  -> MySQL insert（插入）
+  -> Kafka publish（发布）
 ```
 
 FastAPI 不是只负责“被调用”，它自己也要给 SRE 留证据。
@@ -2130,7 +2130,60 @@ FastAPI 是一个基于 Python 类型注解的现代 Web API 框架，底层依�
 19. FastAPI 服务如何接入日志、指标和 trace？
 20. 如果一个自动修复 API 要上线，你会如何设计鉴权和审计？
 
-## 学习证据
+## 老师带你跟踪一次告警 HTTP 请求
+
+请求先经过服务器与网络入口，Uvicorn（ASGI 服务器）把它交给应用，FastAPI 按路径与方法选择处理函数，Pydantic（数据校验库）把输入检查成 Python 对象，业务函数再访问数据库或队列，最后按响应模型返回结果。HTTP（超文本传输协议）是一种请求与响应约定，框架不会自动知道哪位用户有权处理哪台主机。
+
+路径参数像门牌号，查询参数像本次查询条件，请求体像需要登记的表单。`422` 通常说明内容不满足声明的数据结构，`401/403` 涉及身份或权限，`500` 是服务处理异常；诊断先看状态、请求 ID 与校验字段，不能把所有非 200 都归为“接口挂了”。
+
+### async 课堂：会等与会算不是一种忙
+
+`await` 允许程序在等待支持异步的操作时让出执行机会，并不会让 CPU 密集计算自动并行。把阻塞 `requests`、`time.sleep` 或大规模模型推理直接塞进 `async def`，可能堵住事件循环，连健康检查都迟迟返回。普通 `def` 路径由框架按相应线程池机制处理，也仍受线程数与下游容量限制。
+
+学生：“开十个 worker 就能十倍快？”老师：“先算每个进程要加载的模型、连接池和缓存。”多个 worker 通常各有进程内内存，不共享你写的全局字典；内存去重在多进程下可能失效，大模型也可能被重复加载到显存。持久任务状态与限流必须放在适当的共享系统里。
+
+### 不启动服务器也能做的基础与故障实验
+
+前提安装 `fastapi` 与 `httpx`。保存 `api_contract_lesson.py`，运行 `python api_contract_lesson.py`。TestClient（测试客户端）在本进程调用应用，不访问公网：
+
+```python
+from fastapi import FastAPI
+from fastapi.testclient import TestClient
+from pydantic import BaseModel, Field
+
+app = FastAPI()
+class Alert(BaseModel):
+    service: str = Field(min_length=1, max_length=80)
+    error_rate: float = Field(ge=0, le=1)
+
+@app.post('/lesson/alerts')
+def accept(alert: Alert):
+    return {'accepted':True, 'service':alert.service}
+
+with TestClient(app) as client:
+    good = client.post('/lesson/alerts', json={'service':'order','error_rate':0.2})
+    bad = client.post('/lesson/alerts', json={'service':'order','error_rate':20})
+    assert good.status_code == 200
+    assert bad.status_code == 422
+    assert bad.json()['detail'][0]['loc'][-1] == 'error_rate'
+    print('PASS: 正常输入接受，百分数单位错误被拦截')
+```
+
+故障是故意把 20% 写成数值 20；恢复为 0.2 后通过。失败先看安装解释器、字段类型和错误路径，清理删除教学脚本即可。这个例子只验证输入契约，没有认证、持久化或真实任务，不能据此宣布接口已可用于生产。
+
+### 接受任务与完成任务的状态区别
+
+`202 Accepted` 表示已接受处理，不表示后台任务已成功。生产返回任务 ID 前，应保证任务已经可靠保存或进入明确的队列边界；BackgroundTasks（响应后任务）依赖当前进程生命周期，不适合需要长期可恢复的关键自动修复任务。
+
+数据库事务与消息发布之间使用 Outbox 等可恢复机制，任务处理使用幂等键和状态机。接口重试要返回同一业务任务或其状态，不能每次新建。超时还需传播总预算与取消意图，下游不支持取消时记录结果未知，避免重复副作用。
+
+### 面试和生产设计课堂
+
+30 秒讲请求校验、依赖和响应契约；3 分钟用告警接收经过鉴权、规范化、持久任务、异步处理和结果查询，说明 `async` 的 I/O 边界。追问扩副本为什么内存涨：每进程模型与连接池成本；追问重启为什么任务丢：进程内状态不是持久队列。
+
+事故题设置同步慢调用阻塞事件循环，证据看并发下健康检查延迟、事件循环滞后、下游耗时与 CPU；修复选择正确异步客户端、线程隔离或任务队列，再验证并发与超时。升级需兼容 Pydantic、请求响应结构、数据库迁移和代理配置，保留 OpenAPI（接口描述）快照与消费者契约测试。
+
+## 本课 GitHub 学习证据
 
 学完后，在 GitHub 留下这些证据：
 

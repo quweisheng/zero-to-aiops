@@ -2,6 +2,25 @@
 
 这里放高可信资料入口。学习时优先看官方文档、权威教材和成熟社区资料，不用一次看完，按项目需要查。
 
+## 老师带你读英文官方文档
+
+先带着一个问题去读，例如“程序重启后数据还在吗”。在目录找到 Persistence（持久化：进程结束后怎样保留数据）或 Storage（存储），看适用版本、默认值、参数说明和失败条件，再回到本地实验验证。全文翻译容易淹没重点；问题、版本、机制、参数、验证这五项更适合做笔记。
+
+| 官方模块 | 中文注释 | 应当带走什么 |
+|---|---|---|
+| Overview / Introduction | 总览与介绍 | 用途、边界和它位于系统哪一层 |
+| Getting started / Tutorial | 快速开始与教程 | 一条能运行的最短路径和前置条件 |
+| Concepts / Architecture | 概念与架构 | 对象、责任、状态和数据路径 |
+| Reference / Configuration | 接口参考与配置 | 参数类型、单位、默认值、约束和返回值 |
+| Operations / Troubleshooting | 运行维护与故障排查 | 健康证据、错误解释和修复顺序 |
+| Security / Hardening | 安全与加固 | 身份、权限、加密和默认暴露面 |
+| Upgrade / Migration | 升级与迁移 | 兼容性变化、数据格式和退出方法 |
+| Release notes / Changelog | 发行说明与变更记录 | 这一版本改变了什么，旧教程是否还适用 |
+
+你先找自己使用的版本再复制命令。`latest` 表示会变化的最新入口，LTS 是 Long-Term Support（长期支持），Deprecated 表示已不建议继续采用但未必立即删除，Removed 表示已经移除。不要把搜索结果日期当软件版本，也不要因为旧博客能安装就判断当前受支持。
+
+读完一节，写下三个句子：它解决什么问题、我怎样观察它、失败时先看哪条证据。然后做一次最小实验。若没有设备或商业授权，用本仓库注明边界的模拟练习；在学习证据里明确哪些结论来自文档，哪些来自实际执行。下面的官方英文产品名保留原名，旁边的中文说明帮助你选择阅读入口。
+
 ## AIOps 与智能运维
 
 - [Red Hat: The journey from observability to AIOps automation](https://www.redhat.com/en/topics/automation/observability-to-aiops-automation)

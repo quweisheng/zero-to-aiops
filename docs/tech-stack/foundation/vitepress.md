@@ -69,26 +69,26 @@ VitePress 是基于 Vite 和 Vue 的静态文档站生成器：它读取 `docs` 
 VitePress v1 官方文档可以按这棵树理解：
 
 ```text
-VitePress v1 docs
-  ├── Guide
-  │   ├── Getting Started
-  │   ├── Routing
-  │   ├── Deploy
-  │   ├── Markdown Extensions
-  │   ├── Asset Handling
-  │   ├── Frontmatter
-  │   ├── Using Vue in Markdown
-  │   └── i18n, sitemap, SSR compatibility
-  ├── Reference
-  │   ├── Site Config
-  │   ├── Default Theme Config
-  │   ├── Frontmatter Config
-  │   ├── Runtime API
-  │   └── CLI
-  └── Advanced
-      ├── extending default theme
-      ├── build hooks
-      └── custom theme
+VitePress v1 docs（第 1 代官方文档）
+  ├── Guide（指南）
+  │   ├── Getting Started（开始使用）
+  │   ├── Routing（路径到页面的映射）
+  │   ├── Deploy（部署）
+  │   ├── Markdown Extensions（标记语法扩展）
+  │   ├── Asset Handling（图片等静态资源处理）
+  │   ├── Frontmatter（页面头部元数据）
+  │   ├── Using Vue in Markdown（文章内使用 Vue 组件）
+  │   └── i18n / sitemap / SSR compatibility（国际化／站点地图／服务端渲染兼容）
+  ├── Reference（参考手册）
+  │   ├── Site Config（全站配置）
+  │   ├── Default Theme Config（默认主题配置）
+  │   ├── Frontmatter Config（单页配置）
+  │   ├── Runtime API（运行时编程接口）
+  │   └── CLI（命令行接口）
+  └── Advanced（进阶）
+      ├── extending default theme（扩展默认主题）
+      ├── build hooks（构建钩子）
+      └── custom theme（自定义主题）
 ```
 
 本篇按学习顺序重排：
@@ -106,28 +106,28 @@ VitePress v1 docs
 ## VitePress 在 AIOps 知识库中的位置
 
 ```text
-Markdown docs
-  ├── Linux
-  ├── Docker
-  ├── Prometheus
-  ├── Grafana
-  ├── Runbook
-  └── Projects
+Markdown docs（文档源码）
+  ├── Linux（操作系统基础）
+  ├── Docker（容器技术）
+  ├── Prometheus（指标采集与查询）
+  ├── Grafana（可视化仪表盘）
+  ├── Runbook（操作手册）
+  └── Projects（项目作品）
         |
         v
-VitePress
-  ├── routes
-  ├── nav
-  ├── sidebar
-  ├── markdown rendering
-  ├── build checks
-  └── static output
+VitePress（文档构建框架）
+  ├── routes（路由）
+  ├── nav（顶部导航）
+  ├── sidebar（侧栏导航）
+  ├── markdown rendering（文档渲染）
+  ├── build checks（构建检查）
+  └── static output（静态产物）
         |
         v
-GitHub Pages
+GitHub Pages（静态站托管）
         |
         v
-public AIOps portfolio site
+public AIOps portfolio site（公开运维智能化作品站）
 ```
 
 它在你的学习路径里承担三个角色：
@@ -171,20 +171,20 @@ VitePress = Markdown + Vite + Vue + Default Theme + Static Build
 ## 静态站点生成流程
 
 ```text
-source directory: docs/
+source directory（源码目录）: docs/
   |
-  +--> Markdown pages
-  +--> .vitepress/config.mts
-  +--> public assets
+  +--> Markdown pages（文档页面）
+  +--> .vitepress/config.mts（站点构建配置）
+  +--> public assets（公开静态资源）
         |
         v
-vitepress build docs
+vitepress build（构建） docs
         |
         v
-static output: docs/.vitepress/dist
+static output（静态产物）: docs/.vitepress/dist
         |
         v
-deploy to GitHub Pages
+deploy to GitHub Pages（部署到静态托管）
 ```
 
 每一步的含义：
@@ -198,9 +198,11 @@ deploy to GitHub Pages
 | dist | 构建产物 |
 | deploy | 把 dist 发布到静态托管 |
 
-## 当前仓库配置
+## 历史架构示例：不要覆盖当前仓库配置
 
-本仓库 `package.json`：
+以下是本仓库早期 VitePress 架构的教学示例，不是当前 React 网站的配置。请在独立的 VitePress 练习项目使用；当前仓库运行 `npm run dev`、`npm run build` 和 `npm run preview`。文中后续“本仓库配置”均指这一历史示例，不是要求恢复旧架构。
+
+VitePress 练习项目的 `package.json`：
 
 ```json
 {
@@ -380,10 +382,10 @@ npm run docs:preview
 VitePress 使用文件路由。
 
 ```text
-docs/index.md                         -> /
-docs/tech-stack/README.md             -> /tech-stack/
-docs/tech-stack/foundation/linux.md   -> /tech-stack/foundation/linux
-docs/projects/README.md               -> /projects/
+docs/index.md                         -> /index.html（通常可通过 / 访问）
+docs/tech-stack/index.md              -> /tech-stack/index.html（索引文档到网页路径的映射）
+docs/tech-stack/README.md             -> /tech-stack/README.html（项目说明文件按自身文件名生成网页）
+docs/tech-stack/foundation/linux.md   -> /tech-stack/foundation/linux.html（保留目录层次生成网页）
 ```
 
 理解规则：
@@ -391,9 +393,9 @@ docs/projects/README.md               -> /projects/
 | 文件 | 路由 |
 |---|---|
 | `index.md` | 当前目录根路由 |
-| `README.md` | 当前目录根路由 |
-| `foo.md` | `/foo` |
-| `dir/foo.md` | `/dir/foo` |
+| `README.md` | 默认生成 `README.html`，不会自动等同于 `index.md` |
+| `foo.md` | `/foo.html`；省略扩展名需结合 `cleanUrls` 和托管支持 |
+| `dir/foo.md` | `/dir/foo.html` |
 
 本仓库配置里有些 link 写成：
 
@@ -401,7 +403,7 @@ docs/projects/README.md               -> /projects/
 { text: '技术栈', link: '/tech-stack/README' }
 ```
 
-这能工作，但你也可以统一思考成“链接到技术栈入口页面”。后续如果想优化路由风格，可以逐步整理为目录入口。
+它指向 `README` 页面。要做目录入口，应使用 `index.md` 或明确配置路由重写，并同步旧链接；不能只把链接末尾删除就假定生成了目录首页。[VitePress v1 路由规则](https://vuejs.github.io/vitepress/v1/guide/routing)
 
 ## 链接规则
 
@@ -780,13 +782,13 @@ projects/
 
 VitePress build 会检查链接。
 
-常见失败：
+例如内部页面链接拼错时可出现类似失败：
 
 ```text
-Found dead link http://localhost:8000/health
+Found dead link ./missing-page
 ```
 
-这种本地实验地址如果只是示例，不要写成裸链接。写成代码：
+VitePress 的内部死链检查不是全网 URL 可达性监控，不应声称它必然请求每个外部地址。实验里的本地地址只对读者自己有意义，仍建议写成代码文本，避免误点击：
 
 ```text
 localhost:8000/health
@@ -808,12 +810,12 @@ VitePress 官方支持多种部署方式。这个仓库最自然的是 GitHub Ac
 流程：
 
 ```text
-push to main
-  -> GitHub Actions
-  -> npm ci
-  -> npm run docs:build
-  -> upload docs/.vitepress/dist
-  -> deploy to GitHub Pages
+push to main（推送到主分支）
+  -> GitHub Actions（自动化工作流）
+  -> npm ci（按依赖锁文件安装）
+  -> npm run docs:build（构建）
+  -> upload docs/.vitepress/dist（上传该文档框架的构建目录）
+  -> deploy to GitHub Pages（部署到静态托管）
 ```
 
 关键点：
@@ -1029,7 +1031,7 @@ docs/tutorials/vitepress-test.md
 
 内容：
 
-```markdown
+````markdown
 # VitePress Test
 
 这是一个测试页面。
@@ -1038,9 +1040,9 @@ docs/tutorials/vitepress-test.md
 npm run docs:build
 ```
 
-```
+````
 
-注意：上面示例如果真的写进文档，要用四个反引号包住外层，避免代码块嵌套问题。
+外层用四个反引号，里面的三个反引号才能完整作为示例显示。
 
 ### 第 2 步：加入 sidebar
 
@@ -1302,6 +1304,69 @@ VitePress 是静态文档站生成器，它把 `docs` 目录里的 Markdown 按�
 - [ ] 我能解释 custom containers、代码高亮、资源路径。
 - [ ] 我能写 GitHub Actions workflow 部署 Pages。
 - [ ] 我能排查 dead link、404、样式丢失和 Pages 不更新。
+
+## 老师带你追踪一页故障手册的完整生命期
+
+设想值班人员从告警链接打开“支付超时排查”文章。阅读请求不需要在服务器上实时把 Markdown 转成 HTML：VitePress 已在构建时完成主要生成工作，托管服务把文件送给浏览器，浏览器再接管导航、搜索等交互。这就是 SSG（Static Site Generation，静态站点生成）与每次请求都计算页面的差别。静态不等于页面不能交互，而是主体内容预先生成。
+
+图中的 `source directory` 是源码目录，`routes` 是页面路由，`nav` 是顶部导航，`sidebar` 是侧栏，`static output` 是生成文件，`artifact` 是本次构建保存的产物，`deploy` 是把产物发布出去。Vite 负责开发与构建，Vue 负责组件与交互，Default Theme（默认主题）提供阅读布局。先把每一项当成一个明确职责，不要把“Vite、Vue、VitePress”看作三个可以任意互换的名字。
+
+### 三张地图：文件、浏览器地址、资源地址
+
+文件路径 `docs/guide/check.md` 是作者的地址，页面 URL `/guide/check.html` 是读者的地址，资源 URL `/training/assets/xxx.js` 是浏览器取脚本的地址。`base: '/training/'` 表示站点挂在一个子路径；它不负责创建页面，也不代表磁盘必须有一个名叫 `training` 的源码目录。排障时把浏览器 Network（网络）中失败的完整 URL 抄出来，和部署前缀、生成目录逐一对齐，往往比重装依赖更直接。
+
+`cleanUrls` 表示生成链接时省略 `.html`，但真正访问还需要托管服务能把无扩展名 URL 映射到对应文件。开发服务器帮你处理的路径，不代表任意静态服务器都能处理。验收要同时测试首页点击进去和直接在地址栏刷新子页面；前者可能走客户端导航，后者会直接访问服务器。
+
+### 独立基础实验与死链故障注入
+
+前提：已安装与所选 VitePress v1 兼容的 Node.js/npm，能访问依赖源，有一个空的个人实验目录。先用 `node --version`、`npm --version` 记录版本；本课固定 `vitepress@1.6.4` 复现历史机制，不宣称它是当前推荐最新生产版本。不要在本知识库根目录执行安装。
+
+在新目录 `vitepress-classroom` 中执行：
+
+```bash
+npm init -y
+npm install -D vitepress@1.6.4
+```
+
+用编辑器建立 `docs/index.md`，内容如下：
+
+```markdown
+# 值班手册
+
+[进入支付排查](./payment)
+```
+
+再建 `docs/payment.md`：
+
+```markdown
+# 支付排查
+
+先核对告警时间范围，再检查对应请求的日志。
+
+## 成功标准
+
+能从首页进入本页，并在直接刷新后仍读到本段。
+```
+
+执行 `npx vitepress build docs`，预期退出码为 0，生成 `docs/.vitepress/dist/index.html` 和 `payment.html`。再执行 `npx vitepress preview docs`，打开终端给出的地址，按“首页 → 支付排查 → 刷新”顺序验证。`npx` 在此应使用刚安装的本地工具；看到临时安装其他版本的提示先停止，检查当前目录。
+
+现在注入唯一故障：把首页的 `./payment` 改成 `./payment-missing`，重新构建。预期构建指出内部链接目标不存在并失败。记录失败文件、链接和退出码，恢复 `./payment` 后再构建成功。不要用 `ignoreDeadLinks: true` 掩盖本来可以修复的链接。
+
+清理：按 Ctrl+C 停止预览；若要保留练习，只保留源码、`package.json`、锁文件和记录，不提交 `node_modules` 或生成目录。若不再需要，先确认实验目录绝对路径及内容只属于本实验，再由文件管理器删除该独立目录。排障回路：命令不存在查安装与工作目录；链接没有报错查文件是否已保存、是否真的重新构建；修复后预览仍旧查是否重建以及访问端口是否属于这次实验。
+
+### 生产设计题：十万篇文档不只是“多放几个文件”
+
+先计算构建时间、产物大小、搜索索引大小、图片带宽，再决定是否分站、分版本或使用外部检索。把所有内容和搜索数据一次性发送给浏览器，会增加首次加载和移动端内存压力；用实际网络瀑布和性能测量做取舍，不凭“静态站点很快”下结论。可观测性至少覆盖构建失败率、部署耗时、页面可用性、关键链接 404 和搜索可用性。
+
+发布应把 HTML、资源与搜索索引作为同一版本验证。若 HTML 已切换而它引用的脚本还不可用，页面就会短暂失败；部署策略应避免暴露半套产物，缓存策略也要考虑旧 HTML 是否仍引用旧资源。回滚时使用已验证的完整产物，不只把某一篇 Markdown 恢复。对内部 runbook，还应把访问控制放在托管层，静态文件本身不会因为文章写了“内部”就限制外部读取。
+
+SSR（Server-Side Rendering，服务端渲染）兼容问题常在构建时出现。例如组件顶层直接读取 `window`，构建环境没有浏览器窗口就可能报错；依赖浏览器的操作应放到合适的客户端生命周期，必要时使用官方提供的客户端专用边界。这里是执行环境不一致，不是“文章中文太多”。[VitePress v1 SSR 兼容](https://vuejs.github.io/vitepress/v1/guide/ssr-compat)
+
+### 面试递进：从“我会部署”到“我能解释故障”
+
+30 秒：VitePress 用 Markdown、Vue 和 Vite 在构建时生成文档站，我能区分源码路径、页面路由与部署前缀，能验证构建、发布和实际页面。
+
+3 分钟：先讲一篇文章从源码到静态产物的过程，再讲导航与路由不是一回事、构建与预览不是一回事，最后用死链实验解释如何收集证据和修复。追问“首页正常但子页刷新 404”，沿着 URL、文件是否存在、`cleanUrls` 与托管映射查；追问“本地正常 CI 失败”，检查 Node/锁文件、大小写、环境变量和浏览器专用代码；追问“如何迁移站点工具”，回答保持或重定向旧 URL、迁移导航和搜索、核对语法扩展、双环境验收和回滚，不要只更换 `package.json`。
 
 ## 学习证据
 

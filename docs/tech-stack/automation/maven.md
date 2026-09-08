@@ -1,6 +1,6 @@
 # Apache Maven 技术栈深讲
 
-> 适用版本：Apache Maven 3.9.16（当前稳定版），兼顾 Maven 3.10.0-rc-1 与 Maven 4.0.0-rc-5 的迁移认知。
+> 适用版本：以 Apache Maven 3.9.16 为历史教学基线，兼顾基线时的 Maven 3.10.0-rc-1 与 Maven 4.0.0-rc-5 迁移认知。下文“当前”“尚未 GA”均指下面注明的历史日期，不代表阅读时最新发布状态。
 > 文档基线：2026 年 7 月 30 日。版本会继续变化，安装或升级前请再次核对官方发布历史。
 > 学习边界：本文讲透 Java 项目从模型解析、依赖解析、生命周期执行到制品发布的主链路。Java 语法、JVM、完整 CI/CD 平台和 Nexus 运维需要分别学习。
 
@@ -61,7 +61,7 @@ GA 是 General Availability，表示面向生产正式发布；RC 是 Release Ca
 ## 官方知识地图
 
 ```text
-Apache Maven
+Apache Maven（Java 生态构建与依赖管理工具）
 ├─ 输入
 │  ├─ pom.xml：项目模型
 │  ├─ settings.xml：用户或机器环境配置
@@ -69,7 +69,7 @@ Apache Maven
 │  └─ 源码、测试、资源文件
 ├─ 模型
 │  ├─ 坐标：groupId + artifactId + version
-│  ├─ packaging：jar、war、pom……
+│  ├─ packaging：jar、war、pom……（打包类型：类库、Web 应用或项目模型等）
 │  ├─ 继承：parent
 │  ├─ 聚合：modules
 │  ├─ 依赖图：dependencies
@@ -426,13 +426,13 @@ Maven 有三条内置生命周期：
 ### default 生命周期的主线
 
 ```text
-validate
-  -> compile
-  -> test
-  -> package
-  -> verify
-  -> install
-  -> deploy
+validate（验证项目模型）
+  -> compile（编译）
+  -> test（测试）
+  -> package（打包）
+  -> verify（验证）
+  -> install（安装到本地仓库）
+  -> deploy（发布到远端仓库）
 ```
 
 调用后面的阶段，会按顺序执行前面的阶段：
@@ -448,14 +448,14 @@ mvn verify
 不会。Phase 是流程中的挂点，实际工作由绑定到阶段的 Plugin Goal 完成。例如：
 
 ```text
-compile phase
-  -> maven-compiler-plugin:compile
+compile phase（编译阶段）
+  -> maven-compiler-plugin:compile（编译）
 
-test phase
-  -> maven-surefire-plugin:test
+test phase（测试阶段）
+  -> maven-surefire-plugin:test（测试）
 
-package phase（jar packaging）
-  -> maven-jar-plugin:jar
+package（打包） phase（jar packaging）
+  -> maven-jar-plugin:jar（打包插件的生成 JAR 目标）
 ```
 
 绑定取决于 packaging、POM 和 Maven 默认规则。
@@ -902,22 +902,22 @@ Enforcer 可把团队约束变成失败门禁，例如：
 ## 项目目录约定
 
 ```text
-hello-maven/
-├─ pom.xml
-├─ .mvn/
-│  ├─ maven.config
-│  ├─ jvm.config
-│  └─ wrapper/
-├─ mvnw
-├─ mvnw.cmd
-├─ src/
-│  ├─ main/
-│  │  ├─ java/
-│  │  └─ resources/
-│  └─ test/
-│     ├─ java/
-│     └─ resources/
-└─ target/
+hello-maven/（入门项目根目录）
+├─ pom.xml（项目模型）
+├─ .mvn/（项目级构建配置）
+│  ├─ maven.config（项目级构建参数）
+│  ├─ jvm.config（运行构建工具的虚拟机参数）
+│  └─ wrapper/（构建工具包装器配置）
+├─ mvnw（类 Unix 包装器入口）
+├─ mvnw.cmd（Windows 包装器入口）
+├─ src/（源码目录）
+│  ├─ main/（主程序目录）
+│  │  ├─ java/（Java 源文件目录）
+│  │  └─ resources/（资源文件目录）
+│  └─ test/（测试目录）
+│     ├─ java/（Java 源文件目录）
+│     └─ resources/（资源文件目录）
+└─ target/（生成产物，可重建）
 ```
 
 - `src/main/java`：主 Java 源码。
@@ -1010,16 +1010,16 @@ mvn -X validate
 面试时不要只说“读取 POM、下载依赖、打包”。更完整的主线是：
 
 ```text
-Shell / CI Runner
+Shell / CI Runner（命令环境或自动化执行器）
   -> Maven CLI 解析命令行
   -> 读取安装级与用户级 settings
   -> 定位根项目和 pom.xml
   -> 构建 Effective Settings
   -> 构建 Effective POM
-       -> Super POM
-       -> parent
-       -> profile
-       -> BOM
+       -> Super POM（内置基础项目模型）
+       -> parent（父项目模型）
+       -> profile（条件化构建配置）
+       -> BOM（依赖版本物料清单）
        -> 属性插值
   -> 构建 Reactor
        -> 收集模块
@@ -1027,14 +1027,14 @@ Shell / CI Runner
        -> 拓扑排序
   -> 解析项目依赖与插件
        -> 本地仓库
-       -> mirror / proxy / remote repository
-       -> POM / metadata / artifact / checksum
+       -> mirror / proxy / remote repository（镜像、网络代理与远端仓库）
+       -> POM / metadata / artifact / checksum（项目模型、元数据、制品与校验值）
   -> 计算生命周期阶段和 goal 执行计划
   -> 逐项目执行插件
-       -> resources
-       -> compiler
-       -> surefire
-       -> jar
+       -> resources（处理资源文件）
+       -> compiler（编译插件）
+       -> surefire（单元测试插件）
+       -> jar（打包插件）
        -> 额外质量插件
   -> 输出 target、报告和制品
   -> 可选 install 到本地仓库
@@ -1115,24 +1115,24 @@ Maven 4 从较新的预发布阶段开始默认启用相关模式，但 Maven 4 
 典型企业构建架构：
 
 ```text
-Git Server
-  -> CI Orchestrator
-       -> Ephemeral Runner / Agent
-            ├─ Maven Wrapper
-            ├─ JDK Toolchain / Build Image
-            ├─ Read-only settings for PR
-            ├─ Local repository cache
-            └─ Build workspace
-                  -> Maven Repository Group
-                       ├─ Proxy: Maven Central
-                       ├─ Hosted: Internal Releases
-                       └─ Hosted: Internal Snapshots
-                  -> Test / Scan / SBOM
-                  -> Artifact Staging
-                  -> Release approval
-                  -> Deployment system
-  -> Metrics / Logs / Trace or change events
-  -> AIOps analysis and alerting
+Git Server（源码服务器）
+  -> CI Orchestrator（持续集成编排器）
+       -> Ephemeral Runner / Agent（临时执行器或代理）
+            ├─ Maven Wrapper（构建工具包装器）
+            ├─ JDK Toolchain / Build Image（开发工具链或构建镜像）
+            ├─ Read-only settings for PR（合并请求使用只读仓库配置）
+            ├─ Local repository cache（本地依赖缓存）
+            └─ Build workspace（构建工作目录）
+                  -> Maven Repository Group（依赖仓库聚合入口）
+                       ├─ Proxy: Maven Central（代理公共中央仓库）
+                       ├─ Hosted: Internal Releases（内部正式制品托管库）
+                       └─ Hosted: Internal Snapshots（内部快照制品托管库）
+                  -> Test / Scan / SBOM（测试、扫描与软件物料清单）
+                  -> Artifact Staging（制品暂存）
+                  -> Release approval（发布批准）
+                  -> Deployment system（部署系统）
+  -> Metrics / Logs / Trace or change events（指标、日志、链路或变更事件）
+  -> AIOps analysis and alerting（智能运维分析与告警）
 ```
 
 ### Maven 自己如何高可用
@@ -1154,18 +1154,18 @@ Maven 是每次启动、完成后退出的客户端进程，通常不谈“Maven
 建议：
 
 ```text
-PR / feature build
+PR / feature build（合并请求或功能分支构建）
   -> 仓库只读
   -> 不允许 deploy Release
   -> 不拿生产密钥
   -> 执行 compile/test/verify/scan
 
-protected branch / tag release
+protected branch / tag release（受保护分支或标签发布）
   -> 短期发布凭据
   -> 版本与签名门禁
-  -> staging
+  -> staging（制品暂存）
   -> 审批或策略判定
-  -> deploy
+  -> deploy（发布到远端仓库）
 ```
 
 这能降低恶意或被攻陷的 PR 构建窃取发布 Token、投毒企业仓库的风险。
@@ -1322,11 +1322,11 @@ Checksum 主要回答“内容与期望摘要是否一致”；Signature 加可�
 Maven Release Plugin 的经典流程是：
 
 ```text
-release:prepare
+release:prepare（发布插件的准备目标）
   -> 检查工作区和 Snapshot
   -> 修改版本、测试、提交、创建 Tag
 
-release:perform
+release:perform（发布插件的执行目标）
   -> 从 Tag 独立检出
   -> 构建并发布
 ```
@@ -1537,8 +1537,8 @@ OS name: ...
 ### Linux 手动安装固定版本
 
 ```bash
-tar xzvf apache-maven-3.9.16-bin.tar.gz
-export MAVEN_HOME=/opt/apache-maven-3.9.16
+tar xzvf apache-maven-3.9.16-bin.tar.gz # 解压到当前专门的安装目录
+export MAVEN_HOME="$PWD/apache-maven-3.9.16" # 指向刚才实际解压的位置；并未自动安装到 /opt
 export PATH="$MAVEN_HOME/bin:$PATH"
 mvn -version
 ```
@@ -1569,7 +1569,7 @@ APT、DNF、Homebrew、Chocolatey 和 Scoop 也可安装 Maven，但发行版仓
 
 ### 前置条件
 
-- `java -version` 正常。
+- `java -version` 正常，本实验准备 JDK 17 或更高且与插件兼容的版本；Quickstart 1.5 默认目标不能由仅 JDK 8 的编译器完成。
 - `mvn -version` 正常。
 - 首次执行可以访问 Maven Central 或企业镜像。
 - 在专门实验目录中运行，不要覆盖已有项目。
@@ -1703,19 +1703,19 @@ Get-Content .\target\dependency-tree.txt
 建议提交：
 
 ```text
-hello-maven/
-├─ pom.xml
-├─ mvnw
-├─ mvnw.cmd
-├─ .mvn/wrapper/
-├─ src/main/java/
-├─ src/test/java/
-└─ evidence/
-   ├─ mvn-version.txt
-   ├─ dependency-tree.txt
-   ├─ effective-pom-notes.md
-   ├─ build-success.md
-   └─ artifact-sha256.txt
+hello-maven/（入门项目根目录）
+├─ pom.xml（项目模型）
+├─ mvnw（类 Unix 包装器入口）
+├─ mvnw.cmd（Windows 包装器入口）
+├─ .mvn/wrapper/（包装器配置目录）
+├─ src/main/java/（主程序源码）
+├─ src/test/java/（测试源码）
+└─ evidence/（脱敏学习证据）
+   ├─ mvn-version.txt（构建工具版本证据）
+   ├─ dependency-tree.txt（依赖树）
+   ├─ effective-pom-notes.md（最终项目模型解读）
+   ├─ build-success.md（成功构建记录）
+   └─ artifact-sha256.txt（制品摘要）
 ```
 
 不要提交：
@@ -2180,24 +2180,24 @@ Read timed out
 ### 设计
 
 ```text
-Git Webhook
-  -> CI Scheduler
-       -> Runner Pool by trust and JDK
-            -> Project Maven Wrapper
-            -> Immutable build image digest
-            -> Job-scoped settings and credentials
-            -> Dependency cache
-            -> Maven Repository Group
-                 -> Central proxy with allow/deny policy
-                 -> Internal releases
-                 -> Internal snapshots
-            -> verify / tests / quality / SBOM / scan
-            -> artifact staging
-            -> protected release identity
-            -> immutable release repository
-  -> Build metadata store
-  -> Metrics + logs + change events
-  -> AIOps correlation / anomaly detection / RCA
+Git Webhook（源码变更回调）
+  -> CI Scheduler（持续集成调度器）
+       -> Runner Pool by trust and JDK（按信任域与开发工具链划分执行池）
+            -> Project Maven Wrapper（项目构建工具包装器）
+            -> Immutable build image digest（不可变构建镜像摘要）
+            -> Job-scoped settings and credentials（作业级配置与凭据）
+            -> Dependency cache（依赖缓存）
+            -> Maven Repository Group（依赖仓库聚合入口）
+                 -> Central proxy with allow/deny policy（带允许拒绝策略的中央仓库代理）
+                 -> Internal releases（内部正式版本）
+                 -> Internal snapshots（内部快照版本）
+            -> verify / tests / quality / SBOM / scan（验证、测试、质量、物料清单与扫描）
+            -> artifact staging（制品暂存）
+            -> protected release identity（受保护发布身份）
+            -> immutable release repository（不可变正式仓库）
+  -> Build metadata store（构建元数据存储）
+  -> Metrics + logs + change events（指标、日志与变更事件）
+  -> AIOps correlation / anomaly detection / RCA（智能关联、异常检测与根因分析）
 ```
 
 ### 关键取舍
@@ -2446,6 +2446,46 @@ Maven 4 尚未 GA，且项目插件、扩展、JDK 与模型复杂度不同。�
 - [ ] 能设计 Maven 3.9 到 Maven 4 的灰度迁移与回滚。
 - [ ] 能处理“全部流水线解析失败”事故。
 - [ ] 能完成 300 个 Java 仓库的构建平台系统设计。
+
+## 老师串讲：为什么“我明明已经 install 了”仍然不是交付
+
+我们用一条实际业务线把前面的知识接起来：开发者改了告警解析公共库 `alert-common`，另一个模块 `alert-api` 引用它。你在电脑上 `install` 后 API 构建成功，同事拉同样的源码却失败。先别怀疑同事操作错了。你的本地仓库里多了一份尚未发布的公共库，这就是隐藏输入；同事的机器没有它，反而暴露了构建说明不完整。
+
+解决有两条合理路径：同仓多模块时用 Reactor 一起构建，通过真实依赖坐标让 Maven 排序；跨仓交付时给公共库发布明确的新版本到受控制品库，再更新消费者。复制你电脑的缓存只能把隐藏输入搬过去，不能说明谁构建了它、它经过哪些测试、下一次怎样重建。这个例子说明，Maven 的“成功”要同时说清范围：当前模块、当前机器、全新执行器，还是整个可发布系统。
+
+### 跟着一次失败学习“先发生”和“后报错”
+
+设想 BOM 无法下载，后面紧接着报三条依赖缺版本。如果只看最后几行，你可能给三个依赖手工补版本，甚至把它们改成互不兼容的组合。老师建议先把日志分三层读：模型输入有没有拿到；插件有没有准备好；业务代码是否真的开始编译或测试。前一层失败时，后一层经常只是连锁症状。
+
+`help:effective-pom` 也不是救援魔法：项目模型根本建不起来时，这个目标本身可能无法执行。此时先读原始 POM、settings 和首条下载错误，核对 parent/BOM 坐标、镜像 ID、访问路径。待模型可建立后，再导出生效模型验证修复。类似地，私服 401 时反复执行 `dependency:tree` 不会让失效令牌恢复；输出命令也是依赖同一解析基础设施的客户端。
+
+企业镜像示例里还有一个容易漏的身份细节：下载走的是 `company-public`，发布目标可能是 `company-releases`，凭据按最终仓库 ID 匹配。若 `company-public` 也要求认证，要另配同 ID 的只读身份；不能把发布凭据放在唯一一个 server 节点里，就假设所有仓库自动共用。镜像解决去哪里，server 凭据解决用谁的身份，二者是一对关联规则而不是同一个概念。
+
+### package、verify 和集成测试的实际边界
+
+单元测试通常快速检查一个函数或模块，集成测试可能启动数据库、调用 HTTP 或等待容器。Surefire 常用于单元测试；Failsafe 用于集成测试生命周期，通常把执行绑定到 `integration-test`，把结果判定绑定到 `verify`，中间允许 `post-integration-test` 收尾。这里的名字就像课程表，只有插件目标真的绑定并执行才有工作发生。
+
+因此不要直接运行 `integration-test` 后就宣称验收完毕：后续清理和结果判定可能还没到；按项目设计运行 `verify` 才能经过完整链条。详见[官方 Failsafe 介绍](https://maven.apache.org/surefire/maven-failsafe-plugin/)。但即使调用 verify，如果 POM 根本没绑定集成测试，它也不会凭空测试数据库。证据要包含测试报告数量、失败数、跳过数与实际执行的 goal。零测试加 BUILD SUCCESS，只能说明当次命令没有检测到失败，不能声称业务已经验证。
+
+### 带着现成入门项目再做一个确定性失败
+
+在 `hello-maven` 的专用实验副本中，先完成一次 `clean verify`，记录当前测试数量。打开生成的 `src/test/java/dev/aiops/demo/AppTest.java`，在一个已有 `@Test` 方法内部临时加入 `org.junit.jupiter.api.Assertions.fail("课堂故障：验证门禁确实阻断");`。不要放在方法外，也不要改正式项目。再次执行 `mvnw.cmd -B -ntp clean verify`，预期测试确实运行、有一项失败、构建返回非零。
+
+现在读 `target/surefire-reports`，找到包含课堂故障文字的报告，对照源文件行号。若失败发生在下载插件阶段，还不能说测试门禁有效；先恢复制品访问再执行。如果构建竟然成功，检查是否用了 `skipTests`、测试命名是否被扫描、Profile 是否改变了测试配置。这个反例比故意写坏 XML 更适合证明“测试失败能挡住交付”，因为 XML 错误只证明模型解析会拒绝非法输入。
+
+删除刚加入的那一行，重新运行完整 `clean verify`，预期原有测试全部恢复。保存三次命令、报告摘要和修复 diff，最后运行 `mvnw.cmd clean` 清理生成目录。此实验没有 deploy，不会发布制品；不要为了回收实验删除用户整个本地仓库。若随后想体验跳过测试，请明确记录那只是绕过实验，不能拿绕过后的绿色结果替代恢复证明。
+
+### 制品部分发布时，先查已完成的副作用
+
+若十个模块 deploy 到第七个失败，不要立即无脑重跑同一个 Release 版本。先查远程仓库里哪些坐标已经存在、内容摘要是否与这次构建一致、是否还处在可丢弃的 staging 区。`deployAtEnd` 可以推迟上传，但上传多个文件仍不是跨仓库事务。网络断开时客户端可能不知道某个文件是否已经收下，应通过仓库只读接口核验，而不是把“没收到成功响应”等同于“服务器肯定没写入”。
+
+这时选择取决于发布策略：可丢弃候选区就撤销候选并重新构建；已进入不可变正式仓库就记录受影响版本，按治理流程发布新版本。修改仓库允许覆盖会破坏其他消费者的可复现性：同一坐标昨天和今天得到不同字节，缓存中的人和冷构建的人可能运行两种程序。Maven 回滚的是构建工具或代码配置，不会自动撤回消费者已经下载的内容。
+
+### 面试最后再加一层判断
+
+面试官问“BOM 能不能治理所有依赖？”先回答它是版本组合，不自动引入库，不保证所有插件依赖也受同样管理，也不保证运行环境没有自带旧 JAR。继续问“怎么证明修复 NoSuchMethodError？”回答对比解析树、最终包内容、类加载来源，再运行命中该方法的回归测试。只看树里版本改了还不够。
+
+问“为何冷构建更有价值？”回答它去掉了某些本机隐藏缓存，有助于检查依赖可获取性，但仍受 settings、工具链、网络和上游状态影响；不是把缓存关掉就天然可复现。好的回答总会说明证据能证明什么、不能证明什么，让面试官看到你会建立可验证的工程结论。
 
 ## 建议提交到 GitHub 的学习证据
 

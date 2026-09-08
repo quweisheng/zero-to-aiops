@@ -77,16 +77,16 @@
 一次 Pod 从提交到真正可服务，会经过下面这条链：
 
 ```text
-kubectl / CI
+kubectl / CI（集群命令行或持续集成流水线）
   -> kube-apiserver 身份认证、授权和准入
   -> etcd revision 与 API watch cache
   -> controller 创建 Pod
   -> scheduler 绑定 Node
-  -> kubelet PodWorkers
-  -> CRI -> containerd -> shim -> runc
-  -> CNI ADD -> netns / IP / route / policy
-  -> CSI Controller / Node -> attach / mount
-  -> readiness -> EndpointSlice
+  -> kubelet PodWorkers（节点代理中负责协调各容器组的工作循环）
+  -> CRI -> containerd -> shim -> runc（运行时接口、运行时服务、进程垫片、底层容器执行器）
+  -> CNI ADD -> netns / IP / route / policy（调用网络插件添加接口，准备网络命名空间、地址、路由和策略）
+  -> CSI Controller / Node -> attach / mount（存储插件控制端与节点端完成挂接及挂载）
+  -> readiness -> EndpointSlice（就绪状态反映到服务端点集合）
   -> kube-proxy / eBPF / Gateway -> 真实请求
   -> event / status / log / metric / trace 回流
 ```
@@ -174,76 +174,76 @@ Kubernetes 很大。入门阶段先抓住这条主线：
 Kubernetes 官方文档的概念部分大致按这些模块组织：
 
 ```text
-Overview
+Overview（总览）
   -> Kubernetes 是什么
-  -> Components
-  -> Kubernetes API
-  -> Working with objects
+  -> Components（组件）
+  -> Kubernetes API（集群接口）
+  -> Working with objects（操作资源对象）
 
-Cluster Architecture
-  -> Nodes
-  -> Control plane components
-  -> Node components
-  -> Controllers
-  -> Lease
-  -> Cloud Controller Manager
+Cluster Architecture（集群架构）
+  -> Nodes（节点）
+  -> Control plane components（控制面组件）
+  -> Node components（节点组件）
+  -> Controllers（控制器）
+  -> Lease（租约与心跳）
+  -> Cloud Controller Manager（云资源控制器）
 
-Containers
-  -> Images
-  -> Container runtime
-  -> RuntimeClass
+Containers（容器）
+  -> Images（镜像）
+  -> Container runtime（容器运行时）
+  -> RuntimeClass（运行时类别）
 
-Workloads
-  -> Pods
-  -> Pod lifecycle
-  -> Workload resources
-  -> Deployment
-  -> ReplicaSet
-  -> StatefulSet
-  -> DaemonSet
-  -> Job
-  -> CronJob
+Workloads（工作负载）
+  -> Pods（最小调度单元）
+  -> Pod lifecycle（实例生命周期）
+  -> Workload resources（工作负载资源）
+  -> Deployment（无状态滚动发布）
+  -> ReplicaSet（副本维持）
+  -> StatefulSet（稳定身份与存储）
+  -> DaemonSet（按节点运行）
+  -> Job（一次性任务）
+  -> CronJob（定时任务）
 
-Services, Load Balancing, and Networking
-  -> Service
-  -> EndpointSlice
-  -> DNS for Services and Pods
-  -> Ingress
-  -> NetworkPolicy
-  -> Gateway API
+Services, Load Balancing, and Networking（服务、负载均衡与网络）
+  -> Service（稳定服务入口）
+  -> EndpointSlice（后端端点切片）
+  -> DNS for Services and Pods（服务与实例的名字解析）
+  -> Ingress（入口规则）
+  -> NetworkPolicy（网络访问策略）
+  -> Gateway API（标准网关接口）
 
-Storage
-  -> Volumes
-  -> PersistentVolume
-  -> PersistentVolumeClaim
-  -> StorageClass
+Storage（存储）
+  -> Volumes（卷）
+  -> PersistentVolume（持久卷）
+  -> PersistentVolumeClaim（持久卷申请）
+  -> StorageClass（存储类别）
 
-Configuration
-  -> ConfigMap
-  -> Secret
-  -> Resource requests and limits
-  -> kubeconfig
+Configuration（配置）
+  -> ConfigMap（非敏感配置）
+  -> Secret（敏感配置对象）
+  -> Resource requests and limits（资源申请与限制）
+  -> kubeconfig（集群连接配置）
 
-Security
-  -> ServiceAccount
-  -> RBAC
-  -> Pod Security Standards
-  -> Admission control
+Security（安全）
+  -> ServiceAccount（程序身份）
+  -> RBAC（基于角色的授权）
+  -> Pod Security Standards（实例安全标准）
+  -> Admission control（准入控制）
 
-Scheduling, Preemption and Eviction
-  -> kube-scheduler
-  -> nodeSelector
-  -> affinity / anti-affinity
-  -> taints / tolerations
-  -> priority / preemption
-  -> node pressure eviction
+Scheduling, Preemption and Eviction（调度、抢占与驱逐）
+  -> kube-scheduler（调度器）
+  -> nodeSelector（节点标签选择器）
+  -> affinity / anti-affinity（亲和与反亲和）
+  -> taints / tolerations（污点与容忍）
+  -> priority / preemption（优先级与抢占）
+  -> node pressure eviction（节点压力驱逐）
 
-Monitoring, Logging, and Debugging
-  -> kubectl logs
-  -> kubectl describe
-  -> events
-  -> debug pods
-  -> debug services
+Monitoring, Logging, and Debugging（监控、日志与调试）
+  -> kubectl logs（读取容器日志）
+  -> kubectl describe（查看对象详情）
+  -> events（事件）
+  -> debug pods（调试实例）
+  -> debug services（调试服务）
 ```
 
 学习 Kubernetes 不要从背 YAML 开始。要先知道每个对象在这张地图里的位置：
@@ -264,20 +264,20 @@ Pod status / events / logs 是 debugging 证据
 ```text
 代码
   -> 镜像
-  -> Kubernetes Deployment
-  -> ReplicaSet
-  -> Pod
-  -> Container
-  -> Service
-  -> Ingress / Gateway / LoadBalancer
+  -> Kubernetes Deployment（声明应用副本与发布方式）
+  -> ReplicaSet（维护某一版本的副本数量）
+  -> Pod（一起调度的容器组）
+  -> Container（运行应用进程的容器）
+  -> Service（稳定的服务入口）
+  -> Ingress / Gateway / LoadBalancer（入口路由、网关、负载均衡器）
   -> 用户请求
 
 观测
-  -> kubelet / cAdvisor / metrics-server
-  -> kube-state-metrics
-  -> Prometheus
-  -> Grafana
-  -> Alertmanager
+  -> kubelet / cAdvisor / metrics-server（节点代理、容器资源观测、资源指标汇聚）
+  -> kube-state-metrics（把集群对象状态转换为指标）
+  -> Prometheus（指标采集与查询）
+  -> Grafana（可视化看板）
+  -> Alertmanager（告警分组、抑制与通知）
   -> Runbook 自动化
 ```
 
@@ -353,7 +353,7 @@ spec:
 我希望始终有 3 个符合模板的 Pod 副本。
 ```
 
-如果实际只有 2 个，Deployment controller 会创建新的 Pod。
+如果实际只有 2 个，Deployment controller 管理的 ReplicaSet 会由 ReplicaSet controller 补建 Pod。老师刻意拆出这一层，是为了让你出故障时知道该看谁的状态与日志。
 
 如果实际有 4 个，它会删掉多余 Pod。
 
@@ -365,7 +365,7 @@ spec:
 期望状态 desired state
   vs
 实际状态 actual state
-  -> controller reconcile
+  -> controller reconcile（控制器反复协调实际状态与期望状态）
 ```
 
 用人话讲：
@@ -388,18 +388,18 @@ Kubernetes 自己持续检查世界是否长这样，不像就修。
 Kubernetes cluster 通常由控制面和节点组成。
 
 ```text
-Cluster
-  -> Control Plane
-     -> kube-apiserver
-     -> etcd
-     -> kube-scheduler
-     -> kube-controller-manager
-     -> cloud-controller-manager
-  -> Worker Nodes
-     -> kubelet
-     -> kube-proxy
-     -> container runtime
-     -> Pods
+Cluster（集群）
+  -> Control Plane（控制面）
+     -> kube-apiserver（接口入口）
+     -> etcd（一致性状态存储）
+     -> kube-scheduler（调度器）
+     -> kube-controller-manager（内置控制器集合）
+     -> cloud-controller-manager（云资源适配）
+  -> Worker Nodes（工作节点）
+     -> kubelet（节点代理）
+     -> kube-proxy（服务转发规则管理）
+     -> container runtime（容器运行时）
+     -> Pods（业务实例）
 ```
 
 控制面负责“决策和记录”：
@@ -427,13 +427,13 @@ API Server 是 Kubernetes 控制面的入口。
 所有操作都通过它：
 
 ```text
-kubectl
-controller
-scheduler
-kubelet
-operator
-dashboard
-  -> kube-apiserver
+kubectl（命令行客户端）
+controller（控制器）
+scheduler（调度器）
+kubelet（节点代理）
+operator（扩展运维控制器）
+dashboard（管理界面）
+  -> kube-apiserver（统一经过 API 入口认证、鉴权和读写对象）
 ```
 
 它负责：
@@ -523,7 +523,7 @@ controller-manager 运行多个内置控制器。
 控制器的工作模式：
 
 ```text
-watch API object
+watch API object（持续监听资源对象变化）
   -> 比较期望状态和实际状态
   -> 发起修正动作
 ```
@@ -545,7 +545,7 @@ cloud-controller-manager 把 Kubernetes 和云厂商资源连接起来。
 典型职责：
 
 - 创建云负载均衡。
-- 处理云磁盘。
+- 现代云磁盘制备、附加与挂载主要走 CSI 驱动链路，不应再把它概括成 cloud-controller-manager 的统一职责。
 - 同步云节点信息。
 - 管理云路由。
 
@@ -596,7 +596,7 @@ kube-proxy 负责实现 Service 的部分网络转发规则。
 注意：
 
 - kube-proxy 不是七层代理。
-- 它通常工作在 iptables、IPVS 或其他数据平面模式。
+- Linux 常见数据面包括 iptables 与 nftables；存量 IPVS 需按上文弃用边界规划迁移。
 - Service 不通时，除了应用，也要看 selector、EndpointSlice、kube-proxy、网络插件。
 
 ### CNI 网络插件
@@ -958,7 +958,7 @@ Kubernetes 通过 probes 判断容器健康。
 
 ### readinessProbe
 
-判断容器是否“可以接流量”。失败后 Pod 会从 Service endpoints 中移除，但容器不一定重启。
+判断容器是否“可以接流量”。失败后对应 EndpointSlice 通常会标记 `ready: false`，不一定物理删除地址；正常服务转发会避开不就绪端点，`publishNotReadyAddresses` 等特殊配置需另看。容器不会仅因 readiness 失败而重启。
 
 适合：
 
@@ -1015,11 +1015,11 @@ Deployment 用来声明和管理无状态应用的滚动发布。
 它管理 ReplicaSet，ReplicaSet 管理 Pod：
 
 ```text
-Deployment
-  -> ReplicaSet revision 1
-     -> Pods
-  -> ReplicaSet revision 2
-     -> Pods
+Deployment（发布控制器）
+  -> ReplicaSet revision 1（第一版副本集合）
+     -> Pods（旧版实例）
+  -> ReplicaSet revision 2（第二版副本集合）
+     -> Pods（新版实例）
 ```
 
 Deployment 能做：
@@ -1215,7 +1215,7 @@ kubectl describe endpointslice -n aiops -l kubernetes.io/service-name=aiops-api
 - Pod labels 不匹配。
 - Pod readinessProbe 失败。
 - Pod 不在同 namespace。
-- targetPort 和应用端口不一致。
+- 命名 targetPort 在目标 Pod 中找不到；若是写错数字端口，端点仍可能存在，只是连接失败，不要把“端点为空”和“端点端口错误”混成一个结论。
 
 排查 Service 不通时，一定看 EndpointSlice。
 
@@ -1290,7 +1290,7 @@ spec:
 注意：
 
 - 只创建 Ingress 对象不够，集群还需要 Ingress Controller。
-- NGINX Ingress Controller 是常见实现之一。
+- 存量 NGINX 入口需区分已退役社区 ingress-nginx 与其他厂商控制器，不按名字相似推定支持状态。
 - Gateway API 是 Ingress 的后继方向之一，能力更丰富。
 
 Ingress 会在 NGINX/Ingress 专篇里深讲。
@@ -1736,7 +1736,7 @@ NetworkPolicy 用于限制 Pod 间网络访问。
 
 - NetworkPolicy 需要网络插件支持。
 - 默认没有 NetworkPolicy 时，Pod 间通常是允许通信的。
-- 一旦某 Pod 被 NetworkPolicy 选中，未允许的流量会被拒绝。
+- Pod 被策略选中后，只在该策略声明隔离的方向（ingress 入站、egress 出站）受约束；同方向多条允许规则取并集，通信两端被隔离时两边都要允许。
 
 常见故障：
 
@@ -2058,6 +2058,8 @@ curl http://127.0.0.1:8080/
 
 目标：部署一个最小 Web 服务，观察 Deployment、ReplicaSet、Pod、Service、rollout、日志、事件和 Service 访问。
 
+前置条件：只用可丢弃的实验集群，具备创建独立 Namespace 的权限，节点为 Ready，能拉取示例镜像。尚无集群时按 [kind 官方快速开始](https://kind.sigs.k8s.io/docs/user/quick-start/) 安装与本机系统匹配的 kind 和 Docker，再执行 `kind create cluster --name teaching-k8s --wait 120s`。它使用当前 kind 自带的匹配节点镜像，不声称自动等于本文历史版本快照。先用 `kubectl config current-context` 确认 `kind-teaching-k8s`，再用 `kubectl get nodes` 验证就绪；已有授权测试集群可跳过创建。没有通过这两项，不进入下一步。
+
 ### 1. 创建 namespace
 
 ```bash
@@ -2132,11 +2134,11 @@ kubectl rollout status deployment/aiops-web -n aiops-lab
 记录：
 
 ```text
-Deployment desired replicas:
-ReplicaSet name:
-Pod names:
-Pod IPs:
-Service ClusterIP:
+Deployment desired replicas（期望副本数）:
+ReplicaSet name（副本集合名）:
+Pod names（实例名称）:
+Pod IPs（实例地址）:
+Service ClusterIP（服务虚拟地址）:
 ```
 
 ### 4. 测试 Service
@@ -2185,28 +2187,31 @@ kubectl rollout status deployment/aiops-web -n aiops-lab
 
 ### 6. 制造 Service selector 错误
 
-把 Service selector 改错：
+只修改 YAML 中 `kind: Service` 下的 `spec.selector`，不能改 Deployment 的不可变 selector：
 
 ```yaml
 selector:
   app: wrong-name
 ```
 
-检查：
+保存后先应用，再检查：
 
 ```bash
+kubectl apply -f aiops-lab.yaml
 kubectl get svc aiops-web -n aiops-lab -o yaml
 kubectl get pods -n aiops-lab --show-labels
 kubectl get endpointslice -n aiops-lab -l kubernetes.io/service-name=aiops-web
 ```
 
-你会看到 Service 没有正确后端。
+预期 Service 无正确后端，但 Pod 仍然 Ready。再次运行第 4 步的同一客户端测试，此次给 curl 加上 `--connect-timeout 3 --max-time 5`，应在有限时间内失败而不是无限等待。然后只把 Service selector 改回 `app: aiops-web`，执行 `kubectl apply -f aiops-lab.yaml`，确认 EndpointSlice 有 `ready: true` 地址，再用同一个客户端验证 HTTP 200。若没有恢复，依次比对 Pod 标签、Service 命名空间、命名端口 `http` 和应用监听，不做无关重启。
 
 ### 7. 清理
 
 ```bash
 kubectl delete namespace aiops-lab
 ```
+
+仅在 `aiops-lab` 确实由本实验独占时删除该命名空间。若本轮专门创建了 `teaching-k8s` 且不再用于后面的 finalizer 实验，结束全部实验后执行 `kind delete cluster --name teaching-k8s`；不要删除原有集群。实验故障与清理都没有针对业务数据卷。
 
 ## 典型故障排查表
 
@@ -2408,7 +2413,23 @@ kubectl get events -n "$ns" --sort-by=.lastTimestamp || true
 - 多 namespace 支持。
 - 与告警标签联动。
 
-## 大厂面试进阶主线
+## 老师带你推理：为什么三副本还会一起不可用
+
+我们从实验里的两个 NGINX 实例开始。你告诉 Kubernetes “保留两个副本”，它保证的是控制循环持续尝试达到这个数量，不是给业务签了一张永不中断的保险单。两个 Pod 如果都在同一台节点，节点断电就会一起消失；即使放在不同节点，如果共用一个数据库、一个 DNS 出口或一个错误配置，也可能一起失败。因此老师要求你同时画资源数量、故障域和业务依赖三张小图，不能只截副本数。
+
+第一道算术题：三个节点，每个可分配 4 核 CPU，已有应用 requests 合计 9 核。平时总计 12 核放得下；一台节点退出后只剩 8 核，至少有一部分 Pod 没有位置。再加上 DaemonSet（每节点代理）、滚动发布额外副本、亲和性和磁盘所在可用区，实际空间更紧。此时 HPA 创建更多 Pod 不会凭空创造机器，Cluster Autoscaler 也可能受配额和启动时间限制。面试回答 N+1（允许损失一份资源）时，应拿损失后的可分配容量与峰值需求比较，而不是把平时 CPU 平均值报出来。
+
+第二道状态题：`kubectl apply` 成功，为什么 `observedGeneration` 仍落后？API Server 已保存声明，控制器可能尚未处理，或因队列、权限、外部依赖而受阻。即使代数追平，也只说明控制器处理到这一代，不保证业务请求正确。继续检查条件里的 reason/message（原因与说明）、available 副本、端点就绪、真实 HTTP 响应与依赖读写。把“收到、处理、运行、可服务”分开，才能给自动化发布设置靠谱门禁。
+
+第三道身份题：删除 `mysql-0` 后又出现同名 Pod，是原来的实例活过来了吗？通常是一个新 UID（对象唯一标识）的实例复用了 StatefulSet 提供的稳定名称与卷。名字稳定不代表进程、内存、连接、节点都没变。日志按 Pod 名聚合时，必须同时记录 UID、容器重启次数、镜像 digest 和节点，否则可能把旧实例的失败与新实例的成功混成一条时间线。数据库还需要自己的恢复、复制和写入者隔离协议，StatefulSet 不会替它做主从一致性。
+
+第四道观测题：`kubectl port-forward svc/aiops-api` 成功，是否证明 ClusterIP、CNI 和入口链全正常？不能。port-forward 是调试通道，会选后端 Pod 建立转发，不等于从普通客户端走完整 Service 数据面。它能帮助证明某个应用实例能回应，但验证 Service 应在集群内从独立客户端访问服务域名，验证外部入口还应使用真实 Host、TLS 和入口地址。选择探测位置，本身就是实验设计的一部分。
+
+第五道安全题：不让用户读取 Secret，但允许他随意创建 Pod，是否足够？如果他能创建挂载该 Secret 的工作负载，就可能通过容器间接读取它。权限设计要审视最终能力，而不只是 `get secrets` 一条权限。配合命名空间所有权、准入限制、服务账号、卷来源和审计，验证一条不被允许的挂载请求确实失败；不得把真实密码当作负向测试素材。
+
+最后练一次升级事故：新 Pod 因请求内存太大全部 Pending，而旧副本仍能服务。先停止扩大变更，保存新旧模板和调度事件；确认是每节点放不下还是总量不足，是否被可用区约束放大。恢复已知可用模板，或在容量批准后增加正确节点池，再通过同一服务请求验证。不要为了“让它变绿”同时降低 requests、关闭探针、删除旧 Pod——每多改一个变量，你就少一份能解释根因的证据。把这个推理过程写入 GitHub 复盘，比单纯粘贴回滚命令更能体现独立排障能力。
+
+## 进阶问题如何串起来
 
 基础题通常问“对象是什么”，进阶题会继续追问：对象怎样进入集群、哪个组件观察到变化、失败后怎样重试、状态怎样保证不被覆盖、流量和存储怎样真正到达 Pod、控制面怎样高可用。下面把这些链路连起来。
 
@@ -2423,7 +2444,7 @@ kubectl apply -f deployment.yaml # 声明并提交期望状态
 完整主线是：
 
 ```text
-kubectl
+kubectl（Kubernetes 命令行客户端）
   -> 读取 kubeconfig，选择集群、用户和上下文
   -> 发现 API 资源并构造 HTTP 请求
   -> kube-apiserver 认证 Authentication
@@ -2500,13 +2521,13 @@ Watch 不是消息队列，也不保证客户端永远不断线。etcd 历史被
 典型客户端控制器不会自己反复手写 List-Watch，而是使用 client-go 的 Informer 体系：
 
 ```text
-API Server
-  -> Reflector 执行 List 和 Watch
-  -> DeltaFIFO 保存待处理对象变化
-  -> Informer 更新本地 Indexer/Store 缓存
-  -> EventHandler 把 namespace/name 等 key 放进 WorkQueue
-  -> Worker 取 key，读取缓存并执行 Reconcile
-  -> 成功 Forget；失败 RateLimited 重试
+API Server（资源接口服务）
+  -> Reflector（对象同步器）执行 List（列表读取）和 Watch（变化监听）
+  -> DeltaFIFO（先进先出的对象变化队列）保存待处理对象变化
+  -> Informer（资源通知器）更新本地 Indexer/Store（索引与对象存储）缓存
+  -> EventHandler（事件处理器）把 namespace/name（命名空间与名称）等 key（对象键）放进 WorkQueue（工作队列）
+  -> Worker（工作循环）取 key，读取缓存并执行 Reconcile（状态协调）
+  -> 成功 Forget（清除重试记录）；失败 RateLimited（受速率限制地）重试
 ```
 
 关键点：
@@ -2586,10 +2607,10 @@ kubectl apply --server-side --field-manager=emergency -f hotfix.yaml # 可能因
 kubeadm 常把控制面组件 manifest 放在：
 
 ```text
-/etc/kubernetes/manifests/
-  -> kube-apiserver.yaml
-  -> kube-controller-manager.yaml
-  -> kube-scheduler.yaml
+/etc/kubernetes/manifests/（常见静态容器组清单目录，实际以节点配置为准）
+  -> kube-apiserver.yaml（资源接口服务的静态容器组清单）
+  -> kube-controller-manager.yaml（控制器管理器的静态容器组清单）
+  -> kube-scheduler.yaml（调度器的静态容器组清单）
   -> etcd.yaml（stacked etcd 拓扑）
 ```
 
@@ -2906,11 +2927,11 @@ containers:
 典型 kubeadm 高可用拓扑：
 
 ```text
-kubectl / controllers / nodes
+kubectl / controllers / nodes（命令行客户端、控制器、节点）
   -> API Server 负载均衡地址
-  -> control-plane-1: apiserver + controller-manager + scheduler
-  -> control-plane-2: apiserver + controller-manager + scheduler
-  -> control-plane-3: apiserver + controller-manager + scheduler
+  -> control-plane-1: apiserver + controller-manager + scheduler（控制节点一：接口服务、控制器管理器、调度器）
+  -> control-plane-2: apiserver + controller-manager + scheduler（控制节点二：相同组件）
+  -> control-plane-3: apiserver + controller-manager + scheduler（控制节点三：相同组件）
   -> 3 或 5 个 etcd 成员形成多数派
   -> 多个 worker 分布在不同故障域
 ```
@@ -2950,7 +2971,7 @@ kubectl drain <node> --ignore-daemonsets --delete-emptydir-data # 驱逐可驱�
 kubectl uncordon <node> # 升级验证后恢复调度
 ```
 
-回滚边界必须提前说清：Deployment 镜像通常可回滚；kubelet/组件包可能按官方流程降级；etcd schema、弃用 API、CRD 转换和存储格式变化不能假设可一键回滚。升级前的兼容性扫描和恢复演练比事后“强行降级”更重要。
+回滚边界必须提前说清：Deployment 镜像通常可回滚；kubeadm 不支持把集群降级作为通用恢复流程，不能承诺组件包降级就能安全回退；etcd schema、弃用 API、CRD 转换和存储格式变化不能假设可一键回滚。升级前的兼容性扫描和恢复演练比事后“强行降级”更重要。
 
 ## 容量、性能与 API 公平性
 
@@ -3066,7 +3087,7 @@ kubectl delete namespace finalizer-lab # 清理实验 Namespace
 1. 看 Deployment Conditions、ReplicaSet、新旧 Pod 数和 rollout events。
 2. 新 Pod Pending 就查调度、配额、PVC；拉不起镜像查仓库；启动失败查日志和配置。
 3. Running 但不 Ready 就查 probe、依赖、NetworkPolicy 和启动耗时。
-4. 旧 Pod 退不掉就查 PDB、termination、finalizer 和连接排空。
+4. 旧 Pod 退不掉就查 termination、finalizer、卷卸载和连接排空。Deployment 自身滚动更新不受 PDB 直接限制；同时发生 drain 等通过 Eviction API 驱逐的操作时才沿 PDB 查，两条流程不能混淆。
 5. 在错误预算允许范围内决定继续、暂停或回滚，并先保留新旧版本证据。
 
 ## 面试怎么讲

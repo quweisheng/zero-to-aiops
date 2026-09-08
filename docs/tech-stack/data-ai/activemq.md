@@ -45,24 +45,24 @@ Artemis 从 2.50.0 起，Maven `groupId` 也从 `org.apache.activemq` 迁到 `or
 
 ```text
 消息模型
-  -> Producer / Consumer / Message
-  -> Queue / Topic / Durable Subscription
-  -> JMS / AMQP / OpenWire / STOMP / MQTT
+  -> Producer（生产者） / Consumer（消费者） / Message（消息）
+  -> Queue / Topic（主题） / Durable Subscription
+  -> JMS / AMQP / OpenWire / STOMP / MQTT（Java 消息接口与常见消息协议）
 
 可靠性
-  -> Persistent / Store / Producer Ack
-  -> Consumer Ack / Transaction / Redelivery / DLQ
-  -> Ordering / Duplicate / Idempotency
+  -> Persistent / Store（存储） / Producer（生产者） Ack
+  -> Consumer（消费者） Ack / Transaction / Redelivery / DLQ
+  -> Ordering / Duplicate / Idempotency（幂等性）
 
 Broker 运维
-  -> Destination / Cursor / Paging / Flow Control
-  -> KahaDB / Artemis Journal
-  -> JMX / Web Console / Security
+  -> Destination / Cursor / Paging / Flow Control（目的地、消费游标、分页落盘与流量控制）
+  -> KahaDB / Artemis Journal（Classic 存储与 Artemis 日志存储）
+  -> JMX / Web Console / Security（安全）
 
 分布式
-  -> Classic Network of Brokers / Master-Slave
-  -> Artemis Cluster / HA Pair / Replication / Shared Store
-  -> Upgrade / Migration / Disaster Recovery
+  -> Classic Network of Brokers / Master-Slave（Classic 代理网络与主备拓扑）
+  -> Artemis Cluster（消息集群） / HA Pair（高可用主备对） / Replication（复制） / Shared Store（共享存储）
+  -> Upgrade（升级） / Migration（迁移） / Disaster Recovery（灾难恢复）
 ```
 
 本文顺序：
@@ -166,16 +166,16 @@ Classic Queue/Topic 与 Artemis Address/Queue/Routing Type 有概念映射，但
 ### 一条持久消息的数据路径
 
 ```text
-Producer
-  -> Client Session
+Producer（生产者）
+  -> Client（客户端） Session
   -> TCP / OpenWire 或其他协议
-  -> Transport Connector
+  -> Transport Connector（协议监听连接器）
   -> 认证与授权
-  -> Destination
-  -> Persistence Adapter / Journal
+  -> Destination（消息目的地）
+  -> Persistence（持久化） Adapter / Journal
   -> Broker 按发送语义确认 Producer
-  -> Dispatch / Prefetch
-  -> Consumer
+  -> Dispatch / Prefetch（预取）
+  -> Consumer（消费者）
   -> 业务处理
   -> Ack 或 Transaction Commit
   -> Broker 删除或推进消息状态
@@ -361,14 +361,14 @@ Producer Flow Control 在 Broker 内存、Store 或 Temp 使用达到阈值时�
 ### Classic 单 Broker
 
 ```text
-Producer
-  -> OpenWire :61616
-  -> ActiveMQ Classic Broker
-      -> Queue / Topic
-      -> KahaDB
+Producer（生产者）
+  -> OpenWire :61616（OpenWire 协议示例端口）
+  -> ActiveMQ Classic Broker（消息服务节点）
+      -> Queue / Topic（主题）
+      -> KahaDB（Classic 持久化存储）
       -> JMX :1099（按配置）
-      -> Web Console :8161
-  -> Consumer
+      -> Web Console :8161（网页管理台示例端口）
+  -> Consumer（消费者）
 ```
 
 ### Classic 多 Broker
@@ -376,7 +376,7 @@ Producer
 ```text
 客户端 A -> Broker A
              |
-             | Network Connector
+             | Network Connector（代理间桥接连接器）
              v
 客户端 B -> Broker B
 ```
@@ -389,7 +389,7 @@ Network Connector 主要解决消息路由和消费者需求传播。HA 要另�
 客户端
   -> Primary Broker（旧称 Live）
       -> Shared Store 或 Replication
-  -> Backup Broker
+  -> Backup Broker（备用消息服务节点）
       -> 故障后激活
 ```
 
@@ -628,7 +628,7 @@ Select-String -Path .\conf\activemq.xml -Pattern "127.0.0.1:61616"
   -> 用 eventId 检查幂等
   -> 执行业务事务
   -> 记录处理结果
-  -> Ack / Commit
+  -> Ack / Commit（提交）
 ```
 
 若 Ack 丢失，Broker 会重投，但幂等表能识别已完成业务。
@@ -683,7 +683,7 @@ Queue Size 高不一定故障。要同时看消息年龄、到达率、完成率
 ```text
 Prometheus / Zabbix / 日志告警
   -> 标准化 Event
-  -> AIOPS.ALERTS
+  -> AIOPS.ALERTS（教学告警队列名）
   -> 去重消费者
   -> 关联消费者
   -> 工单 / 通知 / Runbook
@@ -1026,7 +1026,7 @@ cd "$NEW_ARTEMIS_HOME/bin"
 客户端 API / 协议
   -> Destination 命名和语义
   -> Queue / Topic 到 Address / Routing Type
-  -> Ack / Redelivery / DLQ
+  -> Ack / Redelivery / DLQ（确认、重投与死信队列）
   -> 事务和 Selector
   -> 安全、监控、HA
   -> 存量消息迁移或排空
@@ -1219,7 +1219,37 @@ ActiveMQ Classic 与 Apache Artemis 是两个独立 Apache 顶级项目，但有
 - [ ] 我能设计安全、容量、升级、迁移和回滚。
 - [ ] 我能回答事故题和生产系统设计题。
 
-## 学习证据
+## 老师带你区分消息接口、协议和服务器
+
+JMS（Java 消息服务接口规范）像驾驶员熟悉的一套操作方式，OpenWire、AMQP、STOMP 等是通信协议，Classic 或 Artemis 则是实际运行的消息服务器。接口代码能编译，不代表协议、序列化、认证和服务端语义全部兼容；`javax.jms` 与 `jakarta.jms` 的包名迁移也需要连同依赖和容器一起验证。
+
+Queue（队列）让消费者分担任务，Topic（主题）让独立订阅各自接收事件。短信、审计、工单若都需要处理同一告警，不能把三个用途误放成一组竞争消费者。Durable Subscription（持久订阅）是否在离线时保留消息，需要明确订阅身份与服务端持久化设置。
+
+### 一条消息为什么可能出现两次
+
+生产者确认、存储持久化、消费者收到、业务提交、消费确认是不同节点。消费者先写数据库后确认，确认丢失导致重投是合理恢复行为；先确认后写数据库，则会在崩溃窗口漏处理。稳定业务键与下游幂等是连接两套系统的关键。
+
+JMS 会话确认模式与事务边界必须看客户端实际配置。某些确认模式涉及一个会话里已接收的一组消息，不要想当然认为确认对象只影响屏幕上那一条。异步处理、预取和错误重试还会扩大未确认窗口，排障要同时观察消费者缓存与 broker 队列指标。
+
+### 存储、流控和高可用课堂
+
+KahaDB 是 Classic 的存储实现之一，Artemis Journal（日志存储）有自己的布局与恢复机制。Paging（分页落盘）把超出内存预算的数据放到磁盘，Flow Control（流控）限制继续灌入，二者都可能表现为生产变慢。放大内存只是移动边界，持续输入大于处理能力仍会耗尽资源。
+
+Network of Brokers（代理网络）主要解决路由连接，不自动给每条消息增加独立持久副本。高可用方案需要明确哪个存储拥有数据、谁接管、旧主怎样隔离、客户端如何重连。所有节点在同一台宿主机只能演示拓扑，不能证明故障域隔离。
+
+### 跟着已有实验核对可靠性边界
+
+完成本篇持久消息基础实验后，记录发送数量、队列待处理数、消费数量和确认状态；执行前文 broker 重启故障实验，再核对相同教学消息。若重启后消息没了，先查目的地类型、消息持久标志、订阅身份和实际存储目录，不要立即认定存储引擎损坏。
+
+再故意让教学消费者停止而保留生产，观察积压与生产端流控；恢复时控制发送数量和消费并发，确认业务处理数量而非仅队列归零。DLQ（死信队列）中的消息必须保留失败原因与恢复办法，不能删除死信来制造“无错误”。清理只按本课明确实例和数据目录执行，先导出合成实验记录。
+
+### 面试回答练习
+
+30 秒讲消息解耦以及持久化、确认和重试边界。3 分钟用告警分发串起队列/订阅、存储、消费者确认、幂等和流控，再比较 Classic 与 Artemis 的协议、地址模型和迁移。
+
+追问“重启恢复就是容灾吗”：还需独立故障域、入口切换、备份、客户端与业务验证。追问“怎样升级”：固定客户端与服务器兼容矩阵，验证旧积压格式、新旧消费者并存、订阅身份和回退数据路径。事故题设为消费者新版本调用下游超时，先关联队列年龄、重投与下游延迟，限速回退坏版本，再逐步追赶并核对工单唯一性。
+
+## 本课 GitHub 学习证据
 
 ```text
 activemq-aiops-lab/

@@ -1,5 +1,6 @@
 import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises'
 import { dirname, join, resolve } from 'node:path'
+import { auditTeaching } from './audit-teaching-depth.mjs'
 
 import {
   docImportPath,
@@ -15,6 +16,8 @@ const docsDir = resolve('docs')
 const generatedPath = resolve('src/generated/content-index.ts')
 const searchIndexPath = resolve('public/search-index.json')
 
+// Keep the editorial evidence table consistent with the articles in this build.
+await auditTeaching({ write: true, quiet: true })
 const files = await collectMarkdownFiles(docsDir)
 
 const docs = files

@@ -39,41 +39,41 @@
 ## 官方知识地图
 
 ```text
-TensorFlow
-  ├── tensor computation
-  │   ├── Tensor
-  │   ├── Variable
-  │   ├── operation
-  │   ├── device
-  │   └── dtype / shape / rank
-  ├── model development
-  │   ├── keras.Layer
-  │   ├── keras.Model
-  │   ├── loss
-  │   ├── optimizer
-  │   ├── metric
-  │   └── callback
-  ├── execution
-  │   ├── eager execution
-  │   ├── GradientTape
-  │   ├── tf.function
-  │   └── graph tracing
-  ├── data
-  │   ├── tf.data.Dataset
-  │   ├── map / batch / shuffle
-  │   ├── cache
-  │   └── prefetch
-  ├── scale and performance
-  │   ├── distribution strategy
-  │   ├── mixed precision
-  │   ├── XLA
-  │   └── profiler
-  └── delivery
-      ├── checkpoint
-      ├── .keras model
-      ├── SavedModel
-      ├── TensorFlow Serving
-      └── TFX pipeline
+TensorFlow（张量与机器学习框架）
+  ├── tensor computation（张量计算）
+  │   ├── Tensor（张量）
+  │   ├── Variable（可更新变量）
+  │   ├── operation（运算）
+  │   ├── device（执行设备）
+  │   └── dtype（数据类型） / shape（形状） / rank（张量轴数）
+  ├── model development（模型开发）
+  │   ├── keras.Layer（网络层）
+  │   ├── keras.Model（模型容器）
+  │   ├── loss（损失）
+  │   ├── optimizer（优化器）
+  │   ├── metric（评价指标）
+  │   └── callback（训练回调）
+  ├── execution（执行）
+  │   ├── eager execution（即时执行）
+  │   ├── GradientTape（记录计算以求导的梯度带）
+  │   ├── tf.function（将函数转换为计算图）
+  │   └── graph tracing（追踪函数生成计算图）
+  ├── data（数据）
+  │   ├── tf.data.Dataset（输入数据流水线）
+  │   ├── map（逐项变换） / batch（批次） / shuffle（打乱样本）
+  │   ├── cache（缓存）
+  │   └── prefetch（预取）
+  ├── scale and performance（规模与性能）
+  │   ├── distribution strategy（分布式策略）
+  │   ├── mixed precision（混合精度）
+  │   ├── XLA（线性代数加速编译器）
+  │   └── profiler（性能分析器）
+  └── delivery（交付）
+      ├── checkpoint（检查点）
+      ├── .keras model（模型）
+      ├── SavedModel（可部署模型目录格式）
+      ├── TensorFlow Serving（模型推理服务）
+      └── TFX pipeline（机器学习生产流水线）
 ```
 
 `dtype` 是数据类型，`shape` 是各维长度，`rank` 是维度数量；`XLA` 是加速线性代数编译器；`TFX` 是 TensorFlow Extended，用于构建生产机器学习流水线。
@@ -417,8 +417,8 @@ metrics record current behavior
 AIOps 数据有时间顺序。推荐：
 
 ```text
-oldest data       newer data       newest data
-    train      -> validation    ->    test
+oldest data（数据）       newer data（数据）       newest data（数据）
+    train（训练集）        -> validation（验证集）  ->    test（测试集）
 ```
 
 随机拆分可能让未来模式进入训练集，产生时间穿越。还要按故障事件或主机分组，避免同一次故障的相邻窗口分散到 train 和 test。
@@ -444,12 +444,12 @@ oldest data       newer data       newest data
 **如何工作：**
 
 ```text
-source
-  -> parse
-  -> filter
-  -> shuffle training data
-  -> batch
-  -> prefetch
+source（来源）
+  -> parse（解析）
+  -> filter（过滤）
+  -> shuffle（打乱样本） training data（数据）
+  -> batch（批次）
+  -> prefetch（预取）
 ```
 
 **怎么使用或观察：**
@@ -652,17 +652,17 @@ rollback or retraining
 最常见模式：
 
 ```text
-global batch
-  ├── replica 0 local batch -> gradients
-  ├── replica 1 local batch -> gradients
-  ├── replica 2 local batch -> gradients
-  └── replica 3 local batch -> gradients
+global batch（全局批次）
+  ├── replica（副本） 0 local batch（本地批次） -> gradients（梯度）
+  ├── replica（副本） 1 local batch（本地批次） -> gradients（梯度）
+  ├── replica（副本） 2 local batch（本地批次） -> gradients（梯度）
+  └── replica（副本） 3 local batch（本地批次） -> gradients（梯度）
                  |
                  v
-          all-reduce gradients
+          all-reduce gradients（跨副本聚合梯度）
                  |
                  v
-       every replica updates weights
+       every replica updates weights（所有副本更新权重）
 ```
 
 `replica` 是模型副本；`all-reduce` 把各副本梯度聚合后分发回所有副本。
@@ -1479,12 +1479,12 @@ Serving 只负责模型执行，不负责业务阈值、特征查询、漂移检
 推荐：
 
 ```text
-offline validation
-  -> shadow traffic
-  -> canary 1%
-  -> canary 10%
-  -> canary 50%
-  -> full rollout
+offline（离线） validation（验证）
+  -> shadow traffic（影子流量）
+  -> canary（灰度发布） 1%
+  -> canary（灰度发布） 10%
+  -> canary（灰度发布） 50%
+  -> full rollout（全量发布）
 ```
 
 - Shadow：复制真实请求给新模型，但结果不影响用户。
@@ -1679,26 +1679,59 @@ Checkpoint 主要保存训练状态，适合恢复模型与 optimizer；SavedMod
 - [ ] 能设计模型监控、灰度、自动停止和回滚。
 - [ ] 能回答大规模在线风险评分架构题。
 
-## GitHub 学习证据
+## 老师带你读一轮训练，别让公式先把你挡住
+
+先把 Tensor（张量）看成有形状和类型的数据容器：一个服务一分钟的五项指标是一行，三十二个窗口组成一批。模型把输入逐层变换成分数，Loss（损失）衡量分数与标签差多少，GradientTape（梯度记录器）记录可微运算关系，优化器按梯度调整参数。一次训练迭代就是读一批、算一次、比较一次、修改一次。
+
+学生：“梯度是不是告诉我哪个指标是事故根因？”老师：“梯度描述某个数值变化对目标的局部影响，不自动证明现实因果。”同样，特征重要性也不能取代变更、拓扑和故障证据。AIOps 模型可以排序候选，根因还需要独立验证。
+
+### 从单个数字亲眼看反向传播
+
+在本篇已安装的 TensorFlow 虚拟环境里运行下面片段，不需要 GPU：
+
+```python
+import tensorflow as tf
+w = tf.Variable(2.0)
+with tf.GradientTape() as tape:
+    loss = (w * 3.0 - 9.0) ** 2
+gradient = tape.gradient(loss, w)
+print(float(loss.numpy()), float(gradient.numpy()))
+assert float(loss.numpy()) == 9.0
+assert float(gradient.numpy()) == -18.0
+```
+
+预期损失 9、梯度 -18；沿负梯度方向适量更新，`w` 会朝目标 3 靠近。学习率太大可能越过目标并发散，所以“知道方向”不等于“每步走得越大越好”。这只是单变量求导验证，不能代表完整分类模型质量；本篇 NaN 故障实验继续负责输入错误回路。
+
+### 计算图、输入流水线和恢复的课堂关系
+
+Eager（即时执行）便于逐步调试，`tf.function` 将适合的计算追踪为图以优化执行；输入形状、类型和 Python 控制逻辑改变可能引起重新追踪。第一次慢与每次慢要区分，先观察追踪、数据加载和设备使用，再讨论加速。
+
+`tf.data` 的 map（转换）、batch（组批）、prefetch（预取）像准备食材、分装、提前备料。GPU 等数据时，瓶颈可能在解析和磁盘；把预取无限加大又会吃内存。混合精度减少部分计算存储成本，仍要检查损失缩放与数值稳定性，不能只看吞吐上升。
+
+恢复训练要考虑模型权重、优化器状态、学习率进度、随机性与数据位置。只恢复权重是重新从某个模型出发，不必然等价于完全继续原训练。推理发布则需要预处理、输入签名、模型和阈值一致。面试里用前文实验的真实文件和输出区分这两种恢复，比泛泛说“保存了 checkpoint”更有说服力。
+
+课堂自测：不看代码，解释 NaN 应在哪一层拦截、为何高验证分数可能泄漏、为什么增加推理副本会复制模型内存。把答案和实际实验观察写进下列证据，不把本课预期当成已经得到的结果。
+
+## 本课 GitHub 学习证据清单
 
 建议建立：
 
 ```text
-tensorflow-aiops-lab/
-  ├── README.md
-  ├── requirements.txt
-  ├── train.py
-  ├── predict.py
-  ├── fault_injection.py
-  ├── tests/
-  │   ├── test_input_schema.py
-  │   └── test_saved_model.py
-  ├── artifacts/
-  │   └── metadata.example.json
-  ├── screenshots/
-  │   └── tensorboard-curves.png
-  └── incident-notes/
-      └── nan-input-drill.md
+tensorflow-aiops-lab/（教学项目）
+  ├── README.md（环境与复现说明）
+  ├── requirements.txt（依赖版本）
+  ├── train.py（训练入口）
+  ├── predict.py（预测入口）
+  ├── fault_injection.py（故障注入）
+  ├── tests/（回归测试）
+  │   ├── test_input_schema.py（输入结构测试）
+  │   └── test_saved_model.py（模型保存测试）
+  ├── artifacts/（交付产物）
+  │   └── metadata.example.json（脱敏元数据样例）
+  ├── screenshots/（截图）
+  │   └── tensorboard-curves.png（训练曲线）
+  └── incident-notes/（故障笔记）
+      └── nan-input-drill.md（非数值输入演练）
 ```
 
 不要提交体积巨大的训练数据、真实监控明细、用户信息、内部服务名或生产模型密钥。大模型文件应使用模型仓库或对象存储，并在 Git 中保存版本和 hash。

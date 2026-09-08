@@ -62,19 +62,19 @@ Python 官方资料可以按这个顺序理解：
 ## Python 在 AIOps 链路中的位置
 
 ```text
-metrics / logs / traces / alerts / tickets
+metrics / logs / traces / alerts / tickets（指标／日志／追踪／告警／工单）
         |
         v
-files / HTTP APIs / message queues / databases
+files / HTTP APIs / message queues / databases（文件／接口／消息队列／数据库）
         |
         v
-Python scripts and jobs
+Python scripts and jobs（脚本与作业）
         |
-        +--> clean and aggregate data
-        +--> generate reports
-        +--> call Prometheus / Kubernetes / GitHub APIs
-        +--> run anomaly detection experiments
-        +--> expose automation as an API
+        +--> clean and aggregate data（清洗与聚合数据）
+        +--> generate reports（生成报告）
+        +--> call Prometheus / Kubernetes / GitHub APIs（调用平台接口）
+        +--> run anomaly detection experiments（运行异常检测实验）
+        +--> expose automation as an API（把自动化封装成接口）
 ```
 
 在 AIOps 中，Python 常见位置有五类：
@@ -213,10 +213,10 @@ Python >= 3.11
 没有虚拟环境时，所有项目可能共用一套包：
 
 ```text
-global Python
-  ├── pandas 1.x
-  ├── requests 2.x
-  └── scikit-learn 1.x
+global Python（系统全局解释器）
+  ├── pandas 1.x（数据表处理库的示意版本）
+  ├── requests 2.x（网络请求库的示意版本）
+  └── scikit-learn 1.x（机器学习库的示意版本）
 ```
 
 项目多了以后就会冲突：
@@ -372,37 +372,37 @@ alert-noise-report/
 从零基础学 Python，不要把知识点背成碎片。你可以按这棵树往下学：
 
 ```text
-Python
+Python（解释器与语言生态）
   ├── 运行环境
-  │   ├── interpreter
-  │   ├── version
-  │   ├── venv
-  │   └── pip
+  │   ├── interpreter（解释器）
+  │   ├── version（版本）
+  │   ├── venv（虚拟环境）
+  │   └── pip（包安装器）
   ├── 语言基础
-  │   ├── object, value, type
-  │   ├── variables and names
-  │   ├── expressions and statements
-  │   ├── collections
-  │   ├── control flow
-  │   └── functions
+  │   ├── object, value, type（对象、值、类型）
+  │   ├── variables and names（变量与名字）
+  │   ├── expressions and statements（表达式与语句）
+  │   ├── collections（容器）
+  │   ├── control flow（控制流）
+  │   └── functions（函数）
   ├── 工程组织
-  │   ├── modules
-  │   ├── packages
-  │   ├── imports
-  │   └── __main__
+  │   ├── modules（模块）
+  │   ├── packages（包）
+  │   ├── imports（导入）
+  │   └── __main__（直接执行时的入口身份）
   ├── 标准库
-  │   ├── pathlib
-  │   ├── json and csv
-  │   ├── logging
-  │   ├── argparse
-  │   ├── datetime
-  │   └── urllib
+  │   ├── pathlib（路径处理）
+  │   ├── json and csv（数据编解码）
+  │   ├── logging（日志）
+  │   ├── argparse（命令行参数）
+  │   ├── datetime（日期时间）
+  │   └── urllib（网络请求）
   └── AIOps 应用
-      ├── parse alerts
-      ├── aggregate metrics
-      ├── call APIs
-      ├── generate reports
-      └── build prototypes
+      ├── parse alerts（解析告警）
+      ├── aggregate metrics（聚合指标）
+      ├── call APIs（调用接口）
+      ├── generate reports（生成报告）
+      └── build prototypes（构建原型）
 ```
 
 下面逐层讲。
@@ -1229,7 +1229,7 @@ print(by_service.most_common())
 | 语法 | `python -m venv .venv` |
 | 生成内容 | `.venv/` 目录 |
 | AIOps 场景 | 每个脚本项目隔离依赖 |
-| 常见坑 | 创建后还需要激活；`.venv/` 不提交到 Git |
+| 常见坑 | 激活只是便利方式，也可直接调用虚拟环境内的解释器；`.venv/` 不提交到 Git |
 
 ### `.\.venv\Scripts\Activate.ps1`
 
@@ -1389,18 +1389,41 @@ from pathlib import Path
 
 def load_alerts(path: Path) -> list[dict]:
     try:
-        return json.loads(path.read_text(encoding="utf-8"))
+        payload = json.loads(path.read_text(encoding="utf-8"))
     except FileNotFoundError:
         raise SystemExit(f"input file not found: {path}")
     except json.JSONDecodeError as error:
         raise SystemExit(f"invalid JSON in {path}: {error}")
+    if not isinstance(payload, list):
+        raise SystemExit("alerts must be a JSON array")
+    required = ("service", "severity", "name", "starts_at", "summary")
+    for index, row in enumerate(payload):
+        if not isinstance(row, dict):
+            raise SystemExit(f"row {index}: alert must be an object")
+        for field in required:
+            if not isinstance(row.get(field), str) or not row[field].strip():
+                raise SystemExit(f"row {index}: {field} must be a non-empty string")
+        if row["severity"] not in {"critical", "warning", "info"}:
+            raise SystemExit(f"row {index}: unsupported severity")
+        try:
+            parse_time(row["starts_at"])
+        except ValueError as error:
+            raise SystemExit(f"row {index}: invalid starts_at: {error}")
+    return payload
 
 
 def parse_time(value: str) -> datetime:
-    return datetime.fromisoformat(value.replace("Z", "+00:00"))
+    parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    if parsed.tzinfo is None:
+        raise ValueError("timezone is required")
+    return parsed
 
 
 def render_report(alerts: list[dict], min_count: int) -> str:
+    if min_count < 1:
+        raise ValueError("min_count must be positive")
+    if not alerts:
+        return "# Alert Noise Report\n\n- Total alerts: 0\n- No observations in input.\n"
     by_service = Counter(alert["service"] for alert in alerts)
     by_severity = Counter(alert["severity"] for alert in alerts)
     noisy_services = [
@@ -1826,6 +1849,78 @@ Python 在 AIOps 里主要承担自动化、数据处理和原型验证。我会
 - [ ] 我能处理文件不存在、JSON 格式错误、依赖缺失等常见异常。
 - [ ] 我能调用一个 HTTP API，并设置 timeout。
 - [ ] 我能写一个告警统计脚本，并输出 Markdown 报告。
+
+## 老师带练：把一份“看上去合法”的告警当成不可信输入
+
+上面日报的四条数据很整齐，真实接口却可能返回空数组、缺字段、未知严重级别，甚至 HTTP 200 加一段错误页面。跟我记住三个连续的问题：字节能否解码为文本？文本能否解析为 JSON？JSON 的形状与字段是否符合业务约定？每过一关只证明这一关，`json.loads()` 成功绝不等于告警有效。示例里的 `load_alerts` 因此在解析之后继续验证数组、字段、严重级别和带时区的时间。
+
+英文执行图中的 source file 是源码文件，interpreter 是解释器，parse 是解析，statement 是语句，built-in types 是内置类型，standard library 是标准库，installed packages 是已安装包。`import` 既是查找模块，也是执行模块初始化；如果把网络请求放在模块顶层，测试刚导入它就可能请求外部系统。`__main__` 入口隔离正是为了让导入与执行主任务分开。
+
+### 名字不是盒子：共享对象为什么会污染下一次任务
+
+Python 赋值把名字绑定到对象，并不自动复制对象。`second = first` 让两个名字看同一份列表；`first.copy()` 只复制外层，嵌套字典仍可能共享。好比把同一份文档的链接发给两个人，不是给每人独立复印一份。业务上，若把一个告警模板重复引用并修改，就可能让所有记录都变成最后一个服务。
+
+函数默认参数也在定义函数时求值，不是每次调用时重新创建。下面故障能在没有网络、没有文件修改的环境复现：
+
+```python
+def broken_collect(service, seen=[]):
+    seen.append(service)
+    return seen
+
+print(broken_collect("payment"))
+print(broken_collect("search"))
+
+def collect(service, seen=None):
+    current = [] if seen is None else list(seen)
+    current.append(service)
+    return current
+
+assert collect("payment") == ["payment"]
+assert collect("search") == ["search"]
+print("isolated calls passed")
+```
+
+在新的 `mutable-default-lab.py` 中保存并执行 `python mutable-default-lab.py`。预期前两次输出分别为 `['payment']` 和 `['payment', 'search']`，证明故障是跨调用共享；修正版断言通过并输出 `isolated calls passed`。修正版选择复制调用者提供的序列，所以不会修改原列表；这是一项明确的接口约定，不是所有函数都必须复制。清理只需删除自己创建的练习文件，解释器退出后实验内存自动释放。若现象不符，检查是否每次都重新定义了函数，或者是否在不同进程各运行一次。
+
+### 日报故障实验：空数据不是程序崩溃，错误数据不是正常日报
+
+前提：已经完成前面的基础实验，并保留原 `data/alerts.json`。在相同项目中用编辑器新建三个独立文件：`data/empty.json` 内容 `[]`，`data/wrong-shape.json` 内容 `{}`，`data/bad-time.json` 内容如下，不覆盖原样例：
+
+```json
+[{"service":"payment","severity":"critical","name":"HighErrorRate","starts_at":"2026-07-02T08:01:00","summary":"lab only"}]
+```
+
+分别执行，输出文件各自独立：
+
+```powershell
+python scripts/alert_report.py --input data/empty.json --output reports/empty.md
+python scripts/alert_report.py --input data/wrong-shape.json --output reports/wrong-shape.md
+python scripts/alert_report.py --input data/bad-time.json --output reports/bad-time.md
+```
+
+第一条应正常生成 0 条记录的报告；这只表示输入没有观察数据，不足以证明所有服务健康。第二条应非零退出并提示数组要求；第三条应提示时间缺少时区，不把本地时区暗中当成 UTC。失败发生在写报告之前，因此不应新建对应错误报告。已有同名旧报告不会自动删除，调用者应依据此次退出码和运行 ID 判断成功，不能只判断“文件还在”。
+
+修复 `bad-time.json` 的时间，在尾部补 `Z`，再执行第三条，预期生成 1 条 critical 的报告。验证顺序是错误类别、退出码、输出内容，不只看有没有红字。清理本次新增的三个输入和三个可能生成的输出；原始实验文件保留。无法复现时先确认运行的是已加入验证逻辑的脚本，再检查工作目录、编码、保存状态和解释器路径。
+
+### 并发、内存与一致性：什么时候不能再靠一个 for 循环
+
+读 100 条告警，用列表简单清楚；一次读入数 GB 日志会让峰值内存大幅超过文件大小，因为字符串、字典和对象都有开销。逐行读取 JSON Lines（一行一个 JSON 对象）并增量聚合可以降低内存，但必须定义坏行如何记录、是否中断、重复记录如何去重。生成器把数据按需产出，解决的是惰性处理，不自动解决数据库一致性或无限数据保存问题。
+
+并发要先区分 CPU 密集计算和 I/O 等待。网络请求可用有界线程池或异步 I/O；阻塞请求塞进异步函数里仍会阻塞事件循环。传统启用 GIL（Global Interpreter Lock，全局解释器锁）的 CPython 中，多个线程通常不能同时执行 Python 字节码；进程池可并行 CPU 工作，但有序列化和内存成本。现在存在 free-threaded（可禁用 GIL）构建，是否启用及扩展支持要核对实际解释器，不能再断言“所有 Python 永远都有 GIL”。无论有无 GIL，共享的业务复合操作都需要明确同步设计。[Python 自由线程说明](https://docs.python.org/3/howto/free-threading-python.html)
+
+HTTP 的 `timeout=5` 也不是所有库都承诺整个批次在 5 秒内结束。例如请求库可能分别处理连接和读取等待，重试还会延长总时间。生产任务需要单次超时、重试预算和整体截止时间。只对适合重试的错误有限重试；创建工单或触发修复时，还应有业务幂等键、执行记录和结果查询，否则一次超时可能变成两次操作。
+
+### 生产设计题：日报不能每天悄悄漏掉一页数据
+
+从 API 分页拉取数据时，若中途数据不断新增，用简单页码翻页可能重复或遗漏。优先使用接口支持的游标、固定时间窗口或快照语义；记录采集水位、去重键、成功页数与总数，并为迟到数据保留重算机制。写最终报告前完成校验，先写独立临时结果再安全切换，避免读者拿到半份报告。多实例定时运行还需要调度互斥或按任务 ID 去重，不是多开两份脚本就实现高可用。
+
+依赖可复现也不止 `pip freeze`：它记录已装版本，不完整固定 Python、操作系统、原生库和下载文件身份。正式交付记录解释器版本、平台、依赖来源与哈希、配置及输入样例；在干净环境验证并保留旧制品用于回滚。虚拟环境不是安全沙箱，里面的程序仍以当前用户权限运行；不能用它隔离不可信脚本。激活失败时可直接运行 `.venv/Scripts/python.exe`，不必为了一个提示符降低设备安全策略。
+
+### 面试递进：把语法题接回工程
+
+30 秒：Python 在 AIOps 中负责采集、验证、聚合与自动化。我会用标准库完成最小脚本，再补输入合同、超时、日志和测试，不把能跑一次等同于生产可靠。
+
+3 分钟：围绕日报讲对象共享、JSON 验证、空数据语义、时间窗口与分页、失败后旧产物的辨别，最后讲容量和并发边界。追问“浅拷贝和深拷贝怎么选”，要说明嵌套对象及所有权，不直接用深拷贝掩盖设计；追问“类型提示能阻止坏 JSON 吗”，答案是不自动执行运行时校验；追问“如何证明修复”，拿上述正常、空、错形状、坏时间和恢复测试说话，再扩展权限错误、损坏编码与分页失败，而不是只重跑一份正常样例。
 
 ## 学习证据
 

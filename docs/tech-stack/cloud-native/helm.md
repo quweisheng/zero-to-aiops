@@ -73,7 +73,7 @@ Helm 是 Kubernetes 的包管理器：Chart 是应用包，values 是配置输�
 入门 Helm 先抓住这条主线：
 
 ```text
-Chart
+Chart（可配置的 Kubernetes 应用包）
   -> Chart.yaml 描述包
   -> values.yaml 提供默认配置
   -> templates/ 放 Kubernetes YAML 模板
@@ -111,49 +111,49 @@ Chart
 Helm 官方文档可以按这些模块读：
 
 ```text
-Intro
+Intro（入门）
   -> Helm 是什么
   -> 安装 Helm
-  -> Using Helm
-  -> Cheat Sheet
+  -> Using Helm（使用流程）
+  -> Cheat Sheet（常用操作速查）
 
-Topics
-  -> Charts
-  -> Chart Hooks
-  -> Chart Repository
-  -> Registries
-  -> Plugins
-  -> Provenance and Integrity
+Topics（专题）
+  -> Charts（应用包）
+  -> Chart Hooks（生命周期任务）
+  -> Chart Repository（包索引仓库）
+  -> Registries（OCI 制品仓库）
+  -> Plugins（插件）
+  -> Provenance and Integrity（来源证明与完整性）
 
-Chart Template Guide
-  -> Getting Started
-  -> Built-in Objects
-  -> Values Files
-  -> Functions and Pipelines
-  -> Flow Control
-  -> Variables
-  -> Named Templates
-  -> Files
-  -> NOTES.txt
-  -> Subcharts and Global Values
-  -> Debugging Templates
-  -> YAML Techniques
+Chart Template Guide（模板编写指南）
+  -> Getting Started（第一份模板）
+  -> Built-in Objects（内置上下文对象）
+  -> Values Files（配置输入文件）
+  -> Functions and Pipelines（函数与管道）
+  -> Flow Control（条件与循环）
+  -> Variables（变量）
+  -> Named Templates（命名模板）
+  -> Files（读取包内文件）
+  -> NOTES.txt（安装后提示）
+  -> Subcharts and Global Values（子包与全局配置）
+  -> Debugging Templates（调试模板）
+  -> YAML Techniques（YAML 写法）
 
-Helm Commands
-  -> helm create
-  -> helm lint
-  -> helm template
-  -> helm install
-  -> helm upgrade
-  -> helm rollback
-  -> helm status
-  -> helm history
-  -> helm get
-  -> helm uninstall
-  -> helm repo
-  -> helm dependency
-  -> helm package
-  -> helm show
+Helm Commands（命令：下文命令字典逐项解释）
+  -> helm create（创建应用包骨架）
+  -> helm lint（检查包结构与常见错误）
+  -> helm template（本地渲染资源清单）
+  -> helm install（安装发布实例）
+  -> helm upgrade（更新发布实例）
+  -> helm rollback（回到指定历史修订配置）
+  -> helm status（查看发布状态）
+  -> helm history（查看修订历史）
+  -> helm get（查看已保存的发布内容）
+  -> helm uninstall（卸载发布实例）
+  -> helm repo（管理包索引仓库）
+  -> helm dependency（管理依赖包）
+  -> helm package（打包应用包）
+  -> helm show（查看包信息）
 ```
 
 新手学习顺序建议：
@@ -174,13 +174,13 @@ Kubernetes 管运行状态，Helm 管“安装和发布状态”。
 
 ```text
 Git 仓库
-  -> Helm Chart
-  -> values-dev.yaml / values-prod.yaml
-  -> CI/CD
-  -> helm lint
-  -> helm template
-  -> helm upgrade --install
-  -> Kubernetes Deployment / Service / ConfigMap / Ingress
+  -> Helm Chart（应用包）
+  -> values-dev.yaml / values-prod.yaml（开发与生产的差异配置）
+  -> CI/CD（持续集成与交付流水线）
+  -> helm lint（静态检查）
+  -> helm template（渲染清单）
+  -> helm upgrade --install（存在则更新，不存在则安装）
+  -> Kubernetes Deployment / Service / ConfigMap / Ingress（部署、服务入口、配置、入口路由资源）
   -> Prometheus / Grafana / Alertmanager 观测
 ```
 
@@ -269,7 +269,7 @@ Helm 不是 kubectl 的替代品。Helm 管发布包，kubectl 管 Kubernetes �
 一次 install 大致流程：
 
 ```text
-helm install aiops-api ./chart -f values-prod.yaml
+helm install aiops-api ./chart -f values-prod.yaml（按生产配置安装名为 aiops-api 的发布实例）
   -> 读取 Chart.yaml
   -> 读取 values.yaml
   -> 合并用户 values
@@ -283,7 +283,7 @@ helm install aiops-api ./chart -f values-prod.yaml
 一次 upgrade：
 
 ```text
-helm upgrade aiops-api ./chart -f values-prod.yaml
+helm upgrade aiops-api ./chart -f values-prod.yaml（按生产配置更新该发布实例）
   -> 重新合并 values
   -> 重新渲染 manifests
   -> 对比并更新 Kubernetes 对象
@@ -293,7 +293,7 @@ helm upgrade aiops-api ./chart -f values-prod.yaml
 一次 rollback：
 
 ```text
-helm rollback aiops-api 1
+helm rollback aiops-api 1（取历史修订 1 的配置执行回滚）
   -> 找到 revision 1 的配置和 manifest
   -> 应用回集群
   -> 产生新的 revision
@@ -431,10 +431,10 @@ Helm values 可以来自多个地方。
 ```text
 Chart 内 values.yaml
   -> 父 Chart values
-  -> helm install/upgrade -f my-values.yaml
-  -> --set key=value
-  -> --set-string key=value
-  -> --set-file key=path
+  -> helm install/upgrade -f my-values.yaml（用文件覆盖默认配置）
+  -> --set key=value（命令行设值，会推断值类型）
+  -> --set-string key=value（命令行设值，强制按字符串处理）
+  -> --set-file key=path（把文件内容作为某个配置项的值）
 ```
 
 越靠后的优先级越高。
@@ -550,6 +550,8 @@ Helm 模板里常用内置对象：
 ```yaml
 replicas: {{ .Values.replicaCount | default 1 }}
 ```
+
+`default` 把数字 `0`、布尔 `false` 等也视为空值。如果你需要支持 `replicaCount: 0` 来暂停实验工作负载，这种写法会把它改回 1。应通过默认 values 与 schema 明确允许范围，或显式检查键是否存在，不能把 `default` 当作只处理缺失字段的工具。
 
 ### quote
 
@@ -1256,7 +1258,7 @@ helm dependency build ./aiops-api
 helm create aiops-web
 ```
 
-清理不需要的模板，只保留：
+本实验只在新建的 `aiops-web` 目录操作。保留元数据文件，并用下面的完整最小模板替换脚手架示例；不要只替换 values 却留下引用旧字段的模板。最终只保留：
 
 ```text
 aiops-web/
@@ -1265,8 +1267,6 @@ aiops-web/
   templates/
     deployment.yaml
     service.yaml
-    _helpers.tpl
-    NOTES.txt
 ```
 
 ### 2. 设置 values
@@ -1293,6 +1293,57 @@ resources:
     cpu: 200m
     memory: 128Mi
 ```
+
+`templates/deployment.yaml` 写为：
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: web
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports:
+            - name: http
+              containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+```
+
+`templates/service.yaml` 写为：
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  type: {{ .Values.service.type }}
+  selector:
+    app.kubernetes.io/instance: {{ .Release.Name }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+```
+
+模板直接使用 release 名命名，标签在 Service、Deployment 选择器和 Pod 中保持一致。这里只用两个模板，暂不依赖 helper，避免第一次实验就把命名函数与业务配置混在一起。确认 `templates/` 里没有脚手架残留的 Ingress、ServiceAccount、测试或其他模板。
 
 ### 3. 渲染检查
 
@@ -1733,6 +1784,108 @@ Chart 是包，Release 是这个包安装到某个 namespace 后形成的实例�
 18. Chart dependency 怎么管理？
 19. Helm hooks 适合什么场景？有什么风险？
 20. Helm 在 AIOps 发布诊断中能提供哪些证据？
+
+## 老师带你沿四份配置追查一次“参数没生效”
+
+先把配置分成四份：你写的 values、Helm 合并后的 values、模板渲染出的 manifest、集群实际对象。问题在任意相邻两份之间，都可能表现为“我明明改了，为什么没变”。
+
+如果用户 values 已变、合并结果没变，查文件顺序和命令覆盖；合并结果已变、manifest 没变，查模板引用的键和条件分支；manifest 已变、集群没变，查 API 拒绝、字段所有权和发布状态；集群已变但应用没变，再查 Pod 发布、配置加载和实际请求。
+
+这也是为什么 Helm 的 values 不宜过度抽象。把副本数改名为一个毫无对应关系的业务字段，会增加阅读和排障成本。`values.schema.json` 可以校验类型与必要字段，提早发现把数字写成字符串等错误，但不能验证真实数据库是否可达。
+
+### 模板中的点为什么会变
+
+`.` 是当前上下文，进入 `with` 或 `range` 后可能变成某个局部对象。`$` 常用于保留根上下文。比如循环环境变量时，`.` 是这一条变量，不再是包含 `.Release` 的全局对象；使用错上下文会让模板找不到字段。
+
+`include` 返回一个字符串，`nindent` 先换行再加缩进，`toYaml` 把结构化值转换成 YAML。最终仍需满足 Kubernetes YAML 层级。模板看起来排得整齐，不代表去掉模板标记后的缩进正确，所以每次改动都先看渲染结果。
+
+`required` 的作用是让缺少关键输入时尽早失败，错误信息最好说明字段含义和如何提供。不要用随机函数临时生成每次变化的业务配置，否则相同输入也可能触发意外更新，难以复现发布。
+
+## Release 课堂：历史记录不等于持续自愈
+
+Helm 通常保存每次发布的配置与结果，但命令结束后并不持续运行一个 Helm 服务来纠正所有漂移。HPA 修改副本、Operator 更新资源或人工修配置，都可能使实际对象与上一份 release manifest 不同。
+
+因此同一个字段要有明确管理者。Helm 4 的 Server-Side Apply 会暴露字段所有权问题，强制抢占之前应明确另一个控制器为什么管理它。把冲突直接强制覆盖，可能让两个控制器持续互相改值。
+
+Hook 是发布生命周期触发的任务，常用于迁移或初始化。它可能调用外部系统并产生副作用，超时后任务是否完成需要查询，不能假定再次运行一定无害。数据库迁移应有幂等或可恢复设计，并给出不可逆步骤的停止点。
+
+CRD 定义资源类型，Operator 根据自定义对象执行控制。它们的升级与存量数据转换有自己的生命周期。Helm release 回滚到旧 manifest，不会自动把新格式的业务对象和数据库转换回旧格式。
+
+## 三分钟面试课堂
+
+**30 秒：**Helm 把 Kubernetes 资源组织为可配置的 Chart，渲染后安装成 Release，每次发布留下 Revision。排障先看输入与渲染，再看发布记录和实际对象，最后验证业务。
+
+**3 分钟：**Chart 包含元数据、默认值、模板和依赖；用户配置按明确顺序合并，模板根据上下文生成 manifest。API 检查、权限和准入仍可能拒绝合法 YAML，因此本地渲染通过只是第一道门。Release 记录帮助追踪变更，但资源可能被其他控制器修改，字段管理应有边界。
+
+生产交付固定 Chart、镜像与依赖版本，校验 values，做服务端预检和业务灰度。Hooks、CRD、数据库与外部云资源有各自副作用，回滚必须逐项说明能否恢复。失败实验中保存 history、事件和 Pod 状态，再证明恢复的实际 HTTP 请求；不能只展示一个 `deployed` 字样。
+
+追问 values 数字 0 变成 1，解释 `default` 的空值语义；追问回滚后 revision 增大，解释回滚本身也是一次新操作；追问卸载为什么仍有数据，解释存储回收、CRD 与 Hook 的独立生命周期，并先检查资源身份而不是强删。
+
+## 模板精讲：把“输入合同”写给下一位使用者
+
+老师给你两个配置：`replicaCount: 2` 与 `replicaCount: "two"`。人能猜到第一个想跑两个副本，但模板不会自动把所有错误输入解释正确。Chart 的 values 就像函数参数，`values.schema.json` 是输入合同：哪些字段必填，类型是什么，取值范围是什么，哪些组合不允许。合同越清楚，失败越接近提交配置的人，而不是拖到集群调度后才暴露。
+
+默认值用于未提供的场景，不能随便覆盖有业务含义的零值。副本数 0 可能表示主动停服务，布尔值 false 可能表示关闭功能；Go 模板的 `default` 会把它们视作空值，因此 `default 1 .Values.replicaCount` 可能把 0 又变为 1。应区分“键不存在”与“值为零”，用模式校验、显式条件或 `hasKey` 表达需求。变量名起对只是第一步，空值语义也必须和使用者达成一致。
+
+Map（键值映射）和 List（列表）的覆盖也不同。多份 values 叠加时，不要想当然地认为列表按名字自动合并；常见行为是后面的列表替换前面的整个列表。因此把两个环境各写一条 `env` 列表，不一定得到两条环境变量。排查以合并后的 values 和渲染结果为准，团队设计输入结构时也应考虑覆盖成本。对顺序敏感的列表尤其要写示例，避免新成员只想改一个值却删除了其他配置。
+
+### 无集群的可回收实验：让错误在发布前被挡住
+
+使用前文新建的 `aiops-web` Chart 和 Helm CLI。确认该实验目录没有业务文件，在根目录新增 `values.schema.json`，内容如下：
+
+```json
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["replicaCount"],
+  "properties": {
+    "replicaCount": {"type": "integer", "minimum": 0, "maximum": 5}
+  }
+}
+```
+
+`integer` 是整数，`minimum`/`maximum` 是上下界。这里最多五副本只是本地课堂约束，不是 Kubernetes 上限。没有设置 `additionalProperties: false`，所以原有 image、service、resources 字段仍允许存在。依次执行：
+
+```bash
+helm lint ./aiops-web
+helm template aiops-web ./aiops-web --set replicaCount=2
+helm template aiops-web ./aiops-web --set replicaCount=-1
+helm template aiops-web ./aiops-web --set replicaCount=2
+```
+
+预期第一、第二条成功；第三条因副本数低于下界失败，不需要连接集群；第四条恢复成功，渲染的 Deployment 显示 `replicas: 2`。最后一条没有修改前面的文件，故障只通过命令行输入注入。若负数未被拒绝，先检查文件是否放在 Chart 根目录、是否真的叫 `values.schema.json`、JSON 是否有效、当前 Helm 是否支持对应校验；不要马上用跳过校验参数掩盖错误。
+
+保留这个 schema 作为学习成果；若要恢复到原课堂文件集，只删除刚创建的这一个文件，不删除整个 Chart。把失败信息和恢复后的关键片段脱敏保存。再回答一道反问：校验通过能否证明节点有五副本容量？不能，schema 校验输入形式和约束，调度容量仍要到目标集群验证。
+
+## 发布精讲：一份 Chart 怎样获得可复现性
+
+Chart 版本、应用版本和镜像摘要是三种不同身份。`Chart.yaml` 的 `version` 描述包本身，`appVersion` 主要提供应用版本信息，不自动决定 Deployment 里拉取什么镜像；模板引用哪个字段，最终就使用哪个字段。Chart 包不变而传入 values 改变，部署结果可以改变；同一个镜像标签被覆盖，模板一字未改也可能启动不同内容。
+
+真正可重现的交付记录至少包括 Chart 来源与校验、依赖锁定、用户 values 的脱敏快照、镜像内容摘要、目标 Kubernetes/API 能力、Helm 版本和渲染结果。`Chart.lock` 固定依赖解析结果，依赖包是否能从可信来源重新取得同样重要；CI 每次无条件更新依赖，会让一次应用小修改顺便引入无关变化。离线交付要保存经过审查的依赖包、镜像和许可证材料，而不是只留下一个会随时间变动的网址。
+
+Chart 可以创建高权限对象，`tpl` 可以把 values 中的字符串再次作为模板求值，`lookup` 等能力在允许访问集群的渲染路径中还可能读取对象。不要把外部 Chart 当成无害文字文件。审查 RBAC、ServiceAccount、Secret 引用、宿主机挂载、网络访问、Hook 和 CRD，执行身份只给本次发布必需权限。模板输出可能含 Secret，即使 base64 编码也不是脱敏，调试日志和 CI Artifact 同样需要保护。
+
+## 状态精讲：为什么一次发布不能有两个指挥员
+
+两条流水线同时更新同一个 release，会竞争修订状态、资源字段和外部迁移任务。平台需要按集群、命名空间、release 建立串行或明确的排他策略，并保存操作者和任务编号。发现 `pending-upgrade` 时先确认原任务是否仍在运行、客户端是否丢失连接、Hook 是否仍有副作用，不直接删除 release 的记录 Secret 来“解锁”。那会毁掉发布证据，并可能让仍在执行的另一条任务失去协调信息。
+
+集群对象也可能有多个字段管理者。HPA 管副本数、Operator 管其生成对象、Helm 管声明模板，并不意味着它们可以同时修改同一字段而永不冲突。你应在 Chart 中避免不必要的字段声明，或按明确流程交接管理权。Server-Side Apply 的 `managedFields` 是观察字段管理关系的线索，强制接管是变更决策，不是正常修复所有冲突的万能按钮。
+
+配置更改何时影响程序，也要继续追问。ConfigMap 对象变了，环境变量注入的旧进程不会自动重启；挂载文件更新也不保证应用会重新读取。Chart 可以通过 Pod 模板校验和等设计触发滚动更新，但需说明它观察哪些输入。不能因为 `helm get manifest` 包含新配置，就跳过实际 Pod 版本与业务输出验证。
+
+## 生命周期精讲：CRD、Hook 和数据库各自留下什么
+
+`crds/` 目录有特殊处理，不能把它当普通模板目录。CRD 定义新的 API 类型，其实例包含独立数据；先有类型，API 才能识别实例。Helm 的特殊目录处理对升级与删除有保护边界，普通 dry-run 也不能在服务器真正安装一个新类型后继续验证所有实例。[官方 CRD 说明](https://helm.sh/docs/chart_best_practices/custom_resource_definitions/)给出了这些限制。把 CRD 单独治理能明确责任，但也增加版本协调工作。
+
+Hook Job 通过生命周期事件执行任务。排序权重只是同一流程中安排执行顺序，不是跨流水线的分布式锁。Hook 创建的资源也不能一概依赖卸载 release 自动回收；需要符合业务保留要求的删除策略或 Job TTL，见 [官方 Hook 生命周期](https://helm.sh/docs/topics/charts_hooks/)。过早清理失败 Job 会丢失日志，长期不清理则堆积对象和敏感输出，两者都需要取舍。
+
+假设 `pre-upgrade` 把旧数据库字段删除，而新 Pod 因镜像错误无法启动。自动回滚可以恢复旧 Deployment，却不能让已删除字段重新出现。这说明迁移需要分阶段：先扩展兼容字段，让新旧程序都能工作；观察并完成数据迁移；确认没有旧消费者后，另一次受控发布再收缩旧结构。自动回滚的收益是缩短可逆配置故障，前提是你没有在前面做不可逆数据破坏。
+
+## 面试深追问：发布平台该以什么作为成功条件
+
+如果面试官只让你选一个绿色状态，请先说明成功是分层的：模板合同通过、API 接受、资源达到所需就绪、业务探针通过、关键指标没有超出灰度门槛。`--wait` 的对象和版本语义要按 CLI 确认，它不理解所有业务规则。支付 API 返回 200 但没有正确记账，照样不能叫发布成功。
+
+一次成熟发布应能回答：这次提交了什么，哪些对象受影响，谁批准，失败时在哪一步停住，上一可用版本在哪里，数据能否回退，自动化会不会重复外部动作。AIOps 可以自动整理 revision、镜像摘要、事件、日志时间线和变更前后指标，但不能仅因回滚命令退出零就关闭事故。学生的最终作业应是一个能解释失败和恢复的 Chart 项目，而不是二十条没有上下文的命令。
 
 ## 学习证据
 

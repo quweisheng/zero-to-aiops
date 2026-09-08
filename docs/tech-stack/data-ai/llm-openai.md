@@ -75,54 +75,54 @@ LLM / OpenAI API 是把大语言模型能力接入程序的方式：你把任务
 OpenAI API 官方文档可以按这张地图理解：
 
 ```text
-OpenAI API
-  -> Get started
-     -> Quickstart
-     -> Models
-     -> SDKs and CLI
-     -> Latest model guide
-  -> Core concepts
-     -> Text generation
-     -> Responses API
-     -> Structured Outputs
-     -> Function calling
-     -> Tools
-  -> Specialized models
-     -> Embeddings
-     -> Moderation
-     -> Audio / image / realtime
-  -> Run and scale
-     -> Conversation state
-     -> Streaming
-     -> Background mode
-     -> Prompt caching
-     -> Counting tokens
-     -> Latency optimization
-     -> Cost optimization
-  -> Going live
-     -> Production best practices
-     -> Deployment checklist
-     -> Safety best practices
-     -> Rate limits
-     -> Usage monitoring
+OpenAI API（OpenAI 模型接口）
+  -> Get started（入门）
+     -> Quickstart（快速开始）
+     -> Models（模型）
+     -> SDKs and CLI（开发工具包与命令行）
+     -> Latest model guide（模型指南）
+  -> Core concepts（核心概念）
+     -> Text generation（文本生成）
+     -> Responses API（响应接口）
+     -> Structured Outputs（结构化输出）
+     -> Function calling（函数调用）
+     -> Tools（工具）
+  -> Specialized models（专用模型）
+     -> Embeddings（向量编码）
+     -> Moderation（内容风险审查）
+     -> Audio / image / realtime（音频、图像与实时交互）
+  -> Run and scale（运行与扩容）
+     -> Conversation state（会话状态）
+     -> Streaming（流式输出）
+     -> Background mode（后台模式）
+     -> Prompt caching（提示缓存）
+     -> Counting tokens（计算词元用量）
+     -> Latency optimization（延迟优化）
+     -> Cost optimization（成本优化）
+  -> Going live（上线）
+     -> Production best practices（生产最佳实践）
+     -> Deployment checklist（部署检查单）
+     -> Safety best practices（安全最佳实践）
+     -> Rate limits（速率限制）
+     -> Usage monitoring（用量监控）
 ```
 
 学习路线：
 
 ```text
-API key
-  -> install SDK
-  -> first Responses API call
-  -> instructions and input
-  -> output_text
-  -> model selection
-  -> prompt contract
-  -> structured outputs
-  -> function calling
-  -> embeddings
-  -> AIOps context assembly
-  -> safety and production controls
-  -> evaluation
+API key（接口密钥）
+  -> install SDK（安装开发工具包）
+  -> first Responses API（响应接口） call
+  -> instructions and input（指令与输入）
+  -> output_text（文本输出字段）
+  -> model selection（模型选择）
+  -> prompt contract（提示词契约）
+  -> structured outputs（结构化输出）
+  -> function calling（函数调用）
+  -> embeddings（向量编码）
+  -> AIOps context（上下文） assembly
+  -> safety and production controls（安全与生产控制）
+  -> evaluation（评估）
 ```
 
 初学不要同时学完所有 API。AIOps 入门优先掌握：
@@ -138,23 +138,23 @@ API key
 合理位置：
 
 ```text
-Prometheus / Loki / Elasticsearch / MySQL / GitHub / Kubernetes
-  -> rules, queries, anomaly detection, retrieval
-  -> structured facts
-  -> LLM summary / explanation / extraction / next-check suggestions
-  -> human review
-  -> approved runbook automation
-  -> audit log
+Prometheus / Loki / Elasticsearch / MySQL / GitHub / Kubernetes（指标、日志、搜索、事务、代码与集群证据来源）
+  -> rules（规则）, queries, anomaly detection（异常检测）, retrieval（检索）
+  -> structured facts（结构化事实）
+  -> LLM（大语言模型） summary / explanation（解释） / extraction / next-check suggestions
+  -> human review（人工复核）
+  -> approved runbook（操作手册） automation（自动化）
+  -> audit log（审计日志）
 ```
 
 不合理位置：
 
 ```text
-raw alerts and logs
-  -> LLM guesses root cause
-  -> LLM runs production command
-  -> no approval
-  -> no audit
+raw alerts and logs（日志）
+  -> LLM（大语言模型） guesses root cause
+  -> LLM（大语言模型） runs production command
+  -> no approval（审批）
+  -> no audit（审计）
 ```
 
 | 能力 | LLM 适合做吗 | 说明 |
@@ -394,12 +394,12 @@ python hello_openai.py
 这段代码的链路：
 
 ```text
-Python code
-  -> OpenAI SDK
-  -> POST /v1/responses
-  -> model
-  -> response object
-  -> response.output_text
+Python code（Python 应用代码）
+  -> OpenAI SDK（OpenAI 开发工具包）
+  -> POST /v1/responses（创建模型响应的接口）
+  -> model（模型）
+  -> response（响应） object
+  -> response.output_text（响应中的文本输出字段）
 ```
 
 ## Responses API 请求结构
@@ -824,11 +824,11 @@ Embedding 在 AIOps 里的用途：
 Embedding 不直接生成答案。它通常用于：
 
 ```text
-text
-  -> embedding vector
-  -> vector database search
-  -> relevant documents
-  -> LLM answer with retrieved context
+text（文本）
+  -> embedding（向量编码） vector
+  -> vector database（向量数据库） search（搜索）
+  -> relevant documents（相关文档）
+  -> LLM（大语言模型） answer（回答） with retrieved context（上下文）
 ```
 
 这就是 RAG 的基础。
@@ -840,23 +840,23 @@ RAG 是 Retrieval-Augmented Generation，检索增强生成。
 最小链路：
 
 ```text
-user question / alert
-  -> embedding
-  -> vector search
-  -> retrieve runbook / incident docs
-  -> assemble context
-  -> LLM summary
-  -> answer with citations / evidence
+user question（问题） / alert（告警）
+  -> embedding（向量编码）
+  -> vector search（向量搜索）
+  -> retrieve（检索） runbook（操作手册） / incident（故障） docs
+  -> assemble context（上下文）
+  -> LLM（大语言模型） summary
+  -> answer（回答） with citations（引用） / evidence（证据）
 ```
 
 AIOps 场景：
 
 ```text
-HighErrorRate alert
-  -> search similar incidents
-  -> search runbooks
-  -> search recent changes
-  -> LLM summarizes likely checks
+HighErrorRate alert（告警）
+  -> search（搜索） similar incidents（相似故障）
+  -> search（搜索） runbooks（操作手册）
+  -> search（搜索） recent changes
+  -> LLM（大语言模型） summarizes likely checks
 ```
 
 注意：
@@ -971,9 +971,9 @@ AIOps 中建议把输出拆成“结论”和“证据”。
 缓存思路：
 
 ```text
-alert fingerprint
-  -> Redis cache key
-  -> cached LLM summary
+alert（告警） fingerprint
+  -> Redis cache（缓存） key（键）
+  -> cached LLM（大语言模型） summary
 ```
 
 伪代码：
@@ -1061,21 +1061,21 @@ LLM 接入 AIOps 时，安全边界要写进系统设计。
 一个更稳的 AIOps LLM 服务可以这样设计：
 
 ```text
-Alertmanager
-  -> FastAPI / webhook receiver
-  -> normalize alert
-  -> Redis dedup
-  -> MySQL store raw event
-  -> Kafka analysis topic
-  -> worker
-      -> query metrics/logs/changes/runbooks
-      -> redact sensitive fields
-      -> call OpenAI API
-      -> validate structured output
-      -> store result
-  -> UI / notification
-  -> human approval
-  -> runbook automation
+Alertmanager（告警管理器）
+  -> FastAPI / webhook receiver（接口或回调接收服务）
+  -> normalize（标准化） alert（告警）
+  -> Redis dedup（Redis 去重）
+  -> MySQL store（存储） raw event（事件）
+  -> Kafka analysis topic（主题）
+  -> worker（工作进程）
+      -> query（查询） metrics/logs/changes/runbooks
+      -> redact sensitive fields（脱敏敏感字段）
+      -> call OpenAI API（调用 OpenAI 接口）
+      -> validate（校验） structured output（结构化输出）
+      -> store（存储） result（结果）
+  -> UI / notification（页面展示或通知）
+  -> human approval（人工审批）
+  -> runbook（操作手册） automation（自动化）
 ```
 
 为什么不要在 webhook 里直接调模型？
@@ -1089,12 +1089,12 @@ Alertmanager
 更好的方式：
 
 ```text
-POST /alerts
-  -> returns 202 accepted
-worker
-  -> does LLM analysis
-GET /alerts/{id}/analysis
-  -> returns result
+POST /alerts（提交告警的接口）
+  -> returns 202 accepted（返回请求已接受而非处理已完成）
+worker（工作进程）
+  -> does LLM（大语言模型） analysis
+GET /alerts/{id}/analysis（查询指定告警编号的分析结果）
+  -> returns result（结果）
 ```
 
 ## 入门实验：告警摘要助手
@@ -1604,7 +1604,59 @@ LLM 在 AIOps 中更适合作为解释层和协作层，而不是直接替代监
 19. 为什么模型升级不能只改模型名？
 20. 自动修复场景中，LLM 和 runbook automation 的边界在哪里？
 
-## 学习证据
+## 老师带你拆开一次模型请求
+
+你把告警事实交给模型，像请同事根据现有材料写一份初步分析。任务说明告诉它要产出什么，输入证据说明我们已经知道什么，工具定义说明程序允许申请哪些外部能力。模型生成文本或调用请求之后，应用仍负责校验、授权、执行与保存结果。
+
+学生：“结构化输出符合 JSON Schema，就一定正确吗？”老师：“结构正确只说明字段和类型符合合同，不证明数据库真的故障，也不证明引用支持结论。”拒绝、响应未完成、超时和业务校验失败也要有分支。官方 [结构化输出说明](https://developers.openai.com/api/docs/guides/structured-outputs) 是格式能力入口，业务正确性仍要应用判断。
+
+### Token、上下文与预算课堂
+
+Token（分词单元）是模型处理文本的计量单位，不等于一个汉字或一个英文单词。输入越长，证据越可能被截断或稀释；输出预算不足也可能得到不完整响应。先保留关键指标、时间、服务身份、变更和来源，按相关性选择上下文，而不是把整份日志无差别塞进去。
+
+延迟可拆成排队、请求建立、模型处理与输出传输。Streaming（流式输出）让用户更早看到部分内容，不代表整个任务更早完成；最终状态、结构校验和工具结果未就绪前，不能把半截文本当成正式可执行结论。
+
+### 工具调用课堂：建议动作与实际执行分开验证
+
+Function calling（函数调用请求）让模型输出工具名和参数。程序根据可信注册表找到工具，校验类型与业务范围，用调用者权限执行，再把结果返回给模型。模型不能通过参数里的租户、主机或路径字段自己获得更高权限。
+
+读工具也要限定时间范围、返回行数和敏感字段，写工具还要绑定审批与幂等键。外部变更接口超时后，结果可能未知；再次调用前先用 operation ID 查询，避免把网络重试变成重复重启或重复工单。日志中的访问凭据与原始敏感内容不应被模型上下文和追踪平台无差别保存。
+
+### 无付费调用的契约故障实验
+
+先用合成响应测试应用判断，不需要 API Key。保存 `llm_contract_lesson.py` 并用 Python 3 执行：
+
+```python
+def validate_report(report, known_sources):
+    if report.get('status') not in {'insufficient_evidence','needs_review'}:
+        raise ValueError('不允许把初步分析直接标成已确认根因')
+    if not set(report.get('source_ids',[])).issubset(known_sources):
+        raise ValueError('引用了本次没有提供的证据')
+    if report.get('execute_change') is not False:
+        raise ValueError('摘要流程没有变更执行授权')
+
+good = {'status':'needs_review','source_ids':['metric-1'],'execute_change':False}
+validate_report(good, {'metric-1'})
+bad = {**good,'source_ids':['invented-log']}
+try:
+    validate_report(bad, {'metric-1'})
+except ValueError as error:
+    print('DETECTED:',error)
+validate_report(good, {'metric-1'})
+print('PASS: 恢复后通过业务合同')
+```
+
+预期正常通过、虚构引用被发现、恢复后通过。代码只是本地业务校验，不证明模型一定不编造，也没有模拟供应商响应结构。进一步把 `execute_change` 改为 True，应该被拒绝。清理删除教学脚本即可；真实模型实验依前文执行并记录实际请求结果、版本和费用边界，不能把本地模拟说成 API 实测。
+
+### 生产与面试课堂
+
+发布物包括模型配置、提示词、工具结构、输出合同、检索版本和评估样本。模型名称或别名、可用能力和限额会变化，选型时核对官方文档及账户实际能力；没有用户指定的新模型迁移需求时，不为了教程自动切换既有模型。
+
+重试有总预算、退避和停止条件；限额错误与认证错误不能用同一策略无限重试。降级可以返回已有规则与证据清单，明确暂未生成模型分析。评估同时看事实支持、引用、关键遗漏、结构、工具行为、延迟与成本，不能只看文字是否流畅。
+
+30 秒讲模型是证据解释与结构化处理层，应用掌握权限与业务状态。3 分钟用告警摘要走输入合同、检索、生成、校验、人工决策与审计。事故题设置模型输出格式正确但引用不存在，先拦截结果、保存脱敏请求与版本，复现并修复来源校验，回归固定题集后灰度恢复。
+
+## 本课 GitHub 学习证据
 
 学完后，在 GitHub 留下这些证据：
 

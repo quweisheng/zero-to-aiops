@@ -31,25 +31,25 @@
 Apache Hadoop 不是一个单独的存储程序。官方文档可以先拆成四个核心项目和一组运维能力：
 
 ```text
-Hadoop Common
+Hadoop Common（Hadoop 公共基础库）
   -> 配置、RPC、序列化、FileSystem API、脚本和通用库
 
-HDFS
+HDFS（分布式文件系统）
   -> NameNode 元数据
   -> DataNode 数据块
   -> 副本、机架感知、快照、HA、Federation、EC
 
-YARN
+YARN（集群资源调度体系）
   -> ResourceManager 全局资源管理
   -> NodeManager 节点执行
   -> ApplicationMaster 单应用协调
   -> Container 资源分配单元
 
-MapReduce
-  -> InputSplit / RecordReader
-  -> Map
-  -> Partition / Shuffle / Sort
-  -> Reduce / OutputCommitter
+MapReduce（映射归约批计算）
+  -> InputSplit / RecordReader（逻辑输入分片与记录读取器）
+  -> Map（逐项变换）
+  -> Partition（分区） / Shuffle（按分区重分布中间数据） / Sort（排序）
+  -> Reduce / OutputCommitter（输出提交器）
 
 生产运维
   -> Kerberos / ACL / 加密 / 审计
@@ -177,7 +177,7 @@ Hadoop 更擅长高吞吐、大文件、顺序读写和批处理，不以极低�
 
 ```text
 客户端
-  -> Hadoop FileSystem API / HDFS Shell
+  -> Hadoop FileSystem API / HDFS Shell（文件系统接口与命令行）
   -> NameNode 查询元数据
   -> DataNode 直接传输 block
 
@@ -416,15 +416,15 @@ Partitioner 决定某个 key 进入哪个 reducer。默认常按 key hash 分区
 Shuffle 不是一句“网络传输”就能概括。map 输出先在内存缓冲，达到阈值后 spill 到本地磁盘，分区并排序；reduce 端跨节点拉取属于自己的分区，再合并、排序和分组，最后调用 Reducer。
 
 ```text
-Mapper output buffer
-  -> spill file
-  -> partition + sort
-  -> merge
-  -> network fetch
-  -> reduce-side merge + sort
-  -> group by key
-  -> Reducer
-  -> OutputFormat / OutputCommitter
+Mapper output buffer（映射端输出缓冲区）
+  -> spill file（溢写文件）
+  -> partition（分区） + sort（排序）
+  -> merge（归并有序溢写文件）
+  -> network fetch（网络拉取）
+  -> reduce-side merge（归约端归并） + sort（排序）
+  -> group by key（按键分组）
+  -> Reducer（归约计算器）
+  -> OutputFormat（输出格式器） / OutputCommitter（输出提交器）
 ```
 
 Shuffle 性能受中间数据量、序列化、压缩、磁盘、网络、并发 fetch、spill 次数、倾斜和 reducer 数影响。排障要用 counters、task 时间线、节点 IO 和网络证据，不要只增大内存。
@@ -891,17 +891,17 @@ Hadoop daemon 通过 Metrics2、JMX、Web UI 和日志暴露状态。采集后�
 QJM 全称 Quorum Journal Manager。典型 HA nameservice 包含 Active NameNode、Standby NameNode、奇数个 JournalNode、ZooKeeper quorum 和每个 NameNode 上的 ZKFC。
 
 ```text
-Client
-  -> logical URI hdfs://prod
-  -> Active NameNode
+Client（客户端）
+  -> logical URI hdfs://prod（示例逻辑集群地址）
+  -> Active NameNode（当前提供元数据服务的主节点）
   -> majority of JournalNodes: 持久化 edit
 
-Standby NameNode
-  -> tail JournalNode edits
+Standby NameNode（备用元数据节点）
+  -> tail JournalNode edits（持续读取日志节点的元数据变更）
   -> 更新内存 namespace
   -> 接收 DataNode heartbeat / block report
 
-ZKFC
+ZKFC（ZooKeeper 故障切换控制器）
   -> 监测本地 NameNode
   -> 通过 ZooKeeper 选举
   -> failover 前执行 fencing
@@ -1061,20 +1061,20 @@ Web UI、JMX 和 REST API 也可能泄露路径、用户、作业参数和配置
 ### 证据来源
 
 ```text
-Metrics2 / JMX
+Metrics2 / JMX（指标系统与 Java 管理接口）
   -> 容量、RPC、block、queue、application、JVM
 
-Daemon logs
-  -> NameNode / DataNode / RM / NM / JobHistory / ZKFC / JournalNode
+Daemon logs（日志）
+  -> NameNode / DataNode / RM / NM / JobHistory / ZKFC / JournalNode（元数据、数据、资源、节点管理、作业历史、切换控制与日志节点）
 
-Audit logs
+Audit（审计） logs（日志）
   -> 谁在何时访问哪个 path、提交或管理什么应用
 
-Web UI / REST API
+Web UI / REST API（基于 HTTP 的接口）
   -> 实时状态、队列、节点、application、task、counter
 
-OS and hardware
-  -> CPU、memory、disk latency、SMART、network、clock、process
+OS and hardware（操作系统与硬件）
+  -> CPU（中央处理器）、memory（内存）、disk latency（磁盘时延）、SMART（磁盘自监测）、network（网络）、clock（时钟）、process（进程）
 ```
 
 ### HDFS 重点指标
@@ -1566,7 +1566,27 @@ Balancer 在 DataNode 之间移动 block，使节点利用率接近；Disk Balan
 39. reducer 卡在 90% 时证据顺序是什么？
 40. Hadoop、Spark、对象存储和 Kubernetes 如何组合选型？
 
-## 学习证据
+## 老师带你把 Hadoop 四位“同事”分开认识
+
+HDFS（分布式文件系统）负责保存大文件，YARN（资源调度体系）负责把计算资源分给应用，MapReduce（映射与归约计算模型）负责一种批处理分工，Common（公共组件）提供配置、通信和文件接口等基础。它们相互配合，但各自有独立的故障状态；存储健康不代表作业已经拿到资源。
+
+学生：“NameNode 保存元数据，为什么它故障会影响文件？”老师：“就像档案馆目录管理员掌握柜子位置。材料仍在柜子里，但新的查找和安排需要目录。”DataNode（数据节点）保存块，NameNode（名称节点）保存命名空间与块位置等元数据，客户端数据读取通常直接连接相应数据节点，不需要把大文件都绕过名称节点。
+
+### 副本、备份与安全线的课堂计算
+
+三副本帮助抵御磁盘和节点故障，但误删可能传播到所有副本，所以历史快照、备份与灾备仍需独立设计。可用空间还要为重建副本、滚动维护、数据平衡和增长留余量，不能把 100% 写满当容量目标。
+
+看 `dfsadmin -report` 时分清 DFS Used（文件系统已使用量）、DFS Remaining（可继续使用量）与操作系统或非 DFS 占用。用文件系统相关的分母计算有效占用，再结合增长速率评估达到 85% 或 90% 等规划线的时间；阈值是团队策略，需要结合恢复空间，不能直接把原始磁盘标称容量当可写容量。
+
+### 跟着实验把状态与证据一一对应
+
+完成本篇 WordCount（词频统计）时，分别保存 HDFS 输入路径、YARN Application ID（应用编号）、输出目录和结果校验。DataNode 故障实验再观察缺失副本、块状态、写入行为与恢复过程。单机单副本实验会失去数据服务，三副本多故障域环境表现不同；不要把本机现象泛化成所有集群。
+
+小文件数量过多时，瓶颈可能在元数据和调度，而不是总字节。Shuffle（中间数据重分布）可能在网络、排序和磁盘溢写处形成长尾；YARN 队列等待则发生在任务真正计算之前。用同一作业时间线区分这些阶段，再选择合并小文件、调整分区或资源策略。
+
+面试 30 秒先讲四个核心项目分工，3 分钟走文件写入到作业输出，接着讲故障域、恢复与容量。追问“退役节点怎么做”，回答先评估剩余空间、正常退役并验证块迁移，不能直接关机等系统自己兜底。生产证据要包含变更前后副本、队列、失败任务及业务结果，不只截一张绿色页面。
+
+## 本课 GitHub 学习证据
 
 完成本篇后，建议提交到 GitHub：
 

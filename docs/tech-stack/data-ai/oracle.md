@@ -31,7 +31,7 @@
 Oracle 官方资料可以按下面的顺序理解：
 
 ```text
-Database Concepts
+Database Concepts（数据库概念）
   -> 实例、内存、进程和存储
   -> SQL、事务、redo、undo 和恢复
   -> 性能诊断与备份恢复
@@ -139,9 +139,9 @@ Oracle 里 schema 通常和 user 绑定。一个用户拥有的表、索引、�
 Oracle 用 tablespace 组织逻辑存储，用 datafile 落到磁盘。
 
 ```text
-tablespace
-  -> datafile01.dbf
-  -> datafile02.dbf
+tablespace（表空间）
+  -> datafile01.dbf（数据文件样例一）
+  -> datafile02.dbf（数据文件样例二）
 ```
 
 空间类告警常见原因：
@@ -178,21 +178,21 @@ Oracle 会根据统计信息和 SQL 结构选择执行计划。慢 SQL 常见原
 ## 架构和数据流
 
 ```text
-application
+application（应用）
   |
   v
-listener
+listener（监听器）
   |
   v
-Oracle instance
+Oracle instance（Oracle 实例）
   |
-  +--> SGA / PGA
-  +--> background processes
-  +--> redo log
-  +--> undo tablespace
-  +--> datafiles
-  +--> control files
-  +--> archive logs
+  +--> SGA（系统共享内存区） / PGA（进程私有内存区）
+  +--> background processes（后台进程）
+  +--> redo log（重做日志）
+  +--> undo tablespace（撤销表空间）
+  +--> datafiles（数据文件）
+  +--> control files（控制文件）
+  +--> archive logs（归档日志）
 ```
 
 高可用场景还会出现：
@@ -271,13 +271,13 @@ RAC 不直接解决：
 
 ```text
 客户端
-  -> SCAN listener
+  -> SCAN listener（监听器）
   -> 动态数据库 service
   -> instance 1（节点 1，自己的 SGA / PGA / undo / redo thread）
   -> instance 2（节点 2，自己的 SGA / PGA / undo / redo thread）
 
-instance 1 <-> private interconnect <-> instance 2
-              Cache Fusion
+instance 1 <-> private interconnect <-> instance 2（两个实例通过私有互联交换信息）
+              Cache（缓存） Fusion
 
 所有实例
   -> 共享 datafiles / control files / online redo
@@ -518,14 +518,14 @@ RAC + OGG 常见于两类场景：一类是从核心 RAC 实时分发数据到�
 
 ```text
 业务应用
-  -> SCAN / service
+  -> SCAN / service（服务）
   -> 源 RAC：instance 1 + instance 2
   -> 源 RAC 的所有 redo threads
-  -> OGG Integrated Extract
-  -> local trail
-  -> Distribution Service
-  -> remote trail
-  -> OGG Integrated Replicat
+  -> OGG Integrated Extract（集成抽取进程）
+  -> local trail（本地变更轨迹文件）
+  -> Distribution Service（服务）
+  -> remote trail（远端变更轨迹文件）
+  -> OGG Integrated Replicat（集成复制应用进程）
   -> 目标 RAC：instance 1 + instance 2
   -> 报表、迁移目标或备用业务入口
 ```
@@ -927,7 +927,37 @@ Oracle 是企业级关系型数据库，核心概念包括 database、instance�
 14. 数据库已经切换，应用为什么仍然可能报错？
 15. AIOps 如何利用 RAC、Data Guard 和 OGG 指标做根因分析？
 
-## 学习证据
+## 老师带你辨认 Oracle 的“房间、人员和账本”
+
+Instance（实例）是内存和进程组成的运行部分，Database（数据库）是持久文件组成的数据部分。像工作人员与档案室：换一班工作人员不意味着新建一座档案室。RAC（实时应用集群）允许多个实例访问共享数据库，不能据此说存储层自动多出一份独立灾备数据。
+
+CDB（容器数据库）和 PDB（可插拔数据库）提供多租户组织方式；Schema（模式）主要与用户拥有的对象相关；Tablespace（表空间）把逻辑对象映射到数据文件。连接到了错误 PDB，账号与表都可能看起来“不存在”。先确认当前服务、容器和用户，再处理权限，避免盲目重复建账号。
+
+### 等待事件课堂：CPU 不高，为什么接口卡住
+
+数据库会话可能等行锁、数据块读取、日志刷写、集群块传递或客户端继续发送数据。Wait Event（等待事件）告诉你正在等哪类事情，不直接给出唯一根因。例如日志同步等待增加，可能涉及日志存储延迟、提交频率或系统负载，需要把等待时长、事务量与底层 I/O 对齐。
+
+学生：“看到某等待最多就改参数吗？”老师：“先看它占用的业务时间与发生上下文。”空闲等待与非空闲等待不同；总次数很高但每次极短，也未必比少量极长等待更重要。AWR（自动工作负载资料库）与 ASH（活动会话历史）还涉及具体版本和许可边界；只使用现场已授权的诊断能力，原始 SQL 参数要脱敏。
+
+### 一条事务如何跨过断电时刻
+
+Redo（重做）记录恢复所需变更，Undo（撤销）支持回滚和一致性读，SCN（系统变更号）提供逻辑版本进度。已提交数据页尚未全部写回时，实例崩溃恢复仍可依赖日志重建状态。归档日志则使在线日志历史能用于介质恢复等流程，归档目的地满可能直接影响业务写入。
+
+因此空间告警要区分表空间、数据文件、临时空间、撤销空间和归档目的地。操作系统磁盘还有空间，不代表数据文件允许继续扩展；某个表空间满，也不能通过任意删归档解决。先看真实对象与增长来源，再按恢复依赖处理。
+
+### 带着前文实验做一个可解释的故障记录
+
+在已授权的隔离教学库完成建表与事务实验后，用两个会话更新同一教学行，保留第一个事务暂不提交，观察第二个会话等待。按实际版本用受支持的会话视图记录等待者与阻塞者；回到首会话 `ROLLBACK`，验证第二个操作继续。设置客户端取消上限并随时可结束教学语句，禁止复制到生产核心表。
+
+成功证据不是“我制造了阻塞”，而是同一行、未提交事务、等待关系、释放后恢复四个事实相互吻合。清理只删除本课自建对象并退出会话。如果无法获得诊断视图权限，记录权限边界，仍可用两会话行为解释机制，不要给普通应用账号提升管理权限。
+
+### 高可用与面试连续追问
+
+RAC 主要处理本地实例与节点层可用性；Data Guard（数据保护）通过备用数据库保护更大故障范围；GoldenGate（逻辑复制）解决数据流动与部分迁移场景；应用连续性还需要服务、驱动和事务语义配合。组合前先写故障域、RPO（可丢数据窗口）、RTO（恢复时间）和回切路线。
+
+30 秒回答沿实例—文件—事务—恢复说明数据库定位。3 分钟以接口超时进入会话、等待、SQL 计划和日志，再比较 RAC、Data Guard 与逻辑复制的边界。追问“备库同步所以切换就成功吗”，答还需入口、账号、连接池、序列与业务结果验证；追问“回滚升级”，答数据库格式、补丁、应用 SQL、备份可恢复性和新写入处理共同决定，旧安装包本身不够。
+
+## 本课 GitHub 学习证据
 
 学完后建议提交：
 

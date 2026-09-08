@@ -63,27 +63,27 @@ Shell / PowerShell 是把命令组织成自动化流程的工具：Shell 主要�
 GNU Bash Reference Manual 的主线大致是：
 
 ```text
-Bash
-  ├── What is Bash / What is a shell
-  ├── Basic Shell Features
-  │   ├── Shell syntax
-  │   ├── Quoting
-  │   ├── Commands
-  │   ├── Pipelines
-  │   ├── Lists and compound commands
-  │   ├── Functions
-  │   ├── Parameters and variables
-  │   ├── Expansions
-  │   ├── Redirections
-  │   ├── Execution environment
-  │   ├── Exit status
-  │   └── Shell scripts
-  ├── Shell Builtin Commands
-  ├── Shell Variables
-  ├── Bash Features
-  ├── Job Control
-  ├── Command Line Editing
-  └── History
+Bash（常见类 Unix 命令解释器）
+  ├── What is Bash / shell（命令解释器是什么）
+  ├── Basic Shell Features（基本特性）
+  │   ├── Shell syntax（语法）
+  │   ├── Quoting（引用与转义）
+  │   ├── Commands（命令）
+  │   ├── Pipelines（管道）
+  │   ├── Lists and compound commands（命令列表与复合命令）
+  │   ├── Functions（函数）
+  │   ├── Parameters and variables（参数与变量）
+  │   ├── Expansions（变量等展开）
+  │   ├── Redirections（输入输出重定向）
+  │   ├── Execution environment（执行环境）
+  │   ├── Exit status（退出状态）
+  │   └── Shell scripts（脚本）
+  ├── Shell Builtin Commands（解释器内建命令）
+  ├── Shell Variables（解释器变量）
+  ├── Bash Features（Bash 特有功能）
+  ├── Job Control（前后台作业控制）
+  ├── Command Line Editing（命令行编辑）
+  └── History（历史记录）
 ```
 
 Shell 学习不能只背 `ls`、`grep`。你要理解：
@@ -118,20 +118,20 @@ Shell 学习不能只背 `ls`、`grep`。你要理解：
 Microsoft PowerShell 文档主线可以这样理解：
 
 ```text
-PowerShell
-  ├── Shell and scripting language
-  ├── Cmdlets
-  ├── Objects, properties, methods
-  ├── Pipeline
-  ├── Providers
-  ├── Variables
-  ├── Quoting rules
-  ├── Redirection and streams
-  ├── Scripts and functions
-  ├── Execution policies
-  ├── Modules
-  ├── Remoting
-  └── Help system
+PowerShell（以对象管道为特点的命令环境）
+  ├── Shell and scripting language（解释器与脚本语言）
+  ├── Cmdlets（命令单元）
+  ├── Objects, properties, methods（对象、属性、方法）
+  ├── Pipeline（对象管道）
+  ├── Providers（提供文件系统等数据访问方式）
+  ├── Variables（变量）
+  ├── Quoting rules（引用规则）
+  ├── Redirection and streams（重定向与输出流）
+  ├── Scripts and functions（脚本与函数）
+  ├── Execution policies（执行策略）
+  ├── Modules（模块）
+  ├── Remoting（远程执行）
+  └── Help system（帮助系统）
 ```
 
 PowerShell 的核心不是“Windows 版 Bash”。它的关键差异是：管道里传的是对象，不只是文本。
@@ -139,21 +139,21 @@ PowerShell 的核心不是“Windows 版 Bash”。它的关键差异是：管�
 ## Shell / PowerShell 在 AIOps 链路中的位置
 
 ```text
-manual troubleshooting
-  ├── check process
-  ├── check ports
-  ├── check disk
-  ├── check logs
-  └── test API
+manual troubleshooting（手工排障）
+  ├── check process（检查进程）
+  ├── check ports（检查端口）
+  ├── check disk（检查磁盘）
+  ├── check logs（检查日志）
+  └── test API（验证接口）
         |
         v
-Shell / PowerShell scripts
+Shell / PowerShell scripts（命令行脚本）
         |
-        +--> runbook automation
-        +--> CI/CD checks
-        +--> scheduled health reports
-        +--> incident evidence collection
-        +--> webhook or API calls
+        +--> runbook automation（操作手册自动化）
+        +--> CI/CD checks（持续集成与交付检查）
+        +--> scheduled health reports（定期健康报告）
+        +--> incident evidence collection（事故证据采集）
+        +--> webhook or API calls（事件回调或接口调用）
 ```
 
 在 AIOps 中，脚本是自动化闭环的第一步：
@@ -191,14 +191,14 @@ grep ERROR app.log | tail -n 20
 大致过程：
 
 ```text
-Bash reads command line
-  -> parses words, quotes, pipes and redirections
-  -> expands variables and globs
-  -> finds command grep
-  -> starts process
-  -> connects grep stdout to tail stdin
-  -> waits for pipeline
-  -> returns exit status
+Bash reads command line（读取命令行）
+  -> parses words, quotes, pipes and redirections（解析词、引号、管道和重定向）
+  -> expands variables and globs（展开变量与通配符）
+  -> finds command grep（寻找命令）
+  -> starts process（启动进程）
+  -> connects grep stdout to tail stdin（连接前者标准输出与后者标准输入）
+  -> waits for pipeline（等待管道）
+  -> returns exit status（返回退出状态）
 ```
 
 这个过程里最容易出错的是：
@@ -221,12 +221,12 @@ Get-Process | Sort-Object CPU -Descending | Select-Object -First 5 Name, Id, CPU
 大致过程：
 
 ```text
-PowerShell parses command
-  -> runs Get-Process
-  -> outputs process objects
-  -> Sort-Object sorts by CPU property
-  -> Select-Object selects properties
-  -> formatter displays table
+PowerShell parses command（解析命令）
+  -> runs Get-Process（运行进程查询）
+  -> outputs process objects（输出进程对象）
+  -> Sort-Object sorts by CPU property（按处理器时间属性排序）
+  -> Select-Object selects properties（选择属性）
+  -> formatter displays table（格式化器显示表格）
 ```
 
 关键点：`Get-Process` 输出的是对象。对象有属性，比如：
@@ -398,7 +398,7 @@ PowerShell 变量以 `$` 开头。变量里可以放字符串、数字、对象�
 读取：
 
 ```bash
-echo "$GITHUB_TOKEN"
+[[ -n "${GITHUB_TOKEN:-}" ]] && echo 'token is configured'
 ```
 
 设置当前 shell：
@@ -421,7 +421,7 @@ fi
 读取：
 
 ```powershell
-$env:GITHUB_TOKEN
+[bool]$env:GITHUB_TOKEN
 ```
 
 设置当前进程：
@@ -657,7 +657,7 @@ $ErrorActionPreference = "Stop"
 
 ```powershell
 try {
-  Invoke-WebRequest -Uri "localhost:8000/health" -TimeoutSec 5
+    Invoke-WebRequest -Uri "http://127.0.0.1:8000/health" -TimeoutSec 5 -ErrorAction Stop
 } catch {
   Write-Error "health check failed: $_"
   exit 1
@@ -748,7 +748,7 @@ foreach ($Service in "prometheus", "grafana", "demo-api") {
 ```bash
 check_url() {
   local url="$1"
-  if curl -fsS "$url" > /dev/null; then
+  if curl -fsS --connect-timeout 2 --max-time 5 "$url" > /dev/null; then
     echo "OK $url"
   else
     echo "FAIL $url"
@@ -763,21 +763,23 @@ check_url "localhost:8000/health"
 
 ```powershell
 function Test-Url {
+  [CmdletBinding()]
   param(
     [Parameter(Mandatory)]
     [string]$Url
   )
 
   try {
-    Invoke-WebRequest -Uri $Url -TimeoutSec 5 | Out-Null
-    "OK $Url"
+    Invoke-WebRequest -Uri $Url -TimeoutSec 5 -ErrorAction Stop | Out-Null
+    Write-Verbose "OK $Url"
+    return $true
   } catch {
-    "FAIL $Url"
+    Write-Verbose "FAIL $Url"
     return $false
   }
 }
 
-Test-Url -Url "localhost:8000/health"
+Test-Url -Url "http://127.0.0.1:8000/health" -Verbose
 ```
 
 ## 脚本文件
@@ -1005,7 +1007,7 @@ powershell -ExecutionPolicy Bypass -File .\check.ps1
 
 ## AIOps 入门实验
 
-本实验会写一个本地健康检查脚本：请求服务健康接口，把时间、状态码和结果写入日志。它对应 AIOps 里的一个基本动作：把人工巡检变成可重复、可记录、可接入告警系统的脚本。
+本实验先收集本地时间、磁盘、进程与日志，不会请求服务接口，也不会修改系统服务。它对应 AIOps 里的一个基本动作：把人工巡检变成可重复、可记录、可接入告警系统的脚本。报告包含主机和用户名，公开提交前必须脱敏。
 
 目标：写两个脚本，分别适配 Bash 和 PowerShell，输出 Markdown 健康报告。
 
@@ -1034,7 +1036,7 @@ mkdir -p "$(dirname "$report")"
   df -h
   echo
   echo "## Top Processes"
-  ps aux | sort -nrk 3 | head -n 10
+  ps aux --sort=-pcpu | sed -n '1,11p'
   echo
   echo "## Recent Errors"
   if [[ -f "app.log" ]]; then
@@ -1089,9 +1091,9 @@ $Lines += ""
 $Lines += "## Recent Errors"
 
 if (Test-Path ".\app.log") {
-  $Matches = Select-String -Path ".\app.log" -Pattern "ERROR" | Select-Object -Last 20
-  if ($Matches) {
-    $Lines += ($Matches | Out-String).Trim()
+  $ErrorMatches = Select-String -Path ".\app.log" -Pattern "ERROR" | Select-Object -Last 20
+  if ($ErrorMatches) {
+    $Lines += ($ErrorMatches | Out-String).Trim()
   } else {
     $Lines += "No ERROR lines found."
   }
@@ -1242,7 +1244,7 @@ $ErrorActionPreference = "Stop"
 Windows PowerShell 中，`curl` 可能是 `Invoke-WebRequest` 的别名。脚本里要明确：
 
 ```powershell
-Invoke-WebRequest -Uri "localhost:8000/health"
+Invoke-WebRequest -Uri "http://127.0.0.1:8000/health" -TimeoutSec 5
 ```
 
 如果你要调用真正的 curl：
@@ -1380,6 +1382,142 @@ Shell 和 PowerShell 是把运维命令流程化的工具。Bash 更偏文本管
 - [ ] 我能把健康检查结果输出成 Markdown。
 - [ ] 我能排查路径、编码、管道和错误处理问题。
 - [ ] 我能把常见排障步骤转成 runbook。
+
+## 老师带练：脚本输出“成功”，究竟成功了什么
+
+我们把目标缩到一件事：值班人员想知道某个配置文件是否存在。手工看一次很简单，自动化却要处理“文件不存在、权限不足、输入路径错误、读取成功但内容不合法”四种不同结果。脚本的工作不是把这些都写成一行 `FAIL`，而是把证据和业务判定组织好，让下游知道是否应该重试、报警或交给人。
+
+图中的 `stdin/stdout/stderr` 分别是标准输入、标准输出、标准错误；`parses` 是解析，`expands` 是展开，`globs` 是通配符，`exit status` 是退出状态。对象管道中的 `property` 是属性，`formatter` 是最后的显示格式化器。Bash 的管道在操作系统层面传字节流，常用工具把它解释成文本；它并非只能传文本。PowerShell cmdlet（命令单元）之间主要传对象，但接入外部程序后要重新考虑字符串与字节边界。
+
+### 先讲明白四个会让自动化误报的细节
+
+第一，屏幕上的红字不是退出码。Bash 中 `false | true` 默认得到最后一个命令的成功状态；`pipefail` 才会让前面的失败影响整个管道。`set -e` 在条件、逻辑组合和函数调用上下文有例外，所以“写了严格模式就不必检查错误”是误解。关键副作用必须显式判断成功条件。
+
+第二，`grep` 没找到匹配一般返回 1，读取文件失败则是另一类非零状态。`grep ERROR file || true` 会把“没有 ERROR”和“文件根本读不了”一起抹掉。生产采集器应区分它们：无匹配可记录为正常空结果，读取失败要标记采集失败，否则没有证据反而被当成系统健康。
+
+第三，PowerShell 函数中每一个未被接收的成功流输出都会成为返回结果。若函数先输出字符串 `FAIL` 再 `return $false`，调用者得到的是两个元素的数组，放到 `if` 里可能被当成真。上面的 `Test-Url` 因此只在成功流返回布尔值，把说明送到 `Write-Verbose`。这和很多语言“只有 return 后面才算返回值”不同。
+
+第四，`$ErrorActionPreference = 'Stop'` 主要约束 PowerShell 错误处理，不能跨版本假定所有外部命令非零退出码自动抛异常。调用 `git`、`curl.exe`、编译工具后，应立即检查 `$LASTEXITCODE`，别被随后执行的另一个外部程序覆盖。命令没找到又是调用层错误，不该当成业务失败。[PowerShell 错误首选项](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_preference_variables)
+
+### 不接触生产的失败实验：同样的失败，为什么被管道藏起来
+
+前提：Bash 可用，或者已安装 PowerShell；下面两组任选，直接交互执行，不删除任何文件。它们只有子进程和少量内存对象。
+
+在 Bash 执行：
+
+```bash
+bash -c 'false | true; printf "default=%s\n" "$?"'
+bash -c 'set -o pipefail; false | true; printf "pipefail=%s\n" "$?"'
+```
+
+预期第一行 `default=0`，第二行 `pipefail=1`。`bash -c` 创建独立解释器，避免把选项永久改到当前终端；`false` 固定失败、`true` 固定成功，因此不用制造真实服务故障。这个实验中的子进程最后执行的是 `printf`，所以观察的是打印出的管道状态，而不是外层 shell 最终退出码。若要让 CI 失败，还需要把捕获的状态传给 `exit`。
+
+PowerShell 版本观察“错误与业务失败”：
+
+```powershell
+$ProbeRows = @(
+  [pscustomobject]@{ Service = 'payment'; Healthy = $true },
+  [pscustomobject]@{ Service = 'search'; Healthy = $false }
+)
+$UnhealthyRows = @($ProbeRows | Where-Object { -not $_.Healthy })
+"checked=$($ProbeRows.Count) unhealthy=$($UnhealthyRows.Count)"
+$ProbeRows | ConvertTo-Json
+```
+
+预期 `checked=2 unhealthy=1`，JSON 中一条 `Healthy` 为 false。所有 PowerShell 命令本身都成功了，但业务健康判定不通过。把第二条改为 `$true` 再执行，预期 `unhealthy=0`。这就是有界故障注入：改变模拟输入，观察判断，再恢复输入，而不是停止真实服务。
+
+继续尝试错误示例 `Format-Table` 后再导出 JSON：你会得到格式化对象，而非业务字段。因此正确顺序是“收集 → 过滤 → 选择属性 → 导出 JSON/CSV”，只在给人看的最后一步格式化。清理实验变量可用 `Remove-Variable ProbeRows,UnhealthyRows`；Bash 子进程已经自动退出。失败时先看当前 shell 是否正确、引号是否原样，再核对布尔值是不是字符串 `'false'`；非空字符串不是布尔假。
+
+### 把脚本提升成可靠的 AIOps 采集器
+
+一份结果至少包含 `schemaVersion`（字段格式版本）、采集时间及时区、对象标识、执行结果、业务结果、耗时和错误类别。机器读 JSON，人读摘要；不要让日志和 JSON 混在同一个标准输出流中。PowerShell 用对象加 `ConvertTo-Json`，并为复杂嵌套指定适当 `-Depth`；Bash 生成复杂 JSON 时采用可靠编码工具，不用字符串拼接假定日志没有双引号。
+
+采集一百台机器时，每次连接都应有超时，并发要有上限；给整批设置截止时间，避免一台无响应让整个报表永远不完成。重试只对临时连接失败等明确类别，失败次数有限并加入间隔；认证失败通常不该快速重试。结果中保留“未知”，不能把没采到的机器算成健康。
+
+变更脚本比采集脚本多一道门：先校验目标路径和对象范围，展示计划，要求适用的审批；同一对象避免并发重复执行；变更后验证业务状态。`-WhatIf` 是支持它的命令提供的预演，不保证每个命令、外部程序或脚本都自动支持。日志中打印一个目录，也不等于确认它不是根目录、符号链接或用户重要目录。关键删除应使用明确目标和包含关系验证，默认不递归。
+
+环境变量也不是秘密保险箱：它可能被子进程继承、被诊断信息记录。前面的令牌示例只检查是否配置，不打印内容；实际值由凭据管理系统注入，避免写进命令历史。Windows PowerShell 5.1 和 PowerShell 7 的 UTF-8/BOM 默认行为有差异，交付时记录 `$PSVersionTable.PSVersion`、文件编码及下游程序要求，不用“UTF8 永远一样”解释乱码。
+
+### 面试递进与生产场景
+
+30 秒：Bash 组合字节/文本流，PowerShell 组合对象流；可靠脚本还需要输入验证、超时、错误分类、结构化结果和可审计的变更边界。
+
+3 分钟：用管道隐藏失败和函数多输出两个例子解释机制，再讲健康检查的技术成功与业务成功，最后给出并发、重试、权限和回滚设计。追问“批量检查只回来了 90/100 台算成功吗”，答题先交代十台是超时、认证失败还是未执行，不把缺数据记为健康；追问“定时任务没问题但手工运行正常”，对照执行身份、工作目录、PATH、代理、交互凭据和环境变量；追问“重复运行安全怎么证明”，应说出实际幂等条件和中途失败状态，而不是只说“加 try/catch”。
+
+## 脚本工程课堂：从能运行走到能放心重复运行
+
+### 命令参数是数据，不是另一段代码
+
+老师先强调一个原则：服务名、文件路径、用户输入应该作为参数传入命令，不要拼成新的命令字符串再求值。Bash 的引号决定空格、通配符和变量如何展开；PowerShell 的参数绑定与对象管道又是另一套规则。一个包含空格的目录在普通样例里不出问题，不代表真实路径也安全。
+
+PowerShell 访问用户给出的精确路径时，优先考虑 `-LiteralPath`，避免把方括号、星号等解释为通配模式。外部命令的参数可用数组组织，再通过调用运算符执行；不要为了方便使用 `Invoke-Expression` 运行拼接文本。Bash 中同样避免用 `eval` 处理不可信输入。引号保护语法，但业务范围仍要校验，两层都不能少。
+
+例如采集目录只允许 `logs/` 下的文件，参数被正确引用也仍可能是 `../secret.txt`。先解析规范化路径，再确认位于允许根目录内；若目录可被不可信用户写入，还要考虑符号链接和检查后替换的时间差。路径安全不是只排除几个特殊字符，而是明确允许访问哪个对象集合。
+
+### PowerShell 有多条输出流，不是只有一串文本
+
+成功输出、错误、警告、详细信息等流承担不同职责。函数里一个没有被接收或抑制的普通表达式，可能进入成功输出，成为调用者拿到的返回值。写了 `return $true` 不代表函数只会返回一个布尔值；前面若输出了日志字符串，调用者得到的可能是一个数组。
+
+因此库函数返回结构化数据，进度说明用适当日志流，调试信息用 `Write-Verbose` 等机制。不要在数据管道中途 `Format-Table` 再继续按业务属性筛选，因为格式化命令产生的是显示用对象，不是原始进程或服务对象。正确顺序通常是先筛选、计算、导出，最后才格式化给人看。
+
+`Select-Object` 选择属性与 `Select-Object -ExpandProperty` 提取属性值也不同：前者仍是包装对象，后者更接近直接取出该字段的内容。写 CSV 或 JSON 前明确每列类型，避免某个对象在输出里变成难以处理的格式化字符串。AIOps 采集脚本应提供稳定字段而不是让下游解析人类表格。
+
+### 错误流、异常和退出码有不同的传播路径
+
+PowerShell 的非终止错误不一定进入 `catch`。需要把某个 cmdlet 失败作为异常处理时，可以对相关命令使用 `-ErrorAction Stop`；这不表示所有外部程序的非零退出码都被自动转换成同一种异常。原生命令行为还受 PowerShell 版本与偏好设置影响，因此关键脚本要明确检查 `$LASTEXITCODE` 并记录运行环境。[偏好变量说明](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_preference_variables)
+
+Bash 中 `set -e` 也不是一个完整错误处理框架；条件判断、管道、子 shell 等语境会影响行为。对关键步骤显式判断退出码或用清楚的失败分支，比依赖读者背下所有例外更容易维护。`pipefail` 可以帮助暴露前序管道失败，但仍要区分“没有匹配项”的业务状态与命令执行故障。
+
+老师建议给脚本定义退出码契约：零表示本次任务完成且通过必要验证，其他明确值分别表示输入错误、依赖不可达、检测到异常等。调用方必须按契约解释，不能见到非零就无条件重试。例如扫描发现告警的非零状态可能是正常业务结果，网络读取失败才需要另一条处理路径。
+
+### 一个完整的布尔返回故障实验
+
+前置条件是自己的 PowerShell 窗口，不需要管理员权限，不访问网络。下面使用独立作用域，退出后不会留下全局函数：
+
+```powershell
+& {
+  function Test-BrokenResult {
+    '准备检查'
+    return $false
+  }
+  function Test-CleanResult {
+    [CmdletBinding()]
+    param()
+    Write-Verbose '准备检查'
+    return $false
+  }
+  $broken = Test-BrokenResult
+  $clean = Test-CleanResult -Verbose
+  "错误返回项数：$(@($broken).Count)"
+  "正确返回类型：$($clean.GetType().Name)"
+  if ($broken) { '错误示例竟然进入成功分支' }
+  if (-not $clean) { '正确示例保留失败结果' }
+}
+```
+
+预期错误示例返回两项，并在条件中被当作真；正确示例返回 Boolean 且为假。故障来自日志污染数据流，不是布尔值本身改变。将错误函数里的普通字符串改成合适的详细日志输出后，再验证返回项数为一。若表现不同，检查是否把其他调试输出混入成功流。此实验只创建局部变量和函数，结束即清理，保留输出与原因说明即可。
+
+### 超时、重试与清理必须有总预算
+
+给每次网络调用设置五秒超时，不代表整个脚本最多五秒。它可能遍历一千台主机并重试三次，总时长远超维护窗口。容量预算要同时限制目标数、每次等待、最大尝试次数、并发与总截止时间。高风险操作超时后先查询真实结果，不把“我没收到响应”当成“目标没执行”。
+
+清理逻辑应只处理本次创建的资源，并记录创建成功与否。脚本启动失败时直接清空一个变量指向的目录，变量为空或值错误就可能扩大范围。删除前验证解析后的绝对路径与预期工作目录关系，先展示候选再执行；涉及业务数据时还需要明确授权与恢复办法。
+
+`finally` 或退出 trap 适合清理临时文件和连接，但进程被强制终止、机器断电时不保证有机会执行。关键状态放到可恢复记录里，下一次运行能识别未完成步骤。临时目录使用本次独立名称，避免两个脚本实例互删文件；对共享输出使用明确锁或原子替换策略。
+
+### 并发不是把循环简单改成后台运行
+
+并行采集可以缩短总等待，但也会让目标数据库、SSH 服务、网络和本机句柄承受压力。先设有限并发，保留每项的目标身份、开始结束时间与独立结果。输出不能仅按完成顺序拼接后假定它仍对应原清单顺序，应该用资源 ID 关联。
+
+PowerShell 作业或并行机制涉及各自会话、变量传递和版本支持；Bash 后台进程也需要 wait 和退出码收集。一个子任务失败，不自动终止其他已启动操作。对于只读采集可以汇总部分结果并标注缺失；对于写操作要明确失败后是否停止新任务、如何等已启动任务收敛，以及是否需要补偿。
+
+### 脚本接口要支持机器，也要帮助人判断
+
+一个好的健康采集器可以输出 JSON，字段包含 schemaVersion、目标、检查时间、结果类别、耗时和证据摘要；人类说明从另一个日志通道展示。字段命名和单位稳定后，自动化平台才能做历史比较。CPU 用百分比还是比值、时间用秒还是毫秒，都要写进接口说明，不靠下游猜测。
+
+敏感字段用引用或脱敏标识，不把完整认证头、环境变量和日志正文一股脑输出。调试模式也要控制范围与时效，避免一次排障把秘密永久留在公共流水线日志中。公开 GitHub 学习证据应使用虚构主机和样本，真实生产信息放在受控位置。
+
+面试最后可以用一条证据采集链收束：输入校验选择目标，有限并发获取事实，明确超时与错误分类，结构化输出交给规则或模型分析，执行器只在授权条件下做变更，再验证业务结果。脚本越短不一定越可靠，最重要的是每一个输出、失败与副作用都能解释。
 
 ## 学习证据
 

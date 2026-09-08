@@ -28,16 +28,16 @@ KVM 不是一个单独安装后就包办所有事情的“虚拟化平台”。�
 
 ```text
 Linux 内核
-  -> KVM API、vCPU、内存虚拟化、中断、设备直通
+  -> KVM API（虚拟化编程接口）、vCPU（虚拟处理器）、内存虚拟化、中断、设备直通
 
-QEMU
-  -> 虚拟机进程、机器类型、虚拟设备、磁盘镜像、QMP
+QEMU（设备模拟与虚拟机执行进程）
+  -> 虚拟机进程、机器类型、虚拟设备、磁盘镜像、QMP（QEMU 管理协议）
 
-libvirt
-  -> Domain XML、生命周期、网络、存储、迁移、安全
+libvirt（虚拟化管理接口库与服务）
+  -> Domain XML（虚拟机结构化配置）、生命周期、网络、存储、迁移、安全
 
 管理工具或云平台
-  -> virsh、virt-install、virt-manager、OpenStack 等
+  -> virsh（命令行管理）、virt-install（创建工具）、virt-manager（图形管理）、OpenStack（云平台）等
 ```
 
 本文覆盖：
@@ -136,10 +136,10 @@ KVM 是 Kernel-based Virtual Machine 的缩写，中文通常叫“基于内核�
 
 ```text
 用户或自动化平台
-  -> OpenStack Nova / virsh / virt-install
-  -> libvirt API
+  -> OpenStack Nova / virsh / virt-install（云计算服务、管理命令、虚拟机创建工具）
+  -> libvirt API（虚拟化管理接口）
   -> QEMU 虚拟机进程
-  -> /dev/kvm
+  -> /dev/kvm（程序访问内核虚拟化能力的设备接口）
   -> Linux 内核与 CPU 虚拟化扩展
 ```
 
@@ -177,7 +177,7 @@ KVM 技术栈主要解决：
 
 ```text
 客户机操作系统
-  -> vCPU / virtio-net / virtio-blk / virtio-scsi
+  -> vCPU / virtio-net / virtio-blk / virtio-scsi（虚拟处理器、半虚拟化网卡、块设备与磁盘控制器）
   -> QEMU 进程和 vCPU 线程
   -> KVM、vhost、TAP、Linux Bridge、块设备后端
   -> Linux 调度器、内存管理、网络栈、存储栈
@@ -324,10 +324,10 @@ lsblk -o NAME,TYPE,TRAN,SIZE                 # 在客户机里观察虚拟磁盘
 **怎么工作：** 默认 NAT 网络常见路径如下：
 
 ```text
-客户机 virtio-net
-  -> QEMU / vhost-net
-  -> TAP 设备 vnetN
-  -> Linux Bridge virbr0
+客户机 virtio-net（半虚拟化网卡驱动）
+  -> QEMU / vhost-net（用户态设备进程或内核网络加速后端）
+  -> TAP 设备 vnetN（连接客户机与宿主网络的虚拟以太网设备）
+  -> Linux Bridge virbr0（名为 virbr0 的 Linux 软件网桥）
   -> 宿主机路由与 NAT
   -> 物理网卡
 ```
@@ -439,7 +439,7 @@ virsh migrate --help               # 先在本机版本确认支持的迁移参�
 ### 虚拟机启动路径
 
 ```text
-virsh start kvm-lab
+virsh start kvm-lab（启动名为 kvm-lab 的实验虚拟机）
   -> libvirt 校验 Domain XML 和权限
   -> 准备网络、存储、安全标签与 cgroup
   -> 启动 QEMU 进程
@@ -466,10 +466,10 @@ virsh start kvm-lab
 ```text
 客户机应用
   -> 客户机 TCP/IP 栈
-  -> virtio-net
-  -> virtqueue / vhost-net
-  -> TAP
-  -> Linux Bridge / OVS
+  -> virtio-net（客户机半虚拟化网卡驱动）
+  -> virtqueue / vhost-net（前后端共享队列与内核网络加速后端）
+  -> TAP（宿主机侧虚拟以太网设备）
+  -> Linux Bridge / OVS（Linux 网桥或 Open vSwitch 虚拟交换机）
   -> 宿主机物理网卡
   -> 交换网络
 ```
@@ -479,7 +479,7 @@ virsh start kvm-lab
 ```text
 客户机应用 write
   -> 客户机文件系统与块层
-  -> virtio-blk / virtio-scsi
+  -> virtio-blk / virtio-scsi（半虚拟化块设备或磁盘控制器驱动）
   -> QEMU IOThread 或主事件循环
   -> qcow2/raw/块设备/网络存储
   -> 宿主机文件系统或存储客户端
@@ -806,9 +806,9 @@ cat /proc/cpuinfo | grep -m1 name # 查看客户机暴露的 CPU 模型
 6. `journalctl -u libvirtd -u virtqemud --since '-10 min'` 是否有权限、网络或设备错误。
 7. `/var/log/libvirt/qemu/kvm-lab.log` 是否记录 QEMU 启动错误；日志路径随发行版变化。
 
-### 实验清理
+### 实验清理：完成下面的故障实验后再执行
 
-先退出客户机，再在宿主机执行：
+下面的故障实验继续使用这台虚拟机，因此先跳过本节。两个实验都结束后，先退出客户机，再在宿主机执行；只有 `domstate` 已确认为 `shut off` 才能继续删除定义和磁盘。若没有正常关机，先排查客户机，不要继续逐行粘贴清理命令。
 
 ```bash
 virsh -c qemu:///system shutdown kvm-lab # 请求客户机正常关机
@@ -890,6 +890,20 @@ ping -c 3 GATEWAY # 把 GATEWAY 替换为 default 网络网关，验证最短网
 - `domstate` 与 `domif-getlink` 为什么给出不同维度的状态。
 - 证明故障域只在单 VM 网卡的证据。
 - 恢复命令、恢复耗时和业务验证结果。
+
+## 老师带你复盘：同一台虚拟机，为什么会有四种“正常”
+
+我们把刚才的网卡实验当成一次小型值班。`virsh start` 成功，是管理工具接受并完成了启动动作；`domstate` 为 running，是虚拟机执行状态；SSH 能登录，是一条网络与登录链路；订单查询返回正确数据，才是这条业务链的健康证明。四张回执有联系，却不能互相替代。以后写自动化验收时，请分别保存它们，而不是把一个绿色图标写进报告就结束。
+
+先问学生一个问题：网卡恢复 up，SSH 为什么还没立刻恢复？因为虚拟链路恢复不负责替应用重建原来的连接。客户机需要重新发包，邻居缓存、地址获取、路由、防火墙和 TCP 重传状态也会影响收敛。先测试同网段网关，再验证 DNS（域名解析），最后重建一条 SSH 会话。只要新连接正常，旧连接超时不等于网卡修复失败；如果新连接也失败，才沿前面的路径继续缩小范围。
+
+第二问：宿主机有 64 GiB 空闲，为什么 2 GiB 的客户机还会内存不足？把宿主机当成整栋楼，虚拟机是其中一套房。楼里有空房不会自动扩大你这套房。虚拟机的可用内存受分配、热插拔和 balloon（气球式内存回收）状态影响；客户机内部还有自己的缓存、进程限制和交换策略。正确证据应同时包含宿主机 `MemAvailable`、虚拟机配置与 balloon 统计、客户机可用内存和目标进程限制。不要仅凭宿主机空闲，就认定客户机告警是误报。
+
+第三问：在线迁移看起来只是换一台机器，为何需要容量预算？假设 16 GiB 客户机初次复制可用吞吐为 1 GiB/s，理想首轮至少约 16 秒；之后客户机还在修改内存。如果每秒又产生 1.2 GiB 脏页，可用复制能力仅 1 GiB/s，单靠重复复制很难收敛。这不是“迁移进度条坏了”，而是变化速度超过搬运速度。真实脏页会覆盖、压缩和重复写，不能把简化算式当精确预测，但它能教你先比较同一时间窗口的 dirty rate（脏页产生速率）与有效迁移吞吐，再决定降载、增带宽或安排停机。
+
+第四问：两台宿主机都能看到镜像文件，是否就能安全接管？能看见是访问条件，不是写入所有权。源宿主机管理网中断时，QEMU 可能仍在运行并写盘。此时去目标机启动同一磁盘，可能把可恢复的网络事故变成数据损坏。先确认源实例状态、集群锁及 fencing（隔离旧写入者）结果，再恢复运行权。虚拟机 UUID、卷标识和迁移任务号比“这台机器的名字看起来一样”更可靠。
+
+最后把它变成可提交的证据：画出 `管理请求 → QEMU 进程 → 客户机网络 → 应用读写` 四层，每层写一种观测、一种不能证明的结论和恢复后的验证。这样你练习的不是背诵 `virsh`，而是把状态、资源和业务关联起来；面试追问“进程正常为什么业务不正常”时，就能讲出自己实际验证过的证据范围。
 
 ## 生产高可用：KVM 不等于 HA 平台
 

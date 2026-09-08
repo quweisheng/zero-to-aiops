@@ -17,19 +17,19 @@ JavaScript 是语言的常用名称，ECMAScript 是 ECMA-262 定义的标准。
 ## 官方知识地图与边界
 
 ```text
-ECMAScript language
-  -> values / types / coercion / equality
-  -> scope / declaration / closure
-  -> object / prototype / class
-  -> function / this / iteration
-  -> exception / module / Promise
+ECMAScript language（语言标准）
+  -> values（值）/ types（类型）/ coercion（类型转换）/ equality（相等规则）
+  -> scope（作用域）/ declaration（声明）/ closure（闭包）
+  -> object（对象）/ prototype（原型）/ class（类语法）
+  -> function（函数）/ this（调用接收者）/ iteration（迭代）
+  -> exception（异常）/ module（模块）/ Promise（异步结果）
 
-host environment
-  -> browser: DOM / events / fetch / storage / workers
-  -> Node.js: process / file / server / streams
+host environment（宿主环境）
+  -> browser（浏览器）: DOM（文档对象）/ events（事件）/ fetch（请求）/ storage（存储）/ workers（后台工作线程）
+  -> Node.js: process（进程）/ file（文件）/ server（服务）/ streams（流式数据）
 
-production engineering
-  -> package / build / test / observability / security / rollout
+production engineering（生产工程）
+  -> package（依赖包）/ build（构建）/ test（测试）/ observability（可观测性）/ security（安全）/ rollout（渐进发布）
 ```
 
 本文覆盖现代 JavaScript 共同基础和浏览器主线，不逐项讲完整 DOM 或 Node API，也不把 Babel、Vite、React 等工具等同于语言。
@@ -133,7 +133,7 @@ class IncidentStore {
 
 ```js
 export function classifyLatency(p95Ms, thresholdMs) {
-  if (!Number.isFinite(p95Ms) || thresholdMs <= 0) {
+  if (!Number.isFinite(p95Ms) || p95Ms < 0 || !Number.isFinite(thresholdMs) || thresholdMs <= 0) {
     throw new RangeError('invalid latency input')
   }
   return p95Ms >= thresholdMs ? 'critical' : 'normal'
@@ -158,13 +158,13 @@ console.log(classify(1200))
 ## 事件循环：异步代码真正怎样排队
 
 ```text
-call stack runs one job
-  -> host handles timer/network/event
-  -> Promise reactions enter microtask queue
-  -> current stack ends
-  -> drain microtasks
-  -> browser may render
-  -> take next task
+call stack runs one job（调用栈执行当前工作）
+  -> host handles timer/network/event（宿主处理计时、网络和事件）
+  -> Promise reactions enter microtask queue（异步结果反应排入微任务）
+  -> current stack ends（当前调用栈结束）
+  -> drain microtasks（处理微任务检查点）
+  -> browser may render（浏览器可能进行渲染）
+  -> take next task（选取后续任务）
 ```
 
 ```js
@@ -337,10 +337,10 @@ Object.defineProperty(incident, 'id', {
 读取 `obj.key` 时，若对象自身没有该属性，会沿 prototype chain（原型链）查找。`class` 提供更熟悉的语法，但方法通常仍放在原型上。
 
 ```text
-instance own properties
-  -> Constructor.prototype
-  -> Object.prototype
-  -> null
+instance own properties（实例自身属性）
+  -> Constructor.prototype（构造函数的原型对象）
+  -> Object.prototype（普通对象原型链末端对象）
+  -> null（原型链终点）
 ```
 
 原型污染是安全风险：不可信键被递归合并到 `__proto__`、`constructor.prototype` 等位置时，可能改变许多对象的属性查找结果。边界处使用安全解析、键白名单、无原型字典或维护良好的合并库。
@@ -362,9 +362,9 @@ AIOps 阈值 `0` 是有效值，不能用 `value || defaultValue` 把它误判�
 Promise 有 pending、fulfilled、rejected 三种状态；settled 后不能再次改变。`then` 返回新的 Promise，使错误和值沿链传播。
 
 ```text
-pending
-  -> fulfilled(value)
-  -> rejected(reason)
+pending（尚未完成）
+  ├─ fulfilled(value)（成功，得到值）
+  └─ rejected(reason)（失败，得到原因）
 ```
 
 Promise executor 在创建 Promise 时同步执行；`then/catch/finally` 的反应作为 microtask（微任务）调度。
@@ -418,8 +418,9 @@ async function load() {
 微任务中不断追加微任务，浏览器可能迟迟得不到渲染机会：
 
 ```js
+let remaining = 10000 // 有界教学样例，避免无限阻塞页面
 function starve() {
-  queueMicrotask(starve)
+  if (--remaining > 0) queueMicrotask(starve)
 }
 starve()
 ```
@@ -435,10 +436,10 @@ starve()
 ES modules 使用静态 import/export，浏览器或构建器可以先解析依赖图。静态结构有利于 tree shaking，但“导出了却没使用”不等于一定能删：模块副作用、动态访问和打包器配置都会影响结果。
 
 ```text
-entry module
-  -> parse dependencies
-  -> link bindings
-  -> evaluate modules
+entry module（入口模块）
+  -> parse dependencies（解析依赖）
+  -> link bindings（连接绑定）
+  -> evaluate modules（求值执行模块）
 ```
 
 ESM 导入是 live binding，不是简单复制值。循环依赖可能在初始化顺序上暴露暂时不可用的绑定。解决方式通常是重划模块职责、提取稳定接口或反转依赖，而不是随机调整 import 顺序。
@@ -460,10 +461,10 @@ ESM 导入是 live binding，不是简单复制值。循环依赖可能在初始
 常见保留链：
 
 ```text
-window / module singleton
-  -> event listener
-  -> callback closure
-  -> detached DOM / large incident array
+window / module singleton（全局窗口或模块单例）
+  -> event listener（事件监听器）
+  -> callback closure（回调闭包）
+  -> detached DOM / large incident array（已脱离文档的节点或大型事件数组）
 ```
 
 排查步骤：
@@ -673,6 +674,120 @@ JavaScript 是动态类型、基于原型并支持一等函数的 ECMAScript 实
 - [ ] 能用 Performance、Memory、Network 和调用栈收证据。
 - [ ] 能说明 XSS、密钥和供应链风险。
 - [ ] 能完成基础与故障实验并记录回归。
+
+## 老师带你推理时间：为什么最后发出的请求未必最后返回
+
+你先输入“数据库”，接着改成“数据库连接池”。第一次查询范围大，花 2 秒；第二次更精确，只花 100 毫秒。第二次先回来，第一次后回来。JavaScript 单线程只能说明同一时刻不会有两段普通主线程代码同时修改页面，不能保证网络结果按发送顺序排队。
+
+学生问：“那我加防抖就好了吗？”防抖减少输入过程中的请求次数，却无法改变已发出请求的完成顺序。取消可减少无用等待，但网络和服务端工作可能已经发生；所以还要判断结果有没有资格写入当前状态。把每次请求编号，只有编号仍等于当前编号时才能更新页面，这就把“最新用户意图”编码成了规则。
+
+### 不依赖网络的完整竞态实验
+
+准备现代 Node.js，把下列代码保存为 `race-classroom.mjs`，运行 `node race-classroom.mjs`。它只使用定时器和合成数据，无外部服务，方便你观察因果。
+
+```js
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+
+async function lesson(guarded) {
+  let latest = 0
+  let visible = '尚未查询'
+  async function search(label, ms) {
+    const requestId = ++latest
+    await delay(ms)
+    if (guarded && requestId !== latest) return
+    visible = label
+  }
+  await Promise.all([search('旧搜索', 80), search('新搜索', 10)])
+  return visible
+}
+
+console.log('故障版:', await lesson(false)) // 预期旧搜索覆盖新搜索
+console.log('修复版:', await lesson(true))  // 预期保持新搜索
+```
+
+基础验收先解释两个 Promise 都被等待了，故障与修复的唯一差别是资格检查；结果不是依赖“电脑够快”碰运气。若输出异常，检查是否修改了延迟、是否漏 await、是否给两次搜索错误地共用同一个固定编号。实验结束无进程常驻，保存代码和输出即可；删掉文件即可清理。
+
+这个实验没有真正取消请求，也没有实现后端去重。下一步把资格判断与 `AbortController` 结合，职责仍要分开：取消降低无用开销，编号守住状态正确性，服务端幂等守住写入副作用。能讲清三层，你就不容易用一个按钮禁用状态代替完整可靠性设计。
+
+### 闭包里的变量为什么会“过时”
+
+闭包保留词法环境，不是自动替你选择“业务上最新的数据”。一个回调可能捕获某次调用里的局部值，也可能读共享的可变绑定。排查时问变量在哪里创建、何时赋值、哪个函数实例持有它，而不是笼统说“闭包会复制变量”。
+
+例如每次打开事件详情都创建一个监听器，监听器捕获当时事件 ID；关闭时忘了移除，旧监听器仍收到消息，便可能把后续事件结果写到旧事件记录。修复需要明确监听器生命周期和解绑句柄，不是只把变量改成全局。全局变量会引入另一组共享状态问题。
+
+### 错误也像数据一样沿调用链传递
+
+`try/catch` 只捕获它实际等待或同步执行的错误。一个异步函数内部发请求，却不 return 或 await，外层可能已经报告成功，而请求后来失败。你要把“这个异步工作属于谁”写清楚：属于当前操作就等待并传递错误；属于后台任务就交给有取消、限流和错误记录的所有者。
+
+Promise `.catch()` 如果只打印然后正常返回，会把链转换成成功结果。这有时是有意降级，比如次要统计不可用；若核心数据缺失还继续显示成功，就是错误被吞掉。AIOps 采集应记录“部分成功”及缺失证据源，不能把所有 Promise settled 都等同于业务完成。
+
+### 一条主线程能够并发等待，仍然会被计算阻塞
+
+事件循环的宿主调度细节见[HTML 标准](https://html.spec.whatwg.org/multipage/webappapis.html#event-loops)。对初学者更重要的是区分等待与计算：`await fetch()` 等待网络时，其他任务有机会继续；`JSON.parse()` 解析巨量文本或正则长时间运行时，仍可能占住主线程。把函数前面加 `async` 不会自动把这些计算搬到工作线程。
+
+性能修复先测输入规模与耗时，检查是下载、解析、聚合还是渲染慢。分页减少数据量，算法改进减少计算，Worker 分离线程工作，虚拟化减少 DOM，它们解决不同阶段的问题。选择方案要保留取消和错误路径，别把页面卡顿换成一个无上限 Worker 队列。
+
+### 面试中的三个进一步追问
+
+1. **单线程为何仍有竞态？** 异步完成顺序与发出顺序不同，逻辑状态会被过时结果覆盖；用资格检查实验举证。
+2. **`Promise.all` 一项失败后其余任务停止吗？** 不会自动停止。整体等待结果拒绝，其他副作用仍可能继续；需要显式取消且理解外部操作边界。
+3. **怎么设计长期运行的事件台？** 给请求、监听、计时器和缓存明确所有者、清理时机及容量上限；记录版本、错误、取消和新鲜度，用重复开关页面与切路由的稳定实验检查内存趋势。
+
+## 工程进阶课堂：时间、身份与失败传播
+
+### 防抖、节流和取消分别解决什么
+
+搜索框里连续输入五个字符，Debounce（防抖）会等待一段安静时间再处理，减少中间输入造成的请求；Throttle（节流）限制一段时间内处理频率，适合滚动等连续事件；Abort（取消）尝试终止已经开始的可取消操作。三者针对不同阶段，不能因为写了防抖就认为旧请求不会覆盖新请求。
+
+老师带你画时间线：输入甲开始请求，输入乙在防抖等待，甲此时返回。是否允许显示甲，取决于你的交互策略；乙已经成为当前条件时，甲通常不应更新结果。稳定做法是给查询条件一个版本或请求标识，在结果提交时检查它是否仍代表当前条件，而取消主要用于减少无效工作。
+
+中文输入还需要关注输入法组合过程。用户正在拼字时，输入事件不一定代表一个已经确认的搜索词。依据产品需求观察组合事件或相关状态，避免每个拼音中间态都请求后端。防抖时间也不是越大越好：过大会让界面迟钝，过小则流量高；用输入到可见结果的延迟与每次搜索请求数共同评估。
+
+### 同一个函数名，不代表同一个函数对象
+
+移除事件监听需要匹配注册时的函数引用。注册时使用一个箭头函数，清理时再写一个内容相同的箭头函数，它们仍是两个对象。浏览器无法替你判断“这段代码看起来相同，所以应该移除旧监听”。长期存在的监听器可能继续引用闭包中的页面数据，导致离开路由后内存与请求不断增长。
+
+可以在自己的本地实验页控制台执行这个有边界的验证：
+
+```javascript
+{
+  const target = new EventTarget();
+  let calls = 0;
+  const handler = () => calls++;
+  target.addEventListener('sample', handler);
+  target.removeEventListener('sample', () => calls++); // 故意使用另一引用
+  target.dispatchEvent(new Event('sample'));
+  console.assert(calls === 1, '错误清理未移除监听');
+  target.removeEventListener('sample', handler);
+  target.dispatchEvent(new Event('sample'));
+  console.assert(calls === 1, '正确清理后不应再增加');
+  console.log('PASS：清理必须使用相同监听器引用');
+}
+```
+
+预期只有第一次派发增加计数，第二次不增加；没有 DOM 修改、网络请求或定时器，关闭标签页即可清理。若第二次仍增加，检查是否把变量重新赋值成新函数，或实际页面另有监听器。本实验说明引用身份，真实资源还要检查定时器、观察器、WebSocket 和订阅各自的释放方法。
+
+### Promise.all 失败了，其余工作不一定停止
+
+`Promise.all` 在某个输入拒绝后可以尽快以失败结束，但不会自动取消其他已经启动的请求。假设三次调用中第一项失败，另外两项仍可能创建工单。你不能在 catch 里宣称“全部未执行”，也不能毫无防重地重跑全部三项。独立批处理可收集各项结果，副作用操作则需要业务标识、幂等和明确补偿。
+
+`Promise.allSettled` 帮助获得每项成功或失败的结果，但也不会自动限制并发。一次对十万条告警直接 map 成十万个请求，会瞬间制造巨大在途工作。应使用有界工作池、分批与停止条件，并在遇到服务端限流时退避。并发数是容量参数，需要结合服务能力、单请求耗时与错误率调节，不从 CPU 核数随意推导网络并发。
+
+`finally` 适合释放局部资源或结束加载状态，但其中抛错会改变后续可观察结果。若清理失败掩盖了最初的数据库错误，排障会沿错误线索走偏。可以分别记录主要操作错误与清理错误，并让调用方知道哪些资源仍未释放；不要在日志中只保留最后一次异常。
+
+### 数值、时间和序列化决定数据能否被正确解释
+
+`Number` 采用浮点表示，超过安全整数范围的计数标识不宜当作普通数字运算。很多后端把大整数 ID 作为字符串返回，前端应保留其身份含义，不为了排序方便先转数字。`BigInt` 可以表达大整数，但不能直接套用普通 JSON 序列化；跨接口表示仍要双方约定。
+
+时间字符串同样要说明时区。一个没有时区的字符串可能被不同解析路径按不同本地语义解释，事故时间线就会错位。数据契约采用明确时区或时间戳，显示层再按用户时区格式化；持续时间与绝对时间分开。测量短操作耗时可使用适合单调时间测量的接口，不把系统时钟调整造成的跳变当作请求突然负耗时。
+
+对象拷贝也会影响证据：展开运算符只复制一层，嵌套数组或对象仍可能共享；序列化再反序列化不是通用深拷贝，因为某些类型、特殊数值和循环引用有边界。生产状态应选择适合数据类型的复制与更新方式，并让日志在记录时生成明确快照，避免事后查看的是已经变化的同一引用。
+
+### 面试收束：让解释回到可观察证据
+
+遇到页面越来越慢，先区分单次计算慢、重复任务增多、队列积压和资源没有释放。录制同一操作的性能轨迹，记录事件监听与网络请求数量，比较进入离开页面前后的保留对象。修复一个原因后重复相同步骤，不以一次刷新后的暂时顺畅证明内存问题解决。
+
+对 AIOps 而言，前端也需要可靠信号：错误类型、路由、构建版本、请求关联和用户动作类别，而非记录用户全部输入与访问令牌。把这些信号与后端链路关联，才能区分“服务已经成功、界面没显示”和“界面发了两次、服务执行两次”。这种因果拆解，比背事件循环输出顺序更接近真实工程能力。
 
 ## GitHub 学习证据
 

@@ -65,51 +65,51 @@ Git 命令的内部机制已经在 Git 篇讲过。这一篇会使用一些 Git 
 GitHub Docs 可以按这棵树理解：
 
 ```text
-GitHub Docs
-  ├── Get started
-  │   ├── About GitHub and Git
-  │   ├── GitHub flow
-  │   ├── Connecting to GitHub
-  │   └── Writing on GitHub
-  ├── Repositories
-  │   ├── create and manage repositories
-  │   ├── README
-  │   ├── branches and tags
-  │   ├── releases
-  │   └── repository settings
-  ├── Issues and Projects
-  │   ├── issues
-  │   ├── labels
-  │   ├── milestones
-  │   └── projects
-  ├── Pull requests
-  │   ├── create PR
-  │   ├── review changes
-  │   ├── checks
-  │   ├── merge
-  │   └── branch protection
-  ├── Actions
-  │   ├── workflows
-  │   ├── events
-  │   ├── jobs
-  │   ├── steps
-  │   ├── runners
-  │   ├── actions
-  │   └── secrets
-  ├── Pages
-  │   ├── publish static site
-  │   ├── branch or Actions source
-  │   └── custom domains
-  ├── Authentication
-  │   ├── passwordless HTTPS auth
-  │   ├── personal access tokens
-  │   ├── SSH keys
-  │   └── credential storage
-  └── Code security
-      ├── Dependabot
-      ├── secret scanning
-      ├── code scanning
-      └── security advisories
+GitHub Docs（官方文档）
+  ├── Get started（入门）
+  │   ├── About GitHub and Git（平台与版本控制的关系）
+  │   ├── GitHub flow（分支协作流程）
+  │   ├── Connecting to GitHub（连接与认证）
+  │   └── Writing on GitHub（平台写作）
+  ├── Repositories（仓库）
+  │   ├── create and manage repositories（创建与管理）
+  │   ├── README（仓库说明）
+  │   ├── branches and tags（分支与标签）
+  │   ├── releases（发布说明与附件）
+  │   └── repository settings（仓库设置）
+  ├── Issues and Projects（问题追踪与项目管理）
+  │   ├── issues（议题）
+  │   ├── labels（分类标签）
+  │   ├── milestones（里程碑）
+  │   └── projects（项目看板）
+  ├── Pull requests（合并请求，简称 PR）
+  │   ├── create PR（提出变更）
+  │   ├── review changes（审查变更）
+  │   ├── checks（自动检查）
+  │   ├── merge（合并）
+  │   └── branch protection（分支保护）
+  ├── Actions（自动化平台）
+  │   ├── workflows（工作流）
+  │   ├── events（触发事件）
+  │   ├── jobs（作业）
+  │   ├── steps（步骤）
+  │   ├── runners（执行机器）
+  │   ├── actions（可复用动作）
+  │   └── secrets（机密变量）
+  ├── Pages（静态网站托管）
+  │   ├── publish static site（发布静态站点）
+  │   ├── branch or Actions source（分支或工作流作为发布源）
+  │   └── custom domains（自定义域名）
+  ├── Authentication（身份认证）
+  │   ├── passwordless HTTPS auth（不用账号密码的 Git 认证）
+  │   ├── personal access tokens（个人访问令牌）
+  │   ├── SSH keys（SSH 公私钥）
+  │   └── credential storage（凭据保存）
+  └── Code security（代码安全）
+      ├── Dependabot（依赖更新与漏洞提醒）
+      ├── secret scanning（机密扫描）
+      ├── code scanning（代码扫描）
+      └── security advisories（安全通告）
 ```
 
 本篇按这个结构讲。你学完以后再看官方文档，会知道每块功能服务于什么学习和工程目标。
@@ -117,28 +117,28 @@ GitHub Docs
 ## GitHub 在 AIOps 学习链路中的位置
 
 ```text
-local learning and labs
-  ├── notes
-  ├── configs
-  ├── scripts
-  ├── dashboards
-  └── screenshots
+local learning and labs（本地学习与实验）
+  ├── notes（笔记）
+  ├── configs（配置）
+  ├── scripts（脚本）
+  ├── dashboards（仪表盘）
+  └── screenshots（截图）
         |
         v
-Git commits
+Git commits（版本提交）
         |
         v
-GitHub repository
-  ├── README
-  ├── docs site
-  ├── Issues
-  ├── Pull Requests
-  ├── Actions
-  ├── Pages
-  └── Releases
+GitHub repository（远端仓库）
+  ├── README（项目说明）
+  ├── docs site（文档网站）
+  ├── Issues（问题与任务）
+  ├── Pull Requests（合并请求）
+  ├── Actions（自动化工作流）
+  ├── Pages（静态网站托管）
+  └── Releases（版本发布）
         |
         v
-public portfolio and interview evidence
+public portfolio and interview evidence（公开作品与面试证据）
 ```
 
 GitHub 能把 AIOps 学习中的四类证据集中起来：
@@ -155,19 +155,19 @@ GitHub 能把 AIOps 学习中的四类证据集中起来：
 Git 是版本控制系统。GitHub 是基于 Git 的云端平台。
 
 ```text
-Git
-  -> tracks file changes
-  -> commits
-  -> branches
-  -> merges
+Git（本地版本控制工具）
+  -> tracks file changes（追踪文件变更）
+  -> commits（提交记录）
+  -> branches（分支）
+  -> merges（合并）
 
-GitHub
-  -> hosts remote repositories
-  -> shows README and code
-  -> manages Issues and PRs
-  -> runs Actions
-  -> publishes Pages
-  -> manages permissions and security
+GitHub（远端代码协作平台）
+  -> hosts remote repositories（托管远端仓库）
+  -> shows README and code（展示项目说明和代码）
+  -> manages Issues and PRs（管理议题与合并请求）
+  -> runs Actions（执行自动化）
+  -> publishes Pages（发布静态站点）
+  -> manages permissions and security（管理权限与安全）
 ```
 
 常见误解：
@@ -268,11 +268,11 @@ Branch 是一条独立开发线。
 在 GitHub flow 中，通常不要直接在 `main` 上改。更推荐：
 
 ```text
-main
-  └── docs/deepen-grafana
-      └── commits
-      └── pull request
-      └── merge back to main
+main（主分支）
+  └── docs/deepen-grafana（用于深化文档的示例分支名）
+      └── commits（提交记录）
+      └── pull request（合并请求）
+      └── merge back to main（合并回主分支）
 ```
 
 分支命名建议：
@@ -296,13 +296,13 @@ main
 GitHub Flow 是官方推荐的轻量分支协作流程。
 
 ```text
-create branch
-  -> make changes
-  -> commit and push
-  -> open pull request
-  -> review and checks
-  -> merge
-  -> delete branch
+create branch（创建分支）
+  -> make changes（修改内容）
+  -> commit and push（提交并推送）
+  -> open pull request（发起合并请求）
+  -> review and checks（评审与检查）
+  -> merge（合并）
+  -> delete branch（删除分支）
 ```
 
 每一步的意义：
@@ -481,14 +481,14 @@ GitHub Actions 是 GitHub 的自动化平台。
 它由几个核心对象组成：
 
 ```text
-workflow
-  ├── event
-  ├── jobs
-  │   ├── runner
-  │   └── steps
-  │       ├── run command
-  │       └── use action
-  └── artifacts / cache / secrets
+workflow（工作流）
+  ├── event（触发事件）
+  ├── jobs（作业）
+  │   ├── runner（执行器）
+  │   └── steps（步骤）
+  │       ├── run command（运行命令）
+  │       └── use action（调用动作）
+  └── artifacts / cache / secrets（制品、缓存与秘密）
 ```
 
 术语解释：
@@ -545,11 +545,11 @@ GitHub Pages 用来发布静态网站。
 对这个知识库来说，Pages 可以发布 VitePress 文档站：
 
 ```text
-Markdown docs
-  -> VitePress build
-  -> static files
-  -> GitHub Pages
-  -> public docs site
+Markdown docs（文档源码）
+  -> VitePress build（文档站构建）
+  -> static files（静态文件）
+  -> GitHub Pages（静态站托管）
+  -> public docs site（公开文档网站）
 ```
 
 常见发布方式：
@@ -605,7 +605,7 @@ GitHub 认证常见方式：
 
 ### Personal Access Token
 
-GitHub 不再建议用账号密码做 Git HTTPS 推送。HTTPS 推送通常使用 token。
+GitHub 已不支持用账号密码进行 Git HTTPS 认证；使用受支持的凭据管理器或访问令牌。浏览器登录与 Git 认证不是同一条通道。
 
 Token 使用原则：
 
@@ -633,10 +633,10 @@ SSH key 是另一种连接 GitHub 的方式。
 流程：
 
 ```text
-generate SSH key
-  -> add public key to GitHub
-  -> use SSH remote URL
-  -> push / pull
+generate SSH key（生成连接密钥）
+  -> add public key to GitHub（把公钥添加到平台）
+  -> use SSH remote URL（使用安全连接的远端地址）
+  -> push / pull（推送与拉取）
 ```
 
 远程地址形式：
@@ -963,10 +963,10 @@ jobs:
 VitePress 文档站通常流程：
 
 ```text
-push to main
-  -> GitHub Actions build
-  -> upload static artifact
-  -> deploy to GitHub Pages
+push to main（推送到主分支）
+  -> GitHub Actions build（自动化构建）
+  -> upload static artifact（上传静态制品）
+  -> deploy to GitHub Pages（部署到静态托管）
 ```
 
 Pages 详细 workflow 在 VitePress 篇展开。这里先理解：GitHub Pages 让你的 Markdown 知识库变成公开网站。
@@ -1195,7 +1195,120 @@ GitHub 对我来说不只是代码托管平台，也是 AIOps 学习作品集。
 - [ ] 我能说明 GitHub secrets 的作用。
 - [ ] 我能用 GitHub 仓库展示 AIOps 文档、实验、截图和自动化。
 
-## 学习证据
+## 老师带练：把一次告警规则修改追踪到底
+
+假设你把支付服务的告警持续时间从 30 秒改成 2 分钟。我们不先讨论“在哪点 Merge”，先问：谁提出需求，修改的具体版本是什么，检查通过的是哪一个提交，线上究竟用了哪一版？Issue 记录为什么改，分支隔离正在做的改动，PR 把差异、讨论和检查放在同一个入口，发布记录说明最后交付了什么。GitHub 让这条链可审查，但不会替你证明阈值合理。
+
+前面图里的 `local learning and labs` 是本地学习与实验，`Git commits` 是版本快照，`public portfolio and interview evidence` 是公开作品和面试证据。`push` 是发送 Git 对象与更新远程引用，`review` 是人工审查，`checks` 是机器检查，`merge` 是合并变更，`deploy` 才是把产物投入托管环境。不要把这些英文按钮理解成一组都叫“保存”的操作。
+
+### PR 不是文件压缩包：它比较两条历史
+
+PR 有 base（准备合入的目标分支）和 head（提供修改的来源分支）。你推送新的提交后，PR 差异与检查状态可能改变，因此“昨天有人批准过”不自动证明今天新增的代码也被审查。合并策略也不同：普通合并保留分支结构，压缩合并把变更压成一个提交，变基合并重放提交；选择要服从团队历史策略，不能只看哪个按钮最顺手。
+
+必需检查（required checks）是合并门禁，不是测试内容本身。如果一个检查只运行 `echo ok`，它再绿也不能说明应用正确。检查还必须针对预期的提交或合并结果，并有稳定名称。高并发团队可能使用合并队列验证组合后的结果；不是说每个 PR 单独通过，合起来就一定通过。Ruleset（规则集）可以集中约束分支或标签，但可用能力取决于仓库可见性和套餐，先核对实际设置，不假定所有仓库相同。[GitHub 规则集](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/about-rulesets)
+
+### 基础实验与故障实验：看到红灯后能解释原因
+
+本实验只在你有权限的全新练习仓库里做，不在团队主仓库临时关闭保护规则。前提：已登录 GitHub、仓库允许 Actions、能用网页编辑文件；不需要部署凭据。工作流会消耗少量运行额度，先确认账户允许。
+
+1. 新建个人练习仓库 `github-change-lab`，初始化 README。创建文件 `threshold.txt`，内容单独一行 `5`。它表示练习用错误率阈值，不对应真实系统。
+2. 在默认分支创建 `.github/workflows/rule-check.yml`，输入完整内容：
+
+```yaml
+name: Rule classroom
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  validate-rule:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate threshold
+        shell: bash
+        run: |
+          value=$(tr -d '\r\n' < threshold.txt)
+          if [[ ! "$value" =~ ^[0-9]+$ ]]; then
+            echo 'threshold must be an integer'
+            exit 1
+          fi
+          if (( 10#$value < 1 || 10#$value > 20 )); then
+            echo 'threshold must be within 1..20'
+            exit 1
+          fi
+          echo "validated threshold=$value"
+```
+
+`permissions: contents: read` 只给读取代码权限；`exit 1` 让失败成为可被平台识别的退出状态；范围判断是业务约束，不是 GitHub 内置规则。`checkout@v4` 是本课示例主版本标签，不是宣称最新版本；生产按官方兼容信息升级，并在审查后固定完整提交 SHA（提交标识）。
+
+3. 打开 Actions（工作流页面），找到此次提交对应的运行，确认 `validate-rule` 成功、日志有 `validated threshold=5`。记录提交号，不只截一张绿色图标。
+4. 创建分支 `lab/invalid-threshold`，把文件改为 `99`，发起 PR 指向默认分支。预期检查失败，日志明确指出范围应为 1 到 20。不要添加 `continue-on-error` 绕过实验故障。
+5. 在同一分支改为 `8` 并提交，确认新提交的检查成功，PR 差异只含预期文件。故障修复证据是“失败提交 → 失败步骤 → 修复提交 → 成功结果”，不是重复运行旧的错误提交。
+6. 清理：这是练习，不需要合入主线；关闭 PR，确认该分支没有唯一需要保留的成果后删除练习分支。要停止后续运行可在练习仓库禁用这条工作流。保留脱敏截图与文字记录，不删除正式仓库。
+
+若 Actions 没运行，先看文件位置、YAML 缩进、事件和仓库策略；若运行了但找不到文件，检查提交确实含 `threshold.txt`、checkout 是否成功；若“失败但还能合并”，说明你还没把它设为必需检查，这不代表测试无效，而是检查结果尚未连接门禁。管理员只在练习仓库配置对应规则后再验证阻止效果，不能口头假定保护已经存在。
+
+### 安全和一致性：平台提供能力，维护者定义边界
+
+Token（令牌）回答“你是谁、能做什么”，Secret（机密存储）回答“敏感值放哪里”，Environment（部署环境）及审批回答“什么时候允许部署”。三者不能互相替代。保存为 Secret 不保证不会被恶意脚本外传；获得机密的步骤与第三方动作都处在信任边界里。尤其不要用带高权限的 `pull_request_target` 去检出并执行未经信任的 PR 代码。[GitHub Actions 安全使用](https://docs.github.com/en/actions/reference/security/secure-use)
+
+平台上的代码、Issue、PR、Actions 日志、Release 附件是不同的数据。`git clone --mirror` 备份 Git 引用与对象，并不等于备份全部项目管理记录或构建附件。设计灾备时先列明恢复对象、恢复点目标（最多能丢多久的数据）与恢复时间目标（允许停多久），再选择导出和保存方法。大二进制也不要不断塞进 Git 历史；分清源代码、Git LFS 大文件和制品存储，并核对配额与保留策略。
+
+发布知识库还需要单独核验：远程主分支指向目标提交；对应部署工作流 `completed` 且 `success`；访问最终 URL，看见新标题、正文和搜索结果。仅 `push` 成功说明远程接收了提交，不说明 Pages 更新。若构建成功却网页旧，依次检查部署步骤、产物路径、站点配置、访问域名及缓存，再考虑修复；不要先用强推覆盖历史。
+
+### 面试：30 秒、3 分钟与追问
+
+30 秒可以这样说：Git 管版本历史，GitHub 提供围绕这份历史的协作、检查、权限和发布。我会把告警规则变更关联 Issue、PR、检查提交号和部署版本，并以实际页面或服务验证作为结束条件。
+
+3 分钟答案再展开：讲清 base/head、审查与检查的区别、如何限制机密和部署权限、如何处理失败后重试与回退，最后展示上面的失败检查和修复证据。追问“批准以后有人再推一次怎么办”，应解释重新审查策略和检查必须覆盖最新变更；追问“代码托管平台暂时不可用怎么办”，应说明本地 Git 可以继续提交但不能假装远程 CI 已通过，关键发布依赖与恢复流程要预先设计；追问“攻击者能改 workflow 呢”，应讨论受保护分支、审查、可信来源、最小权限和环境批准，而不是只答“把密码放 Secrets”。
+
+## 托管平台课堂：一次合并请求到底证明了什么
+
+先把评审意见和自动检查分开。Review（评审）由人判断意图、设计与风险，Check（检查）由配置好的程序验证某些条件。两个人批准但没有运行测试，不等于测试通过；所有检查绿色，也可能没人发现授权设计有问题。一个可靠合并策略需要根据仓库风险组合两者，而不是只追求一个统一绿色图标。
+
+老师会让你在 PR 页面核对 base 和 head。Base 是准备接收修改的目标分支，head 是提出修改的一侧。选错 base 时，差异可能包含不属于这次工作的提交；合并前不能只看新增行数，还要看提交列表和文件范围。若批准后又新增提交，是否重新要求批准和最新检查，由仓库规则决定，不能假设所有仓库默认一样。
+
+保护规则的存在也不代表不存在例外。管理员、自动化身份、紧急通道可能具备不同能力；应明确谁能绕过、何时允许、如何留下记录。个人学习项目也可以模拟这个思想：正常改动走分支与检查，紧急修复写清原因，并补验证与复盘。不要为一次检查失败永久关闭整个仓库门禁。
+
+### Issue、PR、Release 与部署是不同对象
+
+Issue 描述问题与验收条件，PR 提出一组修改，Release 组织某个发布版本的说明与附件，Deployment 描述向环境交付的事件。把 Issue 关闭表示任务管理状态改变，不会自动证明网站已部署；创建 Release 也不等于生产环境开始使用附件。
+
+例如任务是更新告警规则，Issue 写“规则必须识别连续五分钟错误率异常”，PR 包含配置和测试，Release 指向已验证产物，部署记录关联目标环境，最后查询实际规则加载版本。只有这条链连起来，任务完成才有充分证据。把所有信息塞进聊天记录，未来很难还原哪个版本被批准。
+
+合并按钮提供不同策略时，要理解它们如何影响历史。普通合并、压缩合并与变基合并会产生不同的提交关系与 SHA；不能假设 PR 页面中的原始头提交一定就是主分支最终提交。发布验证应查询实际主分支与对应工作流的提交标识，再核对线上内容。
+
+### Fork 与自动化的信任边界
+
+Fork（分叉仓库）让外部贡献者在自己的仓库修改，再向上游提合并请求。贡献内容本质上可能运行任意构建脚本，所以拥有内网访问和生产秘密的执行器不能无条件运行它。事件类型、工作流来源、检出哪个提交、令牌权限及环境批准共同决定风险。
+
+把秘密放在 Secrets 里比写入源码好，但不意味着任何拿到它的脚本都可信。代码可以不打印秘密，而是通过网络使用或传走它。发布身份应与普通检查身份分离，采用最小权限和必要的短期凭据；共享动作与依赖也需要版本审阅，不能因为仓库知名就忽视供应链风险。
+
+OIDC（开放身份连接）允许工作流身份声明被云端信任策略验证后换取短期凭据。关键不是“有令牌”三个字，而是云端是否约束了正确仓库、分支或环境、受众与其他必要条件。宽泛信任整个组织仍可能超出预期范围。学习实验可以展示受限身份设计，不把真实云密钥上传为证据。
+
+### Pages 发布为何还要打开页面验证
+
+源码推送成功说明远端收到提交；构建成功说明生成步骤结束；部署成功说明平台接受并完成相关部署流程。用户能否访问正确路由、导航和新正文，是另一层验证。页面可能引用错误路径、旧索引或不匹配资源，首页能打开也不能代表所有技术文章都正常。
+
+在本仓库工作时，先读取当前 `package.json` 和部署工作流：现在的站点使用 React/Vite 链路，历史 VitePress 示例用于理解文档站，不应据此上传已不再使用的目录。一次完整验收至少核对远端 SHA、该 SHA 的部署结果，以及具体更新页面中的代表性新内容。不要在正文没出现时直接归因于缓存并宣布完成。
+
+旧页面标签页还可能继续使用上一版脚本。部署策略需要考虑资源保留与接口兼容，回滚应使用已验证的整套产物，而不是临时编辑线上单个文件。失败时记录实际 URL、时间、响应状态和版本线索，再区分构建、部署、路径和缓存各层。
+
+### 平台数据的备份与可迁移性
+
+普通 clone 保存 Git 对象与引用，并不自动保存全部 Issue、评审、工作流日志、制品、Secrets、Pages 配置和权限规则。Git LFS 内容还可能依赖独立存储。灾备要列数据类别，再选择对应导出或恢复方式；不能把“我有源码副本”说成“我能恢复整个协作平台”。
+
+秘密通常不应通过导出明文备份，而应有受控密钥管理与重建权限流程。恢复之后不仅检查能否登录，还要检查受限用户能否做允许的事、能否被阻止做禁止的事。否则平台虽然恢复可用，却可能失去原来的权限边界。
+
+### 作品集怎样体现真实能力
+
+老师不要求你制造固定数量的 Issue 或 PR。真正有价值的是每个条目有明确问题、合理变更、验证结果和边界。例如一次故障实验失败后，你能说明观察、假设、检查、修复与恢复；一次发布能找到从提交到页面的证据。十个重复的“update”提交不一定比一个清晰改动更能说明能力。
+
+公开仓库中的数据要虚构或脱敏，截图隐藏账号、内部地址和令牌，日志裁剪到必要错误与上下文。引用官方文档用于证明机制，实验记录用于证明自己实际验证，两者分开。面试时可以坦诚说“这是学习环境的复现”，不把教程设计包装成生产经历。
+
+## GitHub 学习证据
 
 学完这篇后，建议提交这些内容到 GitHub：
 

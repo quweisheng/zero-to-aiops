@@ -27,14 +27,14 @@
 
 ```text
 WebSphere 官方资料
-  -> 产品：traditional、Network Deployment、Liberty、Open Liberty
-  -> 管理拓扑：Profile、Cell、Node、Deployment Manager、Node Agent
-  -> 运行时：Application Server、JVM、Web/EJB Container、Cluster
-  -> 接入：IBM HTTP Server、Web Server Plug-in、plugin-cfg.xml、Session Affinity
-  -> 资源：JNDI、JDBC、JMS、JTA、Thread Pool、Connection Pool
-  -> 应用变更：EAR、Enterprise Application、Asset、BLA、Composition Unit、Edition
+  -> 产品：traditional（传统运行时）、Network Deployment（网络部署版）、Liberty（特性化运行时）、Open Liberty（开源发行）
+  -> 管理拓扑：Profile（运行配置目录）、Cell（管理域）、Node（节点）、Deployment Manager（部署管理器）、Node Agent（节点代理）
+  -> 运行时：Application Server（应用服务器）、JVM（Java 虚拟机）、Web/EJB Container（请求/企业组件容器）、Cluster（集群）
+  -> 接入：IBM HTTP Server（前端 Web 服务器）、Web Server Plug-in（路由插件）、plugin-cfg.xml（插件配置）、Session Affinity（会话亲和）
+  -> 资源：JNDI（命名查找）、JDBC（数据库连接）、JMS（消息接口）、JTA（事务接口）、Thread Pool（线程池）、Connection Pool（连接池）
+  -> 应用变更：EAR（企业应用包）、Enterprise Application（企业应用）、Asset（部署资产）、BLA（业务级应用）、Composition Unit（组合单元）、Edition（应用版次）
   -> 发布链路：制品校验、Update、保存、同步、展开、启动、路由、业务验证、回滚
-  -> 运维：Admin Console、wsadmin、PMI、日志、FFDC、Dump、备份
+  -> 运维：Admin Console（管理控制台）、wsadmin（管理脚本）、PMI（性能指标）、日志、FFDC（首次故障取证）、Dump（诊断转储）、备份
   -> 生产治理：高可用、容量、安全、升级、回滚、现代化迁移
 ```
 
@@ -84,12 +84,12 @@ WebSphere = 承载企业 Java 应用的中间件平台，负责接收请求、�
 
 ```text
 用户错误率
-  -> Web Server / Plug-in 路由
-  -> Cluster Member
+  -> Web Server / Plug-in（网页服务器与转发插件）路由
+  -> Cluster Member（应用集群成员）
   -> Servlet 与线程池
-  -> JDBC/JMS/JTA
+  -> JDBC/JMS/JTA（数据库访问、消息服务、事务管理接口）
   -> 数据库或外部服务
-  -> JVM Heap / GC / OS
+  -> JVM Heap / GC / OS（Java 虚拟机堆、垃圾回收、操作系统）
   -> 最近部署和配置变更
 ```
 
@@ -125,16 +125,16 @@ WebSphere 不替代数据库高可用、消息中间件高可用、外部负载�
 ### 一次 HTTP 请求的数据路径
 
 ```text
-浏览器 / API Client
+浏览器 / API Client（接口客户端）
   -> DNS / 外部负载均衡
   -> IBM HTTP Server 或其他受支持 Web Server
   -> Web Server Plug-in 读取 plugin-cfg.xml
   -> 选择可用 Cluster Member
-  -> Application Server HTTP Transport
-  -> Web Container Thread
-  -> Filter / Servlet / Framework / EJB
-  -> JNDI 查找 DataSource、JMS 或其他资源
-  -> JDBC Connection Pool / JMS Connection Factory
+  -> Application Server HTTP Transport（应用服务器接收网页请求的传输层）
+  -> Web Container Thread（网页容器的请求工作线程）
+  -> Filter / Servlet / Framework / EJB（过滤器、请求处理组件、应用框架、企业业务组件）
+  -> JNDI（命名与目录接口）查找 DataSource（数据源）、JMS（消息服务）或其他资源
+  -> JDBC Connection Pool / JMS Connection Factory（数据库连接池与消息连接工厂）
   -> 数据库、消息队列或外部接口
   -> 事务提交或回滚
   -> 响应沿原路径返回
@@ -146,8 +146,8 @@ WebSphere 不替代数据库高可用、消息中间件高可用、外部负载�
 
 ```text
 管理员通过 Admin Console / wsadmin 修改配置
-  -> Deployment Manager 写入 Cell Master Repository
-  -> 保存配置工作区
+  -> 在管理会话工作区准备变更
+  -> 保存工作区，Deployment Manager 写入 Cell Master Repository（主配置仓库）
   -> Node Agent 与 DMgr 同步
   -> Node 本地配置仓库更新
   -> 运行中的 Server 动态读取，或按要求重启后生效
@@ -325,19 +325,19 @@ WebSphere 中至少有四类状态：
 ```text
                     管理网
                       |
-              Deployment Manager
-              Master Repository
+              Deployment Manager（部署管理器）
+              Master Repository（主配置库）
                 /             \
-        Node Agent A       Node Agent B
+        Node Agent A（节点代理 A）  Node Agent B（节点代理 B）
            |                   |
-      Server A1/A2         Server B1/B2
+      Server A1/A2（应用进程）    Server B1/B2（应用进程）
            \                   /
-             Application Cluster
+             Application Cluster（应用集群）
                       ^
                       |
-Load Balancer -> IBM HTTP Server A/B -> Web Server Plug-in
+Load Balancer（负载均衡）-> IBM HTTP Server A/B（网页服务器）-> Web Server Plug-in（转发插件）
                       |
-              Database / MQ / APIs
+              Database / MQ / APIs（数据库、消息队列、外部接口）
 ```
 
 ### 故障域
@@ -792,7 +792,7 @@ result = AdminApp.update(
 print(result)
 
 # 只有前面的更新任务成功后，才保存配置。
-if AdminConfig.hasChanges():
+if str(AdminConfig.hasChanges()).strip().lower() in ('1', 'true'):
     AdminConfig.save()
 ```
 
@@ -811,8 +811,8 @@ print(AdminApp.isAppReady(app_name))
 # 查看每个目标的 distribution / expansion 状态和失败信息。
 print(AdminApp.getDeployStatus(app_name))
 
-# 有返回值才说明运行时存在该应用的 Application MBean。
-print(AdminControl.completeObjectName('type=Application,name=' + app_name + ',*'))
+# 查询全部匹配成员，不能用只返回一个对象的查询证明全体已启动。
+print(AdminControl.queryNames('type=Application,name=' + app_name + ',*'))
 ```
 
 这三项分别回答“文件准备好了吗”“分发到哪里、是否展开成功”“JVM 里真的运行了吗”。它们仍不能替代 HTTP 和业务验证。参考 [IBM 安装应用的异步分发说明](https://www.ibm.com/docs/en/was/9.0.5?topic=scripting-installing-enterprise-applications-using-wsadmin)与[运行状态查询](https://www.ibm.com/docs/en/was-zos/9.0.5?topic=scripting-querying-application-state-using-wsadmin)。
@@ -1139,18 +1139,41 @@ Recovery Mode（恢复模式）只处理未决事务，不接收新业务；恢�
 [IBM 的 BLA 删除文档](https://www.ibm.com/docs/en/was-nd/9.0.5?topic=applications-deleting-business-level)要求先删除 BLA 中的 Composition Unit，再删除 BLA，最后保存配置。`wsadmin` 的准确顺序是：
 
 ```python
-app_name = 'ExampleApp'
-bla_id = 'WebSphere:blaname=' + app_name
-
 print(AdminTask.listBLAs())
 print(AdminTask.listAssets())
-print(AdminTask.listCompUnits('-blaID ' + bla_id))
+bla_id = 'PASTE_CONFIRMED_BLA_ID'
+if bla_id.startswith('PASTE_'):
+    raise Exception('先从只读清单确认唯一 BLA 标识，不能凭应用名推断')
+print(AdminTask.listCompUnits(['-blaID', bla_id]))
+```
 
-# 只有 listCompUnits 能准确返回目标，而且已确认没有其他 BLA 引用时才删除。
-print(AdminTask.deleteCompUnit('-blaID ' + app_name + ' -cuID ' + app_name))
-print(AdminTask.deleteBLA('-blaID ' + app_name))
+上面只查询，不删除。下段属于已审批的变更：使用刚才查到的完整标识，确认依赖、备份与回滚条件后，在独立、起始没有未保存变更的 `wsadmin` 会话执行；不要拼接应用名猜测对象，也不要与其他配置修改混在一个会话中。
+
+```python
+bla_id = 'PASTE_CONFIRMED_BLA_ID'
+cu_id = 'PASTE_CONFIRMED_CU_ID'
+if bla_id.startswith('PASTE_') or cu_id.startswith('PASTE_'):
+    raise Exception('必须填入经过人工核对的准确 BLA/CU 标识')
+if str(AdminConfig.hasChanges()).strip().lower() not in ('0', 'false'):
+    raise Exception('会话存在未保存变更或状态无法确认，停止；不能替别人保存或丢弃')
+try:
+    print(AdminTask.deleteCompUnit(['-blaID', bla_id, '-cuID', cu_id]))
+    # 还有任何 CU 时立即停止；其他 BLA 引用也必须已人工核对。
+    remaining_cus = AdminTask.listCompUnits(['-blaID', bla_id])
+    print(remaining_cus)
+    if str(remaining_cus).strip():
+        raise Exception('BLA 仍含组合单元，停止删除并复核引用')
+    print(AdminTask.deleteBLA(['-blaID', bla_id]))
+except:
+    print('清理未完整通过，禁止保存；请检查并受控弃置本会话未保存变更')
+    print(AdminConfig.queryChanges())
+    raise
 AdminConfig.save()
 ```
+
+老师提醒一个容易漏掉的地方：`raise` 只是让脚本停下，不会把已经成功的删除“倒放回来”。删除 CU 后若复查失败，删除可能仍在管理工作区这张“尚未交上去的草稿”里；以后在同一会话调用 `save()`，可能把它一并提交。[IBM 的 AdminConfig 工作区说明](https://www.ibm.com/docs/en/was-nd/9.0.5?topic=scripting-commands-adminconfig-object-using-wsadmin)区分了保存与弃置：`queryChanges()` 用来查看未保存的改动；只有确认会话起始干净、当前改动全部属于本次失败操作、而且尚未保存后，才可按审批执行 `AdminConfig.reset()`，再用 `hasChanges()` 验证没有遗留。它会弃置整个当前工作区的未保存变更，不能无条件运行。也可以按现场受支持流程退出并弃置该独立会话；不能选择保存后再退出。
+
+如果 `save()` 自身超时或报错，不能假设“肯定没保存”，更不能把 `reset()` 当作已提交配置的回滚。先重新查询主配置仓库与目标对象，确认实际提交状态；已保存的部分要按备份和回滚方案处理。重开干净会话、核对主仓库、确认 Node 同步以及应用业务状态之后，才决定是否重试。
 
 真实 `cuID` 不一定等于应用名。必须使用 `listCompUnits` 或控制台显示的准确值，不能把示例直接复制到生产。
 
@@ -1159,13 +1182,13 @@ AdminConfig.save()
 控制台路径是：
 
 ```text
-Applications
-  -> Application Types
-  -> Business-level applications
+Applications（应用）
+  -> Application Types（应用类型）
+  -> Business-level applications（业务级应用）
   -> <目标 BLA>
   -> 先删除每个 Composition Unit
   -> 再删除空 BLA
-  -> Save
+  -> Save（保存配置）
 ```
 
 如果控制台和 `listCompUnits` 可以正常读取并删除，就到这里为止。不要继续碰文件系统。
@@ -1419,12 +1442,15 @@ Set-Location .\websphere-lab
 ### 第三步：启动容器
 
 ```powershell
+docker pull icr.io/appcafe/open-liberty:full-java21-openj9-ubi-minimal
+$libertyImage = (docker image inspect icr.io/appcafe/open-liberty:full-java21-openj9-ubi-minimal --format '{{index .RepoDigests 0}}').Trim()
+if ($LASTEXITCODE -ne 0 -or $libertyImage -notmatch '@sha256:') { throw '未取得镜像摘要，停止实验' }
 docker run --detach `
   --name openliberty-lab `
-  --publish 9080:9080 `
-  --publish 9443:9443 `
+  --publish 127.0.0.1:9080:9080 `
+  --publish 127.0.0.1:9443:9443 `
   --mount "type=bind,source=$((Get-Location).Path)\server.xml,target=/config/server.xml,readonly" `
-  icr.io/appcafe/open-liberty:full-java21-openj9-ubi-minimal
+  $libertyImage
 ```
 
 说明：版本未固定的镜像标签适合学习，但生产必须固定经过验证的 Liberty 版本或镜像 Digest，并进入漏洞扫描和发布审批。
@@ -1453,10 +1479,10 @@ curl.exe --fail --show-error http://localhost:9080/health
 
 ```powershell
 docker ps --filter "name=openliberty-lab"
-docker inspect --format "{{.State.Health.Status}}" openliberty-lab
+docker inspect --format "{{if .State.Health}}{{.State.Health.Status}}{{else}}not-configured{{end}}" openliberty-lab
 ```
 
-如果镜像未定义 Docker Healthcheck，第二条可能返回空值；此时以 `/health` 和 Ready 日志为准，不要把“没有容器 Healthcheck”误判成应用故障。
+如果镜像未定义 Docker Healthcheck，第二条返回 `not-configured`，意思是没有配置这项检查，不等于故障。保存 `$libertyImage` 的摘要，后面的故障重建继续使用它，不重新拉取浮动标签。这份实验没有订单应用和自定义业务检查，`/health` 返回 `UP` 只证明当前健康检查集合通过，不证明数据库、登录或订单功能正常。
 
 ### 如果没有成功
 
@@ -1578,9 +1604,9 @@ Hung Thread 检测说明线程超过阈值，不自动证明死锁。长批处�
 每个 Cluster 至少估算：
 
 ```text
-峰值并发请求
-  / 单请求平均占用线程时间
-  -> WebContainer 线程需求
+峰值每秒请求数
+  x 单请求平均占用线程秒数
+  -> 平均忙线程估算（仍须预留突发、尾延迟和故障容量）
 
 Cluster Member 数量
   x 每成员 JDBC 最大连接
@@ -1694,16 +1720,11 @@ WebSphere 是企业 Java 应用服务器。traditional ND 用 Cell、Deployment 
 
 ### 3 分钟版本
 
-1. 区分 traditional、ND、Liberty、Open Liberty 和 IHS。
-2. 解释 Profile、Cell、DMgr、Node、Node Agent、Server、Cluster。
-3. 画出 Client -> IHS/Plug-in -> WebContainer -> JDBC/JMS -> Backend。
-4. 解释主配置同步、应用发布、Session Affinity/Replication 和 JTA 恢复。
-5. 解释 Thread Pool、JDBC Pool、Heap/GC 的背压关系。
-6. 说明 PMI、日志、FFDC、Thread/Heap Dump 和 AIOps 关联。
-7. 说明 EAR 的 Install、Update、Rollout Update、Edition 和卸载重装边界。
-8. 说明制品校验、配置备份、BLA/CU 残留、Node Sync、业务验证和回滚。
-9. 说明双 Node/IHS、高可用、滚动升级、安全和回滚。
-10. 补充 traditional 到 Liberty 的迁移边界，不承诺零改造。
+“我会先确认讨论的是传统 ND 还是 Liberty。传统 ND 用 Cell 管理域组织节点，DMgr 保存主配置，Node Agent 把配置同步给节点，真正处理业务的是各个 Application Server 的 JVM。普通请求经 IHS 和路由插件进入成员的 WebContainer，再借用 JDBC 或 JMS 连接访问数据库或消息系统；DMgr 不在这条普通业务转发路径里。”
+
+“EAR 发版必须区分六个结果：制品正确、配置保存、节点同步、各成员加载、入口路由、业务验证。某个环节成功不能代表下游都成功。正常已有应用更新优先走 Update；遇到同名 CU，不先删目录，而是确认企业应用、BLA、CU、Asset 和引用关系，使用受支持接口处理。手工仓库修复只在接口已损坏、目标明确且备份与维护窗口齐备时讨论。”
+
+“生产设计要覆盖状态与容量。跨主机放成员才能覆盖主机故障；会话亲和不能替代会话恢复，事务日志不能当缓存清理。连接池总上限按所有 JVM 计算，少一个节点时仍要满足容量。超时事故先关联入口日志、成员请求、PMI、连续线程转储、数据库锁和发布记录，再选择限流、回退或修复下游。滚动重启之前取证，回滚还要考虑数据库和消息已经产生的业务副作用。我用本地 Liberty 实验练习配置、健康检查和可恢复故障，但不会把它说成真实 ND 生产操作经验。”
 
 ## 面试题与递进追问
 
@@ -1750,6 +1771,22 @@ WebSphere 是企业 Java 应用服务器。traditional ND 用 Cell、Deployment 
 **第四问，损坏对象怎么处理：** 只有管理接口不能完整删除、引用关系明确、备份和维护窗口就绪时，才按 IBM 文档在 stand-alone 或 DMgr 主仓库精确处理同名 `blas/cus`；ND 不能改 Managed Node 副本。
 
 **第五问，如何证明恢复：** 清理后先验证 `listBLAs` 不再报错、其他应用未受影响，再重装 EAR，完成节点同步、所有成员启动、IHS 路由和业务冒烟。必须保留配置 ZIP、隔离目录、EAR 哈希和回滚条件。
+
+## 老师带你验收一次 EAR 更新：六张回执不能缺
+
+我们用一个具体场景串起来：报销系统从旧 EAR 更新到新 EAR，四个 JVM 分布在两台主机。你拿到“上传成功”截图，先别签字。第一张回执是制品来源和哈希，它回答“拿到的是不是审批过的包”；第二张是保存后的配置，它回答“管理域是否记住了正确的模块和目标”；第三张是节点同步，它回答“每个节点是否收到同一轮变更”；第四张是逐成员启动与版本接口，它回答“每个 JVM 是否真正加载了新应用”；第五张是从 IHS 入口请求，验证插件、虚拟主机和证书；第六张是业务冒烟。缺哪一张，就不能用后一层的名字描述前一层的成功。
+
+**为什么 `Test connection` 通过，应用仍可能连不上数据库？** 控制台测试使用的作用域、认证上下文与应用实际查找路径可能不同。我们先查应用引用的 JNDI 名称，再看它运行的 Server 能否看到这个 Scope（资源作用域），最后确认实际认证别名、驱动与数据库授权。测试按钮回答的是它自己的测试条件，不是所有成员所有应用身份。业务验证应使用批准的测试账号与可清理数据，不能在生产随意制造真实报销或转账。
+
+**为什么不能把事务日志当成安装缓存删除？** 想象数据库和消息系统都参与一笔业务。两阶段提交先询问双方能否提交，资源进入 prepared（已准备、等待最终决定）状态；协调者把决定可靠记录后再通知双方。若这时 JVM 断电，重启要靠日志恢复决定。删除日志可能让系统失去“到底该提交还是回滚”的证据。真正排障要记录事务标识、参与资源、恢复状态与超时，交由应用、数据库、消息管理员按支持流程处理；它不是 CU 残留问题的通用清理对象。
+
+**为什么两个 EAR 哈希一样，展开目录却可能不同？** EAR 是压缩制品，安装后可能生成绑定、编译或平台配置文件。不能把 EAR 的哈希与整个展开目录的哈希直接比较。保留源制品哈希，再对应用自己的关键类、静态文件或构建版本标识做有定义的清单校验；把平台生成文件单独标识。版本接口本身也可能被缓存，所以应结合成员身份、构建号与请求时间判断，而不是只刷新一次首页。
+
+现在老师给你一道容量题：每秒 600 个请求，平均占用线程 0.2 秒，平均约有 120 个忙线程；慢查询让平均时间变成 2 秒时，在同样到达速率下会需要约 1200 个忙线程。这个推导解释了为什么 CPU 不高却会线程耗尽。它不是建议把线程改成 1200：若数据库已堵住，只会增加等待和内存。先限制进入量、定位慢查询与事务，再压测线程和连接的平衡点。平均值也不描述最慢那批用户，还要观察 p95/p99、超时与排队长度。
+
+**滚动回退最容易漏什么？** 新版本可能往 Session 写入旧版本无法反序列化的对象，也可能已经改变数据库字段或发送新格式消息。此时把 EAR 换回旧包不自动逆转状态。发布前采用兼容的新旧字段与消息协议，说明会话处理策略；回退前确认旧版本仍能读当前数据。对已经发出的业务命令先查结果再补偿，不把“重试一下”当作没有成本的动作。
+
+最后做一份 GitHub 学习证据：画出六张回执的依赖关系，把每张回执的命令、脱敏输出、时间与判定依据并列。记录实验失败和修复，不编造生产案例。`AdminConfig.hasChanges()` 的返回值先转成字符串再比较，避免把非空的 `"0"` 当真；相关语法依据 [IBM AdminConfig 参考](https://www.ibm.com/docs/en/was-nd/9.0.5?topic=scripting-commands-adminconfig-object-using-wsadmin)，BLA/CU 标识与列表参数依据 [IBM BLAManagement 参考](https://www.ibm.com/docs/en/was/8.5.5?topic=aauws-blamanagement-command-group-admintask-object-using-wsadmin-scripting)。实际环境仍须核对安装版本对应帮助。配置 ZIP、事务日志、原始 EAR 与含凭据的转储只放受控备份区，不能进入公开仓库。
 
 ## 学习检查清单
 

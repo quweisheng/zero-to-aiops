@@ -70,53 +70,53 @@ RAG 是“先检索，再生成”：先从 runbook、事故复盘、服务文�
 RAG 可以按这张地图理解：
 
 ```text
-RAG
-  -> Knowledge sources
-     -> runbooks
-     -> incident reports
-     -> service docs
-     -> tickets
-     -> dashboards notes
-  -> Offline indexing
-     -> load documents
-     -> clean / normalize
-     -> split into chunks
-     -> attach metadata
-     -> create embeddings
-     -> store in vector database
-  -> Online retrieval
-     -> receive query / alert context
-     -> query rewriting optional
-     -> create query embedding
-     -> vector search
-     -> keyword / hybrid search optional
-     -> metadata filter
-     -> rerank optional
-     -> context packing
-  -> Generation
-     -> prompt with retrieved context
-     -> structured output
-     -> cite sources
-     -> refuse when context is insufficient
-  -> Evaluation
-     -> retrieval recall
-     -> answer faithfulness
-     -> citation accuracy
-     -> latency / cost
-     -> safety
+RAG（检索增强生成）
+  -> Knowledge sources（知识来源）
+     -> runbooks（操作手册）
+     -> incident reports（故障报告）
+     -> service docs（服务文档）
+     -> tickets（工单）
+     -> dashboards notes（面板说明）
+  -> Offline indexing（离线建索引）
+     -> load documents（读取文档）
+     -> clean（清洗） / normalize（标准化）
+     -> split into chunks（分成文本块）
+     -> attach metadata（添加元数据）
+     -> create embeddings（生成向量）
+     -> store in vector database（存入向量数据库）
+  -> Online retrieval（在线检索）
+     -> receive query / alert context（接收问题与告警上下文）
+     -> query rewriting optional（可选问题改写）
+     -> create query embedding（生成查询向量）
+     -> vector search（向量搜索）
+     -> keyword（关键词） / hybrid search（混合搜索） optional
+     -> metadata filter（元数据过滤）
+     -> rerank（重排序） optional
+     -> context packing（组装上下文）
+  -> Generation（生成）
+     -> prompt with retrieved context（带检索证据的提示）
+     -> structured output（结构化输出）
+     -> cite sources（引用来源）
+     -> refuse when context is insufficient（证据不足时拒绝臆断）
+  -> Evaluation（评估）
+     -> retrieval recall（检索召回率）
+     -> answer faithfulness（回答忠实度）
+     -> citation accuracy（引用准确率）
+     -> latency（延迟） / cost（成本）
+     -> safety（安全）
 ```
 
 初学路线：
 
 ```text
-two markdown runbooks
-  -> chunk
-  -> OpenAI embeddings
-  -> Chroma collection
-  -> retrieve top-k chunks
-  -> OpenAI Responses API
-  -> answer with sources
-  -> evaluate retrieval and answer
+two markdown runbooks（操作手册）
+  -> chunk（文本切块）
+  -> OpenAI embeddings（向量编码）
+  -> Chroma collection（集合）
+  -> retrieve（检索） top-k chunks（最相关的 k 个文本块）
+  -> OpenAI Responses API（响应接口）
+  -> answer（回答） with sources（来源）
+  -> evaluate retrieval（检索） and answer（回答）
 ```
 
 ## RAG 在 AIOps 链路中的位置
@@ -124,12 +124,12 @@ two markdown runbooks
 RAG 是 AIOps 的“知识连接层”。
 
 ```text
-Alertmanager / incident ticket / on-call question
-  -> normalize alert context
-  -> retrieve runbooks, incident reports, service docs
-  -> LLM answer with evidence
-  -> human review
-  -> optional runbook automation with approval
+Alertmanager（告警管理器） / incident（故障） ticket / on-call question（问题）
+  -> normalize（标准化） alert（告警） context（上下文）
+  -> retrieve（检索） runbooks（操作手册）, incident reports（故障报告）, service docs（服务文档）
+  -> LLM answer with evidence（带证据的模型回答）
+  -> human review（人工复核）
+  -> optional runbook（操作手册） automation（自动化） with approval（审批）
 ```
 
 它适合：
@@ -161,14 +161,14 @@ Alertmanager / incident ticket / on-call question
 AIOps 中通常组合使用：
 
 ```text
-rules
-  -> detect known conditions
-RAG
-  -> retrieve internal knowledge
-LLM
-  -> summarize, explain, structure
-human
-  -> approve risky actions
+rules（规则）
+  -> detect known conditions（识别已知条件）
+RAG（检索增强生成）
+  -> retrieve（检索） internal knowledge（知识库）
+LLM（大语言模型）
+  -> summarize, explain, structure（总结、解释与结构化）
+human（人工）
+  -> approve risky actions（审批高风险动作）
 ```
 
 ## 两条主链路
@@ -178,13 +178,13 @@ RAG 分离线入库和在线问答。
 ### 离线入库
 
 ```text
-runbook markdown / incident report / wiki
-  -> loader
-  -> cleaner
-  -> splitter
-  -> chunk metadata
-  -> embedding model
-  -> vector database
+runbook（操作手册） markdown / incident（故障） report / wiki
+  -> loader（加载器）
+  -> cleaner（清洗器）
+  -> splitter（切分器）
+  -> chunk（文本切块） metadata（元数据）
+  -> embedding model（向量编码模型）
+  -> vector database（向量数据库）
 ```
 
 这条链路可以定时跑，也可以在文档变更时由 CI/CD 触发。
@@ -192,15 +192,15 @@ runbook markdown / incident report / wiki
 ### 在线问答
 
 ```text
-question / alert context
-  -> query embedding
-  -> vector search
-  -> metadata filter
-  -> top-k chunks
-  -> rerank optional
-  -> context packing
-  -> LLM answer
-  -> sources / citations
+question（问题） / alert（告警） context（上下文）
+  -> query embedding（查询向量）
+  -> vector search（向量搜索）
+  -> metadata filter（元数据过滤）
+  -> top-k chunks（最相关的 k 个文本块）
+  -> rerank（重排序） optional
+  -> context packing（组装上下文）
+  -> LLM（大语言模型） answer（回答）
+  -> sources（来源） / citations（引用）
 ```
 
 这条链路是用户提问时实时发生的。
@@ -222,7 +222,7 @@ Document 是一份原始资料，例如：
 Chunk 是文档切分后的片段。
 
 ```text
-order-api-runbook.md
+order-api-runbook.md（订单服务操作手册）
   -> chunk 1: 服务概览
   -> chunk 2: HighErrorRate 排查
   -> chunk 3: DatabaseTimeout 排查
@@ -235,7 +235,7 @@ order-api-runbook.md
 Embedding 是文本的向量表示。
 
 ```text
-"order-api 5xx error rate after deploy"
+"order-api 5xx error rate after deploy"（订单服务发布后服务端错误率）
   -> [0.012, -0.083, ...]
 ```
 
@@ -397,11 +397,11 @@ order-api 502 after deploy
 初次检索可能取回 20 个片段，再用 reranker 重新排序，选最相关的 3 到 5 个给模型。
 
 ```text
-query
-  -> retrieve top 20
-  -> rerank
-  -> keep top 5
-  -> generate answer
+query（查询）
+  -> retrieve（检索） top 20
+  -> rerank（重排序）
+  -> keep top 5（保留排名前五候选）
+  -> generate answer（回答）
 ```
 
 rerank 的价值：
@@ -943,11 +943,11 @@ python ask.py
 概念链路：
 
 ```text
-files
-  -> OpenAI vector store
-  -> file_search tool
-  -> Responses API
-  -> answer
+files（文件）
+  -> OpenAI vector store（向量存储）
+  -> file_search tool（工具）
+  -> Responses API（响应接口）
+  -> answer（回答）
 ```
 
 和自建 RAG 相比，你不用自己写 chunk、embedding、vector search 的底层逻辑。你需要管理：
@@ -1055,10 +1055,10 @@ RAG 很容易忽略权限。
 简单做法：
 
 ```text
-user/team
-  -> allowed_services
-  -> metadata filter
-  -> retrieve only allowed chunks
+user/team（用户与团队）
+  -> allowed_services（允许访问的服务范围）
+  -> metadata filter（元数据过滤）
+  -> retrieve（检索） only allowed chunks
 ```
 
 生产系统不要让所有人都能检索所有事故复盘和内部文档。
@@ -1089,27 +1089,27 @@ RAG 的输出应该区分：
 生产版可以这样设计：
 
 ```text
-Git repo / wiki / incident system
-  -> ingestion job
-      -> parse
-      -> clean
-      -> chunk
-      -> metadata
-      -> embeddings
-      -> vector store
-      -> index health report
+Git repo / wiki / incident（故障） system
+  -> ingestion job（入库任务）
+      -> parse（解析）
+      -> clean（清洗）
+      -> chunk（文本切块）
+      -> metadata（元数据）
+      -> embeddings（向量编码）
+      -> vector store（向量存储）
+      -> index health report（检索索引健康报告）
 
-FastAPI query service
-  -> authenticate user
-  -> normalize question / alert context
-  -> metadata filters by service and permission
-  -> retrieve top-k
-  -> rerank
-  -> pack context
-  -> OpenAI Responses API with structured output
-  -> validate answer
-  -> return answer + sources
-  -> audit log
+FastAPI query（查询） service（服务）
+  -> authenticate user（验证用户身份）
+  -> normalize（标准化） question（问题） / alert（告警） context（上下文）
+  -> metadata（元数据） filters by service（服务） and permission
+  -> retrieve（检索） top-k（最相关的 k 条）
+  -> rerank（重排序）
+  -> pack context（上下文）
+  -> OpenAI Responses API（响应接口） with structured output（结构化输出）
+  -> validate（校验） answer（回答）
+  -> return answer（回答） + sources（来源）
+  -> audit log（审计日志）
 ```
 
 关键工程点：
@@ -1304,7 +1304,113 @@ RAG 的质量上限通常先取决于检索质量，所以我会先看 top-k 是
 19. RAG 输出如何避免直接触发危险动作？
 20. 生产化 RAG 服务需要哪些日志和审计字段？
 
-## 学习证据
+## 老师带你把一本故障手册变成可引用的回答
+
+RAG（检索增强生成）有两条线：离线把资料整理成可找的片段，在线把问题变成检索条件、取回证据并生成回答。你可以把它看成开卷答题：找到正确页码是检索任务，理解页面后回答是生成任务，页码和说法是否对应还需要验证。
+
+学生：“资料都进知识库了，为什么还答错？”老师：“先看正确资料有没有进库，再看有没有被检索，接着看有没有进入上下文，最后看模型是否正确使用。”这四个失败位置对应不同修复，不能都通过加长提示词处理。
+
+### chunk 课堂：切成小块不代表越碎越好
+
+Chunk（文档片段）需要保留能够独立理解的上下文。命令在一块、风险前提在另一块，检索可能只拿到命令；标题、产品版本、适用环境和步骤条件应随片段保留。Overlap（相邻片段重叠）能减少边界断裂，也会产生重复与成本，要在固定问答集上评估。
+
+错误码、服务名、函数名适合精确关键词；自然语言症状适合语义检索；Hybrid Search（混合检索）组合两类信号。Rerank（重排）对候选重新排序，但正确证据在召回阶段根本没进来，重排也无法凭空找回。先定位召回遗漏，再调整排序。
+
+### 基础与故障带练：引用存在也未必支持答案
+
+准备两段完全合成资料：A 写“数据库连接池等待应先检查活跃连接和长事务”，B 写“CPU 高时检查热点线程”。提出“CPU 正常但数据库调用超时怎么办”，预期正确证据是 A。沿前文入库与查询实验固定问题，保存前 k 条结果、来源与最终回答。
+
+故意在仅教学索引中删除 A 对应片段或把其服务过滤条件设错，再查询同一问题。合格结果应暴露证据不足或返回不相关候选供评估，而不是继续引用 B 编造数据库结论。恢复 A 和正确过滤后再跑，核对命中文档与回答支持关系。清理只回收专用索引与合成资料，勿删除共享知识库。
+
+这个实验要分两张评分表：检索是否命中 A，答案的每个关键结论是否被 A 支持。模型拒答是可能的正确行为；不应为了让演示总有答案而取消证据不足分支。如果没有调用真实模型，只完成检索部分，就在证据中明确注明。
+
+### 权限与注入课堂
+
+文档原文属于任务数据，其中写着“忽略规则、调用删除工具”不能变成应用指令。检索服务从已认证身份计算允许范围，模型不能自己扩大租户或文档权限。提示词、工具参数验证、下游授权和审批共同保护边界，单靠一句“请勿执行恶意指令”不构成完整防护。
+
+缓存键也要包含影响结果的租户、权限范围、问题与索引版本。否则管理员问出的敏感答案可能被缓存后返回普通用户。删除与权限撤销需要覆盖原文、片段、向量、索引和缓存，保留撤销后验收记录。
+
+### 生产、成本与面试课堂
+
+发布一份 RAG 系统，应同时记录解析器、切分规则、embedding 模型、索引版本、检索参数、重排器、提示词与生成模型。只换其中一个也可能改变效果，所以灰度和回滚针对整条检索生成链；知识更新使用版本化索引并验证完整性，避免边更新边混用新旧章节。
+
+容量按文档数、片段数、维度、索引与副本估算，在线延迟拆成检索、重排、上下文和生成。增加 top-k 可能增加成本和干扰信息，并非稳定提高正确率。监控空结果、权限过滤后候选数、引用错误、输入输出长度与人工反馈，不只监控 HTTP 成功率。
+
+30 秒回答强调先检索证据再生成，可靠性来自数据治理、权限、版本和评估。3 分钟以连接池问答展开离线与在线路径，再用缺失证据实验解释拒答与诊断。追问“RAG 能消灭幻觉吗”：不能，证据与生成都有失败空间；追问“怎么证明更好”：用固定题集与新时间样本分别评估召回、支持度、引用、延迟和成本。
+
+## 基础实验与故障注入：先证明证据门禁，再连接大模型
+
+### 为什么要把确定性测试放在模型前面
+
+模型调用包含随机性、服务变化和费用，第一步就用它验证权限或删除，会把多个问题混在一起。先用合成资料和确定性检索器验证“谁能看到哪些片段、资料缺失时能否拒答、引用能否回查”，再接入真实向量与生成模型。这个顺序不是说关键词匹配等于完整 RAG，而是让安全与数据路径有独立可复算的底座。
+
+下面实验只用 Python 标准能力，不调用模型、不付 API 费用。保存为 `evidence_gate_lesson.py` 并执行 `python evidence_gate_lesson.py`。其中检索使用教学关键词精确匹配，返回原文片段而非让模型自由生成，目的只在验证证据门禁。
+
+```python
+documents = [
+    {'id': 'pool-v1', 'team': 'a', 'active': True, 'term': '连接池',
+     'text': '连接池等待先检查活跃连接和未结束事务。'},
+    {'id': 'cpu-v1', 'team': 'a', 'active': True, 'term': 'CPU',
+     'text': 'CPU 持续高时先检查热点线程。'},
+    {'id': 'private-v1', 'team': 'b', 'active': True, 'term': '连接池',
+     'text': '这是仅团队 b 可读的合成记录。'},
+]
+
+def retrieve(question, team, docs):
+    return [d for d in docs if d['team'] == team and d['active']
+            and d['term'] in question]
+
+def respond(question, team, docs):
+    hits = retrieve(question, team, docs)
+    if not hits:
+        return {'status': 'insufficient_evidence', 'sources': []}
+    return {'status': 'evidence_only', 'sources': [d['id'] for d in hits],
+            'excerpts': [d['text'] for d in hits]}
+
+normal = respond('连接池等待怎么办', 'a', documents)
+assert normal['sources'] == ['pool-v1']
+print('normal:', normal['status'])
+
+broken = [d for d in documents if d['id'] != 'pool-v1']
+missing = respond('连接池等待怎么办', 'a', broken)
+assert missing['status'] == 'insufficient_evidence'
+assert 'private-v1' not in missing['sources']
+print('DETECTED:', missing['status'])
+
+restored = respond('连接池等待怎么办', 'a', documents)
+assert restored['sources'] == ['pool-v1']
+print('recovered:', restored['sources'])
+```
+
+预期正常返回证据片段，删除唯一授权相关资料后返回证据不足，不偷用团队 b 的资料，恢复后引用再次是 `pool-v1`。如果错误条件下仍有答案，先查权限是否在检索前生效、是否错误复用缓存、是否绕过证据检查。清理退出进程即可，教学文件可保留；没有创建外部索引或持久数据。
+
+真实系统把这个检索器换成关键词、向量或混合检索时，应保留同样的权限和缺失测试。生成模型接入后还要新增“答案是否被证据支持”测试，不能因为该脚本通过就宣称消除了幻觉。模型可以引用一个真实文档 ID，却把文档没说的内容编进去，引用存在性与引用支持性要分别验证。
+
+## 评估课堂：把一个错误拆成五层
+
+第一层是覆盖：权威资料是否存在、是否最新、是否可解析。第二层是索引：正文与标题、版本、权限、片段 ID 是否正确入库。第三层是召回：目标片段有没有进入候选。第四层是排序与上下文：目标虽被召回，是否在重排、去重或长度裁剪时丢失。第五层才是生成：模型是否忠实使用证据并说明不确定性。
+
+这个分层决定修复成本。正确答案没有进入知识库，就不能靠调 ANN 参数找回来；进入候选却被上下文截断，就不该先换 embedding 模型；证据齐全但回答错误，才重点检查指令、任务分解与生成模型。把同一问题的文档版本、候选列表、重排结果和最终上下文留在受控追踪里，排障就不必靠猜。
+
+测试集不能只包含有明确答案的问题。还应包含知识库没有的产品版本、跨租户资料、过期手册、相互矛盾的来源、错误前提、拼写变化、错误码与长问题。对“没有证据”的题目，拒答或要求补充信息可能才是正确结果。若评价系统只奖励给出答案，模型会被推向编造。
+
+Recall@k（前 k 候选召回率）要先定义每题有哪些可接受证据；只标一篇参考文档可能误罚另一个同样权威来源。生成评价则把答案拆成可验证的事实主张，逐条看是否支持、是否遗漏风险前提、引用是否对应版本。让另一个模型评分可以辅助，但需要固定规则与人工抽检，不能把一个模型的自信判断当成最终真相。
+
+## 安全课堂：提示注入不是单个关键词问题
+
+恶意内容可以藏在检索文档、网页、工单备注或工具输出里。它可能伪装成管理员通知，要求泄露其他文档或调用外部地址。应用应把这些内容当数据，不允许它改变用户授权、工具白名单和执行策略。检索权限在服务端决定，工具权限由下游验证，高风险写入保留审批；模型措辞不能代替这些硬边界。
+
+引用打开也要检查权限与资源有效性。用户获得某次摘要后，访问权限可能被撤销；引用服务不应因曾经生成一个链接就永久放行。缓存需要适当的租户、权限版本和索引版本，并受撤销机制管理。外部文档或对象 URL 也不能任意成为服务端抓取目标，要有网络访问和目标验证策略。
+
+## 系统设计题：知识每天变化，怎么保持答案可追溯
+
+给每次索引发布一个版本，记录原文件校验值、解析器、切分规则、向量模型、权限和生效时间。生成回答保存所用片段 ID 与版本，不必把敏感全文写进公共日志。这样用户说“昨天建议这样做，今天变了”时，你能区分知识更新、检索参数变化和模型变化，而不是笼统归为模型不稳定。
+
+知识回填与在线查询要分配不同资源预算。重建大量向量会占用模型配额、数据库写入与对象读取，不能让正常故障问答被挤出。发布前检查片段数量、删除传播、权限和固定问题；新旧索引并存一段观察期，回滚时切回匹配的检索与生成配置。文档格式变更、模型升级和权限改版尽量分开验证，降低定位难度。
+
+事故题设为新手册已经上传但仍引用旧操作。先按文档 ID 查入库状态、版本和解析错误，再查索引生效、检索缓存、重排结果和最终上下文。若确实命中新版却仍输出旧步骤，转查生成与对话历史。恢复不能只刷新一次页面，还要验证旧内容不再召回、权限保持正确、固定题集通过，并保留受影响回答的更正记录。
+
+## 本课 GitHub 学习证据
 
 学完后，在 GitHub 留下这些证据：
 

@@ -16,13 +16,13 @@ HTML 是持续演进的 Living Standard（活标准），不是“HTML5 学完�
 ## 官方知识地图与本文边界
 
 ```text
-document
-  -> metadata: title / meta / link / script
-  -> sections: header / nav / main / article / section / footer
-  -> text: headings / paragraph / list / code
-  -> embedded content: img / picture / video / iframe
-  -> data and interaction: table / form / details / dialog
-  -> browser models: parsing / DOM / accessibility tree / navigation
+document（文档）
+  -> metadata（元数据）: title（标题）/ meta（元信息）/ link（外部资源关系）/ script（脚本）
+  -> sections（内容分区）: header（页首）/ nav（导航）/ main（主体）/ article（独立内容）/ section（主题区）/ footer（页尾）
+  -> text（文本）: headings（标题层级）/ paragraph（段落）/ list（列表）/ code（代码）
+  -> embedded content（嵌入内容）: img（图片）/ picture（适配图片源）/ video（视频）/ iframe（内嵌页面）
+  -> data and interaction（数据与交互）: table（表格）/ form（表单）/ details（折叠详情）/ dialog（对话框）
+  -> browser models（浏览器模型）: parsing（解析）/ DOM（文档对象树）/ accessibility tree（无障碍树）/ navigation（导航）
 ```
 
 本文覆盖页面结构、语义、DOM、表单、资源、安全、性能、可访问性和运维排障。CSS 视觉布局、JavaScript 行为、Ajax 请求、框架状态管理分别在本分类后续文章展开。
@@ -71,17 +71,17 @@ HTML 不负责保证接口成功、权限正确或数据新鲜。页面展示的
 ## HTML、DOM、CSSOM 与渲染路径
 
 ```text
-GET /incident/INC-1024
-  -> response headers + HTML bytes
-  -> HTML parser builds DOM
-  -> CSS parser builds CSSOM
-  -> DOM + CSSOM produce render tree
-  -> layout computes size and position
-  -> paint draws pixels
-  -> compositor combines layers
+GET /incident/INC-1024（读取指定事件详情）
+  -> response headers + HTML bytes（响应头与 HTML 字节）
+  -> HTML parser builds DOM（解析 HTML 并建立文档树）
+  -> CSS parser builds CSSOM（解析样式并建立样式对象模型）
+  -> DOM + CSSOM produce render tree（形成渲染树）
+  -> layout computes size and position（布局计算尺寸与位置）
+  -> paint draws pixels（绘制）
+  -> compositor combines layers（合成器组合图层）
 
-screen reader
-  <- accessibility tree derived from semantic DOM and ARIA
+screen reader（屏幕阅读器）
+  <- accessibility tree（从语义 DOM 与 ARIA 派生的无障碍树）
 ```
 
 ### DOM 五件套
@@ -143,10 +143,10 @@ screen reader
 ## 表单：一次提交怎样走
 
 ```text
-label -> user input -> browser constraint validation
-  -> submit event -> name/value pairs
-  -> HTTP request -> server authentication and validation
-  -> response -> success/error state -> focus and announcement
+label（控件标签）-> user input（用户输入）-> browser constraint validation（浏览器约束校验）
+  -> submit event（提交事件）-> name/value pairs（字段名和值）
+  -> HTTP request（请求）-> server authentication and validation（服务端认证与校验）
+  -> response（响应）-> success/error state（成功或失败状态）-> focus and announcement（焦点与状态通知）
 ```
 
 ```html
@@ -279,11 +279,11 @@ HTML 解析器遇到脚本时是否停下来，取决于脚本类型和属性：
 ### 文档生命周期不是只有 onload
 
 ```text
-document.readyState = loading
+document.readyState = loading（文档处于加载状态）
   -> DOM 构建完成
-  -> DOMContentLoaded
+  -> DOMContentLoaded（文档解析完成及相关延后脚本完成事件）
   -> 图片、字体、iframe 等资源继续完成
-  -> load
+  -> load（页面相关加载完成事件）
   -> 用户导航离开时 pagehide / visibilitychange
 ```
 
@@ -323,9 +323,9 @@ document.readyState = loading
 初始
   -> 用户编辑（dirty）
   -> 浏览器约束校验
-  -> submitting
+  -> submitting（正在提交）
   -> 服务端认证、授权、业务校验、幂等处理
-  -> success / rejected / unknown
+  -> success / rejected / unknown（成功、明确拒绝或结果未知）
 ```
 
 `unknown` 很重要：客户端超时不代表服务端没有执行。危险操作应带幂等键或业务唯一号，并提供结果查询，不能看到超时就直接重发。
@@ -407,7 +407,7 @@ GitHub Pages 这类子路径部署尤其要核对 `base`。本地 `/assets/app.j
 HTML 层决定了浏览器最早能发现哪些关键资源。排查慢首屏时按链路拆解：
 
 ```text
-DNS / TCP / TLS
+DNS / TCP / TLS（域名解析、连接与安全握手）
   -> TTFB（首字节等待）
   -> HTML 下载
   -> 解析时发现 CSS、字体、图片、脚本
@@ -627,6 +627,90 @@ HTML 是浏览器页面的语义与文档结构层。浏览器把 HTML 解析成
 - [ ] 能说明 XSS、CSP、同源和服务端校验边界。
 - [ ] 能完成基础与故障实验并验证修复。
 - [ ] 能回答缓存一致性和前端发布系统设计题。
+
+## 老师带你从“看得见”学到“浏览器理解了”
+
+我们给值班同事做一张事件卡片。先不要选颜色，先问四个问题：这块内容叫什么，谁能操作，操作结果在哪里出现，键盘用户怎样到达。你会自然选出标题、正文、按钮和状态提示。HTML 语义就是把这些关系明确告诉浏览器，而不只是给它几个矩形。
+
+学生问：“我已经把文字加粗了，为什么还要 `h2`？”加粗只是样式，辅助技术不知道它是不是标题。`h2` 明确表达章节关系，字号可以再由 CSS 调整。反过来，用大标题标签给普通数字做大字，也会污染文档层次。判断标签时问“内容是什么”，判断 CSS 时问“希望如何呈现”。
+
+学生再问：“屏幕上有‘确认’两个字，为什么自动测试找不到按钮？”因为文字不是角色。`div` 默认是普通容器，`button` 才带按钮语义和键盘行为。你可以在开发者工具中比较二者的 role（角色）、name（名称）和 focusable（可聚焦性）。这一步把抽象的无障碍要求变成可观察证据。
+
+### 一次表单提交，为什么看见的值和发出的值不同
+
+给事件输入框写上 `id="incident"`，只是给 DOM 元素一个身份，供 label、样式或脚本查找；`name="incident_id"` 才指定提交字段名。`value` 是值，`disabled` 表示禁用，`readonly` 表示只读，它们改变交互与提交行为的方式不同。
+
+按照[表单条目构造规则](https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#constructing-the-entry-list)，你可以这样做一个只在浏览器内的补充实验：给前面的表单新增 `name="incident_id" value="INC-1024"` 的输入框，在控制台执行 `Array.from(new FormData(document.querySelector('form')).entries())`。看到字段后添加 `disabled`，再执行一次，它会从提交条目中消失；改成 `readonly` 后再观察，值仍可出现。
+
+清理就是移除实验控件和新增属性。若结果与你预期不同，检查控件是否在正确 form 中、有无 name、是否属于禁用 fieldset，以及你观察的是初始属性还是当前属性。这个实验没有把数据发送到服务器，因此不能据此证明后端已保存；它专门验证浏览器如何组装字段。
+
+### 默认行为、事件与故障定位
+
+链接有导航行为，按钮在表单中可能有提交行为。JavaScript 的 `preventDefault()` 可以阻止某次事件对应的默认行为，但不会自动完成你想要的替代操作。拦住 submit 之后，若忘了发送请求或更新结果，用户就只会看到“点了没反应”。
+
+所以排查按四层走：控件可操作吗，事件发生了吗，默认或替代行为执行了吗，结果能被用户感知吗。把 Console 里的“clicked”当作全部成功，漏掉了最后两层。AIOps 事件台应统计用户操作到最终结果的链路，包括失败与结果未知，而不只统计点击次数。
+
+### 中文与英文混排，老师教你读规范的方法
+
+读规范时，element 是元素，attribute 是属性，content model 是允许包含什么子内容的规则，parsing 是解析，conformance 是是否符合规范。遇到不认识的词，不要先背译名，先问它描述的是源码约束、浏览器行为，还是工具接口。例如“按钮不能嵌套交互控件”约束的是结构；“浏览器修复无效标记”描述的是解析结果，两者并不矛盾。
+
+你还会遇到 HTML attribute 与 DOM property。前者偏向标记中的属性文本，后者是运行时对象的属性；部分会相互反映，部分值会在交互后产生区别。排查表单时查看当前 `input.value`，不要只看源码最初写下的 `value`。初始模板是起点，用户此刻看到的状态才是实际体验。
+
+### 怎样把 HTML 问题说到面试深度
+
+面试官追问“无效嵌套有什么影响”，不要只说“不规范”。你要接着说明解析器会按容错规则生成实际 DOM，真实父子关系改变后可能影响 CSS、事件委托、可访问名称和服务端水合。再说明如何比较初始响应、实时 DOM 和框架警告，最后给出修复源结构与回归键盘行为的验证。
+
+面试官追问“页面多少 DOM 节点就会慢”，没有跨设备通用的固定答案。节点数、样式复杂度、更新频率、布局范围和设备能力共同决定成本。先用真实数据规模记录 Performance，再决定分页、虚拟化或减少更新。说出测量方法和取舍，比背一个未经测量的节点阈值更可靠。
+
+做完本文，你可以让另一位同学只用键盘完成打开事件、阅读状态、填写记录、观察错误和重试。把他卡住的位置记下来，修复后再请他验证。这是一份真正面向使用者的验收，不是只证明开发者自己熟悉页面。
+
+## 语义与交互课堂：把真实用户路径走完
+
+### 表单提交为什么不能只监听按钮点击
+
+老师请你先用鼠标点击提交，再把光标放到输入框中按 Enter。两种动作都可能触发表单提交；如果业务逻辑只绑定某个按钮的 click，就容易出现键盘操作绕过逻辑、重复触发或状态不一致。应该围绕表单的 submit 事件组织提交行为，再根据需求阻止默认导航。原生约束校验、提交按钮与键盘行为也应一起测试。
+
+表单里的普通按钮要明确 `type="button"`，真正提交的按钮才用 `type="submit"`。若弹出详情的按钮忘了写类型，点击“查看”可能意外提交整个处置表单。禁用按钮可以减少重复点击，但不是服务端幂等机制；请求发送后连接中断，用户刷新页面依然可能再提交。HTML 负责交互入口，业务防重还要由 API 契约保障。
+
+`requestSubmit()` 与直接调用 `submit()` 也有语义差别：前者用于按提交路径发起操作，可参与校验与提交事件；后者不等于用户点了按钮。遇到“输入明明 required 却被发送”，检查具体调用路径和是否设置了跳过验证，而不是认为浏览器校验完全不工作。更重要的是，服务端始终需要独立校验，因为客户端约束可以被绕过。
+
+### 用原生交互元素降低自己承担的责任
+
+一个链接表达导航到哪里，一个按钮表达执行动作。把 `div` 加上点击事件看起来也能用，但你还需要补键盘触发、焦点、禁用状态、可访问名称等行为。给它加 `role="button"` 只是向辅助技术声明角色，不会自动实现完整按钮行为。优先使用合适的原生元素，能让浏览器帮助你处理很多边界。
+
+模态对话框还需要管理焦点进入、焦点范围、关闭方式和返回位置。原生 `dialog` 能提供相关基础机制，但内容标签、关闭后的业务状态和目标浏览器验证仍由应用负责。自制遮罩若只隐藏背景视觉，却允许键盘焦点跑到背后的删除按钮，会形成严重的操作混乱。
+
+图标按钮不能仅依赖图标形状表达名称。可访问名称应说明动作和对象，例如“查看订单接口详情”，而不是“图标三”。如果给按钮提供了明确名称，再给装饰图标重复同样文本，可能导致辅助技术冗余朗读。这里的目标是让不同感知方式的用户得到同一操作含义，不是堆砌尽可能多的 ARIA 属性。
+
+### 浏览器后退不一定重新加载页面
+
+学生常把“后退回来仍是旧数据”归为缓存错误。浏览器可能恢复此前页面及其内存状态，页面生命周期不一定重新从加载开始。`pageshow` 可用于观察页面显示，包括从历史记录恢复的场景，其 `persisted` 属性帮助识别某些缓存恢复情况。[页面显示事件说明](https://developer.mozilla.org/en-US/docs/Web/API/Window/pageshow_event)
+
+因此，值班控制台不能只在第一次 load 时检查身份和数据新鲜度。恢复显示后应依据业务时限检查是否需要刷新；处置按钮真正执行前仍要向服务端确认权限和资源版本。也不要无条件强制刷新所有恢复页面，那会丢失草稿、滚动位置和用户上下文。可靠设计是在保留可恢复界面状态的同时重新验证关键事实。
+
+### 完整的小实验：确认按钮为什么意外提交
+
+在前面的本地 HTML 实验页副本中，把一个表单写成下面内容，不连接任何真实接口：
+
+```html
+<form id="submit-lab">
+  <label>服务名 <input name="service" value="api" required></label>
+  <button id="preview-lab">预览</button>
+  <button type="submit">确认</button>
+</form>
+<p id="submit-result" role="status">尚未提交</p>
+<script>
+  let submissions = 0;
+  document.querySelector('#submit-lab').addEventListener('submit', event => {
+    event.preventDefault(); // 实验只更新文字，不发网络请求
+    document.querySelector('#submit-result').textContent = `提交次数：${++submissions}`;
+  });
+</script>
+```
+
+先点击预览，预期计数增加，证明缺省按钮类型可能带来意外提交。修复为 `<button id="preview-lab" type="button">预览</button>`，刷新实验页后再点击预览，预期仍显示尚未提交；点击确认应增加计数。清空必填输入再确认，预期浏览器提示补全，计数不增加。
+
+如果行为不符合预期，检查按钮是否确实在该表单内、页面有没有重复 ID、脚本是否执行，以及原文件是否有别的事件监听器。最后用键盘完成相同路径，保存修复前后差异，删除自己的实验副本或恢复原页；关闭标签页即清除本次计数。实验验证的是提交语义，不证明真实 API 的鉴权、幂等和业务校验已完成。
 
 ## GitHub 学习证据
 

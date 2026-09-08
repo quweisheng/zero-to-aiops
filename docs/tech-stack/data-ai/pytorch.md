@@ -45,41 +45,41 @@
 ## 官方知识地图
 
 ```text
-PyTorch
-  ├── tensor and operators
-  │   ├── dtype / shape / stride / storage
-  │   ├── device: CPU / CUDA / ROCm / MPS / XPU
-  │   ├── view / reshape / broadcasting
-  │   └── random and numerical accuracy
-  ├── automatic differentiation
-  │   ├── requires_grad
-  │   ├── forward graph
-  │   ├── backward
-  │   ├── grad / grad_fn / leaf tensor
-  │   └── no_grad / inference_mode / detach
-  ├── model and optimization
-  │   ├── nn.Module / Parameter / buffer
-  │   ├── loss
-  │   ├── optimizer / scheduler
-  │   ├── train / eval
-  │   └── state_dict / checkpoint
-  ├── data pipeline
-  │   ├── Dataset / IterableDataset
-  │   ├── DataLoader / Sampler
-  │   ├── batch / shuffle / collate
-  │   └── worker / prefetch / pinned memory
-  ├── performance
-  │   ├── AMP
-  │   ├── torch.compile
-  │   ├── profiler / benchmark
-  │   ├── activation checkpointing
-  │   └── memory allocator
-  └── scale and delivery
-      ├── DDP / FSDP2 / TP / PP
-      ├── torchrun / ProcessGroup / collective
-      ├── Distributed Checkpoint
-      ├── torch.export / ONNX / AOTInductor
-      └── serving, observability, upgrade and rollback
+PyTorch（张量与深度学习框架）
+  ├── tensor and operators（张量与算子）
+  │   ├── dtype（数据类型） / shape（形状） / stride（跨元素步长） / storage（存储）
+  │   ├── device: CPU（中央处理器） / CUDA（NVIDIA 通用计算平台） / ROCm（AMD 计算平台） / MPS（苹果图形计算后端） / XPU（特定加速设备后端）
+  │   ├── view（共享底层存储的视图） / reshape（调整形状） / broadcasting（广播扩展规则）
+  │   └── random and numerical accuracy（随机性与数值精度）
+  ├── automatic differentiation（自动微分）
+  │   ├── requires_grad（是否追踪梯度）
+  │   ├── forward graph（前向计算图）
+  │   ├── backward（反向传播）
+  │   ├── grad（累积梯度） / grad_fn（梯度函数） / leaf tensor（叶子张量）
+  │   └── no_grad（不记录梯度） / inference_mode（推理模式） / detach（脱离梯度计算图）
+  ├── model and optimization（模型与优化）
+  │   ├── nn.Module（神经网络模块） / Parameter（模型参数） / buffer（非参数状态）
+  │   ├── loss（损失）
+  │   ├── optimizer（优化器） / scheduler（调度器）
+  │   ├── train（训练模式） / eval（评估模式）
+  │   └── state_dict（参数与状态字典） / checkpoint（检查点）
+  ├── data pipeline（数据流水线）
+  │   ├── Dataset（数据集接口） / IterableDataset（可迭代数据集）
+  │   ├── DataLoader（批量数据加载器） / Sampler（采样器）
+  │   ├── batch（批次） / shuffle（打乱样本） / collate（组装批次）
+  │   └── worker（工作进程） / prefetch（预取） / pinned memory（页锁定内存）
+  ├── performance（性能）
+  │   ├── AMP（自动混合精度）
+  │   ├── torch.compile（模型编译优化入口）
+  │   ├── profiler（性能分析器） / benchmark（性能基准）
+  │   ├── activation checkpointing（用重算换显存）
+  │   └── memory allocator（内存分配器）
+  └── scale and delivery（扩展与交付）
+      ├── DDP（分布式数据并行） / FSDP2（第二代全分片数据并行） / TP（张量并行） / PP（流水线并行）
+      ├── torchrun（分布式启动器） / ProcessGroup（进程组） / collective（集体通信操作）
+      ├── Distributed Checkpoint（分布式检查点）
+      ├── torch.export（导出计算图） / ONNX（开放神经网络交换格式） / AOTInductor（提前编译推理后端）
+      └── serving（推理服务）, observability（可观测性）, upgrade（升级） and rollback（回滚）
 ```
 
 第一次看到这些英文不用背。先记住主线：**数据变成 Tensor，模型做前向计算，Loss 衡量误差，Autograd 计算梯度，Optimizer 更新参数，Checkpoint 保存状态。** 其他能力都是让这条链路更快、更大、更可靠或更容易交付。
@@ -89,14 +89,14 @@ PyTorch
 ### 第一天：跑通一个训练闭环
 
 ```text
-Tensor
-  -> nn.Module
-  -> forward
-  -> loss
-  -> backward
-  -> optimizer.step
-  -> eval + inference_mode
-  -> state_dict
+Tensor（张量）
+  -> nn.Module（神经网络模块）
+  -> forward（前向计算）
+  -> loss（损失）
+  -> backward（反向传播）
+  -> optimizer.step（更新模型参数）
+  -> eval（评估模式） + inference_mode（推理模式）
+  -> state_dict（参数与状态字典）
 ```
 
 目标不是背 API，而是能解释每一行为什么存在，知道梯度什么时候产生、参数什么时候变化、模型什么时候只是预测。
@@ -104,20 +104,20 @@ Tensor
 ### 第一周：能排查单机训练
 
 ```text
-Dataset / DataLoader
-  -> dtype / shape / device
+Dataset（数据集接口） / DataLoader（批量数据加载器）
+  -> dtype（数据类型） / shape（形状） / device（执行设备）
   -> CPU 与 GPU 数据搬运
-  -> AMP
+  -> AMP（自动混合精度）
   -> 显存组成
-  -> Profiler
+  -> Profiler（性能分析器）
   -> Checkpoint 恢复
 ```
 
 ### 生产与面试层：能解释扩展和失败
 
 ```text
-torch.compile
-  -> DDP / FSDP2
+torch.compile（模型编译优化入口）
+  -> DDP（分布式数据并行） / FSDP2（第二代全分片数据并行）
   -> 集合通信
   -> 分布式 Checkpoint
   -> 推理副本与灰度
@@ -246,19 +246,19 @@ PyTorch 核心提供：
 ```text
 原始文件 / 数据库 / 对象存储
   -> Dataset 读取一个样本
-  -> transform / parse / feature validation
+  -> transform（样本预处理或增强） / parse（解析） / feature validation（特征校验）
   -> DataLoader worker 组成 batch
-  -> CPU Tensor
-  -> Host-to-Device copy
-  -> model.forward
-  -> operator / kernel
-  -> logits / prediction
-  -> loss
-  -> autograd backward
-  -> gradient accumulation / synchronization
-  -> optimizer.step
-  -> parameter new state
-  -> metric / checkpoint / log
+  -> CPU（中央处理器） Tensor（张量）
+  -> Host-to-Device copy（主机内存复制到计算设备）
+  -> model.forward（模型前向方法）
+  -> operator / kernel（算子与底层计算内核）
+  -> logits / prediction（预测结果）
+  -> loss（损失）
+  -> autograd backward（反向传播）
+  -> gradient accumulation / synchronization（梯度累积与同步）
+  -> optimizer.step（更新模型参数）
+  -> parameter（模型参数） new state（状态）
+  -> metric（评价指标） / checkpoint（检查点） / log（日志）
 ```
 
 这条路径有三个不同的“状态世界”：
@@ -357,12 +357,12 @@ Autograd 是自动微分引擎。只要参与计算的 Tensor 需要梯度，PyT
 ### 怎么工作
 
 ```text
-x, parameter
-  -> forward operators
-  -> prediction
-  -> loss
-  -> backward traverses graph
-  -> parameter.grad accumulates
+x, parameter（模型参数）
+  -> forward（前向计算） operators
+  -> prediction（预测结果）
+  -> loss（损失）
+  -> backward（反向传播） traverses graph
+  -> parameter.grad accumulates（参数梯度累积）
 ```
 
 PyTorch 的图通常在每次前向时重新建立，所以 Python 控制流可以影响本次图，这也是“动态图”体验的重要来源。
@@ -498,14 +498,14 @@ optimizer.step()                      # 更新参数与 Adam 状态
 ### 怎么工作
 
 ```text
-Sampler indexes
-  -> Dataset.__getitem__
-  -> worker process
-  -> transform
-  -> collate_fn
-  -> CPU batch
-  -> optional pinned memory
-  -> accelerator copy
+Sampler indexes（采样器产生索引）
+  -> Dataset.__getitem__（按索引获取样本的方法）
+  -> worker process（数据加载进程）
+  -> transform（样本预处理或增强）
+  -> collate_fn（样本组装函数）
+  -> CPU（中央处理器） batch（批次）
+  -> optional pinned memory（页锁定内存）
+  -> accelerator copy（复制到加速设备）
 ```
 
 ### 怎么用或观察
@@ -712,10 +712,10 @@ if torch.cuda.is_available():
 
 ```text
 合成监控指标
-  -> Dataset / DataLoader
+  -> Dataset（数据集接口） / DataLoader（批量数据加载器）
   -> 前向计算
-  -> BCEWithLogitsLoss
-  -> backward
+  -> BCEWithLogitsLoss（含稳定 logits 处理的二元交叉熵损失）
+  -> backward（反向传播）
   -> AdamW 更新参数
   -> 独立测试集评估
   -> state_dict 保存
@@ -1643,9 +1643,9 @@ with profile(
 DDP 通常让每张 GPU 对应一个进程。每个进程持有完整模型副本，读取不同的数据分片：
 
 ```text
-rank 0: batch A -> forward -> backward -> local gradients --\
-rank 1: batch B -> forward -> backward -> local gradients ----> all-reduce -> 每个 rank 得到一致的聚合梯度 -> step
-rank 2: batch C -> forward -> backward -> local gradients ----/
+rank 0（分布式进程编号 0）: batch A（批次 A） -> forward（前向计算） -> backward（反向传播） -> local gradients（本地梯度） --\
+rank 1（分布式进程编号 1）: batch B（批次 B） -> forward（前向计算） -> backward（反向传播） -> local gradients（本地梯度） -> all-reduce（跨进程归约并共享结果） -> 每个 rank 得到一致的聚合梯度 -> step（更新参数）
+rank 2（分布式进程编号 2）: batch C（批次 C） -> forward（前向计算） -> backward（反向传播） -> local gradients（本地梯度） ----/
 ```
 
 `all-reduce` 是把各 rank 的梯度聚合，再把结果发回所有 rank。同步点意味着一个慢 rank 可能拖住所有进程。
@@ -1756,7 +1756,7 @@ DDP 每个 rank 都保存完整参数、梯度和优化器状态。FSDP2 把状�
 ```text
 持久状态按 rank 分片
   -> all-gather 当前模块参数
-  -> forward / backward
+  -> forward（前向计算） / backward（反向传播）
   -> reduce-scatter 梯度
   -> 参数重新保持分片
 ```
@@ -1949,15 +1949,15 @@ PyTorch 能把 loss 降低，不代表数据使用合法或模型决策安全。
 一次 AIOps 判定可拆为：
 
 ```text
-receive event
-  -> fetch features
-  -> validate schema
-  -> queue / batch
-  -> model inference
-  -> policy decision
-  -> runbook approval
-  -> action
-  -> post-check
+receive event（事件）
+  -> fetch features（读取特征）
+  -> validate（校验） schema（数据结构约定）
+  -> queue / batch（批次）
+  -> model（模型） inference（推理）
+  -> policy（策略） decision
+  -> runbook（操作手册） approval（审批）
+  -> action（执行动作）
+  -> post-check（执行后检查）
 ```
 
 Trace 帮助回答延迟卡在特征查询、排队、GPU 推理还是自动化动作。span 中记录版本和状态即可，避免直接塞入大 Tensor 或敏感正文。
@@ -2018,9 +2018,9 @@ PyTorch 2.13 还移除了 named tensors 和 Bazel 构建支持，源码/扩展�
 ```text
 离线回归
   -> 影子流量 shadow
-  -> 1% canary
-  -> 10% canary
-  -> 50% canary
+  -> 1% canary（灰度发布）
+  -> 10% canary（灰度发布）
+  -> 50% canary（灰度发布）
   -> 全量
 ```
 
@@ -2296,26 +2296,59 @@ PyTorch 是以 Tensor 为核心的机器学习和张量计算框架。`nn.Module
 - [ ] 能说明不可信权重、Pickle、自定义代码和平台权限边界。
 - [ ] 能回答生产设计题和完整事故处置题。
 
-## GitHub 学习证据
+## 老师带你看懂模型学习时的五个动作
+
+拿一批运维指标作为 Tensor（张量），经过 `forward` 前向计算得到预测，用 Loss（损失）比较预测与标签，`backward` 计算参数梯度，`optimizer.step` 根据梯度更新参数。梯度是局部变化方向，学习率决定步子大小；整个过程不需要模型懂“数据库故障”这个中文词。
+
+学生：“`backward()` 执行了，参数为什么没变？”老师：“计算梯度与更新参数是两个动作。再看你有没有调用优化器，以及参数是否真的交给了它。”反过来，梯度默认累积，忘记清理会把多批梯度叠在一起；有意梯度累积可以节省显存，但必须按批大小和损失缩放规则设计。
+
+### 用单个参数确认你理解了求导
+
+在本文已安装的 CPU 环境中运行：
+
+```python
+import torch
+w = torch.tensor(2.0, requires_grad=True)
+loss = (3*w - 9)**2
+loss.backward()
+print(loss.item(), w.grad.item())
+assert loss.item() == 9.0 and w.grad.item() == -18.0
+```
+
+预期损失 9、梯度 -18；本例没有优化器，所以 `w` 仍是 2。把张量在计算前 `detach`（脱离求导图）会改变梯度路径，这适合做观察练习，但不要误把断图当成优化。完成后无文件或后台进程遗留；本篇 NaN 输入故障实验继续负责完整模型的错误回路。
+
+### 训练模式、评估模式与不求导分别解决什么
+
+`model.eval()` 改变 Dropout（随机失活）与 BatchNorm（批归一化）等模块的行为，不自动关闭梯度；`inference_mode` 管推理期间的求导和相关开销，不自动替你选择正确模块模式。上线预测时同时确认模式、设备、类型和预处理，不要把某一个函数当成全部推理准备。
+
+Tensor 的 shape（形状）、stride（步幅）与 storage（底层存储）影响视图和数据布局。`view` 与 `reshape` 的复制行为不能随意假设，原地修改还可能影响求导所需数据。形状报错先逐层打印批量、序列与特征维度，而不是不断 `squeeze` 到程序不报错。
+
+### 从实验到生产面试
+
+训练恢复需要权重、优化器、调度器、随机状态和适用的数据进度；推理交付需要权重、结构、预处理和输入合同。分布式训练的每个进程必须以匹配顺序参加集体通信，一个进程读数据失败，其他进程可能表现为通信挂起，所以要按 rank（进程编号）关联日志。
+
+30 秒解释张量、自动微分与训练循环；3 分钟用本篇风险分类实验走数据、模型、损失、优化、验证与发布，接着用单参数例子解释为何反向传播不等于更新。事故题“GPU 忙但效果变差”，先查标签、数据划分、单位、梯度与模式，再查吞吐；性能提升不能代替质量验证。
+
+## 本课 GitHub 学习证据清单
 
 建议建立：
 
 ```text
-pytorch-aiops-lab/
-  ├── README.md
-  ├── requirements.txt
-  ├── train.py
-  ├── predict.py
-  ├── fault_injection.py
-  ├── tests/
-  │   ├── test_input_contract.py
-  │   └── test_model_reload.py
-  ├── artifacts/
-  │   └── metadata.example.json
-  ├── benchmark/
-  │   └── cpu-result.md
-  └── incident-notes/
-      └── nan-input-drill.md
+pytorch-aiops-lab/（教学项目）
+  ├── README.md（环境与复现说明）
+  ├── requirements.txt（依赖版本）
+  ├── train.py（训练入口）
+  ├── predict.py（预测入口）
+  ├── fault_injection.py（故障注入）
+  ├── tests/（回归测试）
+  │   ├── test_input_contract.py（输入合同测试）
+  │   └── test_model_reload.py（模型重新加载测试）
+  ├── artifacts/（交付产物）
+  │   └── metadata.example.json（脱敏元数据样例）
+  ├── benchmark/（性能基准）
+  │   └── cpu-result.md（处理器测试结果）
+  └── incident-notes/（故障笔记）
+      └── nan-input-drill.md（非数值输入演练）
 ```
 
 `requirements.txt` 至少固定：

@@ -49,37 +49,37 @@ REST 很大，本文不展开 HTTP/2 帧、HTTP/3 QUIC、OAuth 授权服务器�
 ## 官方知识地图
 
 ```text
-Fielding REST
-  -> Client-Server
-  -> Stateless
-  -> Cache
-  -> Uniform Interface
-       -> Resource identification
-       -> Manipulation through representations
-       -> Self-descriptive messages
-       -> Hypermedia as the engine of application state
-  -> Layered System
-  -> Code-on-Demand (optional)
+Fielding REST（架构约束）
+  -> Client-Server（客户端与服务端分工）
+  -> Stateless（请求携带所需上下文）
+  -> Cache（明确响应可否缓存）
+  -> Uniform Interface（统一接口）
+       -> Resource identification（标识资源）
+       -> Manipulation through representations（通过表示操作资源）
+       -> Self-descriptive messages（消息能说明自身含义）
+       -> Hypermedia as the engine of application state（链接引导下一步操作）
+  -> Layered System（分层系统）
+  -> Code-on-Demand（按需下载代码，可选）
 
-HTTP Semantics
-  -> URI + Method + Header + Representation
-  -> Safe / Idempotent / Cacheable
-  -> Status Code
-  -> Content Negotiation
-  -> Conditional Request
+HTTP Semantics（协议语义）
+  -> URI（资源标识）+ Method（方法）+ Header（头字段）+ Representation（表示）
+  -> Safe（安全）/ Idempotent（幂等）/ Cacheable（可缓存）
+  -> Status Code（状态码）
+  -> Content Negotiation（内容协商）
+  -> Conditional Request（条件请求）
 
-API Contract
-  -> OpenAPI
-  -> JSON Schema
-  -> Problem Details
-  -> Compatibility / Deprecation / Sunset
+API Contract（接口契约）
+  -> OpenAPI（机器可读接口描述）
+  -> JSON Schema（数据结构约束）
+  -> Problem Details（结构化错误）
+  -> Compatibility（兼容）/ Deprecation（弃用）/ Sunset（下线）
 
-Production Governance
-  -> Authentication + Authorization
-  -> Rate Limit + Quota + Backpressure
-  -> Timeout + Retry + Idempotency
-  -> Metrics + Logs + Traces + Audit
-  -> Deployment + Rollback + Incident Response
+Production Governance（生产治理）
+  -> Authentication（认证）+ Authorization（授权）
+  -> Rate Limit（限速）+ Quota（配额）+ Backpressure（反压）
+  -> Timeout（超时）+ Retry（重试）+ Idempotency（幂等）
+  -> Metrics（指标）+ Logs（日志）+ Traces（链路）+ Audit（审计）
+  -> Deployment（部署）+ Rollback（回滚）+ Incident Response（事故响应）
 ```
 
 第一次看到英文缩写时先这样理解：
@@ -191,7 +191,7 @@ RESTful API 就是：**把业务对象当成资源，用稳定 URI 标识它们�
 Prometheus / Zabbix 告警
   -> Alertmanager / 事件平台
   -> AIOps 决策服务
-  -> Runbook API
+  -> Runbook API（操作手册执行接口）
   -> Kubernetes / 云平台 / CMDB / ITSM
   -> 执行结果回写
   -> 指标、日志、链路和审计
@@ -494,7 +494,7 @@ RFC 6585 的 `428 Precondition Required` 可用于告诉客户端：“这个修
 
 ```text
 客户端响应头
-  -> Cache-Control / Age / ETag / Vary / Via
+  -> Cache-Control / Age / ETag / Vary / Via（缓存策略、缓存年龄、表示标识、缓存变化维度与代理路径）
   -> CDN 或网关命中状态
   -> 源站访问日志是否收到请求
   -> 缓存键包含哪些 Header 和 Query
@@ -580,9 +580,9 @@ Retry-After: 5
 `202` 只表示服务接收了请求，不保证任务最终成功。任务资源需要清晰状态机：
 
 ```text
-queued -> running -> succeeded
-                  -> failed
-                  -> cancelling -> cancelled
+queued（已入队） -> running（运行中） -> succeeded（成功）
+                  -> failed（失败）
+                  -> cancelling（正在取消） -> cancelled（已取消）
 ```
 
 还要定义：
@@ -712,32 +712,32 @@ HTTP 没有规定唯一 API 版本策略。常见方案：
 ## 一次请求的内部数据路径
 
 ```text
-Client
-  -> DNS / TLS
-  -> CDN / WAF
-  -> API Gateway
-       -> authentication
-       -> authorization policy
-       -> request validation
-       -> quota / rate limit
-       -> routing
-  -> Load Balancer
-  -> Service Instance
-       -> deserialize
-       -> business validation
-       -> authorization on target object
-       -> idempotency lookup
-       -> transaction / outbox
-  -> Database / Cache / Queue
-  -> response serialization
-  -> Gateway / Cache
-  -> Client
+Client（客户端）
+  -> DNS / TLS（域名解析与安全传输）
+  -> CDN / WAF（内容分发与应用防火墙）
+  -> API Gateway（接口网关）
+       -> authentication（身份认证）
+       -> authorization policy（授权策略）
+       -> request validation（请求校验）
+       -> quota / rate limit（配额与限速）
+       -> routing（路由）
+  -> Load Balancer（负载均衡）
+  -> Service Instance（服务实例）
+       -> deserialize（反序列化）
+       -> business validation（业务校验）
+       -> authorization on target object（目标对象级授权）
+       -> idempotency lookup（查询幂等记录）
+       -> transaction / outbox（事务与发件箱）
+  -> Database / Cache / Queue（数据库、缓存与队列）
+  -> response serialization（响应序列化）
+  -> Gateway / Cache（网关或缓存）
+  -> Client（客户端）
 
-Observability side path
-  -> metrics
-  -> structured logs
-  -> distributed traces
-  -> audit events
+Observability side path（旁路可观测数据）
+  -> metrics（指标）
+  -> structured logs（结构化日志）
+  -> distributed traces（分布式链路）
+  -> audit events（审计事件）
 ```
 
 排障时沿路径逐层问：
@@ -798,26 +798,26 @@ REST 的无状态交互只表示服务端不依赖前一次请求的隐含上下
 ## 生产架构与高可用
 
 ```text
-Global DNS / Traffic Manager
-  -> Region A
-       -> WAF / API Gateway cluster
-       -> Load Balancer
-       -> stateless API instances
-       -> distributed idempotency store
-       -> database HA
-       -> queue cluster
-  -> Region B
-       -> warm standby or active
+Global DNS / Traffic Manager（全局域名与流量管理）
+  -> Region A（区域甲）
+       -> WAF / API Gateway cluster（防火墙与网关集群）
+       -> Load Balancer（负载均衡）
+       -> stateless API instances（无会话依赖接口实例）
+       -> distributed idempotency store（分布式幂等存储）
+       -> database HA（数据库高可用）
+       -> queue cluster（队列集群）
+  -> Region B（区域乙）
+       -> warm standby or active（温备或运行区域）
 
-Control Plane
-  -> OpenAPI registry
-  -> policy and route configuration
-  -> secrets / keys
-  -> deployment and rollback
+Control Plane（控制面）
+  -> OpenAPI registry（接口契约登记）
+  -> policy and route configuration（策略和路由配置）
+  -> secrets / keys（秘密与密钥）
+  -> deployment and rollback（部署与回滚）
 
-Observability
-  -> metrics / logs / traces / audit
-  -> SLO and alerting
+Observability（可观测性）
+  -> metrics / logs / traces / audit（指标、日志、链路与审计）
+  -> SLO and alerting（服务目标与告警）
 ```
 
 高可用设计必须回答：
@@ -917,7 +917,7 @@ OAuth 2.0 是授权框架，不是 REST 的组成部分，也不是登录协议�
 
 ### CORS 与 CSRF
 
-CORS 是浏览器对“响应能否被跨源脚本读取”的协议，不是服务端鉴权，也不能阻止服务器收到请求。
+CORS 是浏览器对跨源请求与响应访问的协议，不是服务端鉴权。老师提醒你分两种情况：需要预检时，预检失败会阻止浏览器发送后续实际请求；不需要预检的请求可能已经到达服务器，只是响应不能被跨源脚本读取。因此不能把“控制台报 CORS 错误”当成“后端一定没有执行”的证据。
 
 要点：
 
@@ -1015,7 +1015,7 @@ HTTP 指标发现 5xx 与 p99 异常
 | `Cache-Control` | 控制存储和复用 | `no-cache` 不等于 `no-store` | CMDB 字典 | 私有响应被共享缓存 |
 | `Vary` | 扩展缓存键 | 与内容协商/CORS 相关 | 按语言或 Origin | 漏维度造成串数据 |
 | `Retry-After` | 建议多久后再试 | 秒数或 HTTP 日期 | 429/503/202 | 客户端无上限地等待或齐步重试 |
-| `WWW-Authenticate` | 描述认证挑战 | `401` 响应应考虑 | Token 失效 | 只返 401 不告诉客户端方案 |
+| `WWW-Authenticate` | 描述认证挑战 | 生成 `401` 时必须提供适用挑战 | Token 失效 | 只返 401 不告诉客户端方案 |
 | `Link` | 表达资源关系 | 使用注册或 URI relation | 下一页、弃用文档 | 拼接错误环境 URL |
 | `Deprecation` | 表达弃用时点 | RFC 9745 | 旧版 API | 把弃用误当立即下线 |
 | `Sunset` | 表达预计停止响应时点 | RFC 8594 | v1 下线 | 无迁移路径 |
@@ -1043,14 +1043,14 @@ curl.exe -v http://127.0.0.1:18080/api/v1/alerts/a-100
 ### 发送 JSON
 
 ```powershell
-curl.exe -i -X POST `
+'{"alertId":"a-100","action":"collect-diagnostics"}' | curl.exe -i -X POST `
   -H "Content-Type: application/json" `
   -H "Idempotency-Key: lab-job-001" `
-  --data "{\"alertId\":\"a-100\",\"action\":\"collect-diagnostics\"}" `
+  --data-binary '@-' `
   http://127.0.0.1:18080/api/v1/remediation-jobs
 ```
 
-PowerShell 里的反引号表示续行，反引号后不要再放空格。
+PowerShell 里的反引号表示续行，反引号后不要再放空格。这里用单引号保护 JSON，把正文通过标准输入交给 `--data-binary '@-'`，不要把 Bash 的反斜杠转义双引号照搬进 PowerShell。
 
 ### 使用 PowerShell 读取 Header
 
@@ -1098,6 +1098,7 @@ const alerts = new Map([
 ])
 
 const idempotencyRecords = new Map()
+const jobs = new Map()
 
 function json(res, status, body, headers = {}) {
   const payload = JSON.stringify(body, null, 2)
@@ -1150,12 +1151,15 @@ function etag(alert) {
 }
 
 const server = createServer(async (req, res) => {
-  const requestId = req.headers['x-request-id'] || randomUUID()
+  const suppliedId = req.headers['x-request-id']
+  const requestId = typeof suppliedId === 'string' && /^[A-Za-z0-9._-]{1,80}$/.test(suppliedId)
+    ? suppliedId : randomUUID()
   const startedAt = performance.now()
 
   res.setHeader('X-Request-Id', requestId)
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173')
   res.setHeader('Vary', 'Origin')
+  res.setHeader('Access-Control-Expose-Headers', 'ETag, Location, X-Request-Id, Idempotency-Replayed')
 
   res.on('finish', () => {
     console.log(JSON.stringify({
@@ -1171,7 +1175,7 @@ const server = createServer(async (req, res) => {
     res.writeHead(204, {
       'Access-Control-Allow-Methods': 'GET, POST, PATCH, OPTIONS',
       'Access-Control-Allow-Headers':
-        'Content-Type, If-Match, Idempotency-Key, X-Request-Id',
+        'Content-Type, If-Match, If-None-Match, Idempotency-Key, X-Request-Id',
       'Access-Control-Max-Age': '600'
     })
     return res.end()
@@ -1181,6 +1185,12 @@ const server = createServer(async (req, res) => {
     return json(res, 200, { status: 'ok' }, {
       'Cache-Control': 'no-store'
     })
+  }
+
+  if (['POST', 'PATCH'].includes(req.method) &&
+      req.headers['content-type']?.split(';')[0].trim().toLowerCase() !== 'application/json') {
+    return problem(res, 415, 'unsupported-media-type', '请求格式不支持',
+      '本实验写接口要求 Content-Type 为 application/json。', requestId)
   }
 
   if (req.method === 'GET' && req.url === '/api/v1/alerts/a-100') {
@@ -1247,21 +1257,30 @@ const server = createServer(async (req, res) => {
     const allowedSeverity = ['warning', 'high', 'critical']
 
     if (
-      (patch.status && !allowedStatus.includes(patch.status)) ||
-      (patch.severity && !allowedSeverity.includes(patch.severity))
+      !patch || typeof patch !== 'object' || Array.isArray(patch) ||
+      Object.keys(patch).length === 0 ||
+      Object.keys(patch).some(key => !['status', 'severity'].includes(key)) ||
+      (Object.hasOwn(patch, 'status') && !allowedStatus.includes(patch.status)) ||
+      (Object.hasOwn(patch, 'severity') && !allowedSeverity.includes(patch.severity))
     ) {
       return problem(
         res,
         422,
         'invalid-field',
         '字段值无法处理',
-        'status 或 severity 不在允许枚举中。',
+        '正文必须是非空对象，只能包含枚举合法的 status 或 severity。',
         requestId
       )
     }
 
-    if (patch.status) alert.status = patch.status
-    if (patch.severity) alert.severity = patch.severity
+    // await 读取正文期间其他请求可能更新了版本，提交前必须重新检查。
+    if (ifMatch !== etag(alert)) {
+      return problem(res, 412, 'stale-version', '资源版本已变化',
+        '读取正文期间资源已更新，请重新 GET 并确认修改。', requestId, { ETag: etag(alert) })
+    }
+    // 单进程内这一段没有 await；多实例须用数据库原子条件更新。
+    if (Object.hasOwn(patch, 'status')) alert.status = patch.status
+    if (Object.hasOwn(patch, 'severity')) alert.severity = patch.severity
     alert.version += 1
 
     return json(res, 200, alert, {
@@ -1272,7 +1291,7 @@ const server = createServer(async (req, res) => {
 
   if (req.method === 'POST' && req.url === '/api/v1/remediation-jobs') {
     const key = req.headers['idempotency-key']
-    if (!key) {
+    if (typeof key !== 'string' || !/^[A-Za-z0-9._-]{1,100}$/.test(key)) {
       return problem(
         res,
         400,
@@ -1286,18 +1305,26 @@ const server = createServer(async (req, res) => {
     let input
     try {
       input = await readJson(req)
-    } catch {
+    } catch (error) {
+      const tooLarge = error.message === 'body-too-large'
       return problem(
         res,
-        400,
-        'invalid-json',
-        'JSON 无法解析',
+        tooLarge ? 413 : 400,
+        tooLarge ? 'body-too-large' : 'invalid-json',
+        tooLarge ? '请求体过大' : 'JSON 无法解析',
         '请提交合法 JSON。',
         requestId
       )
     }
 
-    const requestFingerprint = fingerprint(input)
+    if (!input || typeof input !== 'object' || Array.isArray(input) ||
+        Object.keys(input).some(field => !['alertId', 'action'].includes(field)) ||
+        !alerts.has(input.alertId) || !['collect-diagnostics', 'clear-temp'].includes(input.action)) {
+      return problem(res, 422, 'invalid-field', '任务字段不合法',
+        '请提供现有 alertId 和允许的 action，不要添加未知字段。', requestId)
+    }
+    // 对已验证字段按固定顺序生成指纹，避免 JSON 键顺序不同造成假冲突。
+    const requestFingerprint = fingerprint({ alertId: input.alertId, action: input.action })
     const existing = idempotencyRecords.get(key)
 
     if (existing && existing.fingerprint !== requestFingerprint) {
@@ -1319,13 +1346,18 @@ const server = createServer(async (req, res) => {
       })
     }
 
+    if (idempotencyRecords.size >= 1000) {
+      return problem(res, 503, 'lab-capacity', '实验记录已满',
+        '保存证据后重启本地实验；此内存实现不提供持久化。', requestId)
+    }
     const job = {
-      id: `j-${randomUUID().slice(0, 8)}`,
+      id: `j-${randomUUID()}`,
       alertId: input.alertId,
       action: input.action,
       status: 'queued'
     }
 
+    jobs.set(job.id, job)
     idempotencyRecords.set(key, {
       fingerprint: requestFingerprint,
       status: 201,
@@ -1337,6 +1369,11 @@ const server = createServer(async (req, res) => {
       'Idempotency-Replayed': 'false',
       'Cache-Control': 'no-store'
     })
+  }
+
+  if (req.method === 'GET' && req.url.startsWith('/api/v1/remediation-jobs/')) {
+    const job = jobs.get(req.url.slice('/api/v1/remediation-jobs/'.length))
+    if (job) return json(res, 200, job, { 'Cache-Control': 'no-store' })
   }
 
   return problem(
@@ -1718,27 +1755,27 @@ Remove-Item -LiteralPath .\restful-api-lab -Recurse -Force
 ### 一个可讨论的设计
 
 ```text
-Client
-  -> Global traffic management
-  -> Regional WAF / Gateway
-       -> tenant auth
-       -> weighted quota
-       -> request validation
-  -> stateless Alert API
-       -> read cache
-       -> partitioned alert store
-       -> idempotency store
-       -> transactional outbox
-  -> event stream
-       -> notification
-       -> automation
-       -> analytics
+Client（客户端）
+  -> Global traffic management（全局流量管理）
+  -> Regional WAF / Gateway（区域防火墙与网关）
+       -> tenant auth（租户认证授权）
+       -> weighted quota（加权配额）
+       -> request validation（请求校验）
+  -> stateless Alert API（无会话依赖告警接口）
+       -> read cache（读缓存）
+       -> partitioned alert store（分区告警存储）
+       -> idempotency store（幂等存储）
+       -> transactional outbox（事务发件箱）
+  -> event stream（事件流）
+       -> notification（通知）
+       -> automation（自动化）
+       -> analytics（分析）
 
-Observability
-  -> RED metrics by route/status/region
-  -> structured logs with request and trace ID
-  -> distributed tracing with sampling
-  -> audit stream
+Observability（可观测性）
+  -> RED metrics by route/status/region（按路由、状态和区域统计速率、错误与耗时）
+  -> structured logs with request and trace ID（带请求与链路标识的结构化日志）
+  -> distributed tracing with sampling（有采样策略的分布式追踪）
+  -> audit stream（审计流）
 ```
 
 ### 核心取舍
@@ -1925,6 +1962,72 @@ REST 是一组面向分布式超媒体系统的架构约束，包括客户端服
 - [ ] 能设计对象级授权、敏感数据、审计和第三方 API 安全。
 - [ ] 能设计兼容演进、弃用、灰度和回滚。
 - [ ] 能完成本文事故题和 10 万 RPS 系统设计。
+
+## 老师带你证明：有版本号，为什么还会覆盖别人的修改
+
+先把书上的名词放到一张值班工单上。小王和小李都打开告警 `a-100`，看到版本 1。小王准备把状态改成已确认，小李准备把级别改成高。两个人各自的输入都合法，但他们依据的是同一份旧事实。接口要回答的不只是“这个值是否合法”，还要回答“你看到的版本现在还有效吗”。这就是条件更新要解决的问题。
+
+`ETag` 是服务端给表示的验证标识，`If-Match` 是客户端提出的条件。这里用带双引号的版本字符串便于教学，不代表所有系统都用整数版本。按照 [HTTP 条件请求规范](https://www.rfc-editor.org/rfc/rfc9110.html#name-if-match)，比较必须参与真正执行修改的判断，不能只在入口检查一次后就永久放行。
+
+### 为什么 Node.js 单线程仍需要重新检查
+
+请沿着代码用手指走一遍：读取当前对象，检查请求头，等待请求体，校验字段，修改对象。关键在“等待”。`await readJson(req)` 会把执行权交还事件循环；它等待网络输入时，另一个请求可以执行并更新同一个对象。单线程只表示某个时刻一条 JavaScript 执行路径在运行，不表示一个包含等待的请求从头到尾不可被穿插。
+
+因此示例在读取正文后、真正写入前再次比较 `If-Match`。最后一次检查和 `alert.version += 1` 之间没有异步等待，在此单进程内存实验中形成连续的读改写步骤。这个解释有明确边界：换成两个进程，各自的内存就不同；换成数据库，检查和写入如果是两条独立语句，仍会竞争。生产实现应把“当前版本等于旧版本”的条件放进数据库更新，并根据受影响行数判断是否成功。
+
+面试时说“加乐观锁”还不够。老师希望你继续说出：锁保护的是哪个资源版本，比较发生在哪里，更新失败返回什么，客户端如何重新读取与合并，以及修改是否涉及多个资源。若一次操作同时影响告警和审批单，单行版本检查未必覆盖业务约束，可能需要事务、唯一约束或明确的工作流状态机。
+
+### 故障实验：让两个请求真正竞争
+
+前置条件是上面的服务已在本机运行，使用具备内置 `fetch` 的受支持 Node.js 版本。本练习的语法最低要求是 Node.js 20；安装时应选择仍受支持且通过团队验证的版本，不把最低版本等同于今天推荐的版本。确认端口是自己的实验进程，不对生产接口执行。
+
+在同一实验目录保存 `concurrent-update.mjs`：
+
+```javascript
+import assert from 'node:assert/strict'
+const url = 'http://127.0.0.1:18080/api/v1/alerts/a-100'
+const before = await fetch(url)
+assert.equal(before.status, 200)
+const version = before.headers.get('etag')
+const original = await before.json()
+const requests = ['acknowledged', 'closed'].map(status => fetch(url, {
+  method: 'PATCH',
+  headers: { 'Content-Type': 'application/json', 'If-Match': version },
+  body: JSON.stringify({ status })
+}))
+const replies = await Promise.all(requests)
+const statuses = replies.map(reply => reply.status).sort((a, b) => a - b)
+await Promise.all(replies.map(reply => reply.text()))
+assert.deepEqual(statuses, [200, 412])
+const after = await fetch(url)
+const current = await after.json()
+assert.equal(current.version, original.version + 1)
+console.log('PASS：一个成功，一个版本冲突，版本只增加一次')
+```
+
+执行 `node concurrent-update.mjs`。预期打印 `PASS`；无须假定哪个人先成功，因为调度顺序不是契约。验证既看两个响应状态，也再次读取服务端版本：只看一个客户端报错，无法排除另一个客户端也没写成功。重复运行依然应通过，因为每次都先读取新的版本，不把 `"v1"` 写死。
+
+如果两个都返回 412，优先检查是否有第三个客户端同时修改；如果出现 428，检查 `etag` 是否读到、请求头是否实际发送；如果都是 200，核对正在运行的文件是否包含提交前的二次检查，并确认两个请求确实携带同一个标识。如果连接失败，回到监听端口和启动日志，不要先改并发控制逻辑。
+
+想观察旧问题，可以在这份纯本地副本里暂时移除二次检查，并在正文解析后加 `await new Promise(resolve => setTimeout(resolve, 100))` 扩大竞争窗口，再运行测试。预期断言失败；这只是可控故障注入，不可提交为正式服务逻辑。恢复二次检查、删除人为等待、重启服务，重新看到通过结果。最后停止本地服务，保留前后差异与断言输出；仅在确认文件属于此实验后删除 `concurrent-update.mjs` 和实验服务文件。本文提供可复现步骤，不声称已在你的环境执行。
+
+### 输入验证不是只检查 JSON 能否解析
+
+这个标准库示例并非完整生产 HTTP 框架：路由按固定路径匹配，不实现通用查询参数、方法协商和全部条件头语法；任务只在内存中排队。正文设置了大小上限，但极端超限或客户端中断时，底层请求流也可能关闭连接，不能保证调用者总能读到完整 413 错误体。生产框架需进一步配置连接与读取时限、流量限制、鉴权和统一异常处理，并用真实网络故障测试验证。
+
+学生问：“`null` 不是合法 JSON 吗，为什么接口拒绝？”是合法 JSON，但不是这个接口接受的业务对象。我们分三关：请求体是否能按格式解析，解析结果是否符合结构，具体业务是否允许。数组、数字、空对象、未知字段都可能通过第一关却不通过第二关。`status: ""` 也不应因为空字符串是假值而跳过检查。因此示例用 `Object.hasOwn` 判断字段是否真的出现，再判断值是否在枚举内。
+
+这个小区别会影响自动修复安全。若程序把“没有传 action”和“传了一个无法识别的 action”都降级成默认删除动作，就把输入错误升级成了危险操作。合理的默认通常是拒绝或只读诊断；任何执行副作用的动作必须明确白名单和授权。本实验里的 `clear-temp` 只是任务标签，服务没有工作者，不会删除任何文件；查询任务会一直看到 `queued`，表示排队记录，而不是已完成修复。
+
+浏览器能看到响应也不代表能读所有头字段。示例补充 `Access-Control-Expose-Headers`，允许前端脚本读取 ETag 等非默认暴露字段；预检允许头和响应暴露头是两组不同设置。前者管请求想带什么，后者管脚本能从响应读什么。命令行读取成功而浏览器拿到 `null` 时，先检查这个差别。[Fetch 跨源协议](https://fetch.spec.whatwg.org/#http-cors-protocol)
+
+### 幂等记录与业务任务必须一起思考
+
+同一业务输入在 JSON 中交换键顺序，含义没有变，直接对原始序列化字符串求摘要却可能得到不同值。示例先校验字段，再按固定字段顺序生成指纹。这只适用于本文的两个简单字段；复杂对象还要明确默认值、数字、数组顺序和可忽略字段的契约，不要宣称任意 JSON 都天然有唯一规范表示。
+
+内存 Map 只能演示重复请求重放：重启会丢失，多实例不共享，也没有真实权限域。因此生产幂等键通常还要绑定租户、调用者、接口和有效期，并与任务创建通过事务或可靠消息机制协调。只先保存“处理成功”再创建任务，崩溃会造成假成功；只先执行动作再记结果，崩溃会留下重复执行窗口。遇到超时后状态未知，应凭业务标识查询真实任务，而不是换一个新键重新执行。
+
+给学习者的最后一道追问是：“为什么不能无限保留所有键？”它们会占用存储，还涉及历史响应中的敏感数据。容量规划要结合写入速率、保留窗口、单记录大小和重试最大周期；过早删除会失去防重保护，无限保存则增加成本与合规风险。本实验限制最多一千条记录，只为让练习的内存边界明确，不能据此推导生产容量。
 
 ## GitHub 学习证据
 

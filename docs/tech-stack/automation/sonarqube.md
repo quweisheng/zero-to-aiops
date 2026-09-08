@@ -43,16 +43,16 @@
 
 ```text
 产品与版本
-  -> Community Build / Server Editions / Cloud
+  -> Community Build（社区构建）/ Server Editions（服务端商业版本）/ Cloud（托管云）
   -> 发布周期 / LTA / 升级路径 / 许可
 
 代码分析
-  -> Scanner / CI 集成 / 分析参数 / 报告上传
-  -> Rules / Issues / Security Hotspots / Measures
-  -> Quality Profile / Quality Gate / New Code
+  -> Scanner（扫描器）/ CI（持续集成）/ 分析参数 / 报告上传
+  -> Rules（规则）/ Issues（问题）/ Security Hotspots（需人工复核的安全热点）/ Measures（度量值）
+  -> Quality Profile（规则集合）/ Quality Gate（通过条件）/ New Code（新代码范围）
 
 服务端
-  -> Web Server / Compute Engine / Search
+  -> Web Server（网页与接口服务）/ Compute Engine（后台计算引擎）/ Search（搜索索引）
   -> 外部数据库 / 日志 / 插件 / Web API
   -> 备份 / 监控 / 安全 / 更新 / 恢复
 ```
@@ -98,7 +98,7 @@ Git 提交
   -> CI 构建与测试
   -> SonarScanner 分析
   -> SonarQube 后台计算
-  -> Quality Gate
+  -> Quality Gate（质量门禁）
   -> 允许合并 / 阻断发布
   -> 变更事件进入可观测平台
   -> 事故后关联代码风险与部署版本
@@ -163,10 +163,10 @@ SonarQube 的业务主状态在外部关系型数据库中，包括项目、配�
 ### Quality Profile 与 Quality Gate
 
 ```text
-Quality Profile
+Quality Profile（规则配置集）
   -> “用哪些规则检查代码”
 
-Quality Gate
+Quality Gate（质量门禁）
   -> “检查结果达到什么条件才算通过”
 ```
 
@@ -262,9 +262,9 @@ Profile 决定规则集合和规则参数；Gate 决定门槛。比如 Java Prof
 ```text
 浏览器 / Scanner
   -> SonarQube Community Build 容器 :9000
-      -> Web
-      -> Compute Engine
-      -> Search
+      -> Web（网页与接口服务）
+      -> Compute Engine（分析任务计算引擎）
+      -> Search（搜索引擎）
   -> PostgreSQL 容器 :5432
 ```
 
@@ -369,9 +369,9 @@ SonarQube ZIP 安装主要读取 `<sonarqubeHome>/conf/sonar.properties`。容�
 ```properties
 sonar.jdbc.url=jdbc:postgresql://db.example:5432/sonarqube
 sonar.jdbc.username=sonar
-sonar.jdbc.password=${SONAR_DB_PASSWORD}
+# 密码通过部署环境 SONAR_JDBC_PASSWORD 注入，不在本文写真实值。
 sonar.web.context=/sonarqube
-sonar.web.systemPasscode=${MONITORING_PASSCODE}
+# 监控口令通过部署环境 SONAR_WEB_SYSTEMPASSCODE 注入。
 ```
 
 容器中对应：
@@ -545,7 +545,8 @@ curl.exe -s http://localhost:9000/api/system/status
 5. 在当前 PowerShell 会话设置：
 
 ```powershell
-$env:SONAR_TOKEN = '粘贴刚生成的实验 Token'
+$SonarCredential = Get-Credential -UserName sonar-token -Message '在密码框输入实验 Token'
+$env:SONAR_TOKEN = $SonarCredential.GetNetworkCredential().Password
 ```
 
 不要把 Token 写进 `compose.yaml`、脚本或 Git。
@@ -556,7 +557,7 @@ $env:SONAR_TOKEN = '粘贴刚生成的实验 Token'
 docker run --rm `
   --network sonarqube-lab_default `
   -e SONAR_HOST_URL=http://sonarqube:9000 `
-  -e SONAR_TOKEN=$env:SONAR_TOKEN `
+  -e SONAR_TOKEN `
   -v "${PWD}:/usr/src" `
   sonarsource/sonar-scanner-cli:latest
 ```
@@ -586,6 +587,7 @@ docker run --rm `
 
 ```powershell
 Remove-Item Env:SONAR_TOKEN -ErrorAction SilentlyContinue
+Remove-Variable SonarCredential -ErrorAction SilentlyContinue
 docker compose -p sonarqube-lab down
 ```
 
@@ -941,6 +943,44 @@ SonarQube 是自建的自动代码审查和静态分析平台。Scanner 在 CI �
 - [ ] 我能设计容量、权限、备份、升级与回滚。
 - [ ] 我能把质量信号关联到 AIOps 变更风险，但不伪造因果。
 - [ ] 我能回答事故题和生产系统设计题。
+
+## 老师带你读懂一次门禁，而不是只认红绿灯
+
+我们拿“支付告警阈值计算函数”做课堂对象。单元测试证明你写出的几组输入输出是否满足断言；SonarQube 的规则分析检查某些可发现的模式；代码评审再看业务假设与设计。三者没有谁能包办另外两个。例如两个分支用了相同计算，重复率可能提醒维护风险，但是否应抽象还要看业务是否真的同一件事；覆盖率达到 100% 也可能没有断言错误边界。
+
+### Profile、Gate 与 New Code 的五个问题
+
+Profile（质量配置档）规定“使用哪些规则、规则参数是什么”，需要它是为了让同一种语言在团队里得到一致的检查口径；扫描日志和项目设置能核对实际绑定关系。Gate（质量门）规定“哪些测量结果达到什么阈值”，需要它是为了把分析结果接入交付决策；失败时看具体条件、实际值和门槛，而不是先改源码凑过线。
+
+New Code（新代码）规定“这次守住哪部分变化”。如果基线、参考分支或时间设置变了，参与门禁的范围也会变。它不是把旧问题藏起来，而是把新增质量和历史治理分开管理。排障顺序因此是：项目与提交是否正确 → 分析是否完整 → Profile 是否预期 → New Code 范围是否预期 → Gate 条件是否预期。规则未启用、源文件被排除、基线突然漂移都可能产生“问题消失”的假象。
+
+Security Hotspot（安全热点）尤其需要上下文审查：它提示某处安全敏感，不自动等于可利用漏洞。审查要看数据来源、身份权限、调用路径与补偿控制。未经分析就批量标记安全，或为了让门禁变绿把目录加入排除范围，都会破坏质量信号。合理例外应有原因、证据、批准人和复查时间。[质量门官方说明](https://docs.sonarsource.com/sonarqube-community-build/user-guide/quality-standards-administration/managing-quality-gates/introduction)
+
+### 为什么“最新一次项目结果”可能不属于你的提交
+
+两个 CI 几乎同时扫描同一个项目。A 先上传，B 后上传；如果 A 等待时只查询项目当前 Gate，可能误读到 B 的结果。正确关联要使用 Scanner 生成的任务信息，例如分析目录里的 `report-task.txt` 中 `ceTaskId`（后台任务编号），等待该任务完成，再关联该分析结果与提交。项目名相同只是同一容器，不是同一次分析身份。
+
+`sonar.qualitygate.wait=true` 表示扫描任务等待门禁，配套 `sonar.qualitygate.timeout` 控制等待上限；它不会让服务器处理得更快。CI 超时与 Gate 失败应分成两个状态：前者还未拿到确定结果，后者已计算且不满足条件。平台故障时是阻断发布还是走人工例外，需要团队预定义，不允许脚本偷偷把超时改成通过。[分析参数](https://docs.sonarsource.com/sonarqube-community-build/analyzing-source-code/analysis-parameters)
+
+### 用现有基础实验再做一次结果核对
+
+前提是已跑通前文 SonarQube 与 PostgreSQL，只在本机实验项目操作。先保存本次 Scanner 日志、分析时间与后台任务 ID；不要保存 Token。然后把 `src/app.js` 中 `severity` 的阈值从 90 改成 91，再次扫描，记录第二个任务 ID。
+
+现在对照两次记录：源码确实变了，后台任务不同，最新分析时间应更新。Issue 数量未必改变，这是预期允许的结果，因为这项业务阈值变化不一定违反任何启用规则。这个观察帮助你理解“没有新的静态分析问题”不等于“业务阈值正确”。把阈值恢复 90，再跑业务测试和扫描，分别记录它们检查的内容。
+
+可回收故障仍以前文停数据库实验为主；这一轮不要为了制造 Gate 失败临时修改全局规则。清理时恢复源文件、撤销实验 Token，按前文只停止本实验 Compose 服务；撤销 Token 要在服务关闭前通过账号安全设置完成，删除本地环境变量不等于服务器端凭据失效。若任务 ID 没变，查是否重新执行了 Scanner、挂载目录是否正确；若项目页时间变但 CI 等待异常，查 CE 任务、回调连接和对应权限，而不是反复提交同一份代码。
+
+### 容量推理：队列长不等于必须加扫描机器
+
+假设每分钟到达 6 个分析，后台平均每分钟只能完成 4 个，队列每分钟增加约 2 个；积压 60 个时，即使保持这个差值运行也永远清不完。必须让到达率下降或服务率上升，只有净处理能力为正才能估算清空时间。任务大小不一时，用任务数只是粗估，还应按语言、代码量、耗时分布分组。
+
+把 Scanner、Web、CE、数据库和 Search 看成相互影响的链。增加扫描并发可能加大报告上传和队列压力；增加 CE 并发如果数据库已饱和，反而增加锁和延迟。平台团队需要测量最老任务年龄、门禁等待分位数、数据库响应和资源余量，再决定错峰、拆项目或扩容。重要服务的目标可以定义为“在正常输入规模下 95% 门禁 10 分钟内有确定结果”，同时记录失败与超时，不能只统计成功任务。
+
+### 事故复盘与面试追问答案
+
+“扫描成功但质量页面旧”先沿客户端任务 ID、CE 队列、后台异常、数据库与索引查，不能凭 UI 旧直接删除搜索目录。“升级后所有项目覆盖率下降”先查测试报告是否生成、相对路径与分析器行为、排除项和新代码定义；不是第一时间要求所有团队重写测试。“两个实例共用数据库做 HA”必须先核对 Edition 支持架构，不能把关系数据库可共享理解成应用可以任意多活。
+
+前面的 30 秒答案讲清 Scanner 与 Server 的职责；3 分钟答案再加入异步关联、质量口径和状态恢复。面试官问“Profile 与 Gate 怎么治理”，答规则变更也走评审、先选代表项目验证误报和性能影响、记录版本与例外；问“回滚为什么带数据库”，答升级可能迁移 Schema（数据库结构），旧二进制未必能读，恢复需匹配备份点与索引重建；问“质量平台不可用是否停止所有业务”，答运行中的业务不应依赖它实时提供服务，受影响的是交付门禁，按预先审批的故障策略处理。
 
 ## 学习证据
 

@@ -83,74 +83,59 @@ Runbook Automation 是把故障处理手册变成自动化工作流：事件触�
 Runbook Automation 可以按这棵树理解：
 
 ```text
-Runbook Automation
-  -> Incident response foundation
-     -> alert
-     -> on-call
-     -> playbook / runbook
-     -> incident role
-     -> communication
-     -> escalation
-  -> Runbook definition
-     -> metadata
-     -> owner
-     -> trigger
-     -> input parameters
-     -> preconditions
-     -> steps
-     -> actions
-     -> outputs
-     -> decision rules
-     -> verification
-     -> rollback
-     -> audit
-  -> Execution engine
-     -> script
-     -> Ansible
-     -> GitHub Actions
-     -> AWS Systems Manager Automation
-     -> Azure Automation
-     -> Kubernetes Job
-  -> Safety control
-     -> risk level
-     -> approval
-     -> least privilege
-     -> rate limit
-     -> concurrency
-     -> idempotency
-     -> timeout
-     -> dry run
-  -> AIOps integration
-     -> Alertmanager / CloudWatch / EventBridge
-     -> Prometheus
-     -> Loki / Elasticsearch
-     -> deployment history
-     -> incident ticket
-     -> LLM summary
-     -> action recommendation
-  -> Evidence
-     -> execution record
-     -> logs
-     -> parameters
-     -> commands
-     -> result
-     -> verification
-     -> rollback result
+Runbook Automation（操作手册自动化）
+  -> Incident response foundation（事故响应基础）
+     -> alert / on-call（告警／值班）
+     -> playbook / runbook（协作流程／操作步骤）
+     -> incident role（事故角色）
+     -> communication / escalation（沟通／升级处理）
+  -> Runbook definition（流程定义）
+     -> metadata / owner（元数据／负责人）
+     -> trigger / input parameters（触发条件／输入参数）
+     -> preconditions（前置条件）
+     -> steps / actions / outputs（步骤／动作／输出）
+     -> decision rules（决策规则）
+     -> verification / rollback / audit（验证／回滚／审计）
+  -> Execution engine（执行引擎）
+     -> script（脚本）
+     -> Ansible（配置与任务自动化）
+     -> GitHub Actions（工作流平台）
+     -> AWS Systems Manager Automation（云资源自动化）
+     -> Azure Automation（云与混合环境自动化）
+     -> Kubernetes Job（集群批任务）
+  -> Safety control（安全控制）
+     -> risk level / approval（风险等级／审批）
+     -> least privilege（最小权限）
+     -> rate limit / concurrency（频率限制／并发限制）
+     -> idempotency（重复执行不重复产生业务效果）
+     -> timeout / dry run（超时／预演）
+  -> AIOps integration（智能运维集成）
+     -> Alertmanager / CloudWatch / EventBridge（告警与事件来源）
+     -> Prometheus（指标）
+     -> Loki / Elasticsearch（日志检索）
+     -> deployment history（部署历史）
+     -> incident ticket（事故工单）
+     -> LLM summary（大语言模型摘要）
+     -> action recommendation（动作建议）
+  -> Evidence（证据）
+     -> execution record / logs（执行记录／日志）
+     -> parameters / commands（参数／命令）
+     -> result / verification / rollback result（结果／验证／回滚结果）
 ```
 
 最小执行链路：
 
 ```text
-Alert / Event
-  -> parse labels
-  -> select runbook
-  -> collect context
-  -> run pre-checks
-  -> classify risk
-  -> execute safe steps or request approval
-  -> verify impact
-  -> record audit
-  -> escalate or close
+Alert / Event（告警／事件）
+  -> parse labels（解析标签）
+  -> select runbook（选择手册）
+  -> collect context（收集上下文）
+  -> run pre-checks（前置检查）
+  -> classify risk（风险分类）
+  -> execute safe steps or request approval（执行安全步骤或请求审批）
+  -> verify impact（验证业务影响）
+  -> record audit（保存审计）
+  -> escalate or close（升级人工或关闭）
 ```
 
 ## Runbook Automation 在 AIOps 链路中的位置
@@ -158,22 +143,22 @@ Alert / Event
 AIOps 闭环可以这样看：
 
 ```text
-Detect
+Detect（检测）
   -> 告警、异常检测、SLO burn
 
-Diagnose
+Diagnose（诊断）
   -> 指标、日志、trace、变更关联、根因候选
 
-Decide
+Decide（决策）
   -> 选择 runbook、判断风险、确认动作
 
-Act
+Act（行动）
   -> 执行检查、重启、扩容、回滚、降级、通知
 
-Verify
+Verify（验证）
   -> 检查错误率、延迟、SLO、日志、用户影响
 
-Learn
+Learn（学习改进）
   -> 记录审计、复盘、更新 runbook
 ```
 
@@ -259,17 +244,17 @@ runbook automation = workflow + parameters + steps + actions + outputs + executi
 通用模型：
 
 ```text
-Trigger
-  -> Input normalization
-  -> Context enrichment
-  -> Runbook selection
-  -> Pre-check
-  -> Risk classification
-  -> Approval if needed
-  -> Execute steps
-  -> Verify
-  -> Audit
-  -> Escalate / rollback / close
+Trigger（触发器）
+  -> Input normalization（输入规范化）
+  -> Context enrichment（上下文补全）
+  -> Runbook selection（选择操作手册）
+  -> Pre-check（前置检查）
+  -> Risk classification（风险分级）
+  -> Approval if needed（按风险批准）
+  -> Execute steps（执行步骤）
+  -> Verify（验证）
+  -> Audit（审计）
+  -> Escalate / rollback / close（升级处理、回滚或关闭）
 ```
 
 ### Trigger
@@ -348,14 +333,14 @@ alert labels
 例子：
 
 ```text
-alertname=HighDiskUsage
-  -> runbooks/disk-high-usage.md
+alertname=HighDiskUsage（磁盘高占用告警）
+  -> runbooks/disk-high-usage.md（磁盘占用率高手册）
 
-alertname=HighErrorRate and service=checkout-api
-  -> runbooks/high-error-rate-web-service.md
+alertname=HighErrorRate and service=checkout-api（结算接口高错误率条件）
+  -> runbooks/high-error-rate-web-service.md（结算接口错误率高手册）
 
-alertname=KubePodCrashLooping
-  -> runbooks/kubernetes-crashloop.md
+alertname=KubePodCrashLooping（容器反复崩溃告警）
+  -> runbooks/kubernetes-crashloop.md（容器反复退出手册）
 ```
 
 ### Risk classification
@@ -636,7 +621,7 @@ Kubernetes:
 
 GitHub:
   - recent deployments
-  - commit SHA
+  - commit（提交对象） SHA
 ```
 
 ### decision_rules
@@ -820,12 +805,12 @@ Alertmanager 可以把告警发给 runbook service。
 流程：
 
 ```text
-Prometheus rule fires
-  -> Alertmanager
-  -> webhook
-  -> runbook service
-  -> select runbook
-  -> generate summary
+Prometheus rule fires（监控规则触发）
+  -> Alertmanager（告警管理器）
+  -> webhook（事件回调）
+  -> runbook service（操作手册服务）
+  -> select runbook（选择手册）
+  -> generate summary（生成摘要）
 ```
 
 适合自建 AIOps 实验。
@@ -877,12 +862,12 @@ jobs:
 AWS 的模型：
 
 ```text
-Automation runbook
-  -> parameters
-  -> mainSteps
-  -> actions
-  -> outputs
-  -> execution status
+Automation runbook（自动化文档）
+  -> parameters（参数）
+  -> mainSteps（主要步骤）
+  -> actions（动作）
+  -> outputs（输出）
+  -> execution status（执行状态）
 ```
 
 适合 AWS 资源维护、部署和修复。
@@ -892,11 +877,11 @@ Automation runbook
 Azure 的模型：
 
 ```text
-Runbook
-  -> job
-  -> worker
-  -> Azure sandbox or Hybrid Runbook Worker
-  -> logs
+Runbook（操作手册）
+  -> job（作业）
+  -> worker（工作者）
+  -> Azure sandbox or Hybrid Runbook Worker（云沙箱或混合执行器）
+  -> logs（日志）
 ```
 
 适合 Azure 和混合环境任务。
@@ -916,8 +901,8 @@ Runbook
 初学路线：
 
 ```text
-Markdown runbook
-  -> Python selector
+Markdown runbook（文档形式的操作手册）
+  -> Python selector（手册选择程序）
   -> GitHub Actions 手动触发
   -> Ansible 执行低风险动作
   -> Alertmanager webhook 自动触发摘要
@@ -928,33 +913,33 @@ Markdown runbook
 把示例放在代码块里，避免 Markdown 把 runbook 内部标题当成本文标题。
 
 ````md
-# Runbook: High Disk Usage
+# Runbook: High Disk Usage（磁盘占用率高处置手册）
 
-## Metadata
+## Metadata（元数据）
 
-- owner: sre-team
-- risk_level: medium
-- automation_level: L3
+- owner: sre-team（负责人）
+- risk_level: medium（中风险，具体动作需再分级）
+- automation_level: L3（需要审批的自动化）
 
-## Trigger
+## Trigger（触发条件）
 
 - alertname: HighDiskUsage
-- usage_percent > 85
+- usage_percent > 85（示意阈值，生产按容量目标另定）
 
-## Inputs
+## Inputs（输入参数）
 
-- host
-- mount_point
-- usage_percent
-- environment
+- host（目标主机标识）
+- mount_point（挂载点）
+- usage_percent（占用百分比）
+- environment（环境）
 
-## Preconditions
+## Preconditions（前置条件）
 
-- host must be reachable
-- mount_point must not be empty
-- environment must not be production unless approved
+- 主机必须可达，且对应本次批准的资源 ID。
+- 挂载点不能为空，必须明确对应文件系统。
+- 生产环境必须经过适用审批；只读采集也需权限和负载预算。
 
-## Context To Collect
+## Context To Collect（采集上下文）
 
 ```bash
 df -h
@@ -963,93 +948,93 @@ du -xhd1 /var 2>/dev/null | sort -h | tail -20
 journalctl --disk-usage
 ```
 
-## Decision Rules
+## Decision Rules（决策规则）
 
-1. If inode usage is high, investigate many small files.
-2. If log directory is high, check log retention.
-3. If application data directory is high, escalate to service owner.
+1. inode 使用率高时，检查是否有大量小文件，不只看字节容量。
+2. 日志目录占用高时，核对保留策略、活动写入者与轮转状态。
+3. 业务数据目录占用高时，交给服务所有者确认，不自行删除。
 
-## Safe Actions
+## Candidate Actions（候选动作，逐项评估并批准后才能执行）
 
-1. Compress old logs if they are outside active retention.
-2. Clean known temporary directory.
-3. Rotate logs if logrotate is stuck.
+1. 在保留要求、备份和临时空间均满足后，评估压缩已归档日志。
+2. 仅对已明确授权的临时文件清单执行清理；路径含“tmp”不等于可删除。
+3. 确认轮转故障后，按应用支持方式修复，不盲目强制轮转。
 
-## Approval Required
+## Approval Required（需要批准）
 
-- production cleanup
-- deleting files
-- expanding disk
+- 生产清理。
+- 删除文件。
+- 扩容磁盘及相关费用、维护窗口。
 
-## Forbidden Actions
+## Forbidden Actions（禁止动作）
 
-- Do not delete application data.
-- Do not run `rm -rf` on a variable path.
-- Do not clean database directories.
+- 不删除未经授权的业务数据。
+- 不对未经解析和范围验证的变量路径执行递归删除。
+- 不自行清理数据库数据目录。
 
-## Verification
+## Verification（验证）
 
-- `df -h` usage below threshold
-- service health check passes
-- no new disk alert after 10 minutes
+- `df -h` 显示字节容量满足目标；inode 告警另用对应指标验证。
+- 服务健康检查与日志采集通过。
+- 在已定义观察窗口内确认告警恢复；十分钟只能是实验示例，不是统一标准。
 
-## Rollback
+## Rollback（恢复与停止）
 
-- restore files from backup if deleted incorrectly
-- stop automation and escalate if verification fails
+- 错删恢复依赖真实可用备份，删除并不天然可回滚。
+- 验证失败时停止自动化，保留现场并升级负责人。
 ````
 
 ## 示例：高错误率
 
 ````md
-# Runbook: High Error Rate
+# Runbook: High Error Rate（接口错误率高处置手册）
 
-## Trigger
+## Trigger（触发条件）
 
 - alertname: HighErrorRate
-- service label exists
-- environment label exists
+- service（服务）标签存在且对应受控资产。
+- environment（环境）标签存在且通过允许值检查。
 
-## Inputs
+## Inputs（输入参数）
 
-- service
-- environment
-- error_rate
-- started_at
+- service（服务标识）
+- environment（环境）
+- error_rate（错误率，需明确百分比或比值单位）
+- started_at（带时区的发生时间）
 
-## Context To Collect
+## Context To Collect（采集上下文）
 
-1. Recent deployments in the last 60 minutes.
-2. Error rate by version.
-3. Top exception messages.
-4. Dependency latency and error rate.
-5. Kubernetes pod restarts.
+1. 最近六十分钟的发布，具体时间窗按事故调整。
+2. 按版本拆分的错误率和请求样本量。
+3. 脱敏后的主要异常类别。
+4. 下游依赖延迟与错误率。
+5. Kubernetes 容器组重启和事件。
 
-## Decision Rules
+## Decision Rules（决策规则）
 
-1. If error rate starts after deployment and only new version is affected, recommend rollback.
-2. If all versions are affected and dependency errors appear, check downstream dependency.
-3. If only one pod is affected, recommend isolating that pod.
-4. If no clear signal, escalate to incident commander.
+1. 发布后才出现错误且仅新版本受影响，形成回滚候选假设，继续验证兼容与数据风险。
+2. 所有版本受影响且出现依赖错误，优先检查下游。
+3. 只有一个容器组异常，评估隔离它后的容量，再提出隔离建议。
+4. 信号不足时升级事故负责人，不自动补造根因。
 
-## Automated Steps
+## Automated Steps（允许的只读自动步骤）
 
-1. Generate summary.
-2. Attach dashboard links.
-3. Attach recent deployment list.
-4. Attach top logs.
+1. 生成脱敏摘要。
+2. 附适用仪表盘链接。
+3. 附最近部署清单和提交标识。
+4. 附有大小与时间限制的日志摘要。
 
-## Manual Approval Steps
+## Manual Approval Steps（需人工批准的变更）
 
-1. Rollback production deployment.
-2. Restart production pods.
-3. Disable feature flag.
+1. 回滚生产部署，先验证数据与版本兼容。
+2. 重启生产实例，限制影响范围。
+3. 关闭功能开关，确认业务影响和恢复路径。
 
-## Verification
+## Verification（验证）
 
-- error rate below threshold
-- p95 latency normal
-- alert resolved
+- 错误率低于目标且有足够请求样本。
+- p95 延迟恢复到批准的基线或目标。
+- 告警恢复，并确认不是采集缺失造成的假正常。
 ````
 
 ## AIOps 入门实验
@@ -1127,14 +1112,33 @@ def main() -> int:
         print("usage: python runbook_selector.py alerts/high-disk.json")
         return 2
 
-    alert_path = Path(sys.argv[1])
-    alert = json.loads(alert_path.read_text(encoding="utf-8"))
-    alertname = alert.get("alertname", "")
+    base = Path(__file__).resolve().parent
+    allowed_dir = (base / "alerts").resolve()
+    alert_path = (base / sys.argv[1]).resolve()
+    if not alert_path.is_relative_to(allowed_dir) or alert_path.suffix != ".json":
+        print("input must be a JSON file inside the lab alerts directory")
+        return 2
+    try:
+        alert = json.loads(alert_path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeError, json.JSONDecodeError) as error:
+        print(f"cannot load alert: {error}")
+        return 2
+    if not isinstance(alert, dict):
+        print("alert must be an object")
+        return 2
+    alertname = alert.get("alertname")
+    if not isinstance(alertname, str) or not alertname.strip():
+        print("alertname must be a non-empty string")
+        return 2
+    if alert.get("environment") not in {"staging", "production"}:
+        print("environment must be staging or production")
+        return 2
     selected = RUNBOOKS.get(alertname)
 
-    reports_dir = Path("reports")
+    reports_dir = base / "reports"
     reports_dir.mkdir(exist_ok=True)
-    report_path = reports_dir / f"{alertname or 'unknown'}-report.md"
+    safe_name = alertname if selected else "unknown"
+    report_path = reports_dir / f"{safe_name}-report.md"
 
     now = datetime.now(timezone.utc).isoformat()
 
@@ -1202,7 +1206,7 @@ reports/HighDiskUsage-report.md
 reports/HighErrorRate-report.md
 ```
 
-这个实验只做到 L2：推荐 runbook，不执行动作。
+上面表示报告相对位置；当前脚本打印的是解析后的绝对路径，前面会带你的实验目录。这个实验只做到 L2：推荐 runbook，不执行动作。
 
 这很重要，因为新手项目先要证明“选择正确、摘要清楚、风险可控”，再谈自动修复。
 
@@ -1233,7 +1237,10 @@ jobs:
         with:
           python-version: "3.12"
 
-      - run: python runbook_selector.py "${{ inputs.alert_file }}"
+      - name: Select from validated input
+        env:
+          ALERT_FILE: ${{ inputs.alert_file }}
+        run: python runbook_selector.py "$ALERT_FILE"
 
       - uses: actions/upload-artifact@v4
         with:
@@ -1267,7 +1274,7 @@ python runbook_selector.py alerts/high-disk.json
 ansible-playbook -i inventory.ini disk-cleanup.yml --check --diff
 ```
 
-作用：预演 Ansible 动作，不真正修改。
+作用：请求 Ansible 检查模式；具体模块是否支持、是否跳过、是否在任务里显式关闭检查模式都要审查，不能无条件承诺整份 playbook 绝不修改。`--diff` 还可能暴露敏感配置。
 
 适合 L3 前置检查。
 
@@ -1485,11 +1492,11 @@ LLM 不应该直接做：
 更安全的模式：
 
 ```text
-LLM recommends
-  -> deterministic policy checks
-  -> human approval if needed
-  -> automation engine executes predefined action
-  -> metrics verify
+LLM recommends（语言模型给出建议）
+  -> deterministic policy checks（确定性策略检查）
+  -> human approval if needed（按风险人工批准）
+  -> automation engine executes predefined action（自动化引擎执行预定义动作）
+  -> metrics verify（指标验证）
 ```
 
 ## Runbook 评审清单
@@ -1557,6 +1564,129 @@ Runbook Automation 是把事故处理手册转成受控自动化流程。它通�
 14. 审计日志应该记录哪些字段？
 15. LLM 在 Runbook Automation 里能做什么，不能做什么？
 16. 如何把 Runbook Automation 做成 AIOps 求职项目？
+
+## 老师带练：为什么“推荐正确”距离“允许执行”还差很多
+
+看一条具体业务链：支付服务错误率升高，系统推荐“摘除一台异常实例并重启”。推荐合理，不代表现在就可以重启。你还要知道这个实例是不是唯一健康实例、它是否承载有状态任务、目标标签有没有过期、审批覆盖的是哪一台、操作是否已经执行过。Runbook 的难点不在于把几条命令顺序写下来，而在于这些判断发生在不同时间，系统状态会变。
+
+前面的流程图中 Trigger 是触发，Input normalization 是统一输入格式，Context enrichment 是补齐上下文，Pre-check 是前置检查，Risk classification 是风险判定，Audit 是审计。闭环里的 Detect、Diagnose、Decide、Act、Verify、Learn 分别是发现、诊断、决策、行动、验证、学习。不要把所有步骤都叫“自动修复”：收集证据、提出建议和改变生产是三种权限完全不同的行为。
+
+### 定义文件与执行记录：菜谱不能代替做菜过程
+
+runbook 定义说“应该怎么做”，execution（一次执行）记录“这次做到了哪一步”。同一份手册可执行很多次；每次输入、目标、批准人、程序版本和观测结果不同。数据库中至少分开保存手册版本、执行实例、步骤尝试和审批记录，不能只更新一行“最后一次成功”。
+
+每个步骤最好有明确输入、输出和后置条件。比如“摘流量”输入是不可变的实例标识、环境和期望当前版本；输出是流量配置变更编号；后置条件是这个实例不再接收新请求。后置条件验证失败时，不能直接进入重启。调用 API 返回 200 只是接口层结果，要继续验证调度或负载均衡实际生效。
+
+### 结果未知：自动化最容易被忽略的状态
+
+假设执行器发出“创建工单”，工单系统创建成功，但返回途中网络断开。执行器看到超时，不能判断“工单没创建”。这叫结果未知。若立即重试，可能出现两张相同工单；若直接标记成功，又可能根本没创建。
+
+设计方法是先生成业务幂等键，例如“事件指纹 + 操作类型 + 目标 ID”，由目标系统去重或查询该键对应的结果。执行器恢复后先对账，再继续。锁只能防止同时执行，不防止锁释放后重复事件再次执行；重试次数限制只能控制次数，不提供幂等语义。把三者说清楚，才算理解自动化可靠性。
+
+对于多个 runbook 同时修改同一服务，锁键应覆盖冲突资源，不能盲目把 `runbook_id` 放进唯一键后就认为安全：扩容手册和回滚手册名称不同，仍可能冲突。租约锁（过一段时间自动到期）还要防止旧执行器暂停后恢复继续写入；高风险系统可用 fencing token（递增执行代次）让目标拒绝旧执行者。没有这种能力时，流程必须更保守地人工接管。
+
+### 审批不能只批准“一个按钮”
+
+可审计的审批应绑定具体 runbook 版本、目标集合、参数、制品摘要、风险说明和有效期。审批后有人把目标从一台改成十台，原批准不能继续使用。等待审批期间告警可能已恢复，实例也可能被替换，所以在执行前重新检查目标与前置条件。这个二次检查不是重复劳动，而是防止“检查时安全，执行时已变”的时间差。
+
+触发者、审批者、执行身份和平台管理员要分开建模。仅允许一个人点开始，不代表此人应该获得数据库管理密码。执行角色只拥有指定资源和动作的权限，短期身份优于长期大权限凭据。`service role` 是服务执行身份，`AssumeRole` 是在授权条件下临时扮演角色，OIDC（开放身份连接）可用工作负载声明换取短期身份；它们都不是把秘密写进文档。
+
+### 本地故障实验：异常输入必须停在推荐器入口
+
+前提：Python 3.9 或更高版本（使用 `Path.is_relative_to`），已按前文建立独立 `runbook-lab` 目录。将两个示例手册保存到 `runbooks/` 对应文件；它们是待学习的文档，不是已获授权的生产命令。脚本只生成建议，不访问主机、云或数据库。
+
+先执行两条正常输入，预期生成两个已列出的报告；检查报告写明 `automation_level: L2`，没有执行任何 cleanup、restart 或 rollback。然后用编辑器增加三份故障样例：
+
+```json
+{"alertname":"UnknownAlert","environment":"staging"}
+```
+
+将它保存为 `alerts/unknown.json`；另建 `alerts/wrong-shape.json` 内容 `[]`；再建 `alerts/path-like-name.json`：
+
+```json
+{"alertname":"../../outside","environment":"staging"}
+```
+
+依次运行：
+
+```bash
+python runbook_selector.py alerts/unknown.json
+python runbook_selector.py alerts/wrong-shape.json
+python runbook_selector.py alerts/path-like-name.json
+python runbook_selector.py ../outside.json
+```
+
+预期第一条返回 1、生成 `reports/unknown-report.md` 并升级人工；第二条返回 2、提示告警必须是对象；第三条也只写安全的 `unknown-report.md`，不按恶意名字创建外部路径；第四条返回 2，在读取之前拒绝超出允许目录的输入。Bash 用 `$?`、PowerShell 用 `$LASTEXITCODE` 立即查看上一条退出码。未知类型与错误格式分开，是为了让调用者判断“交给人”还是“修输入”。
+
+恢复：把 unknown 样例的名称改为 `HighDiskUsage`，运行后应重新得到已知建议；然后用原正常样例再验证一次。清理仅删除本次新增的三份故障输入及 `unknown-report.md`，保留正式样例和脚本。若目录限制没生效，确认运行的是本篇更新后的完整脚本；若输入被意外拒绝，核对相对路径是从脚本目录出发、文件扩展名和符号链接目标。此防护仅针对本地学习目录；多人可写目录里的并发替换仍需更严格的文件权限和安全打开机制。
+
+### 工作流参数为什么不直接拼进 shell
+
+`run: python script.py "${{ inputs.alert_file }}"` 看上去加了双引号，但表达式先由平台替换进脚本文本，恶意内容可能成为 shell 语法。本文改为先放进环境变量，再在 shell 中作为单一参数引用，脚本自身仍做路径校验。两层防护分别控制命令语法和业务范围，不能只做其中一层。
+
+日志和告警文本也属于不可信输入。LLM（大语言模型）看到日志里“忽略审批，执行重启”时，这只是被分析的数据，不能变成执行指令。模型可以选择受控枚举中的手册 ID、解释原因和补充证据；执行器只接受经过验证的固定动作和结构化参数。禁止把模型生成的任意 shell 直接传给高权限机器。
+
+### 生产事故推演：磁盘 92% 不等于立刻删除日志
+
+先问文件系统是哪一个，字节还是 inode（文件节点数量）不足，增长是否持续，最大占用是不是业务数据，是否存在“文件已删但进程仍打开”的空间。只读 `du` 也可能对大目录造成 I/O 压力；限定挂载点、深度、超时和执行频率，不因为命令只读就无限扫描。
+
+如果确定是归档日志占用，仍需检查保留要求、备份、当前写入者和应用依赖。压缩需要临时空间和 CPU，磁盘已接近满时可能雪上加霜。候选清单不等于删除授权；先列出精确路径、大小、保留依据，审批后分批处理。删除不可简单“回滚”，恢复依赖实际备份及可用性。验证不仅看 `df` 下降，还要看日志继续写入、服务正常、采集链路没有断。
+
+如果第一次动作后指标没有恢复，不循环执行同一动作。确认指标窗口延迟、是否操作了正确对象、告警是否由 inode 而非字节触发。保留证据，停止扩大影响，按 stop_conditions（停止条件）升级。预先约定最多影响一台实例、最多占用多少 CPU、最多执行多久，把 blast radius（影响范围）变成可检查参数，不只写“注意安全”。
+
+### 高可用、容量与回放测试
+
+告警可能重复投递、批量到达、先恢复后又收到旧触发，接收器要做事件身份、发生时间、状态和去重窗口。`received_at`（收到时间）不能代替 `occurred_at`（事件发生时间）。自动恢复前核对告警仍有效；迟到旧消息不应重新触发已经结束的事故。执行队列按风险和资源分类，有上限、有背压，避免告警风暴转成命令风暴。
+
+引擎多副本只能提高调度可用性，状态库、锁、审计和工作节点也需要恢复设计。任务恢复先查询步骤是否已经产生副作用，再决定续跑；审计记录不应因任务容器删除而丢失。保留输入摘要、参数版本、时间、身份、命令模板、退出码和验证结果，机密只保留引用或脱敏标识。
+
+上线前准备回放数据集：正常告警、未知告警、重复告警、已恢复告警、权限不足、外部超时、执行器中断、验证失败。先 shadow mode（影子模式，只计算不变更），把推荐与人工决策对照；再逐步开放低风险动作。衡量目标不是“自动执行占比越高越好”，而是正确建议率、误执行率、人工接管率、恢复时间和审计完整性。
+
+### 面试递进：定义、机制、故障和架构
+
+30 秒：Runbook Automation 是把操作知识变成有参数、权限、审批、状态、验证和审计的受控流程，不是告警一来就执行重启。
+
+3 分钟：用磁盘或支付故障说明输入归一、证据采集、风险判定、执行与验证；再讲重复投递、结果未知、审批有效期和中断恢复。追问“有锁为什么仍重复操作”，解释并发互斥不等于跨时间幂等；追问“LLM 推荐错了怎么办”，说明确定性策略、权限、固定动作目录和人工边界；追问“自动回滚失败怎么办”，说明停止条件、实际状态对账、保留现场和升级负责人，而不是继续扩大重试次数。面试展示真实实验即可，不把本文模拟写成自己的生产经历。
+
+## 自动化执行器精讲：把动作变成可恢复的状态转换
+
+### 每一步至少记住输入、意图和结果
+
+老师带你设计“采集诊断包”这一个动作。执行前记录目标资源的不可变 ID、事故 ID、手册版本、脱敏参数和执行请求标识；执行中记录开始时间与步骤状态；结束后保存输出位置、摘要、退出码和验证结果。输出路径不是永远有效的证据，还需要保留周期与访问权限。只有一行“执行成功”，未来无法判断在哪台机器、用哪一版脚本收集了什么。
+
+步骤状态可以分为待执行、执行中、成功、明确失败和结果未知。明确失败表示知道操作没有达到目标；结果未知表示执行器失联、超时或响应丢失，无法确定外部动作是否生效。把未知强行归到失败，会诱导系统无条件重做；把未知归到成功，则可能掩盖未完成工作。恢复逻辑必须先查询实际资源，再决定下一步。
+
+如果动作本身能够接收幂等标识，重复请求可以返回同一操作结果。若外部系统不支持，编排器应设计可识别的资源命名、查询与校验路径，并明确仍存在的窗口。不能因为本地表里有唯一键，就宣称任意外部命令都实现了恰好执行一次。
+
+### 租约过期以后，旧执行者可能还活着
+
+一个任务取得十分钟锁，随后网络隔离。调度器认为锁到期，派新工作者继续；旧工作者其实仍在机器上运行。现在两个执行者都可能修改同一对象。延长租约只能降低概率，不能从逻辑上消除这种情况。
+
+Fencing token（隔离代次）是一种把“哪一代执行者仍有效”交给受控资源检查的办法：新执行者拿到更高代次，目标拒绝旧代次写入。但前提是目标或执行网关真的校验该代次；只在日志里写一个数字没有隔离效果。若远端命令无法接受这种控制，高风险步骤就需要更保守的人工恢复与单点执行边界，而不是假装分布式锁已经万能。
+
+### 补偿不是时间倒流
+
+部署旧版本、重新挂载卷、恢复旧配置，可以是补偿动作，但每一种都有前置条件。比如你已发送通知，补偿通常是发送更正通知，而不是让接收者忘记原消息；你已删除未备份文件，就不存在简单的反向命令。设计手册时先把动作分为可直接撤销、可补偿、不可逆，再决定允许的自动化等级。
+
+补偿也可能失败，因此要记录其自身状态、错误与影响面。不要在失败分支里递归调用同一个修复流程，直到系统越来越混乱。一次主要动作失败后，最多执行哪些补偿、什么情况下停止、谁负责接管，都应写成明确规则。值班者看到的应是“当前资源状态与下一安全动作”，而不是一堆互相覆盖的绿色与红色记录。
+
+### 只读采集也需要预算与脱敏
+
+读取全部日志可能占用磁盘、网络与敏感数据处理预算；对大目录递归统计也可能产生明显 I/O。给采集步骤设置时间窗、文件数量、单文件字节上限和总输出上限；先取摘要，再按证据需要扩大。不要把“只读”理解为无成本或不涉及隐私。
+
+错误消息、工单文本和日志正文都可能含访问令牌、个人信息或恶意提示。进入模型之前先脱敏和裁剪，执行器只接受固定结构与白名单动作。保留原始敏感证据时使用受控位置，公共学习仓库仅存虚构样本、脱敏结构和可复现步骤。审批者需要知道模型依据了哪些证据，但不必看到所有秘密明文。
+
+### 影子运行怎样证明建议真的有价值
+
+影子模式只计算建议，不执行生产动作。选定一段代表性告警数据，记录当时可见的证据，按时间顺序回放，而不是让模型提前看到未来恢复结论。对照人工标注，分析误建议、漏建议、升级人工和证据不足四种情况。把所有无法判断样本剔除，会人为抬高正确率。
+
+开放低风险自动化前，应定义明确的收益与停止门槛：减少多少重复诊断时间，是否误操作，输出是否完整，失败能否安全接管。生产数据分布与历史样本不同，持续观察仍然必要；当新的告警类型或外部 API 版本出现，先退回建议或人工路径，不让旧规则未经验证继续执行。
+
+### 面试追问：如何防止一个合法事件触发全网重启
+
+第一层检查事件身份和来源，防伪造与重复；第二层验证目标集合，限制单次最多影响多少资源并核对故障域；第三层检查动作白名单、审批和时效；第四层按资源互斥与容量预算调度；第五层执行后验证并在失败时停止扩批。各层有不同证据，不能只回答“加个审批”。
+
+再追问“审批通过后机器换了怎么办”，应回答执行前按不可变资源 ID 重核，目标变化使原批准失效。追问“监控平台也故障怎么办”，应回答观测缺失不能被当作健康，高风险自动恢复暂停并保留人工接管路径。能讲出这些拒绝条件，才说明你设计的是受控自动化，而不是一条能把事故放大的快捷通道。
 
 ## 学习证据
 

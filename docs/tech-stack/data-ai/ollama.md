@@ -74,27 +74,27 @@ Ollama 官方资料可以拆成六层：
 
 ```text
 安装与平台
-  -> Windows / macOS / Linux / Docker / GPU
+  -> Windows / macOS / Linux / Docker（容器运行工具） / GPU（图形计算处理器）
 
 模型生命周期
-  -> pull / list / show / create / copy / rm
-  -> manifest / blob / tag / digest / Modelfile
+  -> pull / list（列表） / show / create / copy / rm
+  -> manifest / blob / tag / digest / Modelfile（清单、内容文件、标签、校验标识与模型定义文件）
 
 推理能力
-  -> generate / chat / streaming / thinking
-  -> structured output / tool calling / vision / embedding
+  -> generate / chat / streaming（流式输出） / thinking
+  -> structured output（结构化输出） / tool calling（工具调用） / vision / embedding（向量编码）
 
 服务运行
-  -> HTTP Server / Scheduler / Runner
-  -> load / queue / parallel / keep_alive / unload
+  -> HTTP Server / Scheduler（调度器） / Runner（模型执行进程）
+  -> load / queue / parallel / keep_alive / unload（加载、排队、并行、驻留时长与卸载）
 
 生产治理
-  -> context / RAM / VRAM / disk / latency
-  -> bind address / authentication / proxy / cloud boundary
+  -> context（上下文） / RAM（系统内存） / VRAM（显存） / disk / latency（延迟）
+  -> bind address / authentication / proxy（代理） / cloud boundary
 
 运维闭环
-  -> version / logs / ps / duration fields / errors
-  -> capacity / rollout / rollback / incident response
+  -> version / logs（日志） / ps / duration fields / errors
+  -> capacity / rollout / rollback（回滚） / incident（故障） response（响应）
 ```
 
 本文按下面的顺序学习：
@@ -268,13 +268,13 @@ Modelfile 能声明基础模型、系统提示、模板、参数和适配器，�
 ### 怎么工作
 
 ```text
-CLI / AIOps App / SDK
-  -> HTTP Request
-  -> Ollama Server :11434
-  -> Scheduler
-  -> Runner + Model
-  -> CPU / GPU inference
-  -> streamed chunks or one JSON response
+CLI / AIOps App / SDK（命令行、智能运维应用与开发工具包）
+  -> HTTP Request（HTTP 请求）
+  -> Ollama Server（Ollama 服务进程） :11434
+  -> Scheduler（调度器）
+  -> Runner（模型执行进程） + Model（模型）
+  -> CPU（中央处理器） / GPU（图形计算处理器） inference（推理）
+  -> streamed chunks or one JSON response（JSON 响应）
 ```
 
 Scheduler 是调度器，负责为请求寻找或加载合适的 Runner。Runner 是实际调用模型后端完成推理的运行进程或执行单元。
@@ -314,14 +314,14 @@ Invoke-RestMethod http://localhost:11434/api/version # 看当前 HTTP 服务版�
 ### 怎么工作
 
 ```text
-gemma3:270m
-  -> resolve registry + repository + tag
-  -> fetch manifest
-  -> compare local blob digests
-  -> download missing blobs
-  -> verify content
-  -> write local manifest
-  -> model appears in ollama list
+gemma3:270m（示例模型名称与规格标签）
+  -> resolve registry + repository + tag（解析模型注册服务、模型仓库与版本标签）
+  -> fetch manifest（获取模型内容清单）
+  -> compare（比较差异） local blob digests
+  -> download missing blobs（下载本地缺少的内容文件）
+  -> verify content（校验内容）
+  -> write local manifest（写本地清单）
+  -> model（模型） appears in ollama list（列表）
 ```
 
 多个模型可能复用相同 Blob，因此不要绕过 Ollama 直接删除 `blobs` 目录。手工删除可能破坏其他模型引用。
@@ -356,12 +356,12 @@ Modelfile 是 Ollama 的模型构建说明文件，可以声明基础模型、�
 ### 怎么工作
 
 ```text
-Modelfile
-  -> FROM chooses base model or local weights
-  -> PARAMETER defines runtime defaults
-  -> SYSTEM / TEMPLATE defines prompt behavior
-  -> ADAPTER optionally attaches an adapter
-  -> ollama create builds a new local model reference
+Modelfile（模型定义文件）
+  -> FROM chooses base model（模型） or local weights
+  -> PARAMETER defines runtime defaults（设置推理运行选项默认值，不是修改模型权重）
+  -> SYSTEM / TEMPLATE defines prompt（提示词） behavior
+  -> ADAPTER optionally attaches an adapter（按需附加适配器权重）
+  -> ollama create builds a new local model（模型） reference
 ```
 
 `ollama create` 主要是在组合现有权重与配置。它不等于重新训练基础模型，也不会自动提升知识准确率。
@@ -406,14 +406,14 @@ ollama show --modelfile aiops-triage:v1 # 反查生效后的 Modelfile
 Chat 请求会把消息列表交给模型模板，转换成 Token 后执行 Prefill 和 Decode。下一轮对话通常要由客户端再次发送需要保留的历史消息。
 
 ```text
-client conversation store
-  -> messages[]
-  -> /api/chat
-  -> prompt template
-  -> tokenize
-  -> prefill + decode
-  -> assistant message
-  -> client appends response to its own history
+client（客户端） conversation store（存储）
+  -> messages（消息）[]
+  -> /api/chat（对话接口路径）
+  -> prompt（提示词） template
+  -> tokenize（切分词元）
+  -> prefill（预填充） + decode（逐词元解码）
+  -> assistant message（消息）
+  -> client（客户端） appends response（响应） to its own history
 ```
 
 ### 怎么用或观察
@@ -455,11 +455,11 @@ Streaming 是边生成边返回。Ollama 原生 REST API 默认流式输出，�
 ### 怎么工作
 
 ```text
-HTTP response starts
-  -> chunk 1: partial content, done=false
-  -> chunk 2: partial content, done=false
+HTTP response（响应） starts
+  -> chunk 1: partial content, done=false（响应片段一：部分内容，尚未结束）
+  -> chunk 2: partial content, done=false（响应片段二：部分内容，尚未结束）
   -> ...
-  -> final chunk: done=true + duration/token statistics
+  -> final chunk: done=true + duration/token statistics（最终片段标记完成并携带耗时与词元统计）
 ```
 
 若中途出错，HTTP 响应可能已经是 200，错误会作为后续 NDJSON 对象的 `error` 字段出现。因此客户端不能只检查最初状态码。
@@ -494,15 +494,15 @@ HTTP response starts
 ### 怎么工作
 
 ```text
-request arrives
-  -> validate model reference and capabilities
-  -> look for compatible loaded runner
-  -> enough memory?
-       -> yes: reuse or load runner
-       -> no: queue, wait for idle model to unload, or reject
-  -> execute inference
-  -> keep runner until keep_alive expires
-  -> unload and free RAM / VRAM
+request（请求） arrives
+  -> validate（校验） model（模型） reference and capabilities
+  -> look for compatible loaded runner（模型执行进程）
+  -> enough memory?（可用内存或显存是否足够）
+       -> yes: reuse or load runner（模型执行进程）
+       -> no: queue, wait for idle model（模型） to unload, or reject
+  -> execute（执行） inference（推理）
+  -> keep runner（模型执行进程） until keep_alive expires
+  -> unload and free RAM（系统内存） / VRAM（显存）
 ```
 
 默认保留时间在官方 FAQ 中为 5 分钟。单次 API 请求中的 `keep_alive` 会覆盖服务级 `OLLAMA_KEEP_ALIVE`。
@@ -552,13 +552,13 @@ Invoke-RestMethod -Uri 'http://localhost:11434/api/generate' -Method Post -Conte
 ### 怎么工作
 
 ```text
-messages / prompt
-  -> tokenizer
-  -> input tokens
-  -> prefill builds KV Cache
-  -> decode next token
-  -> append its K/V to cache
-  -> repeat until stop condition
+messages（消息） / prompt（提示词）
+  -> tokenizer（分词器）
+  -> input tokens（输入词元）
+  -> prefill（预填充） builds KV Cache（键值注意力缓存）
+  -> decode（逐词元解码） next token
+  -> append its K/V to cache（缓存）
+  -> repeat until stop condition（重复生成直到停止条件满足）
 ```
 
 ### 怎么用或观察
@@ -691,14 +691,14 @@ KV Cache 量化需要 Flash Attention 支持。`OLLAMA_FLASH_ATTENTION=1` 可强
 如果新模型无法装入内存，请求会等待旧模型空闲并卸载。并行请求会增加上下文内存，不能把并行数当作免费吞吐开关。
 
 ```text
-incoming requests
-  -> admission / queue
-  -> choose model
-  -> loaded and parallel slot available?
-       -> yes: execute
-       -> no: wait
-  -> queue full?
-       -> reject overload
+incoming requests（进入的请求）
+  -> admission / queue（准入与排队）
+  -> choose model（模型）
+  -> loaded and parallel slot available?（是否已加载且有空闲并行槽位）
+       -> yes: execute（执行）
+       -> no: wait（不满足则等待）
+  -> queue full?（队列是否已满）
+       -> reject overload（过载拒绝）
 ```
 
 ### 怎么用或观察
@@ -733,17 +733,17 @@ AIOps 系统需要可验证的字段，而不是只展示一段自然语言。�
 ### 怎么工作
 
 ```text
-Structured Output
-  prompt + JSON Schema -> constrained generation -> validate JSON
+Structured Output（结构化输出）
+  prompt（提示词） + JSON Schema（JSON 结构约定） -> constrained generation（生成） -> validate（校验） JSON（结构化文本数据格式）
 
-Embedding
-  text -> embedding model -> normalized vector -> vector database / similarity
+Embedding（向量编码）
+  text（文本） -> embedding model（向量编码模型） -> normalized vector -> vector database（向量数据库） / similarity
 
-Tool Calling
-  messages + tool schemas -> model emits tool_calls
-  -> application validates + authorizes + executes
-  -> tool result appended to messages
-  -> model produces final answer
+Tool Calling（工具调用）
+  messages（消息） + tool（工具） schemas -> model（模型） emits tool_calls
+  -> application validates + authorizes + executes（应用校验、授权后执行）
+  -> tool（工具） result（结果） appended to messages（消息）
+  -> model（模型） produces final answer（最终回答）
 ```
 
 模型只是在输出“建议调用哪个工具”。真正执行命令的是上层应用，权限、审批、幂等和审计也必须在上层实现。
@@ -763,39 +763,39 @@ Tool Calling
 
 ## 架构与内部数据流
 
-## 最小本地架构
+### 最小本地架构
 
 ```text
-PowerShell / Browser App / Python
+PowerShell / Browser App / Python（命令行、浏览器应用或 Python 客户端）
             |
-            | HTTP localhost:11434
+            | HTTP localhost:11434（本机 HTTP 服务端口）
             v
-      Ollama Server
+      Ollama Server（Ollama 服务进程）
         |       |
-        |       +-> model store on disk
+        |       +-> model（模型） store（存储） on disk
         v
-     Scheduler
+     Scheduler（调度器）
         |
         v
-      Runner
+      Runner（模型执行进程）
         |
-        +-> RAM
-        +-> GPU VRAM
+        +-> RAM（系统内存）
+        +-> GPU（图形计算处理器） VRAM（显存）
 ```
 
 默认回环地址只允许本机访问，适合个人实验。它不是生产认证机制，但能减少意外暴露面。
 
-## 模型 Pull 路径
+### 模型 Pull 路径
 
 ```text
-ollama pull name:tag
-  -> resolve registry reference
-  -> fetch manifest
-  -> compare content digests
-  -> download missing blobs
-  -> verify and persist blobs
-  -> persist local manifest
-  -> model appears in /api/tags and ollama list
+ollama pull name:tag（按模型名和标签拉取模型）
+  -> resolve registry reference（解析模型仓库引用）
+  -> fetch manifest（获取模型内容清单）
+  -> compare（比较差异） content digests
+  -> download missing blobs（下载本地缺少的内容文件）
+  -> verify and persist blobs（校验并持久保存内容文件）
+  -> persist local manifest（持久保存本地清单）
+  -> model（模型） appears in /api/tags and ollama list（列表）
 ```
 
 关键状态：
@@ -805,7 +805,7 @@ ollama pull name:tag
 - Pull 完成不代表模型已加载到 RAM/VRAM；
 - Tag 是名称入口，Digest 更接近实际内容证据。
 
-## 一次本地 Chat 请求路径
+### 一次本地 Chat 请求路径
 
 ```text
 1. Client sends POST /api/chat
@@ -822,29 +822,29 @@ ollama pull name:tag
 12. Runner remains loaded until keep_alive expires
 ```
 
-## 一次 Embedding 路径
+### 一次 Embedding 路径
 
 ```text
-alert / runbook text
-  -> POST /api/embed
-  -> embedding-capable model
-  -> tokenize + forward pass
-  -> L2-normalized vector
-  -> application stores vector + metadata
-  -> later query vector searches similar incidents
+alert（告警） / runbook（操作手册） text（文本）
+  -> POST /api/embed（生成向量的接口）
+  -> embedding-capable model（模型）
+  -> tokenize（切分词元） + forward（前向计算） pass
+  -> L2-normalized vector（按欧氏长度归一化的向量）
+  -> application stores vector + metadata（元数据）
+  -> later query（查询） vector searches similar incidents（相似故障）
 ```
 
 Embedding 不是把原文自动保存进 Ollama。原文、向量、权限、版本和删除策略都由上层系统与向量数据库管理。
 
-## Cloud 模型路径
+### Cloud 模型路径
 
 ```text
-local client
-  -> local Ollama API
-  -> cloud model reference detected
-  -> authenticated request to ollama.com
-  -> remote inference
-  -> response returns through local API
+local client（客户端）
+  -> local Ollama API（本地 Ollama 接口）
+  -> cloud model（模型） reference detected
+  -> authenticated request（请求） to ollama.com
+  -> remote inference（推理）
+  -> response（响应） returns through local API
 ```
 
 “请求发给 localhost”不一定等于“推理完全留在本机”。使用 Cloud 模型或 Web Search 时会越过本地边界。若环境要求严格本地，可设置 `OLLAMA_NO_CLOUD=1` 或 `~/.ollama/server.json` 中的 `disable_ollama_cloud`，重启后还要从日志验证。
@@ -883,9 +883,9 @@ local client
 
 ## 安装与启动
 
-## 路线一：Windows 原生安装，适合第一次学习
+### 路线一：Windows 原生安装，适合第一次学习
 
-### 前置检查
+#### 前置检查
 
 官方 Windows 文档在核验日期要求 Windows 10 22H2 或更高版本。GPU 支持还取决于显卡型号和驱动：
 
@@ -897,7 +897,7 @@ Get-PSDrive -Name C # 模型可能占用数百 MB 到数百 GB，先看磁盘空
 
 Windows 页面仍列出较低的 NVIDIA 驱动最低要求，而当前 GPU 支持页对 NVIDIA 列出 Compute Capability 5.0+ 和 531+ 驱动。遇到文档门槛差异时，生产准备采用更严格的当前 GPU 支持页，并以日志中的实际 GPU Discovery 为准。
 
-### 安装
+#### 安装
 
 1. 打开 [Ollama Download](https://ollama.com/download)。
 2. 下载官方 `OllamaSetup.exe`。
@@ -906,7 +906,7 @@ Windows 页面仍列出较低的 NVIDIA 驱动最低要求，而当前 GPU 支�
 
 官方安装程序按用户安装，通常不需要管理员权限。桌面应用会在后台运行，并把本地 API 提供在 `http://localhost:11434`。
 
-### 验证安装与服务
+#### 验证安装与服务
 
 ```powershell
 Get-Command ollama # 正常应显示 ollama.exe 的实际路径
@@ -916,7 +916,7 @@ Invoke-RestMethod http://localhost:11434/api/version # 正常应返回 version �
 
 如果 CLI 存在但 API 失败，说明“程序装好了”和“Server 正在监听”不是一回事。先从开始菜单启动 Ollama，再查日志与端口。
 
-### 拉取小模型
+#### 拉取小模型
 
 本文基础实验使用官方模型库中的 `gemma3:270m`。核验日期时页面显示其下载大小约 292 MB、模型上下文上限 32K。它用于降低第一次实验的下载和硬件门槛，不代表它的回答质量适合生产根因分析。
 
@@ -926,7 +926,7 @@ ollama list # 正常应看到 gemma3:270m、SIZE 和 ID/digest
 ollama show gemma3:270m # 查看模型能力、参数、模板和许可证
 ```
 
-### 第一次交互
+#### 第一次交互
 
 ```powershell
 ollama run gemma3:270m
@@ -946,7 +946,7 @@ ollama ps # 查看 PROCESSOR、CONTEXT 和 UNTIL
 
 在交互界面使用 `/bye` 退出。退出聊天不一定立即卸载模型，`UNTIL` 表示预计保留到何时。
 
-## 路线二：Linux 服务安装
+### 路线二：Linux 服务安装
 
 官方快速安装命令是：
 
@@ -988,7 +988,7 @@ sudo systemctl show ollama --property=Environment # 查看 systemd 记录的环�
 
 不要把 API Key 直接写进可被普通用户读取的命令历史或配置仓库。
 
-## 路线三：固定版本 Docker Compose
+### 路线三：固定版本 Docker Compose
 
 下面的 Compose 固定 Ollama `0.32.6`，只把宿主机 `127.0.0.1:11434` 映射到容器，默认使用 CPU 路径。GPU 容器还需要 NVIDIA Container Toolkit、WSL2 或对应设备映射，先按官方 Docker 文档完成运行时验证。
 
@@ -1042,11 +1042,11 @@ docker compose down # 删除容器和网络，保留 ollama_models 卷中的模�
 
 只有确认不再需要已下载模型时，才执行 `docker compose down -v`。`-v` 会删除命名卷，属于数据删除操作。
 
-### 本文对 Compose 的实际验证
+#### 本文对 Compose 的实际验证
 
 本轮 Docker Engine 未启动，因此没有执行容器、健康检查或模型推理。发布前会把上面的 YAML 原样提取并交给 `docker compose config` 做静态解析；静态成功只能证明 Compose 结构有效，不能证明 GPU、镜像下载或模型推理成功。
 
-## Windows 环境变量怎么生效
+### Windows 环境变量怎么生效
 
 桌面应用不是当前 PowerShell 的子进程，只设置 `$env:...` 后继续使用已运行的托盘应用，环境变量通常不会自动进入旧进程。
 
@@ -1089,9 +1089,9 @@ $env:OLLAMA_DEBUG = '1'
 模型运行参数可能来自多层：
 
 ```text
-service environment default
-  -> model / Modelfile default
-  -> request options or keep_alive override
+service（服务） environment default
+  -> model（模型） / Modelfile default
+  -> request（请求） options or keep_alive override
 ```
 
 不要只看某一份配置。使用 `ollama show --modelfile`、实际请求体、`ollama ps` 和响应统计共同确认最终行为。
@@ -1216,7 +1216,7 @@ metrics / logs / traces / alerts / changes
 
 Ollama 位于“模型推理执行层”，它不会自动完成采集、清洗、权限、知识入库、动作审批和效果评估。
 
-## 场景一：告警结构化分类
+### 场景一：告警结构化分类
 
 输入告警的服务、指标、阈值、变更窗口和证据，让模型按 JSON Schema 返回：
 
@@ -1228,25 +1228,25 @@ Ollama 位于“模型推理执行层”，它不会自动完成采集、清洗�
 
 模型输出只是建议。严重级别和自动升级仍应由确定性规则兜底。
 
-## 场景二：日志与事件摘要
+### 场景二：日志与事件摘要
 
 先在 Ollama 外完成脱敏、时间排序、采样和长度限制，再让模型总结。不要把数百 MB 原始日志直接塞进上下文，也不要让模型猜缺失的时间段。
 
-## 场景三：Runbook RAG
+### 场景三：Runbook RAG
 
 使用 `/api/embed` 把 Runbook 切片转成向量，查询时找回最相关片段，再把片段连同来源交给 Chat 模型。入库与查询必须使用同一个 Embedding 模型，并记录模型 digest 和维度。
 
-## 场景四：受控工具调用
+### 场景四：受控工具调用
 
 模型可以提出 `get_pod_logs`、`query_metrics` 等只读工具调用。上层应用验证资产范围和参数后执行，再把结果传回模型。`restart_service`、`delete_pod` 等写操作默认不直接开放，必须进入审批和幂等执行器。
 
-## 场景五：事故复盘与知识沉淀
+### 场景五：事故复盘与知识沉淀
 
 将已经脱敏、人工确认的时间线、指标和处置记录交给模型生成复盘草稿。事实、根因、影响和行动项必须由责任人复核，不能把流畅文本当作证据。
 
 ## 基础实验：构建一个本地告警分类模型入口
 
-## 实验目标
+### 实验目标
 
 完成下面的可验证闭环：
 
@@ -1261,7 +1261,7 @@ Ollama 位于“模型推理执行层”，它不会自动完成采集、清洗�
   -> 保存脱敏证据
 ```
 
-## 实验边界
+### 实验边界
 
 - 只在个人学习机或隔离测试机操作。
 - 使用合成告警，不发送真实主机名、IP、账号、Token 或客户数据。
@@ -1269,7 +1269,7 @@ Ollama 位于“模型推理执行层”，它不会自动完成采集、清洗�
 - 模型输出存在不确定性；成功标准是接口、Schema 和观察链路跑通。
 - 开始前确认至少有约 1 GiB 可用磁盘，给模型、临时文件和日志留余量。
 
-## 前置条件
+### 前置条件
 
 ```powershell
 ollama --version
@@ -1278,7 +1278,7 @@ Invoke-RestMethod http://localhost:11434/api/version
 
 若任一命令失败，先回到“安装与启动”，不要继续把后面的错误当模型问题。
 
-## 第一步：拉取并盘点模型
+### 第一步：拉取并盘点模型
 
 ```powershell
 ollama pull gemma3:270m
@@ -1294,7 +1294,7 @@ ollama show gemma3:270m
 
 把 `ollama list` 的 NAME、ID/digest、SIZE 和 `ollama --version` 记入实验笔记。
 
-## 第二步：创建实验目录和 Modelfile
+### 第二步：创建实验目录和 Modelfile
 
 ```powershell
 New-Item -ItemType Directory -Force .\ollama-aiops-lab | Out-Null
@@ -1319,7 +1319,7 @@ ollama show --modelfile aiops-triage:v1
 
 预期结果：创建成功，反查结果包含基础模型、temperature、num_ctx 和 SYSTEM 约束。
 
-## 第三步：发送结构化告警请求
+### 第三步：发送结构化告警请求
 
 在 PowerShell 中执行：
 
@@ -1370,7 +1370,7 @@ $response.message.content
 
 预期结果：`message.content` 是一个 JSON 字符串，包含五个要求的字段。模型对 severity 和原因的具体选择可能变化，不能把示例语义当成固定断言。
 
-## 第四步：验证返回结构
+### 第四步：验证返回结构
 
 ```powershell
 $result = $response.message.content | ConvertFrom-Json
@@ -1391,7 +1391,7 @@ Write-Output "SCHEMA_OK service=$($result.service) severity=$($result.severity)"
 
 预期输出包含 `SCHEMA_OK`。这个断言只证明结构和枚举通过，还要人工检查内容是否忠于证据。
 
-## 第五步：计算性能证据
+### 第五步：计算性能证据
 
 ```powershell
 $promptSeconds = $response.prompt_eval_duration / 1e9
@@ -1427,7 +1427,7 @@ nvidia-smi # 仅 NVIDIA 环境
 3. 第一次和第二次请求的 `load_duration` 是否明显不同？
 4. 客户端总耗时是否远高于服务端 `total_duration`？
 
-## 第六步：保存脱敏学习证据
+### 第六步：保存脱敏学习证据
 
 ```powershell
 ollama --version | Out-File .\ollama-version.txt -Encoding utf8
@@ -1439,7 +1439,7 @@ $result | ConvertTo-Json -Depth 10 | Out-File .\triage-result.json -Encoding utf
 
 提交前打开文件检查：不能包含真实告警、账号、API Key、内部 IP 或未授权模型文件。
 
-## 第七步：清理或保留实验
+### 第七步：清理或保留实验
 
 如果准备继续下面的 404 故障实验，先保留 `aiops-triage:v1`。全部实验结束后，如要释放运行内存但保留模型证据：
 
@@ -1456,7 +1456,7 @@ ollama rm aiops-triage:v1 # 删除自定义模型引用；基础 gemma3:270m 仍
 
 若连基础模型也不再需要，再单独确认后执行 `ollama rm gemma3:270m`。不要直接删除整个 `.ollama\models` 目录；Blob 可能被其他模型引用。
 
-## 基础实验成功标准
+### 基础实验成功标准
 
 - [ ] CLI 与 `/api/version` 都可用。
 - [ ] `ollama list` 能看到固定模型和 digest。
@@ -1467,16 +1467,16 @@ ollama rm aiops-triage:v1 # 删除自定义模型引用；基础 gemma3:270m 仍
 - [ ] 能观察 CPU/GPU、上下文和保留时间。
 - [ ] 能区分 Load、Prefill 和 Decode 耗时。
 
-## 如果基础实验没有成功，先查这些
+### 如果基础实验没有成功，先查这些
 
-### `ollama` 不是命令
+#### `ollama` 不是命令
 
 1. 关闭并重新打开终端。
 2. `Get-Command ollama -All` 检查 PATH。
 3. 确认安装目录存在。
 4. 不要从未知网站下载同名可执行文件。
 
-### 连接 `localhost:11434` 失败
+#### 连接 `localhost:11434` 失败
 
 ```powershell
 Get-NetTCPConnection -LocalPort 11434 -ErrorAction SilentlyContinue
@@ -1485,7 +1485,7 @@ Get-Content "$env:LOCALAPPDATA\Ollama\server.log" -Tail 100
 
 先确认桌面应用或 `ollama serve` 是否启动，再检查端口冲突和安全软件。
 
-### Pull 很慢或失败
+#### Pull 很慢或失败
 
 - 看磁盘空间；
 - 检查 DNS、HTTPS 出口和企业代理；
@@ -1493,7 +1493,7 @@ Get-Content "$env:LOCALAPPDATA\Ollama\server.log" -Tail 100
 - 查看日志中的 Registry、TLS、校验或权限错误；
 - 不要通过关闭证书验证来“修好”生产环境。
 
-### 模型运行但没有用 GPU
+#### 模型运行但没有用 GPU
 
 1. `nvidia-smi` 是否能看到显卡和驱动？
 2. GPU 是否在官方支持表？
@@ -1501,7 +1501,7 @@ Get-Content "$env:LOCALAPPDATA\Ollama\server.log" -Tail 100
 4. `ollama ps` 的 PROCESSOR 是什么？
 5. 模型和上下文是否超过显存，导致部分 CPU Offload？
 
-### JSON 无法解析
+#### JSON 无法解析
 
 - 确认 `stream = $false`；
 - 解析的是 `$response.message.content`，不是整个响应对象；
@@ -1640,18 +1640,18 @@ Write-Output "MODEL_READY digest=$($target.digest)"
 
 ## 生产架构：从单机实验到共享 AIOps 推理服务
 
-## 单机实验架构
+### 单机实验架构
 
 ```text
-one user
-  -> localhost Ollama
-  -> one machine CPU/GPU
-  -> local model directory
+one user（单个用户）
+  -> localhost Ollama（仅本机访问的 Ollama）
+  -> one machine CPU/GPU（单机处理器或图形加速器）
+  -> local model（模型） directory
 ```
 
 优点是简单、数据边界清楚。缺点是单进程、单主机、单磁盘和单 GPU 都可能成为故障点。
 
-## 团队共享架构
+### 团队共享架构
 
 ```text
 AIOps applications
@@ -1682,7 +1682,7 @@ external metrics / logs / traces / evaluation store
 
 这是生产设计建议，不是 Ollama 内置集群功能。Ollama 单实例没有自动提供跨节点模型复制、全局队列、租户配额、领导者选举和流式请求接续。
 
-## 请求路径中的超时与重试
+### 请求路径中的超时与重试
 
 至少区分四层：
 
@@ -1700,7 +1700,7 @@ external metrics / logs / traces / evaluation store
 
 ## 容量与性能规划
 
-## 四类容量先分开
+### 四类容量先分开
 
 | 资源 | 主要占用 | 先看什么 |
 |---|---|---|
@@ -1709,7 +1709,7 @@ external metrics / logs / traces / evaluation store
 | VRAM | GPU 权重、KV Cache、计算缓冲区 | `nvidia-smi`、`ollama ps` |
 | 网络 | 模型拉取、Cloud 模型、远程客户端流 | Registry 带宽、出站策略、网关流量 |
 
-## 容量规划步骤
+### 容量规划步骤
 
 1. 固定 Ollama 版本、模型 tag、digest 和量化。
 2. 从单并发、短上下文建立基线。
@@ -1719,7 +1719,7 @@ external metrics / logs / traces / evaluation store
 6. 给驱动、系统和突发请求留安全余量，不把显存用到 100%。
 7. 按模型拆分节点，避免热点模型与低频大模型互相驱逐。
 
-## 性能指标
+### 性能指标
 
 - Availability：成功完成请求比例；
 - TTFT（Time To First Token）：从接收请求到第一块内容的时间；
@@ -1758,24 +1758,24 @@ TTFT 不等于 `load_duration`。它还包含路由、排队、模板、Tokenize
 ### 健康检查分层
 
 ```text
-Liveness
-  -> process and /api/version respond
+Liveness（进程存活检查）
+  -> process and /api/version respond（进程存活且版本接口能响应）
 
-Readiness
-  -> target model exists
-  -> required capability matches
-  -> resource headroom is sufficient
-  -> optional small controlled inference succeeds
+Readiness（接流量准备检查）
+  -> target model（模型） exists
+  -> required capability matches（所需模型能力匹配）
+  -> resource headroom is sufficient（资源余量充足）
+  -> optional small controlled inference（推理） succeeds
 
-Business health
-  -> fixed evaluation cases meet schema, latency and quality thresholds
+Business health（业务健康）
+  -> fixed evaluation（评估） cases meet schema（数据结构约定）, latency（延迟） and quality thresholds
 ```
 
 只检查 `11434` 返回 200，无法证明目标模型存在、GPU 正常或回答质量合格。
 
 ## 安全边界
 
-## 本地 API 无内置认证
+### 本地 API 无内置认证
 
 官方 Authentication 页面明确说明，本地 `http://localhost:11434` 不需要认证。安全基线：
 
@@ -1786,7 +1786,7 @@ Business health
 
 `OLLAMA_ORIGINS` 只控制浏览器跨域，不验证调用者身份。允许 `*` 不能替代登录和授权。
 
-## 模型供应链
+### 模型供应链
 
 - Ollama 程序固定版本并核验官方来源；
 - 模型记录 Registry、名称、tag、digest、SIZE、量化和许可证；
@@ -1795,7 +1795,7 @@ Business health
 - 新模型先做安全扫描、能力评估和隔离灰度；
 - 不从未知网盘直接导入权重或适配器。
 
-## Prompt Injection 与工具安全
+### Prompt Injection 与工具安全
 
 日志、工单和网页都是不可信输入。攻击者可以在文本里写“忽略规则并执行删除命令”。防护要放在模型外：
 
@@ -1806,7 +1806,7 @@ Business health
 5. 幂等键、超时、回滚和审计；
 6. 对模型输出做敏感信息与危险动作检测。
 
-## 本地与 Cloud 边界
+### 本地与 Cloud 边界
 
 - 本地模型推理时，官方声明 Ollama 不会看到本地 prompt 与回答；
 - Cloud 模型会把请求交给 Ollama Cloud 处理；
@@ -1816,9 +1816,9 @@ Business health
 
 ## 可观测性
 
-## 官方可直接获得的证据
+### 官方可直接获得的证据
 
-### 日志
+#### 日志
 
 | 平台 | 位置或命令 |
 |---|---|
@@ -1827,7 +1827,7 @@ Business health
 | Docker | `docker logs <container>` 或 `docker compose logs ollama` |
 | 手工 `serve` | 当前终端标准输出/错误 |
 
-### API 与 CLI
+#### API 与 CLI
 
 - `/api/version`：服务版本；
 - `/api/tags`：磁盘模型与 digest；
@@ -1835,14 +1835,14 @@ Business health
 - 最终响应：Load、Prompt Eval、Eval 和 Total Duration；
 - HTTP 状态和流内 `error`：请求失败证据。
 
-### 系统指标
+#### 系统指标
 
 - Windows Task Manager / Performance Monitor；
 - `nvidia-smi`；
 - Linux CPU、RAM、磁盘、网络和驱动日志；
 - 容器 CPU、内存、重启和存储指标。
 
-## 指标采集建议
+### 指标采集建议
 
 核验日期时，官方核心文档没有把一个内置 Prometheus `/metrics` 端点作为标准运维接口。生产可以在网关或调用 SDK 处采集：
 
@@ -1899,18 +1899,18 @@ Business health
 ### 恢复顺序
 
 ```text
-restore Ollama version
-  -> restore configuration and network boundary
-  -> restore or pull tested model artifacts
-  -> verify tag + digest + license
-  -> preload model
-  -> run schema and quality smoke tests
-  -> enable traffic gradually
+restore Ollama version（恢复经过验证的软件版本）
+  -> restore configuration（配置） and network boundary
+  -> restore or pull tested model（模型） artifacts
+  -> verify tag + digest + license（校验模型标签、内容标识与许可证）
+  -> preload model（模型）
+  -> run schema（数据结构约定） and quality smoke tests
+  -> enable traffic gradually（逐步恢复流量）
 ```
 
 ## 升级与回滚
 
-## 升级前清单
+### 升级前清单
 
 ```powershell
 ollama --version
@@ -1928,7 +1928,7 @@ Invoke-RestMethod http://localhost:11434/api/version
 - 流式、结构化输出、工具调用、Embedding 的固定回归用例；
 - 延迟、吞吐、显存和质量基线。
 
-## 灰度步骤
+### 灰度步骤
 
 1. 在非生产节点安装新版本。
 2. 拉取与生产一致的模型 digest。
@@ -1938,7 +1938,7 @@ Invoke-RestMethod http://localhost:11434/api/version
 6. 观察稳定窗口后逐步扩大。
 7. 保留旧节点，直到回滚窗口结束。
 
-## 回滚触发条件
+### 回滚触发条件
 
 - 关键 API 字段或流式解析不兼容；
 - OOM、崩溃或 CPU 回退显著上升；
@@ -1973,15 +1973,15 @@ Invoke-RestMethod http://localhost:11434/api/version
 ### 推荐链路
 
 ```text
-Alert stream
-  -> deduplicate / correlate / redact
-  -> priority queue
-  -> deterministic rules handle easy cases
-  -> model gateway with quota and timeout
-  -> Ollama pools split by model
-  -> schema validation
-  -> ticket / dashboard
-  -> human approval before write action
+Alert（告警） stream（消息流）
+  -> deduplicate / correlate / redact（去重、关联与脱敏）
+  -> priority queue（优先级队列）
+  -> deterministic（确定性） rules（规则） handle easy cases
+  -> model（模型） gateway with quota and timeout
+  -> Ollama pools split by model（模型）
+  -> schema（数据结构约定） validation（验证）
+  -> ticket / dashboard（仪表盘）
+  -> human approval（人工审批） before write action
 ```
 
 ### 关键取舍
@@ -2040,13 +2040,13 @@ Server 健康
 
 ## 面试怎么讲
 
-## 30 秒回答
+### 30 秒回答
 
 ```text
 Ollama 是模型运行和本地服务工具，不是模型本身。它把模型以 tag、manifest 和 blob 管理在磁盘上，请求进入 Server 后由 Scheduler 复用或加载 Runner，再在 CPU/GPU 上完成 Prefill 和 Decode，并通过原生 REST 或兼容 API 返回。生产上我会重点控制模型与许可版本、显存和 KV Cache、上下文与并发、无内置本地鉴权的网络风险，以及冷启动、排队、流式错误和升级回滚。
 ```
 
-## 3 分钟回答
+### 3 分钟回答
 
 ```text
 我会从四层解释 Ollama。第一层是模型制品：程序本身采用 MIT，但每个模型有独立许可；生产记录 tag、digest、量化、大小和 Modelfile。第二层是请求路径：Chat 或 Generate 请求进入 HTTP Server，解析模型和参数，由 Scheduler 找到或加载 Runner，完成 Tokenize、Prefill、KV Cache 和逐 Token Decode，最后流式或一次性返回。第三层是容量：模型文件只是下界，运行还要计算权重、KV Cache、缓冲区和并发上下文，使用 ollama ps、nvidia-smi 与 duration 字段建立实测基线。第四层是生产治理：本地 API 默认无认证，所以共享服务必须放在带 TLS、认证、限流和审计的网关后；Ollama 单实例也不等于高可用集群，需要外部做副本、模型分发、流量和评估。故障时我先按端口、模型是否存在、加载位置、队列、Prefill/Decode 和客户端契约收集证据，再决定预热、减小上下文、限流、回滚模型或回滚 Ollama 版本。
@@ -2177,7 +2177,31 @@ Ollama 是模型运行和本地服务工具，不是模型本身。它把模型�
 - [ ] 我能完成 Ollama 与模型的灰度、回滚和契约测试。
 - [ ] 我能把工具调用放进审批、幂等和回滚链路。
 
-## GitHub 学习证据
+## 老师带你分清“安装好了”和“模型能服务了”
+
+Ollama 程序像放映机，模型权重像影片，Runner（模型运行进程）负责实际推理，Scheduler（调度器）安排加载和请求。程序安装成功不代表模型已下载，模型文件在磁盘不代表已加载到内存，API 可连接也不代表目标模型能在当前容量下完成请求。
+
+学生：“文件只有 4 GB，显卡有 8 GB，为什么还是内存不足？”老师：“运行还需要缓存、计算缓冲、上下文与并发空间。”权重量化只影响部分存储成本，KV Cache（键值缓存）会随上下文和并发增长；部分层放到 CPU 还会影响延迟。容量必须按你的模型、上下文、并发和后端测量。
+
+### 标签、摘要和会话的课堂关系
+
+Tag（标签）是便于使用的名称，Digest（内容摘要）用于标识具体内容，Manifest（清单）记录模型所需数据对象。部署只写同一个名字，不保证以后拉到完全相同内容；学习证据应记录程序版本、模型标签、摘要与参数。
+
+Chat（对话）请求里的消息历史由客户端按 API 语义管理，不能因为服务器保持模型加载就认为它自动记住所有人的会话。`keep_alive`（保温时间）影响模型卸载时机，不等于长期对话记忆，也不等于客户端连接超时。
+
+### 怎样读流式结果才不会过早宣布成功
+
+流式响应把内容分成若干块返回，最后完成状态和统计可能在后续块里。HTTP 状态成功只说明响应开始，不证明中间没有错误或输出完整。客户端要按具体接口分块协议解析、累积文本、处理最终状态并做结构和业务校验；不能把第一块当成一份完整 JSON。
+
+沿本篇基础实验先记录加载耗时、输入处理和生成速度，再执行不存在模型标签的故障实验。预期明确识别模型引用错误，修复为已确认存在的模型后恢复；不要在故障时自动拉取任意用户指定模型。清理或保留模型都按前文明确对象操作，避免删掉已有其他模型。
+
+### 面试与生产课堂
+
+30 秒回答强调本地模型管理、加载调度和推理 API；3 分钟画请求、调度、加载、预填充、解码和最终校验，解释磁盘、内存与显存的区别。追问“本地部署是否绝不联网”，要核对模型引用、云能力、工具、下载与日志目的地，不能单凭程序装在本机下结论。
+
+团队共享服务还需要身份认证、配额、队列上限、模型白名单和审计。模型输出是候选分析，不获得生产修改权限。升级回归流式解析、结构化输出、固定问题质量和显存峰值；回退包含程序、模型与参数组合，而不是只安装旧客户端。
+
+## 本课 GitHub 学习证据清单
 
 建议目录：
 

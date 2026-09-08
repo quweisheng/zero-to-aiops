@@ -19,11 +19,11 @@
 
 ```text
 Brocade 6510 与 Fabric OS
-  -> 硬件：Gen 5、16G、24/36/48 Ports、SFP、Power/Fan
-  -> FC 基础：WWN、N_Port、F_Port、E_Port、Frame、Buffer Credit
-  -> Fabric：Domain ID、Principal Switch、FSPF、ISL、Trunk、RSCN
-  -> 访问控制：Alias、Zone、Zone Configuration、Effective Configuration
-  -> 运维：CLI、Web Tools、MAPS、Flow Vision、SNMP、Syslog、SupportSave
+  -> 硬件：Gen 5（第五代 FC）、16G（速率代际）、24/36/48 Ports（激活端口）、SFP（光模块）、Power/Fan（电源与风扇）
+  -> FC 基础：WWN（全球唯一名称）、N_Port（终端口）、F_Port（接入口）、E_Port（交换机互联口）、Frame（帧）、Buffer Credit（接收缓存信用）
+  -> Fabric：Domain ID（域编号）、Principal Switch（协调交换机）、FSPF（路径选择）、ISL（交换机链路）、Trunk（链路聚合）、RSCN（变化通知）
+  -> 访问控制：Alias（别名）、Zone（通信组）、Zone Configuration（组配置）、Effective Configuration（生效配置）
+  -> 运维：CLI（命令行）、Web Tools（网页管理）、MAPS（监控告警策略）、Flow Vision（流量观察）、SNMP（管理协议）、Syslog（系统日志）、SupportSave（诊断包）
   -> 生命周期：FOS 兼容、升级路径、双 Fabric 迁移、退役验证
 ```
 
@@ -86,11 +86,11 @@ Brocade 6510 是 Gen 5（16G）Fibre Channel 固定端口交换机。官方资�
 ```text
 应用发起读取
   -> 操作系统块设备 / 多路径
-  -> HBA（Initiator WWPN）
-  -> Fabric A 的 Brocade F_Port
-  -> Name Server 与 zoning 已允许通信
-  -> 本交换机转发，或经 E_Port / ISL / FSPF 到目标交换机
-  -> 存储 Target Port（Target WWPN）
+  -> HBA（主机适配器，Initiator WWPN 为发起端端口的全球唯一名称）
+  -> Fabric A（独立交换网络 A）的 Brocade F_Port（连接终端设备的端口）
+  -> Name Server（名称服务）与 zoning（分区访问规则）已允许通信
+  -> 本交换机转发，或经 E_Port / ISL / FSPF（交换机间端口、互联链路、路径选择协议）到目标交换机
+  -> 存储 Target Port（目标端口，Target WWPN 为该端口的全球唯一名称）
   -> 阵列控制器、缓存、LUN、后端介质
   -> 数据沿 FC 路径返回主机
 ```
@@ -342,7 +342,7 @@ supportshow                     # 汇总大量只读诊断输出，可能较慢�
 ## 生产高可用架构
 
 ```text
-                 Fabric A                          Fabric B
+                 Fabric A（交换网络 A）              Fabric B（交换网络 B）
 主机 HBA1 -> Brocade Switch A -> 存储端口 A   主机 HBA2 -> Brocade Switch B -> 存储端口 B
                  独立电源/机柜/配置                  独立电源/机柜/配置
                           \                        /
@@ -425,13 +425,13 @@ supportshow                     # 汇总大量只读诊断输出，可能较慢�
 ### 拓扑关联
 
 ```text
-service
-  -> host
-  -> HBA WWPN
-  -> switch WWN / port / fabric
-  -> zone
-  -> storage target WWPN
-  -> array / LUN
+service（业务）
+  -> host（主机）
+  -> HBA WWPN（主机总线适配器端口标识）
+  -> switch WWN / port / fabric（交换机标识、端口、交换网络）
+  -> zone（允许通信组）
+  -> storage target WWPN（存储目标端口标识）
+  -> array / LUN（阵列、逻辑块设备）
 ```
 
 发生 CRC 告警时，系统应能立即给出对应业务、是否还有 Fabric B 路径、同端口错误增量和最近变更。自动化可以生成诊断包或工单，不应自动禁用端口或修改 zoning。
@@ -652,6 +652,40 @@ Brocade 6510 是 16G Gen 5 FC 交换机，24 口起步可按 PoD 扩到 48 口�
 - [ ] 我能区分 CRC、C3 discard、credit zero 和慢排水。
 - [ ] 我能完成离线基线与故障注入实验。
 - [ ] 我能说明 6510 的 EOS 风险和不中断迁移顺序。
+
+## 老师带你读一段“端口在线但数据库慢”的证据
+
+### 第一步：把光纤和 IP 网络分开想
+
+同学常问：“交换机管理 IP 能 ping 通，为什么磁盘还不通？”因为管理口是给你登录和观察的，FC 业务端口则搬运存储帧。管理网络通，只证明你能联系设备的管理入口，不能证明主机 HBA、光纤、zoning、阵列端口与 LUN 都正常。
+
+同样，FC 中的 Fabric 不是文件目录，Frame 是传输的一小块帧，FCP 是用 FC 承载 SCSI 的协议，SCSI 则是一套访问存储设备的命令体系。先分清这些角色，你就不会把“创建 LUN”“配置 zone”和“设置主机 IP”当作同一件事。
+
+老师给你一道定位题：HBA WWPN 没出现在名称服务器中，应先查物理链路和登录；WWPN 已登录但不能和 Target 通信，应查生效 zoning 与登录关系；能通信但看不到某个卷，再查阵列 masking 和主机发现。每深入一层，都带着上一层已经获得的证据，避免跳着猜。
+
+### 第二步：累计错误与错误速率不是一回事
+
+假设 09:00 某口 CRC 为 1,000，09:05 为 1,000；另一口从 0 增到 20。哪条更值得立即调查？后者有正在发生的帧损坏迹象，前者可能是很久以前的历史。CRC 是用于发现帧损坏的循环冗余校验，不是所有数据库慢的通用原因。
+
+速率可写成 `(后值 - 前值) / 采样秒数`。但设备重启或管理员清零时，后值可能变小；不能把负速率当成“自动修复了很多错误”。采集器应同时记录设备启动时间、计数器重置与采样缺口。在 AIOps 中，缺数据必须是独立状态，不能默认为零。
+
+读光功率也不能背一个统一 dBm 阈值。dBm 是相对于 1 毫瓦的对数功率单位，正常范围由模块类型和厂家规格决定。检查接收功率要结合对端发送、光纤长度、连接器清洁、弯折、温度和历史趋势。一次取样正常，不能排除间歇故障；先保留时间线，再一次替换一个变量。
+
+### 第三步：信用为什么会把拥塞往上游传
+
+把接收端缓存想成只有几只可周转的箱子。发送端每发一个帧占一只箱子，接收端处理完再通知“箱子空出来了”。接收慢时，箱子不归还，上游必须等待。这个等待保证不随便冲垮接收缓存，但长时间背压会使共享路径上的其他流也受影响。
+
+因此 credit zero 表示没有可用发送信用的观测，不自动等于光纤坏；也不能只增加信用数量掩盖一个处理不了数据的终端。应沿流向找最先持续阻塞的位置，结合终端队列和共享 ISL 的状态，对比绕过该目标的流量。注意方向：报等待的上游端口可能是受害者，真正排水慢的在下游。
+
+C3 discard 是帧丢弃的信号，可能涉及超时、资源或拥塞，需要看具体计数和日志原因。把所有 discard 都自动归因为慢排水，会漏掉其他问题。正确的自动化是给出候选原因、证据缺口和下一条只读检查，而不是立即禁口。
+
+### 第四步：把退役方案写成可以停下来的小批次
+
+迁移旧 6510 时，最大风险不是拔错一根光纤那么简单：你以为健康的 B Fabric 可能只有名字，主机实际没有可用路径。第一批之前应拿一个批准的非关键测试卷验证单 Fabric 承载能力、超时和恢复行为；没有测试证据，就不能承诺“业务无感”。
+
+每批记录搬迁的确切 WWPN、旧新端口、预期路径、有效 zone、对应业务和回接图。停止条件应具体，例如路径数不达标、错误持续增长、应用事务延迟超过约定窗口、出现未知卷或主机掉盘。此时停止后续批次，保护另一 Fabric，按回接方案恢复本批，不继续把故障扩大。
+
+面试可以先用 30 秒讲 FC 登录、zoning、流控和双 Fabric，再用 3 分钟讲一个真实或明确标注为模拟的证据链。追问“为什么不能把 A/B 连起来提高冗余”，答题重点是：那可能把两个独立故障域合成一个，配置传播和 Fabric 故障能同时伤害两边。链路更多，不一定意味着故障隔离更好。
 
 ## 学习证据
 

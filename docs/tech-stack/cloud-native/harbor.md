@@ -34,12 +34,12 @@
 ## 官方知识地图
 
 ```text
-client / CI / Kubernetes
-  -> Harbor portal and registry API
-  -> project / repository / artifact / tag
-  -> authentication / robot account / RBAC
-  -> scanning / signing / replication / retention
-  -> registry storage / database / Valkey-compatible cache / job service
+client（客户端）/ CI（持续集成）/ Kubernetes（容器编排）
+  -> Harbor portal（网页入口）与 registry API（制品仓库接口）
+  -> project（项目）/ repository（仓库）/ artifact（制品）/ tag（标签）
+  -> authentication（认证）/ robot account（机器人账号）/ RBAC（角色授权）
+  -> scanning（扫描）/ signing（签名）/ replication（复制）/ retention（保留）
+  -> storage（制品存储）/ database（元数据库）/ cache（缓存）/ job service（任务服务）
 ```
 
 学习顺序：先懂 OCI Artifact，再学 push/pull、权限、扫描、复制、清理，最后接入 Kubernetes 与 CI/CD。
@@ -131,13 +131,13 @@ Harbor 基于 OCI Distribution 能力提供企业管理层。它可以保存容�
 ## 架构和数据流
 
 ```text
-git commit
-  -> CI build
-  -> image tag and digest
-  -> Harbor registry API
-  -> project policy / scan / storage
-  -> Kubernetes image pull
-  -> running Pod image ID
+git commit（源码提交）
+  -> CI build（流水线构建）
+  -> image tag and digest（镜像标签与内容摘要）
+  -> Harbor registry API（镜像仓库接口）
+  -> project policy / scan / storage（项目策略/扫描/存储）
+  -> Kubernetes image pull（节点拉取镜像）
+  -> running Pod image ID（实际运行的镜像身份）
 ```
 
 Harbor 常见组件包括 Portal、Core、Registry、Job Service、Database、Valkey-compatible cache、Scanner 和后端存储。高可用必须覆盖状态组件与存储，不是简单把 Portal 扩成多个副本。
@@ -145,18 +145,18 @@ Harbor 常见组件包括 Portal、Core、Registry、Job Service、Database、Va
 ### 一次 pull 为什么先得到 401
 
 ```text
-Docker / containerd
-  -> GET https://harbor.example/v2/
-  <- 401 + WWW-Authenticate challenge
-  -> Core / token service：验证用户或 Robot，并检查 project/repository 权限
-  <- 短期 Bearer token
-  -> Registry：读取 manifest 与 blob
+Docker / containerd（发起镜像请求的客户端或运行时）
+  -> GET https://harbor.example/v2/（探测镜像仓库接口）
+  <- 401 + WWW-Authenticate challenge（要求按响应头提示取得认证令牌）
+  -> Core / token service（核心服务/令牌服务）：验证用户或 Robot（机器人账号），检查 project/repository（项目/仓库）权限
+  <- 短期 Bearer token（持有者令牌，携带它访问被授权的接口）
+  -> Registry（镜像仓库服务）：读取 manifest（镜像清单）与 blob（按内容寻址的数据块）
   -> PostgreSQL：Harbor 元数据、项目、策略、审计
-  -> shared filesystem / object storage：真实 layer 与 manifest 内容
-  <- manifest + layers
+  -> shared filesystem / object storage（共享文件系统/对象存储）：真实 layer（镜像层）与 manifest（清单）内容
+  <- manifest + layers（返回镜像清单与镜像层）
 ```
 
-第一个 401 通常是正常的认证挑战，不等于密码错。真正排障要看客户端是否根据 `WWW-Authenticate` 找到正确 token service、证书是否可信、Token scope 是否允许目标 repository，以及 Registry 能否访问存储。
+图中的 PostgreSQL 和后端存储是两类状态依赖说明，不表示 Registry 要逐次把每个镜像层先送进数据库。Core 等管理服务使用数据库保存元数据，镜像层的真实内容由 Registry 的存储后端保存。第一个 401 通常是正常的认证挑战，不等于密码错。真正排障要看客户端是否根据 `WWW-Authenticate` 找到正确 token service、证书是否可信、Token scope 是否允许目标 repository，以及 Registry 能否访问存储。
 
 Push 还会产生分片 upload 状态；扫描和复制则经过 Job Service、队列/cache 与对应适配器。Core 正常但 Registry、数据库或存储异常时，Portal 可能能打开，Push/Pull 仍会失败。
 
@@ -258,11 +258,12 @@ $chartVersion = (helm search repo harbor/harbor --versions -o json | ConvertFrom
   Select-Object -First 1).version
 $chartVersion | Out-File -Encoding utf8 harbor-chart-version.txt # 固化本次实际解析值
 helm show chart harbor/harbor --version $chartVersion # 查看固定 Chart 元数据
-helm template harbor harbor/harbor `          # 只进行本地渲染
-  --version $chartVersion `                   # 产品 2.15.2 不代表 Chart 也叫 2.15.2
-  --namespace harbor `                        # 指定实验命名空间
-  --set externalURL=https://harbor.lab.local `# 设置虚构对外地址
-  --set expose.type=clusterIP > harbor-rendered.yaml # 不创建真实外部入口
+# PowerShell 的续行反引号必须是行尾最后一个字符，后面不能接注释或空格。
+helm template harbor harbor/harbor `
+  --version $chartVersion `
+  --namespace harbor `
+  --set externalURL=https://harbor.lab.local `
+  --set expose.type=clusterIP > harbor-rendered.yaml
 Select-String harbor-rendered.yaml -Pattern 'harbor.lab.local|PersistentVolumeClaim' # 验证结果
 ```
 
@@ -401,6 +402,98 @@ Harbor 是 OCI 制品仓库，核心对象是 Project、Repository、Artifact、
 5. 扫描无漏洞为何不等于绝对安全？
 6. Harbor 高可用要保护哪些有状态组件？
 7. 如何把 Harbor 数据接入 AIOps？
+
+## 老师带你认识一份镜像：名字、目录和内容不是同一件事
+
+先看 `harbor.lab.example/aiops/order-api:v2`。最左边是仓库服务地址，`aiops` 是项目，`order-api` 是仓库名，`v2` 是标签。你可以把标签理解成书架上的便签，它告诉人“这份叫第二版”，但在允许覆盖的仓库里，便签可以被贴到另一份内容上。
+
+Digest（摘要）由内容计算出来，帮助精确识别这一份制品。CI 推送后应保存返回的 digest，发布时记录实际使用的 digest。只保存 `v2`，过几天标签被移动，你就不能回答“事故时到底运行了什么”。OCI 是 Open Container Initiative，制定容器镜像与分发相关标准；Artifact 泛指按这类方式保存的制品，并不都能直接运行。
+
+Manifest（清单）像镜像目录，引用配置对象和各层 Blob（二进制数据块）。多个镜像可以共享基础层，所以一百个标签不等于一百份完全独立的磁盘占用。相反，一个大体积新层即使只有一个标签，也可能占掉很多空间。容量必须看唯一内容增长和实际存储，而非仅数标签。
+
+多架构镜像还可能先返回 Index（索引），再按操作系统和处理器架构选择子 Manifest。仓库页的顶层摘要与运行时展示的某个具体平台摘要可能不同。核验时记录对象层次和架构，不能看两个哈希不同就直接断言供应链被替换。
+
+### 从构建到运行，请你收齐五张收据
+
+第一张是源码提交，第二张是构建日志和依赖版本，第三张是推送摘要，第四张是部署清单，第五张是节点实际拉取和运行身份。没有构建过程，镜像来源不清；没有运行身份，仓库里存在正确镜像也不能证明线上使用了它。
+
+AIOps 可以把这五张收据关联起来：发布后某版本错误率上升，先确定受影响 Pod 的镜像内容，再找对应构建和提交。这样生成的是可追溯变更链，不是按发布时间猜测谁有责任。
+
+## 认证课堂：登录成功为什么还是不能拉镜像
+
+`docker login` 验证客户端能凭身份与仓库交互，但具体仓库、项目与操作还要接受授权。Token scope（令牌作用范围）可以包含特定仓库的 pull 或 push 权限；只给拉取的机器人不应能覆盖生产标签。
+
+开发电脑和 Kubernetes 节点拥有不同的凭据保存位置与证书信任。你在电脑登录成功，不会自动把凭据送到每台节点。`imagePullSecret` 是让 Kubernetes 在相应命名空间向运行时提供拉取凭据的一种方式，它还要被 Pod 或 ServiceAccount 正确引用。
+
+排障先读 Pod Event 的原始错误。`unauthorized` 优先查凭据与范围；`x509` 查证书名称、有效期、信任链和系统时间；`manifest unknown` 查路径与摘要；超时查 DNS、网络、代理和仓库负载。不同错误对应不同证据，重启所有 Pod 会同时放大拉取压力。
+
+机器人轮换应先创建或配置新凭据，更新一组测试拉取方，确认新节点也能拉取固定摘要，然后扩展到所有目标，最后撤销旧凭据。提前撤销会使已有 Pod 继续运行却无法扩容，直到事故时才暴露。
+
+## 清理课堂：删标签为什么像撕便签，而不是扔书
+
+保留策略决定哪些制品仍应保留，垃圾回收 GC 才处理不再被引用的底层内容。多个标签、签名和关联制品、正在进行的上传都可能影响回收判定。Harbor 的[垃圾回收文档](https://goharbor.io/docs/2.15.0/administration/garbage-collection/)给出目标版本的实际行为；先做 dry run（预演）并复核报告。
+
+课堂上我们先不执行删除。取三份发布记录：当前生产、上一可回退版本、仍在测试的候选。逐一找出它们的摘要及关联签名，再看保留规则会不会匹配这些对象。时间最老的版本也可能仍然是一个长期运行系统的恢复依赖，因此“超过三十天就删”需要业务证据。
+
+存储快满时，还要给新上传和 GC 自身保留操作空间。满到无法写数据库或临时文件，再尝试大量任务会更难恢复。先停止非必要推送、评估可安全扩容，保护当前业务所需制品；直接在对象存储里删除目录会破坏引用关系。
+
+## 三分钟面试回答：仓库怎样变成可靠的发布依赖
+
+**30 秒：**Harbor 在标准镜像分发之外增加项目权限、扫描、复制、保留和审计。我用摘要贯通构建、发布和运行证据，用最小权限机器人进行自动化，并分别验证仓库服务、状态依赖和真实节点拉取。
+
+**3 分钟：**从一次拉取讲起：客户端先得到认证挑战，到令牌服务换取特定仓库范围的令牌，再读取清单和数据层。网页能打开不证明 Registry、元数据库或存储都健康。标签可能变化，发布要保存内容摘要和架构，遇到多架构索引则区分顶层与平台清单。
+
+生产方案要给数据库、缓存、共享存储和入口各自设计高可用与恢复，把异步复制延迟算进 RPO。扫描有漏洞库新鲜度边界，签名与集群准入要形成配套验证，不能把扫描完成当作绝对安全。容量治理通过保留预演与 GC 完成，升级回滚需要成套的状态与存储恢复，最后从真实节点验证拉取和灰度发布。
+
+面试追问“旧 Pod 正常能不能稍后修”，要指出节点故障、扩容和回滚都可能随时触发镜像拉取；“双站点复制是不是备份”，要指出误删除传播、复制延迟、身份策略和配置备份的边界。课堂证据应包含一次错误 Token 的可回收实验和一次按摘要核验的成功链。
+
+## 分发协议课堂：为什么推一份镜像会访问好几个接口
+
+老师先让你暂停在 `docker push`。它不是一次把整份镜像作为 ZIP 上传：客户端与仓库协商身份，检查已有数据层，上传缺失 Blob，最后提交引用这些内容的 Manifest。共享层已存在时可能直接复用，所以“这次上传很快”不代表网络突然变快；也不能把镜像解压后的体积等同本次线上传输量。
+
+上传可能经历创建上传会话、传送数据、提交内容摘要等阶段。反向代理若重写了错误的外部地址、限制请求大小或中断长上传，用户可能登录成功、小镜像成功、大镜像失败。诊断要保存返回状态码、请求阶段、时间和服务端对应日志，避免把所有上传错误叫成权限问题。不要记录令牌正文、完整认证头或客户仓库名到公开工单。
+
+`externalURL` 是客户端看到的仓库外部地址，内外地址不一致可能影响认证挑战或重定向。TLS 证书名称应匹配客户端访问的域名，证书链应被真正执行拉取的运行时信任。浏览器接受证书不代表节点容器运行时也信任；浏览器可能有另一套信任库或人工例外。正确修复是让客户端信任经过批准的 CA 链，而不是全局关闭 TLS 校验。
+
+接着问持久性：推送响应成功、UI 能列出 Artifact、从另一台干净客户端完整拉取，是三个有价值但不同的证据。第三个能避免客户端已有层缓存掩盖仓库缺失内容。生产验收应使用隔离验证节点或独立缓存环境，不为了测试而清空正在服务的所有节点镜像缓存；那会放大启动延迟和仓库压力。
+
+## 扫描与签名课堂：两张不同的质量证明
+
+漏洞扫描把制品中的软件包信息与某时刻的漏洞数据库比较，结果依赖识别能力、漏洞库新鲜度和扫描范围。“零高危”可能表示当前规则未发现，不等于不存在漏洞，更不表示没有恶意业务代码。离线环境尤其要记录漏洞库更新日期、制品摘要、扫描时间和扫描器版本；拿几个月前的库给今天的镜像盖绿色章，缺少时间口径。
+
+签名证明的是制品与某个签名身份之间的关系，常用于校验来源和防止内容被替换；它不自动证明代码安全。SBOM 是 Software Bill of Materials（软件物料清单），列出软件组成；它有助于漏洞影响分析，但需要与制品摘要和构建来源关联。扫描、签名、物料清单、构建证明各答不同问题，把任意一个叫成完整供应链安全都不够。
+
+更重要的是执行点。Harbor 里显示签名，不意味着 Kubernetes 会自动拒绝未签名镜像；需要配置兼容的准入验证组件和可信身份规则。准入拒绝在 API 创建阶段发生，镜像拉取错误在节点启动阶段发生，定位时先找阶段。豁免应有负责人、原因、有效期和范围，不能让一个永久通配例外绕过所有生产发布。
+
+若扫描任务积压，先区分 JobService 排队、扫描器资源、漏洞库访问、镜像拉取权限和底层存储。不要无上限增加并发：扫描会读取很多内容、占用 CPU 和临时空间，可能反过来拖慢生产节点拉取。给交付时效与交付风险分别定义门槛，例如新镜像先完成有效扫描才允许发布，旧镜像遇到新漏洞则按影响和修复期限治理。
+
+## 复制与备份课堂：双仓库怎样仍然可能一起丢数据
+
+复制规则是异步把选中的制品同步到另一个 Registry。它需要目标认证、网络、兼容接口、过滤规则和任务执行都成功。控制台有一条“复制规则”，不证明每个关键摘要已到目标；源端推送成功也不代表目标立即可用。故障切换前应从目标直接按摘要拉取，并核对签名等关联制品是否按版本支持行为同步。
+
+请做一道算术题：源仓库十分钟内产生四十份制品，复制平均积压十五分钟。主站此时完全丢失，不能承诺最近十分钟发布一定可恢复。RPO 衡量可接受的数据缺口，必须从任务队列、失败重试和目标实际对象核验计算，不用“每五分钟调度一次”替代真实延迟。大镜像和多架构制品会改变复制耗时，平均值之外还要看最慢任务。
+
+备份关注能否恢复某个一致时间点，复制关注另一端是否有最新选中对象。误删除、错误保留策略或泄漏凭据可能影响两个站点；是否传播删除也取决于规则与版本。数据库保存项目、用户、制品关联等元信息，Registry 存储保存数据内容，密钥、证书和配置决定恢复后是否能读懂和授权访问。只备份对象存储桶或只备份数据库都可能得到一套不完整状态。
+
+恢复演练必须在隔离地址进行，不能把恢复库直接连到生产 JobService，让旧任务继续执行。先确认数据库与存储恢复点协调，再启动所需组件、验证身份与权限、按摘要拉取关键镜像，最后才讨论切流。恢复用的证书、机器人权限与复制出口也要限制，防止测试站误向生产写入。保留演练耗时、失败阶段和数据核验范围，未验证的能力写成待验证。
+
+## 生产容量课堂：镜像仓库为什么在节点故障时突然成为关键路径
+
+平时 Pod 一直运行，Harbor 每小时可能只有少量拉取。一个机架重启后，大批节点没有缓存，要同时下载基础镜像和应用层。假设两百个节点各需新增 2 GiB 数据，冷启动总下载约 400 GiB；即使链路有效吞吐 1 GiB/s，也至少需要约四百秒，还没计磁盘、并发限制、重试和认证。这个下界帮助你解释恢复为何慢，但不能当成真实压测结果。
+
+容量不仅包括存储总量，还包括入口连接、Registry 吞吐、数据库访问、对象存储请求、JobService 并发以及扫描产生的额外读流量。共同瓶颈可能在外部存储或网络，而不在 Registry Pod 的 CPU。高可用增加前端副本也不能突破共享后端上限，应使用冷缓存恢复场景与日常推送场景分别压测。
+
+保留规则要兼顾正在运行的版本、计划回退版本、灾备与长期停用后可能恢复的应用。运行中的节点缓存不能作为备份：节点损坏后缓存也会消失。对于按 digest 部署但已经没有 tag 的制品，必须验证保留与 GC 规则是否仍保护它及关联内容，不能只保护某几个标签名字。执行预演、人工复核和小范围治理比直接对整个仓库套“最近十个”更可靠。
+
+## 带练事故：一批新节点全部 ImagePullBackOff，旧 Pod 正常
+
+先把影响说清楚：既有请求仍有容量，但新建、扩容与回滚路径受阻。保存一个失败 Pod 的 Event 和一个成功节点的对照，按 `x509`、`unauthorized`、`manifest unknown`、超时或 5xx 分流。假设 Event 明确说机器人凭据无效，且今天刚轮换 Token，那么重点查新节点使用的 Secret 版本、所在命名空间和 ServiceAccount 引用，而不是先扩容存储。
+
+验证要使用同一摘要与同一授权范围。开发电脑管理员登录成功不反驳节点机器人失败。更换测试命名空间的拉取凭据后，只创建一个无业务副作用的测试 Pod，确认它在之前失败的新节点上拉取成功，再分批更新其他命名空间。控制 Secret 的查看和修改权限，不在终端 `-o yaml` 打印全部认证数据，不把 Token 写进版本库。
+
+修复后还要检查“撤销旧 Token”这一步是否安全：所有目标消费者是否完成迁移，离线节点上线后会不会仍使用旧 Secret，灾备仓库机器人是否单独轮换。回滚不是把过期 Token 从聊天记录抄回来，而是使用受控的有效旧凭据或预备恢复凭据，必要时走紧急授权流程。最终关闭单据的证据是新增节点按固定摘要成功运行、相关错误率恢复且旧凭据按计划撤销。
+
+课堂错误 Token 实验的恢复也必须使用同一个独立 Docker 配置目录，否则可能被默认目录的缓存登录掩盖。修复时将正确凭据通过 `--password-stdin` 传给 `docker --config .\harbor-bad-credential-lab login`，随后用 `docker --config .\harbor-bad-credential-lab pull $repoDigest` 验证，再对该配置目录 logout。删除目录前先确认其绝对路径位于专用实验目录，且内容只有本次生成的客户端配置；真实令牌和该配置目录不进入 GitHub。
 
 ## 学习证据
 

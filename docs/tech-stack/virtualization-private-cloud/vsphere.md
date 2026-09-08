@@ -32,16 +32,16 @@ vSphere 官方资料可以整理为六条主线：
 
 ```text
 产品与架构
-  -> ESXi、vCenter Server、vSphere Client
+  -> ESXi（运行虚拟机）、vCenter Server（集中管理）、vSphere Client（浏览器管理界面）
   -> 数据中心、集群、主机、虚拟机等清单对象
 
 计算与可用性
   -> 虚拟 CPU、内存、资源池
-  -> HA、DRS、vMotion、EVC、FT
+  -> HA（故障重启）、DRS（资源调度）、vMotion（在线迁移）、EVC（处理器兼容基线）、FT（容错）
 
 网络与存储
   -> 标准交换机、分布式交换机、端口组、VMkernel
-  -> datastore、VMFS、NFS、vSAN、vVols
+  -> datastore（数据存储）、VMFS（集群文件系统）、NFS（网络文件协议）、vSAN（分布式存储）、vVols（虚拟卷集成）
 
 生命周期与安全
   -> 安装、补丁、升级、兼容性、证书、权限、审计
@@ -50,7 +50,7 @@ vSphere 官方资料可以整理为六条主线：
   -> 性能图、任务、事件、告警、ESXi 日志、支持包
 
 自动化与集成
-  -> REST API、Web Services API、PowerCLI、Syslog、SNMP
+  -> REST API（资源接口）、Web Services API（对象接口）、PowerCLI（管理命令）、Syslog（日志）、SNMP（网络管理协议）
 ```
 
 本文按小白更容易理解的顺序学习：
@@ -372,57 +372,57 @@ ESXi 属于 Type-1 Hypervisor，也叫裸机虚拟化层：它直接控制物理
 ### 管理链路
 
 ```text
-管理员 / AIOps / PowerCLI / API client
-  -> HTTPS 443
-  -> vCenter Server
-  -> inventory、permissions、tasks、events、alarms、performance
-  -> ESXi management agents
-  -> VM、network、datastore、cluster operation
+管理员 / AIOps / PowerCLI / API client（智能运维、管理脚本工具或接口客户端）
+  -> HTTPS 443（使用加密传输的管理接口，443 为常见端口）
+  -> vCenter Server（集中管理服务）
+  -> inventory、permissions、tasks、events、alarms、performance（清单、权限、任务、事件、告警、性能）
+  -> ESXi management agents（宿主机管理代理）
+  -> VM、network、datastore、cluster operation（虚拟机、网络、存储、集群操作）
 ```
 
 ### 虚拟机计算链路
 
 ```text
-application
-  -> guest OS
-  -> virtual hardware
-  -> ESXi scheduler and VMkernel
-  -> physical CPU / memory / device
+application（应用）
+  -> guest OS（客户机操作系统）
+  -> virtual hardware（虚拟硬件）
+  -> ESXi scheduler and VMkernel（调度器与虚拟化内核）
+  -> physical CPU / memory / device（物理处理器、内存、设备）
 ```
 
 ### 虚拟机网络链路
 
 ```text
-guest virtual NIC
-  -> port group
-  -> vSS or vDS
-  -> physical uplink vmnic
-  -> physical switch / router / firewall
-  -> destination service
+guest virtual NIC（客户机虚拟网卡）
+  -> port group（端口组）
+  -> vSS or vDS（标准或分布式交换机）
+  -> physical uplink vmnic（物理上行网卡）
+  -> physical switch / router / firewall（物理交换机、路由器、防火墙）
+  -> destination service（目标服务）
 ```
 
 ### 虚拟磁盘链路
 
 ```text
-guest filesystem / database
-  -> virtual disk controller
-  -> VMDK or storage object
-  -> VMkernel storage stack
-  -> HBA / NIC and multipath
-  -> VMFS / NFS / vSAN / vVols backend
-  -> physical media
+guest filesystem / database（客户机文件系统或数据库）
+  -> virtual disk controller（虚拟磁盘控制器）
+  -> VMDK or storage object（虚拟磁盘文件或存储对象）
+  -> VMkernel storage stack（宿主机存储栈）
+  -> HBA / NIC and multipath（存储适配器、网卡与多路径）
+  -> VMFS / NFS / vSAN / vVols backend（不同存储后端）
+  -> physical media（物理介质）
 ```
 
 ### HA 故障恢复链路
 
 ```text
-host or VM failure signal
-  -> HA FDM and heartbeat evidence
-  -> failure classification
-  -> protected VM and capacity check
-  -> select surviving host
-  -> register and power on VM
-  -> VMware Tools / app health verification
+host or VM failure signal（主机或虚拟机故障信号）
+  -> HA FDM and heartbeat evidence（故障域代理与心跳证据）
+  -> failure classification（区分故障类型）
+  -> protected VM and capacity check（检查保护状态与容量）
+  -> select surviving host（选择存活主机）
+  -> register and power on VM（注册与开机）
+  -> VMware Tools / app health verification（客户机代理与应用验收）
 ```
 
 每条链路都要关联唯一对象标识。只用虚拟机显示名容易因重名或改名产生误关联，AIOps 台账应同时保存 vCenter、Datacenter、Cluster、Host、VM MoRef/UUID、Datastore 和 Network 标识。
@@ -662,19 +662,19 @@ vSphere 位于业务和物理基础设施之间。AIOps 既要采集虚拟机内
 ### 建议拓扑
 
 ```text
-business service
-  -> application instance
-  -> guest OS
-  -> VM
-  -> ESXi host
-  -> cluster / resource pool
-  -> vCenter
+business service（业务）
+  -> application instance（应用实例）
+  -> guest OS（客户机操作系统）
+  -> VM（虚拟机）
+  -> ESXi host（宿主机）
+  -> cluster / resource pool（集群、资源池）
+  -> vCenter（集中管理）
 
 VM
-  -> vNIC -> port group -> vSS/vDS -> vmnic -> physical network
+  -> vNIC（虚拟网卡）-> port group（端口组）-> vSS/vDS（虚拟交换机）-> vmnic（物理网卡）-> physical network（物理网络）
 
 VM
-  -> virtual disk -> datastore -> path/network -> storage system
+  -> virtual disk（虚拟磁盘）-> datastore（数据存储）-> path/network（路径、网络）-> storage system（存储系统）
 ```
 
 ### 建议采集
@@ -946,6 +946,38 @@ vSphere 的计算数据面由 ESXi 承担，vCenter 提供集中清单、权限�
 18. vLCM 镜像模式如何减少集群配置漂移？
 19. 如何把 vSphere 接入 AIOps 拓扑和告警治理？
 20. 哪些 vSphere 操作可以自动化，哪些必须人工审批？
+
+## 老师带练：一次维护为什么会让“空闲”虚拟机变慢
+
+### 用三个角色解释资源调度
+
+你可以把物理 CPU 想成真正的窗口，vCPU 是等待办事的号码，DRS 是在不同营业厅之间安排顾客的管理者。顾客没在窗口工作时，客户机可能显示 CPU 使用不高，但他也可能正排队。CPU Ready 关注的是准备运行却尚未得到调度的时间，而不是应用主动休眠的所有时间。
+
+给 VM 加 vCPU 相当于让它可能同时请求更多窗口，并不保证缩短等待。先查实际并行度、Ready、Co-stop、CPU Limit、宿主机需求与 NUMA 放置。NUMA 是非统一内存访问架构，处理器访问本地内存与另一处理器关联的远端内存成本不同；大型 VM 需要把虚拟拓扑、实际工作集和物理结构一起考虑。不能为了“规格好看”把单线程服务扩成几十个 vCPU。
+
+Reservation、Shares、Limit 也要分别理解：预留表达保证，份额在竞争时表达相对权重，限制则是硬上限。假设主机还有空闲，但 VM 被 Limit 卡住，增加主机并不会自动消除这个人为瓶颈。先保存配置与性能时间线，再在批准窗口按单变量调整验证。
+
+### 生产设计题：四台主机能否维护一台再坏一台
+
+设四台主机每台可承载 100 个归一化资源单位，业务实际峰值需求 250。只坏一台时剩 300，看起来能承受；先维护一台、再坏一台只剩 200，已经放不下。这个算例还未计 VM 放置约束、预留、设备直通和网络/存储容量，所以实际可用空间可能更少。
+
+老师会要求你写明保护目标：只承受单故障，还是维护期间仍要承受另一次故障。HA 准入控制是为故障留余量，不是制造余量；DRS 能换位置，不是扩容机器。反亲和规则能分散故障域，但也可能让资源剩余仍无法找到合法目标，要在维护预检查时一起验证。
+
+### 给离线故障实验补上完整收尾
+
+前面的样本已经把 datastore 使用率从 82 改成 92，进入 CRITICAL。现在把五项 `value` 依次改为 HA 余量 1、Ready 2、datastore 70、采集年龄 2、路径 100，保持原字段与单位，再运行 `powershell -ExecutionPolicy Bypass -File .\check-vsphere.ps1`。预期全部 OK，立即读取 `$LASTEXITCODE` 应为 0。
+
+若 Ready 仍警告，检查是不是只恢复了 datastore；若采集年龄还很大，不能把它解释为资源故障已解除。保存 WARN→CRITICAL→OK 三次输出，注明使用合成数据，并写出每个信号的真实取证来源。结束后仅清理实验文件：在确认当前为 `vsphere-lab` 后执行 `Remove-Item -LiteralPath .\vsphere-health.csv, .\check-vsphere.ps1`；需要作为 GitHub 证据的文件应先保留副本。
+
+### 30 秒、3 分钟与事故追问
+
+**30 秒：**ESXi 运行 VM，vCenter 管理集群；HA 在故障后重启，DRS 选择放置，vMotion 搬运行状态。资源与数据路径的约束共同决定能否迁移或恢复，不能只看总空闲百分比。
+
+**3 分钟：**从维护导致可用主机减少开始，关联 VM Ready、宿主机需求和 DRS 迁移，再检查资源限制、亲和规则、VMkernel 网络和 datastore 路径。最后讲恢复后的应用验收、备份与快照清理，不把任务成功当业务成功。
+
+**追问：vCenter 不可用时为什么 VM 还在？**管理和执行分离，ESXi 仍能执行已有 VM；但集中编排、权限入口和部分操作受影响。已配置的 HA 能力还要看代理与集群实际状态，不能推导成“vCenter 永远不重要”。
+
+**事故追问：迁移失败要不要重启源 VM？**先看失败在兼容检查、传输还是切换阶段，确认源 VM 仍在哪台主机运行，保留任务和两端日志。源端业务还健康时，先停止迁移批次、恢复目标路径与兼容条件；不为清掉失败任务去重启正常业务。
 
 ## 学习证据
 

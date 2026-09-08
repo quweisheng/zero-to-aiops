@@ -59,13 +59,13 @@ https://aiops.example.com/api/alerts
 
 ```text
 用户
-  -> DNS
+  -> DNS（域名解析）
   -> 云负载均衡
-  -> NGINX / Ingress Controller
-  -> Kubernetes Service
-  -> EndpointSlice
-  -> Pod
-  -> Container 端口
+  -> NGINX / Ingress Controller（代理服务器与入口控制器）
+  -> Kubernetes Service（集群服务入口）
+  -> EndpointSlice（后端地址集合）
+  -> Pod（容器组）
+  -> Container（容器）端口
   -> 应用
 ```
 
@@ -91,16 +91,16 @@ NGINX 是常用的 Web 服务器和反向代理：它接收客户端请求，根
 入门阶段先掌握这条链：
 
 ```text
-Client
-  -> DNS
-  -> Load Balancer
-  -> NGINX / Ingress Controller
+Client（客户端）
+  -> DNS（域名解析）
+  -> Load Balancer（负载均衡器）
+  -> NGINX / Ingress Controller（代理或入口控制器）
   -> host 匹配
   -> path 匹配
-  -> upstream / Service
-  -> EndpointSlice
-  -> Pod IP:targetPort
-  -> Application
+  -> upstream / Service（后端组或服务）
+  -> EndpointSlice（后端地址集合）
+  -> Pod IP:targetPort（容器组地址与目标端口）
+  -> Application（应用）
 ```
 
 必须掌握：
@@ -133,61 +133,61 @@ Client
 NGINX 官方资料按模块组织：
 
 ```text
-NGINX docs
-  -> Beginner's Guide
-  -> Admin Guide
-     -> Web Server
-     -> Reverse Proxy
-     -> Load Balancing
-     -> SSL Termination
-  -> Reference
-     -> ngx_http_core_module
-        -> server
-        -> location
-        -> listen
-        -> server_name
-        -> client_max_body_size
-     -> ngx_http_proxy_module
-        -> proxy_pass
-        -> proxy_set_header
-        -> proxy_connect_timeout
-        -> proxy_read_timeout
-        -> proxy_send_timeout
-     -> ngx_http_upstream_module
-        -> upstream
-        -> server
-        -> keepalive
-     -> ngx_http_log_module
-        -> log_format
-        -> access_log
+NGINX docs（官方文档）
+  -> Beginner's Guide（入门）
+  -> Admin Guide（管理）
+     -> Web Server（网页服务）
+     -> Reverse Proxy（反向代理）
+     -> Load Balancing（负载均衡）
+     -> SSL Termination（加密连接终止）
+  -> Reference（模块参考）
+     -> ngx_http_core_module（HTTP 核心模块）
+        -> server（虚拟主机）
+        -> location（路径规则）
+        -> listen（监听）
+        -> server_name（主机名）
+        -> client_max_body_size（请求体上限）
+     -> ngx_http_proxy_module（代理模块）
+        -> proxy_pass（转发目标）
+        -> proxy_set_header（转发请求头）
+        -> proxy_connect_timeout（连接超时）
+        -> proxy_read_timeout（相邻读取超时）
+        -> proxy_send_timeout（相邻发送超时）
+     -> ngx_http_upstream_module（后端组模块）
+        -> upstream（后端组）
+        -> server（组内服务器）
+        -> keepalive（空闲连接复用）
+     -> ngx_http_log_module（日志模块）
+        -> log_format（格式）
+        -> access_log（访问日志）
 ```
 
 Kubernetes Ingress 官方资料按这些概念组织：
 
 ```text
-Kubernetes Service
-  -> selector
-  -> port / targetPort
-  -> EndpointSlice
+Kubernetes Service（服务）
+  -> selector（标签筛选）
+  -> port / targetPort（服务端口与目标端口）
+  -> EndpointSlice（后端地址集合）
 
-Kubernetes Ingress
-  -> Ingress resource
-  -> Ingress Controller
-  -> IngressClass
-  -> rules
-  -> host
-  -> path
-  -> pathType
-  -> backend service
-  -> TLS
+Kubernetes Ingress（入口规则）
+  -> Ingress resource（声明对象）
+  -> Ingress Controller（执行控制器）
+  -> IngressClass（选择控制器类别）
+  -> rules（规则）
+  -> host（主机名）
+  -> path（路径）
+  -> pathType（匹配语义）
+  -> backend service（后端服务）
+  -> TLS（传输加密）
 
-ingress-nginx
-  -> Controller installation
-  -> ConfigMap
-  -> annotations
-  -> path matching
-  -> TLS
-  -> troubleshooting
+ingress-nginx（基于 NGINX 的入口控制器项目）
+  -> Controller installation（遗留安装识别）
+  -> ConfigMap（配置对象）
+  -> annotations（实现扩展注解）
+  -> path matching（路径匹配）
+  -> TLS（传输加密）
+  -> troubleshooting（排障）
 ```
 
 新手要把两张图合起来：
@@ -205,21 +205,21 @@ NGINX/Ingress 是用户流量进入应用的关键入口。
 
 ```text
 用户请求
-  -> DNS
-  -> CDN / WAF
-  -> Load Balancer
-  -> NGINX / Ingress Controller
-  -> Service
-  -> Pod
+  -> DNS（域名解析）
+  -> CDN / WAF（内容分发网络与应用防火墙）
+  -> Load Balancer（负载均衡器）
+  -> NGINX / Ingress Controller（代理服务器与入口控制器）
+  -> Service（服务入口）
+  -> Pod（容器组）
   -> 应用
   -> 数据库 / 缓存 / 队列
 
 观测
-  -> NGINX access log / error log
-  -> Ingress Controller metrics
-  -> Kubernetes events
+  -> NGINX access log / error log（访问日志与错误日志）
+  -> Ingress Controller metrics（入口控制器指标）
+  -> Kubernetes events（集群事件）
   -> Service / EndpointSlice 状态
-  -> Pod logs
+  -> Pod logs（容器组日志）
 ```
 
 AIOps 会从这里拿到：
@@ -257,7 +257,7 @@ kubectl describe svc aiops-api -n aiops
 正向代理代表客户端访问外部。
 
 ```text
-Client -> Forward Proxy -> Internet
+Client（客户端）-> Forward Proxy（正向代理）-> Internet（外部网络）
 ```
 
 例子：
@@ -272,7 +272,7 @@ Client -> Forward Proxy -> Internet
 反向代理代表服务端接收客户端请求，再转发给后端。
 
 ```text
-Client -> Reverse Proxy -> Backend Servers
+Client（客户端）-> Reverse Proxy（反向代理）-> Backend Servers（后端服务器）
 ```
 
 NGINX 常作为反向代理。
@@ -296,7 +296,7 @@ Ingress Controller 本质上就是 Kubernetes 里的反向代理控制平面和�
 NGINX 配置有层级。
 
 ```nginx
-main context
+# main context：全局上下文，不是可执行指令
 
 events {
     # 连接事件配置
@@ -530,8 +530,8 @@ proxy_read_timeout 30s;
 | 指令 | 含义 | 常见对应故障 |
 |---|---|---|
 | `proxy_connect_timeout` | 连接 upstream 的超时 | 后端端口连不上 |
-| `proxy_send_timeout` | 向 upstream 发送请求超时 | 上传/请求体发送问题 |
-| `proxy_read_timeout` | 等 upstream 响应超时 | 后端处理慢，常见 504 |
+| `proxy_send_timeout` | 向 upstream 两次连续写操作之间允许等待的时间，并非整个上传总时长 | 上传/请求体发送问题 |
+| `proxy_read_timeout` | 从 upstream 两次连续读操作之间允许等待的时间，并非整个响应总时长 | 后端迟迟不产出数据，常见 504 |
 
 504 多数和 read timeout 有关，但不要立刻调大超时。先问：
 
@@ -644,7 +644,7 @@ Ingress 是 Kubernetes 的 API 对象，用于管理进入集群的 HTTP/HTTPS �
 它描述：
 
 ```text
-host + path -> Service
+host + path（域名与路径匹配） -> Service（目标服务）
 ```
 
 最小示例：
@@ -1050,9 +1050,9 @@ curl -sS -o /dev/null \
 | `$request_uri` | 原始 URI | 看 path/query |
 | `$request_id` | 请求 ID | 串联日志 |
 
-## AIOps 入门实验
+## 遗留 Ingress 实验：仅用于已存在的隔离环境
 
-目标：部署一个 Web 服务，通过 Ingress 暴露，并制造 404/502/503 类问题理解链路。
+目标：在已经存在且允许测试的隔离 Ingress 环境中部署 Web 服务并理解入口链路。不要为本段新安装已退役的 ingress-nginx；新建实验应优先使用下方 Gateway API 部分。`aiops` 必须是专用实验命名空间，且实验前不存在同名对象。
 
 ### 1. 准备 Deployment 和 Service
 
@@ -1076,7 +1076,7 @@ spec:
     spec:
       containers:
         - name: web
-          image: nginx:1.25
+          image: nginx:1.30.4
           ports:
             - name: http
               containerPort: 80
@@ -1168,7 +1168,7 @@ curl -v -H "Host: wrong.local" http://<ingress-address>/
 
 ### 4. 制造 503 或无 endpoints
 
-把 Service selector 改错：
+用编辑器修改保存的 `aiops-web.yaml`，只把 Service 部分 selector 改错（不要改 Deployment），再执行 `kubectl apply -f aiops-web.yaml`：
 
 ```yaml
 selector:
@@ -1188,7 +1188,7 @@ curl -v -H "Host: aiops.local" http://<ingress-address>/
 
 ### 5. 制造 502
 
-把 Service `targetPort` 改成不存在端口：
+先把 Service selector 恢复为 `app: aiops-web` 并 apply，验证请求恢复 200；然后只把 Service `targetPort` 改成不存在端口，再 apply：
 
 ```yaml
 targetPort: 9999
@@ -1205,6 +1205,8 @@ kubectl logs -n ingress-nginx deploy/ingress-nginx-controller --tail=100
 观察 controller 日志中的 upstream 连接错误。
 
 ### 6. 形成学习证据
+
+恢复 `targetPort: http` 并 apply，确认 EndpointSlice 与真实 HTTP 请求恢复正常。结束后只删除自己创建的对象：`kubectl delete -f aiops-ingress.yaml -f aiops-web.yaml`。如果命名空间还含其他资源，不删除整个命名空间；也不删除共用控制器。这样每次故障都是单变量、可恢复的实验。
 
 记录：
 
@@ -1310,7 +1312,7 @@ kubectl top pods -n aiops
 
 ```bash
 kubectl get ingress aiops-api -n aiops -o yaml
-kubectl get secret aiops-example-tls -n aiops -o yaml
+kubectl get secret aiops-example-tls -n aiops -o custom-columns=NAME:.metadata.name,TYPE:.type
 openssl s_client -connect aiops.example.com:443 -servername aiops.example.com </dev/null
 ```
 
@@ -1374,18 +1376,18 @@ kubectl get events -n "$ns" --sort-by=.lastTimestamp || true
 Ingress 像“应用团队把所有要求都写在一张表上”；Gateway API 把责任拆成三层：基础设施团队提供 `GatewayClass`，平台团队管理 `Gateway` 和监听端口，应用团队只维护自己的 `HTTPRoute`。
 
 ```text
-GatewayClass
+GatewayClass（网关实现类别）
   -> 选择哪个 controller
-Gateway
+Gateway（网关实例）
   -> 地址、listener、TLS、允许哪些 namespace 挂路由
-HTTPRoute
-  -> host、path、filter、backendRefs
-ReferenceGrant
+HTTPRoute（HTTP 路由）
+  -> host、path、filter、backendRefs（主机名、路径、过滤器、后端引用）
+ReferenceGrant（跨命名空间引用授权）
   -> 目标 namespace 是否允许被跨 namespace 引用
-controller
-  -> Accepted / ResolvedRefs / Programmed
-data plane
-  -> Service -> EndpointSlice -> Pod
+controller（控制器）
+  -> Accepted / ResolvedRefs / Programmed（接受、引用解析、下发状态）
+data plane（处理请求的数据面）
+  -> Service（服务）-> EndpointSlice（后端地址）-> Pod（容器组）
 ```
 
 三个 condition 是入门排障核心：
@@ -1499,7 +1501,7 @@ kubectl get endpointslice -n gateway-lab -l kubernetes.io/service-name=web
 
 如果没有成功，先检查：GatewayClass 是否被 controller 接受、controller 是否有资源或 LoadBalancer 权限、Route 的 `parentRefs` 是否匹配 listener、Service 端口与 EndpointSlice 是否正确。
 
-清理：
+完成下面故障注入与恢复后再清理，不要现在删除实验对象：
 
 ```bash
 kubectl delete -f gateway-lab.yaml
@@ -1674,6 +1676,50 @@ Service 存在不代表有后端。要看 EndpointSlice 是否有 ready Pod 地�
 22. 如何排查 Ingress 504？
 23. 为什么调大 timeout 不是解决 504 的根因？
 24. Ingress/NGINX/Gateway 在 AIOps 里提供哪些关键证据？
+
+## 老师带练：把一个 502 拆成可以验证的假设
+
+### 请求到底有几个名字
+
+浏览器访问 `https://aiops.example.com/api/alerts` 时，先用域名解析地址，再建立连接和 TLS 握手，最后发送 HTTP 请求。SNI 是 TLS 握手里告诉服务器“我要访问哪个站点”的名称，Host 是 HTTP 层的主机信息，两者出现的时机不同。只改 Host 去访问 HTTPS IP，不一定拿到正确证书，所以前面的 `curl --resolve` 很有用：域名仍保留用于证书校验、SNI 与 Host，只替换连接地址。
+
+TLS 是传输层安全协议；证书的 SAN 则是允许该证书代表的名称列表。不要把这里的 SAN 与存储网络 SAN 混淆。发现证书错误时先检查域名、时间、证书链和受信任根，不把 `-k` 跳过校验写成生产修复。
+
+### 四种错误要先找“是谁返回的”
+
+同样的 404 可能由入口默认站点返回，也可能是后端应用没有该路由。用 `$upstream_addr` 和 `$upstream_status` 判断是否转发，结合应用 request ID 核对；不能看到 404 就只改 Ingress。502 也需要确认是入口拒绝/连接失败，还是后端自己返回 502。状态码提供分类线索，不直接证明根因。
+
+503 在无可用后端时很常见；但入口限流、自定义错误页和应用负载保护也可能产生它。504 说明网关等待超时，还要区分连接阶段与响应阶段。注意 `proxy_read_timeout` 测量相邻读取之间的间隔：持续小块输出的流式回答，整个请求可以比这个数值长得多。LLM 生成、SSE 事件流或大文件下载还要考虑缓冲、客户端中断和上游自身期限。
+
+### 一个斜杠为什么会改变 API
+
+考虑前缀 `location /api/`。`proxy_pass http://backend;` 没有 URI 部分，通常把原路径继续传给后端；`proxy_pass http://backend/;` 带 `/` URI，在这种普通前缀匹配下会用 `/` 替换匹配到的 `/api/`，于是 `/api/alerts` 变成 `/alerts`。这不是“写法随便选”，而是后端契约。
+
+含正则 location、rewrite 或变量的配置另有边界，不能套用上述简化规则。迁移前做一张专用请求集：精确路径、子路径、尾斜杠、查询参数、URL 编码字符和不存在路径，分别记录入口与后端实际 URI。原始 `$request_uri` 和内部 `$uri` 不同，正好能帮助发现改写。
+
+### 反向代理会消耗两侧连接
+
+worker 是处理请求的工作进程，事件模型让它在大量连接等待时切换处理，不是每条连接都创建一个新进程。即便如此，前端连接、后端连接、文件描述符、TLS 握手 CPU、缓冲内存、临时文件与日志仍有容量成本。
+
+`worker_connections` 不是简单的“用户数”。一个被代理的请求可能占前后端连接，HTTP/2 又可能在一个连接上复用多个流；长连接与大请求体会改变资源模型。要看连接数、活跃请求、TLS 握手、文件描述符与实际请求分布，不能用一个乘法承诺任意并发。
+
+reload 时新工作进程接新配置，旧进程尽量完成已有连接。它不是把所有长连接瞬间搬过去；频繁 reload 加大量长连接需要观察旧 worker 退出与资源增长。`nginx -t` 通过只证明当前配置可解析及相关检查通过，仍要验收实际请求与错误日志。
+
+### 为什么外部转发头不能无条件信任
+
+客户端可以主动发送 `X-Forwarded-For`，因此把它最左边的值直接当真实用户 IP，可能让访问审计和 IP 限制被伪造。平台需要明确可信代理链、入口地址段和头覆盖规则；应用只信任来自这些受控代理的转发信息。
+
+跨团队 Gateway 也类似：`allowedRoutes` 控制哪些路由可以挂上监听器，ReferenceGrant 控制目标命名空间是否同意跨域引用。源团队写了后端引用，不意味着目标团队授权。RBAC 决定谁能写对象，而对象引用授权决定该引用可不可以成立，两层都要设计。
+
+### 30 秒、3 分钟与生产事故答案
+
+**30 秒：**NGINX 是代理软件，Ingress 和 Gateway API 是声明规则，控制器把规则变成实际数据面配置。请求成功要同时满足地址、TLS、规则接受、后端引用、端点和应用响应，任一层绿色都不是整个链路绿色。
+
+**3 分钟：**沿 DNS→连接/TLS→Host/path→后端→应用讲一次请求，用日志区分入口与上游错误；再说明配置更新异步传播、Gateway 状态、端口和权限边界。最后给出迁移回归矩阵、连接排空、观测窗口和回退条件。
+
+**事故追问：支付 POST 超时，能自动重试到另一 Pod 吗？**先问原请求是否已经完成支付。超时只说明客户端没收到结果，不证明业务没执行。必须依靠业务幂等键、状态查询和明确的重试策略，不能用代理无限重试掩盖问题。
+
+**设计追问：三可用区网关如何升级？**先让副本跨区、负载均衡健康检查与连接排空有效；小批更换数据面，保留配置版本和旧入口，持续比较成功率、p99、TLS、WebSocket/SSE、上传与幂等接口。PDB 只约束部分自愿中断，不替代副本与容量设计。若配置被接受却业务回归失败，按已定义的停止条件回退，而不是继续等控制台自行变好。
 
 ## 学习证据
 

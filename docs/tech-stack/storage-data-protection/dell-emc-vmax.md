@@ -18,11 +18,11 @@
 ```text
 VMAX 官方资料
   -> 产品代际：Symmetrix VMAX、VMAX3、VMAX All Flash、PowerMax
-  -> 硬件：V-Brick、Engine、Director、DAE、Front-end、Back-end、Cache
-  -> 逻辑容量：SRP、Data Pool、Thin Device、Storage Group、SLO
-  -> 主机访问：Initiator Group、Port Group、Storage Group、Masking View
-  -> 数据保护：TimeFinder SnapVX、SRDF、D@RE、Vault
-  -> 运维：Unisphere、Solutions Enabler/SYMCLI、REST API、性能、升级
+  -> 硬件：V-Brick（扩展单元）、Engine（引擎）、Director（处理节点）、DAE（磁盘柜）、Front-end（主机侧）、Back-end（磁盘侧）、Cache（缓存）
+  -> 逻辑容量：SRP（资源池）、Data Pool（数据池）、Thin Device（精简设备）、Storage Group（存储组）、SLO（服务目标）
+  -> 主机访问：Initiator Group（主机端口组）、Port Group（阵列端口组）、Storage Group（卷组）、Masking View（访问关联视图）
+  -> 数据保护：TimeFinder SnapVX（快照）、SRDF（远程复制）、D@RE（静态加密）、Vault（缓存保护与恢复相关机制）
+  -> 运维：Unisphere（管理界面）、Solutions Enabler/SYMCLI（管理命令）、REST API（管理接口）、性能、升级
 ```
 
 本文按“主机发出一次写请求，如何到达闪存并被保护”学习，再进入配置、容量性能、复制、自动化、实验和故障处理。
@@ -85,8 +85,8 @@ VMAX 是 Dell EMC 高端企业块存储家族。它通过多 Engine、双 Direct
 应用或数据库写入
   -> 文件系统 / 裸设备 / ASM
   -> 主机多路径设备
-  -> Fabric A / Fabric B
-  -> VMAX Front-end Port
+  -> Fabric A / Fabric B（相互独立的两套存储交换网络）
+  -> VMAX Front-end Port（连接主机的阵列前端端口）
   -> Director 与全局内存/缓存处理
   -> Thin Device 对应的逻辑地址
   -> SRP 中的物理数据布局
@@ -99,16 +99,16 @@ VMAX 是 Dell EMC 高端企业块存储家族。它通过多 Engine、双 Direct
 ### 主机访问对象链
 
 ```text
-主机 HBA WWPN
+主机 HBA WWPN（主机适配器端口的全球唯一名称）
   -> Initiator Group：一台或一组主机的发起端
 
-阵列 Front-end Port
+阵列 Front-end Port（连接主机的前端端口）
   -> Port Group：允许主机使用的目标端口集合
 
-Thin Device
+Thin Device（精简配置逻辑卷）
   -> Storage Group：业务卷集合，可关联 SLO
 
-Initiator Group + Port Group + Storage Group
+Initiator Group + Port Group + Storage Group（主机发起端组、阵列端口组、业务卷组）
   -> Masking View：自动完成主机到卷的 mapping 和 masking
 ```
 
@@ -129,7 +129,7 @@ SnapVX 的 `targetless snapshot` 表示创建时间点时不必先准备传统�
 
 ```text
 主阵列 R1 Device
-  -> RDF Group / RDF Director / Link
+  -> RDF Group / RDF Director / Link（远程复制组、复制控制部件、复制链路）
   -> 远端阵列 R2 Device
   -> 根据同步、异步或 Metro 模式决定写确认与故障行为
 ```
@@ -243,11 +243,11 @@ SnapVX 的 `targetless snapshot` 表示创建时间点时不必先准备传统�
 主机 HBA-A -> Fabric A -> VMAX FE Port（Director A 路径）
 主机 HBA-B -> Fabric B -> VMAX FE Port（Director B 路径）
 
-VMAX Engine/Director
+VMAX Engine/Director（阵列引擎与控制部件）
   -> 冗余 Back-end Path
-  -> DAE / Flash
+  -> DAE / Flash（磁盘扩展机箱与闪存介质）
 
-VMAX RDF Port A/B
+VMAX RDF Port A/B（两条远程复制端口路径）
   -> 独立复制链路
   -> 远端 VMAX/PowerMax（受支持组合）
 ```
@@ -588,6 +588,44 @@ VMAX 是面向核心业务的高端块存储。主机卷通常来自 SRP 中的 
 - [ ] 我知道哪些命令会改变数据或复制方向。
 - [ ] 我能完成离线基线与故障注入实验。
 - [ ] 我能回答容量、性能、安全、升级、灾备与事故追问。
+
+## 老师带你读懂一张数据库存储变更单
+
+### 先把“加 1 TB 磁盘”拆成四个问题
+
+假设同事说：“订单数据库容量不够，给它加 1 TB。”刚入门容易马上寻找创建卷按钮。老师会先问：数据库是表空间不足、文件系统不足、逻辑卷不足，还是阵列资源池不足？这四处都可能显示百分比很高，但对应的操作完全不同。
+
+从底向上看，阵列提供块地址，主机识别设备，再由分区、逻辑卷管理器、文件系统或数据库 ASM 使用。ASM 是 Oracle 的自动存储管理组件，它接管数据库磁盘组织，不一定使用普通文件系统。阵列扩容成功，只能证明最底层容量变化；上层还可能需要重新识别设备大小、扩展逻辑结构并由数据库验证。命令顺序依主机和数据库版本变化，因此应由各层负责人签署自己的验收结果，不能用一张 Unisphere 截图代替业务验收。
+
+还要问新容量是否增加写入压力。假如只是保留更多冷历史数据，容量增长快但 IOPS 不一定增加；若是上线批量对账，容量、吞吐和写放大可能同时增长。IOPS 是每秒 I/O 次数，吞吐是每秒搬运字节数；两者近似满足“吞吐 = IOPS × 平均 I/O 大小”。例如 10,000 次/秒、每次 8 KiB，约为 78 MiB/s。换成 256 KiB 后即使 IOPS 不变，也会到约 2,500 MiB/s。只背阵列峰值 IOPS，不能证明你的业务路径有足够带宽。
+
+### 访问呈现不是一个勾选框，而是三张名单
+
+把 SG 想成“这一组货物”，IG 是“允许领取货物的人”，PG 是“允许通行的大门”，MV 则是把人、大门和货物关联起来的通行证。这个类比帮助记忆，但真正执行时不能靠显示名称判断身份，要核对主机 HBA 的 WWPN。WWPN 是光纤通道端口的全球唯一名字，和主机 IP 不是同一回事。
+
+一台主机有两个 HBA 端口，不代表两个端口都进了正确 IG；一个 PG 有四个端口，也不代表跨了两个独立 Fabric 和不同 Director。把四条路径画出来，标出交换机、供电、Director、HBA，才能判断单个故障会切断几条。这里的“4”是数量，“是否独立”是可靠性，两者不能互相替代。
+
+若新主机突然看到了不该看到的卷，第一目标是防止误写并控制影响范围，不是让操作系统重新分区“试试看”。记录 SID、设备 ID、WWPN、MV 和变更时间；由负责人撤销错误呈现并验证正确主机仍能访问。格式化、清除签名和导入陌生磁盘组都会把访问配置事故扩大成数据事故。
+
+### 写成功的收据到底是谁签的
+
+应用说“保存成功”，数据库通常已经按自身持久化策略完成日志处理，但操作系统、主机 HBA、阵列缓存、后端介质和远程副本分别承担不同责任。理解缓存保护，不是背一句“缓存很快”，而是追问：哪些缓存受保护？哪些失效组合在支持范围内？同步复制在哪一步满足确认条件？恢复时需要哪些系统和密钥？
+
+SRDF/S 的远端参与同步确认，因此网络 RTT，也就是一次往返时间，会进入延迟预算。这里不能用“主机延迟 = 本地阵列延迟 + RTT”当作精确公式，因为请求可并发、排队和控制协议还有影响；它只是帮助你识别延迟下限与预算的思考方式。SRDF/A 则接受尚未传到远端的数据窗口，换取不同的距离和延迟权衡。选择模式必须从业务可容忍损失和恢复流程出发。
+
+老师再追问：复制状态正常，为什么数据库仍不能启动？因为复制块并不知道应用事务含义。数据文件、日志文件、控制文件如果处于不同时间点，可能需要数据库恢复，甚至缺少必要日志。快照组、一致性组和应用冻结/备份接口要共同设计；“阵列一致”与“应用能恢复”是两张不同验收单。
+
+### 容量预测练习：不要等到 99% 才采购
+
+假设 SRP 有 10 TiB 可用余量，但运维要求保留 2 TiB 安全空间，最近高峰每天净增长 200 GiB。可供正常增长的约为 8,192 GiB，粗估约 41 天到达保留线。若采购和变更需要 45 天，现在已经该启动计划，而不是因为“还剩 10 TiB”就标绿。
+
+这个估算的前提是净增长可代表未来；快照批次、复制重建、数据压缩效果变化和大促写入都可能使它失真。因此报告要同时放保守情景、趋势范围和已知事件。删除主机文件也不等于池空间立即下降，还要检查应用删除方式、文件系统空间回收、UNMAP 支持及阵列回收进度。UNMAP 是主机通知存储“这些逻辑块不再需要”的机制，不是通用的数据擦除或立即减容承诺。
+
+### 用实验结果回答事故追问
+
+前面的检查器把复制非正常状态标为 CRITICAL，是为了练习规则分支；真实生产的 `SyncInProg` 可能是已审批恢复过程，不一定意味着新事故。AIOps 需要叠加维护窗口、持续时间、积压增长方向和 RPO 目标，避免把已知重建反复升级。相反，“NotConfigured” 对批处理样例可以接受，对要求灾备的订单库却不能接受，告警必须知道业务期望。
+
+面试时可以这样推进：“先确认业务等级和模式，再看复制积压是否持续增长；用同端口但不复制的 SG 做对照，区分前端共享瓶颈与复制特有问题；若调整后台任务，先记录基线和停止条件，随后验证业务延迟与 RPO 两个目标，不能为降延迟悄悄取消灾备保护。”把这个推理过程写进实验 README，比多贴十条命令更能证明能力。
 
 ## 学习证据
 

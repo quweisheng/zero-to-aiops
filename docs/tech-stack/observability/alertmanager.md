@@ -41,14 +41,14 @@ Prometheus 为什么没发告警？
 但真正链路是：
 
 ```text
-Prometheus rule evaluation
-  -> alert pending
-  -> alert firing
-  -> Prometheus sends alert to Alertmanager
-  -> Alertmanager groups and deduplicates
-  -> route tree chooses receiver
-  -> silence/inhibition may suppress notification
-  -> receiver integration sends email/Slack/webhook/PagerDuty
+Prometheus rule evaluation（Prometheus 评估规则）
+  -> alert pending（告警条件满足但仍等待持续时间）
+  -> alert firing（告警进入触发状态）
+  -> Prometheus sends alert to Alertmanager（Prometheus 发送告警给处理器）
+  -> Alertmanager groups and deduplicates（处理器分组并去重）
+  -> route tree chooses receiver（路由树选择接收器）
+  -> silence/inhibition may suppress notification（静默或抑制可能暂缓通知）
+  -> receiver integration sends email/Slack/webhook/PagerDuty（接收器通过邮件、协作平台或回调发送通知）
 ```
 
 任何一环错了，最终都可能表现为“没收到告警”。
@@ -64,17 +64,17 @@ Alertmanager 是 Prometheus 告警通知管理器：Prometheus 负责判断“�
 入门 Alertmanager 先抓住这条主线：
 
 ```text
-Prometheus alert rule
-  -> alert labels / annotations
-  -> Prometheus alerting config
-  -> Alertmanager /api/v2/alerts
-  -> route tree
-  -> group_by / group_wait / group_interval / repeat_interval
-  -> silences
-  -> inhibit_rules
-  -> receiver
-  -> notification template
-  -> email / webhook / Slack / PagerDuty
+Prometheus alert rule（Prometheus 告警规则）
+  -> alert labels / annotations（告警身份标签与说明注解）
+  -> Prometheus alerting config（Prometheus 告警发送配置）
+  -> Alertmanager /api/v2/alerts（告警处理器的第二版告警接口）
+  -> route tree（路由树）
+  -> group_by / group_wait / group_interval / repeat_interval（分组维度、首次等待、组内更新与重复通知间隔）
+  -> silences（静默）
+  -> inhibit_rules（抑制规则）
+  -> receiver（接收器）
+  -> notification template（通知模板）
+  -> email / webhook / Slack / PagerDuty（邮件、HTTP回调与协作或值班通知渠道）
 ```
 
 第一阶段必须掌握：
@@ -106,57 +106,57 @@ Prometheus alert rule
 官方文档按这些模块组织：
 
 ```text
-Prometheus Alerting
-  -> alerting rules
-  -> alert labels
-  -> alert annotations
-  -> for
-  -> keep_firing_for
-  -> Prometheus alerting config
-  -> alertmanager target
+Prometheus Alerting（Prometheus 告警体系）
+  -> alerting rules（告警规则）
+  -> alert labels（告警标签）
+  -> alert annotations（告警注解）
+  -> for（条件需持续多久）
+  -> keep_firing_for（条件恢复后继续保持触发的时间）
+  -> Prometheus alerting config（Prometheus 告警发送配置）
+  -> alertmanager target（告警处理器目标）
 
-Alertmanager concepts
-  -> grouping
-  -> inhibition
-  -> silences
-  -> high availability
+Alertmanager concepts（告警处理器核心概念）
+  -> grouping（分组）
+  -> inhibition（抑制）
+  -> silences（静默）
+  -> high availability（高可用）
 
-Alertmanager configuration
-  -> global
-  -> templates
-  -> route
-  -> receivers
-  -> inhibit_rules
-  -> time_intervals
-  -> http_config
+Alertmanager configuration（告警处理器配置）
+  -> global（全局默认配置）
+  -> templates（模板文件）
+  -> route（路由规则）
+  -> receivers（接收器列表）
+  -> inhibit_rules（抑制规则）
+  -> time_intervals（时间区间）
+  -> http_config（HTTP客户端设置）
 
-Receiver integrations
-  -> email_config
-  -> webhook_config
-  -> slack_config
-  -> pagerduty_config
-  -> opsgenie_config
-  -> msteams_config
-  -> pushover_config
-  -> victorops_config
-  -> sns_config
-  -> telegram_config
-  -> discord_config
-  -> jira_config
+Receiver integrations（接收渠道集成）
+  -> email_config（邮件配置）
+  -> webhook_config（HTTP回调配置）
+  -> slack_config（Slack协作平台配置）
+  -> pagerduty_config（PagerDuty值班平台配置）
+  -> opsgenie_config（Opsgenie值班平台配置）
+  -> msteams_config（Microsoft Teams通知配置）
+  -> pushover_config（Pushover推送配置）
+  -> victorops_config（VictorOps事件通知配置）
+  -> sns_config（SNS通知服务配置）
+  -> telegram_config（Telegram消息配置）
+  -> discord_config（Discord消息配置）
+  -> jira_config（Jira工单配置）
 
-Notification templates
-  -> Data
-  -> Alert
-  -> KV methods
-  -> functions
-  -> examples
+Notification templates（通知模板）
+  -> Data（模板输入数据）
+  -> Alert（单条告警）
+  -> KV methods（键值集合操作方法）
+  -> functions（函数）
+  -> examples（示例）
 
-Alertmanager API
-  -> status
-  -> alerts
-  -> alert groups
-  -> silences
-  -> receivers
+Alertmanager API（告警处理器接口）
+  -> status（状态）
+  -> alerts（告警列表）
+  -> alert groups（告警组）
+  -> silences（静默）
+  -> receivers（接收器列表）
 ```
 
 学习路径：
@@ -172,18 +172,105 @@ Alertmanager API
 
 不要一开始就背 Slack/email 配置字段。先学会“一个 alert 为什么会或不会通知到某个 receiver”。
 
+## 老师带你追一条没有送达的告警
+
+Prometheus 页面显示 Firing（触发中），手机却没响。你先把链路分开：规则满足条件、告警发送、Alertmanager 接收、路由命中、分组等待、静默或抑制判断、渠道接收、人员确认。每一步的成功都只证明这一段，不能跳过中间环节。
+
+Labels（标签）决定告警身份和路由，Annotations（注解）补充解释和手册链接。把会变化的数值放进身份标签，可能让同一问题不断被当作新告警。Receiver（接收器）是渠道配置，Route（路由）决定哪些事件交给哪个接收器。匹配器的大小写和字段值必须与实际事件一致。
+
+### 基础实验与故障实验：一个字母也会改变路由
+
+准备 Node.js，在仓库根目录运行，不发送真实通知。
+
+```powershell
+node examples/teacher-led-reliability-lab/telemetry.mjs alertmanager
+node examples/teacher-led-reliability-lab/telemetry.mjs alertmanager --fault
+```
+
+正常 `severity=critical` 命中 `on-call`（值班接收器）；故障改成 `Critical`，落入 `default-review`（默认复核接收器），输出 `issue: true`。先预测再观察 `event` 与 `receiver`。这是精确匹配的课堂模型，不模拟完整路由树，真实配置要用目标版本工具和测试接收端验证。
+
+失败先看目录、参数和 Node。程序无外部依赖和持久资源，无须清理；保存两次输出。后文真实实验再练事件输入、路由与通知，测试消息明确标注测试用途。
+
+### 第一课：四种时间不要混淆
+
+规则里的 `for` 让条件持续一段时间才进入触发。`group_wait` 是新组首次通知前的等待，`group_interval` 控制组内变化再次通知的节奏，`repeat_interval` 控制持续问题重复提醒。它们不都从相同时间点开始计算，生产还需考虑规则评估周期与投递延迟。
+
+静默是明确匹配范围和时段的暂缓通知；抑制依赖其他告警成立，例如基础设施故障时暂缓相关下游噪声。抑制匹配条件过宽会隐藏独立问题。保留负责人、到期与理由，测试正常、恢复、同名不同租户和缺失标签等样例。
+
+### 第二课：高可用为何仍可能重复通知
+
+多个 Alertmanager 通过 Gossip（成员间传播状态的协议）共享静默和通知记录，Prometheus 应按官方方式把告警交给集群成员。网络分区时可能出现重复通知，这是优先保持通知可用的设计取舍。不要承诺外部通知严格“恰好一次”，参见 [官方高可用说明](https://prometheus.io/docs/alerting/latest/high_availability/)。
+
+生产关注成员连通、通知失败、队列、渠道限流、模板错误与配置一致性。Webhook（HTTP 回调接收端）应处理重试和重复，且验证来源、保护令牌。规则和模板升级先回放脱敏样例，保存旧配置并验证恢复事件；仅配置加载成功不证明消息最终送达。
+
+### 面试课堂：30 秒与 3 分钟
+
+30 秒：“Alertmanager 对已触发告警做路由、分组、去重、抑制和通知。我会逐段核对事件标签、规则状态、等待策略与渠道响应。”
+
+3 分钟沿未送达案例解释状态与时间，再谈多副本重复和接收端幂等。追问：“Firing 但没短信？”查接收、路由、抑制、静默、等待与渠道。“两条相同告警为何重复？”检查身份标签、通知日志和网络分区。“静默是否修复故障？”只改变通知行为。
+
+设计题：三团队多级告警如何安排匹配与兜底路由。事故题：模板字段为空使消息失败，保存事件和模板版本，验证最小模板后恢复。GitHub 学习证据包含测试事件、路由图、正常/故障输出和投递验证。
+
+## 深入课堂：把“告警触发了”拆成可检查的状态
+
+### 指标规则与通知调度是两份工作
+
+同学，Prometheus 等规则评估器根据指标计算条件，Alertmanager 接收告警并组织通知。它不是负责抓取所有指标的数据库，也不是一般意义的业务故障根因分析引擎。两边都可能配置正确，但中间网络、标签和时间状态仍可能让你收不到期望消息。
+
+一条排障路径应从规则表达式的当前结果开始，再看是否满足持续时间、是否实际发送、接收端是否看到对应标签、路由匹配到哪个接收者、是否被静默或抑制、通知端是否接受。每一步只解释一个状态，避免因为某张页面上出现红色就跳过中间证据。
+
+通知端接受也不等于人已经收到并阅读。邮件服务器接收后仍可能延迟或被过滤，Webhook 下游也可能先排队。关键值班链路需要端到端测试与接收确认；原始告警、通知发送和事故认领最好分开记录。
+
+### Labels 与 Annotations：身份和说明别混用
+
+Labels（标签）参与告警身份、路由、分组与匹配；Annotations（注释）更适合放解释、当前值、面板链接和操作手册。把每次变化的数值塞进标签，可能让同一问题不断变成新身份，影响去重与通知连续性。
+
+例如实例 CPU 从 91% 到 92%，若把这个值放在说明里，告警仍然围绕同一个对象；若作为身份标签的一部分，就可能形成另一个标签集合。你应根据身份稳定性选择字段位置，不要看到页面能显示就认为设计合理。
+
+标签合同还决定责任分配。服务名、环境、团队和严重程度的大小写或取值变化，都可能让规则不再匹配原路由。变更生产者标签时，同时回归接收者和抑制规则；缺少必要标签的告警应进入可见的兜底流程，不能悄悄消失。
+
+### 三个等待时间分别在等什么
+
+`group_wait` 是新分组首次发送前的等待，用来给相关告警一点聚合时间；`group_interval` 控制已通知分组后续变化的检查与通知节奏；`repeat_interval` 控制没有新变化时再次提醒的间隔。三个名字都带 interval 或 wait，但不是可以任意互换的超时。
+
+课堂举例：同一服务三条相关告警先后到达，短暂等待能合成一条通知；如果等待太久，用户影响已经扩大而值班人员仍不知道。先写业务允许的发现与通知延迟，再选择聚合等待。精确行为与约束按当前版本配置参考验证，不要只凭本段类比替换生产参数。
+
+抖动问题也可能来自源端规则状态反复切换，而不是通知器重复发送错误。比较告警开始、结束时间和标签集合，再看通知日志。否则你可能把 repeat_interval 改得很长，却没有解决真正的状态抖动，还延迟了必要提醒。
+
+### 抑制规则要证明它没有跨过边界
+
+当同一个目标既有 warning 又有 critical，通常希望高级别通知覆盖较低级别噪声；但覆盖关系需要限定环境、服务、实例或其他故障域。不能让 A 租户的严重问题压住 B 租户的警告，只因为它们碰巧同名。
+
+写规则后用三组事件验证：应该被抑制的同目标事件、不应该被抑制的跨目标事件、缺少关键标签的事件。关注 `equal` 等匹配条件的实际语义，并核对缺失标签时的行为。测试样本要包含边界情况，不能只放一个“肯定成功”的例子。
+
+静默则适合有明确时间和范围的维护。提交前列出预计匹配的告警，核对结束时间，保留原因和负责人。故障发生后需要临时静默风暴时，也要继续通过其他途径保持用户影响可见；静默通知不等于解决事故。
+
+### 高可用要接受重复的可能性，并保护下游
+
+多实例部署涉及告警接收、集群通信和通知状态协调。网络分区或节点失败时，系统更倾向保障通知可达，不能把分布式去重理解成所有故障下绝对只发一次。官方建议规则评估器向所有相关 Alertmanager 实例发送告警，设计时应理解这种链路而不是把通知入口简单当成任意负载均衡目标。见 [官方高可用说明](https://prometheus.io/docs/alerting/latest/high_availability/)。
+
+如果 Webhook 接入自动工单或自动化，接收方必须考虑重复消息、乱序和超时重试。创建工单可用稳定关联标识防重，执行修复还要另行验证权限、目标、版本与动作前置条件。收到 critical 告警不等于获准重启所有服务。
+
+备份关注配置、模板和需要持久保存的运行状态；恢复后验证不仅是进程启动，还包括正确路由、有效静默状态、通知链路和权限。集群副本能覆盖部分节点故障，不会替代错误配置回退和历史恢复策略。
+
+### 面试推演：一条告警为什么没人接到
+
+场景一，规则显示满足条件但尚未到持续时间，属于源端状态；场景二，告警已到 Alertmanager 却路由到旧团队，属于标签与路由合同；场景三，发送成功但下游排队失败，属于通知链路。相同用户现象有不同原因，扩容不能同时解释或解决它们。
+
+请按时间线记录每段证据，选择最小修复，并用带唯一标识的合成告警验证完整链路。实验不要向真实值班人员制造未经约定的紧急消息，使用专用测试接收者。学习证据保存脱敏标签、匹配推导、测试结果和回滚记录，面试时说明未覆盖的网络分区与真实通道边界。
+
 ## Alertmanager 在 AIOps 链路中的位置
 
 Alertmanager 是告警治理的中枢。
 
 ```text
-Exporter / App metrics
-  -> Prometheus scrape
-  -> PromQL alert rule
-  -> Alert firing
-  -> Alertmanager
-  -> grouping / routing / silence / inhibition
-  -> receiver
+Exporter / App metrics（指标导出器或应用指标）
+  -> Prometheus scrape（Prometheus周期抓取）
+  -> PromQL alert rule（指标查询告警规则）
+  -> Alert firing（告警进入触发状态）
+  -> Alertmanager（告警处理器）
+  -> grouping / routing / silence / inhibition（分组、路由、静默与抑制）
+  -> receiver（接收器）
   -> 值班系统 / IM / Webhook / 自动化 Runbook
 ```
 
@@ -203,7 +290,7 @@ Exporter / App metrics
 AIOps 的自动化闭环经常从 Alertmanager webhook 开始：
 
 ```text
-Alertmanager webhook
+Alertmanager webhook（告警处理器的HTTP回调）
   -> 事件归一化
   -> 查询指标/日志/trace
   -> 生成诊断报告
@@ -865,9 +952,9 @@ Alertmanager 支持集群高可用。Prometheus 可以把 alert 发送给多个 
 基本思想：
 
 ```text
-Prometheus -> Alertmanager A
-           -> Alertmanager B
-           -> Alertmanager C
+Prometheus -> Alertmanager A（Prometheus向告警处理器A发送）
+           -> Alertmanager B（告警处理器B）
+           -> Alertmanager C（告警处理器C）
 ```
 
 Alertmanager 实例之间会协调通知去重，避免多个实例重复通知。

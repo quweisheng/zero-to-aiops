@@ -11,7 +11,7 @@ Jenkins 同时维护两条发布线：
 | LTS（Long-Term Support，长期支持） | `2.568.1`，发布于 2026-07-08 | 大约每 12 周选择一个新基线，每 4 周发布一次稳定补丁；生产通常优先评估 |
 | Weekly | `2.575` | 更快获得功能和修复，也要承担更频繁的兼容验证 |
 
-当前 LTS 与 Weekly 的 Jenkins 系统进程支持 Java 21 或 Java 25。这里的“系统进程”包括 Controller、Agent、CLI 和其他 Jenkins 组件，不等于你的项目必须用 Java 21 编译。业务构建可以在 Agent 中使用自己的 JDK、Node.js、Go、Python 或容器工具链。
+截至上表历史日期的 LTS 与 Weekly，其 Jenkins 系统进程支持 Java 21 或 Java 25。这里的“系统进程”包括 Controller、Agent、CLI 和其他 Jenkins 组件，不等于你的项目必须用 Java 21 编译。业务构建可以在 Agent 中使用自己的 JDK、Node.js、Go、Python 或容器工具链。安装时应重新核对支持矩阵，本文固定镜像不代表阅读时最新安全补丁。
 
 本文学习环境固定使用官方镜像：
 
@@ -55,28 +55,28 @@ Jenkins 官方资料可以拆成六块：
 
 ```text
 交付模型
-  -> Job / Build / Pipeline / Jenkinsfile
-  -> Declarative / Scripted / Multibranch / Shared Library
+  -> Job / Build / Pipeline / Jenkinsfile（任务、运行记录、流水线与流程文件）
+  -> Declarative / Scripted / Multibranch / Shared Library（声明式、脚本式、多分支与共享库）
 
 调度与执行
-  -> Controller / Queue / Node / Agent / Executor / Label
-  -> Remoting / SSH / Inbound / WebSocket / Cloud Agent
+  -> Controller / Queue / Node / Agent / Executor / Label（控制器、队列、节点定义、执行代理、并发槽与标签）
+  -> Remoting / SSH / Inbound / WebSocket / Cloud Agent（远程通信、安全远程登录、主动回连、双向网络通道与云执行代理）
 
 状态
-  -> JENKINS_HOME / Job Config / Build Record / Pipeline State
-  -> Plugin / Credentials / Fingerprint / Artifact
+  -> JENKINS_HOME / Job Config / Build Record / Pipeline State（主状态目录、任务配置、构建记录与流水线状态）
+  -> Plugin / Credentials / Fingerprint / Artifact（插件、凭据、文件指纹与制品）
 
 平台治理
-  -> Folder / RBAC / Credentials / Plugin / JCasC
-  -> Backup / Restore / Upgrade / Security Advisory
+  -> Folder / RBAC / Credentials / Plugin / JCasC（文件夹、角色授权、凭据、插件与配置即代码）
+  -> Backup / Restore / Upgrade / Security Advisory（备份、恢复、升级与安全公告）
 
 扩展与容量
-  -> Static Agent / Kubernetes Dynamic Agent
-  -> Queue / Executor / Controller CPU / Heap / Disk I/O
+  -> Static Agent / Kubernetes Dynamic Agent（静态代理与按需创建的容器代理）
+  -> Queue / Executor / Controller CPU / Heap / Disk I/O（队列、并发槽、控制器处理器、堆与磁盘读写）
 
 可观测与自动化
-  -> Console / Controller Log / Agent Log / Remote API
-  -> Metrics / Alerts / Change Correlation / Runbook
+  -> Console / Controller Log / Agent Log / Remote API（构建控制台、控制器日志、代理日志与远程接口）
+  -> Metrics / Alerts / Change Correlation / Runbook（指标、告警、变更关联与操作手册）
 ```
 
 本文学习顺序：
@@ -140,12 +140,12 @@ Jenkins 仍承载大量企业的构建、测试、代码扫描、制品发布、
 在 AIOps 链路中，Jenkins 位于“变更执行与证据生产”这一段：
 
 ```text
-Commit / Merge Request
-  -> Jenkins Build
-  -> Test / Scan / Artifact
-  -> Deploy / Approval / Rollback
-  -> Metrics / Logs / Alerts
-  -> Change Correlation / RCA / Runbook
+Commit / Merge Request（提交或合并请求）
+  -> Jenkins Build（自动化构建）
+  -> Test / Scan / Artifact（测试、扫描与制品）
+  -> Deploy / Approval / Rollback（部署、批准与回滚）
+  -> Metrics / Logs / Alerts（指标、日志与告警）
+  -> Change Correlation / RCA / Runbook（变更关联、根因分析与操作手册）
 ```
 
 ## Jenkins 是什么
@@ -206,7 +206,7 @@ Pipeline 可以加入测试、SonarQube、镜像扫描、人工审批、变更�
 ### 一次提交如何变成一次 Build
 
 ```text
-Git Push / Webhook / Poll / Timer / API / Manual
+Git Push / Webhook / Poll / Timer / API / Manual（推送、回调、轮询、定时、接口或人工触发）
   -> Jenkins Item 接收触发
   -> 创建 Queue Item
   -> Queue 计算约束与 Cause
@@ -235,7 +235,7 @@ Git Push / Webhook / Poll / Timer / API / Manual
 Jenkins Pipeline 的 Groovy 代码会经过 CPS（Continuation-Passing Style，续延传递风格）转换。你可以把它理解成：Jenkins 把流程拆成可暂停、可保存、可恢复的步骤，而不是让一段普通 Groovy 从头跑到尾。
 
 ```text
-Jenkinsfile
+Jenkinsfile（流水线定义）
   -> Controller 解析与 CPS 调度
   -> node / agent 申请 Executor
   -> sh / bat / powershell 在 Agent 执行
@@ -416,27 +416,27 @@ JCasC 不是完整备份。它不能自动保存所有 Build 历史、插件二�
 ### 最小学习架构
 
 ```text
-Browser
+Browser（浏览器）
   -> 127.0.0.1:8080
-  -> Jenkins Controller Container
+  -> Jenkins Controller Container（控制器容器）
       -> Built-in Executor（仅限隔离实验）
-      -> jenkins_home Docker Volume
+      -> jenkins_home Docker Volume（持久化主目录数据卷）
 ```
 
 ### 常见生产架构
 
 ```text
-Developer / SCM Webhook
-  -> HTTPS Reverse Proxy / WAF
-  -> Jenkins Controller
-      -> JENKINS_HOME on reliable low-latency storage
-      -> Identity Provider / LDAP / OIDC
-      -> Static Agent Pool
-      -> Kubernetes Cloud
-          -> Ephemeral Agent Pod
-      -> Nexus / Harbor / Object Storage
-      -> SonarQube / Test / Deploy Target
-      -> Prometheus / Logs / Audit
+Developer / SCM Webhook（开发者或源码管理回调）
+  -> HTTPS Reverse Proxy / WAF（加密入口代理与应用防火墙）
+  -> Jenkins Controller（控制器）
+      -> JENKINS_HOME on reliable low-latency storage（主目录置于可靠低延迟存储）
+      -> Identity Provider / LDAP / OIDC（身份服务与认证目录或协议）
+      -> Static Agent Pool（静态代理池）
+      -> Kubernetes Cloud（容器集群执行环境）
+          -> Ephemeral Agent Pod（临时执行代理容器组）
+      -> Nexus / Harbor / Object Storage（制品、镜像与对象存储）
+      -> SonarQube / Test / Deploy Target（质量平台、测试与部署目标）
+      -> Prometheus / Logs / Audit（指标、日志与审计）
 ```
 
 ### 信任域拆分
@@ -444,16 +444,16 @@ Developer / SCM Webhook
 不要只按操作系统打 Label，还要按信任边界拆分：
 
 ```text
-linux-build
+linux-build（Linux 构建标签）
   -> 普通编译与测试，不持有生产权限
 
-image-build
+image-build（镜像构建标签）
   -> 允许构建镜像，限制 Registry Scope
 
-prod-deploy
+prod-deploy（生产部署标签）
   -> 只运行受保护分支，短期凭据，审批与审计
 
-code-signing
+code-signing（代码签名标签）
   -> 独立 Agent / Controller，限制人员和网络
 ```
 
@@ -806,12 +806,12 @@ Build 失败率不能直接等于 Jenkins 可用性：业务测试失败是正�
 预期顺序：
 
 ```text
-Create evidence
+Create evidence（生成证据阶段）
   -> 生成 jenkins-evidence.txt
   -> 输出 SHA-256
-Archive
+Archive（归档阶段）
   -> 归档文件并生成 Fingerprint
-Finished: SUCCESS
+Finished: SUCCESS（示意输出：流水线成功结束）
 ```
 
 ### 第四步：验证
@@ -852,7 +852,8 @@ Get-FileHash .\jenkins-evidence.txt -Algorithm SHA256
 先停止并删除容器：
 
 ```powershell
-docker rm -f jenkins-lab
+docker stop --time 30 jenkins-lab # 先允许实验 Controller 正常退出
+docker rm jenkins-lab # 只移除已停止的实验容器，保留状态卷
 ```
 
 若确定不再需要所有实验配置与 Build，再核对并删除卷：
@@ -941,7 +942,7 @@ agent {
 agent any
 ```
 
-保存。等待原 Queue Item 重新评估，或取消旧 Build 后重新 Build。
+保存后，取消仍使用旧 Pipeline 定义的实验 Build，再启动一个新 Build。已经开始的 Pipeline 不会因为编辑 Job 配置就自动换成新脚本；不要无期限等待原构建神奇改变 Label。
 
 ### 第六步：验证
 
@@ -1526,6 +1527,63 @@ Jenkins 是可扩展的自动化调度平台。Controller 保存 Job、Queue、P
 - [ ] 我能解释为什么 Jenkins 不应伪装成共享目录 Active-Active。
 - [ ] 我能给出 Core、Java、Plugin、Agent 与状态的升级回滚方案。
 - [ ] 我能回答事故题和生产系统设计题。
+
+## 老师带你精讲：Controller 没有执行编译，为什么还能被构建拖慢
+
+先把 Jenkins 想成老师和实验桌：Controller 是管理课程与记录的老师，Agent 是实验桌，Executor 是可同时开工的名额。你把编译放在 Agent，只是把编译器搬到实验桌；如果 Jenkinsfile 又把两百兆 JSON 读回 Groovy 变量、遍历上万条记录、逐条 `echo`，老师仍在做大量计算、保存状态和处理日志。Controller CPU 高并不意味着某人忘了把 Executor 设为 0。
+
+### CPS 要保存的是继续执行所需的对象关系
+
+CPS 让流水线在可恢复步骤之间保存续执行状态。对新手来说，可以理解为老师记住“这组学生做到哪一步、后面还需要哪些变量”，以便重启后接着安排。若这些变量引用了大集合，保存成本就会上升；若引用普通连接、迭代器或其他不可序列化对象，可能在后续暂停点才出现 `NotSerializableException`，而不是在创建对象那一行立即报错。
+
+正确处理是把复杂计算放到 Agent 上的受测试脚本中，回传小而明确的结果，例如制品摘要、报告路径、计数。必要时用 `@NonCPS` 包装纯数据转换，返回简单可序列化值，但它不会把代码搬到 Agent，也不会让函数获得可恢复语义。更不能在其中调用 `node`、`sh` 等 CPS 步骤。判断边界以[官方 CPS 方法不匹配说明](https://www.jenkins.io/doc/book/pipeline/cps-method-mismatches/)为准，不要看到序列化错误就给所有方法加注解。
+
+### 超时设置在哪里，决定等待 Agent 是否计时
+
+Declarative Pipeline 的顶层 agent 通常先分配，再应用顶层 timeout；因此全局十分钟不一定包含等待顶层 Agent 的时间。Stage 级的 options 与 agent 分配有不同顺序，适合为某个阶段的申请资源过程设置边界。学习时请在[官方语法说明](https://www.jenkins.io/doc/book/pipeline/syntax/)中对照 top-level 和 stage agents，不要只背一个 timeout 参数。
+
+这也解释了上面的 Label 故障为何需要明确取消旧运行：它可能一直卡在分配资源，尚未进入你以为会超时的执行区间。生产应同时监控 Queue Age 和运行时长，分别设置等待上限、任务超时和外部调用超时。一个平台超时不代表外部操作自动撤销；部署请求发出去后，即使流水线被取消，也要查询目标系统判断动作是否完成。
+
+### Workspace、stash 和制品，像草稿纸、课堂交接包和正式作业
+
+Workspace 是执行现场，可被覆盖、清理或随临时 Pod 消失。`stash` 通常用于同一次 Pipeline 的不同节点之间交接少量文件；它不是长期发布仓库，也不适合默认搬运巨大的依赖缓存。`archiveArtifacts` 留下构建结果用于下载和追踪，但长期大制品应进入专门仓库，并按坐标或摘要验证。
+
+若构建和部署在两个 Agent 上，不要假设它们都叫 `dist` 就共享内容。构建阶段要上传明确制品，部署阶段下载同一摘要并核验。重新 checkout 同一分支后再构建，可能拿到分支后来新增的提交；“同一分支”不等于“同一制品”。代码评审、构建、审批与部署应绑定提交摘要和制品摘要，而不是只用随时间变化的分支名。
+
+### 完整小实验：测试红灯，证据仍然能留下
+
+前置条件是基础 Pipeline 已成功，本地 Jenkins 的 Pipeline 与 JUnit 插件已安装；不接任何外部系统。复制基础 Job 为 `jenkins-result-lab`，保留原任务不动。在 `Create evidence` 之后增加一个 Stage，内容如下。这是合成 JUnit 报告，不是真正运行了业务测试，用于观察平台如何处理测试结果。
+
+```groovy
+stage('模拟一项失败测试') {
+  steps {
+    writeFile file: 'classroom-tests.xml', text: '''<testsuite name="classroom" tests="1" failures="1">
+  <testcase classname="AlertRoute" name="critical_requires_review">
+    <failure message="课堂故障：不应跳过审批">expected review</failure>
+  </testcase>
+</testsuite>'''
+    junit 'classroom-tests.xml'
+  }
+}
+```
+
+运行后预期测试报告出现一项失败，默认情况下构建会标记 UNSTABLE，后面的 Archive 仍可能执行；这和 `sh 'exit 42'` 造成 FAILURE 不是一回事。打开 Tests 页面，核对测试名、失败消息；下载证据文件，确认归档没有因测试结果而消失。若看不到 `junit` 步骤，先装对应插件；若报 XML 解析错误，则还没有完成“测试结果失败”实验。
+
+接着在实验 Job 的 options 加入 `skipStagesAfterUnstable()`，再次运行，预期之后的普通 Stage 被跳过。若需要失败时保留证据，应在适当的 `post { always { ... } }` 中归档，并允许文件尚不存在时的受控处理。它不是“强行发布”：证据归档与发布授权是两个动作。最后把 XML 改为 `failures="0"` 并删除整个 failure 子元素，保留 testcase，重新运行，预期 SUCCESS，后续归档恢复。
+
+清理时删除 `jenkins-result-lab` 这个实验副本或停用它，保留脱敏截图、测试报告和前后脚本 diff。未创建真实部署，不需要回滚服务器。不要拿合成报告宣称业务单元测试已通过；它仅证明平台状态传播与门禁配置的行为。
+
+### 两个 Job 同时部署一个环境，为什么禁并发还不够
+
+`disableConcurrentBuilds()` 约束同一个 Job 的并发，不自动把所有 Job 对同一生产环境的变更串行化。多分支任务、另一个部署入口或人工脚本仍可能同时操作。需要按目标环境建立统一锁或部署协调器，并规定锁的持有范围、超时、故障恢复和审计。锁也不能消除重复请求：已经完成的发布可能在重试时再来一次，仍要按部署编号和制品摘要判断幂等性。
+
+人工审批最好在申请昂贵 Agent 之前等待。审批通过后再次确认参数和目标状态，防止长时间等待中环境已经变化。若审批人只看到“同意发布 main”，但实际执行时 main 已移动，审批合同是不完整的；应展示不可变提交、制品摘要、环境和风险范围。
+
+### 把原有追问答完整
+
+“为什么加 Executor 没用？”因为 Label、锁、Quiet Down 或 Pod 调度条件不满足时，空槽位不是瓶颈；“插件为什么不能只退一个？”因为依赖与已迁移配置可能需要匹配的一整套版本；“大 Map 为何拖慢 Controller？”因为 Groovy 计算和可恢复对象图都在控制侧，序列化与 GC 受影响；“外部 Secret Manager 是否解决恶意 PR？”只能改善凭据分发与轮换，不能阻止拿到使用权的恶意代码外传。
+
+最后追问“恢复 Jenkins 后流水线显示运行中，能否直接重跑？”先查外部部署编号、制品版本和业务状态，区分尚未发送、已确认成功、明确失败、结果未知。这个回答把 Jenkins 的运行记录与生产事实分开，也就真正进入了平台工程的深度。
 
 ## 学习证据
 

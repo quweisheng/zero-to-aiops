@@ -21,40 +21,40 @@
 LangGraph 官方资料可以按这张地图理解：
 
 ```text
-LangGraph
-  -> Overview
-     -> durable execution
-     -> persistence
-     -> human-in-the-loop
-     -> memory
-     -> streaming
-  -> Graph API
-     -> state
-     -> node
-     -> edge
-     -> conditional edge
-     -> START / END
-  -> Workflows and agents
-     -> fixed workflow
-     -> dynamic agent
-     -> routing
-     -> evaluator-optimizer
-  -> Persistence
-     -> checkpoint
-     -> thread
-     -> resume
-     -> replay
-  -> Memory
-     -> short-term memory
-     -> long-term memory
-  -> Interrupts
-     -> pause
-     -> human approval
-     -> resume
-  -> LangSmith
-     -> tracing
-     -> evaluation
-     -> debugging
+LangGraph（有状态图执行框架）
+  -> Overview（总览）
+     -> durable execution（可持久恢复执行）
+     -> persistence（持久化）
+     -> human-in-the-loop（人工参与决策）
+     -> memory（记忆）
+     -> streaming（流式输出）
+  -> Graph API（图编程接口）
+     -> state（状态）
+     -> node（节点）
+     -> edge（边）
+     -> conditional edge（条件边）
+     -> START（起点） / END（终点）
+  -> Workflows and agents（工作流与智能体）
+     -> fixed workflow（固定工作流）
+     -> dynamic agent（动态智能体）
+     -> routing（路由选择）
+     -> evaluator-optimizer（评估与改进循环）
+  -> Persistence（持久化）
+     -> checkpoint（检查点）
+     -> thread（会话执行线）
+     -> resume（恢复执行）
+     -> replay（重放）
+  -> Memory（记忆）
+     -> short-term memory（短期记忆）
+     -> long-term memory（长期记忆）
+  -> Interrupts（中断）
+     -> pause（暂停）
+     -> human approval（人工审批）
+     -> resume（恢复执行）
+  -> LangSmith（追踪与评估平台）
+     -> tracing（追踪）
+     -> evaluation（评估）
+     -> debugging（调试）
 ```
 
 如果你是零基础，阅读顺序建议是：
@@ -174,25 +174,25 @@ LangGraph 可以把关键步骤固定住：
 LangGraph 的核心不是“神奇 AI”，而是“有状态图执行”。
 
 ```text
-alert input
-  -> collect_metrics node
-  -> collect_logs node
-  -> classify_incident node
-  -> choose_runbook node
-  -> approval node
-  -> execute_action node
-  -> verify_recovery node
-  -> END
+alert input（告警输入）
+  -> collect_metrics node（节点）
+  -> collect_logs node（节点）
+  -> classify_incident node（节点）
+  -> choose_runbook node（节点）
+  -> approval（审批） node（节点）
+  -> execute_action node（节点）
+  -> verify_recovery node（节点）
+  -> END（终点）
 ```
 
 每个节点都读同一份 state，并返回 state 的更新部分。
 
 ```text
-State before node
-  -> node function
-  -> state update
-  -> merged new state
-  -> next edge
+State before node（节点执行前状态）
+  -> node function（节点函数）
+  -> state update（状态更新）
+  -> merged new state（合并后的新状态）
+  -> next edge（下一条边）
 ```
 
 这样做有几个好处：
@@ -349,33 +349,33 @@ def route_by_risk(state):
 ### 最小架构
 
 ```text
-Alertmanager webhook
-  -> FastAPI receiver
-  -> LangGraph app
-     -> Prometheus / VictoriaMetrics query node
-     -> Loki / Elasticsearch log node
-     -> GitHub deployment node
-     -> Runbook retrieval node
-     -> LLM summary node
-     -> human approval node
-     -> automation action node
-     -> verification node
-  -> incident record
-  -> GitHub learning evidence
+Alertmanager（告警管理器） webhook
+  -> FastAPI receiver（FastAPI 请求接收服务）
+  -> LangGraph app（LangGraph 图应用）
+     -> Prometheus / VictoriaMetrics query（查询） node（节点）
+     -> Loki / Elasticsearch log（日志） node（节点）
+     -> GitHub deployment（部署） node（节点）
+     -> Runbook retrieval（操作手册检索） node（节点）
+     -> LLM（大语言模型） summary node（节点）
+     -> human approval（人工审批） node（节点）
+     -> automation（自动化） action node（节点）
+     -> verification（验证） node（节点）
+  -> incident（故障） record（记录）
+  -> GitHub learning evidence（证据）
 ```
 
 ### LangGraph 在 AIOps 链路的位置
 
 ```text
-metrics / logs / traces / alerts / changes / runbooks
-  -> evidence collection
-  -> LangGraph state
-  -> routing and reasoning
-  -> suggested action
-  -> human approval
-  -> automation
-  -> verification
-  -> incident knowledge base
+metrics（指标） / logs（日志） / traces（链路追踪） / alerts / changes / runbooks（操作手册）
+  -> evidence collection（证据收集）
+  -> LangGraph state（状态）
+  -> routing and reasoning（路由与推理）
+  -> suggested action（建议操作）
+  -> human approval（人工审批）
+  -> automation（自动化）
+  -> verification（验证）
+  -> incident knowledge base（故障知识库）
 ```
 
 LangGraph 不替代 Prometheus、Loki、OpenTelemetry、Ansible、GitHub Actions 或数据库。它负责把这些工具按“排障流程”编排起来。
@@ -463,7 +463,7 @@ LangGraph 本身不是一个必须先启动的数据库或服务。你在 Python
 固定流程是步骤提前写好的：
 
 ```text
-alert -> metrics -> logs -> classify -> suggestion -> END
+alert（告警） -> metrics（指标） -> logs（日志） -> classify（分类） -> suggestion（建议） -> END（终点）
 ```
 
 适合：
@@ -478,7 +478,7 @@ alert -> metrics -> logs -> classify -> suggestion -> END
 动态 agent 会根据模型判断选择工具和下一步：
 
 ```text
-alert -> LLM decides tool -> tool result -> LLM decides next step -> ...
+alert（告警） -> LLM（大语言模型） decides tool（工具） -> tool（工具） result（结果） -> LLM（大语言模型） decides next step -> ...
 ```
 
 适合：
@@ -677,9 +677,9 @@ python incident_triage.py
 当你确认固定流程能跑后，再把 `classify_risk` 后面的路径改成分支：
 
 ```text
-classify_risk
-  -> high risk -> approval_required
-  -> low risk -> create_ticket
+classify_risk（判断风险）
+  -> high risk（高风险） -> approval_required（必须审批）
+  -> low risk（低风险） -> create_ticket（创建工单）
 ```
 
 思路：
@@ -819,7 +819,91 @@ def route_by_risk(state: IncidentState) -> str:
 9. 如果流程执行到一半失败，你希望系统保存哪些信息？
 10. 你会如何评价一个 LangGraph 排障助手是否真的有效？
 
-## 学习证据
+## 老师带你把排障流程变成一份可恢复的工作记录
+
+State（状态）是这次排障已经知道什么，Node（节点）完成一个步骤并返回状态更新，Edge（边）决定接下来走哪一步。图不是为了把几行代码画得漂亮，而是让等待审批、失败重试、并行取证和恢复位置变得明确。
+
+学生：“节点运行到一半崩溃了，是从下一行接着吗？”老师：“不要把持久执行理解成把 Python 进程每个指令都保存。”运行时依赖检查点、节点或任务边界恢复；节点可能重跑，其中的外部副作用需要幂等或适当拆分。官方 [持久化说明](https://docs.langchain.com/oss/python/langgraph/persistence) 应配合实际版本阅读。
+
+### 状态合并为什么需要 reducer
+
+两个并行节点都写 `evidence`，你要的是覆盖、追加，还是按证据 ID 合并？Reducer（状态归并函数）把规则明确下来。无条件追加可能在重试或重复输入时产生两份相同证据；覆盖可能丢掉另一路结果。状态字段应有所有者、类型、合并方式和版本，不是任意大字典。
+
+`thread_id` 是查找一条持久流程状态的身份，不是显示标题。不同租户共享同一个值可能读到错误状态；同一流程多个并发请求也需要冲突策略。长期记忆与本次检查点不同，保存位置、权限、保留周期及删除方式要分别设计。
+
+### 审批课堂：同意必须对应具体动作
+
+Interrupt（中断等待）让流程停下来接收输入，但“用户说过同意”不能授权之后任意变化的目标和参数。审批记录应绑定工具名、目标范围、关键参数、风险与有效时间。状态变化后拟执行动作不同，需要重新匹配审批内容；执行前仍由服务端做身份和业务校验。
+
+外部接口已经接受变更，节点在记录结果前崩溃，恢复后可能再次请求。使用稳定 operation ID（操作编号）、查询已有结果和幂等执行平台，让重试返回原结果。检查点保证流程可恢复，不自动保证数据库之外只发生一次副作用。
+
+### 带练：观察暂停、恢复与重复风险
+
+先运行前文不依赖大模型的基础图，记录每个节点前后状态与最终分类。扩展前文中断示例时，再配置检查点与 `thread_id`，提供批准与拒绝两种输入，验证拒绝路径不进入执行节点。用相同流程身份读取状态，确认恢复位置符合预期；不要用一个新 ID 冒充恢复。
+
+故障练习仅将执行节点替换成打印合成 operation ID 的模拟函数，在它之后故意抛一次异常，再恢复，观察哪些节点重跑。预期能够解释重跑边界，并用记录过的 operation ID 抑制模拟重复。该内存去重演示不具备跨进程持久保证；真实部署需持久状态和外部幂等。结束清理本课线程与教学数据库范围，不删除其他线程检查点。
+
+### 高可用、升级与面试课堂
+
+多个无状态 worker 可以接续工作，但前提是共享可靠检查点、清晰的任务领取与并发控制。节点外部查询设超时，循环设步骤上限，队列设容量，避免一个证据不足的流程无限调用模型。监控节点耗时、失败、等待审批年龄、恢复次数、状态体积和业务完成结果。
+
+升级改字段、节点名、归并规则或状态序列化，都可能影响已暂停流程。先让新版本能读旧状态，在测试里恢复真实形状的脱敏检查点，必要时保留旧运行环境处理存量流程，再收缩兼容代码。回滚也要验证新写入状态是否可被旧版读懂。
+
+30 秒讲有状态图和可恢复步骤；3 分钟用告警取证、分类、审批、执行和验证串起状态、边与检查点。追问“为什么还需要幂等”：运行时恢复与外部事务不在同一原子边界。事故题设为审批后服务目标已变化，正确处置是停止执行、重新验证参数和权限，不能仅因流程已经过审批节点就继续。
+
+## 独立故障实验：审批的目标和执行目标不一致
+
+前提是在本篇 Python 虚拟环境安装 LangGraph。下面不调用模型或真实运维工具，只把执行记入列表。保存为 `approval_contract_lesson.py`，运行 `python approval_contract_lesson.py`。它测试图中的执行前校验，不实现真实审批系统，也不验证持久检查点恢复。
+
+```python
+from typing import TypedDict
+from langgraph.graph import StateGraph, START, END
+
+class ActionState(TypedDict):
+    target: str
+    approved_target: str
+    done: bool
+
+executions = []
+
+def authorize(state: ActionState):
+    if state['target'] != state['approved_target']:
+        raise ValueError('审批目标已过期，必须重新确认')
+    return {}
+
+def execute_mock(state: ActionState):
+    executions.append(state['target'])  # 只记教学列表，不执行外部操作
+    return {'done': True}
+
+builder = StateGraph(ActionState)
+builder.add_node('authorize', authorize)
+builder.add_node('execute_mock', execute_mock)
+builder.add_edge(START, 'authorize')
+builder.add_edge('authorize', 'execute_mock')
+builder.add_edge('execute_mock', END)
+app = builder.compile()
+
+normal = app.invoke({'target': 'lab-a', 'approved_target': 'lab-a', 'done': False})
+assert normal['done'] and executions == ['lab-a']
+try:
+    app.invoke({'target': 'lab-b', 'approved_target': 'lab-a', 'done': False})
+except ValueError as error:
+    print('DETECTED:', error)
+assert executions == ['lab-a']
+
+# 恢复方式：针对新目标重新取得教学审批，发起新运行
+recovered = app.invoke({'target': 'lab-b', 'approved_target': 'lab-b', 'done': False})
+assert recovered['done'] and executions == ['lab-a', 'lab-b']
+print('recovered:', executions)
+```
+
+预期正常只记录 `lab-a`；目标改成 `lab-b` 但仍拿旧审批时被拒绝，列表没有增加；针对新目标重新确认后才增加 `lab-b`。如果错误目标仍执行，检查校验节点是否位于执行节点之前、是否有绕过它的边，以及执行函数是否被其他入口直接调用。清理退出进程即可，列表随内存释放，没有生产资源和后台会话。
+
+现实系统不能信任调用方自己提交 `approved_target`。它应是服务端从可信审批记录读取的字段，绑定操作者、工具、目标、参数、有效时间与风险。示例把二者都放输入，只为了故意构造不一致。恢复时必须重新取得审批，不能通过人工改审批数据库让旧批准“看起来匹配”。
+
+再追问检查点：这段代码没有配置保存器，所以进程退出就没有运行历史；加 InMemorySaver 也只是在当前进程内保存，并不等于多实例持久化。生产选择可靠保存器、隔离线程身份、状态迁移和权限策略，还需要针对进程中断、检查点不可用与重复任务做单独验证。
+
+## 本课 GitHub 学习证据
 
 学完以后，在 GitHub 提交这些内容：
 

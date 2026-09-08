@@ -66,77 +66,174 @@ Grafana 是可观测性数据的展示和告警平台：它连接 Prometheus、L
 Grafana 官方资料可以按这张图理解：
 
 ```text
-Grafana docs
-  ├── Get started
-  │   ├── install and sign in
-  │   └── first dashboard
-  ├── Data sources
-  │   ├── Prometheus
-  │   ├── Loki
-  │   ├── Elasticsearch
-  │   └── SQL data sources
-  ├── Dashboards
-  │   ├── dashboard
-  │   ├── panel
-  │   ├── rows
-  │   ├── links
-  │   └── JSON model
-  ├── Panels and visualizations
-  │   ├── time series
-  │   ├── stat
-  │   ├── gauge
-  │   ├── table
-  │   ├── heatmap
-  │   └── logs
-  ├── Query and transform data
-  │   ├── query editor
-  │   ├── field options
-  │   ├── transformations
-  │   └── overrides
-  ├── Variables
-  │   ├── query variables
-  │   ├── custom variables
-  │   ├── interval variables
-  │   └── chained variables
-  ├── Alerting
-  │   ├── alert rules
-  │   ├── contact points
-  │   ├── notification policies
-  │   └── silences
-  ├── Administration
-  │   ├── configuration
-  │   ├── users and teams
-  │   ├── provisioning
-  │   └── plugins
-  └── Developers
-      └── HTTP API
+Grafana docs（Grafana官方文档）
+  ├── Get started（入门）
+  │   ├── install and sign in（安装与登录）
+  │   └── first dashboard（第一张仪表盘）
+  ├── Data sources（数据源）
+  │   ├── Prometheus（时序指标采集与查询系统）
+  │   ├── Loki（日志存储与查询系统）
+  │   ├── Elasticsearch（全文检索与分析系统）
+  │   └── SQL data sources（关系数据库查询数据源）
+  ├── Dashboards（仪表盘）
+  │   ├── dashboard（仪表盘）
+  │   ├── panel（面板）
+  │   ├── rows（面板行布局）
+  │   ├── links（跳转链接）
+  │   └── JSON model（JSON仪表盘模型）
+  ├── Panels and visualizations（面板与可视化）
+  │   ├── time series（时间序列）
+  │   ├── stat（统计数值面板）
+  │   ├── gauge（仪表值图形）
+  │   ├── table（表格面板）
+  │   ├── heatmap（热力图）
+  │   └── logs（日志）
+  ├── Query and transform data（查询并转换数据）
+  │   ├── query editor（查询编辑器）
+  │   ├── field options（字段显示选项）
+  │   ├── transformations（数据转换）
+  │   └── overrides（字段覆盖设置）
+  ├── Variables（变量）
+  │   ├── query variables（查询变量）
+  │   ├── custom variables（自定义变量）
+  │   ├── interval variables（时间间隔变量）
+  │   └── chained variables（有依赖顺序的变量）
+  ├── Alerting（告警处理）
+  │   ├── alert rules（告警规则）
+  │   ├── contact points（通知联系点）
+  │   ├── notification policies（通知策略）
+  │   └── silences（静默）
+  ├── Administration（系统管理）
+  │   ├── configuration（配置）
+  │   ├── users and teams（用户与团队）
+  │   ├── provisioning（声明式配置供给）
+  │   └── plugins（插件）
+  └── Developers（开发者接口）
+      └── HTTP API（HTTP接口）
 ```
 
 本篇会覆盖入门阶段最重要的主干：数据源、dashboard、panel、变量、转换、告警、provisioning 和 API。
 
+## 老师带你读懂一张图的来龙去脉
+
+延迟曲线中间空了一段，是延迟为零吗？先看原始响应。零是确实测到零，空白可能是没有采样、条件没匹配或数据源失败。Grafana 把数据经过查询和显示规则呈现出来，不能只看颜色就判断业务状态。
+
+Data source（数据源）决定去哪查，Query（查询）决定拿什么，Panel（面板）负责显示，Dashboard（仪表盘）把问题组织在一起。它通常不是指标和日志的原始存储，删面板不等于删底层数据，改查询却能彻底改变看到的结果。
+
+### 第一课：沿面板回到原始数据
+
+编辑面板时，按数据源、变量、标签、时间范围、时区、步长、单位、转换依次核对。变量多选与“全部”会改变实际表达式；数据转换可能过滤、合并或计算出新的字段。对不同请求量实例的错误比例不要直接平均，应先汇总失败和总量。
+
+[Query inspector（查询检查器）](https://grafana.com/docs/grafana/latest/datasources/prometheus/query-editor/) 中，Query 看发出的请求，Data 看原始响应，Stats 看耗时和大小。在数据源原生界面执行同样表达式，帮助区分查询和显示问题。为了让曲线连续而默认补零，可能掩盖采集故障。
+
+### 基础实验与故障实验：空值补零的代价
+
+准备 Node.js，在仓库根目录运行：
+
+```powershell
+node examples/teacher-led-reliability-lab/telemetry.mjs grafana
+node examples/teacher-led-reliability-lab/telemetry.mjs grafana --fault
+```
+
+正常保留 `[0.2, null, 0.8]`，故障模式变为 `[0.2, 0, 0.8]`，`issue: true` 提醒未知被替换成零。单位为秒，0.2 秒是 200 毫秒。先画两条图，再解释第二个点有哪些证据。程序只验证数据语义，不是运行 Grafana；后文安装实验再练真实面板。
+
+失败先检查目录、课程名和 Node 版本；没有外部资源要清理。保留输出和缺失值处理理由。真实操作中还应确认改变显示单位是否符合上游数值，不能把单位文本当数据转换。
+
+### 第二课：让仪表盘引导行动
+
+值班首页先回答用户是否受影响，再定位服务、环境和依赖，最后给资源细节。每个异常面板最好能跳到相同窗口的日志、追踪和手册。少量有因果顺序的面板，往往比一次堆满所有指标更便于排查。
+
+Dashboard JSON 保存布局与查询，Provisioning（声明式配置供给）让部署可重复。使用稳定的数据源标识，明确界面和配置文件哪个负责最终状态，避免重启覆盖未保存改动。版本控制里同时保存查询含义和验证样本，方便回滚。
+
+生产多实例要安排共享元数据存储与一致配置，图表、告警计算和底层数据源分别考虑可用性。保护数据源凭据、组织和文件夹权限；能看面板不应自动拥有底层所有数据访问权。升级前回归插件、查询、告警和历史仪表盘，备份数据库与配置并验证恢复。
+
+### 面试课堂：30 秒与 3 分钟
+
+30 秒：“Grafana 把数据源查询组织成可行动的图表。异常时我先检查请求和原始响应，再检查变量、时间、单位和转换，防止把展示问题误判为业务变化。”
+
+3 分钟沿一个用户延迟面板讲数据到图形的路径，再解释空值、聚合、配置版本和权限。追问：“数据源有数据图却空？”逐层减少筛选并看查询检查器。“面板绿用户仍投诉？”检查统计口径、时间新鲜度和业务定义。
+
+设计题：十个团队共用平台，怎样共享模板又隔离数据。事故题：单位错误造成容量误判，核对原始值、配置差异和阈值再修复。GitHub 保存面板、查询说明、空值反例和恢复过程。
+
+## 看板工作坊：让图表帮助判断，而不是制造错觉
+
+### 先写一个问题，再决定放什么图
+
+同学，我们做值班看板时先写“用户现在能不能完成订单查询”，再选择成功率、请求量和延迟。如果先挑十种漂亮图形，最后很容易得到信息很多却无法指导行动的页面。一个面板最好回答一个明确问题，并给出进入下一层证据的路径。
+
+第一层看用户结果与影响范围，第二层看服务和依赖，第三层看实例资源与详细日志。层次之间用稳定的服务、环境、实例与时间参数关联。不要让用户从总览点到日志后丢失事故窗口，又重新搜索一遍对象。
+
+图表标题写明统计对象和口径，例如“订单查询有效请求错误率”，比“Error”更清楚。说明中补单位、数据源、聚合方式和已知限制。看板也是一种操作界面，新同学应该不用询问作者就能判断数字含义。
+
+### 数据源地址由谁访问，决定 localhost 指向哪里
+
+浏览器打开 Grafana 页面，与 Grafana 服务端连接 Prometheus，是两条不同网络路径。容器里的 `localhost` 指向那个容器自己，不自动指向宿主机或另一容器。数据源测试失败时，先确认发起连接的是哪一侧，再检查服务名、网络、端口、协议和认证。
+
+能访问网页只证明前端入口通了。数据源查询可能在服务端被权限、代理、TLS 或网络策略阻断。浏览器的开发者工具能看到页面请求是否成功，Query inspector（查询检查器）帮助查看查询与响应；具体数据源连接失败还要结合服务端日志与目标端观察。
+
+不要为解决连接问题默认关闭 TLS 校验或开放数据库公网端口。证书信任、地址名称和网络授权应按实际原因修复；实验环境的简化连接也应写明仅用于本地，不把它复制成生产安全方案。
+
+### 单位和聚合会改变你看到的故事
+
+源数据是秒，展示想用毫秒，需要正确的单位配置或明确换算。把 0.6 标成毫秒，会把 600 毫秒看成 0.6 毫秒；重复乘一千又会反向放大。先挑一条已知样本，分别比较原始返回、转换后值和最终显示，逐层确认。
+
+统计面板里的 Last、Mean、Max 分别表示最后值、平均值和最大值，适合回答不同问题。请求累计计数的最后值，不等于最近一分钟请求量；窗口平均错误率可能掩盖短时严重故障。选择计算方式前先说清业务问题，而不是默认使用第一个选项。
+
+时间范围也会改变结果。面板独立时间设置、仪表盘时间、数据源时区和自动步长若不一致，两个看起来相同的图可能并不在比较同一窗口。排障时固定相同时间与步长再对照，避免把展示差异当成数据错误。
+
+### Transformation 只是转换结果，不会修复源头
+
+Transformation（数据转换）可以做字段选择、合并、计算等操作，方便把返回数据整理成视图。它发生在查询后的展示处理链上，不能凭空补回没有采集的数据，也不会修复生产者写错的单位或租户归属。
+
+合并两张表时，先确认连接键是否唯一。若服务名在多个环境重复，只按服务名合并可能产生错配；若一边有多条匹配，行数可能增长。与数据库连接一样，先用小样本手算预期，再观察转换前后行数和字段。
+
+空值处理尤其重要。显示零、连接折线、填充前值，都属于展示或分析策略，不是对真实状态的证明。缺失段应尽量保留可见标记，并提供数据新鲜度与采集状态，防止值班人员在采集失效时误以为系统平稳。
+
+### 变量是筛选工具，不是授权边界
+
+Variable（变量）让用户选择环境、服务或实例，并把选择传入查询。它改善使用体验，但隐藏某个选项不代表阻止用户访问该数据。真正权限应由 Grafana、数据源和后端访问控制共同落实，且要核对所用版本与版本授权是否具备所需能力。
+
+变量的多选、全部选项和正则匹配会影响查询范围与成本。默认选择全部历史租户，可能让每次打开看板都执行昂贵查询。先给出合理默认值，限制不必要的全量视图，并在查询中正确处理变量语义，避免字符串拼接错误。
+
+仪表盘链接也不要携带令牌或敏感查询参数。分享前检查变量值、注释与面板数据，确认接收者权限和公开范围。看板截图同样可能包含内部地址、账号和业务数据，需要脱敏后才能进入公开作品集。
+
+### 看板与告警分别验收，不能互相代替
+
+面板阈值颜色不等于已经建立后台告警规则；后台规则的执行环境也不一定与用户当前变量和面板转换完全一致。要分别验证查询、规则条件、无数据策略、错误状态和通知接收者。浏览器关掉后还能否按预期评估，要用实际告警链路确认。
+
+用唯一标识的合成事件测试专用接收通道，记录开始、触发、通知和恢复时间。不要只触发一次红色状态却不验证恢复消息与抖动行为，也不要未经约定向真实值班组发送课堂事故通知。
+
+### 把看板当代码维护，但别忽略运行状态
+
+JSON 或 Provisioning（声明式预置）便于版本控制与重复交付，但导入成功只说明资源被创建或更新。数据源标识、目录权限、插件、查询字段和环境差异仍要核对。给看板保存业务口径说明、兼容版本、测试样本和责任人。
+
+回退看板时确认旧查询仍适用于当前指标标签和数据源。若数据合同已变，单纯恢复旧 JSON 可能让面板全部为空。发布验收应包括关键面板有数据、样本值正确、空数据显眼、链接保留上下文和权限不扩大。
+
+课堂交付一张四面板的值班看板即可：用户结果、流量、延迟、数据新鲜度。故意注入单位错误、数据缺失或同名跨环境对象，记录发现路径和修订。你能解释这些判断，比堆满几十个面板更能证明理解。
+
 ## Grafana 在 AIOps 链路中的位置
 
 ```text
-Prometheus metrics
-Loki logs
-Elasticsearch logs
-Tempo traces
-SQL tables
+Prometheus metrics（Prometheus指标）
+Loki logs（Loki日志）
+Elasticsearch logs（Elasticsearch日志）
+Tempo traces（Tempo链路）
+SQL tables（SQL数据表）
         |
         v
-Grafana data sources
+Grafana data sources（Grafana数据源）
         |
         v
-queries
+queries（查询）
         |
         v
-panels and dashboards
+panels and dashboards（面板与仪表盘）
         |
-        +--> on-call diagnosis
-        +--> SLO review
-        +--> anomaly validation
-        +--> alert tuning
-        +--> GitHub learning evidence
+        +--> on-call diagnosis（值班诊断）
+        +--> SLO review（服务目标复核）
+        +--> anomaly validation（异常验证）
+        +--> alert tuning（告警调优）
+        +--> GitHub learning evidence（GitHub学习证据）
 ```
 
 Grafana 在 AIOps 中不是“数据生产者”，而是“理解和反馈入口”。
@@ -312,25 +409,25 @@ docker run -d --name grafana \
 Grafana 初学最重要的是这几个对象：
 
 ```text
-organization
-  └── folder
-      └── dashboard
-          ├── variables
-          ├── panels
-          │   ├── queries
-          │   ├── transformations
-          │   ├── field options
-          │   └── visualization options
-          └── links / annotations
+organization（组织）
+  └── folder（文件夹）
+      └── dashboard（仪表盘）
+          ├── variables（变量）
+          ├── panels（面板）
+          │   ├── queries（查询）
+          │   ├── transformations（数据转换）
+          │   ├── field options（字段显示选项）
+          │   └── visualization options（可视化选项）
+          └── links / annotations（链接与注释）
 
-data source
-  └── query editor
+data source（数据源）
+  └── query editor（查询编辑器）
 
-alerting
-  ├── alert rule
-  ├── contact point
-  ├── notification policy
-  └── silence
+alerting（告警处理）
+  ├── alert rule（告警规则）
+  ├── contact point（联系点即通知渠道）
+  ├── notification policy（通知策略）
+  └── silence（静默）
 ```
 
 下面逐个讲。
@@ -390,12 +487,12 @@ prometheus:9090
 Prometheus 数据源的核心是：Grafana 把 panel 里的查询交给 Prometheus HTTP API，再把返回结果画出来。
 
 ```text
-panel query
-  -> Grafana Prometheus data source plugin
-  -> Prometheus HTTP API
-  -> time series result
-  -> Grafana data frame
-  -> panel
+panel query（面板查询）
+  -> Grafana Prometheus data source plugin（Grafana的Prometheus数据源插件）
+  -> Prometheus HTTP API（Prometheus的HTTP接口）
+  -> time series result（时间序列结果）
+  -> Grafana data frame（Grafana内部数据帧）
+  -> panel（面板）
 ```
 
 常用配置项：
@@ -475,10 +572,10 @@ Folder 用来组织 dashboards。
 例子：
 
 ```text
-AIOps Labs
-  ├── Prometheus Health
-  ├── Demo API Overview
-  └── Alert Governance
+AIOps Labs（智能运维实验）
+  ├── Prometheus Health（指标服务健康视图）
+  ├── Demo API Overview（示例接口概览）
+  └── Alert Governance（告警治理）
 ```
 
 生产环境中 folder 还常用于权限管理。学习阶段先用它做分类，避免 dashboard 全堆在根目录。
@@ -490,14 +587,14 @@ Panel 是 dashboard 中的一个图表或组件。
 一个 panel 由几部分组成：
 
 ```text
-panel
-  ├── data source
-  ├── query
-  ├── transformations
-  ├── visualization type
-  ├── field options
-  ├── overrides
-  └── thresholds
+panel（面板）
+  ├── data source（数据源）
+  ├── query（查询）
+  ├── transformations（数据转换）
+  ├── visualization type（可视化类型）
+  ├── field options（字段显示选项）
+  ├── overrides（字段覆盖设置）
+  └── thresholds（阈值）
 ```
 
 常见 panel 类型：
@@ -612,9 +709,9 @@ Transformation 是 Grafana 对查询结果做二次处理。
 数据流：
 
 ```text
-query result
-  -> transformation
-  -> panel visualization
+query result（查询结果）
+  -> transformation（数据转换）
+  -> panel visualization（面板可视化）
 ```
 
 常见 transformation：
@@ -859,11 +956,11 @@ Grafana Alerting 是 Grafana 的告警管理能力。
 告警数据流：
 
 ```text
-data source query
-  -> alert rule evaluation
-  -> alert instance
-  -> notification policy
-  -> contact point
+data source query（数据源查询）
+  -> alert rule evaluation（告警规则评估）
+  -> alert instance（告警实例）
+  -> notification policy（通知策略）
+  -> contact point（联系点即通知渠道）
 ```
 
 Grafana 告警和 Prometheus 告警怎么选？

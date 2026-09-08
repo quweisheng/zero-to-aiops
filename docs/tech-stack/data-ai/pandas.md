@@ -70,76 +70,76 @@ pandas 是 Python 里的表格数据分析工具：它用 Series 和 DataFrame �
 pandas 官方用户指南可以按这张地图理解：
 
 ```text
-pandas
-  -> Getting started
-     -> 10 minutes to pandas
-     -> intro to data structures
-  -> Core objects
-     -> Series
-     -> DataFrame
-     -> Index
-     -> dtype
-  -> Basic operations
-     -> head / tail / info / describe
-     -> select columns
-     -> filter rows
-     -> assign new columns
-     -> sort
-  -> Indexing
+pandas（单机表格数据处理库）
+  -> Getting started（入门）
+     -> 10 minutes to pandas（十分钟入门教程）
+     -> intro to data structures（数据结构简介）
+  -> Core objects（核心数据对象）
+     -> Series（带索引的一维数据）
+     -> DataFrame（二维数据表）
+     -> Index（索引标签）
+     -> dtype（数据类型）
+  -> Basic operations（基础操作）
+     -> head / tail / info / describe（查看首尾、结构与统计摘要）
+     -> select columns（选列）
+     -> filter rows（筛选行）
+     -> assign new columns（新增列）
+     -> sort（排序）
+  -> Indexing（按索引选取数据）
      -> []
-     -> loc
-     -> iloc
-     -> boolean indexing
-     -> copy vs view
-  -> Missing data
-     -> isna
-     -> fillna
-     -> dropna
-     -> nullable dtypes
-  -> Combining data
-     -> concat
-     -> merge
-     -> join
-     -> compare
-  -> Grouping and reshaping
-     -> groupby
-     -> aggregate
-     -> transform
-     -> pivot_table
-     -> stack / unstack
-     -> melt
-  -> Time series
-     -> to_datetime
-     -> DatetimeIndex
-     -> resample
-     -> rolling
-     -> time zones
-  -> IO
-     -> CSV
-     -> JSON
-     -> Excel
-     -> SQL
-     -> Parquet
-  -> Performance and scale
-     -> vectorization
-     -> categorical
-     -> chunksize
-     -> memory usage
+     -> loc（按标签选取）
+     -> iloc（按位置选取）
+     -> boolean indexing（布尔条件筛选）
+     -> copy vs view（复制与共享视图）
+  -> Missing data（缺失数据）
+     -> isna（识别缺失值）
+     -> fillna（填充缺失值）
+     -> dropna（删除缺失项）
+     -> nullable dtypes（可空数据类型）
+  -> Combining data（合并数据）
+     -> concat（拼接）
+     -> merge（按键合并）
+     -> join（连接）
+     -> compare（比较差异）
+  -> Grouping and reshaping（分组与变形）
+     -> groupby（分组）
+     -> aggregate（聚合）
+     -> transform（保持对应关系的变换）
+     -> pivot_table（透视表）
+     -> stack（堆叠） / unstack（展开）
+     -> melt（宽表转长表）
+  -> Time series（时间序列）
+     -> to_datetime（转换为日期时间）
+     -> DatetimeIndex（时间索引）
+     -> resample（按时间重采样）
+     -> rolling（滑动窗口）
+     -> time zones（时区）
+  -> IO（数据读写）
+     -> CSV（逗号分隔表格文件）
+     -> JSON（结构化文本数据格式）
+     -> Excel（电子表格）
+     -> SQL（结构化查询语言）
+     -> Parquet（列式数据文件）
+  -> Performance and scale（性能与规模）
+     -> vectorization（向量化批量计算）
+     -> categorical（分类类型）
+     -> chunksize（分块行数）
+     -> memory usage（内存占用）
 ```
 
 初学路线：
 
 ```text
-read data
-  -> inspect data
-  -> fix dtypes
-  -> select/filter
-  -> handle missing values
-  -> groupby aggregate
-  -> merge with context tables
-  -> time window analysis
-  -> export report
-  -> prepare features for ML
+read data（读取数据）
+  -> inspect data（观察数据）
+  -> fix dtypes（修正类型）
+  -> select/filter（选择与过滤）
+  -> handle missing values（处理缺失值）
+  -> groupby（分组） aggregate（聚合）
+  -> merge with context tables（关联上下文表）
+  -> time window analysis（时间窗口分析）
+  -> export report（导出报告）
+  -> prepare features for ML（为机器学习准备特征）
 ```
 
 ## pandas 在 AIOps 链路中的位置
@@ -147,17 +147,17 @@ read data
 AIOps 数据链路可以这样看：
 
 ```text
-MySQL / CSV / JSONL / Kafka export / Prometheus export
-  -> pandas
-      clean
-      filter
-      aggregate
-      join
-      time window
-      feature engineering
-  -> report.md / CSV / Parquet
-  -> scikit-learn
-  -> FastAPI / dashboard
+MySQL / CSV（逗号分隔表格文件） / JSONL / Kafka export / Prometheus export
+  -> pandas（单机表格数据处理库）
+      clean（清洗）
+      filter（过滤）
+      aggregate（聚合）
+      join（连接）
+      time window（时间窗口）
+      feature engineering（特征工程）
+  -> report.md / CSV（逗号分隔表格文件） / Parquet（列式数据文件）
+  -> scikit-learn（传统机器学习工具库）
+  -> FastAPI / dashboard（仪表盘）
 ```
 
 pandas 适合：
@@ -1250,7 +1250,199 @@ pandas 是 Python 的表格数据分析库，核心对象是 Series 和 DataFram
 14. pandas 数据太大怎么办？
 15. pandas 和 SQL、Spark、scikit-learn 分别是什么关系？
 
-## 学习证据
+## 老师带你重新审视：程序没报错，报表为什么仍然错
+
+我们做告警日报，不是把 CSV 换个样子输出，而是在解释业务事实。先约定一行表示什么：一次采集、一个告警生命周期，还是一次通知？同一告警每五分钟通知一次，如果直接按行计数，就会把“通知次数”写成“事故数量”。这类错误不会触发 Python 异常，只会让结论失真。
+
+学生：“那先去重可以吗？”老师：“先定义去重身份和保留规则。”按 `alert_id` 去重适合稳定告警编号；按服务名去重会丢掉同服务不同事故；按全部字段去重又不能合并时间不同的重发。保存原始输入、处理规则和被剔除记录数量，让读者能反查每一个统计值。
+
+### Index 课堂：pandas 会按标签对齐，不只是按位置相加
+
+Index（索引标签）负责告诉 pandas 每个值属于谁。它和数据库索引不同，不自动代表唯一主键，也不是给查询一定加速的承诺。两个 Series 运算时通常按标签对齐；标签顺序不同，pandas 仍会找到同名标签，缺少对应标签的位置可能得到缺失值。
+
+```python
+import pandas as pd
+before = pd.Series([10, 20], index=['order', 'pay'])
+after = pd.Series([25, 12], index=['pay', 'order'])
+print(after - before)  # order 为 2，pay 为 5；不是按两行位置直接相减
+```
+
+你可以把它理解成按姓名发成绩，不能因为某同学换了座位就把成绩算给旁边的人。`loc` 按标签选，`iloc` 按整数位置选；标签恰好也是整数时更要分清。奇怪的空值或错位出现后，先看索引、重复标签和排序，再检查算式。
+
+### 缺失值课堂：没有恢复时间不等于恢复用时零
+
+未恢复告警的 `resolved_at` 为空，表示事件仍打开；恢复用时应该暂时未知，不能填零后参与平均。这样做会让问题越严重、未恢复越多，平均恢复时间反而越漂亮。报告应分“已恢复耗时分布”和“未恢复数量及当前年龄”，并说明统计截止时间。
+
+`NaN`、`NaT`、`pd.NA` 是不同数据类型中的缺失表示。判断用 `isna()`，不要写 `value == NaN`；填补前问缺失原因，计算后报告被排除多少条。计数函数也要注意：`size()` 统计行，`count()` 通常统计各列非空项，它们不是同义词。
+
+日期解析加 `errors='coerce'` 会把解析失败变成 `NaT`，只是把错误转成可检查数据，不代表修好了。紧接着统计失败数量并保存原值样本，不能悄悄丢掉。时区先明确源字段是 UTC、当地时间还是已带偏移，再统一转换；对无时区时间直接当 UTC 可能产生整整八小时的错位。
+
+### 关联课堂：一次错误合并可以把告警翻十倍
+
+`merge` 按键关联两表。左边同一服务有两条告警，右边同一服务有三个负责人版本，直接关联会得到六行。不是 pandas 随机重复，而是多对多关系在展开。用 `validate='many_to_one'` 表达“很多告警对应一个当前负责人”的预期，可以让错误在生成报表前暴露。
+
+下面是完整可回收实验，前提安装 pandas。保存为 `merge_lesson.py`，正常数据先跑通，再故意制造重复维表：
+
+```python
+import pandas as pd
+alerts = pd.DataFrame({'id':[1,2], 'service':['order','order']})
+owners = pd.DataFrame({'service':['order'], 'owner':['team-a']})
+normal = alerts.merge(owners, on='service', how='left', validate='many_to_one')
+assert len(normal) == 2
+print('normal rows:', len(normal))
+
+bad_owners = pd.concat([owners, owners], ignore_index=True)
+try:
+    alerts.merge(bad_owners, on='service', validate='many_to_one')
+except pd.errors.MergeError:
+    print('DETECTED: 负责人表的服务键不唯一')
+
+fixed = bad_owners.drop_duplicates()
+result = alerts.merge(fixed, on='service', how='left', validate='many_to_one', indicator=True)
+assert len(result) == len(alerts)
+assert result['_merge'].eq('both').all()
+print('recovered rows:', len(result))
+```
+
+预期正常 2 行、捕获错误、恢复 2 行。这里两条负责人完全相同，因此精确去重合理；真实数据如果负责人不同，必须按生效时间或权威记录处理，不能任意保留第一条。`indicator=True` 增加匹配来源列，帮助查看未关联记录。失败先检查右表重复键、键类型、空格和缺失；结束只需删除教学脚本，不影响原始日报数据。
+
+### 时间窗口课堂：关联到发布不等于发布导致事故
+
+`merge_asof` 可以找某告警之前最近一次发布，但需要按时间键满足排序要求，并使用服务分组与明确的容许时间窗。时间最近只是候选关联；还要核对变更对象、链路、指标变化和未变更对照服务，才能形成根因假设。
+
+生成模型特征时，滚动平均只能使用预测时刻之前的信息。中心窗口或把当前标签窗口后的数据算进去，会泄漏未来。重采样要约定桶边界、标签落左还是落右、空桶如何表示；没有数据与真实零次请求应分别表达。把这些规则写在报表说明中，别人才能复算。
+
+### 版本与生产课堂：写法可复现，报告可恢复
+
+pandas 3.0 默认采用 Copy-on-Write（写时复制）语义；历史文章里常见的 `SettingWithCopyWarning` 不能作为所有版本的统一行为说明。需要修改原表时使用清晰的一次 `.loc[条件, 列] = 值`，不要依赖链式赋值的副作用；保留 `pd.__version__` 并查对应版本的 [写时复制指南](https://pandas.pydata.org/docs/user_guide/copy_on_write.html)。
+
+内存预算不仅是 CSV 文件大小。解析后的对象、临时列、合并输出、排序和复制都可能放大峰值。使用 `memory_usage(deep=True)` 查看对象列，先在数据源过滤列和时间范围；分块算法也必须能正确合并统计。分块均值不能直接再取平均，应保存和与有效计数；分位数更不能随意平均各块分位数。
+
+定时报表的高可用主要体现在可重跑与结果发布：输入快照、代码和参数固定，先写临时结果，校验行数、时间范围与关键统计，再发布新版本。失败保留上一份已验证报告，标注时间，不让空文件覆盖正常报告。涉及用户提供的 CSV，还要限制文件大小、列数与内容输出，避免内存耗尽或把敏感字段写进日志。
+
+### 面试回答练习
+
+30 秒：pandas 用带标签的表结构完成单机数据处理。我先定义行粒度、类型、时区与缺失含义，用受约束的合并和分组统计生成可复算报表，并监控输入、异常记录和输出质量。
+
+3 分钟：用告警日报讲 `read_csv` 到类型检查、去重、维表关联、恢复时间、时间窗口和输出；展示重复负责人故障实验，说明为什么不随意 `drop_duplicates`；再讲内存峰值、分块统计、可重跑和模型特征的时间泄漏。
+
+追问报表突然翻倍：比较原始行数、唯一事件数和每次合并后的行数，检查键基数。追问 MTTR 变好是否真实：核对未恢复事件、统计口径与时区。追问为何不用 Spark：在单机预算与时效满足时 pandas 更容易迭代，超出内存、并发或实时需求再选其他执行体系，不能只按数据文件名字决定。
+
+## 老师的第二堂课：把告警日报做成可审计的数据产品
+
+### 第一站：先写数据合同，再打开文件
+
+数据合同不是很高级的软件。你先写五句话就够用：一行是一条告警生命周期；`alert_id` 是唯一编号；时间采用带时区的 UTC；严重程度只能是规定枚举；恢复时间为空表示尚未恢复。这样的约定能让加载、清洗、关联和汇总使用同一把尺。没有合同，三个同学用三种方式清洗同一文件，都可能得到看起来合理但彼此冲突的报告。
+
+读取 CSV 时，字符串 `0012` 可能是设备编号，不应因为只包含数字就变成整数 `12`。身份证、邮编、业务主键、端口、计数看着都像数字，语义却不同：编号通常不需要加减，计数需要。为编号指定字符串类型，为测量值执行明确的数值转换，再用合法范围验证。对于错误率要说清是 `0.05` 还是 `5%`，对于容量要说清字节还是 GiB，不能依赖列名猜测。
+
+初学者常问：“读取时一把全部转成字符串最安全吗？”它能避免部分误推断，却把时间计算、排序和数值运算推迟了。字符串 `100` 排在 `20` 前面并不是数值大小顺序。更可靠的方式是先保留原始输入，在经过类型校验的工作表上分析，转换失败进入隔离记录。隔离记录至少带原始行号、字段、错误原因和输入批次，避免修复时找不到源头。
+
+验证不是只写 `assert len(df) > 0`。日报可能某天合法地没有告警；相反，十万行也可能全是重复通知。你需要核对时间覆盖、主键非空与唯一、枚举合法、恢复时间不早于发生时间、来源系统符合预期，以及输入与有效、隔离、过滤三类记录是否守恒。一个小表格记录每一步行数，比只在最后打印 `success` 更能说明数据没有悄悄流失。
+
+### 第二站：看懂分组输出的每个分母
+
+`groupby` 的思路是先按键分堆、对每堆计算、再组合结果。它不是按屏幕上的连续行分堆，同一服务的行即使隔很远仍可归在一组。分组键可以是服务，也可以是服务加时间桶；粒度越细，输出数量和空组合问题就越明显。开始分析前先口述：“我要一行一个服务一天”，再用列与唯一性检查证明结果真的如此。
+
+看一个容易骗人的例子：甲服务有 10 次请求失败 1 次，乙服务有 1000 次请求失败 10 次。两个失败率分别是 10% 和 1%，直接平均得到 5.5%；全平台真正的请求失败率应为总失败 `11` 除以总请求 `1010`，约 1.09%。两者回答不同问题：前者把每个服务等权，后者把每个请求等权。报告必须命名清楚，不可把“服务平均失败率”写成“全平台请求失败率”。
+
+恢复时间同样要交代分母。按告警条数平均会让高频告警服务占更大权重；先求每个事故的恢复时间再平均，回答事故层面问题；按严重等级分层又是第三种问题。pandas 能准确执行你给的算式，但不能替你选择业务口径。老师希望你先解释分母，再解释函数。
+
+`agg` 适合把一组压成一行，例如求服务的告警数和平均耗时；`transform` 则把组级计算结果对齐回每个原始行，例如每条告警所在服务的总量。前者改变粒度，后者保留粒度。若后续还要查原始告警，别在聚合后假装每一行仍是一条事件。你可以显式保留事件明细和服务摘要两个变量，变量名就能提醒自己不混用。
+
+### 第三站：基础实验补课——别把未来发布关联给过去告警
+
+前提是已安装 pandas；下面全部使用内存合成数据，不访问真实系统。保存为 `time_join_lesson.py`，执行 `python time_join_lesson.py`。先读预测：两条告警分别发生在 09:10 和 09:20；发布发生在 09:00 和 09:15。正确的历史视角中，前一条只能看到 v1，后一条才能看到 v2。
+
+```python
+import pandas as pd
+
+alerts = pd.DataFrame({
+    'id': [1, 2], 'service': ['order', 'order'],
+    'at': pd.to_datetime(['2026-01-01T09:10:00Z', '2026-01-01T09:20:00Z']),
+})
+changes = pd.DataFrame({
+    'service': ['order', 'order'], 'version': ['v1', 'v2'],
+    'deployed_at': pd.to_datetime(['2026-01-01T09:00:00Z', '2026-01-01T09:15:00Z']),
+})
+
+def associate(direction):
+    return pd.merge_asof(
+        alerts.sort_values('at'), changes.sort_values('deployed_at'),
+        left_on='at', right_on='deployed_at', by='service',
+        direction=direction, tolerance=pd.Timedelta('30min'),
+    )
+
+normal = associate('backward')
+assert normal['version'].tolist() == ['v1', 'v2']
+assert (normal['deployed_at'] <= normal['at']).all()
+print('normal:', normal['version'].tolist())
+
+bad = associate('nearest')  # 故障注入：更近不等于当时已经发生
+future = bad['deployed_at'] > bad['at']
+assert future.sum() == 1
+print('DETECTED future matches:', int(future.sum()))
+
+fixed = associate('backward')
+assert (fixed['deployed_at'] <= fixed['at']).all()
+print('recovered:', fixed['version'].tolist())
+```
+
+预期正常 `['v1', 'v2']`，故障检测到一条未来关联，恢复后再次得到 `['v1', 'v2']`。09:10 距 09:15 只有五分钟，比距离 09:00 的十分钟更近，因此 `nearest` 会选未来记录；算法完全按你的要求工作，错误在要求不符合业务时间方向。这比背“必须用 backward”更重要：有些传感器校准任务确实允许两侧最近邻，不能把一种业务规则硬套给所有分析。
+
+`by='service'` 要求只在同一服务里找，`tolerance` 限制最多允许跨多远的时间，左右时间键必须按官方要求排序。若报未排序，先看时间键是否整体递增，而不是只在每个服务内部递增；若全部关联为空，核对时区、容许窗口、服务名和类型。相关参数边界见 [merge_asof 官方接口](https://pandas.pydata.org/docs/reference/api/pandas.merge_asof.html)。
+
+清理时结束进程即可，数据随内存释放；教学脚本和输出可保留在实验目录。不要删除日报原始文件。本实验的成功证据是业务断言，不是只看到脚本退出码为零。继续挑战：插入一条没有历史发布的服务，预期关联字段为空并进入“未找到发布候选”，而不是强行关联到其他服务。
+
+### 第四站：窗口、缺测与计数器重置
+
+一分钟窗口不等于最近一分钟。前者可能是固定边界的 09:00 到 09:01，后者在 09:00:37 查询时可能是 08:59:37 到 09:00:37。`resample` 常用于规则时间桶，`rolling` 常用于随每个时刻移动的窗口。边界开闭、窗口标签和最少有效观测数必须明确；同一条恰好卡在整分钟的样本，不能在两个窗口都算或两个都不算。
+
+对分钟计数求和通常有意义，对累计计数直接求和通常没有意义。累计请求数像汽车里程表，你需要相邻读数的变化和时间间隔；进程重启后计数归零又会造成负差。此时应判断重置、缺测和数据源变化，不能把负值绝对值当请求量。监控系统原生计数器函数通常更适合处理这类语义，pandas 报表仍要保留采集口径说明。
+
+缺测和零值也不同。某分钟没有任何请求可能是业务空闲，也可能采集器断线；仅有请求日志就无法区分这两者。应关联采集健康、服务存活或计划采样清单，再决定空桶是否可填零。线上流量低谷如果被错误补零后参与模型训练，模型会把采集故障当正常低负载，这就是数据质量通过分析链传到 AIOps 决策的例子。
+
+时区问题别只看显示格式。无时区时间先说明原本在哪个地区，再使用正确的本地化语义；带时区时间可以转换展示。跨夏令时地区可能出现同一本地时刻两次或某些时间不存在，处理策略要明确。生产保存统一时间轴，报表展示时转换为读者时区，并把时间窗口的起止与包含规则写进标题或元数据。
+
+### 第五站：单机内存里的容量与恢复
+
+排序需要重新组织数据，合并可能制造比两边都大的结果，对象字符串可能比磁盘上的压缩数据占更多内存。内存达到上限时，被系统终止的 Python 进程不一定留下完整异常栈。排障要同时看任务输入量、峰值内存、系统退出原因和输出文件状态。不要把“没捕获异常”解释为程序正常结束。
+
+第一层优化是减少工作：只读需要列、在数据库过滤日期、先汇总再传输、避免重复合并。第二层才是类型与算子选择，例如低基数类别、向量化、减少无意义复制。第三层才考虑分块或更大机器。不能先把所有数据 `concat` 到一个大表，再说用了 `chunksize` 所以不会占内存；分块中间结果也要有可控大小。
+
+分块聚合要求结果可组合。计数和总和容易合并，平均需要同时保留和与有效计数，方差需要更完整的组合状态，精确分位数可能需要保留大量数据或换专门算法。去重也要区分块内和跨块：同一编号可能出现在不同文件或批次，仅每块去重不能保证全局唯一。需要稳定分区规则、外部状态或数据源约束，并将这一成本纳入容量。
+
+一次日报发布最好遵循“输入快照—生成临时结果—业务校验—发布版本”的顺序。重试使用同一批次编号，不覆盖原始输入；文件、代码、参数和依赖版本共同构成可复现条件。多实例同时运行时，必须有任务唯一性或发布互斥机制，避免两个报告抢同一路径。pandas 本身不会给文件写入提供数据库事务。
+
+### 面试黑板题：日报变好，值班同学却更忙
+
+题目给出三个现象：日报平均恢复时间下降一半；工单积压增加；最近上线了自动补缺和维表关联。你先提出可检验假设：未恢复耗时被填零、重复维表放大某些样本、统计日期因时区变化错位。分别保留原始输入与新旧转换的中间表，统计未恢复比例、每次合并行数和事件时间范围。
+
+如果证据显示 `fillna(0)` 只发生在恢复耗时列，先恢复“未知不计入已恢复耗时”的口径，并增加未恢复年龄指标；重算受影响日期而非只修今天。若维表键重复，先确认版本生效规则再关联，不盲目去重。缓解期间保留上一份可信日报并注明数据延迟，不发布看似完整的错误结果。
+
+追问“怎样防止再次出现”：在管道中写粒度、唯一性、时间方向和计数守恒断言；设置未知值比例及行数变化阈值；把故障脚本加入回归测试；抽取固定金样本由业务负责人确认口径。再追问“高可用怎么做”：输入与结果版本化、任务幂等、失败重跑、发布互斥和旧版回退，比给单个 DataFrame 加锁更切题。最后展示原始样本到修复报告的证据链，证明你理解的是数据产品，不只是熟悉几个函数。
+
+## 交付前的最后一课：输出文件也有合同
+
+日报生成成功，不代表打开的人会按同一方式理解。导出 CSV 时要明确编码、分隔符、时区和小数格式；导出数据库时明确列类型和主键；导出 Parquet 时记录 Schema 与读取依赖。一个本来作为字符串保存的服务编号，交给电子表格软件后可能再次被推断成数字，所以关键编号应带类型说明，接收方也要按合同导入。
+
+如果输出包含用户可控制的文本，并会在电子表格中打开，要考虑以等号等字符开头的内容被当公式解释的风险。防护应在面向表格的导出层按目标工具规则实现，同时保留原始数据；不要为了安全把原始证据无痕改写。文件大小、行数和字段长度也要有上限，避免异常输入使一次日报生成占满磁盘或让读者无法打开。
+
+Markdown 报告同样需要对非可信文本做恰当处理，避免用户字段改变表格结构或被误当成可信链接。脱敏不仅是删密码，还包括内网地址、请求参数、人员身份与原始工单描述。学习证据用合成数据；生产日报按内部权限发布，不能因为它只是统计文件就默认允许公开。
+
+### 分位数为什么不能像总和一样汇总
+
+甲实例有九十九次请求耗时一毫秒，一次耗时一千毫秒；乙实例有上万次请求耗时三毫秒。各实例的高分位再平均，既忽略请求数，也丢失分布形状。分位数是排序位置的概念，不是能直接加起来的总量。你需要原始样本、适当的可合并分布摘要或监控系统支持的直方图口径，不能把几个 P99 做平均后命名为整体 P99。
+
+即使样本都在 DataFrame 里，窗口长度不同、采样率不同和缺测也会影响解释。老师建议在报告边上写清“以请求为样本”还是“以每分钟汇总为样本”。前者的 P99 是请求延迟分位，后者是分钟统计值的分位，这两个数都可能合法，但不能互换。面试能指出这一点，通常比会写 `quantile` 更有价值。
+
+### 一页发布检查单怎样写才有用
+
+先列输入文件哈希、覆盖区间和行粒度，再列类型失败、主键重复、未关联与未恢复数量；随后记录输出粒度、守恒核对和关键指标金样本；最后记录发布位置、生成批次和回退版本。检查项必须能失败，例如主键重复超过零就停止发布，或者缺测超阈值则标记“不完整”而不是照常给趋势结论。
+
+当别人复现你的报告时，应能从 README 找到 Python 与 pandas 版本、安装方式、精确运行命令、预期样本和清理范围。不要把自己执行过的实际结果与文章里的预期混写。数据源不可公开时，提交同 Schema 的合成样本和校验脚本，比提交一张看不懂来源的截图更适合作为 GitHub 学习证据。
+
+## 本课 GitHub 学习证据
 
 学完这篇，建议留下这些证据：
 

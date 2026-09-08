@@ -57,20 +57,20 @@ Traefik 按语义化版本发布，但快照日存在官方口径不同步：`v3
 希望用户这样访问：
 
 ```text
-https://aiops.example.com/api/alerts  -> alerts
-https://aiops.example.com/grafana     -> grafana
-https://runbook.example.com/          -> runbook
+https://aiops.example.com/api/alerts  -> alerts（告警服务）
+https://aiops.example.com/grafana     -> grafana（监控看板）
+https://runbook.example.com/          -> runbook（操作手册服务）
 ```
 
 传统方式可能要手工维护代理配置、后端 IP，再执行 reload。容器重建后 IP 改了，配置就容易过期。Traefik 的思路是：
 
 ```text
-Docker labels / Kubernetes resources / files
+Docker labels（容器标签）/ Kubernetes resources（集群资源）/ files（配置文件）
   -> Provider 发现配置变化
   -> Traefik 生成路由配置
   -> Router 按 Host、Path 等规则匹配
   -> Middleware 做认证、限流、改写等处理
-  -> Service 选择一个健康 Backend
+  -> Service（后端服务）选择一个健康 Backend（应用实例）
 ```
 
 它解决的是“动态环境中的入口发现与转发”，不是替应用修数据库，也不是安装后自动懂业务。Host、Path、端口、TLS、权限和容量仍然要明确设计。
@@ -121,59 +121,59 @@ Docker Provider 默认监听 Docker events；Kubernetes Provider watch API 对�
 ## 官方知识地图
 
 ```text
-Traefik Proxy
-  -> Install configuration（旧称 static configuration）
-     -> entryPoints
-     -> providers
-     -> API / dashboard
-     -> logs / access logs / metrics / tracing
-     -> certificateResolvers
-  -> Routing configuration（旧称 dynamic configuration）
-     -> HTTP
-        -> routers
-        -> middlewares
-        -> services
-        -> serversTransports
-     -> TCP
-        -> routers
-        -> middlewares
-        -> services
-        -> serversTransports
-     -> UDP
-        -> routers
-        -> services
-     -> TLS
-        -> certificates
-        -> options
-        -> stores
-  -> Providers
-     -> file
-     -> docker / swarm
-     -> kubernetesIngress
-     -> kubernetesCRD
-     -> kubernetesGateway
-     -> other catalogs and orchestrators
+Traefik Proxy（反向代理与流量入口）
+  -> Install configuration（安装配置，旧称 static configuration：静态配置）
+     -> entryPoints（监听入口）
+     -> providers（配置发现器）
+     -> API / dashboard（管理接口与仪表盘）
+     -> logs / access logs / metrics / tracing（进程日志、访问日志、指标、链路）
+     -> certificateResolvers（证书解析器）
+  -> Routing configuration（路由配置，旧称 dynamic configuration：动态配置）
+     -> HTTP（应用层网页与接口协议）
+        -> routers（路由匹配器）
+        -> middlewares（请求响应处理中间件）
+        -> services（逻辑后端集合）
+        -> serversTransports（连接后端的传输配置）
+     -> TCP（可靠字节流传输协议）
+        -> routers（连接匹配器）
+        -> middlewares（连接处理中间件）
+        -> services（后端连接集合）
+        -> serversTransports（后端传输配置）
+     -> UDP（数据报传输协议）
+        -> routers（数据报入口路由）
+        -> services（数据报后端）
+     -> TLS（加密传输）
+        -> certificates（证书）
+        -> options（握手安全选项）
+        -> stores（证书存放与选择范围）
+  -> Providers（配置来源）
+     -> file（文件）
+     -> docker / swarm（容器与容器编排）
+     -> kubernetesIngress（标准入口资源）
+     -> kubernetesCRD（自定义资源）
+     -> kubernetesGateway（网关资源）
+     -> other catalogs and orchestrators（其他服务目录和编排平台）
 ```
 
 新手先只记住这条主链：
 
 ```text
-Client
-  -> EntryPoint
-  -> Router rule
-  -> Middleware chain
-  -> Service load balancer
-  -> Backend application
+Client（客户端）
+  -> EntryPoint（监听入口）
+  -> Router rule（路由规则）
+  -> Middleware chain（中间件处理链）
+  -> Service load balancer（后端负载均衡器）
+  -> Backend application（后端应用）
 ```
 
 控制面则是另一条链：
 
 ```text
-Docker event / Kubernetes watch / file change
-  -> Provider
-  -> routing configuration
-  -> validation and runtime update
-  -> routers/services visible in API and logs
+Docker event（容器事件）/ Kubernetes watch（资源监听）/ file change（文件变更）
+  -> Provider（发现器）
+  -> routing configuration（路由配置）
+  -> validation and runtime update（校验并更新运行时）
+  -> API 和日志中可见的 routers/services（路由与后端）
 ```
 
 排障时不要把两条链混在一起。第一条回答“请求在哪一跳失败”，第二条回答“Traefik 为什么没有生成预期路由”。
@@ -182,20 +182,20 @@ Docker event / Kubernetes watch / file change
 
 ```text
 用户请求
-  -> DNS / CDN / WAF / external load balancer
-  -> Traefik
-     -> access log
-     -> process log
-     -> Prometheus metrics
-     -> OpenTelemetry trace
-  -> application
-  -> database / cache / queue
+  -> DNS（域名解析）/ CDN（内容分发）/ WAF（应用防火墙）/ external load balancer（外部负载均衡）
+  -> Traefik（按路由和中间件处理流量的代理）
+     -> access log（访问日志）
+     -> process log（进程日志）
+     -> Prometheus metrics（时序指标）
+     -> OpenTelemetry trace（调用链）
+  -> application（应用）
+  -> database / cache / queue（数据库、缓存、队列）
 
 配置变化
-  -> Git / CI / Docker / Kubernetes API
-  -> Traefik Provider
-  -> route update
-  -> change event and health evidence
+  -> Git / CI（代码与持续集成）/ Docker / Kubernetes API（平台接口）
+  -> Traefik Provider（配置发现）
+  -> route update（路由更新）
+  -> change event and health evidence（变更事件与健康证据）
 ```
 
 | AIOps 能力 | Traefik 能提供的证据 | 不能单独证明什么 |
@@ -307,16 +307,16 @@ http:
 9. 响应反向经过中间件并返回客户端，访问日志、指标和 trace 记录结果。
 
 ```text
-Client
-  -> :443 EntryPoint
-  -> TLS/SNI
-  -> Router: Host + Path
-  -> Router Middleware 1
-  -> Router Middleware 2
-  -> Service Middleware
-  -> Service load balancer
-  -> ServersTransport
-  -> Backend IP:port
+Client（客户端）
+  -> :443 EntryPoint（加密监听入口）
+  -> TLS/SNI（加密握手与目标域名）
+  -> Router: Host + Path（按域名与路径匹配）
+  -> Router Middleware 1（第一个路由中间件）
+  -> Router Middleware 2（第二个路由中间件）
+  -> Service Middleware（服务中间件）
+  -> Service load balancer（后端负载均衡）
+  -> ServersTransport（后端传输配置）
+  -> Backend IP:port（实际应用地址与端口）
 ```
 
 任何一层都可能返回错误。看到 404 先查 Router 匹配，看到 502 再重点查 Backend 地址、端口、协议与连接，不要一上来重启所有 Pod。
@@ -400,17 +400,17 @@ providers:
 观察点：
 
 ```text
-process log
-  -> Starting provider
-  -> Provider connection established
-  -> Configuration received
-  -> error while parsing / skipping container or resource
+process log（进程日志）
+  -> Starting provider（启动发现器）
+  -> Provider connection established（建立配置源连接）
+  -> Configuration received（收到配置）
+  -> error while parsing / skipping container or resource（解析错误或跳过资源）
 
-API / dashboard
-  -> Routers
-  -> Services
-  -> Middlewares
-  -> Errors
+API / dashboard（接口与仪表盘）
+  -> Routers（路由）
+  -> Services（后端）
+  -> Middlewares（中间件）
+  -> Errors（错误）
 ```
 
 ### 坏了怎么查
@@ -628,13 +628,13 @@ Traefik 不只代理 HTTP。
 同一个 EntryPoint 同时有 TCP 与 HTTP Router 时，先按 TCP Router 判断；没有匹配的 TCP Router，才进入 HTTP Router。TLS passthrough 表示 Traefik 不解密业务流量，只按 SNI 等 L4/L5 信息转发，因此无法执行需要读取 HTTP Header/Path 的中间件。
 
 ```text
-:443 EntryPoint
-  -> TCP router HostSNI match?
-     -> yes + passthrough -> TLS backend
-     -> no -> Traefik terminates TLS / HTTP routing
-            -> Host + Path router
-            -> HTTP middleware
-            -> HTTP service
+:443 EntryPoint（监听入口）
+  -> TCP router HostSNI match?（是否按握手域名匹配 TCP 路由）
+     -> yes + passthrough（匹配并透传）-> TLS backend（加密后端）
+     -> no（不匹配）-> Traefik terminates TLS / HTTP routing（解密并执行 HTTP 路由）
+            -> Host + Path router（域名与路径规则）
+            -> HTTP middleware（应用层中间件）
+            -> HTTP service（应用后端）
 ```
 
 故障判断：
@@ -672,12 +672,12 @@ providers:
 ### 工作路径
 
 ```text
-docker compose up / Docker API change
-  -> Docker event
-  -> Traefik Docker Provider
-  -> inspect container labels, network and exposed ports
-  -> build Router / Middleware / Service
-  -> connect to container IP:port over shared network
+docker compose up / Docker API change（容器声明变更）
+  -> Docker event（容器事件）
+  -> Traefik Docker Provider（容器配置发现器）
+  -> inspect container labels, network and exposed ports（检查标签、网络和暴露端口）
+  -> build Router / Middleware / Service（生成路由、中间件和服务）
+  -> connect to container IP:port over shared network（经共享网络连接容器地址与端口）
 ```
 
 ### 推荐的安装配置
@@ -750,12 +750,12 @@ Traefik 在 Kubernetes 中不是只有一种 YAML。
 ### Kubernetes Provider 如何调和
 
 ```text
-Kubernetes API
-  -> list/watch Gateway, Route, Service, EndpointSlice, Secret ...
-  -> Traefik Provider filters by class/namespace/selector
-  -> derive runtime Router and Service
-  -> update route status where the API defines status
-  -> proxy traffic to Service/Pod path
+Kubernetes API（集群接口）
+  -> list/watch Gateway, Route, Service, EndpointSlice, Secret（列出并监听网关、路由、服务、端点和秘密对象）
+  -> Traefik Provider 按 class/namespace/selector（类别、命名空间、选择器）过滤
+  -> derive runtime Router and Service（生成运行时路由与服务）
+  -> update route status（在 API 定义允许时更新路由状态）
+  -> proxy traffic to Service/Pod path（转发到服务与应用实例）
 ```
 
 这不是把 Kubernetes YAML 原样交给代理。Provider 会选择对象、解析引用、读取 Service/EndpointSlice/Secret，再生成内部配置。RBAC 缺一项、class 不匹配、跨 namespace 未授权，都可能让对象存在但不生效。
@@ -848,16 +848,16 @@ spec:
 ### 四个核心对象
 
 ```text
-GatewayClass
+GatewayClass（网关实现类别）
   -> 谁实现网关，平台级
 
-Gateway
+Gateway（网关实例）
   -> 在哪里监听、哪些 listener，基础设施团队
 
-HTTPRoute / GRPCRoute / TLSRoute / TCPRoute
+HTTPRoute / GRPCRoute / TLSRoute / TCPRoute（网页请求、远程调用、加密连接、传输层连接的路由资源）
   -> 什么流量到哪个 Backend，应用团队
 
-ReferenceGrant
+ReferenceGrant（跨命名空间引用授权）
   -> 目标 namespace 是否同意被跨 namespace 引用
 ```
 
@@ -1202,11 +1202,11 @@ Traefik Proxy OSS 默认把 ACME 账号与证书写进 `acme.json`。它不是�
 推荐 Kubernetes 路径：
 
 ```text
-cert-manager
-  -> ACME order/challenge
-  -> Kubernetes TLS Secret
-  -> Gateway listener / Ingress / IngressRoute references Secret
-  -> all Traefik replicas read the same declared certificate
+cert-manager（证书控制器）
+  -> ACME order/challenge（签发订单与域名控制权验证）
+  -> Kubernetes TLS Secret（集群证书秘密对象）
+  -> Gateway listener / Ingress / IngressRoute references Secret（入口资源引用证书）
+  -> all Traefik replicas read the same declared certificate（所有代理副本读取同一声明证书）
 ```
 
 ### ACME 排障顺序
@@ -1234,13 +1234,13 @@ openssl s_client -connect alerts.example.com:443 \
 “副本可能短暂不一致”是根据官方 Provider 独立监听、动态更新和节流机制得出的工程推论，不是官方承诺的跨副本事务模型；生产必须逐 Pod 用日志、指标、API 和真实探针验证。
 
 ```text
-Kubernetes API / Docker API / Git-managed files
-  -> replica A watches and builds local runtime
-  -> replica B watches and builds local runtime
-  -> replica C watches and builds local runtime
+Kubernetes API / Docker API / Git-managed files（集群接口、容器接口、版本化配置）
+  -> replica A watches and builds local runtime（副本 A 监听并建立本地运行时）
+  -> replica B watches and builds local runtime（副本 B 独立处理）
+  -> replica C watches and builds local runtime（副本 C 独立处理）
 
-external LB
-  -> distributes client connections across A/B/C
+external LB（外部负载均衡器）
+  -> distributes client connections across A/B/C（把客户端连接分配给 A/B/C）
 ```
 
 所以生产一致性应这样理解：
@@ -1254,16 +1254,16 @@ external LB
 ### 高可用最小设计
 
 ```text
-two or more zones
-  -> external load balancer
-  -> 3 Traefik replicas
-     -> topology spread / anti-affinity
-     -> PodDisruptionBudget
-     -> requests / limits
-     -> readiness / liveness
-  -> shared declarative providers
-  -> centralized logs / metrics / traces
-  -> external certificate controller
+two or more zones（两个或更多可用区）
+  -> external load balancer（外部负载均衡器）
+  -> 3 Traefik replicas（三个代理副本）
+     -> topology spread / anti-affinity（拓扑分散与反亲和）
+     -> PodDisruptionBudget（自愿中断预算）
+     -> requests / limits（资源申请与限制）
+     -> readiness / liveness（就绪与存活探针）
+  -> shared declarative providers（共同声明源）
+  -> centralized logs / metrics / traces（集中日志、指标和调用链）
+  -> external certificate controller（外部证书控制器）
 ```
 
 必须验证：
@@ -1300,7 +1300,7 @@ synthetic -> 真实域名、TLS、Router、Middleware、Backend 的业务探针
 近似公式：
 
 ```text
-in-flight requests ≈ requests per second × average response time
+in-flight requests（在途请求）≈ requests per second（每秒请求数）× average response time（平均响应秒数）
 ```
 
 如果 2,000 RPS、平均 0.2 秒，平均在途约 400；如果下游变慢到 3 秒，同样流量会变成约 6,000 个在途请求。慢下游会把连接、内存、文件描述符和 goroutine 一起推高。
@@ -1321,12 +1321,12 @@ in-flight requests ≈ requests per second × average response time
 一条代理请求常同时占用客户端连接和后端连接；Keep-Alive 与连接池能复用，但长连接会长期占用。粗略规划时应把：
 
 ```text
-client sockets
-+ backend sockets
-+ listening sockets
-+ provider/API connections
-+ log and certificate files
-+ safety margin
+client sockets（客户端连接）
++ backend sockets（后端连接）
++ listening sockets（监听端口）
++ provider/API connections（配置源连接）
++ log and certificate files（日志与证书文件）
++ safety margin（安全余量）
 ```
 
 都放进 FD 预算，再用压测和进程指标校准，不能把公式当保证值。
@@ -1348,10 +1348,10 @@ client sockets
 超时要形成从外到内逐层收紧的预算：
 
 ```text
-client deadline
-  > external LB timeout
-    > Traefik total/backend budget
-      > application dependency timeout
+client deadline（客户端总截止时间）
+  > external LB timeout（外层负载均衡超时）
+    > Traefik total/backend budget（代理总预算与后端预算）
+      > application dependency timeout（应用依赖超时）
 ```
 
 真实产品的字段分布在 EntryPoint transport、ServersTransport、ForwardAuth、health check 等位置，应按固定版本 reference 配置，不要创造一个不存在的“global request timeout”。
@@ -1371,11 +1371,11 @@ client deadline
 生产不要启用 `api.insecure=true` 并暴露 8080。安全路径是：
 
 ```text
-dedicated secure router
-  -> TLS
-  -> authentication/authorization middleware
-  -> IP or network restriction
-  -> api@internal
+dedicated secure router（专用管理路由）
+  -> TLS（加密）
+  -> authentication/authorization middleware（认证授权中间件）
+  -> IP or network restriction（地址或网络限制）
+  -> api@internal（内部管理服务）
 ```
 
 同时在云 LB、安全组、NetworkPolicy 和管理网限制来源。Dashboard 包含路由、服务名、后端和错误信息，本身就是敏感资产地图。
@@ -1436,17 +1436,17 @@ entryPoints:
 建议字段维度：
 
 ```text
-timestamp
-request host / method / path
-entrypoint
-router name
-service name
-backend address
-status code
-request duration
-downstream/upstream timing
-retry count
-trace id
+timestamp（时间戳）
+request host / method / path（域名、请求方法、路径）
+entrypoint（入口）
+router name（路由名）
+service name（后端服务名）
+backend address（后端地址）
+status code（状态码）
+request duration（请求总耗时）
+downstream/upstream timing（客户端侧与后端侧耗时）
+retry count（重试次数）
+trace id（链路标识）
 ```
 
 Header 默认策略和自定义字段要审计，Authorization、Cookie、Token、个人信息不得直接进入集中日志。
@@ -1474,16 +1474,16 @@ Trace 必须继续传播到应用才有端到端价值。只有入口 span 时�
 不要只写“Traefik 5xx > 0”。更实用的告警包含：
 
 ```text
-condition:
-  5xx ratio > 2% for 5m
-and:
-  request volume > 100/min
-group by:
-  cluster, entrypoint, router, service
-attach:
-  dashboard, logs query, recent deployment, route status, endpoint count
-runbook:
-  compare 404/502/503/504 evidence paths
+condition（条件）:
+  5xx ratio > 2% for 5m（错误比例超过 2%，持续 5 分钟）
+and（并且）:
+  request volume > 100/min（每分钟请求超过 100 次）
+group by（分组）:
+  cluster, entrypoint, router, service（集群、入口、路由、后端）
+attach（附带证据）:
+  dashboard, logs query, recent deployment, route status, endpoint count（看板、日志、变更、路由状态、端点数）
+runbook（处置手册）:
+  compare 404/502/503/504 evidence paths（比较各状态码的故障路径）
 ```
 
 这样既避免低流量噪声，也能直接进入排障。
@@ -1553,12 +1553,12 @@ v3 不等于“改镜像 tag 就结束”。过期 CRD API group、移除字段�
 亲眼验证这条链：
 
 ```text
-compose labels
-  -> Docker Provider
-  -> whoami Router
-  -> whoami Service
-  -> whoami container:80
-  -> HTTP 200
+compose labels（容器标签）
+  -> Docker Provider（容器配置发现器）
+  -> whoami Router（请求匹配）
+  -> whoami Service（后端选择）
+  -> whoami container:80（容器内 80 端口）
+  -> HTTP 200（成功响应）
 ```
 
 ### 前置条件
@@ -1702,13 +1702,13 @@ docker compose logs traefik --since 5m
 7. Service port 是否为容器内部 `80`。
 8. 请求是否真的带 `Host: whoami.localhost`。
 
-### 清理
+### 清理：完成下一节故障实验后执行
 
 ```bash
 docker compose down --remove-orphans
 ```
 
-确认只会删除当前 Compose project 的容器和网络；本实验没有声明持久卷。镜像缓存仍保留，是否删除由使用者自行决定。
+下一节需要本实验继续运行，暂时跳过清理。两个实验完成后确认只删除当前 Compose project 的容器和网络；本实验没有声明持久卷。镜像缓存仍保留，是否删除由使用者自行决定。
 
 ## 故障注入实验：把后端端口写错，制造可恢复的 502
 
@@ -1794,13 +1794,13 @@ docker compose logs whoami --since 3m
 证据链：
 
 ```text
-same Host request
-  -> Router exists
-  -> Service exists
-  -> backend URL/port is 9999
-  -> Traefik connection error
-  -> whoami has no request log
-  -> hypothesis: wrong backend port
+same Host request（保持相同域名的请求）
+  -> Router exists（路由存在）
+  -> Service exists（后端配置存在）
+  -> backend URL/port is 9999（后端指向 9999 端口）
+  -> Traefik connection error（代理连接失败）
+  -> whoami has no request log（需确认后端确实启用了请求日志）
+  -> hypothesis: wrong backend port（假设为端口配置错误）
 ```
 
 这比“看到 502 就重启 whoami”更可靠。
@@ -1890,13 +1890,13 @@ kubectl patch httproute alerts -n aiops --type=json \
 ## 502 排障：连接到了哪里
 
 ```text
-Router exists
-  -> Service exists
-  -> selected backend IP:port/scheme
-  -> DNS resolution
-  -> TCP connect
-  -> TLS handshake if HTTPS
-  -> HTTP response parsing
+Router exists（路由存在）
+  -> Service exists（后端集合存在）
+  -> selected backend IP:port/scheme（选中的地址、端口与协议）
+  -> DNS resolution（域名解析）
+  -> TCP connect（建立连接）
+  -> TLS handshake if HTTPS（需要加密时握手）
+  -> HTTP response parsing（解析应用响应）
 ```
 
 检查：
@@ -1927,13 +1927,13 @@ kubectl get service,endpointslice,pod -A -o wide
 对齐同一 Trace/Request ID：
 
 ```text
-client total
-  -> external LB duration
-  -> Traefik request duration
-  -> backend connect duration
-  -> backend response duration
-  -> application spans
-     -> DB/cache/queue dependency
+client total（客户端总耗时）
+  -> external LB duration（外部负载均衡耗时）
+  -> Traefik request duration（代理请求耗时）
+  -> backend connect duration（后端建连耗时）
+  -> backend response duration（后端响应耗时）
+  -> application spans（应用子调用）
+     -> DB/cache/queue dependency（数据库、缓存、队列依赖）
 ```
 
 假设可能是连接建立慢、应用线程池满、SQL 慢、依赖超时、GC、网络丢包或下游重试。只有证据显示合法请求确实需要更长时间，才调整 timeout；否则只是扩大资源占用和用户等待。
@@ -2071,16 +2071,16 @@ sum by (entrypoint, protocol) (traefik_open_connections)
 当某个 `service` 5xx 告警触发，自动化流程只读采集：
 
 ```text
-alert labels
-  -> cluster / entrypoint / router / service
-  -> recent deployment and Git commit
-  -> Traefik API object and errors
-  -> Gateway/HTTPRoute or Ingress status
-  -> Service/EndpointSlice/Pod readiness
-  -> matching access/error logs
-  -> trace samples
-  -> candidate hypotheses
-  -> human-approved repair runbook
+alert labels（告警标签）
+  -> cluster / entrypoint / router / service（集群、入口、路由、服务）
+  -> recent deployment and Git commit（最近发布与提交）
+  -> Traefik API object and errors（代理对象与错误）
+  -> Gateway/HTTPRoute or Ingress status（入口资源状态）
+  -> Service/EndpointSlice/Pod readiness（服务端点与实例就绪状态）
+  -> matching access/error logs（对应访问日志与错误日志）
+  -> trace samples（调用链样本）
+  -> candidate hypotheses（候选原因）
+  -> human-approved repair runbook（人工批准的修复手册）
 ```
 
 自动化输出应该区分“事实、推断、待验证”。例如：
@@ -2112,20 +2112,20 @@ alert labels
 ### 回答框架
 
 ```text
-DNS / global traffic
-  -> regional external LB
-  -> Traefik Gateway replicas across 3 zones
-     -> GatewayClass owned by platform team
-     -> Gateway/listeners owned by infrastructure team
-     -> HTTPRoute owned by application namespaces
-     -> allowedRoutes + ReferenceGrant
-  -> Kubernetes Service / EndpointSlice / Pods
+DNS / global traffic（域名解析与全局流量）
+  -> regional external LB（区域负载均衡器）
+  -> Traefik Gateway replicas across 3 zones（三可用区网关副本）
+     -> GatewayClass owned by platform team（平台团队管理网关类别）
+     -> Gateway/listeners owned by infrastructure team（基础设施团队管理网关与监听器）
+     -> HTTPRoute owned by application namespaces（应用团队管理路由）
+     -> allowedRoutes + ReferenceGrant（挂载范围与跨空间引用授权）
+  -> Kubernetes Service / EndpointSlice / Pods（服务、端点切片、实例）
 
-certificate controller
-  -> namespace TLS Secrets
+certificate controller（证书控制器）
+  -> namespace TLS Secrets（命名空间内证书秘密对象）
 
-observability
-  -> Prometheus + central logs + OTLP traces + synthetic probes
+observability（可观测性）
+  -> Prometheus + central logs + OTLP traces + synthetic probes（指标、集中日志、开放协议调用链、合成探针）
 ```
 
 必须讲清：
@@ -2286,7 +2286,21 @@ Traefik 是云原生反向代理和负载均衡器。它通过 Docker、Kubernet
 
 回答要点：502 可能是端口、协议、TLS、网络、配置或真实后端故障；盲重启会扩大影响并丢失证据。
 
-## 学习路线
+## 老师带练：一次“配置已保存”的验收到底要走多远
+
+想象你刚把告警入口从 8080 改为 8081，页面却出现 502。先不要背状态码，我们拿着一次请求走五张检查台：文件中是否写对、Docker 或 Kubernetes 是否收到新声明、Provider 是否读到对象、Traefik 运行时 Service 指向哪里、后端是否真的监听那个端口。这五张检查台分别是声明、平台对象、发现过程、实际路由、真实进程。只检查第一张，就会把“写好了”误当“更新成功”。
+
+基础实验用 whoami（回显请求信息的小应用）特意把其他依赖都去掉。正确 Host 得到 200，是正向对照；错误 Host 得到 404，是路由负向对照；同一个 Host 配错端口出现 502，是后端连接负向对照。三个结果组合起来，你才能解释 Router 与 Service 的边界。注意：应用没有日志不能单独证明没收到请求，因为它可能未启用访问日志或日志采集丢失。连接拒绝、实际后端地址与端口配置才是本实验的主要证据。
+
+再走一个容易混淆的岔路：客户端访问 `/api/alerts`，StripPrefix（删除路径前缀）把 `/api` 去掉，后端收到的是 `/alerts`。如果后端只注册了 `/api/alerts`，它会返回自己的 404。此时 Traefik 路由完全可能工作正常，重装代理不会修好应用路径。请对照访问日志中的路由名、转发路径与后端请求记录，只修改合同中约定的一边；多层代理都改写路径时，把每跳输入与输出分别写出来。
+
+接下来把单副本扩大为三个。每个实例本地限流 100 次每秒，并不等于整个入口始终限制为 100 次每秒；近似均匀分流时可能放行更多，不均匀时又可能一个实例提前拒绝。先澄清目标是保护每个代理、保护后端总容量，还是执行某租户的计费配额。第三种往往需要共享计数与身份治理，要单独核对 OSS（开源版）或商业能力与故障语义。不能用增加副本来悄悄改变对外承诺的配额。
+
+最后练一道事故追问：为什么调大超时之后，504 少了，内存却涨了？请求占用连接和缓冲的时间变长，旧请求未释放，新请求继续进入；入口正在帮后端积压等待。先测后端平均与尾延迟、在途数、重试数、请求体大小和连接池，再确定流控、业务降级或依赖修复。超时调整必须有总时间预算和停止阈值。对于告警查询可做短时缓存；对于执行处置的 POST，不确定是否已成功时要查执行任务 ID，不能盲目重发重启命令。
+
+把这段带练写成 GitHub 复盘时，只写自己观察到的 200/404/502、配置差异、恢复后的同一请求结果。尚未做过三副本压测和线上处置，就把它们标为设计题；能清楚区分实验事实与架构推理，本身就是高质量面试表达。
+
+## 分阶段学习路线
 
 第一阶段：跑通路径
 

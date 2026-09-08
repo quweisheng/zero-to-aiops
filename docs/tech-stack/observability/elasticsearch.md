@@ -52,17 +52,17 @@ Elasticsearch 是分布式搜索和分析引擎：你把 JSON 文档写入 index
 入门阶段先抓这条链：
 
 ```text
-JSON document
-  -> index / data stream
-  -> index template
-  -> mappings / settings
-  -> ingest pipeline
-  -> primary shard
-  -> inverted index / doc values
-  -> replica shards
-  -> Query DSL search
-  -> aggregations
-  -> ILM rollover / retention
+JSON document（JSON文档记录）
+  -> index / data stream（索引或数据流）
+  -> index template（索引模板）
+  -> mappings / settings（字段映射与索引设置）
+  -> ingest pipeline（写入处理流水线）
+  -> primary shard（主分片）
+  -> inverted index / doc values（倒排索引与列式字段值）
+  -> replica shards（副本分片）
+  -> Query DSL search（使用领域查询语言搜索）
+  -> aggregations（聚合统计）
+  -> ILM rollover / retention（索引生命周期滚动与保留）
 ```
 
 必须掌握：
@@ -97,59 +97,59 @@ JSON document
 Elasticsearch 官方资料可按这些模块读：
 
 ```text
-Core concepts
-  -> Cluster
-  -> Node
-  -> Index
-  -> Document
-  -> Field
-  -> Shards and replicas
+Core concepts（核心概念）
+  -> Cluster（集群）
+  -> Node（节点）
+  -> Index（索引）
+  -> Document（文档）
+  -> Field（字段）
+  -> Shards and replicas（分片与副本）
 
-Data modeling
-  -> Mappings
-  -> Field types
-  -> Dynamic mapping
-  -> Runtime fields
-  -> Index settings
-  -> Analyzers
+Data modeling（数据建模）
+  -> Mappings（字段映射）
+  -> Field types（字段类型）
+  -> Dynamic mapping（动态映射）
+  -> Runtime fields（查询时计算字段）
+  -> Index settings（索引设置）
+  -> Analyzers（文本分析器）
 
-Data management
-  -> Data streams
-  -> Index templates
-  -> Component templates
-  -> Aliases
-  -> ILM
-  -> Snapshot and restore
+Data management（数据管理）
+  -> Data streams（数据流）
+  -> Index templates（索引模板）
+  -> Component templates（组件模板）
+  -> Aliases（别名）
+  -> ILM（索引生命周期管理）
+  -> Snapshot and restore（快照与恢复）
 
-Ingest
-  -> Document APIs
-  -> Bulk API
-  -> Ingest pipelines
-  -> Processors
+Ingest（数据写入）
+  -> Document APIs（文档接口）
+  -> Bulk API（批量接口）
+  -> Ingest pipelines（写入流水线）
+  -> Processors（处理器）
 
-Search
-  -> Search API
-  -> Query DSL
-  -> Full-text queries
-  -> Term-level queries
-  -> Compound queries
-  -> Sort
-  -> Pagination
-  -> Highlighting
+Search（搜索）
+  -> Search API（搜索接口）
+  -> Query DSL（查询领域语言）
+  -> Full-text queries（全文查询）
+  -> Term-level queries（词项级查询）
+  -> Compound queries（组合查询）
+  -> Sort（排序）
+  -> Pagination（分页）
+  -> Highlighting（高亮）
 
-Aggregations
-  -> Bucket aggregations
-  -> Metrics aggregations
-  -> Pipeline aggregations
-  -> Terms aggregation
-  -> Date histogram
+Aggregations（聚合统计）
+  -> Bucket aggregations（分桶聚合）
+  -> Metrics aggregations（指标聚合）
+  -> Pipeline aggregations（流水线聚合）
+  -> Terms aggregation（按词项分组聚合）
+  -> Date histogram（日期直方图）
 
-Operations
-  -> Cluster health
-  -> CAT APIs
-  -> Shard allocation
-  -> Index lifecycle
-  -> Monitoring
+Operations（运行维护）
+  -> Cluster health（集群健康）
+  -> CAT APIs（便于查看的表格类接口）
+  -> Shard allocation（分片分配）
+  -> Index lifecycle（索引生命周期）
+  -> Monitoring（监控）
 ```
 
 学习顺序：
@@ -163,6 +163,89 @@ Operations
   -> 最后学集群健康和性能排障
 ```
 
+## 老师带你理解“写进去了，为什么搜不到”
+
+我们写入一条日志 `Payment Timeout`。程序显示成功，你用同样大小写搜索却可能找不到。先分清 Document（文档：一条 JSON 记录）、Field（字段：记录中的一项）、Mapping（映射：字段如何解释）、Analyzer（分析器：文本如何拆分和规范化）。搜索结果取决于字段语义与查询方式，不只是屏幕上看见的字符串。
+
+`text` 常用于全文检索，内容会经过分析；`keyword` 常用于精确值和聚合。假设分析结果是 `payment`、`timeout`，词项级查询直接找 `Payment` 可能不匹配；全文查询通常会按其规则处理输入。实际分析器可配置，先看目标索引映射与分析结果，不把本例拆分规则当所有语言的通用算法。
+
+### 基础实验与故障实验：先观察索引中的词
+
+准备 Node.js，在仓库根目录执行纯数据演练：
+
+```powershell
+node examples/teacher-led-reliability-lab/telemetry.mjs elasticsearch
+node examples/teacher-led-reliability-lab/telemetry.mjs elasticsearch --fault
+```
+
+正常查 `payment` 命中，故障查 `Payment` 不命中，`analyzedTokens` 列出课堂索引词，`issue` 表示设定故障。这个脚本不启动 Elasticsearch，仅帮助理解词项与原文的区别。后文真实实验用映射、写入和搜索验证。失败先查目录、参数和 Node；无资源要清理，保留输出与推理。
+
+### 第二课：确认写入、持久化与可搜索是不同阶段
+
+请求经过协调与主分片，复制按集群设置参与确认；搜索可见性还涉及 Refresh（刷新可搜索视图）。不要把频繁强制刷新当默认修复，写入吞吐会受影响。故障时区分响应是否确认、目标索引是否正确、查询窗口与映射是否匹配，再查刷新与分片状态。
+
+Shard（分片）将索引数据拆开，Replica（副本）提高部分故障下可用性并参与读取。分片太多会增加管理开销，太少又限制某些扩展方式，按数据规模、增长和查询负载设计。集群黄色通常与副本分配有关，红色意味着至少某些主分片不可用；具体影响要定位索引，不能看到颜色就删除数据。
+
+### 第三课：日志平台的容量和恢复
+
+写入预算取决于文档数、大小、字段数、分析、复制与存储。动态字段失控会扩大映射，批量写入还要逐项检查失败，不能只看请求级状态。查询要限制时间与范围、选择合适字段、正确处理分页；高开销聚合和深分页可能拖慢集群。
+
+生命周期管理安排滚动索引和保留，快照提供历史恢复；副本不会替代快照。升级前核对版本、插件、索引兼容和客户端行为，在隔离环境验证快照恢复与典型查询。为写入与查询分配不同最小权限，日志脱敏并限制跨租户访问。
+
+### 面试课堂：30 秒与 3 分钟
+
+30 秒：“Elasticsearch 把文档按映射与分析规则组织成可搜索索引，分片承担数据和查询。排障先区分写入、可见性、字段语义与分片分配。”
+
+3 分钟用一条日志讲写入、分析、主副本与搜索，再说明 `text` 和 `keyword` 的取舍。追问：“写入成功搜索为空？”检查索引、刷新、时间与查询类型。“分片越多越快？”解释并发收益和协调成本。“有副本为何备份？”复制不能提供所有历史恢复能力。
+
+设计题：每日增长的多租户日志如何滚动、保留、限制和恢复。事故题：新日志引入大量动态字段，先看映射变化和逐项写入失败，再回退生产者或模板并评估既有数据。GitHub 保存映射、实验、真实查询和恢复说明。
+
+## 进阶课堂：把搜索系统的内部账本讲明白
+
+### 从零认识“索引”：同一个词为什么有两种意思
+
+同学，你会在文章里反复看到 index。作为资源名，它表示一组文档及其映射、设置；作为数据结构，它表示为了加速查找而建立的辅助组织。可以把前者想成一本登记册，把后者想成册后的检索目录。它们有关联，但不是同一层概念。
+
+假设有三条日志，分别包含“支付超时”“支付成功”“库存超时”。如果每次查询都从头看三条原文，数据越多越慢。倒排索引换一个方向，先记“支付出现在哪些文档”“超时出现在哪些文档”，查询时再找候选集合。实际中文分词由分析器决定，这里的两个词是人为划定的课堂词项，不暗示默认分析器会按这个方式处理中文。
+
+倒排索引适合从词找文档；聚合需要按文档读取字段值，通常利用另一种按列组织的结构 Doc values（文档值）。这解释了为什么“全文能搜到”不代表“这个字段适合直接做分组统计”。你遇到字段不适合聚合时，应检查映射和预期语义，不能仅为消除报错就打开高内存成本的选项。
+
+映射因此不是写完便忘的配置。它像数据合同：时间是什么格式，耗时用整数还是小数，状态码用于计算还是精确匹配，消息用于全文搜索还是保留原样。上线前准备几条正常和异常样本验证合同。生产者把 `duration_ms` 从数值改成带单位字符串时，需要同时调整合同、转换和查询，而不是要求接收端“自动理解”。
+
+### 再走一遍写入路径：为什么有几个不同的成功点
+
+客户端发送文档后，协调节点根据路由找到主分片，主分片完成处理，再按相关配置与副本交互。节点还需要维护恢复用的事务日志 Translog，以及用于查询的索引结构。这里没有一个万能的“保存完成”：请求确认、崩溃恢复保证、搜索可见性，是你必须分别说明的三个问题。
+
+默认的请求级事务日志持久策略，会在相关事务日志完成持久化后再报告成功；异步策略则改变崩溃时的风险窗口。Refresh（刷新）处理搜索可见性，Flush（刷写与事务日志维护）处理另一层生命周期。不要因中文都叫“刷新”就混成一个操作。参数与部署形态以 [Translog 官方说明](https://www.elastic.co/docs/reference/elasticsearch/index-settings/translog) 为准。
+
+如果业务流程确实要求“写完接着搜”，可以评估请求的 `refresh=wait_for`：等待相应刷新，而不是每条都主动制造一个小刷新。它也会增加等待，不能无限提高调用频率。先确定业务是否真需要立即搜索，是否可按文档标识直接读取，再做吞吐与延迟取舍。参见 [refresh 参数说明](https://www.elastic.co/docs/reference/elasticsearch/rest-apis/refresh-parameter)。
+
+现在请你解释：写入日志返回成功，仪表盘仍没有结果，要按什么顺序检查？先查实际索引或别名，再查事件时间、时区、租户、字段类型与过滤条件，最后结合分片和刷新证据定位。若直接反复提交，可能产生重复日志，反而污染错误率和 AIOps 训练集。
+
+### Bulk 批量写入：整车到了，不代表每个包裹都签收
+
+Bulk API 把多项写入放在一个请求里，减少网络往返。它的每个项目仍有自己的处理结果，所以请求返回正常并不证明所有文档都成功。采集程序要检查顶层 `errors` 和每项结果，区分格式不合法、权限问题、并发冲突和暂时拒绝。具体格式见 [Bulk 官方接口](https://www.elastic.co/docs/api/doc/elasticsearch/operation/operation-bulk)。
+
+假设 100 条里 97 条成功、2 条字段类型冲突、1 条暂时拒绝。合理处理不是把 100 条无限重发：先记录成功项；类型冲突进入受控隔离区，保留脱敏样例等待修订；暂时失败按退避策略有限重试。退避表示失败后逐步延长等待，抖动表示给等待加少量随机变化，避免所有采集器同一瞬间再次冲击后端。
+
+选择稳定文档标识能帮助重试去重，但要明确语义：同一标识用覆盖方式写入，会把旧内容替换；自动生成不同标识可能保留重复事件。审计日志是否允许覆盖、纠错事件如何追加，都应先定业务合同。不能只为了去重省事，改变证据的完整性要求。
+
+### 两位同学同时修改：版本条件为什么不能省
+
+小王和小李都读取同一条配置摘要。小王把负责人改为甲，小李稍后拿旧文档修改备注并整体提交，可能覆盖小王的更新。这叫 Lost update（丢失更新）：请求都成功了，但较早的正确修改消失了。
+
+乐观并发控制的思路是“我只在对象仍是刚才那个版本时修改”。Elasticsearch 可用 `if_seq_no` 与 `if_primary_term` 表达条件，它们对应操作序号和主分片任期相关信息，不要自行猜一个数字。先读到版本信息，再带条件提交；冲突时重新读取并决定合并或拒绝。见 [乐观并发控制](https://www.elastic.co/docs/reference/elasticsearch/rest-apis/optimistic-concurrency-control)。
+
+课堂练习不需要生产数据：在笔记中写原值、两次读取、第一次提交、第二次带旧条件提交四行，推导第二次为什么应拒绝。进阶追问是“自动重试是否一定正确”：若业务是覆盖备注，合并规则与累加计数不同，必须先定义操作语义。并发工具不能代替业务规则。
+
+### 容量设计：不要只问有多少 GB
+
+同样一天 100 GB 日志，少量大文档与大量小文档的负担不同；固定十个字段与不断增加动态字段的负担不同；只查最近一小时与全量多维聚合的负担也不同。容量评估要同时记录文档速率、大小分布、字段增长、分片数量、保留、副本和查询形态，再留故障与恢复余量。
+
+分片多会增加索引管理和查询协调开销。新增节点也不等于某个热点写入立即平均分散。先观察数据和请求是否集中到少数分片，检查路由设计与热点租户；再选择滚动索引、调整下一代索引布局或迁移方案。改变已有索引结构常涉及重建与数据搬迁，需要双读校验和切换回退，不是改一行注释就结束。
+
+恢复验收也不能只看集群变绿。至少验证代表性时间范围可搜索、文档数与约定校验一致、权限未放宽、写入仍可持续、面板与告警引用正确索引。备份目录存在只证明有文件；恢复到隔离环境并完成这些核对，才为恢复能力提供证据。
+
 ## Elasticsearch 在 AIOps 链路中的位置
 
 Elasticsearch 常用于日志搜索、事件检索、告警上下文查询和历史分析。
@@ -170,7 +253,7 @@ Elasticsearch 常用于日志搜索、事件检索、告警上下文查询和历
 ```text
 应用/系统日志
   -> Logstash / Beats / Elastic Agent / OTel Collector / 自定义写入
-  -> Elasticsearch data streams / indices
+  -> Elasticsearch data streams / indices（日志数据流或索引）
   -> Kibana / API / AIOps 分析服务
   -> 告警上下文、根因分析、异常搜索
 ```
@@ -311,10 +394,10 @@ Document 是 JSON 数据。
 Index 会被拆成 shards。
 
 ```text
-index logs-aiops
-  -> primary shard 0
-  -> primary shard 1
-  -> primary shard 2
+index logs-aiops（名为logs-aiops的索引）
+  -> primary shard 0（编号0的主分片）
+  -> primary shard 1（编号1的主分片）
+  -> primary shard 2（编号2的主分片）
 ```
 
 Replica 是 primary shard 的副本。
@@ -513,9 +596,9 @@ error
 Elasticsearch 建立倒排索引：
 
 ```text
-payment -> doc1, doc7
-timeout -> doc1, doc3
-error   -> doc1, doc5
+payment -> doc1, doc7（词payment指向文档1和7）
+timeout -> doc1, doc3（词timeout指向文档1和3）
+error   -> doc1, doc5（词error指向文档1和5）
 ```
 
 这让全文搜索很快。
@@ -617,9 +700,9 @@ curl -X PUT "http://localhost:9200/logs-aiops" \
 Data stream 是多个隐藏 backing indices 的抽象。
 
 ```text
-logs-aiops
-  -> .ds-logs-aiops-2026.07.02-000001
-  -> .ds-logs-aiops-2026.07.03-000002
+logs-aiops（日志数据流名称）
+  -> .ds-logs-aiops-2026.07.02-000001（第一个日期后备索引示例）
+  -> .ds-logs-aiops-2026.07.03-000002（第二个日期后备索引示例）
 ```
 
 Data stream 需要匹配的 index template。template 定义：
@@ -911,7 +994,7 @@ ILM 管理索引生命周期。
 时间序列日志常见阶段：
 
 ```text
-hot -> warm -> cold -> frozen -> delete
+hot -> warm -> cold -> frozen -> delete（热、温、冷、冻结到删除的生命周期阶段）
 ```
 
 简化策略：

@@ -29,7 +29,7 @@
 你有一个 AIOps 平台：
 
 ```text
-Frontend -> API Gateway -> alert-service -> model-service -> database
+Frontend -> API Gateway -> alert-service -> model-service -> database（前端到接口网关、告警服务、模型服务和数据库的请求路径）
 ```
 
 用户说“告警分析页面很慢”。你在 Prometheus 里看到 API P95 升高，在日志里看到一些 timeout，但还是很难回答：
@@ -53,18 +53,18 @@ OpenTelemetry 是可观测性工具箱和标准：应用用 OTel API/SDK 生成 
 入门 OpenTelemetry 先抓这条链：
 
 ```text
-Application
-  -> instrumentation
-  -> OpenTelemetry API
-  -> OpenTelemetry SDK
-  -> spans / metrics / logs
-  -> context propagation
-  -> OTLP exporter
-  -> OpenTelemetry Collector
-     -> receiver
-     -> processor
-     -> exporter
-  -> backend
+Application（应用程序）
+  -> instrumentation（埋点）
+  -> OpenTelemetry API（开放遥测调用接口）
+  -> OpenTelemetry SDK（开放遥测实现库）
+  -> spans / metrics / logs（跨度、指标和日志）
+  -> context propagation（上下文传播）
+  -> OTLP exporter（开放遥测协议导出器）
+  -> OpenTelemetry Collector（开放遥测收集器）
+     -> receiver（接收器）
+     -> processor（处理器）
+     -> exporter（导出器）
+  -> backend（保存与查询后端）
 ```
 
 必须掌握：
@@ -98,53 +98,53 @@ Application
 OpenTelemetry 官方文档可按这些模块读：
 
 ```text
-What is OpenTelemetry
+What is OpenTelemetry（开放遥测是什么）
   -> OTel 是什么
   -> OTel 不是什么
-  -> generation / export / collection
+  -> generation / export / collection（生成、导出与收集）
 
-Concepts
-  -> Signals
-     -> Traces
-     -> Metrics
-     -> Logs
-     -> Baggage
-  -> Context propagation
-  -> Semantic conventions
-  -> Resources
-  -> Instrumentation
-  -> Sampling
+Concepts（概念）
+  -> Signals（遥测信号）
+     -> Traces（链路）
+     -> Metrics（指标）
+     -> Logs（日志）
+     -> Baggage（随上下文传播的键值信息）
+  -> Context propagation（上下文传播）
+  -> Semantic conventions（字段命名与含义约定）
+  -> Resources（资源）
+  -> Instrumentation（埋点）
+  -> Sampling（采样）
 
-Specification
-  -> API
-  -> SDK
-  -> Data model
-  -> Trace
-  -> Metrics
-  -> Logs
-  -> Resource
-  -> Context
-  -> Propagators
-  -> OTLP
+Specification（规范）
+  -> API（程序调用接口）
+  -> SDK（软件开发实现库）
+  -> Data model（数据模型）
+  -> Trace（一次操作的完整链路）
+  -> Metrics（指标）
+  -> Logs（日志）
+  -> Resource（被观测资源的身份属性）
+  -> Context（上下文）
+  -> Propagators（上下文传播器）
+  -> OTLP（开放遥测传输协议）
 
-Languages
-  -> Java / Python / Go / JavaScript / .NET ...
-  -> automatic instrumentation
-  -> manual instrumentation
-  -> exporters
+Languages（语言实现）
+  -> Java / Python / Go / JavaScript / .NET ...（不同语言和运行平台的实现）
+  -> automatic instrumentation（自动埋点）
+  -> manual instrumentation（手动埋点）
+  -> exporters（导出器）
 
-Collector
-  -> Architecture
-  -> Configuration
-  -> Components
-     -> Receivers
-     -> Processors
-     -> Exporters
-     -> Connectors
-     -> Extensions
-  -> Deployment patterns
-  -> Troubleshooting
-  -> Internal telemetry
+Collector（收集器）
+  -> Architecture（架构）
+  -> Configuration（配置）
+  -> Components（组件）
+     -> Receivers（接收器）
+     -> Processors（处理器）
+     -> Exporters（导出器）
+     -> Connectors（连接器）
+     -> Extensions（扩展组件）
+  -> Deployment patterns（部署模式）
+  -> Troubleshooting（故障排查）
+  -> Internal telemetry（组件自身遥测）
 ```
 
 学习顺序：
@@ -158,17 +158,108 @@ Collector
   -> 最后接后端和 AIOps 自动化
 ```
 
+## 老师带你追踪同一次请求
+
+网页调用订单服务，订单服务又调用数据库。每段都有日志，为什么还是串不起来？因为“差不多同一时间”不能唯一标识一次请求。Trace（链路）记录一次逻辑操作，Span（跨度）记录其中一段工作，Context（上下文）携带关联信息。跨进程传递上下文，才能知道哪段工作属于哪次请求。
+
+Instrumentation（埋点）在操作边界记录遥测，API 提供调用接口，SDK 实现采集、采样、处理与导出。Collector（收集器）可接收、加工和转发数据，后端负责保存和查询。OpenTelemetry 是标准与工具体系，不自动包含一套能永久保存所有数据的数据库。
+
+### 基础实验与故障实验：父子跨度为什么断开
+
+准备 Node.js，在本仓库根目录运行：
+
+```powershell
+node examples/teacher-led-reliability-lab/telemetry.mjs opentelemetry
+node examples/teacher-led-reliability-lab/telemetry.mjs opentelemetry --fault
+```
+
+正常父子跨度使用同一 `traceId`，故障模式把子跨度改到另一链路，输出 `missingParents: 1` 与 `issue: true`。`spanId` 标识当前段，`parentId` 指向父段。先画两棵树，解释为什么仅父标识相同也不足以归属同一条链。这是结构演练，不实现真实 OTLP 协议。
+
+输出不符检查参数、目录和 Node。脚本不创建服务或文件，无须清理。保留两次结果；后文真实 Collector 实验再验证网络、协议和后端接收。现实中采样、异步任务和部分数据到达也可能形成不完整链，需要结合上下文传播和采集记录。
+
+### 第一课：配置存在不等于组件在工作
+
+Receiver（接收器）读入数据，Processor（处理器）批量、过滤或加工，Exporter（导出器）发到后端。配置中声明后还需要接入相应 Pipeline（处理流水线）；定义但未启用，不会自动处理。不同信号和组件支持范围按版本核对。
+
+跨 HTTP、RPC、消息队列时，发送端注入上下文，接收端提取并建立关系。线程切换和异步任务若丢上下文，会生成新的根跨度。Baggage（随上下文传播的键值信息）可能跨多系统，不应随意放密码、个人信息或无界大字段。
+
+### 第二课：采样与队列分别解决什么
+
+Head sampling（头部采样）较早作决定，成本可控但当时还不知道最终是否失败；Tail sampling（尾部采样）等更多跨度到齐后判断，需要缓冲、等待和合适的数据路由。不能一边提前丢掉大部分数据，一边要求后端百分之百保留所有罕见失败。
+
+网络失败时发送队列与重试可以争取恢复时间，但容量、重试时限和磁盘故障仍可能造成丢失。持久队列需要匹配存储扩展与导出配置，参考 [Collector 韧性说明](https://opentelemetry.io/docs/collector/resiliency/)。监控队列占用、导出失败、拒绝数据和新鲜度；不要只看收集器进程存活。
+
+生产中把采集端、汇聚端与后端的容量分别预算，限制高基数属性并保护租户权限。升级回归语义约定、字段和组件兼容，保存旧配置与版本；变更后用已知请求验证完整路径，而不只确认 YAML 能解析。
+
+### 面试课堂：30 秒与 3 分钟
+
+30 秒：“OpenTelemetry 用统一语义采集指标、日志和链路，靠上下文关联同一次操作，经 SDK 与 Collector 转发到后端。关键是传播、采样、队列和字段一致性。”
+
+3 分钟从一次请求开始，解释跨度生成、上下文传递、处理与导出，再讨论采样和可靠性。追问：“Collector 能补回上游没采的数据吗？”不能。“有队列一定不丢吗？”受容量、时限和存储约束。“链路断开先看哪里？”检查关联字段、传播、采样与到达时间。
+
+设计题：边缘节点网络不稳定如何采集并控制本地缓冲。事故题：升级后服务名变了，图上像服务消失，检查资源属性与语义配置。GitHub 保存配置、已知请求跨度、课堂反例与导出失败记录。
+
+## 深入课堂：观测数据怎样跨进程，又怎样在途中丢失
+
+### 先分清 API、SDK、采集器与存储
+
+同学，应用里调用“开始一个跨度”的接口，不代表已经把数据送到了远端。API 是程序调用的接口约定；SDK 是实际记录、采样和导出数据的实现；Collector（采集器）负责接收、处理和转发；存储后端才负责保留并查询。四者可以分层部署，不是安装一个包就自动完成全部链路。
+
+把一次问题分成四问：应用有没有产生信号，SDK 有没有记录并尝试导出，采集器有没有接收并成功转发，后端有没有保存到正确租户。每问都有不同证据。只看 Collector 的端口可连接，不能证明应用真的发送了跨度；只看接收计数增加，也不能证明后端最终可查询。
+
+开发时自动埋点能覆盖常见框架边界，手动埋点补业务阶段，例如库存校验或规则计算。不要给每一行代码都加跨度，先选择能解释请求耗时与失败的边界。埋点自身有 CPU、内存、网络与存储成本，观测设计也需要预算。
+
+### Span 的父子关系不是按日志时间猜出来的
+
+Trace 是一次关联操作的整体轨迹，Span 是其中一个有起止时间的操作片段。跨度具有自己的标识，并可带父跨度标识；上下文还携带链路标识与采样相关信息。它们帮助系统把跨进程操作关联起来，而不是把“时间接近的两条日志”强行拼在一起。
+
+HTTP 调用中，上游需要把上下文注入请求，下游需要提取并在执行期间激活它。注入是把内部信息转换成协议中的字段，提取是反向读取。只在两个服务分别启用埋点，却没有正确传播，可能得到两条看似独立的 Trace。
+
+消息队列场景更复杂：发送与处理之间可能间隔很久，一条消息可能批量处理或多次重投。需要说明你想表达父子关系还是跨度链接，遵循所用库与语义约定。不要认为“把 trace_id 字符串写进正文”就等同于 SDK 上下文已经正确建立。
+
+异步代码中还要检查上下文有没有跨线程、任务和回调正确传递。若上下文被错误复用，不同用户请求可能串成一条链；若过早丢失，子操作会变成孤立跨度。用两个并发请求、不同标识和一个异步步骤做验证，比单个串行请求更能暴露问题。
+
+### Resource 与 Attributes：谁产生的，发生了什么
+
+Resource（资源属性）描述产生遥测的实体，例如服务名、部署环境、实例。Span attributes（跨度属性）描述这个操作，例如路由模板、结果类别和所访问的依赖。把环境写进每段自由文本里，不如用稳定字段让查询能可靠筛选。
+
+字段命名与含义应遵循适用版本的 Semantic conventions（语义约定）。这相当于大家约定同一个字段表示同一件事，方便跨语言与组件关联。升级语义约定可能影响仪表盘、告警与特征计算，因此应使用代表性样本做查询回归，而不是只验证程序能启动。
+
+Baggage（随上下文传播的业务键值）可以跨服务携带额外信息，但它不是加密容器，也不天然等于授权依据。不要放令牌、密码或不必要的个人信息；不可信入口带来的值要验证与限量。传播范围越大，泄露和高开销属性扩散的风险越大。
+
+### 采样：省成本时，你愿意漏掉哪些证据
+
+头部采样在请求较早阶段决定是否保留，成本比较可控，但那时未必知道最终是否很慢或失败。尾部采样在收集更多跨度后作决策，可以根据完整度更高的信息筛选，却需要等待、缓存与正确路由；迟到跨度和内存上限仍会影响结果。
+
+假设重要错误很少，只保留极低比例的随机样本，就可能在关键事故时没有足够链路。完全保留所有数据又可能超出资源预算。先按业务重要性、错误类别与调试需求确定策略，并记录实际采样和丢弃情况。不能把“系统里没搜到失败 Trace”直接解释为“没有失败请求”。
+
+多台尾部采样节点还要考虑同一条 Trace 的相关跨度是否能汇聚到正确处理者。简单随机负载分配未必满足这个需求。生产架构题应说明路由、扩缩容时状态、等待窗口和失败策略，而不是只画几个相同的采集器方框。
+
+### 队列与背压：下游慢了，压力会传到哪里
+
+Backpressure（背压）表示下游处理不过来时，上游受到的减速或拒绝压力。发送队列可以吸收短时波动，但达到上限后仍需要明确行为。队列长度、容量、失败发送和拒绝接收是不同信号，应分别观察；持久化队列也要核对实际存储扩展、磁盘和配置，不能默认每个队列都会跨重启保存。见 [Collector 韧性设计](https://opentelemetry.io/docs/collector/resiliency/)。
+
+在故障推演中写三个速率：应用产生速率、采集器处理速率、后端接受速率。瓶颈处决定持续吞吐。把批次变大可能减少请求开销，也可能增加等待与单次内存压力；把并发调高可能压垮已慢的后端。先用小范围测量找到瓶颈，再做有回退的调整。
+
+处理顺序也有语义。过滤前有没有脱敏，批处理前有没有内存保护，日志和链路是否被不同规则删掉关联字段，都会影响结果。配置组件被定义出来，不等于已加入 `service.pipelines`（服务处理流水线）；排障时对照真正启用的流水线，不只看文件里有几个配置块。
+
+### 事故题：升级后链路断了，服务却一直正常
+
+课堂设定是应用业务成功率不变，但新版本的数据库跨度消失。先对比版本、埋点包、环境变量、传播格式与过滤规则，再用单条合成请求验证每一段。区分“业务未调用数据库”“跨度没产生”“被采样或过滤”“发送失败”“后端查询字段改变”。
+
+修复可以是回退错误埋点配置、修订传播或更新查询，但要先确认与证据相符。恢复验收包括并发请求不串链、关键父子关系完整、错误请求有足够观测、敏感信息未进入属性、采集成本在预算内。GitHub 保存脱敏示例、前后配置和实测结果；未部署的部分明确写成设计推演。
+
 ## OpenTelemetry 在 AIOps 链路中的位置
 
 OpenTelemetry 是 AIOps 的遥测采集和标准化层。
 
 ```text
 应用代码
-  -> OTel instrumentation
-  -> OTel SDK
-  -> OTLP
-  -> OTel Collector
-  -> Prometheus / Tempo / Jaeger / Loki / Elasticsearch / Vendor Backend
+  -> OTel instrumentation（开放遥测埋点）
+  -> OTel SDK（开放遥测实现库）
+  -> OTLP（开放遥测传输协议）
+  -> OTel Collector（开放遥测收集器）
+  -> Prometheus / Tempo / Jaeger / Loki / Elasticsearch / Vendor Backend（指标、链路、日志或厂商提供的存储查询后端）
   -> Grafana / Alertmanager / AIOps 分析
 ```
 
@@ -527,10 +618,10 @@ OpenTelemetry 区分 API 和 SDK。
 应用启动时配置 SDK：
 
 ```text
-TracerProvider
-  -> Sampler
-  -> SpanProcessor
-  -> Exporter
+TracerProvider（链路记录器提供者）
+  -> Sampler（采样器）
+  -> SpanProcessor（跨度处理器）
+  -> Exporter（导出器）
 ```
 
 库里只写：
@@ -654,7 +745,7 @@ OpenTelemetry Collector 是一个可部署的遥测代理/网关。
 常见组合：
 
 ```text
-Application -> local/agent Collector -> gateway Collector -> backends
+Application -> local/agent Collector -> gateway Collector -> backends（应用到本地采集器、汇聚采集器和后端的数据路径）
 ```
 
 ## Collector 架构
@@ -674,7 +765,7 @@ Collector 配置由组件和 pipeline 组成。
 Pipeline：
 
 ```text
-receivers -> processors -> exporters
+receivers -> processors -> exporters（接收、处理再导出）
 ```
 
 官方文档强调：配置了组件还不够，必须在 `service.pipelines` 里启用。

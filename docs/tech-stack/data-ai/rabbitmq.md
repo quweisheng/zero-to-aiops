@@ -170,7 +170,7 @@ AIOps 系统一旦出现“告警没收到”“任务执行两遍”“队列�
 
 ## 核心对象
 
-## Connection：连接
+### Connection：连接
 
 **它是什么**
 
@@ -194,7 +194,7 @@ AIOps 系统一旦出现“告警没收到”“任务执行两遍”“队列�
 
 先看 DNS、端口 5672、TLS、用户名密码、vhost 权限和心跳超时，再看连接是否被内存或磁盘告警阻塞。Pika 不会替应用自动恢复所有连接，应用要实现带退避的重连。
 
-## Channel：通道
+### Channel：通道
 
 **它是什么**
 
@@ -216,7 +216,7 @@ AIOps 系统一旦出现“告警没收到”“任务执行两遍”“队列�
 
 如果日志出现 `unknown delivery tag`，检查是否在错误 Channel 上确认、是否重复确认、是否混用了自动确认和手动确认。声明参数冲突也会关闭 Channel。
 
-## Virtual Host：虚拟主机
+### Virtual Host：虚拟主机
 
 **它是什么**
 
@@ -244,7 +244,7 @@ rabbitmqctl set_permissions -p aiops aiops_app "^aiops\." "^aiops\." "^aiops\."
 
 出现 `ACCESS_REFUSED` 时检查用户是否存在、连接的 vhost 是否正确、权限正则是否覆盖目标交换机和队列。
 
-## Producer：生产者
+### Producer：生产者
 
 **它是什么**
 
@@ -272,7 +272,7 @@ Producer 是发布消息的应用，例如监控平台的告警生成模块。
 
 不要只看 `basic_publish` 调用没有报错。还要启用发布确认，处理不可路由消息，记录消息标识，并监控确认延迟和 nack 数量。
 
-## Message：消息
+### Message：消息
 
 **它是什么**
 
@@ -305,7 +305,7 @@ RabbitMQ 通常把消息体视为字节，不理解 JSON 字段的业务含义�
 
 消费失败时保留原始消息、消息属性、队列、路由键和异常。不要把密码、令牌或完整个人数据直接放入消息。
 
-## Exchange：交换机
+### Exchange：交换机
 
 **它是什么**
 
@@ -341,7 +341,7 @@ Exchange 接收生产者发布的消息，再根据类型、路由键和绑定�
 
 消息没有进入队列时，依次核对 vhost、交换机名称、交换机类型、路由键、绑定键和队列状态。发布时使用 `mandatory=true` 暴露不可路由消息。
 
-## Binding：绑定
+### Binding：绑定
 
 **它是什么**
 
@@ -365,7 +365,7 @@ rabbitmqctl list_bindings -p aiops source_name destination_name routing_key
 
 不要只看队列存在。确认绑定确实在同一个 vhost，绑定键符合交换机类型。
 
-## Queue：队列
+### Queue：队列
 
 **它是什么**
 
@@ -396,7 +396,7 @@ rabbitmqctl list_queues -p aiops \
 - 消费者为 0：检查部署、连接、权限和订阅。
 - 队列反复创建删除：检查 `exclusive`、`auto-delete` 和客户端重连逻辑。
 
-## Consumer：消费者
+### Consumer：消费者
 
 **它是什么**
 
@@ -418,7 +418,7 @@ RabbitMQ 向消费者推送消息。多个消费者订阅同一普通队列时�
 
 先分清消费者是没收到消息、收到后处理慢、处理失败，还是处理成功但没确认。分别查看连接、Channel、消费速率、确认速率、外部依赖和错误日志。
 
-## Ack、Nack 与 Reject
+### Ack、Nack 与 Reject
 
 **它是什么**
 
@@ -451,7 +451,7 @@ channel.basic_reject(delivery_tag=method.delivery_tag, requeue=False)
 
 确认必须在收到消息的同一个 Channel 上执行。不要在业务提交前 `ack`，也不要对永久错误无限 `requeue=true`。
 
-## Prefetch：预取
+### Prefetch：预取
 
 **它是什么**
 
@@ -479,7 +479,7 @@ channel.basic_qos(prefetch_count=10)
 
 `unacked` 很高且消费者内存上涨时先降低 prefetch；消费者经常空闲且队列大量积压时，再评估并发数、外部依赖和 prefetch。
 
-## Publisher Confirm：发布确认
+### Publisher Confirm：发布确认
 
 **它是什么**
 
@@ -511,7 +511,7 @@ channel.basic_publish(
 
 超时时不要直接假定失败，也不要盲目生成新消息标识。结果可能处于“代理已接收，但客户端没收到确认”的不确定状态。使用相同业务幂等键重试。
 
-## Consumer Ack 与 Publisher Confirm 的关系
+### Consumer Ack 与 Publisher Confirm 的关系
 
 二者彼此独立：
 
@@ -522,9 +522,9 @@ RabbitMQ -> 消费者：Consumer Ack
 
 发布确认解决“代理是否接管”；消费确认解决“消费者是否处理完成”。只做其中一个，端到端链路仍有缺口。
 
-## 三种交换机路由实例
+### 三种交换机路由实例
 
-### Direct
+#### Direct
 
 ```text
 exchange = alert.direct
@@ -536,7 +536,7 @@ warning 队列绑定 warning
 
 高危消息只进入 `critical` 队列。
 
-### Topic
+#### Topic
 
 ```text
 exchange = alert.topic
@@ -548,7 +548,7 @@ routing_key = alert.prod.critical
 
 值班队列接收生产环境任意级别告警，审计队列接收全部告警。
 
-### Fanout
+#### Fanout
 
 ```text
 exchange = config.broadcast
@@ -578,41 +578,41 @@ exchange = config.broadcast
 
 ## 队列类型怎么选
 
-## Classic Queue：经典队列
+### Classic Queue：经典队列
 
-### 它是什么
+#### 它是什么
 
 RabbitMQ 4.x 的 Classic Queue 是单副本普通队列。
 
-### 适合什么
+#### 适合什么
 
 - 可接受节点故障后短暂不可用或消息丢失的任务。
 - 临时、独占和自动删除队列。
 - 不需要复制的低成本场景。
 
-### 不适合什么
+#### 不适合什么
 
 需要节点级故障容忍的关键业务。三节点集群不会自动把 Classic Queue 的消息复制三份。
 
-### 观察与排障
+#### 观察与排障
 
 查看队列所在节点。该节点不可用时，即使其他集群节点在线，单副本队列也不能提供同等的数据安全。
 
-## Quorum Queue：仲裁队列
+### Quorum Queue：仲裁队列
 
-### 它是什么
+#### 它是什么
 
 Quorum Queue 是基于 Raft 共识算法的复制工作队列。一个副本是 Leader，其他副本是 Follower。
 
-### 为什么需要
+#### 为什么需要
 
 它让消息和队列状态复制到多个节点，并使用多数派确认日志，从而容忍少数节点故障。
 
-### 它怎么工作
+#### 它怎么工作
 
 三副本队列需要至少两个副本形成多数派。Leader 接收写入，把日志复制给 Follower，多数派接受后才能提交。失去多数派时，系统优先保持一致性，会拒绝或暂停写入，而不是让两个分区各自接受冲突消息。
 
-### 怎么使用和观察
+#### 怎么使用和观察
 
 ```python
 channel.queue_declare(
@@ -629,32 +629,32 @@ rabbitmq-queues quorum_status --vhost aiops alerts.work
 rabbitmq-diagnostics check_if_node_is_quorum_critical
 ```
 
-### 坏了怎么排
+#### 坏了怎么排
 
 - 没有 Leader：检查网络、节点时钟、磁盘和多数派是否在线。
 - 发布被 nack：检查是否失去多数派或达到队列限制。
 - 副本落后：看磁盘延迟、节点负载和网络丢包。
 - 不要为短命、独占队列使用 Quorum Queue。
 
-### 重要限制
+#### 重要限制
 
 Quorum Queue 面向高可靠工作队列，不适合超低延迟、超大长积压、临时独占队列和大量订阅者回放。RabbitMQ 4.x 对 Quorum Queue 的默认投递次数限制为 20，超过限制的消息会被丢弃或死信，具体取决于死信配置。
 
-## Stream：流
+### Stream：流
 
-### 它是什么
+#### 它是什么
 
 Stream 是不可变的追加日志。消费者读取消息时维护偏移量，消息不会因为一个消费者确认就立刻从日志删除。
 
-### 为什么需要
+#### 为什么需要
 
 它适合消息回放、长时间保留、大积压、多个独立订阅者和高吞吐事件流。
 
-### 它怎么工作
+#### 它怎么工作
 
 消息按段追加并按保留策略删除。消费者可以从起点、时间或偏移量重新读取。
 
-### 怎么使用和观察
+#### 怎么使用和观察
 
 典型场景：
 
@@ -663,11 +663,11 @@ Stream 是不可变的追加日志。消费者读取消息时维护偏移量，�
 - 模型特征事件。
 - 多团队独立消费同一事件历史。
 
-### 坏了怎么排
+#### 坏了怎么排
 
 观察发布速率、读取速率、消费者偏移滞后、磁盘使用和保留策略。不要把 Stream 当成普通“处理完即删除”的任务队列。
 
-## 选择表
+### 选择表
 
 | 需求 | 优先选择 | 原因 |
 |---|---|---|
@@ -681,7 +681,7 @@ Stream 是不可变的追加日志。消费者读取消息时维护偏移量，�
 
 ## RabbitMQ 4.3 的状态模型
 
-## Khepri 保存什么
+### Khepri 保存什么
 
 Khepri 是 RabbitMQ 4.3 唯一支持的元数据存储，保存：
 
@@ -693,11 +693,11 @@ Khepri 是 RabbitMQ 4.3 唯一支持的元数据存储，保存：
 
 Khepri 不保存队列和 Stream 的消息正文。消息数据由对应队列类型自己的存储和复制机制负责。
 
-## 为什么这个区别重要
+### 为什么这个区别重要
 
 “元数据恢复”不等于“消息数据恢复”。导出 definitions 可以恢复用户、vhost、交换机、队列和绑定声明，但不能替代消息备份或跨集群灾备。
 
-## Khepri 怎么达成一致
+### Khepri 怎么达成一致
 
 Khepri 使用 Raft 共识算法复制元数据。RabbitMQ 4.3 的关键复制组件，包括 Khepri、Quorum Queue 和 Stream 协调器，都以多数派为基础。生产集群因此应使用奇数节点，并把节点放在低延迟、可靠的局域网中。
 
@@ -713,11 +713,11 @@ RabbitMQ 集群让多个节点共享用户、vhost、交换机、队列和绑定
 
 ```text
 应用 -> 四层负载均衡或客户端节点列表
-          -> rabbit-1
-          -> rabbit-2
-          -> rabbit-3
+          -> rabbit-1（示例消息节点一）
+          -> rabbit-2（示例消息节点二）
+          -> rabbit-3（示例消息节点三）
 
-Quorum Queue A：rabbit-1 / rabbit-2 / rabbit-3
+Quorum Queue A：rabbit-1 / rabbit-2 / rabbit-3（仲裁队列 A 的三个副本节点）
 Khepri 元数据：rabbit-1 / rabbit-2 / rabbit-3
 ```
 
@@ -745,7 +745,7 @@ rabbitmq-queues quorum_status --vhost aiops alerts.work
 
 ## 可靠性语义
 
-## At-most-once：至多一次
+### At-most-once：至多一次
 
 消息最多处理一次，可能丢失。
 
@@ -753,7 +753,7 @@ rabbitmq-queues quorum_status --vhost aiops alerts.work
 
 适合允许丢失的低价值采样，不适合工单、支付、变更执行和关键告警。
 
-## At-least-once：至少一次
+### At-least-once：至少一次
 
 消息不会轻易丢失，但可能重复。
 
@@ -767,7 +767,7 @@ rabbitmq-queues quorum_status --vhost aiops alerts.work
 
 这是关键任务最常见的基础语义。
 
-## Exactly-once：业务恰好生效一次
+### Exactly-once：业务恰好生效一次
 
 消息网络存在不确定窗口，不能只靠 RabbitMQ 的一个开关实现端到端 exactly-once。工程上通常追求：
 
@@ -782,7 +782,7 @@ rabbitmq-queues quorum_status --vhost aiops alerts.work
 - 调用外部 API 时传递幂等键。
 - 生产侧用 Transactional Outbox，避免“业务提交了但消息没发”。
 
-## Transactional Outbox：事务发件箱
+### Transactional Outbox：事务发件箱
 
 业务服务在同一个数据库事务中写业务表和 `outbox` 表。独立发布进程读取 `outbox`，发布到 RabbitMQ，收到 confirm 后标记已发送。
 
@@ -799,7 +799,7 @@ rabbitmq-queues quorum_status --vhost aiops alerts.work
 
 发布进程可能在 RabbitMQ 已接收后、标记已发送前崩溃，因此仍可能重复发布。消费者必须幂等。
 
-## Inbox：收件箱幂等
+### Inbox：收件箱幂等
 
 消费者在业务数据库中记录已处理的 `message_id`。重复消息到来时，如果唯一键已存在，就跳过业务副作用并确认消息。
 
@@ -812,7 +812,7 @@ CREATE TABLE consumer_inbox (
 
 Inbox 记录和业务更新应在同一数据库事务中提交。否则仍会出现“一边成功、一边失败”的窗口。
 
-## 不丢消息需要哪些条件
+### 不丢消息需要哪些条件
 
 至少要同时检查：
 
@@ -827,7 +827,7 @@ Inbox 记录和业务更新应在同一数据库事务中提交。否则仍会�
 
 只配置 `durable=true` 不等于端到端可靠。
 
-## 不可路由消息
+### 不可路由消息
 
 生产者发布到交换机后，如果没有任何绑定匹配：
 
@@ -839,7 +839,7 @@ Inbox 记录和业务更新应在同一数据库事务中提交。否则仍会�
 
 ## 重试、死信和毒消息
 
-## 死信是什么
+### 死信是什么
 
 消息在这些情况下可以进入 Dead Letter Exchange，简称 DLX：
 
@@ -850,7 +850,7 @@ Inbox 记录和业务更新应在同一数据库事务中提交。否则仍会�
 
 DLX 是交换机，不是特殊队列。还要为 DLX 绑定死信队列。
 
-## 为什么策略优于硬编码参数
+### 为什么策略优于硬编码参数
 
 生产环境优先使用 Policy 配置 TTL、DLX、长度和投递限制，因为策略可以在线调整。硬编码 `x-arguments` 往往要求删除并重建队列才能修改。
 
@@ -862,21 +862,21 @@ rabbitmqctl set_policy -p aiops alerts-dlx "^alerts\." \
 
 实验为了自包含会在代码里声明参数，生产应由平台统一管理策略。
 
-## 重试分类
+### 重试分类
 
-### 可重试失败
+#### 可重试失败
 
 例如下游 503、短暂网络超时、临时限流。应指数退避或进入带 TTL 的重试队列，不能立即无限重入主队列。
 
-### 永久失败
+#### 永久失败
 
 例如 JSON 格式错误、必填字段缺失、业务对象不存在。应进入死信队列，等待人工或修复程序处理。
 
-### 未知失败
+#### 未知失败
 
 先保留上下文和原始消息，设置有限次数重试，超过阈值进入死信。不要让一条毒消息拖垮整个队列。
 
-## 延迟重试队列
+### 延迟重试队列
 
 一个常见拓扑：
 
@@ -892,7 +892,7 @@ rabbitmqctl set_policy -p aiops alerts-dlx "^alerts\." \
 
 每次重试应保留原始 `message_id`，增加重试计数，并控制总时间预算。多个固定延迟等级比每条消息创建一个临时队列更容易管理。
 
-## RabbitMQ 4.3 原生延迟重试
+### RabbitMQ 4.3 原生延迟重试
 
 RabbitMQ 4.3 为 Quorum Queue 增加了原生 delayed retry。消息可以先留在原队列内部，到达延迟时间后再允许重新投递，不必在主队列和 TTL 重试队列之间来回重写。
 
@@ -909,7 +909,7 @@ rabbitmqctl set_policy -p aiops qq-delayed-retry "^alerts\.work$" \
 
 如果整个数据库都不可用，应暂停消费者或执行整体限流，而不是给每一条消息分别延迟。原生延迟重试更适合单个租户限流、单行锁冲突这类局部失败。
 
-### RabbitMQ 4.3 的两个重新投递计数
+#### RabbitMQ 4.3 的两个重新投递计数
 
 Quorum Queue 会区分：
 
@@ -918,7 +918,7 @@ Quorum Queue 会区分：
 
 AMQP 0-9-1 的 `basic.nack` 重新入队只增加 `acquired-count`，不会增加 `delivery-count`；`basic.reject`、客户端崩溃或连接丢失会增加失败计数。换句话说，不能靠无限 `basic.nack(requeue=true)` 自动撞上 delivery limit，应用仍要实现有限重试预算。
 
-## 消费者超时
+### 消费者超时
 
 消费者拿到消息后长期不确认，会占用 unacked 窗口。RabbitMQ 4.3 把 Quorum Queue 的 consumer timeout 放入队列自身处理，超时后返回消息，并优先只取消超时消费者。
 
@@ -929,7 +929,7 @@ consumer_timeout = 1800000
 
 也可以通过消费者参数、队列参数或队列策略设置 `x-consumer-timeout` / `consumer-timeout`。超时时间短于合法任务时长会制造重复投递；设置过长则不能及时回收卡死消费者。
 
-## TTL 与队列长度
+### TTL 与队列长度
 
 TTL 使用毫秒。`60000` 表示 60 秒，不是 60 分钟。
 
@@ -975,14 +975,14 @@ RabbitMQ 4.3 的 Quorum Queue 支持 32 个严格优先级，数值更高的消�
 
 ## 生产架构设计
 
-## 基础三节点方案
+### 基础三节点方案
 
 ```text
 客户端
   -> 节点列表或 TCP 负载均衡
-      -> RabbitMQ 1
-      -> RabbitMQ 2
-      -> RabbitMQ 3
+      -> RabbitMQ 1（消息节点一）
+      -> RabbitMQ 2（消息节点二）
+      -> RabbitMQ 3（消息节点三）
 
 关键任务：3 副本 Quorum Queue
 临时回复：Classic exclusive Queue
@@ -993,7 +993,7 @@ RabbitMQ 4.3 的 Quorum Queue 支持 32 个严格优先级，数值更高的消�
 
 客户端必须能重连到其他节点。只给客户端配置一个节点地址，会让三节点集群仍然存在单接入点。
 
-## 容量要回答的六个问题
+### 容量要回答的六个问题
 
 1. 峰值发布速率是多少。
 2. 峰值确认速率是多少。
@@ -1002,9 +1002,9 @@ RabbitMQ 4.3 的 Quorum Queue 支持 32 个严格优先级，数值更高的消�
 5. 需要保留多少磁盘和内存安全余量。
 6. 节点或消费者故障时，剩余容量能否承接流量。
 
-## 三个基础公式
+### 三个基础公式
 
-### 积压增长速度
+#### 积压增长速度
 
 ```text
 积压增长速度 = 发布速率 - 确认速率
@@ -1012,7 +1012,7 @@ RabbitMQ 4.3 的 Quorum Queue 支持 32 个严格优先级，数值更高的消�
 
 发布 5000 条/秒，确认 3500 条/秒，积压每秒增加 1500 条。
 
-### 清空积压时间
+#### 清空积压时间
 
 ```text
 清空时间 = 当前积压 / (确认速率 - 发布速率)
@@ -1020,7 +1020,7 @@ RabbitMQ 4.3 的 Quorum Queue 支持 32 个严格优先级，数值更高的消�
 
 只有确认速率大于发布速率时公式才有意义。100 万条积压、发布 3000 条/秒、确认 5000 条/秒，理论清空时间约 500 秒。实际还要考虑消息大小、下游限流和重试。
 
-### 稳态在途数量
+#### 稳态在途数量
 
 Little's Law 可以写成：
 
@@ -1030,7 +1030,7 @@ Little's Law 可以写成：
 
 它用于稳定系统的量级估算，不适合直接解释正在持续恶化的积压。
 
-## 内存与磁盘
+### 内存与磁盘
 
 RabbitMQ 默认内存高水位约为可用内存的 60%。官方生产建议通常在 0.4 到 0.7 之间评估，并给操作系统、文件缓存和其他进程留出余量。
 
@@ -1038,11 +1038,11 @@ RabbitMQ 默认内存高水位约为可用内存的 60%。官方生产建议通�
 
 触发内存或磁盘告警后，RabbitMQ 会对发布连接施加流控或阻塞。此时生产者延迟升高，而消费者可能仍在排空队列。
 
-## 文件描述符
+### 文件描述符
 
 连接、队列和磁盘文件都消耗文件描述符。生产节点应配置至少数万级限制，并按连接与队列的 P95 数量留余量。发现 `too many open files` 时不能只重启，要修正操作系统限制并排查连接泄漏。
 
-## 连接与 Channel 规划
+### 连接与 Channel 规划
 
 - 不要建立大量短连接。
 - 发布者和消费者使用独立连接池。
@@ -1079,21 +1079,21 @@ RabbitMQ 默认内存高水位约为可用内存的 60%。官方生产建议通�
 
 ## 安装与启动
 
-## 前置条件
+### 前置条件
 
 - Docker Desktop 或兼容 Docker Engine。
 - Python 3.10 或更高版本。
 - 可用端口 5672、15672、15692。
 - 至少 2 GB 可用内存用于单节点实验。
 
-## 创建实验目录
+### 创建实验目录
 
 ```powershell
 New-Item -ItemType Directory rabbitmq-lab
 Set-Location rabbitmq-lab
 ```
 
-## `compose.yaml`
+### `compose.yaml`
 
 ```yaml
 services:
@@ -1122,7 +1122,7 @@ volumes:
 
 `aiops-lab-only` 只用于本机实验，不能用于生产。
 
-## 启动
+### 启动
 
 ```powershell
 docker compose up -d
@@ -1134,7 +1134,7 @@ docker compose logs --tail 100 rabbitmq
 
 打开 `http://localhost:15672`，用户名 `aiops`，密码 `aiops-lab-only`，选择 vhost `aiops`。
 
-## 启用 Prometheus 插件
+### 启用 Prometheus 插件
 
 ```powershell
 docker compose exec rabbitmq rabbitmq-plugins enable rabbitmq_prometheus
@@ -1172,7 +1172,7 @@ loopback_users.guest = true
 
 ## 常用命令与 API 字典
 
-## 节点健康
+### 节点健康
 
 ```bash
 rabbitmq-diagnostics ping
@@ -1188,7 +1188,7 @@ rabbitmq-diagnostics cluster_status
 - `check_local_alarms`：查看本节点内存和磁盘告警。
 - `cluster_status`：查看节点成员、运行节点和分区信息。
 
-## 队列观察
+### 队列观察
 
 ```bash
 rabbitmqctl list_queues -p aiops \
@@ -1202,7 +1202,7 @@ rabbitmqctl list_queues -p aiops \
 - `consumers`：消费者数量。
 - `consumer_utilisation`：队列能够立即向消费者投递的时间比例，低值可能表示消费能力不足或受限。
 
-## 连接与 Channel
+### 连接与 Channel
 
 ```bash
 rabbitmqctl list_connections name user vhost state channels send_pend
@@ -1211,7 +1211,7 @@ rabbitmqctl list_channels connection number consumer_count messages_unacknowledg
 
 `send_pend` 持续较高可能表示网络或客户端读取跟不上。Channel 激增通常说明应用没有复用或存在泄漏。
 
-## 用户和权限
+### 用户和权限
 
 ```bash
 rabbitmqctl list_users
@@ -1220,7 +1220,7 @@ rabbitmqctl list_permissions -p aiops
 rabbitmqctl list_user_permissions aiops_app
 ```
 
-## 策略
+### 策略
 
 ```bash
 rabbitmqctl list_policies -p aiops
@@ -1232,7 +1232,7 @@ rabbitmqctl clear_policy -p aiops policy-name
 
 策略变更前先确认正则匹配范围。过宽的 `.*` 可能影响整个 vhost。
 
-## HTTP API
+### HTTP API
 
 管理插件提供 HTTP API：
 
@@ -1258,7 +1258,7 @@ Invoke-RestMethod `
 - 使用手动 ack、prefetch 和 Inbox 幂等。
 - 看见消息从发布到确认的完整路径。
 
-## 1. 安装客户端
+### 1. 安装客户端
 
 ```powershell
 python -m venv .venv
@@ -1266,7 +1266,7 @@ python -m venv .venv
 python -m pip install pika==1.4.2
 ```
 
-## 2. 创建 `producer.py`
+### 2. 创建 `producer.py`
 
 ```python
 import json
@@ -1369,7 +1369,7 @@ finally:
 - `x-queue-type=quorum`：实验队列使用 Quorum Queue。
 - `x-delivery-limit=5`：失败投递计数超过限制后进入死信；RabbitMQ 4.3 的 `basic.nack` 返回不增加该失败计数。
 
-## 3. 创建 `worker.py`
+### 3. 创建 `worker.py`
 
 ```python
 import json
@@ -1479,7 +1479,7 @@ finally:
 
 SQLite 只用于展示 Inbox 思路。真实系统要把 Inbox 与工单更新放进同一个业务数据库事务；调用外部系统时还要使用对方支持的幂等键。
 
-## 4. 运行
+### 4. 运行
 
 终端一：
 
@@ -1507,7 +1507,7 @@ published and confirmed: <一个 UUID>
 create ticket: HighErrorRate order-api critical
 ```
 
-## 5. 验证
+### 5. 验证
 
 ```powershell
 docker compose exec rabbitmq rabbitmqctl list_queues -p aiops `
@@ -1520,7 +1520,7 @@ docker compose exec rabbitmq rabbitmqctl list_queues -p aiops `
 - 消费完成后 `messages_ready` 和 `messages_unacknowledged` 都为 0。
 - 消费者运行时 `consumers` 为 1。
 
-## 6. 如果没有成功，先检查
+### 6. 如果没有成功，先检查
 
 1. `docker compose ps` 是否显示 healthy。
 2. 5672 端口是否被其他程序占用。
@@ -1537,13 +1537,13 @@ docker compose exec rabbitmq rabbitmqctl list_queues -p aiops `
 - 验证相同 `message_id` 不会重复产生业务副作用。
 - 把格式错误的毒消息送入死信队列。
 
-## 前置条件
+### 前置条件
 
 - 基础实验已经成功。
 - `worker.py` 暂时停止。
 - `alerts.work` 和 `alerts.dead` 已存在。
 
-## 1. 创建 `crash_worker.py`
+### 1. 创建 `crash_worker.py`
 
 ```python
 import os
@@ -1584,7 +1584,7 @@ channel.basic_consume(
 channel.start_consuming()
 ```
 
-## 2. 触发 ack 前崩溃
+### 2. 触发 ack 前崩溃
 
 ```powershell
 python producer.py
@@ -1607,7 +1607,7 @@ duplicate ignored: <相同的 message_id>
 
 基础 `producer.py` 每次会生成新 UUID。要测试同一标识，可以临时把 `event_id` 替换为固定实验值，测试后恢复。
 
-## 3. 创建 `publish_poison.py`
+### 3. 创建 `publish_poison.py`
 
 ```python
 import uuid
@@ -1653,7 +1653,7 @@ python publish_poison.py
 
 消费者识别 JSON 错误并执行 `requeue=False`，消息随后进入 `alerts.dead`。
 
-## 4. 验证死信
+### 4. 验证死信
 
 ```powershell
 docker compose exec rabbitmq rabbitmqctl list_queues -p aiops `
@@ -1662,14 +1662,14 @@ docker compose exec rabbitmq rabbitmqctl list_queues -p aiops `
 
 预期 `alerts.dead` 至少有 1 条 ready 消息。管理界面可以查看消息头中的 `x-death` 信息，但查看消息时要选择 requeue，避免误删证据。
 
-## 5. 故障实验排障
+### 5. 故障实验排障
 
 - 毒消息仍在主队列：确认正常消费者正在运行并执行了 `basic_reject(requeue=False)`。
 - 消息消失但死信为空：核对主队列 DLX 名称、死信路由键和死信队列绑定。
 - 重新声明失败：已有队列参数与代码不一致，先导出证据，再在实验环境删除并重建。
 - 消息不断快速循环：停止消费者，检查异常分类和 `requeue=True`，改用有限次数与延迟重试。
 
-## 6. 清理
+### 6. 清理
 
 ```powershell
 docker compose down -v
@@ -1680,29 +1680,29 @@ Remove-Item inbox.db -ErrorAction SilentlyContinue
 
 ## 可观测性
 
-## 指标来源
+### 指标来源
 
 生产推荐启用 `rabbitmq_prometheus`，由 Prometheus 抓取 15692 端口。管理界面适合临时观察，不适合替代长期指标系统。
 
 抓取周期通常不低于 15 秒；`collect_statistics_interval` 可设置为 10000 毫秒，避免过高统计开销。
 
-## 四类黄金信号
+### 四类黄金信号
 
-### 流量
+#### 流量
 
 - 发布速率。
 - 投递速率。
 - 确认速率。
 - 每秒消息字节量。
 
-### 延迟
+#### 延迟
 
 - publisher confirm 延迟。
 - 消息端到端处理延迟。
 - 最老 ready 消息年龄。
 - 下游 API 延迟。
 
-### 错误
+#### 错误
 
 - 发布 nack。
 - 不可路由 return。
@@ -1710,7 +1710,7 @@ Remove-Item inbox.db -ErrorAction SilentlyContinue
 - 死信增长。
 - 认证和权限拒绝。
 
-### 饱和度
+#### 饱和度
 
 - ready 和 unacked。
 - 内存、磁盘和文件描述符。
@@ -1718,7 +1718,7 @@ Remove-Item inbox.db -ErrorAction SilentlyContinue
 - 消费者利用率。
 - Quorum Queue 在线成员和 Leader。
 
-## 建议告警
+### 建议告警
 
 | 告警 | 不要只看瞬时值 | 需要关联的证据 |
 |---|---|---|
@@ -1731,7 +1731,7 @@ Remove-Item inbox.db -ErrorAction SilentlyContinue
 
 固定消息数阈值容易误报。更有意义的是消息年龄、持续时间、增长斜率和业务 SLO。
 
-## 日志与追踪
+### 日志与追踪
 
 每次发布和消费至少关联：
 
@@ -1747,9 +1747,9 @@ OpenTelemetry Trace 可以把 HTTP 请求、消息发布、消费和下游调用
 
 ## 常见故障排查
 
-## 故障一：ready 持续增长
+### 故障一：ready 持续增长
 
-### 先取证
+#### 先取证
 
 ```bash
 rabbitmqctl list_queues -p aiops \
@@ -1758,7 +1758,7 @@ rabbitmqctl list_queues -p aiops \
 
 再看发布和确认速率、最老消息年龄、消费者部署和下游依赖。
 
-### 常见假设
+#### 常见假设
 
 - 消费者数量不足。
 - 单条处理变慢。
@@ -1766,24 +1766,24 @@ rabbitmqctl list_queues -p aiops \
 - 毒消息重复重试。
 - 消费者没有 ack。
 
-### 修复与回滚
+#### 修复与回滚
 
 先修复下游瓶颈或异常分类，再逐步扩容消费者。盲目扩容可能把已经过载的数据库彻底压垮。扩容前记录当前速率，扩容后观察确认速率和下游错误，恶化时立即回滚副本数。
 
-## 故障二：unacked 很高
+### 故障二：unacked 很高
 
-### 证据
+#### 证据
 
 - unacked 是否接近 `消费者数 x prefetch`。
 - 消费者线程是否阻塞。
 - 外部请求是否没有超时。
 - 消费者内存是否增长。
 
-### 处理
+#### 处理
 
 先降低 prefetch 和给外部调用设置超时，再评估并发。终止消费者会让未确认消息重新投递，因此必须先确认幂等能力。
 
-## 故障三：消息“丢了”
+### 故障三：消息“丢了”
 
 按链路逐段回答：
 
@@ -1797,7 +1797,7 @@ rabbitmqctl list_queues -p aiops \
 
 没有 `message_id`、confirm 记录和消费审计时，很难证明消息在哪一段消失。
 
-## 故障四：重复消费
+### 故障四：重复消费
 
 重复是至少一次的预期边界。检查：
 
@@ -1808,7 +1808,7 @@ rabbitmqctl list_queues -p aiops \
 
 修复重点是幂等，而不是试图禁止所有重新投递。
 
-## 故障五：连接被阻塞
+### 故障五：连接被阻塞
 
 出现 `connection.blocked` 或发布延迟突然升高时：
 
@@ -1820,7 +1820,7 @@ rabbitmqctl list_queues -p aiops \
 
 解除告警后还要观察积压恢复是否冲击下游。
 
-## 故障六：Quorum Queue 不可写
+### 故障六：Quorum Queue 不可写
 
 先看：
 
@@ -1832,7 +1832,7 @@ rabbitmq-diagnostics check_if_node_is_quorum_critical
 
 确认是否拥有多数派、Leader 在哪里、哪些副本落后。不要同时重启多个节点。恢复多数派后再观察 Leader 选举、积压和 confirm 延迟。
 
-## 故障七：认证或权限失败
+### 故障七：认证或权限失败
 
 错误为 `ACCESS_REFUSED` 时：
 
@@ -1843,7 +1843,7 @@ rabbitmq-diagnostics check_if_node_is_quorum_critical
 
 不要通过授予全局管理员权限来长期绕过问题。
 
-## 故障八：Channel 频繁关闭
+### 故障八：Channel 频繁关闭
 
 常见原因：
 
@@ -1855,7 +1855,7 @@ rabbitmq-diagnostics check_if_node_is_quorum_critical
 
 应用日志必须保留 RabbitMQ 返回的 reply code 和 reply text。
 
-## 故障九：毒消息循环
+### 故障九：毒消息循环
 
 症状是消费失败速率高、同一消息反复出现、CPU 上升但确认速率不升。
 
@@ -1867,20 +1867,20 @@ rabbitmq-diagnostics check_if_node_is_quorum_critical
 4. 给重试增加次数和退避。
 5. 将无法自动修复的消息送入死信。
 
-## 故障十：消息顺序错乱
+### 故障十：消息顺序错乱
 
 先确认业务要求是全局顺序还是同一实体顺序。查看消费者并发、重新投递和发布分片。大多数系统应按业务键维护版本号，而不是为了全局顺序把所有吞吐压到一个消费者。
 
 ## 升级与回滚
 
-## RabbitMQ 4.3 升级边界
+### RabbitMQ 4.3 升级边界
 
 - RabbitMQ 4.3 只支持从 4.2 升级。
 - 3.13 需要先升级到 4.2，再升级到 4.3。
 - 升级前必须启用要求的稳定 Feature Flags。
 - RabbitMQ 不正式支持原地降级。
 
-## 滚动升级前检查
+### 滚动升级前检查
 
 1. 阅读目标版本 Release Notes 和兼容性说明。
 2. 确认 Erlang/OTP、插件和客户端兼容。
@@ -1901,7 +1901,7 @@ rabbitmq-queues rebalance all
 
 停止节点前运行 quorum critical 检查，避免停掉维持多数派的关键节点。
 
-## 为什么回滚优先蓝绿
+### 为什么回滚优先蓝绿
 
 原地降级不受支持，数据库格式和 Feature Flags 可能已经变化。更可靠的回滚方式是：
 
@@ -1916,7 +1916,7 @@ rabbitmq-queues rebalance all
 
 ## 备份与灾备
 
-## Definitions 备份
+### Definitions 备份
 
 Definitions 包含用户、vhost、交换机、队列、绑定和策略等声明，不包含队列消息：
 
@@ -1927,11 +1927,11 @@ rabbitmqctl import_definitions /backup/definitions.json
 
 导出的文件可能包含敏感配置，应加密和限制访问。
 
-## 数据目录备份
+### 数据目录备份
 
 离线或一致性数据目录备份需要保持节点身份与数据状态。Quorum Queue 和 Stream 对节点名敏感，不能把“改目录名后复制回来”当成可靠恢复方案。
 
-## 跨地域灾备
+### 跨地域灾备
 
 不要把一个 RabbitMQ 集群跨 WAN 部署。使用：
 
@@ -1942,7 +1942,7 @@ rabbitmqctl import_definitions /backup/definitions.json
 
 ## AIOps 应用模式
 
-## 告警事件总线
+### 告警事件总线
 
 ```text
 监控平台 -> alert.topic
@@ -1953,7 +1953,7 @@ rabbitmqctl import_definitions /backup/definitions.json
 
 每个下游有独立队列，一个下游积压不会直接阻止其他下游。事件使用 `alert_id` 幂等。
 
-## Runbook 任务队列
+### Runbook 任务队列
 
 任务消息包含目标、动作、变更单和幂等键。消费者必须：
 
@@ -1965,15 +1965,15 @@ rabbitmqctl import_definitions /backup/definitions.json
 
 队列可靠不代表自动化操作本身安全。
 
-## 模型推理队列
+### 模型推理队列
 
 对 GPU 推理任务设置较小 prefetch，避免一个 Worker 占据过多任务。消息只保存对象存储引用，不直接塞入大型模型输入。监控排队年龄，而不是只看消息数。
 
-## 变更事件
+### 变更事件
 
 CMDB 或发布系统发布不可变事件。消费者按资源 ID 和版本号处理，拒绝旧版本覆盖新状态。需要回放和多订阅者时优先评估 Stream。
 
-## AIOps 自动化闭环
+### AIOps 自动化闭环
 
 ```text
 指标 / 日志 / Trace
@@ -2003,11 +2003,11 @@ CMDB 或发布系统发布不可变事件。消费者按资源 ID 和版本号�
 
 ## 面试表达
 
-## 30 秒回答：RabbitMQ 是什么
+### 30 秒回答：RabbitMQ 是什么
 
 RabbitMQ 是一个消息代理。生产者把消息发布到交换机，交换机依据路由键和绑定把消息送入队列，消费者处理完成后确认。生产中我会用 publisher confirm、mandatory、持久消息、Quorum Queue、手动 ack、幂等和有限重试形成端到端可靠链路，并用 Prometheus 监控积压年龄、确认速率、资源告警和多数派健康。
 
-## 3 分钟回答：如何保证消息不丢不重
+### 3 分钟回答：如何保证消息不丢不重
 
 我会分三段说明。
 
@@ -2248,7 +2248,27 @@ unacked 固定为 500，正好等于 50 个消费者乘以 prefetch 10，说明�
 - [ ] 能完成系统设计题并说明 Kafka 取舍。
 - [ ] 能以证据、假设、验证、修复、影响面和回滚组织事故回答。
 
-## GitHub 学习证据
+## 老师带你看一封消息如何找到收件箱
+
+Exchange（交换机）按 Binding（绑定规则）与 Routing Key（路由键）决定消息进入哪些 Queue（队列）。生产者把消息发给交换机，不是随便给一个名字就一定进入目标队列。消息成功到达服务器、成功路由、持久保存和消费者业务处理，是需要分别取证的阶段。
+
+学生：“队列深度零，所以没有积压？”老师：“还要看 Unacked（已投递未确认）。”大量消息可能已预取到消费者，但数据库还没处理完；只有 Ready（待投递）为零不能证明业务及时。Prefetch（预取上限）决定消费者同时握住多少未确认消息，太大可能放大内存与恢复重投，太小也可能限制吞吐。
+
+### 两种确认不要混为一谈
+
+Publisher Confirm（发布确认）告诉生产者 broker 按相应语义接受了消息，Consumer Ack（消费确认）告诉 broker 这条交付已经处理。它们方向不同，中间还有队列与存储。业务先提交再确认并具备幂等，可以应对确认丢失后的重投；消息 ID 与业务唯一键也应区分。
+
+Quorum Queue（多数派复制队列）依赖自己的复制成员与多数派。集群有三个节点，不代表每个队列都自动满足你预期的副本和故障域；队列类型、成员布局、存储和客户端恢复一起构成可用性。网络分区时拒绝某些写入可能是在保护一致性，不能仅为“恢复连通”随意降低保障。
+
+### 怎么做完这篇课才算真正理解
+
+第一遍按基础实验记录交换机、绑定、队列和路由键，再跟踪发送、Ready、Unacked 和确认后的变化。第二遍故障注入后，保留同一业务消息在重投前后的处理记录，确认没有重复副作用。第三遍再讨论死信、保留、复制和恢复限速；这些属于不同语义，不应该全归到“队列参数”。
+
+事故题中如果 Ready 不高但 Unacked 一直升，优先查消费者处理时间、线程、连接池和下游等待；如果发布受阻且磁盘告警，检查存储安全线与堆积来源。恢复验证同时看队列状态、业务唯一性、端到端延迟和下游承载。
+
+30 秒回答讲路由和确认，3 分钟用告警通知的完整生命周期讲队列类型、持久化、重投、预取和副本。继续追问“重试越快越可靠吗”，用毒消息和下游故障说明退避、死信与人工修复；讲升级时说明旧协议、客户端、队列类型和元数据兼容，而不是只替换镜像标签。
+
+## 本课 GitHub 学习证据清单
 
 建议提交：
 

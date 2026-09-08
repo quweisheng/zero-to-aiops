@@ -100,48 +100,48 @@ Loki 是 Grafana 的日志聚合系统：它像 Prometheus 一样用 labels 组�
 Loki 官方资料可按这些模块读：
 
 ```text
-Get started
-  -> What is Loki
-  -> Architecture
-  -> Components
-  -> Deployment modes
-  -> Labels
-  -> Cardinality
-  -> Query Loki
+Get started（入门）
+  -> What is Loki（Loki是什么）
+  -> Architecture（架构）
+  -> Components（组件）
+  -> Deployment modes（部署模式）
+  -> Labels（标签）
+  -> Cardinality（不同标签组合的基数）
+  -> Query Loki（查询Loki）
 
-Send data
-  -> Grafana Alloy
-  -> OpenTelemetry Collector
-  -> Docker driver
-  -> Kubernetes integrations
-  -> Promtail historical docs
+Send data（发送数据）
+  -> Grafana Alloy（Grafana遥测采集与处理组件）
+  -> OpenTelemetry Collector（开放遥测收集器）
+  -> Docker driver（容器日志驱动）
+  -> Kubernetes integrations（容器平台集成）
+  -> Promtail historical docs（旧版Promtail历史文档）
 
-Query
-  -> LogQL
-  -> Log queries
-  -> Metric queries
-  -> Parsers
-  -> Pattern match filters
-  -> Template functions
+Query（查询）
+  -> LogQL（Loki日志查询语言）
+  -> Log queries（日志查询）
+  -> Metric queries（从日志计算指标的查询）
+  -> Parsers（解析器）
+  -> Pattern match filters（模式匹配过滤）
+  -> Template functions（模板函数）
 
-Configure
-  -> server
-  -> common
-  -> schema_config
-  -> storage_config
-  -> limits_config
-  -> ruler
-  -> compactor
-  -> query_range
+Configure（配置）
+  -> server（服务端监听设置）
+  -> common（通用设置）
+  -> schema_config（存储模式配置）
+  -> storage_config（存储后端配置）
+  -> limits_config（限额配置）
+  -> ruler（规则计算组件）
+  -> compactor（压缩整理组件）
+  -> query_range（范围查询配置）
 
-Operations
-  -> Storage
-  -> Schema
-  -> Retention
-  -> Recording rules
-  -> Alerting rules
-  -> Troubleshooting
-  -> Scaling
+Operations（运行维护）
+  -> Storage（存储）
+  -> Schema（存储模式）
+  -> Retention（保留期）
+  -> Recording rules（预计算记录规则）
+  -> Alerting rules（告警规则）
+  -> Troubleshooting（故障排查）
+  -> Scaling（扩缩容）
 ```
 
 学习顺序：
@@ -155,18 +155,113 @@ Operations
   -> 最后学部署、告警、调优
 ```
 
+## 老师带你分清日志内容与索引标签
+
+把日志想成放在箱子里的记录，箱外写环境和服务，箱内是每条事件。Loki 用标签索引定位日志流，把正文压缩成块。类比只帮助理解索引选择，真实系统还有分发、缓冲、持久化与查询协调。Log stream 是日志流，Chunk 是压缩数据块，Index 是帮助找到块的索引。
+
+### 第一课：请求标识为何容易造成标签爆炸
+
+同一服务的四条日志各有不同 `trace_id`（链路标识）。把它作为索引标签，可能形成四个流；留在正文或适用的结构化元数据中，可以在具体检索时过滤。基数是不同标签组合数量，多个有限维度相乘也可能很大。
+
+[Structured metadata（结构化元数据）](https://grafana.com/docs/loki/latest/get-started/labels/structured-metadata/) 用于不宜进入索引的字段，使用前核对版本、存储模式和索引类型。它仍占存储与查询资源，不是无限免费字段，也不替代租户权限隔离。
+
+### 基础实验与故障实验：四条日志形成几个流
+
+本机安装 Node.js，在仓库根目录运行：
+
+```powershell
+node examples/teacher-led-reliability-lab/telemetry.mjs loki
+node examples/teacher-led-reliability-lab/telemetry.mjs loki --fault
+```
+
+正常案例按同一服务形成 1 个流，故障模式加入链路标识形成 4 个流，并输出 `issue: true`。先写出四个标签集合再数唯一组合。生产当然可以有多个正常流，课堂阈值只针对这个案例，不是生产容量标准。
+
+输出不符先查目录、参数和脚本版本。程序不启动 Loki 或发送日志，无资源要清理；保留输出与标签选择理由。真实写入、查询与组件行为继续用后文实验验证。
+
+### 第二课：查不到与查得慢要分开处理
+
+查不到先确认日志产生、采集路径、读偏移、过滤、时间戳、租户和写入响应。采集时间与事件时间不同，延迟上传可能使日志不在当前窗口。没有结果不能直接解释为没有错误。
+
+查询慢先缩小来源与时间，尽早做简单内容过滤，再执行必要解析和聚合。JSON 解析错误要按语义处理，不能为降低错误数直接丢掉不符合预期的事件。结果基数太高时先优化维度和查询，再评估资源与限制。
+
+Distributor（分发器）处理入口与分配，Ingester（写入处理器）管理近期日志与块，Querier（查询器）读取数据，Compactor（整理组件）参与存储整理和保留。部署模式决定这些角色如何组合，图中一个角色不一定对应一台独立机器。
+
+### 第三课：采集和存储一起决定可靠性
+
+对象存储持久保存数据块，近期缓冲的恢复保证取决于具体配置。采集端管理日志轮转、读偏移、缓冲上限与背压；缓冲只是争取恢复时间，长期生产速率超过消费能力仍会积压。给写入拒绝、队列、查询延迟和数据新鲜度配置观察。
+
+保留、租户限额、查询限制控制成本，权限和脱敏保护敏感日志。升级存储 Schema（模式）时保持旧时间段可读，按官方步骤演练迁移；只替换配置不能证明历史数据能正常查询。回滚验证既看新日志，也看旧日志与保留行为。
+
+### 面试课堂：30 秒与 3 分钟
+
+30 秒：“Loki 用标签索引定位日志流，把正文压缩保存，适合按来源和时间检索。关键是标签基数、采集完整性和查询范围。”
+
+3 分钟沿产生、采集、分发、块存储与查询解释，再用链路标识说明成本取舍。追问：“标签越细越快？”可能减少扫描，也可能扩大索引和小块负担。“日志丢在哪？”逐段看偏移、队列、拒绝、租户和时间。
+
+设计题：多租户日志平台如何选择稳定标签与查询限额。事故题：用户标识被升为标签导致流数陡增，核对变更与写入拒绝，回滚后检查数据缺口。GitHub 保存标签合同、实验输出、查询推导和故障记录。
+
+## 深入课堂：从一行日志到一条可信的告警
+
+### 第一站：程序真的把日志交给采集器了吗
+
+我们先不看 Loki。程序可能把日志写到标准输出、文件或其他通道；采集器只会读被配置的来源。你在开发终端看到了日志，不代表生产容器的同一路径也能被采集。第一步是确定生产方式、文件路径或容器输出，再用一条不含敏感信息的独特测试消息观察整个链路。
+
+文件采集通常需要保存读到哪里，这叫 Offset（偏移量）。程序轮转日志文件时，文件名相同不代表底层还是同一个文件。采集器如何识别文件、保存读取位置、应对截断和重命名，都会影响重复或遗漏。理解机制后，你就知道“删掉采集状态文件重启”可能把旧日志重新发送，并不是无害的通用修复。
+
+课堂可以先用纸面模拟三行日志：读取到第二行，程序轮转文件，新文件从第一行开始。分别推导“只按文件名记位置”和“按文件身份与位置记状态”的差别，再查当前采集组件采用什么机制。真正的轮转实验放在独立练习目录，用少量合成日志完成，禁止拿业务审计日志做删除或截断实验。
+
+### 第二站：时间格式为什么决定你能不能找到它
+
+一行日志可能同时有应用事件时间和采集接收时间。前者表示事情何时发生，后者表示系统何时看到它。解析器若把毫秒当秒、把本地时间当 UTC，日志就可能落到错误窗口。UTC 是协调世界时，用统一时区存储并在显示时转换，有助于跨机房对齐事件。
+
+先挑一条已知时间的测试事件，记录原文、解析后的时间、接收时间和页面窗口。若相差整小时，优先检查时区；若相差几个数量级，检查单位；若差值缓慢累积，检查缓冲和时钟。这里是定位线索，不是只凭差值就断定原因。节点时间校准状态、采集配置和写入响应才是验证材料。
+
+多行日志又带来另一个问题：Java 异常栈可能有几十行，但它们属于同一次错误。采集器若每行当事件，错误计数可能被放大；如果多行合并规则过宽，又可能把两次事件粘在一起。用相邻两次异常和一条普通日志验证边界，比较原始条数、合并事件数与字段提取结果，再把规则上线。
+
+### 第三站：LogQL 查询要按问题逐层收紧
+
+先问“来自哪套环境和哪个服务”，用标签选择日志流；再问“哪段时间”，缩小读取区间；最后问“正文包含什么、哪个字段满足条件”。这相当于先找到正确箱子，再打开箱内记录。没有明确问题就搜索所有租户所有历史，会把诊断变成资源消耗。
+
+例如只想找订单服务的超时事件，可以先选择稳定服务标签，再做简单字符串过滤，必要时解析 JSON 字段。`| json` 表示按 JSON 解析日志行，解析错误是输入与假设不一致的证据。不是所有包含大括号的文本都是合法 JSON，也不是所有日志都来自同一格式版本。
+
+日志转指标时，先定义计数单位。`count_over_time` 统计窗口内匹配的日志条目；它不天然等于失败请求数，因为一次失败可能记录多条日志，也可能完全没有日志。要估算请求错误率，优先使用具有清晰分母的请求指标；若只能用日志，先验证记录策略与去重口径，并明确误差。
+
+这一步直接影响 AIOps：模型如果把异常栈每一行当独立故障，会学习到错误的频率。准备训练或检索数据时保留事件边界、服务、环境、版本和时间，正文脱敏，不能为了结构整齐就丢掉所有解析失败样本而不计数。
+
+### 第四站：为什么“保留七天”后磁盘还没下降
+
+Retention（保留策略）不是界面上写一个数字就自动生效。当前受支持的索引方式下，Compactor 负责相关索引整理与保留处理；它先处理索引引用，再通过后续清理删除数据块。因此配置、组件运行、权限、处理进度与延迟都要核对，不能一到七天就期待所有空间瞬间释放。[官方保留说明](https://grafana.com/docs/loki/latest/operations/storage/retention/) 解释了这些阶段和版本条件。
+
+对象存储自身的生命周期规则是另一套机制。它通常按对象年龄或前缀处理，不理解 Loki 的索引关系。粗暴设置整个桶到期删除，可能连仍需要的索引或状态对象一起处理。请把存储桶范围、Loki 保留和实际对象布局交叉检查；本文不提供“一条命令清整个桶”的做法。
+
+排查空间时还要看是哪种空间：采集缓冲、本地写入数据、索引缓存、对象存储和历史备份，各自的生命周期不同。某处目录很大不能证明该目录都是可删除缓存。先确定组件、挂载、配置和官方恢复要求，再制定审批后的清理方案及可恢复性验证。
+
+### 第五站：多租户不只是加一个请求头
+
+Tenant（租户）用于区分数据归属，但客户端声明一个租户标识，不等于已经证明它拥有该租户权限。入口应由可信认证与授权层确认身份，并把身份映射到允许访问的租户。不要允许普通客户端任意伪造租户头后直接访问内部存储接口。
+
+同时检查查询结果、规则评估、告警通知和备份导出是否保持租户边界。只保护写入入口，却允许共享仪表盘跨租户查询，仍会泄露数据。日志可能含请求参数、个人信息或认证材料，脱敏规则要先用合成敏感样例验证，再检查失败时是拒绝、隔离还是继续发送。
+
+### 生产模拟：一场日志洪峰为什么会拖慢整个值班台
+
+假设新版本把调试日志全部打开，某租户的写入突然变成原来的十倍，同时把请求标识提升为标签。写入量与流数量一起上升，小块增多，采集缓冲变长；值班人员又打开全量正则查询，读写竞争进一步加剧。这个案例是教学推演，不是声称发生过的真实事故。
+
+先收集变更时间、日志量、活跃流、拒绝响应、采集积压、查询并发和存储延迟，对比未变更租户。短期选择回退调试级别与标签规则，限制昂贵查询，保护核心采集通道；是否丢弃低价值日志必须按明确策略决定，不能顺手丢审计证据。每个动作都写影响范围和恢复条件。
+
+恢复后核对积压是否排空、数据缺口在哪里、查询口径是否变化，再补日志级别预算、标签合同、租户限额和代表性压测。面试讲到这里，重点是解释两个放大因素如何叠加，而不是只说“Loki 扩容即可”。学习证据保存正常样本、错误规则、观察记录、修订和验收，不保存真实用户日志。
+
 ## Loki 在 AIOps 链路中的位置
 
 Loki 是 AIOps 的日志检索和日志指标化层。
 
 ```text
 应用 / 系统 / Kubernetes
-  -> stdout / files / journald
-  -> Grafana Alloy / OTel Collector / supported client
-  -> Loki
-  -> Grafana Explore / Dashboards
-  -> LogQL alerts
-  -> Alertmanager
+  -> stdout / files / journald（标准输出、文件或系统日志服务）
+  -> Grafana Alloy / OTel Collector / supported client（日志采集器、遥测收集器或受支持客户端）
+  -> Loki（日志存储与查询系统）
+  -> Grafana Explore / Dashboards（交互探索或仪表盘）
+  -> LogQL alerts（基于日志查询的告警）
+  -> Alertmanager（告警处理器）
   -> AIOps 诊断
 ```
 
@@ -303,18 +398,18 @@ timestamp=每行不同
 Loki 存储时：
 
 ```text
-log stream
-  -> append log entries
-  -> buffer in ingester
-  -> compress into chunks
-  -> store chunks in object storage/filesystem
-  -> index records label -> chunk references
+log stream（日志流）
+  -> append log entries（追加日志条目）
+  -> buffer in ingester（在写入处理器中缓冲）
+  -> compress into chunks（压缩成数据块）
+  -> store chunks in object storage/filesystem（把数据块存入对象存储或文件系统）
+  -> index records label -> chunk references（索引记录从标签到数据块的引用）
 ```
 
 查询时：
 
 ```text
-LogQL label selector
+LogQL label selector（日志标签选择器）
   -> 查 index 找到相关 chunks
   -> 读取 chunks
   -> 在 chunk 内容里执行过滤和解析
@@ -339,13 +434,13 @@ Loki 需要扫描很多 stream/chunks，查询会慢。
 Loki 写入路径：
 
 ```text
-Client / Agent
-  -> distributor
-  -> hash ring
-  -> ingester
-  -> chunks
-  -> object storage
-  -> index
+Client / Agent（客户端或采集代理）
+  -> distributor（分发器）
+  -> hash ring（用于分配的哈希环）
+  -> ingester（写入处理器）
+  -> chunks（压缩数据块）
+  -> object storage（对象存储）
+  -> index（索引）
 ```
 
 ### distributor
@@ -367,13 +462,13 @@ Client / Agent
 查询路径：
 
 ```text
-Grafana / logcli
-  -> query frontend
-  -> query scheduler
-  -> querier
-  -> ingesters for recent in-memory data
-  -> object storage for persisted chunks
-  -> result
+Grafana / logcli（图形界面或日志命令行查询）
+  -> query frontend（查询前端）
+  -> query scheduler（查询调度器）
+  -> querier（查询执行器）
+  -> ingesters for recent in-memory data（从写入处理器取近期内存数据）
+  -> object storage for persisted chunks（从对象存储取持久化数据块）
+  -> result（结果）
 ```
 
 ### query frontend

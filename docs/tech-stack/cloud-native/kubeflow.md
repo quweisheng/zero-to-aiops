@@ -106,22 +106,22 @@ Kubeflow 核心仓库通常采用 Apache-2.0 许可证，但这不自动覆盖�
 ### Kubeflow、KCD、子项目和发行商产品不是一回事
 
 ```text
-Kubeflow
+Kubeflow（面向机器学习的平台项目群）
   -> 一组面向 Kubernetes AI 平台的开源子项目与共同愿景
 
-Kubeflow Community Distribution（KCD）
-  -> 社区维护的 vendor-neutral 参考组合
+Kubeflow Community Distribution（社区发行组合，简称 KCD）
+  -> 社区维护的 vendor-neutral（厂商中立）参考组合
   -> 固定子项目与公共依赖版本
   -> 给出 Kustomize 清单和示例身份入口
 
-Packaged Distribution
+Packaged Distribution（维护方打包的发行版）
   -> Canonical、云厂商或其他维护方打包、测试和支持的发行版
   -> 版本、安装器、支持平台、升级路径和商业 SLA 各自不同
 
-Kubeflow Subproject
+Kubeflow Subproject（Kubeflow 子项目）
   -> Pipelines、Katib、Trainer、Notebooks、Hub 等可独立安装的项目
 
-Kubeflow Ecosystem Project
+Kubeflow Ecosystem Project（Kubeflow 生态项目）
   -> 与 Kubeflow 集成但有独立治理和发布节奏的项目，例如 KServe
 ```
 
@@ -234,17 +234,17 @@ Kubeflow 位于 AIOps 的“模型工程与平台化”层。它能把一次性 
 当前官方文档把 Kubeflow 分成“社区发行版、子项目和生态”三层。建议按下面顺序学习：
 
 ```text
-Kubeflow Introduction / Architecture
-  -> Community Distribution 与 Packaged Distribution
-  -> Dashboard / Profile / Access Management
-  -> Notebooks
-  -> Pipelines
-  -> Katib
-  -> Trainer
-  -> Hub（Registry + Catalog）
-  -> Spark Operator
-  -> Ecosystem：KServe、MLflow Integration 等
-  -> Kubernetes / Istio / Storage / GPU / Observability
+Kubeflow Introduction / Architecture（入门与架构）
+  -> Community Distribution 与 Packaged Distribution（社区组合与发行商打包）
+  -> Dashboard / Profile / Access Management（统一入口、租户空间、访问管理）
+  -> Notebooks（交互式开发）
+  -> Pipelines（可重复流水线）
+  -> Katib（参数搜索）
+  -> Trainer（训练任务管理）
+  -> Hub（Registry 模型登记 + Catalog 模型目录）
+  -> Spark Operator（分布式数据处理控制器）
+  -> Ecosystem（生态）：KServe 推理、MLflow Integration 实验跟踪集成等
+  -> Kubernetes / Istio / Storage / GPU / Observability（编排、网格、存储、加速卡、可观测性）
 ```
 
 对应一次 AI 生命周期：
@@ -292,11 +292,11 @@ Kubeflow 不是：
 ```text
 用户 / CI / SDK
   -> OAuth2 Proxy / Dex 或企业 OIDC
-  -> Istio Gateway / AuthorizationPolicy
+  -> Istio Gateway / AuthorizationPolicy（网格入口网关与访问授权策略）
   -> Central Dashboard / 各子项目 API
-  -> Kubernetes API Server
-  -> CRD + controller reconcile
-  -> Job / Pod / Service / PVC
+  -> Kubernetes API Server（集群资源接口服务）
+  -> CRD + controller reconcile（自定义资源定义与控制器持续协调）
+  -> Job / Pod / Service / PVC（批任务、容器组、网络服务、持久卷申请）
   -> CPU / GPU Node 执行代码
 
 状态与数据旁路
@@ -383,9 +383,9 @@ Notebook 让数据科学家保留熟悉的交互体验，同时把资源、镜�
 
 ```text
 用户提交 Notebook 表单
-  -> Notebook CR
-  -> Notebook Controller
-  -> StatefulSet/Pod + Service + PVC
+  -> Notebook CR（笔记本自定义资源对象）
+  -> Notebook Controller（笔记本控制器）
+  -> StatefulSet/Pod + Service + PVC（有状态工作负载、容器组、服务入口和持久卷申请）
   -> PodDefault Webhook 注入环境、卷或 Secret
   -> Istio 路由到 Notebook Server
 ```
@@ -432,15 +432,15 @@ KCD `26.03.1` 提供两种 Pipeline definition（定义）存储模式：
 一次运行的大致路径：
 
 ```text
-pipeline.py
-  -> KFP Compiler 静态类型检查
-  -> IR YAML 或 Kubernetes Pipeline/PipelineVersion YAML
-  -> KFP API / UI / kubectl 提交
-  -> Run 元数据持久化
-  -> Argo Workflow / Kubernetes 工作负载
-  -> 每个 Component 对应一个或多个 Pod
+pipeline.py（流水线定义源文件）
+  -> KFP Compiler（流水线编译器）静态类型检查
+  -> IR YAML（中间表示清单）或 Kubernetes Pipeline/PipelineVersion（流水线及版本资源）YAML
+  -> KFP API / UI / kubectl（接口、网页或命令行）提交
+  -> Run（单次运行实例）元数据持久化
+  -> Argo Workflow（工作流对象）/ Kubernetes 工作负载
+  -> 每个 Component（流水线组件）对应一个或多个 Pod（容器组）
   -> 参数通过小值契约传递
-  -> Artifact 通过对象存储 URI 传递
+  -> Artifact（数据制品）通过对象存储 URI（资源位置）传递
   -> Pod 状态、日志、指标和制品信息回写
 ```
 
@@ -501,14 +501,14 @@ Katib 是 Kubernetes-native AutoML 项目，主要提供 hyperparameter tuning�
 ### 怎么工作
 
 ```text
-Experiment spec
-  -> Katib Controller
-  -> Suggestion service 产生候选参数
-  -> Trial Controller 创建 Job / TrainJob / 自定义模板
-  -> Metrics Collector 读取 stdout、文件或其他指标源
-  -> Objective 比较
-  -> Early Stopping 决定是否终止
-  -> optimalTrial / best parameters 写入 status
+Experiment spec（调参实验的期望配置）
+  -> Katib Controller（调参实验控制器）
+  -> Suggestion service（参数建议服务）产生候选参数
+  -> Trial Controller（候选试验控制器）创建 Job / TrainJob（批任务或训练任务）/ 自定义模板
+  -> Metrics Collector（指标采集器）读取 stdout（标准输出）、文件或其他指标源
+  -> Objective（优化目标）比较
+  -> Early Stopping（提前终止策略）决定是否终止
+  -> optimalTrial / best parameters（最优试验与最佳参数）写入 status（实际状态）
 ```
 
 Katib 只会优化你提供的 objective（目标指标）。如果指标采集错、验证集泄漏或目标与业务价值不一致，它会更高效地找到“错误目标的最优解”。
@@ -544,14 +544,14 @@ Kubeflow Trainer v2 使用 `TrainJob`、`TrainingRuntime`/`ClusterTrainingRuntim
 ### 怎么工作
 
 ```text
-TrainJob
-  -> Trainer Controller
-  -> 选择 TrainingRuntime / ClusterTrainingRuntime
-  -> JobSet 组织复制 Job
+TrainJob（训练任务资源）
+  -> Trainer Controller（训练任务控制器）
+  -> 选择 TrainingRuntime / ClusterTrainingRuntime（命名空间内或集群级训练运行时）
+  -> JobSet（任务组）组织复制 Job（批任务）
   -> PodGroup / Kueue 等调度集成（按部署选择）
-  -> Worker Pod 启动框架分布式运行时
-  -> checkpoint / model 写对象存储或 PVC
-  -> JobSet / TrainJob status 收敛
+  -> Worker Pod（训练工作容器组）启动框架分布式运行时
+  -> checkpoint / model（训练检查点或模型）写对象存储或 PVC（持久卷申请对应的存储）
+  -> JobSet / TrainJob status（任务组与训练任务的状态）收敛
 ```
 
 Trainer v2 支持的 Runtime 与框架会继续演进。`PyTorchJob`、`TFJob`、`MPIJob` 等属于 Training Operator v1 旧 API；KCD `26.03.1` 的版本矩阵仍固定 v1 `1.9.2`，但默认 `example` 未启用这套旧控制器。它是迁移兼容选项，不代表默认已安装，也不代表新旧 CR 可以直接互换。
@@ -635,13 +635,13 @@ kubectl logs DRIVER_POD -n NS # Driver 日志通常是首要证据
 KServe 是独立治理的 Kubernetes 模型推理项目，在当前 Kubeflow 官方景观中属于 ecosystem integration。KCD `26.03.1` 的 reference example 固定并包含 KServe `0.18.0`、Models Web App 与所需依赖，因此用户可以从同一平台入口管理模型服务。
 
 ```text
-InferenceService
-  -> KServe Controller
-  -> ServingRuntime / ClusterServingRuntime
-  -> Storage Initializer 获取模型
-  -> Predictor Pod 加载权重
-  -> Service / Gateway 接收请求
-  -> Revision / rollout / autoscaling（按部署模式）
+InferenceService（推理服务资源）
+  -> KServe Controller（推理服务控制器）
+  -> ServingRuntime / ClusterServingRuntime（命名空间内或集群级的推理运行时定义）
+  -> Storage Initializer（存储初始化组件）获取模型
+  -> Predictor Pod（预测组件容器组）加载权重
+  -> Service / Gateway（服务入口与网关）接收请求
+  -> Revision / rollout / autoscaling（修订、逐步发布、自动伸缩，按部署模式）
 ```
 
 KServe Ready 之前必须分别证明：CR condition、runtime 匹配、模型下载、容器 readiness、Service endpoint、Gateway/TLS 和真实推理响应。模型登记成功不等于推理加载成功。
@@ -649,7 +649,7 @@ KServe Ready 之前必须分别证明：CR condition、runtime 匹配、模型�
 ## 一次完整训练和交付的数据流
 
 ```text
-1. Git commit + data version + image digest
+1. Git commit + data version + image digest（源码提交、数据版本与镜像内容摘要）
   -> 2. KFP 编译 Pipeline
   -> 3. KFP API 创建 Run
   -> 4. 数据准备 Component 生成 Dataset Artifact
@@ -743,20 +743,26 @@ git rev-parse HEAD # 26.03.1 应对应固定提交；保存输出作为证据
 kustomize build example >/dev/null # 先做离线渲染，不能证明集群接受
 ```
 
-官方单命令示例会反复执行 server-side apply，原因是 CRD 必须先建立，后续 CR 才能被 API Server 识别：
+官方单命令示例会反复执行 server-side apply，原因是 CRD 必须先建立，后续 CR 才能被 API Server 识别。下面给学习环境加上最多 5 次重试；错误持续时停止并阅读第一条失败，不无限循环：
 
 ```bash
-while ! kustomize build example \
-  | kubectl apply --server-side --force-conflicts -f -; do
-  echo "CRD 或依赖可能尚未就绪，20 秒后重试"
-  sleep 20
+set -o pipefail # 前面的渲染失败也必须算整个管道失败
+installed=false
+for attempt in 1 2 3 4 5; do
+  if kustomize build example | kubectl apply --server-side --force-conflicts -f -; then
+    installed=true
+    break
+  fi
+  echo "第 $attempt 次失败；先读错误，只有依赖尚未就绪才等待重试"
+  if [ "$attempt" -lt 5 ]; then sleep 20; fi
 done
+test "$installed" = true # 失败返回非零；不能继续宣告安装成功
 ```
 
 这条命令方便实验，却有三个生产风险：
 
 1. `--force-conflicts` 会接管字段所有权，必须先评审 Server-Side Apply managedFields。
-2. 无限重试会掩盖永久错误；生产 Runbook 应设置次数、超时、日志和人工停止点。
+2. 即使限制重试次数，单次 API 调用也可能很慢；生产 Runbook 还应设置总超时、日志和人工停止点。鉴权失败、资源冲突、配额不足不是等待就会好的问题。
 3. 默认 example 包含示例账号、多个依赖和大量资源，不等于企业 overlay。
 
 生产更适合把 upstream tag 当 base，用自己的 Kustomize overlay 修改域名、身份、存储、资源、安全策略和组件选择，并在 Git 中审计差异。
@@ -876,11 +882,11 @@ Artifact 可用
 Kubernetes controller 可能重复 reconcile；Pipeline task 也可能因节点失败或重试策略重新运行。任何外部副作用都需要幂等键：
 
 ```text
-idempotency_key
-  = pipeline_run_id
-  + component_name
-  + input_data_version
-  + code/image version
+idempotency_key（幂等键）
+  = pipeline_run_id（流水线运行标识）
+  + component_name（组件名）
+  + input_data_version（输入数据版本）
+  + code/image version（代码与镜像版本）
 ```
 
 写数据库、发送工单、发布模型、删除对象等步骤应先查询现有结果，再决定创建、更新或跳过，并保存审计记录。
@@ -921,7 +927,7 @@ Registry 备份只会保护模型关系和 URI。如果 `s3://models/team-a/mode
 Kueue 可以为批处理/AI 工作负载提供队列、配额借用、公平共享和准入控制。它决定任务何时被允许占用资源，不替代 Kubernetes Scheduler 的节点选择，也不替代 Trainer 的分布式拓扑。
 
 ```text
-TrainJob / JobSet
+TrainJob / JobSet（训练任务与任务组）
   -> Kueue admission：集群配额是否允许
   -> Kubernetes Scheduler：具体放到哪些 Node
   -> kubelet/device plugin：容器实际获得 GPU
@@ -1213,9 +1219,9 @@ pipeline.yaml 已生成
 4. YAML 未生成：看完整 traceback、目录权限和 `package_path`。
 5. 类型错误：不要关闭 type check 逃避，先修正组件 I/O 契约。
 
-### 清理
+### 清理：完成下一节类型故障实验后执行
 
-确认学习证据已复制到个人实验仓库后，只删除自己创建的实验目录：
+下一节要复用这个虚拟环境，暂时跳过清理。两个实验结束并确认学习证据已复制到个人实验仓库后，只删除自己创建的实验目录；删除前必须打印绝对路径，确认它正是本实验的临时目录且没有其他项目文件。
 
 ```powershell
 Remove-Item -LiteralPath (Join-Path $env:TEMP 'kubeflow-kfp-lab') -Recurse -Force
@@ -1408,13 +1414,13 @@ kubectl get events -A --sort-by=.metadata.creationTimestamp
 ```text
 Notebook CR 是否存在
   -> controller 是否创建 Pod
-  -> Pod scheduler event
+  -> Pod scheduler event（容器组调度事件）
   -> PVC 是否 Bound
-  -> ResourceQuota / LimitRange
-  -> GPU/device plugin/taint
-  -> image pull
-  -> init/main container
-  -> readiness / Service / Istio
+  -> ResourceQuota / LimitRange（资源总配额与单对象资源约束）
+  -> GPU/device plugin/taint（显卡、设备插件、节点污点）
+  -> image pull（拉取镜像）
+  -> init/main container（初始化容器与主容器）
+  -> readiness / Service / Istio（就绪状态、服务入口与网格路由）
 ```
 
 常用命令：
@@ -1438,8 +1444,8 @@ kubectl get events -n NS --sort-by=.metadata.creationTimestamp
   -> API 认证/提交
   -> Run/Workflow/CR 创建
   -> Pod 调度
-  -> init/launcher
-  -> main container
+  -> init/launcher（初始化阶段与启动器）
+  -> main container（主业务容器）
   -> Artifact 上传
   -> metadata 回写
   -> UI 展示
@@ -1489,14 +1495,14 @@ parallelTrialCount = 50
 ## 模型登记与 serving 故障排障
 
 ```text
-Hub ModelVersion
-  -> Artifact URI / checksum
+Hub ModelVersion（模型中心里的具体模型版本）
+  -> Artifact URI / checksum（制品位置与完整性校验值）
   -> 对象存储权限
-  -> InferenceService spec
-  -> ServingRuntime
-  -> Storage Initializer
-  -> Predictor readiness
-  -> Gateway / Service
+  -> InferenceService spec（推理服务的期望配置）
+  -> ServingRuntime（推理运行时定义）
+  -> Storage Initializer（把模型准备到服务可读取位置的初始化组件）
+  -> Predictor readiness（模型预测组件的就绪状态）
+  -> Gateway / Service（网关与服务入口）
   -> 真实请求
 ```
 
@@ -1553,8 +1559,8 @@ kubectl get isvc -n NS -o yaml # 仅在启用 KServe 时
 ```text
 一次性环境验证
   -> 公共依赖兼容性
-  -> CRD / conversion / webhook
-  -> controller / API
+  -> CRD / conversion / webhook（资源定义、版本转换、回调服务）
+  -> controller / API（控制器与接口服务）
   -> 数据库 schema migration
   -> UI
   -> 少量测试租户
@@ -1567,10 +1573,10 @@ kubectl get isvc -n NS -o yaml # 仅在启用 KServe 时
 ### Kustomize overlay 而不是改 upstream
 
 ```text
-community-distribution@26.03.1
-  -> overlays/company/base
-  -> overlays/company/dev
-  -> overlays/company/prod
+community-distribution@26.03.1（锁定上游发行快照）
+  -> overlays/company/base（企业共用配置层）
+  -> overlays/company/dev（开发环境差异）
+  -> overlays/company/prod（生产环境差异）
 ```
 
 这样升级时能把 base 引用改到新 tag，再审查 render diff。直接修改 clone 下来的 upstream 文件会让下一次升级难以区分官方变化和企业定制。
@@ -1661,7 +1667,7 @@ Kubeflow 很大，实际项目经常只需要其中一部分。先按问题选�
 ```text
 企业 OIDC / HTTPS Gateway
   -> Central Dashboard 与组件 API
-  -> Profile / Namespace / RBAC / AuthorizationPolicy
+  -> Profile / Namespace / RBAC / AuthorizationPolicy（租户配置、命名空间、角色权限与网格访问策略）
 
 Git + 镜像仓库 + 数据目录
   -> KFP 编排
@@ -1713,7 +1719,7 @@ Profile 只是起点。验收时要用普通成员身份做负向测试：列举
 
 ### 容量验收
 
-KCD 参考清单的静态资源求和约为 `4.38 CPU`、`12.341 GiB` 内存与 `65 GB` PVC，官方面向完整示例建议至少准备 `8 CPU / 16 GB` 级别资源；这些数字都不包含用户 Notebook、训练、Artifact、GPU 和生产冗余。容量模型应拆成：
+KCD 参考清单的静态资源求和约为 `4.38 CPU`、`12341 MiB`（约 `12.05 GiB`）内存与 `65 GB` PVC，官方面向完整示例建议至少准备 `8 CPU / 16 GB` 级别资源；这些数字都不包含用户 Notebook、训练、Artifact、GPU 和生产冗余。容量模型应拆成：
 
 ```text
 平台基线
@@ -1842,6 +1848,22 @@ Kubeflow 是一组运行在 Kubernetes 上的 AI 平台子项目，不是一个�
 主线：固定源/目标矩阵，先备份并恢复验证，再处理 CRD/webhook/controller、数据库 schema、UI 与租户，分批跑黄金流水线。
 追问：为什么 Git revert 不够？CRD/schema、不可变字段、数据库 migration、对象存储副作用和运行中的任务不会随清单回退自动撤销。
 
+## 老师带练：从“脚本跑完”到“模型可以放心发布”
+
+先把本地实验讲透。执行 `python pipeline.py` 时，Python 正在描述将来谁依赖谁，不是在你的电脑上依次运行清洗与风险判断容器。`cleaned.output` 是一个输出通道占位符，类似快递单上的“上一步交付物”，不是已经算好的整数。因此不能在普通 Python `if cleaned.output > 10` 里把它当运行时结果；需要使用 KFP 支持的条件分支表达，把判断交给后端执行。编译器能拒绝字符串连到整数输入，但它不会知道明天实际数据是否带负数、空值或错误单位。
+
+我们给 AIOps 场景加一点真实性：训练“未来 10 分钟是否出现服务异常”的模型。数据时间必须停在预测时刻之前；如果特征里含有事故结束后的工单结论，离线准确率会很好，线上却不成立，这叫数据泄漏。按时间切分训练、验证和测试数据，锁定每个样本的采集时间与标签产生时间。Katib 只能在你定义的目标内搜索，不能替你判断目标是否偷看了未来。模型门禁不仅看分数，还要看时间口径、少数故障覆盖与误报代价。
+
+接着问缓存。输入仍写 `s3://metrics/daily.csv`，但每天覆盖这个对象，代码和参数都没变。平台即使命中了历史缓存，也未必代表“用今天的数据重新算过”。正确做法是把数据版本或内容摘要纳入显式输入，并把对象保存为不可变版本。生产发布、发送工单这类有副作用的步骤还要单独设计幂等，必要时关闭该步骤缓存；不要为了一个训练步骤加速，把发布步骤也当纯函数。
+
+再算成本：每个 Trial 使用 2 张 GPU、运行 3 小时，搜索 20 个候选，理想计算用量就是 120 GPU 小时。并发从 2 调到 10，主要改变完成时间与瞬时占用，不会把总计算量自动缩成五分之一；失败重试、数据加载和早停会进一步改变实际成本。老师希望你分别记录排队时长、有效训练时长、卡时成本和最优指标，才能比较“更快”“更省”“更准”三个目标，而不是只展示一个最优分数。
+
+训练失败后怎样续跑？一个可用 checkpoint（训练检查点）通常需要模型参数、优化器状态、训练步数，以及任务需要的随机状态和数据进度。只保存权重可用于推理，却不一定能从相同训练状态继续。写入时使用独立版本目录，确认完整性后再发布完成标记；读取端不应把还在写的文件当成最新检查点。故障演练要真的中断测试训练并恢复若干步，比较 global step（总步数）与损失变化，文件能下载不算恢复验收。
+
+最后讨论模型回滚。新模型已登记但没通过门禁，只停止发布就好；新模型已经切了 5% 流量，先恢复旧模型的路由权重，并保留新版本证据；新版本同时改变了特征字段或外部索引，单独回退权重可能更坏，要把前处理、特征契约、权重、推理镜像和路由作为版本组合。回滚不会撤销已经发出的工单或重启操作，所以 AIOps 早期应用先输出建议与证据，不直接控制高风险资源。
+
+练完后请用自己的话回答：编译器证明了什么，训练框架证明了什么，制品校验证明了什么，真实推理探针又证明了什么？将四种证据分开提交，旁边写清未测试的 GPU、集群与灾备范围，这份实验档案才能经得住连续追问。
+
 ## 分阶段学习路线
 
 ### 第 1 阶段：先建立全景
@@ -1910,7 +1932,7 @@ README 至少记录精确命令、预期与实际结果、没有验证的部分�
 
 ## 本文验证边界
 
-本文不是把静态文档包装成生产实战。当前实际完成的验证是：
+下面保留原文在 2026-08-14 编写时记录的历史验证证据，本轮精讲扩写没有重跑这些环境，不应把它们理解为 2026-09-08 的运行结果：
 
 - 在 Windows、Python `3.14.5` 的临时虚拟环境安装 `kfp==2.16.1`，`pip check` 无依赖破损。
 - 实际编译 `aiops-alert-risk`，得到 5023 字节 IR YAML；SHA256 为 `9CE84797F7CA5E814E6A8A127D5707416775E301062C982949E6A2089FEF87C7`。

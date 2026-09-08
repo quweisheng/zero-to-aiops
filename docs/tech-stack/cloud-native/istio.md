@@ -18,26 +18,28 @@
 
 本文以官方概念和运维文档为依据，示例用于学习，生产参数要结合版本、容量和变更窗口评审。
 
-## 2026-08-14 版本与兼容边界
+## 固定实验版本与兼容边界
 
 | 对象 | 本文锚点 | 边界 |
 |---|---|---|
-| Istio | 1.30.3 | 使用 1.30 当前 patch，安全修复不能停在旧 patch |
+| Istio | 1.30.3 | 本文保留的固定实验版本，不代表当前最新补丁；安装前查受支持版本与安全公告 |
 | Kubernetes | Istio 1.30 支持 1.32–1.36 | 不在范围内的集群先查官方支持表，不能只看 CRD 是否能创建 |
 | 控制面/数据面版本差 | 控制面最多领先数据面一个 minor；数据面不能领先控制面 | 用 revision canary 分批升级，不要原地覆盖全网格 |
 | Ambient | 单集群 production-ready，但功能仍需逐项核对 | ztunnel 主要提供 L4/mTLS；HTTP 路由、L7 授权和 L7 遥测需要 waypoint |
 
 `latest` 文档会继续变化，本文的实验与故障边界按 1.30.3 编写。升级时重新查 supported releases、feature status 和平台说明。
 
+2026-09-08 核查时，官方 `latest` 已指向 1.31 文档。固定实验和现行生产选型要分开：新建环境应选仍受支持且完成安全修复的版本，并同时匹配 Kubernetes 与 Gateway API。官方还明确 Ambient 下 `VirtualService` 属于 Alpha（早期能力），不能与 Gateway API 路由混用；本篇的 subset 故障实验因此限定在 Sidecar 模式。参见 [受支持版本](https://istio.io/latest/docs/releases/supported-releases/)与 [Ambient 七层功能](https://istio.io/latest/docs/ambient/usage/l7-features/)。
+
 ## 官方知识地图
 
 ```text
-Istio
+Istio（服务网格）
   -> 安装、升级与修订版本
   -> 流量管理
   -> 身份、mTLS 与授权
   -> 指标、访问日志与链路追踪
-  -> Sidecar 模式与 Ambient 模式
+  -> Sidecar（伴随代理）模式与 Ambient（环境式网格）模式
   -> 运维诊断
 ```
 
@@ -125,13 +127,13 @@ Istio 是服务网格。服务网格不改业务代码的主要逻辑，而是�
 
 ```text
 客户端请求
-  -> Ingress Gateway
+  -> Ingress Gateway（网格入口网关）
   -> 数据面代理
   -> 目标服务
   -> 下一个数据面代理
 
 Kubernetes 配置
-  -> Istiod
+  -> Istiod（管理网格配置和工作负载身份的控制面服务）
   -> xDS 配置推送
   -> 数据面代理
 
@@ -143,12 +145,13 @@ Kubernetes 配置
 两种真实请求路径要分开画：
 
 ```text
-Sidecar:
-source app -> source Envoy -> destination Envoy -> destination app
+Sidecar（伴随代理）:
+源应用 -> 源 Envoy（代理）-> 目标 Envoy（代理）-> 目标应用
 
-Ambient:
-source app -> source-node ztunnel -> optional waypoint(Envoy/L7)
-           -> destination-node ztunnel -> destination app
+Ambient（环境式网格）:
+源应用 -> 源节点 ztunnel（四层安全隧道代理）
+       -> 可选 waypoint（七层 HTTP 代理）
+       -> 目标节点 ztunnel -> 目标应用
 ```
 
 配置一致性链路是：Kubernetes API 中的期望资源 → Istiod 计算 xDS → Envoy/ztunnel/waypoint 接收实际配置 → Endpoint 与证书持续变化 → 请求按数据面真实状态转发。`proxy-status` 显示 `SYNCED` 只说明配置同步，不证明后端健康、路由正确、证书未过期或业务返回成功。
@@ -167,7 +170,7 @@ kubectl get pods -n istio-system # 检查 istiod 与网关 Pod 是否 Running
 
 下面把带 `version: v1` 标签的工作负载定义为一个 subset，并将 90% 流量发往 v1、10% 发往 v2。
 
-在 Sidecar 模式，这类 L7 路由由 Sidecar Envoy 执行；在 Ambient 模式，目标服务必须纳入 waypoint，否则不要声称这条 HTTP 规则已经执行。
+本节 YAML 按 Sidecar 模式讲解，L7（应用层）路由由 Envoy 执行。Ambient 学习应按对应版本的 Gateway API `HTTPRoute` 与 waypoint 文档配置，不能把下面这份 VirtualService 当作两种模式完全通用的生产方案。
 
 ```yaml
 apiVersion: networking.istio.io/v1
@@ -309,7 +312,22 @@ kubectl -n istio-lab exec deployment/sleep -c sleep -- `
 
 ## 故障注入实验：不存在的 subset 导致 503
 
-在 `istio-lab` 创建 `subset-fault.yaml`：
+本实验使用 Sidecar，避免把 Ambient 的 Alpha VirtualService 行为当作稳定基础。先完成并清理上一节 Ambient 实验的 `istio-lab` Namespace；确认这是可丢弃集群，再安装 Sidecar 默认配置，并重新创建实验应用。不要给同一个 Namespace 同时打两种接入标签。
+
+```powershell
+kubectl delete namespace istio-lab --wait=true # 只回收上一节专用实验空间
+istioctl install --set profile=default --skip-confirmation
+kubectl create namespace istio-lab
+kubectl label namespace istio-lab istio-injection=enabled
+kubectl apply -n istio-lab -f samples/bookinfo/platform/kube/bookinfo.yaml
+kubectl apply -n istio-lab -f samples/sleep/sleep.yaml
+kubectl -n istio-lab wait --for=condition=available deployment --all --timeout=5m
+kubectl -n istio-lab get pods # 预期应用 Pod 包含 istio-proxy 伴随容器
+kubectl -n istio-lab exec deployment/sleep -c sleep -- `
+  curl -sS -o /dev/null -w '%{http_code}' http://productpage:9080/productpage
+```
+
+基线必须为 200，且 `istioctl proxy-status` 能看到这些应用的代理，再继续。在 `istio-lab` 创建 `subset-fault.yaml`：
 
 ```yaml
 apiVersion: networking.istio.io/v1
@@ -415,6 +433,70 @@ Istio 的核心是控制面与数据面分离：Istiod 负责服务发现、配�
 3. Sidecar 与 Ambient 模式的主要差异是什么？
 4. 如何避免重试把一次局部故障放大？
 5. Istio 可以为 AIOps 提供哪些数据？
+
+## 老师带你从 HTTP 学起：为什么 Service 之外还会需要网格
+
+假设你已经有三个订单 Pod。Kubernetes Service 可以让调用方通过一个稳定名字找到它们，但“所有带测试请求头的请求去新版本”“只有付款服务能调用扣款接口”“这个错误是否来自重试”是更细的问题。先把这些具体要求写出来，才知道是否需要网格带来的代理、策略与运维成本。
+
+HTTP 是应用交换请求和响应的协议。一次请求包括方法、路径、请求头和正文；TCP 负责有序传输字节；TLS 在连接上提供加密和身份验证。L4 指传输层，主要看到地址、端口、连接；L7 指应用层，能理解 HTTP 路径、状态码等。代理只有真正理解这一层，才谈得上按路径路由。
+
+Sidecar 像每个工作台旁边安排的通信助手。应用发请求，流量通过拦截规则交给代理，代理按配置选择后端、建立安全连接，再交还目标应用。它不替应用完成业务事务，也不能凭空恢复没有写入的数据。如果应用自己也设置重试，代理重试与业务重试还可能相乘。
+
+Ambient 把基础通信安全放到节点级 ztunnel；需要理解 HTTP 时，再经过 waypoint。少了每个 Pod 一份代理，并不意味着节点代理没有容量限制，也不意味着七层功能免费出现。Waypoints 可以按服务边界规划，一处过载可能影响多个服务，因此其副本、资源、扩缩容和策略范围需要单独设计。
+
+停在这里做个检查：如果只有 ztunnel，HTTP 方法级授权应该由谁执行？答案是需要支持该功能并实际承载流量的 waypoint。若 YAML 已创建，但请求根本没有走它，配置文本就没有产生你期待的安全效果。
+
+## 一次灰度发布的六张小纸条
+
+我们用前面的 90/10 规则做课堂推理。第一张是 Service，告诉你稳定服务名；第二张是 Pod 标签，告诉你每个实例实际是哪一版；第三张是 DestinationRule，用 subset 名称把一组标签命名；第四张是 VirtualService，给请求选择 subset 和权重；第五张是 Istiod 计算出的代理配置；第六张是实际访问日志。
+
+这六张纸必须互相对得上。Service 有端点，只能证明总体有后端；subset 标签写成不存在的版本，仍会形成空的目标集合。代理与控制面 `SYNCED`，只能证明它收到配置；如果收到的是错误规则，它会很一致地执行错误规则。
+
+不要请求 10 次就断言一定有 1 次新版本。权重是统计分配目标，不是固定的每十次发牌顺序；连接复用、请求条件、采样和后端数量也会影响观测。要保存足量请求的版本计数、错误率和时延，并检查业务流量是否满足同一规则。
+
+灰度还需要业务兼容。v2 往数据库写入 v1 不认识的新状态，即使把流量全切回 v1，也可能读取失败。路由回滚只恢复请求路径，数据库 schema（表结构）和数据语义是否能回退，需要应用变更方案负责。
+
+### xDS 配置到底怎样“送到现场”
+
+xDS 是一组动态配置发现协议的统称，你可以理解成代理不断向控制面订阅“最新路况和通行规则”。Listener（监听器）决定接哪类连接；Route（路由）决定匹配什么请求；Cluster（上游集群）描述目标连接集合；Endpoint（端点）给出实际后端地址。这些名称是代理内部模型，不等于一个 Kubernetes 集群。
+
+控制面发送新配置，代理会确认接受 ACK，或因配置问题拒绝 NACK。配置同步存在传播时间，不能假设提交 YAML 的同一瞬间所有代理完全一致。检查时先运行静态分析，再看同步状态，最后查失败实例的实际路由和端点；只对照成功实例，可能漏掉少量未同步代理。
+
+Istiod 临时不可用时，已有代理通常仍能使用已收到的配置转发，但新服务发现、策略更新和证书相关流程会逐渐受影响。因此“业务还通”不等于可无限期失去控制面。恢复判断还应包含新工作负载能否接入、配置能否更新和证书轮换能否完成。
+
+## 超时与重试课堂：三次重试怎么变成二十七次请求
+
+假设网关、订单服务、库存服务每层最多发起 3 次尝试。最坏情况下，库存下游可能收到 3 × 3 × 3 = 27 次访问。原本短暂变慢的数据库，被重复请求压得更慢，又触发更多重试。这就是重试风暴。
+
+Timeout（超时）回答“最多等多久”；Deadline（截止时间）回答“整条调用还剩多少时间”；Retry budget（重试预算）限制额外尝试可以消耗多少资源。给每层都设 5 秒，不能保证整个用户请求 5 秒内结束。应把总预算分给连接、处理和允许的重试，并把剩余时间向下游传播。
+
+幂等表示同一业务意图重复执行不会重复产生效果。查询通常较容易做到；扣款、创建工单和发短信需要业务去重键及状态记录。代理看到连接断开，不知道服务器是否已经提交扣款，因此不能把所有 POST 都无条件重试。
+
+Connection pool（连接池）避免每次请求都重新建连接；Outlier detection（异常实例检测）可暂时避开反复失败的后端。它们不是全局业务断路器：连接池配额通常有代理或上游范围，分散在多个代理上，不能拿单代理阈值当全服务最大并发。熔断参数要结合后端容量、排队和恢复探针共同设计。
+
+故障时同时看原始请求率、代理重试率、后端实际请求率和延迟。若用户请求没涨而后端请求翻倍，优先检查重试放大。修复应减少额外尝试、恢复依赖容量或回滚故障版本；盲目增加超时只会让更多请求排队占内存。
+
+## 安全课堂：证书证明了谁，授权又决定了什么
+
+mTLS 要双方验证证书，可帮助确认“这次连接来自哪个工作负载身份”，并保护传输内容。AuthorizationPolicy 再决定该身份能不能访问目标。你可以把前者理解成查证件，后者理解成查这个证件能进哪间实验室。证件有效不代表拥有所有权限。
+
+ServiceAccount（服务账号）是工作负载身份的重要来源，Namespace（命名空间）参与身份范围。CA 是 Certificate Authority，负责签发可信证书；SDS 是 Secret Discovery Service，给代理动态提供证书等秘密。证书过期、时钟漂移、信任根不一致，都可能在业务代码没有改变时导致握手失败。
+
+JWT 是 JSON Web Token，常承载终端用户的声明。`RequestAuthentication` 的验证和 `AuthorizationPolicy` 的访问要求要配合；仅配置验证规则，不应直接推断所有没有令牌的请求都被禁止。要分别测试缺少令牌、签名错误、有效但无权限和有效且有权限四组结果。
+
+老师会要求你用最小范围演练 STRICT：先挑一对测试服务，确认身份和加密遥测，再扩到命名空间，最后讨论更大范围。一次性把全网格改为 STRICT，可能把尚未纳管的定时任务、探针或外部客户端全部挡住。迁移完成的证据既包括允许请求成功，也包括禁止请求确实被拒绝。
+
+## 三分钟面试回答与课堂作业
+
+**30 秒：**Istio 用控制面集中配置、数据面实际转发的方式治理服务通信。它提供流量分配、通信身份和遥测。引入前先明确业务需要，实施时通过小范围验证逐步开启，排障则从实际请求反查代理、端点与策略。
+
+**3 分钟：**我会先画一条调用链，说明请求在哪个代理执行规则。Sidecar 把代理放到工作负载旁，Ambient 由节点 ztunnel 承担四层安全并按需引入七层 waypoint。控制面把服务发现和策略转成动态配置，下发接受与业务成功是不同状态，因此需要同时验证配置、端点和真实流量。
+
+流量治理要把路由权重、版本标签、超时和重试预算联系起来；重试必须尊重业务幂等，灰度回滚也要考虑数据兼容。安全上分清工作负载 mTLS、终端用户认证和访问授权，证书根、轮换及时间同步纳入运维。生产设计分别评估控制面配置分发、网关连接、代理资源和遥测存储容量，以修订版本小批升级并保留已验证回退路径。
+
+**递进追问：**为什么 CPU 很低仍超时？可能是连接上限、上游排队、TLS 握手、重试和依赖等待；需要端到端时延分解。为什么两个副本仍不算高可用？要看是否同节点、同可用区，以及 DNS、CA、入口和依赖是否共享单点。为什么不能把 HTTP 路径放进任意指标标签？真实路径包含订单号等动态值会制造高基数，应该使用受控路由模板并保护敏感数据。
+
+本课的作业不是截图一个绿色 Pod，而是记录同一个请求在“无规则、正常灰度、错误 subset、恢复规则”四阶段的结果。附上版本、数据面模式、资源标签、实际代理配置和故障范围，注明哪些步骤只是文档推演、哪些已经在自己的实验集群执行。
 
 ## 学习证据
 

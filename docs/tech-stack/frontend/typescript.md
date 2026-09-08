@@ -16,16 +16,16 @@
 ## 官方知识地图与边界
 
 ```text
-JavaScript syntax and runtime
-  + TypeScript type system
-      -> inference / annotation / narrowing
-      -> union / intersection / object / function
-      -> generics / keyof / indexed and conditional types
-      -> declaration files / modules
-  + compiler
-      -> parse -> bind -> check -> transform -> emit
-      -> tsconfig / module resolution / project references
-  -> JavaScript artifact -> browser or Node runtime
+JavaScript syntax and runtime（语法与运行时）
+  + TypeScript type system（静态类型系统）
+      -> inference（推断）/ annotation（标注）/ narrowing（收窄）
+      -> union（联合）/ intersection（交叉）/ object（对象）/ function（函数）
+      -> generics（泛型）/ keyof（键集合）/ indexed and conditional types（索引访问与条件类型）
+      -> declaration files（声明文件）/ modules（模块）
+  + compiler（编译器）
+      -> parse（解析）-> bind（绑定）-> check（检查）-> transform（转换）-> emit（输出）
+      -> tsconfig（配置）/ module resolution（模块解析）/ project references（项目引用）
+  -> JavaScript artifact（产物）-> browser or Node runtime（浏览器或 Node 运行环境）
 ```
 
 TypeScript 的类型通常在编译后被擦除。它不能自动验证 HTTP 响应、数据库内容或用户输入；运行时仍是 JavaScript。本文覆盖工程主线，不穷举所有类型体操或编译器内部实现。
@@ -86,7 +86,11 @@ function isIncident(value: unknown): value is Incident {
   if (typeof value !== 'object' || value === null) return false
   const candidate = value as Record<string, unknown>
   return typeof candidate.id === 'string'
+    && typeof candidate.service === 'string'
+    && (candidate.severity === 'warning' || candidate.severity === 'critical')
     && typeof candidate.latencyMs === 'number'
+    && Number.isFinite(candidate.latencyMs)
+    && candidate.latencyMs >= 0
 }
 ```
 
@@ -166,12 +170,12 @@ function groupBy<T, K extends PropertyKey>(
 ## 编译器做什么、不做什么
 
 ```text
-.ts source
-  -> parser builds syntax tree
-  -> binder connects declarations and scopes
-  -> checker evaluates assignability and control flow
-  -> transformer removes/types downlevels selected syntax
-  -> emit .js / .d.ts / source map depending on config
+.ts source（类型化源码）
+  -> parser builds syntax tree（解析器构建语法树）
+  -> binder connects declarations and scopes（绑定器连接声明与作用域）
+  -> checker evaluates assignability and control flow（检查器分析可赋值性与控制流）
+  -> transformer removes/types downlevels selected syntax（转换器擦除类型并按目标降级部分语法）
+  -> emit .js / .d.ts / source map depending on config（按配置输出脚本、声明与源码映射）
 ```
 
 `target` 控制语法下转换基线；`lib` 控制编译期可见的标准 API 类型；它们不自动安装 polyfill。`module` 与 `moduleResolution` 必须符合 bundler/Node 运行方式。即使 `tsc` 通过，运行时仍可能缺少 API、模块路径或环境变量。
@@ -357,7 +361,11 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 function isIncident(value: unknown): value is Incident {
   return isRecord(value)
     && typeof value.id === 'string'
+    && typeof value.service === 'string'
     && (value.severity === 'warning' || value.severity === 'critical')
+    && typeof value.latencyMs === 'number'
+    && Number.isFinite(value.latencyMs)
+    && value.latencyMs >= 0
 }
 ```
 
@@ -446,10 +454,10 @@ const config = {
 
 ```text
 .ts/.tsx 源码
-  -> parse AST
-  -> bind symbols
-  -> resolve modules and types
-  -> check assignability/control flow
+  -> parse AST（解析得到抽象语法树）
+  -> bind symbols（绑定符号）
+  -> resolve modules and types（解析模块与类型）
+  -> check assignability/control flow（检查可赋值关系与控制流）
   -> emit JavaScript / declarations / source maps（若启用）
   -> bundler 转换、分包、压缩
   -> 浏览器/Node 运行
@@ -478,7 +486,7 @@ TypeScript 的 `moduleResolution` 要模拟目标运行时/打包器如何理解
 ```text
 源码 import specifier
   -> tsconfig 的 baseUrl/paths/moduleResolution
-  -> package.json exports/imports/types
+  -> package.json exports/imports/types（包的导出、内部导入与类型入口声明）
   -> 实际解析到哪个 .ts/.d.ts/.js
   -> 构建器输出什么 specifier
   -> Node/浏览器运行时能否加载
@@ -491,9 +499,9 @@ TypeScript 的 `moduleResolution` 要模拟目标运行时/打包器如何理解
 Project References 把大型代码库拆成可独立构建的 TypeScript 项目，并用 `composite` 与声明输出形成边界：
 
 ```text
-packages/contracts
-  -> packages/api-client
-  -> apps/incident-console
+packages/contracts（共享契约包）
+  -> packages/api-client（接口客户端包）
+  -> apps/incident-console（事件控制台应用）
 ```
 
 好处是增量构建和所有权更清晰；代价是配置、构建顺序、声明边界和编辑器工程复杂度。不要为几千行项目过早引入。
@@ -681,6 +689,130 @@ TypeScript 在 JavaScript 之上增加可擦除的类型语法和静态检查。
 - [ ] 能排查声明、模块、性能和编辑器/CI 差异。
 - [ ] 能完成假安全故障实验并修复。
 - [ ] 能设计契约版本、构建、灰度与回滚。
+
+## 老师带你区分“编译器相信了”和“数据真的正确”
+
+把 TypeScript 想成出发前帮你检查行李单的老师：清单说带了身份证，它能检查相关代码是否按身份证类型使用；但你从网络收到一个陌生包裹，老师不能隔着清单知道里面究竟是什么。`as Incident` 相当于你告诉它“我已经检查过”，不会打开包裹检查。
+
+因此我们把 HTTP 响应先放进 `unknown`，运行真实判断，确认字段后再交给业务。`unknown` 不是“放弃类型”，而是要求你先拿证据。`any` 更像关闭这段检查，会让不可信值继续流到统计、渲染和自动化参数中。
+
+### 类型守卫的承诺也可能说错
+
+`value is Incident` 是开发者写给编译器的承诺。如果 Incident 有 id、service、severity、latencyMs 四个必需字段，而守卫只检查 id，编译器不会替你补查剩下三项。因此本文守卫必须覆盖全部必需字段，还要按业务验证数值有限、范围合理；不能把 `NaN` 或负延迟当成有效观测。
+
+读[控制流收窄文档](https://www.typescriptlang.org/docs/handbook/2/narrowing.html)时，注意“编译器根据条件理解更窄类型”不等于“条件实现一定符合你的业务”。守卫应有正例、缺字段、错误枚举、空值、极值和类型错误测试。对大型契约可采用维护良好的运行时 schema（结构约束）工具，降低手写判断遗漏，但仍要审查契约本身。
+
+### 带练：让遗漏状态在编译期暴露
+
+在已经安装项目 TypeScript 的独立实验目录创建 `state-classroom.ts`。只用字符串与联合类型，不依赖 DOM 或第三方库。
+
+```ts
+type State =
+  | { kind: 'idle' }
+  | { kind: 'success'; count: number }
+
+function assertNever(value: never): never {
+  throw new Error(`未知状态: ${String(value)}`)
+}
+
+function describe(state: State): string {
+  switch (state.kind) {
+    case 'idle': return '尚未查询'
+    case 'success': return `找到 ${state.count} 条`
+    default: return assertNever(state)
+  }
+}
+
+console.log(describe({ kind: 'success', count: 2 }))
+```
+
+运行 `npx tsc state-classroom.ts --strict --target ES2022 --noEmit`，基础预期退出码为 0。现在在 State 联合中新增 `| { kind: 'error'; message: string }`，故意不改 switch，再运行相同命令。预期在 `assertNever(state)` 报类型不兼容，因为遗漏分支仍可能是 error。
+
+修复时新增 `case 'error': return state.message`，类型检查恢复成功。若仍通过，检查是否去掉了 default、使用了 any，或实际上检查另一份文件。清理只需删除这个独立文件；本实验 noEmit 不生成 JS。若还要验证运行，去掉 noEmit 输出到专用目录再执行，区分“静态检查”和“实际运行”的证据。
+
+### 为什么少写类型有时更准确
+
+局部变量 `const severity = 'critical'` 能让编译器推断具体字面量。你手动写成 `string` 反而丢掉了“只能是 critical”的信息。公共函数参数、返回契约和外部边界值得明确标注；函数内部让合理推断工作，通常更易读。
+
+泛型也是在表达关系。`first<T>(items: readonly T[]): T | undefined` 说明返回值来自输入元素，但列表可能为空。`T` 不是万能占位符，不能承诺调用者想要的任意类型。启用 [noUncheckedIndexedAccess](https://www.typescriptlang.org/tsconfig/noUncheckedIndexedAccess.html) 能提醒索引可能不存在，但最终仍应按真实集合约束设计代码。
+
+### 缺失、空值与零值，业务意义不同
+
+事件响应中字段不存在、字段为 null、延迟为 0，可能分别表示旧版本未提供、明确未知、真实零值。你若全部用 `value || 1000` 处理，会把合法 0 改成 1000。类型层表达可选或联合，运行时使用精确判定；PATCH（部分更新）接口还要区分“不更新这个字段”和“把它清空”。
+
+这类问题能直接影响 AIOps。把缺失数据当正常零值，异常模型会误以为系统很健康；把“未授权无法查看”当空列表，用户会以为没有告警。类型系统帮助你把这些状态设计出来，服务端契约和界面说明再共同兑现含义。
+
+### 工程边界：两套检查都要落地
+
+类型检查面向开发时的程序关系，运行时测试面向真实输入和执行效果。构建器可能只去掉类型语法，没有完整检查；编译器也不负责验证 API 在目标浏览器存在。CI 应分别记录 typecheck、test、build 和关键制品运行结果，绑定同一依赖锁和提交。
+
+当面试官问“TS 都通过了为什么线上报错”，按输入边界、断言/any、声明与实现差异、运行时 API、模块解析、版本错配逐层回答。不要归结成“TypeScript 没用”；它能证明的范围取决于你提供的类型信息和检查路径。可靠工程是让这些边界清楚且互相补足。
+
+## 工程课堂：用类型表达业务约束，而不只是消除红线
+
+### 把“谁可以做什么”放进状态，而不是十个布尔值
+
+我们一起设计一个事件处置按钮。它可能等待加载、已加载但无权操作、等待批准、正在执行、成功或失败。如果用 `loading`、`approved`、`running`、`failed` 四个独立布尔值，就能组合出“正在加载又执行成功”这样的矛盾状态。类型系统没发现错误，不是它失灵了，而是你明确允许了这些组合。
+
+更好的起点是判别联合：每个分支有一个固定 `kind`，只携带该阶段真正可用的数据。等待批准分支保存审批申请标识，执行中分支保存任务标识，失败分支保存可展示的错误和是否能重试。这样界面只有在收窄到执行中后才能访问任务标识，避免用空字符串假装所有字段始终存在。
+
+但老师要追问一句：编译器允许构造 `kind: 'approved'`，等于获得生产操作权限吗？当然不等于。客户端类型只约束代码如何表达状态，服务器仍须校验真实批准、身份、目标和时效。类型建模帮助减少误用，不能把安全策略从可信服务端搬到任何人都能修改的浏览器里。
+
+### 输入类型与领域类型应隔着一道校验门
+
+接口返回的网络字节应先视为未知数据。先按 JSON 解析，再校验字段类型、枚举、必填项和范围，最后转换成内部领域对象。比如后端返回的时间是字符串，页面内部可能需要经过有效性检查的毫秒数；后端把严重程度写成 `CRITICAL`，你可以在边界明确规范化，但不能对任意未知值都默认成“正常”。
+
+请区别两种函数：类型谓词宣称“我检查后，这个值属于某类型”，解析函数则返回已验证的新值或清晰错误。谓词写错会让编译器相信谎言，所以它同样需要测试；解析函数更适合需要规范化、默认值和错误路径的边界。不要在每个组件里重复断言，而应集中维护数据入口，让契约升级有一个可追踪的位置。
+
+下面的例子不依赖校验库，适合在现有 TypeScript 实验中建立直觉。它刻意不接受数字字符串，因为是否允许字符串到数字转换应是明确契约：
+
+```typescript
+type Sample = { service: string; errorRate: number }
+type ParseResult =
+  | { ok: true; value: Sample }
+  | { ok: false; reason: string }
+
+function parseSample(input: unknown): ParseResult {
+  if (typeof input !== 'object' || input === null || Array.isArray(input)) {
+    return { ok: false, reason: '需要一个对象' }
+  }
+  if (!('service' in input) || typeof input.service !== 'string' || !input.service.trim()) {
+    return { ok: false, reason: 'service 必须是非空文本' }
+  }
+  if (!('errorRate' in input) || typeof input.errorRate !== 'number' ||
+      !Number.isFinite(input.errorRate) || input.errorRate < 0 || input.errorRate > 1) {
+    return { ok: false, reason: 'errorRate 必须是零到一的有限数字' }
+  }
+  return { ok: true, value: { service: input.service.trim(), errorRate: input.errorRate } }
+}
+
+for (const value of [{ service: 'api', errorRate: 0.1 },
+  { service: 'api', errorRate: '0.1' }, null]) {
+  console.log(parseSample(value).ok)
+}
+```
+
+前置条件是已有严格模式实验，保留原文件后把代码放到独立 `parse-sample.ts`，用项目已有类型检查和执行命令运行。预期依次输出 `true`、`false`、`false`。将范围上限故意删掉，再加入错误率为 2 的样本，应观察它被错误放行；恢复范围检查后必须拒绝。验证同时看编译结果与业务样本，不以“没有红线”替代断言。清理删除自己的独立练习文件，保留合法、类型错误、越界和空输入的测试记录；若旧编译器不支持这里的属性收窄，核对本文版本边界和本项目锁定版本，不用 `any` 掩盖问题。
+
+### 索引访问、可选属性和空值是业务设计题
+
+`Record<string, Incident>` 让人误以为任何字符串查询都能得到事件，实际字典可能没有这个键。启用 `noUncheckedIndexedAccess` 会迫使代码面对“没找到”的路径；它不会为你创造缺失记录。搜索结果未命中应该显示空态，详情对象被删除应该提示已不存在，网络失败则应该保留错误状态，这三者不要都用空数组代表。
+
+`exactOptionalPropertyTypes` 帮你区分“字段不存在”和“字段显式赋为 undefined”的部分赋值语义，但仍不是网络协议校验。JSON 序列化、数据库更新和表单输入对缺失、`null`、零、空字符串可能有不同含义。修改接口的可选性前，需要问清服务端把省略理解为保留原值还是采用默认值，把 `null` 理解为清空还是非法。
+
+`readonly` 与 `as const` 表达的是静态使用约束和字面量推断，不等于对整个对象图实施运行时深冻结。一个只读接口背后仍可能存在可变别名；外部库也可能修改对象。重要状态应通过明确所有权、复制和受控更新维护，不把编译器注解当作内存隔离墙。
+
+### 泛型、条件类型和可维护性的取舍
+
+泛型最有价值的用途是保存关系：输入键决定输出值类型，数组元素类型决定返回元素类型，成功分支的数据类型由请求函数给出。若一个泛型参数只出现一次，既不约束输入也不连接输出，它可能只是增加阅读负担。老师不会因为你写出复杂类型体操就判定工程更好；还要看错误信息是否能让同事定位问题。
+
+条件类型在联合类型上的分发行为，有时用于分别变换各成员，有时却会使结果比预期更宽。阅读复杂类型时把输入代入一个具体例子，再代入一个联合例子，逐步检查输出；不要只读最终别名。大型仓库若类型检查变慢，先定位耗时文件、公共声明和递归类型，再评估拆分项目或简化表达，而不是关掉严格检查让成本转移到运行时。
+
+### 发布一份共享契约，也是在发布一个接口
+
+共享类型包升级需要区分源码兼容、类型兼容和运行时兼容。把字段从可选改为必需，可能使下游编译失败；把字段类型放宽，可能让下游代码开始提交服务端不支持的数据；删除运行时导出，即使声明文件仍在，也会导致加载失败。公共包应同时测试声明与真实导出，不能仅对源码运行一次 `tsc`。
+
+对多团队 AIOps 控制台，建议把 API 版本、生成器版本、运行时校验和边界测试关联起来。升级前用旧样本、新样本、缺失字段和未知枚举验证；升级后观察解析失败率与来源版本。模型生成的结构化输出同样属于外部输入，即使提示词要求 JSON，依然要经过这道校验门。你在面试中应能解释：类型提升开发期反馈，边界校验保护运行时，契约与观测负责跨团队演进。[TypeScript 收窄机制](https://www.typescriptlang.org/docs/handbook/2/narrowing.html)
 
 ## GitHub 学习证据
 

@@ -33,33 +33,29 @@
 ## 官方知识地图
 
 ```text
-Cilium
-  -> CNI and IPAM
-  -> eBPF data plane
-     -> programs
-     -> maps
-     -> endpoint / identity
-     -> service load balancing
-     -> connection tracking
-  -> Routing
-     -> VXLAN / Geneve
-     -> native routing
-     -> BGP control plane
-  -> Policy
-     -> Kubernetes NetworkPolicy
-     -> CiliumNetworkPolicy
-     -> CiliumClusterwideNetworkPolicy
-     -> L3 / L4 / L7 / DNS
-  -> kube-proxy replacement
-  -> Hubble
-     -> flow events
-     -> Relay / UI
-     -> metrics
-  -> Operations
-     -> status / connectivity test
-     -> sysdump
-     -> BPF map pressure
-     -> upgrades and rollback
+Cilium（容器网络、安全和观测方案）
+  -> CNI（容器网络接口）与 IPAM（IP 地址分配管理）
+  -> eBPF data plane（内核可编程数据面）
+     -> programs（处理逻辑）/ maps（共享状态表）
+     -> endpoint / identity（工作负载端点/安全身份）
+     -> service load balancing（服务负载均衡）
+     -> connection tracking（连接跟踪）
+  -> Routing（路由）
+     -> VXLAN / Geneve（隧道封装协议）
+     -> native routing（原生路由）
+     -> BGP control plane（路由通告控制面）
+  -> Policy（访问策略）
+     -> Kubernetes NetworkPolicy（标准网络策略）
+     -> CiliumNetworkPolicy（命名空间级扩展策略）
+     -> CiliumClusterwideNetworkPolicy（集群级扩展策略）
+     -> L3 / L4 / L7 / DNS（网络层/传输层/应用层/名称解析）
+  -> kube-proxy replacement（替换 Service 转发实现）
+  -> Hubble（流量观测）
+     -> flow events（网络流事件）/ Relay（聚合）/ UI（界面）/ metrics（指标）
+  -> Operations（运行维护）
+     -> status / connectivity test（状态/连通性测试）
+     -> sysdump（诊断包）/ BPF map pressure（状态表容量压力）
+     -> upgrades and rollback（升级与回滚）
 ```
 
 ## 场景开场
@@ -112,16 +108,16 @@ Cilium 不是“装完就自动理解业务”的 APM。Hubble 能观察网络�
 eBPF 是 extended Berkeley Packet Filter。内核在加载程序前会验证安全约束，再把程序挂载到特定 hook。网络包经过 hook 时执行程序，程序可以查询或更新 BPF map，并决定转发、修改、重定向或丢弃。
 
 ```text
-用户态 cilium-agent
+用户态 cilium-agent（节点网络代理）
   -> 根据 Kubernetes 对象生成期望状态
-  -> 加载 / 更新 eBPF programs
-  -> 写 BPF maps
+  -> 加载 / 更新 eBPF programs（内核可编程处理逻辑）
+  -> 写 BPF maps（供程序查询的映射表）
 
 网络包
-  -> tc / XDP / cgroup / socket hook
-  -> eBPF program
-  -> 查询 identity / policy / service / conntrack maps
-  -> forward / redirect / drop
+  -> tc / XDP / cgroup / socket hook（流量控制、早期收包、控制组、套接字等挂钩点）
+  -> eBPF program（内核中受校验的程序）
+  -> 查询 identity / policy / service / conntrack maps（身份、策略、服务、连接跟踪映射表）
+  -> forward / redirect / drop（转发、重定向、丢弃）
 ```
 
 ### Program 和 Map
@@ -168,7 +164,7 @@ kubectl -n kube-system exec ds/cilium -- cilium-dbg endpoint list # 查看 endpo
 
 ### Envoy
 
-需要 L7 HTTP、Kafka、DNS 重定向或 Gateway/Ingress 等能力时，Cilium 可使用 Envoy 代理。L3/L4 eBPF 转发与 L7 proxy 是不同路径，看到 `server: envoy` 或 proxy port 才说明流量进入代理。
+HTTP 七层策略或 Gateway/Ingress 等能力可能使用 Envoy 代理；DNS/FQDN 策略使用 DNS proxy 路径。本文 1.20 基线已移除旧 Kafka-aware/proxylib 能力，不能照搬旧 Kafka 规则。L3/L4 eBPF 转发与 L7 proxy 是不同路径；确认代理日志和流量重定向证据，不仅凭一个可修改的 HTTP 响应头判断。
 
 ### Hubble、Relay 和 UI
 
@@ -184,12 +180,12 @@ Hubble ring buffer 有容量，长时间后旧事件会被覆盖。它适合实�
 Cilium 从安全相关 labels 计算 identity。同一组相关标签的 endpoint 可以共享 identity；策略主要匹配 identity，而不是不断变化的 Pod IP。
 
 ```text
-Pod labels
-  -> Cilium 计算 security identity
-  -> endpoint 绑定 identity
-  -> policy 编译为 identity 到 identity 的规则
-  -> 包携带或关联源 identity
-  -> 目标节点按 identity 执行策略
+Pod labels（容器组标签）
+  -> Cilium 计算 security identity（安全身份）
+  -> endpoint（网络端点）绑定 identity（身份编号）
+  -> policy（策略）编译为身份到身份的规则
+  -> 包携带或关联源 identity（身份）
+  -> 目标节点按 identity（身份）执行策略
 ```
 
 好处：Pod 重建和 IP 变化时，只要身份标签不变，策略意图保持稳定。
@@ -203,12 +199,12 @@ Pod labels
 ## 同节点 Pod 到 Pod
 
 ```text
-Pod A
-  -> veth / endpoint eBPF
-  -> 查源 identity、policy、conntrack
-  -> 本节点目标 endpoint
-  -> 目标 policy
-  -> Pod B
+Pod A（源容器组）
+  -> veth / endpoint eBPF（虚拟网卡对及端点上的内核程序）
+  -> 查源 identity、policy、conntrack（身份、策略、连接跟踪）
+  -> 本节点目标 endpoint（网络端点）
+  -> 目标 policy（入站策略）
+  -> Pod B（目标容器组）
 ```
 
 同节点路径通常不需要经过物理网卡或 Overlay，但仍受策略、Service 翻译和 endpoint 状态影响。
@@ -220,13 +216,13 @@ Pod A
 Cilium 默认可使用 VXLAN 或 Geneve 隧道：
 
 ```text
-Pod A packet
-  -> source-node eBPF policy
-  -> VXLAN/Geneve encapsulation
-  -> underlay routes by Node IP
-  -> target-node decapsulation
-  -> target policy
-  -> Pod B
+Pod A packet（源 Pod 发出的数据包）
+  -> source-node eBPF policy（源节点内核中的策略处理）
+  -> VXLAN/Geneve encapsulation（加上隧道外层包头）
+  -> underlay routes by Node IP（底层网络按节点地址转发）
+  -> target-node decapsulation（目标节点拆除外层包头）
+  -> target policy（目标侧策略处理）
+  -> Pod B（目标工作负载）
 ```
 
 底层必须允许 Node 间流量和对应 UDP 端口。Cilium 文档中的常见端口是 VXLAN 8472/UDP、Geneve 6081/UDP，实际以部署值为准。
@@ -267,12 +263,12 @@ kubectl -n kube-system logs deploy/cilium-operator # 查看集群级分配错误
 传统 kube-proxy 会把 Service/EndpointSlice 编程成 iptables、IPVS 或 nftables 规则。Cilium 可以用 eBPF map 保存 Service 前端和 backend，并在内核 hook 选择目标。
 
 ```text
-客户端访问 ClusterIP:port
-  -> eBPF service lookup
-  -> service map 找到 frontend
-  -> backend map 选择 Pod IP:port
-  -> conntrack / affinity 记录
-  -> 转发到本地或远端 backend
+客户端访问 ClusterIP:port（服务虚拟地址与端口）
+  -> eBPF service lookup（内核程序查询服务）
+  -> service map（服务映射表）找到 frontend（前端虚拟地址和端口）
+  -> backend map（后端映射表）选择 Pod IP:port（容器组地址和端口）
+  -> conntrack / affinity（连接跟踪、会话亲和）记录
+  -> 转发到本地或远端 backend（后端实例）
 ```
 
 排障：
@@ -401,8 +397,10 @@ kubectl get nodes -o wide # 节点应为 Ready
 ```bash
 cilium hubble enable --ui # 开启 Hubble Relay 和 UI
 cilium status --wait # 确认 Hubble 状态正常
-hubble status # CLI 能连接 Relay
+cilium hubble port-forward # 在独立终端保持运行，给本机 CLI 提供 Relay 入口
 ```
+
+在另一个终端执行 `hubble status`，应连接到转发的 Relay。仅安装 Relay 不会自动让本机 CLI 获得访问路径；实验结束按 Ctrl+C 关闭转发。
 
 如果失败，先看：
 
@@ -428,6 +426,8 @@ kubectl -n cilium-lab exec deploy/client -- wget -qO- --timeout=3 http://web # �
 
 ### 默认拒绝 Ingress
 
+把下面 YAML 保存成 `deny-web.yaml`，再执行 `kubectl apply -f deny-web.yaml`。`Ingress` 在这里是入站方向，不是网站入口资源。
+
 ```yaml
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
@@ -448,6 +448,8 @@ hubble observe --namespace cilium-lab --verdict DROPPED --last 20 # 应看到 po
 ```
 
 ### 允许 client 访问 web:80
+
+把下面 YAML 保存成 `allow-client.yaml`，再执行 `kubectl apply -f allow-client.yaml`。两份允许策略按支持的策略语义共同求值，应用前先核对 Namespace 和 selector。
 
 ```yaml
 apiVersion: cilium.io/v2
@@ -525,11 +527,11 @@ Cilium/Hubble 可以把 Kubernetes 标签、identity、Node、Service 和实际�
 ```text
 告警：checkout -> payment 超时
   -> Hubble 查源/目标流
-  -> verdict DROPPED / FORWARDED
-  -> endpoint identity 和 policy revision
-  -> Service map / backend
-  -> Node route / tunnel / conntrack map
-  -> 应用日志和 trace
+  -> verdict DROPPED / FORWARDED（处置结果：丢弃或转发）
+  -> endpoint identity 和 policy revision（端点身份和策略修订号）
+  -> Service map / backend（服务映射表及后端）
+  -> Node route / tunnel / conntrack map（节点路由、隧道、连接跟踪映射表）
+  -> 应用日志和 trace（链路追踪）
 ```
 
 重点监控方向：
@@ -725,6 +727,90 @@ Cilium 是基于 eBPF 的 Kubernetes CNI、Service、网络策略和可观测方
 kubectl delete namespace cilium-lab # 清理策略和工作负载
 kind delete cluster --name cilium-lab # 删除学习集群
 ```
+
+## 老师带你追一个包：先分清决定、状态和证据
+
+我们从 client 访问 web 开始。Kubernetes 告诉 Cilium 哪些 Pod 和 Service 存在；agent 把所需信息变成节点里的程序和状态表；包经过内核挂点时，程序读取表，决定选择后端、放行或丢弃。控制器不必为每个包去问 Kubernetes API，否则控制面会成为流量瓶颈。
+
+Hook（挂点）是内核允许执行某类扩展逻辑的位置，Program（程序）是执行规则，Map（映射表）保存可更新状态。可以把程序理解成查票规则，把 map 理解成当前票务和座位数据。规则相同，状态表不同，包的结果就可能不同。
+
+因此 Kubernetes EndpointSlice 正确不证明每台节点的 Service map 已同步。发生局部故障时，要找到实际源节点和目标节点，再观察那两台的 agent。`kubectl exec ds/cilium` 可能选择某一个 DaemonSet Pod，不保证就是出问题的节点；先用 `kubectl -n kube-system get pods -l k8s-app=cilium -o wide` 定位，再指定具体 Pod 查询。
+
+### 身份标签为什么会改变安全结果
+
+Pod 名、Deployment 名和安全标签是三个概念。策略选择的是标签表达的身份，名字看起来像 client 不代表符合 `app: client`。标签故障实验的价值正是让你观察身份变化、策略修订与流量结果之间的联系。
+
+Identity（安全身份）减少了 IP 频繁变化对策略的影响，但身份分配和传播仍需要时间。修改标签后立即请求可能看到短暂过渡状态，所以要同时记录 endpoint ready、policy revision 和结果，而不是只请求一次下结论。
+
+标签也不是越多越好。每次发布都给安全身份加入随机构建号，会制造更多身份与策略变化。区分用于业务检索的标签和真正参与授权的标签，能减少控制面更新与内核状态压力。
+
+### 观测到了放行，为何业务还失败
+
+Hubble 的 FORWARDED 是某个观测点的结论，说明这一处允许继续走。下一个节点、目标进程、返回路径或应用协议仍可能失败。你要继续看双向流、连接标志、目标监听和应用日志。
+
+DROPPED 也需要原因：policy denied 指向策略，CT 插入失败指向连接跟踪状态，路由问题指向到达路径。把所有丢包都归类成安全组，会导致错误修复。Ring buffer（环形缓冲）满后旧事件可能被覆盖，收集不到证据要同时检查观测丢失，不能当作没有流量。
+
+## 容量与迁移课堂：eBPF 不等于无限容量
+
+每个 Service 后端、身份和连接状态都要占内存。高新建连接率、长超时或异常重试会让 conntrack（连接跟踪）表增长。先查连接生命周期与回收，再评估 map 上限；扩表消耗更多节点内核内存，不是没有代价的万能开关。
+
+封装路由让底层只需认识节点地址，但需要额外包头和合适 MTU；原生路由减少封装，却要求底层知道 Pod 网段。选择时同时评估网络团队的路由控制、云平台限制和故障排查工具，不用一条性能宣传代替设计。
+
+替换 kube-proxy 是一次 Service 数据面变更。至少验证 ClusterIP、NodePort、外部流量、源地址保留、长连接、DNS 和云负载均衡健康检查，并记录恢复原实现的条件。只验证 Pod 互相 ping 成功，会漏掉最关键的 Service 行为。
+
+面试三分钟回答中，把 client→Service→后端的路径讲清，再用默认拒绝与精确放行实验解释 identity。追问 map 满时，给出节点定位、pressure、连接速率、回收和内存预算；追问 Hubble 无流时，先说明覆盖范围与丢失，再讨论应用。最终交作业要有配置、节点对应、允许/拒绝/恢复三份证据。
+
+## 进阶课堂：从一条 Service 请求拆出三个地址
+
+老师让你访问 `http://web`，请先写出三个不同地址：DNS 返回的 Service ClusterIP、被选中的后端 Pod IP、承载后端的 Node IP。域名不是第四台服务器，ClusterIP 也不一定对应真实网卡上监听的进程；它是服务入口标识，由数据面把访问转换或重定向给后端。封装模式再使用 Node IP 运送跨节点流量。
+
+不同 Cilium 功能与内核挂钩位置可能在套接字或报文处理阶段完成服务选择，因此不能假设抓包一定能看到一份原始 ClusterIP 报文再看到一份 DNAT 报文。抓包位置决定你能看见哪个阶段：应用命名空间、主机 veth、隧道接口、物理网卡代表不同观测点。先说明模式和观测点，再解释没有看见某地址的意义，不用一张截图推翻整个服务机制。
+
+连接跟踪保存已经建立的流与所选后端等状态。新建连接可以选择新后端，已建立连接则通常需要维持原有对应关系，不能在半条 TCP 流中随便换一台不认识该连接的服务器。后端下线时，新连接的选择与旧连接是否还能排空，是两个验收项目。长连接、HTTP/2 多路复用和连接池可能让流量长期停留在少数实例，不能只按请求数量想象“每个请求都会重新均衡”。
+
+查服务故障时，先对照 EndpointSlice 中就绪地址，再查看实际源节点的 Service map 和后端；如果直达 Pod 成功而 ClusterIP 失败，优先验证服务转发状态，但仍记录策略与返回路径。直接访问 Pod 不完全等价于通过服务入口，源地址和处理位置可能不同，所以它是定位用对照，不是最终修复方案。
+
+## 身份与策略课堂：允许到达 IP，不等于允许所有业务动作
+
+L3 是网络地址层，L4 是 TCP/UDP 端口层，L7 是 HTTP 等应用协议层。只允许到 `web:80` 表示放行这个端口，不会自动区分读取订单和删除订单。需要 HTTP 方法或路径级限制时，可以评估支持的 L7 规则，但它依赖协议识别与代理处理，增加 CPU、内存、延迟和故障环节。
+
+加密又带来边界：端到端 TLS 把 HTTP 内容放进密文，普通网络观测不能凭空读取 URL 或正文。要做内容级检查，需设计受支持的 TLS 终止或检查机制，并承担证书、信任、性能和隐私责任。eBPF 在内核执行不意味着它绕过密码学，也不意味着所有流量都经 Envoy。先画谁加密、谁解密、谁检查，再讨论能观察到什么。
+
+网络身份标签也不替代业务鉴权。`app=client` 被允许访问服务，只说明这类工作负载能建立某类通信，不说明请求中的用户有权访问某张订单。业务仍需验证用户、租户、操作和数据范围。反过来，业务有鉴权也不能替代网络最小权限：被攻陷的 Pod 不应能够随意访问数据库管理端口。
+
+策略允许与拒绝要按所用资源类型理解。Kubernetes NetworkPolicy 主要表达允许集合，Cilium 扩展策略还可能包含显式拒绝等能力；不要把前者“所有允许求并集”的口诀无条件套到扩展拒绝规则。生产落地先确认精确版本与策略类型，再在隔离命名空间跑正向和反向用例。参考 [Cilium 策略概览](https://docs.cilium.io/en/stable/security/policy/index.html)，现场版本差异不能被 `stable` 页面覆盖掉。
+
+## DNS 与外部依赖课堂：域名策略怎么知道今天的地址
+
+外部告警 API 可能今天解析到地址甲、明天解析到地址乙，手工写死 IP 会变成运维负担。`toFQDNs` 的 FQDN 意思是完整域名。Cilium 的相关机制通过受控 DNS 观测学习域名对应的 IP，再把策略许可关联到这些地址；它不是把每一个业务包里的目的 IP 自动反查为可信域名。DNS 请求要能走到正确的代理/解析路径，缓存与有效期也影响结果。
+
+把故障拆开：应用是否真正发起了 DNS 查询，查询有没有被允许，响应有没有到达，agent 的域名缓存是否学到了地址，对应策略是否更新，新连接使用的是不是这个地址。直接使用硬编码 IP、独立的加密 DNS 通道或应用自己的长期缓存，可能与原设计的观测链不一致。不能看到“解析器正常”就宣布域名策略正常。
+
+缓存 TTL 是 Time To Live（生存时间），表示记录在一定时间范围内仍可使用；它不是永远可靠的授权证明。地址可能复用，同一个托管 IP 也可能承载多个域名。只按 DNS 学到的 IP 放行，不自动获得 HTTP 主机名和用户级授权。域名白名单应尽量精确，结合应用 TLS 验证和业务鉴权，不把一个宽泛通配域名当成数据防泄漏体系。具体缓存、最小 TTL 和连接保留行为请对照目标版本的 [L3 域名策略](https://docs.cilium.io/en/stable/security/policy/layer3/) 与 [L7 DNS 规则](https://docs.cilium.io/en/stable/security/policy/layer7/)。
+
+## 实验复盘升级：让“标签修好了”成为有证据的结论
+
+继续前文 `client-broken` 实验，不另建生产资源。基础前提是默认拒绝与精确允许均存在，正常 `client` 仍能访问 `web`，故障 Pod 已 Ready。先执行 `kubectl -n cilium-lab get pods -o wide --show-labels` 保存身份与落点，再用 `kubectl -n kube-system get pods -l k8s-app=cilium -o wide` 找到源和目标节点各自的 agent Pod。接下来将命令中的 agent 名替换成真实观测值，不使用随机选择的 DaemonSet Pod冒充目标节点。
+
+```bash
+kubectl -n kube-system exec <目标节点的-cilium-pod> -- cilium-dbg endpoint list
+kubectl -n kube-system exec <目标节点的-cilium-pod> -- cilium-dbg policy get
+hubble observe --namespace cilium-lab --last 20
+```
+
+尖括号只是待替换说明，不可以原样执行。`endpoint list` 查看本节点端点及身份，`policy get` 查看节点接收的策略状态，Hubble 观察近期流。记录源/目标、协议、时间与 verdict（处理结论），不只截一行含 `DROPPED` 的历史事件。先发起一次带三秒超时的新请求，再在同一时间窗观察；旧事件不能说明刚修改后的结果。
+
+修复标签之后允许状态传播和端点再生成，有限次数重试，例如每两秒观察一次、最多三十秒。若仍失败，不继续反复改标签：检查实际标签、正确节点、端点是否就绪、策略是否加载、DNS 是否可用，以及 Hubble 自身是否丢失事件。恢复必须满足正常客户端和修复客户端都能请求成功；随后删除独立 `client-broken` Pod，完成全部实验再删除专用 `cilium-lab` 命名空间，停止 Hubble 的端口转发终端。只清理本实验创建的对象。
+
+## 容量与事故推理：每秒请求不多，为什么连接表会满
+
+假设一个采集器每秒新建一千条短连接，而连接跟踪状态平均保留六十秒，粗略会累积约六万条活跃或待清理状态；这只是解释趋势，实际表结构、协议状态和清理行为按版本确认。若改成连接复用，业务请求数不变，连接新建与状态增长却可能显著下降。因此调容量先区分 QPS（每秒请求数）、CPS（每秒新建连接数）、同时连接数和状态保留时间。
+
+BPF map 使用内核内存，扩大会占更多资源；部分 map 的实现和淘汰行为不同，不能把某一张表的经验套到全部映射。看见插入失败时保存具体 map、当前容量、失败速率、节点内存、流量模式与最近配置。若根因是客户端无节制重连，单纯扩表可能只把事故推迟；若容量基线不足，变更应评估内存与重启要求，再在小范围实施。不要为了清表而全节点重启，旧连接和取证都会受到影响。
+
+设计三百节点平台时，先选择路由/IPAM、地址空间和故障域，再考虑身份规模、策略更新频率、Service 后端数量、连接表和 Hubble 事件量。给每个 Pod 加一个唯一安全标签可能扩大身份与策略状态，业务可观测标签也未必适合全部进入安全身份；选择哪些标签应经过支持的配置与安全评审。指标维度同样要治理，不能把每个连接五元组永久当指标标签。
+
+最后回答生产取舍：我会先在隔离集群验证内核和功能矩阵，再用相同业务路径对比允许/拒绝、新旧连接、节点故障与升级收敛。迁移回滚不仅是 Helm 退一个版本，还涉及 kube-proxy 模式、BPF 状态、IPAM、CRD 和正在运行的连接。AIOps 首先自动整理证据与影响面；是否改网络基础层由经过审批的运行手册决定，不由模型根据性能宣传直接切换模式。
 
 ## 学习证据
 

@@ -21,11 +21,11 @@ const featuredRoutes = [
 const workflow = [
   {
     title: '定位差距',
-    body: '先看路线和能力地图，知道自己还缺哪块工程能力。'
+    body: '先跟老师认识文件、进程、网络和服务，再按能力地图找到自己的起点。'
   },
   {
     title: '动手实验',
-    body: '每篇技术栈文章都尽量落到命令、配置、实验和排障。'
+    body: '先预测再操作，完成基础实验和故障演练，用实际结果检查自己的理解。'
   },
   {
     title: '沉淀证据',
@@ -33,7 +33,7 @@ const workflow = [
   },
   {
     title: '面试表达',
-    body: '把运维经验讲成 SRE、DevOps 和 AIOps 的真实项目故事。'
+    body: '用 30 秒讲概念、3 分钟讲机制，再回答设计取舍；练习与真实经历分开说。'
   }
 ]
 
@@ -312,10 +312,10 @@ function HomePage({ onNavigate }: { onNavigate: (route: string) => void }) {
     <main>
       <section className="hero">
         <div className="hero__content">
-          <p className="eyebrow">AIOps learning wiki</p>
+          <p className="eyebrow">AIOps learning wiki · 智能运维学习库</p>
           <h1>To Be Better AIOps Engineer</h1>
           <p className="hero__lead">
-            从运维经验出发，用可观测性、自动化、数据分析和 AI 能力解决真实生产问题。
+            从完全零基础开始，跟老师读懂中文知识地图、做实验、学排障，再练习大厂面试中的机制追问和架构取舍。
           </p>
           <div className="hero__actions">
             <a
@@ -338,6 +338,16 @@ function HomePage({ onNavigate }: { onNavigate: (route: string) => void }) {
             >
               查看技术栈
             </a>
+            <a
+              className="button button--ghost"
+              href={hrefForRoute('/tech-stack/teaching-coverage')}
+              onClick={(event) => {
+                event.preventDefault()
+                onNavigate('/tech-stack/teaching-coverage')
+              }}
+            >
+              查看精讲复核
+            </a>
           </div>
         </div>
 
@@ -350,24 +360,25 @@ function HomePage({ onNavigate }: { onNavigate: (route: string) => void }) {
               <strong>zero-to-aiops</strong>
             </div>
             <div className="terminal__body">
+              <p className="muted">学习过程示意 · 以下不是终端命令</p>
               <p>
-                <span className="prompt">$</span> learn linux git prometheus
+                <span className="prompt">1.</span> learn（学习）：Linux、Git、Prometheus
               </p>
-              <p className="muted">route: foundation - observability - sre practice</p>
+              <p className="muted">route（路线）：基础工具 → 可观测性 → 可靠性实践</p>
               <p>
-                <span className="ok">evidence</span> notes, labs, runbooks, GitHub commits
+                <span className="ok">evidence（证据）</span>：笔记、实验、操作手册、GitHub 提交
               </p>
               <p>
-                <span className="prompt">$</span> explain incident-response for interview
+                <span className="prompt">2.</span> explain（讲解）：一次事件响应的判断过程
               </p>
-              <p className="muted">output: story, metrics, tradeoffs, next action</p>
+              <p className="muted">output（输出）：场景、指标、取舍、下一步行动</p>
             </div>
           </div>
-          <div className="signal-grid" aria-hidden="true">
-            <span>SLI</span>
-            <span>SLO</span>
-            <span>RCA</span>
-            <span>RAG</span>
+          <div className="signal-grid">
+            <span>SLI 质量指标</span>
+            <span>SLO 质量目标</span>
+            <span>RCA 根因分析</span>
+            <span>RAG 检索增强生成</span>
           </div>
         </div>
       </section>
@@ -375,7 +386,7 @@ function HomePage({ onNavigate }: { onNavigate: (route: string) => void }) {
       <section className="command-band" aria-labelledby="command-title">
         <div className="section-head section-head--stacked">
           <h2 id="command-title">把学习过程跑起来。</h2>
-          <p>用公开仓库记录路线、实验、复盘和面试材料。页面只做一件事：帮你持续前进。</p>
+          <p>先安装 Git 和 Node.js，再在你自己的学习目录打开终端。下面依次下载仓库、进入目录、安装依赖、启动本地网页；按终端显示的地址访问，按 Ctrl+C 停止服务。</p>
         </div>
         <pre className="command-panel"><code>git clone https://github.com/quweisheng/zero-to-aiops
 cd zero-to-aiops
@@ -386,7 +397,7 @@ npm run dev</code></pre>
       <section className="knowledge-band" aria-labelledby="knowledge-title">
         <div className="section-head section-head--stacked">
           <h2 id="knowledge-title">从这些入口开始。</h2>
-          <p>保留原来的知识结构，把最常用路径放到首页更显眼的位置。</p>
+          <p>先学习基础工具，再沿指标、日志、自动化和 AI 的业务链逐步深入。不要求你一开始就懂所有缩写，也不把阅读完成当成已经掌握。</p>
         </div>
         <div className="knowledge-grid">
           {featuredDocs.map((doc, index) => (
@@ -399,7 +410,7 @@ npm run dev</code></pre>
                 onNavigate(doc.route)
               }}
             >
-              <span>{doc.route.split('/')[2] ?? 'start'}</span>
+              <span>{doc.section}</span>
               <strong>{doc.title}</strong>
             </a>
           ))}

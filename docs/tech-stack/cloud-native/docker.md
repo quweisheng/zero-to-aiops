@@ -99,24 +99,24 @@ Docker 官方资料可以按这张表理解：
 ## Docker 在 AIOps 链路中的位置
 
 ```text
-AIOps lab or platform
-  ├── observability
-  │   ├── Prometheus container
-  │   ├── Grafana container
-  │   ├── Loki container
-  │   └── OpenTelemetry Collector container
-  ├── data stores
-  │   ├── MySQL container
-  │   ├── Redis container
-  │   └── Kafka container
-  ├── automation and APIs
-  │   ├── FastAPI container
-  │   └── webhook worker container
-  └── learning evidence
-      ├── Dockerfile
-      ├── run commands
-      ├── logs
-      └── troubleshooting notes
+AIOps lab or platform（实验室或平台）
+  ├── observability（可观测性）
+  │   ├── Prometheus container（指标容器）
+  │   ├── Grafana container（可视化容器）
+  │   ├── Loki container（日志容器）
+  │   └── OpenTelemetry Collector container（遥测采集容器）
+  ├── data stores（数据存储）
+  │   ├── MySQL container（数据库容器）
+  │   ├── Redis container（缓存容器）
+  │   └── Kafka container（消息容器）
+  ├── automation and APIs（自动化与接口）
+  │   ├── FastAPI container（应用接口容器）
+  │   └── webhook worker container（事件回调处理容器）
+  └── learning evidence（学习证据）
+      ├── Dockerfile（镜像构建说明文件）
+      ├── run commands（运行命令）
+      ├── logs（日志）
+      └── troubleshooting notes（排障笔记）
 ```
 
 Docker 在 AIOps 中主要有四个用途：
@@ -144,13 +144,13 @@ Docker 是一个用于开发、分发和运行应用的平台。它的核心对�
 最容易混淆的是镜像和容器：
 
 ```text
-image: nginx:1.27
+image（镜像）: nginx:1.27
   |
-  | docker run
+  | docker run（根据镜像创建并启动容器）
   v
-container: web-1
-container: web-2
-container: web-3
+container（容器）: web-1
+container（容器）: web-2
+container（容器）: web-3
 ```
 
 一个镜像可以启动多个容器。删除容器不会自动删除镜像。删除镜像也不能删除正在使用它的容器。
@@ -160,22 +160,22 @@ container: web-3
 Docker 使用 client-server 架构。
 
 ```text
-user
+user（用户）
   |
   v
-docker CLI
+docker CLI（命令行）
   |
   v
-Docker API
+Docker API（管理接口）
   |
   v
-Docker daemon
+Docker daemon（后台服务）
   |
-  +--> images
-  +--> containers
-  +--> networks
-  +--> volumes
-  +--> registry pull / push
+  +--> images（镜像）
+  +--> containers（容器）
+  +--> networks（网络）
+  +--> volumes（数据卷）
+  +--> registry pull / push（仓库拉取与推送）
 ```
 
 逐层解释：
@@ -196,14 +196,14 @@ docker run -d --name web -p 8080:80 nginx:1.27
 背后大致发生：
 
 ```text
-docker CLI receives command
-  -> sends request to Docker daemon
-  -> daemon checks whether nginx:1.27 exists locally
-  -> if missing, daemon pulls image from registry
-  -> daemon creates container filesystem and metadata
-  -> daemon configures network and port publishing
-  -> daemon starts container process
-  -> CLI prints container ID
+docker CLI receives command（命令行接收请求）
+  -> sends request to Docker daemon（发送给后台服务）
+  -> daemon checks whether nginx:1.27 exists locally（检查本地镜像）
+  -> if missing, daemon pulls image from registry（缺少时拉取）
+  -> daemon creates container filesystem and metadata（创建文件系统与元数据）
+  -> daemon configures network and port publishing（设置网络与端口发布）
+  -> daemon starts container process（启动进程）
+  -> CLI prints container ID（打印容器标识）
 ```
 
 ## Docker 和虚拟机的区别
@@ -213,17 +213,17 @@ docker CLI receives command
 可以用这个图理解：
 
 ```text
-Virtual machine
-  host OS
-  hypervisor
-  guest OS
-  app and dependencies
+Virtual machine（虚拟机，示意托管式场景）
+  host OS（宿主操作系统；裸机虚拟化不需要此层）
+  hypervisor（虚拟化层）
+  guest OS（客户机操作系统）
+  app and dependencies（应用与依赖）
 
-Container
-  host OS kernel
-  container runtime
-  isolated process
-  app and dependencies
+Container（容器）
+  host OS kernel（宿主内核）
+  container runtime（容器运行时）
+  isolated process（隔离进程）
+  app and dependencies（应用与依赖）
 ```
 
 关键区别：
@@ -279,11 +279,11 @@ docker run --memory 256m --cpus 0.5 nginx:1.27
 Docker 镜像是分层的。
 
 ```text
-image: aiops-demo:0.1
-  layer 4: CMD ["python", "app.py"]
-  layer 3: COPY . .
-  layer 2: RUN pip install ...
-  layer 1: FROM python:3.12-slim
+image（镜像）: aiops-demo:0.1
+  运行元数据：CMD ["python", "app.py"]，不额外生成文件系统内容层
+  内容层：COPY . .（复制应用文件）
+  内容层：RUN pip install ...（安装依赖后的文件变化）
+  基础层集合：FROM python:3.12-slim（继承基础镜像）
 ```
 
 好处：
@@ -295,10 +295,10 @@ image: aiops-demo:0.1
 容器启动时，会在只读镜像层上面加一个可写层：
 
 ```text
-container writable layer
-image read-only layer
-image read-only layer
-image read-only layer
+container writable layer（容器可写层）
+image read-only layer（镜像只读层）
+image read-only layer（镜像只读层）
+image read-only layer（镜像只读层）
 ```
 
 容器删除后，可写层通常也会被删除。所以数据库数据、Prometheus 数据、Grafana 配置不能只放在容器可写层里，应该用 volume 或 bind mount。
@@ -386,10 +386,10 @@ docker run -d --name web-b nginx:1.27
 常见状态：
 
 ```text
-created -> running -> exited
+created（已创建）-> running（运行）-> exited（退出）
              |           |
              v           v
-           paused      removed
+           paused（暂停） removed（删除）
 ```
 
 常用命令：
@@ -831,7 +831,7 @@ docker run -d --name web -p 8080:80 nginx:1.27
 含义：
 
 ```text
-host:8080  ->  container:80
+host:8080（宿主机端口） -> container:80（容器内端口）
 ```
 
 访问：
@@ -903,12 +903,12 @@ docker run --rm -it ubuntu:24.04 bash
 容器文件系统分三类：
 
 ```text
-image read-only layers
-container writable layer
-external mounts
-  ├── volume
-  ├── bind mount
-  └── tmpfs
+image read-only layers（镜像只读层）
+container writable layer（容器可写层）
+external mounts（外部挂载）
+  ├── volume（托管数据卷）
+  ├── bind mount（宿主路径绑定）
+  └── tmpfs（内存文件系统）
 ```
 
 ### 容器可写层
@@ -962,7 +962,7 @@ docker run --rm \
 
 ### tmpfs
 
-tmpfs 把数据放在内存里，不写入磁盘。
+tmpfs 主要把数据放在内存文件系统中，但在启用 swap 的 Linux 环境下，相关内存页可能进入交换区，不能把它作为“敏感数据绝不会落盘”的保证。
 
 ```bash
 docker run --rm --tmpfs /tmp nginx:1.27
@@ -1013,14 +1013,14 @@ docker run --rm --network aiops-net curlimages/curl:8.10.1 http://web
 容器里的 `localhost` 指容器自己，不是宿主机，也不是别的容器。
 
 ```text
-inside container A:
-  localhost -> container A
+inside container A（容器 A 内）:
+  localhost -> container A（A 自己）
 
-inside container B:
-  localhost -> container B
+inside container B（容器 B 内）:
+  localhost -> container B（B 自己）
 
-on host:
-  localhost -> host
+on host（宿主机上）:
+  localhost -> host（宿主机自己）
 ```
 
 如果 `api` 容器要访问 `prometheus` 容器，不应该写：
@@ -1047,11 +1047,11 @@ Registry 是镜像仓库。常见有：
 常见流程：
 
 ```text
-docker build
-  -> docker tag
-  -> docker push
-  -> another machine docker pull
-  -> docker run
+docker build（构建）
+  -> docker tag（添加仓库标签）
+  -> docker push（上传）
+  -> another machine docker pull（另一台机器下载）
+  -> docker run（创建并运行）
 ```
 
 示例：
@@ -1470,7 +1470,7 @@ docker ps
 预期看到 `aiops-health` 状态为 Up，并且 PORTS 有类似：
 
 ```text
-0.0.0.0:8000->8000/tcp
+0.0.0.0:8000->8000/tcp  # 示例输出：所有 IPv4 接口的宿主端口映射到容器 TCP 8000
 ```
 
 ### 第 7 步：访问服务
@@ -1712,8 +1712,8 @@ Docker 负责构建镜像和运行容器的单机能力。Kubernetes 负责在�
 ## Docker Engine 的完整运行链
 
 ```text
-docker CLI
-  -> Docker Engine API
+docker CLI（命令行客户端）
+  -> Docker Engine API（容器引擎接口）
   -> dockerd 校验配置、网络、卷和容器请求
   -> containerd 管理 image、snapshot、task
   -> containerd-shim 承接容器生命周期
@@ -1762,7 +1762,7 @@ docker run -d --name docker-oom-lab --memory 64m --memory-swap 64m \
   python:3.12-alpine python -c "x=bytearray(256*1024*1024); print(len(x))"
 docker wait docker-oom-lab
 docker inspect docker-oom-lab --format 'exit={{.State.ExitCode}} oom={{.State.OOMKilled}} error={{.State.Error}}'
-docker events --since 10m --filter container=docker-oom-lab
+docker events --since 10m --until 0s --filter container=docker-oom-lab
 ```
 
 预期容器被终止，常见退出码是 137，`OOMKilled=true`。若不是，检查当前 daemon 是否真的启用内存控制、容器是否在分配前因其他错误退出，并查看宿主 OOM/cgroup 日志。
@@ -1833,6 +1833,34 @@ Docker 主要解决应用运行环境一致性和分发问题。它通过 Docker
 - [ ] 我能用 `docker logs`、`docker inspect`、`docker exec` 排障。
 - [ ] 我能用 `docker stats` 看容器资源。
 - [ ] 我能说明 Docker 在 Prometheus、Grafana、FastAPI demo 中的作用。
+
+## 老师带你把健康服务讲成一条完整交付链
+
+先问自己：`/health` 返回正常，究竟证明了什么？本文示例只证明 Python 进程接到 HTTP 请求并返回固定状态，没有连接数据库、调用模型或写入消息。因此它适合学容器通信，却不能作为真实业务的完整就绪判据。你设计生产探针时，要说明它检查哪层、依赖失败会不会造成所有副本一起被摘除，以及检查自身的超时和开销。
+
+### 从代码改动到用户看到新版本，中间有四次确认
+
+第一张收据是构建输入：源码提交、Dockerfile、依赖锁定和构建上下文。第二张是产物：最终镜像 digest、目标平台、软件物料清单 SBOM 与构建来源证明 provenance。第三张是运行实例：当前容器到底使用哪个镜像 ID、环境和挂载。第四张才是业务响应：访问结果和日志里的版本标记符合预期。
+
+所以“我改了 app.py”不能证明容器已更新；“push 了 tag”不能证明目标机器已经拉取；“容器 Running”也不能证明业务请求正确。AIOps 发布回归应把这四层串起来，才能区分构建旧缓存、标签漂移、运行旧容器和应用自身错误。
+
+### 为什么删掉秘密文件仍可能泄露
+
+镜像层保存文件变化。如果先 `COPY` 一份密钥，再在后面的 `RUN` 删除，较早的层仍可能含原内容。`.dockerignore` 应在发送构建上下文前排除秘密；构建时需要访问私有资源，用受控的 BuildKit secret mount，并避免把秘密打印到日志或写进最终文件。多阶段构建可以减少运行镜像内容，却不是自动脱敏器。
+
+同理，`docker inspect`、环境变量和构建参数都可能包含敏感数据。做 GitHub 学习证据时应提取必要字段并脱敏，不要把完整输出当成安全日志包。容器非 root 也不等于宿主机安全，挂载 Docker socket、宿主根目录或赋予过大 capabilities 会显著扩大权限。
+
+### OOM 实验后，怎样回答“为什么是 137”
+
+137 常对应收到 SIGKILL 信号退出，但仅凭退出码不能证明内存超限。人为强杀也可能出现相同码，要结合 `OOMKilled`、容器事件、cgroup 及宿主内核日志。前面 `docker events` 使用 `--until 0s` 将查询截止到当前时刻，避免一直订阅导致你误以为命令卡死。
+
+若确认为内存超限，下一步仍不是把 limit 任意调大：先区分正常峰值、并发过高、缓存无界和泄漏，核算宿主总容量，调整一个变量后用相同负载回归。CPU 被限速时也可能表现为低平均使用率但高延迟，因为配额周期内耗尽额度后必须等待下一周期。
+
+**30 秒：**Docker 负责镜像构建、分发与单机容器运行。namespace 隔离可见世界，cgroup 控制资源预算，镜像内容层与容器可写层分离；它共享内核，不提供虚拟机级完整隔离或跨主机高可用。
+
+**3 分钟：**从本文 HTTP 服务的构建输入、镜像、容器、端口和响应讲起，再讲数据卷生命周期、PID 1 信号、资源限制和供给链证据，最后用 OOM 实验说明基于证据判断而不是见退出就重启。
+
+**设计追问：如何回滚？**保留上一版镜像 digest、兼容的配置和数据库迁移策略，先验证数据格式能否被旧版读取，再切回并验收业务。删除新容器只能替换执行环境，不能自动撤销已经写到数据卷或外部数据库的新数据。
 
 ## 学习证据
 

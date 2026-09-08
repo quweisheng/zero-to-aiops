@@ -24,6 +24,8 @@
 
 说明：本文按 GitHub 官方文档的概念结构整理，用原创中文讲解，不复制官方全文。
 
+仓库边界：本站当前使用 React/Vite，`npm run docs:build` 是构建脚本别名，产物目录是 `dist`。下文提及 VitePress 的地方用于说明静态站点场景，不代表当前仓库仍以 VitePress 部署。示例中的 action 主版本用于教学，落地时请核验官方支持范围，并在生产按组织策略固定审核过的提交摘要。
+
 ## 场景开场
 
 你维护一个 AIOps 知识库。每次改完文档，理论上都要做这些事：
@@ -64,58 +66,58 @@ GitHub Actions 就是 GitHub 里的自动化执行平台：当仓库发生某个
 GitHub Actions 官方文档大致可以按这张地图理解：
 
 ```text
-GitHub Actions
-  -> Workflows and actions
-     -> workflows
-     -> actions
-     -> variables
-     -> contexts
-     -> expressions
-     -> artifacts
-     -> cache
-     -> reusable workflows
-     -> environments
-     -> concurrency
-  -> Runners
-     -> GitHub-hosted runners
-     -> larger runners
-     -> self-hosted runners
-     -> runner groups
-     -> Actions Runner Controller
-  -> Security
-     -> secrets
-     -> GITHUB_TOKEN
-     -> permissions
-     -> OIDC
-     -> secure use
-     -> pull_request_target risk
-  -> Manage workflow runs
-     -> logs
-     -> rerun
-     -> cancel
-     -> artifacts
-     -> cache
-     -> debug logging
-  -> Reference
-     -> workflow syntax
-     -> events
-     -> workflow commands
-     -> variables
-     -> contexts
-     -> expressions
-     -> limits
+GitHub Actions（平台自动化工作流）
+  -> Workflows and actions（工作流与可复用动作）
+     -> workflows（流程定义）
+     -> actions（动作组件）
+     -> variables（变量）
+     -> contexts（上下文数据）
+     -> expressions（表达式）
+     -> artifacts（运行制品）
+     -> cache（依赖缓存）
+     -> reusable workflows（可复用工作流）
+     -> environments（部署环境与审批边界）
+     -> concurrency（并发控制）
+  -> Runners（执行机器）
+     -> GitHub-hosted runners（平台托管机器）
+     -> larger runners（更大规格机器）
+     -> self-hosted runners（自托管机器）
+     -> runner groups（执行机器分组）
+     -> Actions Runner Controller（在 Kubernetes 中管理执行器的控制器）
+  -> Security（安全）
+     -> secrets（机密值）
+     -> GITHUB_TOKEN（任务临时凭据）
+     -> permissions（权限）
+     -> OIDC（开放身份连接：换取短期云凭据）
+     -> secure use（安全使用）
+     -> pull_request_target risk（目标分支上下文事件的风险）
+  -> Manage workflow runs（管理运行实例）
+     -> logs（日志）
+     -> rerun（重新执行）
+     -> cancel（取消）
+     -> artifacts（制品）
+     -> cache（缓存）
+     -> debug logging（调试日志）
+  -> Reference（参考手册）
+     -> workflow syntax（工作流语法）
+     -> events（触发事件）
+     -> workflow commands（工作流命令协议）
+     -> variables（变量）
+     -> contexts（上下文）
+     -> expressions（表达式）
+     -> limits（额度与限制）
 ```
 
 初学不要从所有 action 开始背。先把这条主线吃透：
 
 ```text
-Event
-  -> Workflow file
-  -> Job
-  -> Runner
-  -> Step
-  -> run command or uses action
-  -> Logs / artifact / status
+Event（触发事件）
+  -> Workflow file（工作流文件）
+  -> Job（任务）
+  -> Runner（执行机器）
+  -> Step（步骤）
+  -> run command or uses action（执行命令或调用动作）
+  -> Logs / artifact / status（日志、制品、状态）
 ```
 
 ## GitHub Actions 在 AIOps 链路中的位置
@@ -124,7 +126,7 @@ AIOps 不是只有模型和告警。真正的 AIOps 系统还需要稳定的工�
 
 ```text
 代码或配置变更
-  -> GitHub push / Pull Request
+  -> GitHub push / Pull Request（源码推送或合并请求）
   -> GitHub Actions 自动检查
   -> 单元测试、文档构建、镜像构建、IaC plan
   -> 产物上传或部署
@@ -499,7 +501,7 @@ steps:
     run: |
       npm ci
       npm run docs:build
-      ls -la docs/.vitepress/dist
+      ls -la dist
 ```
 
 含义：这三行会在同一个 step 的 shell 里顺序执行。
@@ -1063,7 +1065,7 @@ env:
 
 ### GITHUB_TOKEN
 
-`GITHUB_TOKEN` 是 GitHub Actions 给每个 workflow run 提供的自动 token。
+`GITHUB_TOKEN` 是 GitHub Actions 为每个 job 提供的临时凭据；它不是你的个人密码，各任务权限应分别收窄。
 
 常见用途：
 
@@ -1119,7 +1121,7 @@ jobs:
       contents: read
       issues: write
     steps:
-      - run: gh issue create --title "AIOps report" --body "done"
+      - run: gh issue create --repo "$GITHUB_REPOSITORY" --title "AIOps report" --body "done"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
@@ -1168,7 +1170,7 @@ steps:
   - uses: actions/upload-artifact@v4
     with:
       name: docs-dist
-      path: docs/.vitepress/dist
+      path: dist
 ```
 
 下载 artifact：
@@ -1185,9 +1187,9 @@ steps:
 
 ```text
 job A 生成文件
-  -> upload-artifact
+  -> upload-artifact（上传作业制品的动作）
   -> GitHub 存储
-  -> job B download-artifact
+  -> job B download-artifact（下游作业下载制品）
   -> 继续使用
 ```
 
@@ -1447,8 +1449,8 @@ jobs:
       - name: Upload dist
         uses: actions/upload-artifact@v4
         with:
-          name: vitepress-dist
-          path: docs/.vitepress/dist
+          name: docs-dist
+          path: dist
 ```
 
 你应该能解释：
@@ -1498,7 +1500,7 @@ jobs:
 
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: docs/.vitepress/dist
+          path: dist
 
   deploy:
     needs: build
@@ -1514,15 +1516,15 @@ jobs:
 执行链路：
 
 ```text
-push main
-  -> build job
-     -> checkout
-     -> setup node
-     -> npm ci
-     -> npm run docs:build
-     -> upload pages artifact
-  -> deploy job
-     -> deploy-pages
+push main（推送主分支）
+  -> build job（构建作业）
+     -> checkout（检出代码）
+     -> setup node（准备脚本运行时）
+     -> npm ci（按依赖锁文件安装）
+     -> npm run docs:build（执行项目定义的文档构建别名）
+     -> upload pages artifact（上传网站部署制品）
+  -> deploy job（部署作业）
+     -> deploy-pages（部署静态网站的动作）
   -> GitHub Pages 更新
 ```
 
@@ -1532,7 +1534,7 @@ push main
 |---|---|---|
 | Pages 设置不是 GitHub Actions | workflow 成功但页面不更新 | Settings -> Pages |
 | `base` 配错 | 页面资源 404 | 检查 VitePress `base` |
-| artifact 路径错 | deploy 找不到文件 | 检查 `docs/.vitepress/dist` |
+| artifact 路径错 | deploy 找不到文件 | 检查实际构建输出 `dist` |
 | 权限不够 | 403 或 deployment failed | 检查 `pages: write`、`id-token: write` |
 | 构建失败 | build job 红色 | 看 `npm run docs:build` 日志 |
 
@@ -1571,13 +1573,16 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Generate diagnostic report
+        env:
+          DIAGNOSTIC_SERVICE: ${{ inputs.service }}
+          DIAGNOSTIC_WINDOW: ${{ inputs.window }}
         run: |
           mkdir -p reports
           {
             echo "# AIOps Diagnostic Report"
             echo ""
-            echo "- service: ${{ inputs.service }}"
-            echo "- window: ${{ inputs.window }}"
+            printf -- '- service: %s\n' "$DIAGNOSTIC_SERVICE"
+            printf -- '- window: %s\n' "$DIAGNOSTIC_WINDOW"
             echo "- commit: ${{ github.sha }}"
             echo "- run: ${{ github.run_id }}"
           } > reports/diagnostic.md
@@ -1739,7 +1744,7 @@ gh run cancel <run-id>
 ### gh run download
 
 ```bash
-gh run download <run-id> -n vitepress-dist
+gh run download <run-id> -n docs-dist
 ```
 
 作用：下载 artifact。
@@ -1875,11 +1880,11 @@ jobs:
 
 故意制造一次失败：
 
-1. 在某个 Markdown 文件里写一个未闭合代码块。
-2. push。
-3. 看 Actions 失败日志。
-4. 修复 Markdown。
-5. 再 push。
+1. 在自己的实验分支中，在构建前添加一个独立步骤 `- run: exit 42`。
+2. 推送实验分支并触发检查，不向正式部署分支注入故障。
+3. 查看失败步骤，预期退出码为 `42`；构建步骤因为前置失败而跳过。
+4. 删除这个故障步骤，保留原本的构建检查。
+5. 再次推送，确认新运行成功，并关闭实验分支。未闭合 Markdown 围栏并不保证构建报错，因此不能用它制造确定性失败。
 
 学习重点：
 
@@ -1896,7 +1901,7 @@ jobs:
   uses: actions/upload-artifact@v4
   with:
     name: docs-dist
-    path: docs/.vitepress/dist
+    path: dist
 ```
 
 完成后：
@@ -2082,10 +2087,10 @@ jobs:
 更推荐：
 
 ```text
-GitHub Actions
-  -> OIDC token
-  -> cloud provider trust policy
-  -> short-lived credential
+GitHub Actions（自动化工作流）
+  -> OIDC token（开放身份连接令牌）
+  -> cloud provider trust policy（云端信任策略）
+  -> short-lived credential（短期凭据）
 ```
 
 好处：
@@ -2171,6 +2176,114 @@ GitHub Actions 是 GitHub 内置的 CI/CD 和自动化平台。它通过事件�
 18. Pages 发布 workflow 需要哪些权限？
 19. workflow 失败后你如何定位问题？
 20. GitHub Actions 如何支撑 AIOps 的自动化闭环？
+
+## 老师带练：同一次提交，为什么任务成功还不等于发布成功
+
+请先想象我们在给值班同事发布一本操作手册。我们至少需要回答四个不同问题：检查的是哪次提交？打出的包是不是来自这次提交？发布系统接收的是不是这个包？用户浏览器看到的是不是这版页面？Actions 的绿色图标只能说明工作流定义的成功条件成立。如果流程里只有 `echo "deployed"`，绿色图标就只证明这句话打印成功。
+
+### 先分清两台“解释器”和两种生命周期
+
+`${{ github.sha }}` 这样的表达式由 Actions 处理；`$GITHUB_SHA` 这样的变量由 runner 上的 shell 展开。前者像老师在发卷前填入班级名称，后者像学生拿到卷子后在自己的桌面上做计算。把不可信的 Issue 标题、服务名直接插入 `run` 脚本，可能把原本的数据变成命令的一部分。上面的诊断示例因此先把输入交给 `env`，再用有引号的变量和固定格式的 `printf` 输出。即使不执行命令，未经清洗的内容写入 Markdown 仍可能伪造报告标题或链接，展示前还要做格式处理。
+
+同一 job 的步骤通常共享工作目录，却不是同一个持续运行的 shell。上一步执行 `export COLOR=blue`，不代表下一步还能读到这个变量；上一步创建文件，下一步一般可以从同一工作目录读到它。不同 job 则不能假定共享磁盘，哪怕两个 job 都写了 `runs-on: ubuntu-latest`。机器标签相同不等于机器实例相同。
+
+因此先问“数据要传给谁”，再选通道。只给后续步骤的环境变量写入 `GITHUB_ENV`；要成为步骤输出的短值写入 `GITHUB_OUTPUT`，再通过 `steps.<id>.outputs` 读取；跨 job 的短值声明 job outputs；跨 job 或留作交付证据的文件上传 artifact。cache 用于加速可重建依赖，不应用作唯一发布包。刚写入 `GITHUB_ENV` 的内容不会回头改变当前步骤环境，多行和不可信值也不能随意用未经校验的分隔符拼接。机密值不应作为这些通道里的普通证据公开传播。
+
+### 基础与故障实验：跨任务传递提交证据，再主动让验证失败
+
+实验环境是你自己的 GitHub 练习仓库，已允许 Actions，有创建工作流权限。它不需要云账号、生产服务器或第三方密钥，但执行会使用账户适用的 Actions 额度。下面文件保存为 `.github/workflows/artifact-classroom.yml`，提交到该练习仓库的默认分支。所有名字都故意使用 `classroom`，便于之后辨认和回收。示例 `@v4` 是明确的教学版本选择，不代表所有运行环境的最新或唯一选择。
+
+```yaml
+name: Artifact classroom
+on:
+  workflow_dispatch:
+    inputs:
+      fail_verification:
+        description: 主动制造一次验证失败
+        type: boolean
+        default: false
+permissions:
+  contents: read
+jobs:
+  make:
+    runs-on: ubuntu-latest
+    outputs:
+      revision: ${{ steps.meta.outputs.revision }}
+    steps:
+      - id: meta
+        shell: bash
+        run: |
+          printf '%s\n' "$GITHUB_SHA" > revision.txt
+          printf 'revision=%s\n' "$GITHUB_SHA" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: classroom-revision
+          path: revision.txt
+          if-no-files-found: error
+          retention-days: 1
+  verify:
+    needs: make
+    runs-on: ubuntu-latest
+    steps:
+      - name: 证明文件不会自动跨任务出现
+        run: test ! -e revision.txt
+      - uses: actions/download-artifact@v4
+        with:
+          name: classroom-revision
+          path: evidence
+      - name: 验证提交身份
+        env:
+          EXPECTED_REVISION: ${{ needs.make.outputs.revision }}
+          FAIL_VERIFICATION: ${{ inputs.fail_verification }}
+        run: |
+          actual=$(cat evidence/revision.txt)
+          test "$actual" = "$EXPECTED_REVISION"
+          if [ "$FAIL_VERIFICATION" = true ]; then
+            echo '课堂故障：主动返回 42'
+            exit 42
+          fi
+          echo 'verified: 文件内容与上游任务声明一致'
+      - name: 失败时也保留证据
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: classroom-verification-evidence
+          path: evidence/revision.txt
+          if-no-files-found: warn
+          retention-days: 1
+```
+
+在 Actions 页面选择这个工作流，点 Run workflow，第一次保持复选框关闭。预期两个 job 都成功；下载制品后，文件里的一行提交摘要应与该运行页面上的提交一致。为什么没有 checkout？因为实验只生成元数据，不需要读取仓库源码；真正构建代码的任务仍需要检出正确版本。
+
+第二次勾选故障开关。预期 `make` 成功，`verify` 的验证步骤退出 `42`，整个运行失败，而后面的证据上传仍会执行。`!cancelled()` 的含义是没有被取消时保留这类收尾工作，并不是让先前的失败消失。打开失败日志应明确看到课堂故障文字，下载验证证据还能找到同一提交摘要。第三次关闭开关再运行，确认恢复成功。请在笔记中分别记录运行编号、尝试次数、提交摘要、失败步骤和制品名，不能只贴最后一个绿色截图。
+
+如果看不到 Run workflow，先确认文件已在默认分支、YAML 解析正常、仓库允许 Actions。找不到制品时，先看上传步骤是否执行、名称是否精确一致、保存期是否到期，再看下载步骤，不要先重跑全部任务。如果上游输出为空，核对步骤 `id`、写入的输出名称以及 job outputs 的映射；`needs` 只声明依赖关系，不会自动传文件。清理时在这个练习仓库删除该工作流文件，已有制品可在运行页面删除或等待一天保存期到期；日志按仓库保存策略管理。没有创建服务器，也无需撤销任何云资源。
+
+这只是“文件与声明一致”的课堂证明，不是防恶意构建的完整供应链证明。若同一受攻击的 job 同时伪造文件和输出，它们仍然能相等。生产还需要可信构建来源、摘要验证、访问控制以及按需求配置的来源证明。
+
+### 看懂失败传播，而不是用忽略错误换绿色
+
+一个 step 有自身执行结果；`continue-on-error` 还会影响平台最终如何归类它。面试遇到“测试报错但流水线是绿色”，先看是不是忽略了错误、shell 是否丢失退出码、测试命令是否真的收集了测试，不要直接认定平台出故障。`always()`、`success()`、`failure()`、`cancelled()` 是状态条件，不是业务验收。下载失败后清理步骤又因为找不到文件而失败，还可能掩盖第一现场，因此收尾步骤应容忍自己的前置资源尚未创建。
+
+矩阵任务像给多组学生发同一份卷子，分别测试不同语言版本或系统。`fail-fast` 决定某个矩阵成员失败后是否提前取消其他成员，不等于“失败的版本不重要”。排兼容性问题时可以保留全部结果；昂贵构建可以考虑尽早停止，但交付结论必须说明哪些组合实际完成、哪些取消而未知。
+
+Pull Request 场景中的提交身份也要看事件语义：默认 PR 检查可能针对平台生成的合并引用，不能一概把 `github.sha` 当成 PR 源分支最后一次提交。回归测试关心的是集成结果，代码审查定位可能关心源分支摘要，两者都记录才能避免“日志中的版本找不到”。定时任务按平台规则调度，不是实时计时器；它可能延迟，通常读取默认分支上的工作流。需要分钟级故障自愈时，应选择有合适时效保证的调度系统，而不是把定时 Actions 当监控核心。详见[官方事件说明](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows)。
+
+### 生产设计：从凭据到执行机器都要划边界
+
+自托管 runner 的优点是能访问内网、使用专用硬件；代价是你要维护补丁、隔离、磁盘、并发和清理。允许不可信 PR 在能访问生产网的持久 runner 上执行，就像让陌生人拿着自己的脚本进入机房。仅仅隐藏 secrets 不足以消除机器上已有凭据、挂载目录或网络权限。应按信任域隔离执行池，并优先使用可销毁的执行环境。
+
+OIDC 是让任务证明身份再向云端换取短期凭据，不是自动获得安全。云端信任策略必须检查允许的仓库、分支或 environment、受众等条件；`id-token: write` 允许申请身份令牌，本身不等于云资源管理员权限。组织安全要求应落实到云角色授权和部署审批，而不是只在 YAML 里出现一个 OIDC 字样。参见[官方安全使用说明](https://docs.github.com/en/actions/reference/security/secure-use)。
+
+容量上把排队时间和执行时间分开统计：十个任务各跑两分钟，等待二十分钟可能是 runner 配额或环境审批，不是 npm 突然变慢。并发分组可以控制同一环境的部署，但取消旧运行不会撤销已经完成的数据库更新或外部 API 调用。变更带副作用时，应让部署步骤可幂等重入，并记录“未开始、已提交、已确认、结果未知”；遇到未知先查询远端操作编号，再决定是否重试。
+
+### 面试的三层表达
+
+30 秒回答：“Actions 根据事件调度工作流，在隔离的 job 中执行步骤。我用输出传递短值、artifact 传递交付文件、cache 加速依赖，同时把权限、环境审批和真实发布验证作为独立边界。”
+
+3 分钟回答：以本节实验为起点，先讲提交身份如何生成，再讲不同 job 为什么要显式下载制品，然后讲退出码如何产生失败结论，最后补充生产中的可信来源、最小权限、runner 隔离和网页验收。讲每一步要看什么证据，比背一长串 action 名称更有说服力。
+
+追问“`needs` 有了为什么还找不到文件？”回答依赖图不共享文件系统；“绿色 workflow 为什么网页仍旧？”回答逐层核对构建摘要、上传制品、部署完成状态和页面版本标记、资源缓存；“给 PR 部署权限方便预览是否可行？”回答先定义可信贡献者与隔离预览环境，不能让不可信代码接触生产凭据。你的 GitHub 证据应包含三次运行结果和清理记录，并标明这是课堂实验，不是假称已有生产落地。
 
 ## 学习证据
 
