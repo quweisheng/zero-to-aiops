@@ -107,10 +107,10 @@ VPLEX 是面向块存储的虚拟化与数据可用性平台。它向主机呈�
 
 ```text
 站点 A 主机写入
-  -> 站点 A VPLEX Cluster
-  -> 更新本地 Device
-  -> 通过站点间链路发送到站点 B Cluster
-  -> 更新远端 Device
+  -> 站点 A VPLEX Cluster（集群）
+  -> 更新本地 Device（逻辑设备）
+  -> 通过站点间链路发送到站点 B Cluster（集群）
+  -> 更新远端 Device（逻辑设备）
   -> 满足同步写完成条件后向主机确认
 ```
 
@@ -191,7 +191,7 @@ VPLEX 是面向块存储的虚拟化与数据可用性平台。它向主机呈�
 
 **为什么需要：** 它们决定断电恢复、配置恢复和远端成员重新同步能否安全进行。
 
-**怎么工作：** 脏缓存通过受保护机制写回；VS2/VS6 支持的缓存保护方式依硬件而定；差异位图用于增量重建。
+**怎么工作：** 本文 Local/Metro 同步缓存模式采用写穿透，向主机确认写入前等待相关后端存储确认；不要把它讲成只写 VPLEX 缓存便提前返回的写回阵列。缓存一致性、系统元数据和差异位图分别服务于读写协调、配置恢复和增量重建。
 
 **怎么用或观察：** 检查 `health-check --cache`、系统卷状态和 `vault status`（仅适用于命令支持的平台）。
 
@@ -208,7 +208,7 @@ VPLEX 是面向块存储的虚拟化与数据可用性平台。它向主机呈�
 VPLEX Director 后端 A -> Fabric A -> 阵列控制器端口 A
 VPLEX Director 后端 B -> Fabric B -> 阵列控制器端口 B
 
-Metro Cluster 1 <-> 独立站点间链路 <-> Metro Cluster 2
+Metro Cluster 1（站点一集群）<-> 独立站点间链路 <-> Metro Cluster 2（站点二集群）
                          |
                     第三故障域 Witness
 ```
@@ -266,7 +266,7 @@ VPLEX 没有一份适用于所有对象的单一 YAML。下面用设计清单表
 service: order-db                 # 业务名称，用来关联卷、告警和变更单
 virtual_volume: vv_order_db_01    # 主机看到的 VPLEX 虚拟卷
 consistency_group: cg_order_db    # 同一数据库相关卷放进同一一致性组
-preferred_cluster: cluster-1      # 失联时优先保留 I/O 的站点，必须与业务主站一致
+preferred_cluster: cluster-1      # 失联时优选站点，应与预期存活方和应用恢复策略对齐
 witness_failure_domain: site-3    # Witness 位于独立第三故障域
 fabric_a_paths: 2                 # A Fabric 的期望路径数
 fabric_b_paths: 2                 # B Fabric 的期望路径数
@@ -381,14 +381,23 @@ import csv
 import sys
 
 bad_rows = []
+expected_names = {"cluster-1", "cluster-2", "dd_order_db", "meta_cluster_1"}
+seen_names = set()
 
 with open("vplex-health.csv", encoding="utf-8", newline="") as file:
     for row in csv.DictReader(file):
+        if row["name"] in seen_names or row["name"] not in expected_names:
+            raise ValueError("课堂对象重复或未知")
+        seen_names.add(row["name"])
         state_ok = row["health"] == "ok" and row["operational"] == "ok"
         service_ok = row["service_status"] == "running"
         paths_ok = int(row["paths"]) >= 2
-        if not (state_ok and service_ok and paths_ok):
+        rebuild_ok = float(row["rebuild_percent"]) == 100
+        if not (state_ok and service_ok and paths_ok and rebuild_ok):
             bad_rows.append(row)
+
+if seen_names != expected_names:
+    raise ValueError("课堂对象覆盖不完整，不能判为健康")
 
 if bad_rows:
     print("VPLEX_HEALTH=CRITICAL")
@@ -396,7 +405,8 @@ if bad_rows:
         print(
             f'{row["object_type"]} {row["name"]}: '
             f'health={row["health"]}, operational={row["operational"]}, '
-            f'service={row["service_status"]}, paths={row["paths"]}'
+            f'service={row["service_status"]}, paths={row["paths"]}, '
+            f'rebuild={row["rebuild_percent"]}'
         )
     sys.exit(2)
 
@@ -425,8 +435,8 @@ VPLEX_HEALTH=OK
 
 ### 精确步骤
 
-1. 复制基线：`Copy-Item .\vplex-health.csv .\vplex-health.backup.csv`。
-2. 把 `dd_order_db` 行改为 `degraded,stressed,cluster-unreachable,4,40`。
+1. 确认本轮空目录中备份文件不存在后复制基线：`Copy-Item .\vplex-health.csv .\vplex-health.backup.csv`；已有备份则停止。
+2. 把分布式设备完整一行改为 `distributed-device,dd_order_db,cluster-1,degraded,stressed,cluster-unreachable,4,40`。
 3. 把 `meta_cluster_1` 的 `paths` 改为 `1`。
 4. 再次执行 `python .\check_vplex.py`。
 
@@ -434,8 +444,8 @@ VPLEX_HEALTH=OK
 
 ```text
 VPLEX_HEALTH=CRITICAL
-distributed-device dd_order_db: health=degraded, operational=stressed, service=cluster-unreachable, paths=4
-system-volume meta_cluster_1: health=ok, operational=ok, service=running, paths=1
+distributed-device dd_order_db: health=degraded, operational=stressed, service=cluster-unreachable, paths=4, rebuild=40
+system-volume meta_cluster_1: health=ok, operational=ok, service=running, paths=1, rebuild=100
 ```
 
 验证方法：`$LASTEXITCODE` 应为 `2`。第一条异常说明 Metro 对端或站点间链路需要调查；第二条说明对象仍在线但已经失去路径冗余。
@@ -601,6 +611,68 @@ Witness 提供额外观察，但不保存数据库内容，不判断哪条业务
 还要给每份导出标时间和来源。若主机证据是 10:00、阵列证据是 10:20，期间已经完成修复，直接拼起来会得到虚假的矛盾。以统一时间线和对象 ID 关联指标、日志与变更，才适合交给根因分析模型。自动化先生成只读取证包和候选假设，不自动执行仲裁恢复。
 
 **面试递进练习：**“后端阵列 A 要维护，能直接关机吗？”先回答不能仅凭双活名称判断；核对所有受影响卷是否有健康镜像、主机访问是否满足支持矩阵、当前是否重建、Witness 和路径是否完整、业务可承受何种降级。再给出维护停止条件与验证清单。若维护后仍只有单边健康，先恢复冗余和数据同步再关闭事件，不能因为应用首页能打开就宣告完成。
+
+## 缓存确认课堂：不要把 VPLEX 当作另一台写回阵列
+
+写穿透的意思是等待相关后端完成条件，再向主机确认；写回则可能先在受保护缓存满足条件后返回，稍后下刷。两者影响延迟与失败承诺，不能因为产品都有缓存就混用。Dell 的 [GeoSynchrony 6.2 同步一致性组说明](https://www.dell.com/support/manuals/en-us/vplex-geosynchrony/vplex_p_appliance_admin_guide/synchronous-consistency-groups?guid=guid-49a10231-1f56-4a79-bd71-ff6563af5091&lang=en-us)把此模式称为 write-through，界面也称 synchronous cache mode。本文范围内不把历史其他形态的缓存机制混进来。
+
+后端阵列自己仍可能使用受保护缓存，所以“等待后端确认”也不等于每笔都等到某颗物理闪存写完。端到端推理应一层层写出确认责任：数据库日志策略、客户机与主机 I/O、VPLEX 同步模式、相关后端阵列的保护承诺。任意一层用了不恰当的持久化设置，不能指望双站点名称自动补救。
+
+读取也不是永远绕过协调。多个 Director 和站点访问同一虚拟卷，需要缓存一致性机制避免读取已经失效的旧内容。高比例写同一小范围地址的负载，与大范围只读负载不同；不能用一次缓存命中读测试代表真实数据库写延迟。课堂把“缓存加速”和“写确认条件”分开，面试便不会陷入“缓存越大写越快”的错误承诺。
+
+故障推演准备三格：主机已提交、VPLEX 等待后端、主机收到成功。基础步骤按顺序填写，故障步骤在第二格时让远端不可达，问是否可以把第一格当作已成功。正确答案依据当时对象和故障规则确认结果，未知请求还要由应用查事务结果，不能盲重试非幂等写入。恢复步骤补齐成功或失败证据，清理只移除合成时序，不中断真实链路。
+
+## 可见性课堂：两个站点能访问，不等于每个站点都有本地副本
+
+一个 Local 设备与一个 Distributed Device 不是同一种数据保护对象。某些受支持的 Metro 配置允许本地一致性组在两个集群全局可见，远侧访问可能要跨站点去取没有本地副本的数据。Dell 的 [Global visibility](https://www.dell.com/support/manuals/en-us/vplex-vs6/vplex_p_administrator_guide_62sp1/global-visibility?guid=guid-687a1298-1ddc-40df-8c69-a5ce72f985e1&lang=en-us)说明了这种边界。不能只因远端主机能读到卷，就宣称卷有跨站点镜像。
+
+验收表因此要分别列出呈现位置、数据副本位置与故障时允许访问位置。这三列可能不同。纸面实验画一个只有站点甲后端副本、两站点都可见的卷；故障步骤让甲后端不可用，预测乙能够看见设备名称也不代表有可读数据。恢复步骤要修复实际副本路径或按支持方案恢复，不是增加乙侧前端路径数量。
+
+进阶再比较分布式卷：两侧各有成员，但其中一侧落后，拥有副本也不意味着当前可独立安全提供写入。查询成员是否最新、服务状态、组规则和当前权威，才有资格讨论切换。清理恢复虚构拓扑，并给每个结论标明缺少什么证据。这个三列模型可以直接成为 AIOps 资产关系字段，避免把连接关系误推成保护关系。
+
+## 系统卷课堂：配置元数据、差异记录与业务日志各管一件事
+
+Metadata Volume 保存系统配置关系，Logging Volume 跟踪需要重建的变化区域，数据库事务日志则由数据库解释事务。三者都叫“日志或元数据”，但不能互相替代。保存 VPLEX 配置不等于备份业务块；差异记录存在不代表具备任意历史恢复能力；数据库日志齐全也不能重建丢失的全部平台访问关系。
+
+系统卷健康检查应覆盖其真实后端位置与路径。若业务卷跨两套阵列，但系统卷集中在一个未经保护的依赖上，可能留下恢复风险。具体数量、布局、镜像和故障行为依该版本原厂规范，教程不编统一数量；学习者的任务是把实际配置与规范逐条比对，找出未验收项。
+
+遇到系统卷异常，先保存异常对象、路径、后端状态、时间与最近维护，再检查它与业务卷是否共享阵列或端口。不要因为业务暂时正常就延后，也不要自行删除重建系统卷。业务还能工作与恢复基础受损可以同时发生，事件应按冗余风险继续跟踪，直到厂商支持路径完成修复并复验。
+
+## 迁移课堂：主机身份稳定，不等于底层操作没有数据风险
+
+虚拟化层迁移的优势是尽量保持主机看到的卷身份稳定，减少应用侧改动。但数据仍需要复制、追平、切换成员关系和清理旧后端，每步都有资源与状态条件。只看到主机没有重新扫描，不代表复制已完成，也不代表可以立即解除旧 LUN 呈现。
+
+基础纸面流程先确认源、目标后端的唯一设备标识与容量，再标记复制进度、数据最新成员、访问关系和切换点。故障步骤在百分之九十时要求撤销源卷，学生应拒绝，因为目标未满足完成条件。恢复步骤继续受控复制并验证一致性与业务，再根据受支持流程处理源资源；清理删除模拟任务，不调用迁移命令。
+
+影响面还要覆盖共享后端。一个 Storage Volume 的某个 Extent 正被使用时，不能因为其中一个 Virtual Volume 已迁移就删除整块后端 LUN。按对象链反查全部依赖，由 VPLEX 与阵列管理员共同复核。名称相似、容量相等不是依赖解除证据，必须有实际对象关系和任务完成记录。
+
+回退计划分切换前后：切换前可能继续使用源关系；切换后目标已接受新写入，回到旧源可能需要同步与额外步骤。不能把“旧卷还在”当作随时可回切。每个暂停点记录谁有最新数据，避免迁移任务失败后两边各自恢复造成双写。
+
+## 重建容量课堂：保护恢复时间与业务延迟一起验收
+
+前文估算的是固定差异量除以有效带宽。实际新写入可能增加工作量，重建流量还受两端阵列、路径和限速共同制约。百分比变化慢时，先看分子与分母是否变化：待处理总量增长会让百分比看起来停滞；单看百分比无法判断是否真的没有进展。
+
+纸面设初始差异六百 GiB，每小时重建一百 GiB，同时每小时新增需要补齐的差异四十 GiB。简化净收敛速度为每小时六十 GiB，约十小时才可能追平；若新增超过一百，则无法靠当前能力收敛。这不是 VPLEX 内部精确算法，只是容量守恒模型。基础步骤先算无新增六小时，故障步骤加入新增，比较恢复保护窗口的变化。
+
+恢复方案可能是延后非关键写入、改善后端瓶颈或增加受支持链路能力，不一定提高重建限速就有效。核验同时看业务尾延迟和落后成员是否持续追近，任一目标失守都应暂停扩大操作。清理恢复模型参数，保留假设条件，避免把教学算术当作生产时间保证。
+
+## 检查器升级课堂：健康必须以完整输入为前提
+
+本文 CSV 是归一化教学模型，字段不声称为 CLI 原样输出。原始系统可能对集群、系统卷和分布式设备使用不同状态集合，生产解析应按对象类型分别建立规则，不直接把所有 `operational` 都要求同一个字符串。不同层的路径计数含义也可能不同，应关联拓扑而不是只比数字。
+
+检查器现在要求四个预设样例对象齐全、不重复，并检查重建百分比为一百。仅修改百分比为四十、其他状态保持正常，也会被报告，避免展示了字段却未参与判断。课堂的百分比条件代表“恢复保护完成”的严格目标，不表示真实业务必须等到全部重建完成才能提供服务；可用与完全恢复冗余是两个不同状态。
+
+独立练习先运行正常样例，再把文件缩成仅表头，预期异常退出而不是健康；然后复制一行制造重复对象，预期同样失败。恢复完整原样例应回到零退出码。故障检测退出二表示命中课堂规则，输入异常退出一表示无法完成判断，自动化应把两类结果分别交给值班和采集维护者。
+
+如果只做基础实验，保存 CSV 与脚本作为作业即可；需要完全回收时，确认独立目录后仅删除本轮创建的脚本、样例和备份，再删除空目录，不递归删除父路径。本轮未运行 VPLEX、断开 WAN、修改一致性组或执行仲裁，新增状态和迁移课均是离线推演；真实验证必须在授权环境按现场 GeoSynchrony 和支持矩阵补齐。
+
+### 小结验收：业务恢复与保护恢复分两次签字
+
+分区后某一侧能够继续业务，是访问恢复；另一侧重新同步、路径齐全、见证可用并通过观察，是保护恢复。两者可能相隔数小时。值班报告应分别记录当前可用业务、剩余风险和下一项恢复条件，不能在首页恢复后关闭全部事件，也不能把仍在重建简单描述为业务完全不可用。
+
+当前对文中检查器实际进行了五类内存输入测试：正常样例、组合故障、空表、重复对象以及仅重建进度不足。预期退出码依次为零、二、一、一、二，实际符合；输入直接在内存中提供，未创建本地文件或连接阵列。这证明覆盖与状态分支可执行，不证明真实命令输出和故障仲裁通过。学习者应把这种边界与产品实验结果分别归档，避免离线代码测试替代真实容灾验收。
+
+读取支持包前还应核对采集时刻；旧包里的正常状态，不能证明当前分区已经恢复。
 
 ## 学习证据
 

@@ -637,6 +637,8 @@ client（客户端） / business backend（业务后端）
   -> client（客户端）
 ```
 
+图中的 authenticate 是校验应用接口密钥，load published app 是读取已发布定义，create run state 是创建本次运行状态，execute graph 是按图执行，persist 是持久保存日志与输出；provider plugin 是模型提供方插件，endpoint 是实际调用地址。末尾 blocking JSON 是等待一次完整结构化响应，SSE events 是服务端逐条推送事件；两者都不是“请求一提交就证明运行成功”。
+
 排障时必须回答“慢在哪里”：
 
 - 网关排队或连接建立。
@@ -661,6 +663,8 @@ user uploads document（文档）
   -> database updates indexing（构建索引） status
   -> knowledge（知识库） becomes retrievable
 ```
+
+这张图描述高质量索引：uploads 是上传，stores metadata 是保存元数据，broker 在这里是异步任务的消息中介，splitter 把正文分为 chunks（检索分块），provider 编码成向量，最后数据库更新索引状态并变为 retrievable（可检索）。经济型索引不走向量编码这条支路，而建立关键词索引。
 
 上传成功、任务入队、向量写入和状态完成是不同的阶段。只恢复数据库而没有恢复对象存储和向量数据，页面可能看得到文档记录，却无法正确预览或检索。
 
@@ -712,17 +716,9 @@ git --version
 git clone --branch 1.16.1 --depth 1 https://github.com/langgenius/dify.git
 Set-Location .\dify\docker
 Copy-Item .env.example .env
-docker compose up -d
-docker compose ps
 ```
 
-预期结果：
-
-- 核心和依赖容器为 `Up` 或 `healthy`。
-- `init_permissions` 运行完成后退出属于正常现象。
-- 打开 `http://localhost/install` 可以初始化管理员。
-
-首次启动前至少修改：
+先停在这里，不要立即启动。确认这是新建的独立目录，首次启动前至少修改 `.env` 中的以下配置，尖括号必须换成真实随机值：
 
 ```dotenv
 SECRET_KEY=<用 openssl rand -base64 42 生成>
@@ -731,9 +727,25 @@ DB_PASSWORD=<新的数据库强密码>
 REDIS_PASSWORD=<新的 Redis 强密码>
 SANDBOX_API_KEY=<新的随机值>
 PLUGIN_DAEMON_KEY=<新的随机值>
+PLUGIN_DIFY_INNER_API_KEY=<另一个新的随机值>
+DIFY_AGENT_API_TOKEN=<另一个新的随机值>
+DIFY_AGENT_SERVER_SECRET_KEY=<用 python -c "import secrets; print(secrets.token_urlsafe(32))" 生成>
+COMPOSE_PROJECT_NAME=dify-aiops-lesson
+EXPOSE_NGINX_PORT=127.0.0.1:80
+EXPOSE_NGINX_SSL_PORT=127.0.0.1:443
 ```
 
 不要把真实 `.env`、模型 API Key、应用 API Key 提交到 GitHub。
+
+本机课堂还要收紧插件调试端口：在这份专用克隆的 `docker-compose.yaml` 中，把 `plugin_daemon.ports` 的映射改为 `"127.0.0.1:${EXPOSE_PLUGIN_DEBUGGING_PORT:-5003}:${PLUGIN_DEBUGGING_PORT:-5003}"`。不要把地址写入 `EXPOSE_PLUGIN_DEBUGGING_PORT` 本身，因为 API 也把它当作端口数值使用。官方默认发布端口不等于只允许本机访问；修改依据是 [1.16.1 的 Compose 配置](https://github.com/langgenius/dify/blob/1.16.1/docker/docker-compose.yaml)。保持终端位于这个 `docker` 目录，检查最终发布端口与启用的配置档，不能出现不需要的全网卡监听，再启动：
+
+```powershell
+docker compose config --quiet
+docker compose up -d
+docker compose ps
+```
+
+`config --quiet` 只验证配置语法，不证明网络安全；`ps` 的 Ports 列用于再次核对实际发布地址。不要把包含密钥的完整 `docker compose config` 输出当作学习截图。预期核心和依赖容器为 `Up` 或 `healthy`；`init_permissions` 完成后退出正常。随后打开 `http://localhost/install` 初始化管理员。固定版本便于复现，不代表永久安全；正式上线仍需评估安全公告和支持范围。
 
 ### 启动后的最小检查
 
@@ -755,7 +767,7 @@ Invoke-WebRequest http://localhost -UseBasicParsing
 如果失败，先检查：
 
 1. Docker 分配内存是否足够。
-2. 80、443、5001 等端口是否冲突。
+2. 本机发布的 80、443、5003 端口是否冲突；5001 是 API 的容器内端口，默认不直接发布给宿主机。
 3. `.env` 是否从当前版本的 `.env.example` 复制。
 4. 数据卷权限是否正常。
 5. 数据库、Redis、向量库是否健康。
@@ -838,7 +850,7 @@ Invoke-WebRequest http://localhost -UseBasicParsing
 
 危险边界：
 
-- `docker compose down -v` 会删除 Compose 管理的卷，可能永久清除数据库、Redis、向量和文件数据。
+- `docker compose down -v` 会删除该项目声明的非外部命名卷及关联匿名卷，可能永久清除其中的数据；它不会清空绑定挂载的宿主机目录。该版本默认多处使用 `./volumes/...` 绑定挂载，因此既不能当作安全的通用清理，也不能当作“已经彻底删除所有数据”的证明。
 - 不要在没有备份和恢复演练时执行。
 - 生产排障不要为了“快速恢复”同时删除多个状态存储。
 
@@ -866,6 +878,7 @@ $headers = @{
 $body = @{
   inputs = @{
     alert_text = "payment-api p99 latency is 2.8s"
+    severity = "critical"
   }
   response_mode = "blocking"
   user = "aiops-lab-user"
@@ -1022,7 +1035,7 @@ Severity 的选项：
 ```jinja2
 {
   "source": "dify-lab",
-  "severity": "{{ severity }}",
+  "severity": {{ severity | tojson }},
   "alert_text": {{ alert_text | tojson }},
   "needs_human_review": true
 }
@@ -1062,14 +1075,18 @@ Alert Text: payment-api p99 latency is 2.8s
 Severity: critical
 ```
 
-预期结果包含：
+主模板的预期输出是一段包含 JSON 内容的字符串：
 
-```text
-source=dify-lab
-severity=critical
-payment-api p99 latency is 2.8s
-needs_human_review=true
+```json
+{
+  "source": "dify-lab",
+  "severity": "critical",
+  "alert_text": "payment-api p99 latency is 2.8s",
+  "needs_human_review": true
+}
 ```
+
+`normalized_alert` 仍是 Template 输出的字符串，不会因内容像 JSON 就自动成为对象；调用方需要显式解析并验证字段。只有采用上面的纯文本备用模板时，预期才是 `source=dify-lab` 等逐行文本，不能再按 JSON 解析。
 
 验证方法：
 
@@ -1199,6 +1216,7 @@ upload（上传） accepted
 - 不在生产环境停止共享 Worker。
 - 文档只包含虚构 Runbook。
 - 不删除卷，不执行 `docker compose down -v`。
+- 本轮明确选择 Economical（经济型）索引，只验证关键词索引，不配置 Embedding 或 Rerank，不调用付费模型。它不同于后文高质量索引路径，见[官方知识库入门中的索引选择](https://dify.ai/blog/create-knowledge-in-dify-for-beginners)。
 
 ### 第一步：准备实验文档
 
@@ -1240,8 +1258,8 @@ docker compose ps worker
 1. 进入 Knowledge。
 2. 创建 `aiops-worker-fault-lab`。
 3. 上传 `payment-api-runbook.txt`。
-4. 选择默认切分设置。
-5. 开始处理。
+4. 选择普通文本切分和 Economical（经济型）索引，不选需要 Embedding 的 High Quality（高质量）模式。
+5. 使用默认文本切分参数并开始处理；若界面强制要求模型，先核对所选索引模式，不要临时添加生产凭据。
 
 预期现象：
 
@@ -1281,7 +1299,7 @@ docker compose logs --tail 200 -f worker
 预期：
 
 - Worker 恢复连接 Redis。
-- 任务经过解析、切分、Embedding 和索引。
+- 本轮任务经过解析、切分和关键词索引；不经过 Embedding。
 - 文档最终变为已完成。
 
 ### 第七步：验证检索
@@ -1289,10 +1307,10 @@ docker compose logs --tail 200 -f worker
 在 Test Retrieval 输入：
 
 ```text
-payment-api 高延迟首先检查什么？
+database connection pool
 ```
 
-预期命中包含下面含义的 Chunk：
+预期命中包含下面含义的 Chunk。这里用文档原有英文关键词测试，不把跨语言语义召回作为经济型关键词索引的验收标准：
 
 ```text
 先检查数据库连接池 active 和 waiting connections，
@@ -1302,8 +1320,8 @@ payment-api 高延迟首先检查什么？
 如果 Worker 已恢复但仍失败，继续分层：
 
 1. Worker 是否消费到了该任务。
-2. Embedding 模型凭据和额度是否正常。
-3. 向量库是否健康。
+2. 索引模式是否确为经济型、分段提取的关键词是否包含查询词。
+3. 索引存储和相关数据库是否健康；若自行改成高质量模式，还需单独排查 Embedding 配额和向量库。
 4. 文档解析是否得到非空文本。
 5. 数据库状态是否记录了明确错误。
 
@@ -1323,7 +1341,7 @@ docker compose ps worker
 docker compose down
 ```
 
-该命令默认保留命名卷。需要删除卷时必须先确认这是纯实验环境且数据不再需要。
+该命令默认保留命名卷和绑定挂载目录的数据。需要删除任何持久数据时，必须先确认具体挂载类型、绝对路径和项目归属，不能把清理本课容器扩大成删除整个 Docker 环境。
 
 ### 故障实验复盘
 
@@ -1498,6 +1516,8 @@ total latency
   + tool calls
   + output transfer
 ```
+
+图中 total latency 是总延迟，gateway queue 是网关排队，API overhead 是接口处理开销，scheduling 是调度，retrieval 是检索，time-to-first-token 是首个输出词元等待时间，generation 是后续生成，tool calls 是工具调用，output transfer 是结果传输。这是串行关键路径的粗略拆分；并行节点、检索与生成重叠时不能把所有子调用耗时机械相加，也不要把已经包含首词元等待的总模型耗时再重复加一次。
 
 吞吐受最慢且限额最小的一层约束。
 
@@ -1677,7 +1697,7 @@ application rollback
   + queued task compatibility
 ```
 
-如果目标版本已写入不可逆数据，可能必须恢复整个一致备份，而不是只把镜像 tag 改回去。
+图中的 application rollback 是应用回退，其余四项 compatibility 分别要求数据库结构、存储版本、插件和排队任务与旧程序兼容，不能只验其中一项。如果目标版本已写入不可逆数据，可能必须恢复整个一致备份，而不是只把镜像 tag 改回去。
 
 ## 可观测性与 AIOps
 

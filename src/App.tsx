@@ -317,6 +317,9 @@ function HomePage({ onNavigate }: { onNavigate: (route: string) => void }) {
           <p className="hero__lead">
             从完全零基础开始，跟老师读懂中文知识地图、做实验、学排障，再练习大厂面试中的机制追问和架构取舍。
           </p>
+          <p>
+            2026 年 9 月修订：114 篇技术栈全部达到万字中文正文，代码与输出不计入；真实环境实验仍需独立完成。
+          </p>
           <div className="hero__actions">
             <a
               className="button button--primary"

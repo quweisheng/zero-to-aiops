@@ -4,6 +4,8 @@
 
 ## 官方资料
 
+先补三个词：流是不断到来的记录，状态是处理下一条记录时还需要记住的中间值，并行实例是同一逻辑的不同执行副本。前置只需 [SQL 基础](./mysql-sql.md) 的筛选与分组、[Docker Compose](../cloud-native/docker-compose.md) 的服务和数据卷。今天先看五秒窗口打印，再观察计算节点停止后的恢复；不需要先学习整套 Kubernetes。
+
 - [Apache Flink 官网](https://flink.apache.org/)
 - [Apache Flink 下载页](https://flink.apache.org/downloads/)
 - [Flink 2.3 稳定版文档](https://nightlies.apache.org/flink/flink-docs-stable/)
@@ -13,6 +15,8 @@
 - [生产就绪检查单](https://nightlies.apache.org/flink/flink-docs-stable/docs/deployment/production/)
 
 版本边界：本文以 Apache Flink 2.3.0 稳定版为主线。Flink 1.20、2.0、2.1、2.2 等存量版本在 API、配置、Connector、State 和升级路径上存在差异，执行命令前必须选择与目标集群完全匹配的文档版本。
+
+固定版本是教学复现条件，不代表以后继续使用这个首发补丁是安全的。生产需重新核对支持状态、安全公告和独立发布的连接器兼容矩阵；不要让会随时间移动的稳定版文档覆盖现场版本事实。
 
 ## 官方知识地图
 
@@ -42,6 +46,8 @@ Apache Flink（有状态流处理引擎）
 ```
 
 ## 场景开场
+
+地图中的 Table API 是表操作接口，DataStream API 是数据流编程接口；Processing Time、Event Time 分别是处理时间和事件时间。Keyed State 是按键保存的状态，Operator State 是算子状态，State Backend 管理计算中的状态，Barrier 是检查点屏障。StreamGraph、JobGraph、ExecutionGraph 分别表示流逻辑、提交作业与运行执行图；Operator Chain 是串联在同一执行任务中的算子链。箭头表达学习分层，不是某条数据每次经过的所有步骤。
 
 告警事件从 Kafka 持续进入。你要按服务统计 5 分钟错误率，允许事件迟到 30 秒，并在任务重启后继续从正确 Offset 处理，不把同一告警重复写入工单系统。
 
@@ -164,9 +170,12 @@ Checkpoint（检查点） Coordinator
   -> Barrier 随数据流经过 Operator
   -> Operator 在一致位置 Snapshot State
   -> State 写入 Checkpoint Storage
-  -> Sink 完成对应事务/提交协议
-  -> 所有 Task Ack 后 Checkpoint N 成功
+  -> 事务 Sink 保存待提交信息，各 Task 确认快照完成
+  -> Coordinator 确认 Checkpoint N 完成
+  -> 受支持 Sink 据完成通知推进外部提交
 ```
+
+这是常见事务接收端的简化过程，提交与恢复细节由具体连接器实现；不能把任意外部写入都画成检查点完成前已原子提交。Checkpoint Storage 是检查点持久存储，Coordinator 是协调者，Task Ack 表示任务确认快照阶段完成。
 
 Aligned Checkpoint 会在多输入算子对齐 Barrier，反压时对齐可能很慢；Unaligned Checkpoint 可把在途数据纳入快照，减少反压下对齐时间，但会增加快照体积和恢复成本。
 
@@ -201,7 +210,7 @@ CREATE TABLE alerts (
   'topic' = 'alerts',                                   -- 主题名
   'properties.bootstrap.servers' = 'kafka:9092',        -- Broker 地址
   'properties.group.id' = 'flink-alert-summary',        -- 消费组
-  'scan.startup.mode' = 'group-offsets',                -- 从已提交 Offset 恢复
+  'scan.startup.mode' = 'group-offsets',                -- 无恢复状态的新作业按消费组位点确定起点
   'format' = 'json'                                     -- 消息格式
 );
 
@@ -219,6 +228,8 @@ GROUP BY window_start, window_end, service_name;
 
 生产要为 JSON Schema、坏消息、时区、空闲分区、迟到数据和 Sink 幂等制定规则。
 
+从检查点或保存点恢复时，源的位置主要由恢复状态决定，不是每次都重新采用消费组的外部提交位点。上面的 Kafka 表还需要匹配版本的连接器及目标服务；它是生产配置讲解，不属于后文无外部依赖的 Datagen 实验。
+
 ## 配置重点
 
 ```yaml
@@ -227,8 +238,9 @@ taskmanager.numberOfTaskSlots: 2                # 每个 TaskManager 的 Slot �
 parallelism.default: 2                          # 未显式指定时的默认并行度
 execution.checkpointing.interval: 10s           # 每 10 秒触发 Checkpoint
 execution.checkpointing.timeout: 2min           # 超时即失败，需结合状态和存储压测
-state.checkpoints.dir: file:///opt/flink/checkpoints # 仅实验；生产用可靠共享存储
-state.savepoints.dir: file:///opt/flink/savepoints   # 仅实验；生产用可靠共享存储
+execution.checkpointing.storage: filesystem          # 使用文件系统保存状态和元数据
+execution.checkpointing.dir: file:///opt/flink/checkpoints # 仅实验；生产用可靠共享存储
+execution.checkpointing.savepoint-dir: file:///opt/flink/savepoints # 保存点目录
 restart-strategy.type: fixed-delay              # 固定延迟重启策略
 restart-strategy.fixed-delay.attempts: 3        # 连续失败最多重试次数
 restart-strategy.fixed-delay.delay: 5s          # 每次重试等待 5 秒
@@ -250,6 +262,8 @@ restart-strategy.fixed-delay.delay: 5s          # 每次重试等待 5 秒
 
 ## 入门实验：Docker Compose 运行持续 SQL Job
 
+运行位置是新的 `flink-classroom` 目录，只放下面两个文件；需要 Docker Desktop Linux 容器与 Compose，至少预留约四 GiB 可用内存和数 GiB 磁盘。启动前检查 `docker compose -p flink-classroom ps -a` 没有已有资源，`docker volume ls --filter name=flink-classroom_flink-state` 没有旧状态卷，本机 8081 未被占用。任一命中先确认归属，不覆盖或删除未知对象。
+
 ### compose.yaml
 
 ```yaml
@@ -269,7 +283,7 @@ services:
       checkpoint-init:
         condition: service_completed_successfully
     ports:
-      - "8081:8081"                      # Web UI 和 REST
+      - "127.0.0.1:8081:8081"            # 仅本机 Web UI 和 REST
     environment:
       FLINK_PROPERTIES: |
         jobmanager.rpc.address: jobmanager
@@ -277,7 +291,8 @@ services:
         taskmanager.numberOfTaskSlots: 2
         parallelism.default: 1
         execution.checkpointing.interval: 5s
-        state.checkpoints.dir: file:///opt/flink/checkpoints
+        execution.checkpointing.storage: filesystem
+        execution.checkpointing.dir: file:///opt/flink/checkpoints
         restart-strategy.type: fixed-delay
         restart-strategy.fixed-delay.attempts: 3
         restart-strategy.fixed-delay.delay: 3s
@@ -299,7 +314,8 @@ services:
         taskmanager.numberOfTaskSlots: 2
         parallelism.default: 1
         execution.checkpointing.interval: 5s
-        state.checkpoints.dir: file:///opt/flink/checkpoints
+        execution.checkpointing.storage: filesystem
+        execution.checkpointing.dir: file:///opt/flink/checkpoints
         restart-strategy.type: fixed-delay
         restart-strategy.fixed-delay.attempts: 3
         restart-strategy.fixed-delay.delay: 3s
@@ -344,10 +360,10 @@ GROUP BY window_start, window_end;
 ### 启动和提交
 
 ```powershell
-docker compose up --detach
-docker compose ps
+docker compose -p flink-classroom up --detach
+docker compose -p flink-classroom ps
 
-docker compose exec --detach jobmanager `
+docker compose -p flink-classroom exec --detach jobmanager `
   ./bin/sql-client.sh `
   -f /opt/flink/usrlib/job.sql
 ```
@@ -358,10 +374,12 @@ docker compose exec --detach jobmanager `
 
 ```powershell
 curl.exe --fail http://localhost:8081/jobs/overview
-docker compose logs taskmanager --tail 80
+docker compose -p flink-classroom logs --tail 80 taskmanager
 ```
 
 TaskManager 日志中的 `+I[...]` 是 Print Sink 的插入结果。生产不要使用 Print Sink 承载业务。
+
+这里使用处理时间窗口，通常接近每五秒输出一个计数，起停边界、调度与恢复会使计数不固定为二十五。Datagen 的序列有一百万上限，因此这是足够课堂观察的长时间有界源，不是永不结束的真实事件流。检查点采用 2.3 配置中的 `execution.checkpointing.*` 目录键，不能照搬旧系列键名后只看进程启动成功。[对应版本配置](https://nightlies.apache.org/flink/flink-docs-release-2.3/docs/deployment/config/)。
 
 ### 如果没成功
 
@@ -380,7 +398,7 @@ TaskManager 日志中的 `+I[...]` 是 Print Sink 的插入结果。生产不要
 ### 注入
 
 ```powershell
-docker compose stop taskmanager # 只停止本地实验 TaskManager
+docker compose -p flink-classroom stop taskmanager # 只停止本地实验 TaskManager
 curl.exe --fail http://localhost:8081/jobs/overview
 ```
 
@@ -389,8 +407,8 @@ curl.exe --fail http://localhost:8081/jobs/overview
 ### 恢复
 
 ```powershell
-docker compose start taskmanager
-docker compose logs taskmanager --tail 120
+docker compose -p flink-classroom start taskmanager
+docker compose -p flink-classroom logs --tail 120 taskmanager
 curl.exe --fail http://localhost:8081/jobs/overview
 ```
 
@@ -399,7 +417,7 @@ curl.exe --fail http://localhost:8081/jobs/overview
 ### 清理
 
 ```powershell
-docker compose down --volumes # 只删除本实验容器、网络和状态卷
+docker compose -p flink-classroom down --volumes # 只删除本实验容器、网络和状态卷
 ```
 
 ## 反压
@@ -542,13 +560,11 @@ Flink 是状态化流处理引擎。JobManager 调度 Job，TaskManager 用 Slot
 
 ### 3 分钟版本
 
-1. 画 Client、JobManager、TaskManager、Slot 和 Operator。
-2. 解释 Event Time、Watermark、Window 和 Late Data。
-3. 解释 Keyed/Operator State 与 State Backend。
-4. 画 Barrier、Checkpoint、恢复和 Savepoint。
-5. 限定 Exactly-once 的 Source/State/Sink 边界。
-6. 说明反压、倾斜、容量、HA、安全和升级。
-7. 用 Job/Operator/Subtask/Checkpoint 指标形成证据链。
+我会以按服务统计错误率为例。客户端提交逻辑，协调节点安排执行，计算节点的并行实例接收事件。同一服务通过键分区进入对应状态，保存请求数、错误数和窗口；事件时间来自业务记录，水位线决定何时认为窗口可以输出，迟到数据按明确合同处理。
+
+检查点把可重放输入位置和算子状态协调到一致边界，故障后从最近完成的检查点恢复并重算后续记录。外部工单并不会被状态恢复撤销，所以接收端要支持事务提交或业务幂等。保存点用于受控迁移，稳定算子标识和状态序列化兼容决定能否接续。
+
+生产上我从接收端反查反压，比较每个并行实例，区分热点键、慢数据库和状态存储。容量不只看处理器，还包括状态、网络缓冲、检查点上传与恢复追赶。最后验证新旧数据结果、迟到计数、持续检查点和外部副作用，才说明恢复目标是否达成。
 
 ## 递进面试题
 
@@ -653,6 +669,86 @@ Datagen（合成数据发生器）与 print sink（打印输出端）方便入�
 先回答事件时间由输入决定，水位线推进受通道影响，CPU 空闲不能证明业务时钟正常。检查是否某输入分区无数据且未合理标记空闲，或者时间字段单位、时区和解析错误；再看窗口定义、迟到策略与上游速率。若业务时间正常但输出慢，才进一步转查反压和接收端。
 
 追问“把水位线调快可以吗”：更快意味着少等迟到数据，可能牺牲完整性；应衡量真实乱序分布、允许延迟与补偿途径。追问“怎样验证”：用一组包含按时、乱序、迟到、空闲恢复的合成事件，给出每个窗口预期计数和侧输出数量。最后说明状态恢复、业务正确性和延迟目标是三份验收，不是一条进程健康状态。
+
+## 实战加深：把五分钟错误率拆成四份合同
+
+### 时间合同：乱序等待和允许迟到不是同一个参数
+
+事件时间水位策略决定进度怎样从输入时间推导，窗口允许迟到则决定初次触发后是否继续接受旧窗口的数据。把水位延后半分钟，不等于所有窗口再额外保留半分钟；不同接口和窗口算子的迟到处理能力也不同。SQL 的窗口表函数与 DataStream 窗口不能不加区分地套用同一组参数。
+
+业务应先说清初步结果什么时候需要、允许多大修正、最终结果如何发布。如果告警要求三十秒内响应，而最终完整统计要求等待两分钟乱序，单个最终结果不可能同时满足这两个目标。可以设计快速预警与较晚确认两层，给初步结果标注版本，并用撤回或更新协议修正。
+
+水位不是计时器按墙钟自然走。上游完全停流时，某些事件时间窗口可能一直没有足够进度触发；把它当成“过五分钟必定发报表”会误判。要监控输入空闲、水位滞后和业务数据完整性，必要时设计明确的结束信号或补算流程，而不是伪造未来事件推动时间。
+
+再想一个反例：分区甲持续产生当前事件，分区乙还在补昨晚数据。整体进度受慢输入约束，甲的窗口状态可能增加。把乙标为空闲可以推进进度，却不是免费优化：它恢复后带来的旧事件可能已经超过有效窗口。必须先判定乙是真的暂时无数据，还是仍有重要积压。
+
+### 手工事件实验：亲自算出哪些数据晚了
+
+这是一项离线生产语义模拟，不启动 Flink。准备表格，列出事件编号、事件秒数、到达顺序和窗口。设窗口为零到十秒、十到二十秒，左边包含右边不包含；进度规则简化为已见最大事件秒数减二，窗口在水位达到结束边界时关闭，关闭后到达的旧窗口记录单独计数。
+
+依次输入事件秒数二、八、六、十二、九。处理前三条时最大值八、水位六，零到十秒窗口累计三条。第四条属于十到二十秒，最大值十二、水位十，前一个窗口输出三。第五条九秒虽然刚到，但旧窗口已经关闭，应进入迟到记录，不能悄悄改成当前时间。
+
+故障注入是把第四条的十二误写成一百二十。它会让教学水位骤升，更多正常事件可能被判为过迟。修复不是把乱序预算无限扩大，而是检查时间单位、来源时钟和异常时间范围；恢复原十二重新推演，应得到前窗三条、后窗一条、迟到一条。
+
+验收保存五条输入、每步水位和两种结果。清理只删这张合成表。这个模型刻意忽略周期水位生成、毫秒边界、多输入最小值和不同窗口实现，不能声称验证了 Flink 的精确触发时序；它验证的是事件时间与到达时间的概念。真实连接器应使用同类带边界的输入进行隔离测试。
+
+### 状态合同：保存的是聚合值还是整段历史
+
+计算计数和求和通常可以增量维护少量状态，每来一条更新数值。若为计算同样结果把窗口全部原始记录放进列表，状态量会随输入速率和窗口长度增长。读者应该先写出需要保留的信息，再选择状态结构，不是先找一种后端就认为容量问题已经解决。
+
+滑动窗口会让同一事件影响多个窗口。窗口长度十分钟、每分钟滑动一次，概念上一个事件可能参与多个重叠结果，状态与计算成本和不重叠窗口不同。实现可能复用中间结果，但不能无条件用滚动窗口的容量估算代替实际计划。
+
+规则广播是另一种状态。所有并行实例收到规则更新，不代表更新和业务事件天然具有跨输入的全局顺序。如果规则版本影响结果，就记录每次判断使用的规则版本，明确相同事件重放时是采用历史规则还是当前规则。否则故障恢复后结果变化可能来自规则变动，而非状态损坏。
+
+定时器也占状态和恢复工作量。每事件注册一个不同时间的定时器，可能产生远多于业务键数的管理对象。先确认是否可以按键和时间粒度合并，观察定时器数量与触发耗时；不能只统计用户状态字节就宣称内存使用可控。
+
+### 检查点合同：运行态与恢复介质分别负责什么
+
+状态后端决定运行期间怎样访问状态，检查点存储决定恢复文件放在哪里。换成磁盘型状态后端，不代表本地磁盘损坏后仍能恢复；把检查点放对象存储，也不会让每次运行态访问都自动变成远程读取。两者要分别说明延迟、容量和故障域。
+
+增量检查点可能复用已有状态文件，某次新上传字节小不等于完整恢复只需这些字节。人工删除看似旧的共享文件可能破坏多个恢复点。必须让受支持的生命周期管理处理引用关系，保存点和外置检查点的保留责任也要明确。
+
+看检查点变慢时，先区分触发后等待屏障、同步快照阶段、异步上传和最终完成。对齐时间很长常伴随通道不均或反压；上传很慢则要检查存储权限、带宽和状态变化量。单纯加超时可以暂缓失败，却可能让可恢复进度越来越旧。
+
+假设每次要新上传六 GiB，存储有效带宽一百 MiB 每秒，仅传输理论上就需六十一点四四秒。把间隔设成十秒不代表每十秒都有一个成功检查点，实际还受并发限制与暂停策略。要让恢复目标落地，需同时减少变化状态、提高可靠带宽或放宽恢复窗口。
+
+### 输出合同：更新流不是普通追加流
+
+持续聚合可能产生更新和撤回，而不是每次只新增一条永不改变的记录。接收端如果只会追加，就可能把同一个服务窗口的多个版本都当成独立事实。先看 SQL 结果的变更日志类型，再选择支持相应写入语义的连接器和主键。
+
+窗口结果可以用服务名、窗口起止和计算版本构成业务身份，更新时替换同一逻辑结果；审计需求则另外追加版本记录。二者的存储模型不同，不能只为消除重复而删除历史。告警发送还要判断是新告警、升级、恢复还是结果修正，避免每次重算都重新通知。
+
+事务接收端常把检查点与外部提交关联，外部事务的最大允许时间应覆盖合理的检查点、故障恢复与延迟。具体连接器如何恢复未完成提交必须按版本验证。普通 HTTP 请求没有这些机制，不能靠给函数起名为事务就获得相同保证。
+
+### 状态恢复和追赶的容量预算
+
+恢复时间包含资源申请、制品下载、状态恢复、任务初始化与输入追赶。状态能下载完成，只是开始继续处理；业务是否追平还取决于完成速率是否超过新输入。把第一条新日志出现的时间当作完整恢复时间，会漏掉后面数小时的历史积压。
+
+举例每秒新增两万条，故障十分钟积压一千二百万条，恢复后安全处理三万条，净减少一万条每秒，至少还需二十分钟追赶。若下游只允许每秒两万条，理论上永远追不平。这个结果与作业是否显示运行无关，解决必须涉及上游、计算或下游的能力和降级选择。
+
+内存诊断先分堆、托管状态内存、网络直接内存、元空间、线程和其他原生分配。容器被杀而堆并不高，不能只改堆上限；改大堆还可能挤压同一进程预算中的其他区域。结合退出原因、进程总内存和各子系统指标，才能选择有依据的参数调整。
+
+任务槽不是独占处理器核。算子链、资源共享组和任务并行度一起决定实际调度，多个算子可以共享槽资源。调大槽数会增加并发，但不凭空增加总 CPU、内存或网络预算。热点键依然要由对应实例串行处理，更多空闲槽不能拆开其语义。
+
+最后补一个常见观测误区：输入记录数和输出记录数不总应该相等。过滤会减少，连接可能放大，窗口聚合会把很多记录合成少量结果，展开操作可能增加。为每个算子写出预期数量关系，才能把正常数据变换与丢失区分；单纯报警“流入不等于流出”会制造大量无效告警。
+
+### 安全与变更要保护状态中的业务数据
+
+作业提交意味着允许执行用户代码，因此提交权限、制品来源与运行账号权限应联合控制。即使管理界面只在内网，拥有提交能力的人仍可能访问运行账号能读取的数据。检查点也可能保存原始用户字段、模型特征或连接状态，不能直接上传到公开仓库作证据。
+
+凭据轮换要覆盖源、接收端与状态存储。正在运行的任务能继续访问，不代表下一次重启能获得同样凭据；保存点恢复时可能才暴露历史配置缺失。轮换验收包括新连接和恢复路径，而不仅是已有长连接没有断开。
+
+作业升级先固定身份映射，再核对状态类型、键序列化、连接器与外部表结构。允许丢弃无法映射状态的选项是明确的数据决策，不能当作恢复报错的通用开关。若一个去重算子的状态被丢弃，作业也许成功启动，但会再次通知大量历史事件。
+
+回退方案需列清旧制品可以读取哪个恢复点、那个点之后外部系统已发生哪些结果、重放是否幂等。两个版本双跑应隔离输出或明确只有一个能产生副作用，不能为了对照性能向同一工单接口各写一遍。技术验证和业务权限边界必须一起成立。
+
+### 事故复盘的连续追问
+
+问题：水位正常推进、输入稳定、检查点也成功，但告警结果变少，怎么办？先查过滤条件、空值解析、规则版本、迟到计数与接收端失败，而不是自动重启计算节点。检查点成功说明恢复协议完成，不证明业务逻辑正确。
+
+追问：升级后为何只有某些服务变慢？比较每实例输入量、键分布、状态访问和接收端目标，不看全局平均。若单一大服务在一个键上形成热点，应确认是否允许分阶段聚合或拆分业务键；拆键会改变顺序和状态边界，不能作为无风险扩容。
+
+最终验收至少回答三件事：结果是否按相同口径正确，故障后是否恢复同一状态历史，端到端时延是否满足目标。报告里把纸面演练、静态配置检查和实际运行分别记录；本文给出可执行课堂步骤，没有声称已经在读者的机器或生产集群通过这些验证。
 
 ## 本课 GitHub 学习证据
 

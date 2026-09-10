@@ -33,7 +33,7 @@ WebSphere 官方资料
   -> 接入：IBM HTTP Server（前端 Web 服务器）、Web Server Plug-in（路由插件）、plugin-cfg.xml（插件配置）、Session Affinity（会话亲和）
   -> 资源：JNDI（命名查找）、JDBC（数据库连接）、JMS（消息接口）、JTA（事务接口）、Thread Pool（线程池）、Connection Pool（连接池）
   -> 应用变更：EAR（企业应用包）、Enterprise Application（企业应用）、Asset（部署资产）、BLA（业务级应用）、Composition Unit（组合单元）、Edition（应用版次）
-  -> 发布链路：制品校验、Update、保存、同步、展开、启动、路由、业务验证、回滚
+  -> 发布链路：制品校验、Update（更新既有应用）、保存、同步、展开、启动、路由、业务验证、回滚
   -> 运维：Admin Console（管理控制台）、wsadmin（管理脚本）、PMI（性能指标）、日志、FFDC（首次故障取证）、Dump（诊断转储）、备份
   -> 生产治理：高可用、容量、安全、升级、回滚、现代化迁移
 ```
@@ -451,12 +451,18 @@ $PROFILE_ROOT/bin/wsadmin.sh -lang jython -c "print AdminControl.queryNames('typ
 ### 诊断命令
 
 ```bash
-kill -3 <java_pid>              # Linux/UNIX 触发 Java Thread Dump；不会终止 JVM，但会产生诊断开销
-jcmd <java_pid> Thread.print    # 受支持 JDK 上输出线程栈；先核对 WAS/Java 版本
-jcmd <java_pid> GC.heap_info    # 查看堆摘要；命令可用性依 Java 实现
+read -r -p '输入已经核对归属的实验 JVM 进程号：' wasJavaPid
+if [[ "$wasJavaPid" =~ ^[1-9][0-9]*$ ]]; then
+  kill -3 "$wasJavaPid"           # 仅限确认已启用 JVM SIGQUIT 诊断处理的 Linux/UNIX 进程
+  # 下列命令仅在目标 Java 实现和版本明确支持时择需执行
+  jcmd "$wasJavaPid" Thread.print
+  jcmd "$wasJavaPid" GC.heap_info
+else
+  printf '%s\n' '进程号不是正整数，不执行。'
+fi
 ```
 
-Thread Dump 通常是低风险只读诊断，但高负载时连续大量抓取仍有开销。Heap Dump 可能暂停进程、占用大量磁盘并包含敏感数据，必须先确认空间、影响和存储权限。
+这段是 Bash 示例；尖括号不是可直接执行的进程号占位符，`0` 和负数也不能使用。正常配置的 JVM 会把 SIGQUIT（退出信号三）用于诊断；若禁用了信号处理或目标根本不是该 JVM，不能保证信号不会终止进程。传统 IBM Java/OpenJ9 与 HotSpot 的命令和转储格式并不完全相同，先查目标版本帮助，不能照搬本机另一个 JDK。Thread Dump 通常是低风险诊断，但不是零副作用读取：高负载时连续大量抓取仍有开销。Heap Dump 可能暂停进程、占用大量磁盘并包含敏感数据，必须先确认空间、影响和存储权限。
 
 ### Liberty 命令
 
@@ -555,7 +561,7 @@ IBM PMI 可以提供 Servlet 响应时间、JDBC Pool、Thread Pool、JVM GC/Hea
 }
 ```
 
-生产日志中还要加入变更 ID、制品版本和主机/Pod 标识。WebSphere 消息 ID 往往能定位组件，但不能只按消息编号自动执行修复；要结合前后日志和运行状态。
+字段依次表示业务服务、管理域、节点、应用服务器、集群、应用、链路标识和产品消息编号。生产日志中还要加入变更 ID、制品版本和主机/Pod 标识。WebSphere 消息 ID 往往能定位组件，但不能只按消息编号自动执行修复；要结合前后日志和运行状态。
 
 ### 自动化边界
 
@@ -1006,7 +1012,7 @@ print(AdminApp.list())
 **先查：**
 
 - 异常链中第一个业务类和 Classloader 信息；
-- EAR/WAR 的 `WEB-INF/lib`、`APP-INF/lib` 与 Manifest Class-Path；
+- WAR 的 `WEB-INF/lib`、EAR 的 `lib/` 或描述符指定的库目录，以及 Manifest Class-Path；不能把其他应用服务器常见的 `APP-INF/lib` 当成 WAS 通用默认目录，参见 [IBM 的 EAR 库目录说明](https://www.ibm.com/docs/en/radfws/9.7?topic=dependencies-adding-libraries-ear-library-directory)；
 - Shared Library 内容、Scope 与关联；
 - 当前 Classloader Order 和 WAR Classloader Policy；
 - 所有 Node 是否真的使用同一 EAR 和共享库版本。
@@ -1250,11 +1256,12 @@ find "installedApps" -iname "*$APP_NAME*" -print
 stand-alone 示例：
 
 ```bash
-cd "$PROFILE_ROOT/bin"
-./stopServer.sh "$SERVER_NAME" # 安全启用时用公司批准的凭据方式，不把密码写进命令历史
+cd "$PROFILE_ROOT/bin" || exit 1
+umask 077 # 在独立维护终端中使用，限制新备份文件和隔离目录的访问
+./stopServer.sh "$SERVER_NAME" || exit 1 # 停止失败就退出，不继续备份和处理仓库
 
 CONFIG_ZIP=/tmp/AppSrv01_before_${APP_NAME}_cleanup_$(date +%Y%m%d_%H%M%S).zip
-./backupConfig.sh "$CONFIG_ZIP" -nostop # 已经停服，所以不再让 backupConfig 尝试停服
+./backupConfig.sh "$CONFIG_ZIP" -nostop || exit 1 # 已确认停服；备份失败就退出
 ls -lh "$CONFIG_ZIP"
 ```
 
@@ -1270,25 +1277,31 @@ ND 不是只停止一个 Member 就可以手工改仓库。若进入 IBM 的手�
 #### 第四步：移动前再次锁定两个精确目录
 
 ```bash
-cd "$PROFILE_ROOT"
-
-BLA_DIR="config/cells/$CELL_NAME/blas/$APP_NAME"
-CU_DIR="config/cells/$CELL_NAME/cus/$APP_NAME"
-CASE_BACKUP=/tmp/${APP_NAME}_orphan_$(date +%Y%m%d_%H%M%S)
-
-ls -ld "$BLA_DIR" "$CU_DIR" # 两项都必须精确显示，不能是通配符返回的一组目录
-mkdir -p "$CASE_BACKUP"
+cd "$PROFILE_ROOT" || exit 1
+# 此检查块使用 Bash 与 GNU realpath/mktemp；不适用于未经改写的其他 UNIX。
+for wasName in "$CELL_NAME" "$APP_NAME"; do
+  [[ "$wasName" =~ ^[A-Za-z0-9_-]+$ ]] || exit 1 # 简单案例名以外的命名交人工评审
+done
+WAS_PROFILE_REAL=$(pwd -P) || exit 1
+BLA_DIR="$WAS_PROFILE_REAL/config/cells/$CELL_NAME/blas/$APP_NAME"
+CU_DIR="$WAS_PROFILE_REAL/config/cells/$CELL_NAME/cus/$APP_NAME"
+for wasTarget in "$BLA_DIR" "$CU_DIR"; do
+  [[ -d "$wasTarget" && ! -L "$wasTarget" ]] || exit 1
+  [[ "$(realpath -e -- "$wasTarget")" == "$wasTarget" ]] || exit 1 # 拒绝父级链接重定向
+done
+ls -ld -- "$BLA_DIR" "$CU_DIR" # 人工复核两个绝对路径与审批目标完全一致
+CASE_BACKUP=$(mktemp -d /tmp/was-orphan.XXXXXXXX) || exit 1 # 新建私有目录，不复用历史备份
 printf 'quarantine=%s\n' "$CASE_BACKUP"
 ```
 
 源故障手册有一处排版错误，把续行后的目标写成了 `+"$BACKUP/..."`。前面的 `+` 会变成路径的一部分，不能照抄。这里使用完整单行命令避免歧义：
 
 ```bash
-mv "$BLA_DIR" "$CASE_BACKUP/blas_$APP_NAME"
-mv "$CU_DIR" "$CASE_BACKUP/cus_$APP_NAME"
+mv -- "$BLA_DIR" "$CASE_BACKUP/blas_$APP_NAME" || exit 1
+mv -- "$CU_DIR" "$CASE_BACKUP/cus_$APP_NAME" || exit 1
 ```
 
-不要移动整个 `blas` 或 `cus`，不要处理 `applications`、`installedApps`、`deployment.xml`、`serverindex.xml` 或其他应用目录，也不要使用 `rm -rf`。
+两次移动不是一个原子事务：第二次失败时，第一个对象可能已经移走，必须停止并核对两端，不能启动或重装应用。维护期间禁止其他管理员并发改这些路径；`/tmp` 的隔离材料还要按组织要求移交到受控备份区，不能依靠会被系统清理的临时目录长期回退。不要移动整个 `blas` 或 `cus`，不要处理 `applications`、`installedApps`、`deployment.xml`、`serverindex.xml` 或其他应用目录，也不要使用 `rm -rf`。
 
 #### 第五步：立刻核对移动结果
 
@@ -1431,7 +1444,12 @@ AIOps 不应自动做：删除 BLA/CU、修改配置仓库 XML、执行 `restore
 ### 第一步：创建实验目录
 
 ```powershell
-New-Item -ItemType Directory -Path .\websphere-lab -Force
+if (Test-Path -LiteralPath .\websphere-lab) { throw '实验目录已存在，请换新位置。' }
+docker version # 必须成功连到 Server，再继续
+if ($LASTEXITCODE -ne 0) { throw 'Docker 不可用' }
+$existingLiberty = docker ps -a --filter 'name=^/openliberty-lab$' --format '{{.Names}}'
+if ($LASTEXITCODE -ne 0 -or $existingLiberty) { throw '无法确认容器名空闲，停止。' }
+New-Item -ItemType Directory -Path .\websphere-lab
 Set-Location .\websphere-lab
 ```
 
@@ -1443,14 +1461,16 @@ Set-Location .\websphere-lab
 
 ```powershell
 docker pull icr.io/appcafe/open-liberty:full-java21-openj9-ubi-minimal
-$libertyImage = (docker image inspect icr.io/appcafe/open-liberty:full-java21-openj9-ubi-minimal --format '{{index .RepoDigests 0}}').Trim()
+if ($LASTEXITCODE -ne 0) { throw '拉取失败，不继续使用可能残留的旧标签。' }
+$libertyImage = [string](docker image inspect icr.io/appcafe/open-liberty:full-java21-openj9-ubi-minimal --format '{{index .RepoDigests 0}}')
+$libertyImage = $libertyImage.Trim()
 if ($LASTEXITCODE -ne 0 -or $libertyImage -notmatch '@sha256:') { throw '未取得镜像摘要，停止实验' }
 docker run --detach `
   --name openliberty-lab `
   --publish 127.0.0.1:9080:9080 `
   --publish 127.0.0.1:9443:9443 `
   --mount "type=bind,source=$((Get-Location).Path)\server.xml,target=/config/server.xml,readonly" `
-  $libertyImage
+ $libertyImage
 ```
 
 说明：版本未固定的镜像标签适合学习，但生产必须固定经过验证的 Liberty 版本或镜像 Digest，并进入漏洞扫描和发布审批。
@@ -1461,11 +1481,13 @@ docker run --detach `
 docker logs openliberty-lab
 ```
 
-预期看到类似：
+后台创建完成后，要等日志出现启动结果再查询端点；最多观察两分钟，仍未完成就转入日志排查，不把初始连接拒绝算作故障注入成功。预期看到类似：
 
 ```text
 CWWKF0011I: The defaultServer server is ready to run a smarter planet.
 ```
+
+这条英文消息表示名为 `defaultServer` 的服务器完成启动，不是对全部业务功能的验收。
 
 ### 第五步：验证健康端点
 
@@ -1501,7 +1523,7 @@ docker inspect --format "{{if .State.Health}}{{.State.Health.Status}}{{else}}not
 
 ### 实验边界
 
-只操作本地 `openliberty-lab` 容器和实验配置，不连接生产环境。开始前备份正确配置。
+只操作刚才创建的本地 `openliberty-lab` 容器和实验配置，不连接生产环境。基础实验必须先返回 `UP`，保留同一终端里的 `$libertyImage` 摘要；确认 `server.good.xml` 尚不存在，再备份正确配置。每次重建都等待新容器日志，不能把启动前的连接失败当作 Feature 错误证据。
 
 ### 精确步骤
 
@@ -1516,7 +1538,7 @@ docker inspect --format "{{if .State.Health}}{{.State.Health.Status}}{{else}}not
 
 - 日志出现 `CWWKF0001E`，指出 `not-a-real-feature-1.0` 的 Feature 定义不存在。
 - `/health` 不再正常返回 `UP`，`curl.exe` 会收到空响应、连接失败或非成功状态。
-- 某些 Liberty 版本仍会打印 `CWWKF0011I` Ready，因为运行时内核已经启动；这不代表所需 Feature 和业务端点可用。监控必须同时验证启动日志、配置错误和业务健康端点，不能只看进程或 Ready 消息。
+- 默认 `featureManager onError="WARN"` 会记录 Feature 加载错误但不因此立即停止服务器，仍可能打印 `CWWKF0011I` Ready；这不代表所需 Feature 和业务端点可用。改成 `FAIL` 时失败后停止的行为不同，因此以实际配置为准。监控必须同时验证启动日志、配置错误和业务健康端点，不能只看进程或 Ready 消息。参见 [官方 Feature 错误策略](https://openliberty.io/docs/latest/reference/config/featureManager.html)和 [IBM 消息解释](https://www.ibm.com/docs/en/was-liberty/core?topic=messages-cwwkf)。
 
 ### 假设与验证
 
@@ -1615,10 +1637,10 @@ Cluster Member 数量
 活跃 Session 数
   x 平均 Session 大小
   x 副本数量
-  -> Session 内存与复制流量
+  -> Session 保存占用的粗略字节数，不是每秒复制流量
 ```
 
-还要预留 GC、滚动升级少一个成员、单节点故障和流量突增容量。生产容量应通过压测和故障演练验证，不靠公式直接定值。
+复制带宽还需乘以每秒发生更新的会话数量、每次实际传输的字节数和目标副本数；对象内存、序列化大小、全量或增量复制不相等，不能把库存字节直接写成每秒字节。还要预留 GC、滚动升级少一个成员、单节点故障和流量突增容量。生产容量应通过压测和故障演练验证，不靠公式直接定值。
 
 ### 性能取舍
 
@@ -1734,7 +1756,7 @@ WebSphere 是企业 Java 应用服务器。traditional ND 用 Cell、Deployment 
 
 **第二问，机制：** DMgr 保存 Cell 主配置，Node Agent 同步到 Node，Cluster Member 独立运行 JVM。
 
-**第三问，取舍：** 同 Node 多 Member 只能覆盖 JVM 故障；跨 Node 才能覆盖主机故障，但带来更多容量、证书和配置管理成本。
+**第三问，取舍：** 同 Node 多 Member 主要覆盖 JVM 故障；跨 Node 还必须落在不同主机与底层故障域，才能覆盖主机故障。两套 Node Profile 在同一宿主机上并不满足这个条件，而跨故障域又带来更多容量、证书和配置管理成本。
 
 **第四问，故障：** Node Out of Sync 时检查 Node Agent、SOAP、认证、时间、磁盘和同步日志。
 

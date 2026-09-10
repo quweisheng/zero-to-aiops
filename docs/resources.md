@@ -31,7 +31,7 @@
 ## SRE
 
 - [Google SRE Books](https://sre.google/books/)
-  SRE 原始教材和实践手册，重点看 SLO、toil、monitoring、incident response。
+  SRE（站点可靠性工程）原始教材和实践手册，重点看 SLO（服务级别目标）、toil（重复、手工且缺少持久改进价值的运维劳作）、monitoring（监测）和 incident response（事故响应）。
 - [Google Cloud SRE](https://cloud.google.com/sre)
   用于理解 SRE 的岗位、实践和组织落地。
 
@@ -53,7 +53,7 @@
 ## 可观测性
 
 - [OpenTelemetry](https://opentelemetry.io/docs/)
-  统一遥测标准，重点看 metrics、logs、traces、collector。
+  统一遥测标准，重点看 metrics（指标）、logs（日志）、traces（链路）和 Collector（遥测接收、处理与转发程序）。
 - [Prometheus overview](https://prometheus.io/docs/introduction/overview/)
   指标采集、查询和告警基础。
 - [VictoriaMetrics quick start](https://docs.victoriametrics.com/victoriametrics/quick-start/)

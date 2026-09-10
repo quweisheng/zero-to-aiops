@@ -420,9 +420,9 @@ systemctl status nginx.service --no-pager
      CGroup: /system.slice/nginx.service
              ├─1234 nginx: master process
              └─1235 nginx: worker process
-（示意输出：Loaded 表示加载来源，Active 表示运行状态，Main PID 是主进程号；
- Tasks 为任务数，Memory 为内存，CGroup 为控制组；master/worker 是主进程/工作进程。）
 ```
+
+上面保留原始输出形式。`master process` 是 nginx 主进程，负责管理配置和工作进程；`worker process` 是实际处理连接与请求的工作进程。`Loaded` 表示加载来源，`Active` 表示运行状态，`Main PID` 是主进程号，`Tasks` 为任务数，`Memory` 为内存，`CGroup` 为控制组。
 
 逐项解释：
 
@@ -486,7 +486,7 @@ printf 'state=%s result=%s restarts=%s\n' "$state" "$result" "$restarts"
 [Unit]
 Description=Demo AIOps Service
 Documentation=https://example.com/runbooks/demo
-After=network.target
+After=network-online.target
 Wants=network-online.target
 
 [Service]
@@ -831,11 +831,13 @@ LOG_LEVEL=info
 EnvironmentFile=-/etc/aiops-api/aiops-api.env
 ```
 
-排查环境变量是否被读取：
+查看 unit 中直接配置的环境变量时，可用下面的属性查询；它不保证展开显示 `EnvironmentFile` 中最终注入进程的所有值：
 
 ```bash
 systemctl show aiops-api.service -p Environment
 ```
+
+该输出也可能含敏感值，仅在授权终端检查，不直接上传日志。要验证变量文件是否生效，先核对文件路径和权限，再让应用通过安全的配置摘要或“必要项是否存在”检查确认，不打印真实秘密。
 
 ### Restart
 
@@ -2328,6 +2330,20 @@ systemd 可以在一台主机上监督进程，但主机断电、磁盘损坏、
 30 秒：systemd 用 unit 管单机对象生命周期；我区分配置加载、启动依赖、进程状态和业务就绪，先用 show 与 journal 收证据再恢复。
 
 3 分钟：解释 systemctl 客户端、manager、job、cgroup 和 journal 的关系，用退出 42 实验说明状态与日志，再谈 timer 语义、权限和资源控制。追问“已 enable 但没启动”，回答安装关系不等于当前 start；追问“进程一直活着但不处理请求”，回答业务探针、支持的 watchdog、线程或连接池证据；追问“系统启动图怎么设计”，讨论哪些依赖必须串行、哪些可并发、何时判断 ready、启动超时与失败传播，而不把所有服务都写成互相 Requires。
+
+## 触发机制课堂：路径变化和 socket 激活不是消息队列
+
+学生问：“日志目录出现新文件，就让 `.path` 启动分析程序，是不是每个文件都会执行一次？”不能这样保证。路径单元观察符合条件的文件系统变化，再触发关联单元；它不是保存每条事件、逐条确认与无限重放的可靠消息队列。多次变化可能在服务执行期间发生，处理程序必须自己检查实际待处理文件，不能把一次启动等同于只有一个新文件。[路径单元手册](https://www.freedesktop.org/software/systemd/man/latest/systemd.path.html)
+
+设计日志批处理时，生产者先把完整文件放到约定目录，消费者按文件标识和处理记录寻找尚未完成的输入。写了一半的文件不能仅凭存在就读取；处理失败要保留可重试状态，成功后按约定归档。进程重启之后仍能扫描出待办项，才算有恢复路径。对于远程文件系统，还要核对路径监视机制的支持边界，不假定所有变化都会按本地文件系统方式通知。
+
+Socket activation（套接字激活）则由 socket 单元预先建立监听，在需要时启动能接收这些描述符的服务。应用必须支持相应协议，并正确接管传入的监听资源；给任意程序加一个 socket 单元，不会自动改写它的网络代码。排查时分别看 socket 是否监听、服务是否被触发、应用是否正确接管，而不只看 service 当前是否运行。[套接字单元手册](https://www.freedesktop.org/software/systemd/man/latest/systemd.socket.html)
+
+停止服务后又被拉起，可能就是触发源仍在工作。维护窗口应列出 timer、path、socket 和依赖启动等所有入口，按授权范围暂停需要暂停的触发器，保留它们原来的启用状态。不要为了阻止一次重启就永久屏蔽服务，更不能忘记维护结束后恢复原触发链。这里的“状态”包括服务状态与触发器状态，两者需要一起验收。
+
+这类机制适合低流量按需工具和本机任务编排，却不替代集群队列、业务幂等和跨主机协调。面试设计题若要求百万日志文件持续处理，应进一步讨论目录扫描成本、积压容量、处理记录、失败隔离和恢复速度；仅回答“创建一个路径单元”还没有解决核心吞吐与一致性问题。
+
+独立练习不必启动额外组件：画出“文件正在写、文件完整、待处理、处理中、已完成、失败待重试”六种业务状态，再标出 systemd 只能负责哪些进程与触发状态。模拟消费者在处理成功但还没写完成记录时退出，说明下一次如何避免重复副作用。这个纸面推演用于检查设计，不应标记为路径单元或套接字激活的运行实测。
 
 ## 学习证据
 

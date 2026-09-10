@@ -246,7 +246,7 @@ Monitoring, Logging, and Debugging（监控、日志与调试）
   -> debug services（调试服务）
 ```
 
-学习 Kubernetes 不要从背 YAML 开始。要先知道每个对象在这张地图里的位置：
+学习 Kubernetes 不要从背 YAML 开始。要先知道每个对象在这张地图里的位置。下面的 workload 是工作负载，networking 是网络能力，configuration 是配置管理，scheduling 是调度，object management 是资源对象管理，debugging 是诊断调试：
 
 ```text
 Deployment 是 workload
@@ -871,7 +871,7 @@ Pod 常见 phase：
 
 ```bash
 kubectl get pods -n aiops
-kubectl describe pod <pod-name> -n aiops
+kubectl describe pod '<pod-name>' -n aiops # 将整个 <pod-name> 替换为上一条返回的授权实验 Pod 名
 ```
 
 容器状态：
@@ -892,9 +892,11 @@ kubectl describe pod <pod-name> -n aiops
 
 排障时不要只看 `STATUS` 一列，必须看：
 
+下列及后文的 `'<pod>'`、`'<ns>'`、`'<node>'` 等是命令模板：分别把整个尖括号内容替换成授权实验中的 Pod、命名空间或节点名称，并保留外面的引号；未替换不能直接执行。引号避免尖括号被 Shell 误当作文件输入输出重定向。先确认当前集群上下文，再运行查询；排空和恢复调度等写操作还需要对应的变更批准。
+
 ```bash
-kubectl describe pod <pod> -n <ns>
-kubectl logs <pod> -n <ns> --previous
+kubectl describe pod '<pod>' -n '<ns>'
+kubectl logs '<pod>' -n '<ns>' --previous
 ```
 
 ## init containers、sidecar、ephemeral containers
@@ -937,7 +939,7 @@ ephemeral container 用于调试正在运行的 Pod。
 示例：
 
 ```bash
-kubectl debug -it <pod> -n aiops --image=busybox:1.36 --target=app
+kubectl debug -it '<pod>' -n aiops --image=busybox:1.36 --target=app
 ```
 
 适合原镜像没有 shell、没有诊断工具时临时进入调试。
@@ -1189,7 +1191,7 @@ spec:
 | `NodePort` | 每个 Node 打开一个端口 | 测试或特殊接入 |
 | `LoadBalancer` | 让云厂商创建 LB | 云上对外暴露 |
 | `ExternalName` | DNS CNAME 映射 | 引用外部服务 |
-| Headless | `clusterIP: None` | StatefulSet、直接发现后端 |
+| Headless（无头服务形态，并非独立 type） | `clusterIP: None` | StatefulSet、直接发现后端 |
 
 新手常见链路：
 
@@ -1417,14 +1419,14 @@ Kubernetes 会根据 requests/limits 给 Pod 分 QoS。
 
 | QoS | 条件概念 | 稳定性 |
 |---|---|---|
-| `Guaranteed` | 每个容器 CPU/内存 request 等于 limit | 最稳定 |
+| `Guaranteed` | 每个容器 CPU/内存 request 等于 limit，且都已设置 | 资源保障较强，但不是永不被驱逐或杀死 |
 | `Burstable` | 设置了部分 request/limit 或二者不等 | 常见 |
 | `BestEffort` | 没有设置 requests/limits | 最容易被驱逐 |
 
 Pod 被 OOMKilled：
 
 ```bash
-kubectl describe pod <pod> -n aiops
+kubectl describe pod '<pod>' -n aiops
 ```
 
 看：
@@ -1480,7 +1482,7 @@ kubectl label node node-1 disktype=ssd
 查看 Pod 为什么 Pending：
 
 ```bash
-kubectl describe pod <pod> -n aiops
+kubectl describe pod '<pod>' -n aiops
 ```
 
 Events 里常见：
@@ -1688,7 +1690,7 @@ kubectl config get-contexts
 切换：
 
 ```bash
-kubectl config use-context <context-name>
+kubectl config use-context '<context-name>'
 ```
 
 查看当前：
@@ -1749,7 +1751,7 @@ NetworkPolicy 用于限制 Pod 间网络访问。
 
 ```bash
 kubectl get networkpolicy -n aiops
-kubectl describe networkpolicy <name> -n aiops
+kubectl describe networkpolicy '<name>' -n aiops
 ```
 
 ## 最小 AIOps API 示例
@@ -1887,12 +1889,12 @@ kubectl get deploy,rs,pod,svc -n aiops
 kubectl get deploy aiops-api -n aiops -o yaml
 ```
 
-看对象完整当前状态，包括 spec、status、managedFields 等。
+看对象当前的 spec、status 等信息；kubectl 默认会省略 managedFields，要查看字段所有权请加上 `--show-managed-fields`，不能把默认输出当成全部存储字段。
 
 ### 描述对象
 
 ```bash
-kubectl describe pod <pod-name> -n aiops
+kubectl describe pod '<pod-name>' -n aiops
 ```
 
 `describe` 会展示事件，是排查 Pending、ImagePull、Probe 失败的核心命令。
@@ -1900,19 +1902,19 @@ kubectl describe pod <pod-name> -n aiops
 ### 查看日志
 
 ```bash
-kubectl logs <pod-name> -n aiops
+kubectl logs '<pod-name>' -n aiops
 ```
 
 多容器 Pod：
 
 ```bash
-kubectl logs <pod-name> -n aiops -c api
+kubectl logs '<pod-name>' -n aiops -c api
 ```
 
 上一轮崩溃容器日志：
 
 ```bash
-kubectl logs <pod-name> -n aiops -c api --previous
+kubectl logs '<pod-name>' -n aiops -c api --previous
 ```
 
 按 label 查多个 Pod：
@@ -1924,13 +1926,13 @@ kubectl logs -l app=aiops-api -n aiops --tail=100
 ### 进入容器
 
 ```bash
-kubectl exec -it <pod-name> -n aiops -- sh
+kubectl exec -it '<pod-name>' -n aiops -- sh
 ```
 
 多容器：
 
 ```bash
-kubectl exec -it <pod-name> -n aiops -c api -- sh
+kubectl exec -it '<pod-name>' -n aiops -c api -- sh
 ```
 
 注意：生产镜像可能没有 shell。可用 `kubectl debug` 临时注入调试容器。
@@ -1947,7 +1949,7 @@ kubectl apply -f aiops-api.yaml
 
 ```bash
 kubectl delete -f aiops-api.yaml
-kubectl delete pod <pod-name> -n aiops
+kubectl delete pod '<pod-name>' -n aiops
 ```
 
 删除被 Deployment 管理的 Pod 后，ReplicaSet 会再创建一个新的 Pod。这不是异常，是控制器在保持期望副本数。
@@ -2060,6 +2062,8 @@ curl http://127.0.0.1:8080/
 
 前置条件：只用可丢弃的实验集群，具备创建独立 Namespace 的权限，节点为 Ready，能拉取示例镜像。尚无集群时按 [kind 官方快速开始](https://kind.sigs.k8s.io/docs/user/quick-start/) 安装与本机系统匹配的 kind 和 Docker，再执行 `kind create cluster --name teaching-k8s --wait 120s`。它使用当前 kind 自带的匹配节点镜像，不声称自动等于本文历史版本快照。先用 `kubectl config current-context` 确认 `kind-teaching-k8s`，再用 `kubectl get nodes` 验证就绪；已有授权测试集群可跳过创建。没有通过这两项，不进入下一步。
 
+创建前先执行 `kind get clusters`、`kubectl config current-context` 和 `kubectl get namespace aiops-lab --ignore-not-found`。若准备新建的集群名称已经存在，或命名空间查询返回任何现有对象，就停止，不接管它们；查询因网络、凭据或权限失败也不能当作“不存在”。只有本轮独占、创建成功的资源才能进入后续故障与清理步骤。
+
 ### 1. 创建 namespace
 
 ```bash
@@ -2167,7 +2171,7 @@ image: nginx:not-exist
 ```bash
 kubectl apply -f aiops-lab.yaml
 kubectl get pods -n aiops-lab
-kubectl describe pod <new-pod> -n aiops-lab
+kubectl describe pod '<new-pod>' -n aiops-lab
 kubectl get events -n aiops-lab --sort-by=.lastTimestamp
 ```
 
@@ -2233,10 +2237,10 @@ kubectl delete namespace aiops-lab
 ## 排障流程：Pod Pending
 
 ```bash
-kubectl get pod <pod> -n <ns> -o wide
-kubectl describe pod <pod> -n <ns>
+kubectl get pod '<pod>' -n '<ns>' -o wide
+kubectl describe pod '<pod>' -n '<ns>'
 kubectl get nodes
-kubectl describe node <node>
+kubectl describe node '<node>'
 ```
 
 重点看 Events：
@@ -2258,10 +2262,10 @@ kubectl describe node <node>
 ## 排障流程：CrashLoopBackOff
 
 ```bash
-kubectl get pod <pod> -n <ns>
-kubectl describe pod <pod> -n <ns>
-kubectl logs <pod> -n <ns> --previous
-kubectl logs <pod> -n <ns>
+kubectl get pod '<pod>' -n '<ns>'
+kubectl describe pod '<pod>' -n '<ns>'
+kubectl logs '<pod>' -n '<ns>' --previous
+kubectl logs '<pod>' -n '<ns>'
 ```
 
 重点：
@@ -2271,7 +2275,7 @@ kubectl logs <pod> -n <ns>
 - Exit Code。
 - Reason。
 - ConfigMap/Secret 是否正确。
-- readiness/liveness 是否杀得太早。
+- startup/liveness 的失败是否触发了重启；readiness 失败只影响就绪状态，本身不杀容器。
 
 常见 Exit Code：
 
@@ -2286,8 +2290,8 @@ kubectl logs <pod> -n <ns>
 ## 排障流程：ImagePullBackOff
 
 ```bash
-kubectl describe pod <pod> -n <ns>
-kubectl get events -n <ns> --sort-by=.lastTimestamp
+kubectl describe pod '<pod>' -n '<ns>'
+kubectl get events -n '<ns>' --sort-by=.lastTimestamp
 ```
 
 看错误：
@@ -2313,17 +2317,17 @@ kubectl get endpointslice -n aiops -l kubernetes.io/service-name=aiops-api
 kubectl describe svc aiops-api -n aiops
 ```
 
-如果 EndpointSlice 为空：
+如果没有正确的就绪端点，应把“地址为空”和“地址存在但不就绪”分开：
 
 - selector 不匹配。
-- Pod 不 ready。
+- Pod 不 ready：地址仍可能存在，但 `conditions.ready` 为 false，普通 Service 转发会避开它；不是必然删除整个 EndpointSlice。
 - Pod 不在同 namespace。
 
 如果 EndpointSlice 有后端，但访问不通：
 
 ```bash
-kubectl exec -it <client-pod> -n aiops -- curl -v http://aiops-api/
-kubectl exec -it <backend-pod> -n aiops -- ss -ltnp
+kubectl exec -it '<client-pod>' -n aiops -- curl -v http://aiops-api/
+kubectl exec -it '<backend-pod>' -n aiops -- ss -ltnp
 ```
 
 继续看：
@@ -2340,7 +2344,7 @@ kubectl rollout status deployment/aiops-api -n aiops
 kubectl get rs -n aiops
 kubectl get pods -n aiops -l app=aiops-api
 kubectl describe deploy aiops-api -n aiops
-kubectl describe pod <new-pod> -n aiops
+kubectl describe pod '<new-pod>' -n aiops
 ```
 
 判断：
@@ -2580,17 +2584,17 @@ finalizer 不是“禁止删除”。当对象带 finalizer 时，删除请求�
 排查：
 
 ```bash
-kubectl get namespace <name> -o yaml # 看 deletionTimestamp、spec.finalizers 和 conditions
-kubectl get pvc <name> -n <namespace> -o yaml # 看保护类 finalizer
+kubectl get namespace '<name>' -o yaml # 看 deletionTimestamp、spec.finalizers 和 conditions
+kubectl get pvc '<name>' -n '<namespace>' -o yaml # 看保护类 finalizer
 kubectl get crd # 确认自定义资源定义是否还在
-kubectl logs <controller-pod> -n <controller-namespace> # 查负责清理的控制器
+kubectl logs '<controller-pod>' -n '<controller-namespace>' # 查负责清理的控制器
 ```
 
 生产中不要把“强删 finalizer”当第一步。先确认外部资源是否已清理、负责的控制器为何失败，并保存对象 YAML；盲删 finalizer 可能留下云盘、负载均衡器或数据残留。
 
 ## Server-Side Apply 与字段所有权
 
-Server-Side Apply，简称 SSA，把“谁管理哪个字段”记录在 API Server。CI/CD、HPA、Operator 和人工操作可以分别管理不同字段；两个 field manager 同时声明同一字段时会产生冲突，而不是静默覆盖。
+Server-Side Apply，简称 SSA，把“谁管理哪个字段”记录在 API Server。CI/CD、HPA、Operator 和人工操作可以分别管理不同字段；当某个 field manager 试图改变其他管理者持有字段的值时，通常会收到冲突，而不是静默覆盖。多个管理者声明相同值可以共享所有权，因此“同一字段有多个管理者”不等于已经发生冲突。[官方字段所有权说明](https://kubernetes.io/docs/reference/using-api/server-side-apply/)
 
 ```bash
 kubectl apply --server-side --field-manager=platform-ci -f deployment.yaml # 由 platform-ci 声明字段
@@ -2620,7 +2624,7 @@ kubeadm 常把控制面组件 manifest 放在：
 sudo ls -l /etc/kubernetes/manifests # 确认静态 Pod 清单存在
 sudo journalctl -u kubelet -n 200 --no-pager # API Server 不可用时仍能从节点看 kubelet
 sudo crictl ps -a # 直接看容器运行时中的控制面容器
-sudo crictl logs <container-id> # API Server 不可用时查看组件日志
+sudo crictl logs '<container-id>' # API Server 不可用时查看组件日志
 ```
 
 这解释了一个常见追问：API Server 自己也是 Pod 时，谁先创建它？答案是控制平面节点上的 kubelet根据本地静态 Pod 清单启动它，不依赖 scheduler。
@@ -2683,13 +2687,13 @@ spec:
         app: checkout
     spec:
       topologySpreadConstraints:
-        - maxSkew: 1 # 任意两个可调度 zone 的副本数最多相差 1
+        - maxSkew: 1 # 硬约束：候选域中匹配副本数与全局最小值的差不超过 1
           topologyKey: topology.kubernetes.io/zone # 按可用区分布
           whenUnsatisfiable: DoNotSchedule # 不能满足时保持 Pending，不破坏硬约束
           labelSelector:
             matchLabels:
               app: checkout # 只统计同应用 Pod
-        - maxSkew: 1 # 同一可用区内继续按节点分散
+        - maxSkew: 1 # 按所有符合条件的 hostname 域偏好均匀分散，并非逐可用区单独计算
           topologyKey: kubernetes.io/hostname
           whenUnsatisfiable: ScheduleAnyway # 节点不足时允许调度但尽量均匀
           labelSelector:
@@ -2705,6 +2709,8 @@ spec:
             limits:
               memory: 1Gi
 ```
+
+两条拓扑规则共同作用：第一条在可用区域间设置硬约束，第二条在节点域间提供评分偏好；第二条的 `ScheduleAnyway` 不保证副本差永远不超过一。全局最小值还受 eligible domains（符合条件的拓扑域）与 `minDomains` 等字段影响，不能把这份配置解释成严格的“先分区、再在每区独立调度”算法。[官方拓扑分布语义](https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/)
 
 排查 Pending 时，先看 `kubectl describe pod` 最后的 scheduler Events，再核对 requests、节点 allocatable、taint、affinity、PVC、端口和 topology labels，不要只看节点实时 CPU。
 
@@ -2807,9 +2813,9 @@ kubelet周期性更新 Node 状态和 `kube-node-lease` Namespace 中的 Lease�
 
 ```bash
 kubectl get node # 看 Ready 状态
-kubectl describe node <node> # 看 Conditions、Taints、Allocated resources 和 Events
-kubectl get lease -n kube-node-lease <node> -o yaml # 看 renewTime
-kubectl get pod -A --field-selector spec.nodeName=<node> -o wide # 看节点上的 Pod
+kubectl describe node '<node>' # 看 Conditions、Taints、Allocated resources 和 Events
+kubectl get lease -n kube-node-lease '<node>' -o yaml # 看 renewTime
+kubectl get pod -A --field-selector 'spec.nodeName=<node>' -o wide # 看节点上的 Pod
 ```
 
 节点压力包括 MemoryPressure、DiskPressure、PIDPressure。kubelet 在达到驱逐阈值时回收资源或驱逐 Pod。QoS 类别：
@@ -2883,13 +2889,13 @@ PVC/PV/POD 故障顺序：
 
 ```bash
 kubectl get pvc,pv -A # 看 Pending、Bound、Released 状态
-kubectl describe pvc <pvc> -n <namespace> # 看 StorageClass 和 provisioner Events
+kubectl describe pvc '<pvc>' -n '<namespace>' # 看 StorageClass 和 provisioner Events
 kubectl get storageclass -o yaml # 看 provisioner、reclaimPolicy、volumeBindingMode
-kubectl describe pod <pod> -n <namespace> # 看 FailedScheduling、AttachVolume、MountVolume
+kubectl describe pod '<pod>' -n '<namespace>' # 看 FailedScheduling、AttachVolume、MountVolume
 kubectl get volumeattachment # 看 CSI attach 对象
 kubectl get csidriver,csinode # 看驱动声明和节点能力
-kubectl logs -n <csi-namespace> <csi-controller-pod> -c <sidecar> # 查 controller sidecar
-kubectl logs -n <csi-namespace> <csi-node-pod> -c <driver> # 查目标节点插件
+kubectl logs -n '<csi-namespace>' '<csi-controller-pod>' -c '<sidecar>' # 查 controller sidecar
+kubectl logs -n '<csi-namespace>' '<csi-node-pod>' -c '<driver>' # 查目标节点插件
 ```
 
 生产设计还要回答：访问模式 RWO/RWX/ROX/RWOP、快照、一致性、扩容、拓扑、回收策略、加密、备份恢复、性能上限和应用自身数据一致性。StatefulSet 提供稳定身份和卷模板，不自动让数据库获得强一致或高可用。
@@ -2967,9 +2973,11 @@ Raft 集群要获得 `floor(N/2)+1` 多数派：3 成员可容忍 1 个故障，
 kubectl get --raw='/readyz?verbose' # 升级前后检查 API Server 依赖
 kubectl get --raw='/livez?verbose' # 检查进程活性
 kubectl get node -o wide # 对照 kubelet 版本与节点状态
-kubectl drain <node> --ignore-daemonsets --delete-emptydir-data # 驱逐可驱逐工作负载
-kubectl uncordon <node> # 升级验证后恢复调度
+kubectl drain '<node>' --ignore-daemonsets # 授权维护模板；先不允许丢弃 emptyDir 数据
+kubectl uncordon '<node>' # 升级验证后恢复调度
 ```
+
+如果 drain 因 emptyDir 被阻止，先确认其中是否保存未上传的日志、任务中间结果或其他需要恢复的数据。只有业务负责人确认可丢弃并完成必要导出，才单独批准 `--delete-emptydir-data`；不要把这个数据删除选项当作升级默认值。另需先证明剩余容量、PDB 和持久卷迁移条件允许维护。[官方安全 drain 流程](https://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/)
 
 回滚边界必须提前说清：Deployment 镜像通常可回滚；kubeadm 不支持把集群降级作为通用恢复流程，不能承诺组件包降级就能安全回退；etcd schema、弃用 API、CRD 转换和存储格式变化不能假设可一键回滚。升级前的兼容性扫描和恢复演练比事后“强行降级”更重要。
 
@@ -3000,6 +3008,8 @@ API Priority and Fairness，简称 APF，按 FlowSchema 和 PriorityLevelConfigu
 ## 进阶故障实验：亲手观察 finalizer
 
 这个实验故意创建一个没有控制器负责清理的测试 finalizer，只用于学习删除状态机，绝不能照搬到生产对象。
+
+前置条件：继续使用前文已确认的独占实验集群，具备 Namespace 创建以及 ConfigMap 的创建、读取、修改、删除权限。先执行 `kubectl get namespace finalizer-lab --ignore-not-found`；仅当请求成功且没有对象时继续。若命名空间已经存在，停止，不向它写入 finalizer，也不在收尾时删除它。
 
 ### 1. 创建对象
 
@@ -3153,7 +3163,7 @@ List 建立当前快照，Watch 从 `resourceVersion` 接收增量变化，能�
 - `Insufficient cpu/memory`：requests 超过可分配资源或碎片化。
 - taint 不容忍、node selector/affinity 不匹配、topology spread 无法满足。
 - PVC Pending、存储拓扑冲突或 volume node affinity 冲突。
-- hostPort 冲突、达到 Pod 数上限、ResourceQuota 或 admission 约束。
+- hostPort 冲突或达到节点 Pod 数上限。ResourceQuota、admission 通常会在创建阶段拒绝对象；如果是 Deployment 想创建的 Pod 根本没有出现，应查 ReplicaSet 的 FailedCreate 事件，而不是给一个不存在的 Pod 排查调度。
 - scheduler 不健康、调度队列拥塞或扩容器受云配额限制。
 
 节点实时 CPU 很低也可能 Pending，因为 scheduler 看的是 requests 和 allocatable，而不是只看当前利用率。

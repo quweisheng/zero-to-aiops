@@ -122,7 +122,7 @@ AIOps 平台往往拥有很宽的读取权限，能集中看到主机、容器�
 
 ## 等保是什么
 
-《网络安全法》第二十三条规定国家实行网络安全等级保护制度，并要求网络运营者落实内部制度与责任人、攻击和入侵防范、网络运行和安全事件监测记录、数据分类与备份加密、应急处置等义务。
+2026 年起施行的修正《网络安全法》第二十三条规定国家实行网络安全等级保护制度，并要求网络运营者落实内部制度与责任人、攻击和入侵防范、网络运行和安全事件监测记录、数据分类及重要数据备份加密等义务；应急预案、风险处置和事件报告另见第二十七条。引用旧版材料时要核对条号，不能把旧法第二十一条直接沿用到修正后文本。依据 [网信办公布的修正法全文](https://www.cac.gov.cn/2025-12/29/c_1768735112911946.htm)。
 
 “等级”针对的是具体等级保护对象，不是给公司或某个安全产品贴一个永久标签。对象可以是一套承载明确业务的网络或信息系统，也可能是云计算、移动互联、物联网、工业控制等场景下划分出的保护对象。
 
@@ -166,10 +166,12 @@ AIOps 平台往往拥有很宽的读取权限，能集中看到主机、容器�
 | 等级 | 受破坏后的影响概念 | 常见理解 |
 |---|---|---|
 | 第一级 | 主要损害公民、法人和其他组织的合法权益，影响有限 | 自主保护，安全要求相对基础 |
-| 第二级 | 对合法权益造成严重损害，或损害社会秩序、公共利益 | 大量普通联网业务可能从这里开始评估 |
-| 第三级 | 对合法权益造成特别严重损害，或严重损害社会秩序、公共利益，或损害国家安全 | 重要业务系统常重点评估，技术和管理要求明显提高 |
+| 第二级 | 对公民、法人和其他组织合法权益造成严重或特别严重损害，或对社会秩序、公共利益造成一般损害，但不危害国家安全 | 不能只因企业自身损失特别严重就直接推为三级 |
+| 第三级 | 对社会秩序、公共利益造成严重损害，或对国家安全造成一般损害 | 重要业务系统常重点评估，技术和管理要求明显提高 |
 | 第四级 | 对社会秩序、公共利益造成特别严重损害，或严重损害国家安全 | 适用于极重要对象，要求更严格 |
 | 第五级 | 对国家安全造成特别严重损害 | 由国家指定专门部门监督，普通企业很少自行涉及 |
+
+特别注意：同样叫“特别严重”，受侵害的是组织合法权益，还是公共利益、国家安全，矩阵结果并不同。先按 [GB/T 22240-2020 官方标准入口](https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=63B89FFF7CC97EBBBED8A403396F0F00)阅读定级要素；[广电总局发布的定级行业标准](https://www.nrta.gov.cn/module/download/downfile.jsp?classid=0&filename=c1f020a7b0d14761bed55e9c84088e12.pdf)也列出对应关系，但其行业适用范围不能泛化成全部行业规则。分别分析业务信息安全与系统服务安全，再取符合指南规则的等级，不按单一经济损失拍板。
 
 不能从“用户数量”“是不是政府项目”“客户要求三级”单独推出等级。正式定级要先划清对象边界，再识别业务功能、服务范围、数据、依赖关系、受侵害对象和危害程度，并按要求完成专家评审、主管部门审核或备案沟通。
 
@@ -431,7 +433,7 @@ CMDB / 云 API / Kubernetes API / IAM
   -> 计算覆盖率、时效、漂移和超期风险
   -> 告警与整改工单
   -> 人工审批或安全 Runbook
-  -> 复测并保存不可抵赖的证据
+  -> 复测并保存来源、完整性和保管链可核验的证据
   -> 看板、测评材料和管理复盘
 ```
 
@@ -474,8 +476,11 @@ labs/mlps-baseline/
 
 PowerShell 创建目录：
 
+目录中 `scope` 描述保护边界，`architecture` 描述架构，两个 `register` 分别登记控制与整改；`evidence` 下的系统、网络、身份、日志、备份目录保存对应证据，`reports/self-check` 是自查报告。先在自己的学习目录操作；同名目录存在就换新位置，不覆盖历史材料。
+
 ```powershell
 $Lab = 'labs/mlps-baseline'                         # 实验根目录，不要指向生产配置目录
+if (Test-Path -LiteralPath $Lab) { throw '同名目录已存在，请选择新的学习位置。' }
 New-Item -ItemType Directory -Force "$Lab/evidence/system" | Out-Null
 New-Item -ItemType Directory -Force "$Lab/evidence/network" | Out-Null
 New-Item -ItemType Directory -Force "$Lab/evidence/identity" | Out-Null
@@ -484,7 +489,7 @@ New-Item -ItemType Directory -Force "$Lab/evidence/backup" | Out-Null
 New-Item -ItemType Directory -Force "$Lab/reports" | Out-Null
 ```
 
-预期结果：目录创建成功，里面还没有真实生产数据。提交 GitHub 前要脱敏 IP、账号、拓扑、漏洞、日志、密钥和测评材料，必要时只提交模板和伪造示例。
+预期结果：目录创建成功，里面还没有真实生产数据。提交 GitHub 前要脱敏 IP、账号、拓扑、漏洞、日志、密钥和测评材料，必要时只提交模板和明确标注的合成示例。合成材料不能伪装成真实测评证据。
 
 ## 控制台账配置
 
@@ -502,7 +507,7 @@ controls:
   - id: IAM-01
     name: 特权账号唯一身份和多因素认证
     owner: iam-team
-    status: partial                     # planned / partial / effective / exception
+    status: partial                     # planned=计划中；partial=部分落实；effective=有效；exception=已审批例外
     evidence:
       - evidence/identity/admin-review-sanitized.csv
     last_verified: 2026-07-14
@@ -571,7 +576,7 @@ kubectl get pods -A -o custom-columns='NAMESPACE:.metadata.namespace,NAME:.metad
 | 名称 | 作用 | 关键结果 | AIOps 场景 | 常见坑 |
 |---|---|---|---|---|
 | `Get-NetTCPConnection` / `ss` | 发现监听端口 | 地址、端口、进程 | 发现未登记暴露面 | 快照看不到历史短时端口 |
-| `Get-LocalUser` / `getent passwd` | 盘点本地账号 | 账号、状态、登录信息 | 发现孤儿和长期未用账号 | 不能覆盖云 IAM、LDAP、数据库账号 |
+| `Get-LocalUser` / `getent passwd` | 盘点本地或系统名称服务可见的账号 | Windows 命令给启用与登录字段；Linux passwd 查询主要给账号标识和 Shell 等 | 发现待核实账号 | `getent` 可随 NSS 查询 LDAP 等来源，但不是完整身份清单，也不提供最近登录时间 |
 | `Get-WinEvent` / `journalctl` | 抽查本地日志 | 时间、来源、事件 | 验证日志产生与时间线 | 本地有日志不等于集中接入和防篡改 |
 | `w32tm` / `timedatectl` | 检查时间同步 | 时间源、同步状态 | 保证跨系统事件可关联 | 只看时区，不看实际偏差和时间源 |
 | `Get-MpComputerStatus` | 查看 Defender 状态 | 实时防护、签名状态 | 终端防护覆盖监控 | 第三方 EDR 环境不能只用此命令判断 |
@@ -587,25 +592,29 @@ kubectl get pods -A -o custom-columns='NAMESPACE:.metadata.namespace,NAME:.metad
 
 ### 实验步骤
 
-1. 创建前面的 `labs/mlps-baseline` 目录。
+前提是自己的 Windows 学习机、64 位 Windows PowerShell 5.1 或支持相应模块的 PowerShell 7，以及自己的独立实验目录。无需管理员权限强行取全；组件或读取权限不足的项目要记录失败，不临时关闭安全控制。证据内有本机账号、地址等信息，先在仅自己可读的本地位置保存，不自动同步到公共仓库。
+
+1. 如果尚未做前面的目录步骤，先创建 `labs/mlps-baseline`；已经创建则复用本次课堂目录，不重新执行会拒绝同名路径的初始化段，并保持终端位于其上方的学习目录。
 2. 打开普通 PowerShell，执行下面脚本。
 3. 查看输出，识别正常项、待确认项和风险项。
 4. 在 `reports/self-check.md` 写发现、证据、风险、责任人和下一步。
 
 ```powershell
 $Lab = 'labs/mlps-baseline'
-$Stamp = Get-Date -Format 'yyyyMMdd-HHmmss'                                      # 用统一时间标记本次采集批次
+$Stamp = (Get-Date -Format 'yyyyMMdd-HHmmss') + '-' + [guid]::NewGuid().ToString('N') # 同秒重跑也使用新批次
 $Out = "$Lab/evidence/system/$Stamp"
-New-Item -ItemType Directory -Force $Out | Out-Null                              # 每次采集使用独立目录，避免覆盖历史
+if (Test-Path -LiteralPath $Out) { throw '批次目录已存在，停止。' }
+New-Item -ItemType Directory -Path $Out -ErrorAction Stop | Out-Null
 
 Get-Date -Format o | Out-File "$Out/collected-at.txt" -Encoding utf8            # 保存带时区的采集时间
 Get-ComputerInfo | Select-Object WindowsProductName, WindowsVersion, OsBuildNumber |
   Out-File "$Out/os-version.txt" -Encoding utf8                                 # 保存操作系统版本
 Get-NetTCPConnection -State Listen | Sort-Object LocalAddress, LocalPort |
-  Format-Table -AutoSize | Out-File "$Out/listening-ports.txt" -Encoding utf8    # 保存监听端口快照
+  Format-Table -AutoSize | Out-String -Width 4096 | Out-File "$Out/listening-ports.txt" -Encoding utf8 # 防止窄终端截断
 Get-LocalUser | Select-Object Name, Enabled, LastLogon |
-  Format-Table -AutoSize | Out-File "$Out/local-users.txt" -Encoding utf8        # 保存本地账号快照
+  Format-Table -AutoSize | Out-String -Width 4096 | Out-File "$Out/local-users.txt" -Encoding utf8 # 保存本地账号快照
 w32tm /query /status | Out-File "$Out/time-sync.txt" -Encoding utf8              # 保存时间同步状态
+if ($LASTEXITCODE -ne 0) { Write-Warning '时间查询失败，请把退出码和失败原因写入自查报告。' }
 
 Get-ChildItem $Out -File | Get-FileHash -Algorithm SHA256 |
   Select-Object Path, Hash | Export-Csv "$Out/sha256-manifest.csv" -NoTypeInformation -Encoding utf8 # 为证据生成完整性清单
@@ -626,6 +635,8 @@ sha256-manifest.csv
 
 `sha256-manifest.csv` 中每个证据文件都有哈希值。`self-check.md` 至少回答：
 
+六类文件依次记录采集时间、系统版本、监听端口、本地账号、时间同步与摘要清单。文件存在或有哈希都不等于命令成功：逐条阅读终端错误和输出内容，将每项标为成功、无适用数据或采集失败，并保留原因。清单不包含其自身，否则会出现自引用摘要问题。
+
 - 哪些端口是预期的，谁负责？
 - 是否有不认识、禁用但未说明、长期未使用的账号？
 - 时间同步是否正常？
@@ -633,7 +644,11 @@ sha256-manifest.csv
 
 ### 验证方法
 
-重新运行 `Get-FileHash` 并和清单比较。文件未变化时哈希应一致；修改任意证据文件后哈希会变化，这说明证据完整性需要重新确认。
+重新运行 `Get-FileHash` 并和清单比较。文件未变化时哈希应一致；只在合成练习文件的副本上修改一个字，再比较摘要变化，真实原始证据不得为演练篡改。哈希只能相对于受信清单检验字节变化；若攻击者能同时替换文件和清单，单独 SHA-256 不能证明来源、时间或不可抵赖性。正式证据还要有访问控制、独立受保护的清单、保管与交接记录，按需求采用可信签名或其他保护。
+
+### 清理
+
+本实验不改变账号、服务或网络，不需要恢复系统配置。完成后先保留脱敏报告；确认本次 `$Out` 的绝对路径确实位于自己的实验目录，仅用文件管理器移入回收站，不删除整个 `labs` 或仓库。需要公开时单独复制并脱敏发布版本，原始证据受控保存；脱敏改变字节后应另建发布版摘要，不能声称与原始摘要一致。
 
 ### 如果没有成功
 
@@ -817,6 +832,18 @@ sha256-manifest.csv
 13. 测评报告出来后，哪些变化可能触发重新评估？
 14. LLM 可以如何辅助等保证据治理，它不能替代什么？
 15. 如果测评发现高风险问题，你会怎样组织整改闭环？
+
+### 递进参考答案：从定义到设计与事故
+
+第一组问题先答“对象、危害、等级、控制”。等保针对有明确责任与业务边界的保护对象，不给整家公司或单个产品发永久安全标签。追问怎样定三级时，分别说明被破坏的是业务信息还是系统服务，再按受侵害客体和程度分析，不能拿客户一句要求替代正式流程。等级不是“分数越高越好”，也不是用便宜的等级套预算；选择要有事实、范围与评审依据。
+
+第二组问题用一条访问链回答技术与管理为何缺一不可。堡垒机记录了登录，不代表目标账号权限最小；审批单存在，不代表离职账号已经失效。技术控制负责实际限制与记录，管理控制明确谁批准、何时复核、异常谁处理。追问日志完整性时，先列必接数据源与字段，再抽取授权的无害操作检查端到端记录、时间同步与删除权限。日志平台数据量很大不说明关键资产都被覆盖。
+
+第三组问题要讲清自动化的证据边界。Kubernetes 中存在 NetworkPolicy 对象，不代表网络插件真正执行了它，也不证明每个工作负载都有默认拒绝；权限查询只描述当前身份与范围。AIOps 可以对照资产清单发现缺口，但缺失数据必须显示未知，不能计为通过。大模型只建议关联和检查步骤，正式等级、测评结论、违规判断与高风险变更由有职责的人按适用要求作出。
+
+**生产设计题：** 业务运行在云平台，既有 Kubernetes 也有传统数据库，团队需要在发布后持续维护证据。先建立对象边界与共享责任矩阵，再把云资源、集群、数据库、身份、日志和备份用稳定标识关联。每项控制写明责任角色、数据源、最近验证时间、复核触发器与人工例外；部署新增入口、权限或数据处理方式时重新评估，不只按月刷新截图。采集身份默认只读，证据存储与生产操作权限分开，敏感数据最小化。验收抽一条从变更到控制复测、问题工单、关闭证据的完整链，再演练采集端断流时是否产生“未知”告警。平台高可用还须覆盖身份、存储和备份依赖；失去证据时保留缺口，而不是自动补造记录。
+
+**事故题：** 人员调岗后仍能访问原部门数据库，报表却显示权限复核完成。先保全人员变更、身份源同步、授权规则、目标账号和会话时间线，区分复核签字、平台撤权与目标实际拒绝三个结果。假设可能是组成员未同步、另一条授权叠加、目标端直连路径或已有会话仍存活；使用获准测试身份建立新连接逐项验证，不拿真实人员账号反复试密码。由身份、业务与数据库负责人决定精确撤权或会话处置，评估是否误伤共享服务身份，并保存原规则和受控恢复方案。验收既要验证旧权限不能新建连接，也要检查原有会话、绕过入口、其他合法业务和审计记录；复盘把跨系统撤权验证加入工单，不以重新签一张表结案。合规措施不能绕过业务安全和证据保全。
 
 ## 学习证据
 

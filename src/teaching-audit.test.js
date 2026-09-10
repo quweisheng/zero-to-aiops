@@ -1,7 +1,14 @@
 import { describe, expect, it } from 'vitest'
-import { inspectTeaching } from '../scripts/audit-teaching-depth.mjs'
+import { inspectTeaching, teachingCoverageStatus } from '../scripts/audit-teaching-depth.mjs'
 
 describe('teaching audit counts evidence honestly', () => {
+  it('distinguishes incomplete, reached, and empty coverage without claiming runtime verification', () => {
+    expect(teachingCoverageStatus(114, 99)).toContain('其余 15 篇')
+    expect(teachingCoverageStatus(114, 114)).toContain('本轮全部文章的万字正文目标已达成')
+    expect(teachingCoverageStatus(114, 114)).toContain('不替代内容审校')
+    expect(teachingCoverageStatus(114, 114)).not.toContain('其余')
+    expect(teachingCoverageStatus(0, 0)).toContain('不能宣称全站完成')
+  })
   it('excludes fenced examples while retaining prose from lists and tables', () => {
     const result = inspectTeaching('# 老师\n\n- 学生\n\n| 概念 |\n|---|\n| 数据 |\n\n```text\n代码不算正文\n```')
     expect(result.chineseProse).toBe(8)

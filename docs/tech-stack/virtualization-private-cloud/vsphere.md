@@ -263,6 +263,8 @@ ESXi 属于 Type-1 Hypervisor，也叫裸机虚拟化层：它直接控制物理
 
 **是什么**：Datastore 是 ESXi 看到的逻辑存储容器。它可以建立在 VMFS 块存储、NFS 文件共享、vSAN 或 vVols 等后端上。
 
+这里的 vVols（Virtual Volumes，虚拟卷）用于理解存量架构，不是给所有版本列一张新建选型菜单。Broadcom 已说明从 VCF 9.0 起弃用，并在相关知识库列出 9.1 移除边界；有存量 vVols 时，应先核验目标版本发布说明、阵列支持和迁移路径，再决定是否升级，不能把本节的历史机制解释当作 9.x 全系列支持承诺。[Broadcom 存储策略与 vVols 版本说明](https://knowledge.broadcom.com/external/article/407058)
+
 **为什么需要**：虚拟机配置、虚拟磁盘、交换文件、快照和日志必须存放在多主机可管理的持久空间中。
 
 **怎么工作**：虚拟磁盘 I/O 从客户机经过虚拟控制器、VMkernel 存储栈、HBA/NIC 和路径访问后端。共享存储还涉及 zoning、LUN 映射、多路径、NFS 网络或存储策略。
@@ -557,28 +559,36 @@ ESXi Shell 和 SSH 应按最小开放时间、最小权限和审计策略使用�
 示例：验证 vMotion 网络时，应先确认目标地址和 vmk 编号来自授权设计，再运行：
 
 ```shell
-esxcli network ip interface list # 找到启用了 vMotion 服务的 VMkernel 接口及其状态
-vmkping -I vmk1 192.0.2.22       # 从指定 vmk1 测试到实验目标；地址必须替换为授权实验地址
+esxcli network ip interface list # 找到 VMkernel 接口、网络栈及运行状态，不能仅凭此确认服务标签
+esxcli network ip interface tag get -i vmk1 # 读取所选接口的服务标签，核对 VMotion
+vmkping -I vmk1 192.0.2.22       # 默认网络栈的示例；接口和地址均须替换为授权设计中的值
 ```
 
 如果配置了大 MTU，还要按对应版本官方命令验证不可分片的大包，并同时确认物理交换机全链路。不要仅因为普通小包能 ping 通就认定 Jumbo Frame 正常。
+
+`tag get` 只读接口标签，不会启用服务。专用 vMotion TCP/IP 网络栈与默认栈的服务配置、探测选项不同，应先在界面核对所用网络栈，再按该版本的 `vmkping` 帮助指定栈；不要为了“看到 VMotion 标签”给专用栈添加标签。[ESXCLI 网络接口参考](https://developer.broadcom.com/xapis/esxcli-command-reference/latest/namespace/esxcli_network.html)
 
 ## PowerCLI 只读入门
 
 当前官方页面使用 VCF PowerCLI 名称。模块安装、支持的 PowerShell 版本和证书策略以官方页面为准。下面只展示常见只读工作流，不包含密码：
 
 ```powershell
-$server = 'vcsa.lab.local'                                      # 指定授权实验 vCenter 的 FQDN
-$credential = Get-Credential                                   # 交互输入只读账号，不把密码写进脚本
-Connect-VIServer -Server $server -Credential $credential       # 建立受 TLS 保护的 vCenter 会话
-Get-Cluster | Select-Object Name, HAEnabled, DrsEnabled        # 查看集群及 HA/DRS 状态
-Get-VMHost | Select-Object Name, ConnectionState, PowerState   # 查看 ESXi 连接与电源状态
-Get-Datastore | Select-Object Name, Type, CapacityGB, FreeSpaceGB # 查看数据存储类型和容量
-Get-VM | Select-Object Name, PowerState, NumCpu, MemoryGB      # 查看虚拟机电源与规格
-Disconnect-VIServer -Server $server -Confirm:$false            # 主动关闭会话，避免会话长期遗留
+$server = 'vcsa.lab.local' # 只填写一个授权实验 vCenter 的 FQDN
+$credential = Get-Credential # 交互输入只读账号，不把密码写进脚本
+$connection = Connect-VIServer -Server $server -Credential $credential -NotDefault -ErrorAction Stop
+try {
+    Get-Cluster -Server $connection -ErrorAction Stop | Select-Object Name, HAEnabled, DrsEnabled
+    Get-VMHost -Server $connection -ErrorAction Stop | Select-Object Name, ConnectionState, PowerState
+    Get-Datastore -Server $connection -ErrorAction Stop | Select-Object Name, Type, CapacityGB, FreeSpaceGB
+    Get-VM -Server $connection -ErrorAction Stop | Select-Object Name, PowerState, NumCpu, MemoryGB
+} finally {
+    Disconnect-VIServer -Server $connection -Confirm:$false # 只释放本次返回的连接对象
+}
 ```
 
 预期结果：能看到授权范围内的集群、主机、数据存储和虚拟机，不应为了让脚本成功而给账号全局 Administrator 权限。
+
+`-NotDefault` 表示不把本次连接加入默认连接集合；每条查询显式传 `-Server $connection`，避免同一终端此前连接过其他 vCenter 时意外扩大采集范围。`try/finally` 让查询中途失败也尝试释放本次连接，不断开用户已有的其他连接。返回零对象仍需核对权限和设计清单，不能自动解释成“环境为空”。[Connect-VIServer 参数参考](https://developer.broadcom.com/powercli/latest/vmware.vimautomation.core/commands/connect-viserver)
 
 失败先检查：PowerCLI 版本、DNS、443 端口、证书链、时间、账号锁定、权限和 vCenter 服务。不要使用永久关闭证书校验作为生产解决方案。
 
@@ -587,14 +597,16 @@ Disconnect-VIServer -Server $server -Confirm:$false            # 主动关闭会
 | 接口或对象 | 作用 | 关键内容 | 正常结果 | 常见坑 |
 |---|---|---|---|---|
 | `POST /api/session` | 创建 API 会话 | 认证、TLS、会话 ID | 返回可用于后续请求的会话 | 在日志中泄露凭据或 Token |
-| `GET /api/vcenter/vm` | 列出虚拟机 | VM ID、Name、Power State | 只返回授权对象 | 忽略分页和权限过滤 |
+| `GET /api/vcenter/vm` | 列出虚拟机 | VM ID、Name、Power State | 只返回授权对象 | 忽略返回数量上限和权限过滤 |
 | `GET /api/vcenter/host` | 列出 ESXi 主机 | Host ID、Connection、Power | 与清单一致 | 用显示名做唯一键 |
 | `GET /api/vcenter/datastore` | 列出数据存储 | Datastore ID、Type、Capacity | 与清单一致 | 不关联后端存储对象 |
 | Appliance Health API | 查看 vCenter Appliance 健康 | System、Storage、Swap、Service | 状态正常且数据新鲜 | 端口 443/5480 API 混用 |
 | Web Services PerformanceManager | 查询性能计数器 | Counter、Entity、Interval、Sample | 样本连续且可解释 | 计数器单位和采样周期误读 |
 | Task/Event objects | 获取任务和事件 | User、Entity、Time、State、Message | 可关联变更和故障 | 事件保留不足导致证据丢失 |
 
-API 的字段和可用操作会随版本变化。代码应先协商或记录 API 版本，处理分页、超时、重试、限流、删除对象和权限不足，并把采集失败作为单独告警。
+API 的字段和可用操作会随版本变化。代码应先协商或记录 API 版本，按接口实际协议处理分页或分范围查询，以及超时、重试、限流、删除对象和权限不足，并把采集失败作为单独告警。
+
+例如官方对 `GET /api/vcenter/vm` 说明了单次最多 4000 台的限制，超过限制可能失败，而不是默认给你下一页游标。应按数据中心、集群或主机过滤拆分，核对每批数量，按唯一标识合并去重，并与授权清单总数对账；不能自创 `page=2` 参数，也不能把失败批次当作零台。具体过滤名和上限仍以目标版本接口参考为准。[官方批量 VM 查询说明](https://knowledge.broadcom.com/external/article/301570/obtaining-information-for-more-than-4000.html)
 
 ## 性能指标怎么读
 
@@ -734,12 +746,15 @@ VM
 
 本文阈值只用于学习规则引擎，不是 Broadcom 官方生产阈值。生产阈值必须结合采样周期、业务 SLO、历史基线和容量设计。
 
+前置条件：Windows PowerShell 5.1 或兼容 PowerShell、自己的可写学习目录，无须管理员、PowerCLI 模块、vCenter 账号或网络。本实验完全使用虚构样本；每次从新目录开始，创建步骤失败就停止，不能继续覆盖同名旧文件。
+
 ### 实验步骤
 
 1. 创建实验目录：
 
 ```powershell
-New-Item -ItemType Directory -Force vsphere-lab | Out-Null # 创建实验目录，重复运行不会报错
+if (Test-Path -LiteralPath vsphere-lab) { throw '目录已存在，请停止，不覆盖旧证据' }
+New-Item -ItemType Directory -Path vsphere-lab -ErrorAction Stop | Out-Null
 Set-Location vsphere-lab                                  # 进入实验目录
 ```
 
@@ -761,7 +776,57 @@ vm-order-api,path_online_pct,100,100,50,lower,percent
 3. 创建 `check-vsphere.ps1`：
 
 ```powershell
-$rows = Import-Csv .\vsphere-health.csv # 读取 CSV，每行转换成一个指标对象
+$ErrorActionPreference = 'Stop'
+try {
+    $rows = @(Import-Csv -LiteralPath (Join-Path $PSScriptRoot 'vsphere-health.csv'))
+    $expected = @(
+        'cluster-prod|ha_spare_hosts', 'esx-01|cpu_ready_pct',
+        'datastore-prod|used_pct', 'vcsa|collection_age_min',
+        'vm-order-api|path_online_pct'
+    )
+    $units = @{
+        ha_spare_hosts = 'count'; cpu_ready_pct = 'percent'
+        used_pct = 'percent'; collection_age_min = 'minute'; path_online_pct = 'percent'
+    }
+    $seen = [Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal)
+    if ($rows.Count -ne $expected.Count) { throw '样本必须完整包含五个预期指标' }
+    foreach ($row in $rows) {
+        $identity = "$($row.object)|$($row.metric)"
+        if ($identity -cnotin $expected -or -not $seen.Add($identity)) {
+            throw '对象/指标不匹配或重复；无法判定健康'
+        }
+        $numbers = @{}
+        foreach ($field in @('value', 'warn', 'critical')) {
+            $number = 0.0
+            if (-not [double]::TryParse([string]$row.$field,
+                [Globalization.NumberStyles]::Float, [Globalization.CultureInfo]::InvariantCulture,
+                [ref]$number) -or [double]::IsNaN($number) -or
+                [double]::IsInfinity($number) -or $number -lt 0) {
+                throw "指标 $identity 的 $field 必须是有限的非负数字"
+            }
+            $numbers[$field] = $number
+        }
+        $unit = $units[$row.metric]
+        $direction = if ($row.metric -in @('ha_spare_hosts', 'path_online_pct')) { 'lower' } else { 'higher' }
+        if ($row.unit -cne $unit -or $row.direction -cne $direction) {
+            throw '单位或比较方向与指标定义不一致'
+        }
+        if ($unit -eq 'percent' -and ($numbers.Values | Where-Object { $_ -gt 100 })) {
+            throw '本实验使用归一化百分比，数值及阈值应在 0 到 100 内'
+        }
+        if ($unit -eq 'count' -and ($numbers.Values | Where-Object { $_ -ne [math]::Floor($_) })) {
+            throw '主机数量及其阈值必须是整数'
+        }
+        if (($direction -eq 'higher' -and $numbers.warn -ge $numbers.critical) -or
+            ($direction -eq 'lower' -and $numbers.warn -le $numbers.critical)) {
+            throw '告警与严重阈值顺序不正确'
+        }
+        foreach ($field in @('value', 'warn', 'critical')) { $row.$field = $numbers[$field] }
+    }
+} catch {
+    [Console]::Error.WriteLine("UNKNOWN: $($_.Exception.Message)")
+    exit 3
+}
 
 $results = foreach ($row in $rows) {
     $value = [double]$row.value       # 把当前值转换成数字
@@ -811,9 +876,13 @@ vm-order-api   path_online_pct       100 percent OK
 
 退出码应为 `1`，因为样本中存在警告，但没有严重指标。
 
+新增的输入检查先问“证据是否足够”，再判断“业务是否健康”：五个对象/指标组合必须齐全且不重复，方向、单位和阈值顺序必须符合定义；无效输入返回 `UNKNOWN` 和退出码 `3`，不是返回正常。这里的 Ready 百分比已经按采样时长和虚拟处理器数量归一化，不能把可能累加多个 vCPU 的原始 Ready 毫秒或百分比直接喂给规则。固定清单是课堂用的覆盖基线；真实采集应从授权资产台账建立预期清单，并保留采集时间与对象唯一标识。
+
 ### 验证结果
 
 把 `datastore-prod` 的 `value` 从 `82` 改成 `92` 后重跑，状态应为 `CRITICAL`，退出码应为 `2`。把 `collection_age_min` 改成 `2`，该项应恢复为 `OK`。
+
+再做一次缺证据测试：先保留样本内容，只留下 CSV 表头后运行，预期 `UNKNOWN`、退出码 `3`，而不是“空表所以没有异常”。随后恢复上面的五行原样本再运行，应回到 `WARN`、退出码 `1`。如果没有恢复样本，不继续后面的恢复验证。
 
 ### 如果没有成功
 
@@ -1001,6 +1070,8 @@ Reservation、Shares、Limit 也要分别理解：预留表达保证，份额在
 ## 本文边界与下一步
 
 本文覆盖 vSphere 从零理解到 AIOps 运维的共同主线，没有展开所有版本专属功能、配置上限、API 对象、vSAN 内部机制、NSX、GPU、Kubernetes Supervisor、站点灾备和所有 `esxcli` 命令。原因是这些能力强依赖版本、许可、硬件和产品组合，混在一篇入门文章里反而容易误导生产操作。
+
+本轮只做了文章和离线规则核验，没有登录 vCenter、执行 PowerCLI 采集、迁移虚拟机、触发 HA 或验证厂商支持矩阵。离线结果证明规则分支与无效输入处理，不证明真实平台的性能、可用性或恢复时间；这些必须在授权环境按实际版本、许可和完整物料清单演练。
 
 下一步建议：
 

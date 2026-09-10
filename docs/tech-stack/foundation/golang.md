@@ -195,10 +195,14 @@ Get-Command go # 确认实际调用的 go.exe 路径，避免旧版本抢占 PAT
 ```bash
 curl -LO https://go.dev/dl/go1.26.5.linux-amd64.tar.gz # 下载官方归档
 sha256sum go1.26.5.linux-amd64.tar.gz # 与官方下载页当前校验值比对
-test ! -e /usr/local/go.previous # 先确认回退目录不存在；失败则停止并人工核查
-sudo mv /usr/local/go /usr/local/go.previous # 仅当 /usr/local/go 确为旧的手工安装目录时执行，保留回退副本；首次安装跳过
-sudo tar -C /usr/local -xzf go1.26.5.linux-amd64.tar.gz # 解压到 /usr/local/go
-export PATH="$PATH:/usr/local/go/bin" # 当前 shell 临时加入 PATH
+test ! -e /usr/local/go.previous || exit 1 # 回退目录已存在就停止，不覆盖旧备份
+# 仅在已核实旧目录是本人维护的手工安装、不是链接或包管理器目录后继续
+if test -e /usr/local/go; then
+  test ! -L /usr/local/go || exit 1 # 遇到符号链接停止，人工确认安装来源
+  sudo mv /usr/local/go /usr/local/go.previous || exit 1 # 移动失败立即停止
+fi
+sudo tar -C /usr/local -xzf go1.26.5.linux-amd64.tar.gz || exit 1 # 解压失败停止并保留旧副本
+export PATH="/usr/local/go/bin:$PATH" # 当前 shell 优先使用已核验的新安装
 go version # 验证版本和架构
 ```
 
@@ -306,10 +310,10 @@ go mod download # 下载 go.mod 指定的依赖，CI 缓存预热常用
 go list -m all # 查看最终选择的 module 版本
 go mod graph # 查看 module 依赖图
 go mod why -m example.com/dependency # 解释为什么需要某个 module
-go mod verify # 校验缓存依赖是否符合 go.sum
+go mod verify # 检查已下载的模块归档与解压目录是否被本地修改
 ```
 
-`go.sum` 不是依赖锁文件的简单同义词，它记录 module 内容与 `go.mod` 文件的校验值。Go module 版本选择遵循 Minimal Version Selection；排查“为什么升到这个版本”时，用 `go mod graph` 和 `go mod why` 看完整路径。
+`go.sum` 不是依赖锁文件的简单同义词，它记录 module 内容与 `go.mod` 文件的校验值。下载验证会用到这些校验值；`go mod verify` 则主要对照下载时记录的缓存哈希，检查归档及解压内容是否被改动，不是重新从所有上游下载来证明可信。Go module 版本选择遵循 Minimal Version Selection；排查“为什么升到这个版本”时，用 `go mod graph` 和 `go mod why` 看完整路径。详见[官方模块校验边界](https://go.dev/ref/mod#go-mod-verify)。
 
 ## 变量、常量、类型和零值
 
@@ -805,6 +809,8 @@ G（待运行 goroutine）
   -> 网络就绪后重新变为 runnable
 ```
 
+图中的 local run queue 是每个 P 的本地可运行队列，global queue 是全局队列，steal 表示空闲 P 从别处取得任务，netpoller 是网络就绪事件轮询机制，runnable 表示任务已经具备继续运行的条件。这些不是每条请求固定经过的单向步骤，而是调度中可能发生的状态转换。
+
 ### GOMAXPROCS
 
 `GOMAXPROCS` 限制可同时执行用户 Go code 的 P 数量，不是 goroutine 总数，也不是 OS thread 上限。
@@ -1070,7 +1076,7 @@ if err := decoder.Decode(&alert); err != nil {
 注意：
 
 - JSON number 默认解到 `any` 时常成为 `float64`，需要精确整数可用结构体字段或 `UseNumber`。
-- `omitempty` 与零值语义可能混淆“未提供”和“明确提供 0”，可用 pointer、`omitzero` 或自定义类型表达协议。
+- `omitempty` 与零值语义可能混淆“未提供”和“明确提供 0”，可用 pointer 或带存在标记的自定义类型表达协议。`omitzero` 控制编码时省略零值，本身不会记录解码时字段是否出现；若还要区别 JSON `null` 与字段缺失，需要另行设计存在标记或自定义解码。详见[固定版本 JSON 文档](https://pkg.go.dev/encoding/json@go1.26.5#Marshal)。
 - 时间优先使用 RFC3339 并明确 UTC/时区；duration 配置用 `time.ParseDuration`。
 - decoder 成功读到一个 JSON value 后，还要确认没有多余第二个 value。
 - 输入校验和业务校验分层，返回稳定错误码，不把内部 error/stack 直接暴露给客户端。
@@ -1228,10 +1234,15 @@ go version -m bin/alert-api-linux-amd64 # 验证 module 与构建设置
 PowerShell：
 
 ```powershell
-$env:CGO_ENABLED='0' # 当前 PowerShell 关闭 cgo
-$env:GOOS='linux' # 目标操作系统为 Linux
-$env:GOARCH='amd64' # 目标架构为 amd64
-go build -trimpath -o bin/alert-api-linux-amd64 ./cmd/alert-api
+$oldCgo, $oldGoos, $oldGoarch = $env:CGO_ENABLED, $env:GOOS, $env:GOARCH
+try {
+  $env:CGO_ENABLED='0' # 当前 PowerShell 关闭 cgo
+  $env:GOOS='linux' # 目标操作系统为 Linux
+  $env:GOARCH='amd64' # 目标架构为 amd64
+  go build -trimpath -o bin/alert-api-linux-amd64 ./cmd/alert-api
+} finally {
+  $env:CGO_ENABLED, $env:GOOS, $env:GOARCH = $oldCgo, $oldGoos, $oldGoarch
+} # 恢复原会话环境，避免后续本机测试仍生成 Linux 程序
 ```
 
 cgo 让 Go 调用 C，但会引入 C toolchain、ABI、动态库、交叉编译、线程和 GC 边界复杂度。是否关闭 cgo 取决于依赖和功能；不要把 `CGO_ENABLED=0` 当所有项目的万能要求。
@@ -1323,7 +1334,9 @@ trace 适合定位调度延迟、并行度不足、goroutine 阻塞、syscall �
 - slog 输出结构化日志。
 - SIGTERM 时停止 HTTP 并取消 worker。
 
-### 目录
+### 前置条件与目录
+
+使用满足 `go.mod` 的 Go 工具链；`-race` 还需要受支持的平台与 C 编译器。确认本机 8080 端口空闲，创建一个此前不存在的独立 `go-alert-api` 目录并进入，下面三个文件只放在该目录中。若前面已经设置过交叉编译环境，先恢复本机 `GOOS`、`GOARCH` 与 cgo 设置。不要把这些完整程序拼到前面的语法片段文件里。
 
 ```text
 go-alert-api/（告警接口实验目录）
@@ -1584,7 +1597,7 @@ PowerShell 可使用：
 
 ```powershell
 Invoke-RestMethod http://127.0.0.1:8080/healthz # 预期返回 ok
-Invoke-RestMethod -Method Post -Uri http://127.0.0.1:8080/alerts -ContentType 'application/json' -Body '{"service":"order-api","severity":"critical"}' # 预期无错误并返回 202
+(Invoke-WebRequest -UseBasicParsing -Method Post -Uri http://127.0.0.1:8080/alerts -ContentType 'application/json' -Body '{"service":"order-api","severity":"critical"}').StatusCode # 明确查看 HTTP 状态，预期 202
 Invoke-RestMethod http://127.0.0.1:8080/summary # 预期看到聚合字段和计数
 ```
 
@@ -1647,7 +1660,9 @@ go test -race -count=10 ./... # 多次覆盖并发路径，预期不再报告 ra
 
 复盘必须说明：race detector 报告的是未同步共享内存访问；“给 map 换成 sync.Map”不是万能修复，应先明确共享状态和操作不变量。
 
-## 故障实验二：制造 goroutine 泄漏
+## 故障实验二：有限复现 goroutine 阻塞堆积
+
+前置条件是一个此前不存在的独立目录和本机 Go 工具链。本节不需要 HTTP 服务、管理员权限或外网。先理解下面的错误函数：
 
 ```go
 func leak() {
@@ -1658,7 +1673,44 @@ func leak() {
 }
 ```
 
-循环调用后观察 `runtime.NumGoroutine` 和 goroutine profile。修复为接收 `ctx`：
+它没有退出协议。不要无限循环调用。先把下面的完整程序保存为独立目录中的 `main.go`，执行 `go mod init example.com/blockclass` 后运行 `go run .`。这个有限模型保留解除阻塞的通道，最多创建二十个 goroutine，观察后立即回收：
+
+```go
+package main
+
+import (
+    "fmt"
+    "runtime"
+    "sync"
+)
+
+func main() {
+    before := runtime.NumGoroutine()
+    done := make(chan struct{})
+    started := make(chan struct{}, 20)
+    var wg sync.WaitGroup
+    for i := 0; i < 20; i++ {
+        wg.Add(1)
+        go func() {
+            defer wg.Done()
+            started <- struct{}{} // 告诉主程序任务已开始
+            <-done // 模拟等待永远不到达的业务结果
+        }()
+    }
+    for i := 0; i < 20; i++ { <-started }
+    fmt.Println("before:", before, "waiting:", runtime.NumGoroutine())
+    stack := make([]byte, 1<<20)
+    n := runtime.Stack(stack, true)
+    fmt.Printf("%s", stack[:n]) // 观察重复的等待栈；个别任务可能仍在进入接收点
+    close(done) // 唯一协调者统一解除等待
+    wg.Wait() // 必须等任务真正结束，不能只发送取消就宣布回收
+    fmt.Println("after:", runtime.NumGoroutine())
+}
+```
+
+预期中间数量比起点多约二十个，栈中可定位本程序的通道等待；关闭通道并等待后这二十个任务全部退出，程序正常结束。不要要求最终数量必须等于某个固定值，运行时可能有其他后台任务。若编译失败，先检查只保存了一份完整 `package main`，而不是把上下文片段直接拼接；若命令一直不结束，核对 `close(done)` 和 `wg.Done()` 是否遗漏。清理无需停止后台服务；`go run` 返回后本程序内存已经回收，保留源码与脱敏摘要即可，目录不再需要时退出后通过回收站移除精确实验目录。
+
+真实业务修复通常让函数接收 `ctx`：
 
 ```go
 func wait(ctx context.Context, done <-chan struct{}) error {

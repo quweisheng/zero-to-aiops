@@ -180,7 +180,7 @@ threshold / policy / human review
 alert routing / RCA / automation
 ```
 
-模型输出是证据，不是天然正确的生产命令。高风险自动修复必须加策略、审批、影响范围和回滚。
+图中第一层依次是指标、日志、链路追踪与事件；第二层是清洗、分时间窗口与特征工程；模型输出概率形式分数、异常分数或类别，再经过阈值、策略与人工复核，进入告警路由、根因分析和自动化。模型输出是候选证据，不是天然正确的生产命令。高风险自动修复必须加策略、审批、影响范围和回滚。
 
 ## 学习边界
 
@@ -400,7 +400,7 @@ optimizer updates trainable variables
 metrics record current behavior
 ```
 
-`model.fit()` 把这套循环封装起来。需要特殊算法时可以重写 `train_step` 或写自定义循环，但初学阶段先掌握内置训练流程、回调和数据管道。
+图中的 batch 是一批输入；forward pass 是前向计算预测；loss 比较预测与标签；GradientTape 求梯度；optimizer 更新可训练变量；metrics 记录本轮表现。`model.fit()` 把这套循环封装起来。需要特殊算法时可以重写 `train_step` 或写自定义循环，但初学阶段先掌握内置训练流程、回调和数据管道。
 
 ## 数据集拆分和数据泄漏
 
@@ -417,7 +417,7 @@ metrics record current behavior
 AIOps 数据有时间顺序。推荐：
 
 ```text
-oldest data（数据）       newer data（数据）       newest data（数据）
+oldest data（最早数据）   newer data（较新数据）   newest data（最新数据）
     train（训练集）        -> validation（验证集）  ->    test（测试集）
 ```
 
@@ -571,7 +571,7 @@ serving metrics + drift + delayed labels
 rollback or retraining
 ```
 
-上线的是“模型 + 元数据 + 数据契约 + 阈值 + 运行环境”，不是一个孤立权重文件。
+图从原始监控开始，经过字段结构与单位校验、时间窗口和标签构造、按时间拆分、仅训练集拟合统计、输入流水线、训练与验证、阈值选择与最终测试，再打包模型、元数据和调用签名。shadow 是结果不影响业务的影子验证，canary 是有限流量灰度；最后观测服务指标、漂移与延迟标签，决定回退或重训。上线的是“模型 + 元数据 + 数据契约 + 阈值 + 运行环境”，不是一个孤立权重文件。
 
 ## 数据质量、过拟合与类别不平衡
 
@@ -729,7 +729,7 @@ parameters
 + graph and framework overhead
 ```
 
-Adam 通常还维护额外状态，激活内存又受 batch size 和网络深度影响，所以不能只用“参数数量 × 4 bytes”估算 GPU 内存。
+上面的内存项分别为参数、梯度、优化器状态、中间激活、输入批次、运行工作区，以及计算图和框架开销。Adam 通常还维护额外状态，激活内存又受 batch size 和网络深度影响，所以不能只用“参数数量 × 4 bytes”估算 GPU 内存。
 
 ### OOM 排查
 
@@ -780,7 +780,7 @@ input wait ratio
 validation metric
 ```
 
-吞吐增加但验证质量下降，不是成功优化。
+基线各项分别表示每秒样本数、单步耗时中位数与高分位、设备利用率、显存、输入等待比例以及验证指标。吞吐增加但验证质量下降，不是成功优化。
 
 ## 安全与供应链
 
@@ -797,7 +797,7 @@ validation metric
 
 ## 安装
 
-### Windows CPU 或 Linux CPU
+### Windows CPU
 
 安装受支持的 Python 后：
 
@@ -882,7 +882,6 @@ BATCH_SIZE = 64
 
 
 def set_reproducible_seed(seed: int) -> None:
-    os.environ["PYTHONHASHSEED"] = str(seed)
     random.seed(seed)
     np.random.seed(seed)
     tf.random.set_seed(seed)
@@ -962,6 +961,8 @@ def confusion_counts(
 
 
 def main() -> None:
+    if any(Path(name).exists() for name in ("artifacts", "logs", "serving_model")):
+        raise SystemExit("请使用新的独立教学目录，避免覆盖已有模型或日志")
     set_reproducible_seed(SEED)
     features, labels = make_synthetic_data()
 
@@ -1051,7 +1052,7 @@ if __name__ == "__main__":
 6. 训练集 shuffle，验证集和测试集不 shuffle。
 7. 建立两层 Dense 二分类模型。
 8. 使用 AUC、precision 和 recall，而不是只看 accuracy。
-9. EarlyStopping 防止无限过拟合。
+9. EarlyStopping 在验证损失不再改善时停止训练，降低继续过拟合的风险，但不能保证没有过拟合。
 10. 保存最佳 `.keras` 模型和 TensorBoard 日志。
 11. 用独立 test 做最终评估。
 12. 导出完整模型、Serving 模型和数据契约元数据。
@@ -1132,7 +1133,7 @@ print("high_risk:", is_high_risk)
 
 ### 为什么注入 NaN
 
-监控系统可能因为除零、采集失败或解析错误产生 `NaN`。如果直接送入神经网络，输出可能也变成 `NaN`，阈值比较会产生不可预测的业务结果。
+监控系统可能因为除零、采集失败或解析错误产生 `NaN`。如果直接送入神经网络，输出可能也变成 `NaN`；常见数值比较中 `NaN >= 阈值` 为假，会把无效分数误当未越线，所以必须在比较之前检查有限性。
 
 ### 创建 fault_injection.py
 
@@ -1193,7 +1194,7 @@ python fault_injection.py
 
 取决于业务：
 
-- 在线告警风险评分：可用训练统计量修复，同时输出 `input_repaired=true` 并降低置信度。
+- 在线告警风险评分：只有经缺失样本评估允许时才用训练统计量修复，并输出 `input_repaired=true`；不要随意把概率乘系数冒充经过校准的置信度。
 - 高风险自动修复：更适合拒绝请求，回退到规则或人工处理。
 - 某字段长期缺失：应停止模型使用并修复上游，不应永久靠填充掩盖。
 
@@ -1201,11 +1202,7 @@ python fault_injection.py
 
 ### 故障实验清理
 
-```powershell
-Remove-Item -Recurse -Force artifacts, logs, serving_model
-```
-
-只在实验目录执行。若这些目录包含要保留的模型证据，请先归档。
+本实验只读取模型并在内存修补一条输入，退出进程即可。先保留 `artifacts`、`logs` 和 `serving_model`，后面的加载与 Serving 练习仍依赖它们；全部练习结束后再确认目录所有权并归档，不在这里递归删除模型。
 
 ## 模型保存与交付
 
@@ -1252,22 +1249,20 @@ SavedModel 包含图、变量和签名，但不会自动包含业务数据契约
 完成基础实验后，可在安装 Docker 的环境运行：
 
 ```powershell
-docker run --rm -p 8501:8501 `
-  --mount "type=bind,source=$((Resolve-Path serving_model).Path),target=/models/aiops" `
+docker run --rm --name tensorflow-aiops-lesson -p 127.0.0.1:8501:8501 `
+  --mount "type=bind,source=$((Resolve-Path serving_model).Path),target=/models/aiops,readonly" `
   -e MODEL_NAME=aiops `
-  tensorflow/serving:latest
+  tensorflow/serving:2.20.0
 ```
 
-`latest` 只适合本地学习。TensorFlow Serving 的发布节奏与 TensorFlow Python 包不一定一致，生产环境要固定经过兼容测试的镜像版本或 digest。
+这里固定 [Serving 2.20.0 发布版本](https://github.com/tensorflow/serving/releases/tag/2.20.0) 作为可选教学候选；它与 Python 包 2.21.0 不是同一版本，本文没有实测二者组合。先验证本课 SavedModel 加载和同输入预测，出现未知算子或加载不兼容时停止，按目标运行时重新导出并验证，不换成浮动 `latest` 掩盖问题。此命令在前台运行，另开 PowerShell 请求；完成后只停止本课命名容器，`--rm` 会删除容器但保留只读挂载的模型目录。
 
 ### REST 预测
 
 ```powershell
 $body = @{
   signature_name = "serve"
-  instances = @(
-    @(82.0, 78.0, 520.0, 0.08)
-  )
+  instances = ,@(82.0, 78.0, 520.0, 0.08)
 } | ConvertTo-Json -Depth 5
 
 Invoke-RestMethod `
@@ -1278,7 +1273,7 @@ Invoke-RestMethod `
 ```
 
 - `signature_name`：SavedModel 暴露的调用签名。
-- `instances`：一个 batch 的样本。
+- `instances`：一个 batch 的样本；一元逗号保留外层数组，JSON 应为 `[[82,78,520,0.08]]` 而非一维数组。
 - 每个样本必须严格保持 4 个特征的顺序和单位。
 
 如果签名名不同，使用 `saved_model_cli show --all` 或模型工具检查导出的真实签名，不能盲猜。
@@ -1659,7 +1654,7 @@ Checkpoint 主要保存训练状态，适合恢复模型与 optimizer；SavedMod
 
 ### 追问题 8：AIOps 模型如何安全触发自动修复
 
-模型只给风险证据，策略层再结合规则、拓扑、置信度和影响范围。高风险动作需要审批或更高阈值，runbook 必须幂等、限次、可回滚，并在执行后验证效果。
+模型只给风险证据，策略层再结合规则、拓扑、已校准指标和影响范围。高风险动作必须经过相应审批，更高阈值不能替代授权；runbook 必须有幂等、限次、回退或补偿设计，并在执行后验证效果。
 
 ## 学习检查清单
 
@@ -1712,6 +1707,18 @@ Eager（即时执行）便于逐步调试，`tf.function` 将适合的计算追�
 
 课堂自测：不看代码，解释 NaN 应在哪一层拦截、为何高验证分数可能泄漏、为什么增加推理副本会复制模型内存。把答案和实际实验观察写进下列证据，不把本课预期当成已经得到的结果。
 
+## 最后一轮验收：保存成功不等于训练状态完全续接
+
+本课的 EarlyStopping 会恢复最佳模型权重，但“最佳权重”和“最后一步优化器状态”不一定来自同一个训练时刻。导出的最终模型适合按金样本验证推理；若要继续训练，应选择明确保存了匹配权重与优化器的检查点或完整模型，并核对恢复的步数和数据位置。不能只看文件后缀就宣布训练从中断那一步无缝续跑。官方 [模型保存指南](https://www.tensorflow.org/guide/keras/serialization_and_saving) 说明保存对象范围，数据读取位置与业务配置仍要自行管理。
+
+合成数据是独立生成后按位置拆分，不具有真实时间因果。六千条数据分为四千二百训练、九百验证、九百测试，混淆矩阵四项应合计九百。这个算术能查出样本遗漏或重复，却不能证明未来故障预测能力；真实项目必须按事件时间和标签可用时间重新设计。示例的零点五阈值是演示选择，不是根据业务成本调优后的结论。
+
+清理前先结束 TensorBoard 与 Serving 本课进程，记录模型版本和固定输入输出，再决定是否归档独立实验目录。不要递归删除来源不明的通用 `logs` 或 `artifacts`。再次训练时在新目录开始，避免把新权重、旧元数据与旧 Serving 版本混成一个无法追溯的包。
+
+三分钟可以这样讲：“TensorFlow 负责张量、自动微分与执行，Keras 组织模型和训练循环，输入流水线负责及时提供形状与类型正确的批次。我先固定数据合同和无泄漏拆分，再用训练集统计做归一化。每步前向得到预测，损失比较标签，梯度沿计算路径回传，优化器更新权重；验证集选择停止时机，最后独立测试。”
+
+“上线要同时交付预处理、签名、模型、阈值和环境，输入与输出都检查有限性。性能先分数据等待、计算、通信和重新追踪；扩卡与扩副本会增加内存和通信成本。恢复训练关注权重、优化器和数据位置，恢复服务关注版本匹配与业务校验。模型概率还需校准，不能代替审批；我能说明课堂已经验证哪些路径，也保留真实设备与分布式运行未验证的边界。”
+
 ## 本课 GitHub 学习证据清单
 
 建议建立：
@@ -1750,7 +1757,7 @@ tensorflow-aiops-lab/（教学项目）
 1. 学 [机器学习](/tech-stack/data-ai/machine-learning)，补齐监督学习、评估和特征工程主线。
 2. 学 [scikit-learn](/tech-stack/data-ai/scikit-learn)，建立可解释表格模型基线。
 3. 学 [Python](/tech-stack/foundation/python)，掌握类型、虚拟环境、测试和工程结构。
-4. 学 [FastAPI](/tech-stack/app-engineering/fastapi)，为模型建立带 schema 的服务接口。
+4. 学 [FastAPI](/tech-stack/data-ai/fastapi)，为模型建立带 schema 的服务接口。
 5. 学 [Prometheus](/tech-stack/observability/prometheus)，监控推理延迟、错误率和模型版本。
 
 读完本篇不等于自动通过面试。大型企业还会继续考察 Python、算法与数据结构、机器学习基础、系统设计、工程实践、项目证据和沟通能力；本篇提供的是一条可实验、可排障、可交付的 TensorFlow 主线。

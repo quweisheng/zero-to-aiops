@@ -364,6 +364,8 @@ LangChain create_agent（LangChain 智能体创建入口）
 13. Client receives stream or final response
 ```
 
+图中第 1—4 步是客户端提交事故问题、接口认证并建立运行上下文、按会话标识读取检查点、中间件校验脱敏和限制上下文；第 5—8 步是给模型规则、消息和工具结构，模型返回最终回答或工具请求，工具层再校验身份、参数、超时与策略，执行后返回工具消息；第 9—13 步是保存步骤状态、继续模型循环、验证结构化结果、发出追踪指标日志审计，再向客户端交付流式或完整响应。这里是职责示意，具体检查点时机还要区分同步持久化和其他持久化模式。
+
 这条路径里至少有三种“成功”：
 
 - HTTP 成功：接口返回了 `200`；
@@ -669,7 +671,7 @@ key       = service_name
 value     = reviewed structured data
 ```
 
-应用或 Tool 通过 Runtime 访问 Store。哪些内容写入、何时更新、如何过期和谁能读取，必须由业务策略决定，不能让模型把所有对话自动永久保存。
+图中 namespace 是由租户标识和服务档案类别组成的命名空间，key 是服务名称这个存储键，value 是经过审核的结构化数据；此处的 key 不是密钥。应用或 Tool 通过 Runtime 访问 Store。哪些内容写入、何时更新、如何过期和谁能读取，必须由业务策略决定，不能让模型把所有对话自动永久保存。
 
 **怎么用或观察：**
 
@@ -735,6 +737,8 @@ online（在线）
   question（问题） -> retrieve/filter/rerank -> evidence chunks（证据文本块）
            -> model（模型） or agent（智能体） -> cited answer（带引用的回答）
 ```
+
+图中 split 是分块，embed/index 是向量编码与建立索引；retrieve/filter/rerank 分别是检索候选、按权限及条件过滤、重排序。过滤必须在候选交付模型之前完成；这里的斜杠表示所需处理，不要求权限过滤只能在召回后才执行。
 
 当前官方资料把常见 RAG 架构分成：
 
@@ -966,13 +970,17 @@ Fake Model 的回答是脚本化的，所以它只验证 Agent Harness，不验�
 
 ### 前置条件
 
-完成上一节固定版本安装。在实验目录创建 `basic_agent.py`。
+完成上一节固定版本安装。在实验目录创建 `basic_agent.py`。两个脚本会在导入 SDK 前显式关闭自动追踪，避免继承终端中已有的 LangSmith 开关而意外外发课堂输入；这不修改机器的持久环境设置。
 
 ### 完整代码
 
 ```python
 import json
+import os
 from typing import Any, Sequence
+
+os.environ["LANGSMITH_TRACING"] = "false"
+os.environ["LANGCHAIN_TRACING_V2"] = "false"
 
 from pydantic import BaseModel
 
@@ -1132,7 +1140,7 @@ HumanMessage（用户消息）
 
 ### 清理
 
-实验不访问外部系统。退出虚拟环境后，可以删除整个学习目录：
+接下来还要在同一目录运行故障实验，因此现在不要退出或删除。两个实验都结束、学习证据已另存后，才可清理这个独立目录：
 
 ```powershell
 deactivate
@@ -1140,7 +1148,7 @@ cd ..
 Remove-Item -LiteralPath .\aiops-langchain-lab -Recurse
 ```
 
-删除前先确认当前目录名称正确，且里面没有自己的学习记录；更安全的做法是先保留代码作为 GitHub 学习证据。
+删除前先用 `Get-Item -LiteralPath .\aiops-langchain-lab` 查看解析后的完整路径，确认它只属于本课，且里面没有要保留的学习记录；更安全的做法是保留代码作为 GitHub 学习证据。不要在不明当前位置执行这个递归删除示例。
 
 ## 故障注入实验：模型请求重启生产，但审批前执行次数必须为 0
 
@@ -1151,14 +1159,18 @@ Remove-Item -LiteralPath .\aiops-langchain-lab -Recurse
 - Human-in-the-loop 在 Tool 真正执行前产生 Interrupt；
 - 结果中出现 `__interrupt__`；
 - 模拟写工具的执行计数仍是 `0`；
-- 中断状态由 Checkpointer 保存，可以使用同一个 Thread 继续审批流程。
+- 中断状态保存在同进程的内存 Checkpointer 中；本实验只验收到中断，不演示跨进程恢复或批准后的续跑。
 
-这个实验不会真的连接服务器。所谓“重启”只是一个内存计数器，风险可回收。
+这个实验不会真的连接服务器。所谓“重启”只是一个内存计数器，风险可回收。脚本化模型只准备了一条工具请求，不能直接在这份脚本上批准续跑，否则下一次模型调用会耗尽预设响应；扩展审批闭环时须另备最终响应、同一存活进程或持久检查点，并分别验证批准和拒绝。
 
 ### 创建 `fault_hitl.py`
 
 ```python
+import os
 from typing import Any, Sequence
+
+os.environ["LANGSMITH_TRACING"] = "false"
+os.environ["LANGCHAIN_TRACING_V2"] = "false"
 
 from langchain.agents import create_agent
 from langchain.agents.middleware import HumanInTheLoopMiddleware
@@ -1553,7 +1565,7 @@ total_run_time
   + serialization_and_network
 ```
 
-只看模型延迟会漏掉队列、日志查询和 Checkpoint。
+图中 queue_wait 是排队，model_time 和 tool_time 是模型及工具耗时，state_read_write 是状态读写，serialization_and_network 是序列化与网络时间。这个加法仅适合串行关键路径；并行工具取关键路径而非累加所有工具墙钟时间。只看模型延迟会漏掉队列、日志查询和 Checkpoint。
 
 ### Agent Server 容量近似
 
@@ -1565,13 +1577,13 @@ throughput_per_second = available_jobs / average_run_seconds
 worker_count = target_rps * average_run_seconds / jobs_per_worker
 ```
 
-例子：目标 5 RPS、平均 Run 20 秒、每 Worker 并发 10：
+这里 available_jobs 是可用并发槽，worker_count 是工作进程数，jobs_per_worker 是每进程并发槽数，average_run_seconds 必须取实际占用执行槽的平均服务时间，不含进入执行槽前的 queue_wait。例子：目标每秒 5 个请求（RPS）、平均占槽 20 秒、每 Worker 并发 10：
 
 ```text
 worker_count = 5 * 20 / 10 = 10
 ```
 
-这只是平均值。真实容量还要看 P95/P99、Token 长度、工具连接池、CPU/内存和 Provider 限流。CPU 密集任务应降低单 Worker 并发；I/O 密集任务也不能无限提高，否则尾延迟和内存会恶化。
+十个 Worker 只是平均负载与满负荷服务能力相等的理论起点，不是有排队余量的生产配置。真实容量还要看 P95/P99、Token 长度、工具连接池、CPU/内存和 Provider 限流，并为突发和单副本失效留出余量。CPU 密集任务应降低单 Worker 并发；I/O 密集任务也不能无限提高，否则尾延迟和内存会恶化。
 
 ### 必看的容量指标
 
@@ -1589,13 +1601,15 @@ worker_count = 5 * 20 / 10 = 10
 
 ```text
 cost_per_run
-  = model_input_tokens
-  + model_output_tokens
-  + embeddings / rerank
+  = model_input_tokens * input_price_per_token
+  + model_output_tokens * output_price_per_token
+  + embedding_and_rerank_cost
   + tool API cost
-  + checkpoint / store
-  + tracing and online evaluation
+  + checkpoint_and_store_cost
+  + tracing_and_evaluation_cost
 ```
+
+cost_per_run 是单次任务费用；输入、输出词元数分别乘以每词元单价，其余是向量编码与重排序、工具接口、检查点与长期存储、追踪与评估的费用。所有项先统一币种与计费单位；不能把词元数量直接和金额相加，也不能漏掉重试及缓存价格差异。
 
 降低成本的正确顺序通常是：
 
@@ -1741,7 +1755,7 @@ untrusted content（不可信内容）
   -> post-action verification（验证）
 ```
 
-Prompt 里的“忽略文档指令”只能帮助模型理解，不能代替权限控制。
+图中 input size and type validation 是输入大小与类型校验，permission-aware retrieval 是按当前身份权限过滤检索，allowlisted tools 是只开放允许名单中的工具；argument and business validation 同时核对参数格式与业务约束。human approval for risk 是风险操作的人审门槛，post-action verification 是执行后的事实核验，不能把模型说“成功”当作完成证据。Prompt 里的“忽略文档指令”只能帮助模型理解，不能代替权限控制。
 
 ### Tool 最小权限
 
@@ -2073,7 +2087,7 @@ restart checkout-api production
 
 ### 第五步：修复
 
-- 写 Tool 接口强制 `incident_id + action + target + desired_state` 幂等键；
+- 写 Tool 接口使用服务端生成并持久保存的业务 `operation_id`（操作标识）作为幂等键，绑定已批准的事故、动作、目标与期望状态；同一意图的重试复用它，另一次合法变更创建新标识，不能让模型随意生成或把一个事故的所有同名动作永久合并；
 - 重试前查外部任务；
 - 写 Tool 不使用通用自动重试；
 - 强制 HITL；
@@ -2084,7 +2098,7 @@ restart checkout-api production
 
 - 在测试环境重放“外部成功后进程崩溃”；
 - 同一幂等键第二次请求必须返回已有任务；
-- Checkpoint 恢复不能再次执行；
+- Checkpoint 恢复允许重复进入工具调用路径，但同一操作标识不得再次产生外部副作用；
 - 审批前计数为 0；
 - 观察 P95、失败率和 Queue；
 - 先恢复只读，再灰度写 Tool。
@@ -2432,7 +2446,7 @@ langsmith==0.10.18
 - Windows Python 3.14.5 隔离环境安装固定版本；
 - LangChain `1.3.15`、LangGraph `1.2.11`、LangSmith SDK `0.10.18`；
 - 无 Key Fake Model 的 Tool Loop；
-- ToolMessage 出现在持久化 Thread State；
+- ToolMessage 出现在同进程内存检查点保存的 Thread State，不代表已验证磁盘持久化；
 - Pydantic 最终结构校验；
 - Human-in-the-loop 在模拟写 Tool 前产生 Interrupt；
 - 审批前写 Tool 执行次数为 0；

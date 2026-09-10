@@ -2,6 +2,12 @@
 
 > 目标：能把一个服务打包成镜像，用容器运行，并理解 Docker Engine、镜像、容器、Dockerfile、网络、卷、registry、日志和资源限制之间的关系。
 
+## 老师先带你确认运行位置
+
+本课先把一个只会返回健康状态的小程序装进容器，再故意给另一个一次性程序过小的内存，观察证据怎样改变结论。你只需要已经可用的 Linux 容器运行环境、终端和文本编辑器。进程是正在执行的程序，镜像是启动时使用的文件与配置模板，端口是网络服务的入口；不熟悉这些词时，先读 [Linux](../foundation/linux.md) 的进程部分和 [网络基础](../foundation/networking.md) 的地址与端口部分，不必先学完整套 Kubernetes。
+
+执行第一条创建命令之前，先用 `docker context show` 确认当前连接目标，再用 `docker version` 看是否能联系服务端。同一个终端可以切换到不同 Docker 后端，客户端在自己电脑上，不代表后续命令一定作用于本机。本文只允许在你自己的教学环境执行创建、停止和删除；如果目标指向公司主机或远程集群，应停下并切回明确的实验环境。Bash 示例里的反斜杠是续行符，PowerShell 读者可合并为一行执行，不能原样当成 PowerShell 续行。
+
 ## 官方资料
 
 - [Docker overview](https://docs.docker.com/get-started/docker-overview/)
@@ -386,23 +392,25 @@ docker run -d --name web-b nginx:1.27
 常见状态：
 
 ```text
-created（已创建）-> running（运行）-> exited（退出）
-             |           |
-             v           v
-           paused（暂停） removed（删除）
+created（已创建）-> running（运行）-> exited（退出）-> removed（已删除）
+                     |
+                     v
+                  paused（已暂停，可恢复到运行）
 ```
 
 常用命令：
 
 ```bash
 docker create nginx:1.27
-docker start <container>
-docker stop <container>
-docker restart <container>
-docker rm <container>
+docker start '<container>'
+docker stop '<container>'
+docker restart '<container>'
+docker rm '<container>'
 ```
 
 `docker run` 可以理解成 `docker create` 加 `docker start` 的组合。
+
+这里是生命周期命令模板，不是针对任意容器的一键脚本：将整个 `<container>` 替换为本轮 `docker create` 返回的实验容器 ID 或已核对的实验容器名，保留引号，避免尖括号成为 Shell 重定向。确认实验容器已经停止且不需要保留后，才执行删除；不要替换成已有业务容器。
 
 ## Dockerfile
 
@@ -1715,10 +1723,10 @@ Docker 负责构建镜像和运行容器的单机能力。Kubernetes 负责在�
 docker CLI（命令行客户端）
   -> Docker Engine API（容器引擎接口）
   -> dockerd 校验配置、网络、卷和容器请求
-  -> containerd 管理 image、snapshot、task
+  -> containerd 管理镜像、文件系统快照与运行任务
   -> containerd-shim 承接容器生命周期
-  -> runc 创建 namespace、cgroup、mount 和进程
-  -> Linux kernel 实际调度和隔离
+  -> runc 创建命名空间、资源控制组、挂载与进程
+  -> Linux kernel（内核）实际调度和隔离
 ```
 
 每层都有不同证据：CLI 报连接失败先查 context/socket；daemon 拒绝请求看 dockerd 日志；镜像和 snapshot 问题看 `docker info`、pull/build 输出与磁盘；进程退出看 `docker inspect` 的 `State`、容器日志、OOM 标记和宿主内核日志。不要把所有问题都归结成“镜像坏了”。
@@ -1862,6 +1870,16 @@ Docker 主要解决应用运行环境一致性和分发问题。它通过 Docker
 
 **设计追问：如何回滚？**保留上一版镜像 digest、兼容的配置和数据库迁移策略，先验证数据格式能否被旧版读取，再切回并验收业务。删除新容器只能替换执行环境，不能自动撤销已经写到数据卷或外部数据库的新数据。
 
+### 健康变红，为什么容器没有自动重启
+
+老师给你一组条件：进程没有退出，健康检查连续失败，重启策略写着 always。先预测容器是否一定会被 Engine 重新启动。答案是否定的：普通 Docker Engine 的重启策略主要根据容器退出及相关策略工作，HEALTHCHECK 的失败改变健康状态，不等于主进程退出；不能把编排平台的修复行为直接套到单机 Docker。分别核对健康日志、主进程状态和重启计数，才知道是探针错了、业务依赖错了，还是退出后确实重启过。机制见 [自动重启策略](https://docs.docker.com/engine/containers/start-containers-automatically/)。
+
+探针如果检查所有外部依赖，一个共享数据库短暂异常可能让全部副本同时变红。恢复设计应先区分“需要重新启动本进程才能恢复”的故障与“重启也不会修好”的外部故障，再决定告警、摘流或重启。自动化不能只读取一个红色状态就执行破坏性动作，否则可能在原有依赖问题上再制造重启风暴。
+
+把这个问题做成不改环境的课堂推演：在笔记写三行合成状态，分别为进程运行且健康、进程运行但不健康、进程退出并符合重启条件；为每行写预期告警和允许动作，然后用官方策略核对。故意把第二行写成“一定自动重启”，应能指出它缺少退出或外部控制器条件。恢复正确结论即撤销纸面故障；保留改前改后的解释，不需要启动或停止实际容器。
+
+完成时把应用健康、容器生命周期、宿主资源和编排控制分成四栏。它们可以互相影响，却不是同一个状态字段。能够解释这种分层，并用前文实际运行记录验证其中一段，才是面试里有证据的回答；本次修订没有重新连接 daemon，旧版客户端记录也不代表当前机器的实时版本。
+
 ## 学习证据
 
 学完这一篇，建议把下面内容提交到 GitHub：
@@ -1906,4 +1924,4 @@ docker rm aiops-health
 
 ## 本文验证边界
 
-本文更新完成了 Docker Engine 29.7.2 官方资料、命令和 Markdown 静态核验；当前机器只确认 Docker client 为 29.7.2，daemon 未连接，因此没有声称 OOM、rootless、storage backend 切换或 daemon 升级已在本机跑通。Linux 发行版、cgroup v2、nftables、SELinux/AppArmor 与 Docker Desktop/WSL 差异必须在目标环境验证。
+此前修订记录了 Docker Engine 29.7.2 官方资料、命令与 Markdown 静态核验，并记录过客户端版本；本轮没有重新连接 daemon 或确认当前安装版本，因此没有声称 OOM、rootless、storage backend 切换或 daemon 升级已在本机跑通。Linux 发行版、cgroup v2、nftables、SELinux/AppArmor 与 Docker Desktop/WSL 差异必须在目标环境验证。

@@ -582,12 +582,15 @@ host（主机）
 
 在没有 AnyStorage 设备的 Windows 电脑上，读取一份脱敏指标样本，正确识别容量告警、路径降级和复制 RPO 超标，并输出可供监控系统使用的退出码。
 
+前置条件：Windows PowerShell 5.1 或兼容的 PowerShell，能在自己的学习目录创建文件，不需要管理员、设备账号或网络。这里是离线规则模型，所有对象均为虚构；原始设备导出不得直接放入实验目录。
+
 ### 实验步骤
 
 1. 创建实验目录：
 
 ```powershell
-New-Item -ItemType Directory -Force anystorage-lab | Out-Null # 创建目录，重复执行也不会报错
+if (Test-Path -LiteralPath anystorage-lab) { throw '目录已存在，请停止，不覆盖上一轮证据' }
+New-Item -ItemType Directory -Path anystorage-lab -ErrorAction Stop | Out-Null
 Set-Location anystorage-lab                                  # 进入实验目录
 ```
 
@@ -608,7 +611,49 @@ nas-prod,error_rate_pct,0.2,1,5,higher,percent
 3. 创建 `check-anystorage.ps1`：
 
 ```powershell
-$rows = Import-Csv .\anystorage-health.csv # 读取 CSV，每一行成为一个指标对象
+$ErrorActionPreference = 'Stop'
+try {
+    $rows = @(Import-Csv -LiteralPath (Join-Path $PSScriptRoot 'anystorage-health.csv'))
+    $expected = @(
+        'pool-prod|pool_used_pct', 'db-host-01|path_online_pct',
+        'replica-prod|replication_lag_s', 'nas-prod|error_rate_pct'
+    )
+    $seen = [Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal)
+    if ($rows.Count -ne $expected.Count) { throw '样本必须完整包含四个预期指标' }
+    foreach ($row in $rows) {
+        $identity = "$($row.object)|$($row.metric)"
+        if ($identity -cnotin $expected -or -not $seen.Add($identity)) {
+            throw '对象/指标不匹配或重复；无法判定健康'
+        }
+        $numbers = @{}
+        foreach ($field in @('value', 'warn', 'critical')) {
+            $number = 0.0
+            if (-not [double]::TryParse([string]$row.$field,
+                [Globalization.NumberStyles]::Float, [Globalization.CultureInfo]::InvariantCulture,
+                [ref]$number) -or [double]::IsNaN($number) -or
+                [double]::IsInfinity($number) -or $number -lt 0) {
+                throw "指标 $identity 的 $field 必须是有限的非负数字"
+            }
+            $numbers[$field] = $number
+        }
+        $unit = if ($row.metric -eq 'replication_lag_s') { 'second' } else { 'percent' }
+        $direction = if ($row.metric -eq 'path_online_pct') { 'lower' } else { 'higher' }
+        if ($row.unit -cne $unit -or $row.direction -cne $direction) {
+            throw '单位或比较方向与指标定义不一致'
+        }
+        if ($unit -eq 'percent' -and ($numbers.Values | Where-Object { $_ -gt 100 })) {
+            throw '百分比样例及阈值必须在 0 到 100 范围内'
+        }
+        if (($direction -eq 'higher' -and $numbers.warn -ge $numbers.critical) -or
+            ($direction -eq 'lower' -and $numbers.warn -le $numbers.critical)) {
+            throw '告警与严重阈值顺序不正确'
+        }
+        foreach ($field in @('value', 'warn', 'critical')) { $row.$field = $numbers[$field] }
+    }
+} catch {
+    [Console]::Error.WriteLine("UNKNOWN: $($_.Exception.Message)")
+    exit 3
+}
 
 $results = foreach ($row in $rows) {
     $value = [double]$row.value       # 把文本值转换成数字
@@ -655,11 +700,11 @@ replica-prod replication_lag_s    45   second  WARN
 nas-prod     error_rate_pct        0.2 percent OK
 ```
 
-退出码应为 `1`。这表示存在需要处理的风险，但样本中没有达到 critical 的指标。
+退出码应为 `1`。这表示存在需要处理的风险，但样本中没有达到 critical 的指标。脚本先验证四个预期对象是否齐全、是否重复、单位/方向和数字范围是否正确；输入无效或采集缺失时返回 `3`（UNKNOWN，无法判断），不能把空文件当成健康。这里的严格对象清单是课堂约束，接入真实资产时应由授权台账生成并单独验证覆盖率，不能简单删掉校验。
 
 ### 验证结果
 
-把 `pool_used_pct` 改为 `92` 后重跑，池状态应为 `CRITICAL`，退出码应为 `2`。把 `path_online_pct` 改为 `100`，路径状态应恢复为 `OK`。
+把 `pool_used_pct` 改为 `92` 后重跑，池状态应为 `CRITICAL`，退出码应为 `2`。把 `path_online_pct` 改为 `100`，路径状态应恢复为 `OK`。再单独做输入负向对照：保留 CSV 表头但去掉数据行，脚本应返回 UNKNOWN 与退出码 3；恢复原始四行后重新得到 WARN 与退出码 1。一次只改一个变量，不用提高阈值制造“恢复”。
 
 ### 如果没有成功
 

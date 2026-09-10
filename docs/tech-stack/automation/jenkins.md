@@ -378,7 +378,8 @@ JENKINS_HOME/
     <job-name>/
       config.xml
       builds/
-      workspace/
+  workspace/
+    <job-name>/
   plugins/
   users/
   secrets/
@@ -387,7 +388,7 @@ JENKINS_HOME/
   logs/
 ```
 
-`workspace/` 通常可以从 SCM 重建；Job 配置、Build 记录、插件版本和加密材料则不能简单当缓存删除。
+这里示意 Built-in Node 的默认工作区位于主目录下 `workspace/<job-name>`；远程 Agent 的工作区位于其远程根目录下，还可能受自定义配置影响，不能把它一概画在 `jobs/<job-name>` 内。`workspace/` 通常可以从 SCM 重建；Job 配置、Build 记录、插件版本和加密材料则不能简单当缓存删除。[官方主目录结构](https://www.jenkins.io/doc/book/managing/system-configuration/#jenkins-home-directory)
 
 ### Configuration as Code
 
@@ -481,6 +482,7 @@ Agent Workspace 是执行状态，不应作为唯一事实来源。源码来自 
 - `8080` 端口未被占用。
 - 至少为学习容器准备 4 GB 内存和 10 GB 磁盘余量。
 - 本实验只监听 `127.0.0.1`，不暴露公网。
+- 创建前分别检查同名容器 `jenkins-lab` 和卷 `jenkins_home` 不存在；若已存在，停止并选独有实验名称，同步全部命令，不能复用不明旧卷。创建同名卷不会自动清空或隔离旧数据。
 
 ### 创建学习环境
 
@@ -648,7 +650,7 @@ JCasC 只管理可声明的 Controller 配置，不负责安装 Plugin，也不�
 | Queue API | 查询排队原因 | `/queue/api/json` | 返回 Item、时间和 `why` | 只看 Queue 数量 |
 | Computer API | 查询 Node 状态 | `/computer/api/json` | 返回在线、Executor 等 | API 字段受权限影响 |
 | Build API | 查询构建结果 | `/job/<job>/<build>/api/json` | 返回结果、时间与 Cause | Folder 路径编码错误 |
-| `quietDown` | 停止接收新构建 | POST `/quietDown` | Controller 进入安静模式 | 忘记 `cancelQuietDown` |
+| `quietDown` | 暂停队列启动新的构建工作 | POST `/quietDown` | 已运行工作按其机制继续，新任务可能仍进入队列 | 不等于关闭触发入口，也别忘记 `cancelQuietDown` |
 | `safeRestart` | 等安全点后重启 | POST `/safeRestart` | 重启后恢复服务 | 不等于所有插件无风险 |
 | Script Console | 执行管理员 Groovy | Manage Jenkins > Script Console | 返回脚本结果 | 等同 Controller 远程代码执行 |
 | `jenkins-plugin-cli` | 在镜像构建时解析插件 | `--plugin-file plugins.txt` | 安装兼容依赖 | 不固定版本导致漂移 |
@@ -772,7 +774,7 @@ Critical Deploy Pipeline Success >= 99%
 Backup Restore Drill RTO < 60 minutes
 ```
 
-Build 失败率不能直接等于 Jenkins 可用性：业务测试失败是正确门禁，平台错误才属于 Jenkins 平台 SLI。
+上图分别约定控制器可用性、队列等待的第九十五百分位、动态代理准备耗时、关键部署流水线成功率和备份恢复演练的恢复时间目标。数字仅为设计示例，需要团队用负载与风险验证。Build 失败率不能直接等于 Jenkins 可用性：业务测试失败是正确门禁，平台错误才属于 Jenkins 平台 SLI。
 
 ## 基础实验：完成第一条可验证 Pipeline
 
@@ -908,7 +910,7 @@ agent {
 
 预期：
 
-- Build 已创建，但没有 Console Step 输出。
+- Pipeline 运行可能已创建，控制台会出现启动、申请节点和等待提示，但尚未执行需要该 Agent 的业务步骤。
 - Build 停留在 Queue。
 - 页面提示没有 Label 为 `linux-docker` 的 Node，或没有可用 Executor。
 - Queue API 的 `why` 字段给出类似原因。
@@ -1141,7 +1143,7 @@ Controller 压力不只来自 Build 数，还来自：
 - 用 Matrix / Role Strategy 按 Folder、Job 和操作分权。
 - 严格限制 Overall/Administer、Script Console 和 Job/Configure。
 - 生产部署权限与普通 Build 权限分开。
-- API Token 设置过期时间并轮换。
+- API Token 制定到期轮换与撤销政策；具体是否支持原生自动到期按版本和插件核验，不把轮换约定当成平台已经强制失效。
 - 审计用户、配置、Plugin、Credential 和发布操作。
 - 保持 CSRF（跨站请求伪造）保护开启。用户名 + API Token 的 API 请求不需要 Crumb；使用用户名 + 密码和会话执行修改操作时要携带 Crumb，不能为省事全局关闭保护。
 

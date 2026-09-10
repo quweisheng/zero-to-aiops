@@ -330,7 +330,9 @@ java HelloAiOps.java
 
 这适合单文件学习或小脚本，不代表大型项目无需构建、测试和依赖治理。
 
-## `main` 方法逐词理解
+## 传统 `main` 方法逐词理解
+
+这里解释兼容 Java 21 的传统入口。后续 JDK 还扩展了实例入口等写法，不能反推所有版本永远只接受这一种形式。
 
 ```java
 public static void main(String[] args)
@@ -778,7 +780,9 @@ initialization（初始化）
 ```powershell
 java -Xlog:class+load=info -jar app.jar
 java -verbose:class -jar app.jar
-jcmd <pid> VM.classloader_stats
+$javaPid = [int](Read-Host '输入已核实且获准诊断的单个 JVM 进程编号')
+if ($javaPid -le 0) { throw '进程编号必须大于 0，禁止广播到全部 JVM' }
+jcmd $javaPid VM.classloader_stats
 jdeps --recursive app.jar
 ```
 
@@ -1031,15 +1035,15 @@ Java 应用常同时读取：
 容量可以先做预算：
 
 ```text
-container memory limit
-  >= max heap
-   + metaspace
-   + code cache
-   + thread stacks
-   + direct/native buffers
-   + JVM/GC/JIT native memory
-   + application native libraries
-   + safety margin
+container memory limit（容器内存上限）
+  >= max heap（最大对象堆）
+   + metaspace（类元空间）
+   + code cache（编译代码缓存）
+   + thread stacks（线程栈）
+   + direct/native buffers（直接或原生缓冲区）
+   + JVM/GC/JIT native memory（虚拟机、回收器和编译器的原生内存）
+   + application native libraries（应用本地库）
+   + safety margin（安全余量）
 ```
 
 容器被 OOM Killer 终止时，JVM 可能来不及输出 `OutOfMemoryError` 或 Heap Dump。必须同时查看 Kubernetes Pod status、container exit reason、节点内核日志、cgroup 指标和 JVM 指标。
@@ -1051,13 +1055,13 @@ CPU limit 过紧会让 GC、JIT 和业务线程争用配额，并导致 throttli
 单个 JVM 自己不是高可用系统。生产 HA 来自：
 
 ```text
-multiple instances across failure domains
-  + load balancer and health checks
-  + stateless request handling where possible
-  + external durable state
-  + idempotency and retry boundaries
-  + graceful shutdown and connection draining
-  + deployment rollback
+multiple instances across failure domains（跨故障域的多个实例）
+  + load balancer and health checks（负载均衡与健康检查）
+  + stateless request handling where possible（尽可能不依赖本机状态处理请求）
+  + external durable state（外部持久状态）
+  + idempotency and retry boundaries（幂等与重试边界）
+  + graceful shutdown and connection draining（优雅停机与连接排空）
+  + deployment rollback（部署回退）
 ```
 
 如果会话、定时任务、缓存和文件只放在一个进程内，副本数从 1 改 3 也可能产生重复执行、状态不一致或丢失。readiness 要证明实例能安全接流量；liveness 只用于判断是否需要重启，不能把下游短暂故障直接变成所有实例重启风暴。
@@ -1132,12 +1136,12 @@ jfr print --events jdk.CPULoad,jdk.GarbageCollection app.jfr
 在线进程示例：
 
 ```powershell
-jcmd <pid> JFR.start name=incident settings=profile duration=5m filename=incident.jfr
-jcmd <pid> JFR.check
-jcmd <pid> JFR.dump name=incident filename=incident-now.jfr
+jcmd $javaPid JFR.start name=incident settings=profile duration=5m filename=incident.jfr
+jcmd $javaPid JFR.check
+jcmd $javaPid JFR.dump name=incident filename=incident-now.jfr
 ```
 
-`profile` 比 `default` 采集更多事件，仍需在目标版本、负载和数据敏感性下评估。JFR 文件可能包含类名、路径、环境和业务事件，应像诊断证据一样控制访问和保留。
+这里的 `$javaPid` 沿用前面经核实且大于零的进程编号；诊断前再次确认进程未退出或被替换，不用类名或 `0` 批量匹配。`profile` 比 `default` 采集更多事件，仍需在目标版本、负载和数据敏感性下评估。JFR 文件由目标 JVM 写入，应确认其可写目录与权限，避免覆盖已有取证文件；相对路径不是必然相对于当前诊断终端。JFR 文件可能包含类名、路径、环境和业务事件，应像诊断证据一样控制访问和保留。
 
 ## `jcmd`、`jstack`、`jmap`、`jstat` 怎么选
 
@@ -1185,9 +1189,9 @@ HotSpot Native Memory Tracking（NMT）可帮助拆分 JVM 原生内存，但通
 
 ```powershell
 java -XX:NativeMemoryTracking=summary -jar app.jar
-jcmd <pid> VM.native_memory summary
-jcmd <pid> VM.native_memory baseline
-jcmd <pid> VM.native_memory summary.diff
+jcmd $javaPid VM.native_memory summary
+jcmd $javaPid VM.native_memory baseline
+jcmd $javaPid VM.native_memory summary.diff
 ```
 
 NMT 有开销，也不追踪所有第三方 native 分配。RSS 高、Heap 低时，把 NMT、线程数、Direct Buffer、mmap、JNI、系统工具和容器指标组合起来。
@@ -1241,14 +1245,14 @@ Java 的信任库与浏览器/操作系统不一定相同。浏览器能打开 H
 Java 升级不是只换 `java.exe`：
 
 ```text
-JDK distribution and patch
-  + bytecode target
-  + framework and middleware
-  + build（构建） plugins and annotation processors
-  + JDBC / messaging / TLS drivers
-  + APM / profiler / security agents
-  + GC and JVM flags
-  + container base image and OS libraries
+JDK distribution and patch（发行版与补丁）
+  + bytecode target（目标字节码版本）
+  + framework and middleware（框架与中间件）
+  + build plugins and annotation processors（构建插件与注解处理器）
+  + JDBC / messaging / TLS drivers（数据库、消息和安全连接驱动）
+  + APM / profiler / security agents（性能监控、剖析与安全代理）
+  + GC and JVM flags（垃圾回收与虚拟机参数）
+  + container base image and OS libraries（容器基础镜像与系统库）
 ```
 
 建议流程：
@@ -1315,7 +1319,8 @@ $env:JAVA_HOME
 ### 创建目录
 
 ```powershell
-New-Item -ItemType Directory -Force java-aiops-lab\src\lab\aiops
+if (Test-Path -LiteralPath .\java-aiops-lab) { throw '实验目录已存在，请换新目录，不覆盖已有内容' }
+New-Item -ItemType Directory -Path java-aiops-lab\src\lab\aiops
 Set-Location java-aiops-lab
 ```
 
@@ -1427,12 +1432,7 @@ jfr summary alert-digest.jfr
 
 ### 清理
 
-确认路径后，从实验目录的上一级删除整个实验目录；不要在不确定当前位置时递归删除：
-
-```powershell
-Set-Location ..
-Remove-Item -LiteralPath .\java-aiops-lab -Recurse -Force
-```
+要继续下一节死锁与修复实验时，先不要清理此目录。全部实验完成后，确认故障 JVM 已按精确 PID 结束，保存脱敏证据，再退出目录；需要删除时，在文件管理器中确认绝对路径为本次新建的 `java-aiops-lab`，移入回收站。不要把整个用户目录、其他项目或正在运行进程的文件当作课堂产物删除。
 
 ## 故障注入实验：制造并定位 Java 死锁
 
@@ -1443,6 +1443,8 @@ Remove-Item -LiteralPath .\java-aiops-lab -Recurse -Force
 不要把故障代码部署到共享环境。启动后它不会自行退出，这是预期现象。
 
 ### 故障代码
+
+沿用尚未清理的独立 `java-aiops-lab` 目录、JDK 21+ 和 `out` 输出目录。先确认 `JAVA_HOME` 与编译工具一致，当前目录正是实验根目录。诊断和终止权限仅针对本节自己启动的进程。
 
 创建 `src/lab/aiops/DeadlockLab.java`：
 
@@ -1525,6 +1527,8 @@ Found one Java-level deadlock:
 "ticket-to-alert":
   waiting for ownable synchronizer ... which is held by "alert-to-ticket"
 ```
+
+上面的英文报告表示发现一个 Java 层死锁：`alert-to-ticket` 等待由 `ticket-to-alert` 持有的可拥有同步器，而后者又等待前者持有的同步器。两条等待关系形成环；不要只搜索 `BLOCKED`，ReentrantLock 的等待在转储中也可能显示为 `WAITING (parking)`。
 
 ### 恢复与清理
 
@@ -2008,23 +2012,23 @@ public final class DeadlockFixed {
 建议建立：
 
 ```text
-java-aiops-lab/
-  README.md
-  pom.xml or build.gradle
-  src/main/java/
-  src/test/java/
-  evidence/
-    java-version.txt
-    class-version.txt
-    jfr-summary.txt
-    thread-dump-analysis.md
-    gc-notes.md
-    capacity-budget.md
-    upgrade-rollback.md
-  runbooks/
-    cpu-high.md
-    memory-growth.md
-    thread-pool-exhausted.md
+java-aiops-lab/（学习项目）
+  README.md（运行与安全说明）
+  pom.xml or build.gradle（选用的构建描述）
+  src/main/java/（主程序）
+  src/test/java/（测试）
+  evidence/（脱敏证据）
+    java-version.txt（运行时版本）
+    class-version.txt（字节码版本）
+    jfr-summary.txt（事件记录摘要）
+    thread-dump-analysis.md（线程转储分析）
+    gc-notes.md（垃圾回收观察）
+    capacity-budget.md（容量预算）
+    upgrade-rollback.md（升级回退方案）
+  runbooks/（故障操作手册）
+    cpu-high.md（处理器高占用）
+    memory-growth.md（内存增长）
+    thread-pool-exhausted.md（线程池耗尽）
 ```
 
 README 写清前置版本、运行命令、预期输出、故障注入、安全边界和清理。JFR、Heap Dump、Thread Dump 可能包含敏感信息；公开仓库只提交脱敏摘要和分析结论，不提交生产原文件。

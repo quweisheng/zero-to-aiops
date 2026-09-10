@@ -6,7 +6,7 @@
 
 本文在 **2026-08-07** 核验官方资料。
 
-- Ollama 当前最新稳定版是 [`v0.32.6`](https://github.com/ollama/ollama/releases/tag/v0.32.6)，发布时间为 2026-08-04。
+- 本文固定使用核验时的稳定版 [`v0.32.6`](https://github.com/ollama/ollama/releases/tag/v0.32.6)，发布时间为 2026-08-04；这是教学快照，不是对今天最新版本或持续安全支持的承诺。
 - Ollama 程序采用 [MIT License](https://github.com/ollama/ollama/blob/main/LICENSE)。这只说明 Ollama 程序本身的许可，不代表所有模型都采用 MIT。
 - 模型权重、训练数据、输出用途和商用限制由各模型自己的许可证决定。上线前必须在模型页面或 `ollama show` 结果中单独核验。
 - `v0.32.6` 调整了 OpenAI 兼容接口的流式响应格式，并暂时移除了实验性图像生成功能。升级不能只看版本号，还要回归调用方对流式 chunk（分块）的解析。
@@ -96,6 +96,8 @@ Ollama 官方资料可以拆成六层：
   -> version / logs（日志） / ps / duration fields / errors
   -> capacity / rollout / rollback（回滚） / incident（故障） response（响应）
 ```
+
+地图中 pull/list/show/create/copy/rm 分别是拉取、列出、查看、创建、复制引用和删除引用；generate/chat/thinking/vision 是文本生成、对话、模型思考输出与视觉能力。HTTP Server 是接口服务，disk 是磁盘，bind address 是监听地址，authentication 是身份认证，cloud boundary 是云端数据边界；version、duration fields、errors 指版本、耗时字段与错误，capacity、rollout、incident response 指容量、逐步发布与事故响应。工具名称保留英文便于查文档，不表示全部模型都支持地图中的每种能力。
 
 本文按下面的顺序学习：
 
@@ -432,7 +434,8 @@ Invoke-RestMethod `
   -Uri 'http://localhost:11434/api/chat' `
   -Method Post `
   -ContentType 'application/json' `
-  -Body $body
+  -Body ([System.Text.Encoding]::UTF8.GetBytes($body)) `
+  -TimeoutSec 120
 ```
 
 ### 坏了怎么查
@@ -505,7 +508,7 @@ request（请求） arrives
   -> unload and free RAM（系统内存） / VRAM（显存）
 ```
 
-默认保留时间在官方 FAQ 中为 5 分钟。单次 API 请求中的 `keep_alive` 会覆盖服务级 `OLLAMA_KEEP_ALIVE`。
+图中先校验模型引用与能力，再查找兼容的已加载运行器；yes 分支复用或加载，no 分支排队、等待空闲模型卸载或拒绝请求，运行完成后按驻留期限释放内存。默认保留时间在官方 FAQ 中为 5 分钟。单次 API 请求中的 `keep_alive` 会覆盖服务级 `OLLAMA_KEEP_ALIVE`。
 
 ### 怎么用或观察
 
@@ -641,7 +644,7 @@ KV Cache 的结构性估算：
 KV bytes ~= 2 × layers × context tokens × KV heads × head dimension × bytes per value × parallel sequences
 ```
 
-这里的 `2` 代表 Key 和 Value。使用 GQA/MQA 的模型会减少 KV Head 数，所以不能只按模型总参数量估算 Cache。
+这里的 `2` 代表注意力机制的 Key（键向量）和 Value（值向量），不是数据库键值记录。layers 是层数，context tokens 是上下文词元数，KV heads 是键值头数，head dimension 是每头维度，bytes per value 是每个缓存数值的字节数，parallel sequences 是并行序列数。GQA（分组查询注意力）和 MQA（多查询注意力）通过共享键值头减少 KV Head 数，所以不能只按模型总参数量估算 Cache；这个简化式也不覆盖所有滑动窗口或混合注意力模型的实现。
 
 ### 怎么用或观察
 
@@ -822,6 +825,8 @@ ollama pull name:tag（按模型名和标签拉取模型）
 12. Runner remains loaded until keep_alive expires
 ```
 
+上图的十二步依次是提交对话请求；解析模型、消息、格式、运行参数与保留时间；解析本地模型清单；复用或加载运行器；选择计算后端并分配内存；套用模板；分词；预填充建立缓存；逐词元生成；输出分块或完整对象；交付统计；在驻留期限内保留运行器。它描述责任路径，具体模板准备与调度调用的实现顺序可能交错，不能仅凭这张简化图推断每个源码函数的先后。
+
 ### 一次 Embedding 路径
 
 ```text
@@ -948,13 +953,15 @@ ollama ps # 查看 PROCESSOR、CONTEXT 和 UNTIL
 
 ### 路线二：Linux 服务安装
 
-官方快速安装命令是：
+Linux 路线会安装系统服务，仅在专用实验机、明确允许安装时采用。先下载并审查官方脚本，不直接把网络返回内容交给 Shell：
 
 ```bash
-curl -fsSL https://ollama.com/install.sh | sh # 从官方地址下载并执行安装脚本
+test ! -e ./ollama-install-review.sh || exit 1
+curl -fSLo ./ollama-install-review.sh https://ollama.com/install.sh
+less ./ollama-install-review.sh # 先人工审查；按 q 退出查看，不会执行脚本
 ```
 
-生产环境不应盲目执行远程脚本。先下载、审查、固定发布版本，并在测试节点验证，再进入变更窗口。
+确认脚本来源、安装目录、服务创建与权限动作后，在该专用实验机执行 `OLLAMA_VERSION=0.32.6 sh ./ollama-install-review.sh`。固定下载版本不代表脚本本身不可变，仍要留存脚本校验值和审查记录；实际系统服务变更需要本机授权。生产先在测试节点验证，再进入批准的变更窗口。
 
 ```bash
 sudo systemctl status ollama --no-pager # 确认服务是否 active
@@ -995,7 +1002,7 @@ sudo systemctl show ollama --property=Environment # 查看 systemd 记录的环�
 ```yaml
 services:
   ollama:
-    image: ollama/ollama:0.32.6 # 固定经过验证的服务版本，不使用会漂移的 latest
+    image: ollama/ollama:0.32.6 # 固定教学版本；本轮未运行这个容器
     container_name: ollama-lab
     ports:
       - "127.0.0.1:11434:11434" # 只让本机访问；不要直接映射到所有网卡
@@ -1177,6 +1184,8 @@ from openai import OpenAI
 client = OpenAI(
     base_url="http://localhost:11434/v1/",
     api_key="ollama",  # SDK 要求提供；本地 Ollama 会忽略这个值
+    timeout=120,
+    max_retries=0,  # 课堂先把失败显式暴露，不隐式重试
 )
 
 response = client.chat.completions.create(
@@ -1214,7 +1223,7 @@ metrics / logs / traces / alerts / changes
         ticket / dashboard / audit
 ```
 
-Ollama 位于“模型推理执行层”，它不会自动完成采集、清洗、权限、知识入库、动作审批和效果评估。
+图中 metrics/logs/traces/alerts/changes 是指标、日志、链路、告警和变更；normalize/redact/authorize 是格式归一、脱敏和授权校验。chat 产出摘要，embed 为检索增强生成提供向量，tool_calls 只是交给已获批操作流程的调用意图；ticket/dashboard/audit 是工单、看板和审计记录。Ollama 位于“模型推理执行层”，它不会自动完成采集、清洗、权限、知识入库、动作审批和效果评估。
 
 ### 场景一：告警结构化分类
 
@@ -1297,7 +1306,8 @@ ollama show gemma3:270m
 ### 第二步：创建实验目录和 Modelfile
 
 ```powershell
-New-Item -ItemType Directory -Force .\ollama-aiops-lab | Out-Null
+if (Test-Path -LiteralPath .\ollama-aiops-lab) { throw 'Use a new, empty lesson directory.' }
+New-Item -ItemType Directory .\ollama-aiops-lab | Out-Null
 Set-Location .\ollama-aiops-lab
 ```
 
@@ -1310,9 +1320,11 @@ PARAMETER num_ctx 4096
 SYSTEM 你是 AIOps 告警分类助手。只使用输入中的事实。缺少证据时明确写“证据不足”，不得编造主机、指标、变更或根因。
 ```
 
-创建模型引用：
+创建模型引用前先确认名称未被使用。若已存在，先停止本课并选择新的专用名称，同步修改后续请求与清理，不要覆盖别人的模型引用：
 
 ```powershell
+$existing = (Invoke-RestMethod http://localhost:11434/api/tags -TimeoutSec 10).models
+if ($existing.name -contains 'aiops-triage:v1') { throw 'Lesson model already exists; do not overwrite it.' }
 ollama create aiops-triage:v1 -f .\Modelfile
 ollama show --modelfile aiops-triage:v1
 ```
@@ -1363,7 +1375,8 @@ $response = Invoke-RestMethod `
   -Uri 'http://localhost:11434/api/chat' `
   -Method Post `
   -ContentType 'application/json' `
-  -Body $request
+  -Body ([System.Text.Encoding]::UTF8.GetBytes($request)) `
+  -TimeoutSec 120
 
 $response.message.content
 ```
@@ -1373,12 +1386,27 @@ $response.message.content
 ### 第四步：验证返回结构
 
 ```powershell
-$result = $response.message.content | ConvertFrom-Json
+if ($response.done -ne $true -or $response.error) { throw 'Inference did not finish successfully.' }
+$result = $response.message.content | ConvertFrom-Json -ErrorAction Stop
+if ($null -eq $result -or $result -is [array] -or $result -is [string]) { throw 'Expected one JSON object.' }
 $required = @('service', 'severity', 'summary', 'suspected_causes', 'next_checks')
 
 foreach ($field in $required) {
   if ($result.PSObject.Properties.Name -notcontains $field) {
     throw "Missing required field: $field"
+  }
+}
+
+foreach ($field in $result.PSObject.Properties.Name) {
+  if ($field -notin $required) { throw "Unexpected field: $field" }
+}
+foreach ($field in @('service', 'severity', 'summary')) {
+  if ($result.$field -isnot [string]) { throw "Expected string: $field" }
+}
+foreach ($field in @('suspected_causes', 'next_checks')) {
+  if ($result.$field -isnot [array]) { throw "Expected array: $field" }
+  foreach ($item in $result.$field) {
+    if ($item -isnot [string]) { throw "Expected string array item: $field" }
   }
 }
 
@@ -1389,7 +1417,7 @@ if ($result.severity -notin @('critical', 'warning', 'info')) {
 Write-Output "SCHEMA_OK service=$($result.service) severity=$($result.severity)"
 ```
 
-预期输出包含 `SCHEMA_OK`。这个断言只证明结构和枚举通过，还要人工检查内容是否忠于证据。
+预期输出包含 `SCHEMA_OK`。本段检查了当前扁平合同的完成状态、必填项、额外字段、类型和枚举，不是适用于所有 JSON Schema 的通用验证器；还要人工检查内容是否忠于证据。
 
 ### 第五步：计算性能证据
 
@@ -1538,19 +1566,24 @@ $badRequest = @{
   )
 } | ConvertTo-Json -Depth 6
 
+$failureObserved = $false
 try {
   Invoke-RestMethod `
     -Uri 'http://localhost:11434/api/chat' `
     -Method Post `
     -ContentType 'application/json' `
-    -Body $badRequest `
+    -Body ([System.Text.Encoding]::UTF8.GetBytes($badRequest)) `
+    -TimeoutSec 30 `
     -ErrorAction Stop
-  throw 'Expected request to fail, but it succeeded.'
 } catch {
+  if ($null -eq $_.Exception.Response) { throw }
   $status = [int]$_.Exception.Response.StatusCode
+  if ($status -ne 404) { throw }
+  $failureObserved = $true
   Write-Output "EXPECTED_FAILURE status=$status"
   Write-Output $_.ErrorDetails.Message
 }
+if (-not $failureObserved) { throw 'Expected HTTP 404, but the request succeeded.' }
 ```
 
 ### 三、预期现象
@@ -1596,7 +1629,8 @@ $recovered = Invoke-RestMethod `
   -Uri 'http://localhost:11434/api/chat' `
   -Method Post `
   -ContentType 'application/json' `
-  -Body $goodRequest
+  -Body ([System.Text.Encoding]::UTF8.GetBytes($goodRequest)) `
+  -TimeoutSec 120
 
 if (-not $recovered.done) {
   throw 'Recovery request did not finish.'
@@ -1679,6 +1713,8 @@ tested models         tested models
                  v
 external metrics / logs / traces / evaluation store
 ```
+
+图中接入网关负责 TLS 传输加密、身份与授权、请求大小及速率限制、超时重试预算、审计与脱敏；model-aware routing 是按模型能力路由，admission control 是负载准入。两个 replica 是部署在不同 GPU 节点的独立副本，tested models 是各自准备好的已验收模型；底部为外部指标、日志、链路和评估存储。
 
 这是生产设计建议，不是 Ollama 内置集群功能。Ollama 单实例没有自动提供跨节点模型复制、全局队列、租户配额、领导者选举和流式请求接续。
 

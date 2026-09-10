@@ -68,6 +68,14 @@ async function walk(dir) {
     : entry.name.endsWith('.md') ? [resolve(dir, entry.name)] : []))).flat()
 }
 
+export function teachingCoverageStatus(total, reached) {
+  const prefix = `当前纳入 ${total} 篇技术栈，${reached} 篇中文正文不少于 10,000 字。`
+  if (total === 0) return `${prefix}当前没有纳入文章，不能宣称全站完成。`
+  return reached === total
+    ? `${prefix}本轮全部文章的万字正文目标已达成；篇幅统计不替代内容审校、独立练习或真实环境验证。`
+    : `${prefix}其余 ${total - reached} 篇仍应结合知识深度继续扩写，不能把这一轮修订描述成每篇都已完成万字目标。`
+}
+
 export async function auditTeaching({ write = false, quiet = false } = {}) {
   const root = resolve('docs/tech-stack')
   const files = (await walk(root)).filter(file => relative(root, file).includes('\\') || relative(root, file).includes('/'))
@@ -84,7 +92,7 @@ export async function auditTeaching({ write = false, quiet = false } = {}) {
       '',
       '这张表来自实际文章内容，帮助你看到每篇的篇幅和继续补强的方向。正文汉字数排除代码、终端输出和文字图；英文术语不折算成汉字。数字达到目标只说明篇幅，不证明内容已经掌握或通过人工终审。',
       '',
-      `当前纳入 ${rows.length} 篇技术栈，${count} 篇中文正文不少于 10,000 字。其余文章仍应结合知识深度继续扩写，不能把这一轮修订描述成每篇都已完成万字目标。`,
+      teachingCoverageStatus(rows.length, count),
       '',
       `中文正文合计 ${rows.reduce((sum, row) => sum + row.chineseProse, 0).toLocaleString('en-US')} 汉字，${rows.filter(row => row.chineseProse >= 8000).length} 篇不少于 8,000 字。正文总字符包含中文、英文和数字但排除空白；代码与图字符另列，不用于补足正文目标。`,
       '',

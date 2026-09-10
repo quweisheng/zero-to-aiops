@@ -259,6 +259,92 @@ Labels（标签）参与告警身份、路由、分组与匹配；Annotations（
 
 请按时间线记录每段证据，选择最小修复，并用带唯一标识的合成告警验证完整链路。实验不要向真实值班人员制造未经约定的紧急消息，使用专用测试接收者。学习证据保存脱敏标签、匹配推导、测试结果和回滚记录，面试时说明未覆盖的网络分区与真实通道边界。
 
+## 路由推演：同时属于数据库团队和严重告警，该发给谁
+
+先给老师一张告警卡：团队是数据库，严重程度为 critical，环境为演练。再看路由：第一个子路由匹配严重告警，第二个匹配数据库团队。默认匹配第一个后停止同层继续查找，所以它只进入第一个接收器。团队同事没收到并不一定是网络丢包，也可能完全符合当前配置。
+
+`continue: true` 应放在希望匹配后继续检查同层后续路由的那个节点上，不是随便放到根节点或最后一个节点就全局生效。若只想给同一群消息发送两种渠道，也可以在一个接收器内配置多个集成。两种设计都可能成立，但要明确谁是主要值班入口、谁只是审计副本，以及各渠道怎样处理恢复。
+
+父路由的默认接收器不是无条件抄送地址。子路由接管后，不会自动再把同一告警发给父接收器。根节点需要能接住全部告警，不能带限制性匹配器；子节点负责逐步细分。配置审查时从根沿每个可能分支走一遍，写下最终目的地，才知道兜底是不是仍然可见。
+
+负向匹配尤其容易误读。`env!="dev"` 表示值不等于开发环境，缺少环境标签的告警也可能满足，并不等价于只匹配生产。更稳妥的生产路由通常使用明确正向条件，并把缺失必需字段的事件交给单独复核。不要用“排除了几个非生产值”代替“证明是生产对象”。
+
+时间静音路由也可能截住消息。某分支在指定时段不通知，仍可能按路由匹配规则终止后续同层匹配，不能假定静音分支自动让事件掉到备用接收器。应使用目标版本配置测试覆盖值班时段、非值班时段和边界时间，并决定是否需要继续匹配。时区、夏令时及跨日区间也要按实际配置核对。
+
+## 分组不等于去重：四张卡片算清通知数量
+
+准备四条教学告警：同一订单服务两个实例的 InstanceDown，以及另一个服务的 InstanceDown，再加一条订单服务 HighLatency。假定都命中同一个路由，按告警名和服务分组，会得到三组；若再按实例分组，前两条被拆开，组数增加。这个练习帮助你理解通知数量不只由故障数量决定，还由分组维度决定。
+
+分组把不同身份的告警放进同一条通知，去重则减少已经通知过且没有需要更新内容的重复投递。通知日志还与接收器和分组身份有关。改接收器名或分组规则，可能改变去重上下文并带来新的通知，因此这类配置变更也要评估瞬时通知量，不能认为只改展示名称没有风险。
+
+模板里的 `.CommonLabels` 只保留全部告警都相同的标签。如果一组包含两个不同实例，公共标签里没有实例是正常的，不代表采集丢字段。应在 `.Alerts` 循环里读取每条的 `.Labels.instance`，或显示明确分组维度。公共注解同理：两条说明不同，公共说明可能为空。通知标题不能依赖一个实际不公共的字段。
+
+组级状态为 firing，表示组中仍有触发中的告警，不代表数组内每条都在触发。收到恢复回调时，应逐条检查状态和稳定身份，不能看到组级恢复就关闭同名服务的所有事故。`max_alerts` 限制载荷数量时还要关注截断提示，不能把未包含的告警误当成已经恢复。
+
+## 时间实验：第一条通知为什么不是立刻发
+
+### 前置条件和基础时间线
+
+纸笔即可，无需给任何人发消息。设新组首次告警在零秒到达，首次等待三十秒，组间隔五分钟，重复间隔四小时。第二条同组告警在二十秒到达。假定无静默、无抑制、无失败且调度正常，首次通知大约三十秒出现，包含当时仍需要通知的同组告警。
+
+再把第三条到达时间改为四十秒。它错过首次发送，不是立刻单发，而是在后续组调度时机参与通知。课堂可把下一次机会近似画在三百三十秒，真实时间还包括处理、重试与调度延迟。你应解释的是“由组的调度节奏控制”，不是保证某条 HTTP 请求必定在精确毫秒抵达。
+
+### 注入短暂恢复和重复间隔不整除
+
+先把第一条告警改为二十五秒前已经恢复，且没有其他触发告警。它可能在首次分组等待中就消失而不产生触发通知，这正是等待聚合的一种行为。不能据此断言源规则没有触发。保留 Prometheus 状态与事件时间才能复原这个过程。
+
+再把重复间隔设为七分钟、组间隔仍五分钟。重复通知检查受组间隔节奏约束，不应把七分钟理解成独立精密闹钟。通常应按官方建议把重复间隔设为组间隔的整数倍，并考虑通知记录保留时间，避免超长重复间隔超过状态保留后出现意外重发。
+
+验收时画出到达、首次等待、组内更新和无变化重复提醒四类时刻，明确哪些是配置、哪些是观测到达时间。若模拟与真实实验不同，先查组是否早已存在、是否有其他事件、是否重载配置、是否渠道重试，再修改时间参数。清理仅标记纸面案例结束；它证明你理解调度，不证明真实渠道延迟。
+
+## 抑制的五个零基础问题
+
+抑制是什么？是有一类源告警时，按规则暂缓另一类目标告警的通知。为什么需要？同一基础设施问题可能制造数百条衍生告警，逐条通知会淹没主要线索。它怎样工作？匹配源和目标条件，并比较指定相等标签。怎样观察？在界面或接口中查看被抑制状态及关联标识。出了问题怎么办？用实际标签回放源与目标，检查边界和缺失字段。
+
+特别注意：`equal` 中缺少的标签与空字符串在匹配语义上可能等价。如果源和目标都没写租户，不能指望添加 `equal: [tenant]` 就自动实现隔离。需要在源和目标匹配中要求必需字段非空，并在生产者入口校验字段。租户相等是业务隔离条件，标签名存在只是数据格式条件，两者都不能省。
+
+“根因告警”也是规则设计者的假设，不是 Alertmanager 做了因果推理。ClusterDown 与应用超时同在一个集群，不证明所有应用异常都来自集群。抑制范围应与可解释的故障依赖一致，保留源告警的有效通知，事故中仍能查看被抑制目标。发现源告警误报时，修正规则与抑制条件，不简单关闭所有应用告警。
+
+静默创建后则要记住它的唯一标识和结束时间。结束维护时可以让它自然到期，或仅结束本次创建的静默；不要用“清理”名义删除其他团队的静默。撤销静默可能释放积累中的触发告警，应提前考虑通知量与接管人。需要恢复消息时，仍要看源告警是否真的恢复和渠道是否允许发送。
+
+## 高可用与容量：多副本保护哪一层
+
+配置、活动告警、静默和通知记录是不同的状态。集群通信帮助成员共享静默与通知历史，但不意味着任意节点配置文件会自动同步，也不意味着所有活动告警由集群代替源端可靠广播。Prometheus 按官方方式向相关成员发送，配置通过外部发布流程保持一致，两条链路要分别监控。
+
+网络分区时不同成员可能各自通知，这比错过严重告警更符合该系统的取舍。下游工单平台应把重复事件合并，而不是依赖上游永远只发一次。自动化执行还需要更严格的幂等与授权，不能用“Alertmanager 已去重”代替操作侧保护。成员重新连通后的收敛，也不会撤回已经发出的重复短信。
+
+容量不能只按每秒收到多少条告警计算。相同身份不断刷新，与每次新建一个身份，对内存、分组和通知调度压力不同。一个接收器又可能包含多个渠道，真正发出的请求数是告警分组与渠道、重试和重复节奏共同作用的结果。压测应覆盖高基数事件、慢接收端与部分渠道限流，而不仅用一条告警反复发送。
+
+监控关注活跃告警、分组规模、通知尝试和失败、处理耗时、集群成员状态、配置重载结果与存储。指标名随版本核对，先在本机 `/metrics` 查看再建立规则。用另一个独立可达的通道监控关键通知链路，避免通知器故障只能由它自己报告。
+
+## Webhook 接收端：返回成功之前要承诺什么
+
+本文 Python 接收器只打印教学载荷，它不持久保存、不鉴权、不能承担生产接收职责。生产接收方应限制请求大小、验证身份和内容、保护敏感字段，并在可靠保存后尽快确认。长耗时诊断交给后台任务，否则处理缓慢导致上游重试，反而增加负载。
+
+收到 HTTP 成功响应只说明接收端按其协议接受请求，不说明短信送达、工单被认领或故障已修复。为关键通知保留发送、接收、入队、分派和人工确认的独立时间。这个分层能定位“半小时才有人处理”究竟慢在什么地方，而不是把所有延迟都归因于 Alertmanager。
+
+重试与乱序要求接收方保存事件身份、来源范围和状态时间。不要仅用组标题去重：一组里可能先后增加不同告警，也可能部分恢复。需要能更新已有事件并保留变化，不把所有重复载荷丢弃后漏掉恢复。内容中提供的链接也只是数据，不应无条件让服务器访问任意地址，以免越过网络与数据权限边界。
+
+URL 内的令牌、邮件密码和访问密钥不要提交 Git。配置样例里的 `change-me` 和示例域名不是可用凭据。实际部署使用产品支持的受控密钥引用与访问权限，验证输出日志不泄露认证信息。只读接口同样可能暴露服务名、内部拓扑和维护信息，不能认为“不支持删除”就适合公网裸露。
+
+## 升级与回滚工作坊：格式通过不代表行为相同
+
+发布前固定目标版本，核对配置字段、匹配器语法、模板函数以及外部接口兼容性。`amtool check-config` 应与计划运行版本匹配，否则新工具接受的字段旧服务未必理解。模板单独验证还要包含空字段、多告警、混合状态和特殊字符，不能只发送一条字段齐全的样本。
+
+准备脱敏路由测试集，每条输入写明预期接收器和不应接收的团队。升级后先在专用接收端回放，比较路由、分组、静默、抑制与恢复通知。只读配置检查不能覆盖真实网络和渠道权限，因此保留一项端到端测试，但必须提前约定测试对象与时段。
+
+配置加载失败时先看日志和当前生效版本，确认旧配置是否仍被保留，不要以为文件写成功就已经切换。若要回退，恢复确定的配置与模板组合，核对运行状态的兼容和持久目录。不要为了“干净启动”随意删除通知日志或静默数据，否则可能造成通知风暴或维护期间误叫醒。
+
+回滚后验收应包括正确路由、恢复事件、跨租户不抑制、下游确认以及基础监控。告警清空不一定是成功，可能源端连接断了；通知停止也可能是新配置把全部事件静默了。用一条唯一标识的演练事件证明完整链路，并保存预期与实际对照。
+
+## 面试加练：怎样设计三团队共享的通知平台
+
+三分钟回答先明确告警标签合同、租户与环境边界，再设计根兜底及团队路由，解释继续匹配和父接收器不是自动抄送。随后按故障域选择分组，限定抑制范围，给静默加负责人和期限；最后讲多副本重复取舍、下游幂等、配置回放与端到端验收。不要把所有问题归结为“多部署两个实例”。
+
+追问“告警在界面存在但没有通知”，分路由、等待、静默、抑制与发送失败查证。追问“为什么公共实例字段为空”，解释组中实例不同并逐条展示。追问“怎样保证只通知一次”，说明无法给所有外部故障情形承诺严格一次，目标是可靠通知与可幂等处理。追问“接到严重告警能自动重启吗”，解释严重等级不是执行授权，还要核对目标、状态、容量与审批。
+
+这组回答的学习证据不是背诵稿，而是四张分组卡、时间线、边界路由样本、模板反例和一次受控通知记录。明确哪些仅离线推演，哪些真在演练环境观察到，再讨论生产能力范围。
+
 ## Alertmanager 在 AIOps 链路中的位置
 
 Alertmanager 是告警治理的中枢。
@@ -436,12 +522,12 @@ curl -s http://alertmanager:9093/api/v2/alerts
 
 ```text
 1. 接收 alert
-2. 根据 labels 识别 alert fingerprint，做去重
-3. 放入对应 group
-4. 进入 route tree 匹配 receiver
+2. 根据 labels 识别 alert fingerprint（标签集合指纹）
+3. 进入 route tree 匹配一个或多个通知路由
+4. 在对应路由下按分组标签创建或更新告警组
 5. 判断是否被 silence 匹配
 6. 判断是否被 inhibit_rules 抑制
-7. 等待 group_wait / group_interval
+7. 按组调度与通知管线检查等待、过滤和去重条件
 8. 用 notification template 渲染通知
 9. 发送给 receiver
 10. 故障持续时按 repeat_interval 再通知
@@ -761,11 +847,13 @@ amtool --alertmanager.url=http://alertmanager:9093 silence add \
 amtool --alertmanager.url=http://alertmanager:9093 silence query
 ```
 
-删除：
+提前结束本课创建的静默：先用上面的查询命令核对编号、匹配条件与归属，只处理本轮教学静默。将引号中的占位符替换为实际编号，保留引号：
 
 ```bash
-amtool --alertmanager.url=http://alertmanager:9093 silence expire <silence-id>
+amtool --alertmanager.url=http://alertmanager:9093 silence expire "<silence-id>"
 ```
+
+`expire` 是让静默提前到期，不是删除告警、修复故障或立即抹掉静默历史。尚未恢复的告警可能重新通知；不要为了测试解除其他人正在使用的维护静默。
 
 排查没通知时，必须看是否被 silence 命中。
 
@@ -787,9 +875,14 @@ inhibit_rules:
   - source_matchers:
       - alertname="ClusterDown"
       - severity="critical"
+      - tenant=~".+"
+      - cluster=~".+"
     target_matchers:
+      - alertname="InstanceDown"
       - severity=~"warning|critical"
-    equal: ["cluster"]
+      - tenant=~".+"
+      - cluster=~".+"
+    equal: ["tenant", "cluster"]
 ```
 
 解释：
@@ -800,7 +893,7 @@ inhibit_rules:
 | `target_matchers` | 哪些 alert 会被抑制 |
 | `equal` | source 和 target 必须哪些 labels 相同 |
 
-如果 `ClusterDown{cluster="prod"}` firing，那么同 cluster 的 warning/critical target 可能被抑制。
+只有源与目标都提供非空租户和集群，并且两者对应值相同，源 `ClusterDown` 才可能抑制本例的 `InstanceDown`。这比抑制同集群全部严重告警更窄；仍需确认二者存在真实故障依赖。缺标签不会在本例中被意外合并，独立的应用或安全告警也不会因为严重级别相同而被吞掉。
 
 注意：
 
@@ -911,6 +1004,7 @@ Alertmanager 会发送 JSON payload。
         "alertname": "InstanceDown",
         "severity": "critical",
         "team": "platform",
+        "service": "node",
         "instance": "node-1:9100"
       },
       "annotations": {
@@ -928,9 +1022,11 @@ Alertmanager 会发送 JSON payload。
   "commonLabels": {
     "alertname": "InstanceDown",
     "severity": "critical",
-    "team": "platform"
+    "team": "platform",
+    "service": "node",
+    "instance": "node-1:9100"
   },
-  "commonAnnotations": {},
+  "commonAnnotations": {"summary": "Instance node-1:9100 is down"},
   "externalURL": "http://alertmanager:9093"
 }
 ```
@@ -1047,7 +1143,7 @@ curl -s http://alertmanager:9093/api/v2/receivers
 
 | 字段 | 作用 |
 |---|---|
-| `resolve_timeout` | 没收到 resolved 时，多久后认为 alert resolved |
+| `resolve_timeout` | 客户端未提供结束时间时采用的默认到期时长；Prometheus 通常提供结束时间，不能用它替代源端规则恢复条件 |
 | `smtp_smarthost` | SMTP 地址 |
 | `smtp_from` | 邮件发件人 |
 | `smtp_auth_username` | SMTP 用户 |
@@ -1132,9 +1228,14 @@ inhibit_rules:
   - source_matchers:
       - alertname="ClusterDown"
       - severity="critical"
+      - tenant=~".+"
+      - cluster=~".+"
     target_matchers:
+      - alertname="InstanceDown"
       - severity=~"warning|critical"
-    equal: ["cluster"]
+      - tenant=~".+"
+      - cluster=~".+"
+    equal: ["tenant", "cluster"]
 ```
 
 检查：
@@ -1146,6 +1247,10 @@ amtool check-config alertmanager.yml
 ## AIOps 入门实验
 
 目标：本地启动 Alertmanager 和一个 webhook receiver，手工发送 alert，观察路由、分组、resolved 通知和 silence。
+
+前置条件：在同一台隔离学习机上准备 Python 3，以及从官方发布渠道取得、记录版本并核对完整性的 Alertmanager 和配套 amtool。先运行各自的 `--version` 确认能够启动，再新建只放本实验文件的目录。本节按本机二进制运行说明，不能把 `127.0.0.1` 原样用于分开的容器；容器里的回环地址指容器自身。
+
+检查本机 8080、9093 没有被占用，且没有配置真实邮件或值班渠道。保存下方 Python 为 `webhook_receiver.py`，保存本节专用 YAML 为 `alertmanager.yml`，不要覆盖已有服务配置。Python 标准库无需额外安装依赖；该接收器只用于受控合成载荷，不提供生产鉴权或持久化。
 
 ### 1. 启动 webhook receiver
 
@@ -1163,7 +1268,7 @@ class Handler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.end_headers()
 
-HTTPServer(("0.0.0.0", 8080), Handler).serve_forever()
+HTTPServer(("127.0.0.1", 8080), Handler).serve_forever()
 ```
 
 运行：
@@ -1194,30 +1299,36 @@ receivers:
 启动：
 
 ```bash
-alertmanager --config.file=alertmanager.yml
+alertmanager --config.file=alertmanager.yml --web.listen-address=127.0.0.1:9093 --cluster.listen-address= --storage.path=./alertmanager-lab-data
 ```
 
 ### 3. 手工发送 firing alert
 
-```bash
-curl -X POST http://127.0.0.1:9093/api/v2/alerts \
-  -H "Content-Type: application/json" \
-  -d '[
-    {
-      "labels": {
-        "alertname": "InstanceDown",
-        "severity": "critical",
-        "team": "platform",
-        "service": "node",
-        "instance": "node-1:9100"
-      },
-      "annotations": {
-        "summary": "node-1 is down",
-        "runbook_url": "https://example.com/runbooks/instance-down"
-      },
-      "startsAt": "2026-07-02T10:00:00Z"
-    }
-  ]'
+保存为 `send_test_alert.py`，然后运行 `python send_test_alert.py`。使用当前时间和明确结束时间，避免复制旧日期导致事件已经过期。
+
+```python
+import json
+from datetime import datetime, timedelta, timezone
+from urllib.request import Request, urlopen
+
+now = datetime.now(timezone.utc)
+payload = [{
+    "labels": {
+        "alertname": "InstanceDown", "severity": "critical",
+        "team": "platform", "service": "node",
+        "instance": "classroom-only", "lab": "alertmanager-lesson"
+    },
+    "annotations": {"summary": "仅本机课堂测试，不代表生产故障"},
+    "startsAt": now.isoformat(),
+    "endsAt": (now + timedelta(minutes=10)).isoformat()
+}]
+request = Request(
+    "http://127.0.0.1:9093/api/v2/alerts",
+    data=json.dumps(payload).encode("utf-8"),
+    headers={"Content-Type": "application/json"}, method="POST"
+)
+with urlopen(request, timeout=5) as response:
+    print("accepted_status=", response.status)
 ```
 
 观察：
@@ -1233,18 +1344,26 @@ curl -s http://127.0.0.1:9093/api/v2/alerts/groups
 
 ```bash
 amtool --alertmanager.url=http://127.0.0.1:9093 silence add \
-  alertname=InstanceDown service=node \
+  alertname=InstanceDown service=node lab=alertmanager-lesson \
   --duration=30m \
   --author=lab \
   --comment="testing silence"
 ```
 
-再次发送相同 alert，观察：
+记录命令返回的静默标识。再次发送相同标签的事件，检查接口中的静默状态，并等待后续通知调度观察，而不是立刻把“没有第二条消息”归因于静默：即使不静默，去重和重复间隔也可能让它暂时不再通知。
 
 - Alertmanager UI/API 里 alert 仍存在。
 - webhook 不再收到通知。
 
-### 5. 形成学习证据
+### 5. 验证恢复、处理失败与清理
+
+先仅结束本次创建的静默，再停止重发事件，等待它的明确结束时间与后续组调度。预期接收器出现恢复状态，前提是它之前收到触发通知且 `send_resolved` 已启用。十分钟后没有恢复消息，先核对是否又重发延长结束时间、静默是否仍有效以及接收器是否运行，不修改生产规则来“帮助”实验通过。
+
+入口返回成功但接收器没有消息时，先看告警列表、分组等待和接收器终端。拒绝连接通常是进程没启动、端口不对或把容器与宿主机地址混用了；启动报地址占用则换一组本机实验端口并同步配置，不停止未知进程。请求超时先查是否已接收，避免把连续重发造成的状态变化当成另一个故障。
+
+结束后在两个实验终端按 Ctrl+C 停止本轮启动的进程，确认不再监听实验端口。保留配置和脱敏输出作为证据；`alertmanager-lab-data` 只属于本轮独立目录，确认路径与内容后可手动删除，不能用通配符清理所有 Alertmanager 数据。代码实验与前面的离线模型分别记录，没运行的步骤明确写待验证。
+
+### 6. 形成学习证据
 
 记录：
 

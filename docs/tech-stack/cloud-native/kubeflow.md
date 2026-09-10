@@ -300,7 +300,7 @@ Kubeflow 不是：
   -> CPU / GPU Node 执行代码
 
 状态与数据旁路
-  -> Kubernetes etcd：对象 spec/status、RBAC、Secret 引用
+  -> Kubernetes etcd：对象 spec/status、RBAC、Secret 对象数据
   -> 组件数据库：Pipeline/Run、Katib、Hub 等元数据
   -> 对象存储：数据集、Pipeline Artifact、模型权重
   -> PVC：Notebook 工作目录、部分数据库或缓存
@@ -309,6 +309,8 @@ Kubeflow 不是：
 ```
 
 **控制面**负责接收期望状态、鉴权、创建对象和持续调和。**执行面**是实际运行用户代码的 Notebook、Pipeline task、Trial、Training worker 和推理 Pod。**数据面**在本文中还包括模型请求与训练数据/制品传输；它们的容量、权限和故障模式与控制器不同。
+
+图中 CI 是持续集成任务，SDK 是程序调用接口的开发包；OAuth2 Proxy 与 Dex 对接登录身份，OIDC 是在 OAuth 2.0 之上标准化的身份层。Central Dashboard 是统一入口页面，Node 是运行工作负载的节点。spec 表示期望配置，status 表示控制器报告的观察状态；Registry 在这个旁路特指镜像仓库，digest 是镜像内容摘要，Log 与 Trace 分别提供日志和跨组件请求轨迹。etcd 保存的并非只有 Secret 引用，也可能包含凭据本身；默认未配置静态加密时，Secret 不会自动得到加密保护，base64 编码也不是加密，应把访问权限、存储加密和备份权限一起设计。[Kubernetes Secret 安全说明](https://kubernetes.io/docs/concepts/configuration/secret/)
 
 最常见误判是只看控制面 UI：
 
@@ -539,7 +541,7 @@ Kubeflow Trainer v2 使用 `TrainJob`、`TrainingRuntime`/`ClusterTrainingRuntim
 
 ### 为什么需要
 
-分布式训练不只是“多开几个 Pod”。各 worker 需要一致的 rendezvous（会合）、rank、网络、镜像、代码、数据、GPU 和失败语义。Trainer 把这些平台细节封装进可复用 Runtime。
+分布式训练不只是“多开几个 Pod”。各 worker 需要一致的 rendezvous（会合，即找到参与同一轮训练的其他进程）、rank（训练进程编号，不是排序名次）、网络、镜像、代码、数据、GPU 和失败语义。Trainer 把这些平台细节封装进可复用 Runtime。
 
 ### 怎么工作
 
@@ -572,7 +574,7 @@ kubectl logs POD -n NS --all-containers # 查看各 rank 日志
 - 没有匹配 Runtime：查 `runtimeRef`、Namespace、label 和 Runtime condition。
 - JobSet 没生成：查 Trainer controller 日志、CRD 版本和 admission。
 - Worker 部分启动：查 gang scheduling、quota、GPU、拓扑和 PodGroup/Kueue 状态。
-- NCCL timeout：查各 rank 日志、节点网络、MTU、防火墙、RDMA/NCCL 配置和某个 worker OOM。
+- NCCL timeout：NCCL 是 NVIDIA Collective Communications Library，即 GPU 集合通信库；超时先查各 rank 日志、节点网络、MTU、防火墙、RDMA/NCCL 配置和某个 worker OOM。
 - 重启后从头训练：查 checkpoint 周期、原子写入、共享存储可见性和 resume 参数。
 
 ## 核心组件六：Kubeflow Hub
@@ -664,6 +666,8 @@ KServe Ready 之前必须分别证明：CR condition、runtime 匹配、模型�
   -> 13. KServe 拉取并加载特定模型
   -> 14. 真实流量、指标、日志和漂移回流
 ```
+
+图中的 Dataset Artifact 是可追踪的数据集制品，checkpoint 是用于续训的检查点，model 是训练得到的模型内容；ModelVersion 是注册表中的模型版本记录，Artifact URI 是制品访问地址，checksum 是校验内容是否变化的摘要。它们分别描述“登记的对象”“实际字节在哪里”“字节是否一致”，不能互相替代。
 
 这个流程至少涉及四种 ID：Pipeline Run ID、Trial/TrainJob UID、Model Version ID 和 Deployment/InferenceService revision。AIOps 关联必须保存映射，不能只靠相似名称猜。
 
@@ -766,6 +770,8 @@ test "$installed" = true # 失败返回非零；不能继续宣告安装成功
 3. 默认 example 包含示例账号、多个依赖和大量资源，不等于企业 overlay。
 
 生产更适合把 upstream tag 当 base，用自己的 Kustomize overlay 修改域名、身份、存储、资源、安全策略和组件选择，并在 Git 中审计差异。
+
+如果使用完整 KCD 做后续集群实验，先记录一次性集群的创建工具、精确名称及专属资源清单，实验后通过同一工具删除该专属集群，并另行核对外部磁盘、对象存储和负载均衡资源。不能把删除所有 CRD 当成通用卸载：这可能连带删除自定义对象，也不能证明外部计费资源已清理。没有独占集群与恢复权限时，只做下文的本地编译实验。
 
 ## 安装后不要只看 Pod Running
 
@@ -1093,23 +1099,31 @@ Pipeline task 本身未必自动形成端到端 trace。可以在业务 Componen
 PowerShell：
 
 ```powershell
-$lab = Join-Path $env:TEMP 'kubeflow-kfp-lab'
+$labOriginalLocation = (Get-Location).Path
+$lab = Join-Path $env:TEMP ('kubeflow-kfp-lab-' + [guid]::NewGuid().ToString('N'))
+New-Item -ItemType Directory -Path $lab -ErrorAction Stop | Out-Null
 python -m venv $lab
 & "$lab\Scripts\python.exe" -m pip install --upgrade pip
 & "$lab\Scripts\python.exe" -m pip install "kfp==2.16.1"
 & "$lab\Scripts\python.exe" -m pip check
+Set-Location -LiteralPath $lab
 ```
 
 Bash：
 
 ```bash
-python3 -m venv /tmp/kubeflow-kfp-lab
-/tmp/kubeflow-kfp-lab/bin/python -m pip install --upgrade pip
-/tmp/kubeflow-kfp-lab/bin/python -m pip install 'kfp==2.16.1'
-/tmp/kubeflow-kfp-lab/bin/python -m pip check
+lab_original_location="$PWD"
+lab="$(mktemp -d /tmp/kubeflow-kfp-lab.XXXXXXXX)" || exit 1
+python3 -m venv "$lab"
+"$lab/bin/python" -m pip install --upgrade pip
+"$lab/bin/python" -m pip install 'kfp==2.16.1'
+"$lab/bin/python" -m pip check
+cd "$lab" || exit 1
 ```
 
 正常应看到 `No broken requirements found`。在受控项目中还要保存 `pip freeze`，因为 `kfp` 声明的部分传递依赖是版本范围，未来解析结果可能变化。
+
+以上两种终端任选一种，后续保持同一终端以保留目录变量。任一步安装失败都先停止；成功后工作目录已进入本轮唯一实验目录，下面两个 Python 文件都创建在这里，不写入仓库根目录，也不复用上一轮产物。
 
 ### 第 2 步：创建 `pipeline.py`
 
@@ -1168,10 +1182,10 @@ Get-FileHash .\pipeline.yaml -Algorithm SHA256
 Bash：
 
 ```bash
-/tmp/kubeflow-kfp-lab/bin/python pipeline.py
+"$lab/bin/python" pipeline.py
 grep -E '^# PIPELINE DEFINITION|parameterType' pipeline.yaml | head
 sha256sum pipeline.yaml
-/tmp/kubeflow-kfp-lab/bin/python -m pip freeze > requirements.lock.txt
+"$lab/bin/python" -m pip freeze > requirements.lock.txt
 ```
 
 ### 真实运行结果
@@ -1224,14 +1238,30 @@ pipeline.yaml 已生成
 下一节要复用这个虚拟环境，暂时跳过清理。两个实验结束并确认学习证据已复制到个人实验仓库后，只删除自己创建的实验目录；删除前必须打印绝对路径，确认它正是本实验的临时目录且没有其他项目文件。
 
 ```powershell
-Remove-Item -LiteralPath (Join-Path $env:TEMP 'kubeflow-kfp-lab') -Recurse -Force
+$labFull = [IO.Path]::GetFullPath($lab)
+$tempFull = [IO.Path]::GetFullPath($env:TEMP).TrimEnd('\')
+$labItem = Get-Item -LiteralPath $labFull -ErrorAction Stop
+if ([IO.Path]::GetDirectoryName($labFull) -ne $tempFull -or
+    $labItem.Name -notmatch '^kubeflow-kfp-lab-[0-9a-f]{32}$' -or
+    ($labItem.Attributes -band [IO.FileAttributes]::ReparsePoint)) {
+    throw '清理目标不属于本轮预期临时目录；停止并人工核对'
+}
+Write-Host "仅清理本轮实验目录：$labFull"
+Set-Location -LiteralPath $labOriginalLocation
+Remove-Item -LiteralPath $labFull -Recurse -Force
 ```
 
 ```bash
-rm -rf -- /tmp/kubeflow-kfp-lab
+lab_full="$(realpath -e -- "$lab")" || exit 1
+test ! -L "$lab" || exit 1
+test "$(dirname -- "$lab_full")" = /tmp || exit 1
+printf '%s\n' "$(basename -- "$lab_full")" | grep -Eq '^kubeflow-kfp-lab\.[[:alnum:]]{8}$' || exit 1
+printf '仅清理本轮实验目录：%s\n' "$lab_full"
+cd "$lab_original_location" || exit 1
+rm -rf -- "$lab_full"
 ```
 
-执行删除前打印并核对绝对路径，不能把空变量、用户主目录或仓库根目录作为递归删除目标。
+清理代码先核对解析后的绝对父目录、唯一名称和非链接目录，再删除本轮产生的虚拟环境、源文件与编译产物；学习证据须先复制保存。Bash 清理面向具备 GNU `realpath` 的 Linux 环境；若校验失败，不移除保护条件，不扩大删除范围。不能把空变量、用户主目录或仓库根目录作为递归删除目标。
 
 ## 故障注入实验：让组件类型契约不一致
 
@@ -1290,7 +1320,7 @@ Test-Path .\broken-pipeline.yaml # 预期为 False
 Bash：
 
 ```bash
-/tmp/kubeflow-kfp-lab/bin/python pipeline_type_fault.py
+"$lab/bin/python" pipeline_type_fault.py
 echo $? # 预期为非 0
 test ! -f broken-pipeline.yaml
 ```
@@ -1939,6 +1969,6 @@ README 至少记录精确命令、预期与实际结果、没有验证的部分�
 - 实际注入 `STRING -> NUMBER_INTEGER` 类型不匹配，进程以非零状态失败且没有可交付错误 YAML；修复后编译成功，产物 4122 字节，SHA256 为 `757713E853879DE8D739081E72B3D6CF5EC01B239C1E5980B156053D57F7C46E`。
 - 固定 KCD `26.03.1` tag、commit `f09f3eeaa25cc852665f460497a42b7fc68639ac`，使用 kubectl 内置 Kustomize `5.8.1` 静态渲染 `example` 成功；输出约 273,716 行并包含 79 个 CRD。这只证明清单能在本地构建，不证明 Kubernetes API 接受或任何 Pod Ready。
 
-本机 Docker daemon 当前不可用，也没有一次性 Kubernetes 集群，因此没有安装 KCD，没有运行 Notebook、KFP backend、Katib、Trainer、Hub、Spark、KServe、GPU/NCCL/MPI，也没有做 HA、压测、备份恢复和生产升级。Python 3.14 的成功只是本机观察，不能替代官方支持范围。以后补做集群实验时，应把命令、UID、时间、状态、清理和恢复证据追加到个人实验仓库，而不是改写历史结果。
+上述历史验证时 Docker daemon 不可用，也没有一次性 Kubernetes 集群，因此没有安装 KCD，没有运行 Notebook、KFP backend、Katib、Trainer、Hub、Spark、KServe、GPU/NCCL/MPI，也没有做 HA、压测、备份恢复和生产升级。本轮终审没有重新检查 Docker 的当前状态，也没有重跑依赖安装与 KFP 编译；修订后的目录隔离与清理只做静态核对，不借用历史结果冒称本轮执行。Python 3.14 的成功只是本机观察，不能替代官方支持范围。以后补做集群实验时，应把命令、UID、时间、状态、清理和恢复证据追加到个人实验仓库，而不是改写历史结果。
 
 学完本文，你应当能完成从零到实践、排障和架构讨论的主线；但强平台/SRE/DevOps/AIOps 面试仍会继续考察 Linux、网络、Kubernetes、Python、机器学习基础、系统设计、编码、项目经历和沟通，不能靠背一篇文章替代这些训练。

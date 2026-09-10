@@ -111,22 +111,22 @@ Vector Database（向量数据库）
 ```text
 OpenAI embeddings（向量编码）
   -> Chroma local collection（集合）
-  -> insert（插入） incident（故障） records
+  -> insert incident records（插入事故记录）
   -> query（查询） by new alert（告警）
   -> metadata filter（元数据过滤） by service（服务）
   -> Milvus Lite collection（集合）
-  -> schema（数据结构约定） and dimension
+  -> schema and dimension（数据结构约定与向量维度）
   -> evaluate top-k（最相关的 k 条）
 ```
 
 ## 向量数据库在 AIOps 链路中的位置
 
 ```text
-runbooks（操作手册） / incidents / service docs（服务文档） / alert（告警） summaries
+runbooks（操作手册） / incidents（事故记录） / service docs（服务文档） / alert summaries（告警摘要）
   -> chunk（文本切块）
   -> embedding（向量编码）
   -> vector database（向量数据库）
-  -> retrieve（检索） similar records
+  -> retrieve similar records（检索相似记录）
   -> LLM（大语言模型） / RAG（检索增强生成） answer（回答）
   -> on-call engineer（值班工程师）
 ```
@@ -427,7 +427,7 @@ order-api 502 after deployment
 - `502` 精确命中。
 - `after deployment` 语义理解。
 
-Qdrant hybrid queries 文档里展示了 dense 和 sparse 结果融合的思路，例如 RRF。OpenAI Retrieval 也支持语义和关键词混合思想。学习阶段先跑通向量检索，进阶后再做 hybrid。
+Qdrant hybrid queries 文档里展示了 dense（稠密向量）和 sparse（稀疏向量）结果融合的思路，例如 RRF（倒数排名融合，依据各列表排名合并候选）。OpenAI Retrieval 也支持语义和关键词混合思想。学习阶段先跑通向量检索，进阶后再做 hybrid（混合检索）。
 
 ## 数据更新
 
@@ -487,7 +487,7 @@ source（来源） file（文件） changed
 user（用户）
   -> allowed services / teams / visibility（允许的服务、团队与可见范围）
   -> metadata filter（元数据过滤）
-  -> retrieve（检索） only authorized records
+  -> retrieve only authorized records（仅检索获授权记录）
 ```
 
 示例 metadata：
@@ -529,7 +529,9 @@ python-dotenv
 
 ### incidents.jsonl
 
-```json
+每行保存一条合成事故，JSON Lines 文件按行解析，不在行与行之间加逗号。
+
+```jsonl
 {"id":"inc-001","service":"order-api","severity":"critical","text":"发布后 order-api 5xx 升高，原因是数据库连接池配置错误。"}
 {"id":"inc-002","service":"payment-api","severity":"warning","text":"payment-api 延迟升高，原因是第三方支付渠道超时。"}
 {"id":"inc-003","service":"redis","severity":"critical","text":"Redis 内存打满，原因是告警去重 key 未设置过期时间。"}
@@ -551,7 +553,7 @@ openai_client = OpenAI()
 embedding_model = os.getenv("OPENAI_EMBEDDING_MODEL", "text-embedding-3-small")
 
 chroma_client = chromadb.PersistentClient(path="./chroma_db")
-collection = chroma_client.get_or_create_collection(name="aiops_incidents")
+collection = chroma_client.create_collection(name="aiops_incidents")
 
 ids = []
 documents = []
@@ -601,7 +603,7 @@ openai_client = OpenAI()
 embedding_model = os.getenv("OPENAI_EMBEDDING_MODEL", "text-embedding-3-small")
 
 chroma_client = chromadb.PersistentClient(path="./chroma_db")
-collection = chroma_client.get_or_create_collection(name="aiops_incidents")
+collection = chroma_client.get_collection(name="aiops_incidents")
 
 query = "订单接口发布后错误率升高，并伴随数据库连接超时。"
 
@@ -637,12 +639,12 @@ python search_chroma.py
 
 ## Milvus Lite 快速实验
 
-Milvus Lite 适合用本地文件快速学习 Milvus API。生产可以迁移到 Docker / Kubernetes / managed Milvus，客户端概念基本一致。
+Milvus Lite 适合用本地文件快速学习 Milvus API。生产迁移到独立或分布式部署时需要重新验证索引、权限、一致性和容量，不是只改地址就完成。当前官方支持环境列出 Ubuntu 与 macOS，原生 Windows 不在这份支持列表里；Windows 读者可在已有合规 WSL2 Ubuntu 环境练习，或先做下文标准库实验。安装前核对 [Milvus Lite 前提与限制](https://milvus.io/docs/milvus_lite.md)。
 
 安装：
 
 ```bash
-pip install -U pymilvus openai python-dotenv
+python -m pip install "pymilvus[milvus-lite]" openai python-dotenv
 ```
 
 `milvus_lite_demo.py`：
@@ -663,11 +665,12 @@ client = MilvusClient("milvus_aiops.db")
 collection_name = "aiops_incidents"
 
 if client.has_collection(collection_name):
-    client.drop_collection(collection_name)
+    raise SystemExit("教学集合已经存在，请核实并归档，禁止启动时自动删除")
 
 client.create_collection(
     collection_name=collection_name,
     dimension=1536,
+    metric_type="COSINE",
 )
 
 texts = [
@@ -711,6 +714,7 @@ results = client.search(
 
 for hit in results[0]:
     print(hit["distance"], hit["entity"])
+client.close()
 ```
 
 注意：
@@ -825,7 +829,7 @@ database timeout errors
 |---|---|
 | recall@k | 正确结果是否在前 k 个里 |
 | precision@k | 前 k 个结果有多少相关 |
-| MRR | 第一个正确结果排第几 |
+| MRR | 各查询首个正确结果排名倒数的平均值；没有命中记零 |
 | p95 latency | 查询延迟 |
 | index build time | 索引构建耗时 |
 | storage size | 存储成本 |
@@ -879,7 +883,7 @@ database timeout errors
 | 旧文档仍被检索 | 删除/更新没同步 | 按 source 删除旧 chunk |
 | 查询很慢 | 向量索引或 payload index 不合适 | 检查索引和过滤字段 |
 | 内存过高 | 索引参数或数据量过大 | 调整索引、分片、量化 |
-| 空结果过多 | query 太短或过滤太严 | 放宽 filter，检查 embedding |
+| 空结果过多 | 查询或非权限过滤不合适，也可能确实无授权资料 | 核对合同与向量；不得为凑结果放宽权限 |
 | 权限泄露 | 检索前没按权限过滤 | 加 visibility / group filter |
 | 成本高 | 重复 embedding 或 top-k 太大 | 缓存、去重、限制 top-k |
 
@@ -968,7 +972,7 @@ pip install chromadb openai python-dotenv
 ### 安装 Milvus Lite 实验依赖
 
 ```bash
-pip install -U pymilvus openai python-dotenv
+python -m pip install "pymilvus[milvus-lite]" openai python-dotenv
 ```
 
 ### 设置 API key
@@ -1001,29 +1005,23 @@ python search_chroma.py
 python milvus_lite_demo.py
 ```
 
-### 删除本地 Chroma 数据
+### 清理课堂产物
 
-```bash
-rm -rf chroma_db
+先结束客户端，确认当前独立目录是自己创建的 `vector-incident-search`，其集合只包含三条合成记录。可保留整个实验目录作复现证据；若要复做，在新的目录运行即可，不需要先删除旧索引。确需回收时用对应客户端只删除本课集合 `aiops_incidents`，不要递归清空共享目录：
+
+```python
+from pathlib import Path
+import chromadb
+
+root = Path.cwd().resolve()
+if root.name != "vector-incident-search":
+    raise SystemExit("不在约定教学目录，停止")
+client = chromadb.PersistentClient(path=str(root / "chroma_db"))
+print("仅删除已核实的本课 Chroma 集合", root)
+client.delete_collection("aiops_incidents")
 ```
 
-PowerShell：
-
-```powershell
-Remove-Item -Recurse -Force .\chroma_db
-```
-
-### 删除 Milvus Lite 文件
-
-```bash
-rm -f milvus_aiops.db
-```
-
-PowerShell：
-
-```powershell
-Remove-Item -Force .\milvus_aiops.db
-```
+Milvus 实验在它自己的教学目录确认文件身份后执行 `client = MilvusClient("milvus_aiops.db")`、`client.drop_collection("aiops_incidents")`、`client.close()`，只回收本课集合。以上删除无法撤回已发送到外部向量接口的文本，重新入库也会再次产生费用；目录名检查只是保护条件，仍须人工核实内容与所有权。
 
 ## 面试怎么讲
 
@@ -1100,6 +1098,8 @@ records = [
 def cosine(a,b):
     if len(a) != len(b):
         raise ValueError('向量维度不一致')
+    if not all(math.isfinite(x) for x in a + b):
+        raise ValueError('向量包含非有限值')
     na = math.sqrt(sum(x*x for x in a))
     nb = math.sqrt(sum(x*x for x in b))
     if na == 0 or nb == 0:
@@ -1181,6 +1181,102 @@ print('recovered:',cosine(query,[1.0,0.0]))
 先固定一个旧版曾命中的问题，查看请求身份、过滤条件、查询向量模型、集合版本和返回片段。若文档正文最新而向量仍来自旧模型，修复重建匹配索引；若索引正确但租户过滤范围错，修复身份映射；若正确候选在第二十名而最终只取五条，评估召回和重排预算，不盲目把所有请求 k 加到一千。
 
 回退验证要同时满足相关性、权限、版本与时延。只恢复速度却返回过期操作是不合格；只命中答案但跨租户泄露更不能接受。最终记录一条问题在旧链、新链与修复链的全部候选和证据，说明改变了哪一层、为什么改变、还未覆盖哪些数据。这是向量数据库面试从名词走到工程判断的关键。
+
+## 从零把快速实验补成一条完整证据链
+
+先在自己新建的 `vector-incident-search` 目录创建虚拟环境，安装 Chroma 示例依赖，保存三行 `incidents.jsonl` 与两个脚本。向量 API 会把事故摘要发到外部服务并可能计费，所以只使用这里的合成文字；密钥从受控环境读取，不能把真实值粘进终端历史或仓库。把 `.env`、本地数据库、虚拟环境和缓存加入忽略规则，只提交不含密钥的配置样例。
+
+执行前记录 Python、客户端库与向量模型版本。第一步入库预期输出三条记录；第二步查询带订单服务过滤，而样本里只有一条订单记录，因此最多返回一条，不是因为 `n_results=3` 就必须凑满三条。它应指向第一条合成事故。这个过滤让结果身份具有确定性，但不能用来证明向量模型排序很好，因为候选范围里本来就只有一个对象。
+
+要评价排序，另做一轮取消服务筛选的教学查询，并人工检查三条候选的顺序和差异；这里只取消课堂业务筛选，不取消任何真实权限。语义模型可能把第一条排到前面，但不要把这个预期当成已实测的固定分数。随后加入同服务但不同原因的样本，才逐步形成能检验检索区分能力的题集。没有无关样本的单条演示，只能证明读写接口连通。
+
+本课入库选择新建集合，已有同名集合会停止，防止每次执行都无意混入旧记录。若首次向量调用失败但空集合已经创建，先核对错误与集合内容，再按本课清理范围回收或换独立目录；不要在启动代码里加入自动删除。查询使用获取现有集合，名称错误会明确失败，不自动新建一个空库让问题看起来像“模型找不到”。
+
+Milvus Lite 路径也使用独立目录和同样的三段合成文本，显式指定余弦度量；订单筛选仍应只有一条候选。若安装失败，先检查平台与目标版本的 wheel，而不是在原生 Windows 反复重装 Python。若搜索报维度错误，比较实际向量长度与集合配置；模型名改变后维度和空间都需要重新核验。它的本地文件不提供生产集群的角色和权限能力，不能把这节截图作为多租户隔离验收。
+
+## 第二个离线实验：三个分数为什么选了三个邻居
+
+前提是 Python 标准库可用。下面片段只做手工二维向量计算，不读取文件、不调用 API、不建立数据库。保存为 `distance_contract_lesson.py` 并执行 `python distance_contract_lesson.py`。先预测一个很长但方向不完全相同的向量，会不会在点积排名里胜出。
+
+```python
+import math
+
+q = [1.0, 0.0]
+vectors = {'same_direction': [2.0, 0.0],
+           'long_vector': [10.0, 10.0],
+           'near_point': [1.0, 0.1]}
+
+def dot(a, b):
+    return sum(x * y for x, y in zip(a, b))
+
+def norm(a):
+    return math.sqrt(dot(a, a))
+
+def cosine(a, b):
+    return dot(a, b) / (norm(a) * norm(b))
+
+def l2(a, b):
+    return math.sqrt(sum((x - y) ** 2 for x, y in zip(a, b)))
+
+winners = (
+    max(vectors, key=lambda key: dot(q, vectors[key])),
+    max(vectors, key=lambda key: cosine(q, vectors[key])),
+    min(vectors, key=lambda key: l2(q, vectors[key])),
+)
+assert winners == ('long_vector', 'same_direction', 'near_point')
+unit = {key: [x / norm(v) for x in v] for key, v in vectors.items()}
+assert max(unit, key=lambda key: dot(q, unit[key])) == 'same_direction'
+print('dot, cosine, L2:', winners)
+print('after unit normalization: same_direction')
+```
+
+预期点积选长向量，余弦选同方向，欧氏距离选靠近查询坐标的点。修复阶段把所有候选按长度归一化，点积与余弦对这组数据的第一名一致。这个实验解释了为何换度量会改变排序，但不证明现实语言模型必须使用归一化；模型训练目标决定适用合同。
+
+故障注入可以把余弦选择的 `max` 临时改成 `min`，断言应该失败，模拟把“越大越好”的分数误当距离。恢复后再运行。清理结束进程即可；若首次就失败，检查查询、向量和比较方向是否和原文一致，不要为了让断言通过改预期答案。真实客户端中的 `distance` 还可能是平方距离或产品定义的变换，必须核对接口，不从名字猜语义。
+
+## 索引执行路径：一条写入和一条查询在哪里相遇
+
+写入通常先验证集合、主键、维度和元数据类型，再进入产品定义的存储与索引流程。请求被接收、记录可读取、向量可检索、备份能恢复不是同一时刻。排查“刚写入搜不到”时，先按明确 ID 读取记录，确认写入是否存在，再查索引构建、加载状态、一致性选项和查询筛选；如果 ID 都不存在，不应该先调整近邻探索参数。
+
+查询先校验身份和向量合同，形成过滤条件，搜索引擎根据索引和选择性探索候选，计算或重算分数，合并各分片结果，最后返回允许的文本与来源。搜索内部可以采用不同执行顺序，但安全要求不变：无授权文本不得进入生成模型或返回用户。仅在界面隐藏来源无法补救前面已经泄露的内容。
+
+HNSW 的图连接决定搜索有哪些通路，查询探索预算决定愿意走多远。提高探索范围可能找到更好的近邻，也会增加访问和距离计算；提高构建时连接数则会改变图结构与内存，通常不是一个完全无代价的在线旋钮。具体参数按产品文档解释，不把某个数据库的参数名复制到另一个产品。官方 [Qdrant 索引说明](https://qdrant.tech/documentation/manage-data/indexing/) 可用于学习向量索引与附属字段索引的分工。
+
+IVF 把空间粗分为若干桶，查询只探查部分相关桶；桶分布不均时某些查询很重，数据分布明显变化后原有聚类也可能不再理想。量化进一步压缩向量表示，可能先用压缩分数粗排，再用原向量精排。每一步都在交换内存、延迟和召回，不能把“用了某索引”当成性能结论。题集需要覆盖热点租户、低选择性和高选择性筛选，不只测无过滤平均延迟。
+
+## 更新与恢复设计：删除不能只改一列名字
+
+文档权限收回后，应明确停止可见时间、缓存失效时间与后台物理清理时间。逻辑删除让查询不再使用，物理回收释放空间，历史备份还有单独保留政策。三者不是同一动作；如果要求敏感内容删除，需要同时检查源文件、索引、日志和备份治理，而不是只看到查询为空就承诺所有副本字节已消失。
+
+同一个源文件的两次入库也需要并发控制。旧任务编码很慢，新任务先完成，旧任务随后写入时不能覆盖新版本。发布记录应比较源版本或任务代次，旧任务只能归档自己的结果，不能再推进生效指针。恢复任务同样要遵守版本与权限，不从历史备份复活已经撤销的资料。
+
+全量重建之前准备足够临时空间和向量调用预算，确认可以取得旧模型或接受新模型重编码。若一百万片段需要四小时重建，而业务要求十五分钟恢复，仅保留原文的方案就不满足目标，可能需要可恢复索引快照或备用服务。备份恢复后用固定 ID、删除测试、权限测试与业务查询集共同验证，单看记录数相等会漏掉文本错位或版本混杂。
+
+分片和副本解决不同问题。分片把数据拆开扩大容量，副本复制同一分片增加故障承受或读能力；请求可能需要汇合多个分片候选。如果部分分片不可用，应用要知道返回的是完整结果、失败还是允许的部分结果。部分结果也许适合普通探索，但不应伪装成“全库没有相关风险资料”，尤其当用户据此决定执行高风险动作。
+
+## 设计题：每天更新十万篇运行手册怎么发布
+
+先不要选产品，先定义每篇平均大小、片段数、更新比例、最大新鲜度、租户权限、查询峰值和恢复目标。假设每篇八个片段，每天有八十万片段需要重新编码；实际更新若只是少量章节，可以用内容变化清单减少重复计算，但删除检测必须保留。限速入库，避免编码重建占满在线问答配额或数据库写带宽。
+
+发布分成读取源快照、解析校验、编码、写新版本、质量验收和切查询。失败可以重试同一任务编号，禁止把不完整版本标成已发布。验收抽样不仅问“能找到新段落吗”，还问“旧的禁用命令是否不再出现、权限撤销是否生效、未知版本是否拒答”。大规模新旧并存时，容量计算包含双份向量与索引，回退期限结束后再按批准规则回收旧版本。
+
+线上每秒二十个查询，每次候选二十条，若后续重排逐条处理，相当于每秒四百个查询文档对；若一个片段很长，重排成本又不等于普通短文本。端到端预算要拆成编码、过滤搜索、重排和生成，不能只用向量库响应五毫秒证明问答两百毫秒能完成。高峰降级可减少非必要重排或返回证据列表，但不能减少权限过滤。
+
+## 三分钟完整回答示范
+
+“向量数据库存储模型生成的向量和可过滤元数据，通过近似索引高效查找相似候选。维度一致只是最低要求，模型、归一化和度量也必须匹配。HNSW 用图探索，IVF 用分桶缩小搜索，两者都要拿精确近邻基准评估近似损失，再拿业务题集评估真正相关性。数学上的最近不等于当前事故的根因。”
+
+“我从认证身份生成过滤范围，记录文档和片段版本，查询结果带来源。写入、可检索和可恢复分别验收；更新要处理旧片段，删除要覆盖可见性和缓存。模型迁移用新索引重新编码并成对切换，回退保留匹配的模型与索引。容量计算向量、图、元数据、副本和构建峰值，高可用还要验证部分分片失效时应用的语义。”
+
+追问“新版本召回下降该怎么办”，回答先固定查询和权限，比较精确搜索、近似结果与上下文，定位是语义空间、索引预算还是过滤问题，再做最小改变。追问“为什么不用关系数据库”，回答小规模可以从关系库扩展或精确扫描开始，选择专门向量系统应有容量、延迟、过滤和维护成本的证据，不把工具数量当架构成熟度。
+
+### 评估再算一题：首条命中和全部召回不是同一个指标
+
+三道题的首个正确结果分别位于第一、第二和第四名，倒数排名分别是一、二分之一和四分之一，平均倒数排名约为零点五八三。如果第三道完全没命中，它贡献零，而不是从分母里删掉这道难题。这个指标偏重第一条有用资料出现得早不早，不检查所需的所有证据是否齐全。
+
+运行手册常需要一段讲验证、一段讲禁用条件。只找到验证段落时，首条命中成绩可能很好，完整证据召回仍然不足。因此每题要先定义相关资料与必需资料，区分候选相关、条件完整和答案可安全使用。评估记录同时保存无答案题，不能为了平均分好看只留下有明确命中的问题。
+
+最后把检索失败与数据未授权分开计数。普通用户看不到管理员手册是正确授权结果，不应被统计成需要优化的漏召回；模型无法取得资料时应说明缺少可访问证据，而不是暗示该资料一定不存在。这样指标不会反过来推动团队放宽权限。
 
 ## 本课 GitHub 学习证据
 

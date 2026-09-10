@@ -370,10 +370,10 @@ ansible 'all:!db' -i inventory.ini -m ping
 生产执行危险任务前，一定先：
 
 ```bash
-ansible <pattern> -i inventory.ini --list-hosts
+ansible '<pattern>' -i inventory.ini --list-hosts
 ```
 
-确认目标机器。
+把整个 `<pattern>` 换成已获批的主机或组匹配表达式，保留外层单引号，再确认列出的目标机器；不能把尖括号裸写进 Shell，以免被解释成重定向。
 
 ## Ad hoc commands
 
@@ -466,8 +466,14 @@ ansible-doc ansible.builtin.systemd_service
 
 ```yaml
 - name: Count error logs
-  ansible.builtin.shell: "grep -c ERROR /var/log/app.log || true"
+  ansible.builtin.command:
+    argv: [grep, -c, ERROR, /var/log/app.log]
+  register: error_count
+  changed_when: false
+  failed_when: error_count.rc not in [0, 1]
 ```
+
+这里统计本身不需要 shell，改用参数数组：退出码 1 表示没匹配行，退出码 2 等真实读取错误不能被 `|| true` 掩盖。若确实需要管道才选择 shell，并单独处理每段失败。
 
 优先级：
 
@@ -693,7 +699,7 @@ gather_facts: false
   ansible.builtin.command: systemctl is-active aiops-api
   register: service_status
   changed_when: false
-  failed_when: false
+  failed_when: service_status.rc not in [0, 3]
 ```
 
 使用结果：
@@ -713,8 +719,12 @@ gather_facts: false
   ansible.builtin.systemd_service:
     name: aiops-api
     state: restarted
-  when: service_status.stdout != "active"
+  when:
+    - service_status.rc == 3
+    - service_status.stdout == "inactive"
 ```
+
+不要把读取失败、服务不存在或权限不足都翻译成“需要重启”。本例只演示已确认 inactive 的授权测试服务；failed 等其他状态先收日志与原因，不自动恢复。生产自动重启还需要审批、互斥、频率限制和健康复核。条件收紧并不保证业务修复安全，而是避免把未知状态直接当成动作许可。
 
 ### loop
 
@@ -735,23 +745,36 @@ gather_facts: false
 
 Handler 是被通知后才执行的任务，常用于“配置变了才重启服务”。
 
-```yaml
-- name: Copy nginx config
-  ansible.builtin.template:
-    src: nginx.conf.j2
-    dest: /etc/nginx/nginx.conf
-  notify: Reload nginx
+下面展示一份 play（针对一组主机的任务集合）的完整层级：`tasks` 和 `handlers` 必须同属这个 play，不能把任务列表与顶层 `handlers` 直接混在一起。`web` 只指向你获批的教学主机；先准备完整的 `nginx.conf.j2` 模板，并确认目标已安装 nginx。它会修改该测试机的配置并触发重新加载，不能直接套用生产 inventory。
 
-handlers:
-  - name: Reload nginx
-    ansible.builtin.systemd_service:
-      name: nginx
-      state: reloaded
+```yaml
+- name: Update nginx configuration on the approved lab hosts
+  hosts: web
+  become: true
+  tasks:
+    - name: Copy nginx config
+      ansible.builtin.template:
+        src: nginx.conf.j2
+        dest: /etc/nginx/nginx.conf
+        owner: root
+        group: root
+        mode: "0644"
+        backup: true
+        validate: /usr/sbin/nginx -t -c %s
+      notify: Reload nginx
+
+  handlers:
+    - name: Reload nginx
+      ansible.builtin.systemd_service:
+        name: nginx
+        state: reloaded
 ```
+
+`validate` 在替换正式文件前检查临时候选配置，`%s` 由 Ansible 替换为临时文件路径。示例假设 nginx 位于 `/usr/sbin/nginx`，需要按测试机实际安装路径和完整配置依赖核对；校验失败就停止，不删掉校验“让它通过”。`backup` 留下旧文件副本，但恢复仍需核对文件归属、再次校验并重新加载，不代表自动业务回滚。配置层级和参数含义可对照 [Handlers 官方说明](https://docs.ansible.com/projects/ansible/latest/playbook_guide/playbooks_handlers.html) 与 [template 模块说明](https://docs.ansible.com/projects/ansible/latest/collections/ansible/builtin/template_module.html)。
 
 如果模板没有变化，task 是 `ok`，handler 不执行。
 
-如果模板变化，task 是 `changed`，handler 在 play 末尾执行。
+如果模板变化，task 是 `changed`，handler 在相应默认刷新点执行；通常在一组任务完成后，也可通过显式刷新提前触发，并非永远只在整份剧本最后。
 
 这就是幂等和减少无谓重启的关键。
 
@@ -1139,6 +1162,8 @@ ansible-config dump
 
 目标：用 Ansible 管理本机或一台测试机，创建目录、渲染配置，并通过 handler 观察“变化才通知”。本例 handler 仅打印提示，不安装 systemd service，也不实际重启服务。
 
+本课仅选择本机模式：Linux/WSL 中已安装兼容的 Ansible 与 Python，使用新建个人目录且不加载生产清单。输出放在本次剧本旁；结束后先核对路径，只删除自己创建的 `aiops-demo-output` 和练习文件。基础实验不需要提权或连接远端。
+
 ### 1. Inventory
 
 本机实验：
@@ -1160,7 +1185,7 @@ localhost ansible_connection=local
   become: false
   vars:
     app_name: aiops-demo
-    app_dir: /tmp/aiops-demo
+    app_dir: "{{ playbook_dir }}/aiops-demo-output"
     app_port: 8000
 
   tasks:
@@ -1178,7 +1203,8 @@ localhost ansible_connection=local
       notify: Print restart hint
 
     - name: Check rendered file
-      ansible.builtin.command: "cat {{ app_dir }}/app.env"
+      ansible.builtin.command:
+        argv: [cat, "{{ app_dir }}/app.env"]
       register: env_file
       changed_when: false
 
@@ -1686,7 +1712,45 @@ lab_b ansible_connection=local allow_update=false
 
 最后做一次自查：你是否能从执行记录还原目标、版本、参数来源、每台机器完成到哪一步，以及哪些检查只做了模拟？如果不能，补证据比再加十个自动任务更重要。面试官问“你如何验证变更安全”，应回答可检查的步骤和局部失败恢复，而不是只展示一次全部绿色的 recap。
 
-## 学习证据
+## 进阶执行课堂：任务在哪里运行，变量属于谁
+
+老师给你一个负载均衡摘除任务：针对每台应用主机发起，但实际请求由控制节点调用管理 API。`delegate_to` 改变执行地点，不等于把当前任务变成另一个独立主机的业务任务。原始清单主机与委派目标要分开记录，尤其是连接参数、解释器和事实归属可能按委派规则解析。不要把默认变量环境当成“全部仍属于原主机”或“全部变为控制节点”二选一。[任务委派](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_delegation.html)
+
+`inventory_hostname` 用于标识当前原始清单主机，需要原目标的字段时宜明确通过相应 `hostvars` 取得；采集事实委派到别处时，还要理解 `delegate_facts` 对事实归属的影响。比如在控制节点查询一个设备的版本，不应该把控制节点自身的操作系统信息当成被管理设备信息。结果记录最好同时包含原目标、执行位置、目标资产身份和观察时间。
+
+委派并不会自动串行。如果十台主机各自委派同一个本地任务写同一个文件，它们仍可能并发覆盖。`run_once` 与分批之间也有边界，不能代替全局锁。可靠的汇总可放在独立阶段，根据已收集的每主机结构化结果生成；或者每主机写独立文件，再由单一所有者汇总。这样失败时可以定位缺哪台，而不是得到一个被最后写入者覆盖的“汇总成功”。
+
+### 异步任务：拿到任务号不等于操作完成
+
+某个合规扫描需要十分钟，普通连接等待预算不足，可以评估 Ansible 的异步任务机制。`async` 给出允许执行时长，`poll` 决定是否以及怎样轮询等待；`poll: 0` 表示先启动后继续，不代表扫描立即完成，也不保证后续任务所需文件已经生成。返回的任务标识必须保存，后面通过状态查询确认结束与结果。[异步执行与轮询](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_async.html)
+
+老师会要求拆成启动、查询、完成验证三个阶段。启动成功只能说明执行已被接受；状态显示结束后，还要检查退出码和业务产物。状态文件不存在也不能直接推导任务从未运行，可能是身份、执行位置、清理或路径不同。查询应使用与启动相容的连接和执行身份，并保留任务号与资产对应关系，不在所有主机上拿同一个编号瞎查。
+
+`async_status` 的清理模式主要清理异步作业缓存，不应被当成停止底层进程的通用接口。若任务涉及包管理锁、数据库迁移或外部写入，不确认完成就启动下一步，会引发竞争或重复执行。达到异步时间限制后的实际结果也需重新读取：某个外部系统可能已经收到请求，终止本地等待不能撤销外部副作用。业务幂等和结果查询仍然必要。
+
+### 静态导入与动态包含影响你能预先看到什么
+
+`import_tasks` 更像在预处理阶段展开任务，`include_tasks` 则在运行时按当时条件引入。选择不是代码风格偏好，而是是否需要动态决定内容，以及任务列表、标签和条件怎样生效。读者用 `--list-tasks` 或标签预演时，不能据此假定运行时包含的每个分支都已完整展开。[复用与导入包含边界](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse.html)
+
+例如操作系统事实决定包含哪个安装文件，预演可能只显示包含步骤；实际选择要等运行时输入。正式变更应审核所有允许分支，给动态路径使用固定映射，不接受用户输入任意拼接任务文件路径。静态导入上的条件与动态包含上的条件作用时机也不同，任务内部改变条件变量时尤其要谨慎。遇到“同一个 when 为什么后面跳过”，先展开执行模型，不立即归因 YAML 缩进。
+
+标签只决定挑哪些任务，不会自动补齐被跳过的准备工作。单独运行配置任务可能绕过目录创建、参数验证、备份或健康检查。重要前置条件应在该操作入口可重复验证，危险阶段不能仅靠约定“大家都会完整执行”。把 `--start-at-task` 当恢复方法时同样要重新证明前置状态，而不是拿上一次日志中的成功作为永久事实。
+
+### 一次不执行服务的异步状态推演
+
+前提是已理解本地文件基础实验；本练习只在笔记使用合成记录，不真正启动后台任务。写出主机甲任务号一处于运行中，主机乙任务号二已结束但退出码非零，主机丙任务号三已结束且产物摘要符合预期。先判断能否进入下一批：甲还没确认，乙失败，只有丙达到本次完成标准。把三者都汇总成“异步启动成功”会隐瞒风险。
+
+故障注入是在笔记中删除甲的任务状态记录，模拟查询不到。预期结论应是结果未知，下一步查执行身份、状态位置和真实进程或业务记录，而不是立即再次启动。恢复证据后，若确认原任务仍在运行，就继续受控查询；若确认从未产生目标效果，才按授权与幂等约束重试。清理只需删除模拟笔记，没有服务需要停止，也没有远端文件可删除。
+
+### 生产设计与面试追问
+
+三十秒解释异步：它分离启动与等待，任务号是观察句柄，不是成功凭证；完成要核对状态、退出码与业务产物。三分钟再说明委派身份、每目标任务号、有限轮询、时间预算、缓存清理与进程终止的区别。事故题“流水线全绿但扫描报告缺两台”，沿目标清单、启动结果、状态查询、退出码、产物验证逐层找缺口。
+
+对于 AIOps 自动修复，异步执行后更要有独立恢复确认。服务重载返回零，只证明命令接受或完成其职责；采集端重新收到正确指标、错误率回到允许范围，才是另一个层面的恢复证据。剧本结果与业务恢复分别记录，模型可以辅助整理失败类别，但不得把缺失结果自动归为健康，也不得擅自扩大重试目标。
+
+交接时还应写清控制端版本、集合版本和目标系统范围，使下一位值班人员能够复核相同前提，而不只是拿到一份成功截图。
+
+## 学习证据清单
 
 完成本篇后，建议留下这些证据：
 

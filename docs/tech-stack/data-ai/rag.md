@@ -89,9 +89,9 @@ RAG（检索增强生成）
      -> query rewriting optional（可选问题改写）
      -> create query embedding（生成查询向量）
      -> vector search（向量搜索）
-     -> keyword（关键词） / hybrid search（混合搜索） optional
+     -> keyword（关键词） / hybrid search（混合搜索，可选）
      -> metadata filter（元数据过滤）
-     -> rerank（重排序） optional
+     -> rerank（重排序，可选）
      -> context packing（组装上下文）
   -> Generation（生成）
      -> prompt with retrieved context（带检索证据的提示）
@@ -109,7 +109,7 @@ RAG（检索增强生成）
 初学路线：
 
 ```text
-two markdown runbooks（操作手册）
+two markdown runbooks（两份 Markdown 操作手册）
   -> chunk（文本切块）
   -> OpenAI embeddings（向量编码）
   -> Chroma collection（集合）
@@ -124,7 +124,7 @@ two markdown runbooks（操作手册）
 RAG 是 AIOps 的“知识连接层”。
 
 ```text
-Alertmanager（告警管理器） / incident（故障） ticket / on-call question（问题）
+Alertmanager（告警管理器） / incident ticket（故障工单） / on-call question（值班问题）
   -> normalize（标准化） alert（告警） context（上下文）
   -> retrieve（检索） runbooks（操作手册）, incident reports（故障报告）, service docs（服务文档）
   -> LLM answer with evidence（带证据的模型回答）
@@ -197,7 +197,7 @@ question（问题） / alert（告警） context（上下文）
   -> vector search（向量搜索）
   -> metadata filter（元数据过滤）
   -> top-k chunks（最相关的 k 个文本块）
-  -> rerank（重排序） optional
+  -> rerank（重排序，可选）
   -> context packing（组装上下文）
   -> LLM（大语言模型） answer（回答）
   -> sources（来源） / citations（引用）
@@ -239,7 +239,7 @@ Embedding 是文本的向量表示。
   -> [0.012, -0.083, ...]
 ```
 
-相似文本的向量距离更近。
+在适合当前语言与任务的模型和距离度量下，语义相似文本往往更接近；这是一种学习到的表征，不是正确性或业务等价的保证。
 
 ### Vector Database
 
@@ -648,7 +648,7 @@ openai_client = OpenAI()
 embedding_model = os.getenv("OPENAI_EMBEDDING_MODEL", "text-embedding-3-small")
 
 chroma_client = chromadb.PersistentClient(path="./chroma_db")
-collection = chroma_client.get_or_create_collection(name="aiops_runbooks")
+collection = chroma_client.create_collection(name="aiops_runbooks")
 
 
 def embed(texts: list[str]) -> list[list[float]]:
@@ -708,6 +708,8 @@ for path in Path("docs").glob("*.md"):
         )
         ids.append(f"{path.stem}-{index}")
 
+if not documents:
+    raise SystemExit("未发现教学文档；停止，避免调用空输入")
 embeddings = embed(documents)
 
 collection.upsert(
@@ -756,7 +758,7 @@ openai_client = OpenAI()
 embedding_model = os.getenv("OPENAI_EMBEDDING_MODEL", "text-embedding-3-small")
 
 chroma_client = chromadb.PersistentClient(path="./chroma_db")
-collection = chroma_client.get_or_create_collection(name="aiops_runbooks")
+collection = chroma_client.get_collection(name="aiops_runbooks")
 
 
 def embed_query(query: str) -> list[float]:
@@ -773,6 +775,7 @@ query_embedding = embed_query(query)
 results = collection.query(
     query_embeddings=[query_embedding],
     n_results=3,
+    where={"service": "order-api"},
     include=["documents", "metadatas", "distances"],
 )
 
@@ -809,7 +812,7 @@ model = os.getenv("OPENAI_MODEL", "gpt-5.5")
 embedding_model = os.getenv("OPENAI_EMBEDDING_MODEL", "text-embedding-3-small")
 
 chroma_client = chromadb.PersistentClient(path="./chroma_db")
-collection = chroma_client.get_or_create_collection(name="aiops_runbooks")
+collection = chroma_client.get_collection(name="aiops_runbooks")
 
 
 class Source(BaseModel):
@@ -836,6 +839,7 @@ def retrieve(query: str, k: int = 3) -> list[dict]:
     results = collection.query(
         query_embeddings=[embed_query(query)],
         n_results=k,
+        where={"service": "order-api"},
         include=["documents", "metadatas", "distances"],
     )
 
@@ -876,6 +880,8 @@ def build_context(chunks: list[dict]) -> str:
 
 question = "order-api 5xx 错误率升高，最近刚发布，先检查什么？"
 chunks = retrieve(question)
+if not chunks:
+    raise SystemExit("资料不足：没有授权范围内的候选，不调用生成模型")
 context = build_context(chunks)
 
 response = openai_client.responses.parse(
@@ -898,6 +904,13 @@ response = openai_client.responses.parse(
 )
 
 answer = response.output_parsed
+if response.status != "completed" or answer is None:
+    raise SystemExit("模型未完成有效结构化回答：停止并检查拒答或不完整原因")
+allowed_sources = {(c["metadata"]["source"], c["metadata"]["section"]) for c in chunks}
+if any((s.source, s.section) not in allowed_sources for s in answer.sources):
+    raise SystemExit("引用不属于本次候选：拒绝发布")
+if answer.next_checks and not answer.sources:
+    raise SystemExit("建议没有引用：拒绝发布")
 print(answer.model_dump_json(indent=2))
 ```
 
@@ -927,7 +940,7 @@ python ask.py
   ],
   "sources": [
     {
-      "source": "docs/runbooks/order-api-runbook.md",
+      "source": "docs/order-api-runbook.md",
       "section": "HighErrorRate"
     }
   ]
@@ -1058,7 +1071,7 @@ RAG 很容易忽略权限。
 user/team（用户与团队）
   -> allowed_services（允许访问的服务范围）
   -> metadata filter（元数据过滤）
-  -> retrieve（检索） only allowed chunks
+  -> retrieve only allowed chunks（仅检索已授权片段）
 ```
 
 生产系统不要让所有人都能检索所有事故复盘和内部文档。
@@ -1074,7 +1087,7 @@ RAG 可以推荐 runbook，但不应该直接执行高风险动作。
 | 查询 | 查 runbook、查历史事故 | 可以 |
 | 建议 | 建议检查数据库连接池 | 可以 |
 | 草稿 | 生成工单或通报草稿 | 可以，但需确认 |
-| 低风险动作 | 刷新缓存、采集诊断信息 | 可受控自动 |
+| 受控动作 | 限范围采集非敏感诊断信息 | 需按资源成本和数据权限评估；清缓存不默认低风险 |
 | 高风险动作 | 回滚、重启、扩容、删除 | 必须审批 |
 
 RAG 的输出应该区分：
@@ -1089,7 +1102,7 @@ RAG 的输出应该区分：
 生产版可以这样设计：
 
 ```text
-Git repo / wiki / incident（故障） system
+Git repo（版本仓库） / wiki（协作文档） / incident system（故障管理系统）
   -> ingestion job（入库任务）
       -> parse（解析）
       -> clean（清洗）
@@ -1102,7 +1115,7 @@ Git repo / wiki / incident（故障） system
 FastAPI query（查询） service（服务）
   -> authenticate user（验证用户身份）
   -> normalize（标准化） question（问题） / alert（告警） context（上下文）
-  -> metadata（元数据） filters by service（服务） and permission
+  -> metadata filters by service and permission（按服务与权限过滤元数据）
   -> retrieve（检索） top-k（最相关的 k 条）
   -> rerank（重排序）
   -> pack context（上下文）
@@ -1229,17 +1242,23 @@ python inspect_retrieval.py
 python ask.py
 ```
 
-### 清空本地向量库
+### 清理本次教学集合
 
-```bash
-rm -rf chroma_db
+先退出全部教学 Python 进程，核对当前目录确实是自己创建的 `rag-runbook-assistant`，并且其中 `chroma_db` 从未存放其他资料。优先保留原目录作为失败证据，下一轮在新的独立目录创建环境。确需清理时只删除本课集合，不递归清空一个来源不明的目录：
+
+```python
+from pathlib import Path
+import chromadb
+
+lesson_root = Path.cwd().resolve()
+if lesson_root.name != "rag-runbook-assistant":
+    raise SystemExit("不是约定的独立教学目录，停止清理")
+print("仅删除此目录内本课集合：", lesson_root / "chroma_db")
+client = chromadb.PersistentClient(path=str(lesson_root / "chroma_db"))
+client.delete_collection("aiops_runbooks")
 ```
 
-PowerShell：
-
-```powershell
-Remove-Item -Recurse -Force .\chroma_db
-```
+集合删除后不能再查询本课向量，复做需重新入库并再次产生向量调用费用；这不是撤回已经发送给 API 的文本。路径名称检查只是误操作保护，不能代替你核实目录所有权和内容。
 
 ## 典型故障排查表
 
@@ -1308,7 +1327,7 @@ RAG 的质量上限通常先取决于检索质量，所以我会先看 top-k 是
 
 RAG（检索增强生成）有两条线：离线把资料整理成可找的片段，在线把问题变成检索条件、取回证据并生成回答。你可以把它看成开卷答题：找到正确页码是检索任务，理解页面后回答是生成任务，页码和说法是否对应还需要验证。
 
-学生：“资料都进知识库了，为什么还答错？”老师：“先看正确资料有没有进库，再看有没有被检索，接着看有没有进入上下文，最后看模型是否正确使用。”这四个失败位置对应不同修复，不能都通过加长提示词处理。
+学生：“资料都进知识库了，为什么还答错？”老师：“先看正确资料有没有进库，再看有没有被检索，接着看有没有进入上下文，最后看模型是否正确使用。”这四个失败位置对应不同修复，不能都通过加长提示词处理。每次修改只改变一个可观察环节，并保存同一问题的前后证据，才能判断改善来自哪里。
 
 ### chunk 课堂：切成小块不代表越碎越好
 
@@ -1409,6 +1428,66 @@ Recall@k（前 k 候选召回率）要先定义每题有哪些可接受证据；
 知识回填与在线查询要分配不同资源预算。重建大量向量会占用模型配额、数据库写入与对象读取，不能让正常故障问答被挤出。发布前检查片段数量、删除传播、权限和固定问题；新旧索引并存一段观察期，回滚时切回匹配的检索与生成配置。文档格式变更、模型升级和权限改版尽量分开验证，降低定位难度。
 
 事故题设为新手册已经上传但仍引用旧操作。先按文档 ID 查入库状态、版本和解析错误，再查索引生效、检索缓存、重排结果和最终上下文。若确实命中新版却仍输出旧步骤，转查生成与对话历史。恢复不能只刷新一次页面，还要验证旧内容不再召回、权限保持正确、固定题集通过，并保留受影响回答的更正记录。
+
+## 从零补课：一次完整实验究竟要证明什么
+
+前提是你会在独立目录保存文本文件，并能用 Python 运行脚本。先准备三个入库和问答脚本、两个合成 Markdown 文件，再创建虚拟环境、安装所列依赖，用包管理器导出实际解析出的版本。这里的模型名称是教学配置，不声称始终是最新或账户必定可用；执行前核对模型权限、费用、数据处理规则与对应 SDK 接口。密钥通过受控环境配置注入，不把真实值写入命令历史、截图和 GitHub。
+
+如果只是想理解检索链，先做标准库证据门禁实验，它不需要密钥。如果决定运行向量与生成实验，必须理解两个阶段都会把输入文本发送到外部 API，并可能计费。本文仅使用合成运行手册，不能把真实生产日志、员工信息、内网口令或未经授权的工单替换进去。“本地 Chroma”只描述索引存在哪里，不等于向量计算和回答生成也在本地。
+
+第一次执行 `ingest.py`，预期输出五个片段：订单文档的标题概况、错误率、数据库超时三个片段，支付文档的标题概况与延迟两个片段。这里保留标题前言是为了看清切分器实际行为，不是推荐所有短前言都单独建索引。实际片段数不同，先检查二级标题写法、文件编码、文档目录与有没有其他 Markdown 文件混入。先解释差异，再问模型，避免让下游结果掩盖入库错误。
+
+第二步运行检索检查，当前示例把服务过滤固定为订单服务，因此最多取回其三个片段。预期打印来源、章节、距离和内容；相似度排序由模型与集合度量决定，不能保证每次第一名都是某章。人工检查“错误率”章节是否在候选中，以及它是否真的包含需要的排查前提。若找不到，先核对集合、模型、维度、服务标签，再考虑检索参数。
+
+第三步才运行 `ask.py`。预期要么输出含引用的结构化回答，要么明确停止并报告证据不足、拒答或未完成，而不是所有请求都承诺得到正文。示例增加引用范围检查，只允许引用本次候选中的来源与章节；它只能证明引用身份存在，不能证明每句结论都被支持。你仍需把建议逐条对照原文，特别检查“应先核查”有没有被错误改写成“已经确认”。
+
+第四步记录实验边界与清理。保存依赖版本、合成文档、片段数和脱敏输出；删除教学集合前先确定不再需要复现该次结果。课堂客户端没有多租户身份系统，固定服务过滤只是演示查询条件，不是权限实现。正式服务应从认证身份产生过滤范围，用户不能通过修改问题文本把范围从订单扩大到支付或别的租户。
+
+## 索引不是文件夹的自动镜像
+
+学生问：“我把 Markdown 中一节删除，再运行一次 upsert，旧内容为什么还在？”原因是 upsert 按给定 ID 新建或更新，不会自动推断哪些旧 ID 已经不在输入里。顺序编号还会随着章节插入发生移动，因此同名编号并不保证代表同一个历史片段。官方 [Chroma 更新操作](https://docs.trychroma.com/docs/collections/update-data) 的作用范围是提供的记录，不是整个源目录同步。
+
+本课入库选择新建集合，已有同名集合会明确失败，防止初学者误把第二次运行理解成完整增量同步。复做先按范围核实并清理教学集合，或在新的独立目录做一次全量实验。生产则应维护源文档清单、内容校验值与片段清单，计算新增、更新和删除集合；一份文档解析失败时，不能悄悄把它解释成文档被删除。
+
+一个可靠发布单元应记录原文版本、解析规则、切分规则、向量模型、维度和索引构建状态。完成构建与校验后再让查询指向新版本；失败仍使用旧的已知完整版本，并显示资料新鲜度。原文更新后向量尚未生成，是一个明确的处理中状态，不应在界面上显示知识已经发布。更新全文与更新权限还可能有不同的时效要求，权限收回通常需要更快生效。
+
+向量模型更换尤其不能只改环境变量。不同模型即使输出维度相同，也未必处于相同语义空间；用新查询向量搜索旧文档向量可能不报错却严重退化。正确路线是在独立索引重新编码，用同一评估集比较，再切换查询模型与目标索引这一对配置。回退也要成对切回，而不是只把生成模型恢复成旧名称。
+
+## 检索评分课堂：距离不是“答案可信度百分比”
+
+向量库返回的距离依赖度量与模型，通常表示查询和文档表征的远近，而不是事故根因成立概率。两个资料都不相关时，也会有一个排名第一，所以前几名只是相对候选。阈值需要在代表性题集上校准，并包含无答案、术语相似但服务不同、产品版本冲突等负样本。把固定距离直接显示成“可信度百分之九十”，既缺少校准，也混淆检索相关性与答案事实性。
+
+混合检索也不是把任意两个原始分数直接相加。关键词得分和向量距离的尺度、方向、分布可能不同，直接加权会让数值大的通道支配结果。可以评估基于排名的融合，或对分数做经过验证的归一化；随后单独检查精确错误码、中文症状和跨语言描述三类题。重排器增加一次候选判断，可能提高排序质量，也增加延迟和资源消耗，因此“重排降低成本”只在减少的生成上下文成本超过新增代价时成立。
+
+举一道算术题：十个测试问题各有两段必需证据，共二十段，系统召回了十五段。按这一定义统计的微平均证据召回率是百分之七十五。但如果其中五题各召回两段，另五题各召回一段，那么只有一半问题拿到了完整证据。两项指标都对，却回答不同问题。若只有部分资料也能得出安全的有限答案，还应另设“有条件回答”评价，不能把它自动算成完整成功。
+
+生成评估要区分正确拒答和错误拒答。知识库无答案时说不知道，是正确边界；知识库有充分证据却说不知道，是可用性损失。引用评估至少看来源存在、当前用户有权打开、版本正确、被引文字支持结论四项。任何一个失败都不应该通过增加漂亮的引用格式来掩盖。
+
+## 生产容量与故障预算课堂
+
+先做向量原始体积估算：一百万片段、每片段一千五百三十六维、每维四字节，仅浮点向量就是六点一四四 GB，尚未包括文本、元数据、图索引、日志、副本与构建峰值。缩短维度可能节约容量，但是否保留效果需要独立评估；不应只按磁盘空间决定。片段重叠增加存储，也增加检索重复，要同时测量“候选数”和“独立证据数”。
+
+在线延迟分开测量认证、向量编码、搜索、重排、生成和审计。假设每秒五个问题，平均端到端等待十二秒，在稳定流量下平均约六十个问题同时在途；故障时延迟翻倍会继续积压，必须设置并发上限、请求总预算和排队限制。生成服务不可用时，可以受控返回授权的原文片段与明确降级标记，不假装仍生成了完整建议。索引不可用时不退化为模型自由猜测公司内部事实。
+
+本地持久化客户端适合单机教学，不能仅复制其目录就声称实现生产高可用。服务端部署需要核对产品支持的备份、一致性与故障切换方式，查询副本也必须拿到匹配的索引版本和权限状态。上传文档成功、索引可检索、模型可回答是三个不同健康检查；只探测网页返回成功会漏掉整个知识链中断。
+
+升级与回退应使用带版本的发布记录，分别列出资料版本、索引版本、查询模型、生成模型和提示词。先影子评估，再限量开放，发现越权、错误引用或高风险建议突破时优先停止自动发布。修复后重跑受影响问题，主动更正错误答案；日志保留必要来源编号，不把敏感原文无限复制到观测平台。
+
+## 三分钟回答与递进追问
+
+“RAG 是把检索证据接到生成前，不是把知识永久训练进模型。我先治理资料的来源、版本与权限，按完整排障主题切片，保留服务、标题和风险条件，生成向量后发布一个可追溯索引。在线请求先认证，从身份计算可访问范围，再结合关键词和语义召回，经过去重、排序和长度预算，把证据送给模型。输出检查完成状态、结构、引用身份与事实支持，资料不足时允许拒答。”
+
+“我把错误分成资料覆盖、入库、召回、上下文和生成五层。同一问题保留片段版本与候选路径，就能知道该修解析器、过滤器还是提示词。容量既算向量和索引，也算在线编码、重排和生成的并发。新模型配新索引成对发布，权限撤销覆盖缓存，故障时只提供受控证据，不让模型替代缺失知识。这个系统推荐操作手册，不拥有执行生产写动作的授权。”
+
+追问“为何不直接把所有文档塞给模型”，回答小集合可以这样做，但要考虑权限、上下文预算、证据定位和更新规模，不能把 RAG 当唯一正确架构。追问“资料中有两份相反结论”，回答先比较适用产品版本、生效时间和权威来源，不能仅选距离更近的一份；仍无法消除冲突时明确展示冲突并请求负责人确认。追问“如何证明节省了值班时间”，回答以真实授权场景比较查找时间、正确建议比例、误导成本和人工复核工作量，而不是只统计问题回答次数。
+
+### 上下文预算也要留下选择理由
+
+假设检索得到二十段资料，但生成只允许放入六段。不能简单认为后十四段没有价值：里面可能有唯一的版本限制、禁止条件或事故反例。可以先按问题拆出需要回答的事实，再检查所选片段是否覆盖现象、验证、风险和下一步。每段都来自同一篇长文，也可能在片段数量看起来丰富时缺少独立证据。
+
+给命令建议附带完整前提尤其重要。原文说“仅在隔离测试集群，确认无持久数据后才执行”，切分后如果只留下动作本身，模型可能生成无条件操作。切分与上下文拼装应保留标题继承和限制条件，输出检查再核对适用环境。禁止条件属于证据的一部分，不是为了节省令牌可以优先丢弃的装饰文字。
+
+追踪记录因此可以保存“候选进入原因、被排除原因、最终证据编号与版本”，而不是仅保存一长段最终提示。这样一次错答能够定位到长度裁剪、重复去除还是模型误解。记录仍应受权限和保留期限管理，特别是用户问题本身可能包含业务信息；为排障创建一份永久敏感全文副本，会引入新的安全问题。
 
 ## 本课 GitHub 学习证据
 

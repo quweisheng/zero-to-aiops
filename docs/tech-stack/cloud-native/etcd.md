@@ -201,7 +201,7 @@ member-3（成员三）<-> 2380 peer URL（成员间通信地址）<-> member-1�
 ### 写入坏了怎么查
 
 1. `endpoint status` 确认 Leader、Raft term、revision 和 DB 大小。
-2. `endpoint health` 验证一次真实提案能否提交。
+2. `endpoint health` 验证一致性读取路径并检查活动告警；它不是向业务键写入测试值的持久化压测。
 3. 看 `etcd_server_has_leader` 和 Leader 切换次数。
 4. 看 WAL `fsync`、backend commit 延迟分位数。
 5. 检查成员间 2380 网络、丢包、时钟和 CPU 抢占。
@@ -432,7 +432,7 @@ docker run -d --name etcd-lab `
 验证：
 
 ```powershell
-docker exec etcd-lab etcdctl endpoint health # 发起一次真实提案，正常应显示 is healthy
+docker exec etcd-lab etcdctl endpoint health # 检查一致性读取与告警，正常应显示 is healthy
 docker exec etcd-lab etcdctl endpoint status --write-out=table # 查看 Leader、revision 和 DB 大小
 ```
 
@@ -472,12 +472,17 @@ docker exec etcd-lab etcdctl put /aiops/config/version v2 # 终端 A 应收到 P
 ### 3. Lease
 
 ```powershell
-docker exec etcd-lab etcdctl lease grant 20 # 创建 20 秒 TTL，记下返回的 lease ID
-docker exec etcd-lab etcdctl put /aiops/agents/agent-01 online --lease=<LEASE_ID> # 把临时成员绑定到租约
-docker exec etcd-lab etcdctl lease timetolive <LEASE_ID> --keys # 查看剩余 TTL 和绑定 key
+$leaseOutput = docker exec etcd-lab etcdctl --write-out=simple lease grant 20
+if ($LASTEXITCODE -ne 0) { throw '创建课堂租约失败，先检查容器和连接' }
+$leaseMatch = [regex]::Match(($leaseOutput -join ' '), '^lease ([0-9a-f]+) granted')
+if (-not $leaseMatch.Success) { throw '没有读到租约编号，请保存输出并停止' }
+$lessonLeaseId = $leaseMatch.Groups[1].Value
+docker exec etcd-lab etcdctl put /aiops/agents/agent-01 online "--lease=$lessonLeaseId"
+if ($LASTEXITCODE -ne 0) { throw '绑定失败，检查租约是否已过期' }
+docker exec etcd-lab etcdctl lease timetolive "$lessonLeaseId" --keys
 ```
 
-不续租时，约 20 秒后执行：
+把上面整段一起运行，避免手工抄编号时租约已经过期。它从本轮创建结果提取十六进制编号，绑定键后查看剩余 TTL 和附属键；编号格式与命令语义见 [etcd 官方交互教程](https://etcd.io/docs/v3.7/dev-guide/interacting_v3/)。不续租时，从创建起约 20 秒后执行：
 
 ```powershell
 docker exec etcd-lab etcdctl get /aiops/agents/agent-01 # 正常应没有返回值
@@ -511,10 +516,17 @@ get /aiops/config/version
 
 ```powershell
 docker exec etcd-lab etcdctl put /aiops/lab/key one
-docker exec etcd-lab etcdctl endpoint status --write-out=json # 记录当前 revision，例如 12
+if ($LASTEXITCODE -ne 0) { throw '第一次写入失败，停止实验' }
 docker exec etcd-lab etcdctl put /aiops/lab/key two
+if ($LASTEXITCODE -ne 0) { throw '第二次写入失败，停止实验' }
 docker exec etcd-lab etcdctl put /aiops/lab/key three
-docker exec etcd-lab etcdctl compact <CURRENT_REVISION> # 清理该 revision 及以前的历史
+if ($LASTEXITCODE -ne 0) { throw '第三次写入失败，停止实验' }
+$keySnapshot = docker exec etcd-lab etcdctl get /aiops/lab/key --write-out=json
+if ($LASTEXITCODE -ne 0) { throw '读取当前修订号失败，停止实验' }
+$lessonRevision = ($keySnapshot | ConvertFrom-Json).header.revision
+if ($null -eq $lessonRevision -or $lessonRevision -lt 2) { throw '修订号不符合课堂预期' }
+docker exec etcd-lab etcdctl compact "$lessonRevision" # 压缩历史，不删除当前键值
+if ($LASTEXITCODE -ne 0) { throw '历史压缩失败，停止实验' }
 docker exec etcd-lab etcdctl watch /aiops/lab/key --rev=1 # 从过旧 revision 监听
 ```
 
@@ -581,7 +593,7 @@ docker run --rm `
 
 | 命令 | 作用 | 常用写法 | 正常结果 | 常见坑 |
 |---|---|---|---|---|
-| `endpoint health` | 验证端点能提交提案 | `etcdctl --cluster endpoint health` | 每个端点 healthy | 只检查一个成员 |
+| `endpoint health` | 检查一致性读取路径与告警 | `etcdctl --cluster endpoint health` | 每个端点 healthy | 不等于完整写入与恢复测试 |
 | `endpoint status` | 看 Leader、term、revision、DB | `--write-out=table` | 成员状态一致 | 误把 DB 大小差异当数据不一致 |
 | `member list` | 查看成员身份和 peer URL | `etcdctl member list -w table` | 成员均 started | 残留旧 member |
 | `alarm list` | 查看 NOSPACE/CORRUPT 等告警 | `etcdctl alarm list` | 正常为空 | 未解决根因就 disarm |
@@ -853,6 +865,52 @@ docker volume rm etcd-restore-data # 仅在没有容器使用且不需保留时�
 如果你还没做恢复实验，卷不存在是正常的。保留脱敏脚本、实验输出和快照结构验证记录即可；公开仓库不保存真实集群快照。
 
 三分钟答题时用“写入顺序、多数派、版本与监听、存储恢复”四段展开。追问客户端超时，要说明结果未知与幂等；追问锁过期，要说明旧持有者仍可能执行外部操作；追问节点维护，要先确认当前多数派、备份和单成员窗口。
+
+## 读写语义深讲：线性一致不等于响应那一秒永远最新
+
+老师让甲客户端完成一次写入，然后乙才开始读。默认线性一致读不能返回比甲这次完成写入更旧的状态。但如果乙读取期间丙又写了一次，不能要求乙必须预知并返回随后发生的一切；可以把读操作理解为在它开始与结束之间的某个有效时刻发生。这个解释帮助你区分顺序保证与无限追逐最新值。需要修改状态时，仍应把条件检查与写入放进事务，不能依靠前一次读“很新”。
+
+这里还要区分 Raft 日志索引和 MVCC 修订号。前者描述共识日志位置，后者描述键空间修改历史，控制类日志或其他操作不应被直接当作业务键的一次修改。监控比较成员时看各字段定义与同一时间窗口，不能把两种数字相减称为“落后多少个业务事件”。单键版本又是第三种口径，删除重建会形成新的创建历史。
+
+一次成功的条件事务只能保证 etcd 内部操作边界，不会替你把外部数据库或物理设备操作纳入事务。比如事务领取了修复任务后，进程执行重启但回写结果前崩溃，后来接管者必须查询实际结果并使用幂等执行协议。把执行状态记为完成也不代表业务已经恢复，最后仍需要独立验证目标服务。
+
+## 监听深讲：不能把每条回调都当成当前事实
+
+Watch 按修订顺序交付可用历史窗口内的事件，但不是每次事件在产生后立即送到应用。网络、服务端负载和客户端处理都会带来延迟；[官方 API 保证](https://etcd.io/docs/v3.7/learning/api_guarantees/)明确区分了键值操作和 Watch 的一致性承诺。因此控制器收到“任务可执行”事件时，还要核对当前对象版本与权限，不能把几分钟前排队的通知直接转成危险动作。
+
+同一事务更新多个键时，需要保持这批更新在本地观察中的一致边界。假设同时更新服务地址与证书版本，处理第一个事件就通知业务读取，而第二个还没写入本地缓存，应用可能看到混合组合。客户端应按需要把一个完整修订中的变化应用后再发布可读快照。网络消息的完整性不自动等于你自己的回调代码具有原子性，队列和多线程处理方式也要审查。
+
+断线重连还有一个持久化顺序问题：最后处理修订号与本地缓存必须对应。若先保存“已经处理到一百”，缓存写入却失败，重启从一百零一续看会漏掉实际没保存的变化；若先写缓存再保存游标，可能重复应用最后一批，应按键与版本实现可重复处理。etcd 单个 Watch 流不重复交付的保证，不能替你消除跨重连、跨本地故障产生的重复工作。
+
+分页读取大量键时也要固定一致的观察点。第一批读到修订一百，下一批用当前最新修订，期间新增或删除可能让清单来自不同时间。适合的客户端实现应利用同一快照修订衔接分页，并处理历史已被压缩的情况；具体字段按 SDK 与接口核对。大前缀全量读取会消耗内存和网络，不应作为高频健康探针。
+
+### 无服务状态实验：游标先走为什么会漏更新
+
+前提是一张纸或新笔记，不需要 etcd。准备缓存 `a=旧,b=旧`，最后处理修订号九；服务端修订十同时把两键改为新。正常轮先完整更新缓存，再把游标置十，预期两个值均新。故障轮只把游标置十便模拟进程退出，预期重连从十一开始时两键仍旧，这就是本地提交边界错误。
+
+恢复轮先标记缓存不可用于关键决策，重新读取同一修订的完整状态，原子替换可读缓存与对应游标，再从下一修订监听。验证不仅看数字十，还要看两键都新。清理只擦除模拟故障记录，没有执行压缩或删除。最后追问：只让 Watch 重连成功是否完成恢复？没有，缓存内容、游标和可用标志必须一致，否则连接健康仍可能提供错误状态。
+
+## 租约与隔离深讲：到期时间不是业务任务的撤销按钮
+
+租约过期由服务端判断并删除绑定键，客户端自己估计的墙上时间不能成为继续执行权限的唯一依据。进程暂停、网络分区或长时间垃圾回收后，旧执行器可能恢复运行，但锁已经由新执行器获取。对外部写入，需要让资源端接受可比较的执行世代，并拒绝旧世代；这才把租约接管和外部资源保护连接起来。
+
+使用创建修订号等构造世代时，还要考虑灾备恢复可能改变修订连续性。一个恢复出来的协调集群与外部系统保存的最大令牌必须有一致的恢复方案，不能简单从较小值重新开始。令牌范围、持久位置、比较方式与恢复流程共同构成协议。随机字符串适合证明“这个锁属于谁”，但没有天然大小顺序，不能直接代替单调隔离令牌。
+
+面试时可以用暂停执行器的故事讲：甲持有旧世代后暂停，租约过期，乙获得新世代并写入，甲恢复后旧写被资源端拒绝。若只有协调系统删了甲的键、资源端仍接受甲，互斥尚未覆盖完整路径。这个反例也说明自动化的读取证据、批准和执行应绑定对象版本，不能无限复用一次批准。
+
+## 运维深讲：状态探针与真实恢复验收分层
+
+本文版本的 [endpoint health 源码](https://github.com/etcd-io/etcd/blob/v3.7.1/etcdctl/ctlv3/command/ep_command.go)通过读取检查与告警检查判断端点健康，不是每次写入业务测试键。输出中有关提案的措辞不能直接当作一次完整写入测试记录。需要证明某个客户端有权限修改指定前缀时，应在授权隔离前缀进行明确读写与校验，并清理自己的键；生产 Kubernetes 存储不能随意插入测试对象。
+
+快照恢复同样分层：文件可解析、恢复目录成功生成、恢复实例启动、内容读回、上层控制器重新同步、业务恢复，是六个不同检查点。前文恢复命令只完成目录重建，不代表恢复实例已启动。命名卷若已有数据不要复用，宿主备份文件若已存在不要覆盖；先确认独立实验身份并保留必要快照，再执行本课清理。
+
+成员维护前先列出当前投票成员、健康成员、目标变更后的多数派和最坏故障。Learner 不投票，能降低新成员追平时改变多数派的风险；但何时移除旧成员、何时提升新成员仍要按现有健康情况与[官方学习者流程](https://etcd.io/docs/v3.7/learning/design-learner/)评估。不要把一条“先提升再删除”口诀用于所有已降级拓扑。每一步都重新验证多数派，出现意外立即停止后续操作。
+
+最后独立设计监控负载：只抓必要指标，避免每个采集器每秒全量读取键空间；Watch 断线使用退避和抖动，避免恢复时所有客户端一起重新列举。记录监听数、重列频率、响应体大小与客户端缓存重建时间，可以帮助解释控制面恢复后为何仍持续高负载。本轮没有启动 etcd 或连接 Kubernetes，所有新增故障步骤属于离线推演，真实产品行为仍需在隔离环境验收。
+
+### 面试收尾：先明确客户端拿什么作为完成证据
+
+假设面试官只给出“接口已经返回成功，监控还看不到配置”这一句，先问成功来自哪个接口、读取是否线性一致、监控是否经由本地缓存、是否还在重连。直接读取键和读取监听者缓存是两条不同链路。若直接读取正确而缓存仍旧，优先检查消费位置与处理延迟；若直接读取也没有，继续核对事务条件、目标集群和响应错误，不用等待监听来掩盖写入失败。这种分层回答把一致性保证限定在真正提供保证的边界，既不会贬低共识协议，也不会把共识协议说成所有业务副作用的保证。
 
 ## 学习证据
 

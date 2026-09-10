@@ -159,7 +159,9 @@ function groupBy<T, K extends PropertyKey>(
   const grouped = new Map<K, T[]>()
   for (const item of items) {
     const key = keyOf(item)
-    grouped.set(key, [...(grouped.get(key) ?? []), item])
+    const bucket = grouped.get(key)
+    if (bucket) bucket.push(item)
+    else grouped.set(key, [item])
   }
   return grouped
 }
@@ -203,7 +205,7 @@ function groupBy<T, K extends PropertyKey>(
 | 字段 | 目的 | 预期结果 | 常见坑 |
 |---|---|---|---|
 | `strict` | 打开严格检查族 | null、函数等检查更严 | 迁移时一次打开无修复计划 |
-| `noUncheckedIndexedAccess` | 索引访问加入 undefined | 查数组/Map 更谨慎 | 误以为下标一定存在 |
+| `noUncheckedIndexedAccess` | 索引访问加入 undefined | 数组和索引签名访问更谨慎；Map.get 本身已有未找到语义 | 误以为下标一定存在 |
 | `exactOptionalPropertyTypes` | 区分缺失与显式 undefined | PATCH 契约更准确 | 旧库声明不兼容 |
 | `noEmit` | 只检查不产物 | 由 Vite 等负责构建 | 误以为已生成 JS |
 | `moduleResolution` | 决定 import 查找规则 | 与 bundler/Node 对齐 | 编辑器能找、生产运行找不到 |
@@ -726,7 +728,7 @@ function describe(state: State): string {
 console.log(describe({ kind: 'success', count: 2 }))
 ```
 
-运行 `npx tsc state-classroom.ts --strict --target ES2022 --noEmit`，基础预期退出码为 0。现在在 State 联合中新增 `| { kind: 'error'; message: string }`，故意不改 switch，再运行相同命令。预期在 `assertNever(state)` 报类型不兼容，因为遗漏分支仍可能是 error。
+运行 `npx tsc --ignoreConfig state-classroom.ts --strict --target ES2022 --noEmit`，基础预期退出码为 0。这里按 TypeScript 6.0 使用 `--ignoreConfig`，明确本次单文件课堂检查不加载目录中的配置，避免显式文件参数与现有配置触发新版提示；旧版编译器不要照抄不认识的选项。现在在 State 联合中新增 `| { kind: 'error'; message: string }`，故意不改 switch，再运行相同命令。预期在 `assertNever(state)` 报类型不兼容，因为遗漏分支仍可能是 error。
 
 修复时新增 `case 'error': return state.message`，类型检查恢复成功。若仍通过，检查是否去掉了 default、使用了 any，或实际上检查另一份文件。清理只需删除这个独立文件；本实验 noEmit 不生成 JS。若还要验证运行，去掉 noEmit 输出到专用目录再执行，区分“静态检查”和“实际运行”的证据。
 
@@ -813,6 +815,53 @@ for (const value of [{ service: 'api', errorRate: 0.1 },
 共享类型包升级需要区分源码兼容、类型兼容和运行时兼容。把字段从可选改为必需，可能使下游编译失败；把字段类型放宽，可能让下游代码开始提交服务端不支持的数据；删除运行时导出，即使声明文件仍在，也会导致加载失败。公共包应同时测试声明与真实导出，不能仅对源码运行一次 `tsc`。
 
 对多团队 AIOps 控制台，建议把 API 版本、生成器版本、运行时校验和边界测试关联起来。升级前用旧样本、新样本、缺失字段和未知枚举验证；升级后观察解析失败率与来源版本。模型生成的结构化输出同样属于外部输入，即使提示词要求 JSON，依然要经过这道校验门。你在面试中应能解释：类型提升开发期反馈，边界校验保护运行时，契约与观测负责跨团队演进。[TypeScript 收窄机制](https://www.typescriptlang.org/docs/handbook/2/narrowing.html)
+
+## 收尾课堂：给类型承诺写反例测试
+
+测试不仅要证明合法输入能编译，还要证明非法调用会被拒绝。假设一个审批函数本来只接受已批准任务，重构时参数误改为通用字符串，所有正常测试仍可能通过，但类型保护已经消失。类型负例就是刻意构造一次不该允许的调用，并要求编译器继续报错。它特别适合公共库、品牌类型、状态转换和权限参数的开发期防误用。
+
+`@ts-expect-error` 会压制紧接下一行的预期类型错误；如果那一行不再有错误，编译器会报告指令未使用。这与一味忽略错误不同，适合明确的类型测试。不过它不检查出现的是否恰好是你想要的错误，因此负例应短小、只围绕一个条件，并配上原因说明。不要在大段复杂表达式上使用它，以免别的拼写错误意外满足了预期。[预期错误指令](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-9.html)
+
+### 基础与故障合一的类型测试
+
+前提是个人实验目录使用本课 TypeScript 6.0，已确认本地编译器版本。保存下面独立文件 `type-contract.ts`，不放进生产源码目录，不执行其中的业务函数。
+
+```typescript
+type ApprovedTask = { kind: 'approved'; approvalId: string }
+function queueTask(task: ApprovedTask): void { void task }
+
+queueTask({ kind: 'approved', approvalId: 'synthetic-1' })
+// @ts-expect-error 负例：未批准状态不能进入此开发期接口
+queueTask({ kind: 'pending', approvalId: 'synthetic-2' })
+```
+
+运行 `npx tsc --ignoreConfig type-contract.ts --strict --target ES2022 --noEmit`，预期退出码为零，表示合法调用可接受且非法调用确实触发了被预期的错误。现在把 `ApprovedTask.kind` 改为 `string` 再检查，预期出现未使用的预期错误指令，说明接口意外放宽。恢复字面量后重新通过；最后删除自己创建的文件即可，无输出制品、无网络和服务。
+
+若故障版仍通过，先检查是否实际用了同一文件、注释是否紧贴调用、是否还有另一个错误遮住变化。再暂时移除指令直接查看原始诊断，确认它指向错误的状态值。编译器通过并不意味着审批真实有效；运行时仍要检查批准记录、有效期和调用者，这个实验只验证开发期接口没有悄悄退化。
+
+### 收窄之后发生异步，事实还一定成立吗
+
+控制流收窄围绕程序能分析的路径工作，不能为外部可变世界加锁。你检查某个对象有事件详情，随后异步等待，再从共享对象读取，其他代码可能已经替换了当前事件。类型检查不是并发一致性协议。需要明确快照时，把已验证数据复制或读取到受控局部绑定；需要最新状态时，等待后重新检查身份、版本与字段，而不是加一个非空断言跳过问题。
+
+非空断言 `!` 的意思是要求编译器相信此处不是空值，运行时并不会自动补值。它适合在确有不变量且测试覆盖的位置有限使用，不该成为“所有查询结果后面都加一个”的习惯。对于 DOM 查询，控件可能因为条件渲染不存在；对于字典查询，事件可能刚被删除。失败路径应成为显式返回或可解释错误，而不是在更深层调用时才报无法读取属性。
+
+### 函数类型的安全边界有例外
+
+`strictFunctionTypes` 对函数类型参数的检查能减少把窄输入处理器当成宽输入处理器的错误，但为了生态兼容，方法语法存在不同处理。不能只见到 strict 就宣称所有回调都完全安全。公共接口若要表达严格的回调契约，应理解函数属性和方法声明的差别，并用具体负例证明预期，而非仅背“逆变”二字。[严格函数参数检查](https://www.typescriptlang.org/tsconfig/strictFunctionTypes.html)
+
+一个直观案例是处理所有告警的分发器接收了只会处理严重告警的回调：普通告警到来时回调可能读取不存在的专属字段。正确方向是接收足够宽的输入并内部收窄，或者把分发器契约本身限定到严重告警。类型设计要反映真实调用关系，不能为了兼容随便断言成函数类型。版本升级暴露这类报错时，先修契约而非关闭整个严格检查族。
+
+### 编译配置本身也要可观测
+
+检查命令也属于实验输入，应与预期诊断一起保存，方便同事独立复现。
+
+还有一个性能反例：前面的分组函数若每加入一项都用展开语法复制整组，单个大组会反复复制越来越长的数组。这里改成对函数内部新建的分组数组追加，仍不修改调用者输入数组，但避免了重复复制成本。类型完全相同的两种实现，运行复杂度可能相差很大。类型检查不证明算法效率，也不证明内存上限；大批告警聚合仍要测数据规模、组分布与峰值内存。
+
+这些分组数组也不是深复制的事件对象。下游若允许修改事件内容，需要另行决定复制、只读视图或领域封装。只写 `readonly T[]` 约束的是输入数组的这一使用接口，不能保证所有别名都不可变。面试时把数组容器与其中对象分开讨论，才能解释为什么“没改数组长度”仍可能污染原始事件。
+
+编辑器没有红线但命令行失败，可能根本不在检查同一个项目。记录实际编译器路径、版本、展开配置和文件集合，检查编辑器是否使用工作区 TypeScript，以及某个文件是否被排除。TypeScript 6.0 对显式文件参数与配置的行为有变化，因此课堂明确使用单文件模式；生产则优先执行项目定义的检查命令，不随手加选项绕过项目契约。[TypeScript 6.0 变更说明](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-6-0.html)
+
+面试收束时说清三类证据：正常代码检查通过，非法调用继续失败，运行时边界样本按预期接受或拒绝。三者合起来，才能说明“类型保护真的在工作”，而不只是构建日志上有绿色勾。把它们绑定到同一锁文件与配置，升级回退后再跑同样测试，才知道退回的是完整契约而非仅一个版本号。
 
 ## GitHub 学习证据
 

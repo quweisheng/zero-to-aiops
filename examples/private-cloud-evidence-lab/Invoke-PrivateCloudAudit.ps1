@@ -12,7 +12,10 @@ $criticalThreshold = 90
 
 function Get-Percent {
   param([double]$Used, [double]$Total)
-  if ($Total -le 0) { return 0 }
+  if ($Total -le 0 -or $Used -lt 0 -or [double]::IsNaN($Used) -or
+      [double]::IsInfinity($Used) -or [double]::IsNaN($Total) -or [double]::IsInfinity($Total)) {
+    throw 'capacity requires finite used >= 0 and total > 0'
+  }
   return [Math]::Round(($Used / $Total) * 100, 2)
 }
 
@@ -26,8 +29,69 @@ function Get-CapacityLevel {
 $resolvedInput = (Resolve-Path -LiteralPath $InputPath).Path
 $data = Get-Content -LiteralPath $resolvedInput -Raw -Encoding UTF8 | ConvertFrom-Json
 
-if (-not $data.snapshotAt -or -not $data.platforms) {
-  throw 'input must contain snapshotAt and platforms'
+function Assert-Text {
+  param($Value, [string]$Field)
+  if ($Value -isnot [string] -or [string]::IsNullOrWhiteSpace($Value)) {
+    throw "invalid or missing text: $Field"
+  }
+}
+
+function Assert-Array {
+  param($Value, [string]$Field)
+  if ($Value -isnot [array] -or $Value.Count -eq 0) { throw "non-empty array required: $Field" }
+}
+
+function Assert-Number {
+  param($Value, [string]$Field, [bool]$Positive = $false, [bool]$Integer = $false)
+  if (($Value -isnot [int]) -and ($Value -isnot [long]) -and
+      ($Value -isnot [double]) -and ($Value -isnot [decimal])) {
+    throw "numeric value required: $Field"
+  }
+  $number = [double]$Value
+  if ([double]::IsNaN($number) -or [double]::IsInfinity($number) -or
+      $number -lt 0 -or ($Positive -and $number -le 0) -or
+      ($Integer -and [Math]::Truncate($number) -ne $number)) { throw "invalid numeric value: $Field" }
+}
+
+Assert-Text $data.snapshotAt 'snapshotAt'
+$parsedSnapshot = [DateTimeOffset]::MinValue
+if ($data.snapshotAt -notmatch '^\d{4}-\d{2}-\d{2}T.+(?:Z|[+-]\d{2}:\d{2})$' -or
+    -not [DateTimeOffset]::TryParse($data.snapshotAt, [ref]$parsedSnapshot)) {
+  throw 'snapshotAt must be a valid ISO timestamp with timezone'
+}
+Assert-Text $data.dataClassification 'dataClassification'
+Assert-Array $data.platforms 'platforms'
+$seenPlatforms = [System.Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal)
+foreach ($platform in $data.platforms) {
+  foreach ($field in @('platform', 'productForm', 'version', 'patch', 'evidenceSource')) {
+    Assert-Text $platform.$field "platform.$field"
+  }
+  if (-not $seenPlatforms.Add($platform.platform)) { throw 'duplicate platform identity' }
+  foreach ($field in @('managementNodes', 'capacity', 'components')) {
+    Assert-Array $platform.$field "$($platform.platform).$field"
+  }
+  $seenNodes = [System.Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal)
+  foreach ($node in $platform.managementNodes) {
+    Assert-Text $node.role 'managementNodes.role'
+    Assert-Text $node.status 'managementNodes.status'
+    if (-not $seenNodes.Add($node.role)) { throw 'duplicate management role' }
+  }
+  $seenCapacity = [System.Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal)
+  foreach ($capacity in $platform.capacity) {
+    Assert-Text $capacity.resource 'capacity.resource'
+    Assert-Text $capacity.unit 'capacity.unit'
+    Assert-Number $capacity.used 'capacity.used'
+    Assert-Number $capacity.total 'capacity.total' -Positive $true
+    if (-not $seenCapacity.Add($capacity.resource)) { throw 'duplicate capacity resource' }
+  }
+  $seenComponents = [System.Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal)
+  foreach ($component in $platform.components) {
+    foreach ($field in @('layer', 'name', 'status')) { Assert-Text $component.$field "component.$field" }
+    Assert-Number $component.ready 'component.ready' -Integer $true
+    Assert-Number $component.expected 'component.expected' -Positive $true -Integer $true
+    $identity = "$($component.layer.Length):$($component.layer)$($component.name)"
+    if (-not $seenComponents.Add($identity)) { throw 'duplicate component identity' }
+  }
 }
 
 $findings = [System.Collections.Generic.List[object]]::new()
@@ -146,7 +210,14 @@ $outputDirectory = Split-Path -Parent $resolvedOutput
 if (-not (Test-Path -LiteralPath $outputDirectory)) {
   New-Item -ItemType Directory -Path $outputDirectory -Force | Out-Null
 }
-$lines | Set-Content -LiteralPath $resolvedOutput -Encoding UTF8
+# CreateNew prevents both accidental replacement and a check-then-write race.
+$outputStream = [System.IO.File]::Open($resolvedOutput, [System.IO.FileMode]::CreateNew,
+  [System.IO.FileAccess]::Write, [System.IO.FileShare]::None)
+try {
+  $encoding = [System.Text.UTF8Encoding]::new($true)
+  $writer = [System.IO.StreamWriter]::new($outputStream, $encoding)
+  try { $writer.WriteLine(($lines -join [Environment]::NewLine)) } finally { $writer.Dispose() }
+} finally { $outputStream.Dispose() }
 Write-Output "report=$resolvedOutput result=$overall findings=$($findings.Count)"
 
 if ($overall -eq 'PASS') { exit 0 }

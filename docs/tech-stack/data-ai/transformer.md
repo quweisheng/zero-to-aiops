@@ -205,14 +205,16 @@ Transformer 是处理序列或集合数据的神经网络架构。它通过注�
 
 ```text
 源语言 Token
-  -> Embedding（向量编码） + Position
+  -> Embedding（词元嵌入） + Position（位置表示）
   -> Encoder 层重复 N 次
-  -> 上下文表示
-                         \
-目标语言历史 Token       -> Decoder Cross-Attention
-  -> Embedding（向量编码） + Position /
+  -> 编码器输出：供每个解码器层的交叉注意力读取 K/V
+
+目标语言历史 Token（训练时右移后的目标输入）
+  -> Embedding（词元嵌入） + Position（位置表示）
   -> Masked Self-Attention（带遮罩的自注意力）
+  -> Cross-Attention（交叉注意力：Q 来自解码侧，K/V 来自编码器输出）
   -> Feed-Forward（前馈网络）
+  -> 上述解码器层重复 N 次（各子层包含残差与归一化）
   -> Linear + Softmax（线性映射与归一化概率）
   -> 下一个 Token 概率
 ```
@@ -338,7 +340,7 @@ Embedding 是把 Token ID 映射为稠密向量的可训练表。位置表示告
 
 ### 为什么需要
 
-ID `331` 的数值大小没有语义，Embedding 才把它放进可学习的向量空间。纯 Attention 对输入排列本身不敏感，位置表示补上顺序。
+ID `331` 的数值大小没有语义，Embedding 才把它放进可学习的向量空间。不含位置和顺序相关 Mask 的自注意力具有排列等变性：交换输入位置，会相应交换输出位置，而不是输出完全不变；它没有额外的“第几个位置”信息。位置表示补上顺序，因果 Mask 也引入可见性的顺序约束，不能把所有注意力模型一概说成忽略排列。
 
 ### 怎么工作
 
@@ -458,7 +460,7 @@ Query 3     ✓   ✓   ✓   ✓
 | `nn.MultiheadAttention` 的 `attn_mask` / `key_padding_mask` | 屏蔽或忽略该位置 | 与 SDPA 相反 |
 | `nn.Transformer` 的布尔 Mask | 不允许该位置参与 | 错误的 Causal Hint 还可能造成错误执行 |
 
-不能凭变量名猜，也不能只看 Shape 正确就认为逻辑正确。
+不能凭变量名猜，也不能只看 Shape 正确就认为逻辑正确。带 KV Cache 的解码还要用绝对位置核对：例如缓存已有 4 个位置，本轮只有 1 个 Query，它应能读取 4 个历史 Key 和当前 Key，而不是只读第 0 个 Key。PyTorch SDPA 的非方阵 `is_causal=True` 采用左上对齐的因果偏置，不能把训练时的方阵写法直接搬到 `query_len=1,key_len=5`；应使用适合缓存位置的显式遮罩，或经验证的模型生成接口。见[该版本 SDPA 源码内的因果对齐说明](https://github.com/pytorch/pytorch/blob/v2.13.0/torch/nn/functional.py#L6017)。
 
 验证方法：用 3 到 4 个 Token 的小矩阵打印权重；改变未来位置的 Value，较早位置的 Causal 输出必须不变；改变 Padding 位置的 Value，有效位置的输出也应不变。
 
@@ -601,6 +603,8 @@ Decoder Cross-Attention
   K/V = Encoder Output
 ```
 
+图中 Hidden 是隐藏表示，Output 是编码器输出。第一组是编码器自注意力，三种投影同源；第二组是解码器遮罩自注意力，三种投影来自解码侧并加因果限制；第三组才是交叉注意力，查询来自解码侧，键和值来自编码器输出。图中等号表示“输入来源”，并非宣称投影后的 Q、K、V 数值完全相同。
+
 ### 怎么用或观察
 
 根据任务选择架构，不要只比较参数量：
@@ -634,13 +638,15 @@ Transformer 结构只定义怎样计算表示，不会凭空获得语言、日�
 Token IDs（词元编号）
   -> 模型前向
   -> 每个位置的词表 Logits
-  -> 与右移一位的真实 Token 计算 Cross-Entropy
+  -> 位置 t 的 Logits 与真实 Token t+1 计算 Cross-Entropy（交叉熵）
   -> 反向传播
   -> 梯度裁剪 / 混合精度检查
   -> Optimizer（优化器） Step
   -> 学习率调度
   -> 定期保存 Checkpoint 与评估
 ```
+
+用三个位置说明移位：输入 `[BOS, 告警, 恢复]`，对应目标是 `[告警, 恢复, EOS]`；BOS 是序列开始标记，EOS 是结束标记。因此说“输入相对目标右移”可以，说“把目标再右移后与当前 Logits 对齐”会把方向讲反。部分模型训练接口会在内部移位标签，调用方须核对实现，不能再手动移一次。
 
 常见目标还有 Masked Language Modeling、序列到序列损失、分类损失和偏好优化。它们不是同一个训练协议。
 
@@ -774,7 +780,7 @@ Transformer 服务的“模型版本”不只是一个权重文件。至少包�
 
 - 权重、Tokenizer、配置和模板必须作为同一不可变发布包。
 - KV Cache 是请求运行状态，不是模型知识库，也不是长期事实存储。
-- 多副本部署时，每个请求必须路由到拥有其 Cache 的实例，或使用服务明确支持的分布式 Cache 机制。
+- 一次在途生成若依赖本地 Cache，其解码步骤必须留在该实例，或使用明确支持的迁移/分布式 Cache 机制；不同轮次也可以把完整必要历史发到另一副本重新 Prefill，代价是重算，不是所有聊天都必须永久绑定同一实例。
 - 滚动升级期间不能让同一会话无控制地跨不兼容版本。
 - 固定随机种子不等于跨 GPU、Kernel、Batch 和版本位级复现。
 
@@ -805,14 +811,14 @@ Windows PowerShell：
 
 ```powershell
 python --version # 确认 Python 可用；正常应看到 Python 3.x
-python attention_lab.py # 运行基础实验；正常会输出注意力权重和 PASS
+# 下一节完整创建 attention_lab.py 后，再运行 python attention_lab.py
 ```
 
 Linux 或 macOS：
 
 ```bash
 python3 --version      # 确认 Python 可用
-python3 attention_lab.py # 运行基础实验
+# 下一节完整创建 attention_lab.py 后，再运行 python3 attention_lab.py
 ```
 
 ### 路线二：使用 PyTorch 和 Hugging Face
@@ -941,10 +947,14 @@ V = [[1.0, 0.0], [0.0, 1.0], [1.0, 1.0]]
 
 
 def dot(left, right):
+    if len(left) != len(right):
+        raise ValueError("点积两侧维度必须一致，不能让 zip 静默截短")
     return sum(a * b for a, b in zip(left, right))
 
 
 def softmax(row):
+    if any(not math.isfinite(value) and value != float("-inf") for value in row):
+        raise ValueError("分数包含 NaN 或正无穷")
     finite = [value for value in row if value != float("-inf")]
     if not finite:
         raise ValueError("这一行全部被 Mask，Softmax 没有有效 Key")
@@ -1347,7 +1357,7 @@ KV 元素 ≈ 2 × layers × batch × sequence × kv_heads × head_dim
 KV 字节 ≈ KV 元素 × dtype_bytes
 ```
 
-`2` 代表 Key 和 Value。使用 Multi-Query 或 Grouped-Query Attention 时，`kv_heads` 可能小于 Query 头数。
+`2` 代表 Key（注意力键向量）和 Value（注意力值向量）；layers 是层数，batch 是并行序列数，sequence 是缓存长度，kv_heads 是键值头数，head_dim 是头维度，dtype_bytes 是每元素字节数。Multi-Query（多查询）或 Grouped-Query（分组查询）注意力共享部分键值头，`kv_heads` 可能小于 Query 头数。此式适合一般稠密缓存的初估，滑动窗口、分页、量化与混合架构需要按真实分配规则修正。
 
 ### 核心性能指标
 
@@ -1591,7 +1601,7 @@ Weights
   + Safety Policy
 ```
 
-如果新版本已经写入下游业务状态，只回滚模型不会撤销已执行动作。还需要业务补偿、审计和结果验证。
+图中的完整回退对象是权重、分词器、模型配置、提示或聊天模板、生成配置、适配器、运行镜像和安全策略。如果新版本已经写入下游业务状态，只回滚模型不会撤销已执行动作。还需要业务补偿、审计和结果验证。
 
 ## 常见故障排查
 

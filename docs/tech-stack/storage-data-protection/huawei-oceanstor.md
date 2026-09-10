@@ -441,7 +441,7 @@ show smartqos_policy general               查看 SmartQoS 策略
 show license                               查看许可信息
 ```
 
-先执行 `show system general`。只有 `Health Status` 和 `Running Status` 符合预期，才继续分析其他对象；但系统总体正常不能替代路径、性能和业务验证。
+先执行 `show system general`，读取 Health Status（健康状态）与 Running Status（运行状态）。若总体异常，应立即确定影响面、保存告警并沿控制器、池、LUN 和路径继续做必要的只读定位，不能因为状态不正常就停止采证；暂停的是写入配置、扩容和升级等变更。系统总体正常也不能替代路径、性能和业务验证。
 
 ## 命令字典
 
@@ -570,12 +570,15 @@ service（业务服务）
 
 在没有真实阵列的电脑上，用 PowerShell 读取一份脱敏健康样本，生成 `OK`、`WARN`、`CRITICAL` 结论，理解“数值越高越危险”和“路径在线率越低越危险”是两类不同规则。
 
+前置条件：Windows PowerShell 5.1 或兼容版本，普通用户可写的个人实验目录，无需设备账号、管理网络或管理员权限。模型只处理虚构的四项指标，不执行任何阵列命令。
+
 ### 实验步骤
 
 1. 新建目录并进入：
 
 ```powershell
-New-Item -ItemType Directory -Force oceanstor-lab | Out-Null # 创建实验目录，已存在时不报错
+if (Test-Path -LiteralPath oceanstor-lab) { throw '目录已存在，请停止，不覆盖上一轮证据' }
+New-Item -ItemType Directory -Path oceanstor-lab -ErrorAction Stop | Out-Null
 Set-Location oceanstor-lab                                  # 后续文件都放在实验目录
 ```
 
@@ -596,7 +599,47 @@ replication_lag_s,0,5,30,higher,second
 3. 创建判定脚本 `check-oceanstor.ps1`：
 
 ```powershell
-$rows = Import-Csv .\oceanstor-health.csv # 读取健康样本，每一行变成一个 PowerShell 对象
+$ErrorActionPreference = 'Stop'
+try {
+    $rows = @(Import-Csv -LiteralPath (Join-Path $PSScriptRoot 'oceanstor-health.csv'))
+    $units = @{
+        pool_used_pct = 'percent'; lun_latency_ms = 'millisecond'
+        path_online_pct = 'percent'; replication_lag_s = 'second'
+    }
+    $seen = [Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal)
+    if ($rows.Count -ne 4) { throw '必须完整包含四项预期指标' }
+    foreach ($row in $rows) {
+        if ($row.metric -cnotin @($units.Keys) -or -not $seen.Add($row.metric)) {
+            throw '指标缺失、不认识或重复，不能判定健康'
+        }
+        $numbers = @{}
+        foreach ($field in @('value', 'warn', 'critical')) {
+            $number = 0.0
+            if (-not [double]::TryParse([string]$row.$field,
+                [Globalization.NumberStyles]::Float, [Globalization.CultureInfo]::InvariantCulture,
+                [ref]$number) -or [double]::IsNaN($number) -or
+                [double]::IsInfinity($number) -or $number -lt 0) {
+                throw "$($row.metric) 的 $field 必须是有限非负数字"
+            }
+            $numbers[$field] = $number
+        }
+        $direction = if ($row.metric -eq 'path_online_pct') { 'lower' } else { 'higher' }
+        if ($row.unit -cne $units[$row.metric] -or $row.direction -cne $direction) {
+            throw '指标单位或比较方向不符合定义'
+        }
+        if ($row.unit -eq 'percent' -and ($numbers.Values | Where-Object { $_ -gt 100 })) {
+            throw '百分比和阈值须处于 0 到 100 范围'
+        }
+        if (($direction -eq 'higher' -and $numbers.warn -ge $numbers.critical) -or
+            ($direction -eq 'lower' -and $numbers.warn -le $numbers.critical)) {
+            throw '告警与严重阈值顺序不正确'
+        }
+        foreach ($field in @('value', 'warn', 'critical')) { $row.$field = $numbers[$field] }
+    }
+} catch {
+    [Console]::Error.WriteLine("UNKNOWN: $($_.Exception.Message)")
+    exit 3
+}
 
 $results = foreach ($row in $rows) {
     $value = [double]$row.value       # 把 CSV 文本转换成可比较的数字
@@ -637,11 +680,13 @@ path_online_pct      75   percent     WARN
 replication_lag_s     0   second      OK
 ```
 
-退出码应为 `1`，因为存在 warning，但没有 critical。
+退出码应为 `1`，因为存在 warning，但没有 critical。输入缺行、重复、不合法数值、错误单位或方向时，先返回 UNKNOWN 与退出码 3，不产生“全健康”结论。四项清单只代表课堂样本范围，接真实阵列前还需资产清单、采样时间、对象标识和覆盖率验证，不能拿这四行代表整台设备。
 
 ### 验证结果
 
 把 `pool_used_pct` 改为 `92` 再运行，状态应变成 `CRITICAL`，退出码应为 `2`。把 `path_online_pct` 改为 `100`，路径状态应恢复为 `OK`。
+
+还要做一次输入负向对照：仅保留 CSV 表头，运行后应是 UNKNOWN、退出码 3；恢复原四行再运行，应回到 WARN、退出码 1。这样才能证明采集缺失不会伪装成业务恢复。
 
 实验真正要学的是：同一阈值引擎必须知道指标方向、单位、对象、业务基线和持续时间，不能对所有指标统一使用“超过阈值就报警”。
 

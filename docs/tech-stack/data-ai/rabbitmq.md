@@ -516,8 +516,8 @@ channel.basic_publish(
 二者彼此独立：
 
 ```text
-生产者 -> RabbitMQ：Publisher Confirm
-RabbitMQ -> 消费者：Consumer Ack
+RabbitMQ -> 生产者：Publisher Confirm（代理返回发布确认）
+消费者 -> RabbitMQ：Consumer Ack（消费者返回处理确认）
 ```
 
 发布确认解决“代理是否接管”；消费确认解决“消费者是否处理完成”。只做其中一个，端到端链路仍有缺口。
@@ -574,7 +574,7 @@ exchange = config.broadcast
 10. RabbitMQ 从 Queue 删除或提交该消息的消费进度
 ```
 
-第 4 步没有匹配队列时，消息可能被丢弃。第 8 步完成、第 9 步之前消费者崩溃时，消息会重复投递。第 6 步超时时，生产者无法确定消息是否已经进入队列。这些不确定窗口正是可靠性设计的重点。
+第 4 步没有匹配队列时，消息可能被丢弃。第 8 步完成、第 9 步之前消费者崩溃时，消息会重复投递。第 6 步超时时，生产者无法确定消息是否已经进入队列。图是职责拆解，不是跨客户端的严格时序：消息可能先到消费者，生产者才收到 confirm。第 10 步中普通队列确认后可删除消息，Stream 的保留和消费偏移另行管理，不能把普通队列 ack 当作自动持久保存 Stream 客户端偏移。这些不确定窗口正是可靠性设计的重点。
 
 ## 队列类型怎么选
 
@@ -848,7 +848,7 @@ Inbox 记录和业务更新应在同一数据库事务中提交。否则仍会�
 - 队列达到长度限制并按策略移出消息。
 - Quorum Queue 消息超过投递次数限制。
 
-DLX 是交换机，不是特殊队列。还要为 DLX 绑定死信队列。
+DLX 是交换机，不是特殊队列。还要为 DLX 绑定死信队列。Quorum Queue 的死信转移默认仍为至多一次，目标不可用时不能保证安全送达；要启用至少一次死信，需要为源队列组合设置 `dead-letter-strategy=at-least-once`、`overflow=reject-publish` 和 DLX。它会保留未获目标确认的死信并重试，因此占用源队列容量，也可能在目标产生重复。本文基础代码保留默认策略用于观察正常死信路径，不证明目标失效时无丢失；生产需单独演练。见[官方死信保证与限制](https://www.rabbitmq.com/docs/quorum-queues#dead-lettering)。
 
 ### 为什么策略优于硬编码参数
 
@@ -860,7 +860,7 @@ rabbitmqctl set_policy -p aiops alerts-dlx "^alerts\." \
   --apply-to queues
 ```
 
-实验为了自包含会在代码里声明参数，生产应由平台统一管理策略。
+实验为了自包含会在代码里声明参数，生产应由平台统一管理策略。本节所有策略命令都是独立示意，不要按阅读顺序连续执行：同一个队列最多选中一个普通 Policy，多个同优先级匹配的选择不确定，不能认为 DLX、重试与长度策略会自动叠加。需要共同生效的键应合并进同一份策略，保存旧定义并核对实际匹配；用户策略和 Operator Policy（平台约束策略）的组合又有独立规则。见[官方策略组合说明](https://www.rabbitmq.com/docs/policies#combining-policy-definitions)。
 
 ### 重试分类
 
@@ -913,7 +913,7 @@ rabbitmqctl set_policy -p aiops qq-delayed-retry "^alerts\.work$" \
 
 Quorum Queue 会区分：
 
-- `acquired-count`：消息每次重新入队都会增加。
+- `acquired-count`：跟踪消息被分配给消费者的次数，包括返回后再次分配；分配不等于消费者业务代码一定已看到消息。
 - `delivery-count`：只有被认定为失败的投递才增加，并用于 poison message 的 delivery limit。
 
 AMQP 0-9-1 的 `basic.nack` 重新入队只增加 `acquired-count`，不会增加 `delivery-count`；`basic.reject`、客户端崩溃或连接丢失会增加失败计数。换句话说，不能靠无限 `basic.nack(requeue=true)` 自动撞上 delivery limit，应用仍要实现有限重试预算。
@@ -966,7 +966,7 @@ rabbitmqctl set_policy -p aiops alerts-limit "^alerts\.work$" \
 
 ## 消息优先级
 
-RabbitMQ 4.3 的 Quorum Queue 支持 32 个严格优先级，数值更高的消息先投递。它适合少量紧急告警插队，但不能替代容量规划：
+RabbitMQ 4.3 的 Quorum Queue 支持 0 到 31 共 32 个严格优先级，更高数值的待投递消息通常优先；已经预取到消费者的消息不会被抢占，返回消息也有特殊处理规则。它适合少量紧急告警插队，但不能替代容量规划：
 
 - 持续高优先级流量会让低优先级消息饥饿。
 - 管理界面应同时观察各优先级积压。
@@ -991,7 +991,7 @@ RabbitMQ 4.3 的 Quorum Queue 支持 32 个严格优先级，数值更高的消�
 日志：节点日志 -> 日志平台
 ```
 
-客户端必须能重连到其他节点。只给客户端配置一个节点地址，会让三节点集群仍然存在单接入点。
+客户端必须能重连到其他节点。只给客户端配置一个节点地址，会让三节点集群仍然存在单接入点。图中 Classic exclusive Queue 是单连接独占的经典队列；`rabbitmq_prometheus` 是指标插件，Prometheus 采集指标，Grafana 展示，Alertmanager 分组与发送通知。Quorum Queue 的副本成员与 Khepri 元数据成员分别检查，不以集群总节点数代替。
 
 ### 容量要回答的六个问题
 
@@ -1089,21 +1089,23 @@ RabbitMQ 默认内存高水位约为可用内存的 60%。官方生产建议通�
 ### 创建实验目录
 
 ```powershell
-New-Item -ItemType Directory rabbitmq-lab
+if (Test-Path -LiteralPath rabbitmq-lab) { throw '实验目录已存在，停止以避免覆盖。' }
+New-Item -ItemType Directory rabbitmq-lab -ErrorAction Stop | Out-Null
 Set-Location rabbitmq-lab
 ```
 
 ### `compose.yaml`
 
 ```yaml
+name: rabbitmq-aiops-lesson
 services:
   rabbitmq:
     image: rabbitmq:4.3.4-management
     hostname: rabbitmq-lab
     ports:
-      - "5672:5672"   # AMQP 客户端端口
-      - "15672:15672" # 管理界面端口
-      - "15692:15692" # Prometheus 指标端口
+      - "127.0.0.1:5672:5672"   # 只供本机 AMQP 客户端
+      - "127.0.0.1:15672:15672" # 只供本机管理界面
+      - "127.0.0.1:15692:15692" # 只供本机指标观察
     environment:
       RABBITMQ_DEFAULT_USER: aiops
       RABBITMQ_DEFAULT_PASS: aiops-lab-only
@@ -1125,7 +1127,14 @@ volumes:
 ### 启动
 
 ```powershell
+$existingLab = docker ps -a --filter label=com.docker.compose.project=rabbitmq-aiops-lesson --format '{{.ID}}'
+if ($LASTEXITCODE -ne 0 -or $existingLab) { throw '无法核对或发现同名实验容器，停止。' }
+$existingVolume = docker volume ls --filter label=com.docker.compose.project=rabbitmq-aiops-lesson -q
+if ($LASTEXITCODE -ne 0 -or $existingVolume) { throw '无法核对或发现同名旧数据卷，停止。' }
+docker compose config --quiet
+if ($LASTEXITCODE -ne 0) { throw '实验配置无效。' }
 docker compose up -d
+if ($LASTEXITCODE -ne 0) { throw '启动失败，先检查日志与端口占用。' }
 docker compose ps
 docker compose logs --tail 100 rabbitmq
 ```
@@ -1270,6 +1279,7 @@ python -m pip install pika==1.4.2
 
 ```python
 import json
+import argparse
 import uuid
 
 import pika
@@ -1329,7 +1339,13 @@ channel.queue_bind(
 
 channel.confirm_delivery()
 
-event_id = str(uuid.uuid4())
+parser = argparse.ArgumentParser()
+parser.add_argument("--event-id", default=None, help="仅重发同一业务事件时复用标识")
+args = parser.parse_args()
+event_id = args.event_id or str(uuid.uuid4())
+if not 1 <= len(event_id) <= 100:
+    connection.close()
+    raise ValueError("event_id must contain 1..100 characters")
 message = {
     "schema_version": 1,
     "event_id": event_id,
@@ -1387,6 +1403,16 @@ database.execute(
     )
     """
 )
+database.execute(
+    """
+    CREATE TABLE IF NOT EXISTS tickets (
+        event_id TEXT PRIMARY KEY,
+        event_type TEXT NOT NULL,
+        service TEXT NOT NULL,
+        severity TEXT NOT NULL
+    )
+    """
+)
 database.commit()
 
 credentials = pika.PlainCredentials("aiops", "aiops-lab-only")
@@ -1405,8 +1431,9 @@ channel.basic_qos(prefetch_count=10)
 
 def handle_message(channel, method, properties, body):
     message_id = properties.message_id
+    print("received:", message_id, "redelivered=", method.redelivered, flush=True)
 
-    if not message_id:
+    if not isinstance(message_id, str) or not 1 <= len(message_id) <= 100:
         print("missing message_id, send to dead letter")
         channel.basic_reject(
             delivery_tag=method.delivery_tag,
@@ -1416,12 +1443,26 @@ def handle_message(channel, method, properties, body):
 
     try:
         event = json.loads(body)
-    except json.JSONDecodeError:
+    except (json.JSONDecodeError, UnicodeDecodeError):
         print(f"invalid JSON: {message_id}")
         channel.basic_reject(
             delivery_tag=method.delivery_tag,
             requeue=False,
         )
+        return
+
+    valid = (
+        isinstance(event, dict)
+        and type(event.get("schema_version")) is int
+        and event["schema_version"] == 1
+        and event.get("event_id") == message_id
+        and all(isinstance(event.get(key), str) and event[key].strip()
+                for key in ("event_type", "service", "severity"))
+        and event["severity"] in {"critical", "warning", "info"}
+    )
+    if not valid:
+        print(f"invalid schema: {message_id}")
+        channel.basic_reject(delivery_tag=method.delivery_tag, requeue=False)
         return
 
     try:
@@ -1435,29 +1476,23 @@ def handle_message(channel, method, properties, body):
             ).rowcount
 
             if inserted:
-                print(
-                    "create ticket:",
-                    event["event_type"],
-                    event["service"],
-                    event["severity"],
+                database.execute(
+                    "INSERT INTO tickets(event_id,event_type,service,severity) VALUES (?,?,?,?)",
+                    (message_id, event["event_type"], event["service"], event["severity"]),
                 )
-            else:
-                print(f"duplicate ignored: {message_id}")
-    except (KeyError, TypeError):
-        print(f"invalid schema: {message_id}")
-        channel.basic_reject(
-            delivery_tag=method.delivery_tag,
-            requeue=False,
-        )
-        return
     except sqlite3.Error as error:
         print(f"temporary database error: {error}")
         channel.basic_nack(
             delivery_tag=method.delivery_tag,
             requeue=True,
         )
+        channel.stop_consuming() # 全库故障时暂停本课消费者，避免立即无限重投
         return
 
+    if inserted:
+        print("create ticket:", event["event_type"], event["service"], event["severity"])
+    else:
+        print(f"duplicate ignored: {message_id}")
     channel.basic_ack(delivery_tag=method.delivery_tag)
 
 
@@ -1477,22 +1512,22 @@ finally:
     database.close()
 ```
 
-SQLite 只用于展示 Inbox 思路。真实系统要把 Inbox 与工单更新放进同一个业务数据库事务；调用外部系统时还要使用对方支持的幂等键。
+SQLite 在这里把 Inbox 和模拟工单表放进同一个事务，验证的是本地数据库的原子性与唯一约束，不是外部工单 API 的恰好一次。日志打印不具备事务性，崩溃后日志条数也不能代替数据库行数。真实系统调用外部 API 时还要使用对方支持的幂等键，或通过事务发件箱继续交付。数据库异常时本例重新入队后停止消费，先修好数据库再人工重启；不能依赖 RabbitMQ 4.3 的 nack 自动耗尽失败投递次数。
 
 ### 4. 运行
 
-终端一：
-
-```powershell
-.\.venv\Scripts\Activate.ps1
-python worker.py
-```
-
-终端二：
+先在终端一运行生产者，创建拓扑并放入第一条消息。消费者代码只订阅，不负责创建队列，颠倒顺序会得到队列不存在错误：
 
 ```powershell
 .\.venv\Scripts\Activate.ps1
 python producer.py
+```
+
+然后在同一实验目录打开终端二并启动消费者，保持运行。之后从终端一继续发布：
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+python worker.py
 ```
 
 生产者预期：
@@ -1534,7 +1569,7 @@ docker compose exec rabbitmq rabbitmqctl list_queues -p aiops `
 实验目标：
 
 - 观察消费者在 ack 前崩溃后的重新投递。
-- 验证相同 `message_id` 不会重复产生业务副作用。
+- 验证相同 `message_id` 不会重复增加本地模拟工单行，不把它当作外部 API 验证。
 - 把格式错误的毒消息送入死信队列。
 
 ### 前置条件
@@ -1599,13 +1634,24 @@ python worker.py
 
 预期能再次收到消息。管理界面或日志中的 `redelivered` 表明这是重新投递。重复并不表示 RabbitMQ 出错，而是至少一次语义在不确定窗口中的正确行为。
 
-再次使用相同 `message_id` 发布时，Inbox 唯一键应使消费者输出：
+保持正常消费者运行，在另一个实验终端明确发布同一个实验事件两次：
+
+```powershell
+python producer.py --event-id rabbitmq-lesson-duplicate-01
+python producer.py --event-id rabbitmq-lesson-duplicate-01
+```
+
+第一次应新增一行工单，第二次 Inbox 唯一键使消费者输出：
 
 ```text
 duplicate ignored: <相同的 message_id>
 ```
 
-基础 `producer.py` 每次会生成新 UUID。要测试同一标识，可以临时把 `event_id` 替换为固定实验值，测试后恢复。
+不传 `--event-id` 时生产者每次生成新 UUID。业务重试必须复用原事件标识，不能通过给不同业务事件同一个标识“减少工单”。使用下面只读查询核对两次发送只对应一行，而不是只数控制台输出：
+
+```powershell
+python -c "import sqlite3; c=sqlite3.connect('file:inbox.db?mode=ro',uri=True); n=c.execute('SELECT COUNT(*) FROM tickets WHERE event_id=?',('rabbitmq-lesson-duplicate-01',)).fetchone()[0]; print(n); assert n==1; c.close()"
+```
 
 ### 3. 创建 `publish_poison.py`
 
@@ -1644,10 +1690,9 @@ print(f"poison message published: {message_id}")
 connection.close()
 ```
 
-运行正常消费者和毒消息发布者：
+保持终端二的正常消费者运行；在终端一运行毒消息发布者，不要把两个长驻步骤连续写在同一个终端：
 
 ```powershell
-python worker.py
 python publish_poison.py
 ```
 
@@ -1671,12 +1716,21 @@ docker compose exec rabbitmq rabbitmqctl list_queues -p aiops `
 
 ### 6. 清理
 
+先在终端二用 `Ctrl+C` 停止消费者，确认程序退出、数据库连接关闭。在保存证据后，回到本课 `rabbitmq-lab` 目录核对 Compose 项目和卷名；以下删除会丢弃尚在队列中的实验消息，不是备份：
+
 ```powershell
+docker compose ps
+docker volume ls --filter label=com.docker.compose.project=rabbitmq-aiops-lesson
 docker compose down -v
-Remove-Item inbox.db -ErrorAction SilentlyContinue
+if ($LASTEXITCODE -ne 0) { throw '停止或卷清理失败，保留现场检查。' }
+if (Test-Path -LiteralPath inbox.db) {
+  $lessonDb = Get-Item -LiteralPath inbox.db -ErrorAction Stop
+  if ($lessonDb.Attributes -band [IO.FileAttributes]::ReparsePoint) { throw '拒绝删除链接目标。' }
+  Remove-Item -LiteralPath $lessonDb.FullName -ErrorAction Stop
+}
 ```
 
-`-v` 会删除实验数据卷。生产环境不能照搬该命令。
+`-v` 会删除本课 Compose 管理的数据卷。生产环境不能照搬该命令。本轮文档修订只进行了离线语法、消息校验和内存数据库断言，没有启动 RabbitMQ，也没有验证真实代理的重投、死信、资源告警或高可用。
 
 ## 可观测性
 
@@ -1876,7 +1930,7 @@ rabbitmq-diagnostics check_if_node_is_quorum_critical
 ### RabbitMQ 4.3 升级边界
 
 - RabbitMQ 4.3 只支持从 4.2 升级。
-- 3.13 需要先升级到 4.2，再升级到 4.3。
+- 常规 3.13 环境需要先升级到 4.2，再升级到 4.3；但已经启用实验性 Khepri 的 3.13 不支持直接升级到 4.x，应走新集群迁移，不能套用这条版本链。
 - 升级前必须启用要求的稳定 Feature Flags。
 - RabbitMQ 不正式支持原地降级。
 
@@ -1889,17 +1943,16 @@ rabbitmq-diagnostics check_if_node_is_quorum_critical
 5. 确认 Quorum Queue 有足够在线成员。
 6. 检查无内存、磁盘和网络分区告警。
 7. 停止不必要的拓扑变更。
-8. 准备逐节点回滚或蓝绿切换方案。
+8. 准备停止升级、重建恢复或蓝绿切换方案，不把逐节点换回旧镜像当作受支持的降级。
 
 关键命令：
 
 ```bash
 rabbitmq-diagnostics check_if_node_is_quorum_critical
 rabbitmq-upgrade await_online_quorum_plus_one
-rabbitmq-queues rebalance all
 ```
 
-停止节点前运行 quorum critical 检查，避免停掉维持多数派的关键节点。
+停止节点前运行 quorum critical 检查，避免停掉维持多数派的关键节点。`rabbitmq-queues rebalance all` 会重新分布队列领导者，是需要评估的变更，不是只读升级检查，本课不执行。
 
 ### 为什么回滚优先蓝绿
 
@@ -1910,9 +1963,9 @@ rabbitmq-queues rebalance all
 3. 通过 Federation、Shovel 或双写迁移。
 4. 验证消息、拓扑、消费者和指标。
 5. 切换客户端。
-6. 失败时切回旧集群。
+6. 失败时先停止或围住新站写入，核对新站独有消息和已完成业务，再决定补传、重放与切回旧集群。
 
-切换期间必须接受并处理重复消息，明确旧新集群的写入主权。
+切换期间必须接受并处理重复消息，明确旧新集群的写入主权。旧集群仍在不代表拥有新站接管后的全部事件，直接改回连接地址会造成数据缺口；把消息积压、发布确认、业务完成记录一起对账，才是可用的回切方案。
 
 ## 备份与灾备
 
@@ -1922,10 +1975,9 @@ Definitions 包含用户、vhost、交换机、队列、绑定和策略等声明
 
 ```bash
 rabbitmqctl export_definitions /backup/definitions.json
-rabbitmqctl import_definitions /backup/definitions.json
 ```
 
-导出的文件可能包含敏感配置，应加密和限制访问。
+导出的文件可能包含密码哈希等敏感配置，应加密和限制访问。这里 `/backup` 是管理员预建且授权的示例目录，不是本课默认路径。恢复使用 `rabbitmqctl import_definitions`，会修改目标拓扑，只能在核对目标版本、名称冲突和审批后对指定恢复集群执行，不能把它紧跟导出当成日常检查。
 
 ### 数据目录备份
 
@@ -1938,7 +1990,7 @@ rabbitmqctl import_definitions /backup/definitions.json
 - Federation：按需从上游拉取交换机或队列消息。
 - Shovel：一个受管消费者从源取消息，再发布到目标并使用确认。
 
-跨集群复制通常是异步的，恢复点目标不可能天然为零。要演练断网、重复、顺序变化、目标不可用和回切。
+跨集群复制通常是异步的，恢复点目标不可能天然为零。Shovel 消费源队列会确认并移走消息，若与主站业务消费者共用同一工作队列，会竞争分摊任务，不是给每条任务自动增加灾备副本。需要在交换机上为灾备另建绑定队列，或从保留日志使用独立读取位置，把主站处理与灾备传输解耦；Federation 也要核对交换机联邦和队列联邦的具体语义。要演练断网、重复、顺序变化、目标不可用和回切。
 
 ## AIOps 应用模式
 
@@ -1951,7 +2003,7 @@ rabbitmqctl import_definitions /backup/definitions.json
   -> 审计 Stream
 ```
 
-每个下游有独立队列，一个下游积压不会直接阻止其他下游。事件使用 `alert_id` 幂等。
+每个下游有独立队列，可以分别消费和重试，但不是完整资源隔离：一个队列挤满磁盘触发集群资源告警，仍可能阻塞其他发布连接；一条消息路由到多个队列时，发布确认也受目标接管情况影响。事件使用 `alert_id` 幂等，关键链路还需容量配额、限流和必要的独立集群。
 
 ### Runbook 任务队列
 
@@ -2168,6 +2220,8 @@ TLS、独立 vhost、最小权限、密钥轮换、管理面隔离和审计。
 - 死信堆积如何重放且不冲击下游？
 
 好的回答不是坚持某个产品，而是提出可测量假设、压测方案、故障边界和回滚路径。
+
+追问示范：若主要目标是长保留、多订阅者回放，Kafka 应一起评估；若核心是复杂路由与工作分发，RabbitMQ 更容易直接表达，但两万条每秒不能凭产品名保证。单队列吞吐取决于消息大小、确认策略、磁盘和消费者，先压测，再按租户或业务键拆分。小于一分钟的 RPO 要测事件在目标被持久确认的时间差，持续超过预算应告警或停止宣称该目标已满足；主站失效时还需比较最后持久确认的位置。接管由受控写入口和围栏避免两站同时接收同一业务写入，死信重放保持原事件标识、限定时间与队列范围，并按下游余量限速，失败能暂停而不是无限循环。
 
 ## 事故推演
 

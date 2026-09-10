@@ -989,7 +989,7 @@ networks:
 
 ## Kubernetes Helm 安装主线
 
-前置：可丢弃或已获授权的 Kubernetes 集群、`kubectl`、Helm、可用 LoadBalancer/NodePort 方案。
+前置：独占、可丢弃的 Kubernetes 集群、`kubectl`、Helm、可用 LoadBalancer/NodePort 方案。以下安装与后续故障实验共享同一个实验集群；先记录当前 context，并检查 `helm list -A`、`kubectl get namespace aiops,traefik --ignore-not-found` 与现有 GatewayClass。若已有同名 release、命名空间或网关资源就停止，不升级、接管或删除他人的实验。API/RBAC 查询失败也不能当作不存在。共享集群只做只读核对；CRD 的安装、升级另走平台审批。
 
 ### 1. 安装 Gateway API 标准 CRD
 
@@ -1025,6 +1025,16 @@ providers:
 
 gateway:
   enabled: true
+  name: traefik-gateway # 与下文 HTTPRoute 的 parentRefs.name 完全一致
+  listeners:
+    web:
+      port: 8000
+      protocol: HTTP
+      namespacePolicy:
+        from: Selector
+        selector:
+          matchLabels:
+            kubernetes.io/metadata.name: aiops # 仅接收教学命名空间中的路由
 
 log:
   level: INFO
@@ -1041,7 +1051,7 @@ podDisruptionBudget:
   minAvailable: 1
 ```
 
-这只是教学起点，不是生产完整 values。生产还要按集群能力补 requests/limits、拓扑分散、反亲和、Service annotations、NetworkPolicy、TLS Secret、监控抓取和安全上下文。
+这只是教学起点，不是生产完整 values。`gateway.name` 固定网关对象名；`namespacePolicy` 会渲染为 listener 的 allowedRoutes 命名空间范围，允许 aiops 中的 HTTPRoute 挂到 traefik 中的网关，但不授予跨命名空间读取任意 Backend 或 Secret 的权限。后者按引用类型另需 ReferenceGrant；Route 挂载 Gateway 本身不是靠 ReferenceGrant 授权。字段以 [Chart 41.2.0 values](https://raw.githubusercontent.com/traefik/traefik-helm-chart/v41.2.0/traefik/values.yaml) 和 [Gateway API 跨命名空间路由](https://gateway-api.sigs.k8s.io/guides/user-guides/multiple-ns/) 为准。生产还要按集群能力补 requests/limits、拓扑分散、反亲和、Service annotations、NetworkPolicy、TLS Secret、监控抓取和安全上下文。
 
 ### 4. 安装并核对
 
@@ -1060,6 +1070,31 @@ kubectl rollout status deploy/traefik -n traefik --timeout=5m
 ```
 
 `--wait` 成功只证明 Helm 观察的资源达到条件，不证明每个域名、Route、证书和业务接口成功。必须继续检查 status 和真实流量。
+
+### 5. 建立可选故障实验需要的真实基线
+
+在上述空白实验集群中创建回显后端；每条命令失败都先停止，不能跳过失败继续注入故障：
+
+```bash
+kubectl create namespace aiops
+kubectl create deployment alerts -n aiops --image=traefik/whoami:v1.12.0
+kubectl expose deployment alerts -n aiops --port=8080 --target-port=80
+kubectl rollout status deployment/alerts -n aiops --timeout=120s
+```
+
+把前文“最小 HTTPRoute”原样保存为独立文件 `httproute.yaml`，再应用并核对：
+
+```bash
+kubectl apply -f httproute.yaml
+kubectl get gateway traefik-gateway -n traefik -o yaml
+kubectl get httproute alerts -n aiops -o yaml
+kubectl get endpointslice -n aiops -l kubernetes.io/service-name=alerts -o yaml
+kubectl port-forward -n traefik service/traefik 8089:80
+```
+
+最后一条在终端 A 保持运行；终端 B 用 `curl -i --max-time 5 -H 'Host: alerts.example.com' http://127.0.0.1:8089/`，PowerShell 改用 `curl.exe`。预期 HTTP 200、Route 的 Accepted/ResolvedRefs 为 True，且后端有就绪地址。这里通过端口转发进入 Traefik，验证它的路由与后端链；不证明外部 DNS、云负载均衡器或公网 TLS 正常。若 404，先核对 parentRefs 名称、listener 授权范围和 Host；若 503，先核对端点与 whoami 端口。
+
+完成后暂不删除，供下文 BackendRef 故障复用。所有故障恢复并保存证据后，终端 A 按 Ctrl+C 停止转发，删除本轮独占的 aiops 命名空间，执行 `helm uninstall traefik -n traefik`，核对本轮云负载均衡及其附属资源已经释放。Traefik/Gateway API CRD 不在共享集群做批量删除；独占一次性集群应交回其创建工具按记录的精确集群名称销毁，并核对外部资源账单。
 
 ## 常用命令字典
 
@@ -1590,18 +1625,19 @@ ss -lntp | grep -E ':8080|:8088' || true
 PowerShell：
 
 ```powershell
-New-Item -ItemType Directory -Force traefik-lab
+if (Test-Path -LiteralPath traefik-lab) { throw '目录已存在；停止，不复用旧实验' }
+New-Item -ItemType Directory -Path traefik-lab -ErrorAction Stop
 Set-Location traefik-lab
 ```
 
 Bash：
 
 ```bash
-mkdir -p traefik-lab
-cd traefik-lab
+mkdir traefik-lab || exit 1
+cd traefik-lab || exit 1
 ```
 
-把上文“Docker Compose 完整基础配置”保存为 `compose.yaml`。不要把生产 Docker socket、域名或密码复制进这个公开实验。
+把上文“Docker Compose 完整基础配置”保存为 `compose.yaml`。还要执行 `docker ps -a --filter label=com.docker.compose.project=traefik-lab` 和 `docker network ls --filter name=traefik-lab-proxy`：如果发现同名旧项目容器或网络，停止，不接管。目录不同不代表 Compose 项目不同，因为这里固定了 project 名。不要把生产 Docker socket、域名或密码复制进这个公开实验。
 
 ### 第 2 步：只做静态检查
 
@@ -1835,7 +1871,7 @@ docker compose down --remove-orphans
 
 ## 可选 Kubernetes 故障模拟：BackendRef 不存在
 
-在可丢弃且已经安装 Traefik Gateway API Provider 的集群中，把 HTTPRoute 的 backend 改成不存在的 Service：
+先完成上文 Helm 主线第 5 步，证明同一个 alerts 路由已经返回 200；记录 Route 当前的 resourceVersion、backendRefs 原值和专属 context。只有本轮创建的 aiops/alerts 可用于下列故障，不能把已有生产同名对象当成实验基线。再确认 `kubectl get service alerts-missing -n aiops --ignore-not-found` 请求成功且无对象，把 HTTPRoute 的 backend 改成不存在的 Service：
 
 ```bash
 kubectl patch httproute alerts -n aiops --type=json \
@@ -1854,7 +1890,7 @@ kubectl patch httproute alerts -n aiops --type=json \
   -p='[{"op":"replace","path":"/spec/rules/0/backendRefs/0/name","value":"alerts"}]'
 ```
 
-再次确认 `ResolvedRefs=True`、Backend 有 ready endpoint、真实请求恢复。不要在生产 namespace 直接做故障注入。
+再次确认 `ResolvedRefs=True`、Backend 有 ready endpoint，并通过仍在运行的 8089 端口转发发送相同 Host 请求，确认恢复 200。若没有恢复，检查 parentRefs/allowedRoutes、Service 端口 8080 到容器 80 的映射、Provider 日志及 conditions 的 observedGeneration；不要同时改其他路由。收尾按 Helm 主线第 5 步停止转发、清理本轮命名空间与 release。不要在生产 namespace 直接做故障注入。
 
 ## 常见故障矩阵
 
@@ -1954,7 +1990,7 @@ openssl s_client -connect alerts.example.com:443 \
 ### Docker
 
 ```bash
-docker inspect <container>
+docker inspect '<container>' # 将整个 <container> 替换为已确认的实验容器名，保留引号
 docker network inspect traefik-lab-proxy
 docker compose logs traefik --since 10m
 ```

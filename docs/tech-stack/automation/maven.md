@@ -454,7 +454,7 @@ compile phase（编译阶段）
 test phase（测试阶段）
   -> maven-surefire-plugin:test（测试）
 
-package（打包） phase（jar packaging）
+package phase（jar 类型的打包阶段）
   -> maven-jar-plugin:jar（打包插件的生成 JAR 目标）
 ```
 
@@ -625,9 +625,10 @@ java -verbose:class -jar app.jar
 `pluginManagement` 用来统一插件版本与默认配置，但不会让所有受管理插件自动执行。插件真正执行还需要满足至少一种条件：
 
 - packaging 已有默认生命周期绑定；
-- 插件出现在 `<build><plugins>`；
 - `<executions>` 把 goal 绑定到阶段；
 - 命令行显式调用 goal。
+
+仅把插件列进 `<build><plugins>`，并不意味着其中所有目标都会执行。它可能让父 POM 的 `pluginManagement` 中已经配置的 execution 生效；如果没有默认绑定、有效 execution 或直接调用，该插件就不会凭空完成工作。排查时对照 Effective POM 中的目标与阶段，再看日志实际执行了什么。[官方生命周期说明](https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html#plugins)也明确区分了“声明插件”和“指定要执行的目标”。
 
 因此，“Effective POM 里看到了插件”不等于“这次构建一定执行了它”。要以日志中的 `plugin:version:goal` 和执行计划为证据。
 
@@ -859,7 +860,7 @@ Enforcer 可把团队约束变成失败门禁，例如：
 - Maven 版本范围；
 - JDK 版本范围；
 - 依赖收敛；
-- 禁止重复类或黑名单依赖；
+- 禁止黑名单依赖；重复类检查需要另行配置提供该规则的扩展，不能假设核心规则自动覆盖；
 - 禁止快照依赖；
 - 要求插件或依赖版本。
 
@@ -949,7 +950,7 @@ hello-maven/（入门项目根目录）
 | `mvn help:effective-settings` | 输出生效 settings | 看镜像/代理/Profile | CI 环境核对 | 共享前没脱敏 |
 | `mvn help:active-profiles` | 看激活 Profile | 找隐式环境差异 | 本地和 CI 比对 | Profile 过度承载环境配置 |
 | `mvn dependency:go-offline` | 预取项目依赖和插件 | 提高后续离线成功率 | 隔离网络构建准备 | 不保证所有动态运行路径已缓存 |
-| `mvn -o verify` | 离线构建 | 不访问远程仓库 | 灾备验证 | 缺插件依赖直接失败 |
+| `mvn -o verify` | 离线构建 | Maven 依赖解析不访问远程仓库 | 灾备验证 | 缺插件依赖直接失败；不禁止测试或插件自行联网 |
 | `mvn -U verify` | 强制检查缺失 Release 与更新 SNAPSHOT | 刷新解析 | 修复已解决的临时解析失败 | 当成万能重试 |
 
 ### CI 常用参数
@@ -1187,7 +1188,7 @@ T_total =
   + T_upload
 ```
 
-只盯 Maven 的 `Total time` 会遗漏 CI 排队和环境拉起；只盯测试又会遗漏仓库下载瓶颈。
+图中 `T_total` 是总耗时；右侧依次是排队、准备执行环境、建立项目模型、下载、编译、测试、打包、扫描和上传耗时。只盯 Maven 的 `Total time`（工具自身报告的总用时）会遗漏 CI 排队和环境拉起；只盯测试又会遗漏仓库下载瓶颈。
 
 建议采集：
 
@@ -1469,7 +1470,7 @@ artifact_sha256
 error_category
 ```
 
-对仓库 URL、用户名、Token、代理凭据和环境变量做脱敏。
+这些字段依次记录流水线、作业、源码仓库、分支或标签、提交标识、构建工具版本、Java 版本、构建镜像摘要、当前模块、阶段、插件、目标、结果、毫秒耗时、制品坐标、制品摘要和错误分类。`reactor_project` 是本次多模块构建中的模块，不是运行服务器名称。对仓库 URL、用户名、Token、代理凭据和环境变量做脱敏。
 
 ### 自动化 Runbook 边界
 
@@ -1747,6 +1748,7 @@ mirrorOf=* 指向不可达地址
 - 使用上一个 `hello-maven` 项目。
 - 项目 POM 中通过 `dependencyManagement` 使用了 JUnit BOM；Quickstart 1.5 默认包含类似结构。
 - 只使用项目内临时 settings 和临时本地仓库。
+- 确认 `settings-broken.xml`、`.m2-fault` 和 `.m2-recovered` 尚不存在，避免覆盖文件或复用缓存；确认本机 9 端口没有监听服务，否则先选另一个确认空闲的端口并同步修改示例。
 
 ### 第 1 步：创建故障 settings
 
@@ -2250,7 +2252,7 @@ Git Webhook（源码变更回调）
 因为需要统一缓存、可用性、审计、准入、恶意组件阻断和依赖来源治理。但企业私服也会成为关键基础设施，必须设计容量、HA、备份和灾备。
 
 **为什么不强制所有项目同一天升级 Maven 4？**
-Maven 4 尚未 GA，且项目插件、扩展、JDK 与模型复杂度不同。应建立兼容矩阵和灰度验证，不应一次性扩大影响面。
+在本文固定资料核验时间，Maven 4 仍是预发布线；实际升级时要重新检查支持状态。无论是否已经正式发布，项目插件、扩展、JDK 与模型复杂度都不同，应建立兼容矩阵和灰度验证，不应一次性扩大影响面。
 
 **怎样证明发布制品来自某次代码？**
 关联 Git SHA、流水线身份、构建镜像摘要、Maven/JDK、依赖清单、测试/扫描结果、制品 SHA-256、签名与仓库审计；更高要求下加入可验证来源证明和独立重建。
@@ -2402,7 +2404,7 @@ Maven 4 尚未 GA，且项目插件、扩展、JDK 与模型复杂度不同。�
 
 **回答要点**
 
-- Maven 4 当前仍是 RC；
+- 本文固定资料时间的 Maven 4 仍是 RC，实施时重新核对目标版本状态；
 - 先升级到最新 Maven 3.9 并清理插件兼容问题；
 - 准备 Java 17+；
 - 独立流水线验证经典 POM 4.0.0；

@@ -60,7 +60,7 @@ export const generatedDocs = [
     "route": "/tech-stack",
     "title": "AIOps 技术栈总清单",
     "section": "技术栈",
-    "excerpt": "这个目录记录我从 0 学 AIOps 过程中会接触到的技术栈。它不是一次性背诵清单，而是一个长期学习地图：每学一项，就补充理解、配置、实验和踩坑记录。 精讲写作标准 2026 年 9 月开始全站老师带学修订：用零基础能理解的前置概念、中文注..."
+    "excerpt": "这个目录记录我从 0 学 AIOps 过程中会接触到的技术栈。它不是一次性背诵清单，而是一个长期学习地图：每学一项，就补充理解、配置、实验和踩坑记录。 精讲写作标准 2026 年 9 月的全站老师带学修订已覆盖全部 114 篇技术栈：用零基..."
   },
   {
     "path": "../docs/tech-stack/architecture-delivery/architecture-solution-design.md",
@@ -172,7 +172,7 @@ export const generatedDocs = [
     "route": "/tech-stack/cloud-native/docker",
     "title": "Docker",
     "section": "云原生",
-    "excerpt": "目标：能把一个服务打包成镜像，用容器运行，并理解 Docker Engine、镜像、容器、Dockerfile、网络、卷、registry、日志和资源限制之间的关系。 官方资料 Docker overview Docker Engine D..."
+    "excerpt": "目标：能把一个服务打包成镜像，用容器运行，并理解 Docker Engine、镜像、容器、Dockerfile、网络、卷、registry、日志和资源限制之间的关系。 老师先带你确认运行位置 本课先把一个只会返回健康状态的小程序装进容器，再..."
   },
   {
     "path": "../docs/tech-stack/cloud-native/docker-compose.md",
@@ -361,7 +361,7 @@ export const generatedDocs = [
     "route": "/tech-stack/data-ai/machine-learning",
     "title": "机器学习",
     "section": "数据与 AI",
-    "excerpt": "学习目标：能从 0 理解机器学习为什么能用于 AIOps，能讲清样本、特征、标签、训练、预测、评估、过拟合、数据泄漏和异常检测，能用一个最小 Python 实验把运维指标变成可评估的模型结果。 官方资料 优先读这些官方资料： Google ..."
+    "excerpt": "学习目标：能从 0 理解机器学习为什么能用于 AIOps，能讲清样本、特征、标签、训练、预测、评估、过拟合、数据泄漏和异常检测，能用一个最小 Python 实验把运维指标变成可评估的模型结果。 官方资料 先修只要求会读一张表、理解平均值与比..."
   },
   {
     "path": "../docs/tech-stack/data-ai/mongodb.md",
@@ -375,7 +375,7 @@ export const generatedDocs = [
     "route": "/tech-stack/data-ai/mysql-sql",
     "title": "MySQL / SQL",
     "section": "数据与 AI",
-    "excerpt": "目标：不是只会写几条 SELECT ，而是能理解 MySQL Server、数据库、表、行、列、索引、事务、锁、InnoDB、执行计划、权限、备份、慢查询和 AIOps 数据建模之间的关系，并能用 SQL 回答真实运维问题。 官方资料 优先..."
+    "excerpt": "目标：不是只会写几条 SELECT ，而是能理解 MySQL Server、数据库、表、行、列、索引、事务、锁、InnoDB、执行计划、权限、备份、慢查询和 AIOps 数据建模之间的关系，并能用 SQL 回答真实运维问题。 官方资料 零基..."
   },
   {
     "path": "../docs/tech-stack/data-ai/ollama.md",
@@ -697,7 +697,7 @@ export const generatedDocs = [
     "route": "/tech-stack/progress",
     "title": "技术栈拆分进度",
     "section": "技术栈",
-    "excerpt": "目标：每个技术栈一个 Markdown 文件，并且每个文件都按“官方资料、是什么、原理、架构、配置、入门实验、排障、学习证据”的结构写成原创中文教程。 2026 09 10 继续补强：数据、可观测与事故处理 本批补强 Redis、ZooKe..."
+    "excerpt": "目标：每个技术栈一个 Markdown 文件，并且每个文件都按“官方资料、是什么、原理、架构、配置、入门实验、排障、学习证据”的结构写成原创中文教程。 2026 09 10 全部 114 篇完成本轮老师带学修订 在前批 34 篇达到万字正文..."
   },
   {
     "path": "../docs/tech-stack/security-compliance/jumpserver.md",
@@ -725,7 +725,7 @@ export const generatedDocs = [
     "route": "/tech-stack/sre-aiops/alert-governance",
     "title": "告警治理",
     "section": "SRE/AIOps 实践",
-    "excerpt": "目标：不是把 Prometheus 规则写得越多越好，而是能判断哪些告警值得叫醒人，哪些应该降级、合并、抑制、删除或自动化；能设计告警分级、标签、路由、分组、抑制、静默、runbook、质量指标和持续治理流程。 官方资料 优先读这些官方资料..."
+    "excerpt": "目标：不是把 Prometheus 规则写得越多越好，而是能判断哪些告警值得叫醒人，哪些应该降级、合并、抑制、删除或自动化；能设计告警分级、标签、路由、分组、抑制、静默、runbook、质量指标和持续治理流程。 官方资料 先认识本课会操作的..."
   },
   {
     "path": "../docs/tech-stack/sre-aiops/change-management.md",
@@ -823,7 +823,7 @@ export const generatedDocs = [
     "route": "/tech-stack/teaching-coverage",
     "title": "全站老师带学修订与篇幅复核",
     "section": "技术栈",
-    "excerpt": "这张表来自实际文章内容，帮助你看到每篇的篇幅和继续补强的方向。正文汉字数排除代码、终端输出和文字图；英文术语不折算成汉字。数字达到目标只说明篇幅，不证明内容已经掌握或通过人工终审。 当前纳入 114 篇技术栈，34 篇中文正文不少于 10,..."
+    "excerpt": "这张表来自实际文章内容，帮助你看到每篇的篇幅和继续补强的方向。正文汉字数排除代码、终端输出和文字图；英文术语不折算成汉字。数字达到目标只说明篇幅，不证明内容已经掌握或通过人工终审。 当前纳入 114 篇技术栈，114 篇中文正文不少于 10..."
   },
   {
     "path": "../docs/tech-stack/virtualization-private-cloud/fusionsphere.md",

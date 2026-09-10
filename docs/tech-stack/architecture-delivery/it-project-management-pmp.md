@@ -7,7 +7,7 @@
 本文讲的是 **IT 项目交付能力**，不是考试题库，也不会复述受版权保护的 PMI 教材或真实考试题。
 
 - 知识体系以 PMI 在 2025 年 11 月发布的《PMBOK Guide》第八版为当前基线。它强调 6 项核心原则、7 个绩效域，以及价值、适应性和问责。
-- PMP 考试部分以 2026 年 7 月启用的新版考试内容大纲为准，三个领域权重为人员 33%、过程 41%、商业环境 26%。
+- PMP 知识部分采用 2026 新版考试内容大纲，三个领域权重为人员 33%、过程 41%、商业环境 26%。全球新版于 2026 年 7 月推出，但 PMI 中国公布的中国大陆实施时间是 2026 年 12 月起；不能把全球发布月份直接当作大陆考场切换日期。报名与备考须按自己地区、日期对应的正式考纲确认，见 [PMI 中国新版考纲公告](https://pmichina.org/pminews/8828.jhtml)。
 - 软件交付同时参考《Scrum Guide》、Agile Manifesto、The Kanban Guide 和 DORA 软件交付指标。
 - PMP 是项目管理专业认证，PMBOK 是知识体系指南，二者都不等于真实项目经验。
 - 读完本文不能保证通过考试或获得岗位。考试资格、培训、申请审核和备考应以 PMI 官网最新要求为准；技术项目岗位还需要 Linux、网络、编码、系统设计和生产经验。
@@ -596,9 +596,9 @@ Scrum 是用于复杂产品开发的轻量框架。
 
 #### 三个工件与承诺
 
-- Product Backlog 对应 Product Goal。
-- Sprint Backlog 对应 Sprint Goal。
-- Increment 对应 Definition of Done。
+- Product Backlog（产品待办事项列表）对应 Product Goal（产品目标）。
+- Sprint Backlog（本轮迭代待办事项列表）对应 Sprint Goal（本轮迭代目标）。
+- Increment（可用产品增量）对应 Definition of Done（完成定义）。
 
 常见误区：
 
@@ -729,7 +729,7 @@ Kanban 通过定义和可视化工作流、主动管理工作项、持续改进�
 - Change Fail Rate，变更失败率。
 - Deployment Rework Rate，部署返工率。
 
-这些指标用于团队和系统持续改进，不应被用作个人排名。跨产品比较时必须说明上下文差异。
+变更前置时间从代码提交到进入生产衡量，失败部署恢复时间专指失败部署后的恢复，不是把所有事故恢复时间都算进来；返工率观察为纠正生产问题而产生的非计划部署，与全部需求重写次数不是一回事。采集前按 [DORA 的指标定义](https://dora.dev/guides/dora-metrics/)确认分母、时间点与服务边界。这些指标用于团队和系统持续改进，不应被用作个人排名。跨产品比较时必须说明上下文差异。
 
 ### SLO 与错误预算
 
@@ -836,7 +836,8 @@ Kanban 通过定义和可视化工作流、主动管理工作项、持续改进�
 ### 第 1 步：创建实验目录
 
 ```powershell
-New-Item -ItemType Directory -Path .\aiops-pm-lab -Force
+if (Test-Path -LiteralPath .\aiops-pm-lab) { throw '同名目录已存在，请换新实验位置。' }
+New-Item -ItemType Directory -Path .\aiops-pm-lab -ErrorAction Stop
 Set-Location .\aiops-pm-lab
 ```
 
@@ -893,14 +894,23 @@ F,上线验收,1,E
 
 ### 第 4 步：编写关键路径脚本
 
-新建 `critical-path.ps1`：
+新建 `critical-path.ps1`。使用 Windows PowerShell 5.1 时把含中文的脚本保存为 UTF-8 with BOM，CSV 保存为 UTF-8；后面的读取显式指定编码。课堂模型只支持按拓扑顺序排列的、正整数天工期、零滞后完成后开始依赖，不考虑节假日与资源冲突。因此“最短工期”是这些假设下的网络计算结果，不是项目日期承诺：
 
 ```powershell
-$tasks = Import-Csv .\activities.csv
+$tasks = @(Import-Csv .\activities.csv -Encoding UTF8 -ErrorAction Stop)
+if ($tasks.Count -eq 0) { throw '活动清单为空' }
 $state = @{}
 
 # 正向计算每个活动最早可以开始和完成的时间。
 foreach ($task in $tasks) {
+    if ([string]::IsNullOrWhiteSpace($task.id) -or $state.ContainsKey($task.id)) {
+        throw '活动编号为空或重复，停止计算'
+    }
+    $duration = 0
+    if (-not [int]::TryParse($task.duration_days, [ref]$duration) -or
+        $duration -le 0 -or $duration -gt 3650) {
+        throw "活动 $($task.id) 工期必须为 1 至 3650 的整数天"
+    }
     $predecessorIds = @(
         $task.predecessors -split ';' |
             Where-Object { -not [string]::IsNullOrWhiteSpace($_) }
@@ -921,7 +931,6 @@ foreach ($task in $tasks) {
         ).Maximum
     }
 
-    $duration = [int]$task.duration_days
     $state[$task.id] = [ordered]@{
         Id = $task.id
         Name = $task.name
@@ -985,8 +994,10 @@ $result = foreach ($task in $tasks) {
 
 $result | Format-Table -AutoSize
 "项目最短工期: $projectDuration 天"
-"关键路径: " + (($result | Where-Object Critical).Id -join ' -> ')
+"关键活动: " + (($result | Where-Object Critical).Id -join ', ')
 ```
+
+`ES/EF` 是最早开始与完成，`LS/LF` 是最晚开始与完成，`Float` 是总浮动，`Critical` 表示总浮动是否为零。脚本列出关键活动，不尝试枚举全部关键路径；出现两条并行关键分支时，不能按 CSV 顺序把它们连成一条假路径。本例再沿依赖关系可确认唯一关键路径是 `A -> C -> D -> E -> F`。
 
 运行：
 
@@ -994,11 +1005,13 @@ $result | Format-Table -AutoSize
 powershell -ExecutionPolicy Bypass -File .\critical-path.ps1
 ```
 
+这是只对本次新进程指定执行策略，前提是已经审阅自己编写的本地脚本；不修改机器策略，也不绕过组织组策略。PowerShell 7 可在已允许执行本地脚本的终端运行 `.\critical-path.ps1`。
+
 预期结果：
 
 ```text
 项目最短工期: 14 天
-关键路径: A -> C -> D -> E -> F
+关键活动: A, C, D, E, F
 ```
 
 活动 `B` 的 `Float` 应为 `1`，其他关键活动的 `Float` 应为 `0`。
@@ -1048,12 +1061,7 @@ $eac = $bac / $cpi
 
 ### 清理
 
-退出实验目录后删除：
-
-```powershell
-Set-Location ..
-Remove-Item -Recurse -Force .\aiops-pm-lab
-```
+如果继续故障实验，暂时保留当前目录与文件。两个实验结束后先保存脱敏学习证据，再离开实验目录；在文件管理器核对本次新建 `aiops-pm-lab` 的绝对路径，只把这一目录移入回收站。实验没有后台进程和远端资源，不需要停用户服务或删除其他项目。
 
 ### 如果没有成功，先检查
 
@@ -1075,7 +1083,8 @@ Remove-Item -Recurse -Force .\aiops-pm-lab
 ### 第 1 步：保存基线
 
 ```powershell
-Copy-Item .\activities.csv .\activities.baseline.csv
+if (Test-Path -LiteralPath .\activities.baseline.csv) { throw '基线已存在，不能覆盖。' }
+Copy-Item .\activities.csv .\activities.baseline.csv -ErrorAction Stop
 ```
 
 验证：两个文件的哈希应一致。
@@ -1099,7 +1108,7 @@ powershell -ExecutionPolicy Bypass -File .\critical-path.ps1
 
 ```text
 项目最短工期: 17 天
-关键路径: A -> C -> D -> E -> F
+关键活动: A, C, D, E, F
 ```
 
 这时不能直接要求所有人加班。先收集：
@@ -1124,18 +1133,18 @@ powershell -ExecutionPolicy Bypass -File .\critical-path.ps1
 降低共享账号和未授权操作风险，满足上线安全门禁。
 
 ## 选项
-1. 本期完整实现，预计增加 5 天。
-2. 本期只开放只读能力，写操作延期到下一阶段。
+1. 本期完整实现，初估新增 5 人天工作，需补依赖与资源排期后才能判断总工期变化。
+2. 本期完成只读能力必需的身份认证、最小授权和审计，写操作及其额外审批能力延期到下一阶段；需安全负责人确认缩小后的范围仍满足强制门禁。
 3. 不实施，本期不能进入生产。
 
 ## 影响
 - 范围：增加身份映射、权限测试和审计日志。
-- 进度：选项 1 预计增加 5 天。
+- 进度：选项 1 新增工作量需进入活动网络；人天不能直接等同项目延期天数。
 - 成本：需要安全与身份平台工程师。
 - 风险：快速并行可能造成权限绕过或返工。
 
 ## 建议
-选择选项 2，保持只读上线目标，并在下一阶段完成写操作。
+有条件选择选项 2：先证明只读数据访问的认证、授权和审计已完成且获批准，再上线；若这些最低门禁不能完成，就延期，不以“只读”为理由绕过安全评审。
 
 ## 回滚
 关闭生产入口，保留原有人工工单流程。
@@ -1286,7 +1295,7 @@ powershell -ExecutionPolicy Bypass -File .\critical-path.ps1
 - 第 5-7 周：20 个试点服务接入、去重、Runbook 和仪表盘。
 - 第 8-9 周：故障注入、容量、安全、回滚和运营演练。
 - 第 10-11 周：分批扩大到 100 个服务。
-- 第 12-13 周：收益观察、遗留项移交和复盘。
+- 第 12 周至第 90 天：收益观察、遗留项移交和复盘，第 13 周只占部分时间。
 
 #### 3. 关键治理
 
@@ -1312,7 +1321,7 @@ powershell -ExecutionPolicy Bypass -File .\critical-path.ps1
 
 ## PMP 备考边界
 
-截至本文编写时，2026 年 7 月新版 PMP 考试强调：
+本文采用的 2026 新版 PMP 考纲强调以下内容。全球七月发布与中国大陆十二月实施是两个时间边界；具体考试仍按报名地区与场次公告核对：
 
 - 人员领域 33%。
 - 过程领域 41%。
@@ -1463,6 +1472,8 @@ project-management-lab/
     evm-output.txt
     rollback-drill.md
 ```
+
+这个归档目录可由实验的 `aiops-pm-lab` 整理而来；`charter` 是章程，`stakeholder-register` 是干系人登记，`wbs/raci/raid` 分别记录交付分解、职责与风险假设问题依赖，`release-checklist` 是发布检查，`weekly-status` 是周报，`retrospective` 是复盘。`evidence` 保存关键活动计算、挣值结果和回退演练说明，不把合成计划写成真实生产交付记录。
 
 `README.md` 应说明：
 

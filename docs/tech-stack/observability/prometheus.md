@@ -192,6 +192,42 @@ Recording rule（记录规则）周期计算常用表达式并把结果存成新
 
 为本章做一张查询卡片：业务问题、原始指标合同、分子分母、标签配对、缺失处理、预期值和反例。选一条真实实验中的表达式完成卡片并保存输出。如果只能背 PromQL 函数名，却无法说出数字代表什么，就继续练这一步。
 
+## 查询时钟课堂：瞬时查询为什么还能拿到稍早的样本
+
+瞬时查询是在一个求值时刻计算表达式，不保证每个目标恰在该毫秒采样。Prometheus 按查询回看与陈旧性规则寻找适用的最近样本。范围查询则在一串步长时刻重复计算表达式，也不是直接导出原始全部样本。这能解释“采集十五秒一次，导出却只有每分钟一个点”。
+
+`step` 决定范围查询求值间隔，`[5m]` 决定范围选择器使用的历史跨度，`scrape_interval` 决定抓取节奏，三者属于不同层。步长变小不会创造更高频真实观测，还可能重复使用相近数据、增加成本；窗口变大则改变统计含义，不只是曲线变平滑。
+
+目标仍在配置但抓取失败，通常看到 `up=0`；目标被服务发现移除或标签变化，则可能看不到原序列。零与不存在需要不同检测。`absent` 或 `absent_over_time` 可表达缺失，但要先定义预期对象和合理窗口，否则正常扩缩容也可能被当成丢失。缺失检查本身不能判断业务停了还是采集器看不到。
+
+排障固定求值时间，把原始选择器、范围函数、聚合与过滤逐层展开。AIOps 导出数据保留单位、步长、缺失标记与表达式版本，不能把特殊数值盲目转成零。训练时也不能用事故结束后补齐的信息生成事故开始时本不可能知道的特征。
+
+## 重标记事故实验：删除标签可能把两条序列挤成一条
+
+前置是纸笔，不改生产采集。写两条样本，指标都叫课堂队列深度，服务和实例相同，只有分区标签分别为甲与乙，值分别十和二十。预测删除分区标签后是什么：两条样本具有相同身份，不会自动正确相加为三十，可能产生冲突或丢失原本的信息。
+
+所以 `labeldrop` 删除标签名，不是聚合函数。想得到总队列深度，应先确认值可相加，再在查询或记录规则按合适维度求和。想不采一类高基数指标，可按指标名丢弃整条样本；想保留指标但去掉维度，则要证明去掉后不会碰撞。配置解析不能证明这个条件。
+
+故障注入是把删除标签名的正则写成匹配所有非空名字，预期几乎全部标签都可能被移除，远超计划。修复为精确匹配目标标签名，并在只读样本上比较改前改后身份集合。验收检查剩余标签、序列唯一性与下游查询，不能只看内存下降就宣布成功。无资源清理，保留原样本、错误规则和修正版。
+
+## 远端写入与恢复：队列能缓冲，不代表永远不会丢
+
+Remote write（远端写入）把采集数据发送给另一时序系统，便于统一保留和查询。暂时落后时，队列与相关本地日志机制能提供一定缓冲，但能力受版本、模式、资源、接收端错误与保留约束限制。不能因为本地历史仍在，就假定任意长中断后都会自动完整补发。
+
+关注最新成功发送时间与当前采集时间的差距、待发送量、重试和丢弃信号。恢复后确认接收端权限、容量与时间限制，再看积压是否收敛。大量重试可能让刚恢复的远端再次过载，增加并发前先估算处理余量。接收方拒绝过旧或不合法数据时，继续重复请求未必有效。
+
+高可用副本应有可区分的身份，在支持的远端方案中正确去重，不能把两份相同业务计数相加。告警发送前是否移除特定副本标签，也要与通知设计一致；环境与租户等隔离维度不能为去重一并删掉。规则和远端配置要版本化，并保留脱敏样本供回归。
+
+保留大小不是磁盘严格配额。写入日志、活跃块和压实会占空间，旧块清理也有时机，应留余量并独立告警。恢复时先区分损坏块、日志与配置，保留原目录证据，按已验证备份恢复。删除 WAL 会丢失其覆盖的数据，不是通用启动修复，本文不提供不加判断的删除命令。
+
+## 多集群设计题：让监控在事故中仍可用
+
+可以让各集群保留本地采集、规则与短期查询，远端负责跨集群汇总和长期保留。这样远端中断不必让本地值班失去全部信号，但本地通知路径也要独立可达。把 DNS、身份、证书、存储和通知依赖画出，检查是否共用正在监控的故障域。
+
+容量按活跃序列、每秒样本、标签变化和查询并发共同估算。采集量相同，频繁创建新序列会增加索引负担；大查询与规则争抢资源也可能拖慢评估。分层或分片时说明依据，验证关键业务不会因为范围调整而掉出所有监控分片。
+
+追问“配置通过为何不告警”，沿发现、抓取、样本、表达式、保留标签、持续时间与通知逐段查证。追问“降抓取频率能否解决高基数”，它降低样本速度但不一定减少身份数量。追问“如何证明修好”，用同一故障样本验证全链路，并说明历史缺口是否仍在。
+
 ## Prometheus 在 AIOps 链路中的位置
 
 ```text
@@ -597,7 +633,7 @@ histogram_quantile(
 
 ### Summary
 
-Summary 也用于耗时、响应大小这类观测值，但它在客户端侧计算分位数。
+Summary 也用于耗时、响应大小，支持分位数的客户端实现可在客户端计算分位数；不是所有语言库都提供该能力，例如本文 Python 客户端的 Summary 不提供下面展示的分位数输出。
 
 常见形态：
 
@@ -651,7 +687,7 @@ curl demo-api:8000/metrics
 最小启动：
 
 ```bash
-docker run --rm --name prometheus -p 9090:9090 prom/prometheus:v3.5.0
+docker run --rm --name prometheus -p 127.0.0.1:9090:9090 prom/prometheus:v3.5.0
 ```
 
 访问：
@@ -685,8 +721,8 @@ PowerShell：
 
 ```powershell
 docker run --rm --name prometheus `
-  -p 9090:9090 `
-  -v ${PWD}/prometheus.yml:/etc/prometheus/prometheus.yml:ro `
+  -p 127.0.0.1:9090:9090 `
+  -v "${PWD}/prometheus.yml:/etc/prometheus/prometheus.yml:ro" `
   prom/prometheus:v3.5.0
 ```
 
@@ -694,7 +730,7 @@ Linux/macOS：
 
 ```bash
 docker run --rm --name prometheus \
-  -p 9090:9090 \
+  -p 127.0.0.1:9090:9090 \
   -v "$PWD/prometheus.yml:/etc/prometheus/prometheus.yml:ro" \
   prom/prometheus:v3.5.0
 ```
@@ -822,12 +858,11 @@ metric_relabel_configs can drop or rewrite scraped metrics
 | `metric_relabel_configs` | 抓取后，写入前，对样本处理 | 丢弃高基数指标或标签 |
 | `__` 开头标签 | Prometheus 内部标签 | 服务发现和 relabel 阶段常见 |
 
-例子：丢弃某个高基数标签：
+例子：按标签名移除 `pod_uid`。先证明移除后样本身份仍唯一，不能把删除标签当聚合：
 
 ```yaml
 metric_relabel_configs:
-  - source_labels: [pod_uid]
-    regex: ".+"
+  - regex: "pod_uid"
     action: labeldrop
 ```
 
@@ -871,7 +906,7 @@ Docker 中挂载数据目录：
 docker volume create prometheus-data
 
 docker run -d --name prometheus \
-  -p 9090:9090 \
+  -p 127.0.0.1:9090:9090 \
   -v prometheus-data:/prometheus \
   -v "$PWD/prometheus.yml:/etc/prometheus/prometheus.yml:ro" \
   prom/prometheus:v3.5.0 \
@@ -1399,6 +1434,8 @@ Python 拉取 Prometheus 数据时，要注意：
 
 ### 第 1 步：准备目录
 
+新建本轮独立 `prometheus-lab` 目录并进入，不覆盖已有实验。准备 Python 3 与 Docker Desktop，确认 8000、9090 端口及示例容器名未被占用。固定 Prometheus 3.5.0 与下面的 Python 库版本仅用于隔离课堂，不是生产安全版本推荐；记录实际环境，升级前核对兼容与安全公告。
+
 ```text
 prometheus-lab/
   app.py
@@ -1422,6 +1459,7 @@ prometheus-client==0.20.0
 import random
 import time
 from http.server import BaseHTTPRequestHandler, HTTPServer
+from urllib.parse import urlsplit
 
 from prometheus_client import Counter, Histogram, generate_latest
 
@@ -1438,12 +1476,18 @@ LATENCY = Histogram(
     ["path"],
 )
 
+# 提前初始化低基数状态，避免从未发生错误时错误序列不存在。
+for route in ("/", "/health", "/fail", "/other"):
+    for code in ("200", "404", "500"):
+        REQUESTS.labels(method="GET", path=route, status=code)
+
 
 class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
-        start = time.time()
+        start = time.perf_counter()
+        request_path = urlsplit(self.path).path
 
-        if self.path == "/metrics":
+        if request_path == "/metrics":
             body = generate_latest()
             self.send_response(200)
             self.send_header("Content-Type", "text/plain; version=0.0.4")
@@ -1451,16 +1495,17 @@ class Handler(BaseHTTPRequestHandler):
             self.wfile.write(body)
             return
 
-        if self.path == "/health":
+        route = request_path if request_path in ("/", "/health", "/fail") else "/other"
+        if route == "/health":
             status = 200
             body = b"ok"
         else:
-            status = random.choice([200, 200, 200, 500])
+            status = 500 if route == "/fail" else (404 if route == "/other" else 200)
             body = b"demo"
 
         time.sleep(random.uniform(0.01, 0.2))
-        REQUESTS.labels(method="GET", path=self.path, status=str(status)).inc()
-        LATENCY.labels(path=self.path).observe(time.time() - start)
+        REQUESTS.labels(method="GET", path=route, status=str(status)).inc()
+        LATENCY.labels(path=route).observe(time.perf_counter() - start)
 
         self.send_response(status)
         self.end_headers()
@@ -1473,11 +1518,12 @@ if __name__ == "__main__":
 
 安装运行：
 
+因为本节让容器访问宿主机应用，示例应用监听所有本机接口。仅在隔离学习网络使用，不给公网或其他不可信机器放行 8000；它没有生产鉴权。无法安全提供该连接时，改用同一隔离容器网络的方案，不关闭防火墙或证书校验来凑实验结果。
+
 ```powershell
 python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install -r requirements.txt
-python app.py
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe app.py
 ```
 
 另开一个终端访问几次：
@@ -1487,6 +1533,20 @@ curl localhost:8000/
 curl localhost:8000/health
 curl localhost:8000/metrics
 ```
+
+`/` 与 `/health` 固定成功，`/fail` 固定返回五百，便于你有意制造已知失败；其他路径归入 `/other`，不把请求参数无限加入指标标签。测耗时使用单调计时器，系统时间校正不会把本次持续时间变成负数。指标延迟只覆盖示例记录前的处理时间，不等同于用户端全部网络耗时。
+
+抓取启动后，在另一个 PowerShell 终端运行以下有限流量，共一百次、约两分钟，每五次有一次固定失败。它仅访问本机课堂地址，不是压力测试：
+
+```powershell
+1..100 | ForEach-Object {
+  $lessonRoute = if ($_ % 5 -eq 0) { '/fail' } else { '/' }
+  curl.exe -s -o NUL "http://127.0.0.1:8000$lessonRoute"
+  Start-Sleep -Seconds 1
+}
+```
+
+预期业务计数增量为八十成功、二十失败；若同时访问了健康页等路径，总量会包含额外请求，查询应限定同一统计集合。`rate` 窗口估算可能因抓取边界与样本不足不恰好等于百分之二十，先核对累计计数和样本时间，不把近似估计当逐笔账本。
 
 ### 第 3 步：配置 Prometheus
 
@@ -1540,9 +1600,9 @@ PowerShell：
 
 ```powershell
 docker run --rm --name prometheus `
-  -p 9090:9090 `
-  -v ${PWD}/prometheus.yml:/etc/prometheus/prometheus.yml:ro `
-  -v ${PWD}/rules:/etc/prometheus/rules:ro `
+  -p 127.0.0.1:9090:9090 `
+  -v "${PWD}/prometheus.yml:/etc/prometheus/prometheus.yml:ro" `
+  -v "${PWD}/rules:/etc/prometheus/rules:ro" `
   prom/prometheus:v3.5.0 `
   --config.file=/etc/prometheus/prometheus.yml
 ```
@@ -1602,7 +1662,9 @@ localhost:9090/rules
 localhost:9090/alerts
 ```
 
-停止 Python demo 后，等待超过 1 分钟，`DemoApiDown` 应该从 pending 变成 firing。
+停止本轮 Python demo 后，经历下一次失败抓取、规则评估以及完整一分钟持续期，`DemoApiDown` 应从 pending 变为 firing，实际等待会超过一分钟。恢复应用后观察抓取回到一、告警恢复，并重新产生有限流量检查计数器重置后的查询。这里未部署 Alertmanager，因此只验证规则状态，不宣称通知已经送达。
+
+清理时在应用终端按 Ctrl+C，并仅停止本轮创建的 Prometheus 容器；带 `--rm` 的临时容器会移除。保留配置、查询与输出，虚拟环境在确认属于本次独立目录后可自行删除。不要清理已有 Prometheus 数据卷。恢复后若无数据，优先看应用是否重启、采样是否足够、查询时间与标签是否仍一致。
 
 ## 实验排障
 
@@ -1631,7 +1693,7 @@ promtool check config prometheus.yml
 如果用 Docker 镜像里的 promtool：
 
 ```bash
-docker run --rm -v "$PWD:/work" -w /work prom/prometheus:v3.5.0 promtool check config prometheus.yml
+docker run --rm --entrypoint promtool -v "${PWD}/prometheus.yml:/etc/prometheus/prometheus.yml:ro" -v "${PWD}/rules:/etc/prometheus/rules:ro" prom/prometheus:v3.5.0 check config /etc/prometheus/prometheus.yml
 ```
 
 ### PromQL 查不到 demo 指标
@@ -1777,7 +1839,7 @@ http_requests_total{
 
 ### Prometheus 和 Grafana 什么关系？
 
-Prometheus 负责采集、存储和查询指标。Grafana 负责把查询结果画成 dashboard。没有 Prometheus，Grafana 没有指标数据源；没有 Grafana，Prometheus 仍然可以查询和告警，但展示体验弱。
+Prometheus 负责采集、存储和查询指标，Grafana 将查询结果画成看板。Grafana 也能连接其他指标数据源，并非只能依赖 Prometheus；没有 Grafana，Prometheus 仍能查询与计算告警。
 
 ### Prometheus 能不能长期保存所有历史？
 

@@ -408,7 +408,7 @@ Client（客户端）
 
 ### 方式一：压缩包安装
 
-前提是安装受支持的 Java。Linux/macOS 使用：
+前提是安装受支持的 Java，并从官方发行页下载本文版本的二进制包、按发行页校验摘要与签名，解压到一个新目录。以下命令在该解压目录内执行，不对既有实例覆盖安装；启动前确认监听端口未占用。Linux/macOS 使用：
 
 ```bash
 java -version # 确认 Java 版本；Tomcat 11 至少需要 Java 17
@@ -446,7 +446,7 @@ docker run --rm tomcat:11.0.24-jdk21-temurin-noble /usr/local/tomcat/bin/version
 
 ```text
 CATALINA_BASE/
-  bin/       启停、版本、诊断脚本
+  bin/       实例专用 setenv 脚本，可选的 tomcat-juli.jar
   conf/      server.xml、web.xml、context.xml、logging.properties
   lib/       实例和全部应用共享的库
   logs/      容器日志、访问日志、应用输出
@@ -463,6 +463,8 @@ CATALINA_BASE/
 | `webapps/` | WAR 或展开目录 | 热覆盖产生半发布状态 |
 | `work/` | JSP 编译产物 | 误把临时产物当源代码 |
 | `temp/` | 运行临时文件 | 清理前未确认进程和路径 |
+
+分离实例目录时，启停与版本脚本仍在 `CATALINA_HOME/bin`，不要以为每个 `CATALINA_BASE/bin` 都有完整发行版脚本。只有未分离、两者指向同一目录时，目录内容才会重合。具体布局参见 [官方实例运行说明](https://tomcat.apache.org/tomcat-11.0-doc/RUNNING.txt)。
 
 ## 配置详解
 
@@ -513,7 +515,7 @@ CATALINA_BASE/
 | `autoDeploy` | 运行中是否自动扫描变更 | 不可变生产环境通常更谨慎 |
 | Access Log `pattern` | 访问日志字段 | `%D` 记录微秒耗时，请求 ID 用于跨层关联 |
 
-不要照抄上述线程和连接值到生产。先做压测，结合 CPU、堆、GC、平均与尾延迟、JDBC 连接池、下游容量和失败目标确定参数。
+不要照抄上述线程和连接值到生产。先做压测，结合 CPU、堆、GC、平均与尾延迟、JDBC 连接池、下游容量和失败目标确定参数。这里 `Server port="-1"` 禁用了关闭端口，和 Connector 的 HTTP 端口不是一回事；此时不能再依靠 `catalina.sh stop` 或 `shutdown.bat` 通过关闭端口正常停机，应使用已配置好的服务管理或容器停止流程。阅读 [Server 配置边界](https://tomcat.apache.org/tomcat-11.0-doc/config/server.html) 后，再选择适合实际启动方式的方案。
 
 ### JVM 参数放在哪里
 
@@ -562,7 +564,7 @@ export CATALINA_OPTS="-Xms2g -Xmx2g -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDump
 ./bin/catalina.sh configtest # 在启动或重启前检查配置解析
 ./bin/catalina.sh run # 前台运行，适合容器和调试
 ./bin/catalina.sh start # 后台启动
-./bin/catalina.sh stop # 请求优雅停止
+./bin/catalina.sh stop # 通过关闭端口请求停止；不适用于 Server port=-1
 ```
 
 正常启动后仍要检查 Context 日志和业务端点。停止超时先抓线程和请求状态，不要直接删除 PID 文件假装已停止。
@@ -588,15 +590,20 @@ Get-Content .\logs\catalina.*.log -Tail 100 # 查看最近日志
 
 ```bash
 jcmd -l # 列出本机 Java 进程和启动主类
-jcmd <PID> VM.version # 查看目标 JVM 版本
-jcmd <PID> VM.flags # 查看实际生效 JVM 参数
-jcmd <PID> Thread.print > thread-$(date +%s).txt # 保存 Thread Dump
-jcmd <PID> GC.heap_info # 查看堆概况
-jcmd <PID> GC.class_histogram > histogram.txt # 生成类实例直方图，会产生诊断开销
-jcmd <PID> JFR.start name=incident settings=profile duration=60s filename=incident.jfr # 录制 60 秒 JFR
+read -r -p '输入已核对的本次实验 Tomcat 进程号：' tomcatPid
+if [[ "$tomcatPid" =~ ^[1-9][0-9]*$ ]]; then
+  jcmd "$tomcatPid" VM.version # 查看目标 JVM 版本
+  jcmd "$tomcatPid" VM.flags # 查看实际生效 JVM 参数
+  jcmd "$tomcatPid" Thread.print > "thread-$(date +%s).txt" # 保存线程快照
+  jcmd "$tomcatPid" GC.heap_info # 查看堆概况
+  jcmd "$tomcatPid" GC.class_histogram > histogram.txt # 有诊断开销，先确认允许
+  jcmd "$tomcatPid" JFR.start name=incident settings=profile duration=60s filename=incident.jfr
+else
+  printf '%s\n' '未提供正整数进程号，不执行诊断。'
+fi
 ```
 
-JFR 是 Java Flight Recorder。它能记录线程、锁、CPU、分配、GC 和 I/O 等事件。生产执行诊断前应评估开销、磁盘、权限和敏感信息，并遵守变更流程。
+这段使用 Bash，在新建的证据目录运行以免覆盖旧文件；每次执行前核对进程归属，不能把 `0` 当占位符广播给全部 Java 进程。JFR 的相对输出路径按目标 JVM 的工作目录解析，不一定是当前终端目录，应预先确认目标目录可写、空间足够。JFR 是 Java Flight Recorder。它能记录线程、锁、CPU、分配、GC 和 I/O 等事件。生产执行诊断前应评估开销、磁盘、权限和敏感信息，并遵守变更流程。
 
 ### Manager 文本接口
 
@@ -720,6 +727,14 @@ Get-NetTCPConnection -LocalPort 18080 -ErrorAction SilentlyContinue # 无输出�
 
 ### 第一步：创建目录
 
+在个人学习目录执行下面步骤。若同名目录已存在就停止并换一个新的实验位置，不复用未知 Compose 项目；同时确认没有同名 `tomcat-aiops-lab` Compose 项目正在运行。
+
+```powershell
+if (Test-Path -LiteralPath .\tomcat-aiops-lab) { throw '实验目录已存在，请换新位置。' }
+New-Item -ItemType Directory -Path .\tomcat-aiops-lab\webapps\ROOT\WEB-INF | Out-Null
+Set-Location .\tomcat-aiops-lab
+```
+
 ```text
 tomcat-aiops-lab/
   compose.yaml
@@ -787,6 +802,8 @@ docker compose logs --no-color tomcat # 应看到 Server startup 和 ROOT 应用
 docker compose exec tomcat /usr/local/tomcat/bin/version.sh # 查看容器内实际 Tomcat 与 Java 版本
 ```
 
+后台启动命令返回不代表部署完成。观察启动和 ROOT 部署日志后再访问；若一分钟内仍未出现完成信息，先查日志和容器状态，不把启动期间的连接拒绝当作应用故障的预期结果。
+
 ### 第六步：访问与验证
 
 ```powershell
@@ -808,7 +825,7 @@ Content-Type: application/json;charset=UTF-8
 docker compose exec tomcat sh -lc "tail -n 5 /usr/local/tomcat/logs/localhost_access_log*.txt"
 ```
 
-预期能看到 `GET / HTTP/1.1` 和状态码 `200`。
+预期能看到 `GET / HTTP/1.1` 和状态码 `200`。默认访问日志可能缓冲写出，刚请求完暂时看不到时稍后重查；连续一分钟没有记录再核对日志配置、文件日期和实际容器，不能立即断定请求没有到达。
 
 ### 验证结果
 
@@ -887,6 +904,7 @@ services:
 ```powershell
 docker compose -f compose.yaml -f compose.fault.yaml up -d --force-recreate
 docker compose -f compose.yaml -f compose.fault.yaml ps
+# 先按下一步日志检查确认本次启动已完成、ROOT 部署已失败，再执行请求
 curl.exe -i http://127.0.0.1:18080/
 ```
 
@@ -937,6 +955,7 @@ docker compose -f compose.yaml -f compose.fault.yaml logs --no-color tomcat |
 ```powershell
 docker compose -f compose.yaml -f compose.fault.yaml down
 docker compose -f compose.yaml up -d --force-recreate
+# 与基础实验一样等待启动及 ROOT 部署完成，再请求恢复后的应用
 curl.exe -i -H "X-Request-ID: lab-recovered" http://127.0.0.1:18080/
 ```
 
@@ -958,7 +977,7 @@ docker compose -f compose.yaml down
 
 ### 如果没有得到预期故障
 
-1. 用 `docker compose config` 确认覆盖后的嵌套挂载存在。
+1. 用 `docker compose -f compose.yaml -f compose.fault.yaml config` 确认覆盖后的嵌套挂载存在；只读基础文件看不到故障覆盖。
 2. 用 `docker compose exec tomcat cat /usr/local/tomcat/webapps/ROOT/WEB-INF/web.xml` 确认容器看到的是故障文件。
 3. 确认执行了 `--force-recreate`，旧容器不会继续使用旧挂载。
 4. 如果是 500 而不是 404，也以部署日志为准；不同阶段失败可能返回不同状态。
@@ -1359,6 +1378,8 @@ tomcat-aiops-lab/
     incident-review.md
     production-design.md
 ```
+
+目录中的 `compose` 文件是正常与故障编排，`webapps` 保存网页应用，`faults` 保存故障描述符；`evidence` 分别记录版本、正常响应、访问日志、部署失败和恢复响应，`notes` 依次解释请求路径、线程连接队列、版本迁移、事故复盘与生产设计。文件名保持英文，内容用自己的中文证据说明。
 
 `README.md` 至少写清：
 

@@ -184,6 +184,8 @@ KVM 技术栈主要解决：
   -> 物理 CPU、内存、网卡、磁盘或共享存储
 ```
 
+这里的 NUMA 是非一致内存访问架构：处理器访问本地内存与其他处理器附近的内存，延迟可能不同；pCPU 是宿主机可调度的物理处理器资源，vCPU 是交给客户机使用的虚拟处理器。vhost 是把部分虚拟设备数据处理移到内核或独立后端的加速方式；TAP 是承接以太网帧的虚拟接口，Linux Bridge 是把接口连接起来的软件网桥。它们分别属于执行、内存位置和网络路径，不是一组可以互换的“虚拟化开关”。
+
 一台 QEMU/KVM 虚拟机通常对应宿主机上的一个 QEMU 进程。虚拟机的多个 vCPU 通常对应这个进程中的多个线程，所以宿主机调度器仍然决定这些 vCPU 线程什么时候获得物理 CPU 时间。
 
 ## 核心知识树
@@ -281,7 +283,7 @@ virsh domcapabilities > domain-caps.xml     # 查看当前组合可创建哪些�
 
 ### 6. 内存虚拟化、NUMA 与回收
 
-**是什么：** 客户机看到的是 guest virtual/physical memory，KVM 和硬件的 EPT/NPT 二级页表再把它映射到宿主机物理内存。
+**是什么：** 客户机进程使用 guest virtual address（客户机虚拟地址），客户机页表先把它转换为 guest physical address（客户机物理地址）；硬件的 EPT/NPT 二级地址转换再把客户机物理地址映射到 host physical address（宿主机物理地址）。EPT 是 Intel 扩展页表，NPT 是 AMD 嵌套页表；不要把两级转换理解成客户机进程直接拿到了宿主机物理地址。
 
 **为什么需要：** 每台虚拟机需要独立地址空间，同时平台可能使用超售、balloon、KSM、透明大页或 HugeTLB 优化容量和性能。
 
@@ -371,7 +373,7 @@ qemu-img info --backing-chain vm-overlay.qcow2 # 展开整个镜像链，排查�
 virsh domblkinfo kvm-lab vda                    # 查看虚拟磁盘容量和分配情况
 ```
 
-**坏了怎么查：** 先确认路径、权限和 SELinux 标签，再检查存储是否挂载、镜像链是否完整、空间与 inode 是否耗尽、底层延迟是否异常。运行中的镜像不要随意用 `qemu-img check -r` 修复。
+**坏了怎么查：** 先确认路径、权限和 SELinux 标签，再检查存储是否挂载、镜像链是否完整、空间与 inode 是否耗尽、底层延迟是否异常。对活动磁盘优先使用 libvirt/QMP 读取状态；`qemu-img` 可能因 QEMU 持锁而拒绝访问，不要为了得到输出绕过锁，更不能对运行中的镜像执行修复、转换或扩容。检查镜像文件应在已确认停机或独立一致副本上进行。[QEMU 镜像工具安全说明](https://www.qemu.org/docs/master/tools/qemu-img.html)
 
 ### 10. 快照、克隆与备份边界
 
@@ -480,7 +482,7 @@ virsh start kvm-lab（启动名为 kvm-lab 的实验虚拟机）
 客户机应用 write
   -> 客户机文件系统与块层
   -> virtio-blk / virtio-scsi（半虚拟化块设备或磁盘控制器驱动）
-  -> QEMU IOThread 或主事件循环
+  -> QEMU IOThread（输入输出处理线程）或主事件循环
   -> qcow2/raw/块设备/网络存储
   -> 宿主机文件系统或存储客户端
   -> 物理介质与副本机制
@@ -704,18 +706,20 @@ df -h "$HOME"                             # 确认可用空间足够保存基础
 1. 创建下载目录和 SSH 密钥。
 
 ```bash
-DOWNLOAD_DIR="$HOME/kvm-lab-download" # 普通用户下载区，不直接作为 system Domain 的运行目录
-mkdir -p "$DOWNLOAD_DIR"               # 创建独立下载目录，方便校验和清理
-cd "$DOWNLOAD_DIR"                     # 后续下载文件先放在这里
-test -f "$HOME/.ssh/id_ed25519.pub" || ssh-keygen -t ed25519 -f "$HOME/.ssh/id_ed25519" -N '' # 没有密钥时创建实验密钥
+DOWNLOAD_DIR="$HOME/kvm-lab-download" # 只用本轮新建目录，不复用旧证据
+test ! -e "$DOWNLOAD_DIR" && test ! -L "$DOWNLOAD_DIR" || exit 1
+mkdir -m 0700 "$DOWNLOAD_DIR" || exit 1
+cd "$DOWNLOAD_DIR" || exit 1
+ssh-keygen -t ed25519 -f "$DOWNLOAD_DIR/lab_ed25519" -N '' || exit 1
 ```
 
 2. 下载 Ubuntu 24.04 LTS 云镜像，校验摘要并检查格式。
 
 ```bash
-curl -fL -o noble-server-cloudimg-amd64.img https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img # 下载官方当前 Noble 云镜像
-curl -fLO https://cloud-images.ubuntu.com/noble/current/SHA256SUMS # 下载同目录的官方 SHA256 摘要清单
-grep 'noble-server-cloudimg-amd64.img' SHA256SUMS | sha256sum -c - # 预期输出 OK；摘要不匹配时立即删除镜像并停止
+set -o pipefail # 校验管道中任一环节失败都视为失败
+curl -fL -o noble-server-cloudimg-amd64.img https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img || exit 1
+curl -fLO https://cloud-images.ubuntu.com/noble/current/SHA256SUMS || exit 1
+grep 'noble-server-cloudimg-amd64.img' SHA256SUMS | sha256sum -c - || exit 1 # 预期 OK；失败就停止，不安装未验证镜像
 qemu-img info noble-server-cloudimg-amd64.img # 应看到 file format: qcow2；若不是，后续 backing format 必须按实际值调整
 ```
 
@@ -723,11 +727,12 @@ qemu-img info noble-server-cloudimg-amd64.img # 应看到 file format: qcow2；�
 
 ```bash
 LAB_DIR=/var/lib/libvirt/images/kvm-lab # system Domain 使用的标准镜像目录
-sudo install -d -o libvirt-qemu -g kvm -m 0750 "$LAB_DIR" # Ubuntu 上让 QEMU 账号可进入目录
-sudo install -o root -g kvm -m 0640 noble-server-cloudimg-amd64.img "$LAB_DIR/noble-base.qcow2" # 基础层只需让 QEMU 读取
-sudo qemu-img create -f qcow2 -F qcow2 -b "$LAB_DIR/noble-base.qcow2" "$LAB_DIR/kvm-lab.qcow2" 12G # 新写入落在 overlay，基础镜像保持不变
-sudo chown libvirt-qemu:kvm "$LAB_DIR/kvm-lab.qcow2" # 让 Ubuntu 的 QEMU 运行账号能够写 overlay
-sudo chmod 0660 "$LAB_DIR/kvm-lab.qcow2"            # 只给文件所有者和 kvm 组读写权限
+sudo test ! -e "$LAB_DIR" && sudo test ! -L "$LAB_DIR" || exit 1
+sudo install -d -o libvirt-qemu -g kvm -m 0750 "$LAB_DIR" || exit 1 # Ubuntu 上让 QEMU 账号可进入目录
+sudo install -o root -g kvm -m 0640 noble-server-cloudimg-amd64.img "$LAB_DIR/noble-base.qcow2" || exit 1 # 基础层只需让 QEMU 读取
+sudo qemu-img create -f qcow2 -F qcow2 -b "$LAB_DIR/noble-base.qcow2" "$LAB_DIR/kvm-lab.qcow2" 12G || exit 1 # 新写入落在 overlay
+sudo chown libvirt-qemu:kvm "$LAB_DIR/kvm-lab.qcow2" || exit 1 # 允许 Ubuntu 的 QEMU 运行账号写入
+sudo chmod 0660 "$LAB_DIR/kvm-lab.qcow2" || exit 1 # 只给文件所有者和 kvm 组读写权限
 sudo qemu-img info --backing-chain "$LAB_DIR/kvm-lab.qcow2" # 应看到 overlay 和绝对路径基础镜像两层
 ```
 
@@ -748,7 +753,7 @@ virt-install \
   --os-variant ubuntu24.04 \
   --graphics none \
   --console pty,target_type=serial \
-  --cloud-init clouduser-ssh-key="$HOME/.ssh/id_ed25519.pub",disable=on \
+  --cloud-init clouduser-ssh-key="$DOWNLOAD_DIR/lab_ed25519.pub",disable=on \
   --noautoconsole # 创建持久 Domain 并后台启动；cloud-init 把公钥写入镜像默认用户
 ```
 
@@ -770,7 +775,7 @@ virsh -c qemu:///system net-dhcp-leases default          # 等待 cloud-init 启
 先从 DHCP lease 找到 IP。Ubuntu 官方云镜像默认用户通常是 `ubuntu`：
 
 ```bash
-ssh -i "$HOME/.ssh/id_ed25519" ubuntu@VM_IP # 把 VM_IP 替换为实际地址；首次连接核对主机指纹后确认
+ssh -i "$DOWNLOAD_DIR/lab_ed25519" ubuntu@VM_IP # 使用本轮独立实验密钥；首次连接核对主机指纹
 ```
 
 进入客户机后：
@@ -813,16 +818,25 @@ cat /proc/cpuinfo | grep -m1 name # 查看客户机暴露的 CPU 模型
 ```bash
 virsh -c qemu:///system shutdown kvm-lab # 请求客户机正常关机
 virsh -c qemu:///system domstate kvm-lab # 等待状态变为 shut off，不要立刻强制断电
-virsh -c qemu:///system undefine kvm-lab # 删除 libvirt 定义；这里没有携带删除存储参数
+test "$(LC_ALL=C virsh -c qemu:///system domstate kvm-lab)" = 'shut off' || exit 1
+sudo test ! -L /var/lib/libvirt/images/kvm-lab || exit 1
+test "$(sudo realpath -e /var/lib/libvirt/images/kvm-lab)" = /var/lib/libvirt/images/kvm-lab || exit 1
+test "$DOWNLOAD_DIR" = "$HOME/kvm-lab-download" || exit 1
+test ! -L "$DOWNLOAD_DIR" || exit 1
+test "$(realpath -e "$DOWNLOAD_DIR")" = "$HOME/kvm-lab-download" || exit 1
+printf '%s\n' /var/lib/libvirt/images/kvm-lab "$DOWNLOAD_DIR" # 核对本轮创建的两个精确目录
+cd "$HOME" || exit 1 # 先离开下载目录，再删除其中的明确文件
+virsh -c qemu:///system undefine kvm-lab || exit 1 # 若 NVRAM/快照等阻止删除，先查原因，不继续删盘
 sudo rm -f /var/lib/libvirt/images/kvm-lab/kvm-lab.qcow2 # 确认 Domain 已删除后，再删除实验 overlay
 sudo rm -f /var/lib/libvirt/images/kvm-lab/noble-base.qcow2 # overlay 删除后再删除它依赖的基础镜像
 sudo rmdir /var/lib/libvirt/images/kvm-lab # 目录为空时删除 system Domain 实验目录
 rm -f "$HOME/kvm-lab-download/noble-server-cloudimg-amd64.img" # 删除下载区的云镜像副本
 rm -f "$HOME/kvm-lab-download/SHA256SUMS" # 删除下载区的摘要清单
+rm -f "$DOWNLOAD_DIR/lab_ed25519" "$DOWNLOAD_DIR/lab_ed25519.pub" # 只删除本轮生成的实验密钥
 rmdir "$HOME/kvm-lab-download"            # 目录为空时再删除下载目录，避免误删其他文件
 ```
 
-不要删除 `~/.ssh/id_ed25519`，除非它确实是专为本实验创建且没有被其他环境使用。
+这里从未使用或更改用户原有 SSH 密钥。清理仅针对本轮创建的两张实验磁盘、下载副本、摘要与独立实验密钥，不递归删除目录；如果目录非空，让 rmdir 失败并人工检查，不增加通配或递归选项。若独占实验机启用了本来没有启用的 default 网络、自启动、用户组和服务，这些宿主机准备步骤仍保留；完整恢复可重装该实验机，不应为了清理 VM 去关闭其他 VM 正在使用的共享网络或服务。
 
 ## 故障实验：切断并恢复实验虚拟机网卡
 
@@ -839,7 +853,8 @@ rmdir "$HOME/kvm-lab-download"            # 目录为空时再删除下载目录
 ```bash
 VM=kvm-lab # 明确实验对象，避免把命令作用到别的虚拟机
 IFACE=$(virsh -c qemu:///system domiflist "$VM" | awk 'NR>2 && $1 != "" {print $1; exit}') # 取第一张 TAP 接口名，例如 vnet0
-test -n "$IFACE" && echo "$IFACE" # 必须打印非空接口名；为空时立即停止实验
+test -n "$IFACE" || exit 1 # 必须先取得接口名；为空就停止
+echo "$IFACE" # 人工核对这确实是 kvm-lab 的实验网卡
 virsh -c qemu:///system domif-getlink "$VM" "$IFACE" # 基线应为 up
 ip -s link show "$IFACE"                              # 保存收发包、丢包和错误计数
 ```
@@ -915,7 +930,7 @@ KVM 负责运行虚拟机，不负责跨宿主机做成员管理、调度决策�
   + 可靠的共享或复制存储
   + 冗余业务、管理、存储和迁移网络
   + 集群成员与仲裁
-  + fencing / STONITH 故障隔离
+  + fencing / STONITH（通过断电等方式隔离故障节点）
   + 虚拟机放置和重启控制器
   + 应用健康检查与流量切换
 ```
@@ -1472,3 +1487,5 @@ kvm-aiops-lab/
 5. [VMware vSphere 深讲](./vsphere.md)：比较商业虚拟化平台的集成能力和运维模型。
 
 真正达到生产和面试要求，需要把本文实验亲自跑通，保留失败证据，完成至少一次宿主机或网络故障演练，并能解释每个设计取舍的业务背景。
+
+本轮终审仅核对官方文档、代码/图注和实验前后条件，没有安装 Linux 虚拟化组件，没有创建 VM，没有切断虚拟网卡，也没有运行镜像合并、迁移或 HA 接管。文中预期现象是待读者验证的验收标准，不是本轮运行记录。

@@ -529,15 +529,16 @@ Windows 和 macOS 不直接运行官方 Linux Installer。可以在 Linux 虚拟
 在 JumpServer Linux 实验机执行：
 
 ```bash
-cd /tmp
+JUMP_DOWNLOAD_DIR=$(mktemp -d /tmp/jumpserver-download.XXXXXXXX) || exit 1
+cd "$JUMP_DOWNLOAD_DIR" || exit 1 # 只在本次新建目录下载，不复用旧文件
 
 wget \
-  https://github.com/jumpserver/installer/releases/download/v4.10.18/jumpserver-installer-v4.10.18.tar.gz
+  https://github.com/jumpserver/installer/releases/download/v4.10.18/jumpserver-installer-v4.10.18.tar.gz || exit 1
 
 wget \
-  https://github.com/jumpserver/installer/releases/download/v4.10.18/jumpserver-installer-v4.10.18.tar.gz.md5
+  https://github.com/jumpserver/installer/releases/download/v4.10.18/jumpserver-installer-v4.10.18.tar.gz.md5 || exit 1
 
-md5sum -c jumpserver-installer-v4.10.18.tar.gz.md5
+md5sum -c jumpserver-installer-v4.10.18.tar.gz.md5 || exit 1 # 校验失败不得继续解压安装
 ```
 
 预期：
@@ -551,11 +552,18 @@ MD5 只能发现传输损坏，不是现代供应链签名。生产还要从官�
 ### 解压并安装
 
 ```bash
-sudo tar -xf jumpserver-installer-v4.10.18.tar.gz -C /opt
-cd /opt/jumpserver-installer-v4.10.18
+# 仅供全新专用虚拟机；存在旧目录就停止，不能覆盖既有安装或数据。
+for jumpPath in /opt/jumpserver-installer-v4.10.18 /opt/jumpserver /data/jumpserver; do
+  if sudo test -e "$jumpPath" || sudo test -L "$jumpPath"; then
+    printf '%s\n' "发现既有路径 $jumpPath，停止。"
+    exit 1
+  fi
+done
+sudo tar -xf jumpserver-installer-v4.10.18.tar.gz -C /opt || exit 1
+cd /opt/jumpserver-installer-v4.10.18 || exit 1
 
-sudo ./jmsctl.sh install
-sudo ./jmsctl.sh start
+sudo ./jmsctl.sh install || exit 1
+sudo ./jmsctl.sh start || exit 1
 sudo ./jmsctl.sh status
 ```
 
@@ -594,11 +602,11 @@ http://<jumpserver-lab-ip>/
 | `HTTP_PORT` | Web 入口端口 | 生产由 TLS LB / 反向代理暴露 |
 | `DOMAINS` | 受信访问域名 | 域名、端口和代理配置要一致 |
 | `KOKO_SSH_PORT` | Koko SSH 入口 | LB、防火墙和客户端必须一致 |
-| `SESSION_COOKIE_AGE` | 空闲会话有效期 | 按风险设定，不能无限放大 |
+| `SESSION_COOKIE_AGE` | 网页登录 Session Cookie 的有效期，单位秒 | 不等于 SSH/RDP 终端空闲超时；按实际登录续期与终端策略分别验证 |
 | `SESSION_EXPIRE_AT_BROWSER_CLOSE` | 关闭浏览器后是否过期 | 结合会话安全策略评估 |
 | `CLIENT_MAX_BODY_SIZE` | 请求体上限 | 影响文件上传和反向代理限制 |
 
-修改配置前先备份，并按官方要求停止或维护窗口变更。不要把完整 `config.txt` 直接提交 Git，因为其中包含秘密。
+修改配置前先备份，并按官方要求停止或维护窗口变更。Cookie 参数的含义按 [官方配置参考](https://docs.jumpserver.org/zh/v4/manual/env/)核对；关闭浏览器也不等于强制结束目标系统上正在运行的命令。不要把完整 `config.txt` 直接提交 Git，因为其中包含秘密。
 
 ## 命令、页面与 API 字典
 
@@ -667,7 +675,7 @@ Audit Completeness
   = 同时具备 Session 元数据和应有审计对象的会话数 / 已结束会话数
 ```
 
-健康接口成功但资产连接失败时，第一项 SLI 会真实下降；Session 存在但录像写入失败时，第二项会暴露审计缺口。
+上面两个英文指标分别是资产连接成功率与审计完整率。统计前明确合法尝试的分母、不同协议应有的审计对象，以及结束后允许录像上传的等待窗口，否则尚未完成异步上传的会话会被误记为缺失。健康接口成功但资产连接失败时，第一项 SLI 会真实下降；Session 存在但录像写入失败时，第二项会暴露审计缺口。
 
 ## 容量与性能
 
@@ -692,7 +700,7 @@ Daily Recording
   × 86400 seconds
 ```
 
-再乘保留天数、压缩系数、副本和增长余量。平均码率必须从真实协议、分辨率和操作类型测量，不能凭空给一个统一数字。
+英文公式表示：日录像量约等于全天平均并发会话数，乘每会话每秒平均落盘录像字节数，再乘一天秒数。平均并发应包含无人使用时段，不把工作高峰值直接当全天平均。再乘保留天数、副本和增长余量；若测得的就是压缩后的实际落盘速率，不要再乘一次压缩系数。平均码率必须从真实协议、分辨率和操作类型测量，不能凭空给一个统一数字。
 
 ### 数据库和 Redis
 
@@ -796,7 +804,7 @@ Load Balancer
   + Tested Failover
 ```
 
-官方高可用参考允许按需要扩 JumpServer 节点并加入 HAProxy，同时明确数据库、Redis、NFS/对象存储要有自己的高可用设计。单台 NFS 仍是单点，生产应使用高可用 NFS、Ceph 或受支持的对象存储。
+图中八个部分依次是负载均衡、多应用节点、高可用数据库、高可用 Redis、共享或对象录像存储、命令存储、一致的秘密与配置、已演练的故障切换。它们是相互依赖的保障，不是八台机器的数量清单。官方高可用参考允许按需要扩 JumpServer 节点并加入 HAProxy，同时明确数据库、Redis、NFS/对象存储要有自己的高可用设计。单台 NFS 仍是单点，生产应使用高可用 NFS、Ceph 或受支持的对象存储。
 
 ### 故障域
 
@@ -880,8 +888,8 @@ sudo ./jmsctl.sh backup_db
 官方集群升级流程要求先停止所有 JumpServer 节点，再选择一个节点执行首轮升级；数据库迁移和版本切换期间不应混跑新旧应用节点。它是有维护窗口的集群升级，不应宣传为滚动零停机。恢复其他节点前，先验证首节点的数据库迁移、Core 健康、测试资产访问和审计写入。
 
 ```text
-进入维护窗口并停止所有 JumpServer 节点
-  -> 记录在线会话
+进入维护窗口并记录、按方案排空在线会话
+  -> 停止所有 JumpServer 节点
   -> 完成一致备份
   -> 选择一个节点更新 Installer / Images
   -> 执行数据库迁移并验证首节点
@@ -982,17 +990,21 @@ AIOps 可以生成候选：
 
 ```bash
 sudo apt-get update
-sudo apt-get install -y openssh-server
-sudo systemctl enable --now ssh
+sudo apt-get install -y openssh-server || exit 1
+sudo systemctl enable --now ssh || exit 1
 
-sudo useradd -m -s /bin/bash js-lab
-sudo passwd js-lab
+if id js-lab >/dev/null 2>&1 || sudo test -e /home/js-lab || sudo test -L /home/js-lab; then
+  printf '%s\n' '同名用户或家目录已存在，请换全新实验资产。'
+  exit 1
+fi
+sudo useradd -m -s /bin/bash js-lab || exit 1
+sudo passwd js-lab || exit 1
 
 ip address
 sudo ss -lntp | grep ':22'
 ```
 
-为 `js-lab` 设置只用于实验的密码。预期看到 SSH 监听 `:22`，并记录测试资产私网 IP。
+先确认 `js-lab` 用户和同名家目录不存在；创建失败就停止，不对已有同名用户执行改密。为新建的 `js-lab` 设置只用于实验的密码。预期看到 SSH 监听 `:22`，并记录测试资产私网 IP 与 `hostname` 输出。确认测试镜像的 SSH 策略允许该用户使用所选认证方式；只允许密钥的镜像应改用专用测试密钥，不因课堂示例而放宽整机认证策略。普通用户默认仍可写自己的家目录，本实验只约定执行只读命令，并未把这个账号变成强制只读沙箱。
 
 ### 第二步：创建 JumpServer 测试用户
 
@@ -1063,7 +1075,7 @@ id
 预期：
 
 - `whoami` 返回 `js-lab`。
-- `hostname` 是测试资产名称。
+- `hostname` 是测试资产操作系统中的主机名，应与第一步记录一致；不一定等于 JumpServer 页面上的资产显示名称 `ubuntu-ssh-lab`。
 - 会话可以正常退出。
 - 用户不知道目标账号密码明文也能访问。
 
@@ -1112,7 +1124,7 @@ id
 
 ### 清理
 
-先导出学习证据，再按依赖顺序删除：
+如果继续下一节故障实验，暂不清理。两个实验全部结束、退出全部测试会话并导出学习证据后，再按依赖顺序删除：
 
 ```text
 资产授权
@@ -1137,6 +1149,8 @@ id
 - 没有生产会话。
 
 ### 第一步：保存健康基线
+
+下面监听检查在测试资产虚拟机执行，确认 `22` 有 SSH 服务、`2223` 确实没有服务；故障注入只修改平台资产元数据，不能改真实 SSH 监听。准备好 JumpServer 节点上的 `nc`（网络连接探测工具）再开始。
 
 ```bash
 sudo ss -lntp | grep ':22'
@@ -1179,8 +1193,13 @@ sudo ./jmsctl.sh tail koko
 从 JumpServer 节点执行：
 
 ```bash
-nc -vz <test-asset-ip> 2223
-nc -vz <test-asset-ip> 22
+read -r -p '输入本次已授权测试资产的 IPv4 地址：' jumpTestIp
+if [[ "$jumpTestIp" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+  nc -vz -w 3 "$jumpTestIp" 2223 # 最多等待三秒，探测已确认无服务的端口
+  nc -vz -w 3 "$jumpTestIp" 22   # 对照正常 SSH 端口
+else
+  printf '%s\n' '输入不符合本实验 IPv4 格式，停止探测。'
+fi
 ```
 
 预期：
@@ -1215,7 +1234,7 @@ nc -vz <test-asset-ip> 22
 ### 清理与复盘
 
 - 确认端口已恢复 22。
-- 删除失败测试会话，或保留为脱敏学习证据。
+- 保留失败与恢复的审计记录作为脱敏证据，不为“清理红色”删除审计；按基础实验末尾顺序回收测试授权、对象和两台虚拟机。
 - 记录为什么页面健康不能证明资产链路健康。
 - 为 Connection Failure 按网络、端口、账号、授权、协议建立分类。
 
@@ -1304,7 +1323,7 @@ nc -vz <test-asset-ip> 22
 
 - LB 空闲超时小于终端心跳间隔。
 - WebSocket Upgrade 头丢失。
-- 长连接被随机切到不同后端。
+- 原连接被 LB 重载、超时或后端退出打断，重连又分配到缺少所需上下文的节点；已建立的普通 TCP/WebSocket 连接不会在后端之间逐请求随机漂移。
 - SSH 入口没有按 TCP 转发。
 - Redis 会话共享异常。
 
@@ -1519,6 +1538,8 @@ jumpserver-aiops-lab/
   incidents/
     wrong-ssh-port-review.md
 ```
+
+`evidence` 是版本、安装器校验、组件状态、健康检查、授权、SSH 成功、会话命令录像、错误端口与恢复证据；`design` 记录身份账号映射、SSH 路径、存储边界、容量、高可用恢复目标与升级回退；`incidents` 保存错误端口故障复盘。保留英文文件名，内容逐项写清中文结论与真实验证状态。
 
 README 必须区分：
 

@@ -5,7 +5,7 @@
 ## 官方资料
 
 - [Apache Hadoop 官网](https://hadoop.apache.org/)
-- [Apache Hadoop 3.5.0 文档总览](https://hadoop.apache.org/docs/current/)
+- [Apache Hadoop 3.5.0 文档总览](https://hadoop.apache.org/docs/r3.5.0/)
 - [Apache Hadoop 发布与校验](https://hadoop.apache.org/releases.html)
 - [单节点安装](https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-common/SingleCluster.html)
 - [集群安装](https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-common/ClusterSetup.html)
@@ -24,7 +24,7 @@
 - [Hadoop Metrics2](https://hadoop.apache.org/docs/current/api/org/apache/hadoop/metrics2/package-summary.html)
 - [DistCp](https://hadoop.apache.org/docs/current/hadoop-distcp/DistCp.html)
 
-说明：本文基于 Apache 官方文档重新组织，不复制官方全文。本文更新时当前稳定文档为 Hadoop `3.5.0`。该版本服务端要求 Java 17，客户端支持 Java 17 和 Java 21。真实环境必须先执行 `hadoop version`、`java -version`，再阅读对应版本的 release notes、兼容性说明和发行版厂商文档。
+说明：本文基于 Apache 官方文档重新组织，不复制官方全文。教学版本固定为 Hadoop `3.5.0`，不表示阅读当天的最新版。该版本服务端要求 Java 17，客户端支持 Java 17 和 Java 21。带 `current` 的深入链接会随官网变化，需从固定版本总览进入对应章节核对。真实环境必须先执行 `hadoop version`、`java -version`，再阅读对应版本的 release notes、兼容性说明和发行版厂商文档。
 
 ## 官方知识地图
 
@@ -59,6 +59,8 @@ MapReduce（映射归约批计算）
 ```
 
 本文按下面的顺序学习：
+
+地图里的 RPC 是远程过程调用，FileSystem API 是统一文件系统接口；HA 是高可用，Federation 是把命名空间分给多个元数据服务，EC 是纠删码。Kerberos 是票据认证，ACL 是访问控制列表，Metrics2 与 JMX 是指标框架和 Java 管理接口，Web UI 是网页管理界面。Decommission 表示受控退役，Balancer 是均衡器，Upgrade、Rollback、DistCp 分别指升级、回退和分布式复制工具。这里的 Container 是 YARN 资源分配单元，不必然是 Docker 容器。
 
 ```text
 先分清 Hadoop 核心与生态
@@ -171,7 +173,7 @@ Hadoop 更擅长高吞吐、大文件、顺序读写和批处理，不以极低�
 | Spark | 否 | 通用分布式计算引擎，可使用 HDFS/YARN |
 | Flink | 否 | 流批处理引擎，可接 Hadoop 存储与生态 |
 | ZooKeeper | 否 | 分布式协调，HDFS/YARN HA 可依赖它 |
-| Ozone | Hadoop 子项目 | 面向对象存储语义的分布式存储系统 |
+| Ozone | 独立 Apache 项目，与 Hadoop 生态集成 | 面向对象存储语义的分布式存储系统 |
 
 ## 总体架构和数据流
 
@@ -413,12 +415,12 @@ Partitioner 决定某个 key 进入哪个 reducer。默认常按 key hash 分区
 
 ### Shuffle、Sort 与 Reducer
 
-Shuffle 不是一句“网络传输”就能概括。map 输出先在内存缓冲，达到阈值后 spill 到本地磁盘，分区并排序；reduce 端跨节点拉取属于自己的分区，再合并、排序和分组，最后调用 Reducer。
+Shuffle 不是一句“网络传输”就能概括。map 输出先进入内存缓冲，分区编号已由 Partitioner 决定；达到阈值触发 spill（溢写）时，按分区及 key 排序后写成本地文件，而不是先写无序文件再随意分区。reduce 端跨节点拉取属于自己的分区，再合并、排序和分组，最后调用 Reducer。
 
 ```text
 Mapper output buffer（映射端输出缓冲区）
-  -> spill file（溢写文件）
   -> partition（分区） + sort（排序）
+  -> spill file（已按分区组织并排序的溢写文件）
   -> merge（归并有序溢写文件）
   -> network fetch（网络拉取）
   -> reduce-side merge（归约端归并） + sort（排序）
@@ -449,41 +451,52 @@ Speculative execution，即推测执行，会为明显落后的 task 启动额�
 - 至少 4 vCPU、8 GB 内存、20 GB 空闲磁盘。
 - Java 17。
 - Hadoop 3.5.0。
-- 端口只绑定在可信实验网络，不暴露到公网。
+- 使用只有本人可访问的隔离实验网络；下载后关闭公网入站、桥接网络和端口转发。下列组件有监听所有网卡的默认端口，浏览器访问 `localhost` 并不等于服务只绑定回环地址；启动后必须检查监听与实验机入站规则，不能直接运行在多人共享服务器上。
 
 Windows 原生不是官方生产平台。Windows 用户建议使用 WSL2 或 Linux 虚拟机完成实验。
 
-### 安装 Java、SSH 和 Hadoop
+### 安装 Java 和 Hadoop
+
+先在专用实验机确认 Java 17、`curl`、`tar`、`sha512sum` 和 `timeout` 可用。若缺少 Java，下面软件安装需要该实验机管理员授权；已有环境跳过安装。本文直接启动各 daemon，不需要安装或开启 SSH 服务。
 
 ```bash
 sudo apt-get update # 更新软件包索引
-sudo apt-get install -y openjdk-17-jdk openssh-server rsync curl # 安装 Java 17、SSH、同步和下载工具
+sudo apt-get install -y openjdk-17-jdk curl # 仅授权的专用实验机安装缺失依赖
 java -version # 预期看到 OpenJDK 17
 
-cd /tmp # 在临时目录下载安装包
+export HADOOP_LAB_ROOT=/tmp/hadoop-lab # 本课独占目录，不与现有部署共用
+if [ -e "$HADOOP_LAB_ROOT" ] || [ -L "$HADOOP_LAB_ROOT" ]; then
+  echo '实验目录已存在，停止；先核实归属，不自动覆盖或删除。' >&2
+  exit 1
+fi
+mkdir -m 700 "$HADOOP_LAB_ROOT" || exit 1
+cd "$HADOOP_LAB_ROOT" || exit 1
 curl -fLO https://dlcdn.apache.org/hadoop/common/hadoop-3.5.0/hadoop-3.5.0.tar.gz # 下载 Hadoop 3.5.0 二进制包
 curl -fLO https://downloads.apache.org/hadoop/common/hadoop-3.5.0/hadoop-3.5.0.tar.gz.sha512 # 下载 SHA-512 校验文件
-sha512sum -c hadoop-3.5.0.tar.gz.sha512 # 必须显示 OK，失败时不要解压
-sudo tar -xzf hadoop-3.5.0.tar.gz -C /opt # 解压到 /opt
-sudo ln -sfn /opt/hadoop-3.5.0 /opt/hadoop # 用稳定软链接便于后续版本切换
-sudo chown -R "$USER":"$USER" /opt/hadoop-3.5.0 # 仅实验机让当前用户管理目录
+sha512sum -c hadoop-3.5.0.tar.gz.sha512 || exit 1 # 必须显示 OK，失败立即停止
+tar -xzf hadoop-3.5.0.tar.gz || exit 1 # 解压到本人新建目录，不改 /opt 或系统软链接
 ```
 
 若镜像站路径变化，从 Apache 发布页重新选择镜像并验证签名或 SHA-512，不要从不明网盘下载二进制包。
 
 ### 配置环境变量
 
-把下面内容加入 `~/.bashrc`：
+在同一个实验终端设置，不修改长期使用的 `~/.bashrc`。换终端时，先确认目录确实属于本课，再恢复这些变量；`/tmp` 可能被系统清理，不能用于生产持久化：
 
 ```bash
 export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64 # Java 17 安装目录，其他架构先用 readlink -f 查实际路径
-export HADOOP_HOME=/opt/hadoop # Hadoop 稳定软链接
+export HADOOP_HOME="$HADOOP_LAB_ROOT/hadoop-3.5.0" # 本课固定版本
 export HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop # Hadoop XML 配置目录
-export PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin # 让 shell 能找到 hadoop、hdfs、yarn 命令
+export HADOOP_COMMON_HOME=$HADOOP_HOME
+export HADOOP_HDFS_HOME=$HADOOP_HOME
+export HADOOP_YARN_HOME=$HADOOP_HOME
+export HADOOP_MAPRED_HOME=$HADOOP_HOME # YARN 子进程解析 MapReduce 类路径所需
+export HADOOP_PID_DIR="$HADOOP_LAB_ROOT/pids" # 本课进程标识文件不与其他部署共用
+mkdir -m 700 "$HADOOP_PID_DIR" || exit 1
+export PATH=$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$PATH # 优先找到本课命令
 ```
 
 ```bash
-source ~/.bashrc # 让当前终端重新加载环境变量
 hadoop version # 预期首行包含 Hadoop 3.5.0
 ```
 
@@ -494,6 +507,8 @@ export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64 # daemon 启动时使用的 
 ```
 
 ## 配置详解
+
+使用编辑器把本课 `$HADOOP_CONF_DIR` 下四个同名 XML 文件分别保存为以下完整内容。无论解压包里是否已有空文件，都要完成配置；不要修改其他安装的配置目录。XML 中保留 `$HADOOP_MAPRED_HOME` 原样，由运行环境展开，不要替换成 Windows 路径。类路径和环境继承参照 [Hadoop 3.5.0 单节点 YARN 配置](https://hadoop.apache.org/docs/r3.5.0/hadoop-project-dist/hadoop-common/SingleCluster.html#YARN_on_a_Single_Node)。
 
 ### core-site.xml
 
@@ -508,7 +523,12 @@ export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64 # daemon 启动时使用的 
   <!-- 实验临时目录；生产环境必须使用专用持久化磁盘和明确权限 -->
   <property>
     <name>hadoop.tmp.dir</name>
-    <value>/tmp/hadoop-lab</value>
+    <value>/tmp/hadoop-lab/state</value>
+  </property>
+  <!-- 以分钟计的回收站周期；未启用时普通 rm 也不保证可恢复 -->
+  <property>
+    <name>fs.trash.interval</name>
+    <value>60</value>
   </property>
 </configuration>
 ```
@@ -545,13 +565,7 @@ export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64 # daemon 启动时使用的 
 
 ### mapred-site.xml
 
-先从模板复制：
-
-```bash
-cp "$HADOOP_HOME/etc/hadoop/mapred-site.xml.template" "$HADOOP_HOME/etc/hadoop/mapred-site.xml" 2>/dev/null || true # 某些发行包已直接提供目标文件
-```
-
-如果目标文件不存在，就新建为：
+该文件必须包含 `yarn` 设置；仅因为文件已存在就跳过，会使实验仍在本地模式运行。
 
 ```xml
 <configuration>
@@ -559,6 +573,10 @@ cp "$HADOOP_HOME/etc/hadoop/mapred-site.xml.template" "$HADOOP_HOME/etc/hadoop/m
   <property>
     <name>mapreduce.framework.name</name>
     <value>yarn</value>
+  </property>
+  <property>
+    <name>mapreduce.application.classpath</name>
+    <value>$HADOOP_MAPRED_HOME/share/hadoop/mapreduce/*:$HADOOP_MAPRED_HOME/share/hadoop/mapreduce/lib/*</value>
   </property>
 </configuration>
 ```
@@ -571,6 +589,11 @@ cp "$HADOOP_HOME/etc/hadoop/mapred-site.xml.template" "$HADOOP_HOME/etc/hadoop/m
   <property>
     <name>yarn.nodemanager.aux-services</name>
     <value>mapreduce_shuffle</value>
+  </property>
+  <!-- 允许 Container 继承解析 Hadoop/Java 路径所需变量 -->
+  <property>
+    <name>yarn.nodemanager.env-whitelist</name>
+    <value>JAVA_HOME,HADOOP_COMMON_HOME,HADOOP_HDFS_HOME,HADOOP_CONF_DIR,CLASSPATH_PREPEND_DISTCACHE,HADOOP_YARN_HOME,HADOOP_HOME,PATH,LANG,TZ,HADOOP_MAPRED_HOME</value>
   </property>
 
   <!-- 单机实验可分配给 YARN 的总内存，必须小于机器实际可用内存 -->
@@ -613,13 +636,16 @@ cp "$HADOOP_HOME/etc/hadoop/mapred-site.xml.template" "$HADOOP_HOME/etc/hadoop/m
 
 ```bash
 jps # 先确认没有旧 Hadoop daemon，避免指向错误目录
-hdfs namenode -format -clusterId CID-hadoop-lab # 仅首次初始化，预期日志包含 successfully formatted
+test "$(realpath "$HADOOP_HOME")" = /tmp/hadoop-lab/hadoop-3.5.0 || exit 1
+test ! -e /tmp/hadoop-lab/dfs/name/current || { echo '已有元数据，禁止重复格式化'; exit 1; }
+hdfs namenode -format -clusterId CID-hadoop-lab || exit 1 # 仅首次初始化，失败不得继续启动
 hdfs --daemon start namenode # 启动 NameNode
 hdfs --daemon start datanode # 启动 DataNode
 yarn --daemon start resourcemanager # 启动 ResourceManager
 yarn --daemon start nodemanager # 启动 NodeManager
 mapred --daemon start historyserver # 启动作业历史服务
 jps # 预期看到 NameNode、DataNode、ResourceManager、NodeManager、JobHistoryServer
+ss -lntp # 审查所有监听；不向不可信网络开放 HDFS、YARN、Shuffle 或管理端口
 ```
 
 默认常见 Web UI：
@@ -640,13 +666,10 @@ jps # 预期看到 NameNode、DataNode、ResourceManager、NodeManager、JobHist
 
 ```bash
 hdfs dfs -ls / # 列出 HDFS 根目录；它不是 Linux 本地根目录
-hdfs dfs -mkdir -p /user/$USER/input # 创建当前用户实验目录
-hdfs dfs -put -f /tmp/alerts.txt /user/$USER/input/ # 上传本地文件并覆盖同名实验文件
-hdfs dfs -cat /user/$USER/input/alerts.txt # 从 HDFS 读取文件内容
+hdfs dfs -cat /user/$USER/hadoop-lab-input/alerts.txt # 完成下面实验后，从 HDFS 读取文件
 hdfs dfs -du -h /user/$USER # 查看逻辑文件大小和占用空间
 hdfs dfs -count -q -h /user/$USER # 查看目录数、文件数、配额和空间配额
-hdfs dfs -stat '%n %b %r %o' /user/$USER/input/alerts.txt # 查看名称、文件大小、副本数和 block size
-hdfs dfs -rm -r -skipTrash /user/$USER/output # 仅清理可重建的实验输出；生产不要跳过 Trash
+hdfs dfs -stat '%n %b %r %o' /user/$USER/hadoop-lab-input/alerts.txt # 查看名称、文件大小、副本数和 block size
 ```
 
 ### HDFS 管理命令
@@ -656,11 +679,10 @@ hdfs dfsadmin -report # 查看 live/dead DataNode、总容量、使用率和 blo
 hdfs dfsadmin -safemode get # 查看 NameNode 是否处于 safemode
 hdfs fsck /user/$USER -files -blocks -locations # 查看实验路径文件、block、副本和位置
 hdfs haadmin -getAllServiceState # HA 集群查看所有 NameNode 状态
-hdfs balancer -threshold 10 # 让节点间利用率向 10% 阈值收敛，生产先评估带宽
-hdfs diskbalancer -report node.example.com # 查看单个 DataNode 内部各 volume 是否不均
+hdfs diskbalancer -report -node node.example.com # 示例占位节点，替换为已核验节点名；只读报告
 ```
 
-Balancer 解决 DataNode 之间不均；Disk Balancer 解决同一 DataNode 内不同磁盘之间不均。两者对象不同，运行前都要评估业务 IO、带宽、升级状态和回滚方式。
+Balancer 解决 DataNode 之间不均；Disk Balancer 解决同一 DataNode 内不同磁盘之间不均。两者对象不同，运行前都要评估业务 IO、带宽、升级状态和回滚方式。`hdfs balancer -threshold 10` 会真正搬迁 block，不是只读检查，不属于单节点本课必跑步骤。Disk Balancer 的报告参数见[官方命令说明](https://hadoop.apache.org/docs/r3.5.0/hadoop-project-dist/hadoop-hdfs/HDFSDiskbalancer.html#Report)。
 
 ### YARN 与 MapReduce 命令
 
@@ -708,22 +730,23 @@ mapred job -status job_123_0001 # 查看指定 MapReduce job 状态
 ### 准备输入
 
 ```bash
-cat >/tmp/alerts.txt <<'EOF'
+cat >"$HADOOP_LAB_ROOT/alerts.txt" <<'EOF'
 critical order-api timeout
 warning payment-api latency
 critical order-api latency
 EOF
 # 三行英文告警用于统计单词出现次数；EOF 之间是输入内容
 
-hdfs dfs -mkdir -p /user/$USER/hadoop-lab-input # 创建 HDFS 输入目录
-hdfs dfs -put -f /tmp/alerts.txt /user/$USER/hadoop-lab-input/ # 上传文本
+hdfs dfs -mkdir -p /user/$USER # 仅新建的本课 HDFS
+hdfs dfs -mkdir /user/$USER/hadoop-lab-input || exit 1 # 已存在则停止，不能混入旧输入
+hdfs dfs -put "$HADOOP_LAB_ROOT/alerts.txt" /user/$USER/hadoop-lab-input/ || exit 1 # 拒绝覆盖
 hdfs dfs -cat /user/$USER/hadoop-lab-input/alerts.txt # 预期原样看到三行
 ```
 
 ### 提交作业
 
 ```bash
-hdfs dfs -rm -r -skipTrash /user/$USER/hadoop-lab-output 2>/dev/null || true # WordCount 要求输出目录事先不存在，只清理实验路径
+# 输出目录必须不存在；存在时由作业拒绝提交，不预先删除任何旧结果。
 
 hadoop jar "$HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.5.0.jar" \
   wordcount \
@@ -774,7 +797,7 @@ warning 1
 ```bash
 hdfs dfs -rm -r /user/$USER/hadoop-lab-input # 移入 HDFS Trash，若实验启用了 Trash
 hdfs dfs -rm -r /user/$USER/hadoop-lab-output # 删除可重建输出
-rm -f /tmp/alerts.txt # 清理本地输入
+rm -- "$HADOOP_LAB_ROOT/alerts.txt" # 仅本课自己生成的本地输入
 ```
 
 ## 故障注入实验：停止 DataNode
@@ -793,9 +816,9 @@ rm -f /tmp/alerts.txt # 清理本地输入
 ### 建立基线
 
 ```bash
-printf 'critical order-api\n' >/tmp/hadoop-fault.txt # 创建可重建的实验数据
-hdfs dfs -mkdir -p /user/$USER/hadoop-fault-input # 创建故障实验目录
-hdfs dfs -put -f /tmp/hadoop-fault.txt /user/$USER/hadoop-fault-input/alerts.txt # 上传实验文件
+printf 'critical order-api\n' >"$HADOOP_LAB_ROOT/hadoop-fault.txt" # 创建可重建数据
+hdfs dfs -mkdir /user/$USER/hadoop-fault-input || exit 1 # 已存在则停止，不复用未知目录
+hdfs dfs -put "$HADOOP_LAB_ROOT/hadoop-fault.txt" /user/$USER/hadoop-fault-input/alerts.txt || exit 1
 hdfs fsck /user/$USER/hadoop-fault-input -files -blocks -locations # 记录健康 block 与 DataNode 位置
 ```
 
@@ -806,12 +829,13 @@ hdfs --daemon stop datanode # 只停止实验 DataNode
 jps # 预期 DataNode 消失，NameNode 仍存在
 ```
 
-DataNode dead 判定需要 heartbeat 超时，不一定立刻发生。等待后收集：
+DataNode dead 判定需要 heartbeat（心跳）超时，不会立刻发生；默认检测周期下可能超过十分钟。每隔约三十秒重新查看报告，记录从停止到被标记 dead 的实测时间；未等到判定时，不能把仍显示 live 误判为停止无效。客户端可能在 NameNode 标记 dead 之前就因连接失败而读不到文件。
 
 ```bash
 hdfs dfsadmin -report # 观察 Live datanodes 与 Dead datanodes
 hdfs fsck /user/$USER/hadoop-fault-input -files -blocks -locations # 观察 block 健康与副本位置
-hdfs dfs -cat /user/$USER/hadoop-fault-input/alerts.txt # 预期最终读取失败，因为唯一副本不可用
+timeout 20s hdfs dfs -cat /user/$USER/hadoop-fault-input/alerts.txt
+# 预期无法成功读出全文；124 表示本次观察窗口超时，不等于已确认 NameNode 判定 dead。
 ```
 
 ### 证据、假设与验证
@@ -843,7 +867,13 @@ hdfs fsck /user/$USER/hadoop-fault-input -files -blocks -locations # 预期恢�
 
 ```bash
 hdfs dfs -rm -r /user/$USER/hadoop-fault-input # 清理 HDFS 实验目录
-rm -f /tmp/hadoop-fault.txt # 清理本地实验文件
+rm -- "$HADOOP_LAB_ROOT/hadoop-fault.txt" # 仅本课自己创建的文件
+mapred --daemon stop historyserver
+yarn --daemon stop nodemanager
+yarn --daemon stop resourcemanager
+hdfs --daemon stop datanode
+hdfs --daemon stop namenode
+jps # 确认本课五个 daemon 均退出；若还有其他 Java 进程，不自动结束
 ```
 
 复盘要写清：
@@ -852,6 +882,8 @@ rm -f /tmp/hadoop-fault.txt # 清理本地实验文件
 - 副本数 1 只能检测，无法从其他副本重建。
 - 生产三副本还需要跨机架，才有对应故障域容忍度。
 - 修复不能只看 DataNode 进程，要等 heartbeat、block report、缺副本收敛和真实读验证。
+
+停止操作必须沿用本课 `HADOOP_CONF_DIR` 和 `HADOOP_PID_DIR`。先保留配置、日志与实验结果；安装目录和 HDFS 元数据不提供自动递归删除命令，确认无保留需要后由本人处理。普通 HDFS 删除只有在 Trash 生效时才进入回收站，Trash 不是独立备份，也不能救回被清理的整个本地数据目录。本轮仅核对配置结构和官方行为，未在真实 Hadoop 进程中执行上述实验。
 
 ## 在 AIOps 中的作用
 
@@ -908,6 +940,8 @@ ZKFC（ZooKeeper 故障切换控制器）
 ```
 
 JournalNode 使用多数派确认 edit。3 个 JournalNode 可容忍 1 个故障，5 个可容忍 2 个；增加节点也增加写入协调与运维成本。
+
+图中 majority of JournalNodes 是“多数日志节点”，edit 是一次元数据变更；namespace 是目录、文件等命名空间，heartbeat / block report 是心跳与数据块报告。failover 表示故障切换，fencing 是隔离旧主的写入能力，防止旧主继续产生冲突操作，不是清空其数据。
 
 ### 自动故障转移
 
@@ -1107,8 +1141,8 @@ OS and hardware（操作系统与硬件）
 ### JMX 快速检查
 
 ```bash
-curl -fsS http://localhost:9870/jmx > /tmp/namenode-jmx.json # 保存 NameNode JMX 快照
-curl -fsS http://localhost:8088/jmx > /tmp/resourcemanager-jmx.json # 保存 RM JMX 快照
+curl -fsS http://localhost:9870/jmx -o "$HADOOP_LAB_ROOT/namenode-jmx.json" # 保存到本课目录
+curl -fsS http://localhost:8088/jmx -o "$HADOOP_LAB_ROOT/resourcemanager-jmx.json" # 覆盖本课上一份同名快照
 ```
 
 生产 secure mode 下应通过认证与受控网络访问，不能为了抓指标把 JMX 匿名暴露到公网。Prometheus exporter 的 label 也要限制基数，避免把 path、application ID 或 user 无界展开。
@@ -1327,7 +1361,7 @@ Hadoop Core 由 Common、HDFS、YARN 和 MapReduce 组成。HDFS 用 NameNode �
 
 一次 HDFS 写入先向 Active NameNode 创建文件并申请 block，NameNode 根据副本策略返回 DataNode pipeline，客户端把 packet 发给第一个 DataNode 并逐级转发，ACK 反向返回；NameNode 不承载文件内容。NameNode 用内存 namespace 提供元数据服务，FSImage 与 EditLog 持久化状态，HA 下 Active 把 edits 写入多数 JournalNode，Standby 持续追平，ZKFC 通过 ZooKeeper 选举并在切换时 fencing 旧 Active。
 
-YARN 把全局资源和应用内部协调分开。客户端向 ResourceManager 提交 application，NodeManager 启动 ApplicationMaster，AM 再申请 task Container 并跟踪执行。MapReduce 的关键性能路径是 map 输出 spill、partition、sort、网络 fetch、reduce merge；遇到长尾先看 key 分布、counters、task timeline、磁盘和网络，不是直接加内存。
+YARN 把全局资源和应用内部协调分开。客户端向 ResourceManager 提交 application，NodeManager 启动 ApplicationMaster，AM 再申请 task Container 并跟踪执行。MapReduce 的关键性能路径是 map 输出按分区排序后 spill、溢写文件归并、网络 fetch、reduce merge；遇到长尾先看 key 分布、counters、task timeline、磁盘和网络，不是直接加内存。
 
 生产设计会用跨故障域副本或 EC、NameNode/RM HA、Kerberos 与最小权限、RPC和数据传输加密、审计、容量预测、decommission 和受控 balancer。升级前建立健康与性能基线，保留 metadata/config/key 备份和回滚窗口，finalize 之前完成下游兼容与数据验证。故障时按控制面、数据面、资源面和硬件网络收集证据，再决定修复和回滚。
 
@@ -1395,7 +1429,7 @@ RM 全局调度，NM 管节点执行，AM 管单个应用，Container 是分配�
 
 ### 11. MapReduce shuffle 发生什么
 
-map 输出进入 buffer，达到阈值 spill 到本地磁盘，按 partition 排序和合并；reducer 跨节点 fetch 对应分区，再合并排序、按 key 分组后执行 reduce。
+map 输出进入 buffer，达到阈值触发按 partition 和 key 排序，再 spill 到本地磁盘并归并溢写文件；reducer 跨节点 fetch 对应分区，再合并排序、按 key 分组后执行 reduce。
 
 追问：热点 key 导致单 reducer 长尾，增加 reducer 数不一定解决，需要重设 key、分区或分阶段聚合。
 

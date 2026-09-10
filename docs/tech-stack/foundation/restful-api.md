@@ -174,7 +174,7 @@ RESTful API 就是：**把业务对象当成资源，用稳定 URI 标识它们�
 
 ### 401 和 403 怎么选
 
-- `401 Unauthorized` 实际表示缺少或无法接受认证凭据，通常应带 `WWW-Authenticate`。
+- `401 Unauthorized` 实际表示缺少或无法接受认证凭据，生成该响应时必须带至少一个适用的 `WWW-Authenticate` 挑战。
 - `403 Forbidden` 表示服务器理解请求，但拒绝授权。
 
 为了避免泄露资源是否存在，某些系统会对无权查看的对象返回 `404`；这必须成为统一的安全策略，不能由接口随意决定。
@@ -375,7 +375,7 @@ Vary: Accept, Accept-Language
 | 304 | 条件 GET 可复用缓存 | 告警字典未变化 | 当成普通重定向 |
 | 400 | 请求语法或通用校验失败 | JSON 无法解析 | 所有客户端错误都塞 400 |
 | 401 | 认证凭据缺失或不可接受 | Token 过期 | 与 403 混用 |
-| 403 | 已识别但无权执行 | 值班员无权执行高危 Runbook | 用它表示资源不存在而无统一策略 |
+| 403 | 理解请求但拒绝执行，不必然证明身份已识别 | 值班员无权执行高危 Runbook | 把所有拒绝都误判为密码错误 |
 | 404 | 找不到目标资源 | 告警 ID 不存在 | 用 200 + null |
 | 409 | 当前资源状态发生冲突 | 已关闭告警不能再次确认 | 与条件请求失败混为一谈 |
 | 410 | 资源已明确永久消失 | 旧版接口已下线 | 对普通暂时不存在资源使用 |
@@ -1065,7 +1065,7 @@ $response.Content
 
 ## 入门实验：运行一个可观察的 REST API
 
-这个实验不安装第三方包，只需 Node.js 20 或更高版本。它用于学习协议语义，不是生产框架示例；服务只监听本机、没有真实鉴权，禁止直接暴露到公网。
+这个实验不安装第三方包，代码最低要求 Node.js 20，实际安装选择仍受支持的版本。下面客户端步骤使用 PowerShell 7.3+，避免旧版原生命令传参丢失 ETag 双引号；旧版终端应升级或改用对象式请求，不能把引号丢失误判成服务端并发错误。它用于学习协议语义，不是生产框架示例；服务只监听本机、没有真实鉴权，禁止直接暴露到公网。
 
 ### 前置条件
 
@@ -1078,7 +1078,8 @@ node --version
 ### 第一步：创建实验目录
 
 ```powershell
-New-Item -ItemType Directory -Force restful-api-lab | Out-Null
+if (Test-Path -LiteralPath .\restful-api-lab) { throw '实验目录已存在，请选新目录，不能覆盖已有文件' }
+New-Item -ItemType Directory -Path restful-api-lab | Out-Null
 Set-Location restful-api-lab
 ```
 
@@ -1119,6 +1120,7 @@ function problem(res, status, type, title, detail, requestId, headers = {}) {
     requestId
   }, {
     'Content-Type': 'application/problem+json; charset=utf-8',
+    'Cache-Control': 'no-store', // 包括 428 在内的课堂错误响应不保存到缓存
     ...headers
   })
 }
@@ -1646,14 +1648,7 @@ $retryA.Content
 
 ### 清理
 
-在服务窗口按 `Ctrl+C`，返回上级目录后删除实验目录：
-
-```powershell
-Set-Location ..
-Remove-Item -LiteralPath .\restful-api-lab -Recurse -Force
-```
-
-只删除自己刚创建的 `restful-api-lab`，不要对不确定路径执行递归删除。
+若还要做后文的真正并发测试，暂时保留环境。全部结束后在服务窗口按 `Ctrl+C`，确认该实验进程已经退出、18080 不再由它监听，再返回上级目录。保存证据后，在文件管理器核对本次新建的 `restful-api-lab` 绝对路径并移入回收站；不要按端口批量终止进程，也不要对不确定路径递归删除。重启会丢失内存中的任务、幂等记录和告警修改，这是实验设计，不是持久化恢复。
 
 ## 生产排障手册
 
@@ -2034,18 +2029,18 @@ console.log('PASS：一个成功，一个版本冲突，版本只增加一次')
 建议提交以下目录：
 
 ```text
-restful-api-learning/
-  README.md
-  openapi.yaml
-  rest-api-lab.mjs
-  tests/
-    contract-notes.md
-  evidence/
-    01-get-etag.txt
-    02-idempotency-replay.txt
-    03-stale-etag-412.txt
-    04-troubleshooting.md
-    05-architecture.md
+restful-api-learning/（接口学习项目）
+  README.md（复现说明）
+  openapi.yaml（机器可读契约）
+  rest-api-lab.mjs（课堂服务）
+  tests/（测试证据）
+    contract-notes.md（契约校验记录）
+  evidence/（脱敏结果）
+    01-get-etag.txt（读取版本标识）
+    02-idempotency-replay.txt（幂等重放）
+    03-stale-etag-412.txt（旧版本冲突）
+    04-troubleshooting.md（排障过程）
+    05-architecture.md（架构取舍）
 ```
 
 `README.md` 写清：

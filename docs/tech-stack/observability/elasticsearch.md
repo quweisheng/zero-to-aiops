@@ -590,10 +590,10 @@ curl -s "http://localhost:9200/logs-aiops/_mapping?pretty"
 
 ### text
 
-用于全文搜索，会经过 analyzer 分词。
+用于全文搜索，会经过 analyzer 分词。下面是 `mappings.properties` 内部的字段定义对象，不是完整建索引请求：
 
 ```json
-"message": { "type": "text" }
+{ "message": { "type": "text" } }
 ```
 
 适合：
@@ -604,10 +604,10 @@ curl -s "http://localhost:9200/logs-aiops/_mapping?pretty"
 
 ### keyword
 
-用于精确匹配、排序、聚合，不分词。
+用于精确匹配、排序、聚合，不分词。下面同样展示 `mappings.properties` 内的字段定义：
 
 ```json
-"service": { "type": "keyword" }
+{ "service": { "type": "keyword" } }
 ```
 
 适合：
@@ -725,9 +725,9 @@ keyword 字段不分析，适合 term/filter/aggregation
 
 就可能失败，因为同一字段类型冲突。
 
-日志场景常见 conflict：
+日志场景常见 conflict（字段类型冲突）：下面每行是单独一条文档，不是让你把两行当一个请求体提交。
 
-```json
+```jsonl
 { "user": "alice" }
 { "user": { "id": "alice", "name": "Alice" } }
 ```
@@ -1539,30 +1539,32 @@ es="${1:-http://localhost:9200}"
 index="${2:-logs-aiops}"
 
 echo "== version =="
-curl -s "$es/?pretty" || true
+curl --fail --silent --show-error --max-time 10 "$es/?pretty"
 
 echo
 echo "== cluster health =="
-curl -s "$es/_cluster/health?pretty" || true
+curl --fail --silent --show-error --max-time 10 "$es/_cluster/health?pretty"
 
 echo
 echo "== indices =="
-curl -s "$es/_cat/indices?v" || true
+curl --fail --silent --show-error --max-time 10 "$es/_cat/indices?v"
 
 echo
 echo "== shards =="
-curl -s "$es/_cat/shards?v" || true
+curl --fail --silent --show-error --max-time 10 "$es/_cat/shards?v"
 
 echo
 echo "== mapping =="
-curl -s "$es/$index/_mapping?pretty" || true
+curl --fail --silent --show-error --max-time 10 "$es/$index/_mapping?pretty"
 
 echo
 echo "== sample docs =="
-curl -s "$es/$index/_search?pretty" \
+curl --fail --silent --show-error --max-time 10 "$es/$index/_search?pretty" \
   -H "Content-Type: application/json" \
-  -d '{ "query": { "match_all": {} }, "size": 3 }' || true
+  -d '{ "query": { "match_all": {} }, "size": 3 }'
 ```
+
+先在本机合成日志索引运行。`--fail` 让 HTTP 错误返回非零退出码，`--silent --show-error` 隐藏进度但保留错误，`--max-time 10` 限制每次请求最多十秒。与 `set -e` 配合后，某一步失败就停止，不能把鉴权失败、超时或接口不存在当作“没有异常”；最后退出码为零也只说明这些请求成功，不代表业务健康。参数含义见 [curl 官方手册](https://curl.se/docs/manpage.html)。真实环境只访问获批索引，确认样例文档已经脱敏后才导出，不要把原始日志直接发给模型或提交公开仓库。
 
 生产化前要补：
 

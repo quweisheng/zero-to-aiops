@@ -211,6 +211,44 @@ JSON 或 Provisioning（声明式预置）便于版本控制与重复交付，�
 
 课堂交付一张四面板的值班看板即可：用户结果、流量、延迟、数据新鲜度。故意注入单位错误、数据缺失或同名跨环境对象，记录发现路径和修订。你能解释这些判断，比堆满几十个面板更能证明理解。
 
+## 查询容量课堂：每个刷新按钮背后都有工作量
+
+假设一张看板二十个面板，每个发两条查询，十位用户同时打开，每五秒刷新一次。忽略缓存和请求合并，平均每秒会产生八十条查询。这只是教学估算，实际取决于插件、查询组合与刷新行为，但足以说明：浏览器多开几页，也能给数据源造成明显压力。
+
+查询成本还取决于扫描时间、匹配序列数量与运算。查一个服务五分钟与查全部租户三十天，即使都只有一条表达式，开销也完全不同。先缩小默认范围、提供分层下钻，再考虑记录规则预计算或其他优化；不要因为看板慢就先给浏览器换机器，也不要一律把数据源超时调到更长。
+
+`$__interval` 是显示分辨率相关的间隔，不等于 Prometheus 实际抓取间隔；`$__rate_interval` 为速率窗口提供建议，需要数据源的抓取配置正确。面板设置的最小步长与数据源抓取间隔也不能随意混淆。窗口太短可能没有足够采样，窗口太长则会平滑短故障。事故分析时固定时间范围和实际展开后的表达式，才能与原始系统公平比较。
+
+先用查询检查器看请求数量、返回点数和耗时，区分等数据、转换计算与浏览器渲染。若原始查询就慢，减少扫描和高基数；若查询很快但渲染卡，检查线条数、表格行数和转换链。扩大 Grafana 副本可能让数据源收到更多并发，因此扩容前必须同时看下游承载力。
+
+## 多实例与恢复：复制容器并不自动复制仪表盘
+
+默认本地 SQLite 数据库适合单实例学习，它保存的是用户、仪表盘、数据源与规则等元数据，不是 Prometheus 的时序数据。生产多实例需按[官方高可用方案](https://grafana.com/docs/grafana/latest/setup-grafana/set-up-for-high-availability/)规划共享元数据数据库、入口和一致配置，并单独处理告警高可用。数据库自身也有备份、恢复与可用性要求，不能仅把单点从容器挪到数据库就宣布全部高可用。
+
+插件版本、加密相关配置和预置文件需要一致。能够读到同一数据库，不代表每个实例都有相同插件或能解密同一凭据。升级前备份元数据与必要配置，在隔离环境演练恢复；升级引起数据库模式迁移时，不能假定直接换回旧镜像就安全。回退方案应按官方支持路径验证，避免旧程序读取不兼容的新结构。
+
+Provisioning 是声明式供给，不是普通文件备份。界面临时编辑与文件中的权威配置可能冲突，后续文件更新会覆盖界面变化。`allowUiUpdates` 是否允许保存，与修改会不会反写源文件是不同问题。需要保存有价值的编辑时，先导出、评审并更新权威文件，再发布，不能靠记忆重做。
+
+数据源的显示名称与 UID 也不同。名称便于人找，UID 是跨仪表盘引用的稳定身份。两个环境名字一样而 UID 不同，导入仍可能失败。反过来把错误环境硬设成相同 UID，会让看板查到不该查的数据。发布核验要包含对象身份、URL、凭据范围和真实样本，而不只对比名称。
+
+## 故障模拟：数值零点二，究竟应该显示多少
+
+前置为一张独立演练看板或纸笔，源数据选本文离线模型的零点二秒，不连接生产。先预测正确展示为零点二秒或二百毫秒。基础步骤是在面板查看原始值，再选与输入匹配的秒单位，让显示规则处理量级；预期显示能表达同一时间长度。
+
+故障注入是把原始零点二直接标为毫秒而不转换。此时看到的零点二毫秒比真实值小一千倍。另一种错误是查询已乘一千，又按秒单位展示，造成反向放大。验证时在原始响应、查询计算、转换后字段和最终展示四层各写一个数，找到首次单位不一致的位置，再只修这一层。
+
+再用比例零点二练百分比：若选择输入范围零到一的百分比单位，表示百分之二十；若选择输入范围零到一百的单位，表示百分之零点二。阈值也应按输入值域设置。标题写“错误率”不能解决值域问题，小数位调多也不能修正单位。让另一人根据说明复算，是简单而有效的验收。
+
+恢复后保留修正前后截图与原始值，确认没有其他字段覆盖规则再次修改显示。结束时删除或重命名自己的错误实验副本，不改共享生产看板；纸面演练无需清理服务。若真实界面与预期不同，检查具体版本的单位选项、字段覆盖及是否启用了计算转换，而不是随意调整数据去迎合图形。
+
+## 告警与权限追问：只读看板为什么仍可能泄露信息
+
+文件夹权限限制的是仪表盘资源，不自动把底层数据源裁成同样范围。变量隐藏、面板隐藏和 SQL 查询里手写筛选都不能当完整授权机制。应按所用 OSS、Enterprise 或 Cloud 能力，在数据源凭据和后端系统限制可读范围，验证未授权用户不能通过另一个查询入口读到其他租户。不同发行版能力不一样，不能只照一个界面截图推断权限模型。
+
+数据链接、注释、查询检查器和导出 JSON 都可能带出内部地址、SQL 或标签。公开作品集使用合成样本，截图前检查变量与注释；服务账号令牌只给必要权限并设置生命周期，不能把个人管理员身份当发布机器人。安装插件同样引入代码与数据访问风险，应核对来源、兼容版本和权限，再在演练环境验证。
+
+面试三分钟回答“看板怎么上线”时，先讲数据口径与样本，接着讲 UID、变量和权限，再讲查询容量、元数据持久化与版本管理，最后讲无数据、错误单位、插件不兼容和回退验收。追问“绿了就不告警吗”，解释颜色只是展示，后台规则有独立查询、评估与无数据策略；追问“恢复旧 JSON 为什么没用”，检查指标合同和数据源身份是否已经改变。
+
 ## Grafana 在 AIOps 链路中的位置
 
 ```text
@@ -330,10 +368,12 @@ panel visualization
 
 ## 安装与启动
 
+本章固定 [Grafana 12.1.1](https://github.com/grafana/grafana/releases/tag/v12.1.1) 作为隔离课堂版本，便于复现，不表示它是当前最新或适合未经安全评估直接用于生产。本文的多行反斜杠命令按 Bash 编写，Windows PowerShell 可使用下方单行启动命令或按其语法换行。先确认 Docker 可用及示例容器名没有被已有资源占用；各种启动方式择一，不要重复创建同名容器。
+
 ### Docker 启动
 
 ```bash
-docker run --rm --name grafana -p 3000:3000 grafana/grafana:latest
+docker run --rm --name grafana -p 127.0.0.1:3000:3000 grafana/grafana:12.1.1
 ```
 
 访问地址写成：
@@ -359,9 +399,9 @@ password: admin
 docker volume create grafana-data
 
 docker run -d --name grafana \
-  -p 3000:3000 \
+  -p 127.0.0.1:3000:3000 \
   -v grafana-data:/var/lib/grafana \
-  grafana/grafana:latest
+  grafana/grafana:12.1.1
 ```
 
 如果不持久化，容器删除后 Grafana 的本地数据库也会丢。
@@ -396,10 +436,10 @@ Grafana 主配置通常是 `grafana.ini`。Docker 场景也常用环境变量覆
 
 ```bash
 docker run -d --name grafana \
-  -p 3000:3000 \
+  -p 127.0.0.1:3000:3000 \
   -e GF_SECURITY_ADMIN_PASSWORD=admin123 \
   -e GF_USERS_ALLOW_SIGN_UP=false \
-  grafana/grafana:latest
+  grafana/grafana:12.1.1
 ```
 
 注意：不要把真实生产密码写进公开仓库。学习项目可以用明显的 demo 密码，并在 README 说明仅用于本地实验。
@@ -770,6 +810,8 @@ label_values(up, job)
 
 含义：从 `up` 指标中取所有 `job` label 的值。
 
+`label_values` 是 Grafana 的变量查询语法，不是能直接贴到 Prometheus 表达式框执行的 PromQL 函数。前文 `{job="$job"}` 按单选编写；开启多选或 All（全部）后，应按数据源插值规则改成 `job=~"${job:regex}"`，并在查询检查器确认展开后的范围，不能把多个值当成一个普通字符串。
+
 实例变量：
 
 ```text
@@ -931,10 +973,10 @@ Docker 运行时挂载：
 
 ```bash
 docker run -d --name grafana \
-  -p 3000:3000 \
+  -p 127.0.0.1:3000:3000 \
   -v "$PWD/grafana/provisioning:/etc/grafana/provisioning:ro" \
   -v "$PWD/grafana/dashboards:/var/lib/grafana/dashboards:ro" \
-  grafana/grafana:latest
+  grafana/grafana:12.1.1
 ```
 
 ## Grafana Alerting
@@ -1011,8 +1053,8 @@ curl -H "Authorization: Bearer <token>" localhost:3000/api/datasources
 | 项 | 内容 |
 |---|---|
 | 作用 | 启动 Grafana 容器 |
-| 示例 | `docker run --rm --name grafana -p 3000:3000 grafana/grafana:latest` |
-| 关键字段 | `-p 3000:3000`、镜像名、容器名 |
+| 示例 | `docker run --rm --name grafana -p 127.0.0.1:3000:3000 grafana/grafana:12.1.1` |
+| 关键字段 | `-p 127.0.0.1:3000:3000`、镜像名、容器名 |
 | AIOps 场景 | 本地启动可视化平台 |
 | 常见坑 | 不挂载数据卷时，删除容器会丢 dashboard |
 
@@ -1186,10 +1228,11 @@ curl -H "Authorization: Bearer <token>" localhost:3000/api/datasources
 
 ### 第 1 步：启动 Prometheus
 
-假设你已经有 `prometheus.yml`，启动 Prometheus：
+这个自监控实验使用 Prometheus 镜像自带配置，无需假装已经挂载自己的 `prometheus.yml`。先创建本轮专用网络，两容器通过服务名通信；浏览器入口只绑定本机。确认 `grafana-lesson`、`prometheus` 与 `grafana` 不属于已有资源，名称冲突应改本节全套名称，不删除未知容器。
 
 ```bash
-docker run --rm --name prometheus -p 9090:9090 prom/prometheus:v3.5.0
+docker network create grafana-lesson
+docker run -d --rm --name prometheus --network grafana-lesson -p 127.0.0.1:9090:9090 prom/prometheus:v3.5.0
 ```
 
 确认：
@@ -1201,7 +1244,7 @@ localhost:9090/targets
 ### 第 2 步：启动 Grafana
 
 ```bash
-docker run --rm --name grafana -p 3000:3000 grafana/grafana:latest
+docker run -d --rm --name grafana --network grafana-lesson -p 127.0.0.1:3000:3000 grafana/grafana:12.1.1
 ```
 
 打开：
@@ -1214,7 +1257,7 @@ localhost:3000
 
 进入 Connections 或 Data sources，选择 Prometheus。
 
-如果 Grafana 容器访问宿主机上的 Prometheus，Docker Desktop 常用 URL：
+按本节专用网络启动时，数据源 URL 使用 `http://prometheus:9090`。不要使用本机地址，也不需要绕到宿主机。如果采用其他章节的宿主机部署，Docker Desktop 常见访问方式如下，但需单独验证宿主机服务的监听范围：
 
 ```text
 http://host.docker.internal:9090
@@ -1238,8 +1281,8 @@ Dashboard settings 中添加变量：
 | Type | Query |
 | Data source | Prometheus |
 | Query | `label_values(up, job)` |
-| Multi-value | 可选 |
-| Include All | 可选 |
+| Multi-value | 本实验关闭；进阶启用后改用正则匹配 |
+| Include All | 本实验关闭 |
 
 变量可用后，dashboard 顶部会出现 job 下拉框。
 
@@ -1314,27 +1357,41 @@ labs/grafana/dashboards/prometheus-health.json
 
 ### 第 9 步：写 README
 
+下面是记录结构示意。命令描述本实验的创建步骤，不要在已有同名资源时重复执行；实验时间、实际结果与导出文件位置由你填写。
+
 README 至少记录：
 
 ```markdown
-# Grafana Prometheus Health Dashboard
+# Grafana 与 Prometheus 健康看板
 
-## Start Prometheus
+## 创建实验网络并启动 Prometheus
 
-docker run --rm --name prometheus -p 9090:9090 prom/prometheus:v3.5.0
+docker network create grafana-lesson
+docker run -d --rm --name prometheus --network grafana-lesson -p 127.0.0.1:9090:9090 prom/prometheus:v3.5.0
 
-## Start Grafana
+## 启动 Grafana
 
-docker run --rm --name grafana -p 3000:3000 grafana/grafana:latest
+docker run -d --rm --name grafana --network grafana-lesson -p 127.0.0.1:3000:3000 grafana/grafana:12.1.1
 
-## Data source
+## 配置数据源
 
-Prometheus URL: host.docker.internal:9090
+Prometheus URL: http://prometheus:9090
 
-## Dashboard
+## 导入看板
 
-Import labs/grafana/dashboards/prometheus-health.json
+导入自己上一步导出的 prometheus-health.json，并验证数据源绑定。
+
+## 清理本轮资源
+
+docker stop grafana prometheus
+docker network rm grafana-lesson
 ```
+
+### 第 10 步：基础验收与清理
+
+预期 `up` 自监控样本为一，抓取耗时为非负秒值，抓取样本数随版本不同而不同；这证明 Prometheus 自监控可读，不证明订单业务健康。保存导出 JSON 后，在另一张新建实验看板中导入，核对数据源身份、变量单选和三块面板。无数据先查自监控 Targets、同网络连接、当前时间和变量展开。
+
+确认两容器确实由本轮创建，再执行 `docker stop grafana prometheus`，因为带 `--rm` 会移除停止的临时容器；最后执行 `docker network rm grafana-lesson` 移除已不被使用的本轮网络。停止前未导出的临时仪表盘会丢失，所以先保存学习证据。不要附带删除其他数据卷或使用全局清理命令。
 
 ## 常见故障排查
 
@@ -1436,7 +1493,7 @@ docker compose exec grafana wget -qO- http://prometheus:9090/-/ready
 
 | 现象 | 常见原因 | 检查入口 | 处理方向 |
 |---|---|---|---|
-| 访问不了 Grafana | 容器没启动、端口没映射 | `docker ps`、`docker logs grafana` | 启动容器，确认 `-p 3000:3000` |
+| 访问不了 Grafana | 容器没启动、端口没映射 | `docker ps`、`docker logs grafana` | 启动容器，确认 `-p 127.0.0.1:3000:3000` |
 | 登录失败 | 密码改过、数据卷保留旧密码 | Grafana 日志、环境变量 | 使用正确密码，必要时重置 admin 密码 |
 | 数据源 Save & test 失败 | URL、网络、认证错误 | Data source 页面、Grafana 日志 | 修 URL、网络、token |
 | Panel 无数据 | PromQL、时间范围、变量、数据源错误 | Explore、Panel query inspector | 先在 Prometheus 验证查询 |

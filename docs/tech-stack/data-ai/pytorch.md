@@ -6,7 +6,7 @@
 
 本文在 **2026 年 8 月 13 日**核验，版本锚点如下：
 
-- PyTorch 最新正式版：`2.13.0`，官方 GitHub Release 发布于 2026 年 7 月 8 日；
+- 本文核验时的正式版本锚点：`2.13.0`，官方 GitHub Release 发布于 2026 年 7 月 8 日；这是历史教学快照，不保证仍是今天最新版本或无需安全更新；
 - 本文基础实验：Windows、Python `3.14.5`、PyTorch `2.13.0+cpu`；
 - 官方 Get Started 当前说明 Latest Stable 需要 Python `3.10` 或更高版本，Windows 页面明确列出 Python `3.10–3.14`；
 - GPU 安装不能只看“电脑装了 CUDA Toolkit”，还要同时核对 GPU、驱动、PyTorch Wheel 的计算后端和目标 Python；
@@ -638,7 +638,8 @@ Stable 选择器在核验日提供 CUDA 12.6、13.0、13.2。Wheel 存在只表�
 ### Windows CPU 固定实验环境
 
 ```powershell
-New-Item -ItemType Directory -Path .\pytorch-aiops-lab -Force
+if (Test-Path -LiteralPath .\pytorch-aiops-lab) { throw 'Use a new, empty lesson directory.' }
+New-Item -ItemType Directory -Path .\pytorch-aiops-lab
 Set-Location .\pytorch-aiops-lab
 
 py -3.14 -m venv .venv
@@ -886,6 +887,8 @@ def build_loader(
 
 
 def main() -> None:
+    # 拒绝覆盖上一次训练或他人制品；重跑前先归档本课 artifacts。
+    Path("artifacts").mkdir(exist_ok=False)
     set_seed(SEED)
     features, labels = make_synthetic_data()
     train, validation, test = split_data(features, labels)
@@ -907,10 +910,17 @@ def main() -> None:
     for epoch in range(1, 31):
         model.train()
         for batch_features, batch_labels in train_loader:
+            if not bool(torch.isfinite(batch_features).all()):
+                raise ValueError("training features contain non-finite values")
             optimizer.zero_grad(set_to_none=True)
             logits = model(batch_features)
             loss = loss_function(logits, batch_labels)
+            if not bool(torch.isfinite(loss)):
+                raise RuntimeError("non-finite training loss; do not update")
             loss.backward()
+            torch.nn.utils.clip_grad_norm_(
+                model.parameters(), max_norm=float("inf"), error_if_nonfinite=True
+            )  # 只检查范数有限性，不用有限阈值裁剪改变本课训练策略
             optimizer.step()
 
         validation_metrics = evaluate(
@@ -933,7 +943,6 @@ def main() -> None:
     if best_state is None:
         raise RuntimeError("no best model state was captured")
 
-    Path("artifacts").mkdir(exist_ok=True)
     model.load_state_dict(best_state)
     torch.save(best_state, "artifacts/model_state.pt")
 
@@ -963,16 +972,16 @@ def main() -> None:
         "reload_max_abs_diff": reload_max_abs_diff,
         "experiment_limit": "synthetic CPU learning experiment",
     }
-    Path("artifacts/metadata.json").write_text(
-        json.dumps(metadata, ensure_ascii=False, indent=2),
-        encoding="utf-8",
-    )
-
     if test_metrics["accuracy"] < 0.95:
         raise RuntimeError("accuracy below the experiment acceptance threshold")
     if reload_max_abs_diff > 1e-7:
         raise RuntimeError("reloaded model output changed unexpectedly")
 
+    # 通过本课验收才生成消费入口需要的元数据；失败时留下的权重不是发布成功。
+    Path("artifacts/metadata.json").write_text(
+        json.dumps(metadata, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
     print(json.dumps(metadata, ensure_ascii=False, indent=2))
 
 
@@ -1042,7 +1051,7 @@ model_state.pt=4293 bytes
 metadata.json=595 bytes
 ```
 
-这证明本页给出的 CPU 训练、评估、保存和重载链路在上述环境跑通。满分结果来自刻意可分的合成数据，不能外推到真实告警数据，更不能证明 GPU、分布式或生产性能。
+这是 2026-08-13 版本的历史实跑记录。本次终审补充了拒绝覆盖目录、有限值检查和验收后输出元数据等保护，未重新运行训练；不能把旧输出当成本次修改后代码的新实测。满分来自刻意可分的合成数据，不能外推到真实告警数据，更不能证明 GPU、分布式或生产性能。
 
 ### 如果没有成功，先查这些
 
@@ -1082,6 +1091,11 @@ def validate_features(values: torch.Tensor) -> None:
 metadata = json.loads(
     Path("artifacts/metadata.json").read_text(encoding="utf-8")
 )
+if metadata["feature_names"] != FEATURE_NAMES or metadata["feature_units"] != ["ratio"] * 4:
+    raise ValueError("artifact feature contract does not match this program")
+threshold = float(metadata["threshold"])
+if not 0.0 <= threshold <= 1.0:
+    raise ValueError("threshold must be finite and between 0 and 1")
 model = RiskClassifier(torch.zeros(4), torch.ones(4))
 state = torch.load(
     "artifacts/model_state.pt",
@@ -1098,6 +1112,8 @@ validate_features(features)
 with torch.inference_mode():
     probability = torch.sigmoid(model(features)).item()
 
+if not bool(torch.isfinite(torch.tensor(probability))):
+    raise RuntimeError("model returned a non-finite probability")
 print("feature_names=", metadata["feature_names"])
 print("model_version=", metadata["model_version"])
 print("probability=", probability)
@@ -1224,7 +1240,7 @@ probability= 0.9991193413734436
 
 ### 清理
 
-确认当前路径确实是实验目录，再执行：
+两个实验均结束后，先查看 `Get-Item -LiteralPath .\artifacts` 的完整路径，确认它属于本课新建的 `pytorch-aiops-lab`，且没有需要保留的记录，再执行：
 
 ```powershell
 Remove-Item -LiteralPath .\artifacts -Recurse -Force
@@ -1367,7 +1383,7 @@ torch.save(checkpoint, temporary)
 os.replace(temporary, target)
 ```
 
-这不是对象存储、NFS 或多节点场景的完整事务保证。生产中还要：
+同一文件系统内替换解决的是读者看到旧文件或新文件的发布可见性，不自动保证断电后数据已稳定落盘；需要按文件系统与平台评估文件和目录同步。这个固定临时名还假定只有一个写者，多 rank 或多作业不能共同覆盖它。这不是对象存储、NFS 或多节点场景的完整事务保证。生产中还要：
 
 - 由明确的 coordinator 或 rank 负责发布完成标记。
 - 写校验和、大小、模型版本和创建时间。
@@ -1449,9 +1465,13 @@ total_norm = torch.nn.utils.clip_grad_norm_(
 
 AMP 是 Automatic Mixed Precision，自动混合精度。它让适合的算子使用较低精度以提升吞吐和减少显存，同时保留敏感计算的精度。
 
-CUDA 训练的典型结构：
+下面是 CUDA 训练的集成骨架，不是 CPU 基础实验的追加一键命令；先确认 CUDA Wheel、设备、DataLoader 和损失函数可用，再在模型迁移后创建绑定它的优化器：
 
 ```python
+if not torch.cuda.is_available():
+    raise RuntimeError("this AMP example requires a verified CUDA environment")
+model = model.to("cuda")
+optimizer = torch.optim.AdamW(model.parameters(), lr=1e-3)
 scaler = torch.amp.GradScaler("cuda")
 
 for features, labels in train_loader:
@@ -1650,7 +1670,7 @@ rank 2（分布式进程编号 2）: batch C（批次 C） -> forward（前向�
 
 `all-reduce` 是把各 rank 的梯度聚合，再把结果发回所有 rank。同步点意味着一个慢 rank 可能拖住所有进程。
 
-DDP 不会自动把一批数据切开，必须配合 `DistributedSampler`：
+DDP 不会自动把一批数据切开；应用负责按进程划分输入，常用方式是配合 `DistributedSampler`，也可以自行实现等价分片：
 
 ```python
 sampler = torch.utils.data.DistributedSampler(
@@ -1682,9 +1702,9 @@ import torch
 import torch.distributed as dist
 from torch.nn.parallel import DistributedDataParallel as DDP
 
-dist.init_process_group(backend="nccl")
 local_rank = int(os.environ["LOCAL_RANK"])
 torch.cuda.set_device(local_rank)
+dist.init_process_group(backend="nccl")
 
 model = RiskClassifier(...).to(local_rank)
 model = DDP(model, device_ids=[local_rank])
@@ -1718,7 +1738,7 @@ global_batch_size
 * gradient_accumulation_steps
 ```
 
-卡数从 1 变 8 而每卡 batch 不变，global batch 也扩大 8 倍。它会改变优化过程，不是纯性能参数。要重新评估学习率、warmup、收敛、类别分布和每个 epoch 的 step 数。
+图中 global_batch_size 是一次参数更新对应的全局批量，per_rank_batch_size 是每进程的小批量，world_size 是进程总数，gradient_accumulation_steps 是累计多少个小批量才更新。公式假定各进程和各累积步骤样本数相同；末批不齐时需按真实样本数缩放损失。卡数从 1 变 8 而每卡 batch 不变，global batch 也扩大 8 倍。它会改变优化过程，不是纯性能参数。要重新评估学习率、warmup、收敛、类别分布和每个 epoch 的 step 数。
 
 梯度累积用于显存不够时用多个 micro-batch 模拟较大 batch。DDP 中非同步累积步骤可以用 `no_sync()` 减少不必要的 all-reduce，但最后一个 micro-batch 必须同步；写错会造成梯度不一致。
 
@@ -1851,7 +1871,7 @@ model state / exported graph
 + hash, owner, approval and rollback target
 ```
 
-权重、特征顺序和阈值来自不同版本时，服务即使“启动成功”也可能做出错误判断。
+图中的发布单元包含模型状态或导出图、代码或运行镜像、前后处理、特征名称顺序单位范围、标签含义与阈值、依赖版本、训练数据摘要、离线指标与已知限制，以及校验摘要、负责人、审批和回退目标。权重、特征顺序和阈值来自不同版本时，服务即使“启动成功”也可能做出错误判断。
 
 ### 典型在线路径
 
@@ -2229,7 +2249,7 @@ PyTorch 是以 Tensor 为核心的机器学习和张量计算框架。`nn.Module
 5. Autograd 从 loss 反向计算每个参数梯度。
 6. optimizer 根据梯度更新参数，下一 step 前清掉旧梯度。
 7. validation 使用 `eval()` 和 `inference_mode()`，不更新参数。
-8. 固定方案后在独立 test 上评估，并按业务成本选择阈值。
+8. 按业务成本在 validation 上选择阈值并冻结方案，再在独立 test 上做最终评估；不能用 test 继续选择阈值。
 9. 保存 `state_dict`、模型代码、预处理、字段、阈值、环境和数据版本。
 10. 部署前做重载、golden input、容量、安全、shadow、canary 和回滚验证。
 

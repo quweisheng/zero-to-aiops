@@ -58,7 +58,6 @@ Application（应用程序）
   -> OpenTelemetry API（开放遥测调用接口）
   -> OpenTelemetry SDK（开放遥测实现库）
   -> spans / metrics / logs（跨度、指标和日志）
-  -> context propagation（上下文传播）
   -> OTLP exporter（开放遥测协议导出器）
   -> OpenTelemetry Collector（开放遥测收集器）
      -> receiver（接收器）
@@ -66,6 +65,8 @@ Application（应用程序）
      -> exporter（导出器）
   -> backend（保存与查询后端）
 ```
+
+另有一条伴随业务请求的路径：上游注入 Context（上下文）到请求头，下游提取并创建关联跨度。它不是把采集完成的数据先传给下一服务再送 Collector；业务调用传播和遥测导出是两条不同路径。
 
 必须掌握：
 
@@ -319,12 +320,12 @@ OpenTelemetry 不是什么：
 Trace 表示一次请求或一次业务操作的完整路径。
 
 ```text
-Trace: checkout request
-  Span: HTTP POST /checkout
-    Span: auth service call
-    Span: inventory service call
-    Span: payment service call
-      Span: database query
+Trace: checkout request（结算请求链路）
+  Span: HTTP POST /checkout（提交结算的入口操作）
+    Span: auth service call（身份验证调用）
+    Span: inventory service call（库存调用）
+    Span: payment service call（支付调用）
+      Span: database query（数据库查询）
 ```
 
 Trace 回答：
@@ -379,9 +380,9 @@ Log 回答：
 三者关系：
 
 ```text
-Metrics 发现异常
-Trace 定位慢在哪一段
-Logs 解释那一段为什么失败
+Metrics（指标）发现异常
+Trace（链路）定位慢在哪一段
+Logs（日志）提供那一段失败的事件证据
 ```
 
 ## Trace、Span、SpanContext
@@ -405,10 +406,10 @@ Span 常见字段：
 | Name | 操作名 |
 | StartTime | 开始时间 |
 | EndTime | 结束时间 |
-| Status | unset / ok / error |
+| Status | unset（未显式设置）/ ok（显式成功）/ error（错误） |
 | Attributes | 键值属性 |
 | Events | span 内事件 |
-| Links | 与其他 span 的弱关联 |
+| Links | 指向其他跨度的显式关系，例如批处理关联多个来源，不限于父子树 |
 
 SpanContext 包含 trace 传播所需的核心信息：
 
@@ -428,9 +429,9 @@ Context propagation 是分布式追踪能跨服务串起来的关键。
 没有传播：
 
 ```text
-frontend trace A
-api trace B
-db trace C
+frontend trace A（前端独立链路）
+api trace B（接口独立链路）
+db trace C（数据库操作独立链路）
 ```
 
 每个服务各自一条 trace，无法关联。
@@ -439,9 +440,9 @@ db trace C
 
 ```text
 trace_id=abc
-  frontend span
-  api span
-  db span
+  frontend span（前端操作）
+  api span（接口操作）
+  db span（数据库操作）
 ```
 
 常见传播格式：
@@ -494,7 +495,7 @@ Resource 描述产生 telemetry 的实体。
 ```yaml
 service.name: aiops-api
 service.version: 1.2.3
-deployment.environment: prod
+deployment.environment.name: production
 k8s.namespace.name: aiops
 k8s.pod.name: aiops-api-7d9f
 cloud.provider: aws
@@ -512,7 +513,7 @@ Resource 很重要，因为它回答：
 
 ```bash
 OTEL_SERVICE_NAME=aiops-api
-OTEL_RESOURCE_ATTRIBUTES=deployment.environment=prod,service.version=1.2.3
+OTEL_RESOURCE_ATTRIBUTES=deployment.environment.name=production,service.version=1.2.3
 ```
 
 ## Attributes 和 Semantic Conventions
@@ -534,7 +535,7 @@ server.port
 数据库 span 常见属性：
 
 ```text
-db.system
+db.system.name
 db.operation.name
 db.namespace
 server.address
@@ -859,7 +860,7 @@ Processor 在发送前处理数据。
 | `transform` | 转换 telemetry |
 | `tail_sampling` | trace 尾采样，常在 contrib |
 
-生产常见组合：
+生产常见组合的教学片段（还需接入流水线，并根据容器总内存留出余量）：
 
 ```yaml
 processors:
@@ -901,6 +902,8 @@ exporters:
     tls:
       insecure: true
 ```
+
+这里只展示隔离实验网内的明文连接结构。`insecure: true` 表示不使用 TLS 加密，不是生产证书故障的修复开关；生产应验证服务端证书，按身份边界配置认证，必要时采用双向 TLS。
 
 Prometheus exporter：
 
@@ -967,7 +970,7 @@ Connector 连接 pipeline。
 
 ```bash
 export OTEL_SERVICE_NAME=aiops-api
-export OTEL_RESOURCE_ATTRIBUTES=deployment.environment=prod,service.version=1.0.0
+export OTEL_RESOURCE_ATTRIBUTES=deployment.environment.name=production,service.version=1.0.0
 export OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
 export OTEL_EXPORTER_OTLP_PROTOCOL=grpc
 ```
@@ -981,13 +984,13 @@ Trace 数据量可能很大，需要采样。
 | 类型 | 思路 |
 |---|---|
 | head sampling | 请求开始时决定采不采 |
-| tail sampling | 请求结束后根据完整 trace 决定采不采 |
+| tail sampling | 等待一段时间后，根据已到达的跨度作决定，并不保证收齐所有跨度 |
 | parent-based | 跟随父 span 采样决定 |
 | ratio-based | 按比例采样 |
 
 head sampling 成本低，但无法根据最终错误决定。
 
-tail sampling 能保留错误慢请求，但需要 Collector 或后端看到完整 trace，成本更高。
+tail sampling 可以按错误、耗时等策略保留链路，但受已到达跨度、等待窗口、路由和容量影响，成本更高；它无法补回上游已经丢弃的数据。
 
 AIOps 常见策略：
 
@@ -998,7 +1001,9 @@ AIOps 常见策略：
 
 ## AIOps 入门实验
 
-目标：启动一个 Collector，用 OTLP receiver 接收数据，用 debug exporter 打印，确认 pipeline 可用。
+目标：启动一个 Collector，用 OTLP receiver 接收两段关联跨度，用 debug exporter 打印，再通过错误路径验证故障分支。本实验只验证链路信号的接收和调试导出，不声称已经验证指标、日志或永久存储。
+
+前提：准备 Docker Desktop 的 Linux 容器环境与 Python 3，创建一个不与旧材料重名的学习目录。Collector 固定为 [contrib 0.123.0](https://github.com/open-telemetry/opentelemetry-collector-releases/releases/tag/v0.123.0) 教学发行版，其中包含本例健康检查扩展；固定版本便于复现，不是生产补丁推荐。后续配置字典可能介绍其他版本组件，不能直接假定此发行版全部具备。确认 4317、4318、13133 未被其他进程使用。
 
 ### 1. 写 Collector 配置
 
@@ -1025,6 +1030,7 @@ exporters:
 
 extensions:
   health_check:
+    endpoint: 0.0.0.0:13133
 
 service:
   extensions: [health_check]
@@ -1045,79 +1051,81 @@ service:
 
 ### 2. 启动 Collector
 
-如果本机有 `otelcol`：
+在保存配置的目录里执行以下 PowerShell 命令。配置里的全接口地址指容器内部，宿主机发布端口严格限定为 `127.0.0.1`，不能改成对公网开放的接收器。挂载为只读，容器名专用于本次课堂；如同名容器已存在，先核对归属，不要删除别人的容器。
 
-```bash
-otelcol --config otel-collector.yaml
+```powershell
+docker run --rm --name otel-lesson -p 127.0.0.1:4317:4317 -p 127.0.0.1:4318:4318 -p 127.0.0.1:13133:13133 --mount "type=bind,source=$($PWD.Path)/otel-collector.yaml,target=/etc/otelcol-contrib/config.yaml,readonly" otel/opentelemetry-collector-contrib:0.123.0 --config=/etc/otelcol-contrib/config.yaml
 ```
 
-Docker 示例：
+保持这个终端用于观察输出。在另一个 PowerShell 终端运行 `curl.exe -i http://127.0.0.1:13133/`，预期 HTTP 200。健康检查只说明检查端点响应，不证明数据已经走完流水线。Linux 用户可将挂载的源路径换为配置文件绝对路径，其他参数不变。原生进程方式则要把接收与健康端口绑定改为回环地址，并使用匹配发行版的二进制。
 
-```bash
-docker run --rm \
-  -p 4317:4317 \
-  -p 4318:4318 \
-  -p 13133:13133 \
-  -v "$PWD/otel-collector.yaml:/etc/otelcol/config.yaml" \
-  otel/opentelemetry-collector:latest
+### 3. 用两段合成跨度发送真正的 OTLP/HTTP 请求
+
+保存为 `otel-lesson.py`，运行 `python otel-lesson.py`。这里直接构造符合 OTLP JSON 编码的教学请求，让你看见线上数据长什么样；真实应用应优先使用官方 SDK，不应复制这段程序自造一套埋点库。`secrets` 生成随机标识，`time` 生成当前时间，`urllib` 负责本机 HTTP 请求，都是 Python 标准库。
+
+```python
+import json
+import secrets
+import time
+from urllib.error import HTTPError
+from urllib.request import Request, urlopen
+
+base = "http://127.0.0.1:4318"
+
+def export(path):
+    trace_id = secrets.token_hex(16)
+    parent = secrets.token_hex(8)
+    now = time.time_ns()
+    spans = [
+        {"traceId": trace_id, "spanId": parent, "name": "lesson.request",
+         "kind": 1, "startTimeUnixNano": str(now - 20_000_000),
+         "endTimeUnixNano": str(now)},
+        {"traceId": trace_id, "spanId": secrets.token_hex(8),
+         "parentSpanId": parent, "name": "lesson.database",
+         "kind": 1, "startTimeUnixNano": str(now - 15_000_000),
+         "endTimeUnixNano": str(now - 5_000_000)}
+    ]
+    body = {"resourceSpans": [{
+        "resource": {"attributes": [
+            {"key": "service.name", "value": {"stringValue": "otel-lesson"}}]},
+        "scopeSpans": [{"scope": {"name": "teacher-led-lesson"}, "spans": spans}]
+    }]}
+    request = Request(base + path, data=json.dumps(body).encode("utf-8"),
+                      headers={"Content-Type": "application/json"}, method="POST")
+    with urlopen(request, timeout=10) as response:
+        result = json.load(response)
+        assert response.status == 200
+    partial = result.get("partialSuccess", {})
+    assert int(partial.get("rejectedSpans", 0)) == 0, partial
+    if partial.get("errorMessage"):
+        print("server warning:", partial["errorMessage"])
+    print("accepted two spans, trace_id:", trace_id)
+
+export("/v1/traces")
+try:
+    export("/v1/traces-typo")
+except HTTPError as error:
+    assert error.code == 404, f"预期路径错误 404，实际 {error.code}"
+    print("wrong path: HTTP 404")
+else:
+    raise AssertionError("错误路径不应成功接收本例数据")
+export("/v1/traces")
+print("path restored; inspect both trace IDs in Collector output")
 ```
 
-检查健康：
+`resourceSpans` 把同一资源的跨度放在一起，`scopeSpans` 说明由哪个埋点范围产生，`spans` 才是操作列表。链路标识为十六进制三十二字符，跨度标识十六字符；子跨度的 `parentSpanId` 指向父跨度，二者共享 `traceId`。时间以纳秒整数字符串表达。`kind: 1` 在本实验表示内部操作，名称叫数据库并不意味着真的执行了数据库查询。
 
-```bash
-curl -v http://127.0.0.1:13133/
-```
+### 4. 对照 Collector 输出完成基础验收
 
-### 3. 配置应用发送到 Collector
+预测每次正确请求打印两段跨度。等待批处理输出后，在 Collector 终端搜索程序打印的两个链路标识；每个标识应有 `lesson.request`、`lesson.database`，并核对父标识和服务名。它们是程序第一次发送和故障恢复后发送的两条不同链路，不能误当重复数据。记录接收响应、跨度数量和字段关系，比只截图“容器正在运行”更有证明力。
 
-应用环境变量：
+如果 HTTP 请求成功却暂时看不到输出，先确认等待了批处理时间、`debug` 已接到 traces 流水线且详细级别生效，再查相同标识。若请求超时或连接拒绝，先确认进程、发布端口与代理设置；若返回 400，读有限的响应正文并核对 JSON 字段，不要先改内存参数。只修改合成数据，不把真实请求头或敏感属性带进调试日志。
 
-```bash
-export OTEL_SERVICE_NAME=aiops-demo
-export OTEL_RESOURCE_ATTRIBUTES=deployment.environment=local
-export OTEL_EXPORTER_OTLP_ENDPOINT=http://127.0.0.1:4317
-export OTEL_EXPORTER_OTLP_PROTOCOL=grpc
-```
+### 5. 故障注入、恢复与清理
 
-如果用 HTTP：
+程序把正确路径改成 `/v1/traces-typo`，预期 HTTP 404，再恢复为 `/v1/traces` 并产生新的两段跨度。这证明端口相同也不代表请求协议和路径正确。继续独立练习时，再分别核对 gRPC 常用 4317、HTTP 常用 4318；本程序只实现 HTTP，不能改一个端口就声称测试了 gRPC。协议错误的具体提示会随客户端和接收器版本变化。
 
-```bash
-export OTEL_EXPORTER_OTLP_ENDPOINT=http://127.0.0.1:4318
-export OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
-```
-
-### 4. 观察 Collector 输出
-
-Collector 日志中应该能看到 spans、metrics 或 logs。
-
-记录：
-
-```text
-service.name:
-trace_id:
-span name:
-attributes:
-resource attributes:
-pipeline:
-```
-
-### 5. 故意制造协议错误
-
-把应用设置成 gRPC，但发到 4318：
-
-```bash
-OTEL_EXPORTER_OTLP_ENDPOINT=http://127.0.0.1:4318
-OTEL_EXPORTER_OTLP_PROTOCOL=grpc
-```
-
-观察应用和 Collector 错误。
-
-这能帮助你记住：
-
-```text
-4317 常用 OTLP/gRPC
-4318 常用 OTLP/HTTP
-```
+完成后，在第三个终端执行 `docker stop otel-lesson`，只停止本轮容器；`--rm` 会移除已停止容器，不删除宿主机配置。保留配置、程序、响应及脱敏输出，不需要清理 Docker 全部资源。这个课堂没有永久后端，所以停止后不要期望还能从数据库查询历史数据；下一步接 Tempo 或 Jaeger，再做存储查询验收。
 
 ## 常用命令字典
 
@@ -1227,11 +1235,15 @@ kubectl run curl-test -n observability --rm -it --image=curlimages/curl:8.10.1 -
 
 ### 1. 应用是否启用 OTel
 
-检查环境变量：
+只检查必要环境变量是否存在，不批量打印值；OTLP headers 环境变量可能含认证令牌，端点本身也可能嵌入凭据。
 
 ```bash
-env | rg "OTEL_"
+for name in OTEL_SERVICE_NAME OTEL_EXPORTER_OTLP_ENDPOINT OTEL_EXPORTER_OTLP_PROTOCOL OTEL_TRACES_EXPORTER; do
+  if [[ -v "$name" ]]; then printf '%s=set\n' "$name"; else printf '%s=unset\n' "$name"; fi
+done
 ```
+
+这是 Bash 的只读存在性检查。具体协议和值在本机私下核对，不把密钥或完整认证头粘贴到聊天、工单或 GitHub。Windows 可在当前进程环境变量设置里逐项核对，先记录是否设置和协议类型即可。
 
 重点：
 
@@ -1278,7 +1290,7 @@ service:
 
 ### 4. 用 debug exporter 简化后端问题
 
-先把 exporter 改成：
+先在隔离实验中使用以下调试导出器；生产不能直接替换现有导出器导致停止保存，也不能把真实敏感跨度批量打印。若经批准临时增加调试分支，应限制样本、先脱敏、保留原导出，并约定退出时间。
 
 ```yaml
 exporters:
@@ -1403,6 +1415,86 @@ Trace 解释一次请求经过哪里、每一步多久；metric 统计一段时�
 ### 为什么后端显示 unknown service？
 
 通常缺少 `service.name` resource attribute。设置 `OTEL_SERVICE_NAME`。
+
+## 高阶精讲：让遥测成为可以信赖的工程证据
+
+### 第一站：遥测有数据，也可能回答错问题
+
+同学先想一个问题：图上最长的数据库跨度，是否必然是数据库服务器执行得慢？不一定。客户端跨度可能覆盖连接获取、序列化、网络等待、服务端处理和响应读取中的若干阶段，具体范围取决于埋点库。你必须先弄清这段计时的起止边界，才能把它与服务器慢查询相比较。名称相似的两个耗时，未必测量同一段工作。
+
+再看并行调用。一个入口跨度持续一秒，两个下游跨度各持续八百毫秒；它们如果同时执行，总耗时不能简单相加成一点六秒。追踪页面里的瀑布图表达时间重叠，关键路径是决定整体完成时刻的依赖序列。先画出开始、结束和等待关系，再找影响总时间的操作，避免把所有子跨度相加当成用户等待时间。
+
+跨主机时间还受到时钟差异影响。子跨度显示得比父跨度更早，不应立即断言程序倒序执行；要核对时间同步和埋点时间来源。跨度自身耗时、父子关系、客户端日志和服务器证据一起看，才能分清显示偏移与真实延迟。AIOps 若直接用未经校验的时间轴训练因果模型，可能把时钟误差学成依赖先后。
+
+独立练习：在纸上画一个入口调用两个并行依赖，其中一个依赖再顺序调用数据库。分别写出总耗时、各跨度耗时与关键路径，然后假设数据库优化一半，预测入口能减少多少等待。这个练习不需要后端，却能检验你是否真正理解追踪图；随后再用实测跨度验证你的假设，而不是反过来替图表编故事。
+
+### 第二站：上下文是关联线索，不是身份凭证
+
+`traceparent` 的示例可分成版本、链路标识、当前传播跨度标识和标志位。它使下游知道操作从哪里来，但没有证明调用者身份，也没有授予查询某租户日志的权限。来自公网的头可能由任意客户端构造；网关应按信任边界处理，不能把其中的业务字段直接转成管理员权限或跨租户访问资格。
+
+`tracestate` 是与追踪系统相关的附加状态，`baggage` 是需要按规则传播的键值信息，两者都不是放任意机密的保险箱。即使传输启用了 TLS，数据到达每个下游后仍可能被记录或继续转发。清单式允许传播必要字段、限制数量和长度、在出站边界移除不应外传的内容，比“我们走内网所以安全”更可靠。[上下文传播概念](https://opentelemetry.io/docs/concepts/context-propagation/)
+
+传播也不等于自动复制为全部遥测属性。某项业务信息在 baggage 中存在，是否进入跨度、日志或采样规则，取决于显式集成。读者排查缺字段时，应检查传播载体、提取后的活动上下文以及属性写入位置，而不是把同一个字段反复塞进更多头里。高基数或个人信息更不能为了方便关联被自动加入每个指标。
+
+异步任务需要界定生命周期。例如请求收到后只负责排队，后台任务十分钟后才运行，它可能应该用新的处理跨度并链接到来源，而不是让入口跨度一直挂十分钟。批量处理五个来源时，跨度链接能表达多个因果来源，单一父标识则只表达树形父子关系。选择要跟随所用消息库的语义约定和业务含义，不能仅为页面好看强行拼树。
+
+### 第三站：指标的累计与增量，决定后端怎样算
+
+Temporality 是指标值所覆盖时间范围的表达方式。累计值可以理解为“从本次累计起点到现在一共多少”，增量值则是“这一小段时间新增多少”。它们都可能来自计数测量，但后端聚合方式不同。若把每分钟增量三十、四十、五十当作累计计数再求增长，就会把真实一百二十次请求误解成另一种数量。
+
+反过来，累计值三十、七十、一百二十对应的分段增量是三十、四十、五十；若直接把三个累计样本求和，会重复计算早期请求。进程重启时累计起点变化，还需要时间与重置信息。指标由不同实例产生时，保留正确资源身份，避免把两个独立累计序列混成一条看似上下跳动的曲线。
+
+直方图记录分布，桶边界决定哪些延迟能被区分。若所有慢请求都落在同一个宽桶里，你无法靠后端画图恢复桶内的每次精确耗时。跨实例聚合也要遵守兼容的数据模型与边界。单位要直接与指标定义对应：耗时常按秒定义，界面可以换成毫秒显示，但不能同时在采集端和面板端重复乘一千。
+
+有些指标样本会通过 Exemplar（代表性样本关联）携带少量链路关联线索，帮助从异常数值跳到一个具体请求。它不是要求给每个指标加 `trace_id` 标签；后者会把几乎每个请求变成新序列。模型分析中也应把聚合指标与少量关联样本分开，不能把一个代表样本说成全部异常请求的共同根因。
+
+排障步骤是先查看导出数据的类型、时间范围、单位、资源与属性，再看转换器和后端的接收约定，最后核对查询。不要先改图表公式去凑一个“看起来正常”的结果。此处是理解模型的基础，具体 SDK 支持的累计/增量选择与转换器状态行为，应按所用发行版验证。[指标数据模型](https://opentelemetry.io/docs/specs/otel/metrics/data-model/)
+
+### 第四站：HTTP 成功不等于全部跨度已永久保存
+
+遥测协议也有部分成功。OTLP 可以在成功状态的响应中说明部分跨度、数据点或日志被拒绝，并附带原因。客户端不能只检查状态码；要按协议处理部分成功和不可重试错误，不能把整批重新发送来“补齐”，否则可能重复已经接受的部分。[OTLP 响应规范](https://opentelemetry.io/docs/specs/otlp/)
+
+即使接收端完整接受了请求，也只是这一次接收交接的结果，不是最终存储的无限期保留证明。Collector 中还有批处理、发送队列与导出器，后端还有自身的接收和查询过程。端到端验收应使用独特合成标记，在应用端、接收端和后端分别核对数量及新鲜度；有采样或过滤时，先把预期数量变化写进合同。
+
+双后端导出又增加了一种状态：甲后端成功，乙后端失败。它不天然是一个跨两个数据库的原子事务。你要分别监控导出器、队列和目标验收，决定乙是否允许暂时缺失，不能让某一个调试导出器打印成功就覆盖其他导出失败。需要一致性更强的审计链时，应另行设计可靠事件存储，不把通用遥测管道冒充交易账本。
+
+退出过程也属于交接。短命脚本可能创建跨度后立即退出，而批处理还没把它发出去。官方 SDK 通常提供刷新或关闭能力，应在合理超时内完成；不能在生产请求线程里无界等待遥测后端。基础实验为了看清协议直接同步发送，真实应用则要平衡性能与可恢复性，并测试正常退出和异常退出两种路径。
+
+### 第五站：采样节点为什么不能随意水平扩容
+
+头部采样决定发生得早，尾部采样决定发生得晚；两者组合时，后者只能选择仍然到达的数据。若上游已经只保留十分之一，尾部策略声称“错误全部保留”就必须说明它只是针对到达的候选链路。强行忽略这个前提，会让稀有故障在事故时最缺证据。
+
+尾部采样持有一段时间的链路状态。若同一条链路的一半跨度到甲节点，另一半到乙节点，任何一个节点都可能缺少作决定的关键错误信息。架构上需要合适的按链路归属路由，容量上需要预算待决链路及跨度内存，扩缩容时还要考虑归属变化和未完成状态。加副本能增加处理能力，但不会自动迁移所有内存中的决策上下文。
+
+纸面模拟：一条链路有入口、数据库和错误处理三段。第一秒到达入口，第二秒到达数据库，第十秒才到达错误处理，而采样器第五秒决定。请解释为何“按错误保留”仍可能没有保住完整链路。再把等待窗口扩大，说明内存与等待时延怎样变化。这道题要求你解释取舍，不要求找到一个任何系统都适用的固定秒数。
+
+若用跨度生成请求率、错误率和耗时等 RED 指标，也要明确连接器位于采样之前还是之后。采样后计算得到的是样本分布，错误优先保留会进一步改变比例，不能直接拿它当全部请求的业务错误率。指标是否完整，需要基于真实计量路径验证，而不是看到字段名里有“请求数”就相信分母正确。
+
+### 第六站：容量保护不能保证数据永远不丢
+
+内存限制处理器主要在压力下帮助拒绝或减轻接收负担，不是一个能够强制阻止所有分配的操作系统内存墙。容器总内存还要容纳运行时、接收缓冲、批次、采样状态和其他组件；把处理器限制设得等于容器极限，可能没有足够安全余量。若上游不正确重试，被拒绝的数据仍可能丢失。
+
+估算队列时先统一单位。教学假设每秒产生两千个跨度，下游暂时只能接受一千五百个，积压每秒五百个。若可用缓冲只能容纳六万个跨度，并且流量与处理速度保持不变，大约两分钟用尽。实际队列可能按批次、请求或字节计量，要按组件版本换算，不能把界面的六万直接当作六万个跨度。
+
+持久化队列能提高特定重启场景下的恢复能力，但依赖存储扩展、持久卷、磁盘容量、重试时限和实际接线。节点磁盘损坏不等同于普通进程退出；扩容到另一个节点也不会凭空拥有旧卷数据。生产演练应分别测试短暂网络中断、超过缓冲能力、进程重启和存储不可用，记录丢失与重复边界。
+
+Collector 自身的可观测性尽量不要完全依赖它正在保护的同一故障链路。至少要有独立检查能发现接收拒绝、队列趋满、导出失败和新鲜度异常。否则管道断掉后仪表盘只是不再更新，值班人员可能误以为业务安静了。对 AIOps 来说，“不知道”应成为可见状态，而不是被自动补成零。
+
+### 第七站：升级把字段改了，谁会受到影响
+
+语义约定升级不只是换名字。当前示例使用 `deployment.environment.name` 表示环境、`db.system.name` 表示数据库类型；旧教程和旧埋点可能仍输出 `deployment.environment`、`db.system`。不能在 Collector 中不加区分地覆盖所有字段，更不能假设应用包、Collector 和后端总是同一版本。[部署环境约定](https://opentelemetry.io/docs/specs/semconv/resource/deployment-environment/)与[数据库跨度约定](https://opentelemetry.io/docs/specs/semconv/db/database-spans/)是核对入口。
+
+先建立消费者清单：查询、仪表盘、告警、服务目录、采样策略、日志关联和模型特征。用旧新两批合成样本分别跑关键查询，观察是否丢字段、重复计量或资源身份改变。必要时设计有期限的双字段兼容，并明确哪一个是权威来源；兼容期结束前确认所有消费者已迁移。
+
+回滚也要分两层。配置与二进制可以在兼容条件下恢复，但已经写入后端的新字段数据不会自动改回旧格式。恢复旧查询可能让新数据暂时不可见，因此验收要覆盖变更前、变更中、回退后三个时间段。更换发行版还需核对组件是否存在、是否支持相应信号，以及配置是否有迁移要求。
+
+### 第八站：面试官要的是一条有证据的诊断链
+
+设计题：数百个服务分布在多个集群，如何建设统一遥测？从接入合同说起，说明稳定服务身份、三类信号边界与敏感字段策略，再画本地采集和汇聚路径，区分无状态处理与持有状态的采样。最后交代流量预算、租户隔离、队列故障、独立监控和升级回归，不能只罗列产品名。
+
+事故题：业务成功率正常，但数据库跨度突然全部消失。先核对发布和调用量，再验证埋点产生、采样、接收、过滤、导出和查询六个观察点；每个假设写一个可以推翻它的检查。比如调试样本已显示数据库跨度且后端接收增加，就应转向后端字段与查询，而不是继续重启应用。修复后验证已知请求及并发请求，确认没有串链和敏感信息泄漏。
+
+三分钟答案的收尾应是取舍：OpenTelemetry 降低采集接口与后端的耦合，但不能消除后端的数据模型、权限、成本与查询差异。你能讲出什么已验证、什么仍是假设，往往比背全组件表更有说服力。把课堂程序、父子关系图、队列推演和一次字段迁移记录提交到 GitHub，用可复核证据展示理解，而不是承诺读完一篇文章就能获得录用。
 
 ## 学习路线
 

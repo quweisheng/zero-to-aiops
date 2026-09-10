@@ -16,7 +16,7 @@
 
 ## 本地运行
 
-全站正在按 [老师带学精讲标准](./docs/tech-stack/writing-standard.md) 更新全部技术栈：补零基础概念、英文地图中文注释、机制推理、两级实验与连续面试追问。每篇以接近一万字有效正文为目标，实际篇幅与复核方向公开在 [逐篇修订与篇幅复核](./docs/tech-stack/teaching-coverage.md)。
+全站 114 篇技术栈已完成本轮 [老师带学精讲标准](./docs/tech-stack/writing-standard.md) 修订：补零基础概念、英文地图中文注释、机制推理、两级实验与连续面试追问。每篇中文正文均不少于一万字，较长的有用内容完整保留；代码、命令输出和文字图不用于补足篇幅。实际统计与复核方向公开在 [逐篇修订与篇幅复核](./docs/tech-stack/teaching-coverage.md)。
 
 运行 `npm run audit:teaching` 可从文章重新生成复核表；统计排除代码和终端输出，篇幅达标不代替技术审校。新手可以先做 [可靠性与可观测性课堂实验](./examples/teacher-led-reliability-lab/README.md)，用本地合成数据练习判断。
 

@@ -273,8 +273,8 @@ Webhook（事件回调入口）
   -> Item 1: {service, severity, fingerprint}（第一条数据项，包含服务、级别和指纹）
   -> Edit Fields（编辑字段节点）
   -> If（条件分支节点）
-      ├─ critical -> 审批分支
-      └─ other    -> 观察分支
+      ├─ critical（严重） -> 审批分支
+      └─ other（其他；此简图未做枚举校验） -> 观察分支
 ```
 
 ### 怎么用或观察
@@ -365,7 +365,7 @@ Execution 是 Workflow 的一次运行实例。稳定版源码定义的状态包
 canceled, crashed, error, new, running, success, unknown, waiting
 ```
 
-Error Workflow 是以 Error Trigger 开始、专门接收失败上下文的工作流；Wait 节点可以让执行进入等待并把状态持久化。
+这些状态依次表示已取消、进程崩溃、执行错误、新建、运行中、成功、未知和等待中。Error Workflow 是以 Error Trigger 开始、专门接收失败上下文的工作流；Wait 节点可以让执行进入等待，是否卸载到数据库还取决于等待方式和时长。
 
 ### 为什么需要
 
@@ -373,7 +373,7 @@ Error Workflow 是以 Error Trigger 开始、专门接收失败上下文的工�
 
 ### 怎么工作
 
-执行开始后依次记录节点输入、输出、时间和状态。Wait 暂停时会把 execution data 卸载到数据库，满足恢复条件后继续。失败 Execution 可以使用原 Workflow 或当前已保存 Workflow 配合旧输入重跑。主 Workflow 还可关联一个 Error Workflow 发送告警或登记事件。
+执行开始后依次记录节点输入、输出、时间和状态。Wait 的长等待或回调等待可把 execution data 卸载到数据库，满足恢复条件后继续；但固定基线的时间等待少于 65 秒时，进程仍继续运行，不走这条卸载路径。不能用一次五秒等待证明“重启后必能续跑”。等待恢复还依赖服务器时间和实际条件，详见[官方 Wait 时间语义](https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.wait/#time-based-operations)。失败 Execution 可以使用原 Workflow 或当前已保存 Workflow 配合旧输入重跑。主 Workflow 还可关联一个 Error Workflow 发送告警或登记事件。
 
 ### 怎么用或观察
 
@@ -536,10 +536,10 @@ Browser / Manual Trigger / Webhook（浏览器、人工触发或回调）
               |
               v
        一个 n8n 进程
-       ├─ Editor 与 API
-       ├─ Trigger 与 Scheduler
+       ├─ Editor 与 API（流程编辑器与管理接口）
+       ├─ Trigger 与 Scheduler（事件触发器与定时调度器）
        ├─ Workflow execution（工作流执行）
-       └─ internal Task Runner（学习环境）
+       └─ internal Task Runner（进程内管理的代码执行子进程，仅作学习）
               |
               v
        .n8n volume + SQLite（配置数据卷与嵌入式数据库）
@@ -643,6 +643,7 @@ n8n 能保存运行状态，但不为所有外部系统提供分布式事务。�
 - 本机端口 `5678` 未占用；
 - 至少为实验预留 2 GiB 内存和可持久化磁盘；
 - 一个不放进当前仓库的独立实验目录。
+- 目录中不存在旧 `.env` 或 `compose.yaml`；使用独有的 Compose 项目名或目录名，确认不会复用其他项目的数据卷。
 
 检查：
 
@@ -686,7 +687,7 @@ services:
     environment:
       TZ: Asia/Shanghai
       GENERIC_TIMEZONE: Asia/Shanghai
-      N8N_ENCRYPTION_KEY: ${N8N_ENCRYPTION_KEY}
+      N8N_ENCRYPTION_KEY: ${N8N_ENCRYPTION_KEY:?请先在.env中设置非空随机密钥}
       N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: "true"
       N8N_METRICS: "true"
       EXECUTIONS_DATA_PRUNE: "true"
@@ -810,7 +811,7 @@ services:
 在 Docker 容器里执行 CLI 时，官方建议使用容器内 `node` 用户。例如：
 
 ```powershell
-docker exec -u node -it <n8n-container-name> n8n audit
+docker exec -u node -it '替换为本次实验容器名' n8n audit
 ```
 
 命令中的容器名、输出路径和访问权限必须按实际环境替换。任何备份都要做恢复演练，不能以“命令退出码为 0”替代恢复成功。
@@ -976,7 +977,7 @@ approvalRequired = false
 idempotencyKey = {{ $json.alertId + ':record-event' }}
 ```
 
-保留上游字段，这样响应仍包含 `alertId`、`service`、`severity` 和 `summary`。
+这里 `human-review` 表示人工审阅，`observe` 表示观察；`approvalRequired` 必须在 Edit Fields 中选择 Boolean（布尔）类型，不要填成字符串 `"true"` 或 `"false"`。两条分支的 `idempotencyKey` 选择 Expression，`route` 选择 String。打开 **Include Other Input Fields**（包含其他输入字段），保留上游字段，这样响应仍包含 `alertId`、`service`、`severity` 和 `summary`。
 
 ### 第四步：返回结果
 
@@ -1138,7 +1139,7 @@ Get-NetTCPConnection -LocalPort 5678 -ErrorAction SilentlyContinue
 
 ### 基础实验清理
 
-停止容器但保留学习数据：
+如果接着做下一节故障实验，先保留正在运行的环境，不要执行本节清理。全部完成后，在确认属于本次实验的 Compose 目录中，停止容器但保留学习数据：
 
 ```powershell
 docker compose down
@@ -1187,13 +1188,13 @@ n8n-lab-error-handler
 
 ```text
 handled = true
-sourceWorkflow = 从 Error Trigger 输入中映射 workflow 名称或 ID
-sourceExecution = 从 Error Trigger 输入中映射 execution ID/URL
-errorMessage = 从 Error Trigger 输入中映射 error message
+sourceWorkflow = {{ $json.workflow.id }}
+sourceExecution = {{ $json.execution.id }}
+errorMessage = {{ $json.execution.error.message }}
 handledAt = {{ $now }}
 ```
 
-不同错误类型的输入结构可能不同。先观察 Error Trigger 的真实 Input，再用数据面板映射，不要盲抄路径。保存 Error Workflow。
+`handled` 选择 Boolean，三个来源字段和 `handledAt` 使用 Expression；它们分别表示已处理标记、来源工作流编号、来源执行编号、错误消息和处理时间。这组路径适用于本实验中已保存的运行在 Stop And Error 节点失败。首次可以先保存上述映射，再通过后面的生产入口触发，回到 Error Trigger 核对真实 Input。触发器自身失败时可能没有 `execution.id`，不能照搬该路径；[官方错误数据说明](https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.errortrigger/#error-data)列出了差别。保存 Error Workflow 即可，它自身无需 Publish。
 
 ### 第二步：关联错误流程
 
@@ -1468,7 +1469,7 @@ n8n_scaling_mode_queue_jobs_completed
 n8n_scaling_mode_queue_jobs_failed
 ```
 
-Multi-main 还可用 `instance_role_leader` 区分 leader。指标端点可能暴露敏感运行信息，只允许内部 Prometheus 网段抓取。
+这四个指标分别表示活跃、等待、已完成和失败的队列作业；计算速率前先核对端点中的指标类型及清理策略，不能把当前队列记录数一律当作单调递增计数器。Multi-main 还可用 `instance_role_leader` 区分 leader。指标端点可能暴露敏感运行信息，只允许内部 Prometheus 网段抓取。
 
 ### 推荐 SLI 与告警
 
@@ -1516,7 +1517,7 @@ duration
 instance / worker / runner
 ```
 
-不要长期打开 debug，也不要把 token、Webhook Secret、Credential、完整告警敏感字段或 LLM Prompt 原文写入日志。
+上述日志字段依次表示时间、工作流编号、执行编号、业务事件或故障指纹或变更编号、节点名与类型、错误类别与 HTTP 状态、耗时、实例与执行进程及代码执行器。不要长期打开 debug，也不要把 token、Webhook Secret、Credential、完整告警敏感字段或 LLM Prompt 原文写入日志。
 
 ### Trace 与外部审计
 
@@ -1652,7 +1653,7 @@ Workflow 导出不是数据库一致性备份；数据库备份也不自动包�
 Community/Custom nodes 会在实例中执行代码。安装前审核来源、维护状态、版本和权限；固定版本，先在隔离环境测试。对不需要的高风险节点建立 blocklist。定期运行：
 
 ```powershell
-docker exec -u node -it <n8n-container-name> n8n audit
+docker exec -u node -it '替换为已授权审计的容器名' n8n audit
 ```
 
 审计报告会检查未使用 Credential、数据库表达式、文件系统节点、风险节点、未保护 Webhook、安全设置和版本。它只能发现部分风险，不是安全保证。
@@ -1877,7 +1878,7 @@ fingerprint + environment + action + incident-window
 ### 高可用
 
 - Enterprise Multi-main + sticky sessions + leader/follower。
-- main、worker、processor、Runner 全部同版本和同 encryption key。
+- main、worker、processor 使用同版本和同一凭据加密密钥；Runner 使用匹配版本，通过 `N8N_RUNNERS_AUTH_TOKEN` 与对应 Broker 认证，不应因此获得数据库加密密钥。
 - PostgreSQL/Redis 本身采用可靠 HA，不把应用副本数当数据层 HA。
 - leader 切换、Schedule 和持久连接用业务幂等抵抗边界重复/遗漏。
 

@@ -196,7 +196,7 @@ agent / SNMP / JMX / HTTP / ODBC / sender
  anomaly detection / RCA / runbook automation / knowledge base
 ```
 
-`RCA` 是 Root Cause Analysis，即根因分析；`runbook` 是可执行或可阅读的标准处置手册。
+图中上层是主机、网络、存储、数据库和中间件，下一层是不同采集方式；中央 Server 把信息分为历史值、问题记录和程序接口，供下游异常检测、根因分析、处置自动化与知识库使用。`RCA` 是 Root Cause Analysis，即根因分析；`runbook` 是可执行或可阅读的标准处置手册。
 
 ## 学习边界
 
@@ -256,7 +256,7 @@ monitored host             remote site（被监控主机与远程站点）
 - 被动检查：Server 或 Proxy 连接 Agent 并询问一个 item key。
 - 主动检查：Agent 向 Server 或 Proxy 获取监控项列表，随后主动发送数据。
 
-**怎么观察：** 使用 `zabbix_agent2 -t <key>` 本地测试；检查 Agent 日志以及 Server 上的 Latest data。
+**怎么观察：** 使用 `zabbix_agent2 -t "<key>"` 本地测试，将引号内的占位符替换为实际监控项键并保留引号；检查 Agent 日志以及 Server 上的 Latest data。
 
 **坏了怎么查：** 核对 `Hostname`、`Server`、`ServerActive`、DNS、端口 `10050`、TLS 设置和主机名是否完全一致。
 
@@ -466,7 +466,7 @@ JSON response（JSON响应）
 min(/order-api/aiops.demo.latency,5m)>500
 ```
 
-含义是：主机 `order-api` 的 `aiops.demo.latency` 在最近 5 分钟内最小值仍大于 `500`。这等价于“整个 5 分钟都高”，比一次瞬时抖动更稳。
+含义是：主机 `order-api` 的 `aiops.demo.latency` 在最近 5 分钟内已有样本的最小值仍大于 `500`。它说明窗口内采到的值都高，不保证已经完整采满五分钟，也不证明缺测时段都高；新建监控项只有一个高值时就可能满足。生产还要核对采集间隔、样本覆盖与 `nodata()` 无数据告警，再按业务设计最少样本条件。窗口长度不能自动充当持续满五分钟的计时器。
 
 可配置单独恢复表达式：
 
@@ -474,7 +474,7 @@ min(/order-api/aiops.demo.latency,5m)>500
 max(/order-api/aiops.demo.latency,5m)<300
 ```
 
-告警阈值 `500`、恢复阈值 `300` 形成回差，避免数值在 `500` 附近来回抖动。
+告警阈值 `500`、恢复阈值 `300` 形成回差，避免数值在 `500` 附近来回抖动。启用独立恢复表达式时，必须先让问题表达式为假，再让恢复表达式为真；不能只看第二个表达式。参见 [官方触发器表达式与回差说明](https://www.zabbix.com/documentation/7.4/en/manual/config/triggers/expression)。
 
 ### Trigger Dependency
 
@@ -496,7 +496,7 @@ problem event（问题事件）
    +--> action and notification（动作与通知）
    +--> acknowledgement / tags / escalation（确认、标签与升级）
    |
-new value makes recovery expression true（新数值满足恢复表达式）
+problem expression false AND recovery expression true（问题表达式为假且恢复表达式为真）
    |
    v
 recovery event and problem closed（产生恢复事件并关闭问题）
@@ -609,7 +609,7 @@ LLD 宏例如 `{#FSNAME}` 表示本次发现到的文件系统名。原型会为
 12. recovery event closes the problem
 ```
 
-面试排障时不要只说“重启 Agent”。沿这 12 步找最后一个成功点，才能缩小故障范围。
+这十二步依次表示：保存配置、刷新采集缓存、拉取或接收值、验证转换、进入历史缓存、历史与趋势持久化、计算触发器、创建事件、匹配动作、发送通知、满足恢复条件、关闭问题。它是排障的逻辑检查顺序，不是声称全部进程同步串行执行、每个历史值都先单独提交数据库后才计算规则；缓存、批处理与事务边界仍要结合对应进程日志核验。面试排障时不要只说“重启 Agent”。沿这 12 步找最后一个成功点，才能缩小故障范围。
 
 ## 状态、一致性与故障边界
 
@@ -630,10 +630,10 @@ Zabbix 不是无状态 Web 应用。关键状态包括：
 
 ### Proxy 缓冲
 
-Proxy 与 Server 断开后会缓存数据，但容量不是无限。估算本地数据库必须考虑：
+Proxy 与 Server 断开后会缓存数据，但容量不是无限。先看 `ProxyBufferMode`：本文 7.4 配置参考的默认值是 `disk`，数据经本地数据库保存；`memory` 只在内存中缓冲，满时丢旧值、退出时丢缓冲；`hybrid` 平时走内存，在容量或年龄阈值到达时转入数据库，正常关闭时也会刷入数据库。混合模式并不能保证突发断电前的内存值都持久化。不能笼统承诺“有 Proxy 就能断电不丢”。参见 [官方 Proxy 缓冲参数](https://www.zabbix.com/documentation/7.4/en/manual/appendix/config/zabbix_proxy#proxybuffermode)。估算磁盘缓冲行数时必须考虑：
 
 ```text
-required rows ≈ monitored items × values per second × outage seconds
+所需缓冲行数 ≈ 监控项数 × 每个监控项每秒平均产生值数 × 断链秒数
 ```
 
 还要加上每行索引和数据库开销。恢复连接后，大量积压上传会同时压迫 Proxy、网络、Server 和中央数据库。
@@ -650,6 +650,8 @@ required rows ≈ monitored items × values per second × outage seconds
 NVPS = sum(item count / update interval in seconds)
 ```
 
+这里 `sum` 是逐组求和，先按相同采集间隔分组，再把每组监控项数量除以间隔秒数，避免把全部项都按最快间隔计算。
+
 示例：
 
 - 10,000 个监控项每 60 秒采一次：约 `166.7 NVPS`。
@@ -661,6 +663,8 @@ NVPS = sum(item count / update interval in seconds)
 ```text
 history rows per day = NVPS × 86,400
 ```
+
+英文左侧表示每天新增历史记录行数，八万六千四百是一整天的秒数；预处理丢弃、依赖项拆分与实际检查类型会改变最终落库量。
 
 `366.7 NVPS` 每天约产生 3168 万个历史值。磁盘容量不能只用“值本身大小”估算，还要加行头、索引、WAL/binlog、临时空间、备份和副本。
 
@@ -790,7 +794,12 @@ UserParameter、external script、webhook 和 remote command 都可能执行代�
 新建目录：
 
 ```powershell
-New-Item -ItemType Directory -Force zabbix-lab\agent2.d
+if (Test-Path -LiteralPath .\zabbix-lab) { throw '实验目录已存在，请换新位置。' }
+docker version # 必须正常连接 Server
+if ($LASTEXITCODE -ne 0) { throw 'Docker 不可用，停止。' }
+docker compose ls -a # 确认没有已有的 zabbix-lab 项目；有则换隔离环境，不复用
+docker volume ls --filter 'name=zabbix-lab_postgres-data' # 若已存在同名卷，不继续本实验
+New-Item -ItemType Directory -Path .\zabbix-lab\agent2.d
 Set-Location zabbix-lab
 ```
 
@@ -823,7 +832,7 @@ services:
       postgres:
         condition: service_healthy
     ports:
-      - "10051:10051"
+      - "127.0.0.1:10051:10051" # 实验接收端口只开放本机
 
   zabbix-web:
     image: zabbix/zabbix-web-nginx-pgsql:alpine-7.4.12
@@ -840,7 +849,7 @@ services:
       zabbix-server:
         condition: service_started
     ports:
-      - "8080:8080"
+      - "127.0.0.1:8080:8080" # 默认实验凭据不得暴露到局域网
 
   zabbix-agent2:
     image: zabbix/zabbix-agent2:alpine-7.4.12
@@ -882,7 +891,9 @@ UserParameter=aiops.demo.latency,cat /tmp/aiops-latency-ms
 
 ```powershell
 docker compose config --quiet
+if ($LASTEXITCODE -ne 0) { throw '编排校验失败，不启动。' }
 docker compose up -d
+if ($LASTEXITCODE -ne 0) { throw '创建失败，先检查日志和端口。' }
 docker compose ps
 docker compose logs --tail 100 zabbix-server
 ```
@@ -942,8 +953,10 @@ zabbix_server -R ha_status
 ### zabbix_get
 
 ```bash
-zabbix_get -s 10.0.0.21 -p 10050 -k system.cpu.load[all,avg1]
+zabbix_get -s 127.0.0.1 -p 10050 -k 'system.cpu.load[all,avg1]'
 ```
+
+这是一台已经安装本地 Agent、监听 `10050` 并授权本机来源的主机上的独立示例，不是上述 Compose 的宿主机命令；Compose 没有把 Agent 端口映射到宿主机。不要把未知内网地址当练习目标。引号保护含方括号的 key，避免 Shell 把它当文件匹配模式。
 
 - `-s`：Agent 地址。
 - `-p`：Agent 端口。
@@ -992,7 +1005,7 @@ curl --request POST \
 - `id`：客户端请求标识，便于对应响应。
 - `Authorization`：API token，示例占位符不能直接使用。
 
-生产脚本要处理 HTTP 错误、JSON-RPC `error` 字段、分页、超时、重试和 token 轮换。
+这里只演示请求结构，不要把真实 token 替换后直接粘到共享终端或脚本。正式调用由受控凭据注入或仅本账号可读的请求头文件提供，防止历史记录、进程参数和日志泄露。生产脚本要处理 HTTP 错误、JSON-RPC `error` 字段、分页、超时、重试和 token 轮换。
 
 ## 基础实验：从一个数字到一条恢复事件
 
@@ -1039,11 +1052,11 @@ docker compose exec zabbix-agent2 zabbix_agent2 -t aiops.demo.latency
 - History：`1d`。
 - Trends：`7d`。
 
-等待 10 到 20 秒，在 Latest data 中应看到 `100 ms`。
+配置缓存同步后等待两个采集周期，在 Latest data 中应看到 `100 ms`。新配置不一定立即生效；若一分钟内仍无数据，检查监控项错误、配置缓存与日志，而不是不停重复创建。
 
 ### 第 4 步：创建触发器
 
-问题表达式：
+先填写名称 `Demo latency high`（演示延迟过高）、选择严重级别并保持启用，再填写问题表达式：
 
 ```text
 last(/linux-lab/aiops.demo.latency)>500
@@ -1124,7 +1137,7 @@ docker compose exec zabbix-agent2 sh -c "echo 100 > /tmp/aiops-latency-ms"
 - Problem event 截图。
 - Recovery event 截图。
 - 触发器表达式和恢复表达式。
-- 一段说明：发现用了多久、通知用了多久、是否有误报。
+- 一段说明：发现与恢复各用了多久、是否有误报。本文没有配置外发 Action 和 Media，不把事件出现时间冒充通知到达时间；通知延迟应明确写“未验证”。
 
 ### 如果实验没有成功，先查这些
 
@@ -1158,7 +1171,7 @@ docker compose exec zabbix-agent2 sh -c "echo 100 > /tmp/aiops-latency-ms"
 排查顺序：
 
 1. 打开 item error，读取具体错误。
-2. 在 Agent 本地执行 `zabbix_agent2 -t <key>`。
+2. 在 Agent 本地执行 `zabbix_agent2 -t "<key>"`，先把引号内的占位符换成目标监控项键。
 3. 核对值类型与返回内容。
 4. 测试每一个预处理步骤。
 5. 检查脚本权限、超时和依赖命令。
@@ -1293,6 +1306,8 @@ restore pre-upgrade database
 restore old binaries and configuration
 verify collection, trigger evaluation, and notifications
 ```
+
+这四行表示先停止新版本，再恢复升级前数据库、恢复旧程序与配置，最后同时验证采集、规则计算与通知。必须记录恢复点之后哪些数据会丢失，不能把回退程序和回退状态混为一谈。
 
 只把容器镜像标签改回旧版，不恢复数据库，不算可靠回滚。
 

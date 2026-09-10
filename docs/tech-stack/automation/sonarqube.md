@@ -480,12 +480,14 @@ curl.exe -s http://localhost:9000/api/ce/activity
 - Docker Desktop Linux Engine 正常。
 - 9000 端口未占用。
 - 至少预留数 GB 磁盘和足够内存。
+- 使用新建的个人实验目录；确认不存在同名 `sonarqube-lab` Compose 项目、网络和数据卷，若存在先换一套独有名称并同步后续命令，不能复用不明数据。
 - 实验只在本机进行，不绑定公网。
 
 ### 第一步：准备目录
 
 ```powershell
-New-Item -ItemType Directory -Force sonarqube-lab, sonarqube-lab\src | Out-Null
+New-Item -ItemType Directory sonarqube-lab -ErrorAction Stop | Out-Null
+New-Item -ItemType Directory sonarqube-lab\src -ErrorAction Stop | Out-Null
 Set-Location sonarqube-lab
 ```
 
@@ -981,6 +983,16 @@ Security Hotspot（安全热点）尤其需要上下文审查：它提示某处�
 “扫描成功但质量页面旧”先沿客户端任务 ID、CE 队列、后台异常、数据库与索引查，不能凭 UI 旧直接删除搜索目录。“升级后所有项目覆盖率下降”先查测试报告是否生成、相对路径与分析器行为、排除项和新代码定义；不是第一时间要求所有团队重写测试。“两个实例共用数据库做 HA”必须先核对 Edition 支持架构，不能把关系数据库可共享理解成应用可以任意多活。
 
 前面的 30 秒答案讲清 Scanner 与 Server 的职责；3 分钟答案再加入异步关联、质量口径和状态恢复。面试官问“Profile 与 Gate 怎么治理”，答规则变更也走评审、先选代表项目验证误报和性能影响、记录版本与例外；问“回滚为什么带数据库”，答升级可能迁移 Schema（数据库结构），旧二进制未必能读，恢复需匹配备份点与索引重建；问“质量平台不可用是否停止所有业务”，答运行中的业务不应依赖它实时提供服务，受影响的是交付门禁，按预先审批的故障策略处理。
+
+## 覆盖率课堂：报告存在，为什么仍然没有正确数字
+
+先把测试执行报告和覆盖率报告分开。前者记录跑了哪些测试、是否通过；后者记录哪些代码被测试执行触及。把一份测试成功清单传给覆盖率参数，不能自动产生行覆盖信息。流水线需要先运行相应工具，再将它生成的正确格式报告交给 Scanner，而不是让 SonarQube 猜测测试做过什么。[测试报告的两种职责](https://docs.sonarsource.com/sonarqube-community-build/analyzing-source-code/test-coverage/overview)
+
+对于本课的 JavaScript，若后续接入能输出 LCOV 的测试工具，可以用 `sonar.javascript.lcov.reportPaths=coverage/lcov.info` 指定报告位置；这个参数也用于 TypeScript。LCOV 是记录源码路径和行执行情况的覆盖率格式。路径必须相对于实际扫描环境成立，不能仅在生成报告的另一台机器上存在。[JavaScript 与 TypeScript 覆盖率](https://docs.sonarsource.com/sonarqube-community-build/analyzing-source-code/test-coverage/javascript-typescript-test-coverage)
+
+老师给你两个子项目，各有 `src/app.ts`。若两份报告都只写这个短路径，扫描整个仓库时可能无法正确区分；应让报告中的源码路径与仓库完整布局一致。故障排查先检查报告时间、来源提交、文件路径和扫描日志，再看排除规则及新代码范围。不能为了消除零覆盖率，把未测目录直接排除。修改路径后用同一提交重新生成报告与分析，比较被识别的文件和数值，才算修复证据。
+
+本节是接入原则，不声称前面的小函数已经具备测试套件，也不承诺它会触发重复代码规则；重复判定还有最小规模等规则条件。实验验收应记录实际结果，包括没有检测到重复这一种可能，随后用业务断言检查阈值行为，不能把静态分析没有问题当作业务正确。
 
 ## 学习证据
 

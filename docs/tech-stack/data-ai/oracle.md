@@ -4,6 +4,8 @@
 
 ## 官方资料
 
+先修建议：先能读懂一张表、一次提交与回滚，并区分操作系统进程、内存和磁盘文件。没有 Oracle 测试库时，可以先做概念与只读证据练习；本课不要求为了学习自行搭建生产 RAC，也不要求获取管理账号。后面的 SQL 实验需要一个明确授权的隔离 PDB 用户和自己的建表配额。
+
 - [Oracle Database Documentation](https://docs.oracle.com/en/database/)
 - [Oracle Database Concepts](https://docs.oracle.com/en/database/oracle/oracle-database/23/cncpt/)
 - [SQL Language Reference](https://docs.oracle.com/en/database/oracle/oracle-database/23/sqlrf/)
@@ -210,6 +212,8 @@ instance A + instance B + shared storage
 
 第一阶段不用把 RAC 和 Data Guard 的全部细节背下来，但要能听懂：RAC 解决多实例访问和高可用，Data Guard 解决主备灾备和数据保护。
 
+图里的 `primary database` 与 `standby database` 是主数据库与备用数据库，`redo transport` 是重做日志传输，`shared storage` 是共享存储。它们描述数据和服务关系，不代表每种部署都使用相同确认策略。MAA 是最大可用性架构方法体系，强调组合与实践，不是另一个保存数据的进程。
+
 ## Oracle 高可用全景：先判断故障发生在哪一层
 
 高可用不是“多装一台数据库”这么简单。设计前先记住两个指标：
@@ -392,7 +396,7 @@ OGG 的全称是 Oracle GoldenGate。它是一套基于日志的逻辑复制与�
 
 ### OGG 和 Data Guard 的根本区别
 
-Data Guard 主要按 Oracle redo 维护整库级备份副本；OGG 会把日志里的变更解析成逻辑事务，再按表和映射规则发送到目标。因此 OGG 可以筛选表、改列映射、连接异构目标，也更容易做多目标分发，但对象支持、数据类型、键设计、冲突处理和两端结构兼容都需要单独验证。
+Data Guard 主要按 Oracle redo 维护整库级备用副本，它不等于独立备份；OGG 会把日志里的变更解析成逻辑事务，再按表和映射规则发送到目标。因此 OGG 可以筛选表、改列映射、连接异构目标，也更容易做多目标分发，但对象支持、数据类型、键设计、冲突处理和两端结构兼容都需要单独验证。
 
 ### OGG 怎么工作
 
@@ -765,7 +769,7 @@ GROUP BY service_name
 ORDER BY alert_count DESC;
 ```
 
-预期结果：查询返回最近一天至少一个服务名和对应告警数；执行计划能显示 Oracle 选择了哪种访问路径。失败时先检查当前连接的 PDB、用户建表权限、对象 schema 和时间字段类型。
+上面的片段只建了空表，因此首次查询返回零行是正确结果，不应期待凭空出现告警。请继续下方完整课堂的插入与验证步骤；执行计划也需要单独获取，普通 `SELECT` 不会自动显示计划。失败时先检查 PDB、用户权限、对象 schema 和时间字段类型。
 
 ### 高可用只读观察实验
 
@@ -777,7 +781,7 @@ ORDER BY alert_count DESC;
 2. 执行 `srvctl status database -db ORCL` 和 `srvctl status service -db ORCL`，记录实例与 service 所在节点。
 3. 在 SQL*Plus 执行前文的 `GV$INSTANCE` 查询，核对实例、主机和状态。
 4. 在 GoldenGate Admin Client 执行 `INFO ALL`、`LAG EXTRACT EXTORA` 和 `LAG REPLICAT REPORA`。
-5. 已配置 heartbeat 时，登录数据库连接并执行 `INFO HEARTBEATTABLE`，记录端到端 lag。
+5. 已配置 heartbeat 时，登录数据库连接并执行 `INFO HEARTBEATTABLE` 核对配置，再通过现场已授权的心跳延迟视图或监控界面读取端到端 lag；不能把配置输出当作实际延迟。
 6. 把时间、命令、结果、异常项和判断写入 `labs/oracle-aiops-basics/ha-observation.md`。
 
 验证成功的标准：Clusterware、`GV$INSTANCE` 和 `SRVCTL` 看到的实例关系一致；业务 service 至少有一个在线位置；OGG 关键进程为运行状态；lag 数值能够解释，且 checkpoint 持续前进。
@@ -956,6 +960,65 @@ Redo（重做）记录恢复所需变更，Undo（撤销）支持回滚和一致
 RAC 主要处理本地实例与节点层可用性；Data Guard（数据保护）通过备用数据库保护更大故障范围；GoldenGate（逻辑复制）解决数据流动与部分迁移场景；应用连续性还需要服务、驱动和事务语义配合。组合前先写故障域、RPO（可丢数据窗口）、RTO（恢复时间）和回切路线。
 
 30 秒回答沿实例—文件—事务—恢复说明数据库定位。3 分钟以接口超时进入会话、等待、SQL 计划和日志，再比较 RAC、Data Guard 与逻辑复制的边界。追问“备库同步所以切换就成功吗”，答还需入口、账号、连接池、序列与业务结果验证；追问“回滚升级”，答数据库格式、补丁、应用 SQL、备份可恢复性和新写入处理共同决定，旧安装包本身不够。
+
+## 完整 SQL 课堂：从空表到可清理的锁冲突
+
+前提是使用团队已批准的隔离测试库和自己拥有的 schema，Oracle 版本支持本课 SQL。打开两个 SQL*Plus 或兼容 SQL 客户端，确认连接同一 PDB 与同一教学用户；关闭客户端自动提交。没有建表配额时请管理员为课堂分配，不使用 SYS 或 SYSTEM 代替普通用户做实验。
+
+在会话甲执行以下代码。表名应事先确认不存在；如已存在就换新的课堂名称，不删除旧表腾位置。所有时间固定，避免当天日期变化导致查询结果不同。
+
+```sql
+SELECT USER, SYS_CONTEXT('USERENV', 'CON_NAME') AS container_name FROM dual;
+
+CREATE TABLE lesson_oracle_alert (
+  id NUMBER PRIMARY KEY,
+  service_name VARCHAR2(40) NOT NULL,
+  status VARCHAR2(16) NOT NULL,
+  started_at TIMESTAMP NOT NULL
+);
+INSERT INTO lesson_oracle_alert VALUES
+  (1, 'lab-api', 'OPEN', TIMESTAMP '2026-09-01 10:00:00');
+INSERT INTO lesson_oracle_alert VALUES
+  (2, 'lab-api', 'OPEN', TIMESTAMP '2026-09-01 10:05:00');
+COMMIT;
+SELECT service_name, COUNT(*) AS alert_count
+FROM lesson_oracle_alert GROUP BY service_name;
+```
+
+预期只有 `lab-api` 一组，数量为二。接着在甲执行 `UPDATE lesson_oracle_alert SET status='ACKED' WHERE id=1;`，暂不提交。在乙执行下面的锁定读取，它会尝试获取同一行的锁，而不是只读取历史快照。
+
+```sql
+SELECT id, status FROM lesson_oracle_alert
+WHERE id = 1 FOR UPDATE WAIT 3;
+```
+
+预期因为甲仍持锁，乙等待约三秒后报行锁获取超时类错误；具体错误文本以版本为准。这不是死锁：甲没有等待乙，只有乙等待甲。`WAIT 3` 针对这里的行锁竞争，不是所有语句和元数据锁的通用三秒期限，生产还应有客户端总超时与取消策略。
+
+乙报错后执行 `ROLLBACK;`。回到甲执行 `ROLLBACK;`，撤销未提交的状态变化并释放锁。再在乙执行同一条锁定读取，预期立即得到第一行且状态仍为 `OPEN`，因为甲的更新已撤销。乙随后也执行 `ROLLBACK;`，释放自己获得的锁。
+
+如果乙没有等待，检查甲是否自动提交、是否更新了同一个 PDB 的同名对象，以及第一行是否确实存在。如果释放后仍卡住，先检查自己是否留下第三个事务，不去杀陌生业务会话。没有动态视图权限时，两会话行为仍能证明这个受控冲突，不需要临时扩大账号权限。
+
+清理前两边都回滚并确认不再持锁，再在甲执行 `DROP TABLE lesson_oracle_alert;` 删除自己的课堂表，最后退出客户端。Oracle DDL 有提交边界，不要以为删表能被后续普通事务回滚。若此前创建了旧示例的 `alerts`，只在确认它也是自己的空课堂对象后单独清理。
+
+这个课堂只验证单库事务与行锁，不验证 RAC 节点驱逐、Data Guard 切换、存储断电或应用透明重放。真实高可用必须另外经过变更审批与故障演练；没有现场结果的部分，在证据里写未覆盖。
+
+## 把生产设计题补上容量与回退的具体问题
+
+假设业务平均每秒产生二十兆字节 redo，一天约一点七二八太字节。归档保留三天仅原始量就约五点一八四太字节，还不计冗余、峰值与备份。这个量不等于表数据增长，因为更新、索引和事务也产生日志。容量预测要分别测数据、归档、临时空间、Undo 与复制中间文件。
+
+若备库应用能力低于持续 redo 产生速度，延迟不会因网络恢复就自动归零。计算净追赶能力、最长允许延迟与日志保留范围，再决定限流、调整资源或延长保留。不能在追赶期间删除仍需要的归档来消除空间告警，那可能把暂时积压变成无法继续恢复。
+
+补丁和大版本升级要区分数据库软件、Grid Infrastructure、驱动、兼容参数与业务对象。部分变更关闭原有降级路径，所以回退前必须说明是软件回退、恢复旧备份、主备切换还是业务补偿。旧安装目录仍在，不代表数据格式和后续写入能被旧版本安全接管。
+
+## 三分钟答案示范与进一步追问
+
+我先区分实例和数据库：实例是内存与进程，数据库是持久文件；服务名把应用导向目标实例与 PDB。事务通过日志与一致性机制保护数据库内变更，但客户端提交确认丢失时仍可能结果未知。查询性能要结合执行计划、等待事件、事务年龄和底层存储，不把“CPU 不高”当成数据库健康。
+
+高可用按故障层选方案。RAC 多实例共享数据库，主要保护实例和节点；Data Guard 维护独立备用数据库；GoldenGate 复制逻辑变化并允许筛选转换，但对象与事务边界要验证。应用侧还需要服务发现、连接清理和符合条件的请求重放，备份恢复保护误操作和更大故障范围。
+
+运维上我先建立只读证据链：应用时间线、会话与等待、SQL 计划、空间、日志生成与复制进度。修复前明确影响范围、许可、权限和回退点；修复后不仅看资源在线，还要验证关键业务读取、写入、提交结果与数据对账。课堂只做过单行锁冲突，就如实说没有做过跨机房切换。
+
+追问“查询旧版本为何报快照过旧”，应从查询持续时间、所需 Undo 历史是否仍可用及写入压力分析，不简单归为内存不足。追问“有两节点为何仍单点”，检查共享存储、网络入口、服务配置与应用连接池。追问“OGG 延迟零是否完整”，还要检查表映射、源端是否有提交、恢复坐标和关键数据对账。
 
 ## 本课 GitHub 学习证据
 
