@@ -2,6 +2,14 @@
 
 > 学习目标：能理解 VictoriaMetrics 为什么适合作为 Prometheus 兼容的时序数据存储，能讲清单机版、集群版、vmagent、vmalert、MetricsQL、remote write、retention、cardinality 和 Grafana 查询链路，并能跑通一个最小指标写入和查询实验。
 
+## 老师先带你认路
+
+今天先不部署整套监控平台。我们只做一件可验收的事：向本机存储写入一个带服务名的数字，再确认它在什么时间、什么标签条件下能被查询。然后故意把样本时间移到十分钟前，观察为什么“接收成功”和“当前图表有数据”不是一回事。
+
+前置概念从零开始：指标是用数字描述系统状态；标签是区分数字属于谁的维度；端口是程序接收请求的编号；进程是运行中的程序；容器是隔离运行程序的环境。你无需先理解 Kubernetes。需要补 Docker 的启动、端口与数据卷知识时读 [Docker](../cloud-native/docker.md)，需要区分计数器和瞬时值时读 [Prometheus](./prometheus.md) 对应部分即可。
+
+真实课堂采用 Windows PowerShell 和 Docker Desktop 的 Linux 容器，预留本机 8428 端口、约 2 GB 空闲内存与少量实验磁盘，容器本身限制 1 GB。这个预算只用于几条样本，不是生产选型结论。没有 Docker 时先做现有 Node.js 合成演练，仍可理解序列与容量；它不证明 VictoriaMetrics 已启动或恢复可用。先读基础实验，再回到复制、保留和生产设计，第二遍练习解释每一处取舍。
+
 ## 官方资料
 
 优先读这些 VictoriaMetrics 官方资料：
@@ -167,6 +175,98 @@ MetricsQL 是 VictoriaMetrics 的查询语言，和 PromQL 有兼容与扩展关
 
 为本章提交一份设计记录：采集与存储职责、容量假设、部分响应策略、缓冲预算、恢复验收和剩余风险。面试时先解释假设，再展示算式和证据；若只做了纸面推导，就明确说“设计练习”，不要把它描述成线上运维经验。
 
+## 存储课堂：同一个数字为什么有不同的可信程度
+
+### 样本语义先于压缩率
+
+先把两种常见数字分开：Counter（计数器）累计已经发生的事件，通常持续增加，进程重启时可能从零重新开始；Gauge（瞬时值）描述当前状态，可以增减，例如队列长度或当前温度。它们在存储中都表现为时间戳和值，但分析方法不同。看到数字就统一套用增长率，会把温度下降当作计数器重置，也可能把当前排队人数解释成累计完成量。
+
+计数器通常先对每条独立实例序列求变化速率，再按服务求和。原因是重置发生在各实例内部：先把多个实例相加，某台重启造成的下降可能被另一台增长掩盖，查询函数失去识别重置的线索。你可以用两列手工样本做预测，一列从一百降到三，另一列持续增加；分别计算再聚合，比直接看总和更能保持业务语义。这个推导说明表达式顺序为何重要，不替代特定查询引擎的边界算法测试。
+
+Histogram（直方图）用一组桶描述观测值分布。传统 Prometheus 桶是按上界累计的计数，计算延迟分位数时要理解桶边界和累计语义。不能把每台机器的百分之九十五分位数简单平均当成整个服务的分位数；应尽可能汇总兼容桶，再计算总体分位数。来自不同桶边界、单位或统计口径的数据，不能因为名称相同就混合。模型输入中保存指标类型与单位，是避免这种错误的第一步。
+
+抓取成功也有层次：`up` 是采集器对目标抓取结果的观察，不是应用所有业务都正常的证明；采集到的值还可能被标签重写规则过滤，远端队列也可能积压。规则端见不到序列时，先看目标抓取，再检查重写后的标签集合与发送状态。用这一顺序可以区分“目标没有提供”“中途被过滤”和“尚未送达存储”，不用一开始就怀疑数据库损坏。
+
+### 从标签索引找到样本块
+
+时序存储不适合每次把全部样本从头扫描。VictoriaMetrics 使用索引把标签条件关联到序列，再按时间范围读取所需数据。IndexDB（标签与序列的索引数据库）负责帮助查找序列，样本数据则按时间等信息组织和压缩；它们承担不同工作。不断生成新序列时，即使每条只有几个点，也会给索引与缓存增加负担，所以“样本总量没涨多少”不能排除基数问题。
+
+写入数据先经过内存缓冲与可查询的数据部分，再周期性持久化；磁盘上按月份分区，后台把较小数据部分合并成更合适的部分。合并减少读查询要处理的碎片，但会消耗磁盘读写与临时空间。这里不要借用 Elasticsearch 的事务日志确认模型：不同产品的成功确认、内存缓冲和落盘边界不同，需要按所部署版本和异常关机语义确认。[单机存储结构](https://docs.victoriametrics.com/victoriametrics/single-server-victoriametrics/#storage)。
+
+查询已经能看到数据，也不代表突然断电时最后一段内存数据具有与已持久化数据相同的保障。正常退出会有善后过程，强制终止会跳过一些步骤；因此“重启后数据还在”与“断电不丢最后一个样本”不是同一个验收。本文只提供安全的写入查询课堂，不通过强制杀死用户服务来冒险验证数据安全。
+
+遇到磁盘增长，先看增长来自新样本、标签索引、快照保留还是合并暂时占用，再决定处理。不要绕过服务直接删除数据目录里的某个文件：文件之间有关联，文件名看起来旧不代表能单独清理。也不把强制合并当每次磁盘告警的默认动作，它会制造额外读写压力，需要在隔离验证和容量评估之后才考虑。
+
+### 活跃序列与不断换身份的序列
+
+Cardinality（基数）回答有多少不同序列，Churn（序列更替）回答新序列产生、旧序列退出有多快。十万条稳定序列和每小时重新生成十万条序列，即使当前活跃量相近，索引维护和历史查询成本也可能不同。短命容器、每次发布改变的无意义标识、请求编号都可能造成高更替。
+
+诊断时，先把新增序列按指标名、服务和标签变化分组，和发布、扩容时间线对齐。若业务请求翻倍但序列数稳定，主要压力可能来自样本或查询；若流量稳定而新序列激增，应先审查标签身份。只看总磁盘图，既看不见原因，也无法判断降采样能否帮忙。降采样减少时间分辨率，不会自动消除错误的标签维度设计。
+
+给团队制定标签合同要包含：单位、值类型、哪些维度可枚举、取值上限、谁依赖该维度以及废弃时间。上限不是一个拍脑袋的全局数字；错误码通常有限，租户数会按业务增长，用户标识可能近乎无限。监控首先支持稳定的分组统计，具体请求上下文交给日志或链路，并通过受控关联标识连接，而不是在指标里复制全部业务字段。
+
+## 查询课堂：兼容不是每个边界值都一样
+
+### 一个窗口边界怎样改变增长量
+
+MetricsQL 与 PromQL 在许多表达式上兼容，但官方明确说明：增长量与速率计算会参考回看窗口之前的最近原始样本，且不会按 Prometheus 的方式外推边界；它也有一些空值和指标名保留行为差异。迁移不应只检查查询是否报语法错误，还要检查数值、标签和缺失状态。[MetricsQL 差异说明](https://docs.victoriametrics.com/victoriametrics/metricsql/)。
+
+举一个边界推理题：计数器在窗口开始前为十，窗口内首个样本为十二，后来为十四。只看窗口内首尾，会看见两次增长；把窗口之前的最近样本纳入考虑，会看到另一段增长。实际函数还涉及重置、样本间隔和窗口长度，不能用这三点替代完整算法，但它足以解释为什么两个引擎都没有故障、结果却可能不同。
+
+准备回归样本时至少覆盖稳定递增、低流量稀疏变化、实例重启、抓取间隔抖动以及序列消失。固定相同的评估时间、回看窗口和步长，再比较两个端点的原始响应，不要只用自动缩放后的面板截图。先判断差异是否符合文档语义，再决定修改表达式或接受有说明的迁移口径。把查询差异当容量问题去加机器不会改变结果。
+
+### 空值、过旧、部分响应分别怎样进入告警
+
+即时表达式通常需要在评估时间附近找到可用样本，范围函数则看一段窗口；过时标记表示某条序列不再以原身份继续存在，和业务值为零不同。目标下线、采集器中断和业务真的没有请求，都可能让图上出现缺口，但应该触发不同处理。先为关键指标定义“缺失如何解释”，再谈自动填补。
+
+例如错误率分子缺失但分母仍有数据，不应随意用零补齐后宣称没有错误。应该检查采集合同是否规定“没有错误也输出零”、是不是错误指标改名，以及查询标签能否正确配对。若分母也是零，则是无流量场景，不能与健康零错误率混淆。记录规则可以统一这些口径，但必须保存版本，避免模型训练使用的是新规则、历史标签却代表旧含义。
+
+部分响应另有专门风险：返回成功的 JSON 里可能带 `isPartial: true`。大屏若继续显示，应有明显的“不完整数据”提示；预算、账单、关键服务目标告警通常应明确拒绝部分结果，并另报查询失败。请求参数 `deny_partial_response=1` 或查询组件参数 `-search.denyPartialResponse` 可以用于这类约束，但还必须检查查询端声明的复制因子与实际历史副本是否吻合。参数控制结果接纳策略，不是修复缺失数据。
+
+## 高可用课堂：复制、去重和扩容必须一起推演
+
+### 先问存了几份，再问少一台以后还有几份
+
+应用层复制由写入端的 `-replicationFactor` 控制，指示把样本写到不同存储节点；查询端同名参数则影响对完整数据可用性的判断，两者职责不能混淆。若以前只写一份，今天把查询端改成两份，历史数据并不会自动多出副本。上线核对必须记录开始启用复制的时间，避免把新数据保证错误套到全部历史。[集群复制与数据安全](https://docs.victoriametrics.com/victoriametrics/cluster-victoriametrics/#replication-and-data-safety)。
+
+课堂计算：复制因子为二，只有两台存储。坏一台后，过去已经成功写入两份的数据可能仍能查询，但新写入只有一台可接收，无法维持原定的两份放置。要在失去一台时仍有两台可存新副本，至少需要三台可用放置候选，这还没有计入机房同时故障和剩余节点负载。节点数只是必要条件，不能替代独立故障域与吞吐预算。
+
+VictoriaMetrics 的存储节点彼此不共享状态、也不互相同步数据，写入入口负责分布数据。临时不可用时新样本可能被转送到其他节点，原节点恢复后也不能想象成关系数据库那样自动追平所有缺口。判断恢复完成，应覆盖故障前、故障期间和恢复后的固定时间窗口，再核对读写节点列表、复制状态与去重配置，而非只看所有进程重新出现。
+
+### 去重只识别序列身份，不懂业务语义
+
+存储复制产生的样本通常具有相同标签与时间戳；双采集器抓同一个目标则可能标签相同、时间略有偏移。两者需要分别考虑。`-dedup.minScrapeInterval` 指定离散去重间隔，在同一序列的每个时间区间保留时间戳最新的样本；若时间戳相同，按官方规则选择数值，并非按请求到达顺序覆盖。集群读取来自多个节点的数据时也需要查询侧去重，官方建议存储与查询的相关设置保持一致，不能只在一处改参数。
+
+去重以完整标签集合相同为前提。采集器甲附加 `replica="a"`，乙附加 `replica="b"`，它们进入后端就是两条序列，不会因主机和指标名相同自动合并。若这些标签确实只用来区分采集副本，可在受控写入路径统一处理；若标签代表两台不同业务实例，删除它就可能误合并真实数据。先写清“同一业务测量”的定义再配置，顺序不能反过来。
+
+还要理解间隔的代价。十五秒采一次的目标与一秒采一次的目标如果都采用十五秒去重区间，后者可能丢失本来有用的时间分辨率。去重不是计算平均值，也不是保证保留区间峰值，不能拿它替代业务需要的汇总。混合采集周期时要单独验证，必要时按不同采集与存储路径组织。[去重说明](https://docs.victoriametrics.com/victoriametrics/single-server-victoriametrics/#deduplication)。
+
+### 扩容不自动搬历史，缩容更不能直接删节点
+
+把新存储节点加入写入节点列表后，新数据会按新的分布关系写入；旧节点上的历史数据仍留在原处。好处是不会立刻启动大规模历史搬迁争抢资源，代价是旧节点磁盘高水位不会瞬间消失。刚扩容就删除旧节点，会让过去的查询失去数据。[集群重新分布说明](https://docs.victoriametrics.com/victoriametrics/cluster-victoriametrics/#rebalancing)。
+
+安全缩容的思路是先停止向拟退出节点分配新写入，查询端仍保留它，等待历史自然过期或完成经验证的迁移，再退出读取路径与删除存储。具体命令因拓扑和版本而异，必须先在隔离集群演练。双端节点列表变化、长查询、备份和迁移速度都要记录，不能把“从负载均衡摘掉入口”和“已经可以销毁磁盘”当同一完成点。
+
+## 多租户、安全与恢复课堂
+
+### 租户号是数据隔间号码，不是开门钥匙
+
+集群写入常见路径是 `http://vminsert:8480/insert/42/prometheus/api/v1/write`，读取是 `http://vmselect:8481/select/42/prometheus/api/v1/query`。这里四十二是课堂租户编号，两个域名是部署中的服务名，不是读者本机一定能解析的地址。单机入口路径没有这一层编号，不能直接交换。租户是互相区分的一组数据使用者或业务空间，不要求它一定对应一个自然人。
+
+把编号从四十二改成四十三，本质是换数据空间，不是完成身份验证。生产应在 vmauth 或受控网关校验身份，把它固定映射到允许的路径，并限制客户端自带的租户路径或头部。仅在前端页面隐藏编号，后端直接暴露，不能形成可靠隔离。读取和写入分别授予最小权限，管理、删除、导出接口单独约束。[vmauth 官方说明](https://docs.victoriametrics.com/victoriametrics/vmauth/)。
+
+传输加密保护数据在网络中的机密性，认证确认来者身份，授权决定能访问哪些租户和操作，这三件事不可互换。内网也可能存在误路由和横向访问，存储内部端口不应向所有业务网络开放。凭证保存在受控密钥系统或权限受限文件中，不写入示例仓库、截图和查询参数；审计记录保留身份与路径，但避免记录完整敏感标签。
+
+### 保留期缩短，是数据变更而非普通调参
+
+保留参数必须写单位，避免把一个裸数字误读为天。VictoriaMetrics 的保留清理与月份分区、数据部分和后台合并有关，缩短保留不会保证磁盘立即释放；相反，已经删除的旧数据不会因再次延长参数就自动回来。不要为抢救满盘随意把九十天改成一天，应先确认业务保留约束、备份与具体释放路径。[保留期说明](https://docs.victoriametrics.com/victoriametrics/single-server-victoriametrics/#retention)。
+
+不同业务要不同保留期时，应核对所用版本与授权。社区版本的全局保留与企业版本的保留过滤能力不能混讲；用多个独立实例实现不同保留，需要同时维护数据路径、路由和查询边界。选择额外实例虽然提高隔离，也增加监控、备份与变更成本，不能只比较一个启动参数是否方便。
+
+备份可使用 vmbackup，恢复可使用 vmrestore，集群需要覆盖各个持有数据的存储节点，不能只备份查询组件。先明确恢复点目标，即最多容忍丢失多久的数据；再明确恢复时间目标，即服务多久必须恢复。备份间隔、最后成功时间、传输时间和重建耗时共同决定能否达标，不能只说“每天有任务”。[vmbackup 说明](https://docs.victoriametrics.com/victoriametrics/vmbackup/)。
+
+恢复工具会让目标数据目录与备份内容对齐，可能替换原有文件，因此不能对正在运行或含有未知数据的目录试运行。先恢复到独立空目录，确保对应数据库未运行，再启动隔离实例，抽查指标、租户、时间边界和标签维度，最后讨论切换。除了数据，也要备份采集、路由、规则和告警配置；否则数字回来了，业务通知链仍可能不工作。[vmrestore 的目标目录要求](https://docs.victoriametrics.com/victoriametrics/vmrestore/)。
+
 ## 场景开场
 
 你已经用 Prometheus 采集指标，Grafana 也能看图。问题来了：
@@ -212,10 +312,10 @@ VictoriaMetrics 在 AIOps 中常用于：
 
 ## 是什么
 
-VictoriaMetrics 可以先理解成：
+VictoriaMetrics 可以先理解成以下职责组合，不是按顺序依次调用的三个远程服务：
 
 ```text
-metrics receiver + time series storage + query API
+metrics receiver（指标接收）+ time series storage（时序存储）+ query API（查询接口）
 ```
 
 它接收的数据通常长这样：
@@ -232,7 +332,7 @@ http_requests_total{service="order-api",status="500"} 42 1710000000000
 | `service="order-api"` | 标签 |
 | `status="500"` | 标签 |
 | `42` | 当前样本值 |
-| `1710000000000` | 时间戳 |
+| `1710000000000` | 此文本示例的 Unix 毫秒时间戳，即相对约定起点的毫秒数 |
 
 VictoriaMetrics 把这些样本按时间序列存储起来。查询时，你可以用 MetricsQL 或 PromQL 风格表达式取出它们。
 
@@ -261,7 +361,7 @@ Prometheus / vmagent（指标采集端）
 
 ## 核心原理
 
-单机版数据流：
+单机版数据流：箭头表示数据从接收到被消费的逻辑顺序；末尾的仪表盘和规则组件通过查询请求取数，并非存储主动推送全部样本。
 
 ```text
 scrape target / remote write（抓取目标或远端写入）
@@ -272,14 +372,15 @@ scrape target / remote write（抓取目标或远端写入）
   -> Grafana / API / vmalert（图形界面、接口或规则计算）
 ```
 
-集群版数据流：
+集群版分为写入和读取两条路径，箭头表示请求方向；查询响应按原路返回，不是存储把每个样本主动推到查询端：
 
 ```text
-vmagent / Prometheus（指标采集与发送端）
+写入：vmagent / Prometheus（指标采集与发送端）
   -> vminsert（写入接收组件）
   -> vmstorage（数据存储组件）
-  -> vmselect（查询组件）
-  -> Grafana / vmalert / API（图形查询、规则计算或接口访问）
+读取：Grafana / vmalert / API（仪表盘、规则或接口客户端）
+  -> vmselect（查询计算组件）
+  -> vmstorage（按时间和标签读取样本）
 ```
 
 ### 关键术语拆解
@@ -325,9 +426,9 @@ write API（写入接口）
 怎么工作：
 
 ```text
-vminsert accepts writes
-vmstorage stores data
-vmselect handles queries
+vminsert accepts writes（写入组件接收数据）
+vmstorage stores data（存储组件保存样本）
+vmselect handles queries（查询组件执行表达式）
 ```
 
 怎么用：生产上用 Helm、Operator 或官方拓扑建议规划。
@@ -399,26 +500,30 @@ sum by (service) (rate(http_requests_total[5m]))
 
 ## 架构和数据流
 
-入门架构：
+入门架构中，箭头分别表示采集写入、查询和通知请求，仪表盘不是规则计算的上游：
 
 ```text
 app / node_exporter（应用或主机指标导出器）
   -> Prometheus or vmagent scrape（由采集器周期抓取）
   -> VictoriaMetrics single-node（单机时序数据库）
-  -> Grafana dashboard（图形仪表盘）
-  -> vmalert rules（告警或记录规则）
+Grafana dashboard（图形仪表盘）
+  -> VictoriaMetrics query API（查询接口）
+vmalert rules（告警或记录规则）
+  -> VictoriaMetrics query API（读取规则所需数据，规则评估仍由vmalert负责）
+vmalert firing alerts（规则组件发送已触发告警）
   -> Alertmanager（告警处理器）
 ```
 
-生产集群架构：
+生产集群架构仍要把写入请求和查询请求分开画，箭头不是全部数据依次流经每个组件：
 
 ```text
 many clusters（多个集群）
   -> vmagent（指标采集与转发组件）
   -> vminsert（写入接收组件）
   -> vmstorage（数据存储组件）
+Grafana / vmalert / API（图形查询、规则计算或接口访问）
   -> vmselect（查询组件）
-  -> Grafana / vmalert / API（图形查询、规则计算或接口访问）
+  -> vmstorage（读取所需样本）
 ```
 
 AIOps 扩展：
@@ -433,13 +538,25 @@ VictoriaMetrics query API（时序数据库查询接口）
 
 ## 安装与启动
 
-使用 Docker 启动单机版：
+使用 Docker 启动隔离单机版。本实验固定历史教学版本 `v1.122.0`，用于复现稳定的基础写入与查询接口，不代表当前生产推荐；其他版本应按 [官方变更记录](https://docs.victoriametrics.com/victoriametrics/changelog/) 检查参数和查询差异。本文没有在本轮启动产品，下面预期结果待读者实际操作确认。
+
+先确认 Docker 可用、8428 没有监听者，且没有同名容器和命名数据卷；检查命令若发现已存在对象，就暂停另选隔离环境，不删除已有内容。这里的数据卷是 Docker 管理的持久目录，名字与课堂绑定；容器删除后，卷默认仍保留。不要把宿主机业务数据目录挂进实验。
 
 ```powershell
-docker run -d --name victoriametrics `
-  -p 8428:8428 `
-  -v vmdata:/victoria-metrics-data `
-  victoriametrics/victoria-metrics:latest `
+docker version
+docker ps -a --filter 'name=^/aiops-vm-class$'
+docker volume ls --filter 'name=^aiops-vm-class-data$'
+Get-NetTCPConnection -LocalPort 8428 -State Listen -ErrorAction SilentlyContinue
+```
+
+确认无冲突后运行：
+
+```powershell
+docker run -d --name aiops-vm-class --memory 1g `
+  -p 127.0.0.1:8428:8428 `
+  -v aiops-vm-class-data:/victoria-metrics-data `
+  victoriametrics/victoria-metrics:v1.122.0 `
+  -storageDataPath=/victoria-metrics-data `
   -retentionPeriod=30d
 ```
 
@@ -452,9 +569,11 @@ docker run -d --name victoriametrics `
 检查：
 
 ```powershell
-docker ps --filter "name=victoriametrics"
-Invoke-WebRequest http://localhost:8428/health
+docker ps --filter 'name=^/aiops-vm-class$'
+Invoke-WebRequest -UseBasicParsing http://127.0.0.1:8428/health
 ```
+
+端口映射只允许本机访问，本课堂没有配置认证，不能直接改成公开监听。健康响应正常只说明服务能应答；是否写入正确、能否跨时间查询，要靠下一节验证。若启动失败，先查看 `docker logs --tail 80 aiops-vm-class` 的具体错误，区分镜像下载、参数拼写、端口冲突和数据目录权限，不做重装或清空数据的盲目修复。
 
 ## 配置详解
 
@@ -478,11 +597,9 @@ remote_write:
 ## 常用命令
 
 ```powershell
-docker logs victoriametrics
-Invoke-WebRequest http://localhost:8428/health
-Invoke-WebRequest "http://localhost:8428/api/v1/query?query=up"
-docker stop victoriametrics
-docker rm victoriametrics
+docker logs aiops-vm-class
+Invoke-WebRequest -UseBasicParsing http://localhost:8428/health
+Invoke-WebRequest -UseBasicParsing "http://localhost:8428/api/v1/query?query=up"
 ```
 
 每条命令在检查什么：
@@ -492,7 +609,9 @@ docker rm victoriametrics
 | `docker logs` | 看启动和错误日志 | 没有持续报错 | 参数、数据目录、端口 |
 | `/health` | 健康检查 | HTTP 200 | 容器状态、端口映射 |
 | `/api/v1/query` | 查询指标 | JSON result | 指标是否写入 |
-| `docker stop/rm` | 清理实验容器 | 容器停止删除 | 是否还有进程占端口 |
+| `docker stop/rm` | 实验全部完成后的清理，见后文 | 指定课堂容器停止、删除 | 是否误选其他容器，数据卷是否仍需保留 |
+
+课堂仅手工导入数据，不自动抓取任何目标，因此查询 `up` 返回空数组通常是正常的：我们并没有写入它。用于验收的是后文自己写入的指标。把没有配置的指标当作健康探针，是“接口通了却判断服务坏了”的常见误区。
 
 ## 命令 / 配置 / API 字典
 
@@ -532,23 +651,29 @@ metrics（指标）
 
 ### 实验步骤
 
-启动 VictoriaMetrics 后，写入一条 Prometheus 文本格式指标：
+启动上述 VictoriaMetrics 后，在同一 PowerShell 窗口写入一条 Prometheus 文本格式指标；它是课堂数据，不接收真实业务流量。这里不传时间戳，服务会按导入时刻记录；文本末尾加换行，明确用文本类型发送。先预测：服务标签是 `order-api`，换成支付服务标签会命中吗？
 
 ```powershell
-$body = 'aiops_demo_requests_total{service="order-api",status="200"} 42'
+$vmClass = 'http://127.0.0.1:8428'
+$body = 'aiops_demo_requests_total{service="order-api",status="200"} 42' + "`n"
 Invoke-WebRequest `
+  -UseBasicParsing `
   -Method Post `
-  -Uri "http://localhost:8428/api/v1/import/prometheus" `
+  -Uri "$vmClass/api/v1/import/prometheus" `
+  -ContentType 'text/plain' `
   -Body $body
 ```
 
 查询：
 
 ```powershell
-Invoke-RestMethod "http://localhost:8428/api/v1/query?query=aiops_demo_requests_total"
+$vmResult = Invoke-RestMethod "$vmClass/api/v1/query?query=aiops_demo_requests_total&latency_offset=0"
+$vmResult.data.result | ConvertTo-Json -Depth 6
 ```
 
 也可以打开：
+
+上面仅为课堂核对，把 `latency_offset`（查询时间偏移）设为零。固定教学版本 v1.122.0 的普通即时查询默认向前偏移三十秒，以减少最新点尚未到齐的影响；因此下面 UI 使用默认行为时，刚导入的当前样本可能要超过三十秒才能查到。这不是导入失败，也不意味着生产应取消该保护。取值与请求处理方式可核对 [该版本源码](https://github.com/VictoriaMetrics/VictoriaMetrics/blob/v1.122.0/app/vmselect/prometheus/prometheus.go)。
 
 ```text
 http://localhost:8428/vmui/
@@ -562,7 +687,7 @@ aiops_demo_requests_total
 
 ### 验证结果
 
-你应该能看到类似：
+你应该能在响应的 `data.result` 中看到类似条目；下面时间戳只是示例，实际应对应本次查询评估时刻，不能拿示例数字判断自己的时钟：
 
 ```json
 {
@@ -571,28 +696,65 @@ aiops_demo_requests_total
     "service": "order-api",
     "status": "200"
   },
-  "value": [...]
+  "value": [1789000000, "42"]
 }
 ```
 
-这说明写入路径、存储路径和查询路径都通了。
+应该检查响应状态成功，并且结果中指标名、服务、状态码和样本值都符合输入。这说明这一条课堂样本的写入与查询链路已通，不证明高可用、持久化、告警或备份已经通过验证。即使课堂请求取消时间偏移，仍可能有短暂写入缓冲延迟，可间隔一两秒重查几次；持续为空就进入下列排障步骤。使用默认偏移的查询应先考虑超过三十秒的可见时间差，不要连续重复导入造成观察混乱。
 
 ### 如果没有成功
 
 按顺序检查：
 
-1. `docker ps` 是否看到 `victoriametrics`。
+1. `docker ps` 是否看到 `aiops-vm-class`。
 2. `http://localhost:8428/health` 是否返回 200。
 3. 写入文本是否包含指标名和值。
 4. 查询的指标名是否一致。
 5. 是否把容器端口映射到本机 8428。
+
+### 故障实验：补传成功，当前窗口仍然为空
+
+仍在同一个课堂容器，构造一条时间属于十分钟前的队列长度。它是瞬时值，因此不使用累计计数器后缀。记录评估时间后，把它和样本时间都固定下来；故障是故意制造的时间窗口错配，不修改系统时钟，也不停止采集器。导入文本的显式时间戳使用毫秒，查询 API 的 `time` 使用秒，两者不能混淆。
+
+```powershell
+$vmNow = [DateTimeOffset]::UtcNow.ToUnixTimeSeconds()
+$vmEvent = $vmNow - 600
+$lateSample = "aiops_class_queue{service=`"order-api`"} 88 $($vmEvent * 1000)`n"
+Invoke-WebRequest -UseBasicParsing -Method Post `
+  -Uri "$vmClass/api/v1/import/prometheus" `
+  -ContentType 'text/plain' -Body $lateSample
+$rangeExpr = [Uri]::EscapeDataString('aiops_class_queue{service="order-api"}[2m]')
+$nowWindow = Invoke-RestMethod "$vmClass/api/v1/query?query=$rangeExpr&time=$vmNow"
+$pastTime = $vmEvent + 30
+$pastWindow = Invoke-RestMethod "$vmClass/api/v1/query?query=$rangeExpr&time=$pastTime"
+$nowWindow.data.result | ConvertTo-Json -Depth 8
+$pastWindow.data.result | ConvertTo-Json -Depth 8
+```
+
+预期当前两分钟窗口结果为空，围绕十分钟前的两分钟窗口能看到值八十八；返回原始样本的区间选择器有助于直接核对时间，不依赖图形界面的自动回看。空数组在某些 PowerShell 输出中不会打印内容，可用 `@($nowWindow.data.result).Count` 查看是否为零。若刚导入时两个窗口都空，等待片刻后重新执行两个查询，再查导入响应与毫秒时间戳。
+
+修复课堂查询的方法是选择覆盖事件时间的窗口；生产修复还应处理为什么样本迟到，例如网络、队列或时钟错误。不能把样本时间改成现在来掩盖延迟，这会把历史故障错放到当前时间，也会污染容量预测和异常检测。已经错过的实时告警是否重放，需要单独设计规则回放与通知去重，存储后来有数据并不自动补发通知。
+
+验收记录四项：导入时间、样本时间、两个查询窗口及结果。把这四项画成时间线，再用自己的话说明“存储可查到历史”与“实时检测及时”两种能力。这个实验没有模拟真实网络断连、磁盘损坏或集群故障，不应在简历中描述为线上高可用切换经验。
+
+### 清理与证据保留
+
+保存脱敏响应后，可停止并删除唯一课堂容器。数据卷仍保留，方便再启动复查；只想暂停实验时执行停止即可。确认卷确实由本实验创建、没有需要保留的数据后，才选择最后一条删除卷命令。删除的数据没有本实验自动备份，不能承诺恢复。
+
+```powershell
+docker stop aiops-vm-class
+docker rm aiops-vm-class
+docker volume inspect aiops-vm-class-data
+# 以下命令可选：只删除刚核对的课堂数据卷，会永久移除课堂样本
+docker volume rm aiops-vm-class-data
+```
 
 ## 常见故障排查
 
 ### 写入后查不到
 
 - 可能原因：写入端点错误、请求体格式错误、查询指标名不一致。
-- 检查命令：`docker logs victoriametrics`，再查 `/api/v1/query`。
+- 检查命令：课堂运行 `docker logs aiops-vm-class`，再查 `/api/v1/query`；生产替换为已经确认的实例。
 - 解决办法：先用 `/api/v1/import/prometheus` 写最小指标，确认链路。
 
 ### Grafana 连接失败
@@ -617,7 +779,7 @@ aiops_demo_requests_total
 
 - 可能原因：规则查询无结果、Alertmanager URL 错、规则时间窗口不合适。
 - 检查方法：看 vmalert 日志、手动执行查询、检查 Alertmanager。
-- 解决办法：先写简单 always-firing 规则确认链路，再调业务规则。
+- 解决办法：仅在隔离测试规则与测试通知接收端使用持续触发规则确认链路，验证后清理，再调业务规则；不要向真实值班组发送课堂测试告警。
 
 ## 面试怎么讲
 
@@ -640,16 +802,29 @@ VictoriaMetrics 是 Prometheus 兼容的时序数据库和监控组件集合。�
 
 ## 面试题
 
-1. VictoriaMetrics 解决了 Prometheus 哪些边界问题？
-2. 单机版 VictoriaMetrics 适合什么场景？
-3. VictoriaMetrics 集群版的 vminsert、vmstorage、vmselect 分别做什么？
-4. vmagent 和 Prometheus scrape 有什么关系？
-5. vmalert 在告警链路里做什么？
-6. MetricsQL 和 PromQL 有什么关系？
-7. 什么是 label cardinality？为什么危险？
-8. retention 应该怎么设计？
-9. Grafana 查询 VictoriaMetrics 的链路是什么？
-10. AIOps 为什么需要长期指标数据？
+### 第一组：从用途到单机与集群选型
+
+先回答长期时序存储、集中查询与历史分析价值，再说明 Prometheus、vmagent、VictoriaMetrics 和 vmalert 是可组合的不同职责。追问“生产一定上集群吗？”答案是不一定，先看实测写入与查询规模、故障域要求和运维能力；单机职责集中易维护，集群提供分层扩展，但入口冗余、节点列表、数据分布与恢复更复杂。不能用“公司大”代替负载证据。
+
+### 第二组：重复采集为何可能让结果翻倍
+
+先解释完整标签集合决定序列身份，再分开存储复制和双采集器抓取。追问“配置去重就好吗？”检查副本标签是否不同、去重间隔是否伤害高频样本、查询和存储设置是否一致。追问“删掉实例标签最省事吗？”不同业务实例会被误合并，应该只处理确有重复测量语义的采集副本维度。用两个真实不同实例作为反例，证明自己不是背“删除标签”命令。
+
+### 第三组：有数值返回，为什么告警还可能错误
+
+参考答案区分数据新鲜度、窗口、函数语义、标签匹配和结果完整性。追问“与 Prometheus 结果不同是谁错了？”固定样本与评估时间，核对边界与外推差异再判断。追问“缺值补零可以吗？”先确认采集合同与无流量语义；查询失败、过旧和部分结果不能未经说明转换成健康零。追问“为什么先求速率再求和？”解释实例重置的信息需要在聚合前保留。
+
+### 生产设计题：三地采集，一地查询，关键告警不能误报健康
+
+先明确每个地点样本进入速率、活跃序列、更替速度、保留期、典型查询，以及网络中断与恢复目标。采集端独立持久队列覆盖约定中断期，汇聚入口校验身份并固定租户；读写入口各自冗余，存储复制跨独立故障域。重要查询拒绝部分响应，独立探针监控数据新鲜度和通知链，避免监控平台失效后自报健康。
+
+三个条件化取舍是：复制提高容错也增加写入、磁盘与查询去重成本；长保留支持跨月复盘但增加存储和治理责任；预计算降低重复查询成本但固定口径并产生新数据。选择之前用代表性数据验证，而非只跑一个简单查询。测试应同时覆盖固定基数连续写入、受控新序列增长和历史查询混合负载，逐步增加压力并设置队列、延迟和磁盘的停止阈值。
+
+升级演练记录所有组件版本、启动参数、租户路由和规则，先对比旧新环境的固定样本与关键告警，再滚动改变小范围组件。维护时剩余节点必须能承受额外负载，不能只检查进程数量。回滚需确认数据格式兼容，必要时采用独立旧环境加已验证备份的切换方案；备份恢复期间的新样本如何缓冲或补传也属于方案，不能留到故障后再决定。
+
+### 事故题：新增存储节点后旧节点仍接近满盘
+
+参考时间线：扩容前旧节点占用高，扩容后新写入分散，但过去三个月数据仍在旧节点。先核对读写节点列表与新旧时间窗口，再证明历史不自动搬迁这一机制；不要重启所有节点期望触发自动均衡。短期评估停止新增压力、增加安全空间和查询限流，长期选择自然过期或经验证的迁移。任何清理都先确认保留合同与备份，验收覆盖历史完整性、当前新鲜度、剩余容量和故障期间的查询表现。
 
 ## 学习证据
 

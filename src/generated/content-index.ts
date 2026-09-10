@@ -487,7 +487,7 @@ export const generatedDocs = [
     "route": "/tech-stack/data-ai/zookeeper",
     "title": "Apache ZooKeeper 深讲",
     "section": "数据与 AI",
-    "excerpt": "学习目标：理解 ZooKeeper 的 znode、Session、Watch、临时节点、顺序节点、Quorum 和 ACL，能启动学习环境、完成配置/成员/选主实验，并按会话、网络、磁盘和多数派链路排查常见故障。 官方资料 ZooKeep..."
+    "excerpt": "学习目标：理解 ZooKeeper 的 znode、Session、Watch、临时节点、顺序节点、Quorum 和 ACL，能启动学习环境、完成配置/成员/选主实验，并按会话、网络、磁盘和多数派链路排查常见故障。 老师先带你认路 今天要解..."
   },
   {
     "path": "../docs/tech-stack/foundation/git.md",
@@ -697,7 +697,7 @@ export const generatedDocs = [
     "route": "/tech-stack/progress",
     "title": "技术栈拆分进度",
     "section": "技术栈",
-    "excerpt": "目标：每个技术栈一个 Markdown 文件，并且每个文件都按“官方资料、是什么、原理、架构、配置、入门实验、排障、学习证据”的结构写成原创中文教程。 2026 09 老师带学全站修订 本轮范围是全部 114 篇技术栈，以及路线、能力地图、..."
+    "excerpt": "目标：每个技术栈一个 Markdown 文件，并且每个文件都按“官方资料、是什么、原理、架构、配置、入门实验、排障、学习证据”的结构写成原创中文教程。 2026 09 10 继续补强：数据、可观测与事故处理 本批补强 Redis、ZooKe..."
   },
   {
     "path": "../docs/tech-stack/security-compliance/jumpserver.md",
@@ -823,7 +823,7 @@ export const generatedDocs = [
     "route": "/tech-stack/teaching-coverage",
     "title": "全站老师带学修订与篇幅复核",
     "section": "技术栈",
-    "excerpt": "这张表来自实际文章内容，帮助你看到每篇的篇幅和继续补强的方向。正文汉字数排除代码、终端输出和文字图；英文术语不折算成汉字。数字达到目标只说明篇幅，不证明内容已经掌握或通过人工终审。 当前纳入 114 篇技术栈，26 篇中文正文不少于 10,..."
+    "excerpt": "这张表来自实际文章内容，帮助你看到每篇的篇幅和继续补强的方向。正文汉字数排除代码、终端输出和文字图；英文术语不折算成汉字。数字达到目标只说明篇幅，不证明内容已经掌握或通过人工终审。 当前纳入 114 篇技术栈，34 篇中文正文不少于 10,..."
   },
   {
     "path": "../docs/tech-stack/virtualization-private-cloud/fusionsphere.md",

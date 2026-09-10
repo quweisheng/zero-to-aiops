@@ -11,7 +11,7 @@
     "docs:build": "npm run build",
     "preview": "vite preview",
     "pretest": "npm run generate:content",
-    "test": "vitest run && npm run check:tech-stack-examples",
+    "test": "vitest run && npm run check:tech-stack-examples && node --test examples/incident-evidence-classroom/checks.mjs",
     "test:watch": "vitest",
     "check:tech-stack-examples": "node scripts/check-tech-stack-no-line-explanation-tables.mjs",
     "audit:teaching": "node scripts/audit-teaching-depth.mjs --write"

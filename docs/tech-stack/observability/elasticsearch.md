@@ -2,6 +2,14 @@
 
 > 目标：能理解 Elasticsearch 为什么适合搜索和日志分析，能讲清 cluster、node、index、document、field、mapping、analyzer、inverted index、shard、replica、data stream、index template、Query DSL、aggregation、ingest pipeline、ILM 和 cluster health，能写入/查询文档，并能排查 yellow/red、mapping 错、查不到字段、写入慢、查询慢。
 
+## 老师先带你认路
+
+今天的任务不是搭一套公司日志平台，而是回答一个值班问题：“支付超时日志到底没有产生、没有存进去，还是已经存了却没有被我们的查询找到？”这三种现象在仪表盘上都可能表现为空白，修复方法却完全不同。我们先用两条可控日志找到差别，再讨论怎样把方法放大到多节点。
+
+你需要知道的前置知识只有三件：进程是正在运行的程序；端口是程序接收连接的编号；JSON 是用字段名和值表达一条记录的文本格式。HTTP 请求则包含操作方法、访问地址和可选正文。本文的 GET 用来读取，PUT 用来创建或指定标识写入，POST 用来提交处理，DELETE 会删除指定对象，不能拿生产地址练习。
+
+第一遍读场景、字段语义以及后文的 Windows PowerShell 基础实验；第二遍再读分片、恢复、容量与面试。实验需要已启动的 Docker Desktop Linux 容器环境、可用的本机 9200 端口和约 4 GB 空闲内存，给实验容器限制 2 GB 内存，另留镜像与少量数据空间。不会看容器状态时，只补读 [Docker 的镜像、容器和端口部分](../cloud-native/docker.md)；网络不通时再看 [网络基础](../foundation/networking.md)，不要求先学 Kubernetes。
+
 ## 官方资料
 
 - [Elastic Docs](https://www.elastic.co/docs/)
@@ -45,11 +53,11 @@ Elasticsearch 的学习重点不是“会 curl 一条搜索 API”，而是理�
 
 ## 一句话人话版
 
-Elasticsearch 是分布式搜索和分析引擎：你把 JSON 文档写入 index，它根据 mapping 和 analyzer 建立索引，把数据分布到 shards 和 replicas 上；查询时用 Query DSL 和 aggregations 做全文搜索、精确过滤和统计分析；日志场景通常配合 data streams、index templates、ingest pipelines 和 ILM 管理持续写入与生命周期。
+Elasticsearch 把日志等文档整理成可快速查找和统计的索引，帮助你从大量记录中找到故障证据。
 
 ## 学习边界
 
-入门阶段先抓这条链：
+入门阶段先抓这条知识依赖链。这里的箭头表示接下来学习什么，不表示模板会在每次写入时重新创建，也不表示查询负责触发副本复制：
 
 ```text
 JSON document（JSON文档记录）
@@ -155,11 +163,11 @@ Operations（运行维护）
 学习顺序：
 
 ```text
-先懂 document/index/shard
-  -> 再懂 mapping 和 analyzer
-  -> 再懂 query DSL
-  -> 再懂 aggregation
-  -> 再懂 data stream/template/ILM
+先懂 document/index/shard（文档、索引和分片）
+  -> 再懂 mapping 和 analyzer（字段映射和文本分析器）
+  -> 再懂 query DSL（查询领域语言）
+  -> 再懂 aggregation（聚合统计）
+  -> 再懂 data stream/template/ILM（数据流、模板和生命周期管理）
   -> 最后学集群健康和性能排障
 ```
 
@@ -246,15 +254,91 @@ Bulk API 把多项写入放在一个请求里，减少网络往返。它的每�
 
 恢复验收也不能只看集群变绿。至少验证代表性时间范围可搜索、文档数与约定校验一致、权限未放宽、写入仍可持续、面板与告警引用正确索引。备份目录存在只证明有文件；恢复到隔离环境并完成这些核对，才为恢复能力提供证据。
 
+## 深入建模：先保证查到的确实是你要的记录
+
+### 一个字段的三份用途：原文、倒排与列式值
+
+现在你已经知道倒排索引用于“拿词找文档”，我们再看一个容易忽略的事实：在常见默认设置中，返回结果里的 `_source` 是保存的原始文档表示，搜索使用的结构却不等于这份原文。一个字段可能存在于原文中，但没有按你设想的方式建立检索结构。因此，看到结果里有这个字段，只能证明原文包含它，不能证明这个字段可用任意方式搜索。
+
+Doc values 是写入时为适用字段构建的列式字段值，方便排序和聚合时读取。这里“列式”指相同字段的值按便于访问的方式组织，不等于把整个 Elasticsearch 变成分析型关系数据库。数值和关键词通常可以利用它，全文文本一般走另一条路径。对关键词做分组出现报错时，先查目标字段与索引映射，而不是直接打开全文字段的高成本内存加载。细节见 [doc values 官方说明](https://www.elastic.co/docs/reference/elasticsearch/mapping-reference/doc-values)。
+
+用课堂日志推理：消息正文需要搜“超时”，服务名需要精确识别支付服务，耗时需要算平均值。三者分别适合全文文本、关键词和数值类型。若把所有字段都存成全文文本，接收看似很方便，但排序、分组和数值范围都失去了正确前提；若全部存成关键词，又丢掉了自然语言全文分析的能力。建模应从“将来怎样问问题”倒推，而不是从“今天怎样最容易写进去”正推。
+
+还有一种故障更隐蔽：关键词字段设置了长度限制 `ignore_above`，过长内容仍可能留在原文，却不进入该字段的索引。处理格式异常值的 `ignore_malformed` 也不是把坏数据自动修好。生产需要记录被忽略字段和失败文档的比例，明确哪些记录只是“接收了原文”、哪些真的进入了关键统计；否则错误率下降可能只是错误记录变得不可检索。核对 [长度忽略规则](https://www.elastic.co/docs/reference/elasticsearch/mapping-reference/ignore-above) 与 [格式异常处理边界](https://www.elastic.co/docs/reference/elasticsearch/mapping-reference/ignore-malformed)。
+
+### 对象数组：为什么“甲负责数据库”会被误查成真
+
+设想一条事故记录列出两位参与者：甲负责网络，乙负责数据库。你要查“甲且负责数据库”，直觉上不该命中。但普通对象数组可能把姓名值和职责值分别组织起来，丢失“谁对应哪个职责”的对象边界。分别满足两个条件并不能证明它们来自同一个数组元素。这是数据模型问题，增加搜索重试不会修好。
+
+Nested（嵌套类型）用于保存这种数组元素之间的独立关联。它在底层增加隐藏文档，查询时通过嵌套查询明确要求条件落在同一个对象内。好处是语义正确，代价是文档数、写入和查询工作量增加。只有确实要约束同一数组元素的字段组合时才选它，不要把每个对象都设成嵌套。验证方法是同时准备“应该命中”和“看似相关但不应命中”的反例，不能只测一条成功数据。[嵌套类型说明](https://www.elastic.co/docs/reference/elasticsearch/mapping-reference/nested)。
+
+Flattened（扁平化字段类型）解决的是另一类问题：例如外部设备不断带来不同名称的附加属性，逐个动态扩展映射会造成字段数量失控。它把对象里的叶子值按关键词式语义索引，适合不稳定的键值属性集合；它不是嵌套关联的通用替代，也不能把看起来像数字的字符串范围当真正数值范围使用。订单耗时、容量和时间等核心字段仍应单独显式建模。[扁平化类型说明](https://www.elastic.co/docs/reference/elasticsearch/mapping-reference/flattened)。
+
+暂停一下：设备自定义属性里有温度，要做超过阈值的告警，放进扁平化字段是否足够？参考回答是，先保留灵活属性用于查找，再把用于计算的温度提取成明确单位的数值字段，并校验转换失败率。这样灵活性和计算正确性各有落点，不让告警暗中依赖字符串排序。
+
+### 模板变更为什么没有修好旧索引
+
+索引模板是新索引创建时应用的规则，不是不断覆盖既有索引的后台同步程序。假如旧索引把耗时识别为文本，今天修改模板，新一天的索引可能正确，昨天的数据仍然错误；跨两天搜索就可能出现字段能力不一致。排障时把“模板预期”“实际索引映射”“跨索引查询字段能力”分开保存，才能解释问题为什么只在某些时间窗口出现。
+
+`GET /logs-aiops*/_field_caps?fields=status_code` 可以检查匹配索引中该字段的类型以及能否搜索、聚合。这里通配符是只读查询范围，实际生产要缩小到已授权的索引集合。响应中出现不同类型时，先定位是哪一代索引偏离合同；这比在仪表盘反复修改查询更直接。字段已建立为错误类型，通常需要新索引和受控重建，而非原地更改类型。
+
+重建的教学顺序是：先创建正确目标映射，再复制小批脱敏数据，比较文档数、转换失败数和代表性查询，最后才讨论持续写入期间如何补齐增量、切换别名和回退。别名是访问一个或多个索引的稳定名字，可以减少客户端改地址，但别名切换不负责自动搬数据。未经补数核对就切换，会把“字段正确”换成“历史缺失”。
+
+## 深入查询：结果快、完整、相关是三件事
+
+### 评分和过滤不要混为“查询速度开关”
+
+查询上下文会判断匹配程度并产生相关性分数；过滤上下文只回答是否符合条件。相关性不是事故严重程度，也不是事件发生概率。默认常用的 BM25 是文本相关性方法，考虑词频、词在文档集合中的稀有程度以及文档长度等因素。它能帮助找相似错误描述，不能直接把最高分文档认定为根因。
+
+值班要查“生产环境支付服务最近十五分钟超时”，环境、服务和时间通常是不参与相关性打分的过滤条件，消息正文才可能需要全文相关性。过滤条件有缓存机会，但是否缓存取决于策略、重复使用和请求特点，不是写了过滤就保证缓存命中。特别是不断变化的当前时间窗口，不能照搬固定历史查询的性能预期。[查询与过滤上下文](https://www.elastic.co/docs/reference/query-languages/query-dsl/query-filter-context)。
+
+`bool` 的 `should` 也不是无条件“必须满足至少一个”。当组合里已有 `must` 或 `filter` 时，默认语义可能让它只是加分；如果你的业务要求多个候选条件至少命中一个，应明确写出 `minimum_should_match`。先把每个条件读成中文布尔逻辑，再准备正反样本验证。这样能够发现“查询合法但筛选条件实际没有生效”的错误。[布尔查询规则](https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-bool-query)。
+
+### 分散执行、集中合并为什么影响统计答案
+
+一次搜索通常由接收请求的协调节点分发给相关分片副本，各分片完成局部搜索，再由协调节点合并候选结果、取回所需字段。一次查询并不是必定同时在同一分片的所有副本上完整执行。副本能帮助分散多次读取负载，但分片越多，一次宽范围查询涉及的分发和合并工作也越多。
+
+按服务取错误数最多的十项时，各分片先贡献局部候选，协调节点再归并。因此分布式 `terms` 聚合在某些排序与截断条件下存在计数误差，不能把返回的前十项当完整账本。先理解返回的误差与未返回桶统计，再根据目的调整候选规模；要遍历大量分组，可研究带分页的复合聚合，而不是把桶数量无限调大。原有的 [词项聚合官方页](https://www.elastic.co/docs/reference/aggregations/search-aggregations-bucket-terms-aggregation) 解释了这些条件。
+
+现在问你：审计报告中“所有服务错误数之和”为何小于错误文档总数？可能不是丢日志，而是只返回了前十个分组，也可能服务字段缺失、受长度限制未索引，或者查询期间有分片失败。应该分别检查分组范围、字段覆盖率和响应完整性，再判断是否真的发生采集丢失。AIOps 自动生成结论时也要保存这些质量标记。
+
+深分页则有另一个陷阱：新增日志不断到达，按时间翻页时，相同时间戳和可变视图可能使结果重复或遗漏。`search_after` 利用上一页的排序值继续，PIT（时间点搜索视图）帮助固定搜索视图；还需稳定的排序规则与相应的并列值处理。PIT 会保留资源，应设短存活时间并及时关闭，不把它当长期数据快照或备份。
+
+## 深入运行：路由、恢复与生命周期的真实边界
+
+### 路由像分柜规则，不像访问权限
+
+默认路由通常利用文档标识决定主分片；自定义 `routing` 可以让同一租户的文档进入相同分片范围，减少带相同路由查询时需要访问的分片。代价是大租户可能成为热点，并且写入、按标识读取、更新和删除必须遵守相同路由约定。路由缺失导致找错分片，不等于数据已经删除。[路由字段说明](https://www.elastic.co/docs/reference/elasticsearch/mapping-reference/mapping-routing-field)。
+
+路由也不是租户隔离：知道一个路由值不是获得授权的凭证，未带路由的宽范围搜索仍可能覆盖多个租户。权限应在身份、索引访问和必要的数据隔离层控制。对大租户可以单独索引或另行分区，但要把分片管理成本和迁移路径一起计算；不能仅因为某个查询慢就给每位用户创建一个索引。
+
+### 未分配、恢复中与可服务不是同一个状态
+
+一个副本重新加入，可能需要复制文件并补齐操作，然后才具备完整服务能力。故障诊断先看主分片是否存在可用副本，再看分配解释指出的约束，最后看恢复进度与资源竞争。磁盘水位、节点角色、分片分配规则都可能拒绝放置；“还有一台活机器”并不证明它满足放置条件。
+
+针对实验索引可用 `GET /logs-aiops/_recovery?active_only=true` 查看正在进行的恢复。响应为空可能是没有活动恢复，而非恢复接口坏了；有任务则观察阶段、文件与操作进度是否持续推进。把它和磁盘吞吐、网络、节点日志结合，可以区分“正在慢慢恢复”和“无法开始恢复”。不要一看到进度慢就同时提高所有恢复并发，恢复与在线查询会争用相同资源。
+
+跨故障域部署时，主副本需要分布到不同物理风险范围。三台虚拟机若依赖同一宿主机或同一块不可靠存储，不等于三个独立故障域。主节点候选角色主要协调集群元数据，数据分片主要承载业务内容；选主机制和分片复制解决不同问题。设计题里既要说明控制面失去多数时怎么办，也要说明数据副本和磁盘损坏时怎么办。
+
+### 生命周期不是按每条日志设置闹钟
+
+滚动把后续写入切到新的后备索引，旧索引仍可被数据流查询。前文策略中年龄或主分片大小达到相应条件后触发滚动，条件如何组合以策略和官方规则为准。滚动之后，后续阶段的最小年龄通常以滚动时间计算，不是逐条按事件时间倒计时。所以“删除阶段三十天”不能承诺每条事件都恰好保存三十天，迟到事件和索引边界尤其需要单独分析。[滚动与年龄规则](https://www.elastic.co/docs/manage-data/lifecycle/index-lifecycle-management/rollover)。
+
+生命周期卡住时，先用 `GET /logs-aiops/_ilm/explain` 确认这个索引是否受策略管理，再看当前阶段、动作、步骤和错误。未绑定策略、错误写入别名、没有满足滚动条件，以及下一阶段要求的节点不存在，属于不同问题。先修条件再重试失败步骤；手工移动生命周期步骤可能跳过必要动作，不适合做自动修复的默认选项。
+
+备份是另一条链。快照复制可用主分片的段到独立仓库，它并不是对整个集群进行单一瞬间的事务冻结；节点本地配置与已注册仓库等内容也不能假定全部包含。恢复时明确恢复哪些索引、集群状态和功能状态，避免把隔离验证环境的权限或配置意外覆盖到别处。快照版本也不能任意向旧版恢复，这直接限制“升级后换回旧镜像”的回滚想象。[快照与恢复边界](https://www.elastic.co/docs/deploy-manage/tools/snapshot-and-restore)。
+
 ## Elasticsearch 在 AIOps 链路中的位置
 
 Elasticsearch 常用于日志搜索、事件检索、告警上下文查询和历史分析。
 
+下图箭头表示日志从产生到被分析利用的流程，不代表各组件只存在单向网络连接：
+
 ```text
 应用/系统日志
-  -> Logstash / Beats / Elastic Agent / OTel Collector / 自定义写入
+  -> Logstash / Beats / Elastic Agent / OTel Collector（日志或遥测采集处理组件）/ 自定义写入
   -> Elasticsearch data streams / indices（日志数据流或索引）
-  -> Kibana / API / AIOps 分析服务
+  -> Kibana / API（查询界面或接口）/ AIOps 分析服务
   -> 告警上下文、根因分析、异常搜索
 ```
 
@@ -403,8 +487,8 @@ index logs-aiops（名为logs-aiops的索引）
 Replica 是 primary shard 的副本。
 
 ```text
-primary shard 0 on node A
-replica shard 0 on node B
+primary shard 0 on node A（主分片0放在节点A）
+replica shard 0 on node B（同一分片的副本放在节点B）
 ```
 
 作用：
@@ -446,9 +530,9 @@ curl -s "http://localhost:9200/_cat/health?v"
 单节点实验常见 yellow：
 
 ```text
-number_of_replicas=1
-只有一个 node
-replica 无法分配到同一 node
+number_of_replicas=1（每个主分片要求一个副本）
+只有一个 node（节点）
+replica（副本）无法分配到主分片所在的同一 node（节点）
 ```
 
 修实验环境：
@@ -631,7 +715,7 @@ keyword 字段不分析，适合 term/filter/aggregation
 { "status_code": 500 }
 ```
 
-可能映射成 integer。
+默认动态映射通常会把这个 JSON 整数识别为 `long`，即长整数；前文显式定义的 `integer` 是另一个较小范围的整数类型。字段类型以实际 `_mapping` 为证，不根据样例数字大小猜测。[动态字段映射规则](https://www.elastic.co/docs/manage-data/data-store/mapping/dynamic-field-mapping)。
 
 后面写入：
 
@@ -760,6 +844,8 @@ curl -s "http://localhost:9200/_index_template/logs-aiops-template?pretty"
 为什么重要？
 
 日志是持续新建 index/data stream backing indices。如果没有 template，新索引可能使用错误 dynamic mapping，后续查询和聚合就乱了。
+
+上面的示例是普通索引模板：匹配带后缀的 `logs-aiops-*`，不匹配无后缀的 `logs-aiops`，而且没有启用 `data_stream`。若要创建数据流，模板需显式配置 `data_stream: {}`、匹配数据流名称并提供时间字段约束；不能仅凭索引名里含日志单词就把它叫数据流。学习时先完成普通索引实验，再按官方数据流章节建立独立对象，避免同名索引与数据流混用。
 
 ## Ingest pipeline
 
@@ -1031,7 +1117,108 @@ ILM 价值：
 
 日志场景不要让索引无限增长。
 
-## AIOps 入门实验
+## 安装与启动：Windows 隔离课堂
+
+以下是真实产品实验步骤，待读者在自己的隔离环境执行；本轮文档修订没有启动 Elasticsearch，也不把示例输出当实测结果。使用固定的历史教学版本 8.19.0 复现基础接口，不表示它是当前生产推荐版本；上生产前另按版本维护、安全公告和组织基线选择。启动方式参考 [官方 Docker 单节点说明](https://www.elastic.co/docs/deploy-manage/deploy/self-managed/install-elasticsearch-docker-basic)。
+
+在 PowerShell 执行下面命令。实验只绑定本机回环地址，不开启外部访问；关闭认证仅为本机无业务数据课堂简化前置，绝不用于共享主机或生产。若本机已经有同名容器或 9200 端口被占用，停在这里，另选实验机器，不删除原对象。`discovery.type` 表示按单节点发现模式运行，内存限制约束本课堂进程的预算。
+
+```powershell
+docker version
+docker ps -a --filter 'name=^/aiops-es-class$'
+Get-NetTCPConnection -LocalPort 9200 -State Listen -ErrorAction SilentlyContinue
+docker run -d --name aiops-es-class --memory 2g `
+  -p 127.0.0.1:9200:9200 `
+  -e 'discovery.type=single-node' `
+  -e 'xpack.security.enabled=false' `
+  -e 'ES_JAVA_OPTS=-Xms1g -Xmx1g' `
+  docker.elastic.co/elasticsearch/elasticsearch:8.19.0
+```
+
+容器标识返回只证明启动请求已发出，不证明服务已就绪。等待片刻后执行以下读取；版本响应的 `version.number` 应与选定镜像一致，健康接口应返回结构化结果。若连接失败，先看这一个容器的日志和退出原因；内存不足、镜像拉取失败和内核启动检查不通过要分别处理，不在未确认原因前更改宿主机内核参数。
+
+```powershell
+docker logs --tail 80 aiops-es-class
+$esClass = 'http://127.0.0.1:9200'
+Invoke-RestMethod "$esClass/"
+Invoke-RestMethod "$esClass/_cluster/health"
+```
+
+### 基础实验：先写合同，再比较全文与精确查询
+
+本组命令在同一个 PowerShell 窗口连续执行；对象仅为新容器中的 `teacher-logs` 索引。先预测：正文写入大写单词，按全文搜小写是否命中？服务名改变大小写又会怎样？下面显式映射和标准分析器决定答案，而不是所有语言都遵循同一规则。
+
+```powershell
+$mapping = @{
+  settings = @{ number_of_shards = 1; number_of_replicas = 0 }
+  mappings = @{ dynamic = 'strict'; properties = @{
+    '@timestamp' = @{ type = 'date' }
+    service = @{ type = 'keyword' }
+    message = @{ type = 'text'; analyzer = 'standard' }
+    duration_ms = @{ type = 'integer' }
+  } }
+} | ConvertTo-Json -Depth 8
+Invoke-RestMethod -Method Put -Uri "$esClass/teacher-logs" `
+  -ContentType 'application/json' -Body $mapping
+$sample = @{
+  '@timestamp' = [DateTimeOffset]::UtcNow.ToString('o')
+  service = 'checkout-api'; message = 'Payment Timeout'; duration_ms = 500
+} | ConvertTo-Json
+Invoke-RestMethod -Method Put -Uri "$esClass/teacher-logs/_doc/one?refresh=wait_for" `
+  -ContentType 'application/json' -Body $sample
+$search = '{"query":{"bool":{"filter":[{"term":{"service":"checkout-api"}}],"must":[{"match":{"message":"timeout"}}]}}}'
+$found = Invoke-RestMethod -Method Post -Uri "$esClass/teacher-logs/_search" `
+  -ContentType 'application/json' -Body $search
+$found.hits.hits | ConvertTo-Json -Depth 8
+Invoke-RestMethod -Method Post -Uri "$esClass/teacher-logs/_analyze" `
+  -ContentType 'application/json' -Body '{"field":"message","text":"Payment Timeout"}'
+```
+
+预期命中文档标识 `one`，原文仍保留大写，但分析结果出现小写词项。`dynamic: strict` 表示遇到未声明的新字段就拒绝文档，方便课堂立即发现合同偏离；生产是否严格拒绝要结合隔离队列、数据演进与告警决定。`ConvertTo-Json -Depth 8` 保留嵌套配置层次，若省略深度导致对象被截断，问题出在请求构造而非映射机制。
+
+验收不能只看命中一次：复制查询，把服务名改成 `Checkout-API`，预期不命中，因为关键词没有按本例设置做大小写规范化；恢复服务名，再把全文条件改为 `term` 搜 `Payment`，预期不命中。若结果相反，查看实际映射、词项和请求正文，确认没有复用旧索引。不要创建同名索引失败后继续执行，否则已经偏离实验前提。
+
+### 故障实验：字段类型错误，不是服务宕机
+
+仍在同一个隔离索引，把耗时故意改为非数字字符串。先预测：整条文档会成功但字段空白，还是写入被拒绝？本例没有启用忽略格式错误，所以应捕获客户端错误，并看到与字段解析相关的响应。PowerShell 不同版本展示异常正文不同，保留状态码和脱敏响应，不依赖一种异常排版。
+
+```powershell
+$badSample = '{"service":"checkout-api","message":"bad duration","duration_ms":"slow"}'
+try {
+  Invoke-RestMethod -Method Put -Uri "$esClass/teacher-logs/_doc/two" `
+    -ContentType 'application/json' -Body $badSample -ErrorAction Stop
+} catch {
+  $_.Exception.Message
+  $_.ErrorDetails.Message
+}
+Invoke-RestMethod "$esClass/teacher-logs/_mapping"
+Invoke-RestMethod "$esClass/_cluster/health"
+$fixedSample = '{"service":"checkout-api","message":"fixed duration","duration_ms":800}'
+Invoke-RestMethod -Method Put -Uri "$esClass/teacher-logs/_doc/two?refresh=wait_for" `
+  -ContentType 'application/json' -Body $fixedSample
+Invoke-RestMethod "$esClass/teacher-logs/_count"
+```
+
+预期故障请求失败，集群仍可响应，修复后计数为二。因果链是“字段契约不符导致单项写入失败”，不是“集群颜色不好导致超时”。证据来自失败正文、实际映射、健康响应和修复后计数四个独立观察。若第二次仍失败，检查字段名称、类型以及是否确实向这个实验索引写入；不要通过删索引逃过原因分析。
+
+完成后先保存两次请求与解释，再停止并删除本课堂容器。这里没有挂载命名数据卷，删除后课堂索引随容器可写层消失；不清理其他容器、镜像或磁盘目录。保留数据就只停止，不执行删除。
+
+```powershell
+docker stop aiops-es-class
+docker rm aiops-es-class
+```
+
+### 故障复盘进阶：大量拒绝，先判断拒绝来自哪一层
+
+请求返回 429 表示需要检查限流或资源保护原因，不等于“只能加线程”。线程池队列满、索引写入压力和内存熔断都可能拒绝工作，入口网关也可能自行限流。先保存响应体与请求类型，区分网关拒绝和 Elasticsearch 拒绝，再对照节点统计、并发批次、磁盘耗时以及堆内存。[官方拒绝请求排障](https://www.elastic.co/docs/troubleshoot/elasticsearch/rejected-requests)。
+
+设课堂事故为：十点发布后批次变大四倍，十点零二分队列增长，十点零三分开始拒绝。假设一是后端磁盘变慢，假设二是入口并发突增；检查发布前后吞吐、批次大小与磁盘延迟，不能只凭发生在发布后就确定原因。先小范围回退采集批量或并发，观察拒绝率和延迟是否改善，再决定长期调整。直接把队列扩大四倍可能只把拒绝推迟，增加内存占用和等待时间。
+
+自动化修复应有停止条件：当单项失败率持续升高、队列不回落或成功写入明显减少，暂停加压并通知人工。已成功文档不能无差别重发，失败记录也不能无限丢弃。复盘最终要说明延迟积压能否补齐、重复记录如何识别，以及这段时间的告警统计是否需要重新计算。
+
+## AIOps 入门实验：Bash 接口练习
+
+下面保留 Linux 或 WSL 的接口练习，使用独立实验实例；不要将 Bash 的反斜杠续行原样粘进 PowerShell。零基础读者优先完成上面的闭环，再按需练习这些接口。固定历史日期用于解释字段，若改用“最近十五分钟”查询，应同步改成当前事件时间。示例不代表线上实例已经存在。
 
 目标：创建日志索引，写入文档，定义 mapping，查询、聚合、模拟 pipeline，并查看 cluster health。
 
@@ -1129,13 +1316,13 @@ curl -X GET "http://localhost:9200/logs-aiops/_search?pretty" \
 记录：
 
 ```text
-index:
-mapping:
-document:
-match query:
-term query:
-aggregation:
-cluster health:
+index（索引）:
+mapping（字段映射）:
+document（原始文档）:
+match query（全文查询）:
+term query（词项精确查询）:
+aggregation（聚合统计）:
+cluster health（分片分配健康）:
 ```
 
 ## 常用 API 字典
@@ -1484,26 +1671,29 @@ Elasticsearch 是近实时搜索，写入后要等 refresh。实验可以手动 
 
 ## 面试题
 
-1. Elasticsearch 适合解决什么问题？
-2. Elasticsearch 和 Loki 的主要差异是什么？
-3. cluster、node、index、document 分别是什么？
-4. shard 和 replica 是什么？
-5. cluster health green/yellow/red 分别表示什么？
-6. mapping 是什么？
-7. text 和 keyword 有什么区别？
-8. analyzer 做什么？
-9. 什么是倒排索引？
-10. match 和 term 查询有什么区别？
-11. bool query 的 filter 和 must 有什么区别？
-12. range query 常用于什么？
-13. terms aggregation 做什么？
-14. 为什么高基数字段聚合可能很贵？
-15. data stream 适合什么场景？
-16. index template 解决什么问题？
-17. ingest pipeline 能做什么？
-18. ILM 的 rollover 和 delete 有什么用？
-19. cluster yellow 怎么排查？
-20. 查询慢你会从哪些方面分析？
+### 第一组：先讲用途，再讲字段为什么这样建模
+
+第一问“为什么不用关系数据库搜索所有日志？”先承认关系数据库也能查询文本，再说明 Elasticsearch 的全文分析、倒排检索和分布式聚合更贴近本场景；不把它描述为所有操作都比数据库快。追问“为什么服务名不能和消息一样？”用精确服务过滤与消息分词的差别回答，举出课堂大小写反例。再追问“原文中有字段为什么聚合没有？”检查实际映射、长度限制和字段覆盖，不把看见原文当作可聚合证明。
+
+### 第二组：写入成功后数据经过什么状态
+
+参考答案先讲主分片、相关副本与事务日志确认，再把搜索刷新独立出来。追问“怎样写完立即搜？”说明等待刷新与主动刷新代价，先核对业务是否真要搜索而非按标识读取。追问“批量请求成功是否全部成功？”指出逐项结果与有限重试；追问“有人同时修改怎么办？”用操作序号和主分片任期条件检查，冲突后按业务规则合并，不编造自动重试能解决全部冲突。
+
+### 第三组：查询慢，为什么不能只增加副本
+
+先区分单次重查询、多用户并发与底层磁盘瓶颈，再解释副本主要提供冗余及读取分散机会，也消耗写入和存储。追问“查询返回很快为什么还要审结果？”检查分片失败、桶截断与字段缺失。追问“扩大分页上限行不行？”解释协调代价，再提出时间过滤、稳定排序以及按需使用时间点视图与后续分页。答案要包含何时不适用，不只列接口名称。
+
+### 生产设计题：每日两百 GB 日志，保留一个月
+
+先问清两百 GB 是原始文本还是已索引物理占用，查询是最近十五分钟故障定位还是全月统计，是否含敏感数据，允许缺多少日志和停多久。之后才做小规模代表性压测，测文档大小分布、峰值写入、索引放大与聚合并发，不能仅乘三十就报采购容量。
+
+三个取舍应讲明白：多分片有并行空间也增加管理和合并成本；热数据快速存储改善故障窗口查询但成本更高；更长保留方便复盘却扩大容量和敏感信息暴露。主副本按独立故障域布置，关键集群控制角色考虑多数可用，容量要能承受单节点维护、恢复与在线负载叠加。写入账号只写授权索引，查询账号不持有删除权限，通信加密、脱敏与审计一起设计。
+
+升级前检查插件、客户端、模板和索引兼容，先恢复快照到隔离环境回归典型写入与查询，再按官方升级路径推进。回退基线包含升级前快照、旧环境和切换点，不能依赖新版数据目录被旧进程直接打开。验收除了版本和集群颜色，还要比较窗口覆盖、失败文档、聚合误差、权限和告警效果。
+
+### 事故题：发布后错误率下降，为什么反而需要警惕
+
+给定时间线：发布前有稳定错误日志，发布后新增结构化对象字段，采集队列持续增长，仪表盘错误率下降。参考推理是先比较成功写入与逐项失败，核对字段合同是否从字符串变成对象；再判断错误日志是不是被拒绝，而非业务真的恢复。修复选择回退生产者字段或按兼容方案建立新索引，隔离并重放确有失败的记录，限制重放速度，保留撤销条件。最后对故障窗口重新核对计数，让自动摘要明确这段数据曾不完整。
 
 ## 学习证据
 

@@ -2,6 +2,14 @@
 
 目标：每个技术栈一个 Markdown 文件，并且每个文件都按“官方资料、是什么、原理、架构、配置、入门实验、排障、学习证据”的结构写成原创中文教程。
 
+## 2026-09-10 继续补强：数据、可观测与事故处理
+
+本批补强 [Redis](./data-ai/redis.md)、[ZooKeeper](./data-ai/zookeeper.md)、[Hive](./data-ai/hive.md)、[Spark](./data-ai/spark.md)、[Elasticsearch](./observability/elasticsearch.md)、[VictoriaMetrics](./observability/victoriametrics.md)、[RCA](./sre-aiops/rca.md) 和 [Runbook](./sre-aiops/runbook.md)。八篇均补到不少于一万字严格中文正文，代码、命令输出和图不计入此目标；具体统计由 [篇幅复核表](./teaching-coverage.md) 生成。
+
+新增讲解聚焦缓存与会话一致性、元数据和文件可见性、批流计算与重算副作用、搜索字段与指标语义、影响计数和因果证据、审批绑定与超时后对账。修订实验版本与回环端口、清理边界、配置注释、请求和用户口径，补上可观察结果、停止条件、故障分支和面试递进回答。
+
+[事故证据与运行手册课堂](https://github.com/quweisheng/zero-to-aiops/tree/main/examples/incident-evidence-classroom) 使用合成统计和内存状态模拟，练习流量构成导致的汇总变化、缺失证据保护、丢响应后的结果核对，以及计划和版本漂移拦截。它不连接真实服务、不证明持久性或生产高可用；各组件容器实验仍需读者在隔离环境实跑并提交证据。其他技术栈的篇幅差距继续保留在复核表中，不把本批完成写成全站已达到万字。
+
 ## 2026-09 老师带学全站修订
 
 本轮范围是全部 114 篇技术栈，以及路线、能力地图、面试导读、岗位路线、资料导读和项目/周复盘模板。统一增加中文地图释义、前置概念、课堂推理、正常/故障练习和分层面试表达，并修订发现的技术或示例问题。

@@ -2,9 +2,9 @@
 
 这张表来自实际文章内容，帮助你看到每篇的篇幅和继续补强的方向。正文汉字数排除代码、终端输出和文字图；英文术语不折算成汉字。数字达到目标只说明篇幅，不证明内容已经掌握或通过人工终审。
 
-当前纳入 114 篇技术栈，26 篇中文正文不少于 10,000 字。其余文章仍应结合知识深度继续扩写，不能把这一轮修订描述成每篇都已完成万字目标。
+当前纳入 114 篇技术栈，34 篇中文正文不少于 10,000 字。其余文章仍应结合知识深度继续扩写，不能把这一轮修订描述成每篇都已完成万字目标。
 
-中文正文合计 1,032,069 汉字，65 篇不少于 8,000 字。正文总字符包含中文、英文和数字但排除空白；代码与图字符另列，不用于补足正文目标。
+中文正文合计 1,082,685 汉字，73 篇不少于 8,000 字。正文总字符包含中文、英文和数字但排除空白；代码与图字符另列，不用于补足正文目标。
 
 “结构线索待复核”是关键词扫描提示：出现对应词语不等于实验已执行；没有对应词语也不必然缺内容。英文图及图内英文分支行分别检查，避免只翻译标题就掩盖下级术语；提示仍需人工区分知识地图、合法命令和样例输出，并检查紧邻正文是否已有准确解释。学习路线、面试模块与模板另按能否指导行动复核，不强行套用万字篇幅。
 
@@ -47,7 +47,7 @@
 | [Apache Hadoop 深讲](./data-ai/hadoop.md) | 12,880 | 28,115 | 11,730 | 0 | 人工复核机制、实验与答案 |
 | [Apache HAWQ 存量运维与迁移深讲](./data-ai/hawq.md) | 6,539 | 10,356 | 4,290 | 3,461 | 人工复核机制、实验与答案 |
 | [Apache HBase 深讲](./data-ai/hbase.md) | 6,350 | 11,317 | 5,557 | 3,650 | 人工复核机制、实验与答案 |
-| [Apache Hive 深讲](./data-ai/hive.md) | 5,590 | 9,119 | 4,847 | 4,410 | 人工复核机制、实验与答案 |
+| [Apache Hive 深讲](./data-ai/hive.md) | 11,148 | 15,468 | 5,386 | 0 | 人工复核机制、实验与答案 |
 | [Kafka](./data-ai/kafka.md) | 5,775 | 10,634 | 13,022 | 4,225 | 人工复核机制、实验与答案 |
 | [LangChain 技术栈深讲](./data-ai/langchain.md) | 16,284 | 30,348 | 21,359 | 0 | 人工复核机制、实验与答案 |
 | [LangGraph](./data-ai/langgraph.md) | 6,935 | 10,724 | 7,106 | 3,065 | 人工复核机制、实验与答案 |
@@ -62,15 +62,15 @@
 | [PyTorch 技术栈深讲](./data-ai/pytorch.md) | 16,584 | 26,705 | 27,880 | 0 | 人工复核机制、实验与答案 |
 | [RabbitMQ 深讲](./data-ai/rabbitmq.md) | 14,654 | 21,098 | 16,070 | 0 | 人工复核机制、实验与答案 |
 | [RAG](./data-ai/rag.md) | 6,454 | 9,706 | 14,202 | 3,546 | 人工复核机制、实验与答案 |
-| [Redis](./data-ai/redis.md) | 5,520 | 9,291 | 9,777 | 4,480 | 人工复核机制、实验与答案 |
+| [Redis](./data-ai/redis.md) | 12,885 | 18,287 | 11,454 | 0 | 人工复核机制、实验与答案 |
 | [scikit-learn](./data-ai/scikit-learn.md) | 8,151 | 11,705 | 12,119 | 1,849 | 人工复核机制、实验与答案 |
-| [Apache Spark 深讲](./data-ai/spark.md) | 5,614 | 10,692 | 4,823 | 4,386 | 人工复核机制、实验与答案 |
+| [Apache Spark 深讲](./data-ai/spark.md) | 11,450 | 17,196 | 5,485 | 0 | 人工复核机制、实验与答案 |
 | [Tencent TCE 数据库、缓存、消息与数据平台技术地图](./data-ai/tce-data-middleware.md) | 8,870 | 11,240 | 1,754 | 1,130 | 人工复核机制、实验与答案 |
 | [Tencent TDSQL-C MySQL 技术栈深讲](./data-ai/tdsql-mysql.md) | 8,047 | 9,918 | 2,651 | 1,953 | 人工复核机制、实验与答案 |
 | [TensorFlow 深讲](./data-ai/tensorflow.md) | 9,591 | 16,111 | 15,778 | 409 | 人工复核机制、实验与答案 |
 | [Transformer 技术栈深讲](./data-ai/transformer.md) | 15,329 | 25,223 | 11,920 | 0 | 人工复核机制、实验与答案 |
 | [向量数据库](./data-ai/vector-database.md) | 6,527 | 10,560 | 9,890 | 3,473 | 人工复核机制、实验与答案 |
-| [Apache ZooKeeper 深讲](./data-ai/zookeeper.md) | 5,620 | 8,138 | 3,400 | 4,380 | 人工复核机制、实验与答案 |
+| [Apache ZooKeeper 深讲](./data-ai/zookeeper.md) | 13,000 | 16,740 | 5,250 | 0 | 人工复核机制、实验与答案 |
 | [Git 深讲](./foundation/git.md) | 7,968 | 10,966 | 7,578 | 2,032 | 人工复核机制、实验与答案 |
 | [GitHub](./foundation/github.md) | 7,747 | 13,780 | 7,061 | 2,253 | 人工复核机制、实验与答案 |
 | [Go（Golang）深讲](./foundation/golang.md) | 12,970 | 25,452 | 23,806 | 0 | 人工复核机制、实验与答案 |
@@ -93,12 +93,12 @@
 | [Apache Tomcat 技术栈深讲](./middleware-application-platform/tomcat.md) | 11,769 | 19,408 | 11,752 | 0 | 人工复核机制、实验与答案 |
 | [IBM WebSphere 技术栈深讲](./middleware-application-platform/websphere.md) | 19,239 | 34,810 | 16,852 | 0 | 人工复核机制、实验与答案 |
 | [Alertmanager](./observability/alertmanager.md) | 5,936 | 12,288 | 14,166 | 4,064 | 人工复核机制、实验与答案 |
-| [Elasticsearch](./observability/elasticsearch.md) | 5,784 | 11,783 | 12,594 | 4,216 | 人工复核机制、实验与答案 |
+| [Elasticsearch](./observability/elasticsearch.md) | 12,330 | 18,881 | 15,592 | 0 | 人工复核机制、实验与答案 |
 | [Grafana 精讲](./observability/grafana.md) | 8,390 | 16,440 | 8,568 | 1,610 | 人工复核机制、实验与答案 |
 | [Grafana Loki](./observability/loki.md) | 6,296 | 11,535 | 8,049 | 3,704 | 人工复核机制、实验与答案 |
 | [OpenTelemetry](./observability/opentelemetry.md) | 6,644 | 14,676 | 9,236 | 3,356 | 人工复核机制、实验与答案 |
 | [Prometheus 精讲](./observability/prometheus.md) | 8,614 | 14,555 | 14,855 | 1,386 | 人工复核机制、实验与答案 |
-| [VictoriaMetrics](./observability/victoriametrics.md) | 5,919 | 9,235 | 5,030 | 4,081 | 人工复核机制、实验与答案 |
+| [VictoriaMetrics](./observability/victoriametrics.md) | 13,109 | 17,327 | 6,867 | 0 | 人工复核机制、实验与答案 |
 | [Zabbix 深讲](./observability/zabbix.md) | 11,062 | 18,687 | 10,754 | 0 | 人工复核机制、实验与答案 |
 | [JumpServer 技术栈深讲](./security-compliance/jumpserver.md) | 13,523 | 19,707 | 7,215 | 0 | 人工复核机制、实验与答案 |
 | [网络安全等级保护（等保 2.0）深讲](./security-compliance/mlps.md) | 12,281 | 14,597 | 5,264 | 0 | 人工复核机制、实验与答案 |
@@ -106,8 +106,8 @@
 | [告警治理](./sre-aiops/alert-governance.md) | 5,733 | 8,664 | 4,506 | 4,267 | 人工复核机制、实验与答案 |
 | [变更管理](./sre-aiops/change-management.md) | 5,986 | 7,792 | 3,780 | 4,014 | 人工复核机制、实验与答案 |
 | [事件响应](./sre-aiops/incident-response.md) | 5,897 | 7,979 | 4,466 | 4,103 | 人工复核机制、实验与答案 |
-| [RCA 根因分析](./sre-aiops/rca.md) | 5,580 | 7,812 | 3,993 | 4,420 | 人工复核机制、实验与答案 |
-| [Runbook](./sre-aiops/runbook.md) | 5,558 | 7,490 | 4,785 | 4,442 | 人工复核机制、实验与答案 |
+| [RCA 根因分析](./sre-aiops/rca.md) | 10,615 | 13,517 | 4,616 | 0 | 人工复核机制、实验与答案 |
+| [Runbook](./sre-aiops/runbook.md) | 11,264 | 13,923 | 6,314 | 0 | 人工复核机制、实验与答案 |
 | [SLI / SLO / SLA](./sre-aiops/sli-slo-sla.md) | 6,257 | 9,032 | 5,274 | 3,743 | 人工复核机制、实验与答案 |
 | [爱数 AnyStorage 深讲](./storage-data-protection/aishu-anystorage.md) | 10,870 | 15,902 | 5,811 | 0 | 人工复核机制、实验与答案 |
 | [Brocade 6510 光纤交换机深讲](./storage-data-protection/brocade-6510.md) | 7,043 | 12,953 | 6,072 | 2,957 | 人工复核机制、实验与答案 |
