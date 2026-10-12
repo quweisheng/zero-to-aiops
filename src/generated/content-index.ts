@@ -60,7 +60,7 @@ export const generatedDocs = [
     "route": "/tech-stack",
     "title": "AIOps 技术栈总清单",
     "section": "技术栈",
-    "excerpt": "这个目录记录我从 0 学 AIOps 过程中会接触到的技术栈。它不是一次性背诵清单，而是一个长期学习地图：每学一项，就补充理解、配置、实验和踩坑记录。 精讲写作标准 2026 年 9 月的全站老师带学修订已覆盖全部 114 篇技术栈：用零基..."
+    "excerpt": "这个目录记录我从 0 学 AIOps 过程中会接触到的技术栈。它不是一次性背诵清单，而是一个长期学习地图：每学一项，就补充理解、配置、实验和踩坑记录。 精讲写作标准 2026 年 9 月的全站老师带学修订已覆盖当时全部 114 篇技术栈，2..."
   },
   {
     "path": "../docs/tech-stack/architecture-delivery/architecture-solution-design.md",
@@ -697,7 +697,7 @@ export const generatedDocs = [
     "route": "/tech-stack/progress",
     "title": "技术栈拆分进度",
     "section": "技术栈",
-    "excerpt": "目标：每个技术栈一个 Markdown 文件，并且每个文件都按“官方资料、是什么、原理、架构、配置、入门实验、排障、学习证据”的结构写成原创中文教程。 2026 09 10 全部 114 篇完成本轮老师带学修订 在前批 34 篇达到万字正文..."
+    "excerpt": "目标：每个技术栈一个 Markdown 文件，并且每个文件都按“官方资料、是什么、原理、架构、配置、入门实验、排障、学习证据”的结构写成原创中文教程。 2026 10 12 新增 FastDFS，累计 115 篇 在 9 月完成 114 篇..."
   },
   {
     "path": "../docs/tech-stack/security-compliance/jumpserver.md",
@@ -798,6 +798,13 @@ export const generatedDocs = [
     "excerpt": "学习目标：从零理解 VPLEX 如何把异构块存储虚拟化成主机可访问的虚拟卷，能讲清 Local/Metro、双站点 I/O、Consistency Group、Witness 与故障仲裁，能安全采集健康信息、分析路径故障，并完成一套可复现的..."
   },
   {
+    "path": "../docs/tech-stack/storage-data-protection/fastdfs.md",
+    "route": "/tech-stack/storage-data-protection/fastdfs",
+    "title": "FastDFS 深讲",
+    "section": "存储与数据保护",
+    "excerpt": "学习目标：从零画出一次照片上传、同步和下载的路径；读懂 Tracker、Storage、group、file id、路径与同步状态；在隔离环境完成文件操作，在本地模拟异步副本故障；用证据分析上传失败、图片打不开、容量不足、挂载丢失和迁移遗漏..."
+  },
+  {
     "path": "../docs/tech-stack/storage-data-protection/huawei-oceanstor.md",
     "route": "/tech-stack/storage-data-protection/huawei-oceanstor",
     "title": "华为 OceanStor 深讲",
@@ -823,7 +830,7 @@ export const generatedDocs = [
     "route": "/tech-stack/teaching-coverage",
     "title": "全站老师带学修订与篇幅复核",
     "section": "技术栈",
-    "excerpt": "这张表来自实际文章内容，帮助你看到每篇的篇幅和继续补强的方向。正文汉字数排除代码、终端输出和文字图；英文术语不折算成汉字。数字达到目标只说明篇幅，不证明内容已经掌握或通过人工终审。 当前纳入 114 篇技术栈，114 篇中文正文不少于 10..."
+    "excerpt": "这张表来自实际文章内容，帮助你看到每篇的篇幅和继续补强的方向。正文汉字数排除代码、终端输出和文字图；英文术语不折算成汉字。数字达到目标只说明篇幅，不证明内容已经掌握或通过人工终审。 当前纳入 115 篇技术栈，115 篇中文正文不少于 10..."
   },
   {
     "path": "../docs/tech-stack/virtualization-private-cloud/fusionsphere.md",

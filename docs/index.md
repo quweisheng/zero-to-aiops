@@ -4,7 +4,7 @@
 
 ## 知识库精讲标准
 
-全站采用老师带学生的学习方式：先解释前置概念，再沿业务场景追机制，完成基础和故障实验，最后练习设计取舍与面试追问。官方英文知识地图和其他教学图保留英文名称并加中文释义。114 篇技术栈已完成本轮修订，每篇中文正文均不少于一万字，代码和输出不充当正文；实际统计见 [逐篇修订与篇幅复核](./tech-stack/teaching-coverage.md)。学习从 [零基础路线](./roadmap/README.md) 开始，不必同时学完所有技术栈。
+全站采用老师带学生的学习方式：先解释前置概念，再沿业务场景追机制，完成基础和故障实验，最后练习设计取舍与面试追问。官方英文知识地图和其他教学图保留英文名称并加中文释义。2026 年 9 月已完成 114 篇修订，2026-10-12 新增 [FastDFS](./tech-stack/storage-data-protection/fastdfs.md)，目前累计 115 篇技术栈，每篇中文正文均不少于一万字，代码和输出不充当正文；实际统计见 [逐篇修订与篇幅复核](./tech-stack/teaching-coverage.md)。学习从 [零基础路线](./roadmap/README.md) 开始，不必同时学完所有技术栈。
 
 这个仓库会按“像教程一样讲清楚”的方式持续扩展。写法参考了 [二哥的 Java 进阶之路](https://javabetter.cn/overview/what-is-java.html) 那种通俗、对话感强、循序拆解的讲法，但内容会围绕 AIOps 重新组织，不照搬人设、段子和原文。
 
@@ -92,6 +92,7 @@
 - [Dell EMC VMAX](./tech-stack/storage-data-protection/dell-emc-vmax.md)
 - [Brocade 6510 光纤交换机](./tech-stack/storage-data-protection/brocade-6510.md)
 - [Ceph](./tech-stack/storage-data-protection/ceph.md)
+- [FastDFS](./tech-stack/storage-data-protection/fastdfs.md)
 - [华为 OceanStor](./tech-stack/storage-data-protection/huawei-oceanstor.md)
 - [爱数 AnyStorage](./tech-stack/storage-data-protection/aishu-anystorage.md)
 - [TCE 存储与数据保护](./tech-stack/storage-data-protection/tce-storage.md)

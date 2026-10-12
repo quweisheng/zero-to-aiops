@@ -4,7 +4,7 @@
 
 ## 精讲写作标准
 
-2026 年 9 月的全站老师带学修订已覆盖全部 114 篇技术栈：用零基础能理解的前置概念、中文注释知识地图、机制推理、两级实验和连续面试追问组织课程。每篇均达到不少于一万字中文正文，较长文章保留完整内容；代码、输出和文字图不计入这一目标。逐篇实际篇幅与复核方向见 [老师带学修订与篇幅复核](./teaching-coverage.md)。
+2026 年 9 月的全站老师带学修订已覆盖当时全部 114 篇技术栈，2026-10-12 新增 [FastDFS](./storage-data-protection/fastdfs.md)，目前累计 115 篇：用零基础能理解的前置概念、中文注释知识地图、机制推理、两级实验和连续面试追问组织课程。每篇均达到不少于一万字中文正文，较长文章保留完整内容；代码、输出和文字图不计入这一目标。逐篇实际篇幅与复核方向见 [老师带学修订与篇幅复核](./teaching-coverage.md)。
 
 第一次学习，请从 [零基础路线](../roadmap/README.md) 选一条业务链，跟做后合上文章独立复现，再用 [面试训练](../interview/README.md) 检验能否解释。每篇的“预期结果”是练习判断标准，自己的实际运行记录要单独保存。
 
@@ -53,7 +53,7 @@
 | 可观测性 | Prometheus、Zabbix、VictoriaMetrics、Alertmanager、Grafana、OpenTelemetry、Loki、Elasticsearch | P1 | 能采集指标、日志、链路，能覆盖主机、网络设备和混合基础设施，能做仪表盘和告警 |
 | 云原生 | Docker、Compose、Kubernetes、TKE on TCE、containerd/CRI、etcd、CNI、Calico、Cilium、CSI、CoreDNS、Helm、NGINX/Ingress/Gateway API、Traefik、微服务、Rancher、Harbor、Istio、KubeSphere、Kubeflow | P1 | 能解释容器交付、控制面一致性、Pod/Service 网络、TCE 云资源集成、存储/DNS/入口、动态路由、策略、平台治理、机器学习流水线与分布式训练、高可用、升级和端到端排障 |
 | 虚拟化与私有云 | KVM、VMware vSphere、OpenStack、FusionSphere/FusionCompute、腾讯 TCE/IaaS/运维安全 | P1-P2 | 能从虚拟机控制与数据路径走到私有云区域/AZ/租户、CVM/VPC/CBS、BOM/License、容量、升级、容灾和跨产品证据排障 |
-| 存储与数据保护 | IBM Storage、Dell EMC VPLEX、Dell EMC VMAX、Brocade 6510、华为 OceanStor、爱数 AnyStorage、Ceph、TCE 存储 | P1-P2 | 能理解集中式与分布式存储、块/文件/对象、FC SAN、存储虚拟化、高端阵列、存储池、LUN、多路径、双活、复制、备份与存储 AIOps 排障 |
+| 存储与数据保护 | IBM Storage、Dell EMC VPLEX、Dell EMC VMAX、Brocade 6510、华为 OceanStor、爱数 AnyStorage、Ceph、FastDFS、TCE 存储 | P1-P2 | 能理解集中式与分布式存储、块/文件/对象、FC SAN、存储虚拟化、高端阵列、存储池、LUN、多路径、双活、复制、备份、应用文件上传下载与存储 AIOps 排障 |
 | 中间件与应用平台 | IBM WebSphere、Apache Tomcat | P1-P2 | 能解释企业 Java 与 Servlet 容器的请求路径、部署、类加载、线程/连接/JDBC、会话、集群、容量、高可用、升级回滚和 AIOps 排障 |
 | 自动化与 CI/CD | Ansible、Terraform、GitHub Actions、GitLab、Jenkins、Apache Maven、Nexus、SonarQube、CI/CD、Runbook Automation、n8n | P1-P2 | 能把提交、依赖解析、编译测试、代码质量与安全门禁、事件集成、审批、受控执行和回滚连成可审计流程 |
 | 架构与方案设计 | FDE、系统架构、可行性报告、IT 项目管理、PMP、敏捷、范围、进度、风险与变更 | P0-P1 | 能把客户问题从需求发现、范围和成功指标串到生产实现、采用、交接与产品反馈 |
@@ -187,6 +187,7 @@
 - [Dell EMC VMAX](./storage-data-protection/dell-emc-vmax.md)
 - [Brocade 6510 光纤交换机](./storage-data-protection/brocade-6510.md)
 - [Ceph](./storage-data-protection/ceph.md)
+- [FastDFS](./storage-data-protection/fastdfs.md)
 - [华为 OceanStor](./storage-data-protection/huawei-oceanstor.md)
 - [爱数 AnyStorage](./storage-data-protection/aishu-anystorage.md)
 - [TCE 存储与数据保护](./storage-data-protection/tce-storage.md)

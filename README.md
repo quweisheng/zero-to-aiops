@@ -16,7 +16,7 @@
 
 ## 本地运行
 
-全站 114 篇技术栈已完成本轮 [老师带学精讲标准](./docs/tech-stack/writing-standard.md) 修订：补零基础概念、英文地图中文注释、机制推理、两级实验与连续面试追问。每篇中文正文均不少于一万字，较长的有用内容完整保留；代码、命令输出和文字图不用于补足篇幅。实际统计与复核方向公开在 [逐篇修订与篇幅复核](./docs/tech-stack/teaching-coverage.md)。
+2026 年 9 月完成 114 篇技术栈的 [老师带学精讲标准](./docs/tech-stack/writing-standard.md) 修订，2026-10-12 新增 [FastDFS](./docs/tech-stack/storage-data-protection/fastdfs.md)，目前累计 115 篇：补零基础概念、英文地图中文注释、机制推理、两级实验与连续面试追问。每篇中文正文均不少于一万字，较长的有用内容完整保留；代码、命令输出和文字图不用于补足篇幅。实际统计与复核方向公开在 [逐篇修订与篇幅复核](./docs/tech-stack/teaching-coverage.md)。
 
 运行 `npm run audit:teaching` 可从文章重新生成复核表；统计排除代码和终端输出，篇幅达标不代替技术审校。新手可以先做 [可靠性与可观测性课堂实验](./examples/teacher-led-reliability-lab/README.md)，用本地合成数据练习判断。
 
@@ -117,6 +117,7 @@ npm run build
 - [Dell EMC VMAX](./docs/tech-stack/storage-data-protection/dell-emc-vmax.md)
 - [Brocade 6510 光纤交换机](./docs/tech-stack/storage-data-protection/brocade-6510.md)
 - [Ceph](./docs/tech-stack/storage-data-protection/ceph.md)
+- [FastDFS](./docs/tech-stack/storage-data-protection/fastdfs.md)
 - [华为 OceanStor](./docs/tech-stack/storage-data-protection/huawei-oceanstor.md)
 - [爱数 AnyStorage](./docs/tech-stack/storage-data-protection/aishu-anystorage.md)
 - [TCE 存储与数据保护](./docs/tech-stack/storage-data-protection/tce-storage.md)

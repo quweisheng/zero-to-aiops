@@ -164,6 +164,10 @@ export const navGroups: NavGroup[] = [
         route: '/tech-stack/storage-data-protection/ceph'
       },
       {
+        text: 'FastDFS',
+        route: '/tech-stack/storage-data-protection/fastdfs'
+      },
+      {
         text: '华为 OceanStor',
         route: '/tech-stack/storage-data-protection/huawei-oceanstor'
       },
