@@ -131,7 +131,7 @@ Canary（金丝雀或灰度）让一部分请求先走新版本，观察后再�
 
 ### 基础实验与故障实验：让指标决定是否停止推进
 
-前置条件是本机 Node.js 可用，在仓库根目录运行合成演练，不创建真实发布任务。
+前置条件是本机 Node.js 可用，在仓库根目录运行合成演练，不创建真实发布任务。安装、下载与终端位置先按[零基础实验准备](../experiment-start.md#运行-nodejs-课堂)核对；后面的 Kubernetes 命令只是有现成隔离集群者的只读进阶练习，不是离线课堂前置。
 
 ```powershell
 node examples/teacher-led-reliability-lab/lab.mjs change
@@ -712,7 +712,7 @@ AIOps 可以做：
 {"id":"CHG-002","service":"payment-api","type":"config","time":"2026-07-02T08:20:00Z","summary":"increase timeout","owner":"payment-team"}
 ```
 
-准备 incident：
+用纯文本编辑器将上面两行保存为 `changes.jsonl`，再将下面内容保存为同一实验目录的 `incident.json`；不要让编辑器偷偷追加 `.txt`。准备 incident：
 
 ```json
 {"id":"INC-001","service":"order-api","start_time":"2026-07-02T09:10:00Z","symptom":"5xx error rate increased"}
@@ -725,19 +725,34 @@ AIOps 可以做：
 3. 写出需要验证的指标。
 4. 写出回滚触发条件。
 
-伪代码：
+下面把原来的候选思路改成可执行小程序：安装 Python 3 的方法见[实验准备](../experiment-start.md#运行-python-课堂)。将代码保存为同一目录的 `change-candidates.py`，在该目录运行 `python change-candidates.py`。它只读两个合成输入，不访问服务器、不执行回滚。
 
 ```python
-from datetime import datetime, timedelta, timezone
+import json
+from datetime import datetime, timedelta
+from pathlib import Path
 
-incident_time = datetime.fromisoformat("2026-07-02T09:10:00+00:00")
+def event_time(value):
+    parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    if parsed.tzinfo is None:
+        raise ValueError("事件时间必须带 Z 或明确时区偏移")
+    return parsed
+
+changes = [json.loads(line) for line in
+           Path("changes.jsonl").read_text(encoding="utf-8-sig").splitlines()
+           if line.strip()]
+incident = json.loads(Path("incident.json").read_text(encoding="utf-8-sig"))
+incident_time = event_time(incident["start_time"])
 window_start = incident_time - timedelta(minutes=60)
 
 for change in changes:
-    change_time = datetime.fromisoformat(change["time"].replace("Z", "+00:00"))
-    if change["service"] == "order-api" and window_start <= change_time <= incident_time:
-        print(change)
+    change_time = event_time(change["time"])
+    if change["service"] == incident["service"] and window_start <= change_time <= incident_time:
+        print(json.dumps(change, ensure_ascii=False))
+print("以上只是同服务时间窗候选；不包含跨服务依赖，也不证明根因。")
 ```
+
+预期只输出 `CHG-001` 及候选边界说明，不输出 `CHG-002`。`read_text` 是读取文本，`splitlines` 是按行分开，`json.loads` 把每一行转成程序可检查的字段；`utf-8-sig` 允许读取带 UTF-8 文件头标记的文本。出错先看当前目录、文件扩展名、JSON 标点和时区，不用改系统时间。再把 CHG-001 时间改到窗口外，应不再输出该候选；恢复输入后重跑。清理只处理自己新建的三个实验文件，建议先保留正常与故障输出。这个脚本刻意不执行动作，生产还需依赖图、实际生效时间与反证。
 
 ## 常见错误
 
@@ -849,6 +864,18 @@ for change in changes:
 13. 紧急变更如何记录？
 14. AIOps 如何把变更和故障关联？
 15. 为什么“故障前有变更”不等于“变更就是根因”？
+
+## 独立通关：不是看到绿色就放量
+
+**基础复现。** 独立保存上面三个文件，运行候选筛选，再新增一条同服务、恰好在窗口起点的变更。判据是起点与事故时刻均按闭区间纳入，其他服务不纳入；输出只能叫候选，不叫根因。把时间去掉时区应报错，而不是默认把两地钟点当同一时刻。回看“变更记录和事故关联”。
+
+**改变条件。** 八实例、单实例每秒 100 请求、峰值 560；发布时停两个，再故障一个，能否承载？判据是剩五个名义 500，不足；即使只停一个且再故障一个，600 也只有薄余量，还需按延迟目标和代表性负载留安全空间。新旧实例若共十个、连接池各五十，连接预算 450 同样超线。不能用应用 CPU 低排除数据库连接风险。
+
+**故障诊断。** 灰度查询为空，但流水线成功。分别验证没有流量、标签错、采集坏三个假设，暂停放量并收集实例身份与业务探测；不直接把空值补零。批准的包与实际镜像摘要不同则停在对象核对，不让“版本名一样”替代字节身份。修复后复测原条件，保留旧制品、配置和指标合同用于恢复。
+
+**方案设计。** 新版本把金额从整数分迁到带币种对象，要求滚动期间不停写。画旧写者、新写者、回填和读路径，规定权威字段、条件更新、核对与收缩门槛。判据是双写失败和回填覆盖新值都有处理；回旧包不等于回数据，恢复旧备份可能损失新交易。若不能证明兼容，就重新设计迁移阶段或评估前向修复，而非默认回滚。
+
+**连续追问。** 30 秒说明变更管理不是审批表，3 分钟沿批准、制品、执行、实际生效和业务验收讲完整状态迁移。老师追问“客户端超时能再点发布吗”，先查唯一任务与目标状态；追问“1% 灰度意味着最多伤害1%用户吗”，指出共享数据库写入可能扩大影响。只背发布策略名称不通过，回看“灰度流量少”和“执行入口超时”。
 
 ## 学习证据
 

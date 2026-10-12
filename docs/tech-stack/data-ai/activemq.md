@@ -419,9 +419,16 @@ Artemis Cluster Connection 用于拓扑和消息分布，HA Policy 用于 Primar
 
 ### 下载并校验 Classic 6.3.0
 
-PowerShell：
+下面以 Windows PowerShell 为完整实验路线，Linux/macOS 不可原样复制 `.bat` 命令。先安装 JDK 17，执行 `java -version`、`Get-Command java`，确认版本和路径属于自己的 JDK；`JAVA_HOME` 指向 JDK 根目录而不是 `bin`。打开两个终端，A 专门运行 Broker，B 发送、浏览和验收。默认 JVM 初始/最大堆可能为 1 GiB，机器还需为操作系统和应用留余量。
+
+在一个没有同名实验目录的工作文件夹中执行：
 
 ```powershell
+$ErrorActionPreference = 'Stop'
+$labRoot = Join-Path (Get-Location) 'activemq-classroom'
+if (Test-Path -LiteralPath $labRoot) { throw '实验目录已存在；换一个新目录，不覆盖旧证据' }
+New-Item -ItemType Directory -Path $labRoot | Out-Null
+Set-Location $labRoot
 $version = '6.3.0'
 $base = "https://downloads.apache.org/activemq/$version"
 $zip = "apache-activemq-$version-bin.zip"
@@ -429,14 +436,17 @@ $zip = "apache-activemq-$version-bin.zip"
 Invoke-WebRequest "$base/$zip" -OutFile $zip
 Invoke-WebRequest "$base/$zip.sha512" -OutFile "$zip.sha512"
 
-$expected = ((Get-Content "$zip.sha512" -Raw).Trim() -split '\s+')[0].ToUpperInvariant()
+$checksumText = Get-Content "$zip.sha512" -Raw
+$hashes = [regex]::Matches($checksumText, '(?i)\b[0-9a-f]{128}\b')
+if ($hashes.Count -ne 1) { throw '校验文件必须明确包含一个 SHA-512 值；停止并人工核对' }
+$expected = $hashes[0].Value.ToUpperInvariant()
 $actual = (Get-FileHash $zip -Algorithm SHA512).Hash
 
 if ($expected -ne $actual) {
   throw "ActiveMQ SHA-512 校验失败"
 }
 
-Expand-Archive $zip -DestinationPath . -Force
+Expand-Archive $zip -DestinationPath .
 Set-Location "apache-activemq-$version"
 ```
 
@@ -457,24 +467,32 @@ $brokerConfig | Set-Content .\conf\activemq.xml -Encoding utf8
 Select-String -Path .\conf\activemq.xml -Pattern "127.0.0.1:61616"
 ```
 
-若最后一条命令没有命中，就不要启动，先查看目标版本实际 Connector 配置。这个修改只限制 Broker Connector；Web Console、JMX、防火墙和认证还要分别检查。
+若最后一条命令没有命中，就不要启动，先查看目标版本实际 Connector 配置。6.3.0 的发行配置将额外协议 Connector 放在注释里；不要把旧版“所有端口都默认开启”的印象套过来，也不要为实验取消注释。这个修改只限制 OpenWire；Web Console、JMX、防火墙和认证还要分别检查。[6.3.0 官方发行配置](https://github.com/apache/activemq/blob/activemq-6.3.0/assembly/src/release/conf/activemq.xml)。启动前用 `Get-NetTCPConnection -State Listen -ErrorAction SilentlyContinue` 查看已有监听，61616 或 8161 已占用就停止，不结束未知进程。
 
 ### 启动
 
 ```powershell
 .\bin\activemq.bat start
-.\bin\activemq.bat status
 ```
 
 访问 `http://localhost:8161/admin/`。学习发行版常见默认控制台账号为 `admin/admin`，首次实验后就应修改；生产绝不能保留默认凭据。
 
-前台观察日志可用：
+这条命令在 Windows 的终端 A 前台运行，终端不返回提示符是正常现象。不要紧接着在同一窗口执行下一条，也不要再启动第二份。`status`、`console` 是常见 Unix 启动脚本用法，不是本版本 Windows Java CLI 注册的任务；未知任务可能只是打印帮助，不能当作服务成功。[Windows 启动脚本](https://github.com/apache/activemq/blob/activemq-6.3.0/assembly/src/release/bin/activemq.bat)、[CLI 任务注册表](https://github.com/apache/activemq/blob/activemq-6.3.0/activemq-console/src/main/resources/META-INF/services/org.apache.activemq.console.command.Command)。
+
+终端 B 用 `Set-Location` 切到终端 A 相同的 `apache-activemq-6.3.0` 绝对目录，再执行：
 
 ```powershell
-.\bin\activemq.bat console
+$listener = @(Get-NetTCPConnection -LocalPort 61616 -State Listen -ErrorAction SilentlyContinue)
+if ($listener.Count -ne 1 -or $listener[0].LocalAddress -ne '127.0.0.1') {
+  throw '必须只有本实验的本机监听；先检查终端 A 日志和配置'
+}
+$brokerPid = $listener[0].OwningProcess
+Get-CimInstance Win32_Process -Filter "ProcessId=$brokerPid" |
+  Select-Object ProcessId, ExecutablePath, CommandLine
+.\bin\activemq.bat dstat --pid $brokerPid queues
 ```
 
-前台和后台启动不能同时运行同一实例。
+先人工核对打印的 Java 路径、`activemq.home` 和 `activemq.data` 都属于本实验，才保留 `$brokerPid` 做后续管理；不要复制别的进程号。`--pid` 走同机 JDK 附加/JMX 管理，要求相同操作系统用户和支持的 JDK；失败先看错误，不要开放无认证的远程 1099 来绕过它。即使退出码为零，只有帮助文字或异常文字也算失败，必须看到 Broker 启动日志、准确队列行以及真实收发结果。监听只证明端口开着，不证明消息可靠。
 
 ## 目录字典
 
@@ -561,9 +579,8 @@ Select-String -Path .\conf\activemq.xml -Pattern "127.0.0.1:61616"
 ## 常用命令
 
 ```powershell
-.\bin\activemq.bat status
-.\bin\activemq.bat query
-.\bin\activemq.bat dstat
+.\bin\activemq.bat query --pid $brokerPid
+.\bin\activemq.bat dstat --pid $brokerPid queues
 .\bin\activemq.bat browse queue:AIOPS.ALERTS
 
 .\bin\activemq.bat producer `
@@ -576,7 +593,7 @@ Select-String -Path .\conf\activemq.xml -Pattern "127.0.0.1:61616"
   --destination queue://AIOPS.ALERTS `
   --messageCount 5
 
-.\bin\activemq.bat stop
+.\bin\activemq.bat stop --pid $brokerPid
 ```
 
 不同版本 CLI 参数可能调整，先执行：
@@ -588,7 +605,7 @@ Select-String -Path .\conf\activemq.xml -Pattern "127.0.0.1:61616"
 
 | 命令 | 作用 | 正常结果 | 异常先查 |
 |---|---|---|---|
-| `status` | 看 Broker 进程 | 显示运行 PID/状态 | PID、Java、实例目录 |
+| `Get-NetTCPConnection` / `Get-CimInstance` | 核对本地端口归属与实例路径 | 对应实验 Java 进程 | 不将“端口开着”当消息验收 |
 | `query` | 查询 JMX 对象 | 返回 Broker/Queue MBean | JMX URL、认证、进程 |
 | `dstat` | Destination 统计 | 消息、入队、出队、消费者 | JMX、Destination 是否存在 |
 | `producer` | 发送测试消息 | 发送计数完成 | URL、协议、认证、流控 |
@@ -724,9 +741,10 @@ Broker 只负责传递。执行器还要校验审批、权限、目标、幂等�
 ### 第一步：确认状态
 
 ```powershell
-.\bin\activemq.bat status
-.\bin\activemq.bat dstat
+.\bin\activemq.bat dstat --pid $brokerPid queues
 ```
+
+只有确认 `AIOPS.ALERTS` 不存在或待处理数为零，且没有其他生产者/消费者时才继续。若有旧记录，先查来源，不能直接清空。以下五条正文相同，仅用于收发计数，不代表五个唯一业务事件；实务应分别携带稳定 `eventId`。
 
 ### 第二步：发送
 
@@ -738,7 +756,7 @@ Broker 只负责传递。执行器还要校验审批、权限、目标、幂等�
   --message "service=order-api,severity=critical"
 ```
 
-预期 Producer 完成发送，`dstat` 中 Queue 的 Enqueue 和 Size 增加。
+预期 Producer 日志明确发送五条、没有连接/认证异常，`dstat --pid $brokerPid queues` 中对应 Queue Size 从零到五。每一步都核对实际输出再继续，不能只看命令返回。基础实验消费者按收到五条结束；如果五条没有到齐，它可能持续等待，观察 30 秒仍无进展就按 `Ctrl+C` 停止本次客户端，再排查队列名和实际数量，不再重复发送“补齐”。[该版本 CLI 消费等待实现](https://github.com/apache/activemq/blob/activemq-6.3.0/activemq-console/src/main/java/org/apache/activemq/console/command/ConsumerCommand.java)。
 
 ### 第三步：浏览
 
@@ -780,7 +798,7 @@ Browse 不应减少 Queue Size。保存 Message ID、Persistent 标志和正文�
 
 ### 实验目标
 
-在不消费的情况下发送持久消息，停止 Broker，重新启动后验证 KahaDB 恢复消息。
+在不消费的情况下发送持久消息，正常停止 Broker，重新启动后验证 KahaDB 恢复消息。这是受控停机的生产模拟，不注入断电、文件损坏或网络分区，不能据此证明突然崩溃耐久性、主备切换或灾备。
 
 ### 实验边界
 
@@ -800,7 +818,7 @@ Browse 不应减少 Queue Size。保存 Message ID、Persistent 标志和正文�
   --message "recovery-test"
 
 .\bin\activemq.bat browse queue:AIOPS.RECOVERY
-.\bin\activemq.bat dstat
+.\bin\activemq.bat dstat --pid $brokerPid queues
 ```
 
 记录 Queue Size、Enqueue Count 和 Message ID。
@@ -808,22 +826,19 @@ Browse 不应减少 Queue Size。保存 Message ID、Persistent 标志和正文�
 ### 第三步：停止 Broker
 
 ```powershell
-.\bin\activemq.bat stop
-.\bin\activemq.bat status
+.\bin\activemq.bat stop --pid $brokerPid
+Get-NetTCPConnection -LocalPort 61616 -State Listen -ErrorAction SilentlyContinue
 ```
 
-确认进程已停止。保存停止前后日志，不删除 `data/`。
+确认终端 A 已退出、本实验原进程消失且监听结果为空。停止命令即使打印成功也必须复核；若还活着，先核对 PID 和日志，不强杀其他 Java。保存停止前后日志，不删除 `data/`。
 
 ### 第四步：重新启动
 
 ```powershell
 .\bin\activemq.bat start
-Start-Sleep -Seconds 10
-.\bin\activemq.bat status
-.\bin\activemq.bat browse queue:AIOPS.RECOVERY
 ```
 
-预期十条 Persistent 消息仍可浏览。启动日志应包含 KahaDB 打开和恢复信息，而不是新建空 Store。
+在终端 A 执行上面的前台启动；终端 B 重新执行“启动”节的监听/PID 核对代码，不能沿用旧 PID，然后执行 `.\bin\activemq.bat browse queue:AIOPS.RECOVERY`。预期十条 Persistent 消息仍可浏览，Message ID 集合与停机前一致。启动日志核对同一 KahaDB 路径且没有恢复异常；干净停机不保证每次出现相同“恢复”日志文字，不能以找不到某个关键词认定消息丢失。
 
 ### 第五步：消费与验证
 
@@ -832,7 +847,7 @@ Start-Sleep -Seconds 10
   --destination queue://AIOPS.RECOVERY `
   --messageCount 10
 
-.\bin\activemq.bat dstat
+.\bin\activemq.bat dstat --pid $brokerPid queues
 ```
 
 ### 形成证据链
@@ -858,7 +873,7 @@ Start-Sleep -Seconds 10
 ### 清理
 
 ```powershell
-.\bin\activemq.bat stop
+.\bin\activemq.bat stop --pid $brokerPid
 Set-Location ..
 ```
 
@@ -1302,6 +1317,30 @@ AIOps 可以将队列年龄、净增长速率、消费者版本和数据库等�
 自动扩容应同时检查下游余量和有序组分布，设并发上限与停止条件。自动重放死信则还需额外核对错误已修复、旧结构可读取、业务键仍有效、重放速率和审批范围。复制死信消息到主队列是一项新的发送，不能假定消费者仅凭新的消息编号识别原业务。
 
 交付给值班人的三分钟答案应落到一条完整推理：先确认是哪条产品线，再追生产确认、存储、分发和业务提交；根据队列年龄与下游证据定位瓶颈；选择有界限流、回退或扩容；最后验证业务唯一性、旧积压、新消息时延与存储冗余。只展示端口恢复或队列归零，无法证明事件确实处理正确。
+
+## 独立通关：存储、投递与业务完成分别验收
+
+不要复述主实验的数字。以下题目先预测，再验证或写出证据计划；真实 Broker 未运行时，提交计划和“未运行”标记，不能填造输出。
+
+### 任务一：基础复现，换队列和条数
+
+在本实例新建专用 `AIOPS.EXAM.20261012` 队列，发送七条持久消息，浏览两次后再消费七条。自己写命令，不复用旧队列；先确认初始为空。答案判据：两次 Browse 得到相同七个 Message ID、Queue Size 都是七；消费结束后待处理为零且 Dequeue 比基线增加七。若中间重启，累计 Enqueue/Dequeue 计数可能重置，应比较相应进程周期的基线，不能机械要求跨重启累计值等于旧数字。CLI 打印收到消息只能证明测试消费者收到，不证明已建立业务工单。清理仅消费这七条、正常停止所属实验实例，保留配置和证据。
+
+### 任务二：改变条件，两个消费者都能拿到七条吗
+
+把短信和工单两个消费者指向同一个 Queue，各自要求七条，一共只发送七条。先写预测，再决定是否实际运行；若运行必须 30 秒无进展停止客户端，不能为了凑数无限等待。答案是两者竞争这七条，不能保证各七条，也不能保证均分。需要两种业务各拿一份时，可设计 Topic 的两个独立持久订阅或两条受控业务队列，并解释离线订阅身份和积压。改成两个不同业务队列不自动完成一对二发布，还需明确由谁复制/路由和怎样验证。
+
+### 任务三：故障证据，不让“未知”伪装成失败
+
+使用前文纸面确认丢失实验，增加事件乙，其业务键与甲不同；甲重复投递一次。分别在“业务提交前”“提交后但 Ack 前”“Ack 后”画故障点。答案判据：同一甲可接收两次但只有一张有效工单；乙独立处理，不能被甲的幂等记录吞掉。发送超时只能标结果未知；同一业务键携带不同操作内容必须冲突告警，不能按普通重复成功。提交状态表、窗口和查询/重试方案，不宣称这是运行中的 JMS/Ack 故障注入。恢复验收既查未确认消息，也查工单唯一性和新事件可完成。
+
+### 任务四：生产取舍，先算下游再加消费者
+
+入口每秒 1,800 条，实际消费每秒 2,400 条，故障停止 15 分钟；消息持久化后的平均占用 3 KiB，假定此题放大系数为 1.5、保留 25% 空闲。答案：积压 162 万条，恢复后净清空 600 条/秒，理想追赶 45 分钟，从故障开始到清空共 60 分钟；积压部分约需 `1620000 × 3072 × 1.5 / 0.75` 字节，约 9.27 GiB，不含正常保留、DLQ、日志未回收段和备份。若每条调用下游三次，下游上限每秒 6,000 次，业务上限仅每秒 2,000 条，追赶将变成 135 分钟，不能用原 2,400 计算。增加共享存储主备仍要解释存储故障域和旧主隔离，不把 Network Connector 当同步副本。
+
+### 任务五：口述追问，分别给出证据和反例
+
+先用 30 秒讲 Producer 确认、Store、Dispatch、业务事务、Ack 五个关口；再回答：持久消息正常重启还在，为什么不证明断电不丢？Queue 归零，为什么不证明工单完成？为何 Message ID 不能覆盖生产者生成新消息的重复业务？为什么 Classic 的 KahaDB 目录不能当 Artemis 的 Journal 直接启动？答案需分别落到故障覆盖范围、确认与事务窗口、稳定业务键、产品存储兼容和迁移验证。最后说出一次失败的收回办法：停止实验客户端、保留原 Store、核对实例/PID/队列，不删除 Journal 或清空未知消息。
 
 ## 本课 GitHub 学习证据
 

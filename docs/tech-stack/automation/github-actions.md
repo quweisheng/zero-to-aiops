@@ -26,6 +26,8 @@
 
 仓库边界：本站当前使用 React/Vite，`npm run docs:build` 是构建脚本别名，产物目录是 `dist`。下文提及 VitePress 的地方用于说明静态站点场景，不代表当前仓库仍以 VitePress 部署。示例中的 action 主版本用于教学，落地时请核验官方支持范围，并在生产按组织策略固定审核过的提交摘要。
 
+零基础先用浏览器创建自己的空白练习仓库，确认默认分支 main、拥有写权限且 Settings → Actions 允许本课使用的官方动作；注意账户额度与制品存储。最小元数据实验不需要 Node、Git、命令行登录或云凭据，可以直接在 GitHub 网页按完整路径创建文件并提交。涉及 npm 的实验再准备本仓库的个人 Fork、锁文件和支持的 Node；不要把完整工作流复制到组织生产仓库，也不要把前面的字段片段当成独立文件。基础与故障主线选后面的“跨任务传递提交证据”，它无需额外项目依赖。
+
 ## 场景开场
 
 你维护一个 AIOps 知识库。每次改完文档，理论上都要做这些事：
@@ -419,7 +421,7 @@ on:
 
 - 使用 cron 表达式。
 - 常用于每天定时检查、生成报表。
-- 需要注意 GitHub 使用 UTC 时间，不是北京时间。
+- 未指定 `timezone` 时使用 UTC 时间，不是北京时间。
 
 如果想北京时间每天 10:00 跑，UTC 是 02:00：
 
@@ -428,6 +430,8 @@ on:
   schedule:
     - cron: "0 2 * * *"
 ```
+
+当前 GitHub.com 也支持在同一个 cron 条目下写 `timezone: "Asia/Shanghai"`，这时应把 cron 改为 `0 10 * * *`，不能只加时区而保留 UTC 换算后的 02:00。GitHub Enterprise Server 要核对服务器版本；官方功能表标明从 3.22 起支持。本文其余未写 timezone 的例子仍按 UTC 解读。参见 [官方定时示例](https://github.com/github/docs/blob/main/data/reusables/repositories/actions-scheduled-workflow-example.md) 与 [版本范围](https://github.com/github/docs/blob/main/data/features/actions-schedule-timezone.yml)。
 
 ### repository_dispatch
 
@@ -703,7 +707,7 @@ jobs:
       - run: cat result.txt
 ```
 
-`read` 大概率失败，因为它是另一个 job、另一个 runner，拿不到 `build` 里的文件。
+在这个托管 runner 示例中，`read` 会因文件不存在而失败，因为它是另一个 job、另一个文件系统，而且还没有声明等待 build。补 `needs: build` 只解决先后顺序，仍不会自动获得文件。
 
 要传文件，使用 artifact。
 
@@ -1398,7 +1402,7 @@ action 是可复用步骤。
 
 ## 静态知识库构建 workflow
 
-下面是适合独立静态知识库的最小构建检查；若用于本站，路径过滤还应覆盖 `src/**`、`public/**` 和相关构建配置，否则界面代码修改可能漏检：
+下面是适合本站个人 Fork 的最小构建检查。先不加 paths 过滤，让相关 PR 始终能产生稳定的必需检查；熟悉后再由团队维护过滤规则，覆盖源码、静态资源、脚本、配置与依赖，而不是只列 docs：
 
 ```yaml
 name: Build docs
@@ -1406,18 +1410,8 @@ name: Build docs
 on:
   push:
     branches: [main]
-    paths:
-      - "docs/**"
-      - "package.json"
-      - "package-lock.json"
-      - ".github/workflows/docs-build.yml"
   pull_request:
     branches: [main]
-    paths:
-      - "docs/**"
-      - "package.json"
-      - "package-lock.json"
-      - ".github/workflows/docs-build.yml"
   workflow_dispatch:
 
 permissions:
@@ -1429,7 +1423,7 @@ concurrency:
 
 jobs:
   build:
-    name: Build VitePress
+    name: Test and build React docs
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -1445,6 +1439,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Test
+        run: npm test
+
       - name: Build docs
         run: npm run docs:build
 
@@ -1453,19 +1450,20 @@ jobs:
         with:
           name: docs-dist
           path: dist
+          if-no-files-found: error
 ```
 
 你应该能解释：
 
 - 为什么 PR 也要跑：合并前发现文档构建错误。
 - 为什么 `permissions: contents: read`：构建只需要读仓库。
-- 为什么加 `paths`：减少无关运行。
+- 为什么此处不加 `paths`：初学先避免漏检及必需检查一直等待；优化需维护完整输入范围。
 - 为什么加 `concurrency`：连续 push 时保留最新 run。
 - 为什么上传 artifact：失败排查或后续部署可用。
 
 ## GitHub Pages 发布 workflow
 
-VitePress 发布到 GitHub Pages 的典型结构：
+React/Vite 静态产物发布到 GitHub Pages 的典型结构；先在自己的仓库 Settings → Pages 将 Source 设为 GitHub Actions，核对项目站点路径与实际构建配置。这会对外发布静态网页，勿上传内部资料：
 
 ```yaml
 name: Deploy docs
@@ -1477,8 +1475,6 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
   group: pages
@@ -1507,6 +1503,9 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -1535,7 +1534,7 @@ push main（推送主分支）
 | 失败点 | 现象 | 排查 |
 |---|---|---|
 | Pages 设置不是 GitHub Actions | workflow 成功但页面不更新 | Settings -> Pages |
-| `base` 配错 | 页面资源 404 | 检查 VitePress `base` |
+| `base` 配错 | 页面资源 404 | 检查 Vite/实际框架的 `base`，项目站与自定义域不同 |
 | artifact 路径错 | deploy 找不到文件 | 检查实际构建输出 `dist` |
 | 权限不够 | 403 或 deployment failed | 检查 `pages: write`、`id-token: write` |
 | 构建失败 | build job 红色 | 看 `npm run docs:build` 日志 |
@@ -1565,7 +1564,6 @@ on:
 
 permissions:
   contents: read
-  issues: write
 
 jobs:
   diagnose:
@@ -1606,6 +1604,8 @@ jobs:
 - workflow 生成诊断报告。
 - 报告以 artifact 和 summary 保存。
 - 后续可以扩展成查询 Prometheus、拉 Loki 日志、创建 Issue。
+
+本例没有创建 Issue，因而不授予 `issues: write`。报告只记录输入与元数据，没有生产诊断结论；未来增加实际采集时，必须记录数据窗口、来源和失败未知状态，不能把 placeholder 当巡检正常。
 
 ## 常用字段字典
 
@@ -1720,10 +1720,10 @@ gh run view '<run-id>' --log
 ### gh run watch
 
 ```bash
-gh run watch '<run-id>'
+gh run watch '<run-id>' --exit-status
 ```
 
-作用：实时等待 run 完成。
+作用：等待指定 run 完成，并在结论不是 success 时返回非零。没有 `--exit-status` 的默认行为不能用作脚本成功门禁；参见 [CLI 实现](https://github.com/cli/cli/blob/trunk/pkg/cmd/run/watch/watch.go)。完成后还要用 `gh run view '<run-id>' --json headSha,event,status,conclusion,url` 核对提交、事件和结论，避免等待的是旧运行。Pages 场景进一步验证目标 URL 的版本标记和静态资源，而不是仅见 build 成功就宣称网页更新。
 
 ### gh run rerun
 
@@ -1844,6 +1844,8 @@ jobs:
 
 ## 入门实验 2：构建 VitePress 文档
 
+这里沿用历史章节名称讲静态站点流程；在本仓库个人 Fork 实际构建的是 React/Vite。先在本地确认 `npm ci`、`npm test`、`npm run docs:build` 通过，保证 package.json、package-lock.json 和源文件都已提交。独立空仓库没有这些文件，不能直接运行本节。
+
 创建：
 
 ```text
@@ -1950,7 +1952,7 @@ jobs:
 
 学习重点：
 
-- `schedule` 用 UTC。
+- 本例没有写 timezone，`schedule` 用 UTC；它不是准点 SLA。
 - `workflow_dispatch` 方便你手动测试。
 - 定时任务输出应保存成 artifact 或发送到外部系统。
 
@@ -1960,16 +1962,16 @@ jobs:
 |---|---|---|---|
 | workflow 没触发 | 文件不在 `.github/workflows/` | 看仓库路径 | 移到正确目录 |
 | workflow 没触发 | `on` 条件不匹配 | 看事件、分支、paths | 调整 `branches`、`paths` |
-| workflow 没触发 | workflow 文件不在默认分支 | 看 default branch | 先合入默认分支 |
+| 手动/定时入口没出现 | 默认分支缺少对应定义 | 看事件种类、default branch 与权限 | 按该事件规则准备默认分支；普通 push 不都要求默认分支 |
 | YAML 报错 | 缩进错误 | Actions 页面报语法行号 | 修缩进 |
-| `npm ci` 失败 | 没有 `package-lock.json` | 看 npm 日志 | 提交 lockfile 或改用 `npm install` |
+| `npm ci` 失败 | 没有或不一致的 package-lock.json | 看 npm 日志 | 本地按项目包管理器修复并审查提交锁文件，不为变绿改成无锁安装 |
 | `npm ci` 失败 | Node 版本不匹配 | 看 `setup-node` 和本地版本 | 固定 `node-version` |
 | 找不到文件 | 没 checkout | 看 step 前是否有 `actions/checkout` | 添加 checkout |
 | job B 找不到 job A 文件 | 不同 job 不共享文件系统 | 看 job 分隔 | 用 artifact 传递 |
 | PR 里 secret 为空 | fork PR 安全限制 | 看触发来源 | 不在 fork PR 中使用 secret |
 | API 403 | `GITHUB_TOKEN` 权限不够 | 看 workflow permissions | 增加最小所需权限 |
 | Pages deploy 失败 | 缺少 Pages 权限 | 看 deploy 日志 | 加 `pages: write`、`id-token: write` |
-| Pages 资源 404 | VitePress `base` 配错 | 打开浏览器 Network | 修 `base` |
+| Pages 资源 404 | 实际框架 `base` 配错 | 打开浏览器 Network | 核对 Vite/框架配置和项目站路径 |
 | cache 没命中 | key 变了 | 看 cache step 日志 | 检查 `hashFiles` 和 restore key |
 | matrix 某项失败 | 某版本不兼容 | 看失败组合 | 分版本修复 |
 | workflow 很慢 | 每次重新下载依赖 | 看安装耗时 | 启用 cache |
@@ -2324,6 +2326,16 @@ OIDC 是让任务证明身份再向云端换取短期凭据，不是自动获得
 事故题“所有检查成功但合并队列卡住”，三十秒先区分旧检查和本次队列检查；三分钟给出事件、提交、必需检查名称、过滤条件、权限和执行器证据链。设计题“每天两万次诊断请求”则应先算排队与运行时间、隔离信任域、设计持久请求和去重，再选择执行池容量。模型可以归类失败日志，不能替代持久状态或自动批准高权限模板升级。
 
 最终交接保留规则版本与未验证项目，便于下一次复核。
+
+## 独立通关：把事件、提交、作业和页面一一对齐
+
+1. **基础复现。** 在自己的空仓库从零写 artifact-classroom，分别关闭/开启/关闭故障开关运行三次。答案判据：三次 run ID、head SHA、输入与结论对应；下载文件等于本次声明；中间一次 verify=42 且仍有证据，前后成功。解释无 checkout 为何适用于元数据生成，但不适用于源码构建。
+2. **改变条件预测。** 删掉下载步骤但保留 needs，预测验证结果再在个人学习文件里尝试；再将上游 export 改为 GITHUB_ENV，问下游 job 是否自动得到。答案判据：依赖不共享文件系统，GITHUB_ENV 仅供本 job 后续步骤；跨 job 短值要 step→job→needs 输出映射，文件要 artifact。恢复正确文件，不能通过跳过 test 蒙混过关。
+3. **故障证据。** 制造 exit 42 后分别用普通 watch 和 `--exit-status` 理解退出语义，保留日志与 CLI 返回码；解释 rerun 与新 push 的差别。答案判据：重跑保留原提交而非自动测试修复后的分支；不能拿旧绿色 run 覆盖新失败。修复提交要核对新的 headSha，Pages 还需 deploy 成功和页面标记/资源证据。
+4. **设计取舍。** 每天 20,000 次诊断、平均 2 分钟，先估执行容量再谈购买 runner。答案判据：理想均匀无排队平均约 27.8 个并发槽，按高峰、开销与 SLA 留余量；这不是固定账户配额。默认 concurrency 的单等待槽可能替换请求，全部必须执行则需要持久请求/去重/确认；不可信 PR 与生产执行池隔离。
+5. **口述追问。** 三分钟说明事件语义、PR 合并 SHA、merge_group、表达式与 shell、权限/OIDC、取消副作用和模板升级。追问“北京时间10点”：UTC 02点示例无 timezone，或 Asia/Shanghai 10点不能混用；“environment 名叫 production 就审批了吗”：必须实际配置且功能受仓库套餐/服务器版本约束；“报告有数据就正常吗”：先确认采集成功和数据年龄。
+
+任一项缺证据，回到“基础与故障实验：跨任务传递提交证据，再主动让验证失败”“平台进阶课堂”或 Pages 章节重做，不删除首次失败。本轮只核对官方文档/CLI 源码与本文逻辑，没有触发远端工作流、设置权限或发布网站；这些产品行为仍需个人隔离仓库复现。
 
 ## 学习证据
 

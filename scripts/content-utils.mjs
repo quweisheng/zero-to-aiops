@@ -53,21 +53,21 @@ export function sectionForRoute(route) {
 }
 
 export function extractTitle(raw) {
-  let inFence = false
+  let fence
 
   for (const originalLine of raw.replace(/^\uFEFF/, '').split(/\r?\n/)) {
-    const line = originalLine.trim()
-
-    if (line.startsWith('```') || line.startsWith('~~~')) {
-      inFence = !inFence
+    const marker = originalLine.match(/^ {0,3}(`{3,}|~{3,})(.*)$/)
+    if (fence) {
+      if (marker && marker[1][0] === fence.character && marker[1].length >= fence.length && /^[ \t]*$/.test(marker[2])) fence = undefined
+      continue
+    }
+    // A shorter marker, the other fence character, or trailing text cannot close a fence.
+    if (marker && (marker[1][0] !== '`' || !marker[2].includes('`'))) {
+      fence = { character: marker[1][0], length: marker[1].length }
       continue
     }
 
-    if (inFence) {
-      continue
-    }
-
-    const match = line.match(/^#\s+(.+)$/)
+    const match = originalLine.match(/^ {0,3}#\s+(.+)$/)
     if (match) {
       return match[1].trim()
     }

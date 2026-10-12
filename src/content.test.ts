@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest'
+import { extractTitle } from '../scripts/content-utils.mjs'
 
 import {
+  docs,
   getDocByRoute,
   loadDocByRoute,
   markdownLinkToRoute,
@@ -52,6 +54,27 @@ describe('markdownLinkToRoute', () => {
 })
 
 describe('getDocByRoute', () => {
+  it.each([
+    ['/tech-stack/teaching-review', '技术栈逐篇评测与返工记录', '文章内容变化后旧审校自动失效'],
+    ['/tech-stack/experiment-start', '零基础实验开课准备', '怎样记录，才不把预期当实测'],
+  ])('loads the new learning page %s from navigation through its actual Markdown loader', async (route, title, evidence) => {
+    expect(navGroups.flatMap(group => group.items).some(item => item.route === route)).toBe(true)
+    const doc = await loadDocByRoute(route)
+    expect(doc?.title).toBe(title)
+    expect(doc?.raw).toContain(`# ${title}`)
+    expect(doc?.raw).toContain(evidence)
+  })
+
+  it('can load every exported document route with its current Markdown title', async () => {
+    expect(docs.length).toBeGreaterThan(0)
+    for (const metadata of docs) {
+      const doc = await loadDocByRoute(metadata.route)
+      expect(doc, metadata.route).toBeDefined()
+      expect(doc?.raw.trim().length, metadata.route).toBeGreaterThan(0)
+      expect(doc?.title, metadata.route).toBe(extractTitle(doc?.raw ?? ''))
+    }
+  })
+
   it('exposes the teacher-led coverage report in navigation and content', async () => {
     const route = '/tech-stack/teaching-coverage'
     expect(navGroups.flatMap(group => group.items).some(item => item.route === route)).toBe(true)

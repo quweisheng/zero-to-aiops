@@ -358,7 +358,7 @@ consumer（消费者） group: llm-triage-worker
   -> 负责生成排障摘要
 ```
 
-这三个 group 都能读同一批告警事件，互不影响。
+这三个 group 都能读同一批告警事件，各自维护消费进度；但仍共享 broker、磁盘、网络等资源，某组超量读取或重放可能影响其他组的延迟，不能理解成物理资源完全隔离。
 
 ## 架构
 
@@ -401,7 +401,7 @@ Replication factor 表示每个 partition 有几份副本。
 
 含义：每个 partition 保留三份。
 
-生产常见值是 3。学习单机实验只能用 1。
+生产常见值是 3。只有一个 broker 的课堂只能用 1；同一电脑启动多个 broker 可以演示多副本协议，但仍没有独立物理故障域。
 
 ### ISR
 
@@ -624,6 +624,8 @@ Producer 负责把事件写到 Kafka。
 
 ### Python producer
 
+这一节是可选宿主机 SDK 路线，不和后面的 19092 容器内 CLI 路线混跑。在专用项目目录里，Windows PowerShell 可先执行 `python -m venv .venv`，再用 `.\.venv\Scripts\python.exe -m pip install kafka-python`，保存脚本后始终使用该解释器运行；Linux 则用 `.venv/bin/python`。记录 `python -m pip freeze` 时也要使用同一解释器，固定实际验证的依赖版本，不对系统 Python 直接安装。前提仍是宿主机可达的 9092 broker 及正确 advertised 地址，安装客户端不等于已经安装 Kafka 服务。
+
 ```python
 import json
 from kafka import KafkaProducer
@@ -838,6 +840,8 @@ bin/kafka-configs.sh \
 
 ### 大小保留
 
+`retention.bytes` 是每个分区的大小保留预算，不是整个 Topic 总预算；三个分区各 1 GiB 的主题，不能按总共 1 GiB 采购。段文件清理与复制还会影响实际磁盘量，不能保证阈值一到就逐条精确删除。[官方 Topic 配置](https://kafka.apache.org/43/generated/topic_config.html)
+
 也可以按大小：
 
 ```bash
@@ -913,11 +917,11 @@ Kafka Streams 是流处理库。
 
 它可以做：
 
-- map/filter。
-- aggregation。
-- join。
-- window。
-- stateful processing。
+- map/filter（逐条转换字段或按条件筛选）。
+- aggregation（聚合：把多条记录归成计数、求和等结果）。
+- join（关联：按键与另一条流或表组合信息）。
+- window（窗口：限定事件参与计算的时间范围）。
+- stateful processing（有状态处理：保存跨记录的计算进度或中间结果）。
 
 AIOps 场景：
 
@@ -1173,7 +1177,7 @@ bin/kafka-delete-records.sh --bootstrap-server localhost:9092 --offset-json-file
 | 顺序错乱 | key 选择不当或加分区 | 看 key/partition | 固定 key，谨慎扩分区 |
 | 消息重复 | at-least-once 重试 | 查业务幂等 | 用 event_id 去重 |
 | 消息丢失 | acks 太低或提交太早 | 查 producer/consumer 配置 | 调 `acks=all`、手动提交 |
-| 磁盘满 | retention 太长或流量大 | 查 log.dirs | 调 retention、扩容 |
+| 磁盘满 | retention 太长、积压或流量大 | 查 log.dirs、每分区增长与恢复窗口 | 先止增长/安全扩容；缩短保留须批准并确认未消费与恢复数据损失，不能当无风险修复 |
 | ISR 缩小 | replica 跟不上 | `--describe` | 查 broker、磁盘、网络 |
 | rebalance 频繁 | consumer 超时或处理太慢 | consumer 日志 | 调 poll 和处理逻辑 |
 
@@ -1304,11 +1308,21 @@ Rebalance（组内分区重新分配）改变谁负责哪个分区。处理过�
 在 PowerShell 中逐条执行，若 Topic 创建提示服务暂未就绪，先看日志确认启动阶段，再重试该条，不能忽略错误继续：
 
 ```powershell
+docker version
+if ($LASTEXITCODE -ne 0) { throw 'Docker 引擎不可用，先修复环境' }
+if (docker ps -aq --filter 'name=^/kafka-lesson$') { throw '同名容器已存在，先核对归属' }
+if (Get-NetTCPConnection -LocalPort 19092 -State Listen -ErrorAction SilentlyContinue) { throw '19092 已占用，不继续启动' }
 docker run --name kafka-lesson -d -p 127.0.0.1:19092:9092 apache/kafka:4.3.1
+if ($LASTEXITCODE -ne 0) { throw '容器创建失败，不继续使用同名对象' }
 docker logs kafka-lesson
+docker exec kafka-lesson /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --list
+if ($LASTEXITCODE -ne 0) { throw '服务尚未就绪，查看日志；只重试 list 检查，不重新创建容器' }
 docker exec kafka-lesson /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic lesson-alerts --partitions 1 --replication-factor 1
+if ($LASTEXITCODE -ne 0) { throw 'Topic 创建未成功，核对是否重复执行，不继续发数据' }
 'eventId=baseline-001' | docker exec -i kafka-lesson /opt/kafka/bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic lesson-alerts
-docker exec kafka-lesson /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic lesson-alerts --group lesson-worker --from-beginning --max-messages 1
+if ($LASTEXITCODE -ne 0) { throw '生产失败或结果未知，先核对日志，不盲目再次发送' }
+docker exec kafka-lesson /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic lesson-alerts --group lesson-worker --from-beginning --max-messages 1 --timeout-ms 15000
+if ($LASTEXITCODE -ne 0) { throw '消费失败或等待超时，保留日志核对，不继续故障注入。' }
 docker exec kafka-lesson /opt/kafka/bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group lesson-worker
 ```
 
@@ -1322,19 +1336,21 @@ docker exec kafka-lesson /opt/kafka/bin/kafka-consumer-groups.sh --bootstrap-ser
 
 ```powershell
 @('eventId=paused-001','eventId=paused-002','eventId=paused-003') | docker exec -i kafka-lesson /opt/kafka/bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic lesson-alerts
+if ($LASTEXITCODE -ne 0) { throw '三条发送失败或结果未知，保留日志核对，不盲目再次发送。' }
 docker exec kafka-lesson /opt/kafka/bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group lesson-worker
 ```
 
 预期生产成功，消费组 Lag 从零变成三，可能提示该组没有活跃成员。此时 Kafka 服务本身没有失败，故障对象是消费处理链路。保留发送内容、组位置和观察时间，恢复同一个组：
 
 ```powershell
-docker exec kafka-lesson /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic lesson-alerts --group lesson-worker --max-messages 3
+docker exec kafka-lesson /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic lesson-alerts --group lesson-worker --max-messages 3 --timeout-ms 15000
+if ($LASTEXITCODE -ne 0) { throw '恢复消费失败或等待超时，保留日志核对，不能声明已恢复。' }
 docker exec kafka-lesson /opt/kafka/bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group lesson-worker
 ```
 
-预期看到三条 `paused` 事件，提交传播后 Lag 回到零。若 Lag 不等于三，先检查是否重复发送、基线提交未完成、另一个消费者还在运行或 Topic 中已有上次实验数据。不要通过重置位移或删 Topic 让数字归零；那会绕过需要验证的恢复过程。
+预期看到三条 `paused` 事件，提交传播后 Lag 回到零。`--timeout-ms 15000` 限制没有新记录时的等待，不保证整条命令恰好十五秒结束；若消费非零退出、基线不足一条或恢复不足三条，先停止并保留输出，不能声明恢复。若 Lag 不等于三，先检查是否重复发送、基线提交未完成、另一个消费者还在运行或 Topic 中已有上次实验数据。不要通过重置位移或删 Topic 让数字归零；那会绕过需要验证的恢复过程。
 
-结束后用 `docker inspect kafka-lesson --format '{{.Name}}'` 核对目标，保存输出与镜像身份，再执行 `docker rm -f -v kafka-lesson`。删除教学容器及匿名卷后数据不可恢复，复做需从头开始。这个实验没有验证副本选举、生产者事务或外部工单幂等，单副本成功收发不代表生产高可用。
+结束后用 `docker inspect kafka-lesson --format '{{.Name}}'` 核对目标，保存输出与镜像身份，再依次执行 `docker stop --time 30 kafka-lesson`、`docker rm -v kafka-lesson`；停止失败应先核对，不继续删除。删除教学容器及匿名卷后数据不可恢复，复做需从头开始。这个实验没有验证副本选举、生产者事务或外部工单幂等，单副本成功收发不代表生产高可用。
 
 ## 机制再讲深一层：消费完成和消费存活
 
@@ -1371,6 +1387,8 @@ Kafka 的日志保留由 Topic 策略决定，不是每个消费者的阅读进�
 这条路径的观测顺序是：生产请求是否返回结果，分区是否有可用领导者，同步副本是否变化，消费者是否持续拉取，提交位置是否推进，下游是否有对应事件。每一层都用同一个脱敏事件编号关联。AIOps 可以整理这份时间线，但不能因为最早出现磁盘告警，就跳过中间证据认定它是根因。
 
 ### 同步副本门槛是一道可用性取舍题
+
+下面先按传统 ISR 确认/选举条件推理，不把它作为 Kafka 4.3 所有功能组合的通用公式。官方 Topic 配置特别注明，启用 ELR（Eligible Leader Replicas，合格领导副本机制）时 `min.insync.replicas` 的语义会变化；现场需要记录有效功能级别与 ELR 状态，再查同版本选举与持久化规则。本课单副本收发没有验证 ELR，不能从它推出多副本故障承诺。
 
 假设一个主题有三个副本，要求 `acks=all`，并把 `min.insync.replicas` 设为二。平时三个副本都在同步集合，一台失效后仍可能继续写；只剩一个满足同步要求时，系统应拒绝符合这一确认策略的新写入，而不是假装可靠性仍与平时相同。
 
@@ -1475,6 +1493,14 @@ print("deduplicated:", simulate(deduplicate=True))
 追问“重复消息是不是 Kafka 坏了”，先区分发送请求重试、业务主动重复发送、消费位置提交失败后的重投和回放操作。它们来自不同边界，不能用一个随机去重窗口全部解决。最后设计题要求你说明幂等记录保存多久，以及回放超过该期限时如何防止重复业务效果。
 
 深入机制以 [Kafka 设计文档](https://kafka.apache.org/43/design/design/) 和 [消费端配置](https://kafka.apache.org/43/configuration/consumer-configs/) 为核对入口。本课消费组分配讨论针对常规消费者，不把共享消费组等不同消费模型混为一谈；具体默认值和升级限制应对照你部署的版本。
+
+## 独立通关：位移推进不等于工单完成
+
+1. **基础复现。** 在自己的教学容器保留期间，新建 `exam-alerts` 单分区/单副本主题，先向它发送 `eventId=exam-1`、`eventId=exam-2`、`eventId=exam-3` 三行，再用新组 `exam-worker` 从最早位置读三条。命令沿用完整 CLI，仅替换主题、组和 `--max-messages 3 --timeout-ms 15000`；创建已存在或生产结果未知就停止，不重复发送。**判据：**保存三条内容、该分区日志末端 3、组提交位置最终 3/lag0。另用 `exam-audit` 可再读同三条，原组进度不回退；整课结束随自有容器回收，不触及其他主题。
+2. **改变条件预测。** 某压实日志末端 105、组已提交 100，可读记录只剩位置 101 与 104。Lag=5 是否就是五张未建工单？**判据：**它是位置差，不保证记录数；本条件只剩两条可读记录，仍不能证明业务是否已处理。加入事务隔离或保留过期还会改变可见范围，不能把 earliest 当历史恢复工具。
+3. **故障证据。** 对新主题建立提交基线，再让同一消费组离线，发固定两条，记录 lag 增量和 broker 可写证据，恢复原组处理两条并复测。**判据：**提出“消费者离线”和“下游慢”两个假设，用活跃成员、消费日志或处理耗时区分；不换组、不 reset、不删除记录让图变绿。离线位移模型应分别得到 `(0,1)`、`(2,1)`、`(1,1)`，说明哪一种漏业务、哪一种重业务及模型省略的持久化。
+4. **生产取舍。** 每秒两万条、每条500 B、七天、三副本、至少25%空闲，入口逻辑数据基线是多少？**判据：**逻辑 6.048 TB、副本 18.144 TB、按空闲折算至少24.192 TB，另加段/索引/重建与故障域余量；不能乘1.25冒充保留25%空闲。停20分钟后3万/s处理且仍新增2万/s，理想再追40分钟，总故障到追平至少60分钟。
+5. **口述追问。** acks=all、幂等 producer、Kafka 事务、外部工单唯一键各覆盖哪层？**判据：**结合 ISR/minISR/故障选举，区分协议重试与业务新发送；事务不自动覆盖 HTTP 副作用，消费完成位置须按分区连续推进。最后解释 KRaft 控制面正常为何不等于每个数据分区或下游工单健康，并说明升级功能级别与旧消费者契约的回退限制。
 
 ## 本课 GitHub 学习证据
 

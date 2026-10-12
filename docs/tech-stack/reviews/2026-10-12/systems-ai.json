@@ -1,0 +1,256 @@
+[
+  {
+    "article": "data-ai/fastapi.md",
+    "crossReview": {
+      "reviewer": "foundation-frontend",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "61af30bfe13a1cac12725f01e3821a7b9a8099fc565385ee36a5e0214ee13eff",
+      "result": "pass",
+      "findings": [
+        "全文复核。交叉发现requirements文本误含执行命令，作者已修为pytest并重读确认；实际重跑原文提取的25项合同及百分数边界，创建/查询/202后台分析、非法limit、空白/额外字段/枚举/NaN/Infinity、坏JSON/404和新模块内存丢失均符合。实测Python3.14.5/FastAPI0.143.0/Starlette1.7.0/Pydantic2.14.1/httpx0.28.1。",
+        "Python3.11 StrEnum前置、原生隔离环境/新目录/回环监听及概念片段与主实验分开；错误处理不回显坏输入导致NaN二次序列化失败，模型/内存状态/多worker/响应过滤不冒充持久化或内容安全。BackgroundTasks、Outbox、超时未知和外部审批边界成立。",
+        "五关坏输入不增加状态、进程重启404、3×4×20=240超80与每worker6连接3×4×6=72扩4副本96、无权限路由/模型内存及重复动作判据具体。本次为TestClient进程内执行及新模块模拟，不是真实服务器重启、网络服务、数据库/队列、鉴权、容器或压测验收。"
+      ]
+    },
+    "writer": "systems",
+    "reviewedAt": "2026-10-12",
+    "initialFindings": [
+      "完整实验接受负分页、空白名称及非有限数，可能在响应阶段才失败；缺五项迁移通关。",
+      "Windows激活/JSON与测试入口隐含前置；没有对原始NaN导致错误响应二次失败的防护。"
+    ],
+    "changes": [
+      "新增分段路线、精确新目录/环境安装、失败停步和PowerShell直接调用路径，测试命令统一python -m pytest，独立复审返修requirements依赖名保留pytest而非命令。",
+      "完整API添加查询范围、长度/空白/额外字段/非有限数合同及不回显原输入的422处理器，修共享分页依赖。",
+      "增加五项独立通关及真实TestClient版本、警告、未运行网络/镜像的边界。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "实验起步、三段路线与安装节明确目录、解释器、虚拟环境、终端及无需集群的TestClient第一步；PowerShell激活失败使用环境绝对路径。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "完整请求链、依赖求解与输入校验交错、进程内字典/worker、可靠任务状态及202边界均有反例。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "完整main.py、安装、独立终端或/docs输入、健康/创建/分析/查询的具体状态和安全收回齐全。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "非法单位与重启丢失状态两级演练，保留同ID前后证据，重新创建不冒充恢复旧数据。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "事件循环/线程池、连接池总预算、持久任务/Outbox/幂等、授权/代理/脱敏、发布兼容和回退有明确边界。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "30秒与3分钟答案后追问422、202崩溃、多worker内存、阻塞SDK低CPU事故及生产设计。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "五道专属任务含新输入422与零写入、独立状态实例、240/80连接及发布峰值96超预算、错误输出与授权反例。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "AIOps告警接收→可靠登记→分析→查询和路由模板指标、请求ID、排队年龄、GitHub脱敏证据可对应。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "executed",
+        "detail": "独立venv Python3.14.5/FastAPI0.143.0/Starlette1.7.0/Pydantic2.14.1/httpx0.28.1运行正文完整API25项检查与单位错误小实验；新模块内存旧ID404。",
+        "limits": "不是真实服务重启、网络/代理/多进程/持久存储/并发测试，httpx适配有弃用提示。"
+      },
+      {
+        "kind": "reasoned",
+        "detail": "全文逐段审查，官方Query/Pydantic配置/TestClient文档核对；连接预算240、72与发布峰值96复算。",
+        "limits": "未验证Python3.12镜像和组织鉴权实现，模型分析仍是规则字符串。"
+      },
+      {
+        "kind": "unrun",
+        "detail": "实际服务器、Docker/Kubernetes、DB/消息队列、断电与HA实验。",
+        "limits": "没有为本课连接真实平台，预期结果与实测范围严格分离。"
+      }
+    ],
+    "status": "revised-awaiting-cross-review"
+  },
+  {
+    "article": "data-ai/ollama.md",
+    "crossReview": {
+      "reviewer": "foundation-frontend",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "1cf0db31cf7d13c137235603002ab51de5ce480cc20529221463157190e8cb88",
+      "result": "pass",
+      "findings": [
+        "2364行全文复核。独立核对官方0.32.6 Release、Authentication、API Errors，固定提交c82ebbd与持续更新文档分开，流中错误保持初始状态码、本地API无认证和Cloud可经localhost转发边界符合来源；没有为教程自动迁移新模型。",
+        "实际运行正文PowerShell验证器的10种合成结构与6种性能输入，正常接受、大小写/缺额外字段/数组/截断/未完成/非法JSON及坏数值拒绝，零时长保持不可计算；KV题2GiB→8GiB、N+1四副本剩360复算成立。模型存在性不叫就绪、keep_alive不作会话、tag/digest/许可与运行态分开。",
+        "原生/容器路径及专用模型引用重名停止，404只改引用不删除模型，清理保留共享基础模型；生产网关/多副本/Cloud/工具权限和升级流式契约讲清。无真实Ollama或GPU环境，拉取/加载/推理/404/性能/模型质量及外部网络边界未实跑，合成验证器不能替代这些验收。"
+      ]
+    },
+    "writer": "systems",
+    "reviewedAt": "2026-10-12",
+    "initialFindings": [
+      "PowerShell默认大小写不敏感，使JSON字段与枚举合同可能误接受；done未区分正常与截断。",
+      "性能缺字段/零时长自动变0，存在性输出MODEL_READY误把磁盘制品当就绪；缺独立迁移评测。"
+    ],
+    "changes": [
+      "补分层准备入口及下载/原生创建失败停止；JSON检查改大小写敏感并校验正常结束。",
+      "性能函数拒绝缺失/非有限/负数/布尔，零时长不可计算；存在性改MODEL_INSTALLED并要求继续推理/质量验收。",
+      "新增KV/N+1/流错误等五道独立通关、合成验证及实际推理未运行边界。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "实验起步与原生→模型→容量路线，不需Docker/K8s；CLI/服务版本及独立目录/模型引用重名保护。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "磁盘Tag/Manifest/Blob、易失Runner/KV/客户端历史及调度/Prefill/Decode内部路径清楚，Cloud出域分开。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "固定小模型Modelfile/API与结构/运行态/性能验收，明确未知字段、正常结束、回收对象与失败停步。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "不存在tag只改引用不删数据，404取证与恢复生成；坏结构/截断/缺性能数据由合成检查器可复验。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "容量公式适用边界、共享服务认证/限流/隔离、模型制品备份、客户端流式契约与灰度回退具备反例。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "10组定义→机制→故障/取舍追问及50万/天设计、升级流失败和显存超时事故有证据链。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "五关专属变化含大小写/截断、2GiB→8GiB KV、300/分钟N+1需4副本，CPU/GPU实测与纸面分离。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "告警结构化、日志摘要、RAG与受控工具的模型层边界；指标无敏感/高基数prompt，GitHub清单可追版本。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "executed",
+        "detail": "正文PowerShell结构验证器10种合成响应、性能验证器6种合成响应通过，含CRITICAL/Service/截断/坏数组与缺字段/NaN/零时长。",
+        "limits": "不连接Ollama、不下载模型、不证明硬件与真实推理或模型语义质量。"
+      },
+      {
+        "kind": "reasoned",
+        "detail": "全文审阅，官方Chat/Tags/Structured Outputs接口复核，KV2GiB/8GiB、300/分钟N+1四副本复算。",
+        "limits": "当前持续更新接口不替代固定0.32.6的实现回归；没有检查所有推理后端。"
+      },
+      {
+        "kind": "unrun",
+        "detail": "原生安装、Compose运行、模型加载/推理/404和GPU实验。",
+        "limits": "本机无本课Ollama服务，API预期不是实测。"
+      }
+    ],
+    "status": "revised-awaiting-cross-review"
+  },
+  {
+    "article": "data-ai/llm-openai.md",
+    "crossReview": {
+      "reviewer": "foundation-frontend",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "b856a692ca2a573d965fb68ea29bf58905e507cfe3ec1ba4c00569647bb5ee69",
+      "result": "pass",
+      "findings": [
+        "1896行原文及新增运行门禁逐段全文复核。独立核对官方GPT-5.5、Structured Outputs及数据控制页，保留既有型号不冒充最新；responses.parse/text_format、拒绝/未完成分支、store=False不代表零留存与来源存在不证明支持因果的边界符合。交叉发现项目短路线漏环境失败门禁，作者已改专用venv解释器、逐次失败停止与环境/密钥不覆盖，返修已重读。",
+        "实际重跑两份原文离线脚本、合同坏类型/空引用/越权、终态坏输入和十类向量案例，全部通过；OpenAI3.29.0/httpx2 2.13.1/Python3.14.5通过MockTransport检查store/output上限/严格schema与Pydantic解析，固定假密钥且无网络。模拟传输仅验证SDK请求构造和解析，不证明模型遵循或真实API接受所有参数。",
+        "五关传输/协议/结构/业务验收、不同向量空间、合法JSON错误因果、5每秒×20秒需100在途而并发20仅1每秒净积压240每分钟、120万/18万词元及20%完全不调用缓存为96万/14.4万复算成立。工具call_id不当业务幂等，动作状态未知先查询，缓存隔离租户和版本；真实API权限/费用/限额/留存/时延与模型质量均未运行。"
+      ]
+    },
+    "writer": "systems",
+    "reviewedAt": "2026-10-12",
+    "initialFindings": [
+      "向量计算可静默截断且接受NaN/零向量；合同对坏类型/空证据缺失败关闭。",
+      "付费示例超时/重试/保存边界含糊，基础入口和迁移评测不足。"
+    ],
+    "changes": [
+      "补离线路线与隔离安装停步；真实调用显式超时/重试/输出与保存配置。",
+      "强化向量、合同和终态，函数参数与授权分离；补五项通关及真实模拟验证边界。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "离线优先路线、新目录与venv失败停步、Windows解释器回退；交叉返修摘要项目短路线，直接调用专属环境Python并逐次验退出码，已有环境/密钥不覆盖，填入获批密钥后才单独运行。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "响应终态/工具输出分层；结构不等于事实、call_id不等于幂等、向量同维度不等于同空间。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "两份离线完整脚本及可选真实API超时/输出限额/store边界与向量输入。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "虚构来源、写操作、拒绝/未完成、空证据与坏向量有拒绝、降级和恢复。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "持久队列、期限/限流、缓存租户隔离、发布兼容、数据控制与备用供应商授权。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "30秒/3分钟答案，合法JSON误回滚事故及提示词安全/引用支持连续追问。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "五项通关含1/0/-1向量、流终态、100在途/20并发积压240每分钟及缓存条件区别。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "告警落库→查询脱敏→候选分析→独立校验→人工→受控执行及GitHub证据。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "executed",
+        "detail": "Python3.14.5执行两份离线课堂、六类坏合同、五类坏状态和十类向量；SDK3.29.0/httpx2模拟传输检查严格JSON模式与解析。",
+        "limits": "MockTransport固定假密钥，无网络/模型/费用；不是语义质量或生产API验收。"
+      },
+      {
+        "kind": "reasoned",
+        "detail": "全文审查及官方Responses流式、结构输出、函数调用、gpt-5.5模型页核对；并发/积压/词元复算。",
+        "limits": "原模型示例不保证账户许可，价格/区域/配额另核对。"
+      },
+      {
+        "kind": "unrun",
+        "detail": "真实API、模型事实评估、流网络中断、工具执行和生产队列。",
+        "limits": "未获取凭据、发起付费请求或连接生产。"
+      }
+    ],
+    "status": "revised-awaiting-cross-review"
+  }
+]

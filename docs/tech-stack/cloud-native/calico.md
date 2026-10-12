@@ -100,7 +100,7 @@ Calico 是面向 Kubernetes、云、虚拟机和裸金属环境的网络、网�
 Kubernetes 网络模型通常要求：
 
 1. 每个 Pod 有自己的 IP。
-2. Pod 之间在不做应用层 NAT 的前提下可通信。
+2. 按 Kubernetes 网络模型，Pod 之间应能使用各自的 Pod 地址通信，通常不依赖 NAT。NAT 是源地址或目的地址转换，不是应用层机制；跨网段路由、封装与出站 NAT 的具体边界仍取决于网络插件和部署模式。
 3. Node 能与 Pod 通信。
 4. Pod 看到的自身 IP 与其他 Pod 看到的一致。
 
@@ -358,6 +358,8 @@ Calico 可以按版本和环境选择基于 Linux 规则的传统数据平面或
 
 ### 前置条件
 
+这是一套独立的三节点 kind 学习集群，不是在已有 Kubernetes 上替换 CNI。命令在 Linux/WSL 的 Bash 执行，Docker 引擎位于本机；先核对 `docker context show`、`docker version`、`kind version`、`kubectl version --client`。没有工具时先按 [kind 安装入口](https://kind.sigs.k8s.io/docs/user/quick-start/#installation)和[Kubernetes 客户端安装入口](https://kubernetes.io/docs/tasks/tools/)选择本系统与 CPU 架构的发行包，完成版本输出后再进入本课；Windows 的 Linux 内核由 WSL/Docker 虚拟机提供，不是 Windows 内核版本。创建新空目录保存本节三个 YAML，先用 `kind get clusters` 确认 `calico-lab` 不存在，不复用同名旧集群。
+
 - Docker Engine 或 Docker Desktop。
 - `kind`、`kubectl`。
 - `calicoctl`。请先按[官方安装说明](https://docs.tigera.io/calico/latest/operations/calicoctl/install)安装与集群版本一致的客户端；它用于查看 IPPool、IPAM、BGP 和 Calico 策略资源。
@@ -380,11 +382,35 @@ networking:
 
 启动：
 
+另将下面内容保存为 `calico-installation.yaml`。与[固定版本官方 custom-resources](https://github.com/projectcalico/calico/blob/v3.32.1/manifests/custom-resources.yaml)相比，这里只保留网络和 API，不同时启用 Goldmane/Whisker 观测组件，避免第一课引入未解释的额外资源。采用 VXLAN 跨子网封装，不能拿 BGP 邻居命令要求所有模式都出现 Established；如更换 PodCIDR，kind 与本文件必须一起修改。
+
+```yaml
+apiVersion: operator.tigera.io/v1
+kind: Installation
+metadata:
+  name: default
+spec:
+  calicoNetwork:
+    ipPools:
+      - name: default-ipv4-ippool
+        blockSize: 26
+        cidr: 192.168.0.0/16
+        encapsulation: VXLANCrossSubnet
+        natOutgoing: Enabled
+        nodeSelector: all()
+---
+apiVersion: operator.tigera.io/v1
+kind: APIServer
+metadata:
+  name: default
+spec: {}
+```
+
 ```bash
 kind create cluster --name calico-lab --config kind-calico.yaml # 节点暂时 NotReady 是正常现象
 kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.32.1/manifests/v1_crd_projectcalico_org.yaml # 先安装 Calico CRD
 kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.32.1/manifests/tigera-operator.yaml # 再安装 operator
-kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.32.1/manifests/custom-resources.yaml # 创建默认 Installation 和 IPPool
+kubectl create -f calico-installation.yaml # 仅创建本课网络与 API 组件
 watch kubectl get tigerastatus # 等 apiserver、calico 等状态 Available=True
 kubectl get nodes -o wide # Calico 就绪后节点应变为 Ready
 ```
@@ -508,6 +534,8 @@ spec:
 ```
 
 应用后，`client` 应重新访问成功。再创建一个不同标签的 Pod，它不应访问 web。
+
+不要只写“另建一个 Pod”而不留下输入：执行 `kubectl -n policy-lab run outsider --image=busybox:1.36 --labels=app=outsider -- sleep 3600`，再 `kubectl -n policy-lab wait --for=condition=Ready pod/outsider --timeout=120s`，最后用同样的三秒 `wget` 从 outsider 请求 web。失败只是入站与出站隔离的综合负例；它不能单独证明某一端规则正确。要分离 DNS 失败与业务失败，分别执行客户端的 `nslookup web` 和对已核对 web Pod IP 的请求，再与成功 client 对照。完成后删除本轮 outsider Pod。
 
 ## 故障实验：selector 写错导致策略不放行
 
@@ -828,6 +856,18 @@ IPPool 的 `disabled` 控制是否继续从池里分配新地址。将旧池禁�
 面试进一步问容量，回答不要停在 Pod 总数。策略更新频率、节点数、每节点端点数、身份标签变化、路由规模和收敛延迟共同决定控制面压力。扩容压测要同时观察首次入网耗时与已有工作负载的转发稳定性，否则新建业务很慢而旧业务正常会被平均指标掩盖。把可观测延迟作为验收项，才能知道修复是在几十秒内传播，还是只修改了管理面对象。
 
 验收还有一个经常遗漏的时间维度：策略已提交、各节点已接收、规则已编程、测试请求已发出，这四个时间点要按顺序记录。若测试发生在规则生效前，失败或成功都不能评价最终配置。面试回答中主动说明取证窗口，并给出停止等待的上限，比声称“网络策略立即生效”更准确。超过上限后保存节点差异，不让自动化无限重试；恢复后补测跨节点反向连接，防止只修通请求方向却漏掉独立反向访问的授权要求。
+
+## 独立通关：安全规则要有成功与拒绝的对照
+
+先独立写预测，再看判据；无专用集群时只做规则和地址推演，实际包路径标未运行。每题提交源/目标、标签、节点、协议端口、时间窗和取证范围，不能只交一张 Running 截图。
+
+1. **基础复现。**在新的专用 kind 集群完成默认拒绝、DNS 放行、双向应用许可。判据：初始成功→隔离失败→DNS 恢复但业务仍受限→精确来源成功，其他来源失败；能指出客户端 egress 与 web ingress 都需允许。清理只删除本课命名空间和集群，先确认 context。
+2. **改变条件。**需求只允许 payment 命名空间且 app=order-client，分别画同一 `from` 项包含两种 selector、拆成两个项的许可集合。判据：前者交集、后者并集；后者可能扩大跨租户访问。把池 disabled 置真则只阻止新地址分配，不把旧 Pod 即时换 IP。
+3. **故障证据。**只把入站来源标签拼错，保留出站与 DNS，记录真实标签、策略、成功对照和失败请求。判据：修复后允许组恢复、禁止组仍失败；若直接 Pod IP 通而 Service 不通，不能继续只猜 DNS 或入站标签，应查 Service 数据面。
+4. **设计取舍。**一百节点 full mesh 与双路由反射器比较什么？判据：前者 4950 对控制邻接，后者减少邻居而非集中承载所有业务包；Typha 解决状态分发，不等于路由反射器。补地址余量、MTU、独立故障域、受控全局策略与升级新旧连接矩阵，不能把本课 kind 跨节点流量当物理网络性能认证。
+5. **口述追问。**30 秒讲 CNI/IPAM/Felix 分工，三分钟从一个跨节点包讲路由、封装、策略与回程。追问“SSH 通为何 VXLAN 不通”“BGP Established 为何业务不通”“默认拒绝为何 DNS 也断”。判据：协议路径不同、邻居不证明前缀与数据转发、DNS 属于出站请求；AIOps 先整理路径和变更证据，不自动删全局策略。
+
+若只有一个失败流，回“用四个请求验收一条规则”补对照；若混淆池配置与实际地址，回“地址迁移课堂”；若把控制组件当每包代理，回“一个包怎样跨节点”重新画图。五项均通过才可记录本次独立训练通过，不能由阅读完成自动授予。
 
 ## 学习证据
 

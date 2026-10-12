@@ -394,6 +394,8 @@ symsnapvx -sid <SID> list                        # 查看 SnapVX 关系
 
 ### 创建 `vmax-health.csv`
 
+首次操作参考[实验起步说明](../experiment-start.md)。用编辑器在自己的 `vmax-lab` 保存本节CSV与下一节完整Python文件为UTF-8；终端进入该目录再运行。这里不安装SYMCLI、不连接阵列，`Synchronized`只是合成样例状态，不代表覆盖所有SRDF模式。
+
 ```csv
 storage_group,service,srp_used_pct,response_ms,expected_paths,online_paths,srdf_state
 sg_order_db,order-db,62,1.8,4,4,Synchronized
@@ -406,10 +408,14 @@ sg_batch,batch,55,4.5,2,2,NotConfigured
 ```python
 import csv
 import sys
+import math
 
 problems = []
 expected_groups = {"sg_order_db", "sg_payment_db", "sg_batch"}
 seen_groups = set()
+policy = {"sg_order_db": ("order-db", 4, True),
+          "sg_payment_db": ("payment-db", 4, True),
+          "sg_batch": ("batch", 2, False)}
 
 with open("vmax-health.csv", encoding="utf-8", newline="") as file:
     for row in csv.DictReader(file):
@@ -417,16 +423,25 @@ with open("vmax-health.csv", encoding="utf-8", newline="") as file:
         if group in seen_groups or group not in expected_groups:
             raise ValueError("重复或未知的课堂存储组")
         seen_groups.add(group)
-        if float(row["srp_used_pct"]) >= 85:
+        service, expected_paths, needs_srdf = policy[group]
+        used = float(row["srp_used_pct"])
+        response = float(row["response_ms"])
+        online = int(row["online_paths"])
+        if not math.isfinite(used) or not 0 <= used <= 100 or not math.isfinite(response) or response < 0:
+            raise ValueError("容量/响应必须为有效范围内有限数值")
+        if row["service"] != service or int(row["expected_paths"]) != expected_paths or not 0 <= online <= expected_paths:
+            raise ValueError("业务/路径期望与台账不一致，禁止通过改小期望值报绿")
+        if used >= 85:
             problems.append(f'{row["storage_group"]}: SRP used >= 85%')
-        if float(row["response_ms"]) >= 10:
+        if response >= 10:
             problems.append(f'{row["storage_group"]}: response >= 10 ms')
-        if int(row["online_paths"]) < int(row["expected_paths"]):
+        if online < expected_paths:
             problems.append(
                 f'{row["storage_group"]}: paths '
                 f'{row["online_paths"]}/{row["expected_paths"]}'
             )
-        if row["srdf_state"] not in {"Synchronized", "NotConfigured"}:
+        allowed_state = "Synchronized" if needs_srdf else "NotConfigured"
+        if row["srdf_state"] != allowed_state:
             problems.append(
                 f'{row["storage_group"]}: SRDF state={row["srdf_state"]}'
             )
@@ -476,6 +491,7 @@ sg_payment_db: SRDF state=SyncInProg
 ```powershell
 Copy-Item .\vmax-health.backup.csv .\vmax-health.csv -Force
 python .\check_vmax.py
+if ($LASTEXITCODE -ne 0) { throw '恢复验收未通过，保留备份' }
 Remove-Item .\vmax-health.backup.csv
 ```
 
@@ -640,7 +656,9 @@ SRDF/S 的远端参与同步确认，因此网络 RTT，也就是一次往返时
 
 SnapVX 的时间点、关联目标和完整复制是三个不同对象或状态。时间点描述某一时刻的数据视图；关联目标使主机可以访问那个视图；复制模式决定是否把相应数据复制到目标的分配空间。不能看到测试主机读到了文件，就推断后台完整复制已经完成，也不能把快照名称当作目标设备号。
 
-VMAX All Flash 产品指南区分 Nocopy 与 Copy 关联。前者借助快照关系提供时间点视图，目标可写；后者把有关数据复制到目标，进度与完成仍需观察。Nocopy 目标取消关联后也能够保留数据视图，因此“取消关联就一定没有数据”是错误理解；同样不应从取消关联推断所有容量依赖已经释放。按[该代际产品指南](https://www.delltechnologies.com/asset/it-it/products/storage/technical-support/docu67503.pdf)理解关系，再核对现场代码，不能把后续 PowerMax 重构后的实现细节直接套回来。
+VMAX All Flash 产品指南区分 Nocopy 与 Copy 关联。前者借助快照关系提供时间点视图，目标可写；后者把有关数据复制到目标，进度与完成仍需观察。满足受支持前提的 Nocopy 目标取消关联后也能够保留数据视图，因此“取消关联就一定没有数据”是错误理解；同样不应从取消关联推断所有容量依赖已经释放。按[该代际产品指南](https://www.delltechnologies.com/asset/it-it/products/storage/technical-support/docu67503.pdf)理解关系，再核对现场代码，不能把后续 PowerMax 重构后的实现细节直接套回来。
+
+这里必须补上版本与状态门槛：[Dell 的 Nocopy 目标行为附录](https://infohub.delltechnologies.com/en-us/l/dell-emc-powermax-and-vmax-all-flash-timefinder-snapvx-local-replication-1/appendix-d-nocopy-linked-target-behavior-before-hypermax-os-5977-810-184/1/)说明，HYPERMAX OS `5977.810.184` 及以后认可这种取消关联后可访问行为，而且目标在取消关联之前必须已经 fully defined（后台定义完成）；更早版本不能据此保证取消关联后的数据有效性。“定义完成”是建立目标与数据分配关系的状态，不等于把全部后端数据物理复制一遍。主机当前能读出文件，也不证明后台定义已经完成。实际操作前按确切代码版本核对目标状态及受支持的 unlink（取消关联）前提，未通过就停止并联系厂商，不强制跳过门禁。
 
 教师给出源卷、上午快照、下午快照、测试目标四个标签。基础步骤把测试目标关联上午快照，记录预期看见上午的数据。故障步骤仅把目标重新关联到下午快照，问为什么昨天保存的测试校验值不再匹配。正确答案先核对快照代次与关联操作，不立刻判断介质损坏。恢复步骤按批准关系重新准备测试目标并复验，清理只删除纸面关系，不执行真实 relink 或 restore。
 
@@ -682,7 +700,7 @@ D@RE 的目标是保护静态介质上的数据，不是禁止被合法映射的
 
 基础 CSV 的 `NotConfigured` 只对不要求远程保护的课堂批处理组通过。真正的检查器应额外读取业务保护策略：要求 SRDF 的组缺少复制就是风险，允许恢复中的组要根据维护窗口与积压趋势判断。不能把固定几个状态字符串当成所有模式的健康规范，尤其不能把同步模式规则套到异步与 Metro。
 
-本课新增覆盖检查防止空 CSV 或缺组被报成健康，但它仍不是完整生产解析器。下一步独立练习包括非法数值、重复组、过期采样、缺少阵列编号和预期组变化，分别输出采集错误或策略违规。修复回归先恢复原 CSV，确认所有样例组存在、零退出码，再删除本轮备份。仅完成基础课也应记录实际检查范围，不写“所有阵列健康”。
+本课检查了对象覆盖、重复组、有限数值、业务归属、预期路径数和复制策略，防止把缺组、非法输入或被改小的路径基线当成健康，但它仍不是完整生产解析器。下一步需要增加采样时间及新鲜度、阵列唯一编号、授权的策略版本和策略变更审批；当前样本不含这些信息，不能据此判断实时阵列健康。修复回归先恢复原 CSV，确认所有样例组存在、零退出码，再删除本轮备份。仅完成基础课也应记录实际检查范围，不写“所有阵列健康”。
 
 采购与升级验收清单应保存具体型号、系统代码、管理软件、授权功能、主机兼容矩阵和厂商支持承诺。性能、无中断维护与复制组合是有条件的产品能力，不是只要购买某个型号就自动实现。离线练习结束可以保留脚本和合成数据作为学习证据；如要清理，先确认独立目录，只删除本轮明确文件及空目录。本轮未连接阵列、创建快照、修改密钥或执行复制切换。
 
@@ -695,6 +713,16 @@ D@RE 的目标是保护静态介质上的数据，不是禁止被合法映射的
 当前对本文 Python 样例实际验证了四种内存输入：正常、容量及复制故障、空表、重复组。退出码分别符合零、二、一、一的预期；空表和重复组不会输出健康。没有写入本地实验文件，也没有调用 SYMCLI。这项测试只证明课堂规则与覆盖检查的分支，不证明真实阵列指标语义、文件导出格式或灾备切换能力，后续现场验收仍须补充这些证据。
 
 若管理查询超时但业务仍可读写，先区分管理通道与数据通道，再检查管理主机和阵列状态。管理入口故障不能单独证明业务卷失效，也不能因此执行复制切换。
+
+## 独立通关：供给、性能与恢复分别签收
+
+自己完成下列任务并留输入、预测和证据，再核对；不合格先返工。
+
+1. **基础复现**：三组正常退出0，支付组89/14.6/4/2/SyncInProg触发四项告警退出2，恢复0。解释SRP使用是池指标，多个SG引用同一池时不能把百分比或已用量相加；这张CSV没有提供真实阵列SID和池身份。
+2. **改变条件预测**：容量85或响应10都命中当前严重线；订单NotConfigured应告警，即使其他值正常，批处理NotConfigured才符合课堂策略。支付期望路径偷偷由4改2应输入失败，不是修复。NaN不能因比较为假绕过阈值。
+3. **故障证据**：NaN容量、负延迟、在线路径大于期望、错业务名、空表/重复组分别应异常非零（输入错误退出1）；容量或复制策略违规退出2。真实呈现错误先阻止未知卷写入，按SID/TDEV/WWPN/MV核对，不格式化试探；保存被影响主机列表及恢复验证。
+4. **设计取舍**：10 TiB余量留2 TiB安全线，净增长200 GiB/天，约40.96天触线；采购45天已经来不及只靠等待。主站120、远端一致点110、最多可丢5笔时差10笔不合格；远端已写到130后，旧R1上线也不自动权威。给出当前写方、停写/日志补齐、批准损失与同步方向的决策，不靠swap命令猜。
+5. **口述追问**：三分钟从IG/PG/SG/MV讲到TDEV/SRP、缓存确认、SnapVX、SRDF。继续回答“同PG四端口为何仍可能单故障域”“SLO为何不是绝对延迟保证”“可读快照目标为何不等于独立备份”“D@RE为何不防错误映射主机”“扩卷失败为何不能默认缩卷回退”。答案包含层级负责人、停止条件和数据一致性验证。
 
 ## 学习证据
 

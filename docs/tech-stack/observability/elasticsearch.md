@@ -357,7 +357,7 @@ Elasticsearch 常用于日志搜索、事件检索、告警上下文查询和历
 与 Loki 相比：
 
 - Elasticsearch 更擅长复杂字段检索和全文搜索。
-- Loki 更强调低成本标签化日志和 Grafana/Prometheus 风格查询。
+- Loki 主要按日志流标签组织检索，查询语言与 Grafana/Prometheus 生态衔接；它是否更省钱，要用相同日志量、保留期、标签基数和查询负载实测，不能把产品名字当成本结论。
 
 选型不是谁替代谁，而是看查询模式、成本、团队经验和生态。
 
@@ -632,6 +632,8 @@ curl -s "http://localhost:9200/logs-aiops/_mapping?pretty"
 ```
 
 适合 text 全文搜索。
+
+注意，这个 `match` 示例默认不是“必须出现完整的 payment timeout 短语”。它先分析查询文字，再按查询选项组合词项；默认的词项组合允许任一词匹配。若你的验收问题是“两个词都出现”，可在 `match.message` 对象中设置 `query` 和 `operator: "and"`；若要求词序及相邻关系，另学习 `match_phrase`。先写清业务问题再选查询，否则只含 `payment` 的普通日志也可能被你当成支付超时。用 `_analyze` 查看词项，再用三条不同消息做反例，不能只凭一条命中推断查询语义。[官方 match 查询](https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-match-query)。
 
 ```json
 {
@@ -999,16 +1001,19 @@ Aggregations 做统计分析。
 
 按 service 统计错误：
 
+本例错误分子定义为窗口内 `level` 精确等于 `error` 的日志；缺失 `level` 或其他级别不计入分子。没有这条过滤条件时只能称为日志总量，不能冒充错误量或错误率。
+
 ```bash
 curl -X GET "http://localhost:9200/logs-aiops/_search" \
   -H "Content-Type: application/json" \
   -d '{
     "size": 0,
     "query": {
-      "range": {
-        "@timestamp": {
-          "gte": "now-15m"
-        }
+      "bool": {
+        "filter": [
+          { "range": { "@timestamp": { "gte": "now-15m" } } },
+          { "term": { "level": "error" } }
+        ]
       }
     },
     "aggs": {
@@ -1188,9 +1193,11 @@ try {
   Invoke-RestMethod -Method Put -Uri "$esClass/teacher-logs/_doc/two" `
     -ContentType 'application/json' -Body $badSample -ErrorAction Stop
 } catch {
+  if ($_.Exception.Response) { [int]$_.Exception.Response.StatusCode }
   $_.Exception.Message
   $_.ErrorDetails.Message
 }
+Invoke-RestMethod "$esClass/teacher-logs/_count"
 Invoke-RestMethod "$esClass/teacher-logs/_mapping"
 Invoke-RestMethod "$esClass/_cluster/health"
 $fixedSample = '{"service":"checkout-api","message":"fixed duration","duration_ms":800}'
@@ -1199,7 +1206,7 @@ Invoke-RestMethod -Method Put -Uri "$esClass/teacher-logs/_doc/two?refresh=wait_
 Invoke-RestMethod "$esClass/teacher-logs/_count"
 ```
 
-预期故障请求失败，集群仍可响应，修复后计数为二。因果链是“字段契约不符导致单项写入失败”，不是“集群颜色不好导致超时”。证据来自失败正文、实际映射、健康响应和修复后计数四个独立观察。若第二次仍失败，检查字段名称、类型以及是否确实向这个实验索引写入；不要通过删索引逃过原因分析。
+预期故障请求返回字段解析类客户端错误（本例应为 HTTP 400），失败后计数仍为一，集群仍可响应，修复后计数为二。第一条已使用 `refresh=wait_for`，因此这里可用搜索计数检查故障前后；如果你另加了未等待刷新的文档，就应先明确可见性再比较。因果链是“字段契约不符导致单项写入失败”，不是“集群颜色不好导致超时”。证据来自失败状态与正文、实际映射、健康响应和修复前后计数。若第二次仍失败，检查字段名称、类型以及是否确实向这个实验索引写入；不要通过删索引逃过原因分析。
 
 完成后先保存两次请求与解释，再停止并删除本课堂容器。这里没有挂载命名数据卷，删除后课堂索引随容器可写层消失；不清理其他容器、镜像或磁盘目录。保留数据就只停止，不执行删除。
 
@@ -1408,7 +1415,7 @@ curl -X GET "http://localhost:9200/_cluster/allocation/explain?pretty"
 | mapping conflict | 写入错误 | 同字段多类型 | 规范 schema，建 template |
 | 写入慢 | thread pool、refresh、bulk | 单条写入多、refresh 太频繁、磁盘慢 | bulk、调 refresh、看节点 |
 | 查询慢 | query、shard、heap | 时间范围大、正则重、高基数聚合 | 限范围，优化 query |
-| 磁盘满 | `_cat/allocation` | 索引无限增长、ILM 缺失 | ILM、删除、扩容 |
+| 磁盘满 | `_cat/allocation`、实际索引保留策略 | 索引无限增长、ILM 缺失或故障恢复临时占用 | 先确认写入阻断与保留责任，再扩容或按获批策略清理；删除前验证快照可恢复，不能凭名称猜可删 |
 | shard 太多 | `_cat/shards` | 小索引过多 | rollover 策略、合并索引 |
 
 ## 排障流程：cluster yellow
@@ -1530,6 +1537,8 @@ curl -X GET "http://localhost:9200/logs-aiops/_search?pretty" \
 - 看 shard 数和数据量。
 
 ## AIOps 自动化诊断脚本
+
+将下面完整内容保存为 `diagnose-es.sh`，在 Linux/WSL 的 Bash 中运行 `bash diagnose-es.sh http://127.0.0.1:9200 teacher-logs`。前提是本课堂实例仍运行、该索引尚未清理，且此 Bash 能访问同一主机的 9200 端口；不要粘到 PowerShell。跨主机部署需要重新核对地址与认证，不开放本课堂未启用认证的端口。
 
 ```bash
 #!/usr/bin/env bash
@@ -1696,6 +1705,40 @@ Elasticsearch 是近实时搜索，写入后要等 refresh。实验可以手动 
 ### 事故题：发布后错误率下降，为什么反而需要警惕
 
 给定时间线：发布前有稳定错误日志，发布后新增结构化对象字段，采集队列持续增长，仪表盘错误率下降。参考推理是先比较成功写入与逐项失败，核对字段合同是否从字符串变成对象；再判断错误日志是不是被拒绝，而非业务真的恢复。修复选择回退生产者字段或按兼容方案建立新索引，隔离并重放确有失败的记录，限制重放速度，保留撤销条件。最后对故障窗口重新核对计数，让自动摘要明确这段数据曾不完整。
+
+## 独立通关：搜到了，是否真的回答了业务问题
+
+先合上对应答案，只在自己的 `aiops-es-class` 课堂容器操作。本文真实产品步骤尚未在本轮执行；若无 Elasticsearch 环境，请提交明确标注“纸面推演”的请求和预测，不能声称已验证真实索引行为。
+
+### 任务一：换输入，证明全文条件与字段合同
+
+在原基础实验的 `teacher-logs` 中，以新标识 `three`、`four`、`five` 写入三条记录。沿用 `$sample` 的字段结构，将消息分别设为 `Payment completed`、`Gateway Timeout`、`Payment Timeout`，服务统一为 `inventory-api`，耗时分别为 10、20、30；每条写入都等刷新。先写预测，再提交三个查询：默认 `match` 搜 `payment timeout`；将该查询改成 `operator: "and"`；最后用 `match_phrase` 搜同一串词。保留完整请求和每次命中的标识，不用总数掩盖多余命中。
+
+判据：限定这个服务后，默认组合应命中三条；两个词都必须出现与短语查询在这组输入上都只命中 `five`。原文大小写仍在，分析器决定检索词项。进一步把最后一条消息改成 `Payment request Timeout`，两个词条件仍可满足，默认短语条件却不满足，这个反例才区分“都有”与“相邻”。答错回看“text 和 keyword”“Analyzer 和倒排索引”，并核对实际映射，不能假定所有分析器都有相同结果。
+
+### 任务二：改变成功点，先预测可见性
+
+纸面推演一个索引暂时设为 `refresh_interval: -1`，向确定的新标识写入一条文档且不请求等待刷新。问：写入响应成功、按标识读取成功、搜索不到，这三件事能否同时发生？若用 `refresh=wait_for` 等待但没有刷新触发，会发生什么风险？不要求新手在服务上关闭刷新。
+
+判据：区分写入确认、实时按标识读取和搜索可见性；搜索可能尚未可见，等待刷新不是“强制刷新”的同义词，也不能被当作无上限等待方案。实际结果若反常，先找其他刷新触发和请求选项。答错回看“再走一遍写入路径：为什么有几个不同的成功点”，不要把刷新与磁盘持久性混为一谈。[官方刷新参数](https://www.elastic.co/docs/reference/elasticsearch/rest-apis/refresh-parameter)。
+
+### 任务三：不要被绿色健康骗过
+
+只对新标识 `bad-independent` 写入 `duration_ms: "slow"`，预先记录当前计数。要求提出“连接失败”和“字段合同错误”两个假设，保存失败状态、响应正文、实际映射以及前后计数；按同一标识修正为数值 900，再等刷新、复查计数和文档。实验完成后不要继续保留坏请求循环。
+
+判据：健康响应不能推翻字段写入失败；HTTP 400 及具体字段解析错误支持合同假设，成功的健康读取反驳“服务完全不可达”。失败计数不增加、修复后仅增加一条，才能证明故障被收回；如果原标识已存在或计数未刷新，先纠正实验前提。答错回看“故障实验：字段类型错误，不是服务宕机”。
+
+### 任务四：给容量方案写明不会承诺什么
+
+纸面设计：已测得主分片数据每天增长 200 GB，保留 30 天，每主分片一份副本，计划保持 25% 空闲。算最低可用总容量，并比较增加副本与独立快照两种保护：它们分别对节点故障、误删和整站故障解决什么？再说明升级前为什么要做隔离恢复。
+
+判据：仅按这些条件是 `200 × 30 × 2 ÷ 0.75 = 16000 GB`，尚未算恢复临时空间、合并、增长和故障域损失，不能直接当采购承诺。副本不是历史备份，快照也不是实时查询副本；恢复时长必须测试。不能以“关闭副本变绿”作为生产容量修复。答错回看“容量设计：不要只问有多少 GB”“生产设计题：每日两百 GB 日志，保留一个月”。
+
+### 任务五：口述三个不同的“不完整”
+
+用 30 秒说明 Elasticsearch 在 AIOps 中保存什么证据，再用三分钟讲写入到查询路径。追问：Bulk 外层 HTTP 200 但一项失败；搜索 HTTP 200 但部分分片失败；`terms` 聚合只返回前几个桶。这三份响应可以直接拿去算全量错误率吗？
+
+判据：逐项检查 Bulk 的 `errors/items`、查询的分片成功失败及超时、聚合的桶截断和误差信息，并明确失败重试的幂等标识与数据覆盖范围。三者不是一个错误，也不能由集群绿色排除。最后应说出证据不足时停止自动结论、隔离失败数据并补齐，而不是让模型编一个根因。答错回看“Bulk 批量写入：整车到了，不代表每个包裹都签收”“分散执行、集中合并为什么影响统计答案”。
 
 ## 学习证据
 

@@ -57,7 +57,7 @@
 | 层 | 本次上游快照 | Kubernetes 1.36 的实际边界 |
 |---|---|---|
 | Kubernetes | `1.36.3` | 维护线为 1.36、1.35、1.34，控制面与节点要遵守版本偏差策略 |
-| containerd | `2.3.4` | Kubernetes 1.36 不再支持 containerd 1.x；发行版验证组合优先 |
+| containerd | `2.3.4` | 检查 CRI v1、`RuntimeConfig` 能力、cgroup 驱动与发行版验证组合；不能仅凭 1.x/2.x 主版本判定兼容性 |
 | etcd | 上游 `3.7.1` | kubeadm 1.36.3 固定 `3.6.8-0`，不能直接把内置 etcd 换成上游 latest |
 | CoreDNS | 上游 `1.14.6` | kubeadm 1.36.3 固定 `1.14.2`，Addon 跟随发行版验证组合 |
 | CNI 规范 | `1.3.0` | 规范版本、reference plugins、Calico/Cilium 产品版本是三件事 |
@@ -67,12 +67,14 @@
 几个必须在升级计划里显式处理的退役项：
 
 - Kubernetes 1.36 永久禁用了 `gitRepo` volume；改用 init container、CSI 或经过安全评审的同步 sidecar。
-- cgroup v1 已不再是 1.36 的正常支持路径，节点升级前先迁移 cgroup v2。
+- cgroup v1 自 1.35 弃用；1.36 的 kubelet 默认拒绝在 cgroup v1 节点启动，但管理员仍可通过 `failCgroupV1: false` 关闭这项拒绝检查。这是迁移过渡开关，不是长期支持承诺；节点升级前应验证 cgroup v2、运行时和监控代理的配套兼容性，不把“默认拒绝”写成代码已完全移除。[1.36 cgroup 说明](https://github.com/kubernetes/website/blob/release-1.36/content/en/docs/concepts/architecture/cgroups.md#deprecation-of-cgroup-v1)
 - kube-proxy 的 IPVS 模式已在 1.35 弃用；nftables 自 1.33 稳定，但切换前仍要检查内核、`nft`、源 IP 和会话行为。
 - Service `.spec.externalIPs` 在 1.36 弃用，新设计优先使用受控 LoadBalancer、Gateway 或平台网络方案。
 - 社区 `kubernetes/ingress-nginx` 已于 2026-03-24 退役；Ingress API 仍是 GA 但功能冻结，新入口应评估 Gateway API。
 
 ### Kubernetes 生态不是一组可以同时改成 latest 的镜像
+
+2026-10-12 复核 [1.36 运行时官方说明](https://github.com/kubernetes/website/blob/release-1.36/content/en/docs/setup/production-environment/container-runtimes.md#systemd-cgroup-driver)：containerd 1.y 不提供 `RuntimeConfig`（查询运行时配置的 CRI 调用），kubelet 当前仍可回退使用自身的 cgroup 驱动设置；文档计划在 1.38 移除这一回退。因此不能宣称“1.36 全面不支持 containerd 1.x”，也不能反过来保证任意 1.x 都受支持。先查目标发行版维护周期、CRI v1 与 CRI 插件是否启用、驱动是否匹配，再对将来目标版本复核；滚动开发文档中的计划可能调整，不是已发布版本的运行验收。
 
 一次 Pod 从提交到真正可服务，会经过下面这条链：
 
@@ -337,6 +339,8 @@ Kubernetes 解决的是：
 很多容器跨多台机器怎么调度、扩缩容、滚动发布、服务发现、恢复和治理
 ```
 ## 核心思想：期望状态和控制循环
+
+先约定阅读方式：本篇概念段的 YAML 片段用于认识字段，不一定包含完整资源；命令中的 `aiops`、`prod`、`node-1` 也只是解释对象。不要边读边对当前单位集群执行。真正从零开始请跳到“AIOps 入门实验”，先建独占本机环境，再运行那一节完整文件；后续节点打标签、污点、drain 和升级都属于另行授权操作。
 
 Kubernetes 的灵魂不是 Pod，也不是 YAML，而是控制循环。
 
@@ -2060,9 +2064,26 @@ curl http://127.0.0.1:8080/
 
 目标：部署一个最小 Web 服务，观察 Deployment、ReplicaSet、Pod、Service、rollout、日志、事件和 Service 访问。
 
-前置条件：只用可丢弃的实验集群，具备创建独立 Namespace 的权限，节点为 Ready，能拉取示例镜像。尚无集群时按 [kind 官方快速开始](https://kind.sigs.k8s.io/docs/user/quick-start/) 安装与本机系统匹配的 kind 和 Docker，再执行 `kind create cluster --name teaching-k8s --wait 120s`。它使用当前 kind 自带的匹配节点镜像，不声称自动等于本文历史版本快照。先用 `kubectl config current-context` 确认 `kind-teaching-k8s`，再用 `kubectl get nodes` 验证就绪；已有授权测试集群可跳过创建。没有通过这两项，不进入下一步。
+前置条件：本段统一使用 Linux Bash 或 Windows WSL Bash，不把 `\` 续行复制到 PowerShell。按 [kind 官方快速开始](https://kind.sigs.k8s.io/docs/user/quick-start/)准备本机 Linux 容器引擎和 kind，按 [kubectl 安装](https://kubernetes.io/docs/tasks/tools/)准备客户端。`docker version` 必须同时显示 Client/Server，`docker context show` 必须是确认过的本机引擎。仅用可丢弃集群，节点为 Ready，能拉取示例镜像；kind 默认单节点不能证明跨节点、跨 AZ 或 HA。
 
-创建前先执行 `kind get clusters`、`kubectl config current-context` 和 `kubectl get namespace aiops-lab --ignore-not-found`。若准备新建的集群名称已经存在，或命名空间查询返回任何现有对象，就停止，不接管它们；查询因网络、凭据或权限失败也不能当作“不存在”。只有本轮独占、创建成功的资源才能进入后续故障与清理步骤。
+下面先检查，再创建，顺序不能反过来。另开一个仅用于本课的 Bash 终端，在自己的学习目录运行：
+
+```bash
+mkdir teaching-k8s-course || exit 1
+cd teaching-k8s-course || exit 1
+existing_clusters="$(kind get clusters)" || exit 1
+if printf '%s\n' "$existing_clusters" | grep -Fxq teaching-k8s; then
+  printf '%s\n' '同名集群已存在；停止，不接管' >&2
+  exit 1
+fi
+kind create cluster --name teaching-k8s --kubeconfig "$PWD/lab.kubeconfig" --wait 120s || exit 1
+export KUBECONFIG="$PWD/lab.kubeconfig"
+test "$(kubectl config current-context)" = kind-teaching-k8s || exit 1
+kubectl wait --for=condition=Ready nodes --all --timeout=120s || exit 1
+kubectl get namespace aiops-lab --ignore-not-found || exit 1
+```
+
+最后一次查询应没有任何对象输出；若有对象停止。独立 kubeconfig 只在这个终端生效，不覆盖默认文件；后续沿用同一终端，不能换到单位集群上下文。kind 使用其匹配节点镜像，不声称等于历史版本快照。已有授权测试集群的读者应另行保存集群身份与权限，不照搬本段创建/销毁命令。每条普通命令失败就停止；故障步骤中的预期失败另行解释。
 
 ### 1. 创建 namespace
 
@@ -2132,7 +2153,7 @@ spec:
 ```bash
 kubectl apply -f aiops-lab.yaml
 kubectl get deploy,rs,pod,svc -n aiops-lab -o wide
-kubectl rollout status deployment/aiops-web -n aiops-lab
+kubectl rollout status deployment/aiops-web -n aiops-lab --timeout=120s
 ```
 
 记录：
@@ -2149,7 +2170,7 @@ Service ClusterIP（服务虚拟地址）:
 
 ```bash
 kubectl run curl-test -n aiops-lab --rm -it --image=curlimages/curl:8.10.1 --restart=Never -- \
-  curl -v http://aiops-web/
+  curl -f -v --connect-timeout 3 --max-time 5 http://aiops-web/
 ```
 
 观察：
@@ -2160,7 +2181,7 @@ kubectl run curl-test -n aiops-lab --rm -it --image=curlimages/curl:8.10.1 --res
 
 ### 5. 制造镜像错误
 
-改成不存在的镜像：
+先复制 `aiops-lab.yaml` 为 `aiops-lab.good.yaml` 作为声明回退点，再只修改容器 image。这里 `nginx:not-exist` 是故意的错误 tag；以实际仓库错误为准，不把所有拉取失败都归因为 tag：
 
 ```yaml
 image: nginx:not-exist
@@ -2188,6 +2209,8 @@ ErrImagePull
 kubectl apply -f aiops-lab.yaml
 kubectl rollout status deployment/aiops-web -n aiops-lab
 ```
+
+恢复后还要重跑第 4 步，证明同一 Service 请求成功，再进入下一项。`rollout status` 只检查发布状态，不验证 Service。若镜像实验中旧副本仍提供 HTTP，这是默认滚动策略保留可用副本的结果，不是故障没有发生。
 
 ### 6. 制造 Service selector 错误
 
@@ -2371,7 +2394,7 @@ kubectl get events -n aiops --sort-by=.lastTimestamp > events-before-rollback.tx
 
 ## AIOps 自动化诊断脚本
 
-下面脚本按 namespace 和 app label 收集第一现场。
+下面是课堂用的只读采集骨架，按 namespace 和 app label 收集第一现场。它使用 `|| true` 让某项失败后仍尝试后续项目，因此脚本退出为零不表示每项采集成功；空输出可能是不存在，也可能是权限不足、连接失败、日志缺失或采集不完整，不能据此直接生成“对象不存在”的根因结论。生产改造必须逐项记录开始/结束时间、原始退出码、标准输出与错误输出、权限和完整性状态；把失败项标为“未知”，并设置请求超时与采集预算。日志、环境变量和对象描述可能含口令、令牌或个人数据；先按授权范围脱敏，Secret 与原始敏感日志不得直接发送给模型。
 
 ```bash
 #!/usr/bin/env bash
@@ -3052,7 +3075,8 @@ kubectl get configmap guarded -n finalizer-lab -o yaml # 观察 deletionTimestam
 
 ```bash
 kubectl patch configmap guarded -n finalizer-lab --type=merge -p '{"metadata":{"finalizers":[]}}' # 仅在实验中移除 finalizer
-kubectl get configmap guarded -n finalizer-lab # 预期 NotFound
+kubectl wait --for=delete configmap/guarded -n finalizer-lab --timeout=30s # 等待真正删除，失败停止
+kubectl get configmap guarded -n finalizer-lab --ignore-not-found # 预期无对象；API/权限错误不等于删除成功
 kubectl delete namespace finalizer-lab # 清理实验 Namespace
 ```
 
@@ -3430,6 +3454,16 @@ readiness 决定是否接流量；liveness 决定是否重启容器。readiness 
 44. APF 解决什么问题，遇到 429 怎样排查？
 45. 怎样设计一个跨三个可用区的生产 Kubernetes 集群？
 
+## 独立通关：从控制循环一直解释到真实请求
+
+1. **基础复现**：从空学习目录建专用集群和 kubeconfig，不看步骤交付两副本 Web、Service、就绪 EndpointSlice 与集群内客户端 200，画 ownerReference 的 Deployment→ReplicaSet→Pod。判据是同一上下文的 UID、端口、就绪和请求证据完整；本机 port-forward 200 不能代替 Service 数据面验证。
+2. **改变条件预测**：只把 replicas 从 2 改到 3，是否新建 ReplicaSet？再只修改 Pod template 的一个标签，是否触发新模板版本？先预测再观察 ownerReferences 与 revision。正确方向是副本数变化不产生新模板，模板变化触发新 rollout；标签还需保持不可变 selector 被满足。进阶把 readiness 路径改错，预测可能 Running 但不 Ready、端点 ready 为 false，不能断言必然删除地址或重启容器。
+3. **故障证据**：分别完成错镜像和错 Service selector，每轮先恢复并重验再做下一轮。第一轮沿 ReplicaSet/Pod 事件，第二轮沿标签/端点/请求，记录不同失败层。再用测试 ConfigMap 观察 deletionTimestamp 与 finalizer，解释为什么仅本课可手动移除它。判据是明确恢复证据及外部资源边界；生产强删 finalizer 不是答案。
+4. **设计取舍**：三节点各 4 CPU，应用 requests 9 CPU，解释损失一台只剩 8 CPU 为什么不能承诺 N+1。再将六副本跨三区，讨论 PDB、HPA、节点扩容、PVC 拓扑、系统预留及升级 surge 如何共同影响可用性。判据是比较故障后的可分配容量，并承认 PDB 不约束 Deployment 自身滚动更新或节点断电。
+5. **口述追问**：API 写成功但响应丢失怎样判断？Informer 缓存落后时能否靠每个事件只处理一次保证正确？恢复旧模板能否撤销数据库迁移？答案须依次给对象 GET/UID 与幂等、状态驱动 reconcile/并发冲突、代码与数据分离的恢复门。最后解释 Secret 禁读但可任意挂载 Pod 的越权路径，并给负向测试设计。只背组件顺序不通过。
+
+每项附“事实、预期、实际、未验证范围、返工章节”。没有多节点、CSI、HA、升级与 etcd 恢复环境时，保留设计题答案但实跑项仍为未完成；读完文章不是掌握证明。
+
 ## 学习证据
 
 完成本篇后，建议留下这些证据：
@@ -3453,4 +3487,4 @@ readiness 决定是否接流量；liveness 决定是否重启容器。readiness 
 
 ## 本次验证边界
 
-本文按 Kubernetes 1.36.3 和 2026-08-14 的官方生态边界完成静态更新，当前电脑只确认了 `kubectl` 客户端版本，没有创建或升级 1.36 集群，也没有实跑 containerd 2.x、CNI/CSI/CoreDNS、Gateway API、etcd 恢复、节点驱逐或故障注入。托管集群、具体 Linux 内核、云厂商 CSI/CNI 和版本跳跃规则必须以目标平台支持矩阵及预生产演练为准；文章中的“预期结果”不能冒充本次真实运行结果。
+本文保留 Kubernetes 1.36.3 和 2026-08-14 的官方生态快照；2026-10-12 另外复核并修正了运行时 `RuntimeConfig` 回退和 cgroup v1 退役边界。当前电脑只确认了 `kubectl` 客户端版本，没有创建或升级 1.36 集群，也没有实跑 containerd 2.x、CNI/CSI/CoreDNS、Gateway API、etcd 恢复、节点驱逐或故障注入。托管集群、具体 Linux 内核、云厂商 CSI/CNI 和版本跳跃规则必须以目标平台支持矩阵及预生产演练为准；文章中的“预期结果”不能冒充本次真实运行结果。

@@ -107,6 +107,10 @@ Git push / Merge Request（推送或合并请求）
 
 企业环境通常由平台团队部署 GitLab，项目使用者先验证仓库与 Runner。Runner 的安装方式应按官方文档和操作系统选择。
 
+本课不要求小白安装整套 GitLab 服务端。先在自己的 GitLab.com 账号或已授权测试实例，通过网页 New project 创建空白学习项目，并勾选初始化 README；确认实例版本、个人创建/运行 CI 与下载制品权限、计算额度。打开项目 Settings → CI/CD → Runners，确认存在项目可用、未暂停、允许当前分支和任务标签的 Linux Docker/Kubernetes 执行器。找不到可用 Runner 就停在配置学习，不改公司共享 Runner 的保护规则来绕过。后文双层实验可全程用网页编辑，不需要本机 Docker 或 gitlab-runner。
+
+下面是已安装 Git 的项目用户、以及已安装 Runner 的管理员分别使用的只读检查，不是要在同一台电脑一次跑完。Windows Git 可从 [官方安装入口](https://git-scm.com/install/windows) 安装；本机目录必须已经是自己项目的克隆。`gitlab-runner verify` 只验证注册项能否连接 GitLab，不证明 Runner 服务正在领取/执行作业；最终要靠本次测试 Job 验证。
+
 ```powershell
 git remote -v # 确认代码指向预期 GitLab 项目
 git ls-remote origin # 验证 Git 协议、DNS 和权限，正常会返回远端引用
@@ -163,7 +167,7 @@ GitLab 提供流水线成功率、排队时长、Job 时长、部署频率、失
 
 ### 实验步骤
 
-1. 在测试项目根目录创建上面的 `.gitlab-ci.yml`。
+1. 在自己的测试项目确认已存在 README.md，再新建学习分支，在项目根目录创建上面的 `.gitlab-ci.yml`；空仓库没有 README 时本例会按预期失败。
 2. 在 Pipeline editor 中打开 CI Lint，确认配置 Valid。
 3. 提交到非生产分支并推送。
 4. 打开流水线，观察 `shell-test` 成功后 `package-evidence` 开始。
@@ -257,6 +261,8 @@ Job 有等待、运行、成功、失败、取消等状态。GitLab 保存的是
 
 在新分支 `lab/gitlab-evidence` 中用编辑器创建 `rule.txt`，内容只有一行 `threshold=5`，再创建以下 `.gitlab-ci.yml`。`script` 里的命令在 Runner 的 Linux Shell 中运行，不是在你的 Windows PowerShell 中运行。
 
+网页操作可以从 Repository → Branches 创建分支，再进入该分支使用 Web IDE/Edit 创建两个根目录文件；提交时确认仍是学习分支。不同实例界面名称可能略不同。保存 `rule.txt` 为 UTF-8、无 BOM、LF 换行，Windows 编辑器可在状态栏选择 LF；本实验按精确字节检查，CRLF 的 `\r` 或 BOM 也会造成匹配失败，不能把这种文件格式错误诊断成阈值算法故障。
+
 ```yaml
 stages: [validate, package, verify]
 
@@ -288,9 +294,15 @@ verify-artifact:
     - cd dist
     - sha256sum -c SHA256SUMS # 检查收到的文件内容是否与打包时一致
     - test "$(cat commit.txt)" = "$CI_COMMIT_SHA"
+  artifacts:
+    when: always
+    paths: [dist/]
+    expire_in: 7 days
 ```
 
 `grep -q` 只返回匹配状态，`-x` 要求整行匹配，避免 `threshold=50` 被误认成 5。`CI_COMMIT_SHA` 是 GitLab 注入的当前提交标识；`needs.artifacts: true` 要求取回上游制品；`sha256sum -c` 按清单重新计算文件摘要，正常输出 `rule.txt: OK`。摘要验证内容一致，不能独自证明发布者可信，身份验证和签名属于另一层。
+
+验证 Job 的 `artifacts: when: always` 是在成功或脚本失败后尽量保存下载到的学习目录，方便比对故障；并不保证运行器宕机、取消、上传失败时仍有完整证据。没有 dist 时警告要和真正首个失败分开。生产此类目录若含秘密，不应原样上传。这里的制品是短期学习证据，不是七天后还可依赖的生产回滚包。
 
 提交前用 Pipeline editor 的校验能力检查 YAML，再推送测试分支。点击这次提交对应的流水线，观察三个 Job。基础实验成功的标准是：三个 Job 成功，最后的日志有 `rule.txt: OK`，下载的 `commit.txt` 与这次流水线的提交 SHA 一致。
 
@@ -439,6 +451,16 @@ Environment（环境记录）和 Deployment（部署记录）帮助建立变更�
 三分钟面试追问可以这样收束：先说明创建流水线、领取作业、执行脚本、传播下游状态和批准部署是五个关口，再用各自证据排除假设。面对“空闲机器很多但发布很慢”，不会马上扩容，而是定位领取、依赖或审批瓶颈；面对“父任务绿色而生产没更新”，会追到下游实际版本和业务验证，而不是重跑整个项目。
 
 记录还应注明实例版本和授权能力，避免他人在不同版本照搬门禁配置。
+
+## 独立通关：同一个平台里的五种“成功”不能混用
+
+1. **基础复现。** 在自己的空白项目从零准备 README、LF rule.txt 与三阶段 YAML，保留实例/Runner 执行器信息、提交、三个 Job ID、下载制品与摘要。答案判据：精确阈值检查、打包、下载验摘要分别有实际结果；CI Lint Valid 只证明配置检查，不替代脚本、Runner 或部署证明。
+2. **改变条件预测。** 给 Job 增加两个 tags，其中仅一个匹配现有 Runner；再讨论 Shell executor 运行同一 image 配置。答案判据：Runner 需要满足全部要求的标签，在线仍可能 Pending；Shell executor 不因 image 字段而自动隔离。只在自己的 Runner/合成配置推理，不修改共享标签。顺带解释上游被 rules 排除与 needs 依赖缺失为何是创建层问题。
+3. **故障证据。** 分别重做 threshold=50 的校验失败和 verify 下载后改成999的摘要失败，一次一个故障。答案判据：前者阻止打包，后者上游原始产物正确而下游副本改变；保存各自失败日志、when: always 证据（若可获得）和修复新提交，不能通过 allow_failure 刷绿。遇 BOM/CRLF，先按真实字节定位，不改验收规范掩盖问题。
+4. **设计取舍。** 6 Job/分钟、平均3分钟时约需18个平均占用槽，但同一进程 concurrent=4、两个注册项各limit=3能否跑6个？答案判据：全局上限仍4，且 CPU/内存/磁盘可把真实能力压得更低；request_concurrency 管领取请求而非作业数。按信任域/资源隔离并留恢复容量，resource_group 互斥不能锁住手工发布，也不能自动拒绝过期产物。
+5. **口述追问。** 三分钟从 workflow rules 讲到目标返回版本。回答“父触发绿但子失败”“manual 没点却通过”“after_script 验收失败总结果仍绿”“protected/masked 是否防恶意脚本”。答案判据：逐层查子流水线状态传播、显式 allow_failure、关键验证放 script 返回非零；掩码不阻止代码主动泄密；审批必须绑定制品/环境，超时外部状态未知先查不盲重试。
+
+失败就回“平台工程精讲”“双层带练”或“控制面补课”重做。本文本轮只做逐段审校，没有登录/运行 GitLab 测试项目，YAML 和输出仍需实际实例复现；不得把纸面状态实验记成真实发布或 Runner HA 验收。
 
 ## 学习证据
 

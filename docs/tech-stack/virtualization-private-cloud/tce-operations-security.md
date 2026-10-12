@@ -17,6 +17,8 @@
 
 ## 官方知识地图
 
+本图是按官方职责重组的课程路线，并非官方统一原图。先读[实验准备课](../experiment-start.md)，找到仓库根目录，优先完成无需云账号的合成报告。CVM 是云虚拟机，TKE 是容器集群服务，AZ 是可用区；这里先把它们当作不同的被观测对象，产品内部机制再分别学习，不要求先会 Kubernetes。
+
 ```text
 治理：租户 -> 用户/角色 -> 策略 -> 配额 -> 资源归属 -> 运营报表
 观测：业务探针 -> 指标/日志/链路 -> 告警 -> 事件 -> 工单
@@ -207,12 +209,13 @@ TCE 运维系统不是下载一个安装包便能独立上线。交接至少包�
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File examples/private-cloud-evidence-lab/Invoke-PrivateCloudAudit.ps1 -InputPath examples/private-cloud-evidence-lab/fixtures/healthy.json -OutputPath examples/private-cloud-evidence-lab/evidence/healthy.md
+$LASTEXITCODE
 Get-Content examples/private-cloud-evidence-lab/evidence/healthy.md -Encoding UTF8
 ```
 
 `InputPath` 是证据快照，`OutputPath` 是生成报告路径。输出必须尚不存在，复跑换新名称，不能覆盖旧证据。工具拒绝缺失/空列表、无时区时间、非法类型和范围及重复对象；总量和期望组件数为零会失败，使用量超过总量仍报告风险。预期得到 `PASS`，并看到版本台账、容量、组件和人工确认清单；PASS 只表示这份输入未触发规则。
 
-验证：检查报告写明 `synthetic-demo`，并能回答“版本证据来自哪里”“是否验证业务”。若文件找不到，确认当前目录与路径；中文乱码检查 UTF-8；命令失败先看异常，不要更改系统全局执行策略。
+验证：立即读退出码应为 0，再检查报告写明 `synthetic-demo`，并能回答“版本证据来自哪里”“是否验证业务”。文件存在但本次命令非零，可能是旧文件，不能算本次成功。该样例快照时间固定，脚本不检查距现在多久；真实巡检必须另验采集时效与覆盖范围。若文件找不到，确认当前目录与路径；中文乱码检查 UTF-8；命令失败先看异常，不要更改系统全局执行策略。
 
 ## 故障注入实验：备用管理节点离线与容量越线
 
@@ -232,10 +235,9 @@ Get-Content examples/private-cloud-evidence-lab/evidence/degraded.md -Encoding U
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File examples/private-cloud-evidence-lab/verify.ps1
-Remove-Item -LiteralPath examples/private-cloud-evidence-lab/evidence/healthy.md,examples/private-cloud-evidence-lab/evidence/degraded.md
 ```
 
-只删除上面生成的两份报告，可重新运行恢复。若结果与预期不同，检查输入是否选错、是否运行了旧脚本、字段单位是否一致。
+验证器会清理其自己创建的临时文件，不替你删除其他学习报告。恢复实验另用健康输入和尚不存在的输出 `examples/private-cloud-evidence-lab/evidence/recovered.md`，预期退出 0/PASS，再读回内容；这里没有恢复真实云。结束可保留三份报告，或先确认它们确由本轮成功生成且不再需要，再删除这三个具体文件。若第一步因已存在而失败，不能接着删除那个旧文件。若结果与预期不同，检查输入是否选错、是否运行了旧脚本、字段单位是否一致。
 
 ## 现场只读扩展：建立四张清单
 
@@ -434,6 +436,16 @@ Remove-Item -LiteralPath examples/private-cloud-evidence-lab/evidence/healthy.md
 合成报告的复跑应使用新的输出名，避免覆盖上一轮证据。健康样例的零退出码、退化样例的二退出码与无效输入的失败是不同结果，接入自动化时不得全部归并为“脚本成功”。本轮新增安全策略、依赖恢复和审批状态课仅作纸面推演，没有发放凭据、调用真实云接口、修改安全设备或运行生产恢复。
 
 来源阅读可从[CAM 评估逻辑](https://intl.cloud.tencent.com/zh/document/product/598/10605)、[临时身份介绍](https://cloud.tencent.com.cn/document/product/598/13875)和[操作审计事件详情](https://cloud.tencent.com/document/product/629/56259)继续深入。它们帮助理解语义，不代替现场 TCE 版本功能清单；产品文档的示例字段与本文归一化实验字段需保留映射说明。
+
+## 换条件独立通关：把“未知”和“异常”都保留下来
+
+1. 一条审计显示 API 受理成功，任务记录缺失，资源状态没有刷新，能否汇报变更完成？校准：结果未知；按请求、任务、资源与采集时间继续查，不能由成功受理推断完成，也不能由无记录推断没执行。说出安全停止与接班所需信息。
+2. 100 万有效请求、目标 99.9%，600 次失败用了多少预算？校准：允许 1000，用了 60%；剩 400。若有人加入 900 万健康检查请求稀释分母，业务真实质量并未改善，应恢复约定的请求口径，而不是宣布错误预算恢复。
+3. 6000 资源、每轮两次 API、60 秒周期，平均多少调用？五轮全部立即重试又怎样？校准：基线 200 次/秒，五倍请求量可达平均 1000 次/秒且瞬时更高。提出抖动、批量、分页完成标识、有界重试与失鲜告警，不能用零值补齐采集失败。
+4. 缓冲可用 20 GiB、入口 10 MiB/s、出口 5 MiB/s，多久填满？校准：净增 5，约 4096 秒/68.27 分钟；出口全断则约 34.13 分钟。若积压满 20 GiB 后出口升至 15 而入口仍 10，理想清空仍需 68.27 分钟。容量、实时流与补发预算必须分开，不把扩缓存叫永久修复。
+5. 三分钟设计只读采集器轮换与误拦截回退。校准：新凭据少量验证→逐批切换→撤销旧凭据→复验允许查询与越界拒绝；拒绝测试不用真实删除。安全例外限定身份/入口/路径、到期与正反样本，同时验证业务与防护；观测权限不因日志里出现“管理员命令”而升级为执行权限。
+
+作业包含新条件计算、反证、批准范围和停止条件。没有真实授权环境的策略求值、密钥恢复、组件切换保持待验证，不用合成报告或正文评审替代现场能力证明。
 
 ## GitHub 学习证据
 

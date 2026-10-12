@@ -631,6 +631,8 @@ app shell（应用外壳）
 
 使用官方 `create-vue` 脚手架，Node 版本以当日官方 Quick Start 为准：
 
+先完成[仓库与运行时准备](../experiment-start.md)。下面是“新建独立项目”路线，不要在本仓库根目录生成脚手架，也不要与前面的固定共享实验同时改同一份App。项目名必须此前不存在；选择TypeScript与Vitest，暂不选Router/Pinia可减少首次依赖。执行脚手架打印的安装步骤后，进入项目根目录，用 `npm run` 查看实际脚本；新增项目使用src/App.vue，先备份原组件再替换。
+
 ```powershell
 npm create vue@latest
 ```
@@ -669,7 +671,7 @@ const filtered = computed(() =>
 
 ### 运行、预期和验证
 
-执行脚手架 `package.json` 中的 dev、type-check、test 和 build 脚本。预期输入 `data` 只显示 database；类型检查和生产构建退出码 0。使用键盘、Vue DevTools 与移动视口验证状态、DOM 和无横向溢出。
+进入该项目后执行 `npm run dev`，打开终端实际打印的URL，另一个终端运行 `npm run type-check`、`npm run test:unit -- --run`（只有选了Vitest且确有此脚本时）和 `npm run build`。预期输入 `data` 只显示database，输入不存在服务应显示找到0条，类型检查和生产构建退出码0。测试脚本只跑脚手架原测试并不证明新App已覆盖，须给筛选新增测试。使用键盘、Vue DevTools与移动视口验证状态、DOM和无横向溢出。
 
 ### 失败先看与清理
 
@@ -686,7 +688,48 @@ const filtered = computed(() =>
 
 ### 注入二：旧请求覆盖
 
-watch query 发一个 2 秒和一个 100 毫秒 mock 请求，不 cleanup，快速输入两个词。证明旧结果覆盖后，加 AbortController/onCleanup；验证旧请求取消且只显示最新词结果。
+下面是可以直接替换个人App.vue的完整合成实验，不需要另写API。先保留前面的正常文件；`guarded` 为true是修复版，改为false再刷新是故障版。先点旧慢再立即点新快（间隔小于300毫秒），分别观察最终文本：
+
+```vue
+<script setup lang="ts">
+import { onUnmounted, ref, watch } from 'vue'
+const guarded = true // 故障时只改为false，其他条件不变
+const query = ref('')
+const visible = ref('尚未查询')
+const controllers = new Set<AbortController>()
+let version = 0
+watch(query, async (label, _old, onCleanup) => {
+  const myVersion = ++version
+  const controller = new AbortController()
+  controllers.add(controller)
+  onCleanup(() => { if (guarded) controller.abort() })
+  try {
+    await new Promise<void>((resolve, reject) => {
+      const abort = () => { clearTimeout(timer); reject(new DOMException('cancelled', 'AbortError')) }
+      const timer = setTimeout(() => {
+        controller.signal.removeEventListener('abort', abort)
+        resolve()
+      }, label === '旧慢' ? 300 : 20)
+      controller.signal.addEventListener('abort', abort, { once: true })
+    })
+    if (guarded && (controller.signal.aborted || myVersion !== version)) return
+    visible.value = label
+  } catch (error) {
+    if (!controller.signal.aborted && myVersion === version) visible.value = '合成任务失败'
+  } finally { controllers.delete(controller) }
+})
+onUnmounted(() => { for (const controller of controllers) controller.abort(); controllers.clear() })
+</script>
+<template>
+  <main><h1>合成竞态实验</h1>
+    <button type="button" @click="query = '旧慢'">旧慢</button>
+    <button type="button" @click="query = '新快'">新快</button>
+    <p role="status">最终可见：{{ visible }}</p>
+  </main>
+</template>
+```
+
+故障版最终旧慢，修复版最终新快；刷新后每轮只点这两个按钮，避免相同值没有变化而不触发watch。模仿的只有异步延迟与取消协议，不是DNS/Fetch/CORS或数据库事务。这里mock支持取消；真实依赖若忽略signal，还要靠结果版本资格守住状态。若故障未出现，先查两次点击间隔、当前guarded以及实际加载的App，不据此宣称竞态不存在。结束恢复正常组件、重新检查并停止个人dev服务。
 
 ### 注入三：重复监听
 
@@ -874,6 +917,16 @@ computed 适合从已有状态求值，例如按级别筛选事件、计算可�
 前置条件仍是已创建且可运行的个人练习副本；操作前保留原组件。验证时记录按钮代码、依赖触发与 DOM，而不是只截图最终数字。修复为一致的快照替换后恢复原组件，停止个人开发服务即可清理。这个实验不连接真实告警，不以一次渲染速度说明生产性能收益；真正收益还需在相同数据规模下测依赖数量、内存和更新时间。
 
 面试三分钟串讲可以从“读到的是普通值还是响应容器”开始，再讲编译器宏的专门转换、跨函数边界传 getter、浅响应的更新协议，最后用版本不一致或误原地修改解释事故。AIOps 实时看板若显示旧快照，先确认数据版本与更新路径，再考虑性能优化；错误但流畅的画面不能作为健康证据。
+
+## 独立通关：响应连接、异步资格和组件身份三条线
+
+1. **基础复现。** 不照抄App，用两个合成服务写ref/computed筛选，输入data只保留database，输入不存在值出现0条；给出键盘路径与筛选行为测试，而不是只跑脚手架旧测试。重新加载后不应误称过滤结果已持久化。
+2. **改变条件预测。** reactive.count快照、toRef、shallowRef内部修改/整体替换分别预测哪些依赖会触发；单独操作后观察数据与DOM，并说明其他更新可能偶然把浅对象的新值带到屏幕。nextTick只等Vue更新，不等API、图片或最终绘制。
+3. **故障证据。** 用完整竞态实验做旧慢→新快，交出故障/修复最终状态及请求版本解释；再反转延迟，说明偶然不覆盖为何不是正确性证明。排序带草稿的事件行时，稳定业务key应让草稿跟事件走，索引/随机key不合格；清理要验证进入离开十次资源仍稳定。
+4. **设计取舍。** 十万实时事件、多租户且可能SSR的控制台，给出分页/虚拟化、消息缓冲上限、明确query身份、KeepAlive停用策略、每请求store、后端授权、局部错误恢复、旧chunk保留期与整包回滚。Vue响应式不等于跨实例状态复制。
+5. **口述追问。** computed为何不能提交工单或原地排序？watchEffect在await后为何可能漏依赖？props解构为何要区分3.5编译转换与普通reactive？v-model为何不是任意共享修改？Vite成功为何不代表vue-tsc/浏览器都通过？每问交出机制、反例和观察面板。
+
+返工标准：数据变DOM不变先查响应连接/批次；旧结果覆盖先补资格与cleanup；重复资源先核对卸载还是缓存；SSR串租户先修请求隔离，不能靠刷新或隐藏元素收尾。五条任务均须有具体输入与判据。
 
 ## GitHub 学习证据
 

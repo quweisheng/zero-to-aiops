@@ -38,7 +38,9 @@
 
 ## 版本、LTS 与许可边界
 
-本文快照日期是 2026-08-21。Oracle 的公开下载与发行说明仍把 Java SE 26.0.2（完整构建号 `26.0.2+10`）列为当前正式功能版本；但 2026-08-18 的 Critical Security Patch Update（CSPU，关键安全补丁更新）已经把 Oracle 安全基线提高到 26.0.2.1、25.0.4.1、21.0.12.1、17.0.20.1、11.0.32.1 和 8u503。CSPU 公告也明确把此前的 26.0.2、25.0.4、21.0.12、17.0.20、11.0.32、8u501 列为受影响版本。
+以下补丁数字保留的是 **2026-08-21 历史快照**，不是你今天的安装建议：当时 Oracle 的公开下载与发行说明把 Java SE 26.0.2（完整构建号 `26.0.2+10`）列为正式功能版本；2026-08-18 的 Critical Security Patch Update（CSPU，关键安全补丁更新）把 Oracle 安全基线提高到 26.0.2.1、25.0.4.1、21.0.12.1、17.0.20.1、11.0.32.1 和 8u503。CSPU 公告也把此前的 26.0.2、25.0.4、21.0.12、17.0.20、11.0.32、8u501 列为受影响版本。
+
+2026-10-12 复核时，[Oracle 支持路线图](https://www.oracle.com/java/technologies/java-se-support-roadmap.html)的 2026-09-15 修订版已经列出 2026-09 的 JDK 27 非 LTS 版本线。因此本文固定讲解的 JDK 26 特性不是“永远最新”；下面的补丁表也不能替代当前安全公告。本文不把路线图日期当作某台服务器已升级的证据。
 
 这说明“公开下载页上的最新 GA 版本”和“当前安全基线”可能暂时不是同一个数字。Oracle CSPU 补丁面向具有有效支持合同的客户；Temurin、Corretto、Microsoft、Red Hat 等发行版是否受影响、何时发布修复、版本号如何写，必须查各自公告。生产选型不能只抄本文数字，应把“发行方 + 完整版本 + 获取渠道 + 安全公告日期”一起记录，并在每次发布前重新核验。
 
@@ -46,14 +48,14 @@
 
 | 版本线 | 本文定位 | 选用时先问什么 |
 |---|---|---|
-| JDK 26 / Oracle 基线 26.0.2.1 | 当前功能版本主线，2026-03 GA、非 LTS，用于认识最新正式 Java SE 能力 | 框架、中间件、Agent、驱动和公司支持矩阵是否已认证；能否取得当前安全补丁 |
+| JDK 26 / Oracle 基线 26.0.2.1（8 月快照） | 本文固定的功能讲解版本，2026-03 GA、非 LTS，不代表现在最新版本 | 框架、中间件、Agent、驱动和公司支持矩阵是否已认证；能否取得当前安全补丁 |
 | JDK 25 / Oracle 基线 25.0.4.1 | 2025-09 GA；Oracle 与多数厂商视为当前 LTS，适合作为新项目长期维护候选 | 具体发行方承诺支持多久、补丁如何获取、许可是什么 |
 | JDK 21 / 17（Oracle 基线 21.0.12.1 / 17.0.20.1） | 广泛使用的较早 LTS 版本线 | 业务依赖和供应商是否仍支持，安全补丁是否持续交付 |
 | JDK 8 / 11 | 大量存量系统仍在运行 | 是否已进入迁移窗口，TLS、GC、依赖和中间件约束是什么 |
 
 LTS 是 Long-Term Support，意思是“某个发行方承诺较长时间维护某条版本线”。它不等于“所有 OpenJDK 构建都自动获得同样年限的免费补丁”。同一个 Java 版本可以有 Oracle JDK、Eclipse Temurin、Microsoft Build of OpenJDK、Amazon Corretto、IBM Semeru 等不同构建；它们实现同一平台标准，但打包、补丁节奏、支持期限、虚拟机选择和商业条款可能不同。
 
-OpenJDK JDK 25 项目页的原话边界是“多数厂商会把 JDK 25 作为 LTS”；Oracle 路线图则明确把 8、11、17、21、25 列为 Oracle LTS，并列出 Oracle 客户支持日期。这两句话不能互相替代。Oracle JDK 21 在 NFTC 下的更新许可还计划于 2026-09 后变化，生产资产应按实际发行方和法务结论盘点，而不是只看 `java -version` 的数字。
+OpenJDK JDK 25 项目页的原话边界是“多数厂商会把 JDK 25 作为 LTS”；Oracle 路线图则明确把 8、11、17、21、25 列为 Oracle LTS，并列出 Oracle 客户支持日期。这两句话不能互相替代。上述 2026-09-15 路线图写明：Oracle JDK 21 从 2026 年 10 月 CPU（季度关键补丁更新）开始的更新，计划改用 OTN 许可；不是所有厂商的 Java 21、也不是所有历史二进制在同一天一起变更。NFTC 与 OTN 是 Oracle 的不同使用许可条款，生产资产要按实际发行方、具体构建和法务结论盘点，而不是只看 `java -version` 的数字。
 
 ### JDK 26 的正式、Preview 与 Incubator 边界
 
@@ -251,7 +253,7 @@ AlertDigest.java（告警汇总程序源文件）
 
 ### 选哪一版
 
-零基础学习可以使用当前受支持的 JDK 25 LTS；若要研究最新正式语言/JVM 功能，可另装 JDK 26。公司项目先服从框架、中间件、数据库驱动、APM Agent 和供应商认证矩阵，不要在生产服务器上直接替换默认 Java。
+零基础学习可以选择发行方仍提供安全更新的 JDK 25 LTS；研究本文 JDK 26 特性时可另装隔离工具链，但不要把非 LTS 历史构建直接作为新生产系统的默认选择。要研究最新版本，重新打开官方发行页面核对，而不是照抄本文的 26。公司项目先服从框架、中间件、数据库驱动、APM Agent 和供应商认证矩阵，不要在生产服务器上直接替换默认 Java。
 
 ### Windows
 
@@ -297,7 +299,7 @@ javac -version
 
 ## 第一个 Java 程序
 
-创建 `HelloAiOps.java`：
+先按[实验起步说明](../experiment-start.md)准备终端；在文件管理器中新建一个属于自己的空目录，进入该目录，再创建 `HelloAiOps.java`。不要在业务源码目录试写同名文件。下面标明完整文件名的实验可独立运行；后文没有完整类声明的短片段只用于解释机制，需要放入合适的类或方法，不能逐块另存后直接编译。
 
 ```java
 public final class HelloAiOps {
@@ -311,6 +313,7 @@ public final class HelloAiOps {
 
 ```powershell
 javac HelloAiOps.java
+if ($LASTEXITCODE -ne 0) { throw '编译失败，不能继续运行可能残留的旧 class' }
 java -cp . HelloAiOps
 ```
 
@@ -363,7 +366,9 @@ public final class HelloAiOps {
 ```powershell
 New-Item -ItemType Directory -Force out
 javac -d out src\lab\aiops\HelloAiOps.java
+if ($LASTEXITCODE -ne 0) { throw '编译失败；不要运行上一次留下的 class' }
 java -cp out lab.aiops.HelloAiOps
+if ($LASTEXITCODE -ne 0) { throw '运行失败；保留输出并检查类名与 classpath' }
 ```
 
 `package` 是命名与访问边界；目录结构是工具约定。`lab.aiops.HelloAiOps` 是全限定类名。不要把包名、Maven 的 `groupId`、JAR 文件名和 Java Module 名称混成同一个东西。
@@ -1337,7 +1342,16 @@ import java.util.TreeMap;
 public final class AlertDigest {
     enum Severity { WARNING, CRITICAL }
 
-    record Alert(String service, Severity severity, long durationSeconds) {}
+    record Alert(String service, Severity severity, long durationSeconds) {
+        Alert {
+            if (service == null || service.isBlank()) {
+                throw new IllegalArgumentException("service must not be blank");
+            }
+            if (severity == null || durationSeconds < 0) {
+                throw new IllegalArgumentException("severity is required and duration must be nonnegative");
+            }
+        }
+    }
 
     public static void main(String[] args) {
         var alerts = List.of(
@@ -1376,6 +1390,7 @@ public final class AlertDigest {
 ```powershell
 New-Item -ItemType Directory -Force out
 javac --release 21 -d out src\lab\aiops\AlertDigest.java
+if ($LASTEXITCODE -ne 0) { throw '编译失败；保留错误，不运行旧制品' }
 java -cp out lab.aiops.AlertDigest
 ```
 
@@ -1386,6 +1401,8 @@ java -cp out lab.aiops.AlertDigest
 service=order-api alert_count=3
 service=payment-api alert_count=1
 ```
+
+这里的 `Instant.EPOCH` 固定为 1970 年起点，是为了让课堂输出可以逐字比较，不是当前采集时间。真实告警要分别记录事件发生时间、接收时间和汇总窗口；否则一个刚运行的采集器可能上报“56 年前”的数据。紧凑构造器 `Alert { ... }` 在创建每条记录时检查输入；record 自动生成访问器，不会自动替你验证业务字段。
 
 ### 验证字节码
 
@@ -1404,9 +1421,13 @@ major version: 65
 ### 录制 JFR
 
 ```powershell
+if (Test-Path -LiteralPath .\alert-digest.jfr) { throw '已有录制，请先另存证据或换新的实验目录' }
 java -XX:StartFlightRecording=filename=alert-digest.jfr,settings=profile,dumponexit=true -cp out lab.aiops.AlertDigest
-jfr summary alert-digest.jfr
+if ($LASTEXITCODE -ne 0) { throw 'JVM 未成功完成，请检查录制权限和错误输出' }
+& "$env:JAVA_HOME\bin\jfr.exe" summary alert-digest.jfr
 ```
+
+这个 Windows 命令要求 `JAVA_HOME` 指向同一套完整 JDK，且 `bin\jfr.exe` 确实存在；只有 `java` 在 PATH 中不够。运行前用 `Test-Path -LiteralPath "$env:JAVA_HOME\bin\jfr.exe"` 确认。Linux/macOS 使用同一 JDK 的 `bin/jfr`，不要照抄 `.exe`。
 
 预期 `jfr summary` 显示 Version、Chunks、Start、Duration 和事件计数。程序很短，Duration 可能为 0 秒，仍可看到启动与 JVM 事件。
 
@@ -1505,17 +1526,36 @@ public final class DeadlockLab {
 ### 编译、启动和取证
 
 ```powershell
-javac --release 21 -d out src\lab\aiops\DeadlockLab.java
+$jdkBin = Join-Path $env:JAVA_HOME 'bin'
+foreach ($tool in @('java.exe', 'javac.exe', 'jcmd.exe')) {
+    if (-not (Test-Path -LiteralPath (Join-Path $jdkBin $tool))) {
+        throw "完整 JDK 工具缺失：$tool；先修复 JAVA_HOME"
+    }
+}
+foreach ($log in @('deadlock-stdout.txt', 'deadlock-stderr.txt')) {
+    if (Test-Path -LiteralPath $log) { throw "已有实验日志：$log；请另存或换新目录" }
+}
+& (Join-Path $jdkBin 'javac.exe') --release 21 -d out src\lab\aiops\DeadlockLab.java
+if ($LASTEXITCODE -ne 0) { throw '编译失败，不启动可能残留的旧 class' }
 
 $labProcess = Start-Process `
-  -FilePath "$env:JAVA_HOME\bin\java.exe" `
+  -FilePath (Join-Path $jdkBin 'java.exe') `
   -ArgumentList @('-cp', 'out', 'lab.aiops.DeadlockLab') `
+  -WorkingDirectory (Get-Location).Path `
+  -RedirectStandardOutput 'deadlock-stdout.txt' `
+  -RedirectStandardError 'deadlock-stderr.txt' `
   -WindowStyle Hidden `
   -PassThru
 
 Start-Sleep -Seconds 2
+$labProcess.Refresh()
+if ($labProcess.HasExited) {
+    Get-Content -LiteralPath .\deadlock-stderr.txt
+    throw '实验进程已提前退出，不把无法 attach 当作死锁证据'
+}
 $labProcess.Id
-& "$env:JAVA_HOME\bin\jcmd.exe" $labProcess.Id Thread.print -l
+& (Join-Path $jdkBin 'jcmd.exe') $labProcess.Id Thread.print -l
+if ($LASTEXITCODE -ne 0) { throw '取证失败；实验进程可能仍在，仍需执行清理' }
 ```
 
 预期看到：
@@ -1535,6 +1575,7 @@ Found one Java-level deadlock:
 只终止刚才保存的精确实验 PID：
 
 ```powershell
+$labProcess.Refresh()
 if (-not $labProcess.HasExited) {
     Stop-Process -Id $labProcess.Id -Force
     $labProcess.WaitForExit()
@@ -1563,6 +1604,8 @@ private static void updateBoth() {
     }
 }
 ```
+
+这段是锁顺序示意，不是完整类；可运行的 `DeadlockFixed.java` 在后文“老师串讲”中。不要只改两个线程的锁顺序却保留“都拿到第一把锁才继续”的双线程栅栏：统一第一把锁以后，另一个线程根本到不了栅栏，这会引入另一种等待。
 
 真实业务还可以缩小临界区、避免持锁调用网络、使用带超时的 `tryLock`，或重新设计为单一所有者/消息传递。`tryLock` 只是避免无限等待，仍要处理获取失败、回滚和一致性。
 
@@ -1993,7 +2036,16 @@ public final class DeadlockFixed {
 }
 ```
 
-执行 `javac --release 21 -d out src\lab\aiops\DeadlockFixed.java`，然后 `java -cp out lab.aiops.DeadlockFixed`。预期两个线程各打印一次 updated，顺序不要求固定，最后出现 completed_without_deadlock 并退出。若仍卡住，先核对实际启动类名和源码是否保留旧闩锁，不要继续启动更多进程。修复版自动退出，故障版仍按前面的精确 PID 回收；最后保留源码与脱敏线程分析，生成的 class/JFR 按实验目录策略清理。
+在同一实验目录的 PowerShell 中执行，编译成功才运行，避免把上一次留下的 class 当成本次修复结果：
+
+```powershell
+javac --release 21 -d out src\lab\aiops\DeadlockFixed.java
+if ($LASTEXITCODE -ne 0) { throw '编译失败；停止，不运行旧 class' }
+java -cp out lab.aiops.DeadlockFixed
+if ($LASTEXITCODE -ne 0) { throw '修复版运行失败；保存输出并排查' }
+```
+
+预期两个线程各打印一次 updated，顺序不要求固定，最后出现 completed_without_deadlock 并退出。若仍卡住，先核对实际启动类名和源码是否保留旧闩锁，不要继续启动更多进程。修复版自动退出，故障版仍按前面的精确 PID 回收；最后保留源码与脱敏线程分析，生成的 class/JFR 按实验目录策略清理。
 
 这证明的是两条路径按统一顺序获得锁后不形成原来的环，不证明复杂生产业务已经无死锁。真实系统还要检查所有加锁路径、回调、隐藏的框架锁和持锁网络请求，并将锁顺序写成团队可审查的不变量。
 
@@ -2006,6 +2058,18 @@ public final class DeadlockFixed {
 ### 面试时如何使用历史实验记录
 
 本文已有 Windows + Oracle JDK 24 的历史验证说明；本轮新增课堂推理与修复代码不能自动继承为“所有版本实测”。回答时把已有记录、这次实际运行、尚未验证的生产场景分开。你可以说“我用线程转储理解了环形等待，设计了统一锁顺序的修复，下一步在目标 JDK 和应用负载上回归”，不要把课堂输出写成自己处理过真实生产事故。证据边界清楚，本身就是工程能力的一部分。
+
+## 独立通关：输出正确还要证明运行的是本次制品
+
+先关掉本文，把任务单交给同学执行；卡住时记下缺的概念，再回对应小节补课。
+
+1. **基础复现。** 在新目录把四条告警改为五条：`order-api` 三条（CRITICAL/59 秒、WARNING/60 秒、CRITICAL/61 秒），`payment-api` 两条（WARNING/0 秒、WARNING/120 秒）。先手算，再编译运行。判据是 total=5、critical=2、slow=3，服务计数 3/2，class major=65，并保存编译器完整版本。把时长改为 -1 时应在构造器拒绝输入，而不是统计出一份貌似正常的日报。
+2. **改变条件预测。** 不运行，预测把 `>= 60` 改为 `> 60` 的结果：slow 从 3 变成 2，其他统计不变。再解释 `--release 21` 限制源码与标准 API/字节码目标，却不检查你后来带入的所有第三方 JAR，也不代表 JDK 21 获得 JDK 26 Preview 能力。
+3. **故障证据。** 先成功编译，再故意写一个语法错误并重新编译。合格行为是发现非零退出码、停止执行，不能用上一轮 `.class` 的成功输出证明新源码正确。另用死锁实验交出两个线程的“持有谁、等待谁”环形关系和精确 PID 清理记录；仅有页面卡住或 CPU 很低不能证明死锁。修复后须有两个线程完成与进程正常退出的证据。
+4. **生产取舍。** 2 GiB 容器中堆给 1.5 GiB、线程与直接缓冲持续增加，该不该直接再加 Xmx？判据是先比较 RSS、NMT、堆/非堆、线程与容器终止证据，再预算本地内存；同时解释 CallerRuns 会把压力传给调用方，不能绕过数据库连接数和请求超时预算。方案要含容量上限、观测、限流以及退回旧 JDK/参数/制品的验证路径。
+5. **口述追问。** 请按“结论→机制→证据→边界”解释：record 为什么不等于深不可变？Java 的引用值传递为何不能在方法里替换调用者的变量？`volatile count++` 为什么可能丢更新？虚拟线程为何不能让 CPU 密集计算凭空加速？Future 超时为何不证明远程写操作已撤销？每问至少给一个反例，不要只背关键词。
+
+返工标准：数值错先重算输入与条件；制品身份不明先补编译失败门禁；死锁只凭症状判断先补线程关系；生产方案只给参数先补容量与回滚。通过的是这些独立证据，不是文章长度、代码截图或阅读次数。
 
 ## GitHub 学习证据
 

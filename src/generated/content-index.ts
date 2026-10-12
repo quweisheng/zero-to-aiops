@@ -60,7 +60,7 @@ export const generatedDocs = [
     "route": "/tech-stack",
     "title": "AIOps 技术栈总清单",
     "section": "技术栈",
-    "excerpt": "这个目录记录我从 0 学 AIOps 过程中会接触到的技术栈。它不是一次性背诵清单，而是一个长期学习地图：每学一项，就补充理解、配置、实验和踩坑记录。 精讲写作标准 2026 年 9 月的全站老师带学修订已覆盖当时全部 114 篇技术栈，2..."
+    "excerpt": "这个目录记录我从 0 学 AIOps 过程中会接触到的技术栈。它不是一次性背诵清单，而是一个长期学习地图：每学一项，就补充理解、配置、实验和踩坑记录。 精讲写作标准 2026 10 12 起按最新要求重新逐篇评测：不把万字篇幅当作质量结论。..."
   },
   {
     "path": "../docs/tech-stack/architecture-delivery/architecture-solution-design.md",
@@ -490,6 +490,13 @@ export const generatedDocs = [
     "excerpt": "学习目标：理解 ZooKeeper 的 znode、Session、Watch、临时节点、顺序节点、Quorum 和 ACL，能启动学习环境、完成配置/成员/选主实验，并按会话、网络、磁盘和多数派链路排查常见故障。 老师先带你认路 今天要解..."
   },
   {
+    "path": "../docs/tech-stack/experiment-start.md",
+    "route": "/tech-stack/experiment-start",
+    "title": "零基础实验开课准备",
+    "section": "技术栈",
+    "excerpt": "先把“在哪里输入、文件在哪里、结果说明什么”弄清楚，再开始任何技术栈实验。这一页供各篇按需引用，不要求先学完一门编程语言或搭建整套平台。 取得课程文件，找到仓库根目录 打开本课程 GitHub 仓库，点绿色 Code → Download ..."
+  },
+  {
     "path": "../docs/tech-stack/foundation/git.md",
     "route": "/tech-stack/foundation/git",
     "title": "Git 深讲",
@@ -697,7 +704,7 @@ export const generatedDocs = [
     "route": "/tech-stack/progress",
     "title": "技术栈拆分进度",
     "section": "技术栈",
-    "excerpt": "目标：每个技术栈一个 Markdown 文件，并且每个文件都按“官方资料、是什么、原理、架构、配置、入门实验、排障、学习证据”的结构写成原创中文教程。 2026 10 12 新增 FastDFS，累计 115 篇 在 9 月完成 114 篇..."
+    "excerpt": "目标：每个技术栈一个 Markdown 文件，并且每个文件都按“官方资料、是什么、原理、架构、配置、入门实验、排障、学习证据”的结构写成原创中文教程。 2026 10 12 新一轮：逐篇评测，不合格返工 本轮重新覆盖全部 115 篇，按学习..."
   },
   {
     "path": "../docs/tech-stack/security-compliance/jumpserver.md",
@@ -718,7 +725,7 @@ export const generatedDocs = [
     "route": "/tech-stack/sre-aiops/aiops-loop",
     "title": "AIOps 闭环",
     "section": "SRE/AIOps 实践",
-    "excerpt": "目标：不是把 AIOps 理解成“接一个聊天机器人”，而是能设计一条从观测、检测、关联、解释、推荐、执行、验证到学习的工程闭环；每一层都有输入、输出、工具、护栏、验证方式和反馈机制。 官方资料 优先读这些官方资料和高可信资料： Micros..."
+    "excerpt": "目标：不是把 AIOps 理解成“接一个聊天机器人”，而是能设计一条从观测、检测、关联、解释、推荐、执行、验证到学习的工程闭环；每一层都有输入、输出、工具、护栏、验证方式和反馈机制。 老师先说明起点：你不需要已经拥有下面所有工具。第一遍只把..."
   },
   {
     "path": "../docs/tech-stack/sre-aiops/alert-governance.md",
@@ -833,6 +840,13 @@ export const generatedDocs = [
     "excerpt": "这张表来自实际文章内容，帮助你看到每篇的篇幅和继续补强的方向。正文汉字数排除代码、终端输出和文字图；英文术语不折算成汉字。数字达到目标只说明篇幅，不证明内容已经掌握或通过人工终审。 当前纳入 115 篇技术栈，115 篇中文正文不少于 10..."
   },
   {
+    "path": "../docs/tech-stack/teaching-review.md",
+    "route": "/tech-stack/teaching-review",
+    "title": "技术栈逐篇评测与返工记录",
+    "section": "技术栈",
+    "excerpt": "本轮以 2026 10 12 精讲评测标准逐篇审校。这里记录正文的具体问题、修订和第二位审校者结论；不是自动关键词评分，也不表示读者已经掌握或全部真实产品已实跑。篇幅另见正文统计，评测方法见写作标准。 当前 115 篇：115 篇已有本轮修..."
+  },
+  {
     "path": "../docs/tech-stack/virtualization-private-cloud/fusionsphere.md",
     "route": "/tech-stack/virtualization-private-cloud/fusionsphere",
     "title": "华为 FusionSphere / FusionCompute 技术栈深讲",
@@ -900,7 +914,7 @@ export const generatedDocs = [
     "route": "/templates/tech-stack-deep-dive",
     "title": "技术名",
     "section": "文档",
-    "excerpt": "学习目标：用一句话说明学完以后能做什么。比如：能启动服务、读懂配置、完成第一个实验、定位常见问题。 老师先带你认路 交代我们要一起解决的具体问题、你现在无需掌握但马上会用到的前置概念、实验操作系统与工具、预计资源和今天的验收结果。用自然对话..."
+    "excerpt": "学习目标：用一句话说明学完以后能做什么。比如：能启动服务、读懂配置、完成第一个实验、定位常见问题。 这是一份覆盖提示，不是必须照搬的目录。可围绕业务场景重组、合并或拆分章节；保留精讲标准要求的全部学习结果。写作时先记录具体缺口，完成修订后逐..."
   },
   {
     "path": "../docs/templates/weekly-review.md",

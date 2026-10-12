@@ -471,8 +471,8 @@ if [ -e "$HADOOP_LAB_ROOT" ] || [ -L "$HADOOP_LAB_ROOT" ]; then
 fi
 mkdir -m 700 "$HADOOP_LAB_ROOT" || exit 1
 cd "$HADOOP_LAB_ROOT" || exit 1
-curl -fLO https://dlcdn.apache.org/hadoop/common/hadoop-3.5.0/hadoop-3.5.0.tar.gz # 下载 Hadoop 3.5.0 二进制包
-curl -fLO https://downloads.apache.org/hadoop/common/hadoop-3.5.0/hadoop-3.5.0.tar.gz.sha512 # 下载 SHA-512 校验文件
+curl -fLO https://dlcdn.apache.org/hadoop/common/hadoop-3.5.0/hadoop-3.5.0.tar.gz || exit 1 # 下载失败不继续
+curl -fLO https://downloads.apache.org/hadoop/common/hadoop-3.5.0/hadoop-3.5.0.tar.gz.sha512 || exit 1
 sha512sum -c hadoop-3.5.0.tar.gz.sha512 || exit 1 # 必须显示 OK，失败立即停止
 tar -xzf hadoop-3.5.0.tar.gz || exit 1 # 解压到本人新建目录，不改 /opt 或系统软链接
 ```
@@ -639,11 +639,11 @@ jps # 先确认没有旧 Hadoop daemon，避免指向错误目录
 test "$(realpath "$HADOOP_HOME")" = /tmp/hadoop-lab/hadoop-3.5.0 || exit 1
 test ! -e /tmp/hadoop-lab/dfs/name/current || { echo '已有元数据，禁止重复格式化'; exit 1; }
 hdfs namenode -format -clusterId CID-hadoop-lab || exit 1 # 仅首次初始化，失败不得继续启动
-hdfs --daemon start namenode # 启动 NameNode
-hdfs --daemon start datanode # 启动 DataNode
-yarn --daemon start resourcemanager # 启动 ResourceManager
-yarn --daemon start nodemanager # 启动 NodeManager
-mapred --daemon start historyserver # 启动作业历史服务
+hdfs --daemon start namenode || exit 1 # 启动 NameNode
+hdfs --daemon start datanode || exit 1 # 启动 DataNode
+yarn --daemon start resourcemanager || exit 1 # 启动 ResourceManager
+yarn --daemon start nodemanager || exit 1 # 启动 NodeManager
+mapred --daemon start historyserver || exit 1 # 启动作业历史服务
 jps # 预期看到 NameNode、DataNode、ResourceManager、NodeManager、JobHistoryServer
 ss -lntp # 审查所有监听；不向不可信网络开放 HDFS、YARN、Shuffle 或管理端口
 ```
@@ -658,7 +658,7 @@ ss -lntp # 审查所有监听；不向不可信网络开放 HDFS、YARN、Shuffl
 | NodeManager | `http://localhost:8042` | 当前节点 Container 与日志入口 |
 | JobHistory | `http://localhost:19888` | 已完成 MapReduce 作业、task 与 counters |
 
-如果页面打不开，先用 `jps` 和 `ss -lntp` 判断进程与监听，再看 `$HADOOP_HOME/logs/`，不要先关闭防火墙。
+daemon 命令成功返回只表示启动请求已发出，进程随后仍可能退出。继续前逐一核对 `jps -lv` 中的五个类名、安装/配置路径与本课一致，再确认 `hdfs dfsadmin -report` 恰有一个 live DataNode、`hdfs dfsadmin -safemode get` 为 OFF、`yarn node -list -all` 恰有一个 RUNNING 节点。最多观察两分钟仍不满足就停在日志排查，不格式化重试，不提交任务。如果页面打不开，先用 `jps` 和 `ss -lntp` 判断进程与监听，再看 `$HADOOP_HOME/logs/`，不要先关闭防火墙。
 
 ## 常用命令
 
@@ -751,16 +751,18 @@ hdfs dfs -cat /user/$USER/hadoop-lab-input/alerts.txt # 预期原样看到三行
 hadoop jar "$HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.5.0.jar" \
   wordcount \
   /user/$USER/hadoop-lab-input \
-  /user/$USER/hadoop-lab-output
+  /user/$USER/hadoop-lab-output || exit 1
 # 参数依次是 examples JAR、wordcount 类、HDFS 输入目录、HDFS 输出目录
 ```
 
-正常日志会出现 application ID、map/reduce 进度和 `completed successfully`。随后验证：
+若失败，先停止这段操作并保存错误，不继续读取上次输出来证明本次成功。正常日志会出现 application ID、map/reduce 进度和 `completed successfully`。记录这次真实 application ID，不复制本篇示例占位编号。随后验证：
 
 ```bash
 hdfs dfs -cat /user/$USER/hadoop-lab-output/part-r-00000 # 查看 reducer 最终输出
 yarn application -list -appStates FINISHED # 找到刚完成的 application
 ```
+
+再执行 `yarn application -status 你刚记录的实际编号`，看 `State`（生命周期状态）和 `Final-State`（应用报告的最终结果）是否对应本次成功；`FINISHED` 只说生命周期结束，不能单独替代成功判定。必须同时满足客户端作业成功、最终结果 SUCCEEDED、输出内容与本次输入对应。[3.5.0 YARN 状态命令](https://hadoop.apache.org/docs/r3.5.0/hadoop-yarn/hadoop-yarn-site/YarnCommands.html#application_or_app)。`yarn logs` 还依赖日志聚合；本课未启用聚合时，保存 AM/task 页面或 NodeManager 本地日志并标清来源，不把取不到聚合日志认定成任务没运行。
 
 预期至少包含：
 
@@ -775,7 +777,7 @@ warning 1
 
 ### 证据怎么读
 
-1. `_SUCCESS` 存在，说明 OutputCommitter 完成最终提交。
+1. 用 `hdfs dfs -test -e /user/$USER/hadoop-lab-output/_SUCCESS` 并立即检查 `$?` 为零，证明当前输出目录有提交标记；它不是数据内容正确性的证明，仍要逐词校验。
 2. `part-r-00000` 是 reducer 输出，不是本地文件。
 3. RM 页面能看到 queue、user、elapsed time 与 tracking URL。
 4. JobHistory 中可以查看 map/reduce task、attempt 和 counters。
@@ -862,6 +864,8 @@ hdfs dfsadmin -report # 预期节点回到 live
 hdfs dfs -cat /user/$USER/hadoop-fault-input/alerts.txt # 预期重新读到 critical order-api
 hdfs fsck /user/$USER/hadoop-fault-input -files -blocks -locations # 预期恢复 HEALTHY
 ```
+
+不要把紧接着的一次 `report` 当最终验收：等 live 与 block report 恢复，再核对同一路径原文与 `fsck HEALTHY`。若两分钟内还不符合，保留日志排查，不删除 DataNode 目录或重新 format；也不要为“变绿”修改副本策略。
 
 ### 清理与复盘
 
@@ -1619,6 +1623,30 @@ HDFS（分布式文件系统）负责保存大文件，YARN（资源调度体系
 小文件数量过多时，瓶颈可能在元数据和调度，而不是总字节。Shuffle（中间数据重分布）可能在网络、排序和磁盘溢写处形成长尾；YARN 队列等待则发生在任务真正计算之前。用同一作业时间线区分这些阶段，再选择合并小文件、调整分区或资源策略。
 
 面试 30 秒先讲四个核心项目分工，3 分钟走文件写入到作业输出，接着讲故障域、恢复与容量。追问“退役节点怎么做”，回答先评估剩余空间、正常退役并验证块迁移，不能直接关机等系统自己兜底。生产证据要包含变更前后副本、队列、失败任务及业务结果，不只截一张绿色页面。
+
+## 独立通关：块、调度、计算和提交各交一份证据
+
+这五项只在本课新建集群做；HDFS 路径与 Linux 本地路径分两列记录。没有实际运行环境时交预测与命令计划，标“未运行”，不伪造 counters 或 Web UI。
+
+### 任务一：基础复现，更换数据而不是背答案
+
+自建 `/user/$USER/hadoop-exam-input`，写四行 `critical order-api`、`warning order-api`、`critical inventory-api`、`critical inventory-api`。上传后自己提交 WordCount 到新的 `hadoop-exam-output`，不用主实验路径。答案判据：`critical=3`、`warning=1`、`order-api=2`、`inventory-api=2`，总词数八；本次 application 的最终结果、客户端成功、`_SUCCESS` 和内容四份证据一致。若输入目录已存在则停止，不追加混入旧文件。清理先导出这次配置、输入、应用编号和结果，再仅对两个已确认的考试 HDFS 目录执行普通 `-rm -r`，不碰元数据目录。
+
+### 任务二：改变条件，副本目标不等于已有副本
+
+本集群只有一个 DataNode。先预测对考试文件执行 `hdfs dfs -setrep 2 /user/$USER/hadoop-exam-input/alerts.txt` 的结果，再观察 `-stat` 与 `fsck -files -blocks -locations`。自行上传时文件必须命名为 `alerts.txt`。答案：目标副本数可以变为二，但不能凭空出现第二个独立 DataNode，实际可用副本仍只有一、存在缺副本；不要加 `-w` 无限等待。收回时设回一，再复查实际位置。一个十字节文件、128MiB block size 也不必实际占用 128MiB 数据块空间；它仍有文件/block 元数据和磁盘分配开销，不能用“调小 block”消灭小文件元数据问题。
+
+### 任务三：故障证据，NameNode 活着为何读不到
+
+在主故障实验恢复后，用考试文件再做一次唯一 DataNode 受控停止。提交停止时间、`jps -lv`、20 秒受限读的退出码、live/dead 判定时间、block 位置和启动恢复后的原文。答案判据：客户端超时或连接失败可以早于 NameNode 判 dead；元数据可查询不等于内容可读；恢复是原数据节点重新服务，不是其他副本重建。先启动并验证 DataNode 再清理目录；读失败时不能 format、删 block 或强退 safemode。
+
+### 任务四：生产取舍，空间够为何仍不能退役
+
+四个 DataNode 各 100TB，逻辑数据 70TB、三副本，计划退役一个，要求剩余节点使用率不超过 70%。答案：现占 210TB，退役后总容量 300TB，正好达 70%，没有额外恢复/增长余量，不应仅凭“总量装得下”批准；还需单盘/机架放置、临时重建空间与带宽。若退役节点承载 50TB、可用迁移净带宽 250MB/s，按十进制单位至少 200,000 秒约 55.6 小时，不是几分钟；业务争用和副本调度还会更久。比较延期退役、先扩容、冷数据 EC，说明 EC 的写入/恢复限制和压测，不能直接全局转换。
+
+### 任务五：口述追问，算法正确与外部副作用分开
+
+用自己的八个词画 split、Map、Combiner、partition、spill、fetch、Reduce、commit。追问局部平均一组 `100,100`、一组 `0` 能否平均两组均值：不能，`(100+0)/2=50`，全量正确值是 `200/3≈66.67`，必须合并 sum/count。再追问推测执行两个 attempt 都调用工单接口，文件提交器为何不能撤销接口副作用；答稳定业务键、接口原子幂等或另设发布事务。最后解释 QJM 的元数据多数派不等于 DataNode 三副本，也不等于异地备份，并给出各自失败时的证据来源。
 
 ## 本课 GitHub 学习证据
 

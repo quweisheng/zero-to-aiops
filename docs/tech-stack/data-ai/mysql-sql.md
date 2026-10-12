@@ -94,9 +94,9 @@ MySQL（关系型数据库）
      -> enter queries（输入查询）
      -> create database（创建数据库）
      -> create table（创建表）
-     -> load data（数据）
-     -> retrieve（检索） data（数据）
-     -> batch（批次） mode
+     -> load data（载入数据）
+     -> retrieve data（检索数据）
+     -> batch mode（批处理模式）
      -> common queries（常见查询）
   -> MySQL Programs（MySQL 工具程序）
      -> mysql client（客户端）
@@ -120,7 +120,7 @@ MySQL（关系型数据库）
      -> indexes（索引）
      -> optimizer（优化器）
      -> EXPLAIN（查看执行计划）
-     -> slow query（查询） log（日志）
+     -> slow query log（慢查询日志）
   -> InnoDB（事务存储引擎）
      -> ACID（事务的原子性、一致性、隔离性与持久性）
      -> MVCC（多版本并发控制）
@@ -136,7 +136,7 @@ MySQL（关系型数据库）
      -> users（用户）
      -> privileges（权限）
      -> variables（变量）
-     -> backup（备份） and recovery
+     -> backup and recovery（备份与恢复）
      -> logs（日志）
   -> Observability（可观测性）
      -> INFORMATION_SCHEMA（对象元数据视图）
@@ -219,8 +219,8 @@ MySQL 是关系型数据库管理系统。
 client（客户端）
   -> sends SQL（结构化查询语言）
   -> MySQL Server（数据库服务进程）
-  -> parser / optimizer（优化器） / executor
-  -> storage（存储） engine
+  -> parser（解析器） / optimizer（优化器） / executor（执行器）
+  -> storage engine（存储引擎）
   -> data（数据） files（文件） and logs（日志）
 ```
 
@@ -267,10 +267,10 @@ mysql client（客户端）
   -> TCP 3306 / socket（TCP 端口或本地套接字）
   -> MySQL Server（数据库服务进程）
       -> connection manager（连接管理）
-      -> SQL（结构化查询语言） parser
+      -> SQL parser（SQL语法解析器）
       -> optimizer（优化器）
       -> executor（语句执行器）
-      -> storage（存储） engine API
+      -> storage engine API（存储引擎调用接口）
       -> InnoDB（事务存储引擎）
           -> buffer pool（缓冲池）
           -> clustered index（聚簇索引）
@@ -314,7 +314,7 @@ docker run -d --name aiops-mysql \
 进入容器内连接：
 
 ```bash
-docker exec -it aiops-mysql mysql -uaiops -paiops_pwd aiops_lab
+docker exec -it aiops-mysql mysql -uaiops -p aiops_lab
 ```
 
 从宿主机连接：
@@ -356,6 +356,8 @@ SHOW TABLES;
 ## 第一个 AIOps 数据库实验
 
 ### 创建数据库
+
+Docker 的 `MYSQL_DATABASE` 已为新实例创建 `aiops_lab`，并给课堂 `aiops` 账号授予该库权限；不是每次启动都重新初始化。进入后先确认 `SELECT DATABASE();` 为本库、`SHOW TABLES;` 为空，否则停止核对旧卷。下面建库语句用于理解语法，不是让你以普通账号在未知服务器补建数据库；不要用 IF NOT EXISTS 掩盖课堂已有数据。
 
 ```sql
 CREATE DATABASE IF NOT EXISTS aiops_lab
@@ -1012,7 +1014,7 @@ Extra 有 Using filesort
 
 ## 事务
 
-事务用于保证一组操作要么都成功，要么都失败。
+事务让相关数据库写入在提交/回滚边界内作为整体处理，但应用必须正确处理每条语句错误；不能以为一条失败后客户端继续执行 COMMIT，前面已成功的语句就必然撤销。InnoDB 的部分错误只回滚当前语句，死锁等错误又有不同范围，见[官方事务错误处理](https://dev.mysql.com/doc/refman/8.4/en/innodb-error-handling.html)。下面实验任何语句报错都立刻 ROLLBACK，不继续提交；数据库之外的通知和远程动作不在此事务里。
 
 例如把告警标记为恢复，同时插入一条处理事件：
 
@@ -1035,7 +1037,10 @@ START TRANSACTION;
 UPDATE alerts
 SET status = 'resolved',
     resolved_at = NOW()
-WHERE id = 2;
+WHERE id = 2 AND status = 'firing';
+
+SELECT ROW_COUNT() AS changed_rows;
+-- 只有 changed_rows=1 才继续 INSERT；为0或错误时立刻 ROLLBACK并停止本段。
 
 INSERT INTO alert_events(alert_id, event_type, message, created_at)
 VALUES (2, 'resolved', 'manual resolved by oncall', NOW());
@@ -1394,7 +1399,7 @@ SET GLOBAL slow_query_log = 'ON';
 SET GLOBAL long_query_time = 1;
 ```
 
-生产环境改全局参数要按变更流程。
+这些全局修改要课堂管理员权限，前面普通应用账号可能被拒绝；拒绝不是让你给应用账号补全局权限的理由。修改前保存两项旧值并在实验后恢复。`long_query_time` 有会话值，修改 GLOBAL 通常影响后续连接；已有客户端要重连或在本会话设置并核对 `@@session.long_query_time`，否则不能因旧会话没有慢日志就认定设置无效。[long_query_time 官方变量说明](https://dev.mysql.com/doc/refman/8.4/en/server-system-variables.html#sysvar_long_query_time)。生产环境改全局参数要按变更流程。
 
 ### 慢查询排查流程
 
@@ -1579,7 +1584,7 @@ GROUP BY runbook_name
 ORDER BY success_rate_percent DESC;
 ```
 
-在 MySQL 中，布尔表达式为真可当作 1，假可当作 0，所以 `SUM(status = 'succeeded')` 可以统计成功次数。
+在 MySQL 中，布尔表达式为真可当作 1，假可当作 0，所以 `SUM(status = 'succeeded')` 可以统计成功次数。此查询的分母含 queued/running/cancelled，表达的是“当前全部记录里已成功的比例”，不能直接叫执行终态成功率。若口径是已完成执行中成功比例，可在分组前增加 `WHERE status IN ('succeeded','failed')`，另报排队、运行和取消数量；口径改变要写进报表说明，不能为了让数字好看隐藏失败。
 
 ## 常用命令字典
 
@@ -1718,21 +1723,44 @@ volumes:
   mysql-data:
 ```
 
-启动：
+在新建且为空的 `projects/mysql-alert-analysis/` 保存该 YAML。`schema.sql` 只放本篇 alerts 与 deployments 两条完整 CREATE TABLE；`seed.sql` 只放对应四条告警和两条发布的两段 INSERT；`queries.sql` 放前文总数、分组、critical、未恢复、固定日期发布关联及 EXPLAIN 的完整查询。不要把带省略号、重复索引、DROP 或后文故障事务片段拼进基础导入。下面是 Windows PowerShell 路线，只使用容器里的 MySQL 客户端：
 
-```bash
+先 `Set-Location` 到自己项目的实际绝对路径，确认三个 SQL 文件与 `docker-compose.yml` 都在当前目录，再预检并启动：
+
+```powershell
+docker version
+if ($LASTEXITCODE -ne 0) { throw 'Docker 服务不可用' }
+docker compose version
+if ($LASTEXITCODE -ne 0) { throw 'Docker Compose 不可用' }
+docker container inspect aiops-mysql 2>$null
+if ($LASTEXITCODE -eq 0) { throw '同名容器已存在，不覆盖' }
+docker volume inspect mysql-alert-classroom_mysql-data 2>$null
+if ($LASTEXITCODE -eq 0) { throw '课堂数据卷已存在，核对旧数据，不复用混入' }
+if (Get-NetTCPConnection -LocalPort 3306 -State Listen -ErrorAction SilentlyContinue) {
+  throw '3306 已占用，不结束未知数据库'
+}
+docker compose -p mysql-alert-classroom config --quiet
+if ($LASTEXITCODE -ne 0) { throw 'Compose 语法不通过' }
 docker compose -p mysql-alert-classroom up -d
+if ($LASTEXITCODE -ne 0) { throw '创建失败，先看错误，不继续导入' }
+docker exec -it aiops-mysql mysql -uaiops -p aiops_lab
 ```
 
-导入：
+密码输入课堂合成值 `aiops_pwd`；首次初始化可能需要时间，最多观察两分钟、结合 `docker logs aiops-mysql`，只有成功连接且版本/账号/当前库/空表验收通过后，输入 `exit` 返回 PowerShell。`mysqladmin ping` 只证明服务器响应，不能代替正确账号查询。再执行下面逐个导入，任何失败都停止；禁止加 `--force` 跳过 SQL 错误。这里 `MYSQL_PWD` 只传课堂公开合成密码，容器环境可被管理员查看，生产要换受控凭据文件/密钥管理，不复用该方法：
 
-```bash
-mysql -h 127.0.0.1 -u aiops -p aiops_lab < schema.sql
-mysql -h 127.0.0.1 -u aiops -p aiops_lab < seed.sql
-mysql -h 127.0.0.1 -u aiops -p aiops_lab < queries.sql
+```powershell
+foreach ($sqlFile in @('schema.sql','seed.sql','queries.sql')) {
+  if (-not (Test-Path -LiteralPath $sqlFile -PathType Leaf)) { throw "缺少 $sqlFile" }
+  docker cp $sqlFile "aiops-mysql:/tmp/$sqlFile"
+  if ($LASTEXITCODE -ne 0) { throw "复制 $sqlFile 失败" }
+  docker exec -e MYSQL_PWD=aiops_pwd aiops-mysql sh -c "exec mysql -uaiops aiops_lab < /tmp/$sqlFile"
+  if ($LASTEXITCODE -ne 0) { throw "导入 $sqlFile 失败，不继续下一文件；保留错误和已执行状态" }
+}
 ```
 
 ### README 要写什么
+
+引号里的 `sh -c` 让容器内 Linux shell 处理 `<`，不是在 PowerShell 使用其不支持的输入重定向。Linux 也可用前文宿主客户端 Bash 路线，但先安装匹配客户端并完成同样的空基线与退出码验收。批量 DDL 有隐式提交，导入失败不保证已经创建的表自动消失；应记录已有对象、定位第一处错误，在新课堂实例复做，不直接再次导入 seed 造成翻倍。
 
 - 项目解决什么 AIOps 问题。
 - 数据库表结构。
@@ -1749,9 +1777,9 @@ mysql -h 127.0.0.1 -u aiops -p aiops_lab < queries.sql
 |---|---|---|---|
 | `Access denied` | 用户名、密码或来源主机不对 | 检查连接参数和 `SHOW GRANTS` | 修账号或授权 |
 | `Unknown database` | 库不存在或名字错 | `SHOW DATABASES` | `CREATE DATABASE` |
-| `Table already exists` | 表已存在 | `SHOW TABLES` | 用 `IF NOT EXISTS` 或确认后 drop |
+| `Table already exists` | 表已存在 | `SHOW TABLES`、`SHOW CREATE TABLE` | 停止核对归属与结构；不加 IF NOT EXISTS 掩盖旧模式，也不直接 drop |
 | `Unknown column` | 字段名写错 | `DESCRIBE table` | 修字段名 |
-| `Duplicate entry` | 主键或唯一键冲突 | 看报错键名 | 改数据或唯一约束 |
+| `Duplicate entry` | 主键或唯一键冲突 | 看报错键名、业务请求键与原记录 | 区分合法重试、冲突和错误键设计；不为消除错误随意取消唯一约束 |
 | 查询慢 | 没索引或返回太多 | `EXPLAIN` | 加索引、加过滤 |
 | 连接打满 | 连接池过大或慢查询 | `SHOW PROCESSLIST` | 调连接池、修慢 SQL |
 | 锁等待 | 长事务未提交 | `SHOW PROCESSLIST`、InnoDB status | 提交/回滚长事务 |
@@ -1873,9 +1901,9 @@ CREATE TABLE lesson_claim (
   id INT PRIMARY KEY, status VARCHAR(16) NOT NULL, version_no INT NOT NULL
 ) ENGINE=InnoDB;
 INSERT INTO lesson_claim VALUES (1,'OPEN',1);
-UPDATE lesson_claim SET status='ACKED', version_no=2 WHERE id=1 AND version_no=1;
+UPDATE lesson_claim SET status='ACKED', version_no=2 WHERE id=1 AND status='OPEN' AND version_no=1;
 SELECT ROW_COUNT() AS first_claim; -- 预期 1
-UPDATE lesson_claim SET status='ACKED', version_no=2 WHERE id=1 AND version_no=1;
+UPDATE lesson_claim SET status='ACKED', version_no=2 WHERE id=1 AND status='OPEN' AND version_no=1;
 SELECT ROW_COUNT() AS stale_claim; -- 预期 0：模拟另一个客户端使用旧版本
 SELECT * FROM lesson_claim;
 ```
@@ -2024,13 +2052,37 @@ SELECT * FROM lesson_lock_wait ORDER BY id;
 
 追问“为什么事务错误后不能只重试最后一句”，答案是前面语句可能已回滚或上下文已变化，需要按错误语义处理完整业务事务。追问“删除后磁盘为什么没明显变小”，答案是页内可复用空间与文件归还操作系统不是同一过程，不应据此去删数据文件。追问“报表成功率下降是不是自动化坏了”，先检查分母是否包括排队与运行中任务，再核对终态与业务验证。
 
+## 独立通关：查询口径、事务范围和恢复结果独立证明
+
+以下使用新的课堂对象，不修改基础四条告警答案；没运行 MySQL 时提交推演和“未运行”，不编造计划或锁日志。
+
+### 任务一：基础复现，连接成功不等于口径正确
+
+在新表 `exam_alerts_20261012` 创建 id 主键、service、created_at、resolved_at 四列，写四行：订单服务两行分别持续10和30分钟；支付服务两行，一行持续20分钟、一行未恢复。自己写聚合、NULL查询和固定日期半开区间 SQL。答案判据：COUNT(*)四、COUNT(resolved_at)三，订单已恢复平均20分钟、支付已恢复平均20分钟，同时明确支付另有一条未恢复，不能宣称所有告警平均恢复20分钟。给每行指定日期时间并保持同一 UTC 口径。验证后仅 DROP 这张新表，导出 SQL 与实际结果。
+
+### 任务二：改变条件，JOIN 为什么把告警算多
+
+为订单两条告警各添加两条匹配执行记录，保留支付无执行记录，用 LEFT JOIN 统计。答案：连接后六行（订单四、支付两条各保留一行）；COUNT(*)是六，COUNT(右表主键)四，COUNT(DISTINCT告警主键)四。若把 `右表.status='succeeded'` 移到 WHERE，原本无匹配的支付行被排除；把条件放在 ON 才能保留左表告警。先说明你统计告警、执行还是事故，再选SQL，不把 DISTINCT 当修复所有坏关联的万能补丁。
+
+### 任务三：故障证据，失败语句和整笔事务不是一回事
+
+重做双会话锁实验但把甲写值改为21、乙改为22；记录数据库、连接ID、事务顺序、三秒超时、乙ROLLBACK、甲COMMIT、乙新事务成功与最终22。额外推演：事务先改告警成功，再插重复唯一键失败，此时不立即提交，先按错误语义检查并ROLLBACK；不能把锁超时和死锁都叫“自动全回滚”。收回只清理本次专用表、关闭会话参数，保留错误。连接在COMMIT后断开则标结果未知，用稳定业务键查询，不生成新业务键盲重试。
+
+### 任务四：生产取舍，容量、连接与恢复一同评审
+
+每天200万记录、每条完整表与索引占用按实测假设1.5KB、90天、一主两副本、目标75%水位。按十进制单位，逻辑保留270GB，每节点至少360GB、三节点合计1.08TB，仅覆盖这部分，不含binlog、备份、临时DDL和故障余量。30个应用每个池上限20条，共600连接；若库上限500且保留50，池均额需不超过15，仍须按负载测等待与超时，不能只把上限调600。恢复设计必须交隔离恢复目标、备份一致点、连续binlog范围、错误前目标点及合法后续写入的对账方案；复制和镜像降级都不是备份恢复。
+
+### 任务五：口述追问，用反例限制结论
+
+30秒讲结构化事实、SQL与InnoDB；3分钟从认证、计划、索引、锁/版本、日志到提交响应。追问四行小表EXPLAIN全扫是否必然错误（不是，成本可能更低）；WHERE含索引是否一定只锁目标一行（不是，路径/范围/隔离相关）；ALTER后ROLLBACK能否保证撤销（不能，隐式提交与DDL语义另核对）；副本读到旧领取状态能否立刻让另一人执行（不能，用权威条件更新裁决）。最后说出一次升级的可回退边界：新旧Schema/驱动兼容、恢复点、在途事务和旧主隔离，不承诺旧二进制直接读取新数据目录。
+
 ## 本课 GitHub 学习证据
 
 学完这篇，建议留下这些证据：
 
 1. 一个 `docker-compose.yml`，能启动 MySQL 8.4。
 2. 一个 `schema.sql`，包含 alerts、deployments、incidents、runbook_executions 表。
-3. 一个 `seed.sql`，包含至少 20 条样例告警和发布数据。
+3. 一个 `seed.sql`，先包含基础四条告警和两条发布；扩充样例放独立考试表并另写预期，别改变主实验基线。
 4. 一个 `queries.sql`，包含至少 10 条 AIOps 分析 SQL。
 5. 一张 `EXPLAIN` 截图或输出记录。
 6. 一份慢查询排查笔记。

@@ -360,6 +360,8 @@ tag v*（版本标签触发）
 
 ## CI 阶段深讲
 
+这一节是命令与配置词典，不是一份可以逐条执行的脚本。`./chart`、`k8s/`、`prod` 和示例镜像必须替换为已经审批且准备好的对象；零基础先做后面的本地状态模拟，不需要也不应向生产部署。需要实际写远端仓库的实验，仅在自己的独立学习仓库运行，并先确认 Actions 额度、仓库权限和默认分支。
+
 ### checkout
 
 runner 默认不是你的项目目录。需要先拉代码。
@@ -544,6 +546,7 @@ jobs:
           cache: npm
 
       - run: npm ci
+      - run: npm test
       - run: npm run docs:build
 
       - uses: actions/upload-artifact@v4
@@ -559,7 +562,7 @@ jobs:
 2. 拉取代码。
 3. 固定 Node 版本。
 4. 安装依赖。
-5. 构建文档。
+5. 运行项目测试并构建文档。
 6. 保存构建产物。
 
 它没有做：
@@ -1277,7 +1280,9 @@ gh run rerun '<run-id>'
 
 ## 入门实验 1：给知识库建立 CI
 
-目标：每次 PR 或 push 都自动构建文档。
+目标：每次 PR 或 push 都自动测试并构建文档。先用 GitHub 页面 Fork 本仓库到个人账号，或准备具有相同 package.json 与锁文件的独立学习仓库；不要给组织生产仓库直接添加流程。安装 Git 与项目支持的 Node.js，克隆**自己的**仓库并进入含 package.json 的根目录；用 `git remote -v` 确认归属、`git status -sb` 确认分支，先在本地执行 `npm ci`、`npm test`、`npm run docs:build`，任一步失败先修复而非推送碰碰运气。
+
+以下 workflow 保存到自己的学习分支后，提交并推送该分支、创建目标 main 的 PR。`pull_request` 检查不代表自动禁止合并：需要管理员在仓库 Rulesets/分支规则中把对应 job 配为必需状态检查；个人账号能看到什么环境保护功能还取决于仓库可见性和套餐。这里没有要求读者变更真实生产权限。
 
 文件：
 
@@ -1310,6 +1315,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - run: npm test
       - run: npm run docs:build
 ```
 
@@ -1355,7 +1361,8 @@ cat > reports/deployment.json <<'JSON'
   "service": "zero-to-aiops-docs",
   "environment": "staging",
   "version": "sha-demo",
-  "status": "success"
+  "status": "simulated",
+  "is_simulation": true
 }
 JSON
 ```
@@ -1371,7 +1378,8 @@ JSON
             "service": "zero-to-aiops-docs",
             "environment": "staging",
             "version": "sha-demo",
-            "status": "success"
+            "status": "simulated",
+            "is_simulation": true
           }
           JSON
 
@@ -1386,6 +1394,8 @@ JSON
 - deployment event 是 AIOps 里的重要上下文。
 - 后续可以把它写到日志系统、数据库或事件平台。
 
+这份记录只演示数据格式，没有部署动作，必须保留模拟标志，不进入生产成功率统计。真正事件应由验收步骤填写 commit、制品摘要、环境和部署标识；不要靠手写 `success` 制造上线证明。此处 `cat` 是教读者在 Bash/Ubuntu runner 中生成自己的练习数据，不适用于 PowerShell 终端。
+
 ## 入门实验 4：故意制造失败
 
 做一次受控失败：
@@ -1396,6 +1406,8 @@ JSON
 4. 找到失败 step。
 5. 修复。
 6. 再 push。
+
+成功判据是同一个 PR 的新提交上故障步骤已移除、正确 workflow/job 重新通过，且产物确实属于新提交，不是只看最近一条绿色记录。清理时关闭自己的练习 PR，按个人需要删除该学习分支/过期 artifact；不要清理共享仓库缓存或生产发布记录。
 
 记录一篇复盘：
 
@@ -1579,7 +1591,7 @@ CI/CD 是把软件从提交到发布的过程自动化和标准化。CI 关注�
 
 ### 本地基础与故障实验：制品通过测试后，被改过还会不会发布
 
-前提：有 Python 3，一个新建空目录 `delivery-classroom`，不需要 Docker、云账号或生产凭据。用编辑器创建 `delivery_lab.py`：
+前提：有 Python 3，一个新建空目录 `delivery-classroom`，不需要 Docker、云账号或生产凭据。Windows 从 [Python 官方安装入口](https://www.python.org/downloads/windows/) 安装并确认 `python --version` 指向实际解释器，而不是打开商店的别名；在 PowerShell 用 `New-Item -ItemType Directory delivery-classroom -ErrorAction Stop` 新建后 `Set-Location delivery-classroom`。Linux/WSL 使用 `python3 --version`，后面把命令中的 python 换成 python3；目录已存在就换新目录，不覆盖。用编辑器创建 `delivery_lab.py`：
 
 ```python
 import hashlib
@@ -1630,6 +1642,8 @@ if __name__ == "__main__":
 依次执行 `python delivery_lab.py normal`、`python delivery_lab.py tamper`、`python delivery_lab.py bad-release`，每次执行后立即看 Bash 的 `$?` 或 PowerShell 的 `$LASTEXITCODE`。预期分别是 `verified: current=v2` 且 0、`blocked...current=v1` 且 2、`rolled_back...current=v1` 且 3。第二种在变更前拦截，第三种是合法制品但业务验证失败后恢复旧状态；这两个故障不是同一回事。
 
 这只是本地状态模拟，不是真实服务器部署，也不是数字签名实验。`TemporaryDirectory` 只清理自己新建的临时目录；运行结束没有后台进程。保留源码与三次输出作为证据，要结束学习仅删除自己创建的 `delivery_lab.py` 和空目录即可。若输出不符，先核对 mode 拼写、保存的阈值和是否用了完整文件；若写临时目录失败，检查当前账户临时目录权限，不改系统根目录权限。
+
+本轮核验（2026-10-12）：Windows / Python 3.14.5 下执行这段完整源码的三种模式，实际得到 v2/0、拦截 v1/2、恢复 v1/3，与上述预期相符。这只验证本地 Python 模拟；GitHub Actions、真实制品晋级、环境审批和生产恢复没有在本轮执行。
 
 ### 金丝雀判断：没有流量时，错误率为零也不算通过
 
@@ -1704,6 +1718,16 @@ Secrets（秘密）与配置也应分层。构建公共前端时，注入到浏�
 故障注入再把目标从测试改成生产，其他值不变。预期同样阻断，因为目标环境是授权的一部分。验证方式是逐项比较输入，不靠看审批按钮颜色。若三轮都通过，先查规则是否只检查了“存在审批”而没检查审批覆盖的对象。清理删除自己的合成笔记即可，没有令牌、仓库设置或远端资源需要撤销。此实验验证判断逻辑，不证明真实平台已部署相应门禁。
 
 三十秒面试答案：审批必须绑定不可变产物及环境，摘要、身份和来源证明各有职责，任何一环都不能代替运行后的业务验收。三分钟再沿输入固定、构建隔离、证明验证、环境授权、部署状态和恢复证据说明事故如何被拦截。生产设计追问“审批后又来紧急补丁”，应为新对象重新走适用的快速审批路径，而不是借用旧版本批准记录。
+
+## 独立通关：一条绿色流水线到底证明了什么
+
+1. **基础复现。** 不看成品，重建本地 delivery_lab 三种运行，保存完整源码、Python 版本、三条输出及每次紧随其后的退出码。答案判据：normal=0/v2，tamper=2/仍 v1，bad-release=3/恢复并验证 v1；明确全部是内存状态模拟，不是云端上线。若另外运行个人仓库 CI，补 commit、run ID、测试日志和下载的制品，不能混成同一种证据。
+2. **改变条件预测。** 批准制品甲后分支移动到乙，部署仍下载甲，是否要仅因分支变化阻断？若下载乙呢？答案判据：先看审批是否绑定不可变摘要和环境；甲在有效授权和未撤销政策下可继续后续验收，乙必须重新验权/验证；分支同名或测试过旧提交不能覆盖新字节。
+3. **故障证据。** 在个人 PR 中加入 `exit 42`，记录准确失败 step、提交和未执行的下游；修复后比较新 run。然后解释发布远端返回超时为什么不能等同 exit 42。答案判据：前者已知本步骤失败，后者可能已产生副作用，应按部署 ID 查真实版本、迁移记录和幂等状态，unknown 不自动重发。
+4. **设计取舍。** 每小时 10 万请求的服务做 1% 灰度，前 5 分钟无报错但指标采集失败，能否扩到全量？答案判据：期望灰度样本约 83 次只是估算，实际仍须核对路由与样本；采集未知不得当健康，需观测恢复/合成探针/授权停点。选择兼容迁移、环境锁、同制品和容量余量；解释蓝绿切回不撤销数据库新写入。
+5. **口述追问。** 三分钟从提交讲到业务验收，分别解释摘要、签名、来源证明、环境审批、artifact 与 cache。再计算：按事先定义的同一服务口径，20 次生产部署中 2 次需事故干预，失败率是 10%，普通 CI 失败不加到分子。追问“重跑绿了能抹掉首次失败吗”：不能，保留不稳定测试和事故原始记录，指标用于改进系统。
+
+缺任何凭证，回到“老师带练：发布系统首先是一台状态机”“发布信任课堂：审批的是哪一份东西”或相应实验重做。阅读通过不等于发布能力已经在真实环境验收，复现和变式答辩都通过后再申请受控环境练习。
 
 ## 学习证据
 

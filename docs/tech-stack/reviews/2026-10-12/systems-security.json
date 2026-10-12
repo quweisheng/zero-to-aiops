@@ -1,0 +1,168 @@
+[
+  {
+    "article": "security-compliance/mlps.md",
+    "crossReview": {
+      "reviewer": "foundation-frontend",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "6f079d00eb97578ea73ea4dda482ab7e2976b67bb0d1d4881db1138583369be5",
+      "result": "pass",
+      "findings": [
+        "全文复核。网信办修正法全文核实第二十三条等级保护及不少于六个月网络日志、第二十七条应急义务，文章没有沿用旧条号或把自查当正式测评。五等级按侵害客体区分，云平台报告和租户责任不混淆。",
+        "正文Save-LabEvidence函数实际执行，用内存输出替换Out-File避免采集本机敏感信息；正常、模拟无权限、后续正常分别collected/failed/collected，失败未抹成成功。全部PowerShell段语法解析通过；目录、批次GUID、哈希清单自引用/来源真实性和脱敏再摘要边界合理。",
+        "五关覆盖新供应商边界、90/120=75%和90/150=60%、采集失败、同改文件清单的反例、调岗新连接/存量会话/绕过路径。未执行真实本机证据采集或正式测评，Linux/Kubernetes控制有效性亦未运行。"
+      ]
+    },
+    "writer": "systems",
+    "reviewedAt": "2026-10-12",
+    "initialFindings": [
+      "采集脚本部分PowerShell命令失败后仍生成文件与哈希，需人工才能发现缺口。",
+      "WAF/IAM等前置术语与平台命令混入零基础路线；缺技术专属独立迁移判据。"
+    ],
+    "changes": [
+      "补分层路线、准备入口和安全工具类别释义，核对修正法和现行定级/基本要求入口。",
+      "采集函数逐项捕获终止与非终止错误，另存状态/原因，不把空文件计成功。",
+      "增加边界变动、覆盖分母、合成采集失败、可信摘要与撤权事故五关。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "从三项合成资产与文本编辑器起步，Windows取证为下一层，不要求搭集群。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "保护对象到控制/证据/整改及身份、网络、日志、恢复五段机制含观察与故障。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "纸面证据表与Windows只读证据包有精确操作、预期、失败状态、隐私和清理。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "调岗/日志迁移模拟及采集失败关卡保留原记录、修复复核、不改真实权限。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "共享责任、持续控制、采集平台自身HA/容量/最小权限和变更重评边界明确。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "递进答案与生产设计/离职账号事故说明证据、反证、修复影响与回退。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "五关按120/150源算75%/60%，哈希同改反例与权限链核验可判定。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "AIOps监控资产、漂移、日志失鲜、整改与模型权限，GitHub只公开合成/脱敏证据。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "全文走读，官方修正网络安全法第二十三/二十七条与GB/T22239/22240状态入口复核；覆盖率复算。",
+        "limits": "未逐条法律审查或正式定级测评，不替代行业/属地/责任人意见。"
+      },
+      {
+        "kind": "syntax",
+        "detail": "安全两篇合计3个PowerShell围栏解析及10个Bash围栏语法检查通过。",
+        "limits": "语法不证明产品配置或真实权限有效。"
+      },
+      {
+        "kind": "executed",
+        "detail": "正文采集函数使用模拟输出写入，正常、throw、非终止Write-Error三分支验证状态与失败原因。",
+        "limits": "未采集本机安全数据，模拟文件I/O不证明真实落盘、访问控制与防篡改。"
+      }
+    ],
+    "status": "revised-awaiting-cross-review"
+  },
+  {
+    "article": "security-compliance/jumpserver.md",
+    "crossReview": {
+      "reviewer": "foundation-frontend",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "5f912194d27b662fef45b2a24ee5abb8b1da29aded5fdc74039195aa4512d074",
+      "result": "pass",
+      "findings": [
+        "全文复核。官方GHSA-6rp5-ff2m-qfrm核实v4修复下界4.10.19-lts及疑似泄露需轮换；固定v4安装器与v5/许可边界分开，没有把固定版当永远安全。下载安装使用新临时目录，旧安装/数据和同名目标账号存在时停止，不覆盖或改密。",
+        "基础SSH身份-授权-账号-连接-审计与错误端口恢复路径闭合，说明普通js-lab仍能写自身家目录不是强制只读沙箱；精确ss端口、主机名不等于资产名、存量会话撤权待实测。数据库/Redis/密钥/录像恢复单元和维护窗口数据库迁移而非零停机回滚讲清。",
+        "五关角色与连接分离、节点3扩5潜在扩权、单网区超时证据、录像日16.48GiB/180日2.90TiB/两完整副本5.79TiB复算通过，以及旧凭据不作安全回滚目标。无两台隔离Linux虚拟机，安装器、资产访问、故障恢复与商业功能均未实跑；本次为全文机制/命令静态审查和官方公告核对。"
+      ]
+    },
+    "writer": "systems",
+    "reviewedAt": "2026-10-12",
+    "initialFindings": [
+      "固定v4.10.18已落入后来官方Access Key泄露公告影响范围，旧安全下限不足。",
+      "准备默认已会Linux虚拟机；grep ':22'可能误把2223计为22端口监听，apt更新失败未停止。",
+      "原检查单不能验证授权范围扩大、协议容量和泄露后的恢复决策。"
+    ],
+    "changes": [
+      "升隔离课堂到v4.10.19-ce，标出v5已发布但本文不套用v5，核验installer发布资产、静态版本和服务组/Socket源码。",
+      "补入口与SSH/RDP/WebSocket基础，精确ss过滤两端口并在更新失败停止。",
+      "补用户角色/节点扩权/单区失败/录像容量/泄露轮换五关。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "纸面授权先行，实际安装限定两台新隔离LinuxVM和准备入口，零基础不在Windows跑安装器。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "User/Asset/Account、Core到各Connector及数据库/Redis/录像/密钥恢复单位解释清晰。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "固定安装器下载校验、初始化、六步访问审计有预期、失败链和回收顺序。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "单资产错误端口不改真实sshd，22/2223对照、Koko日志、恢复会话与审计验证。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "长连接LB、共享状态HA、协议容量、Socket主机信任、凭据轮换和数据库回退边界。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "八组递进追问与LB事故/5000资产设计有机制取舍和保留未知范围。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "五关改变用户/节点/网区与录像数据，新容量给单位和副本定义，不许镜像回退掩盖泄露。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "访问/权限/审计事件进AIOps调查、变更和RCA，不让模型分数自动断全网；学习证据脱敏。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "全文走读；gh核对2026-10-12发布与GHSA-6rp5公告及v4.10.19安装器资产、static.env、service.sh、core.yml。",
+        "limits": "固定版本只解决已核对公告的影响线，不保证无其他漏洞或所有平台兼容。"
+      },
+      {
+        "kind": "syntax",
+        "detail": "本文10个Bash围栏经Git Bash -n语法检查通过。",
+        "limits": "未运行Linux安装器、JumpServer、目标SSH或真实网络与审计；预期仍待隔离实跑。"
+      }
+    ],
+    "status": "revised-awaiting-cross-review"
+  }
+]

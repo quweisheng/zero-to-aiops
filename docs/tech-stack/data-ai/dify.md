@@ -654,7 +654,7 @@ client（客户端） / business backend（业务后端）
 ```text
 user uploads document（文档）
   -> api stores metadata（元数据） and original file（文件）
-  -> task enters Redis broker（消息服务节点）
+  -> task enters Redis broker（异步任务消息中介）
   -> worker consumes（工作进程消费任务） task
   -> parser extracts content（解析器提取正文）
   -> cleaner（清洗器） and splitter（切分器） create chunks
@@ -696,32 +696,39 @@ user uploads document（文档）
 - CPU 至少 2 核。
 - 内存至少 4 GiB。
 
-Windows 使用 WSL 2 和 Docker Desktop。官方提醒把 Linux 容器使用的源码与绑定数据放在 Linux 文件系统中，避免 Windows 文件系统带来的性能和权限问题。Docker Compose 需要 2.24.0 或更高版本。
+Windows 使用 WSL 2 和 Docker Desktop。官方提醒把 Linux 容器使用的源码与绑定数据放在 Linux 文件系统中，避免 Windows 文件系统带来的性能和权限问题。Docker Compose 需要 2.24.0 或更高版本。下面部署段统一在 WSL 的 Ubuntu 终端执行，不在 `C:\`、`D:\` 或 `/mnt/c` 中克隆；在 Docker Desktop 设置里启用该发行版的 WSL 集成。后面的 API 调用段才回到 Windows PowerShell。Linux 用户可以直接在自己的 Linux 终端执行部署段。先准备 Git 和 Python 3（只用于生成本机随机密钥），不会要求你预先安装模型。
 
 先检查：
 
-```powershell
+```bash
 docker version
 docker compose version
 git --version
+python3 --version
 ```
 
-预期结果：三条命令都能输出版本，Docker Engine 状态为可连接。
+预期结果：四条命令都能输出版本，Docker Engine 的客户端和服务端都可连接。任何一条失败先停止，修复 WSL 集成、权限或缺失工具；只看到 Docker 客户端版本不算通过。不建议为方便而给普通用户开放不受限的远程 Docker 端口。
 
 ### 固定版本部署
 
 学习和生产都不要无意中追随 `main`。本文基线：
 
-```powershell
-git clone --branch 1.16.1 --depth 1 https://github.com/langgenius/dify.git
-Set-Location .\dify\docker
-Copy-Item .env.example .env
+```bash
+cd "$HOME" || exit 1
+test ! -e dify-aiops-lesson || { echo '课堂目录已存在，停止并核对归属'; exit 1; }
+git clone --branch 1.16.1 --depth 1 https://github.com/langgenius/dify.git dify-aiops-lesson || exit 1
+cd dify-aiops-lesson/docker || exit 1
+test ! -e .env || { echo '.env 已存在，停止，不能覆盖旧密钥'; exit 1; }
+cp -n .env.example .env || exit 1
+python3 -c 'import secrets; print(secrets.token_urlsafe(42))'
 ```
+
+`$HOME` 是系统已有的当前 Linux 用户家目录，这里只读取它，不修改变量；这个课堂仓库必须是新建目录。最后一行每运行一次产生一个独立随机值：为下表各密钥分别运行、分别填入 `.env`，不要把同一个值复用给所有服务。用文本编辑器打开 `.env`（例如已安装 VS Code 时运行 `code .env`，或 Ubuntu 的 `nano .env`）；找不到编辑器先解决，不把带密钥内容粘到公开聊天里。
 
 先停在这里，不要立即启动。确认这是新建的独立目录，首次启动前至少修改 `.env` 中的以下配置，尖括号必须换成真实随机值：
 
 ```dotenv
-SECRET_KEY=<用 openssl rand -base64 42 生成>
+SECRET_KEY=<用上面的 Python secrets 命令单独生成>
 INIT_PASSWORD=<只用于保护首次安装页的临时强密码>
 DB_PASSWORD=<新的数据库强密码>
 REDIS_PASSWORD=<新的 Redis 强密码>
@@ -729,7 +736,7 @@ SANDBOX_API_KEY=<新的随机值>
 PLUGIN_DAEMON_KEY=<新的随机值>
 PLUGIN_DIFY_INNER_API_KEY=<另一个新的随机值>
 DIFY_AGENT_API_TOKEN=<另一个新的随机值>
-DIFY_AGENT_SERVER_SECRET_KEY=<用 python -c "import secrets; print(secrets.token_urlsafe(32))" 生成>
+DIFY_AGENT_SERVER_SECRET_KEY=<用上面的 Python secrets 命令另行生成>
 COMPOSE_PROJECT_NAME=dify-aiops-lesson
 EXPOSE_NGINX_PORT=127.0.0.1:80
 EXPOSE_NGINX_SSL_PORT=127.0.0.1:443
@@ -739,27 +746,32 @@ EXPOSE_NGINX_SSL_PORT=127.0.0.1:443
 
 本机课堂还要收紧插件调试端口：在这份专用克隆的 `docker-compose.yaml` 中，把 `plugin_daemon.ports` 的映射改为 `"127.0.0.1:${EXPOSE_PLUGIN_DEBUGGING_PORT:-5003}:${PLUGIN_DEBUGGING_PORT:-5003}"`。不要把地址写入 `EXPOSE_PLUGIN_DEBUGGING_PORT` 本身，因为 API 也把它当作端口数值使用。官方默认发布端口不等于只允许本机访问；修改依据是 [1.16.1 的 Compose 配置](https://github.com/langgenius/dify/blob/1.16.1/docker/docker-compose.yaml)。保持终端位于这个 `docker` 目录，检查最终发布端口与启用的配置档，不能出现不需要的全网卡监听，再启动：
 
-```powershell
-docker compose config --quiet
-docker compose up -d
+```bash
+docker ps -a --filter label=com.docker.compose.project=dify-aiops-lesson
+docker volume ls --filter label=com.docker.compose.project=dify-aiops-lesson
+test ! -e volumes || { echo '绑定数据目录已存在，停止核对'; exit 1; }
+docker compose config --quiet || exit 1
+docker compose up -d || exit 1
 docker compose ps
 ```
+
+前两条是只读归属检查；若出现已有容器或卷，先停下来确认是否旧课程或他人的环境，不执行删除。核对本机 80、443、5003 未被其他服务占用；默认数据还会保存在本仓库 `docker/volumes` 绑定目录，独立项目名并不能自动隔离一个被复用的宿主机目录。`up` 失败时先看错误，不能直接跳到初始化页面宣告成功。
 
 `config --quiet` 只验证配置语法，不证明网络安全；`ps` 的 Ports 列用于再次核对实际发布地址。不要把包含密钥的完整 `docker compose config` 输出当作学习截图。预期核心和依赖容器为 `Up` 或 `healthy`；`init_permissions` 完成后退出正常。随后打开 `http://localhost/install` 初始化管理员。固定版本便于复现，不代表永久安全；正式上线仍需评估安全公告和支持范围。
 
 ### 启动后的最小检查
 
-```powershell
+```bash
 docker compose ps
 docker compose logs --tail 100 api
 docker compose logs --tail 100 worker
 docker compose logs --tail 100 plugin_daemon
-Invoke-WebRequest http://localhost -UseBasicParsing
+curl --fail --max-time 10 -I http://localhost
 ```
 
 验证：
 
-- 首页 HTTP 状态为 200。
+- 直接打开首页或检查受控重定向后的最终页面应为 HTTP 200，并且正文是本次 Dify 的初始化或工作台页面。首次 `-I` 只读取响应头：若返回 3xx，先核对 `Location` 的协议、主机和端口属于本次本机环境；不能把正常重定向直接判为平台故障，也不能跟随到陌生地址。确认目标后再用 `curl --fail --max-time 10 --max-redirs 3 --location -i http://localhost` 查看有限重定向后的 GET 状态与正文；curl 退出零本身不证明最终状态或页面身份正确。
 - API 日志没有持续数据库迁移或连接错误。
 - Worker 没有持续重连 Redis。
 - Plugin Daemon 没有持续鉴权或存储错误。
@@ -867,9 +879,12 @@ Invoke-WebRequest http://localhost -UseBasicParsing
 | `task_id` | 运行中的任务 ID | 用于停止任务 | 不等于持久运行记录 ID |
 | `workflow_run_id` | 持久的 Workflow 运行记录 ID | 用于查询和关联日志 | 应写入调用方日志 |
 
-PowerShell 调用模板：
+PowerShell 调用模板（先完成下文无模型工作流并发布；如果未创建对应变量，不能直接拿它测试任意 App）：
 
 ```powershell
+if ([string]::IsNullOrWhiteSpace($env:DIFY_APP_API_KEY) -or $env:DIFY_APP_API_KEY -match '^<') {
+  throw '请先设置本课 App API Key，不能使用占位符'
+}
 $headers = @{
   Authorization = "Bearer $env:DIFY_APP_API_KEY"
   "Content-Type" = "application/json"
@@ -888,7 +903,8 @@ Invoke-RestMethod `
   -Method Post `
   -Uri "http://localhost/v1/workflows/run" `
   -Headers $headers `
-  -Body $body
+  -Body ([System.Text.Encoding]::UTF8.GetBytes($body)) `
+  -TimeoutSec 30
 ```
 
 安全提示：环境变量只是学习环境的便捷方式。生产使用密钥管理系统，限制读取权限，定期轮换并审计调用。
@@ -1111,6 +1127,9 @@ $env:DIFY_APP_API_KEY = "<你的 App API Key>"
 ### 第七步：调用 API
 
 ```powershell
+if ([string]::IsNullOrWhiteSpace($env:DIFY_APP_API_KEY) -or $env:DIFY_APP_API_KEY -match '^<') {
+  throw '请先设置本课 App API Key，不能使用占位符'
+}
 $headers = @{
   Authorization = "Bearer $env:DIFY_APP_API_KEY"
   "Content-Type" = "application/json"
@@ -1129,9 +1148,23 @@ $result = Invoke-RestMethod `
   -Method Post `
   -Uri "http://localhost/v1/workflows/run" `
   -Headers $headers `
-  -Body $body
+  -Body ([System.Text.Encoding]::UTF8.GetBytes($body)) `
+  -TimeoutSec 30
 
 $result | ConvertTo-Json -Depth 10
+if (-not $result.workflow_run_id -or $result.data.status -ne 'succeeded') {
+  throw '入口响应不等于运行成功：保留 Run ID，检查运行状态与首个失败节点'
+}
+$normalized = $result.data.outputs.normalized_alert
+if ($normalized -isnot [string] -or [string]::IsNullOrWhiteSpace($normalized)) {
+  throw 'normalized_alert 应为非空字符串，检查 Output 绑定'
+}
+# 此校验只适用于上面的 JSON 模板；选了纯文本退路时按文本约定验收。
+$alert = $normalized | ConvertFrom-Json -ErrorAction Stop
+if ($alert.severity -ne 'critical' -or $alert.alert_text -ne 'payment-api p99 latency is 2.8s' -or
+    $alert.needs_human_review -isnot [bool] -or $alert.needs_human_review -ne $true) {
+  throw '工作流成功但业务输出不符合本课契约'
+}
 ```
 
 预期结果：
@@ -1140,6 +1173,8 @@ $result | ConvertTo-Json -Depth 10
 - 有 `workflow_run_id`。
 - `data.status` 为成功状态。
 - 输出中包含 `normalized_alert`。
+
+Template 的 JSON 文本仍然是一个字符串，不能把“长得像 JSON”当成已经是对象；`ConvertFrom-Json` 再把它解析为字段。`needs_human_review` 的布尔真值只是提示需要人工复核，不是审批权限凭据。这里 30 秒只保护无模型小实验：客户端超时不能证明服务端没有执行，带真实副作用时先用运行 ID 和业务幂等键查结果，不能盲目重新提交。调用与 Compose 检查在不同终端，Compose 命令仍回到 WSL 中本课的 `docker` 目录执行。
 
 ### 第八步：保存学习证据
 
@@ -1155,7 +1190,7 @@ $result | ConvertTo-Json -Depth 10
 
 #### 页面打不开
 
-```powershell
+```bash
 docker compose ps
 docker compose logs --tail 100 nginx
 docker compose logs --tail 100 web
@@ -1216,7 +1251,7 @@ upload（上传） accepted
 - 不在生产环境停止共享 Worker。
 - 文档只包含虚构 Runbook。
 - 不删除卷，不执行 `docker compose down -v`。
-- 本轮明确选择 Economical（经济型）索引，只验证关键词索引，不配置 Embedding 或 Rerank，不调用付费模型。它不同于后文高质量索引路径，见[官方知识库入门中的索引选择](https://dify.ai/blog/create-knowledge-in-dify-for-beginners)。
+- 本轮明确选择 Economical（经济型）索引与普通文本解析，只验证关键词索引，不配置 Embedding 或 Rerank；关闭摘要生成、问答生成及其他 AI 增强步骤，不调用付费模型。经济型本身不代表任何附加功能都免费：该版本的摘要生成仍可调用 LLM，见[段落索引处理实现](https://github.com/langgenius/dify/blob/1.16.1/api/core/rag/index_processor/processor/paragraph_index_processor.py)；关键词索引与向量索引是不同路径，见[关键词实现](https://github.com/langgenius/dify/blob/1.16.1/api/core/rag/datasource/keyword/jieba/jieba.py)。
 
 ### 第一步：准备实验文档
 
@@ -1234,7 +1269,7 @@ Owner: payments-oncall
 
 ### 第二步：确认基线
 
-```powershell
+```bash
 docker compose ps worker redis db_postgres
 docker compose logs --tail 50 worker
 ```
@@ -1244,10 +1279,12 @@ docker compose logs --tail 50 worker
 - Worker、Redis、PostgreSQL 正常运行。
 - Worker 日志没有持续连接错误。
 
+先创建独立知识库 `aiops-worker-fault-lab`，按上述普通文本、经济型且关闭 AI 增强的设置上传一份同格式的对照文档，等待它完成并用原文关键词检索命中，记录文档 ID 与时间。两分钟仍未完成就先排查基线，不要继续注入故障。核对实际只有本课这一个 `worker` 消费相关队列；其他 Worker 副本或共享消费者仍在运行时，停止一个容器未必阻塞任务。随后为故障文档另取新文件名，在文本中添加可识别的新短语 `canary storage incident`，区分对照文档和待处理文档。
+
 ### 第三步：停止 Worker
 
-```powershell
-docker compose stop worker
+```bash
+docker compose stop worker || exit 1
 docker compose ps worker
 ```
 
@@ -1256,10 +1293,10 @@ docker compose ps worker
 ### 第四步：创建知识库并上传文档
 
 1. 进入 Knowledge。
-2. 创建 `aiops-worker-fault-lab`。
-3. 上传 `payment-api-runbook.txt`。
+2. 打开基线已验证的 `aiops-worker-fault-lab`。
+3. 上传带新文件名与新短语的故障文档；不要再次上传已经完成的对照文件。
 4. 选择普通文本切分和 Economical（经济型）索引，不选需要 Embedding 的 High Quality（高质量）模式。
-5. 使用默认文本切分参数并开始处理；若界面强制要求模型，先核对所选索引模式，不要临时添加生产凭据。
+5. 使用普通文本切分参数，确认摘要及问答生成等 AI 增强均关闭，再开始处理；若界面强制要求模型，先核对配置，不要临时添加生产凭据。
 
 预期现象：
 
@@ -1269,7 +1306,7 @@ docker compose ps worker
 
 ### 第五步：收集证据
 
-```powershell
+```bash
 docker compose ps
 docker compose logs --tail 100 api
 docker compose logs --tail 100 worker
@@ -1280,21 +1317,21 @@ docker compose logs --tail 100 redis
 
 | 证据 | 观察 | 推论 |
 |---|---|---|
-| API 可访问 | 页面和上传请求正常 | 前台 API 不是主要故障 |
-| Worker 停止 | `docker compose ps` 显示不运行 | 没有消费者处理后台任务 |
+| API 可访问 | 页面打开；上传响应有新文档 ID 与时间 | 只证明这些入口步骤可用，不排除其他 API 故障 |
+| Worker 停止 | 本课唯一消费者不运行 | 本课后台处理暂停；若还有其他消费者需另核对 |
 | 文档未完成 | 状态长时间不前进 | 异步任务路径受阻 |
-| Redis 正常 | Broker 容器仍运行 | 任务可能已入队等待消费 |
+| Redis 进程运行 | Broker 容器为 Up | 不能单凭 Up 证明连接正常、任务已入队或可恢复；还要查对应任务与连接日志 |
 
 假设：上传元数据已被 API 接受，但知识索引依赖 Worker，停止消费者后任务无法完成。
 
 ### 第六步：恢复 Worker
 
-```powershell
-docker compose start worker
-docker compose logs --tail 200 -f worker
+```bash
+docker compose start worker || exit 1
+docker compose logs --tail 200 worker
 ```
 
-看到任务开始处理后按 `Ctrl+C` 退出日志跟随，不会停止容器。
+每隔约 15 秒刷新文档状态与本节尾部日志，在两分钟观察窗内记录状态变化。两分钟是本课小文件的排查门槛，不是平台时延承诺；没有完成就保存首个异常，检查消费和重试状态，不循环上传新副本制造重复任务。
 
 预期：
 
@@ -1307,10 +1344,10 @@ docker compose logs --tail 200 -f worker
 在 Test Retrieval 输入：
 
 ```text
-database connection pool
+canary storage incident
 ```
 
-预期命中包含下面含义的 Chunk。这里用文档原有英文关键词测试，不把跨语言语义召回作为经济型关键词索引的验收标准：
+预期命中故障文档 ID 对应的 Chunk，并检查它仍包含下面含义。只命中已经完成的对照文档不算恢复。这里用新文档原有英文关键词测试，不把跨语言语义召回作为经济型关键词索引的验收标准；若该短语没有进入提取关键词，先在文档分段页核对关键词，再以其中确实存在的独有词做验收，而不是臆造召回保证：
 
 ```text
 先检查数据库连接池 active 和 waiting connections，
@@ -1331,13 +1368,13 @@ database connection pool
 2. 删除本地虚构文档，或保留为脱敏学习证据。
 3. 确认 Worker 仍在运行：
 
-```powershell
+```bash
 docker compose ps worker
 ```
 
 4. 如果整个 Dify 实验结束：
 
-```powershell
+```bash
 docker compose down
 ```
 
@@ -2193,6 +2230,18 @@ Dify 是一个生成式 AI 应用开发与运行平台，把模型提供方、�
 生产升级需一起考虑应用 DSL（工作流定义）、数据库迁移、插件版本、模型接口、存储与知识索引。DSL 导出便于追踪图结构，但不必然包含所有外部凭据、模型资产和数据，所以它不是完整备份。恢复后应重新验证固定问题与权限，而不是只确认容器全部启动。
 
 面试 30 秒说低代码 AI 应用平台的编排、知识与发布能力；3 分钟用一条请求和一次索引任务画两条数据流，再讲后台积压、版本、持久状态与权限。事故题“新手册上传仍答旧操作”，先定位索引与版本，保留旧版本回退，验证来源和答案支持关系；不要通过重启所有组件来掩盖断点。
+
+## 独立通关：画布、运行与业务结果各自验收
+
+先不看判据，写预测，再执行本机无模型路径；生产容量只做纸面推导，不能为考试连接真实运维写权限。
+
+1. **基础复现**：用新建 App 将告警文本改为包含中文、双引号和换行的两行文字，发布后从 PowerShell 调用。判据是保留 Run ID、`data.status=succeeded`、输出字符串与二次 JSON 解析结果；原文必须逐字保留，复核字段必须是布尔真值而非字符串 `"true"`。纯文本退路要明确更换验收契约，不能假装 JSON 校验通过。
+2. **改变条件预测**：给草稿输出加 `source-v2` 标记，只测试不发布，然后调用同一个 App Key。先预测 API 使用哪版，再发布复测。判据是草稿与已发布版本证据可区分；另删掉必填 `severity`，记录实际参数错误响应，与已进入运行但节点失败的状态分开。SSE（持续事件流）连接断开也不自动等于工作流完成，最终运行状态仍需核对。
+3. **故障证据**：独立选两份同格式纯文本，先证明对照文档已完成且可检索，再停止本课唯一 Worker 上传带独有词的新文档。保留新文档 ID、停机时间、未完成状态和日志；恢复后必须检索命中新文档，而非对照文档。判据还包括关闭模型增强、恢复 Worker、删除本课知识库且不删卷；Redis 容器 Up 不能替代任务入队证据。
+4. **设计取舍**：业务每秒 12 次工作流，平均端到端 8 秒，每次调用模型两次，模型方限额每分钟 900 次。稳定态粗估在途工作流为 `12×8=96`，模型需求为每秒 24 次，而配额仅 15 次，忽略突发与重试也只能支持约每秒 7.5 个工作流。增加 API 副本不改变外部配额；答案需给排队上限、超时、拒绝/降级和费用保护。另有 24 万 Chunk、每分钟处理 1200 个的初始索引，理想时间 200 分钟，还未含失败重试与写索引，不能承诺“上传即生效”。
+5. **口述追问**：三分钟说明 App Key 与 `user`、画布草稿与发布版、文件上传与可检索、DSL 导出与完整备份的差别。继续追问：客户端丢响应后如何避免重复工具写入？模型给 `needs_human_review=false` 能否越过审批？数据库恢复而文件或索引未恢复会怎样？判据是稳定业务键、可信审批、跨存储恢复验证与证据保留，而不是把布尔变量或一句 Prompt 当成授权边界。
+
+没有真实 Dify 环境时，以上界面、API 和 Worker 结果都标为未运行；本地语法检查不能证明任务投递、模型调用或检索成功。
 
 ## 本课 GitHub 学习证据清单
 

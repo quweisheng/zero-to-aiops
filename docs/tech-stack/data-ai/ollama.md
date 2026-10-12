@@ -23,6 +23,8 @@
 
 ## 官方资料
 
+先按[实验起步](../experiment-start.md)确认终端、文本编辑器和独立目录。本课主线用 Windows PowerShell 5.1 或更高版本，不要求先学 Docker 或 Kubernetes；只需知道文件保存在磁盘、进程运行在内存、端口是服务入口。先认识这三者，再做原生安装与小模型实验，最后读容量和集群设计。Linux 与 Compose 是替代路线，不要三套同时安装占用同一端口。
+
 ### 总入口与版本
 
 - [Ollama 官方文档](https://docs.ollama.com/)
@@ -958,6 +960,7 @@ Linux 路线会安装系统服务，仅在专用实验机、明确允许安装�
 ```bash
 test ! -e ./ollama-install-review.sh || exit 1
 curl -fSLo ./ollama-install-review.sh https://ollama.com/install.sh
+test $? -eq 0 || exit 1 # 下载失败就停下，不检查或执行残缺脚本
 less ./ollama-install-review.sh # 先人工审查；按 q 退出查看，不会执行脚本
 ```
 
@@ -1291,6 +1294,7 @@ Invoke-RestMethod http://localhost:11434/api/version
 
 ```powershell
 ollama pull gemma3:270m
+if ($LASTEXITCODE -ne 0) { throw '模型拉取失败，不继续创建' }
 ollama list
 ollama show gemma3:270m
 ```
@@ -1326,7 +1330,9 @@ SYSTEM 你是 AIOps 告警分类助手。只使用输入中的事实。缺少证
 $existing = (Invoke-RestMethod http://localhost:11434/api/tags -TimeoutSec 10).models
 if ($existing.name -contains 'aiops-triage:v1') { throw 'Lesson model already exists; do not overwrite it.' }
 ollama create aiops-triage:v1 -f .\Modelfile
+if ($LASTEXITCODE -ne 0) { throw '模型创建失败，不继续调用' }
 ollama show --modelfile aiops-triage:v1
+if ($LASTEXITCODE -ne 0) { throw '模型反查失败，先确认实际引用' }
 ```
 
 预期结果：创建成功，反查结果包含基础模型、temperature、num_ctx 和 SYSTEM 约束。
@@ -1386,19 +1392,21 @@ $response.message.content
 ### 第四步：验证返回结构
 
 ```powershell
-if ($response.done -ne $true -or $response.error) { throw 'Inference did not finish successfully.' }
+if ($response.done -isnot [bool] -or $response.done -ne $true -or $response.error -or $response.done_reason -cne 'stop') {
+  throw 'Expected normal inference stop; error, truncation or unknown completion is not accepted.'
+}
 $result = $response.message.content | ConvertFrom-Json -ErrorAction Stop
 if ($null -eq $result -or $result -is [array] -or $result -is [string]) { throw 'Expected one JSON object.' }
 $required = @('service', 'severity', 'summary', 'suspected_causes', 'next_checks')
 
 foreach ($field in $required) {
-  if ($result.PSObject.Properties.Name -notcontains $field) {
+  if ($result.PSObject.Properties.Name -cnotcontains $field) {
     throw "Missing required field: $field"
   }
 }
 
 foreach ($field in $result.PSObject.Properties.Name) {
-  if ($field -notin $required) { throw "Unexpected field: $field" }
+  if ($field -cnotin $required) { throw "Unexpected field: $field" }
 }
 foreach ($field in @('service', 'severity', 'summary')) {
   if ($result.$field -isnot [string]) { throw "Expected string: $field" }
@@ -1410,7 +1418,7 @@ foreach ($field in @('suspected_causes', 'next_checks')) {
   }
 }
 
-if ($result.severity -notin @('critical', 'warning', 'info')) {
+if ($result.severity -cnotin @('critical', 'warning', 'info')) {
   throw "Unexpected severity: $($result.severity)"
 }
 
@@ -1419,27 +1427,48 @@ Write-Output "SCHEMA_OK service=$($result.service) severity=$($result.severity)"
 
 预期输出包含 `SCHEMA_OK`。本段检查了当前扁平合同的完成状态、必填项、额外字段、类型和枚举，不是适用于所有 JSON Schema 的通用验证器；还要人工检查内容是否忠于证据。
 
+PowerShell 默认字符串比较不区分大小写，而 JSON 字段名和枚举值区分。这里特意使用带 `c` 的比较：`Service` 不能代替 `service`，`CRITICAL` 不能代替 `critical`。`done=true` 也可能伴随长度截断，所以本课还要求正常 `done_reason=stop`；不能把截断的回答、合法但编造事实的 JSON，算作通过。若未来版本改变完成字段，先按官方合同适配，不能删除检查来制造成功。
+
 ### 第五步：计算性能证据
 
 ```powershell
-$promptSeconds = $response.prompt_eval_duration / 1e9
-$evalSeconds = $response.eval_duration / 1e9
+function Read-LabNonnegativeNumber($Object, [string]$Name) {
+  $property = $Object.PSObject.Properties[$Name]
+  if ($null -eq $property -or $null -eq $property.Value -or $property.Value -is [bool]) {
+    throw "Missing or invalid performance field: $Name"
+  }
+  $value = 0.0
+  $valid = [double]::TryParse([string]$property.Value, [Globalization.NumberStyles]::Float,
+    [Globalization.CultureInfo]::InvariantCulture, [ref]$value)
+  if (-not $valid -or [double]::IsNaN($value) -or [double]::IsInfinity($value) -or $value -lt 0) {
+    throw "Expected finite nonnegative performance field: $Name"
+  }
+  return $value
+}
+$promptCount = Read-LabNonnegativeNumber $response 'prompt_eval_count'
+$evalCount = Read-LabNonnegativeNumber $response 'eval_count'
+$promptSeconds = (Read-LabNonnegativeNumber $response 'prompt_eval_duration') / 1e9
+$evalSeconds = (Read-LabNonnegativeNumber $response 'eval_duration') / 1e9
+$loadDuration = Read-LabNonnegativeNumber $response 'load_duration'
+$totalDuration = Read-LabNonnegativeNumber $response 'total_duration'
 
 $promptTps = if ($promptSeconds -gt 0) {
-  [Math]::Round($response.prompt_eval_count / $promptSeconds, 2)
-} else { 0 }
+  [Math]::Round($promptCount / $promptSeconds, 2)
+} else { $null }
 
 $outputTps = if ($evalSeconds -gt 0) {
-  [Math]::Round($response.eval_count / $evalSeconds, 2)
-} else { 0 }
+  [Math]::Round($evalCount / $evalSeconds, 2)
+} else { $null }
 
 [PSCustomObject]@{
-  LoadMs = [Math]::Round($response.load_duration / 1e6, 2)
-  TotalMs = [Math]::Round($response.total_duration / 1e6, 2)
+  LoadMs = [Math]::Round($loadDuration / 1e6, 2)
+  TotalMs = [Math]::Round($totalDuration / 1e6, 2)
   PromptTokensPerSecond = $promptTps
   OutputTokensPerSecond = $outputTps
 }
 ```
+
+缺字段或坏数值就停止计算并标记证据不完整，不把它们自动算成 0。零时长无法求吞吐，输出空值表示不可计算，不是“每秒生成零个 Token”。这仍不是通用性能验收器：还需结合客户端计时、缓存命中、实际输入和输出，不能把两个请求的局部吞吐当整机容量。
 
 再观察运行态：
 
@@ -1632,7 +1661,8 @@ $recovered = Invoke-RestMethod `
   -Body ([System.Text.Encoding]::UTF8.GetBytes($goodRequest)) `
   -TimeoutSec 120
 
-if (-not $recovered.done) {
+if ($recovered.done -ne $true -or $recovered.error -or $recovered.done_reason -cne 'stop' -or
+    [string]::IsNullOrWhiteSpace($recovered.message.content)) {
   throw 'Recovery request did not finish.'
 }
 
@@ -1667,10 +1697,10 @@ if (-not $target) {
   throw 'Required model aiops-triage:v1 is not installed.'
 }
 
-Write-Output "MODEL_READY digest=$($target.digest)"
+Write-Output "MODEL_INSTALLED digest=$($target.digest)"
 ```
 
-这比等业务请求报 404 后再排障更可靠。
+这只证明磁盘中已安装目标引用，不能叫 MODEL_READY：还没证明加载、能力、容量、推理或业务质量。继续执行本课结构化请求，并在每个候选副本核对实际 digest、正常结束、结构与证据一致性，再决定是否接流量。把存在性检查提前能减少 404，但不能替代这一层验收。
 
 ## 生产架构：从单机实验到共享 AIOps 推理服务
 
@@ -2236,6 +2266,22 @@ Chat（对话）请求里的消息历史由客户端按 API 语义管理，不�
 30 秒回答强调本地模型管理、加载调度和推理 API；3 分钟画请求、调度、加载、预填充、解码和最终校验，解释磁盘、内存与显存的区别。追问“本地部署是否绝不联网”，要核对模型引用、云能力、工具、下载与日志目的地，不能单凭程序装在本机下结论。
 
 团队共享服务还需要身份认证、配额、队列上限、模型白名单和审计。模型输出是候选分析，不获得生产修改权限。升级回归流式解析、结构化输出、固定问题质量和显存峰值；回退包含程序、模型与参数组合，而不是只安装旧客户端。
+
+## 独立通关：别让磁盘模型、推理完成和业务可信混在一起
+
+每题先预测再取证，用本课合成数据和专用模型引用。没有 Ollama 时可以完成纸面计算及验证器测试，但真实下载、加载和推理关保持未运行，不能用 API 模拟替代 GPU 验收。
+
+1. **基础复现。**另起空目录，以原生路线建专用模型引用，记录程序/服务版本、模型 digest、Modelfile、正常结束、Schema、内容证据与 `ps`。判据：五个字段齐全且类型正确还不够，候选原因必须能指向输入证据；高温输出或小模型能力不够时应标“质量未通过”，不能替模型编出正确答案。只回收本轮引用，已有基础模型默认保留。
+2. **改变条件。**在纸面使用 32 层、8 个 KV 头、每头128维、每值2字节、4096上下文、4并行。判据：简化 KV 估算为2×32×8×128×2×4096×4=2 GiB；上下文翻倍且并行翻倍会变为8 GiB，还没包含权重和计算缓冲。若显存8 GiB，不能宣称模型一定能装下；GQA、滑动窗口等实现差异需实际验证，回到容量节重新测单变量基线。
+3. **故障证据。**分别输入不存在 tag、流先返回200后出现error、正常对象但枚举为 `CRITICAL`、`done=true/done_reason=length`。判据：依次是引用失败、流中失败、合同失败、长度截断；四者均不通过。恢复正确引用后重发同类请求，再核对正常结束与业务结构，不能只检查 `/api/version` 或改检查器让坏值过关。
+4. **设计取舍。**健康副本每分钟可稳定处理120个本课同分布请求，峰值300个/分钟。判据：3副本总360只够正常，失去1副本剩240不足；仅按这个吞吐假设，需4副本才能N+1剩360，实际还要延迟/长短请求/排队/故障域与显存余量验收。网关限流、优先队列、确定性降级比无限扩大队列更可控；复制模型目录不复制KV状态或在途回答。
+5. **口述追问。**30秒解释软件、模型、Runner与Scheduler；3分钟讲本地Chat数据路径。追问“localhost能否证明不出域”“keep_alive是否保存会话”“HTTP200是否证明修复完成”。判据：核对Cloud/工具/下载/日志网络边界、客户端历史与易失KV、流最终状态及外部动作审批/幂等/效果验证。指标只用受控模型标签，完整prompt和request_id不放进高基数指标。
+
+答错就回到对应机制重做，并保留初次预测和修正。吞吐数字是题设，不是 Ollama 或某款显卡的性能承诺；读完不能代替独立项目、编码和真实平台实践。
+
+## 2026-10-12 修订验证边界
+
+本轮确实执行了 PowerShell 的 10 种合成结构响应和 6 种合成性能响应检查：正常、字段/枚举大小写、缺失/额外字段、错误数组/数组元素、截断、未完成、非法 JSON，以及正常吞吐、缺字段、NaN、负数、布尔值、零时长。正常结构被接受，坏结构被拒绝，缺性能数据不伪装成零速；KV 与 N+1 题设另行复算。这里验证的是本课的局部检查逻辑，不是模型输出质量、真实服务、GPU、模型下载或推理性能；这些仍未运行。官方接口文档为持续更新页，固定 0.32.6 的历史说明和今天文档的新增字段不能无条件混读。
 
 ## 本课 GitHub 学习证据清单
 

@@ -6,6 +6,8 @@
 
 零基础先补三个前置：HTTP 是程序之间传请求和响应的协议，JSON 是可交换的结构化文本，SDK 是帮你组织请求的代码库。你需要会运行 Python、读取字典和处理异常，不需要先训练神经网络。请先做文末无密钥的契约课堂，再自行决定是否授权一次有费用的真实接口实验。
 
+先从[实验起步](../experiment-start.md)确认 Python 和编辑器，在新的 `openai-classroom` 目录保存脚本。推荐路线是“离线合同与故障→输入输出机制→可选真实调用→生产取舍与面试”，不是先申请密钥才允许学习。Python 3.11 以上可运行离线课堂，不需要 SDK、Docker、显卡或联网；保存为 UTF-8 的 `.py` 文件后，在该目录运行 `python llm_contract_lesson.py` 与 `python response_gate_lesson.py`。输出是合成规则测试，不能写成真实模型已通过。
+
 优先读这些 OpenAI 官方资料：
 
 - [OpenAI API Docs](https://developers.openai.com/api/docs)
@@ -23,7 +25,7 @@
 - [Rate limits](https://platform.openai.com/settings/organization/limits)
 - [Usage dashboard](https://platform.openai.com/usage)
 
-说明：本文按 OpenAI 官方 API 文档路线整理，用 AIOps 场景重新讲解，不复制官方全文。模型名称和能力会随时间更新，学习时以官方 Models 和 Latest model guide 为准。
+说明：本文按 OpenAI 官方 API 文档路线整理，用 AIOps 场景重新讲解，不复制官方全文。2026-10-12 核对 [GPT-5.5 官方模型页](https://developers.openai.com/api/docs/models/gpt-5.5)，保留既有型号教学，不把它称为今天最新模型，也不代用户迁移。模型名称和能力会随时间更新，学习时以官方 Models 和账户实际访问能力为准。
 
 ## 场景开场
 
@@ -293,22 +295,26 @@ AIOps 里降低幻觉的关键：
 
 ## 安装 SDK
 
-创建虚拟环境：
+这一节是可选的真实调用准备：先取得外部数据传输和费用授权，只用合成数据。在自己练习父目录创建新目录后，用编辑器保存文件；环境创建或安装失败就停下，不要借用全局环境继续执行。
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate
-python -m pip install --upgrade pip
-pip install openai python-dotenv pydantic
+mkdir openai-classroom && cd openai-classroom || exit 1
+python -m venv .venv || exit 1
+source .venv/bin/activate || exit 1
+python -m pip install openai python-dotenv pydantic || exit 1
 ```
 
 Windows PowerShell：
 
 ```powershell
+if (Test-Path -LiteralPath 'openai-classroom') { throw '目录重名，请换一个新课堂目录' }
+New-Item -ItemType Directory -Path openai-classroom | Out-Null
+Set-Location openai-classroom
 python -m venv .venv
-.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-pip install openai python-dotenv pydantic
+if ($LASTEXITCODE -ne 0) { throw '环境创建失败' }
+.\.venv\Scripts\python.exe -m pip install openai python-dotenv pydantic
+if ($LASTEXITCODE -ne 0) { throw '安装失败，不继续调用' }
+.\.venv\Scripts\Activate.ps1
 ```
 
 确认安装：
@@ -316,6 +322,8 @@ pip install openai python-dotenv pydantic
 ```bash
 python -c "import openai; print(openai.__version__)"
 ```
+
+激活被组织策略阻止时，不更改系统策略，改用 `.\.venv\Scripts\python.exe` 运行脚本。记录实际 SDK/Pydantic 版本与依赖清单；无版本安装用于发现教学环境，不是已验证的生产锁文件。真实调用前再核对模型权限和当前计费、限额；本文不自动读取你的密钥或发起付费请求。
 
 ## API Key
 
@@ -376,11 +384,13 @@ from openai import OpenAI
 
 load_dotenv()
 
-client = OpenAI()
+client = OpenAI(timeout=30.0, max_retries=0)
 model = os.getenv("OPENAI_MODEL", "gpt-5.5")
 
 response = client.responses.create(
     model=model,
+    store=False,
+    max_output_tokens=2000,
     instructions="你是一个严谨的 AIOps 值班助手，只根据输入事实回答。",
     input=(
         "服务 order-api 的 5xx 错误率从 1% 升到 23%，"
@@ -388,6 +398,8 @@ response = client.responses.create(
     ),
 )
 
+if response.status != "completed" or not response.output_text.strip():
+    raise RuntimeError("未得到完整可用文本，先检查终态、拒绝和输出项目")
 print(response.output_text)
 ```
 
@@ -415,9 +427,10 @@ Python code（Python 应用代码）
 ```python
 response = client.responses.create(
     model=model,
+    store=False,
+    max_output_tokens=2000,
     instructions="稳定角色和规则",
     input="本次任务和上下文",
-    max_output_tokens=800,
 )
 ```
 
@@ -437,6 +450,8 @@ response = client.responses.create(
 | `store` | 是否保存响应 | 按数据策略决定 |
 
 学习阶段先掌握 `model`、`instructions`、`input`、`output_text`、`text_format`。
+
+本课客户端显式设30秒超时并关闭 SDK 自动重试，先让失败可见；生产再在统一总期限内设计有限重试。单次网络超时不证明服务端没有生成，也不撤销已经执行的外部工具。真实请求示例使用 `store=False` 限制响应保存行为，不等于零留存或脱敏；日志和组织数据策略仍需分别核对。
 
 ## 模型选型
 
@@ -540,9 +555,10 @@ import json
 
 response = client.responses.create(
     model=model,
+    store=False,
+    max_output_tokens=2000,
     instructions="你是 AIOps 值班助手。只根据 JSON 上下文分析，不要编造。",
     input=json.dumps(context, ensure_ascii=False),
-    max_output_tokens=800,
 )
 ```
 
@@ -582,7 +598,7 @@ from pydantic import BaseModel, Field
 
 load_dotenv()
 
-client = OpenAI()
+client = OpenAI(timeout=30.0, max_retries=0)
 model = os.getenv("OPENAI_MODEL", "gpt-5.5")
 
 
@@ -621,6 +637,8 @@ context = {
 
 response = client.responses.parse(
     model=model,
+    store=False,
+    max_output_tokens=2000,
     instructions=(
         "你是严谨的 AIOps 值班助手。"
         "只根据输入 JSON 分析。"
@@ -692,7 +710,7 @@ from openai import OpenAI
 
 load_dotenv()
 
-client = OpenAI()
+client = OpenAI(timeout=30.0, max_retries=0)
 model = os.getenv("OPENAI_MODEL", "gpt-5.5")
 
 
@@ -742,6 +760,8 @@ input_list = [
 
 response = client.responses.create(
     model=model,
+    store=False,
+    max_output_tokens=2000,
     instructions="你是 AIOps 值班助手。需要外部事实时先调用工具。",
     tools=tools,
     input=input_list,
@@ -749,10 +769,15 @@ response = client.responses.create(
 
 input_list += response.output
 
+if response.status != "completed":
+    raise RuntimeError("工具请求尚未完整返回，不执行半成品参数")
+
 for item in response.output:
+    if item.type == "function_call" and item.name != "get_recent_deploys":
+        raise ValueError("本课堂没有授权这个工具")
     if item.type == "function_call" and item.name == "get_recent_deploys":
         args = json.loads(item.arguments)
-        if set(args) != {"service"} or args["service"] != "order-api":
+        if not isinstance(args, dict) or set(args) != {"service"} or args["service"] != "order-api":
             raise ValueError("本课堂只允许查询合成的 order-api 数据")
         deploys = get_recent_deploys(args["service"])
         input_list.append(
@@ -765,6 +790,8 @@ for item in response.output:
 
 final_response = client.responses.create(
     model=model,
+    store=False,
+    max_output_tokens=2000,
     instructions=(
         "你是 AIOps 值班助手。"
         "只能基于告警和工具返回的发布记录分析，不能把相关性当成确定根因。"
@@ -774,6 +801,8 @@ final_response = client.responses.create(
     input=input_list,
 )
 
+if final_response.status != "completed" or not final_response.output_text.strip():
+    raise RuntimeError("最终回答尚不可用，不发布为空摘要")
 print(final_response.output_text)
 ```
 
@@ -811,7 +840,7 @@ from openai import OpenAI
 
 load_dotenv()
 
-client = OpenAI()
+client = OpenAI(timeout=30.0, max_retries=0)
 embedding_model = os.getenv("OPENAI_EMBEDDING_MODEL", "text-embedding-3-small")
 
 result = client.embeddings.create(
@@ -942,7 +971,7 @@ AIOps 中建议把输出拆成“结论”和“证据”。
 | 字段 | 含义 |
 |---|---|
 | `summary` | 一句话摘要 |
-| `severity` | 模型基于输入确认的严重程度 |
+| `severity` | 模型提出的严重程度候选，确定性规则和人工另行裁决 |
 | `impact` | 可能影响范围 |
 | `possible_causes` | 候选原因列表 |
 | `evidence` | 支撑每个候选原因的事实 |
@@ -1206,7 +1235,7 @@ class AlertSummary(BaseModel):
 def main():
     load_dotenv()
 
-    client = OpenAI()
+    client = OpenAI(timeout=30.0, max_retries=0)
     model = os.getenv("OPENAI_MODEL", "gpt-5.5")
 
     with open("sample_alert.json", "r", encoding="utf-8") as f:
@@ -1214,6 +1243,8 @@ def main():
 
     response = client.responses.parse(
         model=model,
+        store=False,
+        max_output_tokens=2000,
         instructions=(
             "你是严谨的 AIOps 值班助手。"
             "只根据输入 JSON 分析。"
@@ -1237,22 +1268,31 @@ if __name__ == "__main__":
 
 ### 运行
 
+在新目录中先用编辑器按文件名保存上述六个文件，`sample_alert.json` 放在脚本旁边。下面假设你还没按安装节建环境；已有 `.venv` 时先确认它是本课环境、其中的 Python 路径可用，再跳过创建两行，不重复创建或借用全局环境。全程直接调用环境内解释器，不依赖激活成功。复制前确认 `.env` 不存在；复制后先停在编辑器填入获批的课堂密钥，再执行最后一条运行命令。示例占位字符串不是有效密钥，不要在截图或终端输出中打印它。
+
 ```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-cp .env.example .env
-python summarize_alert.py
+test ! -e .venv || { echo '已有环境，先核对，不覆盖'; exit 1; }
+python -m venv .venv || exit 1
+.venv/bin/python -m pip install -r requirements.txt || exit 1
+test ! -e .env || exit 1
+cp .env.example .env || exit 1
+# 先在编辑器填好 .env，再执行这一行；调用真实 API 可能产生费用。
+.venv/bin/python summarize_alert.py || exit 1
 ```
 
 PowerShell：
 
 ```powershell
+if (Test-Path -LiteralPath '.venv') { throw '已有环境，先核对，不覆盖' }
 python -m venv .venv
-.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-Copy-Item .env.example .env
-python summarize_alert.py
+if ($LASTEXITCODE -ne 0) { throw '环境创建失败，不使用全局环境继续' }
+& .\.venv\Scripts\python.exe -m pip install -r requirements.txt
+if ($LASTEXITCODE -ne 0) { throw '依赖安装失败，先排查环境与网络' }
+if (Test-Path -LiteralPath '.env') { throw '已有密钥文件，不覆盖' }
+Copy-Item -LiteralPath .env.example -Destination .env -ErrorAction Stop
+# 先在编辑器填好 .env，再执行这一行；调用真实 API 可能产生费用。
+& .\.venv\Scripts\python.exe summarize_alert.py
+if ($LASTEXITCODE -ne 0) { throw '摘要失败，保留脱敏错误，不发布结果' }
 ```
 
 注意：把 `.env` 里的 `OPENAI_API_KEY` 改成你自己的 key，但不要提交 `.env`。
@@ -1272,7 +1312,7 @@ from openai import OpenAI
 
 load_dotenv()
 
-client = OpenAI()
+client = OpenAI(timeout=30.0, max_retries=0)
 embedding_model = os.getenv("OPENAI_EMBEDDING_MODEL", "text-embedding-3-small")
 
 
@@ -1285,9 +1325,16 @@ def embed(text: str) -> list[float]:
 
 
 def cosine_similarity(a: list[float], b: list[float]) -> float:
+    if not a or len(a) != len(b):
+        raise ValueError("向量必须非空且维度一致；zip会悄悄丢弃较长向量的尾部")
+    if any(isinstance(x, bool) or not isinstance(x, (int, float)) or not math.isfinite(x)
+           for x in [*a, *b]):
+        raise ValueError("向量元素必须是有限数值")
     dot = sum(x * y for x, y in zip(a, b))
     norm_a = math.sqrt(sum(x * x for x in a))
     norm_b = math.sqrt(sum(y * y for y in b))
+    if norm_a == 0 or norm_b == 0 or not all(math.isfinite(x) for x in (dot, norm_a, norm_b)):
+        raise ValueError("零范数或数值溢出，不能计算余弦相似度")
     return dot / (norm_a * norm_b)
 
 
@@ -1407,7 +1454,7 @@ def test_summary_has_required_fields(summary):
 ### OpenAI
 
 ```python
-client = OpenAI()
+client = OpenAI(timeout=30.0, max_retries=0)
 ```
 
 创建 SDK 客户端。默认从 `OPENAI_API_KEY` 读取 key。
@@ -1654,9 +1701,16 @@ Function calling（函数调用请求）让模型输出工具名和参数。程�
 
 ```python
 def validate_report(report, known_sources):
-    if report.get('status') not in {'insufficient_evidence','needs_review'}:
+    if not isinstance(report, dict):
+        raise ValueError('需要一个报告对象')
+    if not isinstance(report.get('status'), str) or report['status'] not in {'insufficient_evidence','needs_review'}:
         raise ValueError('不允许把初步分析直接标成已确认根因')
-    if not set(report.get('source_ids',[])).issubset(known_sources):
+    ids = report.get('source_ids')
+    if not isinstance(ids, list) or not all(isinstance(x, str) and x for x in ids):
+        raise ValueError('证据编号必须是字符串列表')
+    if report['status'] == 'needs_review' and not ids:
+        raise ValueError('有候选结论时需要可核对来源；缺证据应标不足')
+    if not set(ids).issubset(known_sources):
         raise ValueError('引用了本次没有提供的证据')
     if report.get('execute_change') is not False:
         raise ValueError('摘要流程没有变更执行授权')
@@ -1726,6 +1780,10 @@ print('PASS: 恢复后通过业务合同')
 
 ```python
 def gate(response, sources):
+    if not isinstance(response, dict) or not isinstance(response.get("status"), str):
+        return "invalid"
+    if response["status"] not in {"completed", "incomplete", "failed", "cancelled", "queued", "in_progress"}:
+        return "invalid"
     if response["status"] != "completed":
         return "degraded"
     if response.get("refusal"):
@@ -1812,6 +1870,20 @@ print("recovered: needs_review")
 事故题“JSON 完全合法却自动回滚错服务”应先阻断执行路径，核对真实受影响资源并按既有恢复方案处置，再检查身份来源、工具参数、审批绑定和输出校验。根因不能简单归为模型幻觉；若不可信的服务名能越过授权，应用本身存在必须修复的安全边界。
 
 追问“增加提示词能否保证安全”，答案是提示词只能降低某些错误概率，不能替代执行层授权。追问“引用都存在为什么仍误判”，答案是存在性与支持关系不同，还要检查时间对齐、指标口径和反证。设计题最终应交出一条可审计的决策链，而不是一句“我用了更强的模型”。
+
+## 独立通关：把模型能力和应用责任分开回答
+
+先遮住判据，用离线合成输入作答；真实 API 调用另须权限和预算。每题提交预测、实际输出、错误分支和收回记录。若只跑本地合同，学习记录必须写“无网络/无模型调用”，不能编造 Token 用量或模型质量。
+
+1. **基础复现。**独立保存并运行两份离线脚本，把合法报告、虚构来源、写操作、拒绝、未完成分别送进门禁。判据：正常也只进入人工复核，虚构/越权为 invalid，未完成降级；拒绝没有可执行业务结果。进一步把来源集合改为空，原正常报告不能再通过，不能把查询失败的空数组当“证据证明没有异常”。
+2. **改变输入。**向量分别用 `[1,0]` 与 `[1,0]`、`[0,1]`、`[-1,0]`，应得到1、0、-1；不同维度、零向量、NaN和布尔值应明确拒绝。判据：`zip` 的静默截断不能被当作正确计算；同维度也不证明不同模型的向量处于同一空间。相似事故仍需服务、版本、时间和反证验证，不能按Top1直接执行旧修复。
+3. **故障证据。**模型从流中先返回文本、随后未完成；另一份完整JSON引用了真实来源，但把“发布后错误增多”写成“发布把池子改小”。判据：前者不能发布正式摘要，后者过了存在性仍未过支持关系检查。保留版本与来源窗口，拦截动作并降级为事实清单；恢复需终态、结构、事实及权限四道验收，不是改一条提示词就宣称根治。
+4. **容量与成本。**每秒5次、平均20秒、并发上限20，每次输入4000/输出600词元。判据：需求平均在途100，理论完成1次/秒，积压净增4次/秒即240次/分钟；输入120万/分钟、输出18万/分钟。若仅题设20%请求缓存命中并完全不调用，变成4次/秒、96万输入和14.4万输出/分钟；这与供应商提示缓存仍要调用、仍可能消耗限额不是一回事。实际单价和限额查账户，不拿题设当价格承诺。
+5. **连续追问。**30秒讲 LLM 是证据解释层，3分钟画告警落库→查询脱敏→模型→校验→人工→执行。追问 `output_text` 为空是否失败、`call_id` 能否当业务幂等键、`safe_actions` 是否天然安全、`store=False` 是否零留存。判据：分别核对工具/拒绝/终态、稳定业务身份、执行侧授权和真实数据控制；缓存还要隔离租户/权限/时间/模型/提示/合同版本。任何建议不拥有生产权限。
+
+通关要求解释新条件和反例，不按读完、调用成功或文章字数授予“完全掌握”。答错对应关卡就回机制与实验修正，再由另一位读者核对；编码、基础设施、评估和真实项目需要持续练习。
+
+2026-10-12 本机验证边界：在独立虚拟环境中，用 Python 3.14.5 执行了两份离线脚本、额外合同反例与十种向量输入；另用 OpenAI SDK 3.29.0、httpx2 2.13.1 的模拟传输检查请求中的 `store=False`、输出上限、严格 JSON 模式及 Pydantic 解析。模拟地址不访问网络，固定假密钥不读取账户凭据；这些检查没有调用真实模型、没有产生 API 费用，也不证明真实服务时延、事实质量、权限、限额或数据留存已经验收。真实调用需读者另行授权和记录。
 
 ## 本课 GitHub 学习证据
 

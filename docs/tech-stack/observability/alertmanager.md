@@ -2,6 +2,12 @@
 
 > 目标：能理解 Prometheus 告警从规则触发到通知送达的完整链路，能读懂 Alertmanager 的 route、receiver、grouping、deduplication、inhibition、silence、notification template 和 webhook，能写一个最小配置，能排查“没收到告警、告警太多、路由错、被静默/抑制、模板渲染失败”。
 
+## 开课准备：先选清楚要跑哪一条实验路线
+
+第一次读，只需要认识进程、端口和标签。进程是正在运行的程序；端口是同一台电脑上区分服务入口的编号；标签是事件中用于匹配的名字和值。后面的 `alertmanager:9093` 是容器网络或内部 DNS 的示例地址，不能直接假定你的 Windows 电脑能够解析它。本文本机实验使用 `127.0.0.1:9093`，只接受同一台机器的连接。
+
+先做“基础实验与故障实验”的 Node.js 离线推演，再做“AIOps 入门实验”的真实二进制与 Python 接收端。离线推演只检验标签匹配思路，不是 Alertmanager 的安装替代品。真实实验需要三个终端：接收器、Alertmanager、发送与查询；前两个持续运行，第三个执行检查。Linux/macOS 的 Bash 可直接使用本文反斜杠续行；Windows PowerShell 请把多行 `amtool` 命令合成一行，并用 `curl.exe` 调用 curl，避免遇到同名别名。不要把这些终端命令粘贴到 Python 的 `>>>` 提示符中。
+
 ## 官方资料
 
 - [Prometheus Alertmanager](https://prometheus.io/docs/alerting/latest/alertmanager/)
@@ -30,7 +36,7 @@ Prometheus 里有一条规则：
     summary: "Instance {{ $labels.instance }} is down"
 ```
 
-某台机器真的挂了。Prometheus 页面里 alert 已经是 firing，但值班同学没收到通知。
+Prometheus 连续采集不到某个目标，页面里 alert 已经是 firing，但值班同学没收到通知。`up == 0` 证明这一轮采集失败，原因也可能是网络、认证、端口或采集端问题，尚不能直接证明整台机器宕机。
 
 新手容易只问：
 
@@ -1510,27 +1516,15 @@ amtool check-config alertmanager.yml
 #!/usr/bin/env bash
 set -euo pipefail
 
-am="${1:-http://alertmanager:9093}"
+am="${1:-http://127.0.0.1:9093}"
 
-echo "== status =="
-curl -s "$am/api/v2/status" || true
-
-echo
-echo "== receivers =="
-curl -s "$am/api/v2/receivers" || true
-
-echo
-echo "== alerts =="
-curl -s "$am/api/v2/alerts" || true
-
-echo
-echo "== alert groups =="
-curl -s "$am/api/v2/alerts/groups" || true
-
-echo
-echo "== silences =="
-curl -s "$am/api/v2/silences" || true
+for endpoint in status receivers alerts alerts/groups silences; do
+  printf '\nChecking /api/v2/%s\n' "$endpoint"
+  curl --fail --silent --show-error --max-time 10 "$am/api/v2/$endpoint"
+done
 ```
+
+保存为 `diagnose-alertmanager.sh`，在 Bash 中运行 `bash diagnose-alertmanager.sh`；需要查询演练服务时，把明确核对过的地址作为第一个参数。每段输出是对应接口的 JSON。`--fail` 让 HTTP 错误返回非零，`--max-time 10` 给请求设上限，`set -e` 让一次失败后停止。停止表示采证不完整，应保存失败位置，不能把空输出记成“没有告警”。接口返回成功也还需要检查 JSON 内容和接收端记录；本脚本没有代你验证消息送达。
 
 生产化前要补：
 
@@ -1651,6 +1645,18 @@ receiver 需要支持并设置 `send_resolved: true`。
 18. HA Alertmanager 为什么不会正常情况下重复通知？
 19. `amtool check-config` 有什么用？
 20. Alertmanager 在 AIOps 自动化闭环里扮演什么角色？
+
+## 独立通关：证明告警为什么走到这个接收器
+
+先合上参考答案，按以下五项提交自己的输入、预测、观测与解释。只有复述术语或截图里出现绿色，不算通过。
+
+1. **基础复现**：完成本机实验，保存事件的完整标签、HTTP 接受状态、告警查询、接收器载荷和时间线。判据是能用同一个课堂标识串起“已接收”和“已通知”，并解释首次等待；只提交 `/api/v2/alerts` 列表不够，因为它没有证明下游收到。
+2. **改变条件**：本篇真实实验是宿主机二进制与本机 Python 接收器，不存在 `webhook-receiver` 容器 DNS。先把“最小可运行配置”另存为本课专用变式文件，将三个 receiver 的 URL 分别改成 `http://127.0.0.1:8080/default`、`http://127.0.0.1:8080/critical`、`http://127.0.0.1:8080/database`，并确认本课接收器能接收这些路径。用本课 `amtool check-config` 检查该文件；成功后仅停止本课 Alertmanager 进程，按启动步骤用 `--config.file` 指向变式文件重新启动，查询状态确认加载成功。给一条事件同时加 `severity=critical`、`team=database`，先预测目的地再发送；随后仅给第一个匹配分支添加 `continue: true`，再次校验并按同样方式重启，发送另一条带新课堂实例标签的事件，避免旧事件的去重与分组影响比较。参考判据是第一次命中严重告警接收器，第二次还继续命中数据库接收器。父接收器不会因此自动抄送；若实测不同，检查实际加载配置和事件标签。复测后恢复本课原配置，不修改其他监控服务。
+3. **故障证据**：只停止本课 Python 接收器，保持 Alertmanager 运行，发送一条带新课堂实例标签的事件。保存告警仍存在、通知失败日志或计数、接收器无记录三段证据，然后启动接收器并观察后续调度。判据是把入口成功与渠道失败分开，而不是把没有立刻补发误判为修复失败；完成后停止本课进程和清理自己的静默。
+4. **设计取舍**：为两个租户、三个团队设计兜底路由和一条抑制规则，列出同租户应抑制、跨租户不抑制、租户缺失不抑制三个反例。答案必须同时讨论必需标签非空、相等字段、通知延迟与分组粒度，并解释为何把“没有标签”交给复核而非隐藏。
+5. **口述追问**：用三分钟回答“Firing、HTTP 200、通知送达、事故被认领分别说明什么？”再解释网络分区为什么可能重复、Webhook 如何防止重复工单和错误恢复。判据是说清状态归属和幂等边界；不能用延长静默或关闭规则冒充故障修复。
+
+真实 Alertmanager 与通知渠道没有运行条件时，保留离线推导并把上述运行证据标记为待验证；不能把 Node.js 模型的输出填进真实投递记录。
 
 ## 学习证据
 

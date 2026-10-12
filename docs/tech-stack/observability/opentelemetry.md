@@ -2,6 +2,12 @@
 
 > 目标：能理解 OpenTelemetry 为什么是云原生可观测性的标准工具箱，能讲清 traces、metrics、logs、context propagation、resource、semantic conventions、instrumentation、API/SDK、OTLP、Collector receiver/processor/exporter/pipeline，能写一个最小 Collector 配置并排查“应用没数据、Collector 收不到、后端看不到、trace 串不起来”。
 
+## 开课准备：业务请求和遥测请求分两条线
+
+先准备 Python 3.9 以上版本和可运行 Linux 容器的 Docker；`python --version` 与 `docker version` 应分别显示解释器版本和可连接的容器服务端。今天先向本机 Collector 发两段合成跨度，不需要数据库、Kubernetes 或云账号。HTTP 是请求与响应的通信方式，端口区分入口，JSON 是本课用来传送字段的文本格式。第一次不熟悉 Python 时，只需会保存 `.py` 文件和在终端运行它，可参考 [Python 文件与运行](../foundation/python.md)。
+
+先读“老师带你追踪同一次请求”区分业务调用传播与遥测导出，再执行“AIOps 入门实验”。全文其他 YAML 多数是单个组件的参考片段，不是每段都能单独启动 Collector。实际首跑保存完整 `otel-collector.yaml`，保持 Collector 终端不关闭，另开终端发送请求；用第三个终端做停止与清理。未加入流水线的组件、未安装 SDK 的 API 示例，都不能因为出现在文件里就算已启用。
+
 ## 官方资料
 
 - [OpenTelemetry documentation](https://opentelemetry.io/docs/)
@@ -509,7 +515,7 @@ Resource 很重要，因为它回答：
 
 如果没有 `service.name`，后端 UI 里经常只看到 unknown service。
 
-常见环境变量：
+常见环境变量键值如下，它们说明名称和值，不是通用的终端设置命令。实际 Bash 进程继承设置需使用后文的 `export`；PowerShell 使用 `$env:变量名 = "值"`，并从设置它的终端启动应用。
 
 ```bash
 OTEL_SERVICE_NAME=aiops-api
@@ -582,7 +588,7 @@ Instrumentation 是给应用加遥测的过程。
 
 ### 手动埋点
 
-开发者在关键业务逻辑里显式创建 span、metric、attributes。
+开发者在关键业务逻辑里显式创建 span、metric、attributes。下面只是放进已有应用的调用片段：`tracer` 来自已经初始化的 SDK，`alert_name`、`model_name`、`alert` 和 `analyze` 来自业务程序；它不是独立可运行的 Python 文件。第一轮请使用后文完整标准库实验，不要直接运行这个片段。
 
 例子：
 
@@ -1057,7 +1063,13 @@ service:
 docker run --rm --name otel-lesson -p 127.0.0.1:4317:4317 -p 127.0.0.1:4318:4318 -p 127.0.0.1:13133:13133 --mount "type=bind,source=$($PWD.Path)/otel-collector.yaml,target=/etc/otelcol-contrib/config.yaml,readonly" otel/opentelemetry-collector-contrib:0.123.0 --config=/etc/otelcol-contrib/config.yaml
 ```
 
-保持这个终端用于观察输出。在另一个 PowerShell 终端运行 `curl.exe -i http://127.0.0.1:13133/`，预期 HTTP 200。健康检查只说明检查端点响应，不证明数据已经走完流水线。Linux 用户可将挂载的源路径换为配置文件绝对路径，其他参数不变。原生进程方式则要把接收与健康端口绑定改为回环地址，并使用匹配发行版的二进制。
+保持这个终端用于观察输出。在另一个 PowerShell 终端运行 `curl.exe -i http://127.0.0.1:13133/`，预期 HTTP 200。健康检查只说明检查端点响应，不证明数据已经走完流水线。Linux/macOS Bash 在配置文件所在目录使用下面的同等命令，二者择一：
+
+```bash
+docker run --rm --name otel-lesson -p 127.0.0.1:4317:4317 -p 127.0.0.1:4318:4318 -p 127.0.0.1:13133:13133 --mount "type=bind,source=$(pwd)/otel-collector.yaml,target=/etc/otelcol-contrib/config.yaml,readonly" otel/opentelemetry-collector-contrib:0.123.0 --config=/etc/otelcol-contrib/config.yaml
+```
+
+原生进程方式需要另行取得匹配发行版的二进制，并把接收与健康端口改成回环地址；它不属于本次容器首跑路线。
 
 ### 3. 用两段合成跨度发送真正的 OTLP/HTTP 请求
 
@@ -1298,7 +1310,7 @@ exporters:
     verbosity: detailed
 ```
 
-如果 debug 能看到数据，说明应用到 Collector 没问题，后面查 exporter/backend。
+如果 debug 能看到这次合成请求的标识，只证明这些已观察到的数据走到了该调试分支；随后查对应 exporter/backend。它不能证明所有服务、三类信号、并发传播和其他导出分支都没有问题。
 
 ## 排障流程：trace 串不起来
 
@@ -1359,24 +1371,26 @@ ns="${1:-observability}"
 app="${2:-otel-collector}"
 
 echo "== collector pods =="
-kubectl get pods -n "$ns" -l "app=$app" -o wide || true
+kubectl get pods -n "$ns" -l "app=$app" -o wide
 
 echo
 echo "== collector service =="
-kubectl get svc -n "$ns" -l "app=$app" -o wide || true
+kubectl get svc -n "$ns" -l "app=$app" -o wide
 
 echo
 echo "== logs =="
-kubectl logs -n "$ns" -l "app=$app" --tail=200 || true
+kubectl logs -n "$ns" -l "app=$app" --tail=200
 
 echo
 echo "== describe =="
-kubectl describe pod -n "$ns" -l "app=$app" || true
+kubectl describe pod -n "$ns" -l "app=$app"
 
 echo
 echo "== events =="
-kubectl get events -n "$ns" --sort-by=.lastTimestamp || true
+kubectl get events -n "$ns" --sort-by=.lastTimestamp
 ```
+
+这是已有隔离 Kubernetes 环境的 Bash 只读采证脚本，不是本机 Docker 实验的必做命令。运行前核对当前集群上下文、命名空间与真实标签，保存为 `diagnose-collector.sh`，运行 `bash diagnose-collector.sh observability otel-collector`。接口、权限或日志查询失败时停止并返回非零，不把失败吞成健康；`No resources found` 即使退出码为零，也只说明选择条件下没有对象，应先核对标签，不能认定服务正常。
 
 生产化前要补：
 
@@ -1579,6 +1593,16 @@ Collector 自身的可观测性尽量不要完全依赖它正在保护的同一�
 18. trace 串不起来怎么排查？
 19. metrics 高基数问题怎么避免？
 20. OpenTelemetry 在 AIOps 中如何帮助根因分析？
+
+## 独立通关：两段跨度是否真的属于同一次请求
+
+1. **基础复现**：运行完整 Collector 课堂，保存两次正确请求的 trace ID 和 Collector 输出。判据是每条链路各有两段，子 `parentSpanId` 对应父 `spanId`，同一链路共享 trace ID，且能解释两次请求是两条链路，不是重复导出。HTTP 200 与 `partialSuccess` 都要核对，不能只看容器启动。
+2. **改变条件**：在独立复制的 `otel-lesson.py` 中只把子跨度的 trace ID 改成另一随机值，先画出预期关联，再发送。判据是不能只凭 parent ID 字符串相同就声称父子成立；恢复共享 trace ID 后重新核对。这里直接构造协议，不等同于验证真实应用的跨线程 SDK 上下文传播。
+3. **故障证据**：用本课错误路径得到 404，再恢复 `/v1/traces`。保留端口可达、错误路径响应、恢复后输出三个证据。随后纸面比较“SDK 没生成”“Collector 过滤”“后端查询错字段”的反证检查。判据是把协议、流水线和查询失效分开，不用健康检查替代数据验收；实际未接后端的分支记为未运行。
+4. **设计取舍**：手算每秒产生 2000、后端接受 1500、缓冲 60000 段时的耗尽时间，再讨论尾部采样等第 10 秒错误而第 5 秒已决定的案例。参考计算是 120 秒；答案必须说明真实队列单位、迟到数据、内存与等待代价，且尾部采样不能补回头部已丢弃的跨度。
+5. **口述追问**：三分钟画出 HTTP 业务调用、上下文注入提取、SDK 导出、Collector 处理、后端查询两条路径。再解释 `traceparent` 为什么不是身份凭据、debug 成功为什么不代表双后端原子成功、语义字段升级为什么影响历史查询。判据是给每个断言指出观察点和未验证边界。
+
+把程序、配置、父子图、错误响应和恢复记录放进 GitHub；调试输出只使用合成属性。结束后仅停止 `otel-lesson`，没有持久后端的课堂不能填写“数据库历史查询已通过”。
 
 ## 学习证据
 

@@ -34,7 +34,7 @@ Apache HAWQ（已退休）
   -> 控制：Master、Standby Master、Dispatcher、Catalog
   -> 计算：Physical Segment、Virtual Segment、Query Executor
   -> 网络：Interconnect、Motion
-  -> 存储：HDFS、Append-Only Row/Column、Parquet、External Table
+  -> 存储：HDFS、Append-Only Row（追加优化行存）、Parquet（列式文件）、External Table（外部表）
   -> 资源：HAWQ Resource Manager、YARN 或 Standalone
   -> 外部访问：PXF、HBase/HDFS/外部系统
   -> 运维：FTS、日志、EXPLAIN、Catalog、迁移
@@ -94,7 +94,7 @@ BI / psql / JDBC（报表工具、SQL 命令行与 Java 数据库接口）
   -> Interconnect（节点间数据交换网络）
   -> Segment Hosts（计算节点宿主机）
        -> Virtual Segment（虚拟执行单元）
-       -> Query（查询） Executor for each Slice
+       -> Query Executor for each Slice（每个执行片段的查询执行进程）
        -> 直接读取 HDFS 数据
   -> Motion 交换中间数据
   -> Master 汇总结果
@@ -163,7 +163,7 @@ CREATE TABLE alert_fact (
 )
 WITH (
   appendonly = true,                                    -- 历史分析表采用追加优化存储
-  orientation = column,                                 -- 列方向存储，适合分析扫描
+  orientation = parquet,                                -- 本文 HAWQ 2.2 基线使用 Parquet 列式文件
   compresstype = snappy                                 -- 压缩算法必须与版本能力核对
 )
 DISTRIBUTED BY (alert_id);                              -- 按 alert_id 哈希分布到 Segment
@@ -179,10 +179,12 @@ DISTRIBUTED BY (alert_id);                              -- 按 alert_id 哈希�
 
 同 Key 稳定落到同一分布位置，有利于共置 Join，但热点/低基数会造成倾斜。
 
-### Append-Only Row 与 Column
+### Append-Only Row 与 Parquet
 
-- Row：整行读取和某些写入模式更自然。
-- Column：只读部分列、压缩和分析聚合更有利。
+- Row（行存）：整行读取更自然。
+- Parquet（列式文件格式）：只读部分列、压缩和分析聚合更有利。
+
+这里不能照搬其他 Greenplum 衍生产品的 `orientation=column`。本课历史 HAWQ 2.2 的官方取值为 `row` 或 `parquet`，列式场景采用 `orientation=parquet`；原有 Column-oriented 表已不在这版支持范围，见[该版本 CREATE TABLE 文档](https://hawq.apache.org/docs/userguide/2.2.0.0-incubating/reference/sql/CREATE-TABLE.html)。既有系统盘点必须以实际版本和 DDL 为准，不能只把类别名字改了就宣称完成格式迁移。
 
 历史格式兼容性是迁移重点。目标平台是否能直接读取，必须通过实际文件、Schema 和样本验证。
 
@@ -274,25 +276,48 @@ segment_id,row_count
 ### PowerShell 脚本
 
 ```powershell
-$rows = Import-Csv .\segment-rows.csv
-$counts = $rows | ForEach-Object { [double]$_.row_count }
-
-$total = ($counts | Measure-Object -Sum).Sum             # 全部 Segment 行数
-$average = $total / $counts.Count                        # 理想平均行数
-$maximum = ($counts | Measure-Object -Maximum).Maximum   # 最忙 Segment 行数
-$ratio = if ($average -eq 0) { 0 } else { $maximum / $average }
+$ErrorActionPreference = 'Stop'
+$rows = @(Import-Csv (Join-Path $PSScriptRoot 'segment-rows.csv'))
+if ($rows.Count -eq 0) { throw '没有合成记录，不能判断均衡。' }
+if ('segment_id' -notin $rows[0].PSObject.Properties.Name -or
+    'row_count' -notin $rows[0].PSObject.Properties.Name) {
+  throw 'CSV 必须包含 segment_id,row_count 表头。'
+}
+$seen = @{}
+[decimal]$total = 0
+[decimal]$maximum = 0
+foreach ($row in $rows) {
+  [long]$bucket = 0
+  [long]$count = 0
+  if (-not [long]::TryParse($row.segment_id, [ref]$bucket) -or $bucket -lt 0) {
+    throw 'segment_id 必须为非负整数。'
+  }
+  if ($seen.ContainsKey($bucket.ToString())) { throw '桶编号重复，不能重复统计。' }
+  $seen[$bucket.ToString()] = $true
+  if (-not [long]::TryParse($row.row_count, [ref]$count) -or $count -lt 0) {
+    throw 'row_count 必须为非负整数，不能为空或非数字。'
+  }
+  $total += $count                                      # decimal 保留本课整数加总精度
+  if ($count -gt $maximum) { $maximum = $count }
+}
+if ($total -eq 0) { throw '总量为零，没有负载可用于倾斜判断。' }
+$average = $total / $rows.Count                         # 理想平均行数
+$ratio = $maximum / $average                            # 最忙桶与平均桶之比
 
 [pscustomobject]@{
-  segment_count = $counts.Count
-  total_rows = [long]$total
+  scope = 'OFFLINE_SIMULATION_ONLY'
+  segment_count = $rows.Count
+  total_rows = $total
   average_rows = [math]::Round($average, 2)
-  max_rows = [long]$maximum
+  max_rows = $maximum
   skew_ratio = [math]::Round($ratio, 2)
   status = if ($ratio -ge 2) { 'critical' } elseif ($ratio -ge 1.5) { 'warning' } else { 'balanced' }
 } | Format-List
 ```
 
 预期总行数四十万、平均十万、最大十万二千，`skew_ratio` 为 1.02，状态为 `balanced`。阈值只是实验规则，生产要结合数据量、查询、硬件和 SLA 定义。这个最大值除平均值的比例不是方差，也不等同于查询耗时倍数。
+
+`$PSScriptRoot` 是脚本所在目录，因此 CSV 与脚本放在一起，不依赖你从哪个终端目录启动；不要只复制脚本中段到交互窗口，因为那里没有相同的脚本路径上下文。空表、负数、非整数、重复桶和零总量都会停止计算，这属于输入无效，不是 HAWQ 故障，也不应该被当作绿色均衡。`OFFLINE_SIMULATION_ONLY` 明确输出只来自本地合成表。
 
 ## 故障注入实验：制造分布键热点
 
@@ -324,13 +349,13 @@ segment_id,row_count
 
 ```csv
 object_type,name,owner,storage,dependency,criticality,migration_status
-table,alert_fact,aiops,AO_COLUMN,HDFS,P1,not_started
+table,alert_fact,aiops,PARQUET,HDFS,P1,not_started
 external_table,raw_alerts,etl,PXF,HDFS_JSON,P1,blocked
 view,daily_alert_summary,reporting,CATALOG,alert_fact,P2,not_started
 udf,normalize_service,analytics,C_LIBRARY,libnormalize.so,P1,blocked
 ```
 
-盘点必须覆盖 Table/View/External Table/UDF、数据量、更新频率、查询、用户、权限、调度、BI、Connector 和保留期限。真正迁移最容易漏的是 UDF、外部表、脚本和下游报表。
+上表 `PARQUET` 是本课合成资产清单的格式类别，不是从真实目录导出的枚举值。盘点必须覆盖 Table/View/External Table/UDF、数据量、更新频率、查询、用户、权限、调度、BI、Connector 和保留期限。真正迁移最容易漏的是 UDF、外部表、脚本和下游报表。
 
 ## 高可用与风险边界
 
@@ -671,6 +696,40 @@ MPP（大规模并行处理）的核心不是“有很多机器”，而是把�
 重新运行均匀、热点、再均匀三次输入，预期比值分别一附近、三点六、一附近。再复述连接放大的两行三十与三行四十，说明为何性能修复不能替代结果修复。最后挑一份合成报表写出数据、目录、函数、权限和调度五类依赖。
 
 没有得到预期时先确认当前目录、CSV 表头、数值解析与输入是否保存。脚本没有访问集群，不应通过调整真实 HAWQ 参数排错。保存脚本和结果后，只删除本课三份明确命名的合成文件即可；保留迁移盘点模板时注明它不是现场资产清单。
+
+## 独立通关：同样总行数，为什么结论可以相反
+
+全部题目仅使用合成文件、纸张或编辑器，不安装退休服务、不连接生产。先预测再执行本地脚本；这些证据只验证输入检查、比例与迁移推理，不验证真实 HAWQ 的哈希、调度、性能或恢复。
+
+### 任务一：换一组有效输入
+
+保持四个桶，把行数改为 `100,100,100,500`，保存后运行课堂脚本。提交总量、平均、最大值、比例和状态，并解释比例为何不能直接叫“查询慢了几倍”。
+
+判据：总量八百、平均二百、最大五百、比例 2.5、本课规则为 critical；真实每行宽度、连接放大、资源与交换路径不同，行数比不等于耗时比。答错回看“入门实验：离线计算 Segment 倾斜”“数据放置不等于永远绑定同一台物理机器”。
+
+### 任务二：数量一样，工作量能一样吗
+
+纸面把四桶行数都设为二百，但一个桶的行平均宽十 KiB，其他平均一 KiB。预测脚本比例与真实读取字节是否一致；再设表整体均匀、查询只选一个热点客户，说明应新增哪些证据。
+
+判据：脚本行数比例为一，不能由此排除字节和查询子集倾斜；应比较扫描字节、中间结果、溢写与每执行单元耗时。真实 HAWQ 持久文件在 HDFS，课堂桶也不是固定物理主机编号。答错回看“分布键与连接搬运”“数据放置不等于永远绑定同一台物理机器”。
+
+### 任务三：让错误输入停止，再收回故障
+
+先保存任务一输入，分别试 `row_count=oops`、一个负数、重复桶编号、全零。记录错误而不是截图绿色状态；最后恢复任务一并复跑，再恢复原均匀输入。提出“脚本读错文件”和“输入合同被破坏”两个假设，以文件路径、表头与错误信息反证。
+
+判据：四种输入都应拒绝，恢复后重新得到 2.5，再回到 1.02；不能跳过坏行后仍宣称全表均衡。清理仅针对本课合成 CSV/脚本，未知文件保留。答错回看“入门实验：离线计算 Segment 倾斜”的输入检查。异常是本地验证结果，不能写成 HAWQ 服务错误。
+
+### 任务四：把迁移窗口算成有条件的承诺
+
+纸面设全量一百二十 TB，端到端有效传输二百五十 MB/秒，每天可用八小时，新增数据每天零点八 TB；额外增量处理能力每天一点二 TB。估算全量纯搬运时长与理想日历窗口数，说明停机两小时还缺什么证明；比较保留旧环境只读与允许双写的回退代价。
+
+判据：统一十进制，纯传输四十八万秒约 133.33 小时，约 16.67 个八小时窗口，至少安排十七个窗口，另加校验、重试和新增量；增量净追赶每天零点四 TB，必须知道实际积压才能给截止时间。双写不是自动一致，新独有写入若不能反向同步，就没有任意时刻无损回退。答错回看“迁移容量先做一遍单位检查”“回退截止点”。
+
+### 任务五：三分钟接手，而不是三分钟升级
+
+30 秒解释遗留 HAWQ 的用途和退休边界，三分钟画月报从 SQL 到 Catalog、资源、HDFS、Motion、输出的路径。追问：HDFS 文件齐但月报恢复失败；总行数相同而金额变多；两个 Master 都启动是否更可靠？
+
+判据：分别核对解释/函数/权限/调度依赖、维表关系基数/类型/时区/明细差异，以及主备切换与双主风险。软件退休与现场商业合同分别取证；不能用 PostgreSQL 包名推断可原地升级。答错回看“为什么数据文件齐全，报表仍可能无法恢复”“用四条记录认识连接放大”“高可用与风险边界”。
 
 ## 本课 GitHub 学习证据
 

@@ -250,8 +250,9 @@ Istio 提供服务拓扑、请求率、错误率、延迟和身份信息。告�
 
 ### 实验步骤
 
-1. 从[官方发布页](https://github.com/istio/istio/releases)安装与你的集群版本兼容的 `istioctl`。
-2. 执行：
+1. 在 Windows x64 的 PowerShell 新建空目录并进入。本课第一轮只生成文件，无需集群；从[1.30.3 官方发布页](https://github.com/istio/istio/releases/tag/1.30.3)下载完整包 `istio-1.30.3-win-amd64.zip` 及对应 `.sha256`，不是仅有客户端的 `istioctl` 包，否则后续缺少 `samples/`。其他系统选择对应完整包，不把 x64 包用于 ARM。
+2. 在下载目录用 `Get-FileHash .\istio-1.30.3-win-amd64.zip -Algorithm SHA256` 与官方校验文件比较完整摘要；校验不符停止，不继续解压。然后执行 `Expand-Archive -LiteralPath .\istio-1.30.3-win-amd64.zip -DestinationPath .\unpacked`，进入 `Set-Location .\unpacked\istio-1.30.3`。目标目录若已存在，换独立路径避免覆盖。用 `Test-Path .\samples\sleep\sleep.yaml` 确认完整样例，预期 True。
+3. 当前终端设置 `$env:Path = "$((Get-Location).Path)\bin;$env:Path"`，这只改变本终端，不修改系统级配置；关闭终端就收回。运行下列渲染命令，并在生成后立即检查 `$LASTEXITCODE`；非零时保留错误而不要按输出文件存在宣布成功。
 
 ```powershell
 istioctl version --remote=false # 必须显示 1.30.3
@@ -277,6 +278,8 @@ Select-String -Path istio-ambient.yaml -Pattern 'name: istiod|name: ztunnel' # �
 ## 基础实验：Ambient L4、waypoint 与真实请求
 
 仅在可丢弃的 Kubernetes 1.32–1.36 集群执行。前置条件是已解压 Istio 1.30.3 官方发行包，并在其根目录运行命令。
+
+进入真实平台步骤前，先执行 `kubectl config current-context`、`kubectl cluster-info`、`kubectl get namespace istio-system istio-lab`，确认是自己新建的实验集群且这些空间没有既有业务；若已有网格，不沿本文覆盖安装。没有 Kubernetes 时先完成[Kubernetes 的本地集群实验](./kubernetes.md)，不把离线生成误记为安装成功。保留本次集群名和创建方式；本文不授予对共享集群安装 CRD、Webhook 或 purge 的权限。后续 `samples/...` 路径均相对完整发行包根目录，在其他目录执行会找不到文件。
 
 ```powershell
 istioctl version --remote=false
@@ -571,6 +574,18 @@ Sidecar 故障恢复后，重点保存源端和目标端 `istio-proxy` 日志以
 检查结论时还要区分采样不足与实际通过。连续三次成功请求只能证明那三次路径成功，不能证明低权重版本已经收到流量。先按代理日志或版本响应确认每个目标版本都有样本，再统计分版本结果。若测试请求携带固定会话、黏性策略或持续复用连接，实际分布还会受这些因素影响，不能用三次请求的比例推翻权重配置。课堂记录应同时保存配置权重、各版本实际样本数和样本时间窗。
 
 同样，恢复后没有新错误日志，也可能是根本没有请求。验收人主动发出可识别的合成请求，确认入口、源代理、目标代理与应用都在对应时间窗留下证据，再宣布链路恢复。自动验收把“零请求”记为证据不足，而不是百分之百成功，可以避免静默故障被绿色报表掩盖。
+
+## 独立通关：配置同步、请求成功和安全达标要分开
+
+先独立作答再看判据；离线清单、纸面设计、真实网格分开计证据。没有专用平台就标未运行，不把 `istioctl` 有版本输出写成安装验证。
+
+1. **基础复现。**从官方完整包校验并生成 Ambient 清单，解释 Istiod、ztunnel、waypoint 三者分工；有集群时发起新的 HTTP 请求，记录身份、HBONE/加密遥测及路径。判据：离线清单不证明就绪，HTTP 200 不单独证明 mTLS，只有 ztunnel 不声称 HTTP 路由已执行。
+2. **改变条件。**90/10 权重只请求十次是否必然得到 9/1？判据：不必然，需足够样本、版本计数与时间窗，说明连接/会话条件；同一目标直接 Pod IP 与 Service 请求也不必经过相同 waypoint，先说明最初访问目标与绑定范围。
+3. **故障证据。**Sidecar 课堂把 subset 标签指向空集合，记录 Service EndpointSlice 有后端但 subset 无匹配、代理实际路由与请求 503。判据：删除精确故障资源后同请求恢复 200；`SYNCED` 与 `analyze` 无错误都不能推翻运行时空后端。恢复失败先保留现场，不继续 purge。
+4. **设计取舍。**四实例各安全承受 100 并发，总并发 300，剔除两实例后如何处理？判据：剩余平均 150 超出基线，须限流/降级或增加已就绪容量，重试不能凭空造容量；扩展答案包含代理/CA 故障域、遥测预算、revision 小批升级与不可逆数据库变化。镜像流量不得使用真实扣款凭据。
+5. **口述追问。**30 秒讲通信治理，三分钟讲请求与 xDS 控制路径。继续问“证书有效为何仍拒绝”“新增 ALLOW 为何抵消不了 DENY”“Istiod 暂停为何旧请求还能通”。判据：认证不同于授权、动作语义不同、旧代理持有状态但新配置和证书流程受影响；AIOps 关联版本与响应标志，自动化回退必须绑定精确范围和批准。
+
+任一项缺证据则回“身份验收课堂”“授权精讲”“一次灰度发布的六张小纸条”或“配置传播课堂”返工。最终 GitHub 记录要注明是模拟还是实跑，不以阅读完成替代独立通关。
 
 ## 学习证据
 

@@ -200,7 +200,7 @@ useEffect(() => {
       if (!controller.signal.aborted) dispatch({ type: 'loaded', data })
     })
     .catch((error) => {
-      if (!controller.signal.aborted) dispatch({ type: 'failed', error })
+      if (!controller.signal.aborted) dispatch({ type: 'failed', message: error instanceof Error ? error.message : String(error) })
     })
 
   return () => controller.abort('query-changed-or-unmounted')
@@ -227,18 +227,29 @@ useEffect(() => {
 ## Reducer、Context 与自定义 Hook
 
 ```tsx
+type Action =
+  | { type: 'load'; requestId: string }
+  | { type: 'loaded'; data: Incident[] }
+  | { type: 'failed'; message: string }
+  | { type: 'cancel' }
+
 function requestReducer(state: RequestState, action: Action): RequestState {
   switch (action.type) {
     case 'load': return { status: 'loading', requestId: action.requestId }
     case 'loaded': return { status: 'success', data: action.data }
     case 'failed': return { status: 'error', message: action.message }
     case 'cancel': return { status: 'cancelled' }
-    default: return state
+    default: {
+      const missing: never = action
+      throw new Error(`unhandled action: ${JSON.stringify(missing)}`)
+    }
   }
 }
 ```
 
 reducer 集中描述事件到状态的转换，适合复杂状态机和测试。Context 负责把值送到深层，不自动提供缓存、持久化和业务动作。自定义 Hook 复用状态逻辑，每次调用默认拥有独立状态，不是共享单例。
+
+上面请求片段与reducer统一用 `message` 表达失败；不要一个地方dispatch.error、另一个地方读action.message。穷尽检查保护已声明的静态Action，外部消息仍需运行时校验；实际异步结果还应携带请求ID，由结果资格或reducer检查，不能默认每个loaded都代表当前条件。
 
 Hook 必须在组件或自定义 Hook 顶层按稳定顺序调用，不能放条件、循环和普通回调里；React 依赖调用顺序关联 Hook 状态。
 
@@ -320,7 +331,7 @@ JSX（用于描述界面的 JavaScript 语法扩展）
   -> render/reconciliation 计算变化
   -> commit 更新 DOM、ref 和布局 effect
   -> 浏览器 style/layout/paint
-  -> passive Effect 运行
+  -> passive Effect 与绘制的先后依交互/调度而定，不是严格固定链
 ```
 
 不要把 Fiber 私有字段当业务 API。面试应理解它让 React 能把渲染工作拆分、标记优先级和保存组件状态关联，而不是背某个版本的内部源码字段。
@@ -577,7 +588,18 @@ Server Action/服务端函数仍是网络入口，必须认证、授权、校验
 
 ### 前置与创建
 
-本仓库已经是 React 19.2 + TypeScript + Vite 项目，可直接阅读 `src/` 和执行现有门禁。独立练习可按 Vite 官方模板创建并锁定生成的 lockfile；以当日 React 与 Vite 官方要求为准。
+本仓库已经是React19.2+TypeScript+Vite项目，可只读 `src/` 和执行现有门禁；不要为了实验替换本仓库主页。需要独立练习时先完成[实验起步说明](../experiment-start.md)，在个人父目录确认不存在 `react-incident-lab`，再执行以下命令；生成版本以实际依赖锁为准，不一定等于本文19.2基线：
+
+```powershell
+if (Test-Path -LiteralPath .\react-incident-lab) { throw '已有同名项目，请换新目录' }
+npm create vite@latest react-incident-lab -- --template react-ts
+if ($LASTEXITCODE -ne 0) { throw '脚手架失败，先检查环境' }
+Set-Location react-incident-lab
+npm install
+if ($LASTEXITCODE -ne 0) { throw '安装失败，不启动旧制品' }
+```
+
+先运行生成的原项目确认能打开，再备份并替换 `src/App.tsx` 为下面完整组件；默认导出与模板入口保持一致。不要仅新建IncidentBoard.tsx却忘了在App渲染，也不要把多个完整App实验拼在一个文件。前面的errorHandler/report等片段需应用自己的上报实现，不能原样当独立入口。
 
 核心组件：
 
@@ -591,7 +613,7 @@ const initialIncidents: Incident[] = [
   { id: 'INC-1025', service: 'gateway', severity: 'warning' }
 ]
 
-export function IncidentBoard() {
+export default function App() {
   const [query, setQuery] = useState('')
   const filtered = useMemo(
     () => initialIncidents.filter((item) => item.service.includes(query.trim())),
@@ -614,7 +636,7 @@ export function IncidentBoard() {
 
 ### 运行与验证
 
-执行项目的 type-check/test/build 脚本并运行 dev server。预期输入 `data` 只剩 database；键盘 label/输入可用；React DevTools 显示 query；生产构建退出码 0；移动端无横向溢出。
+在个人项目执行 `npm run dev` 并打开终端实际打印的URL，另一个终端运行 `npm run build`。先用 `npm run` 查看脚本：Vite默认模板不一定有test/type-check，不能假称它们已经通过；需要时按项目引入测试工具、增加行为测试，本仓库共享实验已有单独的typecheck/test门禁可作参考。预期输入data只剩database，输入不存在的服务显示0条；键盘label/输入可用，React DevTools显示query，生产构建退出码0。原模板的全局CSS会影响布局，请区分框架机制和自己的样式；移动端/长内容需另外实测。
 
 ### 失败先看和清理
 
@@ -622,7 +644,7 @@ export function IncidentBoard() {
 - 输入不更新：value/onChange 是否成对，事件是否正确读取。
 - 列表警告：key 是否稳定唯一。
 - 开发重复日志：检查 StrictMode 暴露的不纯/cleanup，别先删除 StrictMode。
-- Ctrl+C 停 dev server；node_modules 可删除，保留 lockfile、源码和证据。
+- Ctrl+C停自己的dev server并确认该进程已退出；保留lockfile、源码和脱敏证据。需要清理时只把已确认绝对路径的个人实验目录移入回收站，不删除本仓库、共享依赖或其他Node服务。
 
 ## 故障实验：缺 cleanup、key 错位与 hydration
 
@@ -817,6 +839,16 @@ Context 让深层组件读取共享值，但一个经常变化的大对象可能
 服务端渲染还要求服务端初始快照与客户端水合初始快照一致。不能在服务器用租户甲的数据渲染，再让客户端第一次读取空仓库或租户乙。传递数据要使用框架认可的安全序列化方式，并隔离每次服务端请求，不能把一个全局可变单例当成所有用户的仓库。快照一致性解决显示问题，可信身份与授权解决访问问题，两者缺一不可。
 
 面试追问“外部仓库为什么不用普通 Effect 随便订阅”，先说明渲染和订阅之间的变化窗口、快照一致性及清理需求，再说明采用官方适配接口能让 React 协调读取。性能追问则检查通知频率、快照粒度和数据规模；不能为了减少渲染而隐藏真实业务变化。告警洪峰时可以按明确业务规则合并展示更新，但审计记录仍需保留应有的事件事实。
+
+## 独立通关：快照、身份、同步与真实业务分别验收
+
+1. **基础复现。** 空项目挂载默认导出的App，筛选data只剩database、不存在值显示0条；另运行加三实验，归零后快照方式得到1，队列方式得到3。给出角色/名称的用户行为测试、真实构建和运行截图，脚手架没有的test脚本不能写成已通过。
+2. **改变条件预测。** 两事件行各有草稿，交换顺序：业务ID key应保留草稿归属，index key可能按位置复用，随机key会重建丢状态。再预测把筛选派生值存进Effect会多出哪份旧状态；去掉useMemo不应改变正确结果，只可能影响实测性能。
+3. **故障证据。** 对同一订阅执行setup→cleanup→setup，应只有一个有效资源；依赖改变先关闭旧订阅，卸载后归零。旧搜索成功与失败都故意晚到，均不能覆盖当前查询。StrictMode额外调用次数不是生产QPS，必须分别保存开发资源数、生产Network及服务端请求ID，不能删StrictMode当修复。
+4. **设计取舍。** 十万事件实时控制台，预算输入速率、保留上限、消息合并/审计原始流、断线游标、分页与窗口化可访问替代；局部错误边界不能挡住处置主路径。说明客户端/SSR/RSC边界、每请求身份隔离、旧chunk保留、API兼容和整包回滚，不把Context当复制数据库。
+5. **口述追问。** render为何可能被放弃而commit才修改DOM？Effect为何不是所有逻辑的容器？useRef为何改值不刷新？Error Boundary为何没抓到事件异常？外部store为何未变化时必须复用快照？每题给一个反例、可观察证据和不可承诺的边界。
+
+返工标准：只会背setter异步先回到快照与队列；资源不断增加先补对称清理；优化掩盖错误先修状态/身份；回滚只换JS先补旧API兼容。通过这些独立任务才能证明机制掌握，不以Hook数量、篇幅或开发环境没红字代替。
 
 ## GitHub 学习证据清单
 

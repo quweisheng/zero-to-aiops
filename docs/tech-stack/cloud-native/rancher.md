@@ -251,6 +251,8 @@ ingress:
 
 ### 实验步骤
 
+第一轮在 Windows PowerShell 的新空目录操作，只需 Helm 客户端，不需要 Rancher、Kubernetes 或 kubeconfig。未安装时可按[Helm 官方安装入口](https://helm.sh/docs/intro/install/)执行 `winget install --id Helm.Helm --exact`，重新打开终端后确认 `helm version`。用 `New-Item -ItemType Directory rancher-render-lab`、`Set-Location rancher-render-lab` 创建并进入自己的新目录；重名则换名，不覆盖原结果。后续 agent 故障是另一条需要真实授权平台的进阶路线，渲染成功不会自动得到 Rancher 实例。
+
 ```powershell
 helm repo add rancher-stable https://releases.rancher.com/server-charts/stable # 添加官方稳定仓库
 helm repo update                                                              # 刷新 Chart 索引
@@ -287,17 +289,23 @@ Select-String -Path rancher-rendered.yaml -Pattern 'rancher.lab.local|replicas: 
 ### 前置条件与基线
 
 1. Rancher 2.15.0 管理一个一次性下游集群。
-2. 下游已有一个可验证的测试工作负载。
+2. 在下游新建本轮专用测试工作负载，不能把未知的 `demo` 命名空间当成可破坏环境。
 3. 记录 Rancher UI、直接 `kubectl` 和业务探针的基线。
 
 ```powershell
 kubectl config current-context
 kubectl get --raw=/readyz
+kubectl create namespace rancher-probe-lab
+kubectl -n rancher-probe-lab create deployment web --image=nginx:1.27-alpine
+kubectl -n rancher-probe-lab expose deployment web --port=80
+kubectl -n rancher-probe-lab rollout status deployment/web --timeout=120s
 kubectl -n cattle-system get deployment cattle-cluster-agent -o wide
 $agentReplicas = [int](kubectl -n cattle-system get deployment cattle-cluster-agent -o jsonpath='{.spec.replicas}')
 if ($agentReplicas -lt 1) { throw 'cluster-agent 基线异常，停止实验' }
-kubectl -n demo get deploy,pod,service
+kubectl -n rancher-probe-lab get deploy,pod,service
 ```
+
+先确认专用 namespace 不存在，任一创建失败就停止；以上历史 nginx 标签只用于无数据的合成测试，不代表当前生产基线。另开使用同一原生 kubeconfig 的终端执行 `kubectl -n rancher-probe-lab port-forward service/web 18080:80`，保持运行；在探针终端用 `curl.exe -sS -o NUL -w '%{http_code}' http://127.0.0.1:18080/` 取得基线 200。PowerShell 这里使用 curl.exe 避免旧版本 curl 别名，NUL 是 Windows 丢弃响应正文的位置。注入前、注入后、恢复后运行相同请求；转发断开时记录连接错误并重新用原生 API 建立，不能把转发中断直接当业务停机。
 
 ### 注入、观察与恢复
 
@@ -316,6 +324,8 @@ kubectl get --raw=/readyz
 ```
 
 预期结论：Rancher 管理链路异常与下游 API/已运行业务是两个信号；恢复后 agent 重新连接并同步状态。若直接 API 也失败，事故已经超出 Rancher agent 范围，应转查下游控制面和网络。若 agent 无法恢复，停止实验并使用保存的副本数、事件、日志和变更时间回退。
+
+收尾先确认 agent 副本数和状态新鲜度恢复，停止本轮端口转发，再执行 `kubectl delete namespace rancher-probe-lab --wait=true` 并查询确认 NotFound。该探针通过 API 转发观察单个测试后端，未覆盖真实外部 LB、Service 数据面或所有下游业务；不能因返回 200 就宣布全平台恢复。若 controller 自动把 agent 恢复成原数量，记录调和结果，禁止扩大破坏范围来凑断线图。
 
 ## 生产事故题：页面全红，但业务告警没有触发
 
@@ -520,6 +530,18 @@ RTO 要包括发现故障、获取审批、准备环境、下载备份、恢复�
 迁移或恢复交接时，写清当前唯一有效的平台入口、负责值班的人、仍未重连的下游、已暂停的交付任务和下一次复查时间。原始故障已经缓解，但仍有失联集群时，结论应是“部分恢复”，不能用总览页多数绿色掩盖遗漏。对每个未恢复对象给出业务影响和受控原生访问方式，避免下一班再次执行全局修复。
 
 回滚资料还应记录备份时刻之后发生的合法变更。否则恢复成功后，人们可能把新建项目消失、权限退回和应用版本变化误判为第二场事故。恢复方案应明确如何补录这些变化、由谁审批以及如何避免把原故障配置重新引入。能够解释这些时间差，才算真正理解管理平台状态恢复，而不是只会点恢复按钮。
+
+## 独立通关：红色管理页不等于两百套业务一起停止
+
+先关闭正文提交预测；无授权 Rancher/下游环境时完成渲染和纸面题，agent 缩容明确标未运行。每项都记录管理集群与下游 context、身份、观察时间和收回范围。
+
+1. **基础复现。**在空目录固定 Chart 渲染 hostname/replicas，说明并未安装；有授权平台时独立创建专用探针，在管理入口、原生下游 API 和业务探针各留基线。判据：三种信号不能互相替代，图中管理箭头与订单请求箭头分开。
+2. **改变条件。**把应急 kubeconfig 的 server 地址改成仍经过 Rancher 的代理地址，平台入口故障时还能否独立验证下游？判据：不能承诺；检查服务器路径和认证依赖，不以文件名带“原生”作为证明。模拟材料不得包含真实 Token。
+3. **故障证据。**缩容本轮 cluster-agent 后记录 UI、原生 `/readyz`、探针及 node-agent 对照；恢复原副本数。判据：控制器自动恢复或兜底时如实记录，不能继续破坏；恢复包含新鲜状态与管理动作，不仅 Pod 数量。最后仅回收专用 probe namespace。
+4. **设计取舍。**昨日备份后今天撤销人员权限并删除下游机器，恢复旧管理备份能否恢复一切？判据：历史平台状态不等于机器、业务卷或当前合法授权；列出三层负责人和恢复入口，拒绝恢复副本与旧平台同时接管生产。HA 还要覆盖入口、身份源、管理 etcd 与重连尖峰。
+5. **口述追问。**30 秒区别 Rancher、RKE2、K3s，三分钟讲反向代理管理链与异步状态。追问“Fleet 同步后为何业务未就绪”“Git 回滚为何数据库不回退”“页面全红为何不重新导入全部”。判据：交付状态非业务、配置非数据、最小故障范围；AIOps 标采集新鲜度并把原生探针附在告警中，写动作仍审批。
+
+答错回“身份精讲课堂”“代理通信精讲”“恢复推演课堂”或“Fleet 交付精讲”重做。阅读与渲染通过不代表已具备生产纳管权限或恢复能力。
 
 ## 学习证据
 

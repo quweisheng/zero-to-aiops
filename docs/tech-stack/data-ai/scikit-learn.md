@@ -300,6 +300,8 @@ AIOps 更常见的是 outlier detection，因为真实历史指标里往往已�
 
 ## 安装
 
+先完成[实验开始前的准备](../experiment-start.md)，在自己的全新实验目录创建 `.venv`，不覆盖已有环境。基础实验只需 CPU；在编辑器中保存 UTF-8 的完整文件，确认终端位于文件所在目录。前面的 API 片段不是独立程序，`X_train` 等变量需要对应数据准备；本课完整项目按 CSV→数据合同→训练→检测顺序执行。
+
 ```bash
 python -m venv .venv
 . .venv/bin/activate
@@ -755,8 +757,9 @@ clf.fit(X_train, y_train)
 import joblib
 
 from pathlib import Path
-Path("model").mkdir(exist_ok=True)
-joblib.dump(pipeline, "model/anomaly_pipeline.joblib")
+Path("model").mkdir(exist_ok=False) # 已有目录就停止，改用新运行目录，不覆盖旧模型证据
+with open("model/anomaly_pipeline.joblib", "xb") as artifact:
+    joblib.dump(pipeline, artifact)
 pipeline = joblib.load("model/anomaly_pipeline.joblib")
 ```
 
@@ -795,6 +798,7 @@ projects/sklearn-anomaly-detector/
   README.md
   requirements.txt
   metrics.csv
+  data_contract.py
   train.py
   detect.py
   anomaly_review.csv
@@ -812,6 +816,36 @@ joblib
 
 ### train.py
 
+先在同一目录保存下面的 `data_contract.py`。它只读本课 CSV，规定四列数值、范围、有限值与时间；中位数填补不是允许整份数据缺测的借口。本课完整输入不允许缺失，学习缺失策略时另建合成副本并明确批准的范围。
+
+```python
+import numpy as np
+import pandas as pd
+
+FEATURES = ["request_rate", "error_rate", "p95_latency_ms", "cpu_usage"]
+
+def load_metrics(path):
+    df = pd.read_csv(path)
+    required = set(FEATURES + ["timestamp", "service"])
+    if not required.issubset(df.columns) or df.empty:
+        raise ValueError("缺列或空数据，不能当作没有异常")
+    if df["service"].isna().any() or df["service"].astype(str).str.strip().eq("").any():
+        raise ValueError("服务名不能为空")
+    df["timestamp"] = pd.to_datetime(df["timestamp"], format="%Y-%m-%d %H:%M:%S", errors="raise").dt.tz_localize("Asia/Shanghai").dt.tz_convert("UTC")
+    if df["timestamp"].isna().any() or df.duplicated(["service", "timestamp"]).any():
+        raise ValueError("时间为空或同服务同时间重复")
+    df[FEATURES] = df[FEATURES].apply(pd.to_numeric, errors="raise")
+    if not np.isfinite(df[FEATURES].to_numpy(dtype=float)).all():
+        raise ValueError("模型输入必须为有限数值，不能有NaN或Infinity")
+    if (df[["request_rate", "p95_latency_ms"]] < 0).any().any():
+        raise ValueError("请求速率和毫秒延迟不能为负")
+    if not df["error_rate"].between(0, 1).all() or not df["cpu_usage"].between(0, 1).all():
+        raise ValueError("错误率和CPU使用率必须是0到1的比例")
+    return df
+```
+
+再保存 `train.py`：
+
 ```python
 from pathlib import Path
 
@@ -824,7 +858,9 @@ from sklearn.preprocessing import StandardScaler
 
 features = ["request_rate", "error_rate", "p95_latency_ms", "cpu_usage"]
 
-df = pd.read_csv("metrics.csv", parse_dates=["timestamp"])
+from data_contract import FEATURES, load_metrics
+features = FEATURES
+df = load_metrics("metrics.csv")
 X = df[features]
 
 pipeline = Pipeline(
@@ -837,8 +873,9 @@ pipeline = Pipeline(
 
 pipeline.fit(X)
 
-Path("model").mkdir(exist_ok=True)
-joblib.dump(pipeline, "model/anomaly_pipeline.joblib")
+Path("model").mkdir(exist_ok=False)
+with open("model/anomaly_pipeline.joblib", "xb") as artifact:
+    joblib.dump(pipeline, artifact)
 print("saved model/anomaly_pipeline.joblib")
 ```
 
@@ -848,9 +885,9 @@ print("saved model/anomaly_pipeline.joblib")
 import joblib
 import pandas as pd
 
-features = ["request_rate", "error_rate", "p95_latency_ms", "cpu_usage"]
-
-df = pd.read_csv("metrics.csv", parse_dates=["timestamp"])
+from data_contract import FEATURES, load_metrics
+features = FEATURES
+df = load_metrics("metrics.csv")
 pipeline = joblib.load("model/anomaly_pipeline.joblib")
 
 df["prediction"] = pipeline.predict(df[features])
@@ -858,7 +895,7 @@ df["anomaly_score"] = pipeline.decision_function(df[features])
 df["is_anomaly"] = df["prediction"] == -1
 
 review = df.sort_values("anomaly_score")
-review.to_csv("anomaly_review.csv", index=False)
+review.to_csv("anomaly_review.csv", index=False, mode="x") # 已有复核表时拒绝覆盖
 
 print(review[["timestamp", "service", "anomaly_score", "is_anomaly"]])
 ```
@@ -870,6 +907,8 @@ pip install -r requirements.txt
 python train.py
 python detect.py
 ```
+
+这些命令要求已经激活本项目环境；PowerShell 不想激活时逐条使用 `.\.venv\Scripts\python.exe -m pip install -r requirements.txt`、`.\.venv\Scripts\python.exe train.py`、`.\.venv\Scripts\python.exe detect.py`。每一步退出非零即停止，别拿旧模型继续检测。第一次训练会新建 model 目录；第二次训练故意拒绝已有目录，重跑在新的运行目录或先归档自己已确认的产物。独占文件创建只防覆盖，不保证磁盘失败时文件完整；发布前仍要校验与金样本测试。此处仅加载自己刚生成的模型，不把外部 joblib 路径当用户参数。
 
 README 要解释：
 
@@ -1057,6 +1096,9 @@ def checked_predict(frame):
         raise ValueError('特征名或顺序与模型合同不一致')
     if not frame['error_rate'].between(0,1).all():
         raise ValueError('错误率必须使用 0 到 1 的比例')
+    import numpy as np
+    if not np.isfinite(frame.to_numpy(dtype=float)).all() or (frame['latency_ms'] < 0).any():
+        raise ValueError('特征必须有限，毫秒延迟不能为负')
     return model.predict(frame)
 
 try:
@@ -1230,6 +1272,18 @@ IsolationForest 等异常检测输出相对异常程度，不应通过随意线�
 “评估时我同时看窗口精确率召回率、事件发现率与每班通知量，在固定规则基线上验证是否有实际提升。上线保存整个模型包、特征合同、阈值和环境，加载可信产物后运行金样本。接口延迟拆为特征读取、转换、预测与下游发布，内存预算计算每个工作进程的模型副本。遇到分数突变先定位输入、转换、模型还是策略，再选择最小修复。”
 
 “回退必须恢复匹配的输入语义与模型配置，历史样本回放只走影子通道，不重复创建真实工单。若需要增量学习，要额外管理状态与数据位置，不能循环调用 fit 冒充持续学习。这个框架帮助发现模式，最终告警和修复仍需业务证据与授权。”追问“能否直接扩大模型”，回答先用同一评估集证明数据与简单基线已经充分利用，再权衡复杂模型增加的训练、解释和运维成本。
+
+## 独立通关：把估计器状态与业务策略分开
+
+五关分别验收。先写预测，再用个人合成数据运行；没有 scikit-learn 时把框架相关关记为未执行，不能用无依赖阈值演示代替训练证明。
+
+1. **基础复现。** 用八行 CSV 跑最短模型，再跑独立 train/detect，交付八行身份一一对应、低分排序、实际依赖与模型哈希。解释这只是同批离群检测和持久化闭环，不是未来泛化；异常条数不要求等于 8×0.15 的小数，更不能承诺真实准确率。
+2. **改变条件预测。** 对同一输入、同样随机状态，仅改变 contamination，先说明它主要改变阈值而非提供事故真值；比较 `score_samples`、`offset_`、`decision_function`，验证后者等于前者减offset。再手算阈值0.9时1条/TP1/FN2，0.6时4条/TP2/FP2/FN1。不能把异常分数叫事故概率。
+3. **故障证据。** 交换列、把错误率0.25写成25、加入NaN/Infinity或负延迟，要求合同明确拒绝而非静默当正常。恢复后预测可用。复核表已经存在时应失败，旧模型目录也不能被重训覆盖；保留输入、错误位置与恢复证据。预处理重拟合、同事故跨折和未来字段要各写一个可证伪假设。
+4. **设计取舍。** 1000窗口/秒服务，4个工作进程各加载200MiB模型，驻留至少800MiB，还要算临时批次、特征与库线程。给出批量等待/尾延迟预算、并行上限、特征源失败降级、可信发布与完整回滚；不能写 n_jobs=-1 就算容量设计。
+5. **口述追问。** 解释 fit/transform/predict 状态、Pipeline防什么与防不了什么、LOF默认/novelty接口、fit/partial_fit/warm_start区别。追问“测试高分为何仍上线差”，从拆分、单位、特征时刻与阈值找证据；追问“重要性最高就是根因吗”，答需要机制与对照。答不清的关返工对应小节并换一组数据复评。
+
+记录 `mastery.md`，区分已执行、静态推理和生产未覆盖。全部实验是个人离线进程，不建真实工单；结束进程即可，模型与输出只在自己的实验目录归档或回收。
 
 ## 本课 GitHub 学习证据
 

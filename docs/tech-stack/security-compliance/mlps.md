@@ -16,7 +16,7 @@
 - [中华人民共和国数据安全法](https://www.npc.gov.cn/npc/c2/c30834/202106/t20210610_311888.html)
 - [中华人民共和国个人信息保护法](https://tianjin.chinatax.gov.cn/11200000000/0300/030004/03000418/20260422093826079.shtml)
 
-> 时点说明：本文按 2026 年 7 月仍在实施的法律和国家标准整理。等级保护还会受到行业规则、属地公安机关要求、主管部门要求和系统实际场景影响。本文是学习与工程实践指南，不替代正式定级评审、监管沟通、测评机构意见或法律意见。
+> 时点说明：本文于 2026 年 10 月复核网信办公布的修正法全文及上述定级、基本要求标准入口。等级保护还会受到行业规则、属地公安机关要求、主管部门要求和系统实际场景影响。本文是学习与工程实践指南，不替代正式定级评审、监管沟通、测评机构意见或法律意见；没有在此逐条审查所有行业要求。
 
 ## 官方知识地图
 
@@ -41,6 +41,8 @@
 4. 技术控制、管理控制和云计算等扩展场景。
 5. 资产、控制、证据、问题和整改如何形成持续闭环。
 6. AIOps 如何帮助做资产发现、基线漂移、日志覆盖、漏洞治理和证据保鲜。
+
+这张地图按官方资料层次重新组织，不是一份能够直接勾选通过的官方测评表。第一次先完成“资产走到证据”的纸面课堂，再看身份、日志和恢复三个控制；第二轮才做自己 Windows 学习机的只读取证，Linux 与 Kubernetes 命令是已有授权环境的进阶入口，不要求为学习等保先搭全套平台。不会打开终端或保存文件，先读[零基础实验准备](../experiment-start.md)。
 
 ## 老师带你从资产走到可核验的安全证据
 
@@ -108,6 +110,8 @@ Asset（资产）是受保护对象，Control（控制措施）是降低风险�
 ## 为什么 AIOps 工程师要学等保
 
 AIOps 平台往往拥有很宽的读取权限，能集中看到主机、容器、数据库、日志、告警和用户行为，有些平台还可以执行生产动作。它既是安全证据的重要来源，也可能成为高权限攻击入口。
+
+先认几个后文会用的名字：CMDB 是配置管理数据库，记录资产及其归属；IAM 是身份与访问管理；MFA 是多因素认证，例如密码之外再验证独立因素；RBAC 是按角色授予权限。WAF 是保护网页与接口的应用防火墙，EDR 是终端检测与响应工具，IDS 是入侵检测系统，SIEM 是汇聚和分析安全事件的平台。它们是实现部分控制的工具类别，不是“装上即通过”的证书。API 是程序调用接口；Collector 是收集器；LLM 是大语言模型；RAG 是先检索资料再生成回答的方法。先知道各自负责什么，具体安装不属于本篇的零基础前置。
 
 运维和 AIOps 岗位经常需要参与：
 
@@ -606,15 +610,34 @@ $Out = "$Lab/evidence/system/$Stamp"
 if (Test-Path -LiteralPath $Out) { throw '批次目录已存在，停止。' }
 New-Item -ItemType Directory -Path $Out -ErrorAction Stop | Out-Null
 
-Get-Date -Format o | Out-File "$Out/collected-at.txt" -Encoding utf8            # 保存带时区的采集时间
-Get-ComputerInfo | Select-Object WindowsProductName, WindowsVersion, OsBuildNumber |
-  Out-File "$Out/os-version.txt" -Encoding utf8                                 # 保存操作系统版本
-Get-NetTCPConnection -State Listen | Sort-Object LocalAddress, LocalPort |
-  Format-Table -AutoSize | Out-String -Width 4096 | Out-File "$Out/listening-ports.txt" -Encoding utf8 # 防止窄终端截断
-Get-LocalUser | Select-Object Name, Enabled, LastLogon |
-  Format-Table -AutoSize | Out-String -Width 4096 | Out-File "$Out/local-users.txt" -Encoding utf8 # 保存本地账号快照
-w32tm /query /status | Out-File "$Out/time-sync.txt" -Encoding utf8              # 保存时间同步状态
-if ($LASTEXITCODE -ne 0) { Write-Warning '时间查询失败，请把退出码和失败原因写入自查报告。' }
+$CollectionStatus = [System.Collections.Generic.List[object]]::new()
+function Save-LabEvidence {
+    param([string]$Name, [scriptblock]$Collect)
+    $Started = Get-Date -Format o
+    try {
+        $ErrorActionPreference = 'Stop'  # 本次采集遇错即报，不把空输出默认为成功
+        & $Collect | Out-File "$Out/$Name" -Encoding utf8 -ErrorAction Stop
+        $CollectionStatus.Add([pscustomobject]@{File=$Name; Started=$Started; Status='collected'; Reason=''})
+    } catch {
+        $CollectionStatus.Add([pscustomobject]@{File=$Name; Started=$Started; Status='failed'; Reason=$_.Exception.Message})
+        Write-Warning "$Name 采集失败；查看状态清单，不把该项记为通过。"
+    }
+}
+Save-LabEvidence 'collected-at.txt' { Get-Date -Format o }
+Save-LabEvidence 'os-version.txt' { Get-ComputerInfo | Select-Object WindowsProductName, WindowsVersion, OsBuildNumber }
+Save-LabEvidence 'listening-ports.txt' {
+    Get-NetTCPConnection -State Listen | Sort-Object LocalAddress, LocalPort |
+      Format-Table -AutoSize | Out-String -Width 4096
+}
+Save-LabEvidence 'local-users.txt' {
+    Get-LocalUser | Select-Object Name, Enabled, LastLogon |
+      Format-Table -AutoSize | Out-String -Width 4096
+}
+Save-LabEvidence 'time-sync.txt' {
+    w32tm /query /status
+    if ($LASTEXITCODE -ne 0) { throw "w32tm 查询失败，退出码 $LASTEXITCODE" }
+}
+$CollectionStatus | Export-Csv "$Out/collection-status.csv" -NoTypeInformation -Encoding utf8 -ErrorAction Stop
 
 Get-ChildItem $Out -File | Get-FileHash -Algorithm SHA256 |
   Select-Object Path, Hash | Export-Csv "$Out/sha256-manifest.csv" -NoTypeInformation -Encoding utf8 # 为证据生成完整性清单
@@ -630,12 +653,13 @@ os-version.txt
 listening-ports.txt
 local-users.txt
 time-sync.txt
+collection-status.csv
 sha256-manifest.csv
 ```
 
 `sha256-manifest.csv` 中每个证据文件都有哈希值。`self-check.md` 至少回答：
 
-六类文件依次记录采集时间、系统版本、监听端口、本地账号、时间同步与摘要清单。文件存在或有哈希都不等于命令成功：逐条阅读终端错误和输出内容，将每项标为成功、无适用数据或采集失败，并保留原因。清单不包含其自身，否则会出现自引用摘要问题。
+七类文件依次记录采集时间、系统版本、监听端口、本地账号、时间同步、逐项采集状态与摘要清单。`Save-LabEvidence` 把一项采集当成一个小任务：`Name` 是自己的输出文件名，`Collect` 是要执行的只读步骤，失败写入状态而不阻止其余独立项目；不要改成任意外部路径。`collected` 只表示命令和写文件步骤完成，不表示控制有效，空结果还需判断是否适用。`failed` 项可能没有文件，也可能有不完整文件，不能继续作为通过证据。摘要生成或状态清单写入若失败，则整个证据包不完整，先解决本机写入/空间问题。清单不包含其自身，否则会出现自引用摘要问题。
 
 - 哪些端口是预期的，谁负责？
 - 是否有不认识、禁用但未说明、长期未使用的账号？
@@ -844,6 +868,28 @@ sha256-manifest.csv
 **生产设计题：** 业务运行在云平台，既有 Kubernetes 也有传统数据库，团队需要在发布后持续维护证据。先建立对象边界与共享责任矩阵，再把云资源、集群、数据库、身份、日志和备份用稳定标识关联。每项控制写明责任角色、数据源、最近验证时间、复核触发器与人工例外；部署新增入口、权限或数据处理方式时重新评估，不只按月刷新截图。采集身份默认只读，证据存储与生产操作权限分开，敏感数据最小化。验收抽一条从变更到控制复测、问题工单、关闭证据的完整链，再演练采集端断流时是否产生“未知”告警。平台高可用还须覆盖身份、存储和备份依赖；失去证据时保留缺口，而不是自动补造记录。
 
 **事故题：** 人员调岗后仍能访问原部门数据库，报表却显示权限复核完成。先保全人员变更、身份源同步、授权规则、目标账号和会话时间线，区分复核签字、平台撤权与目标实际拒绝三个结果。假设可能是组成员未同步、另一条授权叠加、目标端直连路径或已有会话仍存活；使用获准测试身份建立新连接逐项验证，不拿真实人员账号反复试密码。由身份、业务与数据库负责人决定精确撤权或会话处置，评估是否误伤共享服务身份，并保存原规则和受控恢复方案。验收既要验证旧权限不能新建连接，也要检查原有会话、绕过入口、其他合法业务和审计记录；复盘把跨系统撤权验证加入工单，不以重新签一张表结案。合规措施不能绕过业务安全和证据保全。
+
+## 独立通关：证据完整，不等于安全结论完整
+
+### 第一关：换一个保护边界
+
+课堂新增外部供应商远程维护和云备份服务。不要先加产品名称；更新范围、主体责任、数据流、供应商身份、访问期限、日志和退出要求。判据是每条新路径都有责任角色与可验证控制，明确哪些证据由云厂商提供、哪些必须由租户补充。若把云报告覆盖范围扩成全部业务，回看“云平台通过不等于云上业务自动通过”。
+
+### 第二关：重算日志覆盖，别移动分母
+
+应接 120 个数据源，其中 90 个新鲜、10 个只有三日前旧日志、20 个从未接入。按本题新鲜标准，当前有效接入覆盖率是 `90/120=75%`，不是 `100/100`。再加入 30 个新资产而未完成接入，应接分母变成 150，覆盖率降为 60%；不能从台账删除未接资产让数字变绿。实际留存期限与失鲜阈值分别依据适用要求和业务约定，不把课堂数值当法规。
+
+### 第三关：自己制造一个采集失败
+
+只复制课堂函数到独立合成练习，传入 `throw '模拟无权限'`，不修改真实权限。预期该项为 `failed`，原因可追溯，其他测试项仍能记录。若空文件被标为有效证据，先修采集状态与报告逻辑；若想验证真实模块，请在自己的获准环境另做记录。把失败和未知保留下来，比补一张空白截图更符合证据原则。
+
+### 第四关：哈希全对，来源也一定可靠吗
+
+假设攻击者同时改了日志和同目录摘要，重新计算又全部匹配。提出至少两项独立核验：受保护清单或签名的可信来源、独立审计/副本与保管交接记录，并检查权限和时间。合格答案能区分字节一致、来源真实性、时间可信和业务完整性；恢复旧清单前保全当前证据，不直接覆盖可疑记录。回看“验证方法”。
+
+### 第五关：面试中的整改决定
+
+30 秒解释等保，3 分钟处理“离职账号还能访问，但测评总分很好”。追问必须覆盖新连接与存量会话、叠加授权与绕过路径、共享账号误伤、精确撤权的批准与恢复，以及整改后再次访问和审计验证。不得用总分抵消高风险，不自称有权作正式测评或法律结论，也不把本地模板视为通过证明。
 
 ## 学习证据
 

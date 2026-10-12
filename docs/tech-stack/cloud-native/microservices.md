@@ -944,13 +944,16 @@ scrape_configs:
 
 - Windows PowerShell 7 或 Windows PowerShell 5.1。
 - `java -version` 显示 17 或更高。
+- `javac -version` 也存在且与项目兼容：JDK 包含编译器，只有 JRE 能运行 Java 但不能完成本实验构建。按 [Spring Boot 系统要求](https://docs.spring.io/spring-boot/4.0/system-requirements.html)准备 JDK，打开新终端再检查 PATH。
 - 能访问 `start.spring.io` 和 Maven Central。
 - 端口 8081、8082 未占用。
 
 ### 第 1 步：生成两个项目
 
 ```powershell
-New-Item -ItemType Directory -Force labs\spring-microservices-aiops | Out-Null
+Set-Location D:\zero-to-aiops
+if (Test-Path labs\spring-microservices-aiops) { throw '目录已存在；先备份或另取实验目录，不覆盖既有项目' }
+New-Item -ItemType Directory labs\spring-microservices-aiops | Out-Null
 Set-Location labs\spring-microservices-aiops
 
 $paymentUrl = 'https://start.spring.io/starter.zip?type=maven-project&language=java&bootVersion=4.0.7&baseDir=payment-service&groupId=lab.aiops&artifactId=payment-service&name=payment-service&packageName=lab.aiops.payment&packaging=jar&javaVersion=17&dependencies=web,actuator,prometheus'
@@ -958,11 +961,15 @@ $orderUrl = 'https://start.spring.io/starter.zip?type=maven-project&language=jav
 
 Invoke-WebRequest $paymentUrl -OutFile payment-service.zip
 Invoke-WebRequest $orderUrl -OutFile order-service.zip
-Expand-Archive payment-service.zip -DestinationPath . -Force
-Expand-Archive order-service.zip -DestinationPath . -Force
+Expand-Archive payment-service.zip -DestinationPath .
+Expand-Archive order-service.zip -DestinationPath .
 ```
 
 正常结果：当前目录出现 `payment-service` 和 `order-service`，两个目录都有 `mvnw.cmd`。如果下载到的是 JSON 错误而不是 ZIP，先检查 URL、代理和 Initializr 是否仍提供固定版本。
+
+这一步是在线生成，不是永久可用的历史包仓库。若 Initializr 已撤下 4.0.7，实验在此暂停：不要把 URL 悄悄换成最新 Boot 再继续沿用旧 Cloud BOM。应选择官方兼容表中的一对版本，记录新 POM、依赖树和重新测试结果，或使用你已保存并核验过的本次完整源项目。生成后的 POM 必须确实写着本文版本；本文不会把“生成网站返回了文件”当作编译通过。
+
+下文 Java 都是完整启动文件；前面概念区的 Controller、Feign 和 Prometheus 片段只是解释，不要一并复制到本次两个项目。编辑可用 VS Code/记事本；保持目录、`package` 和公开类名一一对应。若已有 `application.properties`，核对它没有与新增 YAML 冲突的同名值；同一位置混用两种配置容易让你以为 YAML 没生效。
 
 ### 第 2 步：实现 payment-service
 
@@ -1147,6 +1154,7 @@ resilience4j:
         minimumNumberOfCalls: 4
         failureRateThreshold: 50
         waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 2
 ```
 
 ### 第 5 步：构建、启动和验证
@@ -1155,15 +1163,17 @@ resilience4j:
 
 ```powershell
 # 窗口 1
-Set-Location labs\spring-microservices-aiops\payment-service
+Set-Location D:\zero-to-aiops\labs\spring-microservices-aiops\payment-service
 .\mvnw.cmd test
+if ($LASTEXITCODE -ne 0) { throw '测试失败，不启动 payment；保留构建错误' }
 .\mvnw.cmd spring-boot:run
 ```
 
 ```powershell
 # 窗口 2
-Set-Location labs\spring-microservices-aiops\order-service
+Set-Location D:\zero-to-aiops\labs\spring-microservices-aiops\order-service
 .\mvnw.cmd test
+if ($LASTEXITCODE -ne 0) { throw '测试失败，不启动 order；检查 BOM 与 Java' }
 .\mvnw.cmd spring-boot:run
 ```
 
@@ -1214,9 +1224,9 @@ $env:LAB_PAYMENT_FAIL='true'
 Invoke-RestMethod 'http://localhost:8081/actuator/metrics/resilience4j.circuitbreaker.state?tag=name:payment'
 ```
 
-预期：请求得到明确的 `DEGRADED`，达到最小调用数后熔断器进入 OPEN，后续请求会快速降级，而不是继续压向 payment。若一直 CLOSED，核对实例名 `payment`、Actuator 指标标签和 Resilience4j 配置是否真的被绑定。
+预期：请求得到明确的 `DEGRADED`，达到失败率和最小调用数条件后熔断器进入 OPEN，后续请求会快速降级，而不是继续压向 payment。基础实验的成功调用也可能仍在四次调用的窗口内，因此不要死记“第几次必定打开”。状态指标通常按 `state` 标签给各状态的数值，要读标签和值，不能看见输出中有 `closed` 字样便认定仍关闭。若一直 CLOSED，核对实例名 `payment`、Actuator 指标标签和 Resilience4j 配置是否真的被绑定。
 
-恢复与清理：停止 payment，执行 `Remove-Item Env:LAB_PAYMENT_FAIL -ErrorAction SilentlyContinue`，正常重启；等待 10 秒后再次请求，确认响应恢复为 `CREATED/PAID`。最后用 `Ctrl+C` 停止两个本地进程，保留日志、指标响应和故障记录作为学习证据。
+恢复与清理：停止 payment，在同一个 payment 终端执行 `Remove-Item Env:LAB_PAYMENT_FAIL -ErrorAction SilentlyContinue`，正常重启并确认日志启动完成；等待至少 10 秒后连续请求四次，保存每次业务结果，再读取熔断状态，确认 `CREATED/PAID` 和 CLOSED。这里显式设置半开允许两次调用，是为了让恢复可观察；等待到期本身不是成功，半开探测仍可能失败，某些状态转换也由下一次调用触发。[Resilience4j 状态与参数说明](https://resilience4j.readme.io/docs/circuitbreaker)给出了这些判定条件。最后用 `Ctrl+C` 停止两个本地进程，确认 8081/8082 已释放，保留日志、指标响应和故障记录；若恢复失败先保留现场，不用重启 order 抹掉状态来冒充自动恢复。
 
 ## 生产请求路径、状态与容量模型
 
@@ -1572,6 +1582,16 @@ Spring Boot 支持优雅停机，`spring.lifecycle.timeout-per-shutdown-phase` �
 排查时先判别连接失败、路径不存在、权限拒绝还是结果正常但采集缺失。它们分别指向网络与监听、暴露配置、认证授权、抓取配置与数据后端。日志中只记录状态、端点与脱敏身份，不记录令牌。面试追问“为什么不把所有诊断端点开放给 AIOps”时，应回答模型只需要完成任务的最少证据；扩大读取范围会增加泄密风险，扩大写入权限会增加误操作影响面，观测便利不能替代授权边界。
 
 最后给自己一道独立作业：选择一个日常维护的 Java 服务，只画读取业务数据的一条请求路径，标出等待位置、超时责任人、结果状态和退出条件。若某一格只能写“框架会处理”，就回到运行配置与日志补证据；这比一次引入全部组件更能暴露真正的知识缺口。
+
+## 独立通关：业务结果不能藏在 HTTP 200 后面
+
+1. **基础复现**：不看操作段，独立生成并核对两个 POM，编译、启动两个服务，提交健康、订单业务结果和 Prometheus 文本三份证据。说明为什么本实验还没有 Gateway、真实支付、消息队列和 trace 后端。判据是完整源码可构建且 `CREATED/PAID` 可重复出现；截图 UP 或伪造生成输出不通过。
+2. **改变条件预测**：只把 payment 端口改为 8083，不改 order 的地址。先预测 payment 健康、order 健康和订单调用各会怎样，再验证并修复地址。判据是预见“两个进程 UP 但业务降级”的可能，且不把默认健康检查说成检查了支付链路；同时说明调用超时不证明远端没有执行。
+3. **故障证据**：注入 payment 503，保存调用结果、四次窗口的样本、OPEN/半开/CLOSED 状态及恢复请求。解释降级 Map 为什么仍可能是 HTTP 200，并提出单独的业务降级计数。判据是业务失败没有被 5xx 面板掩盖、恢复经过探测；一次正常请求不足以证明窗口已经恢复。
+4. **设计取舍**：入口 100 QPS、每单两次下游访问、每次最多三次尝试时，给出单层上限 600 次下游尝试/秒，并说明多层重试还可能继续放大，不能简单把 600 当全链路上限。为真实支付选择一个重试拥有者、总 deadline、可靠幂等记录和未知交易对账，画出 Outbox 投递成功但未标记即崩溃的重复窗口。判据是可解释重复、漏发、并发和不可逆副作用，不以加机器替代正确性。
+5. **口述追问**：为什么先保留模块化单体？熔断器和舱壁各限制什么？旧镜像能否回滚已发送消息？答案应连续覆盖业务边界与收益、失败率/并发资源的不同、消息及数据库的兼容与补偿，并指出可观察证据。若只能复述组件名称，回到“生产请求路径、状态与容量模型”和业务状态课堂重做。
+
+记录失败与返工过程比贴满绿色面板更有价值。没有生成或编译项目的机器只能完成设计推演；真实运行任务必须标为未完成，不能用文章篇幅换通过。
 
 ## 学习证据
 

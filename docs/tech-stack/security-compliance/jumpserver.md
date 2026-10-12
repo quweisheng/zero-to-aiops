@@ -4,25 +4,25 @@
 
 ## 版本与产品边界
 
-截至 2026-07-30，JumpServer 官方 GitHub 最新发布是：
+截至 2026-10-12，官方已经发布 v5.0.0；本文仍选择 v4 LTS 路线教学，不把 v4 组件与许可说明直接套到 v5。官方发布记录中的两条 LTS 基线为：
 
 | 发布线 | 当前版本 | 发布时间 | 本文选择 |
 |---|---|---|---|
-| JumpServer v4 LTS | `v4.10.18-lts` | 2026-07-28 | 新建实验与生产评估基线 |
-| JumpServer v3 LTS | `v3.10.22-lts` | 2026-07-24 | 仍在维护的旧主线，存量环境先评估迁移 |
+| JumpServer v4 LTS | `v4.10.19-lts` | 2026-08-20 | 本文隔离实验基线；生产仍需安全与兼容复核 |
+| JumpServer v3 LTS | `v3.10.23-lts` | 2026-08-24 | 存量主线，先按实际支持与迁移方案评估 |
 
-本文命令固定到 `v4.10.18`，社区版镜像标签固定为 `v4.10.18-ce`，不使用 `latest` 代替版本号。固定版本便于复现；生产还应记录安装器、容器镜像 Digest、配置、数据库版本和外部存储版本。
+本文命令固定到 `v4.10.19`，社区版镜像标签固定为 `v4.10.19-ce`，不使用 `latest` 代替版本号。固定版本便于复现；生产还应记录安装器、容器镜像 Digest、配置、数据库版本和外部存储版本。
 
 JumpServer 社区版是 GPLv3 开源软件，提供堡垒机和 PAM 主线能力；部分组织、多级审批、账号改密、数据库类型、数据脱敏和高级访问控制属于企业版或 X-Pack。本文遇到这类能力会明确标注，不能因为官方手册展示了某个页面，就默认社区版一定包含。
 
-安全版本边界也要单独看。官方公告说明 v4 `<= 4.10.11` 受 CVE-2025-62712 与 CVE-2025-62795 影响，v4 应至少升级到 `4.10.12`；本文选择的 `4.10.18` 已高于该安全下限。生产上线前仍要重新核对最新安全公告。
+安全版本边界也要单独看。旧文的 v4.10.18 不再是本课建议基线：[官方 GHSA-6rp5-ff2m-qfrm 公告](https://github.com/jumpserver/jumpserver/security/advisories/GHSA-6rp5-ff2m-qfrm)将 v4 从 4.0.0 到低于 4.10.19-lts 的版本列入 Access Key 泄露影响范围，修复线为 v4.10.19-lts；v3 对应修复线为 v3.10.23-lts。Access Key 是程序调用平台的身份凭据，泄露后影响取决于它拥有的权限。疑似泄露不能只升级：还需按审批保全日志、评估影响并轮换相关凭据。本文固定版本不是永久安全保证，生产上线前重新核对[全部官方安全公告](https://github.com/jumpserver/jumpserver/security/advisories)和目标版本发布记录。
 
 ## 官方资料
 
 - [JumpServer 官方文档](https://docs.jumpserver.org/zh/v4/)
 - [JumpServer 官方 GitHub 仓库](https://github.com/jumpserver/jumpserver)
-- [JumpServer v4.10.18 Release](https://github.com/jumpserver/jumpserver/releases/tag/v4.10.18)
-- [JumpServer Installer v4.10.18 Release](https://github.com/jumpserver/installer/releases/tag/v4.10.18)
+- [JumpServer v4.10.19 Release](https://github.com/jumpserver/jumpserver/releases/tag/v4.10.19)
+- [JumpServer Installer v4.10.19 Release](https://github.com/jumpserver/installer/releases/tag/v4.10.19)
 - [系统架构](https://docs.jumpserver.org/zh/v4/architecture/)
 - [快速入门](https://docs.jumpserver.org/zh/v4/quick_start/)
 - [Linux 高可用部署准备](https://docs.jumpserver.org/zh/v4/installation/setup_linux_lb/requirements/)
@@ -80,6 +80,8 @@ JumpServer 官方知识可以拆成七块：
 4. 在隔离环境部署固定版本，完成 SSH 访问和审计。
 5. 故意写错 SSH 端口，用日志和网络证据定位。
 6. 最后进入生产架构、状态、高可用、容量、安全、升级和面试。
+
+这张图按官方 v4 资料重组为课程路线。第一次先做纸面授权预测；实际安装需要两台可销毁 Linux 虚拟机，不在 Windows 本机或共享服务器直接运行安装器。Bash 是 Linux 命令解释器，`sudo` 表示经授权以更高权限执行；SSH 是加密远程终端协议，RDP 是远程桌面协议，WebSocket 是网页与服务保持双向长连接的方式。还不会选择终端和保存命令时，先看[零基础实验准备](../experiment-start.md)，再按[Linux](../foundation/linux.md)与虚拟化课程准备环境，不把买两台机器当作学习前提；无环境可先完成纸面部分并标记待实跑。
 
 ## 老师带你把“谁能进哪台机器”说清楚
 
@@ -230,14 +232,14 @@ JumpServer 可以记录会话、命令、文件传输和活动，并保存录像
 | Recording | 会话录像 | 需要容量、完整性和保留策略 |
 | Command Storage | 会话命令记录存储 | 默认数据库，也可配置 Elasticsearch |
 
-当前 `v4.10.18` 官方安装器把服务分成两组：
+当前 `v4.10.19` 官方安装器把服务分成两组：
 
 | 分组 | 当前安装器中的服务 | 阅读边界 |
 |---|---|---|
 | 社区版常规服务 | `core`、`celery`、`koko`、`lion`、`chen`、`web` | 本文基础实验只依赖这组主链路 |
 | X-Pack 服务 | `magnus`、`razor`、`xrdp`、`video`、`panda`、`nec`、`facelive` | 需要相应许可，并按目标版本实测 |
 
-这张表描述的是 `v4.10.18` 安装器，而不是永远不变的产品承诺。架构文档里还可能看到 **Kael**：它曾承担 Kubernetes 等连接能力；官方 v4 升级说明已说明 Kael 能力并入 Koko，当前安装器没有独立 `kael` 服务。因此新架构图不应再把 Kael 当成默认独立组件，但排查旧集群时仍可能在历史配置和日志里见到它。
+这张表描述的是 `v4.10.19` 安装器，而不是永远不变的产品承诺。架构文档里还可能看到 **Kael**：它曾承担 Kubernetes 等连接能力；官方 v4 升级说明已说明 Kael 能力并入 Koko，当前安装器没有独立 `kael` 服务。因此新架构图不应再把 Kael 当成默认独立组件，但排查旧集群时仍可能在历史配置和日志里见到它。
 
 ## 内部访问路径
 
@@ -378,7 +380,7 @@ Core 健康检查成功不等于资产连接健康；它只是整条链路的一
 
 图形会话对带宽、CPU 和录像存储更敏感，必须独立做并发压测。
 
-在本文固定的 `v4.10.18` 安装器里，Lion 属于社区版常规服务，Razor、XRDP 与 Video 属于 X-Pack。看到相关组件名不等于当前社区版许可可用，容量和故障设计也要按实际启用的组件拆开。
+在本文固定的 `v4.10.19` 安装器里，Lion 属于社区版常规服务，Razor、XRDP 与 Video 属于 X-Pack。看到相关组件名不等于当前社区版许可可用，容量和故障设计也要按实际启用的组件拆开。
 
 ### Chen 与 Magnus
 
@@ -474,11 +476,11 @@ JumpServer 是通往大量高权限资产的中枢，不应直接暴露公网，
 
 数据库保存用户、资产、账号、授权、会话元数据、配置和默认命令记录等核心状态。数据库备份是恢复的必要部分，但不是全部。
 
-`v4.10.18` 安装器给出的外部数据库要求是 PostgreSQL `>= 16`、MySQL `>= 5.7` 或 MariaDB `>= 10.6`。这只是版本下限，不代表所有发行版、参数、字符集和高可用组件都已兼容；生产必须按目标版本文档与回归结果决定。
+`v4.10.19` 安装器给出的外部数据库要求是 PostgreSQL `>= 16`、MySQL `>= 5.7` 或 MariaDB `>= 10.6`。这只是版本下限，不代表所有发行版、参数、字符集和高可用组件都已兼容；生产必须按目标版本文档与回归结果决定。
 
 ### Redis
 
-`v4.10.18` 安装器要求 Redis `>= 6.0`。它不只是“丢了还能重建的缓存”：官方当前配置把 Celery 任务放在逻辑库 DB 3、缓存放在 DB 4、用户会话放在 DB 5、WebSocket 协调放在 DB 6。Redis 故障可能导致登录、异步任务、会话共享或 Web Terminal 异常；不能因为关系数据库正常就忽略 Redis，也不能把清空全部逻辑库当成无风险操作。
+`v4.10.19` 安装器要求 Redis `>= 6.0`。它不只是“丢了还能重建的缓存”：官方当前配置把 Celery 任务放在逻辑库 DB 3、缓存放在 DB 4、用户会话放在 DB 5、WebSocket 协调放在 DB 6。Redis 故障可能导致登录、异步任务、会话共享或 Web Terminal 异常；不能因为关系数据库正常就忽略 Redis，也不能把清空全部逻辑库当成无风险操作。
 
 ### `SECRET_KEY`
 
@@ -522,7 +524,7 @@ Database（数据库）
 
 Windows 和 macOS 不直接运行官方 Linux Installer。可以在 Linux 虚拟机中学习。
 
-当前社区版离线包 `jumpserver-ce-v4.10.18-x86_64.tar.gz` 面向 `linux/amd64`。ARM64、国产化系统或其他架构不能仅凭“Docker 能运行”就假定离线包兼容，必须查看目标版本发布资产并完成真实协议回归。
+当前社区版离线包 `jumpserver-ce-v4.10.19-x86_64.tar.gz` 面向 `linux/amd64`。ARM64、国产化系统或其他架构不能仅凭“Docker 能运行”就假定离线包兼容，必须查看目标版本发布资产并完成真实协议回归。
 
 ### 下载固定安装器
 
@@ -533,18 +535,18 @@ JUMP_DOWNLOAD_DIR=$(mktemp -d /tmp/jumpserver-download.XXXXXXXX) || exit 1
 cd "$JUMP_DOWNLOAD_DIR" || exit 1 # 只在本次新建目录下载，不复用旧文件
 
 wget \
-  https://github.com/jumpserver/installer/releases/download/v4.10.18/jumpserver-installer-v4.10.18.tar.gz || exit 1
+  https://github.com/jumpserver/installer/releases/download/v4.10.19/jumpserver-installer-v4.10.19.tar.gz || exit 1
 
 wget \
-  https://github.com/jumpserver/installer/releases/download/v4.10.18/jumpserver-installer-v4.10.18.tar.gz.md5 || exit 1
+  https://github.com/jumpserver/installer/releases/download/v4.10.19/jumpserver-installer-v4.10.19.tar.gz.md5 || exit 1
 
-md5sum -c jumpserver-installer-v4.10.18.tar.gz.md5 || exit 1 # 校验失败不得继续解压安装
+md5sum -c jumpserver-installer-v4.10.19.tar.gz.md5 || exit 1 # 校验失败不得继续解压安装
 ```
 
 预期：
 
 ```text
-jumpserver-installer-v4.10.18.tar.gz: OK
+jumpserver-installer-v4.10.19.tar.gz: OK
 ```
 
 MD5 只能发现传输损坏，不是现代供应链签名。生产还要从官方 Release 页面核对下载地址，并记录镜像 Digest、下载时间和审批记录。
@@ -553,14 +555,14 @@ MD5 只能发现传输损坏，不是现代供应链签名。生产还要从官�
 
 ```bash
 # 仅供全新专用虚拟机；存在旧目录就停止，不能覆盖既有安装或数据。
-for jumpPath in /opt/jumpserver-installer-v4.10.18 /opt/jumpserver /data/jumpserver; do
+for jumpPath in /opt/jumpserver-installer-v4.10.19 /opt/jumpserver /data/jumpserver; do
   if sudo test -e "$jumpPath" || sudo test -L "$jumpPath"; then
     printf '%s\n' "发现既有路径 $jumpPath，停止。"
     exit 1
   fi
 done
-sudo tar -xf jumpserver-installer-v4.10.18.tar.gz -C /opt || exit 1
-cd /opt/jumpserver-installer-v4.10.18 || exit 1
+sudo tar -xf jumpserver-installer-v4.10.19.tar.gz -C /opt || exit 1
+cd /opt/jumpserver-installer-v4.10.19 || exit 1
 
 sudo ./jmsctl.sh install || exit 1
 sudo ./jmsctl.sh start || exit 1
@@ -761,7 +763,7 @@ Daily Recording
 
 ### 容器与宿主机边界
 
-`v4.10.18` 官方 Installer 的 Core Compose 配置会挂载宿主机 `/var/run/docker.sock`。这个 Socket 能控制 Docker 守护进程，获得它通常意味着可以进一步控制宿主机，因此不能把 Core 当成与宿主机完全隔离的普通容器：
+`v4.10.19` 官方 Installer 的 Core Compose 配置会挂载宿主机 `/var/run/docker.sock`。这个 Socket 能控制 Docker 守护进程，获得它通常意味着可以进一步控制宿主机，因此不能把 Core 当成与宿主机完全隔离的普通容器：
 
 - JumpServer 节点应使用专用、高信任等级的宿主机，不与普通业务容器混部。
 - 严格限制主机登录、Docker 组成员、Compose 文件和 Socket 权限。
@@ -847,7 +849,7 @@ Load Balancer
 ### 数据库备份
 
 ```bash
-cd /opt/jumpserver-installer-v4.10.18
+cd /opt/jumpserver-installer-v4.10.19
 sudo ./jmsctl.sh backup_db
 ```
 
@@ -989,7 +991,7 @@ AIOps 可以生成候选：
 在独立 Ubuntu 测试资产：
 
 ```bash
-sudo apt-get update
+sudo apt-get update || exit 1
 sudo apt-get install -y openssh-server || exit 1
 sudo systemctl enable --now ssh || exit 1
 
@@ -1001,10 +1003,10 @@ sudo useradd -m -s /bin/bash js-lab || exit 1
 sudo passwd js-lab || exit 1
 
 ip address
-sudo ss -lntp | grep ':22'
+sudo ss -lntp 'sport = :22'
 ```
 
-先确认 `js-lab` 用户和同名家目录不存在；创建失败就停止，不对已有同名用户执行改密。为新建的 `js-lab` 设置只用于实验的密码。预期看到 SSH 监听 `:22`，并记录测试资产私网 IP 与 `hostname` 输出。确认测试镜像的 SSH 策略允许该用户使用所选认证方式；只允许密钥的镜像应改用专用测试密钥，不因课堂示例而放宽整机认证策略。普通用户默认仍可写自己的家目录，本实验只约定执行只读命令，并未把这个账号变成强制只读沙箱。
+先确认 `js-lab` 用户和同名家目录不存在；创建失败就停止，不对已有同名用户执行改密。为新建的 `js-lab` 设置只用于实验的密码。预期精确端口查询中有 SSH 监听 `:22`，空列表不是成功；不要用文本包含 `:22` 判断，因为它也会匹配 `:2223`。记录测试资产私网 IP 与 `hostname` 输出。确认测试镜像的 SSH 策略允许该用户使用所选认证方式；只允许密钥的镜像应改用专用测试密钥，不因课堂示例而放宽整机认证策略。普通用户默认仍可写自己的家目录，本实验只约定执行只读命令，并未把这个账号变成强制只读沙箱。
 
 ### 第二步：创建 JumpServer 测试用户
 
@@ -1153,7 +1155,8 @@ id
 下面监听检查在测试资产虚拟机执行，确认 `22` 有 SSH 服务、`2223` 确实没有服务；故障注入只修改平台资产元数据，不能改真实 SSH 监听。准备好 JumpServer 节点上的 `nc`（网络连接探测工具）再开始。
 
 ```bash
-sudo ss -lntp | grep ':22'
+sudo ss -lntp 'sport = :22'
+sudo ss -lntp 'sport = :2223'
 ```
 
 在 JumpServer 中再次完成一次成功连接，并记录时间。
@@ -1182,7 +1185,7 @@ SSH Port: 22 -> 2223（SSH端口从22改为2223的示例）
 查看日志：
 
 ```bash
-cd /opt/jumpserver-installer-v4.10.18
+cd /opt/jumpserver-installer-v4.10.19
 sudo ./jmsctl.sh tail koko
 ```
 
@@ -1298,7 +1301,7 @@ fi
 
 ### 升级后 Chen 长 SQL 或多会话异常
 
-保存目标版本、请求大小、SQL 长度、并发和 Chen 内存。`v4.10.18` 官方改进了长 SQL 解析分块和多会话内存，并修复多项 Chen 问题，但仍要用自己的数据库与 SQL 回归。
+保存目标版本、请求大小、SQL 长度、并发和 Chen 内存。`v4.10.18` 发布说明已有长 SQL 解析分块和多会话内存等改进；不能因此推定后续版本在自己的数据库与 SQL 上没有问题，仍要回归。
 
 ## 事故场景：负载均衡变更后所有终端间歇断线
 
@@ -1492,7 +1495,7 @@ JumpServer 是开源 PAM 和堡垒机平台。它把自然人身份、资产、�
 
 ## 学习检查清单
 
-- [ ] 我能说明 v4.10.18 LTS 与旧 v3 LTS 的边界。
+- [ ] 我能说明 v4.10.19 LTS 与旧 v3 LTS 的边界。
 - [ ] 我能区分 JumpServer User、Asset 和 Account。
 - [ ] 我能画出 SSH、RDP 和数据库连接路径。
 - [ ] 我能解释资产授权的完整维度。
@@ -1507,6 +1510,28 @@ JumpServer 是开源 PAM 和堡垒机平台。它把自然人身份、资产、�
 - [ ] 我能设计升级、回滚和恢复演练。
 - [ ] 我能区分社区版、企业版与未验证能力。
 - [ ] 我能回答事故题和生产系统设计题。
+
+## 独立通关：换一个用户、节点和故障条件
+
+### 第一关：三种“账号”不能混着答
+
+新增普通用户 `lab-auditor`，只给审计职责，不授予资产连接；目标上另建专用实验身份时先检查重名，不碰真实用户。先在纸面预测“能登录、能查询哪些审计、能否连接、能否在目标写文件”，再在获准版本和许可中核验。合格证据区分平台认证、系统角色、资产授权与目标权限；审计角色的实际数据范围必须实测，不能把名字叫 auditor 当成自动只读所有数据。无实机只交预测并标待验证。
+
+### 第二关：节点变大了，旧授权会怎样
+
+原规则授权用户组访问测试节点中的 3 台资产，后来向节点添加 2 台资产。请展开最终资产、账号、协议与有效期，而不是只看规则标题。若新资产进入授权集合，潜在范围由 3 变成 5；是否真的可连接还取决于账号、协议、网络与策略。提出一项正向和一项反向访问验收，回看“授权决策不是一个允许按钮”。
+
+### 第三关：页面正常，单区资产全部失败
+
+给三项证据：Core 健康、另一网区 SSH 正常、故障网区所有新连接超时。至少提出代理出口路由/防火墙与目标服务两种假设，逐段查 Koko 到目标的精确地址端口、网络变化和目标日志，不先重置全体密码。探测 22 时不能把 2223 的监听误当证据；修复选择应关联具体证据，保留原配置与批准，恢复后验证新会话和审计两条链。
+
+### 第四关：算录像而不是背容量结论
+
+合成测量：全天平均 10 个图形会话，每会话压缩后平均落盘 20 KiB/s。日量为 `10×20×1024×86400=17694720000` 字节，约 16.48 GiB；180 天约 2966.31 GiB，约 2.90 TiB。若另存两份完整副本，总量约 5.79 TiB，尚未计增长、索引、元数据和安全余量。区分 KiB/GiB/TiB 的 1024 进位，不再乘压缩系数，不把高峰并发当全天平均；随后说明录像不可写时的安全策略须按产品配置与组织要求验证。
+
+### 第五关：口述升级与疑似凭据泄露
+
+30 秒说访问链，3 分钟处理“旧版本 API 可能泄露 Access Key”。追问覆盖版本公告、受影响凭据权限、证据保全、升级维护窗口、轮换次序与组件注册恢复、数据库迁移回退和审计验收。不能答“页面更新就恢复”或只回退镜像；不能把泄露后的旧凭据作为安全回滚目标。临时拦截规则也要评估功能影响并复核，不照抄到生产。
 
 ## 学习证据
 

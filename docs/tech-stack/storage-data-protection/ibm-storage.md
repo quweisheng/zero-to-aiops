@@ -123,14 +123,14 @@ Fibre Channel，简称 FC，是为存储流量设计的高速网络协议。SAN 
 | 产品 | 核心定位 | 先掌握什么 | 不要误解成什么 |
 |---|---|---|---|
 | FlashSystem | 基于 Storage Virtualize 的企业块存储 | 池、卷、主机映射、双控、复制、数据缩减 | 只有闪存硬件 |
-| Storage Virtualize | 统一虚拟化和管理块存储的数据服务软件 | MDisk、pool、volume、copy services | 文件系统或备份软件 |
-| Storage Scale | 高性能并行共享文件和非结构化数据平台 | cluster、node、filesystem、NSD、policy | 普通单机 NFS |
-| Storage Ceph | 软件定义的统一块、文件、对象存储 | MON、MGR、OSD、pool、RBD、CephFS、S3 gateway | 单台存储设备 |
-| DS8000 | 面向 IBM Z 和 IBM i 等关键负载的企业块存储 | FICON/FCP、FlashCopy、HyperSwap、复制 | FlashSystem 的简单大型号 |
-| Cloud Object Storage | 大规模 S3 对象存储 | bucket、object、resiliency、storage class、retention | 可直接挂载的普通磁盘 |
-| Storage Protect | 备份、恢复、保留和数据保护管理 | client、server、policy、storage pool、catalog | 阵列快照的别名 |
-| Tape | 长期保留和物理隔离介质 | library、drive、cartridge、pool、offsite copy | 在线随机访问主存储 |
-| Storage Insights | 存储健康、容量、性能、配置和支持可观测性 | data collector、probe、performance monitor、alert | 所有产品的配置控制面 |
+| Storage Virtualize | 统一虚拟化和管理块存储的数据服务软件 | MDisk（纳入管理的后端磁盘对象）、pool（池）、volume（卷）、copy services（复制服务） | 文件系统或备份软件 |
+| Storage Scale | 高性能并行共享文件和非结构化数据平台 | cluster（集群）、node（节点）、filesystem（文件系统）、NSD（网络共享磁盘对象）、policy（数据放置与管理策略） | 普通单机 NFS |
+| Storage Ceph | 软件定义的统一块、文件、对象存储 | MON（维护集群图的监视器）、MGR（管理器）、OSD（保存数据的存储守护进程）、pool（逻辑池）、RBD（块设备接口）、CephFS（文件系统接口）、S3 gateway（对象访问网关） | 单台存储设备 |
+| DS8000 | 面向 IBM Z 和 IBM i 等关键负载的企业块存储 | FICON/FCP（大型机或开放系统的存储通道协议）、FlashCopy（时间点复制）、HyperSwap（高可用切换机制）、复制 | FlashSystem 的简单大型号 |
+| Cloud Object Storage | 大规模 S3 对象存储 | bucket（桶）、object（对象）、resiliency（容错布局与能力）、storage class（存储类别）、retention（保留期限与控制） | 可直接挂载的普通磁盘 |
+| Storage Protect | 备份、恢复、保留和数据保护管理 | client（备份客户端）、server（备份管理服务端）、policy（备份与保留策略）、storage pool（备份数据存储池）、catalog（用于定位和恢复的目录信息） | 阵列快照的别名 |
+| Tape | 长期保留和物理隔离介质 | library（磁带库）、drive（磁带驱动器）、cartridge（磁带盒）、pool（介质池）、offsite copy（异地保存副本） | 在线随机访问主存储 |
+| Storage Insights | 存储健康、容量、性能、配置和支持可观测性 | data collector（数据采集器）、probe（配置探查）、performance monitor（性能采集监视）、alert（告警） | 所有产品的配置控制面 |
 
 ## 架构和数据流：FlashSystem 与 Storage Virtualize 主线
 
@@ -481,11 +481,13 @@ AIOps 自动化应优先做只读采集、对象关联、影响分析和审批�
 
 ### 实验步骤
 
-打开 PowerShell，执行：
+先按[实验起步说明](../experiment-start.md)准备 Windows PowerShell 5.1 或 PowerShell 7，并进入自己下载的仓库根目录。下面是一整个代码块，应整体复制执行，不需要 Python、Excel 或真实 IBM 设备；日期是历史教学样本，不是实时监控时间。目录已存在就停止，请保留旧证据并给 `$lab` 换一个新名称，不能靠覆盖旧报告“重新成功”。
 
 ```powershell
 $lab = Join-Path $PWD 'labs\ibm-storage-health' # 把实验文件集中到独立目录
-New-Item -ItemType Directory -Force -Path $lab | Out-Null # 目录存在时可重复执行
+$ErrorActionPreference = 'Stop' # 输入、创建目录或写文件失败就停止
+if (Test-Path -LiteralPath $lab) { throw '实验目录已存在：请换一个新目录名，保留已有证据。' }
+New-Item -ItemType Directory -Path $lab | Out-Null
 
 @'
 timestamp,system,pool,volume,iops,throughput_mib_s,latency_ms,pool_used_percent,node_status,path_status,unfixed_events
@@ -495,8 +497,45 @@ timestamp,system,pool,volume,iops,throughput_mib_s,latency_ms,pool_used_percent,
 2026-07-16T09:15:00+08:00,fs-core-01,core_pool,erp-db,7600,430,6.1,74,online,degraded,2
 '@ | Set-Content -LiteralPath (Join-Path $lab 'metrics.csv') -Encoding UTF8 # 写入脱敏样本
 
-$rows = Import-Csv -LiteralPath (Join-Path $lab 'metrics.csv') # 读取每个采样点
-$report = foreach ($row in $rows) {
+$rows = @(Import-Csv -LiteralPath (Join-Path $lab 'metrics.csv')) # 读取每个采样点
+function ConvertTo-LabStorageReport {
+    param([object[]]$Rows)
+    if (@($Rows).Count -eq 0) { throw '采集错误：样本没有数据行。' }
+    $columns = 'timestamp,system,pool,volume,iops,throughput_mib_s,latency_ms,pool_used_percent,node_status,path_status,unfixed_events'
+    if (($Rows[0].PSObject.Properties.Name -join ',') -cne $columns) {
+        throw '采集错误：列名或顺序不符合本课 CSV 合同。'
+    }
+    $seen = [System.Collections.Generic.HashSet[string]]::new()
+    foreach ($row in $Rows) {
+        foreach ($name in @('system','pool','volume')) {
+            if ([string]::IsNullOrWhiteSpace($row.$name)) { throw "采集错误：$name 为空。" }
+        }
+        $sampleTime = [datetimeoffset]::MinValue
+        if (-not [datetimeoffset]::TryParseExact($row.timestamp, 'yyyy-MM-ddTHH:mm:sszzz',
+                [cultureinfo]::InvariantCulture, [Globalization.DateTimeStyles]::None, [ref]$sampleTime)) {
+            throw '采集错误：时间必须带时区并使用样例格式。'
+        }
+        $identity = "$($row.system)|$($row.volume)|$($sampleTime.ToUniversalTime().ToString('o'))"
+        if (-not $seen.Add($identity)) { throw '采集错误：同一系统、卷和时刻出现重复记录。' }
+        foreach ($name in @('iops','throughput_mib_s','latency_ms','pool_used_percent')) {
+            $number = 0.0
+            if (-not [double]::TryParse($row.$name, [Globalization.NumberStyles]::Float,
+                    [cultureinfo]::InvariantCulture, [ref]$number) -or
+                [double]::IsNaN($number) -or [double]::IsInfinity($number) -or $number -lt 0 -or
+                ($name -eq 'pool_used_percent' -and $number -gt 100)) {
+                throw "采集错误：$name 不是合法的非负有限数值。"
+            }
+        }
+        $events = 0L
+        if ($row.unfixed_events -cnotmatch '^[0-9]+$' -or
+            -not [long]::TryParse($row.unfixed_events, [ref]$events)) { throw '采集错误：事件数必须是非负整数。' }
+        if ($row.node_status -cnotin @('online','offline','degraded') -or
+            $row.path_status -cnotin @('healthy','degraded','failed')) {
+            throw '采集错误：未知状态必须先核对采集器映射，不能默认为健康。'
+        }
+    }
+    # 先完整验证所有输入，再输出报告，避免坏行之前的部分结果被当成完整证据。
+    foreach ($row in $Rows) {
     $reasons = [System.Collections.Generic.List[string]]::new() # 收集同一采样点的所有风险原因
     $severity = 'OK' # 没有命中规则时保持正常
 
@@ -508,15 +547,15 @@ $report = foreach ($row in $rows) {
         $severity = 'CRITICAL' # 多路径降级可能使下一次链路故障中断业务
         $reasons.Add("path=$($row.path_status)")
     }
-    if ([int]$row.unfixed_events -gt 0) {
+    if ([long]$row.unfixed_events -gt 0) {
         $severity = 'CRITICAL' # 未修复事件必须进入处置闭环
         $reasons.Add("unfixed_events=$($row.unfixed_events)")
     }
-    if ([double]$row.pool_used_percent -ge 85) {
+    if ([double]::Parse($row.pool_used_percent, [cultureinfo]::InvariantCulture) -ge 85) {
         if ($severity -eq 'OK') { $severity = 'WARNING' }
         $reasons.Add("pool_used=$($row.pool_used_percent)%")
     }
-    if ([double]$row.latency_ms -ge 10) {
+    if ([double]::Parse($row.latency_ms, [cultureinfo]::InvariantCulture) -ge 10) {
         if ($severity -eq 'OK') { $severity = 'WARNING' }
         $reasons.Add("latency=$($row.latency_ms)ms")
     }
@@ -528,14 +567,17 @@ $report = foreach ($row in $rows) {
         severity = $severity
         reason = if ($reasons.Count) { $reasons -join '; ' } else { 'healthy' }
     }
+    }
 }
 
+$report = @(ConvertTo-LabStorageReport -Rows $rows)
 $report | Format-Table -AutoSize # 在终端查看分级结果
-$report | Export-Csv -LiteralPath (Join-Path $lab 'health-report.csv') -NoTypeInformation -Encoding UTF8 # 保存学习证据
-
-if (@($report | Where-Object severity -eq 'CRITICAL').Count -ne 1) {
-    throw '验证失败：预期正好识别 1 条 CRITICAL 记录。' # 用断言防止脚本悄悄产出错误结果
+foreach ($expected in @(@('OK',1), @('WARNING',2), @('CRITICAL',1))) {
+    if (@($report | Where-Object severity -eq $expected[0]).Count -ne $expected[1]) {
+        throw "验证失败：$($expected[0]) 数量应为 $($expected[1])。"
+    }
 }
+$report | Export-Csv -LiteralPath (Join-Path $lab 'health-report.csv') -NoTypeInformation -Encoding UTF8 -NoClobber # 验证通过才创建证据，不覆盖文件
 ```
 
 ### 预期结果
@@ -555,8 +597,10 @@ timestamp                  system     volume        severity reason
 
 ### 验证方法
 
+在同一个 PowerShell 会话沿用本轮 `$lab` 变量；若开始时换了新目录名，验证也跟随它，不能读取固定旧路径的报告。
+
 ```powershell
-Import-Csv .\labs\ibm-storage-health\health-report.csv | Group-Object severity | Select-Object Name,Count # 应看到 OK、WARNING、CRITICAL 的数量分别为 1、2、1
+Import-Csv -LiteralPath (Join-Path $lab 'health-report.csv') | Group-Object severity | Select-Object Name,Count # 应看到 OK、WARNING、CRITICAL 的数量分别为 1、2、1
 ```
 
 然后回答：
@@ -572,8 +616,10 @@ Import-Csv .\labs\ibm-storage-health\health-report.csv | Group-Object severity |
 1. 当前 PowerShell 是否有权在仓库中创建 `labs` 目录。
 2. `metrics.csv` 是否使用逗号分隔，表头有没有被手工换行。
 3. 数值字段是否仍使用点作为小数点。
-4. 是否修改了样本，导致 CRITICAL 数量不再是 1。
-5. `health-report.csv` 是否被 Excel 占用，导致无法覆盖写入。
+4. 是否修改了样本，导致 OK、WARNING、CRITICAL 数量不再是 1、2、1；变化实验应另外比较自己的预期，不应删掉基线断言来掩盖失败。
+5. 是否使用了旧实验目录或已有报告；保护性停止是正确结果，应换新目录，不要先删旧证据。
+
+完成后可以保留本轮两份 CSV；若不保留，用文件管理器核对完整路径后只删除这两份文件，不递归删除 `labs`。这套规则验证了输入格式与样本风险，尚未验证应采设备清单和采集新鲜度：合法但缺了一台设备的样本，仍可能漏报。接入生产前必须以 CMDB 中的授权设备清单和允许的采样延迟补齐覆盖检查。
 
 ## 常见故障排查
 
@@ -708,6 +754,11 @@ $requiredVolumes = @('orders-data', 'orders-log', 'orders-control')
 $protectedVolumes = @('orders-data', 'orders-log', 'orders-control')
 function Test-LabBackupCoverage {
     param([string[]]$Required, [string[]]$Protected)
+    if (@($Required).Count -eq 0 -or @($Required | Where-Object { [string]::IsNullOrWhiteSpace($_) }).Count -gt 0 -or
+        @($Required | Select-Object -Unique).Count -ne @($Required).Count) {
+        throw '清单错误：必保卷清单不能为空、含空名或重复名。'
+    }
+    if (@($Protected | Where-Object { [string]::IsNullOrWhiteSpace($_) }).Count -gt 0) { throw '清单错误：受保护卷包含空名。' }
     $missing = @($Required | Where-Object { $_ -notin $Protected })
     if ($missing.Count) { "INCOMPLETE: $($missing -join ', ')" }
     else { 'COVERAGE_OK' }
@@ -750,6 +801,16 @@ Remove-Variable requiredVolumes, protectedVolumes
 把这段变成桌面演练：准备一张虚构表，主机甲两条路径分别经过两个 Fabric，主机乙两条都经过同一 Fabric。正常轮统计都为两条；故障轮划掉该 Fabric，预期主机甲仍可访问、主机乙中断。验证应检查独立故障域，不是仅检查路径数量。恢复轮把主机乙设计为真正双 Fabric，并重新逐条追踪到控制器；清理只擦除纸面故障标记，不实际禁用任何端口。若推演得出“双控保证所有主机不中断”，说明遗漏了主机到阵列的中间层。
 
 前面生成健康报告的基础实验，开始前还应确认实验目录不含自己的既有文件；若已有同名样本就换一个独立目录。结束后可保留两份脱敏 CSV 作为学习证据，或在文件管理器中只删除本轮生成的 `metrics.csv` 与 `health-report.csv`，不递归清理上级目录。本轮文档补强没有连接 IBM 设备、执行升级或验证真实故障切换，桌面演练只能证明推理链，不能代替设备恢复验收。
+
+## 独立通关：资产覆盖、数据保护和业务恢复分别证明
+
+先遮住下面的答案，自己填写“输入变化—预测结果—执行证据—结论边界”。不以文章长度或控制台绿灯作为掌握标准。
+
+1. **基础复现。**在全新的实验目录运行健康样本，保存四条完整报告；再运行内存中的漏保实验。答案判据：健康样本为 1 条 OK、2 条 WARNING、1 条 CRITICAL，漏保实验依次得到 `COVERAGE_OK / INCOMPLETE: orders-control / COVERAGE_OK`。历史采样日期必须写入报告；不能宣称今天阵列健康，更不能宣称数据库已经恢复。重复运行同名目录应保护性停止且旧 CSV 不变。
+2. **改变条件先预测。**保留原 `$rows` 不动，用 `ConvertFrom-Csv` 在内存重新建立一份样本，将首行池占用改成 `85`，第二行从 `88` 改成 `84.9`，第三行延迟改成 `10`，再调用 `ConvertTo-LabStorageReport`；不要再次执行固定基线断言。答案：第一行 WARNING，第二行 OK，第三行仍 WARNING，第四行 CRITICAL，总数量仍 1/2/1，但原因与行身份改变；仅比较数量会漏掉规则错配。把第一行延迟改成 `NaN`、池占用改成 `101`、事件数改成 `-1`、时间去掉时区，应逐次抛出采集错误而不是输出健康报告。最后用原样本重建四行基线。
+3. **故障证据。**备份平台显示所有现有任务成功，但订单库新增了 `orders-control` 卷，策略只有 data/log 两卷。你先找什么证据？答案：先对账业务必保清单与实际策略、最近恢复点、日志覆盖、密钥和目录可用性；本课覆盖函数只能发现漏保，不能检验块内容。必保清单为空必须报清单错误，不能把“没有要求”判成全部保护。真正验证需在隔离恢复目标还原完整数据库，核对关键订单、日志重放和外部消息副作用，不能覆盖生产测试。
+4. **设计取舍。**2 TiB 数据、恢复吞吐 100 MiB/s，目标 RTO 30 分钟，只有磁带备份可行吗？答案：`2 × 1024 × 1024 / 100 = 20971.52 秒`，约 5.83 小时只是搬运下限，尚不满足目标；需要有实测证据的快速恢复层或灾备访问方案，并保留独立历史副本。磁带装在在线可写库中并不自动形成物理隔离；离线外送、介质权限、密钥和取回流程同样要验收。3:1 数据缩减不得当成未来所有数据的容量承诺。
+5. **口述追问。**先用 30 秒区分 FlashSystem、Storage Scale、Storage Protect 和 Tape；再用 3 分钟从主机写入讲到卷、extent、池、MDisk 和介质。追问“培训样本 `training-data` 的 3100 MiB/s 与 24000 IOPS 表示什么？”答案：平均每次约 `3100 / 24000 MiB ≈ 132.27 KiB`，但混合读写、采样层和窗口未对齐时不能推断每次 I/O 都这么大。追问“升级失败回退旧配置即可吗？”必须区分代码、配置、数据、复制角色和新增写入，并核对实际型号的受支持恢复路径。答不出写入权威与业务验收，不进入强制切换练习。
 
 ## 学习证据
 

@@ -1557,7 +1557,7 @@ kubectl get ingress,ingressroute -A
 ```bash
 helm repo update
 helm show crds traefik/traefik --version 41.2.0 \
-  | kubectl apply --server-side --force-conflicts -f -
+  | kubectl apply --server-side -f -
 
 helm upgrade traefik traefik/traefik \
   --namespace traefik \
@@ -1567,7 +1567,7 @@ helm upgrade traefik traefik/traefik \
   --timeout 10m
 ```
 
-`--force-conflicts` 会接管 CRD 字段所有权，必须先在测试环境查看 server-side dry-run 和 managedFields；不要在不清楚 CRD owner 的共享集群机械执行。
+如果这里发生字段所有权冲突，先停止并保存 managedFields、现有 CRD 与目标差异，再由平台所有者决定迁移，不能给命令随手加 `--force-conflicts`。该选项会接管 CRD 字段所有权，必须经测试、审批并有恢复方案。本段管道应在 Bash 启用 `set -o pipefail` 后执行，确保上游 Helm 失败不会被下游的退出状态掩盖；预先保存渲染文件并单独校验更便于审计。
 
 ### v2 到 v3
 
@@ -1603,6 +1603,8 @@ compose labels（容器标签）
 - 本机 `127.0.0.1:8080` 和 `127.0.0.1:8088` 未被占用。
 - 能拉取 `traefik:v3.7.10` 与 `traefik/whoami:v1.12.0`。
 - 只在自己的电脑或授权实验机执行。
+
+Windows 新手先按 [Docker Desktop 安装](https://docs.docker.com/desktop/setup/install/windows-install/)准备 Linux 容器引擎；`docker context show` 必须指向已确认的本机上下文。下文同时展示 Bash 与 PowerShell，反斜杠 `\` 换行只属于 Bash，PowerShell 用同一行或自己的续行语法。在 PowerShell 执行任意 Bash 示意中的 curl 时一律改为 `curl.exe`；没有 curl.exe 可用 `Invoke-WebRequest`，但参数不能照搬。共享远程 Docker 不属于本机实验范围。
 
 先检查：
 
@@ -1823,7 +1825,7 @@ docker compose logs whoami --since 3m
 - Service 指向容器的 9999 端口。
 - 请求常见返回 502。
 - Traefik 日志出现连接后端失败、connection refused 或等价错误。
-- whoami 没收到这次业务请求，因为失败发生在到达应用之前。
+- 若 whoami 没有输出请求日志，不单独用“无日志”断言没收到请求；先确认日志确实启用并覆盖该时间窗。主要证据是实际 Service 的 9999 和代理连接拒绝。
 
 ### 第 5 步：形成假设并验证
 
@@ -1848,15 +1850,17 @@ PowerShell：
 ```powershell
 Copy-Item -Force compose.good.yaml compose.yaml
 docker compose up -d --force-recreate whoami
-curl.exe -i -H "Host: whoami.localhost" http://127.0.0.1:8088/
+if ($LASTEXITCODE -ne 0) { throw '恢复声明未应用，保留现场' }
+curl.exe -f -i --max-time 5 -H "Host: whoami.localhost" http://127.0.0.1:8088/
+if ($LASTEXITCODE -ne 0) { throw '恢复 HTTP 未通过，先检查 Provider 收敛，不清理' }
 ```
 
 Bash：
 
 ```bash
 cp compose.good.yaml compose.yaml
-docker compose up -d --force-recreate whoami
-curl -i -H 'Host: whoami.localhost' http://127.0.0.1:8088/
+docker compose up -d --force-recreate whoami || exit 1
+curl -f -i --max-time 5 -H 'Host: whoami.localhost' http://127.0.0.1:8088/ || exit 1
 ```
 
 预期：同一请求恢复 200；API 中 Service 回到端口 80；新日志不再出现 9999 连接失败。
@@ -2388,6 +2392,14 @@ Traefik 是云原生反向代理和负载均衡器。它通过 Docker、Kubernet
 - [ ] 我能说明先升级 CRD、再升级 Chart/Proxy 的原因。
 - [ ] 我能设计跨可用区入口、停止阈值和回滚。
 - [ ] 我能把 Traefik 指标、日志、trace、变更和 Route 状态接进 AIOps Runbook。
+
+## 独立通关：动态发现不是自动正确
+
+1. **基础复现**：不看步骤，提交 Compose 最终模型、Docker Provider 运行时 Router/Service、正确 Host 200 与错误 Host 404。用服务内部端口解释为何 whoami 没有宿主机 ports 也能访问。判据是声明、发现、运行时与真实请求四层一致；只有 `/ping` 不通过。
+2. **改变条件预测**：只把 `traefik.enable` 改为 false，预测 whoami 进程、`/ping`、API Router 和业务请求分别怎样；再与仅改后端端口为 9999 对比。正确方向是前者容器可运行但路由消失，后者路由仍在但连接后端失败。判据是能区分发现过滤和转发故障，并把恢复同样做完整。
+3. **故障证据**：保存 9999 故障的前后 labels、API 后端地址、同 Host 请求及代理错误，然后恢复 80。不得以 whoami 无日志作为唯一证据，也不得用 curl 收到 502 时退出零冒充 HTTP 成功。判据是可重复的单变量反例；恢复遇到 Provider 收敛延迟应观察，不同时改规则和网络。
+4. **设计取舍**：三个代理各设本地 100 RPS，能否向租户承诺全局 100 RPS？三个 OSS Pod 共享 `acme.json` 能否安全续期？回答须说明本地计数与全局配额不同、共享文件不提供分布式协调，再给外部证书控制器、负向越权测试、单区故障容量和有停止阈值的灰度。判据是承认 OSS 边界而非杜撰商业功能。
+5. **口述追问**：新旧副本各读相同 Kubernetes API，为什么部分请求仍可能 404？若 CRD 升级冲突能否直接强占字段？如果后端支付超时能否重试另一 Pod？答案须给出逐副本版本/对象摘要/同探针、CRD 所有者与兼容回退、未知副作用与幂等查询三条证据链。答不出哪一条就回对应 Provider、升级或重试课堂重做。
 
 ## GitHub 学习证据
 

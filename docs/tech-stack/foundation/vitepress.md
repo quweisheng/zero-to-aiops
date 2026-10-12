@@ -36,7 +36,7 @@ VitePress 的作用，就是把一堆 Markdown 组织成一个可阅读、可导
 
 ## 一句话人话版
 
-VitePress 是基于 Vite 和 Vue 的静态文档站生成器：它读取 `docs` 目录里的 Markdown，按文件生成页面，再构建成可部署到 GitHub Pages 的静态网站。
+VitePress 是基于 Vite 和 Vue 的静态文档站生成器：它读取指定源码目录里的 Markdown，按文件生成页面，再构建成可部署到 GitHub Pages 的静态网站；本文把该目录命名为 `docs`，不是工具强制只能用这个名字。
 
 ## 学习边界
 
@@ -838,8 +838,6 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
   group: pages
@@ -855,7 +853,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
 
       - name: Install dependencies
@@ -870,6 +868,9 @@ jobs:
           path: docs/.vitepress/dist
 
   deploy:
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -892,6 +893,8 @@ jobs:
 | `npm run docs:build` | 构建 VitePress |
 | `upload-pages-artifact` | 上传静态产物 |
 | `deploy-pages` | 发布到 Pages |
+
+示例把发布权限放到 deploy 作业，避免构建插件同样取得 Pages 写权限；这仍不能取代环境保护和依赖审查。Node 22 是本文的复现运行时示例，不是“永远最新”建议，投产前按 [Node.js 官方发布周期](https://nodejs.org/en/about/previous-releases)选择仍受支持且通过本项目依赖/构建验证的版本。Actions 的主版本标签也不等于不可变制品；正式工作流应核对官方 Action 说明与完整提交哈希，再受控更新。不要直接替换当前 React 仓库的工作流。
 
 ## 配置 / 命令字典
 
@@ -1267,7 +1270,7 @@ dev 偏开发预览，build 会做生产构建和链接检查。dead link、大�
 
 ## 面试怎么讲
 
-VitePress 是静态文档站生成器，它把 `docs` 目录里的 Markdown 按文件路由构建成静态网站，并通过 `docs/.vitepress/config.mts` 配置站点标题、base、导航和侧边栏。我的 AIOps 知识库用 VitePress 把技术栈深讲、实验项目、runbook 和面试材料组织成可访问的网站。开发时我用 `npm run docs:dev` 预览，提交前用 `npm run docs:build` 检查，部署时通过 GitHub Actions 把 `docs/.vitepress/dist` 发布到 GitHub Pages。排障时我会重点看 dead link、base、sidebar link、资源路径和 Actions 日志。
+VitePress 是静态文档站生成器，它把指定源码目录的 Markdown 按文件路由构建成静态网站，并通过配置文件管理标题、base、导航和侧边栏。在个人 VitePress 练习站中，我可以用它组织 runbook 和面试材料，开发时运行 docs:dev，构建后预览静态产物，再验证获准发布的远端版本。当前知识库实际外壳是 React，不应把这段练习说成它现在的部署架构，更不能把没有运行过的教程包装成自己的生产经历。
 
 ## 面试题
 
@@ -1296,8 +1299,8 @@ VitePress 是静态文档站生成器，它把 `docs` 目录里的 Markdown 按�
 
 - [ ] 我能解释 VitePress 如何把 Markdown 构建成静态站点。
 - [ ] 我能解释 source directory、config file、dist 的关系。
-- [ ] 我能读懂本仓库的 `package.json` docs scripts。
-- [ ] 我能读懂本仓库的 `docs/.vitepress/config.mts`。
+- [ ] 我能读懂独立 VitePress 练习项目的 docs scripts，不误改当前 React 仓库。
+- [ ] 我能读懂独立练习项目的 `.vitepress/config.mts`，区分历史示例与现有配置。
 - [ ] 我能解释 `base: '/zero-to-aiops/'` 的作用。
 - [ ] 我能新增一个 Markdown 页面。
 - [ ] 我能把新页面加入 sidebar。
@@ -1324,6 +1327,15 @@ VitePress 是静态文档站生成器，它把 `docs` 目录里的 Markdown 按�
 ### 独立基础实验与死链故障注入
 
 前提：已安装与所选 VitePress v1 兼容的 Node.js/npm，能访问依赖源，有一个空的个人实验目录。先用 `node --version`、`npm --version` 记录版本；本课固定 `vitepress@1.6.4` 复现历史机制，不宣称它是当前推荐最新生产版本。不要在本知识库根目录执行安装。
+
+没有 Node/npm 时，先按[实验起步说明](../experiment-start.md)准备工具，不需要先学完 Vue。下方是独立新项目，目录创建与切换在 Bash 和 PowerShell 中都可逐条执行；先确认当前位置是个人练习父目录，`vitepress-classroom` 尚不存在，若已存在就换一个新名字：
+
+```text
+mkdir vitepress-classroom
+cd vitepress-classroom
+```
+
+用 `pwd`（Bash）或 `Get-Location`（PowerShell）核对位置，再安装。依赖版本范围以该版本官方说明及包的 engines 约束为准，能安装不等于构建/预览已通过。
 
 在新目录 `vitepress-classroom` 中执行：
 
@@ -1437,6 +1449,18 @@ VitePress v1 提供本地搜索和外部搜索接入。本地搜索适合规模�
 三十秒回答：源码删除只改变下一次构建输入，还要核查旧产物、公开下载文件、搜索索引和缓存是否含内容；真正的访问控制应在可信服务端实施，不能靠隐藏导航。发现敏感泄露应按组织事件流程处置，凭证泄露还需撤销轮换，不以删页面代替。
 
 三分钟展开：先确认泄露对象是普通内部文字还是有效凭证，划定已授权的核查范围；沿源码、构建产物、托管地址、缓存和索引收集证据，避免把敏感原文复制到工单。随后采取对应的访问限制、产物替换和凭证处理，最后用未授权访问视角复核。追问“缓存能不能立即全部清空”，回答只能依据实际平台能力和传播边界，不能承诺无法证实的完全撤回；因此发布前审核和最小暴露面远比事后删除可靠。
+
+## 独立通关：让页面、路由和产物三张地图闭合
+
+先做题再看判据。在独立练习站增加 `docs/runbooks/queue.md`，首页加入相对链接，再通过配置添加侧栏入口。合格证据要同时包含源文件、生成的 `runbooks/queue.html`、首页点击及直接刷新结果。只出现导航文字而目标404，或文件能打开却未加入导航，都不能混称为“站点集成完成”；后者可能是可访问但缺少发现入口。
+
+改变条件：添加 `docs/.vitepress/config.mts`，最小配置使用 `defineConfig` 并设 `base: '/classroom/'`，重新构建。先写下页面与资源预期URL，再按预览终端的实际地址访问；`/classroom/` 是部署前缀，不是必须新建的源码目录。检查 Network 中脚本和图片完整地址，并直接刷新子页。改回 `/` 后重建复测，不把旧 dist 或旧端口当本次产物。
+
+故障任务只把首页链接改成一个不存在的兄弟文件，收集构建非零退出、错误目标及来源文件，恢复链接再构建。另做纸面反例：新HTML引用 `page-v2.js`，托管目录却只有 `page-v1.js`。前者是可本地复现的死链，后者是发布一致性模拟；不能拿一个绿色构建记录证明远端引用完整，也不能关闭死链检查后自称修复。完成后收回练习导航/页面或保留脱敏证据，停止自己的预览。
+
+设计题把公开知识库换成按部门授权的内部手册。解释为什么隐藏导航、前端搜索过滤、私有源码仓库都不构成托管产物的访问控制；说明托管层鉴权、索引权限范围、插件构建权限、完整产物回滚和旧URL兼容。再用构建内存、搜索索引下载量与手机查询延迟三种指标区分容量瓶颈，不能只回答“扩构建机”。
+
+口头追问从30秒用途讲到3分钟源码→Node构建→静态托管→浏览器水合。若组件顶层访问window、页面删除后缓存仍在、源码更新而preview没重建，分别该看什么证据？判据是执行环境/导入边界、产物索引与缓存传播、构建版本对应关系；答不清回到“三张地图”“深入课堂”和升级迁移小节。真实发布未做就标未做，不把本地预览升级成线上成功。
 
 ## 学习证据与验收补充
 

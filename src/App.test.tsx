@@ -31,7 +31,7 @@ describe('App', () => {
     expect(screen.getByText(/累计 115 篇技术栈达到万字中文正文/)).toHaveTextContent('真实环境实验仍需独立完成')
     expect(screen.getByText('学习过程示意 · 以下不是终端命令')).toBeInTheDocument()
     expect(screen.getByRole('link', { name: '查看精讲复核' })).toHaveAttribute(
-      'href', '/tech-stack/teaching-coverage'
+      'href', '/tech-stack/teaching-review'
     )
   })
 

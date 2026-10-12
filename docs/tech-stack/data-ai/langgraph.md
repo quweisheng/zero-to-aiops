@@ -185,7 +185,7 @@ alert input（告警输入）
   -> END（终点）
 ```
 
-每个节点都读同一份 state，并返回 state 的更新部分。
+每个节点读取本执行步骤可见的 state，并返回更新部分；这是一份有规则的流程状态，不是让并行节点随意原地修改、立即互相可见的共享全局字典。运行时按字段的归并规则形成后续状态，后文再用并行更新与 reducer 解释冲突。
 
 ```text
 State before node（节点执行前状态）
@@ -384,6 +384,8 @@ LangGraph 不替代 Prometheus、Loki、OpenTelemetry、Ansible、GitHub Actions
 
 ### 准备 Python 虚拟环境
 
+先在独立学习目录检查 `python --version`，本课建议 Python 3.11/3.12；不必准备 API Key、Docker 或云账户。创建前确认 `.venv` 和课堂脚本不是他人已有文件，不在生产应用目录执行 `pip install -U`。后面的基础实验会完整创建目录和虚拟环境；首次学习直接沿那条路线走一次，不重复在多个目录安装。
+
 命令：
 
 ```bash
@@ -412,6 +414,8 @@ source .venv/bin/activate
 ```
 
 预期结果：命令行前面出现 `(.venv)`。
+
+如果 PowerShell 阻止 Activate.ps1，不必为课堂放宽整台机器的执行策略。直接用 `.\.venv\Scripts\python.exe -m pip install langgraph`、`.\.venv\Scripts\python.exe incident_triage.py`，后面的 show/freeze 也通过这个解释器的 `-m pip` 执行；Linux 对应 `.venv/bin/python`。是否出现环境名前缀不是唯一依据，`python -c "import sys; print(sys.executable)"` 才能确认实际解释器路径。
 
 ### 安装 LangGraph
 
@@ -525,6 +529,8 @@ LangGraph 可以接入 AIOps 的这些环节：
 
 ### 第 1 步：创建目录
 
+仅在你选择的父目录下创建不存在的 aiops-langgraph-lab；若已有同名目录先核对，不覆盖旧脚本。下列 mkdir/cd 两条在 PowerShell 也可逐行执行，其余标为 Bash 的多行命令不直接混用。
+
 ```bash
 mkdir aiops-langgraph-lab
 cd aiops-langgraph-lab
@@ -635,6 +641,8 @@ python incident_triage.py
 ```
 
 ### 预期输出
+
+这里 `needs_human_approval`、`create_ticket` 只是结果字符串，图既没调用 interrupt 暂停，也没创建真实工单。关键词 high/error 只是让课堂分支可预测，遇到 “no error” 也可能被误判，不是可投产的风险识别器，更不是执行授权。
 
 输出大致应该包含：
 
@@ -1041,6 +1049,14 @@ print("review visits:", len(visits))
 
 机制细节请对照 [官方中断规则](https://docs.langchain.com/oss/python/langgraph/interrupts) 与 [持久化说明](https://docs.langchain.com/oss/python/langgraph/persistence)。本课实际中断代码是可运行课堂步骤；是否在你的依赖版本运行成功，需要保留本机结果，不能用静态阅读代替运行证据。
 
+## 独立通关：图走完、审批通过、动作完成是三张收据
+
+1. **基础复现。** 给基础图换一条不含 high/error 的合成告警与一个非 order-api 服务，先写出 runbook/risk/next_action 预测再运行。**判据：**默认健康检查 runbook、low、create_ticket；它只是字符串，不产生工单。再输入 `no error observed`，解释为什么本课堂规则仍可能 high，不能靠框架名字证明分类准确。保留输入、依赖版本和节点输出。
+2. **改变条件预测。** 两个并行节点都返回默认覆盖字段 evidence，与分别返回 metrics_evidence/logs_evidence 有何不同？**判据：**前者可能并发更新冲突，不保证最后写者赢；后者可在后继汇总按明确规则合并。若使用列表追加 reducer，再分析重复事件或重跑会不会重复追加，给出稳定证据编号去重的合同；TypedDict 不替入口验证类型或租户授权。
+3. **故障证据。** 在中断实验另建唯一 thread_id，首次调用后记录 __interrupt__ 和 next，尝试用字符串 `"False"` 恢复。**判据：**错误类型须显式拒绝，保存该失败线程状态；本课不承诺不同依赖版本会如何替换已提交的错误恢复值。结束这个内存实验后恢复原脚本，按明确的新一轮实验运行布尔批准与拒绝，拒绝分支不能进入 mock_action；不可用新线程冒充失败原线程已恢复。记录恢复导致 review 前半段重跑的次数，出错重试可能多于原示例四次，不删断言掩盖重跑。退出只释放本课内存线程，无持久服务可清空；持久失败线程的修复需按保存器/API另行验证。
+4. **生产取舍。** 每天1万流程、每流程20份50 KB完整状态、保留30天，平均存储模型约多少？100条告警各并行10次取证又是什么量级？**判据：**十进制状态写入约10GB/日、300GB/30日，未计索引/副本/备份且保存器可能不是全量快照；瞬间最多形成约1000次查询，必须给工具与租户共同并发预算、队列和截止时间。共享保存器不替同线程领取、旧worker隔离和外部动作幂等。
+5. **口述追问。** InMemorySaver、Command(resume=True)、state里的 approved_target、LangSmith trace，分别能证明持久化、授权或动作成功吗？**判据：**内存保存只在本进程、恢复值非审批凭证、调用者可伪造的字段非可信授权、轨迹非外部效果确认。绑定工具/目标/参数/环境/有效期，结果未知先查 operation ID；升级还要恢复旧暂停线程、核对节点名/reducer/中断顺序兼容及回退路径。
+
 ## 本课 GitHub 学习证据
 
 学完以后，在 GitHub 提交这些内容：
@@ -1066,4 +1082,4 @@ aiops-langgraph-lab/
 - 你遇到的错误和修复过程。
 - 下一步如何接入 Prometheus、Loki、runbook 和人工审批。
 
-这份证据能证明你不是只会说“AI Agent”，而是真的能把 AIOps 排障流程拆成可运行、可恢复、可审计的工程结构。
+基础分诊记录只能证明三步图和模拟分类已运行。若实际完成中断与审批契约实验，还应提交 interrupt_lesson.py、approval_contract_lesson.py，以及批准/拒绝/目标改变的真实输出；退出进程后的恢复、持久保存器和多实例审计仍是另一个验收范围，不能由这份内存实验自动推导。

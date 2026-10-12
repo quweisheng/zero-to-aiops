@@ -2,6 +2,12 @@
 
 > 目标：能理解 Loki 为什么是“像 Prometheus 一样的日志系统”，能讲清 log stream、labels、chunks、index、object storage、LogQL、distributor、ingester、querier、query frontend、compactor、ruler，能设计低基数标签，能写基础查询，并能排查“查不到日志、查询慢、标签爆炸、日志告警误报”。
 
+## 开课准备：先找三条日志，再讨论整个平台
+
+第一天不需要 Kubernetes、对象存储账号或真实业务日志。先用本文 Node.js 离线模型数清“标签组合”，再用 Python 3.9 以上版本向本机 Loki 写三条合成事件。标签是给来源起名字的一组键值；时间戳是事件对应的时间数字；查询窗口是你允许搜索的起止时间。它们任何一个不匹配，都可能让正确运行的查询返回空集合。
+
+真实实验需要两个终端：一个保持 Loki 前台运行，另一个执行 `python loki-lesson.py`。程序文件、配置和 Loki 二进制放在同一个全新学习目录，终端也进入该目录。下方 `./loki` 按 Linux/macOS Bash 写法表示“运行当前目录里的文件”；Windows PowerShell 将它换成 `./loki.exe`，并用 `curl.exe` 调用 curl。只写 `loki` 会依赖系统搜索路径，下载了文件不等于命令已经进入搜索路径。
+
 ## 官方资料
 
 - [Grafana Loki documentation](https://grafana.com/docs/loki/latest/)
@@ -303,7 +309,7 @@ Loki 索引 labels
 |---|---|---|
 | 索引策略 | 主要索引 labels | 倒排索引大量字段/全文 |
 | 查询方式 | 先 label 选 stream，再过滤内容 | 字段/全文检索强 |
-| 成本 | 通常更低 | 索引成本更高 |
+| 成本 | 减少全文索引工作，但要核算扫描、流数与对象请求 | 按实际字段索引、存储与查询负载核算，不能只凭产品名称比较总价 |
 | 最适合 | 云原生日志、和指标标签关联 | 复杂全文搜索、字段检索 |
 | 风险 | label 高基数会很痛 | mapping/index 管理复杂 |
 
@@ -618,7 +624,7 @@ ingester:
 启动：
 
 ```bash
-loki -config.file=loki-local.yaml
+./loki -config.file=loki-local.yaml
 ```
 
 健康检查：
@@ -826,7 +832,7 @@ Loki 使用 compactor 等机制处理压缩和保留策略。
 ### 启动 Loki
 
 ```bash
-loki -config.file=loki-local.yaml
+./loki -config.file=loki-local.yaml
 ```
 
 ### 检查 ready
@@ -938,7 +944,7 @@ kubectl get svc -n observability
 启动：
 
 ```bash
-loki -config.file=loki-local.yaml
+./loki -config.file=loki-local.yaml
 ```
 
 检查：
@@ -1018,10 +1024,10 @@ print("lesson marker:", marker)
 
 ### 4. 指标化与验收边界
 
-运行后五分钟内，在 Grafana Explore 选择 Loki 数据源，将实际打印的标记代入下式，并以即时指标方式查询：
+运行后五分钟内，在 Grafana Explore 选择 Loki 数据源，将实际打印的标记完整值（包括 `lesson-` 前缀）替换下式占位文字，不要再额外添加一次前缀，并以即时指标方式查询：
 
 ```text
-sum(count_over_time({app="checkout-api",env="lab"} |= "lesson-替换为实际标记" |= "ERROR" [5m]))
+sum(count_over_time({app="checkout-api",env="lab"} |= "替换为实际marker完整值" |= "ERROR" [5m]))
 ```
 
 预期为二；超过窗口后结果变化是时间语义，不是数据一定被删除。上述程序验证了写入、原始日志检索与错误选择器，Grafana 指标化需要你另外完成，不能因为程序通过就替你声称页面也通过了。它也没有验证高可用、副本故障、长期保留或真实告警发送。
@@ -1169,7 +1175,8 @@ timestamp
 set -euo pipefail
 
 loki="${1:-http://loki:3100}"
-query="${2:-{app=\"checkout-api\"}}"
+default_query='{app="checkout-api"}'
+query="${2:-$default_query}"
 
 echo "== ready =="
 curl --fail --show-error --max-time 10 "$loki/ready"
@@ -1375,6 +1382,18 @@ Loki 的存储 Schema 是“哪段时间使用哪种存储解释规则”的地�
 18. Promtail 当前状态是什么？新项目应该用什么？
 19. Loki 如何和 Alertmanager 结合？
 20. Loki 在 AIOps 根因分析中有什么价值？
+
+## 独立通关：查不到日志时能否证明是哪一层
+
+完成下面五项时，把“预期”“实际观察”“没有验证的部分”分别写下来；脚本打印三条日志不等于整套日志平台已经验收。
+
+1. **基础复现**：在本机启动本课 Loki，执行 `loki-lesson.py`，保留本轮 marker、写入响应、三条全部记录和两条错误记录。判据是三个阶段用同一正文标记关联，两个时间端点正确，并解释写入返回 204 与可查询三条是两段证据。离线模型没有启动 Loki，不能代替这一项。
+2. **改变条件**：保持正文和时间不变，仅把查询中的环境改为不存在的值，再恢复；预测结果及理由后执行。参考判据是错误选择器得到成功但空的响应，恢复后仍查到三条，且不能把零结果解释成没有故障。再把窗口挪到写入之前，说明同样的零结果为何需要另一份证据。
+3. **故障证据**：先用正文中已有的数字状态码查询两条 5xx，再纸面加入一条 `status_code="timeout"` 的格式变更样本，说明解析或数值比较错误会怎样影响计数。实际演练时先查 `__error__`，保存错误样本和正确样本，恢复格式再复测；判据是没有用丢弃解析错误把数据质量问题伪装成错误率下降。没有真实运行时这部分明确记为推演。
+4. **设计取舍**：在所有组合都出现的假设下，手算 20 服务、3 环境、每组 5 实例、3 级别的流数，再说明给每条日志加唯一 trace_id 会改变哪类成本。参考起点是 900 个流；答案需比较索引标签、正文、结构化元数据，解释租户头不能代替认证，并说明副本、WAL、备份各自抵御的故障不同。
+5. **口述追问**：三分钟回答“近期可查、旧日志不可查、日志告警突然变少”三种现象。判据是分别提出可验证的 Schema/索引与对象权限、时间窗口、格式覆盖与采集健康假设，并说明升级回退为何还要保留已写数据对应的历史规则；不能统一回答为扩容或删除缓存。
+
+提交一页日志接入合同和一条反例：哪些字段低基数、时间单位是什么、谁负责脱敏、写入失败怎样分类、哪条证据只能证明模拟。结束后按本课清理步骤停止自己的进程；真实审计日志与共享桶不属于实验清理范围。
 
 ## 学习证据
 

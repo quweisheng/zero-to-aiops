@@ -1,0 +1,177 @@
+[
+  {
+    "article": "storage-data-protection/aishu-anystorage.md",
+    "crossReview": {
+      "reviewer": "data-observability",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "f12e9dba57f2fb4434a7e602a1d7f63f764e306dc2bd1f5bb32bfb04ca50fd71",
+      "result": "pass",
+      "findings": [
+        "全文925行独立审读：AnyStorage7阵列/GX前置虚拟化/AnyBackup职责分离，SAN/NAS及GX前后端路径、RAID2.0非经典RAID2、缓存/分层/QoS/快照克隆依赖/同步异步/仲裁/独立备份边界清楚；原厂公开产品页核对RAID2.0、协议与双仲裁支持，未推定私有实现",
+        "离线PowerShell完整四对象精确表头/身份覆盖/单位方向/有限非负及阈值次序校验，UNKNOWN3与WARN1/CRITICAL2/OK0区分；池92故障恢复70/100/0/0.2不靠抬高门槛，清理只限两自有文件",
+        "独立五题覆盖路径50与池90边界、坏输入、100TiB/84TiB/2TiB每天三天触90安全线、GX目标新增写入权威及源保留；本轮全文静态审查，未运行真实AnyStorage、复制、克隆、双活或设备CLI；额外独立验证原文检查器经内存CSV替身在Windows PowerShell5.1子进程跑8类输入全部通过（1/2/0/3分支），未覆盖真实文件导出/设备",
+        "全文共14个PowerShell代码块经本机AST独立解析通过；静态语法检查不证明厂商CLI、实际容灾或生产兼容性"
+      ]
+    },
+    "reviewedAt": "2026-10-12",
+    "writer": "foundation-frontend",
+    "initialFindings": ["脚本表头未约束，额外列可能掩盖输入错位", "创建脚本、UTF-8与子进程退出的初学者步骤不足", "克隆可挂载容易被误读为已验证独立故障域", "缺少同时覆盖阈值方向、采集错误和迁移后新写入的独立任务"],
+    "changes": ["明确编辑器保存完整PS1、Windows PowerShell 5.1编码和子进程执行", "补充非空及精确表头合同，保留单位、方向、有限数值、对象覆盖等校验", "澄清克隆独立性与源故障域必须另验", "新增五关及具体退出码、阈值边界、容量安全线和GX迁移写入权威答案"],
+    "criteria": [
+      {"id":"prerequisites","result":"pass","evidence":"入门实验：生成 AnyStorage 脱敏健康报告：独立目录、完整PS1、编码、终端和子进程入口闭合。"},
+      {"id":"mechanism","result":"pass","evidence":"官方知识地图与核心知识树：区分AnyStorage阵列、GX网关前后端、RAID、快照/CDP/复制与独立备份，未编造私有CLI。"},
+      {"id":"foundation","result":"pass","evidence":"实验步骤和预期结果：四个对象得到3 WARN/1 OK及退出码1，数值/方向/单位有数据合同。"},
+      {"id":"fault","result":"pass","evidence":"补齐离线故障演练的恢复证据：池92触发2，修复四值得到0；空采集为3而非健康，并限定清理两份自有文件。"},
+      {"id":"production","result":"pass","evidence":"独立通关：先证明剩余故障域，再决定动作：100TiB池84TiB已用、2TiB/天在3天触90安全线；GX切回必须处理目标新增写入。"},
+      {"id":"interview","result":"pass","evidence":"面试分层与独立通关：从前后端路径、RAID/快照/备份边界追问到复制权威和迁移回退。"},
+      {"id":"mastery","result":"pass","evidence":"独立通关：先证明剩余故障域，再决定动作：五项覆盖复现、条件预测、错误证据、设计与口述，均有可核对判据。"},
+      {"id":"aiops","result":"pass","evidence":"AnyStorage 在 AIOps 中的位置：对象拓扑、采集新鲜度、RPO/路径/容量信号与高风险动作审批边界明确。"}
+    ],
+    "validation": [
+      {"kind":"executed","detail":"Windows PowerShell子进程执行实际正文脚本的内存CSV替身：正常1、池92为2、全OK为0、空行/NaN/101/错方向/额外表头均3，共8种。","limits":"只替换Import-Csv输入为ConvertFrom-Csv，不连接AnyStorage；未验证真实路径、复制或GX切换。"},
+      {"kind":"syntax","detail":"全文PowerShell代码块经PowerShell AST解析；git diff --check通过。","limits":"语法通过不等于设备兼容或实际控制台验收。"},
+      {"kind":"unrun","detail":"真实设备安装、快照恢复、双活与迁移未执行。","limits":"缺少授权设备、对应版本许可和支持环境。"}
+    ],
+    "status":"revised-awaiting-cross-review"
+  },
+  {
+    "article":"storage-data-protection/brocade-6510.md",
+    "crossReview": {
+      "reviewer": "data-observability",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "187c1de4a57d3fc91651b7d5f742ef33958b5774ad18f754c781da9087252723",
+      "result": "pass",
+      "findings": [
+        "全文798行独立审读：FC登录/名称服务/zoning与masking、Principal非数据必经、FSPF/ISL/逐跳BB信用/慢排水上游受害者、累计计数与重置、接收错误不等坏组件机制完整；重新核对Broadcom原始EOL公告，2019通知/2023FOS EOA/2025EOS日期相符",
+        "四端口归一化CSV不假装四端到端路径，整数非负计数/预设覆盖/重复/角色身份检查；CRC/loss与C3/credit两候选、故障2/输入异常1/恢复0后删除备份的闭环清楚；真实zoning写命令只作识别，生产禁直接照抄",
+        "独立100/101信用边界、64G接入共享16G ISL名义4:1、独立Fabric逐批迁移及回接/保留窗口有可核对判据；本轮未登录交换机、改zoning、清计数、切路径或升级FOS，离线代码测试也不等于实际Fabric验收；原文Python检查器以StringIO替身独立执行基线0、故障2、恢复0、空/重复/NaN/负值/错身份1共8类全部通过，不等于厂商输出格式兼容",
+        "全文共14个PowerShell代码块经本机AST独立解析通过；静态语法检查不证明厂商CLI、实际容灾或生产兼容性"
+      ]
+    },
+    "reviewedAt":"2026-10-12",
+    "writer":"foundation-frontend",
+    "initialFindings":["负数增量会绕过大于零阈值，被误当成无错误", "端口角色与设备身份不受约束", "恢复命令未在验收失败时保护备份", "需要把端口Online、主机路径与独立Fabric拆开考核"],
+    "changes":["所有错误增量仅接受非负ASCII十进制整数，拒绝NaN、负数与缺失", "校验课堂F-Port角色及非空设备身份", "恢复验收非零即停止且保留备份", "补全文件保存和当前目录前置，新增五关及credit边界、超卖、双Fabric故障域判据"],
+    "criteria":[
+      {"id":"prerequisites","result":"pass","evidence":"前提与创建 fabric-ports.csv：Python3标准库、独立目录、UTF-8与当前工作目录均说明。"},
+      {"id":"mechanism","result":"pass","evidence":"核心协议与拥塞解释：FLOGI、PLOGI、PRLI、zoning、BB credit与slow drain联系到真实数据路径。"},
+      {"id":"foundation","result":"pass","evidence":"入门实验：离线端口健康基线：四端口覆盖、重复检查与整数增量校验，正常退出0。"},
+      {"id":"fault","result":"pass","evidence":"故障注入实验及恢复：CRC/C3/loss/credit产生2，恢复0才删除备份；输入坏值为采集失败而非链路修复。"},
+      {"id":"production","result":"pass","evidence":"双 Fabric 迁移顺序与独立通关：核对剩余故障域、迁移接线回退、16G ISL争用及已EOS设备支持边界。"},
+      {"id":"interview","result":"pass","evidence":"独立通关：端口、路径和故障域三张图：从端口Online追问登录、zoning、LUN映射、主机多路径与慢排水证据。"},
+      {"id":"mastery","result":"pass","evidence":"独立通关：端口、路径和故障域三张图：五关含100/101 credit预测、非法输入和4:1理论争用判据。"},
+      {"id":"aiops","result":"pass","evidence":"在 AIOps 中的作用：计数增量、端口WWN/WWPN拓扑、采集周期、变更和审批式修复关联。"}
+    ],
+    "validation":[
+      {"kind":"executed","detail":"实际Python正文用StringIO替换文件输入执行10种：正常0、四信号故障2、恢复0、空/重复/负数/NaN/空设备拒绝，以及credit100为0、101为2。","limits":"模拟CSV规则，不登录交换机，不证明真实FOS状态、Fabric或光纤故障。"},
+      {"kind":"syntax","detail":"Python AST及全文PowerShell块解析通过；git diff --check通过。","limits":"未执行厂商只读CLI。"},
+      {"kind":"unrun","detail":"真实FOS升级、zoning及双Fabric迁移未执行。","limits":"缺少授权硬件与目标版本支持矩阵。"}
+    ],
+    "status":"revised-awaiting-cross-review"
+  },
+  {
+    "article":"storage-data-protection/dell-emc-vmax.md",
+    "crossReview": {
+      "reviewer": "data-observability",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "15b7fd8ef5aebd9e751eafe1831626ceef2de3475cb9fe807469b8868a12c926",
+      "result": "pass",
+      "findings": [
+        "全文初版737行及修后739行改段复核：VMAX各代与PowerMax边界、IG/PG/SG/MaskingView呈现、TDEV/SRP容量、受保护缓存确认、SnapVX时间点/Link/Copy依赖、SRDF模式与R1/R2非永久权威、D@RE非主机访问授权各有解释；交叉返修补HYPERMAX5977.810.184及以后/fully-defined后台定义完成才保证Nocopy目标unlink后可访问、定义不同全量复制、主机可读不等后台完成且不强制跳门禁，与Dell原厂附录逐项相符",
+        "离线CSV独立policy固定业务/路径期望与复制需要，拒NaN/负延迟/错组/改小路径基线；支付组四风险不强行归同因，恢复0才清理；明确SyncInProg可为批准恢复及模式语义不可套用，缺SID/采样时间不能证明全阵列实时健康",
+        "五关85%/10ms阈值、SRP不能跨SG重复相加、10TiB留2TiB/200GiB每天40.96天、120对110超5笔及目标130新增写入决定同步方向，覆盖扩卷不可默认缩卷回退；本轮未执行SYMCLI、实际SnapVX、SRDF或阵列升级；原文Python检查器以StringIO替身独立执行基线0、故障2、恢复0、空/重复/NaN/负值/错身份1共8类全部通过，不等于厂商输出格式兼容",
+        "全文共14个PowerShell代码块经本机AST独立解析通过；静态语法检查不证明厂商CLI、实际容灾或生产兼容性"
+      ]
+    },
+    "reviewedAt":"2026-10-12",
+    "writer":"foundation-frontend",
+    "initialFindings":["NaN、负响应时间和路径上限缺失可能制造假健康", "expected_paths来自待检查CSV，改小基线能隐藏路径丢失", "统一接受NotConfigured会把要求复制的业务误报健康", "恢复失败仍可能清理备份；后文解析器边界与修订功能需同步"],
+    "changes":["增加独立业务/路径/复制策略台账及有限数值范围", "要求支付与订单组Synchronized，批处理NotConfigured，避免无复制冒充健康", "补齐新手文件保存与目录前置，恢复验收失败保留备份", "新增五关，明确SRP重复聚合、10TiB安全容量、SRDF数据权威及回退新增写入", "交叉返修：核对Dell附录补Nocopy取消关联的5977.810.184版本下界与fully defined前提，区分后台定义完成/主机可读/全量物理复制，不给强制绕过门禁命令"],
+    "criteria":[
+      {"id":"prerequisites","result":"pass","evidence":"入门实验前置：Python标准库、完整脚本/CSV与独立目录；真实SYMCLI查询另需授权版本环境。"},
+      {"id":"mechanism","result":"pass","evidence":"供给主线与保护解释：IG/PG/SG/Masking View、TDEV/SRP、保护缓存、SnapVX、SRDF和D@RE分清职责。"},
+      {"id":"foundation","result":"pass","evidence":"运行与验证：独立policy检查三组归属、路径基线、复制目标和数值范围，基线为VMAX_HEALTH=OK/0。"},
+      {"id":"fault","result":"pass","evidence":"故障注入实验：模拟容量、单路径和 SRDF 积压：支付组四类风险2，恢复0才清理备份，不能从共时告警直接定单根因。"},
+      {"id":"production","result":"pass","evidence":"独立通关：供给、性能与恢复分别签收：安全余量40.96天、SRDF序列损失与目标新增写入权威，升级与软件降级分开。"},
+      {"id":"interview","result":"pass","evidence":"面试分层与独立通关：从Masking View到缓存确认、复制模式和密钥/恢复边界，附机制和设计追问。"},
+      {"id":"mastery","result":"pass","evidence":"独立通关：供给、性能与恢复分别签收：五关包括85%/10ms边界、NotConfigured策略错误、输入负向和容量设计答案。"},
+      {"id":"aiops","result":"pass","evidence":"AIOps及生产解析器边界：SID、SG、端口和SRP关联，明确当前缺采样新鲜度和阵列编号，不能宣称实时全阵列健康。"}
+    ],
+    "validation":[
+      {"kind":"executed","detail":"实际Python正文用StringIO输入执行11种：基线0、支付组四故障2、恢复0、空/重复/NaN/负响应/改小期望路径/错业务均拒绝，9.99ms为0、10ms为2。","limits":"仅规则和课堂台账，不执行SYMCLI、不模拟真实SRDF状态机或SnapVX恢复。"},
+      {"kind":"syntax","detail":"Python AST、全部PowerShell代码块解析、git diff --check通过。","limits":"未测试实际Solutions Enabler及Unisphere版本。"},
+      {"kind":"unrun","detail":"真实阵列供给、SRDF切换、密钥恢复与固件升级未执行。","limits":"缺少授权设备与业务恢复目标。"}
+    ],
+    "status":"revised-awaiting-cross-review"
+  },
+  {
+    "article":"storage-data-protection/dell-emc-vplex.md",
+    "crossReview": {
+      "reviewer": "data-observability",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "866d79335576266b8d619edff03bbce508ea3c243d63c54124b278af128150a2",
+      "result": "pass",
+      "findings": [
+        "全文715行独立审读：StorageVolume/Extent/Device/VirtualVolume/View、FE/BE路径、Local与Distributed、同步写穿透等后端确认但不等每笔物理介质、Global可见不等本地副本、Witness非业务第三副本且不虚构两票算法、Metadata/Logging/数据库日志职责区分；重新核对Dell6.2SP1同步一致性组及Global visibility原厂页，写穿透与远端无本地副本边界相符",
+        "归一化CSV明示非CLI原字段，独立台账8/8/4/4路径而非最低两条，类型/归属/有限重建范围/覆盖校验；分区与系统卷单路径故障、恢复0后收回闭环；可用与保护完整100%分开验收，不把重建当必然停业务",
+        "独立路径减半/99.9%、三方连通和数据权威、1TiB/200MiB秒87.38分钟乐观下限、600GiB净60GiB每小时10小时、90%迁移拒撤源及切后新写入回退有答案；本轮未运行真实VPLEX、Witness仲裁、WAN断链或厂商CLI；原文Python检查器以StringIO替身独立执行基线0、故障2、恢复0、空/重复/NaN/负值/错身份1共8类全部通过，不等于厂商输出格式兼容",
+        "全文共14个PowerShell代码块经本机AST独立解析通过；静态语法检查不证明厂商CLI、实际容灾或生产兼容性"
+      ]
+    },
+    "reviewedAt":"2026-10-12",
+    "writer":"foundation-frontend",
+    "initialFindings":["通用paths>=2把8降4或4降2当成完整健康", "对象类型/所属集群及重建进度范围未校验", "恢复验证失败未显式阻止继续清理", "后文仍用最低两条教学阈值，需和新台账同步并保留故障域边界"],
+    "changes":["加入独立对象台账，严格核对类型、集群及8/8/4/4路径基线", "拒绝负路径、超基线、NaN及范围外重建进度", "补齐完整文件与当前目录前置，恢复失败停止", "改正后文旧阈值描述，新增五关覆盖可见/可写/同步、Witness边界、净重同步速度与回退"],
+    "criteria":[
+      {"id":"prerequisites","result":"pass","evidence":"入门实验：Python3标准库、自己的空目录、CSV和完整脚本UTF-8、终端当前目录明确。"},
+      {"id":"mechanism","result":"pass","evidence":"核心概念：Storage Volume/Extent/Device/Virtual Volume/Storage View分层，Metro写确认、Witness与detach规则不套通用多数投票。"},
+      {"id":"foundation","result":"pass","evidence":"第三步：运行：四对象符合独立台账且状态、服务和重建100%后为0，路径数量不是故障域证明。"},
+      {"id":"fault","result":"pass","evidence":"故障注入实验：模拟分区与单路径：分布式设备故障与元数据单路径均可见，恢复0后清理，不操作真实设备。"},
+      {"id":"production","result":"pass","evidence":"独立通关：不能把可见、可写、已同步混成健康：1TiB重同步下限87.38分钟，600GiB积压净60GiB/小时需10小时；故障域和新写入决定回切。"},
+      {"id":"interview","result":"pass","evidence":"面试课堂与独立通关：global可见不代表本地数据副本，Witness不承载业务数据，按同步、权威和真实I/O追问。"},
+      {"id":"mastery","result":"pass","evidence":"独立通关：不能把可见、可写、已同步混成健康：五关有基线、路径减半/99.9%预测、输入错误、分区证据和吞吐设计答案。"},
+      {"id":"aiops","result":"pass","evidence":"生产故障排查与AIOps：主机-Fabric-Director-后端依赖、链路/同步/I/O证据同时验证，不从CSV发起强制恢复。"}
+    ],
+    "validation":[
+      {"kind":"executed","detail":"实际Python正文用StringIO输入执行10种：正常0、分区/单路径2、恢复0，空/重复/NaN/负路径/错类型拒绝，8路径0、减至4路径2。","limits":"合成CSV规则，未实际切断VPLEX链路或验证Witness决策。"},
+      {"kind":"syntax","detail":"Python AST、全部PowerShell块解析及git diff --check通过。","limits":"并不证明某版本VPLEX CLI兼容。"},
+      {"kind":"unrun","detail":"真实Metro分区、detach、重同步及迁移回切未执行。","limits":"缺少授权VPLEX、双站点与厂商操作窗口。"}
+    ],
+    "status":"revised-awaiting-cross-review"
+  },
+  {
+    "article":"storage-data-protection/ibm-storage.md",
+    "crossReview": {
+      "reviewer": "data-observability",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "928f6ab285ac5d6aa6964257ed3b09c715e7abcf0b55b141f595a0657e4421d3",
+      "result": "pass",
+      "findings": [
+        "全文初版838行及修后840行改段复核：IBM产品职责、FlashSystem/Virtualize MDisk/extent/池/卷映射/IOGroup、双控与双Fabric、各保护故障域、数据缩减口径与Insights新鲜度完整；交叉返修产品表8行核心英文学习项目的技术语境中文并逐行核对",
+        "完整报告函数先验所有输入再输出，历史时间带偏移/身份/有限范围/状态/非负整数/重复校验；1/2/1逐行金数和NoClobber、漏control后恢复及空必保清单拒绝闭环；交叉返修验证命令用Join-Path本轮$lab并明确同会话沿用，不再换目录后误读旧证据",
+        "独立边界85/84.9/10虽数量不变但行身份改变、漏保与任务成功非恢复证明、2TiB/100MiB秒5.83小时不满足30分钟、平均132.27KiB非每笔相同、代码/配置/数据/复制权威回退分离；本轮未执行真实IBM/Insights/备份恢复/升级；原文报告函数内存CSV在WindowsPowerShell5.1跑8类输入及逐行边界全部通过，漏保三阶段输出通过；未执行目录创建/Export-Csv文件流程",
+        "全文共14个PowerShell代码块经本机AST独立解析通过；静态语法检查不证明厂商CLI、实际容灾或生产兼容性"
+      ]
+    },
+    "reviewedAt":"2026-10-12",
+    "writer":"foundation-frontend",
+    "initialFindings":["基础实验-Force复用目录且覆盖旧CSV/报告，可能破坏已有证据", "空样本、NaN、越界占用、负事件、无时区及重复身份未校验", "仅断言CRITICAL数量，且在验证前写报告", "必保卷清单为空会真空通过COVERAGE_OK", "缺少产品线分工与恢复吞吐的独立可判定任务"],
+    "changes":["目录已存在保护性停止，报告-NoClobber且基线1/2/1全部验收后才写出", "新增完整ConvertTo-LabStorageReport函数，先验证全部输入再输出，固定时区格式、非空身份、有限非负指标、百分比、整数事件及状态映射", "漏保函数拒绝空/空名/重复必保清单", "补充终端前置、历史样本和覆盖/新鲜度限制，新增五关与2TiB恢复5.83小时、132.27KiB平均I/O等具体判据", "交叉返修：报告验证路径跟随本轮$lab而非固定旧目录；IBM产品线表各英文组件补技术语义中文，保持产品及可执行名称不变"],
+    "criteria":[
+      {"id":"prerequisites","result":"pass","evidence":"入门实验：分析 IBM 块存储健康样本：PowerShell版本、仓库根目录、整体执行、历史时间与新目录保护明确。"},
+      {"id":"mechanism","result":"pass","evidence":"IBM 产品线怎么选与核心知识树：FlashSystem/Virtualize/Scale/Protect/Tape职责和MDisk/extent/卷路径相连，不混用DS8000命令。"},
+      {"id":"foundation","result":"pass","evidence":"实验步骤及预期结果：完整函数先验证再分级，四条报告逐行且数量1/2/1验证，写报告不覆盖旧文件。"},
+      {"id":"fault","result":"pass","evidence":"离线故障实验：备份任务绿了，关键卷却漏保：正常-漏control-恢复三轮，清理只移除本轮内存函数与变量。"},
+      {"id":"production","result":"pass","evidence":"容量、性能与恢复设计题及独立通关：2TiB/100MiB/s不满足30分钟，物理隔离、密钥、RPO/RTO和升级回退各有验收边界。"},
+      {"id":"interview","result":"pass","evidence":"从升级评审继续追问：回退究竟恢复什么与独立通关：区分代码、配置、复制角色和新写入；口述数据路径及采样口径。"},
+      {"id":"mastery","result":"pass","evidence":"独立通关：资产覆盖、数据保护和业务恢复分别证明：五关覆盖逐行预期而非仅数量、非法输入、漏保证据、恢复设计和分层口述。"},
+      {"id":"aiops","result":"pass","evidence":"Storage Insights 在 AIOps 中的位置：采样频率、CMDB覆盖、新鲜度、拓扑和恢复演练年龄独立于业务告警，高风险动作不直接自动执行。"}
+    ],
+    "validation":[
+      {"kind":"executed","detail":"正文报告函数内存执行：基线1/2/1；NaN/101/-1事件/无时区/重复/未知状态/空行七种拒绝；85与10边界逐行身份通过。漏保函数正常-缺control-恢复输出及空必保拒绝通过；Windows PowerShell5.1子进程基线通过。","limits":"未运行文件创建/Export-Csv路径及真实IBM设备，目录保护和-NoClobber按语义审查；不证明真实备份可恢复。"},
+      {"kind":"syntax","detail":"全文PowerShell块AST解析与git diff --check通过。","limits":"未执行SSH/IBM/AIX/Linux厂商与主机命令。"},
+      {"kind":"unrun","detail":"真实FlashSystem/Storage Protect恢复、Insights采集、升级和故障切换未执行。","limits":"缺少对应型号、代码、许可、授权设备与业务验证环境。"}
+    ],
+    "status":"revised-awaiting-cross-review"
+  }
+]

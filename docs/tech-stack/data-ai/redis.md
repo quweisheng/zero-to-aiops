@@ -222,7 +222,15 @@ client（客户端）
 先执行 `docker ps -a`，确认没有同名 `aiops-redis` 容器；若存在，先确认归属，不能覆盖。以下用一行 PowerShell 兼容命令启动独立教学容器，只绑定本机回环地址，没有挂载业务数据。本课固定 Redis 7.4.11，标签可在 [Docker Official Images Redis 清单](https://github.com/docker-library/official-images/blob/master/library/redis)核对；这是可复现的教学基线，不是要求已有生产集群直接升级。
 
 ```powershell
-docker run -d --name aiops-redis -p 127.0.0.1:6379:6379 redis:7.4.11
+docker version
+if ($LASTEXITCODE -ne 0) { throw 'Docker 服务不可用，先停止实验' }
+docker container inspect aiops-redis 2>$null
+if ($LASTEXITCODE -eq 0) { throw '同名容器已存在，核对归属，不覆盖' }
+if (Get-NetTCPConnection -LocalPort 6379 -State Listen -ErrorAction SilentlyContinue) {
+  throw '6379 已被占用，不停止未知服务'
+}
+docker run -d --name aiops-redis --memory 1g -p 127.0.0.1:6379:6379 redis:7.4.11 redis-server --maxmemory 256mb --maxmemory-policy noeviction
+if ($LASTEXITCODE -ne 0) { throw '容器创建失败，先看错误，不继续验收' }
 docker exec aiops-redis redis-server --version # 记录实际服务端版本
 docker image inspect redis:7.4.11 --format '{{json .RepoDigests}}' # 记录镜像摘要
 ```
@@ -246,6 +254,8 @@ PING
 ```text
 PONG
 ```
+
+本段预检查是 Windows PowerShell 写法；Linux 用 `ss -lnt` 核对端口，不能照搬 `Get-NetTCPConnection`。`--memory 1g` 是容器上限，`--maxmemory 256mb` 是 Redis 数据内存淘汰判断上限，二者故意留出余量，但不是任何工作负载都不会 OOM 的承诺。`noeviction` 让内存不足时需要更多内存的写入显式报错，不把教学去重键静默当缓存淘汰。后面修改内存策略是说明性示例，不属于本路线的必跑步骤。最多观察 30 秒仍没有 PONG 就查看 `docker logs aiops-redis`，不要在失败容器上继续建键。
 
 ### redis-cli 执行单条命令
 
@@ -1160,7 +1170,10 @@ import json
 
 import redis
 
-r = redis.Redis(host="127.0.0.1", port=6379, decode_responses=True)
+r = redis.Redis(
+    host="127.0.0.1", port=6379, decode_responses=True,
+    socket_connect_timeout=2, socket_timeout=2,
+)
 
 
 def fingerprint(alert: dict) -> str:
@@ -1197,12 +1210,16 @@ else:
     print("duplicate")
 ```
 
-运行：
+先安装 Python 3.11 或 3.12，在自己新建且为空的 `projects/redis-alert-dedup/` 保存 `requirements.txt` 和 `dedup.py`，不要覆盖已有项目。终端进入该目录；以下是 Windows PowerShell 路线，不要求系统已安装裸 `redis-cli`：
 
-```bash
-pip install -r requirements.txt
-python dedup.py
-python dedup.py
+```powershell
+python --version
+python -m venv .venv
+if ($LASTEXITCODE -ne 0) { throw '虚拟环境创建失败' }
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+if ($LASTEXITCODE -ne 0) { throw '依赖安装失败，停止' }
+.\.venv\Scripts\python.exe dedup.py
+.\.venv\Scripts\python.exe dedup.py
 ```
 
 第一次输出：
@@ -1217,6 +1234,8 @@ process
 duplicate
 ```
 
+Linux 使用 `.venv/bin/python` 替换上面虚拟环境解释器路径；安装成功后用该解释器的 `-m pip freeze` 记录依赖版本。出现连接异常应停止本次操作并保留错误，不能把异常改写成 `duplicate`。`process` 只表示本次成功登记了短期处理资格，代码没有发通知或建工单，不能证明业务完成；登记后进程退出造成漏处理的窗口见后文原子性课堂。
+
 学习点：
 
 - fingerprint 决定去重粒度。
@@ -1228,6 +1247,8 @@ duplicate
 在自己的 `projects/redis-alert-dedup/` 目录保存以上文件后运行；如果缺少依赖，先确认使用的是同一个 Python 环境，可用 `python -m pip install -r requirements.txt`。如果连不上，先看教学容器 PING 和宿主端口；若第一次就是 duplicate，检查是不是上次创建的指纹键仍在五分钟窗口内。实验结束让该键自然过期，或仅删除已核对的本次精确键名，不扫描删除其他告警数据。
 
 ## AIOps 入门实验：Stream 事件流
+
+下面每行以 `redis-cli` 开头，要求宿主机安装客户端。Windows 若只有 Docker，就逐条把行首替换为 `docker exec aiops-redis redis-cli`，其余参数不变，例如 `docker exec aiops-redis redis-cli XADD stream:alerts '*' service order-api severity critical alert HighErrorRate`；不要把整行再输入交互式 redis-cli。先确认 `EXISTS stream:alerts` 为零，否则停止核对旧数据，避免基础题与前文随手输入的示例混用。
 
 ### 写入事件
 
@@ -1268,7 +1289,7 @@ redis-cli XPENDING stream:alerts aiops-workers
 
 - Stream 可以承载 AIOps 事件流水线。
 - 消费组让多个 worker 分工。
-- `XACK` 表示处理完成。
+- `XACK` 表示客户端向该消费组确认投递；Redis 不检查外部工单是否真的完成。
 - pending 消息需要补偿处理。
 
 ## 常用命令字典
@@ -1696,6 +1717,30 @@ XAUTOCLAIM lesson:redis:stream lesson-group worker-b 0 0-0 COUNT 1
 本课覆盖 Redis 基础数据结构到常见生产取舍，不展开模块实现、集群协议证明和复杂跨系统事务。下一步可以把 [MySQL](./mysql-sql.md) 的业务唯一约束、[Kafka](./kafka.md) 的事件重放和 [RCA](../sre-aiops/rca.md) 的证据方法接入同一个告警小项目。学习文章不代表已经具备全部岗位能力，还需要独立编码、Linux 与网络基础、系统设计和表达训练。
 
 做一次独立检查：不看示例说出 TTL 两种负数的区别；换一个教学键复现错误类型；独立完成未确认事件的接管；画出旧缓存回填与旧锁持有者恢复的时间线。做不出来时回到对应机制，而不是把构建通过或字数足够当作已经掌握。
+
+## 独立通关：键的状态不是业务的结果
+
+先合上示例写预测，运行只连本课容器，所有键以 `exam:redis:20261012:` 开头。考试前逐个 EXISTS 必须为零；结束后只 DEL 自己创建的精确键，不使用 FLUSHDB、KEYS 拼接删除或业务前缀扫描删除。没有真实服务时只能交未运行的推演，不能把下列预期冒充实测。
+
+### 任务一：基础复现，写入是否延长窗口
+
+在交互式 redis-cli 中，分别用同一个新键执行 `SET exam:redis:20261012:dedup first NX EX 90`、紧接着用 second 再试一次，再 GET/PTTL。答案：第一次 OK、第二次空结果、值仍 first，第二次失败不会重新给键续九十秒。然后普通 SET 覆盖为 third，TTL 应为 -1；自己写带 EX 的修正命令再验证正剩余时间。不要精确要求固定 90，因为人打字和网络也耗时。最后只删除这个键并确认不存在。
+
+### 任务二：改变条件，原子执行会自动回滚吗
+
+为新键 `exam:redis:20261012:number` SET 1，为 `...:plain` SET text。执行 MULTI，将 `INCR exam:redis:20261012:number`、`HGET exam:redis:20261012:plain status`、`SET exam:redis:20261012:after yes` 加入，再 EXEC，读取三键。答案判据：队列中 HGET 语法合法但运行时 WRONGTYPE；number 为 2、plain 仍 text、after 为 yes。Redis 事务不交错不意味着数据库式回滚。保留 EXEC 各项回复，不能只截最后一个 OK；删除这三个精确键收回实验。
+
+### 任务三：故障证据，两条事件只确认一条
+
+独立流 `exam:redis:20261012:stream` 加入两个不同 event_id，创建新消费组，从零读取两条，故意不确认。由另一消费者用大于号读取，再有界接管并仅确认其中一条。答案：新消息读取不自动返回这两条 pending；确认一条后 PEL 为一、XLEN 仍二。提交两条真实 entry ID、所有权、接管条件与业务处理证据；课堂零空闲时间仅在无并发执行时可用。若接管者已建工单而 ACK 丢失，复投仍需业务唯一约束。完成两条的可审计处理/确认后再 DEL 这一个考试流，不能用删除流代替修复待处理业务。
+
+### 任务四：生产取舍，容量与回源同时预算
+
+每秒新增 2,000 个不同指纹、窗口 300 秒，每键完整实测占用假设为 512 字节，目标数据占用水位 60%，一主一副本。答案：驻留 60 万键、每份数据 307.2MB，每节点仅该部分需约 512MB，两节点合计约 1.024GB，均为十进制，不含连接、复制、RSS、快照写时复制和正常业务。若复制流每秒 20MB，要求保留断连三分钟的历史，至少约 3.6GB backlog 再留余量，不能用上述数据键预算代替复制缓冲预算。副本恢复可处理每秒 30MB、主持续20MB时，理想追赶六分钟；一次全量同步、磁盘或下游瓶颈可能更久。摘要可淘汰，工单不漏要求权威持久事实；给出隔离与回源限流方案，不把 Redis 锁作为唯一执行许可。
+
+### 任务五：口述追问，给每个保证加限定条件
+
+30 秒讲数据结构、原子命令、TTL；3 分钟沿告警去重、事件流、工单事务、确认串起全链路。继续答：WAIT 返回一个确认副本为何仍非共识强一致？锁的随机所有者值为何不等于单调 fencing token？缓存读到旧值时，删除一次为何可能被在途旧读回填？SCAN COUNT 100 为何既不是固定一百条也不是快照？答案必须分别画出异步切换/丢响应、旧持有者恢复、旧回填和游标扫描时间线，并指出主节点/副本、Redis/工单数据库以及客户端/服务端证据的边界。
 
 ## 本课 GitHub 学习证据
 

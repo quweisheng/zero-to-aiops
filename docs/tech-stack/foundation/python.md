@@ -177,6 +177,12 @@ python scripts\check_alerts.py
 
 ## 版本检查和解释器选择
 
+### 第一次安装时，从解释器开始
+
+还没有 Python 的读者先完成这一小步，不需要先装数据分析框架。Windows 在 [Python 官方下载入口](https://www.python.org/downloads/windows/)选择受支持的 Python 3 安装方式，按官方安装说明完成用户级安装；受管电脑先向管理员确认许可，不从聊天附件或不明镜像下载。安装后重新打开 PowerShell，执行下面的版本检查和 `python -c "import sys; print(sys.executable)"`，记下实际解释器路径。本文离线脚本使用 Python 3.11 以上的语法；下载页版本会变化，应以机器实际输出为准。
+
+Linux 用户先运行 `python3 --version`；若没有解释器，通过发行版受支持的包管理器安装 Python 3 和其虚拟环境组件。不要替换发行版自己的 `/usr/bin/python` 或删除系统 Python。下文 PowerShell 中的 `python`，在 Linux 未激活环境时通常换成 `python3`，路径中的反斜杠换成正斜杠；激活后再检查实际解释器。首次实验只用标准库，确认解释器后就能开始，不需要先执行整张第三方包安装清单。
+
 先确认机器上有什么 Python：
 
 ```powershell
@@ -1479,16 +1485,26 @@ def main() -> None:
     parser.add_argument("--min-count", type=int, default=2)
     args = parser.parse_args()
 
+    if args.min_count < 1:
+        parser.error("--min-count must be positive")
+
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
 
     input_path = Path(args.input)
     output_path = Path(args.output)
 
+    if input_path.resolve() == output_path.resolve():
+        parser.error("input and output must be different files")
+
     alerts = load_alerts(input_path)
     report = render_report(alerts, args.min_count)
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(report, encoding="utf-8")
+    try:
+        with output_path.open("x", encoding="utf-8") as file:
+            file.write(report)
+    except FileExistsError:
+        raise SystemExit(f"output already exists; choose a new filename: {output_path}")
 
     logging.info("wrote report: %s", output_path)
 
@@ -1508,6 +1524,8 @@ python scripts\alert_report.py --input data\alerts.json --output reports\alert-r
 ```text
 INFO wrote report: reports\alert-report.md
 ```
+
+脚本只创建新报告，`"x"` 表示独占创建：若同名文件已经存在就失败，不覆盖旧报告，也不跟随已存在的同名符号链接写入目标。重复实验时改用 `--output reports/alert-report-run2.md`。输入和输出解析后相同会先被拒绝，避免把告警 JSON 改写成 Markdown。课堂版仍不是原子发布器，磁盘满等写入故障可能留下本次不完整的新文件；失败时先保留证据，不能把“文件存在”作为成功条件。生产版应按后面的临时结果和安全切换设计处理。
 
 ### 第 5 步：查看报告
 
@@ -1552,7 +1570,7 @@ INFO wrote report: reports\alert-report.md
 | 时间解析 | `datetime.fromisoformat()` |
 | 命令行参数 | `argparse` |
 | 日志输出 | `logging.info()` |
-| 文件写入 | `Path.write_text()` |
+| 文件写入 | `Path.open('x')` 独占创建，再用文件对象的 `write()` 写入；同名文件存在就失败，不覆盖旧报告 |
 | 脚本入口 | `if __name__ == "__main__"` |
 
 这就是一个最小 AIOps 项目：输入是告警数据，处理逻辑是聚合分析，输出是可以给人看的报告。
@@ -1965,6 +1983,18 @@ JSON 解析主要把数据表示转换成对象，但对象数量、嵌套深度
 
 独立练习先在纸面列出三页输入，令第二页失败，预测哪些日志、退出状态和输出文件应出现，再为自己脚本增加相应测试。只使用本地样例，不连接真实告警平台。提交证据时区分语言机制小实验、离线数据验证和真实接口验证，展示你能把“脚本执行完”提升为“任务按合同完成”。
 
+## 独立通关：用新输入判断脚本有没有按合同完成
+
+先自己做，再看判据。在新的 `data/check.json` 中准备五条带时区告警：`search-api` 三条、`billing-api` 两条，其中两条 critical、三条 warning。沿用字段约定但不要复制原来的服务名。以新输出路径、阈值 3 运行，合格证据是总数 5、服务计数 3/2、严重级别 2/3，噪声清单只含 `search-api`。阈值改为 4 前先写预测：总数和分类计数不变，噪声清单为空；不要把筛选阈值误当成删除输入记录。
+
+做三次负向验证：阈值 0、某行时间去掉时区、输出路径设成输入路径。分别应在参数或数据验证阶段非零退出，输入文件字节不变，不能产生新的正式报告。再对已存在的报告路径运行，应该拒绝覆盖；记录前后文件哈希或逐字比较。若只看到红字却未检查 PowerShell 的 `$LASTEXITCODE`，故障证据不完整。修复时只改自己的错误副本或选择新的输出名，再复测；不要批量删除旧日报。
+
+机制题给两个列表名字指向同一对象，修改其中一个后另一个会不会变化？再换成外层浅拷贝、里面仍放嵌套字典，预测修改内层字段的结果。合格答案要区分名字绑定、外层容器和内层对象；只背“拷贝了就独立”不通过。把可变默认参数练习改成第三个服务，解释为何错误版本积累、修正版每次隔离。
+
+设计题把输入换成三页远端数据，第二页超时而昨天的完整报告仍存在。先在纸面写出运行标识、成功页数、失败页数、最终退出状态和发布决策：部分结果不能冒充今天完整结果，也不能因为旧文件存在就发“成功”。说明固定窗口、游标、去重与迟到数据的取舍，以及临时结果发布、依赖回滚与状态格式兼容。纸面答案不算真实 API 联调，未接平台就明确标为模拟。
+
+口头追问按“30 秒用途→3 分钟输入到产物→反例”讲一遍：类型提示为何挡不住坏 JSON？虚拟环境为何不是安全沙箱？线程为何不能被当作所有 CPU 任务的加速开关？HTTP 超时为何不等于整个批次截止时间？答案应落到运行时校验、用户权限、实际解释器/工作负载和总预算。哪一步说不清，就回到输入验证、并发或资源生命周期课堂，再用新数据复测；报告数量和文章字数都不能替代这些证据。
+
 ## 学习证据
 
 完成这一篇后，建议把下面内容提交到 GitHub：
@@ -1988,6 +2018,7 @@ README 至少要写清楚：
 
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
+# 只有项目确实包含第三方依赖文件时，才需要下面这一行
 python -m pip install -r requirements.txt
 
 ## Run
@@ -1999,4 +2030,4 @@ python scripts\alert_report.py --input data\alerts.json --output reports\alert-r
 See reports\alert-report.md.
 ```
 
-如果你能把这个小项目讲清楚，就说明你已经不是“会一点 Python 语法”，而是能用 Python 做一个最小 AIOps 自动化闭环。
+能独立完成通关中的新输入、失败分支与恢复解释，才说明这个最小离线闭环已经具备可检查的学习证据；真实接口、容量和生产权限仍需另外验证。

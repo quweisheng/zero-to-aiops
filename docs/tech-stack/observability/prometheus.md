@@ -2,6 +2,12 @@
 
 > 学习目标：能启动 Prometheus，读懂 `prometheus.yml`，理解数据模型、指标类型、抓取、TSDB、PromQL、recording rules、alerting rules、HTTP API 和 `promtool`，并知道它在 AIOps 数据链路里的位置。
 
+## 开课准备：先说清这个数字究竟在数什么
+
+今天用 Python 3.9 以上版本和 Docker 启动一个课堂接口，制造成功与失败请求，再让 Prometheus 每 15 秒读取一次累计数。HTTP 是请求响应方式，`/metrics` 是返回数值的接口路径，端口 8000 与 9090 分别属于课堂程序和 Prometheus。先运行 `python --version`、`docker version`，确认解释器和容器服务端可用；本课代码保存在独立目录，不需要 Kubernetes 或云平台。
+
+首次学习直接按“AIOps 入门实验：监控一个 demo 应用”走一遍；“安装和启动”里的几种容器命令是备选，不要连续执行造成同名冲突。Bash 与 PowerShell 的换行、虚拟环境路径不同，按下文对应操作系统执行。累计计数、每秒速率、请求失败比例是三种不同的量，开始实验前先写出自己预计看到的数字。
+
 ## 官方资料
 
 - [Prometheus Overview](https://prometheus.io/docs/introduction/overview/)
@@ -353,13 +359,13 @@ Prometheus server（Prometheus服务端）
 Prometheus 默认使用 pull 模型。
 
 ```text
-target exposes /metrics
+target exposes /metrics（目标暴露指标接口）
         ^
         |
-Prometheus scrapes target every scrape_interval
+Prometheus scrapes target every scrape_interval（按抓取间隔访问目标）
         |
         v
-samples written to TSDB
+samples written to TSDB（把样本写入时序数据库）
 ```
 
 流程：
@@ -838,16 +844,16 @@ relabel 是 Prometheus 在抓取前后改标签的机制。它很强，但也容
 最粗略理解：
 
 ```text
-service discovery discovers many targets
+service discovery discovers many targets（服务发现给出候选目标）
         |
         v
-relabel_configs selects and rewrites target labels
+relabel_configs selects and rewrites target labels（抓取前选择目标与改写标签）
         |
         v
-scrape target
+scrape target（读取目标指标）
         |
         v
-metric_relabel_configs can drop or rewrite scraped metrics
+metric_relabel_configs can drop or rewrite scraped metrics（写入前丢弃或改写样本）
 ```
 
 初学先知道三个点：
@@ -1305,11 +1311,26 @@ Prometheus 提供 HTTP API，AIOps 脚本可以通过 API 拉指标。
 curl "localhost:9090/api/v1/query?query=up"
 ```
 
-示例：范围查询。
+示例：范围查询。不要复制一个固定历史日期后，用空结果判断当前没有数据。下面保存为 `query_recent.py`，运行 `python query_recent.py`，查询本机最近一小时，每 30 秒求值一次；这是查询步长，不是把原始抓取改为 30 秒。
 
-```bash
-curl "localhost:9090/api/v1/query_range?query=up&start=2026-07-02T00:00:00Z&end=2026-07-02T01:00:00Z&step=30s"
+```python
+import json
+import time
+from urllib.parse import urlencode
+from urllib.request import urlopen
+
+end = time.time()
+parameters = urlencode({"query": "up", "start": end - 3600,
+                        "end": end, "step": "30s"})
+with urlopen("http://127.0.0.1:9090/api/v1/query_range?" + parameters,
+             timeout=10) as response:
+    result = json.load(response)
+if result.get("status") != "success":
+    raise RuntimeError(result)
+print(json.dumps(result["data"], ensure_ascii=False, indent=2))
 ```
+
+预期 `resultType` 为 `matrix`，每条序列有一组求值时间和值。HTTP/超时错误会抛出异常，成功但结果为空则先检查是否已有抓取、查询标签与时间；不能把这两类结果统一补零。输出可能包含内部标签，仅使用本机合成实验数据。
 
 API 返回通常包含：
 
@@ -1526,6 +1547,14 @@ python -m venv .venv
 .\.venv\Scripts\python.exe app.py
 ```
 
+Linux/macOS Bash 对应的虚拟环境命令如下；两组命令择一，程序保持前台运行：
+
+```bash
+python3 -m venv .venv
+./.venv/bin/python -m pip install -r requirements.txt
+./.venv/bin/python app.py
+```
+
 另开一个终端访问几次：
 
 ```bash
@@ -1541,7 +1570,8 @@ curl localhost:8000/metrics
 ```powershell
 1..100 | ForEach-Object {
   $lessonRoute = if ($_ % 5 -eq 0) { '/fail' } else { '/' }
-  curl.exe -s -o NUL "http://127.0.0.1:8000$lessonRoute"
+  curl.exe --silent --show-error --max-time 5 -o NUL "http://127.0.0.1:8000$lessonRoute"
+  if ($LASTEXITCODE -ne 0) { throw '课堂请求传输失败，请先查应用与端口' }
   Start-Sleep -Seconds 1
 }
 ```
@@ -1574,7 +1604,7 @@ scrape_configs:
           env: "local"
 ```
 
-Linux 上如果 Prometheus 和 demo 都用容器跑，建议放到同一个 Docker network，用容器名访问。这个会在 Docker Compose 篇里更完整地做。
+Linux Docker Engine 使用下方启动命令的 `--add-host=host.docker.internal:host-gateway` 为这个名字设置宿主机网关映射；这是 [Docker 的 host-gateway 用法](https://docs.docker.com/reference/cli/docker/container/run/#add-host)，仍需从容器验证该网关能到达宿主机 8000。它不绕过防火墙，也不代表 Docker Desktop 的名字解析在所有 Linux 环境都自动存在。不要为跑课堂直接关闭防火墙。
 
 ### 第 4 步：创建告警规则
 
@@ -1606,6 +1636,14 @@ docker run --rm --name prometheus `
   prom/prometheus:v3.5.0 `
   --config.file=/etc/prometheus/prometheus.yml
 ```
+
+Linux Docker Engine 在配置目录使用对应 Bash 命令；macOS Docker Desktop 通常不需要 `--add-host` 参数，沿用其宿主机名称解析即可。只执行适合本机的一组：
+
+```bash
+docker run --rm --name prometheus --add-host=host.docker.internal:host-gateway -p 127.0.0.1:9090:9090 -v "$PWD/prometheus.yml:/etc/prometheus/prometheus.yml:ro" -v "$PWD/rules:/etc/prometheus/rules:ro" prom/prometheus:v3.5.0 --config.file=/etc/prometheus/prometheus.yml
+```
+
+Bash 有限流量可逐次运行 `curl --silent --show-error --max-time 5 http://127.0.0.1:8000/` 与 `/fail`，或者保留 PowerShell 生成的同样 80/20 输入记录。计数验证以实际发出且服务端收到的请求为准；HTTP 500 在这项实验中是预期业务失败，连接失败却不是。不要把网络错误纳入已经完成的一百次请求。
 
 ### 第 6 步：检查 targets
 
@@ -1891,6 +1929,16 @@ Prometheus 是面向指标的监控和告警系统。它默认用 pull 模型定
 - [ ] 我能排查 target DOWN、PromQL 无数据、高基数和规则不触发。
 - [ ] 我能说明 Prometheus 在 AIOps 中如何支持异常检测、SLO 和告警降噪。
 
+## 独立通关：这个错误率有没有正确的分母
+
+1. **基础复现**：完成课堂抓取，保存 `/metrics` 中本轮累计计数、Targets 状态、错误率与 P95 查询，并注明采样时间。判据是能核对有限流量的 80/20 增量，解释窗口边界为什么使 `rate` 不保证精确 20%，以及 `up=1` 为什么不证明用户请求成功。
+2. **改变条件**：纸面给实例甲 1 次失败/10 请求、乙 0 次失败/990 请求，先预测整体错误率再写聚合。参考答案是 `1/1000=0.1%`，不是两实例百分比平均的 5%。随后把一个实例计数器重置，解释为什么先按序列 `rate` 再汇总，而不是先把累计数相加后求增长。
+3. **故障证据**：仅停止本课 Python 程序，记录最后一次成功采集、`up=0`、规则 pending/firing 的实际时间，恢复后复测；再在纸面把目标从发现列表移除，说明“零”与“不存在”的不同。判据是区分端口、抓取与规则状态，不以删目标或静默通知冒充修复；本课没有 Alertmanager，不能填写通知送达成功。
+4. **设计取舍**：计算 10000 序列、15 秒间隔的一天样本数，再说明降抓取频率与删高基数维度分别改变什么。参考样本数为 57600000；删标签前还要用两条只在待删标签上不同的样本验证身份碰撞。答案需说明本地双采集、副本去重、长期存储、备份和远端中断缓冲的不同职责。
+5. **口述追问**：三分钟解释一条样本经过暴露、发现、抓取、重标记、TSDB、PromQL、记录规则、告警与通知的路径。面对“图上零错误”要提出至少三个可被反证的假设，并说明查询 step、范围窗口与抓取间隔不是同一个时钟。
+
+提交自己的查询卡片：对象、单位、分子分母、标签集合、缺失处理、预期值、实际值与反例。没有运行真实 Prometheus 时，把手算和离线重置模型单独标明，不能拿它们代替 Targets 与规则状态记录。
+
 ## 学习证据
 
 学完这篇后，建议提交这些内容到 GitHub：
@@ -1906,4 +1954,4 @@ Prometheus 是面向指标的监控和告警系统。它默认用 pull 模型定
 - 一篇排障记录：`Prometheus target DOWN 排查.md`
 - 一个 Python 脚本：调用 `/api/v1/query_range` 拉取最近 1 小时 QPS。
 
-如果你能从 demo 的 `/metrics` 一路讲到 Prometheus target、TSDB、PromQL、告警规则和 HTTP API，就说明你已经真正理解了 Prometheus 的主干，而不是只会打开一个 dashboard。
+用独立通关中的原始计数、时间线、反例和修复记录评估掌握程度；读完文章、解释过名词或看到面板有数，都还需要独立操作来检验。

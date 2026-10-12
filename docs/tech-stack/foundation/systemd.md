@@ -1025,6 +1025,8 @@ systemctl get-default
 
 设置默认 target：
 
+下面是管理员变更语法，不是本课需要执行的实验步骤。它改变后续系统启动模式；先记录 `systemctl get-default` 的原值，只有在获准的测试虚拟机上才考虑修改，并能用原值恢复。不要在当前生产或桌面系统照抄。
+
 ```bash
 sudo systemctl set-default multi-user.target
 ```
@@ -1754,6 +1756,12 @@ journalctl -u demo.service -b -1
 
 目标：创建一个由 systemd 托管的本地健康检查服务和定时器，理解 service、timer、日志和状态。
 
+零基础读者优先先做后面的“用户级安全实验：一条命令退出 42 时留下了什么”，它不需要管理员权限。下面系统级实验会新增 `/etc` 和 `/opt` 下的文件，只在自有 Linux 测试虚拟机运行，需要经许可的 `sudo`、Bash、curl、Python 3、`ss` 和可用 systemd。先看 `ps -p 1 -o comm=`、`systemctl --version`；PID 1 不是 systemd 或总线不可用时，停止这条路线，不在普通容器/Windows里硬改启动方式。终端及准备方法见[实验起步说明](../experiment-start.md)。
+
+开始前检查 `systemctl cat aiops-healthcheck.service aiops-healthcheck.timer`，并查看 `/opt/aiops/bin/healthcheck.sh` 和两个同名 unit 文件是否已存在，包括符号链接。如果任何名称已被占用，就停止并给所有文件、单元及引用换一套新名字，不能覆盖别人的巡检服务。后文“创建文件”指用获准的编辑器保存给出的完整文本，例如在此测试机用 `sudoedit` 打开确切的新文件；不是只创建一个空文件。
+
+先准备一个可证明成功的目标。在自己的普通用户 Bash 终端执行 `mktemp -d -t systemd-http.XXXXXX`，记下它返回的独立目录路径；用编辑器在该目录创建名为 `health` 的文本文件，内容为 `classroom-ok`。确认 `ss -ltn 'sport = :18086'` 没有监听项，再运行 `python3 -m http.server 18086 --bind 127.0.0.1 --directory '刚才的实际目录路径'`，把引号内换成实际路径并保持这个终端不关闭。另开终端执行 `curl --noproxy '*' --connect-timeout 1 --max-time 3 http://127.0.0.1:18086/health`，必须看到正文 `classroom-ok`。端口被占用就换空闲端口并同步替换下文，不停止未知进程。
+
 ### 1. 准备脚本
 
 创建目录：
@@ -1769,10 +1777,10 @@ sudo mkdir -p /var/log/aiops
 #!/usr/bin/env bash
 set -euo pipefail
 
-target="${AIOPS_HEALTH_URL:-http://127.0.0.1:8000/health}"
+target="${AIOPS_HEALTH_URL:-http://127.0.0.1:18086/health}"
 timestamp="$(date -Is)"
 
-if curl -fsS --connect-timeout 1 --max-time 3 "$target" >/dev/null; then
+if curl --noproxy '*' -fsS --connect-timeout 1 --max-time 3 "$target" >/dev/null; then
   printf '%s status=ok target=%s\n' "$timestamp" "$target"
 else
   code="$?"
@@ -1793,7 +1801,7 @@ sudo chmod +x /opt/aiops/bin/healthcheck.sh
 /opt/aiops/bin/healthcheck.sh
 ```
 
-如果本地没有服务在 `127.0.0.1:8000/health`，失败是正常的。你也可以先把环境变量改成一个存在的地址。
+这里应先取得一次成功；若失败，返回刚才的 HTTP 目标核对地址、路径和服务器终端。`--noproxy '*'` 仅供这个本机隔离实验使用，避免系统代理改变回环请求路径，不是生产上统一绕过代理的建议。
 
 ### 2. 创建 oneshot service
 
@@ -1806,7 +1814,7 @@ Documentation=https://github.com/quweisheng/zero-to-aiops
 
 [Service]
 Type=oneshot
-Environment=AIOPS_HEALTH_URL=http://127.0.0.1:8000/health
+Environment=AIOPS_HEALTH_URL=http://127.0.0.1:18086/health
 ExecStart=/opt/aiops/bin/healthcheck.sh
 StandardOutput=journal
 StandardError=journal
@@ -1881,6 +1889,8 @@ journalctl -u aiops-healthcheck.service -f
 
 ### 4. 故意制造失败
 
+先执行 `sudo systemctl stop aiops-healthcheck.timer`，暂时收回周期触发，避免一边改配置一边重复制造失败；不要改变其他定时器。
+
 把 URL 改成不存在的端口：
 
 ```ini
@@ -1901,6 +1911,10 @@ journalctl -u aiops-healthcheck.service -n 50 --no-pager
 - `ExecMainStatus` 是什么？
 - journal 里 stderr 是否被记录？
 - timer 下次是否还会触发？
+
+本次已停止 timer，因此不会周期触发；这和“service 失败自动把 timer 永久禁用”不是一回事。先确认 65530 确实没有监听，否则选另一个未使用端口。恢复原来的 `http://127.0.0.1:18086/health`，重新 `daemon-reload`、手动 start，并检查 `Result=success`、`ExecMainStatus=0` 与本次时间的 `status=ok`。只恢复 URL 却不复测，不算故障收回。
+
+若继续观察定时触发，再启动本实验 timer；结束时用 `sudo systemctl disable --now aiops-healthcheck.timer` 收回自启与运行，用 `sudo systemctl stop aiops-healthcheck.service` 收回服务。仅删除自己新建的两个 unit 和 `healthcheck.sh`，然后 `sudo systemctl daemon-reload`；保留共享父目录。最后回 HTTP 服务器终端按 Ctrl+C，只删除本次 `health` 文件与确认空的临时目录。不要清空 journal，也不要移除共享 `/opt/aiops`。
 
 ### 5. 形成学习证据
 
@@ -2112,6 +2126,10 @@ RestartSec=5s
 set -euo pipefail
 
 unit="${1:-aiops-api.service}"
+if [[ ! "$unit" =~ ^[A-Za-z0-9][A-Za-z0-9_.@:-]*\.service$ ]]; then
+  echo 'expected one explicit .service unit name, not options or a pattern' >&2
+  exit 2
+fi
 
 echo "== status =="
 systemctl status "$unit" --no-pager || true
@@ -2133,14 +2151,14 @@ echo "== recent logs =="
 journalctl -u "$unit" -n 100 --no-pager || true
 ```
 
-进阶：只有在满足条件时自动重启：
+这个诊断脚本容许 `status` 返回非零以便继续收集，但它的最后退出码不表示业务健康，也不保证日志读取完整；接入机器判定前需分别记录每一步结果。进阶先生成恢复建议，不直接把示例接到真实自动重启：
 
 ```bash
 state="$(systemctl show "$unit" -p ActiveState --value)"
 restarts="$(systemctl show "$unit" -p NRestarts --value)"
 
 if [ "$state" = "failed" ] && [ "${restarts:-0}" -lt 3 ]; then
-  sudo systemctl restart "$unit"
+  printf 'candidate action (not executed): restart %s\n' "$unit"
 fi
 ```
 
@@ -2344,6 +2362,18 @@ Socket activation（套接字激活）则由 socket 单元预先建立监听，�
 这类机制适合低流量按需工具和本机任务编排，却不替代集群队列、业务幂等和跨主机协调。面试设计题若要求百万日志文件持续处理，应进一步讨论目录扫描成本、积压容量、处理记录、失败隔离和恢复速度；仅回答“创建一个路径单元”还没有解决核心吞吐与一致性问题。
 
 独立练习不必启动额外组件：画出“文件正在写、文件完整、待处理、处理中、已完成、失败待重试”六种业务状态，再标出 systemd 只能负责哪些进程与触发状态。模拟消费者在处理成功但还没写完成记录时退出，说明下一次如何避免重复副作用。这个纸面推演用于检查设计，不应标记为路径单元或套接字激活的运行实测。
+
+## 独立通关：退出、触发和就绪不能混成一种状态
+
+先做题再对照判据。复制用户级实验为一个全新的自有单元名，将输出标记换成 `check-v2`，先退出 0，再退出 17。分别保留单元来源、`ActiveState`、`Result`、`ExecMainStatus` 与本次日志时间。合格答案是成功 oneshot 可以 inactive，失败记录为 exit-code/17；17来自应用，不是 systemd固定故障号。没有用户管理器就标未运行，不拿手工 shell 的退出码冒充管理器实测。
+
+改变条件：只把 unit 文件的退出17改回0而不 daemon-reload，先预测再尝试；然后明确重读定义并重跑。判据不是保证每个版本都忽略磁盘变化，而是能通过加载警告、`systemctl cat/show` 和本次执行结果判断管理器实际使用了什么，不能把磁盘文本等同于运行状态。清理只删除自己的新单元，重读定义，并确认没有留下启用链接或触发器。
+
+故障证据题：一个长期服务 active、TCP端口监听，但健康请求503；另一个 oneshot inactive、上次退出0。前者进程存活不证明就绪，后者不能仅因 inactive报警。分别提出业务探针、应用依赖日志与执行时间窗等下一步证据；反复 reset-failed只会清状态，不构成修复。
+
+设计题：某日报每分钟触发却要运行90秒，停机10分钟后开机。解释同名单元活动期间不会默认创建无限并发副本，日历 Persistent可补一次但不是10次全量回放。数据窗口与幂等由任务自己保存；跨机高可用还需外部协调。再说明资源上限、专用用户、日志留存、制品与数据格式回滚取舍，不能以Restart=always代替方案。
+
+口述追问从30秒讲manager/client，到3分钟讲job、依赖、cgroup和journal；再回答仅After为何不拉起依赖、network-online为何不持续监测网络、stop后为何可能再启动。合格答案应分别落到依赖与排序分离、启动同步点、timer/path/socket触发源。漏一项就回到对应机制课堂，用新的单元或明确纸面反例重做，不以命令背诵次数计掌握。
 
 ## 学习证据
 

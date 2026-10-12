@@ -364,6 +364,10 @@ Shard 自己通常也是复制集。分片解决容量和吞吐，复制解决�
 
 ### 单节点学习环境
 
+首次按 Windows PowerShell 路线操作：先创建一个不存在的专用 `mongodb-aiops-lab` 目录，再进入它；本节 YAML 保存为 `compose.yaml`，下一段脚本保存为 `init/01-user.js`（先创建 init 子目录）。后面基础实验复用同一项目，不再启动第二套同名实例。需要 Docker Desktop 的 Linux 容器、Compose 插件；单节点建议至少 2 GiB 可用内存，复制集课堂另预留约 6 GiB 与数据卷空间，这只是起步预算，不是生产规格。
+
+在创建文件和启动前检查 `docker version`、`docker compose version` 均成功；用 `docker ps -a --filter label=com.docker.compose.project=mongodb-lab`、`docker volume ls --filter name=mongodb-lab` 与 `Get-NetTCPConnection -LocalPort 27017 -State Listen -ErrorAction SilentlyContinue` 核对项目、卷、端口均没有未知资源。有则停止核对，不能删卷来“强制首跑”。保存两文件后先执行 `docker compose -p mongodb-lab config --quiet`，失败时修文件，不继续 up。
+
 ```yaml
 name: mongodb-lab
 
@@ -425,6 +429,8 @@ db.events.createIndex({ createdAt: 1 }, { expireAfterSeconds: 604800 });
 ```
 
 初始化脚本只在空数据目录第一次启动时执行。修改脚本后重启容器不会自动重跑，这是新手最常见的误判之一。
+
+`MONGO_INITDB_DATABASE` 不会凭空替你建立完整业务模型；本例用户、验证器与索引由脚本创建。`--auth` 是访问认证，容器内部 bind_ip_all 并不等于允许公开部署；宿主映射仍限制回环，课堂口令不可复用到真实环境。
 
 启动：
 
@@ -616,6 +622,8 @@ docker compose -p mongodb-lab exec mongo mongosh `
 
 预期进入 `mongosh`。
 
+PowerShell 的 `docker compose ... up -d` 成功只代表容器已创建/启动。先确认 `$LASTEXITCODE` 为零，再通过 ps/logs 等到健康后连接；连接失败停在这里，不粘贴后面的 JavaScript。进入后执行 `db.getName()` 预期 aiops，`db.events.countDocuments({})` 首轮应为 0；若不是，先核对历史课堂数据，不能沿用“两条”的计数预期，也不能删除未知文档。
+
 ### 第二步：写入事件
 
 ```javascript
@@ -740,6 +748,8 @@ volumes:
 
 ### 第一步：启动与初始化
 
+复制集在同一专用目录保存 compose.rs.yaml，但使用独立 mongodb-rs-lab 项目及三份卷。启动前同样核对该项目/卷没有未知对象，以及 27117/27118/27119 均空闲；执行 `docker compose -f compose.rs.yaml -p mongodb-rs-lab config --quiet` 验证结构。up 成功后分别用 `docker compose -f compose.rs.yaml -p mongodb-rs-lab exec -T mongo1 mongosh --quiet --eval 'db.adminCommand({ping:1}).ok'` 检查 mongo1，再替换为 mongo2/mongo3 检查；都返回 1 才执行下方 rs.initiate。初始化失败先保留报错，不反复重新 initiate 已有复制集。
+
 ```powershell
 docker compose -f compose.rs.yaml -p mongodb-rs-lab up -d
 
@@ -771,7 +781,7 @@ docker compose -f compose.rs.yaml -p mongodb-rs-lab exec mongo1 mongosh `
   "mongodb://mongo1:27017,mongo2:27017,mongo3:27017/?replicaSet=rs0" --quiet --eval @'
 db = db.getSiblingDB("aiops");
 db.events.insertOne(
-  {eventId:"before-failover", createdAt:new Date()},
+  {_id:"before-failover", eventId:"before-failover", createdAt:new Date()},
   {writeConcern:{w:"majority", wtimeout:5000}}
 )
 '@
@@ -779,11 +789,14 @@ db.events.insertOne(
 
 ### 第三步：确认并停止当前 Primary
 
+先核对上一步写入应答和返回状态；若 wtimeout 或连接错误，结果可能未知，先按 `_id` 查询，不盲目再插入。这里使用固定 `_id` 限制重复文档，不能把无唯一约束的 eventId 字段本身当成幂等保证。
+
 由于优先级设置，初始 Primary 通常是 `mongo1`，但必须先用 `db.hello().primary` 确认，不能靠猜。
 
 ```powershell
 $primaryHost = docker compose -f compose.rs.yaml -p mongodb-rs-lab exec -T mongo1 `
   mongosh --quiet --eval "db.hello().primary"
+if ($LASTEXITCODE -ne 0) { throw 'Primary 查询失败，不停止任何成员' }
 
 $primaryService = ($primaryHost.Trim() -split ":")[0]
 if ($primaryService -notin @("mongo1", "mongo2", "mongo3")) {
@@ -832,10 +845,23 @@ db = db.getSiblingDB("aiops");
 db.events.find({eventId:"before-failover"}).toArray()
 '@
 
-docker compose -f compose.rs.yaml -p mongodb-rs-lab start $primaryService
 ```
 
-恢复后检查三个成员状态和复制延迟。原 Primary 可能以 Secondary 身份回归，也可能因优先级再次触发 Primary 变化；生产中要把故障恢复和主动回切分成两个变更，并评估二次切换是否符合稳定性目标。
+先保留旧成员停止状态，完成下面的新写验证后再恢复。原 Primary 回归后可能是 Secondary，也可能因优先级再次触发 Primary 变化；生产中要把故障恢复和主动回切分成两个变更，并评估二次切换是否符合稳定性目标。
+
+但“旧记录能读”只验了部分恢复。旧成员启动前，先在新 Primary 所在容器用完整复制集连接串执行一次新写入：
+
+```powershell
+docker compose -f compose.rs.yaml -p mongodb-rs-lab exec -T $newPrimaryService mongosh `
+  "mongodb://mongo1:27017,mongo2:27017,mongo3:27017/?replicaSet=rs0" --quiet --eval @'
+db = db.getSiblingDB("aiops");
+db.events.insertOne({_id:"after-failover", createdAt:new Date()},
+  {writeConcern:{w:"majority", wtimeout:5000}});
+db.events.find({_id:{$in:["before-failover","after-failover"]}}).toArray();
+'@
+```
+
+应看到新写确认及两条指定 `_id` 的记录；失败或确认未知要保存真实错误并查结果，不能只等进程绿灯后跳过。确认后执行 `docker compose -f compose.rs.yaml -p mongodb-rs-lab start $primaryService`，启动后再读 rs.status 和复制延迟，区分“恢复可写”与“三成员冗余重新完整”。本实验没有自动验证跨节点任意断电的持久性。
 
 ### 第六步：清理
 
@@ -1252,6 +1278,14 @@ Change Stream 的恢复令牌是消费进度，不是无限有效的备份坐标
 追问“扫描十万条一定缺索引吗”，先看返回量和选择性。如果本来要返回九万条，集合扫描可能合理；只返回几条却扫描巨大，才更值得检查索引与查询条件。`executionStats` 会实际执行查询，因此生产排查也要限定范围、耗时和权限，不因为叫解释计划就假设没有资源成本。
 
 最后将三分钟回答补成闭环：我先设计文档和验证规则，用单文档原子更新保护局部业务条件；再按确认与读取语义决定故障时能保证什么。跨文档关系用短事务，外部动作仍单独幂等；查询靠计划与工作集验证，复制靠历史窗口和选举验证，备份靠隔离恢复验证，升级靠二进制与特性兼容边界验证。
+
+## 独立通关：匹配、确认、可见与执行分开验收
+
+1. **基础复现。** 在教学库用一个确认不存在的新集合 exam_claim，执行 `db.exam_claim.insertOne({_id:'claim-2',status:'OPEN',version:1})`，独立写含 `_id`、旧 status 和 version 的条件更新，原样执行两遍。**判据：**第一次 matchedCount=1/modifiedCount=1，第二次为0，最终 ACKED/版本2；单次操作保护这份文档，不替后面的远端重启接口保证只执行一次。结束时只 drop 自己新建的 exam_claim，已有集合则停止改名。
+2. **改变条件预测。** 将 createdAt 从 BSON Date 改成外观相同的字符串，写验证器与 TTL 各会怎样？三投票成员为主、从、Arbiter，从失效后能选主就一定能完成 majority 写吗？**判据：**本课验证器应拒绝字符串，不能期待它靠外观参与日期过期；Arbiter 不保存数据，选举票数和多数数据确认不是一回事。wtimeout 是确认没有在预算内完成，不证明文档完全未写。
+3. **故障证据。** 停止课堂当前 Primary，记录旧主身份、选举时间、旧 `_id` 可读、新 `_id` majority 写确认，再恢复旧成员。**判据：**至少两个假设“还没选出主”和“驱动公布地址不可达”分别用成员状态与容器内完整连接串区分；可写恢复和冗余恢复分别记录。不得把固定宿主单端口代替拓扑发现，也不得把同宿主三容器说成三故障域。最后核对独立项目与三份课堂卷再清理。
+4. **生产取舍。** Oplog 有效可用量按64 GB、稳定产生20 MB/s、目标维护2小时，可只看 GB 判断够了吗？**判据：**十进制理想窗口约3200秒即53分20秒，2小时仅新增就约144GB，尚欠追赶和峰值余量；实际 Window 仍须测量。数据与索引、Initial Sync、热工作集、TTL删除、压缩和少一成员的承载都纳入预算，不能只调 Cache。
+5. **口述追问。** primary读、majority写、事务提交、Change Stream resume token、FCV分别承诺哪一层？**判据：**明确读偏好/读关注/写关注不同，未知提交按驱动规则和稳定业务键核验，进度不能早于外部效果也不能保证无限历史。升级二进制、FCV、Schema分别评估；回退旧包不自动恢复旧磁盘格式或撤销已执行的副作用，补充真实恢复演练证据。
 
 ## 本课 GitHub 学习证据
 

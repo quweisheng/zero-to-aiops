@@ -63,7 +63,6 @@ https://aiops.example.com/api/alerts
   -> 云负载均衡
   -> NGINX / Ingress Controller（代理服务器与入口控制器）
   -> Kubernetes Service（集群服务入口）
-  -> EndpointSlice（后端地址集合）
   -> Pod（容器组）
   -> Container（容器）端口
   -> 应用
@@ -98,10 +97,11 @@ Client（客户端）
   -> host 匹配
   -> path 匹配
   -> upstream / Service（后端组或服务）
-  -> EndpointSlice（后端地址集合）
   -> Pod IP:targetPort（容器组地址与目标端口）
   -> Application（应用）
 ```
+
+先校准图的语义：EndpointSlice 是控制面保存的后端清单，代理或 Service 数据平面从它获知地址和端口；报文不会先进入一个 EndpointSlice“设备”再进入 Pod。有些控制器直接连接 Pod IP，有些通过 Service ClusterIP，必须核对实现，不能从这张简化图推断一定经过 ClusterIP。
 
 必须掌握：
 
@@ -1052,6 +1052,59 @@ curl -sS -o /dev/null \
 | `$request_uri` | 原始 URI | 看 path/query |
 | `$request_id` | 请求 ID | 串联日志 |
 
+## 零基础本机实验：先看到反向代理，再故意断开后端
+
+本段不需要 Kubernetes。环境是 Windows PowerShell、本机 Docker Desktop Linux 引擎；先按 [Docker Desktop Windows 安装](https://docs.docker.com/desktop/setup/install/windows-install/)准备，`docker version` 必须有 Server，`docker context show` 必须是你确认过的本机上下文。端口 18081、容器 `nginx-proxy-lab`/`nginx-backend-lab`、网络 `nginx-course-net` 必须尚未使用；发现同名就停止换名，不删别人的对象。教学固定镜像不是安全推荐，首次下载需要网络。
+
+在新的空目录（例如 `D:\labs\nginx-course`）打开 PowerShell。用编辑器保存下面完整内容为 `proxy.conf`；它会挂到 `conf.d/default.conf`，因此只写 HTTP 的 `server`，不是把整份含 `events/http` 的配置放进去。
+
+```nginx
+server {
+    listen 80;
+    server_name aiops.local;
+    location / {
+        proxy_pass http://nginx-backend-lab:80;
+        proxy_connect_timeout 2s;
+        proxy_read_timeout 3s;
+        proxy_set_header Host $host;
+    }
+}
+```
+
+```powershell
+if (-not (Test-Path ./proxy.conf)) { throw '先保存 proxy.conf' }
+$labDir = (Get-Location).Path
+docker network create nginx-course-net
+if ($LASTEXITCODE -ne 0) { throw '网络未创建，先查名称与引擎' }
+docker run -d --name nginx-backend-lab --network nginx-course-net nginx:1.30.4
+if ($LASTEXITCODE -ne 0) { throw '后端未启动，不继续' }
+docker run -d --name nginx-proxy-lab --network nginx-course-net -p 127.0.0.1:18081:80 --mount "type=bind,source=$labDir/proxy.conf,target=/etc/nginx/conf.d/default.conf,readonly" nginx:1.30.4
+if ($LASTEXITCODE -ne 0) { throw '代理未启动，保留错误' }
+docker exec nginx-proxy-lab nginx -t
+if ($LASTEXITCODE -ne 0) { throw '配置未通过，不声称代理成功' }
+curl.exe -fsS -H 'Host: aiops.local' http://127.0.0.1:18081/
+if ($LASTEXITCODE -ne 0) { throw '基线 HTTP 未成功，不注入故障' }
+```
+
+预期返回 NGINX 欢迎页；用 `docker logs nginx-proxy-lab` 看访问日志，再用 `docker logs nginx-backend-lab` 确认后端也收到了请求。同一网络的容器名解析成后端地址，18081 是本机入口，80 是代理及后端各自的容器端口；两个 80 不冲突，因为它们不在同一个网络命名空间。
+
+故障只暂停这个实验后端，不删除它，以尽量保留地址供代理连接：
+
+```powershell
+docker pause nginx-backend-lab
+if ($LASTEXITCODE -ne 0) { throw '暂停未成功，不把后续结果归因于本次注入' }
+curl.exe -sS --max-time 8 -o NUL -w 'code=%{http_code} total=%{time_total}\n' -H 'Host: aiops.local' http://127.0.0.1:18081/
+docker logs nginx-proxy-lab --tail 30
+docker unpause nginx-backend-lab
+if ($LASTEXITCODE -ne 0) { throw '后端未恢复，停止清理并排查' }
+curl.exe -fsS --max-time 8 -H 'Host: aiops.local' http://127.0.0.1:18081/
+if ($LASTEXITCODE -ne 0) { throw '恢复 HTTP 仍失败，保留实验对象查证' }
+```
+
+暂停期间请求常出现等待上游响应超时及 504；具体连接状态可能改变失败表现，最终以 error log 的连接/读取阶段和实际状态为证，不能为了凑 504 改写记录。这里 curl 没用 `-f`，因此成功收到 HTTP 504 时退出码仍可能为零，必须读取 `code`；故障判断不是“终端执行结束”。恢复需同一请求重新成功。
+
+结束后依次执行 `docker rm -f nginx-proxy-lab nginx-backend-lab`，确认两项均删除，再执行 `docker network rm nginx-course-net`。只清理本段自己创建的两个容器和专用网络，保留 `proxy.conf` 与脱敏日志，不用全局 prune。失败先查目录挂载、Docker 文件共享权限、容器运行状态与日志；配置测试成功并不能代替实际 HTTP。当前编写环境未连接 Docker 引擎，本段没有被冒称为实跑通过。
+
 ## 遗留 Ingress 实验：仅用于已存在的隔离环境
 
 目标：在已经存在且允许测试的隔离 Ingress 环境中部署 Web 服务并理解入口链路。不要为本段新安装已退役的 ingress-nginx；新建实验应优先使用下方 Gateway API 部分。`aiops` 必须是专用实验命名空间，且实验前不存在同名对象。
@@ -1389,7 +1442,7 @@ ReferenceGrant（跨命名空间引用授权）
 controller（控制器）
   -> Accepted / ResolvedRefs / Programmed（接受、引用解析、下发状态）
 data plane（处理请求的数据面）
-  -> Service（服务）-> EndpointSlice（后端地址）-> Pod（容器组）
+  -> 根据 Service/EndpointSlice 控制信息选择 Pod 后端并转发
 ```
 
 三个 condition 是入门排障核心：
@@ -1406,12 +1459,12 @@ condition 变绿仍不等于业务成功。还要检查 Gateway 地址、DNS、T
 
 #### 前置条件
 
-- 一次性 Kubernetes 1.30+ 集群。
+- 一次性 Kubernetes 集群，Kubernetes、Gateway API CRD 和 controller 版本在所选实现的支持矩阵内；不能仅凭一个最低 Kubernetes 版本号保证兼容。
 - 已选择一个仍维护且有 Gateway API conformance 报告的 controller。
 - `kubectl get gatewayclass` 至少返回一个 `ACCEPTED=True` 的 class。
 - 以下实验不在共享生产集群执行。
 
-安装 Standard channel CRD；部分 controller 会代装 CRD，执行前先看它自己的安装文档：
+下面 CRD 命令只适用于空白集群、且 controller 明确支持本段 1.6.1 的情况。已有 controller 代装或管理 CRD 时，不运行覆盖命令，先读取其安装文档和当前 CRD 版本；CRD 是集群级 API，不是实验命名空间内的私有文件：
 
 ```bash
 kubectl apply --server-side -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.6.1/standard-install.yaml
@@ -1794,6 +1847,14 @@ PodDisruptionBudget 是自愿中断的可用副本约束，不是任意故障下
 纸面生产模拟准备两个入口副本和一条十分钟下载连接。基础步骤标出新请求落点、旧连接归属和后端地址；故障步骤在一分钟时要求升级旧副本，先预测直接终止会影响哪条连接。恢复方案比较等待既有工作结束、业务允许的超时终止和客户端可续传设计。预期答案不是一律等待，而是说明业务允许的中断、最长等待和资源代价。核验用一条短请求与一条长请求分别代表新旧连接，清理只移除模拟记录，不驱逐实际 Pod。
 
 诊断脚本也有成功边界。某条采集命令为了继续收集后续证据而忽略错误，不代表那项检查通过。最终报告应将无法访问、权限不足、命令不存在和对象确实为空分开；其中任一项未知，都不能直接下结论“入口没有配置问题”。容器里没有诊断工具时优先使用批准的调试方式，不临时在生产代理安装一堆软件。恢复结论需要请求证据与关键检查完整度同时满足，而不是脚本执行到最后一行。
+
+## 独立通关：入口配置与实际报文能否相互印证
+
+1. **基础复现**：从空目录完成本机代理，交付配置测试、客户端 200、代理访问日志与后端访问日志四项。讲清主机 18081 和两容器 80。判据是实际请求与配置一致；只通过 `nginx -t` 不通过。没有 Docker 则如实记未运行，不用纸面推演代替。
+2. **改变条件预测**：在普通 `location /api/` 中比较 `proxy_pass http://backend;` 与 `proxy_pass http://backend/;` 对 `/api/alerts?x=1` 的后端 URI，写预测，再在隔离后端日志验证。正确答案分别保留 `/api/alerts?x=1` 与替换为 `/alerts?x=1`，但不能把这条结论无条件推广到正则、变量或 rewrite。判据是 URI 契约而非“斜杠习惯”。
+3. **故障证据**：暂停后端，保存请求码、耗时及 error log，恢复同一请求。若没有得到预期 504，用阶段证据解释差异。集群进阶再做错误 backendRef，并对选定父对象检查当前代次的条件。判据是区分控制器拒绝、引用错误、连接错误和业务错误，不只贴状态码。
+4. **设计取舍**：三个团队共享 Gateway，画清 GatewayClass、listener/证书、HTTPRoute、目标侧 ReferenceGrant 的所有权；再加入一个十分钟流式请求，制定双入口迁移、排空、容量与回退条件。判据是同时拒绝越权引用、承认长连接不能瞬移、不把退役 ingress-nginx 当永久新建方案。
+5. **口述追问**：`Accepted=True` 为什么还可能失败？`proxy_read_timeout=30s` 是否限制整个流式响应 30 秒？浏览器证书正确能否证明上游 HTTPS 已验证？答案应依次说明引用/编程/请求证据、相邻读取间隔、两段 TLS 与独立信任配置。最后解释支付超时为何不能靠网关无脑重试。解释不出时回到对应状态、timeout、TLS 课堂返工。
 
 ## 学习证据
 

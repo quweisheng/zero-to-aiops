@@ -40,6 +40,8 @@ export const navGroups: NavGroup[] = [
     items: [
       { text: '总清单', route: '/tech-stack' },
       { text: '精讲写作标准', route: '/tech-stack/writing-standard' },
+      { text: '零基础实验准备', route: '/tech-stack/experiment-start' },
+      { text: '逐篇评测与返工', route: '/tech-stack/teaching-review' },
       { text: '老师带学复核', route: '/tech-stack/teaching-coverage' },
       { text: '拆分进度', route: '/tech-stack/progress' }
     ]

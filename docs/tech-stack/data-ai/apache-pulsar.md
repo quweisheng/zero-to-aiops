@@ -178,13 +178,15 @@ Geo-replication（跨地域复制）可复制 Topic 数据，但不自动保证�
 
 ### 前提
 
-Docker 20.10+、至少 4 GiB 可用内存与 5 GiB 空间；使用 Linux 容器。主机端口 16650/18080 空闲。实验只绑定 `127.0.0.1`，使用命名容器/卷。
+Windows PowerShell、可用的 Docker 与至少 4 GiB 可用内存、5 GiB 空间；使用 Linux 容器。主机端口 16650/18080 空闲。实验只绑定 `127.0.0.1`，使用命名容器/卷。服务运行在容器内，所有 Pulsar 客户端命令也由 `docker exec` 在同一容器内执行；因此今天不需要在 Windows 安装 Java 或客户端。本文本轮未启动产品，以下正常结果是待实验确认的预期。
 
 ### 步骤
 
 先确认以下名称和端口都未被使用；任一检查命中就停止，选择新的整套实验名称或由使用者确认原对象归属，不能删除未知对象后继续。两个命名卷会保留消息与配置，复用旧卷可能让订阅初始位置、版本配置和预期结果全部改变。
 
 ```powershell
+docker version
+if ($LASTEXITCODE -ne 0) { throw 'Docker 服务不可用，先停止实验。' }
 docker ps -a --filter 'name=^/pulsar-learning$'
 docker volume ls --filter 'name=^pulsar-learning-data$'
 docker volume ls --filter 'name=^pulsar-learning-conf$'
@@ -193,9 +195,18 @@ Get-NetTCPConnection -LocalPort 16650,18080 -State Listen -ErrorAction SilentlyC
 
 ```powershell
 docker run --name pulsar-learning -d -p 127.0.0.1:16650:6650 -p 127.0.0.1:18080:8080 --mount source=pulsar-learning-data,target=/pulsar/data --mount source=pulsar-learning-conf,target=/pulsar/conf apachepulsar/pulsar:4.0.13 bin/pulsar standalone
+if ($LASTEXITCODE -ne 0) { throw '容器创建失败，不继续创建主题。' }
+```
+
+先从 `docker logs --tail 100 pulsar-learning` 确认启动情况，再运行健康检查。初始化可能慢，健康检查失败时暂停，不把后续命令连着执行；等启动日志就绪后重试一次。如果仍失败，检查容器退出原因、内存和存储，不进入下一步。
+
+```powershell
 docker exec pulsar-learning bin/pulsar-admin brokers healthcheck
+if ($LASTEXITCODE -ne 0) { throw 'Broker 尚未就绪，先看启动日志。' }
 docker exec pulsar-learning bin/pulsar-admin topics create persistent://public/default/incidents
+if ($LASTEXITCODE -ne 0) { throw '主题未创建，不能继续。' }
 docker exec pulsar-learning bin/pulsar-admin topics create-subscription -s incident-worker -m earliest persistent://public/default/incidents
+if ($LASTEXITCODE -ne 0) { throw '订阅未创建，不能按预期起点消费。' }
 docker exec pulsar-learning bin/pulsar-client produce persistent://public/default/incidents -m 'incident=INC-001;status=OPEN'
 docker exec pulsar-learning bin/pulsar-client consume persistent://public/default/incidents -s incident-worker -n 1
 docker exec pulsar-learning bin/pulsar-admin topics stats persistent://public/default/incidents
@@ -216,6 +227,8 @@ docker exec pulsar-learning bin/pulsar-admin topics stats persistent://public/de
 ```
 
 预期 `incident-worker` 的 `msgBacklog` 增加，而 broker 健康检查仍成功。这证明组件健康不等于消费及时。
+
+二十条的消息正文故意相同，只用于计数积压：它们是二十次发布，不能据此推断二十个不同业务事件，也不能证明数据库幂等。若真实应用把 `INC-BACKLOG` 当唯一业务键，二十次可能只对应一份有效业务结果。后面的独立任务改用不同业务键，再分别验证消息数量与业务身份。
 
 恢复消费并再次检查：
 
@@ -459,11 +472,60 @@ Pulsar 的 Shared 与 Key_Shared 订阅使用单条确认，不能把最后完�
 先保存两订阅统计、消息编号和观察时间，再确认 `docker inspect pulsar-learning --format '{{.Name}}'` 输出 `/pulsar-learning`。只清理本课创建的容器和两个实验卷：
 
 ```powershell
-docker rm -f pulsar-learning
+docker stop pulsar-learning
+docker rm pulsar-learning
 docker volume rm pulsar-learning-data pulsar-learning-conf
 ```
 
 卷删除后教学消息与订阅状态不可恢复，重新练习应从基础实验开始；不要替换为任何生产实例或共享卷名称。
+
+## 独立通关：三条发布、两本进度、一份业务事实
+
+先作答再看判据，真实操作只用本课自有容器。这里没有业务数据库、BookKeeper 多节点或 TCE 环境，不能把 CLI 消费成功写成端到端恰好一次或容灾验收。
+
+### 任务一：从新主题开始，不继承旧进度
+
+确认原课堂仍运行，另建 `persistent://public/default/independent-events` 与订阅 `independent-work`（起点 earliest），用下列循环发三个不同业务键；再消费三条并检查该订阅统计。名称若已存在就暂停，不删除旧对象迁就预期。
+
+```powershell
+$independentTopic = 'persistent://public/default/independent-events'
+docker exec pulsar-learning bin/pulsar-admin topics create $independentTopic
+if ($LASTEXITCODE -ne 0) { throw '新主题创建失败，停止。' }
+docker exec pulsar-learning bin/pulsar-admin topics create-subscription -s independent-work -m earliest $independentTopic
+if ($LASTEXITCODE -ne 0) { throw '新订阅创建失败，停止。' }
+foreach ($eventKey in @('independent-01','independent-02','independent-03')) {
+  docker exec pulsar-learning bin/pulsar-client produce $independentTopic -m "eventId=$eventKey;status=OPEN"
+  if ($LASTEXITCODE -ne 0) { throw "发布结果需核查：$eventKey" }
+}
+docker exec pulsar-learning bin/pulsar-client consume $independentTopic -s independent-work -n 3
+docker exec pulsar-learning bin/pulsar-admin topics stats $independentTopic
+```
+
+判据：收到三个业务键，订阅存在且确认后积压最终为零；保留发布/接收内容、订阅统计和时刻。命令成功仅证明消息收发，不证明任何工单已经落库。答错回看“基础实验：发送、消费和看统计”，先核对主题、订阅与创建时间。新主题仍在本课卷里，全部完成后按“全部教学实验的清理”一并收回。
+
+### 任务二：订阅晚到，为什么零积压不等于全读过
+
+纸面改变条件：主题此前已有五条，未配置保留已确认历史的策略；此刻创建新订阅，起点 latest，然后再发布一条。问它应从哪里读？若改 earliest，能否保证读回已经物理删除的五条？
+
+判据：latest 从创建订阅时的最新位置之后接收，新的一条可读不代表此前五条已处理；earliest 也只能从仍可用的数据起点开始，不能复活已清理历史。必须记录订阅创建、发布、保留策略和实际数据存在性。答错回看“两本进度账”“保留、过期、压实与分层存储不要混淆”。不在生产重置游标验证。
+
+### 任务三：只让新订阅停工
+
+在新主题先创建 `independent-audit`（起点 latest），再发一个新业务键。只让 `independent-work` 消费这条，先不要启动 audit；提出“broker 不可用”和“审计消费者缺席”两个假设，用健康检查、两订阅消费者/积压、work 接收内容反证。最后让 audit 消费一条，观察统计收敛。
+
+判据：work 归零而 audit 留一条，支持订阅独立进度；健康成功不能证明审计及时。恢复应是启动正确订阅的消费者，不是删除订阅、清空或跳过积压。若 audit 也为零，核查创建时间、其他消费者和 TTL，不能强行给出预设结论。答错回看“Subscription 与消费类型”“老师带你用现有实验验证‘两个订阅，两本进度账’”。
+
+### 任务四：恢复数学和业务顺序一起约束方案
+
+纸面条件：持续生产每秒两千条，消费者停止十五分钟；恢复时应用可处理每秒五千条，但数据库安全上限仅三千条。估算积压与理想追平时间，再比较设备内顺序的 Key_Shared 方案与不要求顺序的 Shared 方案；说明加消费者无效的条件。
+
+判据：积压一百八十万条，净业务完成每秒一千，需一千八百秒即三十分钟。用五千作完成率会低估恢复；设备内顺序还受生产路由、批处理、重投和异步下游影响，不能仅写订阅类型就承诺。先保持业务版本与幂等，再按数据库预算限流；副本恢复和存储余量另验。答错回看“容量课堂：积压能清完，数学上先要成立”“批处理、消息键与顺序的细节”。
+
+### 任务五：丢失的确认是谁的确认
+
+30 秒讲 Pulsar 的用途，三分钟走完发布、账本、订阅、数据库和 ACK。追问两个断点：生产者丢发布响应后重发相同 eventId；消费者已提交数据库却丢 ACK 后重投。两者消息位置与业务结果可能怎样变化？
+
+判据：不能把“结果未知”说成“未成功”；生产重发可能产生新消息位置，消费重投仍需稳定业务键识别同一事实。幂等记录与业务写应在同一持久事务或有明确一致性协议，内存集合和两次无事务写不够。必须说明课堂 CLI 没有实现这个数据库边界。答错回看“ACK 课堂：最危险的不是报错，而是不知道结果”。
 
 ## 本课 GitHub 学习证据
 

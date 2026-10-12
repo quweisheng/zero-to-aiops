@@ -19,7 +19,7 @@
 
 说明：本文基于 Apache Tomcat 与 Docker Official Image 官方资料重新组织，不复制官方全文。版本号会持续变化，动手前应再次检查兼容矩阵、下载页、变更日志和安全公告。
 
-截至 2026-07-28，官方兼容矩阵中的主要受支持分支是：
+下面是 2026-07-28 留存的版本教学快照，不是 2026-10-12 的最新补丁清单。规范与最低 Java 版本帮助你判断兼容性，补丁是否仍安全则要在部署当天查官方公告；不要因为本文实验能启动，就把固定旧镜像直接放进生产。快照中主要分支是：
 
 | 分支 | 当前版本 | 最低 Java | 规范与迁移边界 |
 |---|---:|---:|---|
@@ -363,13 +363,9 @@ Client（客户端）
   -> DNS / WAF（域名解析与应用防火墙）
   -> 四层或七层负载均衡
   -> NGINX / Apache HTTP Server / Ingress（反向代理或集群入口路由）
-  -> Tomcat A（可用区 A）
-  -> Tomcat B（可用区 B）
-  -> Tomcat C（容量冗余）
-       -> 数据库高可用
-       -> Redis / Session Store（缓存或集中会话存储）
-       -> MQ（消息队列）
-       -> 外部服务
+       -> Tomcat A（可用区 A） ─┐
+       -> Tomcat B（可用区 B） ─┼-> 数据库 / 缓存或会话存储 / 消息队列 / 外部服务
+       -> Tomcat C（容量冗余） ─┘
 
 每一层
   -> Metrics（指标）
@@ -380,6 +376,8 @@ Client（客户端）
 ```
 
 ### 故障域
+
+图中的 A、B、C 是负载均衡后面的并列实例，不是请求依次穿过三个 Tomcat。一次普通请求通常落到一个实例；共享依赖失败却可能同时拖慢所有实例。
 
 至少把这些故障域分开：
 
@@ -414,7 +412,7 @@ Client（客户端）
 java -version # 确认 Java 版本；Tomcat 11 至少需要 Java 17
 echo "$JAVA_HOME" # 确认 Tomcat 会使用哪套 Java
 ./bin/version.sh # 查看 Tomcat、CATALINA_BASE、JVM 和操作系统信息
-./bin/catalina.sh configtest # 解析关键配置；检查退出码，无严重错误才继续
+./bin/catalina.sh configtest || { printf '%s\n' '配置检查失败，停止启动。' >&2; exit 1; }
 ./bin/startup.sh # 启动 Tomcat
 tail -f logs/catalina.out # 观察启动和应用部署日志
 ```
@@ -426,11 +424,11 @@ java -version # 确认 Java 版本
 $env:JAVA_HOME # 查看当前 JAVA_HOME
 .\bin\version.bat # 查看 Tomcat 与 JVM 信息
 .\bin\catalina.bat configtest # 检查配置，这是 catalina 脚本的子命令
-.\bin\startup.bat # 启动
-Get-Content .\logs\catalina.*.log -Wait # 持续读取 Catalina 日志
+if ($LASTEXITCODE -ne 0) { throw '配置检查失败，停止启动。' }
+.\bin\catalina.bat run # 前台运行，保留本终端观察；另开终端访问应用
 ```
 
-预期看到 Tomcat 版本、Java Home，并在启动日志中看到 Server startup。然后还要访问业务健康端点。
+预期看到 Tomcat 版本、Java Home，并在启动日志中看到 Server startup。然后还要访问实际部署的业务健康端点；裸发行包并不自带本文后面的 JSP。Windows 前台实验结束在运行终端按 Ctrl+C，确认日志停止完成及端口释放；Linux 的 Ctrl+C 只会退出上面的日志跟随，不会停止后台 Tomcat，应在同一发行目录运行 `./bin/shutdown.sh`，再确认目标进程与端口退出。这里仅适用于未禁用关闭端口的个人发行包；服务、容器及 `Server port="-1"` 的停止方式以其管理器为准。
 
 ### 方式二：Docker 学习环境
 
@@ -572,7 +570,7 @@ export CATALINA_OPTS="-Xms2g -Xmx2g -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDump
 ### 端口、HTTP 与日志
 
 ```bash
-ss -lntp | grep 8080 # 查看 8080 是否监听及进程；无输出说明未监听或权限不足
+ss -lntp 'sport = :8080' # 精确筛选本机 8080 的 TCP 监听；不会把 18080 算进去
 curl -i http://127.0.0.1:8080/health # 查看状态码、响应头和业务健康内容
 tail -n 100 logs/catalina.out # 查看最近容器与应用输出
 tail -n 100 logs/localhost_access_log*.txt # 查看请求状态、字节和耗时
@@ -714,6 +712,8 @@ OpenTelemetry Java Agent 可以在不大改代码的情况下采集常见 Servle
 
 ### 前提
 
+若还不熟悉终端、保存文件或 Docker 安装，先完成[实验开始前的准备](../experiment-start.md)。下列步骤使用 Windows PowerShell，所有文件用编辑器保存为 UTF-8；文件名必须是 `compose.yaml`、`index.jsp`、`web.xml`，不是带隐藏 `.txt` 后缀的文本文件。Docker 只能证明实验容器的行为，本实验没有真实数据库、负载均衡或登录会话。
+
 - Docker Desktop 或 Docker Engine 正常。
 - 端口 `18080` 未被占用。
 - 实验目录没有生产配置和生产数据。
@@ -722,7 +722,15 @@ OpenTelemetry Java Agent 可以在不大改代码的情况下采集常见 Servle
 
 ```powershell
 docker version # 必须同时看到 Client 和 Server
-Get-NetTCPConnection -LocalPort 18080 -ErrorAction SilentlyContinue # 无输出表示端口通常未占用
+if ($LASTEXITCODE -ne 0) { throw 'Docker Engine 不可用，先停止。' }
+if (Get-NetTCPConnection -State Listen -LocalPort 18080 -ErrorAction SilentlyContinue) {
+  throw '18080 已有监听者，不要停止未知进程；为自己的实验换端口并同步 URL。'
+}
+$projects = docker compose ls --all --format json | ConvertFrom-Json
+if ($LASTEXITCODE -ne 0) { throw '无法查询 Compose 项目，先核对 Compose 是否可用。' }
+if ($projects | Where-Object Name -EQ 'tomcat-aiops-lab') {
+  throw '同名 Compose 项目已存在，请换个人实验目录名；不要 down 别人的项目。'
+}
 ```
 
 ### 第一步：创建目录
@@ -871,6 +879,8 @@ docker compose down # 如果还要做下一节故障实验，先跳过；全部�
 - 已保存一份正常响应，便于故障前后对照。
 
 ### 第一步：增加故障文件
+
+仍在基础实验的 `tomcat-aiops-lab` 目录中，用编辑器新建 `faults` 子目录，再保存下面两个完整文件。不要把 Markdown 的三反引号一起复制进去。若文件已经存在，先查看来源和内容，不覆盖未知文件。
 
 目录增加：
 
@@ -1337,6 +1347,18 @@ Tomcat 由 Connector 和 Catalina 容器体系组成。Connector 负责连接、
 现在回答“Access Log 有记录而应用日志没有”这个追问。先核对它是不是同一时间、请求 ID、实例和 Context；容器可能在解析、路由或过滤器阶段拒绝了请求，也可能应用日志级别关闭或采集丢失。使用 `%I`（处理请求的线程名）可以辅助和线程快照关联；`%D` 在本文 Tomcat 11 文档中为微秒，跨系统比较前转换统一单位，不能把 200000 微秒误读成 200000 毫秒。字段语义以 [官方 AccessLogValve 参考](https://tomcat.apache.org/tomcat-11.0-doc/config/valve.html) 为准。
 
 最后是回滚追问：旧 WAR、旧配置、旧 JDK 都在，是不是可以放心一键回退？还要检查数据库字段、消息格式、会话对象、外部接口和写入数据是否兼容。老师会让你先列出回退不会撤销的副作用，再给出停止阈值、流量摘除、旧实例预热和同一订单查询探针。把这份回答与正常/错误 `web.xml` 的实验记录一起提交，你就既能解释容器机制，也能说明生产变更的真实边界。
+
+## 独立通关：把“容器活着”和“应用可用”分开验收
+
+先收起本文，再在自己的学习目录完成下面五关。记录真实响应、时间、版本和日志；写“我看懂了”或只截容器 Up 都不能过关。没有 Docker 时可先做纸面预测，但基础与故障两关必须标为未执行。
+
+1. **基础复现。** 从空目录运行完整 JSP，发出请求 ID `exam-001`，交付 HTTP 200、JSON 同名请求 ID、实际 Tomcat/JDK 版本和同一时间段的访问日志。通过判据是四份证据指向同一 Compose 项目；只得到默认 404 或 Server startup 不算通过。
+2. **改变条件先预测。** 把正常应用挂载目标从 `webapps/ROOT` 改成 `webapps/orders`，只在自己的实验中重建；预测 `/` 与 `/orders/` 的结果后验证。答案关键是 Context Path 来自部署位置：不再有 ROOT 时 `/` 通常 404，而 `/orders/` 应返回同一 JSP 的 200。若仍有旧 ROOT，先查合并后的挂载和真实容器，不用“缓存”解释一切。恢复原挂载并验证根路径。
+3. **故障证据与收回。** 注入错误结束标签，给出容器状态、响应、同次启动的 XML/Context 错误以及恢复后的 `lab-recovered`。标准答案允许不同失败阶段的 404/500，但必须证明失败点；拉镜像失败、端口冲突或访问旧容器不算预期部署故障。最后只清理自己这一个项目，并确认 18080 无该项目监听。
+4. **生产取舍。** 三实例各有 30 条 JDBC 连接，滚动发布最多六实例并存，数据库只给业务 120 条预算。不能回答“CPU 低，把线程和连接都调大”：必须算出原 90、并存 180，给出限制并存量或调整每实例池的方案，同时保留数据库其他会话余量、等待超时、业务探针和摘流回退条件。JSP 的 `UP` 没检查数据库，不能拿它证明订单可用。
+5. **口述追问。** 在三分钟内说明 Connector→Context→Servlet→JDBC；回答“所有 javax 都替换吗”（`javax.sql` 等 Java SE API 不能盲改）、“粘性等于备份吗”（否）、“旧 WAR 能撤销新数据库写入吗”（不能）。追问线程池满但 CPU 低时，要提出连续线程快照、连接池等待和数据库证据，不是立即杀进程。
+
+哪关不通过，就回到它对应的请求路径、实验或容量小节返工，再用另一请求 ID/挂载条件复测。提交一份 `notes/mastery.md`，分别注明预测、实际、差异、修正及未执行部分；这才是能接受面试追问的学习证据。
 
 ## 完成前自查
 

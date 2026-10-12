@@ -21,6 +21,8 @@
 
 本文事实快照日期为 **2026-08-07**：
 
+下表“稳定版”仅指这一天的历史快照，不是2026-10-12或阅读当天的最新安全版本推荐。复现实验保留基线，生产安装须重新核对Release、安全公告、节点/Runner兼容性及计划权益。
+
 | 项目 | 本文基线 | 说明 |
 | --- | --- | --- |
 | 稳定版 | `2.33.5` | 2026-08-06 发布；本文 Docker 实验固定这个数字版本 |
@@ -30,13 +32,13 @@
 
 版本边界必须记住：官方文档的 `main` 分支可能领先于稳定版。例如文档已经描述从 `2.34.0` 起可用的大 Webhook 响应 offload，但本文稳定版仍是 `2.33.5`，因此不会把它写成当前实验能力。
 
-许可边界也不能含糊：
+许可边界也不能含糊。**下面的许可说明于 2026-10-12 按现行官方 Community license 与 License FAQ 重新核对**，不把上面的 8 月版本快照当作今天的许可解释：
 
-- 通常允许公司内部业务、个人和非商业用途。
-- 通常允许为客户提供工作流咨询、实施和内部服务器维护服务。
-- Sustainable Use License 不允许把 n8n 白标后收费，也不允许托管 n8n 后向客户收访问费。
-- 仓库中的 `.ee.` 文件或 `.ee` 目录受 Enterprise License 约束。
-- 商业 SaaS、代托管、嵌入式多租户或代管终端用户第三方凭据时，应直接咨询 n8n 官方。本文不是法律意见。
+- 允许内部业务、个人非商业使用，以及符合条件的咨询、实施、培训和维护服务；收费本身不是唯一判据。
+- 官方现行 FAQ 允许外部客户使用或触发你预先建立的自动化，也允许客户连接自己的账号，前提是流程由你或你的组织控制，客户不能创建、编辑或配置工作流逻辑。例如客户提交告警、收到工单结果，与客户获得一套流程搭建平台，是不同服务。
+- 不能仅用 Community 许可，把 n8n 提供成让客户自行搭建或配置流程的服务；限制不仅针对 n8n 原生界面，也适用于自制界面、API、MCP 或 AI 代理。白标后作为自动化平台出售、绕过 Enterprise 功能许可，也不能因为“我自己部署”就自动允许。
+- 第三方凭据由谁提供，不能单独决定是否允许；还要看谁控制流程、客户获得什么访问和配置能力。客户本地分发、代托管、嵌入式产品、多实例代管等细节不应凭一句“SaaS 禁止”或“商用都允许”下结论，有疑义向官方确认。
+- 仓库中的 `.ee.` 文件或 `.ee` 目录受 Enterprise License 约束。本文是教学解释，不是法律意见；上线前重新核对官方条款与 FAQ，必要时联系 `license@n8n.io`。
 
 Community 可以使用 Queue mode，但不代表所有生产治理能力都免费。Multi-main、SSO、Projects、External secrets、外部二进制存储、Log streaming、Git environments 等存在计划边界；权益会变化，上线前要重新核对官方定价和功能对比页。
 
@@ -49,7 +51,8 @@ Community 可以使用 Queue mode，但不代表所有生产治理能力都免�
 - [n8n 2.34.2 Pre-release](https://github.com/n8n-io/n8n/releases/tag/n8n%402.34.2)
 - [Docker 安装](https://docs.n8n.io/deploy/host-n8n/install-options/install-with-docker/)
 - [Community 与付费功能边界](https://docs.n8n.io/deploy/host-n8n/community-edition-features/)
-- [Sustainable Use License（可持续使用许可证）](https://docs.n8n.io/n8n-community-license/sustainable-use-license.md)
+- [Community license（社区许可与 Sustainable Use License 说明）](https://docs.n8n.io/n8n-community-license/community-license.md)
+- [License FAQ（现行许可场景问答）](https://docs.n8n.io/n8n-community-license/community-license/license-faq.md)
 - [Queue mode](https://docs.n8n.io/deploy/host-n8n/configure-n8n/scaling/enable-queue-mode/)
 - [Task Runner](https://docs.n8n.io/deploy/host-n8n/configure-n8n/set-up-task-runners/)
 - [Execution 并发控制](https://docs.n8n.io/deploy/host-n8n/configure-n8n/scaling/control-concurrency/)
@@ -180,7 +183,7 @@ Dify 以模型、知识库、Prompt、Agent 和 AI 应用发布为主；n8n 以�
 
 ### 自托管 Community 就是完全开源、什么都能商用吗
 
-不是。它是 source-available/fair-code，受 Sustainable Use License 约束；内部使用与把平台托管后收费是两种不同场景。
+不是。它是 source-available/fair-code（源码可查看、按公平代码许可使用），受 Sustainable Use License 约束。按 2026-10-12 复核的官方 FAQ，客户触发你控制的预建流程、连接自己账号，和客户自行搭建或配置流程，是不同许可场景；不能只看是否收费、是否自托管或凭据来自谁。具体边界见前面的许可说明和官方 FAQ。
 
 ### Workflow 和 Execution 是一回事吗
 
@@ -638,6 +641,8 @@ n8n 能保存运行状态，但不为所有外部系统提供分布式事务。�
 
 准备：
 
+本文本地步骤在Windows PowerShell7同一终端完成；先按[Docker官方安装](https://docs.docker.com/get-started/get-docker/)准备Linux容器引擎，按[PowerShell官方安装](https://learn.microsoft.com/powershell/scripting/install/installing-powershell-on-windows)准备终端。不要把Windows和WSL的当前目录、网络与环境变量混为一套。2GiB只是起步预算，不是所有Workflow容量承诺。
+
 - Docker Desktop 或 Docker Engine；
 - Docker Compose v2；
 - 本机端口 `5678` 未占用；
@@ -649,11 +654,31 @@ n8n 能保存运行状态，但不为所有外部系统提供分布式事务。�
 
 ```powershell
 docker version
+if ($LASTEXITCODE -ne 0) { throw "引擎未连接，停止" }
 docker compose version
+if ($LASTEXITCODE -ne 0) { throw "缺少Compose v2，停止" }
+docker context show
 Get-NetTCPConnection -LocalPort 5678 -ErrorAction SilentlyContinue
 ```
 
 `docker version` 必须同时看到 Client 和 Server。只有 Client 而 Server 报连接失败，说明 Docker Engine 没启动，不能继续声称容器实验成功。
+
+确认context确实是自己的本机学习引擎、5678没有其他服务后，新建专用空目录：
+
+```powershell
+$n8nLabDirectory = Join-Path $env:USERPROFILE 'n8n-zero-lab'
+if (Test-Path -LiteralPath $n8nLabDirectory) { throw "目录已存在，换新目录/项目名" }
+$env:COMPOSE_PROJECT_NAME = 'n8n-zero-lab'
+$ownedContainers = docker ps -a --filter "label=com.docker.compose.project=$env:COMPOSE_PROJECT_NAME" --format '{{.Names}}'
+if ($LASTEXITCODE -ne 0) { throw "查询失败不能当项目不存在" }
+$ownedVolumes = docker volume ls --filter "label=com.docker.compose.project=$env:COMPOSE_PROJECT_NAME" --format '{{.Name}}'
+if ($LASTEXITCODE -ne 0) { throw "卷查询失败" }
+if ($ownedContainers -or $ownedVolumes) { throw "同名项目已有资产，请换项目名，不清空别人的数据" }
+New-Item -ItemType Directory -Path $n8nLabDirectory -ErrorAction Stop | Out-Null
+Set-Location -LiteralPath $n8nLabDirectory -ErrorAction Stop
+```
+
+后面命令省略-p是因为本终端已固定COMPOSE_PROJECT_NAME；新开终端必须回到这个确切目录并重新设置同一项目名。用编辑器新建.env、compose.yaml与.gitignore，文件不能带.txt后缀；.gitignore至少忽略.env和明文导出。学习目录不放本仓库中。
 
 ### 生成 Encryption Key
 
@@ -689,6 +714,7 @@ services:
       GENERIC_TIMEZONE: Asia/Shanghai
       N8N_ENCRYPTION_KEY: ${N8N_ENCRYPTION_KEY:?请先在.env中设置非空随机密钥}
       N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: "true"
+      N8N_SECURE_COOKIE: "false"
       N8N_METRICS: "true"
       EXECUTIONS_DATA_PRUNE: "true"
       EXECUTIONS_DATA_MAX_AGE: "168"
@@ -701,8 +727,9 @@ volumes:
 
 这个学习配置的设计理由：
 
-- 数字版本保证可重复，不被 `latest` 悄悄升级。
+- 数字版本降低漂移，不被 `latest` 悄悄升级；严格重建还要记录实际镜像digest，不能把标签当永久不可变证明。
 - `127.0.0.1` 避免把无 TLS 的编辑器暴露到局域网或公网。
+- 本地HTTP设置N8N_SECURE_COOKIE=false，避免不同浏览器对HTTP/127.0.0.1安全Cookie策略使登录受阻；[官方安全变量](https://docs.n8n.io/deploy/host-n8n/configure-n8n/basic-configuration/use-environment-variables/security)默认true，只经HTTPS发送Cookie。该false仅属于回环学习环境，生产HTTPS保持true，不能因登录错误将公网实例关闭保护。
 - named volume 保存 SQLite、实例 key 和其他 `.n8n` 资产。
 - 显式保留七天执行数据，便于学习又避免无限增长。
 - `/metrics` 只在本机实验开放；生产必须限制 Prometheus 来源。
@@ -712,8 +739,11 @@ volumes:
 
 ```powershell
 docker compose config --quiet
+if ($LASTEXITCODE -ne 0) { throw "配置错误，不继续" }
 docker compose pull
+if ($LASTEXITCODE -ne 0) { throw "镜像拉取失败" }
 docker compose up -d
+if ($LASTEXITCODE -ne 0) { throw "容器启动失败" }
 docker compose ps
 docker compose logs --tail 100 n8n
 ```
@@ -725,12 +755,29 @@ docker compose logs --tail 100 n8n
 - 日志没有 SQLite 权限、端口或 key 错误；
 - 浏览器可以打开 `http://127.0.0.1:5678`。
 
-验证三个端点：
+先有限等待数据库/迁移就绪；失败应查日志而非无限重试或删卷。同一终端后面重启恢复还会复用这个函数：
 
 ```powershell
-(Invoke-WebRequest 'http://127.0.0.1:5678/healthz' -UseBasicParsing).StatusCode
-(Invoke-WebRequest 'http://127.0.0.1:5678/healthz/readiness' -UseBasicParsing).StatusCode
-(Invoke-WebRequest 'http://127.0.0.1:5678/metrics' -UseBasicParsing).StatusCode
+function Wait-N8nLabReady {
+  $deadline = [DateTime]::UtcNow.AddMinutes(2)
+  do {
+    try {
+      $ready = Invoke-WebRequest 'http://127.0.0.1:5678/healthz/readiness' -TimeoutSec 5 -ErrorAction Stop
+      if ($ready.StatusCode -eq 200) { return }
+    } catch { }
+    Start-Sleep -Seconds 2
+  } while ([DateTime]::UtcNow -lt $deadline)
+  throw "两分钟内未就绪；查n8n日志，不认定实验成功"
+}
+Wait-N8nLabReady
+```
+
+验证三个端点（每项限时，HTTP错误停止）：
+
+```powershell
+(Invoke-WebRequest 'http://127.0.0.1:5678/healthz' -TimeoutSec 5 -ErrorAction Stop).StatusCode
+(Invoke-WebRequest 'http://127.0.0.1:5678/healthz/readiness' -TimeoutSec 5 -ErrorAction Stop).StatusCode
+(Invoke-WebRequest 'http://127.0.0.1:5678/metrics' -TimeoutSec 5 -ErrorAction Stop).StatusCode
 ```
 
 预期都是 `200`，但含义不同：
@@ -940,7 +987,7 @@ n8n-lab-alert-router
 
 ### 第二步：规范化字段
 
-添加 **Edit Fields (Set)** 节点，命名 `Normalize Alert`。保留以下字段：
+添加 **Edit Fields (Set)** 节点，命名 `Normalize Alert`，把Webhook输出连接到它；使用Manual Mapping（手工映射）并关闭Include Other Input Fields，使本节点只保留下列四项。每个值切换Expression模式而非当固定字符串粘贴。保留以下字段：
 
 | 输出字段 | Expression | 预期类型 |
 | --- | --- | --- |
@@ -954,6 +1001,8 @@ Webhook 接收到 JSON 后，请求体位于当前 Item 的 `body` 中。先用�
 ### 第三步：建立风险分支
 
 添加 **If** 节点，命名 `Is Critical`：
+
+连接Normalize Alert→Is Critical，选择String条件：
 
 ```text
 Value 1: {{ $json.severity }}
@@ -1006,7 +1055,7 @@ Invoke-RestMethod `
   -Method Post `
   -Uri 'http://127.0.0.1:5678/webhook-test/aiops-alert' `
   -ContentType 'application/json' `
-  -Body $body
+  -Body $body -TimeoutSec 15 -ErrorAction Stop
 ```
 
 预期响应包含：
@@ -1041,7 +1090,7 @@ Invoke-RestMethod `
   -Method Post `
   -Uri 'http://127.0.0.1:5678/webhook-test/aiops-alert' `
   -ContentType 'application/json' `
-  -Body $body
+  -Body $body -TimeoutSec 15 -ErrorAction Stop
 ```
 
 预期：
@@ -1083,6 +1132,8 @@ http://127.0.0.1:5678/webhook/aiops-alert
 
 ```powershell
 docker compose restart n8n
+if ($LASTEXITCODE -ne 0) { throw "重启命令失败" }
+Wait-N8nLabReady
 ```
 
 等待 readiness 恢复为 `200`，重新登录。预期：
@@ -1240,7 +1291,7 @@ try {
     -Method Post `
     -Uri 'http://127.0.0.1:5678/webhook/aiops-alert' `
     -ContentType 'application/json' `
-    -Body $body
+    -Body $body -TimeoutSec 15 -ErrorAction Stop
 } catch {
   $_.Exception.Message
 }
@@ -1281,7 +1332,7 @@ try {
 4. 使用 `lab-recovery-001` 再调用 Production URL。
 5. 确认主 Execution 为 `success`，返回 `human-review`。
 
-恢复验证还应确认 Error Workflow 没有继续产生新错误记录。
+恢复验证还应确认Error Workflow没有因这条恢复事件继续产生错误；它自己的success表示记录节点没失败，不表示主流程被救活。旧error记录保持不变是正确现象，恢复必须有新的主execution ID与业务alertId。
 
 ### 爆炸半径与回滚
 
@@ -2116,6 +2167,18 @@ Item 是带结构的数据项，Item linking（数据项关联）记录它从哪
 ### 课堂交付的最后一道自查
 
 你应该能口述一条告警从入口到动作账本再到结果验证的全程，并回答“这次是草稿还是发布版、哪个事件项、用哪个凭据、谁批准、是否已经执行、如何证明业务恢复”。如果只能打开一张漂亮流程图，证据还不够；如果有三次契约实验、一次错误工作流实验和一份未知结果的对账设计，即使暂未部署生产，也能诚实地展示已理解的机制和仍需验证的边界。
+
+## 独立通关：画布、发布版、执行和业务结果逐一举证
+
+先关闭操作步骤，每项提交预测、版本/Workflow/Execution/alertId关联证据、解释与收回记录。产品环境未运行时写“未运行”，纸面容量题不代替UI与Webhook复现。
+
+1. **基础复现。**用空目录/独有项目名搭建，在新Workflow独立完成critical与warning两条Test及Production请求，再重启核对定义/发布和历史。判据：字段类型、分支、响应与同一次Execution对应，只有health200或绿色节点不够；清理只down本项目，保留卷和密钥恢复说明。
+2. **改变条件预测。**只保存草稿，将critical路由文字改为new-route但不Publish，预测Test与Production会使用哪版；再发送critical尾随空格与未知值。判据：生产按已发布版，错误枚举在原简单流程会误入false，需规范化/校验再发布；拒绝动作参数不能由外部approvalRequired覆盖。用新alertId取证再撤回副本。
+3. **故障证据。**完成Stop And Error，记录主error、错误处理Execution及原始关联ID；再恢复发布，用新事件证明成功。判据：错误处理成功不抹除主error，也不重做主动作；无响应/超时先判断结果未知与是否已有副作用，不能仅靠重试。把手工测试错误与生产错误触发分开。
+4. **设计取舍。**到达率每秒30、下游稳定完成每秒20，持续10分钟积压约6000；之后到达降为每秒10且完成仍20，粗算还需10分钟清空。判据：这是匀速队列近似，不承诺p95；扩worker不突破下游20上限，旧审批还需有效期/新前置复核，backlog恢复不能批量执行过期重启。
+5. **口述追问。**30秒讲n8n定位，三分钟画Queue路径。回答：Redis无结果能随便重建吗？两个worker就是HA吗？五秒Wait证明持久恢复吗？有幂等键字段就不会重复吗？判据：分别解释队列在途/DB事实、main单点、短等待不卸载、账本未知状态/下游查询与栅栏，并将这些证据接到AIOps告警/审批/业务验证。
+
+本轮全文审校和PowerShell语法检查不包含Docker/UI、登录Cookie、发布版本/错误流程、Runner或Redis故障执行；上面的输出和时间均为待复现判据。答错项回到相应机制/实验返工，不以“课程全部读完”替代掌握。
 
 ## GitHub 学习证据
 

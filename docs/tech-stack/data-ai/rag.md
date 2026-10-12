@@ -521,6 +521,10 @@ OpenAI File search 是 Responses API 里的托管工具。你把文件放进 vec
 
 ## 入门实验：Runbook RAG
 
+初次使用终端请先看[实验起步说明](../experiment-start.md)。先在自己的新目录 `rag-runbook-assistant` 保存下面完整文件，再创建虚拟环境并安装 requirements；目录已有时换一个新目录，不混用旧索引。PowerShell 可直接使用 `.\.venv\Scripts\python.exe`，不必更改脚本执行策略。每一步退出非零就停下。没有API权限、不能出网或不接受费用时，先做后文标准库实验；真实服务端实验不是本课的必需前置。
+
+本实验会把合成文档发送到外部向量/生成接口，不得替换成未经批准的内部资料。`.env.example` 是配置说明，需复制为 `.env` 并在本地受控编辑；不要在命令历史填真实密钥。模型名是示例，执行前核对账户可用模型，安装后保存实际依赖锁定快照。
+
 目录：
 
 ```text
@@ -636,6 +640,7 @@ service: payment-api
 
 ```python
 import os
+import math
 from pathlib import Path
 
 import chromadb
@@ -649,6 +654,7 @@ embedding_model = os.getenv("OPENAI_EMBEDDING_MODEL", "text-embedding-3-small")
 
 chroma_client = chromadb.PersistentClient(path="./chroma_db")
 collection = chroma_client.create_collection(name="aiops_runbooks")
+collection.modify(metadata={"embedding_model": embedding_model, "build_ready": False})
 
 
 def embed(texts: list[str]) -> list[list[float]]:
@@ -656,7 +662,13 @@ def embed(texts: list[str]) -> list[list[float]]:
         model=embedding_model,
         input=texts,
     )
-    return [item.embedding for item in response.data]
+    ordered = sorted(response.data, key=lambda item: item.index)
+    if [item.index for item in ordered] != list(range(len(texts))):
+        raise RuntimeError("向量响应位置与输入不一致")
+    vectors = [item.embedding for item in ordered]
+    if any(not vector or not all(math.isfinite(value) for value in vector) for vector in vectors) or len({len(vector) for vector in vectors}) != 1:
+        raise RuntimeError("向量为空、非有限或维度不一致")
+    return vectors
 
 
 def split_markdown(path: Path) -> list[dict]:
@@ -720,12 +732,15 @@ collection.upsert(
 )
 
 print(f"indexed {len(documents)} chunks")
+if collection.count() != len(documents):
+    raise RuntimeError("索引数量不一致，不允许查询")
+collection.modify(metadata={"embedding_model": embedding_model, "build_ready": True})
 ```
 
-运行：
+运行（Linux/macOS 专用环境；PowerShell 的逐次失败门禁见“命令速查”）：
 
 ```bash
-python ingest.py
+.venv/bin/python ingest.py || exit 1
 ```
 
 这个脚本故意简单。真实项目里你会处理：
@@ -759,6 +774,8 @@ embedding_model = os.getenv("OPENAI_EMBEDDING_MODEL", "text-embedding-3-small")
 
 chroma_client = chromadb.PersistentClient(path="./chroma_db")
 collection = chroma_client.get_collection(name="aiops_runbooks")
+if (collection.metadata or {}).get("embedding_model") != embedding_model or (collection.metadata or {}).get("build_ready") is not True:
+    raise SystemExit("索引尚未完成或向量模型不匹配，不调用查询向量接口")
 
 
 def embed_query(query: str) -> list[float]:
@@ -813,6 +830,8 @@ embedding_model = os.getenv("OPENAI_EMBEDDING_MODEL", "text-embedding-3-small")
 
 chroma_client = chromadb.PersistentClient(path="./chroma_db")
 collection = chroma_client.get_collection(name="aiops_runbooks")
+if (collection.metadata or {}).get("embedding_model") != embedding_model or (collection.metadata or {}).get("build_ready") is not True:
+    raise SystemExit("索引尚未完成或向量模型不匹配，不调用查询向量接口")
 
 
 class Source(BaseModel):
@@ -914,10 +933,10 @@ if answer.next_checks and not answer.sources:
 print(answer.model_dump_json(indent=2))
 ```
 
-运行：
+运行（Linux/macOS 专用环境）：
 
 ```bash
-python ask.py
+.venv/bin/python ask.py || exit 1
 ```
 
 ## 输出应该像什么
@@ -1013,7 +1032,7 @@ RAG 要分别评估检索和回答。
 [
   {
     "question": "order-api 5xx 错误率升高先检查什么？",
-    "expected_sources": ["docs/runbooks/order-api-runbook.md"],
+    "expected_sources": ["docs/order-api-runbook.md"],
     "expected_sections": ["HighErrorRate"]
   }
 ]
@@ -1196,50 +1215,57 @@ client.responses.parse(model=model, input=payload, text_format=RagAnswer)
 
 ## 命令速查
 
+在本课新建的 `rag-runbook-assistant` 目录保存完整文件后逐条执行；某一步失败就停止，不用下一步生成的旧文件掩盖错误。已有 `.venv` 时先确认它确实属于本课且解释器可用，再跳过创建两行；不要覆盖已有环境。
+
 ### 创建环境
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
+test ! -e .venv || { echo '已有环境，先核对，不覆盖'; exit 1; }
+python3 -m venv .venv || exit 1
+.venv/bin/python -m pip install -r requirements.txt || exit 1
 ```
 
 PowerShell：
 
 ```powershell
+if (Test-Path -LiteralPath '.venv') { throw '已有环境，先核对，不覆盖' }
 python -m venv .venv
-.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
+if ($LASTEXITCODE -ne 0) { throw '环境创建失败，停止' }
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+if ($LASTEXITCODE -ne 0) { throw '依赖安装失败，停止' }
 ```
 
-### 设置 API key
+### 受控准备 API key
 
-```bash
-export OPENAI_API_KEY="你的 key"
-```
-
-PowerShell：
-
-```powershell
-$env:OPENAI_API_KEY="你的 key"
-```
+确认本目录还没有 `.env`，再用编辑器从 `.env.example` 保存一份 `.env`，在编辑器填入获批的课堂密钥；不要把真实密钥输入终端命令、截图或 Git。已有 `.env` 不覆盖。下面的脚本通过 `load_dotenv()` 读取，示例占位字符串不能直接调用；外发文本与费用需先获准。
 
 ### 入库
 
 ```bash
-python ingest.py
+.venv/bin/python ingest.py || exit 1
 ```
 
 ### 检查检索
 
 ```bash
-python inspect_retrieval.py
+.venv/bin/python inspect_retrieval.py || exit 1
 ```
 
 ### 提问
 
 ```bash
-python ask.py
+.venv/bin/python ask.py || exit 1
+```
+
+上面三个运行入口是 Linux/macOS。PowerShell 对应逐条执行，第一次入库拒绝已有集合时应先核对旧状态，不继续读取旧检索结果作为本次入库成功证据：
+
+```powershell
+.\.venv\Scripts\python.exe ingest.py
+if ($LASTEXITCODE -ne 0) { throw '入库失败，停止；旧集合不证明本轮成功' }
+.\.venv\Scripts\python.exe inspect_retrieval.py
+if ($LASTEXITCODE -ne 0) { throw '检索检查失败，停止' }
+.\.venv\Scripts\python.exe ask.py
+if ($LASTEXITCODE -ne 0) { throw '问答失败，不发布半成品答案' }
 ```
 
 ### 清理本次教学集合
@@ -1264,9 +1290,9 @@ client.delete_collection("aiops_runbooks")
 
 | 现象 | 常见原因 | 排查方式 |
 |---|---|---|
-| `ModuleNotFoundError` | 依赖没装 | `pip install -r requirements.txt` |
+| `ModuleNotFoundError` | 依赖没装或解释器不对 | 用本课 `.venv` 的 Python 执行 `-m pip install -r requirements.txt`，失败就停止，不改用全局包 |
 | 401 | OpenAI API key 无效 | 检查 `OPENAI_API_KEY` |
-| collection 为空 | 没运行入库脚本 | 先跑 `python ingest.py` |
+| collection 为空 | 未入库或入库失败 | 用本课 `.venv` 的 Python 执行 `ingest.py`，确认退出码与数量，不拿旧集合掩盖失败 |
 | 检索结果为空 | embedding 或 collection 不一致 | 检查 collection name 和路径 |
 | 检索错服务 | 缺少 metadata filter | 加 `service` 字段 |
 | 回答没有来源 | prompt 和 schema 没要求 | 增加 `sources` 字段 |
@@ -1275,7 +1301,7 @@ client.delete_collection("aiops_runbooks")
 | 成本过高 | 每次重复 embedding | 缓存 query 和文档 embedding |
 | 文档更新不生效 | 没增量更新 | 使用 chunk hash 或重建索引 |
 | 权限泄露 | chunk 没权限 metadata | 查询时按用户权限过滤 |
-| 文档指令污染回答 | prompt injection | 声明资料是非可信数据 |
+| 文档指令污染回答 | prompt injection | 标记资料是不可信数据只是提示层辅助；执行侧仍须独立授权、工具白名单与参数范围校验，不能靠一句声明形成硬防护 |
 
 ## 面试怎么讲
 
@@ -1488,6 +1514,18 @@ Recall@k（前 k 候选召回率）要先定义每题有哪些可接受证据；
 给命令建议附带完整前提尤其重要。原文说“仅在隔离测试集群，确认无持久数据后才执行”，切分后如果只留下动作本身，模型可能生成无条件操作。切分与上下文拼装应保留标题继承和限制条件，输出检查再核对适用环境。禁止条件属于证据的一部分，不是为了节省令牌可以优先丢弃的装饰文字。
 
 追踪记录因此可以保存“候选进入原因、被排除原因、最终证据编号与版本”，而不是仅保存一长段最终提示。这样一次错答能够定位到长度裁剪、重复去除还是模型误解。记录仍应受权限和保留期限管理，特别是用户问题本身可能包含业务信息；为排障创建一份永久敏感全文副本，会引入新的安全问题。
+
+## 独立通关：从证据门禁到真实问答
+
+先独立完成每题，再看答案判据；不能用“输出很流畅”或“HTTP 200”代替验收。
+
+1. **基础复现**：标准库程序正常只返回 `pool-v1`，删除后证据不足，恢复再命中；付费实验另行证明五个片段入库、订单过滤候选至多三个、回答引用属于本次候选。未调用API则如实标注，不把本地门禁通过写成模型问答成功。
+2. **改变条件预测**：只把查询向量模型环境变量改成另一名称，已有索引应在查询API之前被合同门禁拒绝；同维也不能混用。只删除Markdown一节而不重建集合，旧索引不会自动同步；首次入库失败留下的集合也不能因存在就标为成功，检查 `build_ready` 和数量。
+3. **故障证据**：在标准库资料中移除唯一授权片段，保留团队b的相关片段；结果必须证据不足而非跨团队取答案。再给生成结果构造一个不在候选中的引用，应拒绝发布。恢复后复测，并解释“真实引用存在但事实不被支持”还需要逐主张支持度检验，当前代码没有自动解决。
+4. **设计取舍**：100万片段×1536维×4字节=6.144 GB，仅原始向量；重建新旧双份至少12.288 GB，还未计图、正文、元数据、副本。5请求/秒、平均12秒在途约60；延迟24秒则约120，增加限流/队列预算。说明为什么删除传播和权限撤销不能等待普通缓存自然过期，回退索引不得复活已撤销权限。
+5. **口述追问**：三分钟沿覆盖、解析入库、召回、上下文、生成定位错答。十题每题两条必需证据，召回15/20是75%微平均；若五题两条、五题一条，完整题覆盖只有50%。继续解释为何top-k、真实引用、系统提示词和相似距离都不能单独证明安全正确；给出未知版本拒答和只读降级路径。
+
+本次补充的 `build_ready` 是单进程课堂完成标记，不是多写者事务或生产发布协议；生产须使用不可变索引版本、构建清单、验证和受控生效指针。集合的模型名只是最低保护，还应版本化维度、预处理、距离和源内容校验值。
 
 ## 本课 GitHub 学习证据
 

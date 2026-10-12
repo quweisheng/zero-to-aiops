@@ -109,16 +109,25 @@ Nexus Repository 是通用制品仓库管理器。它支持 Maven、npm、PyPI�
 
 本地学习使用 Sonatype 官方容器镜像并持久化 `/nexus-data`。先检查 `docker container inspect nexus-lab` 与 `docker volume inspect nexus-data`：只有两者都明确返回不存在时才创建；若已存在，停止并选择新的专用实验名称，后续命令同步使用该名称。`docker volume create` 遇到同名旧卷可能复用，不能拿它证明卷是本次新建。生产环境要评审支持矩阵、外部 TLS、存储、备份和升级。
 
+Windows 安装并启动 [Docker Desktop Linux Engine](https://docs.docker.com/desktop/setup/install/windows-install/)，本节使用 PowerShell、本机 Docker context。先执行 `docker context show` 与 `docker version` 确认不是远端环境且 Server 可连接，再执行名称检查；查询失败不能等同“不存在”。确认8081空闲、Docker分配内存满足所选版本 [官方系统要求](https://help.sonatype.com/en/system-requirements.html)，宿主仍有余量；JVM堆只是内存的一部分，直接内存/数据库/操作系统也占空间。新建自己的空白实验目录保存文件，不使用公司制品目录。
+
 ```powershell
+docker pull sonatype/nexus3:latest # 首次发现镜像，然后固定这次拉到的摘要
+if ($LASTEXITCODE -ne 0) { throw "镜像下载失败，停止" }
+$nexusLabDigest = docker image inspect sonatype/nexus3:latest --format '{{index .RepoDigests 0}}'
+if ($LASTEXITCODE -ne 0 -or $nexusLabDigest -notmatch '^sonatype/nexus3@sha256:[0-9a-f]{64}$') { throw "没有可靠镜像摘要" }
+$nexusLabDigest # 保存这个非敏感制品身份，后续重建使用它而非再跟随 latest
 docker volume create nexus-data # 创建持久卷保存配置、数据库和 blob
-docker run -d --name nexus-lab -p 127.0.0.1:8081:8081 -v nexus-data:/nexus-data sonatype/nexus3:latest # 仅向本机开放学习端口
+if ($LASTEXITCODE -ne 0) { throw "卷创建失败" }
+docker run -d --name nexus-lab -p 127.0.0.1:8081:8081 -v nexus-data:/nexus-data $nexusLabDigest
+if ($LASTEXITCODE -ne 0) { throw "容器创建失败，保留现场" }
 docker logs -f nexus-lab # 等待日志显示服务已启动；按 Ctrl+C 退出跟踪
 docker exec nexus-lab cat /nexus-data/admin.password # 读取首次登录密码
 ```
 
 浏览器访问 `http://localhost:8081`。首次登录后立即修改密码，学习完成也不要把密码写入仓库。
 
-`latest` 是可移动标签，只适合这里的首次探索；启动前后记录 `docker image inspect sonatype/nexus3:latest --format '{{index .RepoDigests 0}}'` 显示的镜像摘要以及页面版本。团队实验和生产应固定经过审核的版本或摘要，并核查对应版的数据库、内存和升级要求。容器第一次初始化可能较慢，确认启动日志后再登录，不要连续重建容器。
+`latest` 是可移动标签，这里只用于首次发现，实际 run 已使用拉取后记录的摘要；它固定内容但不证明这版已完成兼容/安全验收。记录页面版本、镜像摘要和使用日期，团队实验/生产优先选择经过审核的固定版本/摘要并核查数据库与升级要求。首次初始化可能较慢，等日志和页面都正常，不连续重建。官方镜像说明还要求停止时给数据库足够关闭时间，本课清理采用120秒；参见 [官方镜像 README](https://github.com/sonatype/docker-nexus3/blob/main/README.md)。
 
 ## 配置详解
 
@@ -157,6 +166,8 @@ Nexus 可提供请求量、响应延迟、错误码、远端仓库状态、任�
 ### 实验步骤
 
 1. 登录 Nexus，进入 Repositories，新建 `raw (hosted)`，名称填写 `raw-lab`。
+
+   使用本机管理员在 Security → Roles 创建只面向 raw-lab 的学习角色，添加对应 Raw 仓库的 browse、read、add、edit 动作，再在 Users 建立专用学习用户并关联角色；不授予 delete、仓库管理或其他仓库权限。界面名称以实得版本为准，选择权限时核对格式/仓库名/动作，不能勾选全仓库通配。Basic 示例账号密码只用 ASCII 字符且只在本机 HTTP 教学；跨机器必须受信 HTTPS。
 2. 在实验目录创建 `hello.txt`，内容写 `zero-to-aiops`。
 3. 使用学习账号执行：
 
@@ -164,10 +175,19 @@ Nexus 可提供请求量、响应延迟、错误码、远端仓库状态、任�
 $credential = Get-Credential # 弹窗输入实验账号，避免密码写入命令历史
 $pair = '{0}:{1}' -f $credential.UserName, $credential.GetNetworkCredential().Password
 $token = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes($pair))
-Invoke-WebRequest -Method Put -Uri 'http://localhost:8081/repository/raw-lab/hello.txt' -Headers @{Authorization="Basic $token"} -InFile '.\hello.txt' # 上传文件
-Invoke-WebRequest -Uri 'http://localhost:8081/repository/raw-lab/hello.txt' -Headers @{Authorization="Basic $token"} -OutFile '.\downloaded-hello.txt' # 使用同一身份下载，不依赖匿名访问开启
-Get-FileHash .\hello.txt, .\downloaded-hello.txt # 两个 SHA256 应一致
-Remove-Variable pair, token, credential # 清理会话中的凭据变量；不要输出其值
+try {
+  if (-not (Test-Path -LiteralPath '.\hello.txt' -PathType Leaf)) { throw "缺少本次源文件" }
+  if (Test-Path -LiteralPath '.\downloaded-hello.txt') { throw "下载目标已存在，换空白目录避免误用旧文件" }
+  $uploadResult = Invoke-WebRequest -UseBasicParsing -Method Put -Uri 'http://localhost:8081/repository/raw-lab/hello.txt' -Headers @{Authorization="Basic $token"} -InFile '.\hello.txt' -TimeoutSec 30 -ErrorAction Stop
+  $uploadResult.StatusCode # 应为成功的2xx，保存状态但不要打印认证头
+  Invoke-WebRequest -UseBasicParsing -Uri 'http://localhost:8081/repository/raw-lab/hello.txt' -Headers @{Authorization="Basic $token"} -OutFile '.\downloaded-hello.txt' -TimeoutSec 30 -ErrorAction Stop
+  $sourceHash = (Get-FileHash .\hello.txt -Algorithm SHA256).Hash
+  $downloadHash = (Get-FileHash .\downloaded-hello.txt -Algorithm SHA256).Hash
+  if ($sourceHash -ne $downloadHash) { throw "下载摘要不符，禁止继续发布" }
+  "verified SHA256=$downloadHash"
+} finally {
+  Remove-Variable pair, token, credential -ErrorAction SilentlyContinue
+}
 ```
 
 ### 验证结果
@@ -277,7 +297,7 @@ Proxy 仓库是一个中间站。下载过的内容可由本地缓存提供；�
 
 ### 清理与证据
 
-先保存脱敏的仓库设置、三次摘要和故障结论。然后只在页面删除这次建立的 `raw-lab` 与实验账号。若整个 Nexus 实例都是本课临时创建，可先 `docker stop nexus-lab`，再 `docker rm nexus-lab`；卷 `nexus-data` 保留配置与数据，删除卷意味着实验数据不可恢复，确认仅含本次练习后才手动删除。不要对公司实例执行清理步骤。
+先保存脱敏的仓库设置、三次摘要和故障结论。然后只在页面删除这次建立的 `raw-lab`、实验账号与本次专属角色。若整个 Nexus 实例都是本课临时创建，可先 `docker stop --time 120 nexus-lab`，成功正常停止后再 `docker rm nexus-lab`；卷 `nexus-data` 保留配置与数据，删除卷意味着实验数据不可恢复，确认仅含本次练习后才手动删除。不要对公司实例执行清理步骤。
 
 ## 生产设计题：两百条流水线共用制品仓库
 
@@ -406,6 +426,16 @@ Content selector（内容选择器）可以按格式、路径等条件描述内�
 最后核对基础实验的凭据边界：示例手动生成的 Basic 认证值只是可逆编码，且使用 ASCII，实验账号与密码应选该字符范围；它只在本机回环 HTTP 教学，跨主机必须使用受信 TLS。移除 PowerShell 变量减少误打印机会，并不证明内存被安全擦除。不要把响应头、会话记录或自动转录中的认证值上传 GitHub；学习证据保留状态与摘要即可。
 
 验收表还应记录仓库格式与版本，避免把某个格式的成功经验错误推广到全部包协议。
+
+## 独立通关：按坐标找得到，还要按摘要认得出
+
+1. **基础复现。** 使用自己的固定镜像摘要与空卷创建 Raw 仓库/受限账号，重建上传和独立下载验证。答案判据：页面版本/镜像/仓库路径/2xx/远端下载摘要对应，源文件和下载不是同一文件；不贴管理员密码。仅 run 容器、Browse 有名称不能证明字节可下载。
+2. **改变条件预测。** 将读取入口从 hosted 改为含两成员的 group，另一个成员存在同路径不同字节；再讨论给已有全仓库读角色增加 team-a 选择器。答案判据：检查成员顺序/实际来源，不能因入口相同就认为制品相同；狭窄授权不抵消其他过宽授权，允许与拒绝路径都要验证。模型不能替代格式/权限矩阵。
+3. **故障证据。** 请求不存在路径和修改本地下载副本各做一轮，保存状态/URL/摘要，最后重新下载正确版本。答案判据：404/401/403先按身份和路径分层，摘要不等不能立即断言服务器损坏；受控恢复只影响自己的副本，不清全体缓存、不手工删blob。
+4. **设计取舍。** 200流水线各取300MB总量60GB，若希望60秒内完成，仅文件字节平均约1GB/s、8Gb/s，实际还需协议/重试余量。答案判据：客户端出口需求不等于回源量，依赖重合/缓存决定回源；存储/数据库/小文件请求也约束容量。正式回滚包按部署/灾备保留，不用最后下载时间或7天学习artifact替代。
+5. **口述追问。** 三分钟讲坐标→group→hosted/proxy→元数据→blob→客户端，答“上传超时直接覆盖吗”“删组件为何空间没降”“数据库备份够不够”“两容器共享数据能HA吗”。答案判据：未知查精确路径/摘要；应用删除与回收不同；匹配数据库/blob/配置/密钥；多写须受支持架构和授权，不能自行共享目录。
+
+不通过返回“双层实验”“协议与权限进阶”或“生产设计题”重做。本轮仅阅读官方镜像说明和审校，未连接 Docker daemon/启动 Nexus；镜像摘要、账户权限和 HTTP/故障结果都待专属环境实际验证。
 
 ## 学习证据
 

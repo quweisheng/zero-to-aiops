@@ -120,12 +120,15 @@ class IncidentStore {
   }
 
   get(id) {
-    return this.#items.get(id)
+    const item = this.#items.get(id)
+    return item === undefined ? undefined : structuredClone(item)
   }
 }
 ```
 
 `this` 由调用方式决定，不是由函数写在哪里单独决定。把方法直接作为回调传递可能丢失接收者；箭头函数没有自己的 `this`。排查时打印调用点和接收者，不要只盯 class 定义。
+
+这里存入与取出都复制，是为了避免调用方通过返回对象偷偷修改内部账本；只有 add 时复制并不够。结构化复制也有支持类型和成本边界，这个示例只存合成的普通事件数据；它不是持久化数据库或完整的输入 Schema 校验器。
 
 ## 函数、纯函数与状态所有权
 
@@ -147,7 +150,9 @@ export function classifyLatency(p95Ms, thresholdMs) {
 ```js
 // classifier.js
 export function classify(value) { return value > 1000 ? 'slow' : 'ok' }
+```
 
+```js
 // main.js
 import { classify } from './classifier.js'
 console.log(classify(1200))
@@ -212,6 +217,8 @@ async function loadIncidents(query) {
 ```
 
 取消客户端等待不保证服务端事务自动撤销。写操作重试前必须分析幂等键、超时后的未知结果和服务端去重，不能把所有错误统一重试三次。
+
+`loadIncidents` 是机制片段：需要页面调用方捕获拒绝并渲染取消/失败状态，也没有实现响应字段校验、分页和租户授权。只有旧请求被排除时返回 undefined；不能把 undefined 当作“成功查询到空列表”。后文无网络实验只验证结果资格，不能据此宣布真实 Fetch、服务端取消和认证链路通过。
 
 ## 错误处理与可观测性
 
@@ -549,27 +556,31 @@ Web Worker 在独立线程运行 JavaScript，不能直接操作 DOM；数据通
 | `AbortController` | 传播取消信号 | fetch 抛取消错误 | 以为服务端写入也被撤销 |
 | `performance.now` | 单调高精度时长 | 适合相对耗时 | 用本地时间比较跨机事件 |
 
-## 基础实验：可取消的事件筛选器
+## 基础实验：只读事件筛选 CLI
 
 若希望先看浏览器中的完整行为，运行仓库共享实验 [frontend-incident-lab](https://github.com/quweisheng/zero-to-aiops/tree/main/examples/frontend-incident-lab)：`cd examples/frontend-incident-lab`、`npm ci`，两个终端分别执行 `npm run api` 与 `npm run dev`。原生页面展示事件监听、DOM 安全更新、状态机、旧请求资格检查和页面离开清理；`npm test` 会验证 7 个正常/故障用例。
 
 ### 前置条件
 
-需要现代 Node.js。保存为 `incident-filter.mjs`：
+按[实验起步说明](../experiment-start.md)准备仍受支持的 Node.js，并用 `node --version` 记录版本。在自己的全新空目录保存 `incident-filter.mjs` 和下一段 `incidents.json`，注意不要存成 `.mjs.txt`。这个 CLI（命令行程序）只读文件、没有网络请求，因此不叫“已实现请求取消”；真正的结果资格实验在后文。
 
 ```js
 import { readFile } from 'node:fs/promises'
 
 function normalize(raw) {
   if (!Array.isArray(raw)) throw new TypeError('root must be an array')
+  const ids = new Set()
   return raw.map((item) => {
-    if (typeof item?.id !== 'string' || typeof item?.latencyMs !== 'number') {
+    if (typeof item?.id !== 'string' || item.id.trim() === '' || ids.has(item.id) ||
+        !Number.isFinite(item?.latencyMs) || item.latencyMs < 0) {
       throw new TypeError('invalid incident')
     }
+    ids.add(item.id)
     return { id: item.id, latencyMs: item.latencyMs }
   })
 }
 
+if (process.argv.length !== 3) throw new Error('usage: node incident-filter.mjs incidents.json')
 const data = JSON.parse(await readFile(process.argv[2], 'utf8'))
 const slow = normalize(data).filter((item) => item.latencyMs >= 1000)
 console.log(JSON.stringify({ slowCount: slow.length, incidents: slow }, null, 2))
@@ -592,13 +603,14 @@ console.log(JSON.stringify({ slowCount: slow.length, incidents: slow }, null, 2)
 - 若提示文件不存在，检查当前目录和参数。
 - 若 JSON 解析失败，先用编辑器定位原始文件，不要吞掉错误。
 - 若字段非法，确认数值没有被写成字符串。
+- 空 ID、重复 ID、负数、超出有限数值范围的延迟也会拒绝；本实验把 ID 视为区分大小写的身份，不擅自修改它。`typeof value === 'number'` 不能单独排除 NaN/Infinity；JSON 文本 `1e999` 解析后也可能成为非有限数字。
 - 实验只读输入；关闭终端并保留代码作为证据即可。
 
 ## 故障实验：制造事件循环阻塞和脏数据
 
 ### 注入故障
 
-把 `incidents.json` 的 `latencyMs` 改成字符串，再在脚本开头临时加入：
+先只把 `incidents.json` 的 `latencyMs` 改成字符串，执行并记录非零退出码；恢复后再单独在脚本开头临时加入下面忙等，避免同时改变两个原因无法归因：
 
 ```js
 const started = performance.now()
@@ -612,6 +624,8 @@ while (performance.now() - started < 3000) {}
 ### 修复、回滚与复盘
 
 恢复数值，删除忙等循环。CPU 密集工作应改算法、分片、移到 Worker 或后端；输入继续在边界验证。重新运行语法检查、正常样例和坏数据样例，记录预期退出码。故障实验禁止放入生产页面。
+
+Node 中的忙等只验证该进程被同步计算占用；要讨论浏览器输入/绘制，须把有界代码放到个人离线页面并记录 Performance，不能用命令行耗时证明某个网页 INP。结束后删除故障循环、恢复合成 JSON 再检查文件；本实验无后台服务，不需要终止其他 Node 进程。
 
 ## AIOps 场景
 
@@ -820,6 +834,16 @@ Promise `.catch()` 如果只打印然后正常返回，会把链转换成成功�
 比较器本身要保持一致与纯净，不能在比较过程中更新统计计数、发请求或读取不停变化的阈值来决定顺序。相同事件时间还应有明确的次级排序键，保证分页和展示可解释。排序稳定不等于数据快照稳定：排序期间上游持续更新的列表仍需先确定本次处理的输入版本。否则一次截图里不同列可能来自不同批次，难以作为事故证据。
 
 面试三十秒回答先讲原地修改与比较规则；三分钟再连接数组身份、浅复制、不可变状态、Worker 所有权和分页快照。事故追问“为什么排序后另一块看板也变化”，先检查共享引用和修改点，而不是立即怀疑框架渲染。把输入所有者、允许修改者和结果版本写进接口约定，能减少大量难以重放的界面异常。
+
+## 独立通关：把值、异步结果与资源所有权讲到可验证
+
+1. **基础复现。** 新写四条合成事件，延迟为0、999、1000、1001毫秒。先预测再运行筛选：slowCount=2，只保留后两条，输入文件不变、退出码0。再试字符串数字、负数、空ID、重复ID和1e999，均应非零且不输出成功日报；语法检查通过不能替代这些数据检查。
+2. **改变条件预测。** 在竞态实验中把旧搜索变成10ms、新搜索80ms：故障版和修复版最终都可能显示新搜索，但这不证明去掉资格检查安全。再恢复旧80ms/新10ms，解释为什么失败重新出现。预测空值回退中0使用 `??` 与 `||` 的不同，并解释阈值0是否有效由业务合同决定，不能机械替换所有运算符。
+3. **故障证据。** 先单独注入坏输入，再单独注入有界忙等，分别交出退出码/校验栈与CPU/长任务证据。另验证相同源码的新箭头函数无法移除原监听，恢复正确引用后调用数不再增加。不要通过刷新清空症状宣布长期内存泄漏已修复。
+4. **设计取舍。** 十万事件搜索与三路证据源部分失败，设计分页、输入法/防抖、取消、请求版本、并发池、响应校验、缓存租户键和失败呈现；副作用写入另用服务端幂等与结果查询。若移到Worker，说明缓冲转移后谁有所有权、失败如何重放以及队列上限，不能只说“后台线程更快”。
+5. **口述追问。** const为什么不是深不可变？闭包为什么不等于复制变量？Promise.all拒绝后为何还有副作用？async为何不把JSON.parse搬离主线程？sort为何改变别的看板？从运行时值、绑定/身份、调度、任务资格和生命周期五个角度回答，每题给一个可重现反例。
+
+返工标准：只能背A/B/C顺序而不能解释边界，就回到宿主与微任务；只依赖abort就补资格检查；只在add复制就检查get的引用；只报成功文字就补退出与失败传播证据。独立推理、反例与收回记录才是掌握依据。
 
 ## GitHub 学习证据
 

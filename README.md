@@ -20,6 +20,10 @@
 
 运行 `npm run audit:teaching` 可从文章重新生成复核表；统计排除代码和终端输出，篇幅达标不代替技术审校。新手可以先做 [可靠性与可观测性课堂实验](./examples/teacher-led-reliability-lab/README.md)，用本地合成数据练习判断。
 
+2026-10-12 按新要求逐篇返工并独立交叉审校全部 115 篇：允许打破原结构，重点检查隐藏前置、机制与状态、基础实验、故障恢复、生产取舍、连续面试追问、五项独立通关与 AIOps 证据。具体问题、修订、验证边界和当前正文结论公开在 [逐篇评测与返工记录](./docs/tech-stack/teaching-review.md)。文章修改后旧审校自动失效；正文审校通过不等于所有真实产品实验已运行，也不等于读者已经掌握。新手先看 [零基础实验准备](./docs/tech-stack/experiment-start.md)。
+
+运行 `npm run check:teaching-reviews` 检查评测记录与当前正文是否一致；测试与正式构建都会执行这道门禁。未评测、需返工、缺少独立审校或正文修改后摘要失效时，不能直接发布。日常内容生成仍可展示待处理条目，便于持续返工，不将机械校验当作自动技术审校。
+
 这个网站现在使用 React、TypeScript 和 Vite 构建，Markdown 内容仍然保留在 `docs/` 目录。
 
 ```bash
@@ -36,6 +40,8 @@ npm run build
 - [面试准备](./docs/interview/README.md)：把运维经验讲成 AIOps 工程故事。
 - [资料清单](./docs/resources.md)：优先官方文档和高可信资源。
 - [技术栈精讲写作标准](./docs/tech-stack/writing-standard.md)：每篇技术文章的统一写法。
+- [逐篇评测与返工记录](./docs/tech-stack/teaching-review.md)：逐篇问题、修订、八项证据、独立审校及实跑边界。
+- [零基础实验准备](./docs/tech-stack/experiment-start.md)：下载、目录、终端、运行工具、记录与安全清理。
 - [Kubernetes 平台运维岗位专项路线](./docs/interview/kubernetes-platform-operations-role.md)：按招聘要求补技术、项目和面试证据。
 - [河北鹰眼智能运维工程师岗位专项面试路线](./docs/interview/hebei-eagle-eye-operations-engineer-role.md)：按岗位原文准备网络、Linux、中间件、数据库、CI/CD、Kubernetes、应急与备份，并安排两天冲刺。
 - [FDE 岗位技术栈与实战路线](./docs/interview/forward-deployed-engineer-role.md)：串联需求发现、全栈、数据、AI 评测、生产交付、安全、采用和产品反馈，并明确 AIOps 只是可选应用方向。

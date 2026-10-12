@@ -570,7 +570,26 @@ packages/contracts（共享契约包）
 
 ### 文件
 
-创建 `src/index.ts`：
+先按[实验起步说明](../experiment-start.md)准备 Node/npm。在此前不存在的个人空目录中创建 `package.json`，不修改本仓库的配置。这里固定6.0.3用于课堂复现，不声称它是永久最新安全版本：
+
+```json
+{
+  "name": "typescript-incident-classroom",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "devDependencies": { "typescript": "6.0.3" }
+}
+```
+
+首次执行 `npm install`，会生成 package-lock.json；以后复现用 `npm ci`。检查 `node ./node_modules/typescript/bin/tsc --version` 确认确实使用本地6.0.3，不让缺少依赖时的npx自动下载别的工具。安装失败先查受控网络与准入，不以关闭TLS校验解决。
+
+再创建 `src` 目录和 `src/index.ts`，下面是完整程序；本实验统一使用四个必需字段，避免前三字段示例误接到前文四字段守卫：
 
 ```ts
 type Severity = 'warning' | 'critical'
@@ -579,6 +598,16 @@ interface Incident {
   id: string
   service: string
   severity: Severity
+  latencyMs: number
+}
+
+function isIncident(input: unknown): input is Incident {
+  if (typeof input !== 'object' || input === null || Array.isArray(input)) return false
+  const value = input as Record<string, unknown>
+  return typeof value.id === 'string' && value.id.trim() !== '' &&
+    typeof value.service === 'string' && value.service.trim() !== '' &&
+    (value.severity === 'warning' || value.severity === 'critical') &&
+    typeof value.latencyMs === 'number' && Number.isFinite(value.latencyMs) && value.latencyMs >= 0
 }
 
 export function countBySeverity(
@@ -590,18 +619,34 @@ export function countBySeverity(
 }
 
 console.log(countBySeverity([
-  { id: 'INC-1', service: 'order-api', severity: 'critical' }
+  { id: 'INC-1', service: 'order-api', severity: 'critical', latencyMs: 1500 }
 ]))
 ```
 
-再创建上面的 `tsconfig.json`，但把 `moduleResolution` 按你的运行/构建器调整。运行：
+本实验不使用Vite，不要求小白自行猜模块参数。创建独立 `tsconfig.json`；前文Bundler/noEmit示例用于另一类项目，不要与本文件混用：
+
+```json
+{
+  "compilerOptions": {
+    "target": "ES2022", "module": "NodeNext", "moduleResolution": "NodeNext",
+    "strict": true, "noUncheckedIndexedAccess": true, "exactOptionalPropertyTypes": true,
+    "types": [], "rootDir": "src", "outDir": "dist", "noEmitOnError": true
+  },
+  "include": ["src/**/*.ts"]
+}
+```
+
+`noEmitOnError` 在错误时不生成新JS，但不会替你删除旧dist；因此构建失败必须停止，不能继续运行旧文件。运行：
 
 ```powershell
 npx tsc --version
 npx tsc --noEmit
+npm run build
+if ($LASTEXITCODE -ne 0) { throw '构建失败，不运行旧dist' }
+npm start
 ```
 
-预期版本与项目 lockfile 一致，类型检查退出码为 0。若要执行，请使用项目已选择的构建器/运行器产出 JavaScript；`tsc --noEmit` 只证明静态检查。
+预期版本与项目lockfile一致，类型检查和构建退出码0，运行输出 `{ warning: 0, critical: 1 }`。`tsc --noEmit` 本身仍只证明静态检查；npm start执行的是本次成功构建的JS，而不是TS类型。
 
 ### 如果没成功与清理
 
@@ -624,11 +669,21 @@ console.log(countBySeverity([incident]))
 
 ### 修复与验证
 
-把 `raw` 改为 `unknown`，通过 `isIncident` 检查 `severity` 是否只在允许集合。添加三组用例：合法、未知等级、缺字段。重新运行类型检查和运行时测试；记录断言位置清单，逐步减少无证据断言。
+把故障段替换成以下代码，保留上面完整文件的守卫定义：
+
+```ts
+const raw: unknown = { id: 'INC-2', service: 'db', severity: 'fatal' }
+if (!isIncident(raw)) throw new TypeError('invalid Incident payload')
+console.log(countBySeverity([raw]))
+```
+
+重新类型检查/构建后运行，预期运行时明确拒绝，不能输出成功统计。再把输入换为含四个字段的合法事件、未知等级、缺latencyMs三个用例。`isIncident`守卫与本文四字段契约保持一致，不能临时加一个空实现骗过编译器。记录断言位置清单，逐步减少无证据断言。
 
 ### 回滚与复盘
 
 删除故障代码。复盘写清信任边界、any 如何传播、运行时为何出错、为何类型断言不是转换，以及新增的 Schema/契约测试。不要在生产流量上注入非法告警。
+
+清理只关闭自己的命令行程序，保留package/lockfile/src/config与脱敏记录；不需要时确认个人目录的绝对路径后通过回收站移除。不要从共享仓库里删node_modules来代替实验收回，也不要把旧dist的存在当成当前构建成功。
 
 ## AIOps 场景
 
@@ -794,7 +849,23 @@ for (const value of [{ service: 'api', errorRate: 0.1 },
 }
 ```
 
-前置条件是已有严格模式实验，保留原文件后把代码放到独立 `parse-sample.ts`，用项目已有类型检查和执行命令运行。预期依次输出 `true`、`false`、`false`。将范围上限故意删掉，再加入错误率为 2 的样本，应观察它被错误放行；恢复范围检查后必须拒绝。验证同时看编译结果与业务样本，不以“没有红线”替代断言。清理删除自己的独立练习文件，保留合法、类型错误、越界和空输入的测试记录；若旧编译器不支持这里的属性收窄，核对本文版本边界和本项目锁定版本，不用 `any` 掩盖问题。
+前置条件是已完成后文独立严格模式实验、安装了本地 TypeScript 6.0.3。保留原文件，把以上代码另存到该实验项目根目录的 `parse-sample.ts`，同名文件已存在则先换新的个人实验目录。注意：项目的 `include` 只有 `src/**/*.ts`，`npm start` 也只启动 `dist/index.js`，因此它们不会自动检查和执行这个根目录文件。请在包含该项目 `package.json` 和 `node_modules` 的目录，用 PowerShell 单独运行：
+
+```powershell
+$ParseOut = 'parse-sample-output' # 只用于本次单文件练习，不使用项目原有 dist
+if (Test-Path -LiteralPath $ParseOut) { throw '输出目录已存在，请换新实验位置，不覆盖历史结果。' }
+node ./node_modules/typescript/bin/tsc --ignoreConfig parse-sample.ts --strict --target ES2022 --module ES2022 --noEmit
+if ($LASTEXITCODE -ne 0) { throw '单文件类型检查失败，停止。' }
+New-Item -ItemType Directory -Path $ParseOut -ErrorAction Stop | Out-Null
+node ./node_modules/typescript/bin/tsc --ignoreConfig parse-sample.ts --strict --target ES2022 --module ES2022 --noEmitOnError --outDir $ParseOut
+if ($LASTEXITCODE -ne 0) { throw '编译失败，不执行可能不完整的输出。' }
+node ./parse-sample-output/parse-sample.js
+if ($LASTEXITCODE -ne 0) { throw '运行失败，保留输出并排查。' }
+```
+
+这里 `--ignoreConfig` 明确本次不加载项目配置，避免 TypeScript 6.0 的显式文件与配置冲突；`--noEmit` 只检查，第二次才把 JavaScript 输出到自己的新目录；`--noEmitOnError` 禁止有错误仍产出文件。使用本地编译器，依赖缺失时停止，不让临时下载的未知版本替代它。
+
+预期依次输出 `true`、`false`、`false`。将范围上限故意删掉，再加入错误率为 2 的样本，应观察它被错误放行；恢复范围检查后必须拒绝。每次变式重新检查和编译时，使用新的独立输出目录并同步修改最后的 Node 路径，避免运行上次制品。验证同时看编译结果与业务样本，不以“没有红线”替代断言。清理时先确认绝对路径，只用文件管理器回收自己创建的 `parse-sample.ts` 和本次独立输出目录，不删除项目的 `src`、`dist` 或 `node_modules`；保留合法、类型错误、越界和空输入的测试记录。若旧编译器不支持这里的属性收窄或选项，核对本文版本边界和本项目锁定版本，不用 `any` 掩盖问题。
 
 ### 索引访问、可选属性和空值是业务设计题
 
@@ -862,6 +933,16 @@ queueTask({ kind: 'pending', approvalId: 'synthetic-2' })
 编辑器没有红线但命令行失败，可能根本不在检查同一个项目。记录实际编译器路径、版本、展开配置和文件集合，检查编辑器是否使用工作区 TypeScript，以及某个文件是否被排除。TypeScript 6.0 对显式文件参数与配置的行为有变化，因此课堂明确使用单文件模式；生产则优先执行项目定义的检查命令，不随手加选项绕过项目契约。[TypeScript 6.0 变更说明](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-6-0.html)
 
 面试收束时说清三类证据：正常代码检查通过，非法调用继续失败，运行时边界样本按预期接受或拒绝。三者合起来，才能说明“类型保护真的在工作”，而不只是构建日志上有绿色勾。把它们绑定到同一锁文件与配置，升级回退后再跑同样测试，才知道退回的是完整契约而非仅一个版本号。
+
+## 独立通关：静态拒绝、运行时拒绝与实际执行三份证据
+
+1. **基础复现。** 从空目录按固定依赖、NodeNext配置构建运行；输入两warning、一critical，预期计数2/1，输入数组不被修改。提交编译器版本、类型检查状态、生成JS与运行输出，不能只贴tsc绿色日志。
+2. **改变条件预测。** 增加cancelled状态但不处理switch，应在never分支被拒绝；补分支后通过。把severity从字面量联合放宽为string，解释为何索引与负例保护退化。再区分readonly/as const/运行时冻结，给一个可变别名反例。
+3. **故障证据。** 用any/fatal故障证明编译可能通过但会产生额外fatal/NaN状态；改unknown+完整守卫后明确拒绝。合法、缺字段、空字符串、非法枚举、负数/非有限值分别验收。让构建失败后刻意检查旧dist仍在，说明为何禁止接着npm start。
+4. **设计取舍。** 多团队共享事件契约，新增枚举与可选字段如何兼容旧客户端？给出Schema事实来源、运行时解析、类型/行为/制品三门禁、解析失败率、生成器/lockfile/后端兼容窗口与完整回滚。类型检查耗时增加时先测diagnostics和类型实例化，不直接关闭strict。
+5. **口述追问。** 类型谓词为何也会撒谎？target/lib为何不安装polyfill？paths为何不自动改运行时import？品牌类型为何不等于授权？@ts-expect-error为何要短小且核对原始诊断？用一个负例和一个边界回答每题。
+
+返工标准：只有类型正例就补非法调用负例；守卫漏字段先修合同；声明存在却运行失败就核对真实导出/环境；构建失败仍运行旧JS就补门禁。每种证据应写清配置与版本，不能互相冒名顶替。
 
 ## GitHub 学习证据
 

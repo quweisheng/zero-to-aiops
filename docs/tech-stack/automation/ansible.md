@@ -207,11 +207,11 @@ Ansible 适合做：
 
 Ansible 是自动化工具，常用于：
 
-- configuration management。
-- application deployment。
-- orchestration。
-- provisioning。
-- ad hoc operations。
+- configuration management（配置管理）：让软件包、文件和服务状态符合预先声明的要求。
+- application deployment（应用部署）：把已验证的应用制品和配置按流程安装到目标环境。
+- orchestration（编排）：安排多台机器或多个服务的操作顺序，例如先摘流量再分批升级。
+- provisioning（资源准备）：按受支持的模块与权限申请或初始化服务器、网络等运行资源。
+- ad hoc operations（临时操作）：不写完整 Playbook，先用一条命令执行范围明确的查询或任务；临时不等于可以绕过审批。
 
 它的典型特点：
 
@@ -919,6 +919,9 @@ Block 组织任务并处理错误：
     - name: Print failure hint
       ansible.builtin.debug:
         msg: "Deployment failed, check journalctl -u aiops-api"
+    - name: Preserve the failure until recovery is verified
+      ansible.builtin.fail:
+        msg: "本例没有实施并验证回滚，部署必须保持失败状态"
 
   always:
     - name: Collect status
@@ -927,6 +930,8 @@ Block 组织任务并处理错误：
       changed_when: false
       failed_when: false
 ```
+
+这是放在已定义 `hosts`、权限和变量的 play 下的任务片段，不是独立剧本。这里没有恢复旧文件或确认服务健康，所以 `rescue` 最后显式失败。否则成功完成 `rescue` 会让原任务按已救援继续执行，甚至不触发 `any_errors_fatal` 等停止条件；“打印提示成功”绝不是“部署成功”。`always` 仍用于收集证据，但语法错误、目标不可达等情况不保证进入这些分支。对照 [官方 Block 错误处理原文](https://github.com/ansible/ansible-documentation/blob/devel/docs/docsite/rst/playbook_guide/playbooks_blocks.rst)。
 
 ## Roles
 
@@ -1162,7 +1167,32 @@ ansible-config dump
 
 目标：用 Ansible 管理本机或一台测试机，创建目录、渲染配置，并通过 handler 观察“变化才通知”。本例 handler 仅打印提示，不安装 systemd service，也不实际重启服务。
 
-本课仅选择本机模式：Linux/WSL 中已安装兼容的 Ansible 与 Python，使用新建个人目录且不加载生产清单。输出放在本次剧本旁；结束后先核对路径，只删除自己创建的 `aiops-demo-output` 和练习文件。基础实验不需要提权或连接远端。
+本课仅选择本机模式。Windows 用户先准备个人 Ubuntu 24.04 WSL 发行版或空白 Linux 虚拟机，下面在其中的 Bash 终端执行，不在 PowerShell 中执行。不要选择公司控制节点；本机连接仍然可以改动本机文件，并不天然安全。安装步骤只适用于 Ubuntu 24.04，使用该发行版的软件包版本，记录实得版本，不把它称为上游最新版本：
+
+```bash
+sudo apt-get update || exit 1
+sudo apt-get install -y ansible-core python3 || exit 1
+ansible --version
+python3 --version
+mkdir ansible-course || exit 1
+cd ansible-course || exit 1
+pwd
+```
+
+若目录已存在，停下换一个新的个人目录，不覆盖已有作品。用编辑器在这里创建 `ansible.cfg`，只写下面三行，再在**同一终端**指定配置文件；后续 inventory、剧本和模板也都放在这个目录。升级/其他系统安装按 [官方安装入口](https://docs.ansible.com/projects/ansible/latest/installation_guide/intro_installation.html) 核对控制端 Python 与 ansible-core 的支持矩阵，不能随意组合版本。
+
+```ini
+[defaults]
+inventory = ./inventory.ini
+host_key_checking = True
+```
+
+```bash
+export ANSIBLE_CONFIG="$PWD/ansible.cfg"
+ansible --version
+```
+
+检查输出中的 config file 指向本次文件。基础实验不用提权、不连接远端；`sudo` 仅用于前面的系统软件安装。输出放在本次剧本旁；结束后核对路径，只删除自己创建的 `aiops-demo-output` 和练习文件。后文命令词典里的 `web`、系统路径和重启动作仅用于讲机制，不属于本次执行清单。
 
 ### 1. Inventory
 
@@ -1228,16 +1258,22 @@ APP_PORT={{ app_port }}
 ### 3. 执行
 
 ```bash
-ansible-playbook -i inventory.ini site.yml --check --diff
-ansible-playbook -i inventory.ini site.yml
-ansible-playbook -i inventory.ini site.yml
+ansible-playbook -i inventory.ini site.yml --list-hosts
+ansible-playbook -i inventory.ini site.yml --syntax-check || exit 1
+ansible-playbook -i inventory.ini site.yml || exit 1
+ansible-playbook -i inventory.ini site.yml || exit 1
+ansible-playbook -i inventory.ini site.yml --check --diff || exit 1
+cat aiops-demo-output/app.env
 ```
 
 观察：
 
-- 第一次执行目录和文件可能 changed。
-- 第二次执行应大多 ok。
+- `--list-hosts` 只能出现本机 localhost；语法检查不执行任务。
+- 第一次正式执行目录和文件应 changed，handler 打印一次。
+- 第二次正式执行应 `changed=0`，handler 不执行，真实文件仍存在。
 - 修改 `app_port` 后，template task changed，handler 执行。
+
+最后才在已有文件上观察 `--check --diff`。首次空目录若先预演，目录只是“预计创建”，后续模板可能找不到目录；`command` 没有 `creates/removes` 时通常在 check mode 跳过，因而读取证据也不完整。不要拿跳过任务的绿色结果当作文件或服务验收。若任意正式步骤失败，先看失败任务、当前目录、配置路径与模板名称，不继续注入下一种故障。
 
 ### 4. 形成学习证据
 
@@ -1395,9 +1431,11 @@ Ansible 可以作为 runbook 执行器，下面是一个收集服务证据的 pl
     - name: Print evidence
       ansible.builtin.debug:
         msg:
-          - "{{ service_status.stdout_lines }}"
-          - "{{ service_logs.stdout_lines }}"
+          - "status_rc={{ service_status.rc | default('unknown') }} stdout={{ service_status.stdout_lines | default([]) }} stderr={{ service_status.stderr | default('') }}"
+          - "logs_rc={{ service_logs.rc | default('unknown') }} stdout={{ service_logs.stdout_lines | default([]) }} stderr={{ service_logs.stderr | default('') }}"
 ```
+
+这里 `failed_when: false` 是为了尽量收集完两类证据，不能让上层把 recap 当成服务健康。保留退出码和标准错误：服务 inactive、单元不存在、权限不足和命令读取失败要分开；空日志也不等于从未报错。这个样例适用于已确认使用 systemd 的授权 Linux 测试机，WSL 若未启用 systemd 不能套用。正式采集器应返回“已采集且健康 / 已采集且异常 / 采集失败未知”三态，未知不能自动授权重启。
 
 生产化前要补：
 
@@ -1547,7 +1585,7 @@ Diff mode（差异模式）会展示文件内容变化，配置里若有密码�
 
 ## 本地双层带练：验证参数，再修改文件
 
-在 Linux 或 WSL 控制节点准备 Python 虚拟环境，按官方支持矩阵安装 ansible-core，记录 `ansible --version`。新建专用实验目录，将下面内容保存为 `classroom.yml`。它只连接 localhost，在剧本目录的 `classroom-output` 下写一个文件，不需要 SSH 或提权。
+沿用前面的 Ubuntu 安装、同一 Bash 终端与专属目录，记录 `ansible --version`，将下面内容保存为 `classroom.yml`。它只连接 localhost，在剧本目录的 `classroom-output` 下写一个文件，不需要 SSH 或提权。若该输出目录已存在且来源不明，换一个空白个人实验目录，不能把其他文件当成基线。
 
 ```yaml
 - name: 课堂配置收敛实验
@@ -1561,9 +1599,10 @@ Diff mode（差异模式）会展示文件内容变化，配置里若有密码�
     - name: 先拒绝超出范围的输入
       ansible.builtin.assert:
         that:
+          - (alert_threshold | string) is match('^[0-9]+$')
           - alert_threshold | int >= 1
           - alert_threshold | int <= 100
-        fail_msg: "阈值必须在 1 到 100 之间"
+        fail_msg: "阈值必须是 1 到 100 的十进制整数字符串或整数"
     - name: 创建实验目录
       ansible.builtin.file:
         path: "{{ lab_output }}"
@@ -1589,7 +1628,7 @@ Diff mode（差异模式）会展示文件内容变化，配置里若有密码�
         msg: "实验配置已变化；真实服务还需单独验证加载版本"
 ```
 
-`slurp` 读取文件并以 Base64 编码返回，`b64decode` 解码回文本；编码不是加密。`assert` 是断言：条件不成立就让任务失败。它放在写入前，防止把明显错误输入发到目标。这个校验使用整型转换演示范围检查，业务中还应对输入类型与允许格式做更严格校验。
+`slurp` 读取文件并以 Base64 编码返回，`b64decode` 解码回文本；编码不是加密。`assert` 是断言：条件不成立就让任务失败。它放在写入前，先检查整数字符格式，再检查范围，避免直接 `int` 把 `8.5` 等输入转换后悄悄接受。这里允许前导零，不是所有业务参数的通用规范；业务仍需定义自己的输入契约。
 
 ```bash
 ansible-playbook -i localhost, classroom.yml --syntax-check
@@ -1749,6 +1788,18 @@ lab_b ansible_connection=local allow_update=false
 对于 AIOps 自动修复，异步执行后更要有独立恢复确认。服务重载返回零，只证明命令接受或完成其职责；采集端重新收到正确指标、错误率回到允许范围，才是另一个层面的恢复证据。剧本结果与业务恢复分别记录，模型可以辅助整理失败类别，但不得把缺失结果自动归为健康，也不得擅自扩大重试目标。
 
 交接时还应写清控制端版本、集合版本和目标系统范围，使下一位值班人员能够复核相同前提，而不只是拿到一份成功截图。
+
+## 独立通关：报告、目标状态与业务状态分别举证
+
+合上示例后独立完成，保存实际输出、运行版本和失败时的现场。以下判据衡量掌握，不以执行了多少次或文章字数代替。
+
+1. **基础复现。** 从空白个人目录重建本机 inventory、模板和 site.yml，连续执行两次。交出 config file 路径、`--list-hosts`、两份 recap 和真实文件。答案判据：唯一目标 localhost；第一次文件变化并通知，第二次 `changed=0`；明确 handler 只是提示，不宣称服务已重启。只交绿色截图不通过。
+2. **改变条件预测。** 先预测再传 `-e app_port=8001`：哪个值胜出、哪些任务变化？再分别给课堂阈值传 `8.5`、999、8。答案判据：额外变量覆盖默认端口，模板改变才通知；前两者在写入前拒绝、文件保持旧值，8 成功收敛。解释为何 `changed_when: false` 不能把重复追加命令变成幂等。
+3. **故障证据与恢复。** 重建双别名部分失败实验，一次只让 lab_b 未获准，记录退出状态和每个文件；只修复并限制 lab_b，最后验证两目标收敛。答案判据：两别名是同一台本机的模拟，不是双机验收；lab_a 已完成不会被自动撤销；保留失败结果，不用 `ignore_errors` 或成功 rescue 把失败染绿。
+4. **生产设计取舍。** 30 实例分三个机架，每机架 10 个；每实例在 SLO 内可承担 100 请求/秒，当前 2,200。解释为何 `serial: 10` 不天然安全。答案判据：总能力 3,000，但摘除 10 个只剩 2,000 已不满足需求；还须按服务副本/故障域分批，选择有容量余量的小批并检查实时健康。说明 forks 不等于批次、数据库迁移不靠批内 run_once 实现全局唯一、恢复要验证文件和运行状态。
+5. **口述追问。** 用三分钟讲清清单解析、变量优先级、模块比较、changed、handler、健康验证，再回答：“异步句柄丢失就重跑吗？check 通过能直接上线吗？Vault 加密后能开 diff 吗？”答案判据：未知先取证/查任务与目标状态并防重复；检查模式不是正式执行保证；秘密解密后的日志仍需保护。AIOps 只有在目标身份、许可和健康证据满足后才能执行恢复。
+
+任何一项失败，回到相应的“本地双层带练”“进阶带练：先看清 Ansible 的五个决定，再批量执行”或“Blocks 和错误处理”重做，保留首次错误与修订对照。本轮仅做文档及逻辑审校，没有可用 Ansible 控制节点，所有 recap 是预期，不能标成已经实跑。
 
 ## 学习证据清单
 

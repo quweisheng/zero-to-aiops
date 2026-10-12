@@ -314,13 +314,17 @@ Prometheus / logs（日志） / tickets（工单） / deployments
 
 第一天只需要 Python、pandas 和 scikit-learn。
 
+先完成[实验开始前的准备](../experiment-start.md)，确认终端中的 Python 版本与安装来源。以下使用 PowerShell，在个人学习目录创建全新实验目录；不要覆盖已有虚拟环境。用编辑器保存 UTF-8 的 `.py` 文件，文件与运行终端处于同一目录，不把代码围栏一起复制。无需 GPU，也不读取真实告警数据。
+
 ```powershell
-mkdir aiops-ml-lab
-cd aiops-ml-lab
+if (Test-Path -LiteralPath .\aiops-ml-lab) { throw '目录已存在，请换个人新目录。' }
+New-Item -ItemType Directory -Path .\aiops-ml-lab | Out-Null
+Set-Location .\aiops-ml-lab
 python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-pip install pandas numpy scikit-learn
-python -c "import sklearn; print('sklearn ok')"
+if ($LASTEXITCODE -ne 0) { throw '创建环境失败，停止。' }
+.\.venv\Scripts\python.exe -m pip install pandas numpy scikit-learn
+if ($LASTEXITCODE -ne 0) { throw '依赖安装失败，停止。' }
+.\.venv\Scripts\python.exe -c "import sys,pandas,numpy,sklearn; print(sys.version); print(pandas.__version__,numpy.__version__,sklearn.__version__); print('sklearn ok')"
 ```
 
 预期结果：
@@ -352,10 +356,8 @@ sklearn ok
 ## 常用命令
 
 ```powershell
-python -m venv .venv
-pip install pandas numpy scikit-learn
-python ml_alert_classifier.py
-pip freeze > requirements.txt
+.\.venv\Scripts\python.exe ml_alert_classifier.py
+.\.venv\Scripts\python.exe -m pip freeze # 将输出保存为本次环境的版本证据，不覆盖已有锁定文件
 ```
 
 每条命令在检查什么：
@@ -365,7 +367,7 @@ pip freeze > requirements.txt
 | `python -m venv .venv` | 创建隔离环境 | 出现 `.venv` 目录 | Python 是否安装 |
 | `pip install ...` | 安装依赖 | 显示安装成功 | 网络、镜像源、虚拟环境 |
 | `python ml_alert_classifier.py` | 运行实验 | 打印评估报告 | 依赖、文件名、语法 |
-| `pip freeze > requirements.txt` | 固化依赖 | 生成依赖清单 | 是否在正确虚拟环境 |
+| `python -m pip freeze` | 查看本环境的实际依赖版本 | 输出版本清单 | 这不是跨平台兼容保证，且不要覆盖已审核的依赖文件 |
 
 ## 命令 / 配置 / API 字典
 
@@ -476,9 +478,9 @@ model.fit(X_train, y_train)
 y_pred = model.predict(X_test)
 
 print("confusion matrix:")
-print(confusion_matrix(y_test, y_pred))
+print(confusion_matrix(y_test, y_pred, labels=[0, 1]))
 print()
-print(classification_report(y_test, y_pred, target_names=["normal", "incident"]))
+print(classification_report(y_test, y_pred, labels=[0, 1], target_names=["normal", "incident"], zero_division=0))
 
 current = pd.DataFrame([{
     "request_rate": 690,
@@ -488,14 +490,15 @@ current = pd.DataFrame([{
     "deploy_changed": 1,
 }])
 
-incident_probability = model.predict_proba(current)[0][1]
+incident_column = list(model.classes_).index(1)  # 明确找标签 1，不把第 2 列当所有模型的事故类
+incident_probability = model.predict_proba(current)[0][incident_column]
 print(f"current incident probability: {incident_probability:.2f}")
 ```
 
 运行：
 
 ```powershell
-python ml_alert_classifier.py
+.\.venv\Scripts\python.exe ml_alert_classifier.py
 ```
 
 ### 验证结果
@@ -515,6 +518,8 @@ current incident probability: 1.00
 ```
 
 这是模拟数据，所以结果可能很好。真实生产数据不会这么干净，重点不是追求 100%，而是学会：
+
+这里 160 行按比例划分后测试集是 48 行，其中正常 36、事故 12；具体预测和四舍五入概率会随依赖版本变化，上面的满分不是验收门槛。类别权重改变了训练目标，`predict_proba` 的数值也不能直接宣称是线上事故发生的真实概率；上线前需用真实分布验证并考虑校准。`zero_division=0` 只是让“未预测任何正例”的指标显示为零，不是修复了模型。
 
 1. 数据如何变成特征。
 2. 模型如何训练。
@@ -690,6 +695,7 @@ _, broken = train(0.2)  # 故障注入：同一方向，步子却太大
 assert broken[-1] > broken[0]
 print('DETECTED divergence:', broken[-1] > broken[0])
 _, recovered = train(0.05)
+assert recovered[-1] < recovered[0]
 print('recovered:', recovered[-1] < recovered[0])
 ```
 
@@ -798,6 +804,18 @@ print('recovered:', recovered[-1] < recovered[0])
 如果面试官追问“为什么不用准确率证明收益”，我会用稀有事故的例子说明全猜正常也可能高分，且窗口级高分会掩盖独立短事故。最终要证明的是减少多少无效打扰、覆盖多少重要事故、有没有新增风险，而不是把一张合成数据的满分报告包装成生产收益。
 
 最后给学习者一个独立作业：设计一条“采集延迟导致特征不完整”的事故记录，写出三种竞争假设、每种需要的证据和如何证伪。只允许用脱敏或合成样本，不能写不存在的业务收益。基础实验退出后没有后台资源；保留脚本、依赖与输出，清理仅涉及自己新建的课堂目录内容。
+
+## 独立通关：不靠满分截图证明模型有效
+
+合上本文后独立完成，交付预测、实际结果、差异解释和下一轮修正。未安装依赖时先执行无依赖梯度实验；不能把未运行的分类报告写成实际成绩。
+
+1. **基础复现。** 运行分类实验，说明 160/112/48 和测试集 36/12 的样本分配，交付带标签顺序的混淆矩阵；再运行梯度实验，解释第一步梯度 -18、学习率 0.05 时权重从 1 到 1.9。判据是能从数据与更新式复算，不要求某份依赖得到百分百分类分数。
+2. **改变条件。** 在纸上把学习率改成 0.2，先算第一步权重 4.6，下一轮误差变大，再运行确认发散并恢复。另给题卡：真实事故 20、报出 30、命中 15，正确答案是 TP=15、FP=15、FN=5、精确率 50%、召回率 75%；不能拿 15/全部窗口当精确率。将概率阈值提高时，固定同一组分数下告警集合不能变大，但精确率不保证必然升高。
+3. **故障证据。** 用泄漏实验交付干净与含标签的两份输入列和分数，再说明“事故关闭时间”“事后根因”为什么可能同样偷看未来。仅把标签列删掉还不够，要检查同事故窗口跨集合、预处理拟合边界和预测当时可用时间；不能把随机合成满分当生产收益。
+4. **设计取舍。** 十万个窗口、100 个事故、召回 90%、正常误报率 1%时，算出 TP=90、FP=999、精确率约 8.26%。提出每班 50 条复核预算下的事件去重、分层评估、重要规则兜底、影子发布与回退包；不能通过静默丢弃严重故障来满足预算。
+5. **口述追问。** 三分钟讲参数/超参数、训练/验证/测试、数据/概念漂移、相关/因果。追问“采集器把毫秒改秒怎么办”，先用固定输入比较合同、特征、模型与阈值，而非先重训；追问“加载陌生 pickle 模型行吗”，说明代码执行、来源与隔离风险。给出未掌握项和补测计划。
+
+基础或故障关不通过，先返工对应实验；设计与口述关不通过，重写业务分母和状态边界后用另一题复评。实验不启动后台服务；结束进程即可，保留自己创建的脚本与输出，回收时只处理自己的学习目录，不清理共享 Python 环境。
 
 ## 本课 GitHub 学习证据
 

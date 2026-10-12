@@ -202,6 +202,8 @@ margin（外边距）
 
 Media query 关注视口或设备偏好；container query 关注组件容器。响应式还包括放大 200%、长中文/英文、横竖屏、键盘弹出、深色模式、减少动画和高对比偏好。
 
+上面的减少动效只是教学片段，不是全站完成无障碍的证明：它没有处理所有 transition、无限动画或脚本驱动动效。实际组件先设计静态可用状态，再逐项减少非必要运动；若业务代码等待 animationend 推进状态，也要测试关闭/缩短动画后的完成路径，不能让加载提示永远卡住。
+
 ## 变量、设计令牌与主题
 
 ```css
@@ -535,7 +537,7 @@ reset：统一浏览器差异
 
 ### 前置与文件
 
-在 [HTML 深讲](./html.md) 的实验目录新增 `styles.css`，并在 HTML `head` 加 `<link rel="stylesheet" href="styles.css">`。
+先完成 [HTML 深讲](./html.md) 的离线文件实验，在个人副本目录新增此前不存在的 `styles.css`，并在 HTML `head` 加 `<link rel="stylesheet" href="styles.css">`。本实验双击 HTML 即可；若要观察真实 HTTP 404/MIME/缓存，需按[实验起步说明](../experiment-start.md)启动本地服务器，不能把 file:// 的失败直接当 HTTP 状态。
 
 ```css
 *, *::before, *::after { box-sizing: border-box; }
@@ -579,7 +581,19 @@ button:focus-visible {
 }
 ```
 
-把三个 `article class="incident-card"` 放入 `div class="incident-grid"`。其中一个标题故意使用超长无空格字符串。
+将 HTML 副本原来的 `main` 内容替换为以下片段；保留外围 doctype/head/body，不要把整个文档复制三次，也不要复制出重复的表单 ID。三张卡片中有一个长编号，用来检验真实长内容约束：
+
+```html
+<main id="main-content">
+  <div class="incident-grid">
+    <article class="incident-card"><h2>订单接口</h2><p>等级：严重；状态：调查中</p><button type="button">查看订单详情（演示）</button></article>
+    <article class="incident-card"><h2>支付接口</h2><p>等级：警告；状态：待确认</p><button type="button">查看支付详情（演示）</button></article>
+    <article class="incident-card"><h2>INC-ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ</h2><p>等级：严重；这是合成的长编号</p><button type="button">查看长编号（演示）</button></article>
+  </div>
+</main>
+```
+
+若沿用 HTML 篇带 `note-form` 的脚本，也要从这个 CSS 副本移除该脚本，因为对应表单已被替换；否则 null 上注册监听会报错。这三颗按钮只检验焦点和布局，不含点击业务，不承诺加载详情。系统颜色 Canvas/CanvasText 来自用户环境，边框色和焦点色仍需在具体主题与强制颜色环境检查对比度。
 
 ### 验证
 
@@ -597,7 +611,7 @@ button:focus-visible {
 
 ### 清理
 
-实验文件可作为证据保留；不再需要时删除整个本地实验目录，不影响系统配置。
+实验文件可作为证据保留；不再需要时关闭页面，在文件管理器确认是自己的独立副本后移入回收站。不要删除共享仓库、原 HTML 学习证据或浏览器个人目录。
 
 ## 故障实验：制造横向溢出与样式覆盖失败
 
@@ -804,6 +818,16 @@ Grid 中 `1fr` 是剩余空间分配规则，不是绝对保证列永不溢出�
 例如卡片基础为垂直排列，支持网格时变成多列，这通常保持阅读顺序。反过来若通过视觉排序把“确认”按钮移到另一张卡旁边，DOM 顺序、键盘顺序和屏幕阅读器顺序可能仍与视觉不一致。样式变更不是只有像素结果，还会影响操作关系。事故复盘应检查用户实际按键序列，不只比较截图。
 
 三分钟面试回答可以由这份实验展开：声明先参与层叠，变量再在计算过程中解析，因此错误出现阶段不同，回退行为也不同；架构上用类型清晰的令牌与迁移约束降低风险；测试上同时检查计算样式、主题、放大和真实交互。遇到“加了回退仍没生效”的追问，先要求看变量实际值，避免再次堆叠无关的优先级规则。
+
+## 独立通关：用计算值和布局证据解释页面
+
+1. **基础复现。** 从个人 HTML 副本做三卡片 Grid，在 390/768/1440 CSS 像素与 200% 缩放下保存 `scrollWidth/clientWidth`、计算盒宽和键盘焦点。判据是无非预期横向溢出、长编号仍能完整查看或复制、等级不只靠色彩表达。截图必须注明视口、缩放、主题与浏览器。
+2. **改变条件预测。** 父元素蓝色、子元素先 green 后 `color:var(--label, red)`：令牌为20px、purple、缺失时分别预测蓝、紫、红，再用 Computed 验证。另把普通声明从已分层迁到未分层，解释为何更弱选择器也可能胜出；再问 !important 为何改变层顺序。依据[级联层规则](https://www.w3.org/TR/css-cascade-5/#layer-order)，不要把层叠缩成选择器算分。
+3. **故障证据。** 注入600px宽与覆盖规则，交出匹配选择器、获胜来源和具体溢出节点；先移除单一原因再测量。`overflow-x:hidden` 藏住滚动条不算通关，DevTools临时改动未写回刷新后消失也不算交付。恢复后回归焦点、长内容与主题。
+4. **设计取舍。** 十万事件与几十团队共用看板，解释服务端分页/虚拟化对可访问性、令牌版本迁移、未分层旧规则退出、资源制品原子切换、整包回滚以及低端设备性能预算。不能承诺某个DOM数量或transform属性在所有终端都快。
+5. **口述追问。** 为什么min-inline-size:0不是把宽度设成0？为什么z-index再大也可能被遮？position:fixed参照系为何会受祖先transform影响？为什么颜色正确不等于等级信息可达？每问给出要打开的面板与反例，分清匹配、层叠、计算、布局和绘制阶段。
+
+返工标准：只会试属性先补因果测量；只测桌面成功态先补状态矩阵；只报性能改善没有同条件记录先重新测量；只给截图不说明获胜规则先补Computed来源。独立证据比“能背属性表”更接近真正掌握。
 
 ## GitHub 学习证据清单
 

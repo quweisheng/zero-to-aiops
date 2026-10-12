@@ -245,6 +245,12 @@ trivy:
 
 ## 入门实验：离线渲染 Harbor Helm Chart
 
+### 从零准备：本课先不搭一整套仓库
+
+第一轮在 Windows PowerShell 的新空目录进行，只安装 Helm 客户端：`winget install --id Helm.Helm --exact`，重新打开终端后运行 `helm version`。该社区包来源见[Helm 官方安装指南](https://helm.sh/docs/intro/install/)；安装包管理器与下载地址本身也需要网络和权限。目录可用 `New-Item -ItemType Directory harbor-render-lab` 创建，再 `Set-Location harbor-render-lab`。若目录已存在，换新名字，不能用重定向覆盖旧证据。接下来只下载索引并渲染，不需要 Docker、Kubernetes 或 Harbor 管理员账号，也不会启动网页服务。
+
+第二轮 Push/Pull 是有真实仓库的进阶实践，不是渲染结束就自动获得一个实例。需要有权限的管理员按目标版本安装指南提供测试地址、可信 CA、专用项目与机器人；本篇不以猜测的 Chart/数据库组合安装生产仓库。没有这些条件时先完成离线渲染和保留集合推演，实际认证、上传、扫描明确记为未运行。
+
 ### 实验目标
 
 不创建集群资源，只验证官方 Chart 能按虚构域名和持久化配置生成清单。
@@ -256,8 +262,11 @@ trivy:
 ```powershell
 helm repo add harbor https://helm.goharbor.io # 添加 Harbor 官方 Helm 仓库
 helm repo update                              # 更新 Chart 索引
-$chartVersion = (helm search repo harbor/harbor --versions -o json | ConvertFrom-Json |
-  Select-Object -First 1).version
+$candidates = helm search repo harbor/harbor --versions -o json | ConvertFrom-Json
+if ($LASTEXITCODE -ne 0) { throw '查询索引失败，停止渲染' }
+$candidate = $candidates | Where-Object { $_.app_version -eq '2.15.2' } | Select-Object -First 1
+if ($null -eq $candidate) { throw '索引没有本文产品版本的候选 Chart；先核对官方 release，不随便选最新版' }
+$chartVersion = $candidate.version
 $chartVersion | Out-File -Encoding utf8 harbor-chart-version.txt # 固化本次实际解析值
 helm show chart harbor/harbor --version $chartVersion # 查看固定 Chart 元数据
 # PowerShell 的续行反引号必须是行尾最后一个字符，后面不能接注释或空格。
@@ -295,15 +304,20 @@ $robotToken = Read-Host '输入一次性 Robot Token' -AsSecureString
 $credential = [pscredential]::new($robotUser, $robotToken)
 $plainToken = $credential.GetNetworkCredential().Password
 $plainToken | docker login $harborHost --username $robotUser --password-stdin
+if ($LASTEXITCODE -ne 0) { throw '认证失败，停止推送并核对实验地址与权限' }
+$plainToken = $null # 缩短明文变量停留时间；这不是保证从进程内存安全擦除
 ```
 
 拉取一个固定公共镜像、重新打 Tag 并推送：
 
 ```powershell
 docker pull busybox:1.37.0
+if ($LASTEXITCODE -ne 0) { throw '基础镜像拉取失败，停止实验' }
 docker tag busybox:1.37.0 "$harborHost/$project/busybox:1.37.0-lab"
+if ($LASTEXITCODE -ne 0) { throw '标签创建失败，停止实验' }
 docker push "$harborHost/$project/busybox:1.37.0-lab" 2>&1 |
   Tee-Object -FilePath harbor-push.txt
+if ($LASTEXITCODE -ne 0) { throw '推送失败，保留脱敏错误而不是继续生成成功凭据' }
 
 $digestMatch = Select-String -Path harbor-push.txt -Pattern 'digest:\s+(sha256:[0-9a-f]{64})' |
   Select-Object -Last 1
@@ -312,6 +326,7 @@ $digest = $digestMatch.Matches[0].Groups[1].Value
 $repoDigest = "$harborHost/$project/busybox@$digest"
 $repoDigest | Out-File -Encoding utf8 harbor-digest.txt
 docker pull $repoDigest
+if ($LASTEXITCODE -ne 0) { throw '按摘要拉取未通过，不能验收本轮交付' }
 ```
 
 预期：login 成功，push 最后一段给出 digest，`harbor-digest.txt` 保存 `repository@sha256:...`，按 Digest 再拉取成功。到 Harbor 页面核对 Project、Artifact、Tag、Digest、Push 审计和扫描状态；扫描 Pending 或数据库过旧必须如实记录。
@@ -528,6 +543,18 @@ AIOps 可按同一制品摘要维护一张状态卡：构建来源、推送时�
 容量指标也要分口径。项目配额是治理边界，后端真实空闲量是物理承载，上传临时内容与共享层又影响两者差异。某项目未到配额不证明磁盘仍有安全余量；存储仍有余量也不意味着用户有权继续推送。遇到拒绝先读具体错误，再对照项目配额、制品大小、存储容量与任务状态。随意提高所有配额可能只把局部限制改成整个仓库容量事故。
 
 最后做一题交付设计：断网园区需要保留两个月的可回退版本，应优先设计受控制品导入、完整性核验、独立保留与备份，而不是仅部署代理缓存。离线物料包括清单引用的全部层、对应平台内容、所需关联证明、扫描数据库与许可材料；厂商镜像是否允许再分发需另行核对。恢复验证应从一台无旧缓存的隔离客户端开始，按关键摘要逐一读取，记录未覆盖的架构与版本。这才是把软件仓库变成可恢复交付依赖，而不只是搭起一个网页。
+
+## 独立通关：仓库里有镜像，不等于恢复时拿得到
+
+先答题再看判据；本地渲染与纸面容量题可以独立完成，真实 Push/Pull 需要授权仓库。每项记录“预测、实际观察或未运行、反证、收回”，不把产品网页截图当成全部能力证明。
+
+1. **基础复现。**换一个空目录按产品版本选择 Chart，保存精确 Chart/appVersion、虚构 externalURL 和渲染资源种类。有实例时再用专用机器人完成推送、按摘要拉取。判据：渲染不宣称启动；推送记录包含 repository@digest、平台信息和审计时间，失败退出不继续写成功结论，公开记录没有 Token。
+2. **改变条件。**同一 Artifact 同时有 `v1` 与 `stable` 两个 Tag，只删 `v1`，预测摘要、`stable` 和磁盘空间变化。判据：内容身份不因别名删除改变，另一引用仍在，不能承诺立即回收；多架构顶层摘要与平台摘要不同需要按层次解释，不直接判内容遭替换。
+3. **故障证据。**在独立 Docker 配置目录使用错误 Token，之后只换为正确 Token。判据：同地址同仓库的失败/成功对照、客户端退出码和脱敏认证日志证明定位；不得凭管理员电脑能登录来反驳节点机器人无权。恢复也用同一配置目录验证并 logout，不删除服务器 Blob。
+4. **设计取舍。**给出订单仓库 A1/A2/A3、支付仓库 B1/B2/B3，数字越大越新，A1 是回退依赖；规则是各保留最新两份，并额外保留回退标签。判据：保护集合是 A1/A2/A3/B2/B3，而非固定四份；提出部署反向引用、GC 预演、成套 DB+Blob+密钥恢复及冷缓存容量验证。异步复制不承诺零数据损失，缓存也不替代长期保管。
+5. **口述追问。**30 秒讲 Harbor 相比 Registry 多了什么，三分钟解释 challenge→token→manifest/blob→运行时链。追问“扫描成功为何不保证可发布”“旧 Pod 正常为何仍要处理”“恢复为什么不能只恢复存储桶”。判据：能分别说出报告新鲜度与准入执行点、新建拉取受阻、元数据与内容匹配，把这些证据接到 AIOps 变更关联和受审批的恢复手册。
+
+答不出分别回“状态一致性”“认证课堂”“保留规则课堂”“升级与真正的回滚边界”重做。真实平台条件缺失只限定验证覆盖，不允许编造实例输出或生产经历。
 
 ## 学习证据
 

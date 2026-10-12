@@ -2,6 +2,12 @@
 
 > 学习目标：能启动 Grafana，连接 Prometheus 数据源，创建 dashboard，理解 data source、query、panel、visualization、field、transformation、variable、dashboard JSON、provisioning、alert rule，并能设计一个适合 AIOps 值班排障的仪表盘。
 
+## 开课准备：先把一个数从来源追到画面
+
+今天先做 Prometheus 自监控看板，只需要理解端口、容器和时间范围。端口是服务入口编号；容器是隔离运行程序的环境；时间范围决定查询哪一段历史。先执行 `docker version` 确认客户端与服务端都能响应，再执行 `docker ps` 查看已有容器。尚未准备 Docker 时，先按 [Docker 安装与运行](../cloud-native/docker.md) 的对应操作系统章节准备运行环境，不需要先学完整套 Kubernetes。
+
+“安装与启动”列出的几种方式是备选路线；首次操作只执行“入门实验：Prometheus 健康 Dashboard”的十个步骤，避免重复创建同名容器。Windows PowerShell 可以直接执行本实验的单行命令；Bash 的反斜杠续行需要合并为一行后再粘贴到 PowerShell。实验中“有曲线”只证明查询链路工作，下一步还要核对原始值、单位和业务口径。
+
 ## 官方资料
 
 - [Grafana Get started](https://grafana.com/docs/grafana/latest/getting-started/)
@@ -326,31 +332,31 @@ Prometheus 能查指标，但它的 UI 更适合调试。Grafana 解决的是“
 Grafana 的请求链路可以这样理解：
 
 ```text
-browser
+browser（浏览器）
   |
   v
-Grafana frontend
+Grafana frontend（页面前端）
   |
   v
-Grafana backend
+Grafana backend（服务端）
   |
   v
-data source plugin
+data source plugin（数据源插件）
   |
   v
-Prometheus / Loki / Elasticsearch / SQL
+Prometheus / Loki / Elasticsearch / SQL（指标、日志或数据库查询来源）
   |
   v
-query response
+query response（查询响应）
   |
   v
-data frames
+data frames（内部数据帧）
   |
   v
-transformations
+transformations（结果转换）
   |
   v
-panel visualization
+panel visualization（面板可视化）
 ```
 
 关键点：
@@ -488,19 +494,19 @@ Data source 是 Grafana 要查询的数据系统。
 如果 Grafana 和 Prometheus 都在宿主机上，可以填：
 
 ```text
-localhost:9090
+http://localhost:9090
 ```
 
 如果 Grafana 在容器里，Prometheus 在宿主机上，Docker Desktop 常用：
 
 ```text
-host.docker.internal:9090
+http://host.docker.internal:9090
 ```
 
 如果 Grafana 和 Prometheus 在同一个 Docker Compose 网络里，Prometheus 服务名叫 `prometheus`，URL 应该填：
 
 ```text
-prometheus:9090
+http://prometheus:9090
 ```
 
 重点：Grafana 容器里的 `localhost` 是 Grafana 容器自己，不是 Prometheus 容器，也不是宿主机。
@@ -871,10 +877,10 @@ Annotations 用来在图上标记事件。
 排障时，annotation 能回答“指标变化前发生了什么”。
 
 ```text
-latency spike
+latency spike（延迟突然升高）
     ^
     |
-deployment annotation at 10:03
+deployment annotation at 10:03（10:03 的发布事件标记）
 ```
 
 AIOps dashboard 如果能把变更事件叠在指标曲线上，会比单纯曲线有用得多。
@@ -1155,14 +1161,14 @@ curl -H "Authorization: Bearer <token>" localhost:3000/api/datasources
 推荐四层：
 
 ```text
-1. user impact
-   availability, error rate, latency
-2. traffic
-   QPS, request distribution, status code
-3. service internals
-   instance up, queue, dependency error
-4. resources and changes
-   CPU, memory, disk, deployment annotation
+1. user impact（用户影响）
+   availability（可用性）, error rate（错误率）, latency（延迟）
+2. traffic（流量）
+   QPS（每秒请求数）, request distribution（请求分布）, status code（状态码）
+3. service internals（服务内部）
+   instance up（实例采集状态）, queue（队列）, dependency error（依赖错误）
+4. resources and changes（资源与变更）
+   CPU（处理器）, memory（内存）, disk（磁盘）, deployment annotation（发布标记）
 ```
 
 ### 第一层：用户影响
@@ -1508,17 +1514,17 @@ docker compose exec grafana wget -qO- http://prometheus:9090/-/ready
 一个 demo API dashboard 可以这样排：
 
 ```text
-Row 1: User impact
-  [Availability] [Error Rate] [P95 Latency] [Request Rate]
+Row 1: User impact（第一行：用户影响）
+  [Availability 可用性] [Error Rate 错误率] [P95 Latency 延迟分位] [Request Rate 请求速率]
 
-Row 2: Service health
-  [Instance Up Table] [Status Code Rate] [Top Slow Endpoints]
+Row 2: Service health（第二行：服务健康）
+  [Instance Up Table 实例采集状态] [Status Code Rate 状态码速率] [Top Slow Endpoints 慢接口]
 
-Row 3: Resources
-  [CPU] [Memory] [Network] [Disk]
+Row 3: Resources（第三行：资源）
+  [CPU 处理器] [Memory 内存] [Network 网络] [Disk 磁盘]
 
-Row 4: Context
-  [Deploy Annotations] [Recent Alerts] [Runbook Links]
+Row 4: Context（第四行：排障上下文）
+  [Deploy Annotations 发布标记] [Recent Alerts 近期告警] [Runbook Links 操作手册]
 ```
 
 每个 panel 都要能回答一个明确问题：
@@ -1656,6 +1662,18 @@ Grafana 主要负责可观测性数据展示和告警管理。它通常不直接
 - [ ] 我能排查 Save & test 失败、panel 无数据、变量为空、dashboard 丢失。
 - [ ] 我能设计一个以用户影响为第一层的 AIOps dashboard。
 
+## 独立通关：这张绿色面板有没有说错话
+
+请保留自己的导出 JSON 和原始查询响应，用下面五项检验是否能独立判断，而不是照着界面位置重复点击。
+
+1. **基础复现**：从空白实验看板创建本文三个自监控面板，选择一个 job，导出后再导入另一张看板。判据是数据源 UID 绑定正确，`up` 为 1、耗时为非负秒值、样本数有数据，并能说明这三个值尚未证明业务请求成功。
+2. **改变条件**：把 job 变量改成多选与 All，先预测原来的 `job="$job"` 在多值时为何可能无匹配，再改成 `job=~"${job:regex}"`，保存查询检查器中的展开表达式。判据是解释单值等号与正则匹配的差异，并确认实际查询范围没有越过预期环境；只出现更多曲线不算正确。
+3. **故障证据**：复制一张自己的面板，把一个已知秒值按毫秒标记，记录原始响应、字段转换和最终展示三个数，再恢复正确单位。判据是定位首次出现一千倍误差的层，修复后同一时间长度一致。另用本文离线缺失值模型解释 `null` 为什么不能直接补成零；实际 Grafana 未运行时要把两类证据分开标注。
+4. **设计取舍**：手算 20 面板、每面板 2 查询、10 用户、每 5 秒刷新的无缓存请求率，并给出减少扫描范围与降低刷新频率的不同代价。忽略缓存、合并、隐藏面板和重试的理想基线为每秒 80 次查询，不是实际下界或上界；真实请求数需再由检查器观察。答案还要说明变量筛选为什么不能充当租户授权，以及共享数据库为何不能替代插件和配置一致性。
+5. **口述追问**：三分钟解释“Save & test 成功但面板空、面板绿色但业务故障、导入 JSON 成功但数据源错误”三种现象的不同证据路径。判据是按原始响应、时间与变量、转换与显示、数据源身份分层回答，并说出后台告警不能由面板颜色证明。
+
+上述任务没有真实界面记录时标注待验证，不能用一张离线图代替 UID、权限或告警链路的实际验收。结束后仅停止本课两个容器，保留导出文件，再移除本课专用网络。
+
 ## 学习证据
 
 学完这篇后，建议提交这些内容到 GitHub：
@@ -1669,4 +1687,4 @@ Grafana 主要负责可观测性数据展示和告警管理。它通常不直接
 - 一篇排障记录：`Grafana 容器里为什么访问不到 localhost:9090.md`
 - README：写清 Grafana、Prometheus 启动命令、数据源 URL、dashboard 导入方式。
 
-如果你能从 Prometheus 指标一路讲到 Grafana 数据源、变量、panel、dashboard JSON、provisioning 和排障路径，就说明你已经不是“会点页面操作”，而是真的理解了 Grafana 在 AIOps 里的作用。
+用独立通关任务留下的预测、查询响应和修复记录评估理解程度；读完文章、点出页面或满足字数目标，都不能单独证明已经掌握生产排障。

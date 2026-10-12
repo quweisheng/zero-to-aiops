@@ -1375,9 +1375,14 @@ CMD ["python", "app.py"]
 
 ### 第 1 步：准备目录
 
+以下命令在连接本机 Linux 容器引擎的 Bash 终端执行；Windows 可用 WSL 终端，不要把续行反斜杠原样粘到 PowerShell。先运行 `docker context show`、`docker version`，确认 Server 一栏可连接且不是生产远端。当前目录应是自己的练习父目录，执行 `mkdir aiops-docker-demo && cd aiops-docker-demo`；目录已存在则换一个新名字，不覆盖旧实验。用编辑器创建下列文件，文件名 `Dockerfile` 没有扩展名。
+
+运行前执行 `docker ps -a --filter name=aiops-health` 核对名称。若已有同名容器，先查是谁创建的，不直接删除；本轮改用新名称并同步修改后面的观察、清理命令。宿主机 8000 端口被占用时只修改映射左边，不随意终止别人的进程。
+
 ```text
 aiops-docker-demo/
   app.py
+  healthcheck.py
   Dockerfile
   .dockerignore
   README.md
@@ -1419,17 +1424,38 @@ if __name__ == "__main__":
 
 ### 第 3 步：创建 Dockerfile
 
+先用编辑器创建同目录 `healthcheck.py`，只用Python标准库，不假设slim镜像已经安装curl。它检查容器内HTTP状态和JSON字段，异常/超时返回非零，不能只检查进程存在：
+
+```python
+import json
+import os
+import sys
+from urllib.request import urlopen
+
+try:
+    port = int(os.getenv("HEALTHCHECK_PORT", os.getenv("APP_PORT", "8000")))
+    with urlopen(f"http://127.0.0.1:{port}/health", timeout=2) as response:
+        if response.status != 200 or json.load(response).get("status") != "ok":
+            raise ValueError("unexpected health response")
+    print("healthy: HTTP 200 and status=ok")
+except Exception as error:
+    print(f"unhealthy: {type(error).__name__}: {error}", file=sys.stderr)
+    raise SystemExit(1)
+```
+
 ```dockerfile
 FROM python:3.12-slim
 
 WORKDIR /app
 
-COPY app.py .
+COPY app.py healthcheck.py ./
 
 ENV PYTHONUNBUFFERED=1
 ENV APP_PORT=8000
 
 EXPOSE 8000
+
+HEALTHCHECK --interval=5s --timeout=3s --start-period=10s --retries=3 CMD ["python", "healthcheck.py"]
 
 CMD ["python", "app.py"]
 ```
@@ -1464,7 +1490,7 @@ Successfully tagged aiops-health-demo:0.1
 
 ```bash
 docker run -d --name aiops-health \
-  -p 8000:8000 \
+  -p 127.0.0.1:8000:8000 \
   -e SERVICE_NAME=health-demo \
   aiops-health-demo:0.1
 ```
@@ -1478,7 +1504,7 @@ docker ps
 预期看到 `aiops-health` 状态为 Up，并且 PORTS 有类似：
 
 ```text
-0.0.0.0:8000->8000/tcp  # 示例输出：所有 IPv4 接口的宿主端口映射到容器 TCP 8000
+127.0.0.1:8000->8000/tcp  # 只发布到本机回环地址，不向办公网开放
 ```
 
 ### 第 7 步：访问服务
@@ -1486,6 +1512,29 @@ docker ps
 ```bash
 curl localhost:8000/health
 ```
+
+再在最多一分钟内观察探针，下面循环只读本次容器状态，未到healthy就不能记为已通过：
+
+```bash
+lab_health=starting
+for attempt in $(seq 1 30); do
+  lab_health=$(docker inspect --format '{{.State.Health.Status}}' aiops-health) || exit 1
+  [ "$lab_health" = healthy ] && break
+  sleep 2
+done
+[ "$lab_health" = healthy ] || { docker inspect --format '{{json .State.Health}}' aiops-health; exit 1; }
+docker inspect --format '{{json .State.Health}}' aiops-health
+```
+
+预期Status为healthy，最近检查ExitCode=0且Output含HTTP200。没有配置HEALTHCHECK的镜像通常没有State.Health字段，那是“没有容器健康证据”，不是“健康”。探针在容器内部访问回环，宿主curl另外验证发布端口，两条证据不能互替。
+
+**可回收探针故障。** 在同一实验引擎检查 `aiops-health-probe-fault` 不存在且18082空闲，再用刚构建镜像运行另一容器：
+
+```bash
+docker run -d --name aiops-health-probe-fault -p 127.0.0.1:18082:8000 -e HEALTHCHECK_PORT=8001 aiops-health-demo:0.1
+```
+
+这里仅把探针端口改错，APP_PORT仍8000。等最多一分钟，逐次查看 `docker inspect --format '{{json .State.Health}}' aiops-health-probe-fault`，应看到unhealthy、最近ExitCode=1和连接拒绝；同时 `curl -fsS --connect-timeout 3 --max-time 5 http://127.0.0.1:18082/health` 仍成功、`docker inspect --format '{{.State.Running}} {{.RestartCount}}' aiops-health-probe-fault` 为true且未因健康失败自动重启。若不符先核对镜像确实重新构建并包含探针、变量和时间，不修改主实验健康服务。保存时间线后只停止并移除这只故障容器：`docker stop aiops-health-probe-fault`、`docker rm aiops-health-probe-fault`；回到主容器复验healthy和宿主请求。此实验预期未在本轮daemon实跑。
 
 预期输出：
 
@@ -1535,7 +1584,7 @@ docker rm aiops-health
 如果只是临时运行，也可以一开始用：
 
 ```bash
-docker run --rm -p 8000:8000 aiops-health-demo:0.1
+docker run --rm -p 127.0.0.1:8000:8000 aiops-health-demo:0.1
 ```
 
 `--rm` 表示容器退出后自动删除容器对象。
@@ -1589,13 +1638,13 @@ docker inspect aiops-health
 
 ```bash
 docker build -t aiops-health-demo:0.2 .
-docker run --rm -p 8000:8000 aiops-health-demo:0.2
+docker run --rm -p 127.0.0.1:8000:8000 aiops-health-demo:0.2
 ```
 
 开发阶段也可以用 bind mount：
 
 ```bash
-docker run --rm -p 8000:8000 \
+docker run --rm -p 127.0.0.1:8000:8000 \
   -v "$PWD/app.py:/app/app.py:ro" \
   aiops-health-demo:0.1
 ```
@@ -1880,6 +1929,18 @@ Docker 主要解决应用运行环境一致性和分发问题。它通过 Docker
 
 完成时把应用健康、容器生命周期、宿主资源和编排控制分成四栏。它们可以互相影响，却不是同一个状态字段。能够解释这种分层，并用前文实际运行记录验证其中一段，才是面试里有证据的回答；本次修订没有重新连接 daemon，旧版客户端记录也不代表当前机器的实时版本。
 
+## 独立通关：不看步骤，能否解释并修好新条件
+
+先关闭教程正文，只保留题目；每项提交“事前预测、实际证据、解释、收回记录”。下面是教师判据，不是运行结果。没有连接 Docker 引擎时，可以完成预测和配置审查，但基础运行与 OOM 注入必须标成未运行，不能用纸面答案换取实操通过。
+
+1. **基础复现。**在另一空目录独立重建健康服务，记录 Docker client/server 版本、context、镜像 ID、容器 ID、`curl` 的 HTTP 状态和 JSON、对应请求日志。合格答案须把构建上下文→镜像→容器进程→容器监听→宿主端口逐段对应起来；镜像 ID 每次不要求相同，只有 `Up` 截图不合格。结束只停止、移除本轮容器，确认镜像仍可用于重新创建。
+2. **改变条件，先预测。**用同一镜像另起专用容器，设置 `APP_PORT=8001`，却仍发布 `127.0.0.1:18000:8000`。预测宿主访问 `http://127.0.0.1:18000/health` 会怎样，再核对日志中的监听端口和 `docker inspect` 中的映射。判据：进程可以正常运行但入口不通；修复应把映射目标改为 8001 并重新创建本轮容器，或恢复应用端口。修改 `EXPOSE` 本身不会修复转发。禁止用关闭防火墙作为第一步。
+3. **故障证据。**分别解释“容器仍在运行但 healthcheck 失败”和 OOM 实验中的 `OOMKilled=true`。至少留下健康检查最近一次输出、退出码、内存限制和日志时间线。判据：137 不能单独证明内存耗尽，`unhealthy` 也不等于已经退出；恢复要针对错误探针、监听条件或内存预算，并用请求成功复验，不能只无限重启。
+4. **设计取舍。**同事建议把所有容器设为 `--privileged`，并在事故后执行全局 prune。请拒绝或接受并说明理由，给出只读挂载、专用卷、容量告警和备份恢复替代方案。合格答案必须区分镜像回退与数据格式回退：旧镜像不能保证读懂已迁移的数据；停止条件是无法证明备份可恢复或作用范围不明。
+5. **口述追问。**先用 30 秒回答“容器为什么不是小虚拟机”，再用三分钟讲清本实验请求路径。老师继续问：宿主机坏了 restart 能救吗？镜像拉取成功等于业务成功吗？为什么监控容器拿到 Docker socket 风险很大？判据是分别说出单机故障域、运行与业务验收的区别、引擎控制权边界，并把指标/日志证据接到 AIOps 告警及人工确认的运行手册。
+
+所有五项都需要另一位读者能够复核的证据；答错一项，回到相应机制与实验重做该项，再评分，不按阅读时长或文章字数判定掌握。
+
 ## 学习证据
 
 学完这一篇，建议把下面内容提交到 GitHub：
@@ -1887,6 +1948,7 @@ Docker 主要解决应用运行环境一致性和分发问题。它通过 Docker
 - 一个 `Dockerfile`。
 - 一个 `.dockerignore`。
 - 一个 `app.py` 健康检查服务。
+- 一个 `healthcheck.py`，以及探针成功/失败的退出码和 `State.Health` 证据。
 - 一个 `README.md`，写清楚 build、run、curl、logs、cleanup 命令。
 - 一篇排障记录：为什么容器端口映射后仍然访问不了。
 
@@ -1901,12 +1963,13 @@ docker build -t aiops-health-demo:0.1 .
 
 ## Run
 
-docker run -d --name aiops-health -p 8000:8000 -e SERVICE_NAME=health-demo aiops-health-demo:0.1
+docker run -d --name aiops-health -p 127.0.0.1:8000:8000 -e SERVICE_NAME=health-demo aiops-health-demo:0.1
 
 ## Check
 
 curl localhost:8000/health
 docker logs aiops-health
+docker inspect --format '{{json .State.Health}}' aiops-health
 
 ## Debug
 
@@ -1920,8 +1983,10 @@ docker stop aiops-health
 docker rm aiops-health
 ```
 
-如果你能解释这个 demo 从 Dockerfile 到镜像、从镜像到容器、从容器端口到宿主机访问、从日志到排障的完整链路，就说明你已经不是只会背 Docker 命令，而是真的理解了 Docker 的核心知识点。
+这些文件证明实验可以复现，不自动证明已经掌握。把独立通关中失败过的预测、证据与修正一并提交，才方便老师检查你是否能迁移到新的端口、限制和故障条件。
 
 ## 本文验证边界
+
+2026-10-12额外用本机Python3.14.5和仅绑定127.0.0.1的临时标准库HTTP服务执行了本文探针：正常200/status=ok退出0，HTTP503、status字段错误和不可达/超时均退出1。这里只验证Python判定，不证明镜像已构建、Engine已安排探针或容器健康状态已变更。
 
 此前修订记录了 Docker Engine 29.7.2 官方资料、命令与 Markdown 静态核验，并记录过客户端版本；本轮没有重新连接 daemon 或确认当前安装版本，因此没有声称 OOM、rootless、storage backend 切换或 daemon 升级已在本机跑通。Linux 发行版、cgroup v2、nftables、SELinux/AppArmor 与 Docker Desktop/WSL 差异必须在目标环境验证。

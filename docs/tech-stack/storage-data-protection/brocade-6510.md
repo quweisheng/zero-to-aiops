@@ -450,6 +450,8 @@ service（业务）
 
 ### 创建 `fabric-ports.csv`
 
+先按[实验起步说明](../experiment-start.md)在自己的空目录保存CSV与完整Python脚本，UTF-8文本，不需要管理员、交换机登录或第三方包。本脚本从当前目录读取CSV，所以终端应停留在 `brocade-6510-lab`，不是任意目录双击脚本。
+
 ```csv
 fabric,switch,port,role,device,state,crc_delta,c3_delta,loss_sync_delta,credit_zero_delta
 A,san-a-01,0,F-Port,order01-hba1,Online,0,0,0,0
@@ -469,22 +471,34 @@ expected = {("A", "san-a-01", "0"), ("A", "san-a-01", "8"),
             ("B", "san-b-01", "0"), ("B", "san-b-01", "8")}
 seen = set()
 
+def counter(row, name):
+    try:
+        text = row[name]
+        if not text or not text.isascii() or not text.isdecimal():
+            raise ValueError("counter must be a non-negative decimal integer")
+        return int(text)
+    except (KeyError, TypeError, ValueError) as error:
+        raise ValueError(f"invalid {name}: cannot interpret reset/missing data as zero") from error
+
 with open("fabric-ports.csv", encoding="utf-8", newline="") as file:
     for row in csv.DictReader(file):
         identity = (row["fabric"], row["switch"], row["port"])
         if identity in seen or identity not in expected:
             raise ValueError("重复或未知的课堂端口，采集结果不能判为健康")
         seen.add(identity)
+        if row.get("role") != "F-Port" or not row.get("device", "").strip():
+            raise ValueError("课堂端口角色或设备身份缺失，不能只看Online")
+        counts = {name: counter(row, name) for name in ("crc_delta", "c3_delta", "loss_sync_delta", "credit_zero_delta")}
         label = f'{row["fabric"]}/{row["switch"]}/{row["port"]}/{row["device"]}'
         if row["state"] != "Online":
             problems.append(f"{label}: state={row['state']}")
-        if int(row["crc_delta"]) > 0:
+        if counts["crc_delta"] > 0:
             problems.append(f"{label}: CRC delta={row['crc_delta']}")
-        if int(row["c3_delta"]) > 0:
+        if counts["c3_delta"] > 0:
             problems.append(f"{label}: C3 delta={row['c3_delta']}")
-        if int(row["loss_sync_delta"]) > 0:
+        if counts["loss_sync_delta"] > 0:
             problems.append(f"{label}: loss_sync delta={row['loss_sync_delta']}")
-        if int(row["credit_zero_delta"]) > 100:
+        if counts["credit_zero_delta"] > 100:
             problems.append(
                 f"{label}: credit_zero delta={row['credit_zero_delta']}"
             )
@@ -540,6 +554,7 @@ A/san-a-01/8/vmax01-fa1: credit_zero delta=900
 ```powershell
 Copy-Item .\fabric-ports.backup.csv .\fabric-ports.csv -Force
 python .\check_fabric.py
+if ($LASTEXITCODE -ne 0) { throw '尚未恢复，保留本轮备份与故障证据' }
 Remove-Item .\fabric-ports.backup.csv
 ```
 
@@ -756,6 +771,16 @@ Defined 表示已定义对象，Effective 表示当前生效集合。把新 zone
 本轮对文中 Python 检查器实际做了内存输入验证：正常样例退出零、故障样例退出二、空输入和重复端口退出一。输入通过内存替代文件读取，没有新建实验目录或连接设备；这证明课堂判断分支可执行，不证明 FOS 输出解析或真实路径切换已经通过。
 
 采样失败与设备故障分开记账：前者先查采集权限和连接，后者再按路径证据定位，不能把无法登录直接写成光链路中断。
+
+## 独立通关：端口、路径和故障域三张图
+
+先完成预测、输入与证据，再核对判据；任何一关失败都应返工，不改阈值凑成功。
+
+1. **基础复现**：四端口正常退出0；CRC12、loss_sync2、C3=37、credit_zero900的故障退出2，并分别指出物理质量与拥塞候选。恢复后退出0才回收备份；这些四个端口不是四条端到端主机路径。
+2. **改变条件预测**：credit_zero_delta=100当前不触发，101触发；累计CRC1000→1000增量0，0→20增量20。后值小于前值时需查清零/重启，不生成负错误率。把负增量填CSV应拒绝、非零退出，不允许当健康。
+3. **故障证据**：空输入、重复端口、NaN、负计数和空设备名分别失败；输入校验异常退出1，设备/样例告警退出2，二者都不是健康。真实卷不可见时保存login、effective zoning、阵列masking和主机WWID，不能只凭defined配置或端口Online下结论。
+4. **设计取舍**：四台主机各16G且都跨一条16G ISL，名义过订阅4:1，不能承诺64G；两条16G中断一条后可用名义带宽减半，实际协议开销另计。给出另一Fabric已验证承载的证据、批次停止条件和旧端口回接图，A/B不得互联来凑冗余。
+5. **口述追问**：三分钟沿FLOGI→Name Server→zoning→PLOGI/PRLI→masking→多路径讲卷发现；回答Principal不是所有流量必经、CRC接收口不必是坏组件、上游credit等待不必是根因、6510升级不能追全系列latest。给出同负载计数增量、单变量替换与迁移回退，而非只背命令。
 
 ## 学习证据
 

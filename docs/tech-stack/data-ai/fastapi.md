@@ -4,9 +4,11 @@
 
 ## 官方资料
 
-先认清今天的工具：Python 是运行代码的解释器，虚拟环境是给本课单独放依赖的目录，HTTP 请求包含方法、路径、请求头和可选正文。JSON 是传输结构化数据的文本格式，不是数据库。本课使用 Python 3.11 或 3.12；前者是后文 `StrEnum` 的最低要求。只需补读 [Python](../foundation/python.md) 的函数、字典、类型注解和虚拟环境部分。
+先认清今天的工具：Python 是运行代码的解释器，虚拟环境是给本课单独放依赖的目录，HTTP 请求包含方法、路径、请求头和可选正文。JSON 是传输结构化数据的文本格式，不是数据库。代码最低需要 Python 3.11，因为后文使用 `StrEnum`；容器示例固定 Python 3.12，其他版本需运行测试确认兼容性。先按[实验起步](../experiment-start.md)确认运行位置、编辑器和解释器，只需补读 [Python](../foundation/python.md) 的函数、字典、类型注解和虚拟环境部分。
 
 在新建且不含业务文件的 `fastapi-classroom` 目录工作，预留本机 8000 端口。不要把各节同名路由全部粘进一个文件：前面的短片段分别演示概念，完整基础实验以“入门实验：告警分析 API”的 `main.py` 为准。第一次运行依赖解析成功后保存实际依赖锁定清单；文中的无版本安装只是发现环境的入口，不是可直接复用的生产发布清单。
+
+本课分三段：先在一个进程内用 TestClient 看懂请求与校验，不需要 Docker 或 Kubernetes；再启动回环地址服务，用另一个终端操作告警；最后研究持久任务、并发预算和部署。每段都必须区分“返回了什么”和“真实做了什么”，尤其不能把 `202` 当作分析完成。
 
 优先读这些官方资料：
 
@@ -300,25 +302,32 @@ Client（客户端）发出请求
 
 ## 安装
 
-建议先创建虚拟环境：
+先在自己的练习父目录创建新目录，目录重名就换名字，不覆盖旧文件；用编辑器创建 `.py` 文件，不要保存为 `.py.txt`。下面 Bash 和 PowerShell 二选一，环境创建或依赖安装失败就停下检查，不能继续用别的 Python 运行。建议先创建虚拟环境：
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate
-python -m pip install --upgrade pip
-pip install "fastapi[standard]"
+mkdir fastapi-classroom && cd fastapi-classroom || exit 1
+python -m venv .venv || exit 1
+source .venv/bin/activate || exit 1
+python -m pip install --upgrade pip || exit 1
+python -m pip install "fastapi[standard]" pytest httpx || exit 1
 ```
 
 Windows PowerShell：
 
 ```powershell
+if (Test-Path -LiteralPath 'fastapi-classroom') { throw '目录已存在，请更换课堂目录名' }
+New-Item -ItemType Directory -Path fastapi-classroom | Out-Null
+Set-Location fastapi-classroom
 python -m venv .venv
-.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-pip install "fastapi[standard]"
+if ($LASTEXITCODE -ne 0) { throw '虚拟环境创建失败' }
+.\.venv\Scripts\python.exe -m pip install "fastapi[standard]" pytest httpx
+if ($LASTEXITCODE -ne 0) { throw '依赖安装失败，不继续运行' }
+.\.venv\Scripts\Activate.ps1
 ```
 
 `"fastapi[standard]"` 要加引号，避免某些终端把中括号当成特殊字符。
+
+PowerShell 如果组织策略禁止运行激活脚本，不要修改系统安全策略；继续使用 `.\.venv\Scripts\python.exe` 执行 Python、`.\.venv\Scripts\fastapi.exe` 启动服务即可。`python -m pip --version` 的路径应在本课堂 `.venv` 中；后文短命令默认已经激活这个环境。
 
 确认安装：
 
@@ -822,18 +831,19 @@ curl -X POST http://127.0.0.1:8000/runbooks/restart-service/execute \
 ```python
 from typing import Annotated
 
-from fastapi import Depends
-from pydantic import BaseModel
+from fastapi import Depends, Query
+from pydantic import BaseModel, Field
 
 
 class PageParams(BaseModel):
-    offset: int = 0
-    limit: int = 20
+    offset: int = Field(default=0, ge=0)
+    limit: int = Field(default=20, ge=1, le=100)
 
 
-async def get_page_params(offset: int = 0, limit: int = 20) -> PageParams:
-    if limit > 100:
-        limit = 100
+async def get_page_params(
+    offset: Annotated[int, Query(ge=0)] = 0,
+    limit: Annotated[int, Query(ge=1, le=100)] = 20,
+) -> PageParams:
     return PageParams(offset=offset, limit=limit)
 
 
@@ -843,6 +853,8 @@ async def list_alerts(page: Annotated[PageParams, Depends(get_page_params)]):
 ```
 
 依赖的意义不是炫技，而是把重复逻辑集中起来，避免每个接口都复制一遍。
+
+`ge` 是大于等于，`le` 是小于等于；无效分页由查询参数校验返回 422，不悄悄截成另一个值。只在模型内部抛校验错误而不声明查询约束，可能让用户输入错误表现成服务端异常。
 
 ## async 和 sync
 
@@ -1407,10 +1419,20 @@ from datetime import datetime, timezone
 from enum import StrEnum
 from uuid import uuid4
 
-from fastapi import BackgroundTasks, FastAPI, HTTPException, status
-from pydantic import BaseModel, Field
+from fastapi import BackgroundTasks, FastAPI, HTTPException, Query, status
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
+from pydantic import BaseModel, ConfigDict, Field
 
 app = FastAPI(title="AIOps Alert API")
+
+
+@app.exception_handler(RequestValidationError)
+async def invalid_input(request, exc):
+    # 不回显原输入和校验上下文，防止敏感正文或 NaN 再导致错误响应失败。
+    detail = [{"loc": error["loc"], "msg": error["msg"], "type": error["type"]}
+              for error in exc.errors()]
+    return JSONResponse(status_code=422, content={"detail": detail})
 
 
 class Severity(StrEnum):
@@ -1420,11 +1442,12 @@ class Severity(StrEnum):
 
 
 class AlertCreate(BaseModel):
-    service: str = Field(min_length=1)
-    instance: str = Field(min_length=1)
+    model_config = ConfigDict(extra="forbid", str_strip_whitespace=True, allow_inf_nan=False)
+    service: str = Field(min_length=1, max_length=80)
+    instance: str = Field(min_length=1, max_length=200)
     severity: Severity
-    alert_name: str = Field(min_length=1)
-    description: str | None = None
+    alert_name: str = Field(min_length=1, max_length=100)
+    description: str | None = Field(default=None, max_length=2000)
     metric_value: float | None = None
 
 
@@ -1475,7 +1498,7 @@ async def create_alert(alert: AlertCreate):
 
 
 @app.get("/alerts", response_model=list[AlertRead])
-async def list_alerts(severity: Severity | None = None, limit: int = 20):
+async def list_alerts(severity: Severity | None = None, limit: int = Query(default=20, ge=1, le=100)):
     items = list(alerts.values())
     if severity:
         items = [item for item in items if item.severity == severity]
@@ -1531,9 +1554,15 @@ async def get_analysis(alert_id: str):
 
 ### 运行
 
+完整代码保存为当前课堂目录的 `main.py`。保留启动终端，另开一个位于同一目录的终端调用接口；如果 PowerShell 中 `curl` 是别名，可用 `curl.exe`，更稳妥的首次操作是打开 `/docs`，展开 POST `/alerts`，点击 Try it out，输入 JSON，再点击 Execute。复制 Response body 中的 `id`，而不是复制整个对象。
+
 ```bash
 fastapi dev main.py
 ```
+
+预期日志显示服务监听 `127.0.0.1:8000`，健康地址返回 `{"status":"ok"}`。`AlertCreate` 的额外字段禁止、字符串去首尾空白、非有限数禁止这三项是本课的明确输入合同；`NaN/Infinity` 不是合法业务测量值。分页只接受 1–100，否则 422，避免 Python 的负数切片把 `limit=-1` 意外解释成“除最后一条以外全返回”。详见[Pydantic 配置](https://docs.pydantic.dev/latest/api/config/)及[查询参数约束](https://fastapi.tiangolo.com/tutorial/query-params-str-validations/)。这些限制不等于生产网关的请求正文大小限制，也不让内存字典变成数据库。
+
+JSON 标准本来不允许裸写 `NaN` 或 `Infinity`，但某些解析器仍会接收这种扩展输入。异常处理器只返回字段位置、原因和错误类型，不把原始值再次放进 JSON 响应，避免“已经拒绝坏值，却在生成错误信息时又失败”。它也减少错误正文回显敏感内容；生产仍要另外控制日志脱敏与错误信息泄漏。
 
 ### 创建告警
 
@@ -1636,7 +1665,7 @@ def test_invalid_severity_returns_422():
 运行：
 
 ```bash
-pytest
+python -m pytest
 ```
 
 API 测试不要只测成功路径。AIOps 后端至少要测：
@@ -2279,6 +2308,24 @@ CORS 是浏览器是否允许网页读取跨来源响应的规则，不是服务
 追问二：返回二〇二后进程退出怎么办？若只有进程后台任务，不能承诺恢复；若任务已可靠登记，由持久队列与执行状态协议接管。继续追问外部动作结果未知，要先查询原操作、核对幂等契约或人工协调，不能用通用重试装饰器掩盖副作用。
 
 事故题：发布后健康检查和查询一起变慢，处理器 CPU 并不高。先检查事件循环滞后、同步阻塞调用、线程池和连接池等待，再关联新版本。若证据指向异步路径内调用阻塞 SDK，修复为合适异步客户端或受控隔离；验证要包含并发健康请求、超时、取消和下游负载，单请求变快不足以结案。
+
+## 独立通关：从接口能访问，到合同能经受新输入
+
+先遮住参考判据，使用本课合成数据。每题留下预测、请求状态与脱敏响应、解释和收回记录；TestClient 只验证进程内接口，不能替代真实网络、反向代理或持久队列验收。
+
+1. **基础复现。**在新目录独立搭起完整内存版，创建 warning 告警，查询它、触发分析、查询分析。判据：创建 201，接受分析 202，结果对应同一个告警编号且最终 completed；建议是规则拼接，不是模型根因结论。HTTP 终端模式必须记录监听地址、实际版本与 Ctrl+C 收回，不能只交 `/docs` 截图。
+2. **改变输入。**先预测 `limit=-1`、`limit=101`、只有空格的 service、额外字段 `approved=true`、字符串 `metric_value="NaN"`。判据：本课五种输入都返回 422，且不得增加告警条数；正常 `limit=1` 返回至多一条，`metric_value=0.23` 被接受。`approved` 被拒绝也不等于系统具有审批功能，类型合同和业务授权是两层边界。答错回到 Query 与模型配置。
+3. **故障证据。**创建告警后正常停止并重启，查旧 ID。判据：健康仍 200，旧 ID 404，说明进程内状态丢失，而不是数据库损坏；重新创建只能恢复课堂可操作状态，不能恢复旧记录。TestClient 可以加载两次应用模块模拟独立内存，但不能把它描述为真实服务器重启或容灾成功。
+4. **生产设计。**三副本各四 worker，每个进程数据库池最多二十连接，下游只允许八十。判据：理论上限为 3×4×20=240，超预算三倍；若正常时每进程降为六，合计72，但发布临时增加一副本会到96，仍超限。应把发布峰值、连接额外开销与恢复余量纳入统一预算，不能只调低一个参数。可靠任务要持久登记、幂等键核对请求摘要、Outbox 恢复与结果未知分支，普通 BackgroundTasks 不满足这些条件。
+5. **连续追问。**30 秒解释 FastAPI/服务器/校验库分工，3 分钟讲请求→校验与授权→持久任务→执行→查询。追问：异步路径调用阻塞 SDK 为何连健康检查也慢？202 后进程退出是否能保证任务？response_model 能否防止说明字段泄密？判据：分别指出事件循环阻塞、持久状态边界和内容级脱敏，并给出路由模板指标、请求 ID、队列年龄、版本与人工确认的 AIOps 证据链。不能把加 worker、收紧 CORS 或无限重试当作通用修复。
+
+任一项缺预测、可复核证据或失败后的恢复解释，回对应章节返工。若没有运行服务器，只填写 TestClient 的验证范围；不能把当前进程里的成功当作大规模生产能力证明。
+
+## 本轮验证范围
+
+2026-10-12 在独立虚拟环境中，用 Python 3.14.5、FastAPI 0.143.0、Starlette 1.7.0、Pydantic 2.14.1、httpx 0.28.1 执行正文完整内存 API 的 25 项契约检查，并运行单位错误小实验：正常创建/查询/分析、分页边界、空白/额外/非法枚举字段、非有限数及错误响应、缺失资源均符合上述判据。用重新加载的应用模块验证旧 ID 不存在，验证的是两份进程内状态的隔离，不是实际服务器重启。
+
+这一组合提示 Starlette 的 httpx 测试适配将弃用，但本次 TestClient 检查仍通过；以后升级要按[Starlette TestClient 官方说明](https://www.starlette.io/testclient/)核对依赖迁移并重跑，不能仅消除警告就当兼容。没有运行网络服务器、Docker、Kubernetes、数据库、队列、并发压力、断电恢复或生产部署。本文的 Python 3.12 镜像也未在本轮运行，不能用较新解释器的进程内通过代替它的验证。
 
 ## 本课 GitHub 学习证据
 

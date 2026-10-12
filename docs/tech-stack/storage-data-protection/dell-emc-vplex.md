@@ -366,6 +366,8 @@ AIOps 的价值不是自动执行 `resume`，而是把主机、交换机、VPLEX
 
 ### 第一步：创建 `vplex-health.csv`
 
+参考[实验起步说明](../experiment-start.md)，在自己的空目录 `vplex-lab` 用编辑器保存CSV和完整Python脚本为UTF-8，终端进入该目录。样例中cluster的paths是统一化教学字段，不能当成GeoSynchrony原生命令字段；此实验不需要设备账号或第三方库。
+
 ```csv
 object_type,name,cluster,health,operational,service_status,paths,rebuild_percent
 cluster,cluster-1,cluster-1,ok,ok,running,8,100
@@ -379,20 +381,32 @@ system-volume,meta_cluster_1,cluster-1,ok,ok,running,4,100
 ```python
 import csv
 import sys
+import math
 
 bad_rows = []
 expected_names = {"cluster-1", "cluster-2", "dd_order_db", "meta_cluster_1"}
 seen_names = set()
+inventory = {"cluster-1": ("cluster", "cluster-1", 8),
+             "cluster-2": ("cluster", "cluster-2", 8),
+             "dd_order_db": ("distributed-device", "cluster-1", 4),
+             "meta_cluster_1": ("system-volume", "cluster-1", 4)}
 
 with open("vplex-health.csv", encoding="utf-8", newline="") as file:
     for row in csv.DictReader(file):
         if row["name"] in seen_names or row["name"] not in expected_names:
             raise ValueError("课堂对象重复或未知")
         seen_names.add(row["name"])
+        object_type, cluster, expected_paths = inventory[row["name"]]
+        paths = int(row["paths"])
+        rebuild = float(row["rebuild_percent"])
+        if row["object_type"] != object_type or row["cluster"] != cluster:
+            raise ValueError("对象类型或所属集群与台账不一致")
+        if paths < 0 or paths > expected_paths or not math.isfinite(rebuild) or not 0 <= rebuild <= 100:
+            raise ValueError("路径或重建进度超出合同范围")
         state_ok = row["health"] == "ok" and row["operational"] == "ok"
         service_ok = row["service_status"] == "running"
-        paths_ok = int(row["paths"]) >= 2
-        rebuild_ok = float(row["rebuild_percent"]) == 100
+        paths_ok = paths == expected_paths
+        rebuild_ok = rebuild == 100
         if not (state_ok and service_ok and paths_ok and rebuild_ok):
             bad_rows.append(row)
 
@@ -425,7 +439,7 @@ python .\check_vplex.py
 VPLEX_HEALTH=OK
 ```
 
-验证方法：执行 `$LASTEXITCODE`，应得到 `0`；同时人工核对 CSV 中每个对象都为 `ok/running` 且路径数不少于 2。
+验证方法：执行 `$LASTEXITCODE`，应得到 `0`；同时人工核对 CSV 中每个对象都为 `ok/running`，路径数符合本课台账8/8/4/4。只是达到最低两条不代表已经恢复完整冗余。
 
 ## 故障注入实验：模拟分区与单路径
 
@@ -455,6 +469,7 @@ system-volume meta_cluster_1: health=ok, operational=ok, service=running, paths=
 ```powershell
 Copy-Item .\vplex-health.backup.csv .\vplex-health.csv -Force
 python .\check_vplex.py
+if ($LASTEXITCODE -ne 0) { throw '恢复验证失败，保留备份和现场' }
 ```
 
 应恢复 `VPLEX_HEALTH=OK`。实验结束后执行 `Remove-Item .\vplex-health.backup.csv` 清理备份副本。
@@ -606,7 +621,7 @@ Witness 提供额外观察，但不保存数据库内容，不判断哪条业务
 
 ### 从离线规则走向可用的监控
 
-前面 CSV 里的 `paths >= 2` 是教学阈值，无法证明两条路径属于不同 Fabric。请给实验报告补一张关系表，把每条路径标明 HBA、交换机、Director 和阵列端口；同一故障域内四条路径仍可能一起消失。
+前面 CSV 按已声明的对象清单，要求两个集群各有 8 条路径、分布式设备和元数据卷各有 4 条路径，避免“还剩两条就健康”的假结论。但是路径数量仍无法证明它们属于不同 Fabric。请给实验报告补一张关系表，把每条路径标明 HBA、交换机、Director 和阵列端口；同一故障域内四条路径仍可能一起消失。这组数量仅服务于本课样本，不能直接套到所有真实 VPLEX 拓扑。
 
 还要给每份导出标时间和来源。若主机证据是 10:00、阵列证据是 10:20，期间已经完成修复，直接拼起来会得到虚假的矛盾。以统一时间线和对象 ID 关联指标、日志与变更，才适合交给根因分析模型。自动化先生成只读取证包和候选假设，不自动执行仲裁恢复。
 
@@ -673,6 +688,16 @@ Metadata Volume 保存系统配置关系，Logging Volume 跟踪需要重建的�
 当前对文中检查器实际进行了五类内存输入测试：正常样例、组合故障、空表、重复对象以及仅重建进度不足。预期退出码依次为零、二、一、一、二，实际符合；输入直接在内存中提供，未创建本地文件或连接阵列。这证明覆盖与状态分支可执行，不证明真实命令输出和故障仲裁通过。学习者应把这种边界与产品实验结果分别归档，避免离线代码测试替代真实容灾验收。
 
 读取支持包前还应核对采集时刻；旧包里的正常状态，不能证明当前分区已经恢复。
+
+## 独立通关：不能把可见、可写、已同步混成健康
+
+独立完成五关再对照；任何不合格先返工，仲裁题不能靠试命令猜答案。
+
+1. **基础复现**：四对象正常退出0；分布式卷degraded/stressed/cluster-unreachable/rebuild40及系统卷路径1应退出2，两行均被指出；恢复原样例再0。CSV归一化字段不等于CLI原输出，结果只验证课堂规则。
+2. **改变条件预测**：仅把cluster-1路径8改4、或虚拟设备4改2，状态仍ok也应告警。仅重建99.9也是保护未完全恢复；业务是否可用另行取证。改集群归属、rebuild=NaN、路径负数应输入失败非零，不当作正常降级。
+3. **故障证据**：标准样例、空表、重复对象、错类型、NaN分别保留输入与退出码，区分规则告警2与输入错误1。真实分区要保存A-B/A-W/B-W三方连通、两端I/O、CG规则、最后写入与当前权威端；不能在两边resume，更不能把Witness当作保存了最新数据的第三副本。
+4. **设计取舍**：1 TiB差异/200 MiB/s约87.38分钟乐观下限；若600 GiB差异、重建100 GiB/小时、新增40 GiB/小时，简化净收敛60，约10小时；新增≥100则不收敛。给业务p99与保护恢复两个门槛，以及停非关键写/改善瓶颈的回退方案，明确不是厂商精确时间保证。
+5. **口述追问**：三分钟沿Storage Volume→Extent→Device→Virtual Volume→Storage View和FE/BE路径；继续解释“远端可见为何不保证远端有副本”“本地镜像为何不等于Distributed Device”“写穿透为何仍不能理解成每笔物理盘落盘”“Logging Volume为何不是事务日志或历史备份”。答案要能反查全部依赖，迁移90%时拒绝撤销源LUN，切换后回退需处理新写入。
 
 ## 学习证据
 

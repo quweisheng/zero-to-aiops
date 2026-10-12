@@ -229,6 +229,8 @@ Terraform 不是：
 
 ## HCL 基础
 
+到“ AIOps 入门实验”之前的云资源、backend、state迁移与destroy示例是概念词典，不组成可逐条执行的项目。这里的生产账号/区域/对象名称没有准备完整，禁止直接复制执行；第一轮只做 local provider 的个人文件实验，不使用公司 state 或云凭据。
+
 Terraform 使用 HCL。
 
 基本块结构：
@@ -995,6 +997,21 @@ terraform workspace select dev
 
 目标：用 Terraform 创建本地文件，理解 init、plan、apply、state、output、drift。
 
+Windows 路线：从 [官方安装页](https://developer.hashicorp.com/terraform/install) 选择 Windows 与电脑架构，下载 ZIP 并按官方校验文件验证下载内容，将其中 terraform.exe 解压到个人工具目录，把该目录加入用户 PATH，重新打开 PowerShell。用 `Get-Command terraform` 核对路径，`terraform version` 记录实际 CLI；不要把公司另一版本 CLI 隐式当成当前工具。Linux/WSL 选择同页相应系统说明，不能在 Bash 运行下面的 PowerShell 语法。
+
+在 PowerShell 新建专属目录，不复用已有 Terraform 项目：
+
+```powershell
+New-Item -ItemType Directory terraform-course -ErrorAction Stop
+Set-Location terraform-course
+Get-Location
+terraform version
+if ($LASTEXITCODE -ne 0) { throw "CLI不可用" }
+Get-ChildItem Env:TF* | Select-Object Name # 只列变量名，不输出可能含密钥的值
+```
+
+若目录已存在或 TF_CLI_ARGS/TF_WORKSPACE/TF_DATA_DIR 等已配置且来源不明，停下选择干净个人终端/目录；不加载云backend或现有state。Terraform init 需要能访问官方 registry 与插件下载地址，local provider 也要下载，并非纯离线。下面四个文件都用编辑器保存为同一目录的真实 `.tf` 文件，不要带隐藏 `.txt` 后缀。
+
 ### 1. 写配置
 
 `versions.tf`：
@@ -1041,15 +1058,33 @@ output "runbook_path" {
 
 ### 2. 执行
 
-```bash
+`~> 2.5` 是允许的版本范围而不是精确锁定2.5.x；第一次init实际选择后由 `.terraform.lock.hcl` 记录provider版本/摘要，复现保留这份锁文件及CLI版本。先初始化和生成计划：
+
+```powershell
 terraform init
+if ($LASTEXITCODE -ne 0) { throw "初始化失败，不继续" }
 terraform fmt
+if ($LASTEXITCODE -ne 0) { throw "格式处理失败" }
 terraform validate
+if ($LASTEXITCODE -ne 0) { throw "配置校验失败" }
 terraform plan -out=tfplan
+if ($LASTEXITCODE -ne 0) { throw "计划失败，不能应用旧plan" }
+terraform show tfplan
+if ($LASTEXITCODE -ne 0) { throw "计划读取失败" }
+```
+
+停下来读：只能创建本次目录的 `local_file.runbook`，无云资源、无意外删除；任何不符先停止。确认后执行**同一份**计划，传入保存计划时不会再问一次yes：
+
+```powershell
 terraform apply tfplan
+if ($LASTEXITCODE -ne 0) { throw "执行失败，先核对真实文件和state" }
+Get-Content -LiteralPath .\generated-runbook.txt -ErrorAction Stop
 terraform output
 terraform state list
 terraform state show local_file.runbook
+terraform plan -detailed-exitcode
+$noChangeExit = $LASTEXITCODE
+if ($noChangeExit -ne 0) { throw "第二轮应无差异，实际=$noChangeExit；1是错误，2是存在差异" }
 ```
 
 ### 3. 观察 state
@@ -1081,9 +1116,7 @@ terraform plan
 
 ### 5. 清理
 
-```bash
-terraform destroy
-```
+如果继续后面的漂移恢复和重命名实验，先保留资源与state，全部结束后按“将本地文件实验补成可验收的故障课堂”保存并审阅销毁计划。不要此时destroy后又假设资源仍在。清理后确认文件不存在、`state list`为空，配置与锁文件可保留；二进制plan/state不上传公共仓库。
 
 ## 典型故障排查表
 
@@ -1382,9 +1415,11 @@ Terraform 通过资源引用构建有向依赖图。比如子网引用网络 ID�
 
 阅读 `terraform show repair.tfplan`，确认操作仅涉及这个实验文件，再 `terraform apply repair.tfplan`。预期文件恢复为声明文本，重新 plan 没有变化。这个过程完整体现“现象、读取现实、提出修复、审核、执行、再验证”。`-refresh-only` 则只更新 state 对现实的认识，不会替你恢复文件，应区别练习。
 
-可追加一个错误路径实验：把 `filename` 改成一个不存在的父目录下、且 provider 无法写入的路径，先看 plan，再决定是否执行。初学阶段可以只记录计划，避免把试验路径写到系统目录。正式故障实验已经由内容漂移完成，不需要靠危险权限操作制造失败。
+不要用“不存在的父目录”作为必然失败条件，[local provider 实现](https://github.com/hashicorp/terraform-provider-local/blob/main/internal/provider/resource_local_file.go)会尝试创建需要的目录；更不要故意写系统保护路径来练习权限。正式故障已由个人文件内容漂移完成。恢复 apply 后，用 `Get-Content`核对真实内容，再立即读取 `terraform plan -detailed-exitcode` 的 `$LASTEXITCODE`：必须0；1是读取/规划错误，2是仍有差异，均不能宣称恢复完成。
 
 清理时先 `terraform plan -destroy -out=cleanup.tfplan`，确认只删除 `local_file.runbook`，再执行 `terraform apply cleanup.tfplan`。预期生成文件消失，state 资源列表为空。保留脱敏 plan 解读、配置与锁文件；包含环境信息的 state 与二进制 plan 留在本地或受控存储，不上传公共 GitHub。
+
+每个Terraform命令结束都立即检查退出码，失败就停止，不执行可能遗留的旧cleanup.tfplan；完成后 `Test-Path -LiteralPath .\generated-runbook.txt` 应为False，`terraform state list` 成功且无资源。若已做重命名实验，合法地址变成runbook_v2，应按当前state审阅，不拿旧地址清单硬套。
 
 ## 生产设计课堂：把 state 边界当成故障边界
 
@@ -1513,6 +1548,16 @@ S3 backend 读取状态对象所需的身份，与 AWS provider 创建业务资�
 三十秒追问答案：Terraform 先需要确定资源身份，再允许部分属性在执行后获知；输入缺失、空集合和错误不能混用。三分钟把数据来源、校验、依赖图、状态锁、执行身份和业务验收串起来。架构题“资产接口暂时返回空数据”要先防止错误清空期望集合，再讨论缓存与人工确认，不能让自动化把观测故障扩大为大规模销毁。
 
 把差异检测与执行授权分开记录：检测到差异只创建审阅任务，不自动代表允许修改。尤其是销毁或替换计划，需要资源所有者确认数据影响和恢复条件。
+
+## 独立通关：三本账一致，不代表执行可以无限重试
+
+1. **基础复现。** 从空目录独立重建四个tf文件，保存CLI/provider锁定版本、计划解读、apply/state/output和真实文件；第二次 detailed-exitcode 必须0。答案判据：只管理自己的文件，0/1/2语义正确，能说清锁文件不固定Git模块移动分支。只交state截图不证明文件存在。
+2. **改变条件预测。** 只把资源标签runbook改runbook_v2并同步输出，先预测计划，再加moved比较。答案判据：未声明迁移可能旧删新建，moved使地址迁移而非因改名重建；文件路径/内容未变化。另问for_each接到空集合与查询失败：前者明确期望零可能销毁，后者必须显式阻断，不能空值兜底。
+3. **故障证据。** 手改生成文件，保留前后字节、计划与真实state，审核repair计划只作用于个人文件后恢复。答案判据：local provider可能表现为重建，不硬说所有资源原地修改；refresh-only不恢复文件；最终真实内容、地址和无差异三份证据都正确。apply失败先读现实，不直接destroy。
+4. **设计取舍。** 网络、生产数据库与监控是否放一个state？答案判据：按所有权/生命周期/权限/爆炸半径权衡，拆分后明确依赖顺序；后端锁只协调同state受支持操作，不锁控制台和另一state。S3存储示例未启锁，backend和provider是两条授权链；生产数据库需平台删除保护、备份和实际恢复，不能只靠prevent_destroy。
+5. **口述追问。** 三分钟讲HCL→provider→refresh→依赖图→计划→API→state，答“审批计划后配额变了”“创建超时但资源出现”“sensitive后能公开plan吗”“check失败是门禁吗”。答案判据：计划不预留全局事务；未知查真实ID/state及provider恢复流程；plan/state含秘密须保护；check通常警告，强门禁由校验/条件/CI显式实现，部分完成不自动回滚。
+
+失败返回“三本账”“可验收的故障课堂”“配置契约课堂”逐项重做。本文本轮未安装/执行Terraform或local provider，没有云或真实state变更；文件恢复与moved的输出是复现目标，不能冒充实跑。可提交的是非敏感配置/锁文件/脱敏计划解读，而非完整state、凭据或二进制计划。
 
 ## 学习证据
 

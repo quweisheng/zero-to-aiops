@@ -414,6 +414,8 @@ etcd 保存的是 API Server 序列化后的资源状态
 
 下面实验使用 Docker 和 etcd 3.7.1，只用于学习。生产必须使用受支持补丁、TLS、独立故障域、备份和容量监控。
 
+运行位置是 Windows PowerShell，Docker Desktop 已切到 Linux 容器模式；Linux 读者可将每条续行反引号改为 Bash 反斜杠，或使用单行命令。先运行 `docker context show`、`docker version`，确认 Server 可连接且 context 是自己的本地引擎；若没安装 Docker，先完成[Docker 的运行位置与入门实验](./docker.md)，本课不要求理解 Kubernetes。创建新空目录保存快照，用 `Get-Location` 记录位置，核对 `etcd-lab`、`etcd-restored-lab` 名称及 `etcd-restore-data` 卷没有被旧实验使用。单机无需暴露 peer 2380 给宿主，因此宿主 2380 被占用不是这条命令的端口冲突；2379 才是宿主发布端口。
+
 ```powershell
 docker run -d --name etcd-lab `
   -p 127.0.0.1:2379:2379 `
@@ -440,7 +442,7 @@ docker exec etcd-lab etcdctl endpoint status --write-out=table # 查看 Leader�
 
 1. `docker ps -a --filter name=etcd-lab` 看容器是否退出。
 2. `docker logs etcd-lab` 看参数、端口和数据目录错误。
-3. 本机 2379/2380 是否被占用。
+3. 本机发布端口 2379 是否被占用；2380 只在这个单节点容器内监听。
 4. 镜像是否成功拉取。
 
 ## 基础实验：KV、Watch、Lease 和事务
@@ -506,6 +508,8 @@ get /aiops/config/version
 
 第一段是 Compare，第二段是 Success，第三段是 Failure，空行用于结束每一段。正常应显示事务成功并把值更新为 `v3`。
 
+最后一行 `get` 之后也要按一次空行结束第三段；看到交互提示仍在等待时，不要另开一次相同事务误以为命令卡死。把条件改为已经不存在的旧值再执行，应该进入 Failure 分支读取当前值，这能验证你理解的是条件原子性而非只会照抄成功路径。
+
 ## 故障实验：Watch 落后于 compact
 
 ### 实验目标
@@ -538,6 +542,8 @@ docker exec etcd-lab etcdctl get /aiops/lab/key --write-out=json # 重新 List �
 
 然后从新 revision 的下一位重新 Watch。不要把 compact 当成数据损坏，也不要删除 data-dir。
 
+补齐恢复动作：从刚才 JSON 的 `header.revision` 取当前修订号 R，在终端 A 执行 `docker exec -it etcd-lab etcdctl watch /aiops/lab/key --rev=<R加1后的整数>`，把整个占位符替换为计算后的十进制数字；终端 B 执行 `docker exec etcd-lab etcdctl put /aiops/lab/key four`。预期 A 收到值 four 的 PUT。按 Ctrl+C 结束 Watch，再执行 `docker exec etcd-lab etcdctl del /aiops/lab/key` 回收本轮键，以 get 无结果验证。compact 的旧历史不可撤销，清理键不会恢复它，这也是实验必须专用实例的原因。
+
 ## 快照、验证和恢复演练
 
 ### 创建快照
@@ -569,6 +575,26 @@ docker run --rm `
 ```
 
 实验恢复到新目录后，先隔离验证，不要覆盖正在运行的 `etcd-lab` 数据目录。
+
+### 不停在生成目录：启动恢复副本并读回
+
+上面的 restore 采用默认成员名 `default` 和默认 peer 地址（见[3.7.1 恢复命令源码](https://github.com/etcd-io/etcd/blob/v3.7.1/etcdutl/etcdutl/snapshot_command.go)），因此恢复实例也必须匹配它，不照搬原实例的 `s1`。只在本轮空卷恢复成功、且没有同名容器时执行：
+
+```powershell
+docker run -d --name etcd-restored-lab `
+  -v etcd-restore-data:/etcd-data `
+  gcr.io/etcd-development/etcd:v3.7.1 `
+  /usr/local/bin/etcd --name default --data-dir /etcd-data `
+  --listen-client-urls http://127.0.0.1:2379 `
+  --advertise-client-urls http://127.0.0.1:2379 `
+  --listen-peer-urls http://127.0.0.1:2380 `
+  --initial-advertise-peer-urls http://localhost:2380 `
+  --initial-cluster default=http://localhost:2380
+docker exec etcd-restored-lab etcdctl endpoint health
+docker exec etcd-restored-lab etcdctl get /aiops/config/version
+```
+
+不发布宿主端口，客户端通过 `docker exec` 在恢复容器内访问。若按前文顺序保存快照，键值应为 v3；实际以保存快照前记录的值为准。检查各条命令退出码和 `docker logs etcd-restored-lab`，健康探针成功但读回内容不符仍不通过。结束先 `docker stop etcd-restored-lab`，再 `docker rm etcd-restored-lab`；确认不再需要恢复数据后才回收该专用卷。该演练只证明单节点教学快照的读回路径，不证明 Kubernetes informer、证书或多成员灾备已恢复。
 
 ## 配置字典
 
@@ -911,6 +937,18 @@ Watch 按修订顺序交付可用历史窗口内的事件，但不是每次事�
 ### 面试收尾：先明确客户端拿什么作为完成证据
 
 假设面试官只给出“接口已经返回成功，监控还看不到配置”这一句，先问成功来自哪个接口、读取是否线性一致、监控是否经由本地缓存、是否还在重连。直接读取键和读取监听者缓存是两条不同链路。若直接读取正确而缓存仍旧，优先检查消费位置与处理延迟；若直接读取也没有，继续核对事务条件、目标集群和响应错误，不用等待监听来掩盖写入失败。这种分层回答把一致性保证限定在真正提供保证的边界，既不会贬低共识协议，也不会把共识协议说成所有业务副作用的保证。
+
+## 独立通关：把一致性保证画到正确边界
+
+先独立提交预测与证据，再按下面判据评分。没有 Docker 引擎时可做多数派和缓存推演，真实读写、压缩与恢复标为未运行；不能把单节点健康当成三节点容灾证明。
+
+1. **基础复现。**换专用前缀写两次同名键，再在一个事务中同时改两个键。判据：能比较单键 version、mod_revision 与全局 revision，说明同事务多键共享修订号，并从 JSON 读出值和元数据；不能把 Raft index 当业务修改次数。清理只删自己新建的精确键。
+2. **改变条件。**三投票成员损失一个，与四投票成员损失两个各能否写？判据：前者还剩多数派二，后者只剩二却需三，不能写；新增 Learner 不计票。把租约 20 秒改为 60 秒，过期等待和接管延迟随之变化，但不保证外部旧进程停止。
+3. **故障证据。**完成旧 revision Watch 被压缩拒绝→重新读取→从下一修订监听→新写被观察的闭环。判据：记录请求修订、压缩点、当前修订和新事件，说明当前值没有被 compact 删除；“一直重连成功”不是恢复本地缓存的证据。
+4. **设计取舍。**已有三成员一个离线，计划再停一个做 defrag，是否批准？判据：不批准失去多数派；先恢复健康、确认备份与单成员窗口。恢复设计须区分快照可解析、恢复目录、实例启动、键值读回与上层缓存重同步，提出 TLS、低延迟磁盘和外部 fencing 的边界，不直接抄删成员口诀。
+5. **口述追问。**30 秒解释 etcd 用途，三分钟追一次 Put 到多数派提交与 Watch。追问“客户端超时是否等于未写”“监听事件是否现在仍有效”“备份恢复后旧世代令牌怎么办”。判据：结果可能未知，关键动作须读回/条件比较；通知与当前状态不同；世代与外部系统需协调恢复。把 fsync、Leader、API 写延迟关联为 AIOps 假设，保留反证而不自动重启多数成员。
+
+答错回“Raft、多数派和奇数成员”“MVCC、revision 和 version”“监听深讲”“快照、验证和恢复演练”返工。真正通过依赖可复核的新输入与恢复证据，不依赖勾选数量。
 
 ## 学习证据
 

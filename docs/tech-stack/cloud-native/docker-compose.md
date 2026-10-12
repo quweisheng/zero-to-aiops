@@ -1062,6 +1062,10 @@ services:
 
 ### 第 1 步：准备目录
 
+在本机 Linux 容器模式的 Bash 终端操作，Windows 可选择已连接 Docker Desktop 的 WSL；先核对 `docker context show`、`docker version` 和 `docker compose version`，不能指向生产引擎。创建新的练习目录并进入：`mkdir -p labs/observability-compose && cd labs/observability-compose`；若已有旧实验，请另选空目录而不是覆盖。随后执行 `mkdir -p demo-app prometheus grafana/provisioning/datasources`，用编辑器按下面的相对路径保存文件；后续所有 Compose 命令都在这个目录运行。Python 依赖在镜像构建时安装，宿主机无需先装 `prometheus-client`。
+
+先用 `docker compose ls` 检查 `aiops-observability-lab` 没有被其他实验使用；重名时更改下文顶层 `name` 并记录新名字。确认本机 8000、9090、3000 可用，且有下载镜像、构建和保存指标的空间。只需改宿主端口时改 `ports` 中间的数字，容器间 URL 保持服务名与内部端口不变。
+
 ```text
 labs/observability-compose/
   compose.yaml
@@ -1846,6 +1850,18 @@ Profile 也不是安全隔离。它选择要启用哪些可选服务，不能替
 
 配置复核时再检查应用镜像中是否真的存在健康检查和诊断所用程序。缺少工具的失败不是应用端口不健康；保持运行镜像精简，并用受控诊断方式验证，不在生产容器内临时安装未知软件。
 
+## 独立通关：交付的是最终模型，不是 YAML 截图
+
+关掉步骤正文，用一份新目录重新完成以下题目。每题先预测后操作，提交输入文件、脱敏后的最终模型、实际状态、业务证据和清理记录；暂时没有 Docker 引擎时只可交静态推理，运行题标为未运行。教师按下面判据逐项复评，不能用三个绿色容器代替整条链验收。
+
+1. **基础复现。**独立搭起 demo-app→Prometheus→Grafana，解释每一条 URL 由哪个容器访问哪个端口。判据是健康响应、`/metrics` 内容、Targets 状态、Prometheus `up{job="demo-app"}` 与 Grafana 同式查询四层证据齐全，并指出 `up=1` 只证明采集成功；随机业务 500 与抓取正常可以同时出现。
+2. **改变条件。**只把 demo-app 的宿主发布端口改成 `127.0.0.1:18000:8000`，先预测 `prometheus.yml` 是否也要改。合格答案：宿主访问改用 18000，内部 `demo-app:8000` 不变。再用合并课堂的两个文件预测最终有几个入口，以 `config` 证明普通覆盖不是整块替换；修复后最终模型只含批准的入口。没有核对实际 CLI 是否支持自定义标签时，不直接使用 `!override`。
+3. **故障证据。**在本轮 datasource 文件中制造 `localhost:9090` 错误，保留原文件，采集 Grafana 查询错误、服务名解析和 Prometheus 就绪证据。判据：分清 Grafana 活着、DNS 可用、远端服务可用、数据源地址错误四件事；恢复文件并重建后，必须再次执行同一查询。容器缺少 `getent` 或 `wget` 是诊断工具缺失，不能记作 DNS 或端口故障，可用经过批准的同网络诊断容器或产品 UI 取证。
+4. **设计取舍。**两份不同 project 文件都引用同一个 external volume，是否已隔离？判据：项目前缀不改变显式共享卷，临时 `run --rm` 任务也可能改共享数据；提出专用卷、只读配置、备份恢复与默认口令隔离，并说明单机损坏时 Compose 本身不能跨主机迁移。清理常规使用 `down`，不批准 `down -v` 或全局 prune 来“试一试”。
+5. **口述追问。**30 秒解释 Compose 和 Engine 的分工，再讲三分钟的插值→合并→期望模型→引擎实际对象→应用读取链。追问“改环境变量后 restart 为什么不生效”“依赖稍后断开为何没级联自愈”“config 通过为什么还能失败”。判据：分别说出创建时配置、启动条件非持续控制、解析非运行验收，并把采集缺失与业务异常分开告警。
+
+评分以迁移条件下的预测和修复为准；复现成功但解释不出反例，回对应课堂返工。截图、配置解析和真实运行必须分别标注，不能把静态模型当成已经发生的生产行为。
+
 ## 学习证据
 
 学完这篇后，建议提交这些内容到 GitHub：
@@ -1861,7 +1877,7 @@ Profile 也不是安全隔离。它选择要启用哪些可选服务，不能替
 - 一篇笔记：`Docker Compose 中 localhost、服务名和端口映射的区别.md`
 - 一篇排障记录：`Grafana 连接 Prometheus 失败怎么查.md`
 
-如果别人 clone 你的仓库后，能进入 `labs/observability-compose` 执行 `docker compose up -d --build`，并按照 README 打开 Prometheus 和 Grafana，你的 Compose 学习就不是停留在概念上，而是形成了可复现的 AIOps 实验环境。
+别人能按 README 复现，说明交付有了可重复的入口；是否掌握，还需独立通关的条件变化、故障证据和设计答案。请保留未通过项与返工记录，不用文章读完或截图数量代替能力评测。
 
 ## 本文验证边界
 

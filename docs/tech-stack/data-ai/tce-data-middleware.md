@@ -209,6 +209,8 @@ TCE 数据产品由交付体系部署，不按本文 Docker/Python 示例装生�
 
 Python 3.10+；脚本只用内存，不联网、不写文件、不安装 TCE 产品。
 
+以下命令在 Windows PowerShell 的仓库根目录运行；先执行 `python --version` 或 `py -3 --version`，确认输出是 3.10 或以上。若所在目录没有 `examples/tce-data-middleware-lab/lab.py`，先回到仓库，不要把“文件找不到”当产品故障。字典是按键找值的内存容器，队列按先入先出暂存事件，集合记录见过的事件编号；它们都不是实际数据库、缓存或消息服务。
+
 ```powershell
 python examples/tce-data-middleware-lab/lab.py
 ```
@@ -332,20 +334,26 @@ import sqlite3
 
 db = sqlite3.connect(':memory:')
 db.executescript('''
-CREATE TABLE processed(event_id TEXT PRIMARY KEY);
+CREATE TABLE processed(event_id TEXT PRIMARY KEY, ticket_id TEXT NOT NULL);
 CREATE TABLE tickets(id TEXT PRIMARY KEY, status TEXT NOT NULL);
 ''')
 
 def consume(event_id, ticket_id, fail=False):
     try:
         with db:  # 两张表在同一事务提交或回滚
-            db.execute('INSERT INTO processed VALUES (?)', (event_id,))
+            try:
+                db.execute('INSERT INTO processed VALUES (?, ?)', (event_id, ticket_id))
+            except sqlite3.IntegrityError:
+                previous = db.execute('SELECT ticket_id FROM processed WHERE event_id=?', (event_id,)).fetchone()
+                if previous == (ticket_id,):
+                    return 'duplicate'
+                raise ValueError('同一事件编号对应不同工单，属于契约冲突')
             if fail:
                 raise RuntimeError('模拟写工单前进程异常')
             db.execute('INSERT INTO tickets VALUES (?, ?)', (ticket_id, 'OPEN'))
         return 'handled'
     except sqlite3.IntegrityError:
-        return 'duplicate'
+        return 'business-conflict'  # 不同事件争用同一工单键，不能当消息重投确认掉
     except RuntimeError:
         return 'retry'
 
@@ -354,12 +362,14 @@ print(db.execute('SELECT COUNT(*) FROM processed').fetchone()[0])
 print(consume('event-001', 'INC-001'))
 print(consume('event-001', 'INC-001'))
 print(db.execute('SELECT COUNT(*) FROM tickets').fetchone()[0])
+assert consume('event-002', 'INC-001') == 'business-conflict'
+assert db.execute("SELECT COUNT(*) FROM processed WHERE event_id='event-002'").fetchone()[0] == 0
 db.close()
 ```
 
 预期依次是 `retry`、`0`、`handled`、`duplicate`、`1`。第一次故意在两张表写入中间失败，事务回滚后去重记录也不存在，所以重试可以补建工单；第三次同事件被唯一约束识别为重复。正常实验去掉第一次故障调用，仍应得到一份有效工单。
 
-这个示例简化了错误分类：真实系统不能把任何唯一约束错误都当成同一事件重复，还要查询是事件键冲突、工单键冲突还是数据契约错误。SQLite 内存数据库在退出后消失，生产必须使用可靠持久化和备份；实验没有消息 ACK，也没有外部工单接口。若输出不符，先确认事务块未被拆开、主键约束保留、两次使用相同事件 ID。清理只需删除自己新建的教学脚本，无服务或持久数据遗留。
+末尾两条断言额外验证：另一个事件争用已有工单时返回 business-conflict，失败事务也不能留下“已处理”的标记。只有已保存的事件编号和工单编号都相符，才按本例合同认定重投；同一事件编号对应不同工单会抛出契约冲突，不能吞掉后 ACK。真实合同通常还需比较事件类型、租户、版本或规范化负载摘要；本例只校验两个字段，不能据此批准任意消息去重。SQLite 内存数据库在退出后消失，生产必须使用可靠持久化和备份；实验没有消息 ACK，也没有外部工单接口。若输出不符，先确认事务块未被拆开、主键约束保留、两次使用相同事件 ID。清理只需删除自己新建的教学脚本，无服务或持久数据遗留。
 
 ### 全链路恢复课堂：每层单独恢复成功为什么还会错
 
@@ -474,6 +484,14 @@ print('duplicate blocked; old version blocked; deletion retained')
 “我先按字段确定权威源：工单状态归事务库，附件内容归对象存储，缓存和搜索是派生视图，消息负责传播变化。一次状态更新在本地事务里同时保存业务记录与 Outbox，发布器允许重发，消费者用事件编号和业务版本分别处理重复与乱序。删除也作为带版本的事实传播，不能只删除原文后就认为所有副本消失。”
 
 “我监控从提交到派生可见的每段延迟，用积压年龄与业务对账判断链路是否收敛。恢复时先明确权威恢复点，再协调消息重放、索引重建和缓存回源，共享下游容量预算；恢复服务与恢复冗余分别报告。升级依据客户端和数据契约兼容矩阵，不固定照某个产品顺序操作。现场产品是否存在、支持什么能力，必须用 BOM、版本和交付证据核对，不能拿公有云目录代替。”
+
+## 独立通关：重复不等于乱序，冲突不等于成功
+
+1. **基础复现。** 从仓库运行正常与 `--fault` 两条命令，再独立运行内存 SQLite 练习。**判据：**前两轮分别 handled=1/duplicates=0 和 handled=1/duplicates=1，backlog 均为零；SQLite 为 retry、0、handled、duplicate、1，另一个事件争用同一工单的断言也通过。说明这些是本机模拟输出，不是 TCE 服务日志，更不证明跨组件持久化。
+2. **改变条件预测。** 同一事件换一个随机 ID 重发，和另一个真实事件携带更旧完整快照，是同一种问题吗？**判据：**随机换 ID 破坏稳定去重键；合法不同事件仍需业务版本防倒退。完整状态快照可拒绝旧版本，增量“加十元”不能简单跳过中间版本。再把删除 v8、旧创建 v6 顺序交换，最终仍应保留 v8 删除事实。
+3. **故障证据。** 只在自己复制的 SQLite 代码里，把 `consume('event-001','INC-001')` 成功后追加 `consume('event-001','INC-OTHER')`；再试另一个事件占用 INC-001。**判据：**前者契约冲突必须暴露，后者 business-conflict 且 event-002 不留下处理标记；不能都叫 duplicate 并宣称成功。恢复合成输入复测，进程结束即收回内存；没有真实工单或消息可删除。
+4. **生产取舍。** 共同下游只允许额外 3000 QPS，缓存回源 500、索引重建 2000、消费恢复新增 1000，能一起全速恢复吗？**判据：**总计 3500 已超预算 500，且还没有故障余量；提出按优先级给三者共同限速、观察数据库 P99/排队及净积压的方案。积压 180 万、新增 1500/s、可持续处理 2000/s，理论追平 3600 秒，不是 900 秒。
+5. **口述追问。** 数据库恢复到 10:01、消息到 10:05、索引到 09:50，组件全部绿灯能否宣布恢复？**判据：**先选权威恢复点与补偿规则，对孤立事件、旧索引、删除标记和外部副作用逐个对账；服务恢复、积压清除、冗余恢复分别报告。现场有什么产品用 BOM/授权/版本/实例证据证明，不能拿本课内存实验或公有云目录代替。
 
 ## 本课 GitHub 学习证据
 

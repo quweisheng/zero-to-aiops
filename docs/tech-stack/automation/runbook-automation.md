@@ -1045,6 +1045,20 @@ journalctl --disk-usage
 
 目标：做一个只推荐、不执行危险动作的 runbook selector。
 
+这不是单独可安装的“Runbook产品”，本节用Python标准库实现最小推荐器，不需要云账号、Docker、Ansible或Kubernetes。准备Windows PowerShell和Python3.9+（3.9仅是语法最低要求，实际安装选择仍受维护版本）；按[Python官方Windows安装说明](https://docs.python.org/3/using/windows.html)安装后新开终端，先运行`python --version`和`Get-Command python`，确认不是跳转应用商店的空别名。以下先创建个人空目录，不能在已有业务项目中覆盖文件：
+
+```powershell
+$runbookLabDirectory = Join-Path $env:USERPROFILE 'runbook-zero-lab'
+if (Test-Path -LiteralPath $runbookLabDirectory) { throw "目录已存在，请改新名字" }
+New-Item -ItemType Directory -Path $runbookLabDirectory -ErrorAction Stop | Out-Null
+Set-Location -LiteralPath $runbookLabDirectory -ErrorAction Stop
+New-Item -ItemType Directory -Path alerts,runbooks,reports -ErrorAction Stop | Out-Null
+python --version
+if ($LASTEXITCODE -ne 0) { throw "Python尚不可用" }
+```
+
+用编辑器创建下面精确文件名，UTF-8无BOM，不加.txt后缀；把前面两个中文手册示例正文分别保存到runbooks对应Markdown文件（不要连最外层四反引号一起复制）。reports开始为空；本实验不执行手册中命令，只核对可信映射与文档存在。运行时不需要管理员权限。
+
 目录：
 
 ```text
@@ -1091,9 +1105,11 @@ runbook-lab/
 
 ```python
 import json
+import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
+from uuid import uuid4
 
 RUNBOOKS = {
     "HighDiskUsage": {
@@ -1131,8 +1147,8 @@ def main() -> int:
         print("alert must be an object")
         return 2
     alertname = alert.get("alertname")
-    if not isinstance(alertname, str) or not alertname.strip():
-        print("alertname must be a non-empty string")
+    if not isinstance(alertname, str) or not alertname.strip() or len(alertname) > 128 or any(c in alertname for c in '\r\n'):
+        print("alertname must be a single-line non-empty string of at most 128 characters")
         return 2
     environment = alert.get("environment")
     if not isinstance(environment, str) or environment not in {"staging", "production"}:
@@ -1140,10 +1156,25 @@ def main() -> int:
         return 2
     selected = RUNBOOKS.get(alertname)
 
+    if selected:
+        service = alert.get("service")
+        if not isinstance(service, str) or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{0,99}", service):
+            print("known alert requires a safe service identifier")
+            return 2
+        severity = alert.get("severity")
+        if not isinstance(severity, str) or severity not in {"warning", "critical"}:
+            print("known alert requires severity warning or critical")
+            return 2
+        runbook_path = (base / selected["file"]).resolve()
+        if not runbook_path.is_relative_to((base / "runbooks").resolve()) or not runbook_path.is_file():
+            print("mapped runbook is missing or outside the lab runbooks directory")
+            return 2
+
     reports_dir = base / "reports"
     reports_dir.mkdir(exist_ok=True)
     safe_name = alertname if selected else "unknown"
-    report_path = reports_dir / f"{safe_name}-report.md"
+    execution_id = uuid4().hex
+    report_path = reports_dir / f"{safe_name}-{execution_id}-report.md"
 
     now = datetime.now(timezone.utc).isoformat()
 
@@ -1154,6 +1185,7 @@ def main() -> int:
                     "# Runbook Recommendation",
                     "",
                     f"- generated_at: {now}",
+                    f"- execution_id: {execution_id}",
                     f"- alertname: {alertname or 'unknown'}",
                     "- status: no matching runbook",
                     "",
@@ -1169,6 +1201,7 @@ def main() -> int:
         "# Runbook Recommendation",
         "",
         f"- generated_at: {now}",
+        f"- execution_id: {execution_id}",
         f"- alertname: {alertname}",
         f"- service: {alert.get('service', 'unknown')}",
         f"- environment: {alert.get('environment', 'unknown')}",
@@ -1197,25 +1230,30 @@ if __name__ == "__main__":
     raise SystemExit(main())
 ```
 
-运行：
+运行（Windows PowerShell；每次立即读取退出码，后面故障实验的非零是预期）：
 
-```bash
+```powershell
 python runbook_selector.py alerts/high-disk.json
+if ($LASTEXITCODE -ne 0) { throw "磁盘样例未产生合法建议，先修输入/手册" }
 python runbook_selector.py alerts/high-error-rate.json
+if ($LASTEXITCODE -ne 0) { throw "错误率样例未产生合法建议" }
+Get-ChildItem -LiteralPath .\reports
 ```
 
 输出：
 
 ```text
-reports/HighDiskUsage-report.md
-reports/HighErrorRate-report.md
+reports/HighDiskUsage-<execution_id>-report.md
+reports/HighErrorRate-<execution_id>-report.md
 ```
 
-上面表示报告相对位置；当前脚本打印的是解析后的绝对路径，前面会带你的实验目录。这个实验只做到 L2：推荐 runbook，不执行动作。
+上面尖括号是解释占位，不是要创建的字面文件名：每次运行生成新的UUID执行标识，不能再把同类告警报告覆盖成“最后一次成功”。脚本打印解析后的绝对路径；打开这次文件，核对execution_id、环境、L2、风险与runbook路径，手工打开对应手册。报告存在只证明已生成建议，不证明告警仍有效或操作已获批准。读写磁盘失败仍可能抛异常并非统一输入退出2，调用者需保留错误且停止，不能继续执行。这个实验只做到L2，不执行动作。
 
 这很重要，因为新手项目先要证明“选择正确、摘要清楚、风险可控”，再谈自动修复。
 
 ## GitHub Actions 手动 runbook 实验
+
+这是第二条可选入口：将前面完整项目放到自己GitHub仓库根目录，把下面文件保存为`.github/workflows/runbook-selector.yml`并提交到默认分支，然后在Actions→Runbook selector→Run workflow选样例路径。不需要生产Secret，但仓库需允许Actions且有可用执行器/额度；公司仓库需授权。文档只给模板，不承诺已触发远端运行。上传always用于保留“未知类型升级人工”的报告，输入错误没有报告属于正常情况；长久审计另存受控系统，不能依赖临时artifact。
 
 ```yaml
 name: Runbook selector
@@ -1248,9 +1286,12 @@ jobs:
         run: python runbook_selector.py "$ALERT_FILE"
 
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: runbook-report
           path: reports/*.md
+          if-no-files-found: warn
+          retention-days: 7
 ```
 
 这个 workflow 的价值：
@@ -1264,6 +1305,8 @@ jobs:
 下一步可以加 environment approval，再执行低风险动作。
 
 ## 常用命令字典
+
+以下Ansible、AWS、Azure、kubectl和systemctl只是适用环境的词典，不属于本地推荐器复现步骤。它们需要各自客户端、授权账号/context、真实资源和经过评审的配置文件。尤其AWS重启例子会改变资源；不能把示意ID换成生产ID直接运行。选择了某个受控执行平台，再按其官方教程独立安装/验权/预演。
 
 ### python runbook_selector.py
 
@@ -1621,9 +1664,9 @@ python runbook_selector.py alerts/path-like-name.json
 python runbook_selector.py ../outside.json
 ```
 
-预期第一条返回 1、生成 `reports/unknown-report.md` 并升级人工；第二条返回 2、提示告警必须是对象；第三条也只写安全的 `unknown-report.md`，不按恶意名字创建外部路径；第四条返回 2，在读取之前拒绝超出允许目录的输入。Bash 用 `$?`、PowerShell 用 `$LASTEXITCODE` 立即查看上一条退出码。未知类型与错误格式分开，是为了让调用者判断“交给人”还是“修输入”。
+每条后立即查看退出码，不要四条跑完只看最后一条。预期第一条返回1、生成`reports/unknown-<execution_id>-report.md`并升级人工；第二条返回2、提示告警必须是对象且不新增报告；第三条也只写带新执行标识的安全unknown报告，不按恶意名字创建外部路径；第四条返回2，在读取之前拒绝超出允许目录的输入。Bash用`$?`、PowerShell用`$LASTEXITCODE`。未知类型与错误格式分开，是为了判断“交给人”还是“修输入”，非零不是可以忽略的绿灯。
 
-恢复：把 unknown 样例的名称改为 `HighDiskUsage`，运行后应重新得到已知建议；然后用原正常样例再验证一次。清理仅删除本次新增的三份故障输入及 `unknown-report.md`，保留正式样例和脚本。若目录限制没生效，确认运行的是本篇更新后的完整脚本；若输入被意外拒绝，核对相对路径是从脚本目录出发、文件扩展名和符号链接目标。此防护仅针对本地学习目录；多人可写目录里的并发替换仍需更严格的文件权限和安全打开机制。
+恢复：将unknown样例替换成前面完整HighDiskUsage正常对象（包括service/severity），运行应退出0并新建已知建议；再用原正常样例验证。另可在个人目录将映射手册临时改名，运行已知样例应退出2，不再推荐一个打不开的手册；恢复精确文件名后退出0。清理先列出本轮新增三份故障输入及其具体UUID报告，确认后只删这些文件，保留基线记录。若目录限制未生效，确认运行的是完整新脚本；若输入被拒绝，核对相对路径、扩展名、符号链接和service枚举契约。多人可写目录的并发替换仍需严格权限/安全打开，此本地样例不等于生产文件隔离机制。
 
 ### 工作流参数为什么不直接拼进 shell
 
@@ -1724,6 +1767,20 @@ Fencing token（隔离代次）是一种把“哪一代执行者仍有效”交�
 再把九十秒的“收到请求”删除，预期后续验证先查路由，而非把空指标当成零错误率。验证方式是每个判断写明依据的数据时间和覆盖目标；如果结论用了动作发生前的数据，就标记证据不适用。恢复该记录后重算流程，确认只在新的有效样本足够时评价恢复。清理删除合成时间线即可，无服务器、队列或云资源需要停止。
 
 面试追问“自动化执行次数越来越多，恢复反而慢”，三十秒先怀疑反馈延迟、重复事件和冲突动作，不先提高并发。三分钟给出事件去重、资源互斥、动作生效时间、观测窗口、停止扩批和人工接管证据。设计题则把业务恢复作为目标，分别统计推荐正确、动作成功和业务恢复，防止用大量执行次数掩盖一个持续未解决的事故。
+
+## 独立通关：推荐、授权、执行和恢复分别证明
+
+合上操作步骤，每项提交事前判断、实际记录或明确合成推演、机制解释与收回方式。独立任务失败先返工再评分；本地生成建议不能算主机变更实操。
+
+1. **基础复现。**空目录独立建立两份手册/两份事件/脚本，运行两次同类事件。判据：退出0，生成两个不同execution_id的新报告，不覆盖首份；每份都能打开映射手册、明确L2建议而无清理/重启。结束清理只针对新实验资产，不删用户或全局目录。
+2. **改变条件预测。**未知名称、JSON数组、目录外路径、已知名称但缺service、缺映射手册各如何处理？答案分别是升级人工1/格式2/路径2/契约2/手册2；只有未知生成升级报告，格式拒绝不应造执行成功。将恶意告警文本当数据而非路径或shell，恢复完整正常对象后退出0。
+3. **故障证据。**以本地缺手册失败和前文合成十秒旧指标重复扩容分别举证。判据：文件缺失在推荐前阻断、恢复文件后重新运行；旧窗口不能证明扩容失败，无新流量样本应查路由或未知，不能因无数据继续重启。合成时间线明确不是真实机器故障。
+4. **设计取舍。**十台目标最多并发3，第一失败停止新派发。若前三台已开始，最坏仍可能三台受影响，错误阈值不是最终失败上限。答出按故障域/剩余容量小批放量、停止派发≠取消完成、审计和人工接管；收到取消响应但远端状态不明时保留unknown并对账。
+5. **口述追问。**30秒讲手册与脚本区别，三分钟讲告警→证据→审批→动作→验证。继续问有锁为何重复、租约过期旧执行者为何危险、动作成功但SLI未知怎么处理、回滚失败怎么办。判据：跨时间幂等/目标栅栏、审批版本参数有效期、观测缺失不等健康、补偿有独立状态和停止范围；模型只给建议不授执行权。
+
+本文本地推荐器可以独立验证输入/输出契约；云平台、Actions、Ansible、Kubernetes和生产控制回路仍需各自授权环境演练。实际运行结果只按本文末尾验证记录说明，不把模拟写成生产经历。
+
+2026-10-12验证记录：本机Python3.14.5在自动回收的临时目录执行了本文完整推荐器，正常及重复输入均退出0且产生不同报告；未知/路径样名称退出1，数组、缺service、错误severity类型、缺手册和目录外路径退出2。共4份预期报告，夹具退出时清理。两个PowerShell块通过语法解析；没有连接云账号或运行远程Actions、主机变更、锁/审批/恢复平台。
 
 ## 学习证据
 

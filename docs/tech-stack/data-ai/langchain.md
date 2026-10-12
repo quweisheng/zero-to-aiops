@@ -32,6 +32,8 @@ LangChain、LangGraph 和 LangSmith SDK 仓库采用 MIT 许可证；LangSmith �
 
 本文没有调用真实云模型，没有把密钥发给 LangSmith，没有部署 LangSmith Deployment，也没有进行多副本、数据库故障、模型限流或生产压测。文中涉及这些场景时，会写成设计、预期或验证方法，不冒充现场实测。
 
+2026 年 10 月 12 日逐篇审校说明：上表安装与实跑是原文的历史基线记录，不是本轮重新执行的结果。本轮加强了工具证据比对、环境失败停止、同进程拒绝/批准续跑和独立考题；当前只完成静态语法验证，新增路径需要在固定依赖环境重跑。不要把旧输出用于证明改后代码已执行。
+
 ## 官方资料
 
 先读主线，再按问题查专题：
@@ -262,7 +264,7 @@ Streaming 主要改善“首个结果更早可见”，不一定缩短完整执�
 
 ### 把分散证据组织成回答
 
-告警、指标、日志、Trace、变更记录、CMDB 和 Runbook 分散在不同系统。Agent 可以通过受控工具查询这些证据，再生成统一事件摘要。
+告警、指标、日志、Trace、变更记录、CMDB（Configuration Management Database，配置管理数据库，用来保存资产及其关系）和 Runbook 分散在不同系统。Agent 可以通过受控工具查询这些证据，再生成统一事件摘要；RCA（Root Cause Analysis，根因分析）仍需核对原始证据，不把模型候选直接当结论。
 
 ### 把自然语言入口变成结构化流程
 
@@ -833,15 +835,22 @@ State 每个字段都需要明确更新语义：
 ### Windows 固定版本安装
 
 ```powershell
-mkdir aiops-langchain-lab
-cd aiops-langchain-lab
-
+if (Test-Path -LiteralPath .\aiops-langchain-lab) { throw '课堂目录已存在，停止核对，不能覆盖旧实验' }
+New-Item -ItemType Directory -Path .\aiops-langchain-lab -ErrorAction Stop | Out-Null
+Set-Location .\aiops-langchain-lab
 py -3.12 -m venv .venv
-.\.venv\Scripts\Activate.ps1
+if ($LASTEXITCODE -ne 0) { throw '虚拟环境创建失败，先检查 Python 版本' }
+$labPython = Join-Path (Get-Location) '.venv\Scripts\python.exe'
 
-python -m pip install --upgrade pip
-python -m pip install "langchain==1.3.15" "langgraph==1.2.11" "langsmith==0.10.18"
+& $labPython -m pip install --upgrade pip
+if ($LASTEXITCODE -ne 0) { throw 'pip 更新失败，停止' }
+& $labPython -m pip install "langchain==1.3.15" "langgraph==1.2.11" "langsmith==0.10.18"
+if ($LASTEXITCODE -ne 0) { throw '固定依赖安装失败，不能跳过' }
+& $labPython -m pip check
+if ($LASTEXITCODE -ne 0) { throw '依赖冲突，先修复当前环境' }
 ```
+
+全篇本机实验统一用 `& $labPython` 或 `.\.venv\Scripts\python.exe` 运行，不依赖激活脚本，也不用降低 PowerShell 执行策略。表格里的 `python` 是通用语法，在本课终端请替换为这个明确的虚拟环境解释器；若另开终端，先回到本课目录并重新设置 `$labPython`。
 
 如果机器没有 `py -3.12`，先运行 `py -0p` 查看已安装解释器，再把命令改为实际可用且满足 Python 3.10+ 的版本。不要为了复制命令而重新安装一个来历不明的 Python。
 
@@ -849,9 +858,9 @@ Provider 集成是独立包，例如：
 
 ```powershell
 # 只安装你实际使用并已核对官方文档的 Provider 包。
-python -m pip install langchain-openai
+& $labPython -m pip install langchain-openai
 # 或：
-python -m pip install langchain-ollama
+& $labPython -m pip install langchain-ollama
 ```
 
 这两条只是示意，不要求同时安装。Provider 包也要固定并测试版本。
@@ -859,9 +868,9 @@ python -m pip install langchain-ollama
 ### 验证解释器和包
 
 ```powershell
-python --version
-python -m pip show langchain langchain-core langgraph langsmith
-python -c "from importlib.metadata import version; print('langchain', version('langchain')); print('langgraph', version('langgraph')); print('langsmith', version('langsmith'))"
+& $labPython --version
+& $labPython -m pip show langchain langchain-core langgraph langsmith
+& $labPython -c "from importlib.metadata import version; print('langchain', version('langchain')); print('langgraph', version('langgraph')); print('langsmith', version('langsmith'))"
 ```
 
 预期核心输出：
@@ -879,7 +888,8 @@ langsmith 0.10.18
 学习实验可以先导出：
 
 ```powershell
-python -m pip freeze > requirements-lock.txt
+if (Test-Path -LiteralPath .\requirements-lock.txt) { throw '锁文件已存在，先保留旧版本并比对' }
+& $labPython -m pip freeze > requirements-lock.txt
 ```
 
 团队项目更适合使用 uv、pip-tools 或 Poetry 等锁定工具，保留哈希和完整依赖图。只写 `langchain>=1` 会让不同机器在不同日期装出不同组合。
@@ -1016,6 +1026,8 @@ class IncidentReport(BaseModel):
 @tool
 def search_runbook(alert_name: str, service: str) -> str:
     """Read the matching internal runbook for an alert and service."""
+    if (alert_name, service) != ("HighErrorRate", "order-api"):
+        raise ValueError("this classroom fixture only contains order-api HighErrorRate")
     result = {
         "source": "runbooks/order-api-high-error-rate.md",
         "checks": [
@@ -1066,7 +1078,7 @@ agent = create_agent(
     system_prompt="Use evidence; production changes require approval.",
     checkpointer=InMemorySaver(),
 )
-config = {"configurable": {"thread_id": "INC-20260814-001"}}
+config = {"configurable": {"thread_id": "INC-20260814-001"}, "recursion_limit": 10}
 result = agent.invoke(
     {"messages": [HumanMessage("Analyze order-api HighErrorRate.")]},
     config,
@@ -1075,8 +1087,12 @@ result = agent.invoke(
 report = IncidentReport.model_validate_json(result["messages"][-1].content)
 persisted_messages = agent.get_state(config).values["messages"]
 
-assert any(isinstance(message, ToolMessage) for message in persisted_messages)
-assert report.evidence == ["source=runbooks/order-api-high-error-rate.md"]
+tool_messages = [message for message in persisted_messages if isinstance(message, ToolMessage)]
+assert len(tool_messages) == 1
+assert tool_messages[0].tool_call_id == "call-search-001"
+tool_result = json.loads(tool_messages[0].content)
+assert report.evidence == [f"source={tool_result['source']}"]
+assert report.safe_next_steps == tool_result["checks"]
 assert "rollback" in report.actions_need_approval
 assert len(persisted_messages) == 4
 
@@ -1092,10 +1108,13 @@ print(report.model_dump_json(indent=2))
 ### 运行
 
 ```powershell
-python basic_agent.py
+& $labPython .\basic_agent.py
+if ($LASTEXITCODE -ne 0) { throw '基础断言失败，保留首个错误，不继续故障实验' }
 ```
 
-### 本文环境真实结果
+### 基线输出与本轮验证边界
+
+下面是原基线曾记录的输出形状。本轮增加了实际 ToolMessage 的调用 ID、来源和操作清单比对，以及不支持服务的拒绝条件；这些修订只做了语法审查，需在固定 SDK 环境重新运行后才能记为通过。最终报告仍由 Fake Model 预写，不能用这些断言证明真实模型会根据证据推理，或已经使用 `response_format` 的框架级结构化策略。
 
 ```text
 tool_loop=passed
@@ -1140,15 +1159,7 @@ HumanMessage（用户消息）
 
 ### 清理
 
-接下来还要在同一目录运行故障实验，因此现在不要退出或删除。两个实验都结束、学习证据已另存后，才可清理这个独立目录：
-
-```powershell
-deactivate
-cd ..
-Remove-Item -LiteralPath .\aiops-langchain-lab -Recurse
-```
-
-删除前先用 `Get-Item -LiteralPath .\aiops-langchain-lab` 查看解析后的完整路径，确认它只属于本课，且里面没有要保留的学习记录；更安全的做法是保留代码作为 GitHub 学习证据。不要在不明当前位置执行这个递归删除示例。
+接下来还要在同一目录运行故障实验，因此现在不要删除。两个实验都结束、学习证据已另存后，先用 `Get-Item -LiteralPath .` 查看本课目录的绝对路径，确认没有其他项目或记录；可在文件管理器中仅移走自己新建的 `.venv`。更推荐保留脚本、锁文件与脱敏记录。没有激活虚拟环境，不需要执行 `deactivate`；不要清理系统 Python 或整个工作目录。
 
 ## 故障注入实验：模型请求重启生产，但审批前执行次数必须为 0
 
@@ -1159,13 +1170,14 @@ Remove-Item -LiteralPath .\aiops-langchain-lab -Recurse
 - Human-in-the-loop 在 Tool 真正执行前产生 Interrupt；
 - 结果中出现 `__interrupt__`；
 - 模拟写工具的执行计数仍是 `0`；
-- 中断状态保存在同进程的内存 Checkpointer 中；本实验只验收到中断，不演示跨进程恢复或批准后的续跑。
+- 中断状态保存在同进程的内存 Checkpointer 中；同一进程继续提交拒绝或批准，拒绝后执行计数仍为 0，批准后只增加为 1。
 
-这个实验不会真的连接服务器。所谓“重启”只是一个内存计数器，风险可回收。脚本化模型只准备了一条工具请求，不能直接在这份脚本上批准续跑，否则下一次模型调用会耗尽预设响应；扩展审批闭环时须另备最终响应、同一存活进程或持久检查点，并分别验证批准和拒绝。
+这个实验不会真的连接服务器。所谓“重启”只是一个内存计数器，风险可回收。脚本化模型准备工具请求和一条续跑后的最终响应；每种决策用一次全新的脚本进程验证，不把上一轮已耗尽的响应迭代器重复使用。它不验证跨进程恢复，也没有真实审批身份认证。续跑 API 的依据是[官方人工参与决策文档](https://docs.langchain.com/oss/python/langchain/human-in-the-loop)；本课保持字典返回格式，不混入文档可选的 `version="v2"` 对象返回写法。
 
 ### 创建 `fault_hitl.py`
 
 ```python
+import argparse
 import os
 from typing import Any, Sequence
 
@@ -1179,6 +1191,7 @@ from langchain.tools import tool
 from langchain_core.language_models.fake_chat_models import GenericFakeChatModel
 from langchain_core.tools import BaseTool
 from langgraph.checkpoint.memory import InMemorySaver
+from langgraph.types import Command
 
 
 class ToolCallingFakeChatModel(GenericFakeChatModel):
@@ -1218,7 +1231,8 @@ model = ToolCallingFakeChatModel(
                         "type": "tool_call",
                     }
                 ],
-            )
+            ),
+            AIMessage(content="The review decision has been processed; inspect the execution counter."),
         ]
     )
 )
@@ -1228,12 +1242,12 @@ agent = create_agent(
     tools=[restart_service],
     middleware=[
         HumanInTheLoopMiddleware(
-            interrupt_on={"restart_service": True}
+            interrupt_on={"restart_service": {"allowed_decisions": ["approve", "reject"]}}
         )
     ],
     checkpointer=InMemorySaver(),
 )
-config = {"configurable": {"thread_id": "INC-FAULT-001"}}
+config = {"configurable": {"thread_id": "INC-FAULT-001"}, "recursion_limit": 10}
 result = agent.invoke(
     {"messages": [HumanMessage("Restart production now.")]},
     config,
@@ -1247,15 +1261,30 @@ print("approval_gate=interrupted")
 print(f"write_tool_execution_count={execution_counter['restart_service']}")
 print(f"interrupt_id={interrupt.id}")
 print(f"interrupt_value={interrupt.value}")
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--decision", choices=["reject", "approve"], default="reject")
+decision = parser.parse_args().decision
+resumed = agent.invoke(Command(resume={"decisions": [{"type": decision}]}), config)
+assert not resumed.get("__interrupt__")
+expected_count = 1 if decision == "approve" else 0
+assert execution_counter["restart_service"] == expected_count
+assert agent.get_state(config).next == ()
+print(f"decision={decision}")
+print(f"final_write_tool_execution_count={execution_counter['restart_service']}")
+print("same_process_resume=passed")
 ```
 
 ### 运行与验收
 
 ```powershell
-python fault_hitl.py
+& $labPython .\fault_hitl.py --decision reject
+if ($LASTEXITCODE -ne 0) { throw '拒绝路径失败，停止并保留证据' }
+& $labPython .\fault_hitl.py --decision approve
+if ($LASTEXITCODE -ne 0) { throw '批准路径失败，停止并保留证据' }
 ```
 
-本文环境实际关键输出：
+中断部分的原基线曾实跑；以下收窄审批选项及新增两条续跑路径是本轮修订的预期，尚未在 SDK 环境重跑：
 
 ```text
 approval_gate=interrupted
@@ -1269,7 +1298,7 @@ interrupt_value={
   }],
   'review_configs': [{
     'action_name': 'restart_service',
-    'allowed_decisions': ['approve', 'edit', 'reject', 'respond']
+    'allowed_decisions': ['approve', 'reject']
   }]
 }
 ```
@@ -1281,6 +1310,8 @@ write_tool_execution_count=0
 ```
 
 它证明模拟写工具在审批前没有执行。
+
+随后拒绝路径应输出 `decision=reject`、`final_write_tool_execution_count=0`、`same_process_resume=passed`；另一新进程的批准路径应输出 `decision=approve`、`final_write_tool_execution_count=1`、`same_process_resume=passed`。两个进程的内存互不共享，不能把后一进程解释为从前一进程的检查点恢复。这里只允许 approve/reject；`respond` 表示以人的回答代替工具结果，不应当作拒绝生产写操作。
 
 ### 按事故处理方法复盘
 
@@ -1443,25 +1474,25 @@ Incident 结束后，把经过人工确认的时间线、直接原因、促成�
 Web / ChatOps / Alert（告警） platform
   -> API Gateway（接口网关）
        authentication（身份鉴别）
-       tenant（租户） isolation
+       tenant isolation（租户隔离）
        rate limit（限流）
        request（请求） id（编号）
   -> Agent（智能体） API
        input schema（数据结构约定）
        run/thread control（运行与会话控制）
-       streaming（流式输出） endpoint
+       streaming endpoint（流式输出接口入口）
   -> Queue / backpressure（队列与反压）
   -> Agent（智能体） Worker（工作进程） replicas（副本）
        LangChain create_agent（LangChain 智能体创建入口）
        LangGraph runtime（LangGraph 执行引擎）
        middleware（中间件） and policy（策略）
        read-only tools（只读工具）
-       approval-gated write tools（工具）
-  -> Durable state（状态）
+       approval-gated write tools（经过审批门禁的写工具）
+  -> Durable state（持久化状态）
        checkpointer（检查点保存器）
        long-term store（存储）
   -> Dependencies（依赖项）
-       model（模型） provider
+       model provider（模型提供方）
        metrics（指标） / logs（日志） / traces（链路追踪）
        CMDB / change（变更） system
        runbook index（操作手册检索索引）
@@ -1931,15 +1962,15 @@ State 新字段先设为 Optional/NotRequired。回滚前检查新版本写出�
 ### 分层证据顺序
 
 ```text
-1. request accepted?
-2. queued or running?
-3. model called?
-4. tool requested?
-5. tool authorized and executed?
-6. checkpoint committed?
-7. final schema validated?
-8. streamed response delivered?
-9. business result verified?
+1. request accepted?（请求是否已被接收？）
+2. queued or running?（仍在排队，还是已经开始运行？）
+3. model called?（是否真正调用了模型？）
+4. tool requested?（模型是否提出了工具调用请求？）
+5. tool authorized and executed?（工具是否通过授权并实际执行？）
+6. checkpoint committed?（检查点是否已经可靠提交？）
+7. final schema validated?（最终结果是否通过结构约定校验？）
+8. streamed response delivered?（流式响应是否已送达客户端？）
+9. business result verified?（实际业务结果是否已经复核？）
 ```
 
 ### 故障矩阵
@@ -2379,6 +2410,18 @@ LangChain 是一个 LLM 应用框架。当前 Python v1 主线用 `create_agent`
 
 30 秒回答讲应用组件、工具循环与生产边界；3 分钟以告警取证串起模型、工具、结构化报告、检查点、审批和审计。追问“为什么有了 Agent 还需要固定流程”，说明高风险动作和业务校验必须有确定的约束；事故题“只见一次成功却执行两次”，从调用 ID、业务操作 ID、检查点和外部结果建立因果链。
 
+## 独立通关：工具请求、审批和业务事实不能混为一谈
+
+为每题保存先验预测、实际观测、失败原因与恢复记录；复制脚本输出、背出术语或写满篇幅都不是掌握证明。
+
+1. **基础复现**：在新建独立环境运行基础 Agent，逐条标注四条消息的角色、调用 ID、工具来源与最终报告字段。判据是 ToolMessage 的调用 ID 与 AIMessage 请求对应，报告引用与实际工具结果一致；解释本实验是脚本化模型和最后一步 Pydantic 校验，不是对真实推理、自动 `response_format` 或磁盘持久化的测试。
+2. **改变条件预测**：复制基础脚本为新的考试文件，把模型请求的 `service` 改成不存在的 `inventory-api`，其他证据仍为 `order-api`。先预测是否应该接受报告，再运行。判据是能定位工具允许范围失败及后续断言/解析失败，不能删校验让固定报告蒙混过关；恢复原参数重新通过。继续追问：只改 `thread_id` 是否能让新 Agent 实例读到旧 `InMemorySaver` 的数据？答案是否定的，同名字符串不等于共享存储。
+3. **故障证据**：分别从新进程运行拒绝和批准路径，记录审批前计数均为 0、拒绝后为 0、批准后为 1，以及原 Thread 的终态。另在仅有内存计数器的考试副本里将 `interrupt_on` 的工具名拼错，预测原来的审批前断言会失败；只在这份无外部能力的副本试验，完成后恢复正确策略。不能把最终回答说“已处理”当作执行证据，更不能在真实重启工具上验证失效审批。
+4. **设计取舍**：入口每秒 8 个 Run，平均占槽 15 秒，每 Worker 10 槽，每 Run 3 次模型调用，提供方每分钟限 1200 次。答案应算出 120 个在途、12 个满载 Worker 的理论起点；模型需求每秒 24 次超过每秒 20 次配额，即使增加 Worker 也受约每秒 6.67 个 Run 的配额上限约束，仍需余量、背压和拒绝/降级。每天 1 万个 Thread、每个 30 个 100 KiB 快照、保留 30 天约需 921.6 GB 十进制原始快照空间，未含索引、副本、WAL 和余量；需验证实际增量/全量行为与留存策略，不能直接当采购规格。
+5. **口述追问**：模型请求工具、审批通过、外部系统受理、检查点提交、页面响应各是什么状态？外部已受理但本地超时后如何处理？判据是同一已批准意图复用服务端业务操作 ID，查询下游已有结果，同键不同目标拒绝，不用 Tool Call ID 或模型生成的新随机键充当稳定幂等键。继续解释 `respond` 为何不是拒绝、Checkpoint 为何不是外部事务、Trace 为何不是审批审计，以及升级旧 Thread 前应保留哪些节点与字段兼容性。
+
+真实模型、持久检查点、多副本与生产写工具均不在本题实跑范围。上述本机 SDK 路径未运行时如实标为待验证，不用纸面答案替换运行证据。
+
 ## 本课 GitHub 学习证据清单
 
 建议建立：
@@ -2441,7 +2484,7 @@ langsmith==0.10.18
 
 ## 本文验证边界
 
-已经真实验证：
+原基线记录已真实验证（不是本轮重跑的证明）：
 
 - Windows Python 3.14.5 隔离环境安装固定版本；
 - LangChain `1.3.15`、LangGraph `1.2.11`、LangSmith SDK `0.10.18`；
@@ -2452,7 +2495,7 @@ langsmith==0.10.18
 - 审批前写 Tool 执行次数为 0；
 - 页面回到顶部按钮属于站点功能验证，不是 LangChain 实验的一部分。
 
-没有真实验证：
+本轮新增的参数拒绝、工具来源/清单比对、拒绝与批准续跑尚未在固定 SDK 环境执行，当前只通过语法审查。以下也没有真实验证：
 
 - 任何真实模型 Provider 的 Tool Calling、Structured Output、限流、费用和内容策略；
 - LangSmith 云端 Trace、Eval、Deployment；

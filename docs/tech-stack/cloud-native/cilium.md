@@ -363,6 +363,10 @@ map 有固定或动态上限，并消耗内核内存。高连接数、大量 Ser
 
 ### 前置条件
 
+本课在 Linux 或 WSL 的 Bash 终端操作，目标是本机新建的 kind 集群，不能在已有集群直接更换 CNI。先运行 `docker context show`、`docker version`、`kind version`、`kubectl version --client`、`helm version`、`cilium version --client`，确认客户端与本地引擎可用；Hubble 实验还要安装独立 `hubble` 客户端，`cilium hubble enable` 不会替电脑安装它。没有工具时分别按 [kind 快速开始](https://kind.sigs.k8s.io/docs/user/quick-start/)、[kubectl 安装](https://kubernetes.io/docs/tasks/tools/)、[Cilium 客户端安装](https://docs.cilium.io/en/stable/gettingstarted/k8s-install-default/)和[Hubble 客户端安装](https://docs.cilium.io/en/stable/observability/hubble/setup/)选对应系统与处理器的发行包，完成版本输出再继续。不要下载不明二进制或把远端脚本不经审查直接交给管理员 shell。
+
+创建新空目录保存 `kind-cilium.yaml`、`deny-web.yaml`、`allow-client.yaml`，先执行 `kind get clusters` 检查名称未被使用。给 Docker 虚拟机准备足够 CPU、内存和镜像空间；本文三节点不是三台独立物理故障域。kind 的节点镜像随 kind 版本变化，必须核对本文 1.20 的 Kubernetes/内核兼容范围，保存实际节点镜像与版本，不把 `--version 1.20.0` 当作固定全部依赖。
+
 - Docker、kind、kubectl、Helm 和 Cilium CLI。
 - Linux 或支持 Cilium 所需内核能力的 Docker 虚拟机。
 - PodCIDR、ServiceCIDR 不与本机/VPN 重叠。
@@ -386,11 +390,13 @@ networking:
 
 ```bash
 kind create cluster --name cilium-lab --config kind-cilium.yaml # 创建无默认 CNI 的三节点集群
-cilium install --version 1.20.0 # 使用 Cilium CLI 安装本文固定版本
+cilium install --version 1.20.0 --set ipam.mode=kubernetes # 明确使用 kind 分配的节点 PodCIDR
 cilium status --wait # 等 agent、operator 和 endpoint 健康
 cilium connectivity test # 运行官方连通性和策略测试
 kubectl get nodes -o wide # 节点应为 Ready
 ```
+
+`ipam.mode=kubernetes` 与[1.20 官方 kind 安装说明](https://github.com/cilium/cilium/blob/v1.20.0/Documentation/installation/kind.rst)一致，让 Pod 地址来自 kind 已分配给各节点的网段，避免只改 kind podSubnet 却让另一个默认地址池继续分配。安装后检查 `kubectl get nodes -o jsonpath='{range .items[*]}{.metadata.name}{" "}{.spec.podCIDR}{"\n"}{end}'`，再与实验 Pod IP 对照；不匹配先查 IPAM 模式，不用扩大池掩盖网段冲突。首轮保留 kind 默认 kube-proxy，不在同一次安装中另做 kube-proxy-free 迁移。
 
 启用 Hubble Relay/UI：
 
@@ -473,6 +479,27 @@ spec:
 
 再次访问应成功，Hubble verdict 变为 FORWARDED。用 `cilium-dbg endpoint list` 对照 client/web 的 identity。
 
+### 固定禁止组：不随故障修复改变身份
+
+另建 `app=outsider` 的独立 Pod 作为持续负例，它始终不在允许集合里。先确认这个名字不存在；读取失败与确实不存在不同，不能拿连接 API 失败当作可以创建的证据：
+
+```bash
+outsider_existing="$(kubectl -n cilium-lab get pod outsider --ignore-not-found -o name)" || exit 1
+if [[ -n "$outsider_existing" ]]; then echo 'outsider 已存在，先核对归属，不覆盖'; exit 1; fi
+kubectl -n cilium-lab run outsider --image=busybox:1.36 --labels=app=outsider -- sleep 3600 || exit 1
+kubectl -n cilium-lab wait --for=condition=Ready pod/outsider --timeout=120s || exit 1
+kubectl -n cilium-lab exec deploy/client -- wget -qO- --timeout=3 http://web || exit 1
+if kubectl -n cilium-lab exec pod/outsider -- wget -qO- --timeout=3 http://web; then
+  echo '禁止组意外成功，停止并检查实际策略'; exit 1
+else
+  outsider_rc=$?
+  echo "禁止组请求返回非零：$outsider_rc；还需核对 Hubble 拒绝证据"
+fi
+hubble observe --from-pod cilium-lab/outsider --verdict DROPPED --last 20
+```
+
+预期允许客户端成功，禁止组请求失败，Hubble 能在本轮时间范围找到该源的策略拒绝。非零退出本身不是拒绝证明：DNS 失败、Pod 未就绪、命令不存在或观测链故障也可能失败。先看实际错误、源/目的与丢弃原因；没有对应事件时按下文观测缺失流程查证，不能自行补成“策略验证通过”。保留这个 Pod，直到标签修复后的正负复验完成。
+
 ## 故障实验：标签改变导致身份和策略变化
 
 先创建一个标签不匹配的独立测试 Pod：
@@ -500,6 +527,8 @@ hubble observe --namespace cilium-lab --verdict DROPPED --last 20 # 看具体丢
 kubectl -n cilium-lab label pod client-broken app=client --overwrite # 修正标签，触发安全身份更新
 kubectl -n cilium-lab exec pod/client-broken -- wget -qO- --timeout=3 http://web # 预期恢复
 ```
+
+恢复后重跑固定禁止组小节中的两次请求与 Hubble 观察，不重复创建 Pod。此时正常 `client` 与修复后的 `client-broken` 都应允许，标签仍为 `app=outsider` 的固定负例仍应拒绝。若全部都通，修复扩大了授权范围，不能宣布恢复；若全部都失败，也要先查服务、DNS 和实际节点，不能只怪标签。
 
 复盘重点：策略匹配的是身份标签，不是 Deployment 名称或你主观认为的“这个 Pod 属于 client”。
 
@@ -800,7 +829,7 @@ hubble observe --namespace cilium-lab --last 20
 
 尖括号只是待替换说明，不可以原样执行：将整个 `<目标节点的-cilium-pod>` 换成刚核对的 agent Pod 名并保留引号，防止 Shell 把尖括号解释为文件重定向。`endpoint list` 查看本节点端点及身份，`policy get` 查看节点接收的策略状态，Hubble 观察近期流。记录源/目标、协议、时间与 verdict（处理结论），不只截一行含 `DROPPED` 的历史事件。先发起一次带三秒超时的新请求，再在同一时间窗观察；旧事件不能说明刚修改后的结果。
 
-修复标签之后允许状态传播和端点再生成，有限次数重试，例如每两秒观察一次、最多三十秒。若仍失败，不继续反复改标签：检查实际标签、正确节点、端点是否就绪、策略是否加载、DNS 是否可用，以及 Hubble 自身是否丢失事件。恢复必须满足正常客户端和修复客户端都能请求成功；随后删除独立 `client-broken` Pod，完成全部实验再删除专用 `cilium-lab` 命名空间，停止 Hubble 的端口转发终端。只清理本实验创建的对象。
+修复标签之后允许状态传播和端点再生成，有限次数重试，例如每两秒观察一次、最多三十秒。若仍失败，不继续反复改标签：检查实际标签、正确节点、端点是否就绪、策略是否加载、DNS 是否可用，以及 Hubble 自身是否丢失事件。恢复必须满足正常客户端和修复客户端都能请求成功，且固定 `outsider` 仍有拒绝及对应证据。保存记录后用 `kubectl -n cilium-lab delete pod client-broken outsider` 仅删除这两个本轮独立 Pod；完成全部实验再删除专用 `cilium-lab` 命名空间，停止 Hubble 的端口转发终端。只清理本实验创建的对象。
 
 ## 容量与事故推理：每秒请求不多，为什么连接表会满
 
@@ -853,6 +882,18 @@ AIOps 在这种情况下应该把结论标为“观测覆盖不足”，而不�
 最后把故障实验中的允许、拒绝、修复后允许与永久禁止四种结果归档，附节点落点和时间。若只有一张成功截图，不能证明身份授权正确。本文新增主机防火墙、升级与观测积压案例均为设计或纸面验证，没有启动 Cilium、切换主机防火墙或执行网络升级；产品运行行为仍须由读者在独立实验环境复现。
 
 最后检查实验身份：安装前确认当前上下文属于本轮新建的专用集群，同名集群已存在时不要复用。清理命名空间之前列出里面的工作负载与策略，只在确认全部为本课创建后删除；共享集群不能执行删除 kind 集群的收尾步骤。诊断包也属于实验产物，检查是否包含节点地址、令牌或证书路径后再分享。静态阅读通过、纸面算术正确、隔离环境实验通过、生产变更通过是四级不同证据，学习记录必须标明达到哪一级，不能把本篇命令齐全写成已经完成生产验证。
+
+## 独立通关：把网络事实与观测事实分开
+
+先做题后核对答案；无支持的 Linux 内核/专用集群时可交纸面预测，但安装、策略和 Hubble 行为标未运行。日志要带观察节点与时间，缺失事件不能自动计为流量不存在。
+
+1. **基础复现。**在新的专用集群重建 web/client，记录 Node PodCIDR、Pod IP、源/目标 agent、endpoint identity 与一次 HTTP 响应。判据：地址属于设计的 IPAM 范围，能解释 Service IP、Pod IP、Node IP 三层；Hubble 转发证据和应用成功分别提供。结束收回转发、测试 Pod 和专用集群。
+2. **改变条件。**只把独立 client Pod 的 app 标签改成不匹配，再预测 IP 是否必然改变、身份与访问结果如何变化。判据：不需换 IP 也会改变策略匹配，身份传播有时间窗口；对照实际 endpoint 与策略 revision 后再请求，不把 Deployment 名当安全身份。
+3. **故障证据。**对“新连接超时、目标无 Hubble 事件”至少提出策略拒绝、转发失败、观测缺失三个假设，各给一条反证。判据：源端 policy denied、CT 插入失败与观测 lost events 分开；找到实际节点而不是随机 `exec ds/cilium`，恢复标签后原允许组成功且原禁止组仍失败。
+4. **设计取舍。**合成环境每秒产生两万事件、消费一万五千，持续十秒积压多少？判据：新增五万，扩大缓冲不改变长期净增长；降低生成到一万后净消化五千/秒。再解释 map 扩容占内核内存、L7 引代理、kube-proxy replacement 扩大验证面，不能把所有功能一起开启当优化。
+5. **口述追问。**30 秒讲 agent/program/map，三分钟讲 Service 后端选择、身份策略、跨节点及回包。追问“FORWARDED 为何仍超时”“TLS 为什么看不到全部 URL”“审计模式正常为何重启后可能断控制链”。判据：观察点非端到端成功、密文限制、临时审计状态与独立恢复通道；AIOps 将不完整证据标未知，不凭单条 drop 自动改集群策略。
+
+答错回“进阶课堂：从一条 Service 请求拆出三个地址”“实验复盘升级”“观测容量课堂”或“主机安全课堂”返工。只会复制原规则不算通过，预测、反证与收回要能被另一位读者复核。
 
 ## 学习证据
 

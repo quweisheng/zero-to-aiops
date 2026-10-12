@@ -168,12 +168,23 @@ TCE 中的 TDSQL 由产品交付体系部署，不使用本文 Docker 命令安�
 
 Docker 可用，至少 1 GiB 可用内存和 1 GiB 磁盘；端口 `127.0.0.1:13306` 未占用。实验容器名固定为 `tdsql-learning-mysql`，只绑定本机回环地址。
 
+以下宿主机命令在 Windows PowerShell、仓库根目录运行；需要 Docker Desktop 的 Linux 容器模式。`docker exec ... mysql` 才进入容器中的数据库客户端，不需要另装宿主机 MySQL。SQL 提示符里不能执行 PowerShell 命令，输入 `exit` 才回到宿主机。两个会话是两个独立连接，不是把 A、B 语句连续贴进同一个窗口。
+
 ### 步骤
 
 ```powershell
+docker version
+if ($LASTEXITCODE -ne 0) { throw 'Docker 引擎不可用，先修复环境' }
+$existingLab = docker ps -aq --filter 'name=^/tdsql-learning-mysql$'
+if ($existingLab) { throw '同名容器已存在，先核对归属，不覆盖或删除未知对象' }
+if (Get-NetTCPConnection -LocalPort 13306 -State Listen -ErrorAction SilentlyContinue) { throw '13306 已占用，先核对进程' }
+if (-not (Test-Path -LiteralPath .\examples\tdsql-mysql-lab\init.sql)) { throw '请回到仓库根目录，先阅读初始化 SQL' }
 docker run --name tdsql-learning-mysql -e MYSQL_ROOT_PASSWORD=lab-only-password -p 127.0.0.1:13306:3306 -d mysql:8.4.6
+if ($LASTEXITCODE -ne 0) { throw '容器创建失败，不继续导入' }
 docker exec tdsql-learning-mysql mysqladmin ping -uroot -plab-only-password --wait=60
+if ($LASTEXITCODE -ne 0) { throw '数据库尚不可响应，查看本课容器日志' }
 Get-Content examples/tdsql-mysql-lab/init.sql -Raw | docker exec -i tdsql-learning-mysql mysql -uroot -plab-only-password
+if ($LASTEXITCODE -ne 0) { throw '初始化失败，保存 SQL 错误，不把部分成功当完整通过' }
 docker exec tdsql-learning-mysql mysql -uroot -plab-only-password -e "SELECT VERSION(); SELECT * FROM aiops_lab.incident_ticket;"
 docker inspect tdsql-learning-mysql --format "{{json .Image}}"
 ```
@@ -206,6 +217,20 @@ UPDATE incident_ticket SET status='CLOSED' WHERE id=1;
 ```
 
 预期 B 等待约 3 秒后收到锁等待超时错误。此时 Pod/进程和 CPU 都可能正常，业务仍超时。在终端 A 执行 `ROLLBACK;` 释放锁；终端 B 也执行 `ROLLBACK;` 清理失败事务，再以新事务重试并 `COMMIT`。
+
+在 B 的 MySQL 提示符中，重试的完整动作如下；A 回滚之前不要提前运行。`ROW_COUNT()` 紧跟更新，随后查看最终状态：
+
+```sql
+ROLLBACK;
+START TRANSACTION;
+UPDATE incident_ticket SET status='CLOSED', version_no=version_no+1 WHERE id=1;
+SELECT ROW_COUNT() AS changed_rows;
+COMMIT;
+SELECT id,status,version_no FROM incident_ticket WHERE id=1;
+SET SESSION innodb_lock_wait_timeout=DEFAULT;
+```
+
+预期影响一行，最终 CLOSED、version_no=3。这里的例子只演示锁与提交，数据库没有替我们强制状态迁移规则；真实业务应把允许的旧状态也写进条件，或由受控事务校验，不是任意旧状态都能关闭。
 
 验证：
 
@@ -292,16 +317,16 @@ InnoDB 管理的是数据页，页里有多行数据。主键索引把行组织�
 
 ### 用乐观版本亲眼看到并发冲突
 
-前提是上文实验容器仍存在，`incident_ticket` 的 `version_no` 已确认。先查询它；假设目前为 2，分别在两个客户端运行下面的更新，不要把示例版本盲目当成当前值：
+前提是上文实验容器仍存在，两个客户端均在 `aiops_lab` 且没有遗留事务。不要把已 CLOSED 的 id=1 改回 PROCESSING 来做练习。先查 `SELECT * FROM incident_ticket WHERE id=9001;`，没有记录才在一个客户端执行 `INSERT INTO incident_ticket(id,status,version_no) VALUES(9001,'OPEN',1);`；已有则停止并选择自己确认的全新教学编号。接着两个客户端使用同一旧版本运行下列更新：
 
 ```sql
 UPDATE incident_ticket
-SET status='PROCESSING', version_no=version_no+1
-WHERE id=1 AND version_no=2;
+SET status='ACKED', version_no=version_no+1
+WHERE id=9001 AND status='OPEN' AND version_no=1;
 SELECT ROW_COUNT() AS changed_rows;
 ```
 
-第一位预期修改 1 行，第二位预期修改 0 行，因为版本已经变成 3。`ROW_COUNT()` 必须紧跟目标更新执行；中间插入其他语句会影响你正在观察哪一步。这个方法叫乐观并发控制，含义是先尝试、提交时发现别人改过，再由业务决定重读或拒绝覆盖。它不等于没有锁，数据库执行更新仍需要内部并发控制。
+在自动提交模式下，第一位预期修改 1 行，第二位预期修改 0 行，因为状态已是 ACKED、版本已变成 2。若使用显式事务，第一位必须先提交，第二位才可能结束等待。`ROW_COUNT()` 必须紧跟目标更新执行；中间插入其他语句会影响你正在观察哪一步。这个方法叫乐观并发控制，含义是先尝试、提交时发现别人改过，再由业务决定重读或拒绝覆盖。它不等于没有锁，数据库执行更新仍需要内部并发控制。版本条件保护并发，旧状态条件保护本例的迁移规则，两者不能互相替代。
 
 这是可回收的业务冲突模拟，不是引擎异常。恢复方法是查询最新记录，按当前合法状态重新发起请求；不要为了“成功”去掉版本条件。记录两次影响行数、状态与版本号，然后随前文实验容器一起清理。如果两次都成功，首先检查你是否每次都把条件改成了最新版本，或 `WHERE` 漏掉版本条件。
 
@@ -401,7 +426,7 @@ UPDATE lesson_lock_pair SET visits=visits+1 WHERE id=2;
 
 ### 所有实验结束后的清理
 
-退出教学客户端，先用 `docker inspect tdsql-learning-mysql --format '{{.Name}}'` 核对容器身份，再执行 `docker rm -f -v tdsql-learning-mysql`。这会删除本课容器及其匿名卷，教学数据不可再恢复；先保存版本、锁证据、SQL 和观察笔记。不要把真实数据库实例名替换到清理命令。
+这一小节先阅读，等后面的快照练习和独立通关都完成后再执行。退出教学客户端，先用 `docker inspect tdsql-learning-mysql --format '{{.Name}}'` 核对容器身份，再依次执行 `docker stop --time 30 tdsql-learning-mysql` 和 `docker rm -v tdsql-learning-mysql`；停止失败应先核对，不继续删除。这会删除本课容器及其匿名卷，教学数据不可再恢复；先保存版本、锁证据、SQL 和观察笔记。不要把真实数据库实例名替换到清理命令。
 
 ## 可见性补课：读到旧记录未必是复制慢
 
@@ -463,6 +488,14 @@ SELECT value_no FROM lesson_snapshot WHERE id=1;
 对锁等待事故，记录修复前等待事务数量、阻塞者身份、事务年龄与应用池排队，再记录主动结束教学事务后的同一项变化。只看下一次点击成功可能是请求碰巧换了记录；同一对象的等待消失、事务恢复并且没有重复领取，才更接近完整证据。对容量事故则保留净增长率，不只记录某时刻剩余空间。
 
 观测还要写出范围：只有一个测试租户、两条合成记录与本地容器时，不将结论扩大到跨可用区或全站吞吐。学习笔记中的“预期”与“实测”分栏，未执行的产品级恢复保留待验证项。这不是降低学习标准，而是让下一次实验知道还需要补哪一层证据。
+
+## 独立通关：版本、事务与产品边界分别验收
+
+1. **基础复现。** 用另一个全新教学编号 9002 建立 OPEN、version_no=1 的记录，独立写条件更新，将它领取为 ACKED，并原样重复一次请求。**判据：**条件同时含主键、旧状态和旧版本，第一次影响 1 行、原样重试影响 0 行；查询最终只有一个编号 9002、状态 ACKED、版本 2。说明零行是并发或条件不满足，不是数据库崩溃，也不能宣称系统已经支持任意业务请求的幂等。
+2. **改变条件预测。** A 开始可重复读事务但还没做普通 SELECT，B 提交 10→20，A 才首次普通读取，看到什么？**判据：**通常看到 20，第一次一致性读才建立快照；若 A 先读到 10 再让 B 提交，后续普通读仍为 10。锁定读、隔离级别变化和主备读入口不能偷换成同一条件。
+3. **故障证据。** 对本课新建的两行锁表复现循环等待，再与单行 3 秒超时对比。**判据：**写清持有/等待边形成的环、真实错误和死锁记录，不固定受害者；结束 A/B 事务后两行 visits 都回到 0。只看到超时先检查是否未在超时前闭环；修复不能只重试最后一条 SQL，收回时先结束事务再删除自己创建的表。
+4. **生产取舍。** 20 个应用副本，每池 40 条连接；数据库批准上限 500，其中管理、恢复及其他业务预留 50。**判据：**潜在 800 超过可分配 450；若均分且没有其他来源，每池至多 22 条共 440，仍需按实际吞吐与排队压测。不能靠把超时调大解决热点行；也不能把本地 MySQL 的连接/复制参数冒充 TDSQL-C 现场合同。
+5. **口述追问。** COMMIT 的响应丢了、控制台显示切换完、恢复后的行数相同，各自还欠什么？**判据：**先用稳定业务键查询未知提交；验证入口、重连、复制/持久化边界和关键业务；恢复还校验状态、内容、权限、时区及外部副作用。说明哪些证据本地可做，哪些必须由现场授权团队按确切 TDSQL 产品版本验证。
 
 ## 本课 GitHub 学习证据
 

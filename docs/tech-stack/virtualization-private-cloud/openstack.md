@@ -14,6 +14,8 @@
 
 ## 官方知识地图
 
+这是本课程按官方服务职责重组的学习地图，不是官方发布的统一原图。零基础先读[实验准备课](../experiment-start.md)：先做下文无需云账号的 PowerShell 调度课堂，再安装客户端；获得独立测试项目和只读权限后才查询真实资源。客户端不是云本身，安装成功不会凭空生成虚拟机。
+
 ```text
 OpenStack IaaS（基础设施即服务）
   -> 身份与目录：Keystone
@@ -113,13 +115,18 @@ OpenStack 是一组互相配合的开源云服务。它不是单个进程：Keys
 先安装统一命令行客户端。没有授权云环境也可以完成客户端安装和帮助命令实验。
 
 ```powershell
-python -m venv .venv # 创建独立 Python 环境，避免污染系统包
-.\.venv\Scripts\Activate.ps1 # 激活 Windows 虚拟环境
-python -m pip install python-openstackclient # 安装官方统一命令行客户端
-openstack --version # 正常会输出客户端版本
+if (Test-Path -LiteralPath .venv-openstack) { throw '请换一个新的学习目录，避免复用已有环境' }
+python -m venv .venv-openstack # 创建独立 Python 环境，避免污染系统包
+if ($LASTEXITCODE -ne 0) { throw '虚拟环境创建失败，先检查 Python' }
+.\.venv-openstack\Scripts\python.exe -m pip install python-openstackclient
+if ($LASTEXITCODE -ne 0) { throw '客户端安装失败，不继续云查询' }
+.\.venv-openstack\Scripts\openstack.exe --version
+if ($LASTEXITCODE -ne 0) { throw '客户端不能运行' }
 ```
 
 接入真实云时优先使用受控的 `clouds.yaml` 或临时环境变量，不要把密码提交到 GitHub。
+
+上述命令在你新建的学习目录执行，需要已安装的 Python、到软件源的网络和可写目录。没有激活环境时，用完整的 `.\.venv-openstack\Scripts\openstack.exe`；下面为简洁写的 `openstack`，须替换为这个路径或先按 Python 课激活同一环境。保存客户端版本和安装日期，真实云兼容组合由云管理员确认，不能把动态安装结果说成本文固定测试版本。
 
 ## 配置详解
 
@@ -138,6 +145,8 @@ clouds:
 ```
 
 这里有意省略密码。`clouds.yaml` 不是 PowerShell 脚本，不要假定 `${OS_PASSWORD}` 会在 YAML 里自动替换。使用平台提供的应用凭据、受保护的 `secure.yaml` 或进程环境变量注入认证材料；公开仓库只保存无凭据模板。
+
+YAML 是配置文本，保存到客户端支持的配置搜索位置，例如学习目录下的 `clouds.yaml`，不是把字段逐条输入终端。`lab` 是本地配置名；`auth_url` 是认证入口；`project_name` 限定资源范围；`region_name` 选择区域；`interface: internal` 要求本机真的能访问该内部入口。样例域名无法用于登录，凭据必须由管理员安全发放。若提示找不到 cloud，先检查当前目录、配置搜索路径与名称，参见[官方配置说明](https://docs.openstack.org/python-openstackclient/latest/configuration/index.html)，不要把账号秘密粘进报错截图。
 
 ## 命令 / 配置 / API 字典
 
@@ -162,17 +171,33 @@ OpenStack 能提供 API 延迟、服务心跳、消息堆积、资源容量、�
 ### 实验步骤
 
 ```powershell
-$env:OS_CLOUD = 'lab' # 选择 clouds.yaml 中的 lab 配置
-New-Item -ItemType Directory -Force openstack-lab | Out-Null
-openstack token issue -f value -c expires | Out-File -Encoding utf8 openstack-lab\auth-expiry.txt # 只保存认证到期时间，不输出令牌
-openstack server list --long | Out-File -Encoding utf8 openstack-lab\servers.txt # 保存云主机清单
-openstack network list | Out-File -Encoding utf8 openstack-lab\networks.txt # 保存网络清单
-openstack volume list | Out-File -Encoding utf8 openstack-lab\volumes.txt # 保存卷清单
+$previousCloud = $env:OS_CLOUD
+$hadCloud = Test-Path Env:OS_CLOUD
+$reportDirectory = Join-Path (Get-Location) ('openstack-lab-' + [Guid]::NewGuid().ToString('N'))
+$clientPath = '.\.venv-openstack\Scripts\openstack.exe'
+function Save-CloudQuery {
+    param([string[]]$Arguments, [string]$FileName)
+    $result = & $clientPath @Arguments # 先取退出码，不能用“生成了文件”冒充成功
+    $queryExit = $LASTEXITCODE
+    if ($queryExit -ne 0) { throw "查询失败：$FileName，exit=$queryExit；本轮报告不完整" }
+    $result | Out-File -LiteralPath (Join-Path $reportDirectory $FileName) -Encoding utf8 -ErrorAction Stop
+}
+try {
+    $env:OS_CLOUD = 'lab'
+    New-Item -ItemType Directory -Path $reportDirectory -ErrorAction Stop | Out-Null
+    Save-CloudQuery -Arguments @('token','issue','-f','value','-c','expires') -FileName 'auth-expiry.txt'
+    Save-CloudQuery -Arguments @('server','list','--long') -FileName 'servers.txt'
+    Save-CloudQuery -Arguments @('network','list') -FileName 'networks.txt'
+    Save-CloudQuery -Arguments @('volume','list') -FileName 'volumes.txt'
+    '本轮四项查询成功，报告目录：' + $reportDirectory
+} finally {
+    if ($hadCloud) { $env:OS_CLOUD = $previousCloud } else { Remove-Item Env:OS_CLOUD -ErrorAction SilentlyContinue }
+}
 ```
 
 ### 验证结果
 
-认证到期时间查询成功，三个清单文件存在。空项目可以没有资源行，但不应出现 401、403 或 endpoint 连接错误。不要使用 `--debug` 收集公开证据，它可能显示请求头、令牌和环境信息。
+认证到期时间查询成功，三个清单文件存在，且四次客户端退出码均为 0。任何一步失败就保留已写文件并标记本轮不完整，不能只看文件是否存在。空项目可以没有资源行，但不应出现 401、403 或 endpoint 连接错误。目录使用新随机名称，不覆盖上一轮证据；结束后保留作为作业，或确认后只删除本轮具体报告。不要使用 `--debug` 收集公开证据，它可能显示请求头、令牌和环境信息；到期时间不是令牌内容，也不能证明权限最小化。
 
 ### 如果没有成功
 
@@ -445,6 +470,16 @@ Volume（卷）可在实例之外独立存在，Attachment（挂接关系）描�
 如何验证而不破坏资源？在测试项目使用批准的权限检查或无副作用接口确认允许的查询能成功，同时让管理员核对写接口策略；不要在生产用“试删一台机器”验证拒绝。凭据标识可进入受控台账，秘密值只进入密钥管理系统，不进入源码、截图或资产报表。给凭据设定负责人和有效期，先部署新凭据并确认采集连续，再撤销旧凭据，避免午夜过期后整片图表消失。自动化还要把认证失败与业务资源异常分开告警。
 
 做一个纸面复验：准备两个项目，各有名为 `web` 的不同实例。第一轮按项目与标识记录两条；故障轮故意只按名称合并，预期资产数错误地缩成一条；恢复轮改回项目与标识，验证数量和卷关联恢复。清理时丢弃这两条虚构记录，不更改真实云资源。前面的命令若改变了 `OS_CLOUD` 环境变量，结束时应恢复原值；实验前没有该变量才移除它。报告中注明“未覆盖其他项目”比写“全云巡检正常”更有价值，因为后者扩大了证据本身能支持的范围。
+
+## 换条件独立通关：不能用总量替代约束
+
+1. 把调度课堂改为 A 有 8 CPU/7 GiB、B 有 3 CPU/32 GiB，请求仍为 4 CPU/8 GiB，移除 C 后能否创建？校准：不能，两个条件必须在同一候选同时满足；把 A 内存改成 8 才出现候选。再加入“仅 B 有 GPU”条件，请你解释为什么加 A 内存仍未必满足真实请求。
+2. 三宿主各 100 单位容量、峰值 210，一台故障剩多少？校准：200，不足。提高超售比只改资源承诺，不凭空增加物理性能；还要验证峰值和恢复负载。说出一种容量方案和一种业务降级方案及其代价。
+3. 第一个查询成功，第二个报 403，但磁盘上有 `servers.txt` 旧文件，能否认定采集正常？校准：不能，应核对本轮目录、每步退出码、范围与时间；403 是权限证据，不是空资源。只成功查某项目也不能汇报全云资产完整。
+4. 实例 `ACTIVE`、本地 HTTP 正常，浮动 IP 访问失败，列出安全组、地址转换、回程路由三种假设，并为每种给出一条能否定它的证据。校准：依次增加路径范围，Port 存在或 ping 成功都不能替代完整 HTTP 去回程；不以全放通代替定位。
+5. 面试官要求“宿主失联立即疏散，30 秒恢复”。用三分钟解释为何先确认旧节点写入隔离，再讨论共享存储、容量、客户机恢复和业务验收。校准：管理失联不是已关机证明，任务受理也不是恢复；RTO/RPO、发行版支持和真实演练决定承诺边界。进一步回答控制面升级数据库之后为何不能仅换回旧容器。
+
+每关提交预测、计算或路径、反证与安全边界。真实建云、迁移、疏散和恢复未做的部分保持“未验证”，不能由纸面通关推断已完全掌握生产操作。
 
 ## 学习证据
 

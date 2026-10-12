@@ -651,12 +651,14 @@ VALIDATE DATABASE 'ORCL_STBY';         -- 检查数据库是否满足角色切�
 SELECT database_role, open_mode, protection_mode
 FROM v$database; -- 确认当前到底是主库还是备库，以及打开和保护模式
 
-SELECT name, value, unit, time_computed
+SELECT name, value, unit, time_computed, datum_time
 FROM v$dataguard_stats
 WHERE name IN ('transport lag', 'apply lag'); -- 分开观察 redo 传输延迟与应用延迟
 ```
 
 正常情况下，Broker 配置状态符合团队定义，数据库角色和预期一致，transport lag 与 apply lag 没有持续越过 RPO 告警阈值。短时为零并不能替代切换演练。
+
+特别留意 `datum_time`（用于计算的源端数据到达备库的时间）和 `time_computed`（备库计算指标的时间）不是一回事。连续多次查询 datum_time 不前进，可能没有继续收到源端数据；即便界面仍显示一个旧的“零延迟”，也不能宣称同步健康。先确认查询在备库正确容器与应用实例执行，主库上此视图可能不返回行；不要把“零行”自动填成“零延迟”。字段含义可核对 [Oracle V$DATAGUARD_STATS 官方说明](https://docs.oracle.com/en/database/oracle/oracle-database/26/refrn/V-DATAGUARD_STATS.html)。
 
 ### Application Continuity、TAC、FAN 和 service
 
@@ -965,6 +967,10 @@ RAC 主要处理本地实例与节点层可用性；Data Guard（数据保护）
 
 前提是使用团队已批准的隔离测试库和自己拥有的 schema，Oracle 版本支持本课 SQL。打开两个 SQL*Plus 或兼容 SQL 客户端，确认连接同一 PDB 与同一教学用户；关闭客户端自动提交。没有建表配额时请管理员为课堂分配，不使用 SYS 或 SYSTEM 代替普通用户做实验。
 
+如果使用 SQL*Plus，先在宿主机终端执行 `sqlplus /nolog`，进入 SQL 提示符后用 `CONNECT 教学用户@//教学主机:1521/教学PDB服务名` 连接，按提示输入密码，不把密码写进命令或截图。这里的中文是待替换字段，不是可直接执行的地址；端口与服务名由管理员提供，PDB 服务名不等于随意猜出的实例 SID。两边均执行 `SET AUTOCOMMIT OFF`，再执行下节的用户/容器查询比对。图形客户端则在其连接属性中关闭自动提交，核对实际设置，不假定默认值相同。
+
+建表前先查 `SELECT table_name FROM user_tables WHERE table_name='LESSON_ORACLE_ALERT';`，预期零行；若已有对象，停止并统一更换后续所有语句的课堂表名，不能沿用旧表执行插入。DDL 创建/删除可能提交已有事务，因此在开始前结束自己旧的课堂事务，不拿生产连接来练习。
+
 在会话甲执行以下代码。表名应事先确认不存在；如已存在就换新的课堂名称，不删除旧表腾位置。所有时间固定，避免当天日期变化导致查询结果不同。
 
 ```sql
@@ -1019,6 +1025,14 @@ WHERE id = 1 FOR UPDATE WAIT 3;
 运维上我先建立只读证据链：应用时间线、会话与等待、SQL 计划、空间、日志生成与复制进度。修复前明确影响范围、许可、权限和回退点；修复后不仅看资源在线，还要验证关键业务读取、写入、提交结果与数据对账。课堂只做过单行锁冲突，就如实说没有做过跨机房切换。
 
 追问“查询旧版本为何报快照过旧”，应从查询持续时间、所需 Undo 历史是否仍可用及写入压力分析，不简单归为内存不足。追问“有两节点为何仍单点”，检查共享存储、网络入口、服务配置与应用连接池。追问“OGG 延迟零是否完整”，还要检查表映射、源端是否有提交、恢复坐标和关键数据对账。
+
+## 独立通关：读得到、同步了、能恢复分别举证
+
+1. **基础复现。** 在完整 SQL 课堂的两行表基础上增加 id=3、lab-api、OPEN，以及 id=4、batch-api、ACKED，两条开始时间都使用固定 `TIMESTAMP '2026-09-01 10:10:00'` 并提交。独立写只统计 OPEN 的分组查询。**判据：**lab-api=3，batch-api 不出现在结果中；查询总行数为 4。保存用户/PDB、插入提交、筛选结果，而不是拿按当前日期过滤的零行结果冒充故障。完成后按已确认的自有表清理流程收回。
+2. **改变条件预测。** A 未提交地将 id=1 从 OPEN 改为 ACKED，B 的普通 SELECT 和 `FOR UPDATE WAIT 3` 会怎样不同？**判据：**本课默认读已提交条件下，普通一致性读看到已提交 OPEN，不是等待 A 后才读；锁定读争抢修改权会等待并超时。A 回滚后 B 可获得锁且仍是 OPEN；A 若提交，后续语句可看到 ACKED。说明这不是死锁，也不把 Oracle 默认隔离语义盲目套用到其他数据库。[官方并发与一致性说明](https://docs.oracle.com/en/database/oracle/oracle-database/23/cncpt/data-concurrency-and-consistency.html)
+3. **故障证据。** 在隔离库复现一次锁等待，另对合成监控记录设置 transport lag=0 但 datum_time 连续十分钟不变。**判据：**前者用事务/对象/等待及回滚后复测证明；后者必须标“数据陈旧或未更新，待核实”，不能宣称真实断链，更不能记作同步成功。真实 Data Guard 需另取源端 redo、传输/应用进度与新鲜心跳，课堂不能为了验证去断生产网络。
+4. **生产取舍。** redo 持续产生 20 MB/s，备库故障 2 小时后以 30 MB/s 应用，新写仍持续。**判据：**积压约 144000 MB，净追赶 10 MB/s，理想还需 14400 秒即 4 小时；从故障开始至少 6 小时，未计启动与校验。保留和空间须覆盖全过程，不能按 144000/30=80 分钟宣布追平，也不能提前删仍需的归档。RAC 共享数据库不是第二份独立灾备，选 Data Guard/OGG 还要匹配对象与恢复目标。
+5. **口述追问。** AWR 能查询、RAC 两实例 OPEN、OGG lag=0、RMAN 报成功，分别能无条件使用或验收吗？**判据：**诊断能力先核对许可/授权；实例在线仍欠业务 service、入口和事务；OGG 还欠映射、提交、checkpoint/心跳新鲜度与对账；备份还欠密钥/日志链/兼容版本及隔离恢复。说明回切如何保留新增写入、未知提交如何查询，以及本课没有覆盖哪些真实故障层。
 
 ## 本课 GitHub 学习证据
 

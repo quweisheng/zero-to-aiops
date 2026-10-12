@@ -7,13 +7,14 @@
     "predev": "npm run generate:content",
     "dev": "vite",
     "prebuild": "npm run generate:content",
-    "build": "tsc --noEmit && vite build && node scripts/generate-static-site.mjs",
+    "build": "npm run check:teaching-reviews && tsc --noEmit && vite build && node scripts/generate-static-site.mjs",
     "docs:build": "npm run build",
     "preview": "vite preview",
     "pretest": "npm run generate:content",
-    "test": "vitest run && npm run check:tech-stack-examples && node --test examples/incident-evidence-classroom/checks.mjs",
+    "test": "npm run check:teaching-reviews && vitest run && npm run check:tech-stack-examples && node --test examples/incident-evidence-classroom/checks.mjs",
     "test:watch": "vitest",
     "check:tech-stack-examples": "node scripts/check-tech-stack-no-line-explanation-tables.mjs",
+    "check:teaching-reviews": "node scripts/audit-teaching-reviews.mjs --require-complete",
     "audit:teaching": "node scripts/audit-teaching-depth.mjs --write"
   },
   "dependencies": {

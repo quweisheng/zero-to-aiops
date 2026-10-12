@@ -1,0 +1,163 @@
+[
+  {
+    "article": "architecture-delivery/architecture-solution-design.md",
+    "crossReview": {
+      "reviewer": "foundation-frontend",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "0dfa62c4c82df5e8412dc81ef14377496e31e14c04fd700c79c28c4249de99aa",
+      "result": "pass",
+      "findings": [
+        "全文复核。实际运行architecture正常和故障：单副本故障剩余676>=600、少副本剩余338<600，结果与正文一致；明确只是算术不证明真实平台压测/HA。",
+        "解释C4容器不等同Docker、稳定平均下Little定律的限制、突发峰值及数据库连接预算、RTO依赖链和RPO日志恢复边界；实验目录防覆盖与新建文件步骤闭合。",
+        "五关900RPS按单实例180需6副本抗单实例；三域各2不足抗域故障、各3剩余1080成立。已提交丢响应不盲补偿、日备份不能独保5分钟RPO、硬约束ADR均有具体判据。无实际压测、云资源或恢复执行。"
+      ]
+    },
+    "writer": "systems",
+    "reviewedAt": "2026-10-12",
+    "initialFindings": [
+      "课堂假设已安装Node并取得仓库，知识图未区分课程重组和官方原图。",
+      "RTO/RPO在正式释义前使用；实验带Force且标题预检容易被当作内容验收。",
+      "原检查单缺新容量与多故障域条件下的独立判断。"
+    ],
+    "changes": [
+      "补分层路线、准备入口和图来源边界，提前解释RTO/RPO。",
+      "创建文件前拒绝同名路径，标题检查明确仅结构预检并补人工验收。",
+      "新增容量、跨可用区、正常组件下业务失败、恢复约束和口述取舍五关。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "开篇分层阅读与开课准备区分纸笔/Node和进阶平台前提。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "请求数据路径、状态与一致性解释数据库提交/响应、队列事务和幂等边界。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "基础实验精确命令和方案文件模板包含预期、核验、失败与清理；标题脚本不承诺语义正确。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "故障模拟包含依赖失效、容量与恢复关键路径，明确修复/验证/回退边界。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "容量安全余量、故障域、权限、密钥恢复、演进兼容和成本给出选项与拒绝条件。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "30秒/3分钟与设计追问覆盖ADR、RTO/RPO、可用性和被否决方案。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "五项新条件：900RPS/单实例180、安全失区容量、业务成功边界和每日备份反例。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "AIOps从观测/告警/自动化到受控反馈，学习证据保存决策、算例与合成边界。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "全文走读，复算6实例单故障与3可用区最坏失区容量、恢复关键路径；审查结构检查边界。",
+        "limits": "真实系统压测、跨区故障和恢复未运行；纸面容量依赖题设及资源独立假设。"
+      },
+      {
+        "kind": "executed",
+        "detail": "Node architecture合成课堂正常/故障分支实际执行，决策不同。",
+        "limits": "只验证合成算术与课堂判定，不代表真实平台或生产架构验收。"
+      }
+    ],
+    "status": "revised-awaiting-cross-review"
+  },
+  {
+    "article": "architecture-delivery/it-project-management-pmp.md",
+    "crossReview": {
+      "reviewer": "foundation-frontend",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "a680fba642034e8b9c053316024826555fb6f4989fa51873985b8749208f98d4",
+      "result": "pass",
+      "findings": [
+        "全文复核。正文关键路径PowerShell代码用内存CSV替换唯一文件读取实际执行9项：原14天、C7为17天、B6为16天，以及空、重复、未知依赖、零、负数、小数输入均拒绝。五关B浮动变化和共享资源17天与算法适用边界一致。",
+        "PMI官方PMBOK页核实第八版六原则七绩效域，2026PMP全球/大陆实施时间分开；DORA官方五指标页核实指标名与恢复口径。CSV文件编码、拓扑顺序限制、基线保护/恢复及只读上线也需认证授权审计讲清。",
+        "五关EVM 20万场景CV负1万、SV负3万、CPI0.9、SPI0.75、EAC约22.22万复算成立；变更人天不等于日历延期，安全门禁、资源约束、验收与收益有答案。未执行真实项目工具、外部审批或生产变更；本次脚本执行在PowerShell7，PS5.1兼容性仅静态检查。"
+      ]
+    },
+    "writer": "systems",
+    "reviewedAt": "2026-10-12",
+    "initialFindings": [
+      "课程地图被称为官方但未解释多来源重组，零基础脚本保存/终端准备仍隐含。",
+      "考纲地区时间需要重新核对，末尾检查单缺新依赖网和资源约束判据。"
+    ],
+    "changes": [
+      "明确地图出处与分层路线、文本保存/扩展名/编码前提。",
+      "核对PMI官方第八版与考纲，更新大陆2026-12-05公告链接。",
+      "增加五项依赖换网、资源串行、绿色未验收、挣值和授权取舍通关。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "实验前置给Windows终端、路径、文件保存与范围，不要求Jira或认证。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "范围到验收、网络正反计算、资源约束与EVM分别解释机制和假设。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "完整CSV/关键路径PowerShell/挣值输入，有14天/浮动/成本预期、失败与清理。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "关键活动延时+安全范围变更有基线哈希、17天输出、评审、恢复和不抹真实历史边界。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "状态一致性、运营连续性、容量/权限/版本回退纳入治理而非口头完成。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "10组指导与连续追问区分事实、权限、假设、工期和业务价值。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "五关换B工期得到16天、单工程师资源约束17天、EVM条件预测与上线反例。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "告警、模型、知识库、安全自动化连接可验收项目范围；GitHub归档不虚构履历。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "全文走读，手算依赖与挣值；PMI/PMI中国/DORA官方网页核对版本、地区日期与五指标。",
+        "limits": "课程不替代认证资格审核、真实项目履约或真实上线评审。"
+      },
+      {
+        "kind": "executed",
+        "detail": "将正文PowerShell关键路径程序以内存CSV输入运行6项检查：正常、延期、换分支、双关键路径、非法工期及缺前置拒绝。",
+        "limits": "替换Import-Csv仅验证算法；真实文件保存/读取与资源平衡工具未运行，程序不支持资源约束。"
+      }
+    ],
+    "status": "revised-awaiting-cross-review"
+  }
+]

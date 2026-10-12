@@ -242,6 +242,8 @@ count 'alerts', INTERVAL => 1000                                 # 小实验计�
 
 高风险命令：`disable`、`drop`、`truncate`、`major_compact`、`move`、`split` 和 HBCK2 修复都必须先确认环境、影响、备份和回滚。
 
+这里的两条 `put` 是两次独立写入，不是一个“同时更新两列”的事务。假如第一条成功、第二条失败，这一行可以只有 severity 而没有 message。要让同一行的多列作为一次原子变更提交，需要客户端把它们放进同一个 Put；“单行原子性”不会把相邻的 Shell 命令自动合并。
+
 ## 配置重点
 
 ```xml
@@ -270,6 +272,8 @@ HBase 没有与 Spark/Flink 相同形式的 ASF 官方 Docker 镜像。实验使
 ### 下载并验证
 
 ```powershell
+docker version
+if ($LASTEXITCODE -ne 0) { throw '先启动 Docker Desktop，并确认正在运行 Linux 容器' }
 if (Test-Path -LiteralPath .\hbase-lab) { throw '课堂目录已存在，请先核对归属' }
 docker ps -a --filter 'name=^/hbase-lab$'
 Get-NetTCPConnection -LocalPort 16010 -State Listen -ErrorAction SilentlyContinue
@@ -279,11 +283,14 @@ Set-Location .\hbase-lab
 
 curl.exe --fail --location --output hbase-2.6.6-bin.tar.gz `
   https://dlcdn.apache.org/hbase/2.6.6/hbase-2.6.6-bin.tar.gz
+if ($LASTEXITCODE -ne 0) { throw '发布包下载失败，先检查官方发布目录，不继续构建' }
 curl.exe --fail --location --output hbase-2.6.6-bin.tar.gz.sha512 `
   https://downloads.apache.org/hbase/2.6.6/hbase-2.6.6-bin.tar.gz.sha512
+if ($LASTEXITCODE -ne 0) { throw '校验文件下载失败，不跳过校验' }
 
 $checksumText = Get-Content .\hbase-2.6.6-bin.tar.gz.sha512 -Raw
 $expected = (($checksumText -replace '^[^:]+:\s*', '') -replace '\s', '').ToLower()
+if ($expected -notmatch '^[0-9a-f]{128}$') { throw '校验文件格式与本课解析方式不一致，请人工核对，不放宽验证' }
 $actual = (Get-FileHash .\hbase-2.6.6-bin.tar.gz -Algorithm SHA512).Hash.ToLower()
 if ($actual -ne $expected) { throw 'HBase SHA512 mismatch' }
 ```
@@ -291,6 +298,8 @@ if ($actual -ne $expected) { throw 'HBase SHA512 mismatch' }
 Apache 的校验文件是“文件名 + 冒号 + 多行分组哈希”，所以上面的命令先去掉文件名前缀，再删除换行和空格。不要只取第一段文本，否则拿到的是文件名而不是 SHA512。
 
 ### Dockerfile
+
+保持终端位于刚创建的 `hbase-lab` 文件夹。把下面内容保存为这个文件夹内的 `Dockerfile`（没有扩展名），把下一节 XML 保存为同目录的 `hbase-site.xml`；两个文件与下载包处于同一层。不要保存成 `Dockerfile.txt`，否则构建命令找不到它。
 
 ```dockerfile
 FROM eclipse-temurin:17-jdk-jammy
@@ -336,8 +345,12 @@ CMD ["bash", "-lc", "start-hbase.sh && tail -F /opt/hbase/logs/*master*.log"]
 ### 构建、启动和验证
 
 ```powershell
+docker image inspect hbase-lab:2.6.6 *> $null
+if ($LASTEXITCODE -eq 0) { throw '镜像标签已存在，先核对归属，不覆盖旧课堂或他人的镜像' }
 docker build --tag hbase-lab:2.6.6 .
+if ($LASTEXITCODE -ne 0) { throw '构建失败，保留错误输出，先不要启动容器' }
 docker run --detach --name hbase-lab --memory 2g --publish 127.0.0.1:16010:16010 hbase-lab:2.6.6
+if ($LASTEXITCODE -ne 0) { throw '容器创建失败，不对同名未知容器继续执行命令' }
 docker logs hbase-lab
 docker exec -it hbase-lab hbase shell
 ```
@@ -381,7 +394,9 @@ get 'alerts', '07#host-001#20260723102000'                        # 应重新读
 先在 HBase Shell 输入 `exit` 回到宿主机终端，再执行下列容器清理。没有挂载外部数据卷，删除容器会移除本课写入的表和单机协调状态；需要保留时先只停止容器。不要在 Shell 里直接粘贴 Docker 命令。
 
 ```powershell
-docker rm --force hbase-lab
+docker stop --time 30 hbase-lab
+if ($LASTEXITCODE -ne 0) { throw '停止失败，先核对容器状态，不继续删除' }
+docker rm hbase-lab
 Set-Location ..
 ```
 
@@ -441,6 +456,8 @@ cluster + namespace + table + region + regionserver
   + column_family + operation + client
   + deploy_id + schema_version + hdfs_node
 ```
+
+这组关联字段依次表示集群、命名空间、表、键范围分区、承载分区的服务进程；`column_family` 是列族，`operation` 是操作类型，`client` 是调用方，`deploy_id` 是发布编号，`schema_version` 是数据结构版本，`hdfs_node` 是底层存储节点。先用低基数字段定位范围，敏感或海量 RowKey 留在脱敏日志里，不把每一行都变成指标标签。
 
 AIOps 可识别热点、Compaction 风暴、RegionServer 异常和复制积压，但自动 Move/Split/Major Compaction 风险高，应先生成建议和证据，再审批执行。
 
@@ -727,6 +744,16 @@ BufferedMutator 将多个写入先放客户端缓冲以提高吞吐，应用函�
 生产事故复盘应区分触发因素和放大因素。例如批写变更制造热点是触发，区域过多、磁盘无合并余量、客户端无界重试是放大。回退批写后延迟下降，并不意味着另外三个风险已消失；分别提出容量、限制与恢复演练的验证任务。
 
 面试最后追问：为什么不选关系数据库？答案不是“HBase 更大更快”，而是主要请求是可设计行键的海量稀疏明细访问，愿意接受跨行事务和丰富索引需要另做。若业务核心是复杂关联与跨行一致更新，关系数据库或其他模型可能更合适。选型依据是访问合同，而不是产品流行程度。
+
+## 独立通关：一行、两个版本和一次业务事实
+
+先独立回答并记录预测，再做本地验证；下列答案是判据，不是需要背诵的句子。本课 `file://` 单机关闭了存储能力检查，不能拿它的启停结果证明生产 WAL 持久性或集群高可用。
+
+1. **基础复现。** 在仍保留两个版本的 `alerts` 表中，先确认 `get 'alerts', 'exam-version-row'` 没有旧数据；有则换一个全新行键。在 HBase Shell 写入 `put 'alerts', 'exam-version-row', 'info:severity', 'warning', 1700000100000`，再写 `put 'alerts', 'exam-version-row', 'info:severity', 'critical', 1700000101000`，分别执行普通 `get` 和 `get 'alerts', 'exam-version-row', {COLUMN => 'info:severity', VERSIONS => 2}`。**判据：**普通点查看到较新时间戳的 critical，指定版本数看到两个 Cell 版本，它们仍属于一条行键，不是两条告警。记录真实返回的时间戳；若列族已配置 TTL（存活时间）使旧时间戳过期，应先解释条件不同，而不是篡改预期。
+2. **改变条件预测。** `hash(device_id) % 16` 的确定性前缀和“每条事件随机分到 16 桶”有什么不同？查询一个已知设备各需要查多少个桶？**判据：**前者能计算出一个桶，同一设备写入也集中在那里，不能解决单个超级热点设备；后者可能要查全部 16 桶并合并结果。是否真正分散还取决于 Region 边界和预分区，数字 16 不自动等于 16 台服务器。
+3. **故障证据。** 仅对本课表禁用一次，保存失败点查、`is_enabled`、`is_disabled` 和 Master 状态，再恢复并读取同一行。**判据：**用表状态解释拒绝服务，不能从一次错误断言 HFile 丢失、HDFS 故障或 RegionServer 已死；恢复后还要核对原 Cell，而不是只看“enable 命令成功”。复测完退出 Shell，按本课清理步骤收回容器，或明确说明为了保留证据暂未清理。
+4. **生产取舍。** 每天 2 亿行、每行按 200 B 原始有效数据、保存 90 天、底层 3 副本且保留 20% 空闲，能否申请 10 TB 就上线？**判据：**按十进制估算逻辑数据为 3.6 TB，副本及空闲基线为 `3.6 × 3 / 0.8 = 13.5 TB`，10 TB 不够；这还没计索引、WAL、文件格式、压缩实际效果、Compaction 临时空间和恢复余量。给出用真实样本压测修正的方法，不能把纸面下限当生产配额。
+5. **口述追问。** Put 超时后重试、递增计数器超时后重试、Master 不在时旧客户端还能读、扫描加 `LIMIT => 10`，分别能证明什么？**判据：**超时可能是应答丢失；相同行键/列/固定时间戳写同值与非幂等 Increment 不能用同一种重试保证；已有路由能读不等于控制面、Region 重分配均健康；最多返回十行也不等于底层只读十条记录。最后解释为什么单行强一致不等于跨行 Scan 的全局快照，并指出生产恢复演练还欠哪些真实环境证据。
 
 ## 本课 GitHub 学习证据
 

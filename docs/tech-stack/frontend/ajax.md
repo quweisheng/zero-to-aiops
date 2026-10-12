@@ -476,42 +476,87 @@ RUM（Real User Monitoring，真实用户监控）能看到用户侧网络和浏
 
 ### 前置条件
 
-需要 Node.js 18+（内置 Fetch 不是本实验重点，主要用其 HTTP server），一个只属于本课的空目录，以及未占用的本地 4177 端口。先创建下述两个文件再启动，不使用生产账号或接口。创建 `server.mjs`：
+按[实验起步说明](../experiment-start.md)安装仍受支持的 Node.js 并记录 `node --version`；只使用标准库，不需要 npm install。创建此前不存在的个人空目录，保存下述两个文件，先确认本地4177没有监听者：PowerShell 用 `Get-NetTCPConnection -State Listen -LocalPort 4177 -ErrorAction SilentlyContinue`，有结果就停止并核对归属。无结果后才启动，不把别人的响应算给本次实验。创建 `server.mjs`：
 
 ```js
 import { createServer } from 'node:http'
 import { readFile } from 'node:fs/promises'
 
 createServer(async (request, response) => {
-  if (request.url === '/api/incidents') {
-    response.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' })
-    response.end(JSON.stringify([{ id: 'INC-1024', status: 'investigating' }]))
-    return
+  try {
+    const url = new URL(request.url, 'http://127.0.0.1:4177')
+    if (request.method !== 'GET') {
+      response.writeHead(405, { Allow: 'GET' }); response.end(); return
+    }
+    if (url.pathname === '/api/incidents') {
+      const mode = url.searchParams.get('mode') ?? 'normal'
+      console.log('received', mode)
+      if (mode === 'slow') await new Promise(resolve => setTimeout(resolve, 8000))
+      if (response.destroyed) { console.log('client left; simulated work finished', mode); return }
+      const status = mode === 'error' ? 503 : 200
+      response.writeHead(status, {
+        'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store'
+      })
+      response.end(JSON.stringify(mode === 'error' ? { error: 'classroom_busy' } :
+        mode === 'bad' ? { wrong: true } : [{ id: 'INC-1024', status: 'investigating' }]))
+      return
+    }
+    if (url.pathname !== '/') { response.writeHead(404); response.end('not found'); return }
+    const html = await readFile(new URL('./index.html', import.meta.url))
+    response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' })
+    response.end(html)
+  } catch (error) {
+    console.error('classroom request failed', error.message)
+    if (!response.headersSent && !response.destroyed) {
+      response.writeHead(500); response.end('classroom server failed')
+    } else { response.destroy() }
   }
-  const html = await readFile(new URL('./index.html', import.meta.url))
-  response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' })
-  response.end(html)
-}).listen(4177, '127.0.0.1', () => console.log('http://127.0.0.1:4177'))
+}).on('error', error => { console.error('server failed', error.message); process.exitCode = 1 })
+  .listen(4177, '127.0.0.1', () => console.log('http://127.0.0.1:4177'))
 ```
 
-`index.html` 主体：
+`index.html` 完整文件：
 
 ```html
-<button id="load">加载事件</button>
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><title>Ajax合成实验</title></head>
+<body>
+<label for="mode">模式</label>
+<select id="mode"><option value="normal">正常</option><option value="error">503</option><option value="slow">8秒慢响应</option><option value="bad">非法契约</option></select>
+<button id="load" type="button">加载事件</button>
+<button id="cancel" type="button">主动取消</button>
 <pre id="output" aria-live="polite"></pre>
 <script type="module">
   const output = document.querySelector('#output')
+  let current
+  document.querySelector('#cancel').addEventListener('click', () => current?.abort('user'))
   document.querySelector('#load').addEventListener('click', async () => {
+    current?.abort('superseded')
+    const controller = new AbortController()
+    current = controller
+    const timer = setTimeout(() => controller.abort('timeout'), 2000)
     output.textContent = '加载中…'
     try {
-      const response = await fetch('/api/incidents')
+      const mode = document.querySelector('#mode').value
+      const response = await fetch(`/api/incidents?mode=${encodeURIComponent(mode)}`, { signal: controller.signal })
       if (!response.ok) throw new Error(`HTTP ${response.status}`)
-      output.textContent = JSON.stringify(await response.json(), null, 2)
+      if (!response.headers.get('content-type')?.includes('application/json')) throw new TypeError('expected JSON')
+      const data = await response.json()
+      if (!Array.isArray(data) || data.some(item => typeof item?.id !== 'string' || item.status !== 'investigating')) {
+        throw new TypeError('invalid incident contract')
+      }
+      if (controller !== current) return
+      output.textContent = JSON.stringify(data, null, 2)
     } catch (error) {
-      output.textContent = `失败：${error.message}`
-    }
+      if (controller !== current) return
+      output.textContent = controller.signal.aborted ?
+        (controller.signal.reason === 'timeout' ? '查询超时；没有数据结论' : '已主动取消') : `失败：${error.message}`
+    } finally { clearTimeout(timer) }
   })
 </script>
+</body>
+</html>
 ```
 
 运行 `node server.mjs`，打开打印地址并点击按钮。预期 Network 出现 200 JSON，页面显示 INC-1024。验证响应类型、Timing、Initiator 和无整页刷新。
@@ -521,13 +566,13 @@ createServer(async (request, response) => {
 - 连接拒绝：进程是否运行、端口是否占用。
 - 页面返回但 JSON 解析失败：Network 查看实际 Content-Type 与响应体。
 - 双击文件而不是 HTTP 打开：回到打印的 `http://` 地址。
-- 清理按 Ctrl+C 停服务；示例只监听 127.0.0.1，不暴露外网。
+- 清理按当前服务终端 Ctrl+C，确认本次进程退出且4177不再由它监听；不要按名称杀全部Node。示例只监听127.0.0.1，没有鉴权、连接配额或持久化，不能公开到网络；脱敏证据保留，个人目录不需要时移入回收站。
 
 ## 故障实验：注入 503、慢响应和过期结果
 
 ### 注入
 
-在 API 分支加入查询参数：`?mode=error` 返回 503；`?mode=slow` 延迟 8 秒。客户端设置 2 秒 AbortController 超时，并连续发 slow 与正常请求。
+不需要自行补后端分支：上面的完整程序已经支持模式。先选503并点击加载，预期显示HTTP503；再选慢响应，等待约2秒，预期显示查询超时而不是永久转圈。第三次选非法契约，预期200响应但页面报告结构错误。最后选慢响应并加载，立即切正常再加载，最终只能显示正常事件，旧请求的错误也不能覆盖它。另单独用主动取消按钮验证取消状态。
 
 ### 证据链
 
@@ -539,6 +584,8 @@ createServer(async (request, response) => {
 ### 修复、回滚和复盘
 
 恢复正常模式；保留超时、取消和结果资格检查。503 只对安全读取做有限退避，写操作不在本实验重试。Ctrl+C 清理服务。复盘记录每层证据、超时预算和用户可见状态。
+
+此程序没有自动重试，所以不要把“讲过退避”写成“已经实现”。慢响应只在服务器内等待合成定时器；客户端离开后服务端仍等到8秒再检查连接，这专门说明取消边界，不代表真实数据库事务行为。实验同源，没有验证CORS/Cookie；跨源章节的练习是后续拓扑任务，需要额外实现和浏览器证据，不能用Node Fetch冒充浏览器预检验收。
 
 ## AIOps 场景
 
@@ -732,6 +779,16 @@ SSE 还需要按事件边界处理、记录恢复游标并处理重连；WebSock
 `Response.clone()` 让两个消费者各自读同一来源的正文，但读取速度不一致时会产生缓冲。假如界面快速消费一个巨大下载，审计分支却一直等着把整个正文转成字符串，慢消费者的缓冲可能不断增长。它不是复制一个轻量指针就自动得到无成本多播。监控日志应优先记录状态、大小和经过脱敏的必要摘要，不为方便排障克隆每个完整响应。[克隆响应与背压](https://developer.mozilla.org/en-US/docs/Web/API/Response/clone)
 
 课堂自测不需要访问接口：列出成功、认证过期、超时未知、用户退出、会话切换五个事件，再写出每个事件之后哪些待处理结果仍有资格修改界面。预期是退出后旧结果全部失去资格，超时写操作进入待确认，刷新失败不会留下永久等待者。用纸面事件序列验证后，删去模拟笔记即可；它证明的是状态设计思路，不冒充浏览器真实网络测试。面试三分钟回答时，把头过滤、刷新并发和身份世代连到这条事件序列，能解释为什么一个请求封装函数不足以替代完整的客户端状态模型。
+
+## 独立通关：HTTP、正文与业务结果分层验收
+
+1. **基础复现。** 用两个新文件启动本地程序，证明本次PID、4177监听、Document和API的200/JSON、页面INC-1024四者一致。非法契约模式仍返回200，但必须被运行时校验拒绝；503应明确HTTP错误而不是误以为Fetch自动拒绝所有非2xx。
+2. **改变条件预测。** 把客户端总时限从2秒改为9秒，预测8秒慢响应能在预算内成功（仅课堂轻负载近似，不是精确时钟保证）；恢复2秒，再发慢→正常，旧结果和错误都不能写回。把204空响应或HTML登录页作为纸面新输入，说明为什么不能无条件json()。
+3. **故障证据。** 分别提交503、非法结构、超时和主动取消的Network时间线/页面状态；证明本地同源实验没有OPTIONS，不能据此声称CORS正确。随后设计跨端口PATCH证据：预检401时实际请求未发送，简单请求可能已执行但响应不可读；两种情况不能混为后端没收到。
+4. **设计取舍。** 一万人每两秒轮询，基础约5000请求/秒，三个层级各最多三次尝试会有最高27倍放大风险（明确“3次”指总尝试而非额外重试）。设计总预算、单层有限重试、抖动/Retry-After、并发限额、分页与SSE恢复；写操作另需稳定幂等键、状态查询、租户隔离和兼容回滚。
+5. **口述追问。** no-cors为何读不到JSON？网络面板有追踪头但headers.get为空为何可能是Expose-Headers？注销期间旧刷新Promise能否重新登录？304、202、204和200各承诺什么？clone为何可能积压慢消费者？每题给出协议层、观察证据与误修风险。
+
+返工标准：任何成功结论都要经过状态/类型/正文/Schema/业务/界面六层；任何取消结论都要说明未撤销的服务端边界；任何可靠重试都要给出次数、并发、总预算和幂等依据。仅请求返回、spinner消失或日志200都不是完整通关。
 
 ## GitHub 学习证据清单
 

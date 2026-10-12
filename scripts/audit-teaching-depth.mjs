@@ -94,6 +94,8 @@ export async function auditTeaching({ write = false, quiet = false } = {}) {
       '',
       teachingCoverageStatus(rows.length, count),
       '',
+      '正文是否通过本轮逐篇评测、发现了什么问题、怎样返工及验证范围，另见[逐篇评测与返工记录](./teaching-review.md)。本表不再承担语义质量评级。',
+      '',
       `中文正文合计 ${rows.reduce((sum, row) => sum + row.chineseProse, 0).toLocaleString('en-US')} 汉字，${rows.filter(row => row.chineseProse >= 8000).length} 篇不少于 8,000 字。正文总字符包含中文、英文和数字但排除空白；代码与图字符另列，不用于补足正文目标。`,
       '',
       '“结构线索待复核”是关键词扫描提示：出现对应词语不等于实验已执行；没有对应词语也不必然缺内容。英文图及图内英文分支行分别检查，避免只翻译标题就掩盖下级术语；提示仍需人工区分知识地图、合法命令和样例输出，并检查紧邻正文是否已有准确解释。学习路线、面试模块与模板另按能否指导行动复核，不强行套用万字篇幅。',

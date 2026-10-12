@@ -637,15 +637,21 @@ Stable 选择器在核验日提供 CUDA 12.6、13.0、13.2。Wheel 存在只表�
 
 ### Windows CPU 固定实验环境
 
+第一次用终端或虚拟环境，先看[实验起步说明](../experiment-start.md)。在自己的可写目录运行以下命令；后文完整程序分别用编辑器保存为 UTF-8 的 `train.py`、`predict.py`、`fault_injection.py`，不要把 Markdown 围栏也复制进去。这里沿用本课核验时的固定版本，不声称是安装当天的最新安全版本。
+
 ```powershell
 if (Test-Path -LiteralPath .\pytorch-aiops-lab) { throw 'Use a new, empty lesson directory.' }
 New-Item -ItemType Directory -Path .\pytorch-aiops-lab
 Set-Location .\pytorch-aiops-lab
 
 py -3.14 -m venv .venv
+if ($LASTEXITCODE -ne 0) { throw 'Create the virtual environment first.' }
 .\.venv\Scripts\python.exe -m pip install --upgrade pip
+if ($LASTEXITCODE -ne 0) { throw 'pip upgrade failed.' }
 .\.venv\Scripts\python.exe -m pip install numpy==2.5.2
+if ($LASTEXITCODE -ne 0) { throw 'NumPy installation failed.' }
 .\.venv\Scripts\python.exe -m pip install torch==2.13.0 --index-url https://download.pytorch.org/whl/cpu
+if ($LASTEXITCODE -ne 0) { throw 'PyTorch installation failed; do not continue.' }
 ```
 
 如果没有 `py -3.14`，可用受支持的 Python `3.10–3.14` 创建环境，并记录实际版本。本文固定 CPU Wheel 是为了让第一次实验不依赖显卡和驱动。
@@ -774,8 +780,8 @@ def make_synthetic_data(
     sample_count: int = 4000,
 ) -> tuple[torch.Tensor, torch.Tensor]:
     """生成两簇可分数据，只用于验证训练工程链路。"""
-    if sample_count % 2 != 0:
-        raise ValueError("sample_count must be even")
+    if type(sample_count) is not int or sample_count < 20 or sample_count % 2 != 0:
+        raise ValueError("sample_count must be an even integer >= 20")
 
     generator = torch.Generator().manual_seed(SEED)
     half = sample_count // 2
@@ -843,8 +849,20 @@ def evaluate(
 
     with torch.inference_mode():
         for features, labels in data_loader:
+            if features.ndim != 2 or features.shape[1] != len(FEATURE_NAMES):
+                raise ValueError("evaluation features must have shape [N, 4]")
+            if labels.ndim != 1 or len(labels) != len(features):
+                raise ValueError("evaluation labels must have shape [N]")
+            if not bool(torch.isfinite(features).all()) or not bool(torch.isfinite(labels).all()):
+                raise ValueError("evaluation inputs contain non-finite values")
+            if not bool(((labels == 0) | (labels == 1)).all()):
+                raise ValueError("evaluation labels must be 0 or 1")
             logits = model(features)
+            if logits.shape != labels.shape or not bool(torch.isfinite(logits).all()):
+                raise RuntimeError("invalid evaluation logits")
             loss = loss_function(logits, labels)
+            if loss.numel() != 1 or not bool(torch.isfinite(loss)):
+                raise RuntimeError("invalid evaluation loss")
             predictions = torch.sigmoid(logits) >= 0.5
             truth = labels.to(torch.bool)
 
@@ -856,6 +874,8 @@ def evaluate(
             tn += int((~predictions & ~truth).sum().item())
             fn += int((~predictions & truth).sum().item())
 
+    if total == 0:
+        raise ValueError("evaluation loader must not be empty")
     accuracy = (tp + tn) / total
     precision = tp / max(tp + fp, 1)
     recall = tp / max(tp + fn, 1)
@@ -974,7 +994,7 @@ def main() -> None:
     }
     if test_metrics["accuracy"] < 0.95:
         raise RuntimeError("accuracy below the experiment acceptance threshold")
-    if reload_max_abs_diff > 1e-7:
+    if not bool(torch.isfinite(torch.tensor(reload_max_abs_diff))) or reload_max_abs_diff > 1e-7:
         raise RuntimeError("reloaded model output changed unexpectedly")
 
     # 通过本课验收才生成消费入口需要的元数据；失败时留下的权重不是发布成功。
@@ -1006,6 +1026,7 @@ if __name__ == "__main__":
 
 ```powershell
 .\.venv\Scripts\python.exe train.py
+if ($LASTEXITCODE -ne 0) { throw '训练或验收失败，停止；已有 artifacts 不是本轮成功证据。' }
 Get-ChildItem .\artifacts
 Get-Content .\artifacts\metadata.json
 ```
@@ -1073,7 +1094,7 @@ from pathlib import Path
 
 import torch
 
-from train import FEATURE_NAMES, RiskClassifier
+from train import FEATURE_NAMES, FEATURE_UNITS, RiskClassifier
 
 
 def validate_features(values: torch.Tensor) -> None:
@@ -1144,7 +1165,7 @@ from pathlib import Path
 
 import torch
 
-from train import FEATURE_NAMES, RiskClassifier
+from train import FEATURE_NAMES, FEATURE_UNITS, RiskClassifier
 
 
 def validate_features(values: torch.Tensor) -> None:
@@ -1162,6 +1183,8 @@ def validate_features(values: torch.Tensor) -> None:
 metadata = json.loads(
     Path("artifacts/metadata.json").read_text(encoding="utf-8")
 )
+if metadata.get("feature_names") != FEATURE_NAMES or metadata.get("feature_units") != FEATURE_UNITS:
+    raise ValueError("artifact feature contract does not match this program")
 model = RiskClassifier(torch.zeros(4), torch.ones(4))
 model.load_state_dict(
     torch.load(
@@ -1240,10 +1263,11 @@ probability= 0.9991193413734436
 
 ### 清理
 
-两个实验均结束后，先查看 `Get-Item -LiteralPath .\artifacts` 的完整路径，确认它属于本课新建的 `pytorch-aiops-lab`，且没有需要保留的记录，再执行：
+两个实验均结束后，先查看 `Get-Item -LiteralPath .\artifacts` 的完整路径，确认它属于本课新建的 `pytorch-aiops-lab`。推荐先归档而不是删除，目标已存在时停止：
 
 ```powershell
-Remove-Item -LiteralPath .\artifacts -Recurse -Force
+if (Test-Path -LiteralPath .\artifacts-reviewed) { throw 'Archive target already exists.' }
+Rename-Item -LiteralPath .\artifacts -NewName artifacts-reviewed
 ```
 
 如果要把结果作为 GitHub 学习证据，请先复制 `metadata.json` 和脱敏后的终端输出；不要删除仍要用于复盘的证据。
@@ -1374,16 +1398,27 @@ torch.save(checkpoint, "checkpoints/last.pt")
 ```python
 from pathlib import Path
 import os
+import tempfile
 import torch
 
 target = Path("checkpoints/last.pt")
-temporary = target.with_suffix(".pt.tmp")
 target.parent.mkdir(exist_ok=True)
-torch.save(checkpoint, temporary)
-os.replace(temporary, target)
+temporary = None
+try:
+    with tempfile.NamedTemporaryFile(mode="wb", dir=target.parent, prefix=".checkpoint-", suffix=".tmp", delete=False) as stream:
+        temporary = Path(stream.name)
+        torch.save(checkpoint, stream)
+        stream.flush()
+        os.fsync(stream.fileno())
+    # checkpoint 已由上文构造；这里替换的是本作业约定的 last 指针。
+    torch.load(temporary, map_location="cpu", weights_only=True)
+    os.replace(temporary, target)
+finally:
+    if temporary is not None and temporary.exists():
+        temporary.unlink()  # 只清理本次独占创建的临时文件
 ```
 
-同一文件系统内替换解决的是读者看到旧文件或新文件的发布可见性，不自动保证断电后数据已稳定落盘；需要按文件系统与平台评估文件和目录同步。这个固定临时名还假定只有一个写者，多 rank 或多作业不能共同覆盖它。这不是对象存储、NFS 或多节点场景的完整事务保证。生产中还要：
+同一文件系统内替换解决的是读者看到旧文件或新文件的发布可见性；文件同步仍不自动保证目录元数据断电持久性，需要按平台评估目录同步。独占临时名避免覆盖别人未完成的文件，但多个写者仍会争抢 `last.pt`，因此只允许本作业指定的一个发布者。这不是对象存储、NFS 或多节点场景的完整事务保证。生产中还要：
 
 - 由明确的 coordinator 或 rank 负责发布完成标记。
 - 写校验和、大小、模型版本和创建时间。
@@ -1517,14 +1552,15 @@ Python 调用
 
 `guard` 是保护条件，例如 dtype、shape 或对象状态仍符合已编译图的假设。条件变化可能触发重新编译。Python 数据相关分支、不支持的操作或副作用可能导致 graph break，即计算图被切断。
 
-排障环境变量：
+排障环境变量（先复制课堂代码到新的专用实验目录，准备同样的 `.venv`，并确认该目录还没有 `artifacts`；不要覆盖基线产物）：
 
 ```powershell
 $env:TORCH_LOGS="graph_breaks,recompiles"
-python train.py
+.\.venv\Scripts\python.exe train.py
+if ($LASTEXITCODE -ne 0) { throw '编译调试运行失败，先查错误，不读取旧产物作为新结果。' }
 ```
 
-当前 shell 关闭后这个临时变量即失效。重点看：
+主实验默认使用 eager，必须在这个独立变式中显式采用前文 `torch.compile` 路径，才是在观察编译行为；仅设置日志变量不会自动编译模型。当前 shell 关闭后这个临时变量即失效。重点看：
 
 - 是否反复对新 shape 编译。
 - graph break 在哪一行发生。
@@ -1775,9 +1811,9 @@ DDP 每个 rank 都保存完整参数、梯度和优化器状态。FSDP2 把状�
 
 ```text
 持久状态按 rank 分片
-  -> all-gather 当前模块参数
+  -> all-gather（汇集各分片参数） 当前模块参数
   -> forward（前向计算） / backward（反向传播）
-  -> reduce-scatter 梯度
+  -> reduce-scatter（归约并分散梯度） 梯度
   -> 参数重新保持分片
 ```
 
@@ -2348,6 +2384,16 @@ Tensor 的 shape（形状）、stride（步幅）与 storage（底层存储）�
 训练恢复需要权重、优化器、调度器、随机状态和适用的数据进度；推理交付需要权重、结构、预处理和输入合同。分布式训练的每个进程必须以匹配顺序参加集体通信，一个进程读数据失败，其他进程可能表现为通信挂起，所以要按 rank（进程编号）关联日志。
 
 30 秒解释张量、自动微分与训练循环；3 分钟用本篇风险分类实验走数据、模型、损失、优化、验证与发布，接着用单参数例子解释为何反向传播不等于更新。事故题“GPU 忙但效果变差”，先查标签、数据划分、单位、梯度与模式，再查吞吐；性能提升不能代替质量验证。
+
+## 独立通关：梯度、评估和制品分别举证
+
+先独立完成，再对照判据。任何一关不满足，回到对应实验返工；完成阅读和达到字数都不是通过证据。
+
+1. **基础复现**：保存环境版本、数据划分、训练与重载结果。4000 条样本应分成 2800/600/600；batch 为 64 时每轮训练 44 批，最后一批 48 条。单参数例子的 loss=9、梯度=-18，但没有 `optimizer.step()` 时参数仍是 2。合成分类高分只证明本实验链路，不证明生产准确率。
+2. **改变条件先预测**：batch 改成 128 后每轮是 22 批，不能据此断言效果更好。重新前向、反向两次而不清梯度，单参数梯度累计到 -36；不是在已释放的同一图上直接再次 backward。`detach()` 不等于复制，可能共享底层存储；`eval()` 不等于关闭求导。必须分别解释状态与数据。
+3. **故障证据**：分别给评估输入注入 NaN、把标签变为 `[N,1]`、用空 DataLoader，保存明确异常；它们都不能产出“可发布”的 metadata。预测输入的比例 82 也应拒绝，不可暗改为 0.82。定位输入、logits、loss 哪一层首先失效，恢复可信数据后重跑；已有 artifacts 先归档，不能用旧结果冒充新成功。
+4. **设计取舍**：4 个进程，每进程 batch=32、累计 2 步，有效全局 batch=256（假定每步各进程完整参与、没有最后不满批的额外差异）。10 亿参数按每参数约 16 字节估算训练状态约 16 GB，尚不含激活、通信缓存和碎片，不能仅看权重 4 GB 决定显存。说明 DDP 与状态分片方案的内存、通信、恢复取舍；检查点目标“最多丢 10 分钟、30 分钟内恢复”要以真实恢复演练而非文件存在证明。
+5. **口述追问**：用三分钟从输入合同讲到前向、loss、backward、step、验证、重载和灰度。追问“为何恢复权重不等于恢复训练”“为何 weights_only 不是处理任意不可信文件的安全沙箱”“为何 compile 首次耗时不能混入稳定吞吐”“一个 rank 失败为何其他 rank 像通信故障”。答案须给具体状态、证据和退出/回退路径，不能只报 API 名。
 
 ## 本课 GitHub 学习证据清单
 

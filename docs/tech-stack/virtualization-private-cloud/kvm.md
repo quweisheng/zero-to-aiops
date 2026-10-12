@@ -51,6 +51,8 @@ libvirt（虚拟化管理接口库与服务）
 
 本文不展开 QEMU 每一种设备模型、每一个 CPU 架构或所有云平台实现，也不会把 Pacemaker、OpenStack、Ceph 再完整讲一遍。遇到这些边界时，会说明它们在 KVM 生产架构中的位置，并链接到对应技术栈。
 
+上图按四个项目的官方文档重组，不是一张由 KVM 统一发布的完整产品地图。零基础先认“宿主机是运行虚拟化的 Linux，客户机是里面的一台虚拟电脑”；CPU 是处理器，内存存放运行中的数据，I/O 是磁盘和网络等输入输出。先读基础路线并在[零基础实验准备](../experiment-start.md)分清 Bash 与 PowerShell，再准备可重装 Linux 实验机。后面的 QMP、NUMA、直通、集群 HA 是第二层，不要求先部署 OpenStack 或 Ceph 才创建第一台 VM。
+
 ## 两层学习路径
 
 基础层：
@@ -219,12 +221,14 @@ lsmod | grep -E '^kvm(_intel|_amd)?'         # 确认通用 KVM 模块和 Intel/
 **怎么看：**
 
 ```bash
-pgrep -a qemu-system              # 查看所有 QEMU 虚拟机进程和启动参数
+ps -eo pid,args | grep '[q]emu-system' # 查看候选 QEMU 进程和启动参数，不用可能截断的进程短名查找
 virsh domstats kvm-lab --vcpu     # 通过 libvirt 查看虚拟机 vCPU 累计运行统计
-ps -T -p "$(pgrep -f 'guest=kvm-lab' | head -n1)" # 查看该 QEMU 进程的线程；名称和参数因发行版而异
+ps -T -p QEMU_PID # 把 QEMU_PID 换为经虚拟机 UUID/参数核对后的整数 PID，再查看线程
 ```
 
 **坏了怎么查：** 如果客户机 CPU 不高但响应慢，对照宿主机运行队列、vCPU 线程调度、CPU steal、NUMA 位置和中断负载，不要只看客户机 `%CPU`。
+
+查 PID 时先用 `virsh domuuid kvm-lab` 取得这台 VM 的标识，再对照候选 QEMU 命令行中的 UUID 与名称；命令行可含敏感路径，不公开原件。不要把 `pgrep -f` 的第一个结果直接当目标，它可能匹配诊断命令自身或另一台同名前缀 VM。VM 重启后 PID 会变，旧 PID 不可继续复用。
 
 ### 3. libvirt 连接与 Domain
 
@@ -293,7 +297,7 @@ virsh domcapabilities > domain-caps.xml     # 查看当前组合可创建哪些�
 
 ```bash
 virsh dommemstat kvm-lab                   # 查看客户机可用、未使用、balloon 等内存统计
-numastat -p "$(pgrep -f 'guest=kvm-lab' | head -n1)" # 查看 QEMU 进程内存落在哪些 NUMA 节点
+numastat -p QEMU_PID # 先按前节核对整数 PID；需要另装 numactl 工具包时按发行版获准方式准备
 cat /proc/meminfo | grep -E 'MemAvailable|SwapFree|HugePages' # 查看宿主机可用内存、交换与大页
 ```
 
@@ -511,9 +515,9 @@ test -e /dev/kvm && echo '/dev/kvm ready' || echo '/dev/kvm missing' # 直接确
 ### 第二步：安装软件包
 
 ```bash
-sudo apt update # 刷新 Ubuntu 软件包索引
-sudo apt install -y qemu-kvm libvirt-daemon-system libvirt-clients virtinst qemu-utils libosinfo-bin # 安装 KVM/QEMU、libvirt、virt-install、镜像和 OS 识别工具
-sudo usermod -aG libvirt,kvm "$USER" # 把当前用户加入管理和 /dev/kvm 访问组；执行后需要重新登录
+sudo apt update || exit 1 # 刷新失败先排查仓库/网络，不继续安装
+sudo apt install -y qemu-kvm libvirt-daemon-system libvirt-clients virtinst qemu-utils libosinfo-bin || exit 1
+sudo usermod -aG libvirt,kvm "$USER" || exit 1 # 当前用户加入管理组后重新登录；libvirt 管理权限不是普通只读权限
 ```
 
 重新登录后验证：
@@ -696,7 +700,11 @@ sudo virsh -c qemu:///system net-autostart default # 让 default 网络随 libvi
 
 ```bash
 virt-host-validate                         # 所有关键 KVM 检查应通过；警告要结合环境判断
-virsh -c qemu:///system list --all         # 确认没有同名 kvm-lab
+VM_NAMES=$(virsh -c qemu:///system list --all --name) || exit 1 # 管理连接失败必须停止，不当作没有 VM
+if printf '%s\n' "$VM_NAMES" | grep -Fxq 'kvm-lab'; then
+  printf '%s\n' '已有同名虚拟机，换全新实验位置，不覆盖旧对象。'
+  exit 1
+fi
 virsh -c qemu:///system net-info default   # 确认 default 网络 Active: yes
 df -h "$HOME"                             # 确认可用空间足够保存基础镜像和 overlay
 ```
@@ -852,8 +860,9 @@ rmdir "$HOME/kvm-lab-download"            # 目录为空时再删除下载目录
 
 ```bash
 VM=kvm-lab # 明确实验对象，避免把命令作用到别的虚拟机
-IFACE=$(virsh -c qemu:///system domiflist "$VM" | awk 'NR>2 && $1 != "" {print $1; exit}') # 取第一张 TAP 接口名，例如 vnet0
-test -n "$IFACE" || exit 1 # 必须先取得接口名；为空就停止
+test "$(LC_ALL=C virsh -c qemu:///system domstate "$VM")" = running || exit 1
+IFACE=$(virsh -c qemu:///system domiflist "$VM" | awk 'NR>2 && $1 != "" {print $1}')
+test -n "$IFACE" && [[ "$IFACE" != *$'\n'* ]] || exit 1 # 本课堂必须恰好一张网卡，多张时不能猜第一张
 echo "$IFACE" # 人工核对这确实是 kvm-lab 的实验网卡
 virsh -c qemu:///system domif-getlink "$VM" "$IFACE" # 基线应为 up
 ip -s link show "$IFACE"                              # 保存收发包、丢包和错误计数
@@ -867,6 +876,8 @@ virsh -c qemu:///system domif-getlink "$VM" "$IFACE"      # 预期输出 down
 ```
 
 现象：已有 SSH 连接会中断或超时，客户机对外网络不可用，但 `virsh domstate kvm-lab` 仍显示 running。这证明“虚拟机进程活着”不能代表“业务网络健康”。
+
+本命令针对已确认运行的课堂 VM，未加 `--config`，不修改下次启动的持久网卡配置。不要机械添加 `--live`：`domif-setlink` 的参数与某些其他热调命令不同，按本机 `virsh help domif-setlink` 及[官方命令说明](https://libvirt.org/manpages/virsh.html#domif-setlink)核对；运行态与持久态各自保存证据。
 
 ### 3. 收集证据并形成假设
 
@@ -1433,6 +1444,28 @@ KVM 是 Linux 内核的硬件虚拟化能力，QEMU 负责虚拟机进程和设�
 38. QEMU/libvirt 升级后为什么仍需迁移和业务测试？
 39. 如何设计 KVM 平台的金丝雀升级？
 40. 一次宿主机故障演练应该保留哪些证据？
+
+## 独立通关：不靠固定名称与绿色状态过关
+
+### 第一关：改名以后仍找得到同一台 VM
+
+在纸面把课堂 VM 改为新名称，并让 IP 与 PID 都变化，画出业务、UUID、宿主机、MAC、磁盘卷与采集标签的映射。判据是 UUID/卷身份支撑关联，名称、IP、PID 是带时间的属性；通过查询实际目标核对，不能继续使用旧 PID 或第一条进程匹配。无获准环境只交映射设计，不实际改用户 VM。
+
+### 第二关：四台宿主机不是四份可用容量
+
+每台 128 GiB 内存，先各留 16 GiB 给宿主机与管理，要求允许任一整台故障。忽略额外恢复开销的理论上限是 `3×(128-16)=336 GiB`，不是 512 GiB；题设总客户机峰值 350 GiB 已超出该上限。继续为迁移、NUMA 放置、大页和业务安全余量留空间，不能用 CPU 超售比直接套内存。回看“容量设计公式”。
+
+### 第三关：重启后网卡又断了
+
+课堂假设 live 为 up、持久 XML 中该网卡 link 为 down。解释重启后的结果，先保存两套 XML/接口身份，再按批准修持久定义并核验，不仅重复运行态 up。另一个反例是持久 up、live down，此时只改配置不能修当前连接。回答必须说出命令支持哪些参数，不能给所有 virsh 命令统一附加选项。
+
+### 第四关：迁移有进度，为什么不能承诺完成时间
+
+新 VM 为 32 GiB，有效复制 0.8 GiB/s，理想首轮约 40 秒；脏页速率 1 GiB/s。不能用首轮时间承诺总迁移时间，持续写入下 pre-copy 可能不收敛。检查实际脏页重叠、带宽、目标资源与业务限制，比较降载、扩带宽、停机窗口及 post-copy 风险；未经评估不打开高风险开关。回看“在线迁移”。
+
+### 第五关：口述“失联，不等于停止写盘”
+
+30 秒画四组件，3 分钟处理管理网断开而共享存储仍可写。追问覆盖只读证据、源实例所有权、fencing、目标容量、重复启动的双写风险与业务恢复验证。若没有隔离证明，合格决定可以是停止自动接管并升级人工，不是为了让 VM 图标变绿强行启动。保留模拟与实跑边界，亲自跑过的实验才写成经历。
 
 ## 学习证据
 

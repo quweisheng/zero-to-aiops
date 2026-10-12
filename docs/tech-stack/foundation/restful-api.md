@@ -1067,6 +1067,8 @@ $response.Content
 
 这个实验不安装第三方包，代码最低要求 Node.js 20，实际安装选择仍受支持的版本。下面客户端步骤使用 PowerShell 7.3+，避免旧版原生命令传参丢失 ETag 双引号；旧版终端应升级或改用对象式请求，不能把引号丢失误判成服务端并发错误。它用于学习协议语义，不是生产框架示例；服务只监听本机、没有真实鉴权，禁止直接暴露到公网。
 
+没有 Node 或不清楚终端/目录的读者先完成[实验起步说明](../experiment-start.md)对应部分。执行 `$PSVersionTable.PSVersion` 核对客户端版本，`Get-Command node,curl.exe` 核对命令来源；这里只用编辑器保存 `.mjs` 文件，不需要执行 npm install。`collect-diagnostics` 和 `clear-temp` 都只是内存任务标签，没有工作者执行收集或删除，任务一直 queued；本实验验证接口合同，不验证任何真实自动修复。
+
 ### 前置条件
 
 ```powershell
@@ -1394,6 +1396,8 @@ server.listen(18080, '127.0.0.1', () => {
 ```
 
 ### 第三步：启动
+
+先执行 `Get-NetTCPConnection -State Listen -LocalPort 18080 -ErrorAction SilentlyContinue`。已有监听项就停止本次实验，选择另一个空闲端口并同步替换代码、问题类型URL和全部客户端地址；不要结束陌生进程。启动窗口必须出现本次程序的成功提示，若出现 EADDRINUSE（地址/端口已占用），随后请求成功也可能来自旧服务，不能算验收。
 
 ```powershell
 node .\rest-api-lab.mjs
@@ -1981,12 +1985,13 @@ REST 是一组面向分布式超媒体系统的架构约束，包括客户端服
 ```javascript
 import assert from 'node:assert/strict'
 const url = 'http://127.0.0.1:18080/api/v1/alerts/a-100'
-const before = await fetch(url)
+const before = await fetch(url, { signal: AbortSignal.timeout(3000) })
 assert.equal(before.status, 200)
 const version = before.headers.get('etag')
 const original = await before.json()
 const requests = ['acknowledged', 'closed'].map(status => fetch(url, {
   method: 'PATCH',
+  signal: AbortSignal.timeout(3000),
   headers: { 'Content-Type': 'application/json', 'If-Match': version },
   body: JSON.stringify({ status })
 }))
@@ -1994,13 +1999,15 @@ const replies = await Promise.all(requests)
 const statuses = replies.map(reply => reply.status).sort((a, b) => a - b)
 await Promise.all(replies.map(reply => reply.text()))
 assert.deepEqual(statuses, [200, 412])
-const after = await fetch(url)
+const after = await fetch(url, { signal: AbortSignal.timeout(3000) })
 const current = await after.json()
 assert.equal(current.version, original.version + 1)
 console.log('PASS：一个成功，一个版本冲突，版本只增加一次')
 ```
 
 执行 `node concurrent-update.mjs`。预期打印 `PASS`；无须假定哪个人先成功，因为调度顺序不是契约。验证既看两个响应状态，也再次读取服务端版本：只看一个客户端报错，无法排除另一个客户端也没写成功。重复运行依然应通过，因为每次都先读取新的版本，不把 `"v1"` 写死。
+
+每次 fetch 增加三秒观测上限，避免测试在坏连接上无限等待。这个上限控制客户端等待，不会撤销服务端已经提交的修改；超时后先重新读取状态，再决定下一轮实验，不盲目重发写操作。
 
 如果两个都返回 412，优先检查是否有第三个客户端同时修改；如果出现 428，检查 `etag` 是否读到、请求头是否实际发送；如果都是 200，核对正在运行的文件是否包含提交前的二次检查，并确认两个请求确实携带同一个标识。如果连接失败，回到监听端口和启动日志，不要先改并发控制逻辑。
 
@@ -2022,7 +2029,21 @@ console.log('PASS：一个成功，一个版本冲突，版本只增加一次')
 
 内存 Map 只能演示重复请求重放：重启会丢失，多实例不共享，也没有真实权限域。因此生产幂等键通常还要绑定租户、调用者、接口和有效期，并与任务创建通过事务或可靠消息机制协调。只先保存“处理成功”再创建任务，崩溃会造成假成功；只先执行动作再记结果，崩溃会留下重复执行窗口。遇到超时后状态未知，应凭业务标识查询真实任务，而不是换一个新键重新执行。
 
+同样要注意 ETag 的进程世代边界：实验重启把版本归回 v1，之前保存的旧 v1 可能与新进程的 v1 撞值。真实资源的验证器必须准确区分当前表示，不能只用会随进程重启清零的局部计数器保护持久化数据；需结合持久版本或其他可靠表示标识。重启本实验后丢弃旧客户端缓存和任务标识，重新GET，不把清空内存当生产回滚方案。
+
 给学习者的最后一道追问是：“为什么不能无限保留所有键？”它们会占用存储，还涉及历史响应中的敏感数据。容量规划要结合写入速率、保留窗口、单记录大小和重试最大周期；过早删除会失去防重保护，无限保存则增加成本与合规风险。本实验限制最多一千条记录，只为让练习的内存边界明确，不能据此推导生产容量。
+
+## 独立通关：旧版本、重复意图和未知结果分别处理
+
+先做题再对照判据。使用新幂等键 `check-job-2026` 提交诊断任务，再交换JSON两个字段的顺序重放。应该保持同一任务ID并返回重放标记；随后同键改成另一 action 应409且不新建任务。只有请求字节不同而语义相同不应假冲突，但此实现只规范化两个白名单字段，不证明任意JSON都能这样处理。任务queued不算修复完成，必须明确没有真实工作者。
+
+改变条件：读取当前ETag，用它把severity改成warning，记下新ETag。分别用旧值和新值做条件GET，预测前者200并返回当前表示、后者304无完整正文；再不带If-Match做PATCH，应428而不改状态。每次核对HTTP状态、Header和再次GET的资源，不用普通curl退出0当业务成功。读到412则重新审阅当前事实，不直接替换版本头覆盖。
+
+故障题用两个携带同一ETag的并发请求竞争新状态，判据为一个200、一个412，资源版本只加一；不能承诺哪个请求获胜。保存日志请求ID、两个状态和事后读取，再恢复人为等待/删检查等注入并复测。超时只表示客户端未知，先查当前状态；完成后只停止自己的实验服务和回收本次文件。没有执行就交纸面预测，不填实测通过。
+
+设计题给出每秒100次写入、幂等记录保存一小时、每记录1 kB（1000字节）。基础净记录量约36万条、360 MB，尚未含索引、副本、业务响应和峰值；说明保留时间必须覆盖业务重试窗口，不能为了省空间提前过期。扩成两个区域后，独立内存Map会重复创建，必须讨论写入归属、共享原子唯一约束、切换一致性与失败关闭边界。加粘性会话不能证明持久幂等。
+
+口述从30秒REST约束到3分钟请求路径，再追问：无状态为何仍有任务数据库？202为何不是成功完成？ETag为何不是授权？CORS报错为何不能证明服务端未执行？回滚程序为何不能撤销已完成业务副作用？每个答案落到一个状态归属和可观测反例；答不清回到方法/条件请求、安全与一致性章节。OpenAPI校验通过、文章字数和能背状态码都不是这些能力的替代证据。
 
 ## GitHub 学习证据
 

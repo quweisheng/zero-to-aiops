@@ -833,7 +833,7 @@ spec:
     name: torch-distributed # 引用平台管理员维护的 Runtime
     kind: ClusterTrainingRuntime
   trainer:
-    numNodes: 2 # 需要两个训练节点；资源不足时应整体等待而非半启动
+    numNodes: 2 # 需要两个训练节点；是否整体准入取决于另外配置的队列/成组调度
     resourcesPerNode:
       requests:
         cpu: "4"
@@ -849,6 +849,7 @@ spec:
 - `runtimeRef` 把平台模板与用户任务分开，便于统一镜像、网络和启动器。
 - `numNodes` 会放大总资源：上例至少需要 8 CPU、32 GiB 内存和 2 GPU。
 - 分布式任务通常需要 gang scheduling（成组调度）思维；只启动一半 worker 可能占资源却无法训练。
+- 写 `numNodes: 2` 本身不会安装或开启 gang scheduling。没有经过配置和验证的队列/调度集成，可能出现一半 worker 已运行、一半 Pending；资源总量和完整组准入必须分别验收。
 - 训练代码、数据 URI、checkpoint 和 Runtime 的具体表达要以当前 SDK/API 为准。
 
 ## 状态、一致性和“成功”的证据边界
@@ -1092,6 +1093,8 @@ Pipeline task 本身未必自动形成端到端 trace。可以在业务 Componen
 - 至少约 500 MB 临时空间。
 - 不在系统 Python 或生产 Notebook 中直接安装实验依赖。
 
+Windows 未装 Python 时先按 [Python Windows 官方指南](https://docs.python.org/3/using/windows.html)安装独立解释器，重新打开 PowerShell；`python --version` 应输出实际版本，`Get-Command python` 应指向你选择的解释器而不是打开商店的别名。Linux 按发行版方式安装 Python 与 venv 支持，再用 `python3 --version` 确认。零基础优先选包已声明分类器内的版本（如 3.11），不要为了重复历史截图特意选未声明支持的 3.14。
+
 本文编写环境使用 Windows、Python `3.14.5`；该组合实际安装和编译成功，只是超出已声明分类器范围的一次本机观察，不是官方支持承诺，更不证明所有插件和后端组合都兼容。
 
 ### 第 1 步：建立隔离环境
@@ -1103,9 +1106,13 @@ $labOriginalLocation = (Get-Location).Path
 $lab = Join-Path $env:TEMP ('kubeflow-kfp-lab-' + [guid]::NewGuid().ToString('N'))
 New-Item -ItemType Directory -Path $lab -ErrorAction Stop | Out-Null
 python -m venv $lab
+if ($LASTEXITCODE -ne 0) { throw '虚拟环境未创建，停止' }
 & "$lab\Scripts\python.exe" -m pip install --upgrade pip
+if ($LASTEXITCODE -ne 0) { throw 'pip 准备失败，停止' }
 & "$lab\Scripts\python.exe" -m pip install "kfp==2.16.1"
+if ($LASTEXITCODE -ne 0) { throw 'KFP 依赖安装失败，保留错误' }
 & "$lab\Scripts\python.exe" -m pip check
+if ($LASTEXITCODE -ne 0) { throw '依赖检查失败，不开始编译' }
 Set-Location -LiteralPath $lab
 ```
 
@@ -1174,6 +1181,7 @@ PowerShell：
 
 ```powershell
 & "$lab\Scripts\python.exe" .\pipeline.py
+if ($LASTEXITCODE -ne 0 -or -not (Test-Path .\pipeline.yaml)) { throw '编译未成功，不读取旧产物作为结果' }
 Select-String -Path .\pipeline.yaml -Pattern '^# PIPELINE DEFINITION','parameterType'
 Get-FileHash .\pipeline.yaml -Algorithm SHA256
 & "$lab\Scripts\python.exe" -m pip freeze | Set-Content .\requirements.lock.txt
@@ -1937,6 +1945,16 @@ Kubeflow 是一组运行在 Kubernetes 上的 AI 平台子项目，不是一个�
 - [ ] 我能把 Kubeflow 指标、日志、事件、Trace 和模型谱系接进 AIOps。
 - [ ] 我能回答至少一个生产设计题和一个事故题的递进追问。
 
+## 独立通关：编译、训练、制品和发布是四份不同证据
+
+1. **基础复现**：不用已有 YAML，在新虚拟环境中编译两个组件，保存解释器、KFP 版本、lock、输入/输出类型和 SHA256。口述 `cleaned.output` 为什么不是当前电脑内存里的整数。判据是可重新生成非空正确 IR，且没有声称已创建 Run/Pod；只下载别人产物不通过。
+2. **改变条件预测**：把 raw_count 默认值改成 -3，阈值保持 10；先写出“若将来执行，清洗后为 0，等级 normal”，再编译并查默认参数。解释编译成功为何没有实际运行两次容器，也不能排除运行时非法数据。进阶把同 URI 的数据每天覆盖，说明怎样用不可变数据版本防止错误缓存复用。判据是区分定义阶段与运行阶段。
+3. **故障证据**：独立重现 STRING 连 NUMBER_INTEGER，记录非零退出、完整类型错误及错误 YAML 不存在，修复声明和返回值后生成新文件。不能关闭类型检查或只改注释。集群进阶的 Runtime 故障需另有已验证基线，缺集群明确未运行；本地类型检查不证明 Runtime 可用。
+4. **设计取舍**：20 个 Trial，每个 2 GPU、3 小时，计算理想 120 GPU 小时；并发从 2 到 10，瞬时需求从 4 到 20 GPU，总计算量不会因此自动减少。再给一份五类状态的恢复清单，说明 Registry URI 不是权重备份、checkpoint 不是只存权重、Profile 不是完全隔离。判据是预算、权限、恢复分别有验收，不只加副本。
+5. **口述追问**：四个 worker 仅两个启动时看哪条链？Run 成功而对象 404 时备份缺了什么？新模型已发出工单后回滚能否撤销？答案须依次覆盖队列准入/JobSet/Pod/硬件拓扑、元数据与对象存储生命周期、模型版本组合与外部副作用补偿；每项给一份 UID/condition/校验或审计证据。答不出时回到对应调度、状态与老师带练段返工。
+
+通关记录把历史实测、本轮本地编译、纸面设计和未运行集群分别列开。当前平台设计题通过不代表 GPU、KCD 安装、租户负向测试与灾备已经通过。
+
 ## GitHub 学习证据怎么提交
 
 建议在个人实验仓库保存下面这些脱敏材料：
@@ -1962,7 +1980,7 @@ README 至少记录精确命令、预期与实际结果、没有验证的部分�
 
 ## 本文验证边界
 
-下面保留原文在 2026-08-14 编写时记录的历史验证证据，本轮精讲扩写没有重跑这些环境，不应把它们理解为 2026-09-08 的运行结果：
+下面保留原文在 2026-08-14 编写时记录的历史验证证据，本轮 2026-10-12 审校没有重跑这些环境，不应把它们理解为本轮运行结果：
 
 - 在 Windows、Python `3.14.5` 的临时虚拟环境安装 `kfp==2.16.1`，`pip check` 无依赖破损。
 - 实际编译 `aiops-alert-risk`，得到 5023 字节 IR YAML；SHA256 为 `9CE84797F7CA5E814E6A8A127D5707416775E301062C982949E6A2089FEF87C7`。

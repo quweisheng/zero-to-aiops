@@ -226,19 +226,28 @@ KubeSphere 可作为平台运维入口，把集群事件、指标、日志、流
 
 ### 实验步骤
 
+本课终端为 Windows PowerShell。先运行 `kubectl version --client`、`kubectl config current-context` 和 `kubectl cluster-info`，确认已安装客户端、持有本轮授权 kubeconfig，且不是凭管理员身份代替浏览器普通用户。没有客户端按[Kubernetes 官方工具入口](https://kubernetes.io/docs/tasks/tools/)选择本系统发行包；没有真实平台时先完成[Kubernetes 本地实验](./kubernetes.md)，只交原生 API 基线，不声称覆盖 KubeSphere。需要创建 Project/ConfigMap 的权限另行确认，巡检只读授权不自动包含写操作。
+
+每个外部查询都要保留退出状态。下列函数先收集本轮输出，查询失败就停止，不把空文件当健康；它不输出秘密，也不增加权限。失败后保存脱敏错误与未覆盖项，解决身份/连接再重跑到新目录。
+
 ```powershell
 if (Test-Path -LiteralPath kubesphere-lab) { throw '实验目录已存在，请改用新的独立目录后重做本课路径' }
 New-Item -ItemType Directory kubesphere-lab | Out-Null # 创建本轮独立结果目录
-kubectl cluster-info | Out-File -Encoding utf8 kubesphere-lab\cluster-info.txt # 保存控制面地址
-kubectl get nodes -o wide | Out-File -Encoding utf8 kubesphere-lab\nodes.txt # 保存节点状态
-kubectl get pods -A | Out-File -Encoding utf8 kubesphere-lab\pods.txt # 保存所有 Pod 状态
-kubectl get events -A --sort-by=.lastTimestamp | Select-Object -Last 50 | Out-File -Encoding utf8 kubesphere-lab\events.txt # 保存最近事件
-kubectl -n kubesphere-system get deploy,statefulset,pod,svc,ingress -o wide |
-  Out-File -Encoding utf8 kubesphere-lab\kubesphere-core.txt
-kubectl get crd | Select-String 'kubesphere|extensions' |
-  Out-File -Encoding utf8 kubesphere-lab\kubesphere-crds.txt
-kubectl api-resources --verbs=list -o name | Select-String 'kubesphere|extension' |
-  Out-File -Encoding utf8 kubesphere-lab\kubesphere-api-resources.txt
+function Save-LabQuery {
+  param([string]$Name, [scriptblock]$Query)
+  $queryOutput = & $Query 2>&1
+  $queryExit = $LASTEXITCODE
+  if ($queryExit -ne 0) { throw "查询 $Name 失败，退出码 $queryExit；本轮快照不完整" }
+  $queryOutput | Out-File -Encoding utf8 (Join-Path kubesphere-lab $Name)
+}
+Save-LabQuery 'cluster-info.txt' { kubectl cluster-info }
+Save-LabQuery 'nodes.txt' { kubectl get nodes -o wide }
+Save-LabQuery 'pods.txt' { kubectl get pods -A }
+Save-LabQuery 'events.txt' { kubectl get events -A --sort-by=.lastTimestamp | Select-Object -Last 50 }
+# 没有 KubeSphere 时在此停止，明确只覆盖前四项，不自行创建核心 namespace。
+Save-LabQuery 'kubesphere-core.txt' { kubectl -n kubesphere-system get deploy,statefulset,pod,svc,ingress -o wide }
+Save-LabQuery 'kubesphere-crds.txt' { kubectl get crd | Select-String 'kubesphere|extensions' }
+Save-LabQuery 'kubesphere-api-resources.txt' { kubectl api-resources --verbs=list -o name | Select-String 'kubesphere|extension' }
 ```
 
 ### 验证结果
@@ -283,6 +292,8 @@ kubectl get pods -n ks-rbac-lab --as=$identity
 预期：列 ConfigMap 返回 `yes`，列 Pod 返回 `no`，实际 Pod 查询得到 `Forbidden`。这说明“资源存在”和“当前身份有权看”是两个问题；KubeSphere 页面遇到 403 时也应沿用户 → 工作空间角色 → 项目 → Kubernetes RBAC 取证，而不是重启 ks-core。
 
 恢复与清理：
+
+先到后文“RBAC 故障实验的修复闭环”完成获批的最小授权、Secret 仍拒绝、回退仍拒绝四步，再执行本节清理。若只观察拒绝不做授权模拟，也可直接清理并在证据中写明修复轮未执行；不能删除 namespace 后继续把后文命令粘进去。
 
 ```powershell
 kubectl delete namespace ks-rbac-lab --wait=true
@@ -505,6 +516,18 @@ PowerShell 中输出文件存在不证明前面的外部命令成功。权限不
 老师会故意给出两个同名但不同项目的截图，要求你说明哪一条原生查询能够区分它们。答案必须带集群和命名空间，必要时再带对象 UID。这个小练习检验的是操作边界，不是记忆命令长度。自动化若无法确定目标身份，应停止写操作，只输出缺少的信息；禁止把“可能是这个项目”当成执行删除或扩容的充分依据。
 
 权限复验还可以使用 SubjectAccessReview，即向集群询问某身份是否允许某动作的授权检查。它不是实际执行该动作，授权通过后仍须检查资源与运行结果，避免把权限验证误写成业务实验成功。
+
+## 独立通关：平台入口方便，不意味着证据可以省略
+
+先做题再核对判据；没有合法产品环境时只交 Kubernetes/纸面部分，License、Console 与扩展测试记未运行。每题必须带用户、workspace、cluster、project 和观察时间，不能拿管理员 API 成功替代普通账号页面结果。
+
+1. **基础复现。**重新生成快照，记录每项查询退出码、授权范围、对象状态与未覆盖项；有平台时从 Console 创建本轮 ConfigMap，用同一 UID、namespace、data.lab 验证。判据：文件存在非成功，NotFound 与 Forbidden 不同；只读许可不自动授权创建项目，结束通过 Console 回收本轮对象并核对原生 API。
+2. **改变条件。**两个项目都有 `order-api`，只给一个截图能否确认故障对象？判据：不能，需集群、namespace、UID 与时间；同名对象重建后 UID 改变。再把项目配额剩余八核但特定 GPU 节点无位置，预测 Pending 原因，不能通过买 License 或增配额凭空增加 GPU。
+3. **故障证据。**limited-viewer 先能 list ConfigMap、不能 list Pod，再只增加 pod-reader，最后撤回。判据：yes/no/Forbidden→Pod 查询成功且 Secret 仍 no→Pod 又 no 的四阶段证据；impersonate 权限不足先停止，不绑定 cluster-admin 凑通过。
+4. **设计取舍。**日志菜单 500 时旧数据是否丢了、采集是否停止？判据：不能单凭菜单断言；分查询后端、采集代理、索引和卷，分别检验历史读取与新数据新鲜度。生产方案包含 Edition/License、扩展权限/供应链、核心与状态故障域、schema 恢复，禁止删 CRD/PVC 试重装。
+5. **口述追问。**30 秒说清平台与 Kubernetes，三分钟追表单→鉴权→对象→控制器→调度→就绪→服务。追问“菜单存在为何后端未就绪”“页面数据旧为何不能看 resourceVersion 当时间”“SubjectAccessReview yes 为何仍可能创建失败”。判据：层次不同、版本非墙钟、权限检查非实际动作；AIOps 输出核心健康/扩展退化/业务影响/证据新鲜度四句结论。
+
+任一项答案没有反证或恢复步骤，回“故障证据课堂”“RBAC 故障实验的修复闭环”“扩展生命周期课堂”返工。不按菜单数量、篇幅或截图颜色判定掌握。
 
 ## 学习证据
 

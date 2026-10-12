@@ -1001,6 +1001,8 @@ Get-ExecutionPolicy -List
 
 目标：写两个脚本，分别适配 Bash 和 PowerShell，输出 Markdown 健康报告。
 
+只具备一种操作系统时，先完成对应版本，不必为了这节课额外安装另一套系统。Windows 在 PowerShell 查看 `$PSVersionTable.PSVersion`；Linux 在 Bash 查看 `bash --version`，并用 `command -v date whoami hostname df ps sed grep tail` 检查工具。终端、工作目录和文件创建方式见[实验起步说明](../experiment-start.md)。所有运行命令都在含有 `scripts` 的练习根目录执行，而不是先进入 `scripts` 再运行。
+
 ### Bash 版本
 
 文件：`scripts/local-health-check.sh`
@@ -1011,6 +1013,7 @@ set -euo pipefail
 
 report="docs/learning-records/local-health-check-linux.md"
 mkdir -p "$(dirname "$report")"
+set -o noclobber # 已有报告不截断；重复运行先选择新的自有输出文件名
 
 {
   echo "# Local Health Check"
@@ -1030,7 +1033,17 @@ mkdir -p "$(dirname "$report")"
   echo
   echo "## Recent Errors"
   if [[ -f "app.log" ]]; then
-    grep -n "ERROR" app.log | tail -n 20 || true
+    if error_lines="$(grep -n "ERROR" app.log)"; then
+      printf '%s\n' "$error_lines" | tail -n 20
+    else
+      grep_status=$?
+      if [[ "$grep_status" -eq 1 ]]; then
+        echo "No ERROR lines found."
+      else
+        echo "failed to read/search app.log; grep exit=$grep_status" >&2
+        exit "$grep_status"
+      fi
+    fi
   else
     echo "app.log not found"
   fi
@@ -1091,7 +1104,7 @@ if (Test-Path ".\app.log") {
   $Lines += "app.log not found"
 }
 
-$Lines | Set-Content -Path $ReportPath -Encoding UTF8
+$Lines | Out-File -LiteralPath $ReportPath -Encoding UTF8 -NoClobber
 Write-Output "wrote $ReportPath"
 ```
 
@@ -1103,13 +1116,15 @@ Write-Output "wrote $ReportPath"
 
 验收时确认报告存在，包含时间、磁盘和进程章节，并检查缺少 `app.log` 时是否明确显示未找到，而不是伪造无错误结论。运行失败先看工作目录、解释器、读取权限与首个错误。清理仅处理本次新建练习目录中的脚本和生成报告；需要保留证据时先脱敏，再手工移出，不能删除正式项目中的同名目录。
 
+两个版本都拒绝覆盖旧报告，重复运行时先改脚本中的输出文件名，例如新增 `-run2` 后缀。Bash 的 `noclobber` 防止普通重定向截断旧文件，PowerShell 的 `-NoClobber` 让已有路径报错；这不是跨机器分布式锁。Bash 在收集过程失败时仍可能留下本次半份报告，因此调用方必须同时验收退出状态、报告时间和内容；生产发布需采用后文的独立临时输出及成功后切换。`No ERROR lines found` 只表示该文件搜索无匹配，不能推论整台机器健康；读不了日志则应失败，不能吞掉。
+
 ### 你应该学到什么
 
 | 知识点 | Bash | PowerShell |
 |---|---|---|
 | 创建目录 | `mkdir -p` | `New-Item -Force` |
-| 写文件 | `> "$report"` | `Set-Content -Encoding UTF8` |
-| 进程排序 | `ps aux | sort` | `Get-Process | Sort-Object` |
+| 写文件 | 先 `set -o noclobber`，再 `> "$report"`，拒绝覆盖同名报告 | `Out-File -Encoding UTF8 -NoClobber`，拒绝覆盖同名报告 |
+| 进程排序 | `ps aux --sort=-pcpu | sed -n '1,11p'`，按 CPU 百分比排序后取表头和前十行 | `Get-Process | Sort-Object CPU -Descending`，按累计处理器时间排序，不是瞬时 CPU 百分比 |
 | 文本搜索 | `grep` | `Select-String` |
 | 错误处理 | `set -euo pipefail` | `$ErrorActionPreference = "Stop"` |
 | 输出报告 | shell 重定向 | 字符串数组写文件 |
@@ -1217,11 +1232,13 @@ Bash 使用：
 set -euo pipefail
 ```
 
-并对允许失败的命令显式写：
+并区分允许的业务空结果与真正命令失败。下面是反例，不要用于生产采集：
 
 ```bash
 grep ERROR app.log || true
 ```
+
+它同时吞掉“无匹配”和“读文件失败”。入门实验已经演示根据 `grep` 的退出状态分别处理，两者不能都写成检查通过。
 
 PowerShell 使用：
 
@@ -1556,6 +1573,18 @@ PowerShell 的调用作用域、点调用和作业也有类似的边界问题，
 两个触发源同时运行，可能互相覆盖报告或重复执行修复。只读检查可为每次运行创建独立结果，再按目标和时间归并；有状态操作则需要互斥或幂等标识，并解释持有者崩溃后如何恢复。简单创建一个锁文件不自动解决陈旧锁、跨主机一致性和权限问题，要根据实际部署范围选择机制。
 
 面试追问“脚本已经结束为何还占锁”，先区分正常退出清理没执行、强制终止、路径不一致和其他实例仍在运行。不能只看到锁文件就直接删掉，再让两个写任务一起执行。核对持有者身份、开始时间和任务状态，在授权范围内恢复；随后给失败退出、重复触发和进程中断补测试。脚本高可用不是让它无条件重复启动，而是让重复与中断都能安全收敛。
+
+## 独立通关：别让显示结果替代返回合同
+
+基础任务换成三条模拟探测对象，服务名为 `catalog`、`queue`、`report`，其中只有 `queue` 不健康。独立写筛选和 JSON 导出，先不看原代码。判据是总数 3、异常数 1，JSON 保留 Boolean 类型的 false 和服务标识；一条或零条输入时仍能正确统计。不能把字符串 `'false'` 当布尔假，也不能在导出前 `Format-Table`。
+
+先预测一个函数输出 `'检查中'` 后返回 `$false`，再把说明移到 `Write-Verbose`。前者有两个成功流元素，条件判断可能为真；后者只有一个布尔假。用类型、项数与实际分支三种证据证明修复，不只删掉屏幕红字。作用域结束后函数和变量应收回；不要为此改设备的长期执行策略。
+
+Bash 任务把管道改成 `true | false | true`，预测默认与 `pipefail` 的管道状态，再显式把状态传给子解释器的 `exit`。判据分别为 0 与非零，且外层收到相应退出码；如果最后只执行 `printf`，打印的失败状态不自动成为进程失败。把本地 `app.log` 换成“有 ERROR、无 ERROR、不可读取”三类自有样本，区分匹配、正常空结果和采集失败。没有 Linux 环境就标为未运行，不用 PowerShell 的管道规则代答。
+
+输出保护任务先保留一份报告，重复运行验证拒绝覆盖，比较原文件内容不变；换新输出名再成功。设计题改成定时任务与告警同时触发写操作，说明为何独立输出只解决互相覆盖、不能解决远端重复修复；需要操作标识、互斥/幂等、未知结果查询和中断恢复。对100个目标只返回97个，另3个应为未知或明确失败，不能补成健康。
+
+口述追问：Bash传的是字节还是必然文本？`$ErrorActionPreference='Stop'` 是否跨版本保证外部命令抛异常？`-WhatIf` 是否每个程序都支持？清理 trap 是否能保证断电后执行？参考答案依次是字节流、不能一概保证、不是、不能。每问补一个实际边界或反例，答不出回到“老师带练”“脚本工程课堂”“边界机制课堂”，再用新的输入验证一次。
 
 ## 学习证据
 

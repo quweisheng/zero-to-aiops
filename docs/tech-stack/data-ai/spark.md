@@ -274,6 +274,8 @@ spark.stop()
 
 ## Spark SQL 示例
 
+下面是对同一 DataFrame 的另一种表达，不是另一个可以直接运行的完整程序。若放进前面的 Python 脚本，先执行 `alerts.createOrReplaceTempView("alerts")`，再用 `spark.sql("""这里的 SQL""")` 得到结果 DataFrame，并以 `show()` 或写出触发计算。这个临时视图只在当前 Spark 会话有效，不能因为写了 `FROM alerts` 就假定 Hive 中已有同名表。
+
 ```sql
 SELECT service_name, COUNT(*) AS alert_count         -- 统计每个服务的严重告警
 FROM alerts                                          -- alerts 已注册为表或临时视图
@@ -337,6 +339,7 @@ order-api,critical,2026-07-23T09:02:00
 
 ```powershell
 Set-Location .\spark-lab
+if (Test-Path -LiteralPath .\output) { throw '首次实验输出目录已存在，先核对来源；不要覆盖未知结果' }
 
 docker run --rm `
   --name spark-lab `
@@ -345,11 +348,16 @@ docker run --rm `
   /opt/spark/bin/spark-submit `
   --master 'local[2]' `
   /opt/spark/work-dir/alert_summary.py
+$sparkExit = $LASTEXITCODE
+if ($sparkExit -ne 0) { throw "本次 Spark 失败，退出码 $sparkExit；旧文件不能证明成功" }
+Get-ChildItem -LiteralPath .\output -Filter 'part-*.json' | Get-Content
 ```
 
 预期看到 `order-api` 的 `alert_count=2`，并在 `output` 目录生成 JSON。保存 formatted plan，观察 `Exchange` 和聚合阶段。
 
 `--rm` 在本次进程结束后移除容器，挂载目录里的输入和输出仍留在宿主机；`local[2]` 表示本机两个工作线程，不是两个执行器或两台节点。运行结束立即记录 `$LASTEXITCODE`，正常为零。读取 `output` 内以 `part-` 开头的 JSON 文件，比较服务名和数量，不以文件名或记录顺序做业务断言。写出路径是目录，目录中的提交标记和多个分片都不是额外告警。
+
+首轮的目录门禁只执行一次。后续故障与修复实验仅重跑 `docker run` 段及退出码/结果检查，不重新把整段“首次实验”粘贴进去；脚本的 `overwrite` 会替换本课自己创建的 output，先把首轮小结果另存为证据。这个短批作业结束后 Web UI 也随进程退出，本命令没有公开 4040 端口或配置历史事件存储，因此本课能直接保存的是结果和执行计划，不能宣称已获取多节点 UI/Stage 指标。生产 UI 与 History Server 的验证要按官方监控文档另行部署。
 
 ### 如果没成功
 
@@ -370,6 +378,8 @@ inventory-api,BROKEN,not-a-time
 ```
 
 重跑 `docker run`。预期 Python 抛出 `ValueError: found 1 invalid alert rows`，Spark Application 失败且不应生成新的成功结果。
+
+此时先保存原始退出码，不要执行结果打印命令后才去读 `$LASTEXITCODE`；本地终端若用上节的门禁会主动抛错，预期就是失败。对比首轮 `part-*.json` 的内容或 SHA256，旧 output 可以仍在，但它只代表上一轮。不要因为看见 `order-api=2` 就把这一轮坏数据标成通过。
 
 ### 证据与修复
 
@@ -668,6 +678,14 @@ Shuffle 写出中间结果，后续任务通过网络读取。执行器故障后
 如果现象换成多数任务快、一个任务特别慢，转查倾斜和坏节点；如果所有任务 Shuffle 读取都慢，查网络、磁盘和共享存储；如果反复失败在同一坏数据行，回到前文故障注入实验的数据合同。把不同证据对应到不同修复，比对所有故障都“调大内存”更有判断力。
 
 修复交付至少保留执行计划、Stage 分布、前后任务指标和结果断言。写出是否重复建单、输出是否覆盖旧版、失败后如何重跑，尤其当作业外部调用 API 时，Spark Task 重试可能再次执行副作用。纯聚合结果的幂等发布与任意外部系统操作不能混为一谈。本文提供本机批处理与坏数据实验步骤，但本轮修订没有运行它们；多节点丢执行器和外部存储恢复也仍需隔离集群另行验证。
+
+## 独立通关：结果对，计算和发布也一定对吗
+
+1. **基础复现。** 首轮完成后，在本课 CSV 新增一条 `inventory-api,critical,2026-07-23T09:03:00` 和一条 `order-api,warning,2026-07-23T09:04:00`，先写预期再运行。**判据：**输入五条，严重告警三条，结果为 order-api=2、inventory-api=1；pay-api 与 warning 不应出现在严重告警汇总里。保存退出码、真实 JSON 和含 Exchange 的计划，不把 local[2] 说成两台机器。完成后只移除自己新增的两行，复测原结果。
+2. **改变条件预测。** 为拆热点，两个盐桶分别有 100 条值为 1 的记录和一条值为 100 的记录。直接平均两个桶的均值是否正确？**判据：**正确整体均值为 `(100×1+1×100)/101≈1.9802`，直接平均得到 50.5，语义错误；二次合并要传总和与计数。再解释为什么 `coalesce(1)` 会把小汇总集中输出，以及几行课堂数据不能证明这个串行段在大数据上安全。
+3. **故障证据。** 保留成功结果，再只加入一条“服务名正常、severity 合法、时间为 not-a-time”的记录。**判据：**同样触发一条坏行而非仅识别 BROKEN 哨兵；记录非零退出码、时间解析/质量错误、旧结果校验值及本轮未发布证据。只改正这条时间后复测，结果增加一条严重告警，不能通过删除全部输入让坏行计数变零。
+4. **生产取舍。** 配置六个执行器，每个 8 GiB 堆和 2 GiB额外预算，申请 48 GiB 够吗？**判据：**仅这两项就需约 60 GiB，尚欠 Driver、Python 等实际配置和节点余量；增加核心还会提高同时争用内存的任务数。分别提出容器 OOM、单分区过大和最终单文件三种证据与改法，不把扩执行器当万能答案。
+5. **口述追问。** 为什么初始 400 个 Shuffle 分区不一定最后有 400 个任务？失败后重提为何不能无条件承诺同一结果、只创建一张工单？**判据：**解释 AQE 的最终计划、未缓存多次 Action、不可变输入与外部副作用幂等；流作业还要说明源保留、检查点兼容、输出提交和重放对账。用 Application/attempt/batch 标识串证据，而不是拿历史绿灯代替当前发布验收。
 
 ## 本课 GitHub 学习证据
 

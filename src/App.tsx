@@ -318,7 +318,7 @@ function HomePage({ onNavigate }: { onNavigate: (route: string) => void }) {
             从完全零基础开始，跟老师读懂中文知识地图、做实验、学排障，再练习大厂面试中的机制追问和架构取舍。
           </p>
           <p>
-            截至 2026-10-12：累计 115 篇技术栈达到万字中文正文，本次新增 FastDFS。代码与输出不计入；真实环境实验仍需独立完成。
+            截至 2026-10-12：累计 115 篇技术栈达到万字中文正文，逐篇返工并记录独立评测、实验边界与通关任务。代码与输出不计入；真实环境实验仍需独立完成。
           </p>
           <div className="hero__actions">
             <a
@@ -343,10 +343,10 @@ function HomePage({ onNavigate }: { onNavigate: (route: string) => void }) {
             </a>
             <a
               className="button button--ghost"
-              href={hrefForRoute('/tech-stack/teaching-coverage')}
+              href={hrefForRoute('/tech-stack/teaching-review')}
               onClick={(event) => {
                 event.preventDefault()
-                onNavigate('/tech-stack/teaching-coverage')
+                onNavigate('/tech-stack/teaching-review')
               }}
             >
               查看精讲复核

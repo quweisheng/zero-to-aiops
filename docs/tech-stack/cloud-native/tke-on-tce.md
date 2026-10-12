@@ -101,12 +101,14 @@ etcd 多数派是避免相互矛盾决策的机制。三成员通常需要两个
 ## 网络路径：容器通了不等于用户通了
 
 ```text
-用户 -> DNS（域名解析）-> CLB（负载均衡）-> Ingress/Gateway（入口路由/网关）-> Service（服务入口）-> EndpointSlice（后端地址集合）-> Pod（容器组）
+用户 -> DNS（域名解析）-> CLB（负载均衡）-> Ingress/Gateway（入口路由/网关）-> Service 数据平面 -> Pod（容器组）
                                                     |
                                                 数据库/消息/存储
 ```
 
 DNS 把名称变成地址；CLB 分发入口流量；Ingress/Gateway 描述或处理应用层路由；Service 给变化的 Pod 提供稳定访问入口。实际产品实现可能省略或合并其中某层。
+
+这里故意没有把 EndpointSlice 画成流量经过的一台设备。它是 API 中保存后端地址、端口和就绪条件的**控制信息对象**；kube-proxy 或替代它的数据平面读取这些信息，再转发报文。排障时读 EndpointSlice 是在检查“转发依据是否正确”，不是在连一台叫 EndpointSlice 的服务器。见 [Kubernetes EndpointSlice 官方说明](https://kubernetes.io/docs/concepts/services-networking/endpoint-slices/)。
 
 ### Service 三个容易混淆的端口
 
@@ -205,6 +207,8 @@ kubectl --context <context> -n <namespace> logs <pod-name> --tail=100
 
 本机已安装 Docker、kind、kubectl，Docker 使用 Linux 容器且可拉取镜像。kind 把 Kubernetes 节点运行在本地容器中；它不是 TCE，也不验证真实 CLB/CBS 集成。
 
+本实验使用 Windows PowerShell，在本仓库根目录执行；先按 [Docker 安装](https://docs.docker.com/desktop/setup/install/windows-install/)、[kind 快速开始](https://kind.sigs.k8s.io/docs/user/quick-start/)、[kubectl Windows 安装](https://kubernetes.io/docs/tasks/tools/install-kubectl-windows/)准备工具。必须使用本地教学 Docker 上下文，不要连接单位远程引擎。`Get-Command docker,kind,kubectl` 应找到三项，`docker context show` 应是你确认过的本机上下文，`docker version` 应同时有 Client 和 Server；只有客户端版本不算准备完成。
+
 仅创建名为 `tce-learning` 的专用实验集群。本文镜像 `nginx:1.28.0` 用于固定教学样例，不表示安全推荐版本；生产需检查漏洞、批准版本并记录 digest。
 
 ### 步骤
@@ -212,18 +216,26 @@ kubectl --context <context> -n <namespace> logs <pod-name> --tail=100
 在仓库根目录执行：
 
 ```powershell
+Set-Location D:\zero-to-aiops
+if (-not (Test-Path examples/tke-on-tce-lab/app.yaml) -or
+    -not (Test-Path examples/tke-on-tce-lab/service-broken.yaml)) { throw '缺少本仓库实验文件，停止' }
 $existingClusters = kind get clusters
 if ($LASTEXITCODE -ne 0) { throw '无法确认已有 kind 集群，停止' }
 if ($existingClusters -contains 'tce-learning') { throw '实验名称已存在，停止以免复用他人资源' }
 kind create cluster --name tce-learning
 if ($LASTEXITCODE -ne 0) { throw '创建未成功，不继续提交资源' }
 kubectl --context kind-tce-learning apply -f examples/tke-on-tce-lab/app.yaml
+if ($LASTEXITCODE -ne 0) { throw '提交基础资源失败，保留错误，不进入故障实验' }
 kubectl --context kind-tce-learning -n tce-learning rollout status deployment/incident-web --timeout=120s
+if ($LASTEXITCODE -ne 0) { throw '基础发布未完成，先查事件和镜像拉取' }
 kubectl --context kind-tce-learning -n tce-learning get pods,svc,endpointslices
 kubectl --context kind-tce-learning -n tce-learning exec deployment/incident-web -- curl -fsS --max-time 5 http://incident-web
+if ($LASTEXITCODE -ne 0) { throw '基础 HTTP 未成功，不进入故障实验' }
 ```
 
 `apply` 将文件中的期望状态提交到集群；`rollout status` 等待发布完成；`exec` 在一个应用容器里发起 HTTP 请求。`curl -f` 把 HTTP 错误视为失败，`-sS` 简化进度但保留错误，`--max-time 5` 限制等待五秒。
+
+`app.yaml` 已包含命名空间、两个副本的 Deployment 和 ClusterIP Service：容器监听 80，声明命名端口 `http`，Service 的 `targetPort: http` 引用这个名称。`service-broken.yaml` 只覆盖 Service 的目标端口，不会改变 Deployment。先读这两个文件，再执行；若容器提示 `curl: not found`，这是诊断工具缺失，不是网络证据，先确认实际镜像及文件与本文一致，不在生产容器临时安装软件。
 
 ### 预期与验证
 
@@ -239,9 +251,13 @@ kubectl --context kind-tce-learning -n tce-learning exec deployment/incident-web
 
 ```powershell
 kubectl --context kind-tce-learning apply -f examples/tke-on-tce-lab/service-broken.yaml
+if ($LASTEXITCODE -ne 0) { throw '故障配置未成功提交，不能声称故障已复现' }
 kubectl --context kind-tce-learning -n tce-learning get pods,svc,endpointslices
 kubectl --context kind-tce-learning -n tce-learning exec deployment/incident-web -- curl -fsS --max-time 5 http://incident-web
+$faultExit = $LASTEXITCODE
+if ($faultExit -eq 0) { throw '故障请求意外成功，核对 Service 是否已变为 8080，不继续宣布定位成功' }
 kubectl --context kind-tce-learning -n tce-learning exec deployment/incident-web -- curl -fsS --max-time 5 http://127.0.0.1:80
+if ($LASTEXITCODE -ne 0) { throw '容器本机请求也失败，当前证据不能只归因于 Service' }
 ```
 
 ### 预期与定位
@@ -254,8 +270,11 @@ Pod 仍 Ready，Service 请求失败，容器本机 80 端口成功。对比 End
 
 ```powershell
 kubectl --context kind-tce-learning apply -f examples/tke-on-tce-lab/app.yaml
+if ($LASTEXITCODE -ne 0) { throw '修复提交失败，保留实验集群继续查证' }
 kubectl --context kind-tce-learning -n tce-learning exec deployment/incident-web -- curl -fsS --max-time 5 http://incident-web
+if ($LASTEXITCODE -ne 0) { throw '修复后 HTTP 仍失败，不能进入成功清理' }
 kind delete cluster --name tce-learning
+if ($LASTEXITCODE -ne 0) { throw '集群清理失败，记录残留并核对本机资源' }
 ```
 
 恢复原声明后 HTTP 再次成功。最后一行只删除本次实验集群及其数据，不可替换成生产集群名。若修复后仍失败，确认控制面已更新、后端是否 Ready、是否还有其他策略或 DNS 问题。
@@ -467,6 +486,18 @@ AIOps 中“告警出现顺序”不一定就是故障发生顺序。采样周�
 最后用一笔合成告警贯穿采集、队列、推理和查询页面，确认故障期间是否积压、丢失或重复。平台恢复与业务数据补偿分别验收；只恢复 Pod 数量却遗留未消费消息，不算完整闭环。学习证据保留脱敏对象关系和时序，删除临时诊断访问授权，并列出尚未在真实 TCE 环境验证的项目。
 
 基础实验中的外部命令失败后，应读取退出码并停止依赖后续步骤；PowerShell 不一定因外部程序失败自动终止。尤其不要在资源提交失败后，把空后端当作端口故障的预期。先完成正常基线，再注入单一变量，才能保证故障前后有可比较证据。
+
+## 独立通关：三条链不能互相替代
+
+合上步骤，在自己创建的本地集群重做；现场 TCE 题只做纸面推演或经授权测试，不用生产故障来交作业。
+
+1. **基础复现**：从空集群交付两个 Ready 副本、Service、EndpointSlice 的地址/端口和成功 HTTP，并用一句话解释每份证据证明什么。判据是对象数量、目标端口和业务结果彼此对应；只有 Pod 截图不通过。失败回到“基础实验”。
+2. **改变条件预测**：保持容器的 `http` 名称及 80 监听，只把 Service `port` 改为 8080。先写下访问 `incident-web:8080` 与 `incident-web:80` 的预期，再验证；它不同于把 `targetPort` 改成 8080。判据是能分别指出入口端口与后端端口，不把 `containerPort` 当成监听开关。
+3. **故障证据**：复现本文错误目标端口，保存故障前、故障中、修复后三次 Service 声明、后端端口和 HTTP 结果。口述为什么 EndpointSlice 不是报文中的下一跳，为什么本机 80 成功不能证明 CLB 成功。判据是限定证据边界并恢复 HTTP；只恢复 YAML 不通过。
+4. **设计取舍**：用“容量与故障域的可复算设计题”的六台节点，改为峰值需要 30 CPU、130 GiB。正常总量够；失去一个 AZ 剩 36 CPU、144 GiB，尚够；同时再维护一台只剩 24 CPU、96 GiB，便不够，而且尚未计入突发负载和恢复任务的额外余量；每台容量已经扣除了系统与代理，不应重复扣减。说明如何补故障容量，以及 PVC 的可用区约束为什么不能靠增加 Pod 副本解决。判据是计算过程和不可跨区的数据边界完整。
+5. **口述追问**：云盘创建超时后能不能再建一块？删除同名 PVC 后名字相同是否还是原对象？CAM 权限够是否等于 Kubernetes RBAC 够？答案须依次说明未知结果时先查任务/幂等标识、对象 UID 会变化、两套授权各自控制的接口，并给一个只读验证入口。判据是能连续解释机制、风险和下一份证据；背“重试、重建、管理员权限”不通过。
+
+把未运行的云集成、跨 AZ 挂载和容量压测标为 `unrun`；本地 kind 成功不能替它们盖章。未通过哪一项就回对应课堂返工，再重新做题。
 
 ## GitHub 学习证据
 

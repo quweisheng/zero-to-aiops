@@ -185,12 +185,22 @@ ZooKeeper 的写入有全局顺序，但普通读取可能来自某个尚未追�
 单节点只适合学习和开发，不具备复制或多数派容错。先执行 `docker ps -a` 确认 `zk-lab` 不存在，存在则核对归属，不覆盖旧容器。以下没有挂载宿主业务目录，先预留约 1 GiB 可用内存作为小实验起点，实际消耗以本机观察为准。
 
 ```powershell
+docker version
+if ($LASTEXITCODE -ne 0) { throw 'Docker 引擎不可用，请先启动 Linux 容器环境' }
+$zkExisting = docker ps -aq --filter 'name=^/zk-lab$'
+if ($zkExisting) { throw '同名容器已存在，核对归属，不删除未知容器' }
+if (Get-NetTCPConnection -LocalPort 2181 -State Listen -ErrorAction SilentlyContinue) { throw '2181 已占用，先核对进程' }
 docker pull zookeeper:3.9.5 # 拉取固定教学版本，非“始终最新”标签
+if ($LASTEXITCODE -ne 0) { throw '镜像拉取失败，不继续创建或连接' }
 docker run -d --name zk-lab -p 127.0.0.1:2181:2181 zookeeper:3.9.5 # 单节点教学，只允许本机连接
+if ($LASTEXITCODE -ne 0) { throw '创建失败，先查看错误，不对同名容器继续操作' }
 docker logs zk-lab # 查看启动日志，确认没有持续报错或退出
 docker exec zk-lab zkServer.sh status # 正常应看到 standalone 模式和客户端端口
+if ($LASTEXITCODE -ne 0) { throw '尚未就绪，先查看日志，初始化完成后仅重试 status 检查' }
 docker image inspect zookeeper:3.9.5 --format '{{json .RepoDigests}}' # 记录镜像摘要
 ```
+
+这一段预检使用 Windows 的 `Get-NetTCPConnection`，所以整段在 PowerShell 运行；Linux 读者用 `ss -ltn` 核对 2181，随后单独执行 Docker 命令，不粘贴 PowerShell 的条件语法。状态检查可能早于初始化完成，失败时先看日志，再重试状态检查；不要重新执行 `docker run` 产生重名问题，更不要把出现容器 ID 当作服务已经可用。
 
 ### 三节点生产结构
 
@@ -577,7 +587,7 @@ get -s /lesson-version
 ```python
 # 离线模型：同一资源记录最高资格编号和已执行的业务请求。
 highest_token = 0
-applied = set()
+applied = {}
 result = []
 
 
@@ -587,8 +597,8 @@ def submit(token, request_id, action):
         return "stale-owner"
     highest_token = token
     if request_id in applied:
-        return "duplicate"
-    applied.add(request_id)
+        return "duplicate" if applied[request_id] == action else "request-conflict"
+    applied[request_id] = action
     result.append(action)
     return "applied"
 
@@ -598,6 +608,7 @@ assert submit(41, "job-1", "first") == "applied"
 assert submit(42, "job-2", "new-owner") == "applied"
 assert submit(41, "job-3", "late-old-owner") == "stale-owner"
 assert submit(42, "job-2", "new-owner") == "duplicate"
+assert submit(42, "job-2", "different-action") == "request-conflict"
 assert result == ["first", "new-owner"]
 print("PASS: stale owner rejected; duplicate suppressed")
 ```
@@ -607,6 +618,8 @@ print("PASS: stale owner rejected; duplicate suppressed")
 本次修订在 Windows、Python 3.14.5 中实际执行了这段离线模型：原版退出码零，移除令牌检查后触发 AssertionError，恢复原版后再次通过。该记录只证明教学模型和反例断言可执行，没有连接 ZooKeeper，也没有测试真实服务器的锁安全。
 
 老师要你解释模型省略了什么：这些比较、最高令牌更新、去重记录与业务修改在模型里顺序执行，生产必须是可靠的原子提交，并能在进程重启后保留状态。模型不能证明任意外部接口具有这些能力，也不能保证新令牌来源本身可靠。它只让你看到“协调服务选出新主”之外，下游校验为什么必要。
+
+`request-conflict` 另提醒一条业务边界：同一请求编号携带不同动作，不能假装是同一次成功请求。教学模型只比较 action 字符串；生产还要绑定资源、租户、规范化负载和授权，且不能信任调用方任意传来的大令牌。令牌隔离旧资格、请求键去重同一动作、权限验证动作是否合法，是三道不同检查。
 
 ## 生产设计：协调数据小，故障影响不一定小
 
@@ -673,6 +686,14 @@ ZooKeeper 对每个 znode 保存 ACL，父节点权限不会自动递归传给�
 ## 本文边界与下一步
 
 本文覆盖从零到企业运维常用的 ZooKeeper 主线，不展开 ZAB 协议证明、客户端库源码、层级 Quorum 和跨地域部署细节。下一步结合 [Kafka](./kafka.md)、[微服务](../cloud-native/microservices.md)、[Prometheus](../observability/prometheus.md) 和 [RCA 根因分析](../sre-aiops/rca.md)，把协调服务接入完整的可观测与故障复盘链路。读完并不等于完成岗位训练，还应独立练习编码、网络、Java 运行时和系统设计，并以自己的实验记录回答面试追问。
+
+## 独立通关：通知、资格和执行结果分别证明
+
+1. **基础复现。** 在同一教学容器中新建不存在的 `/exam-budget`，值为 10；两客户端均读取版本 0。甲执行 `set -v 0 /exam-budget 8`，乙仍执行 `set -v 0 /exam-budget 7`。**判据：**甲成功、乙版本冲突、当前值 8/版本 1。乙若业务确要再扣 3，应重读 8 后计算 5，并以版本 1 提交，而不是只换版本继续写 7；验证值 5/版本 2 后 `delete -v 2 /exam-budget` 收回自己新建的叶节点。
+2. **改变条件预测。** A 对 `/aiops/agents` 做 `ls -w`，B 仅修改已有 agent 的数据，是否一定触发成员列表通知？五投票成员加两 Observer 能容忍几台投票成员故障？**判据：**子数据变化不是子列表变化；默认多数派仍为 3 个投票成员，可失去 2 个，Observer 不投票。不能从“七进程”推导可以坏三台投票成员，且同宿主不提供独立故障域。
+3. **故障证据。** 运行离线令牌模型，再只在副本中移除过时令牌判断。**判据：**原版通过，变体中旧主动作进入结果导致断言失败，恢复判断后通过；同 request_id 的不同 action 必须返回 request-conflict，不能算成功重投。写明没有建立 ZooKeeper 会话、没有断网或验证真实下游原子性，结束进程即可收回。
+4. **生产取舍。** 一万个客户端监听同一配置，每次通知都引发三次读取，十秒发布一次，容量只按平均 3000 次读取/秒够不够？**判据：**单次扇出 30000 次可能短时间集中，平均值不能描述突发；说明读取合并、错峰、回调排队和实际延迟预算，不能只增投票成员“分片”。再给三成员跨两故障域 2+1 放置时整域失效的多数派反例。
+5. **口述追问。** 临时节点存在、`ruok=imok`、客户端重连成功、Watch 到达，各自能证明任务安全执行了吗？**判据：**分别只涉及会话/进程/连接/通知的一部分，仍欠多数派与写探针、当前资格、配置应用版本、下游令牌及业务请求结果。CAS 防旧前提不自动合并业务，`sync` 不包装成任何异常下的绝对最新读；说明需要补的真实故障演练证据。
 
 ## 本课 GitHub 学习证据
 

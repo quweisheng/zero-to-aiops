@@ -190,19 +190,18 @@ Get-Command go # 确认实际调用的 go.exe 路径，避免旧版本抢占 PAT
 
 ### Linux
 
-下面示例使用官方 Linux amd64 归档。版本或架构不同必须替换文件名和校验值，不要把示例 SHA256 当成永久值。
+下面是 Bash 示例，使用官方 Linux amd64 历史归档；需要 curl、sha256sum、tar。版本或架构不同必须替换文件名和校验值，不要把示例版本当成永久安全版本。先进入本人新建的空下载目录，再执行；不移动 `/usr/local/go`，也不替换正在使用的系统工具链。
 
 ```bash
-curl -LO https://go.dev/dl/go1.26.5.linux-amd64.tar.gz # 下载官方归档
-sha256sum go1.26.5.linux-amd64.tar.gz # 与官方下载页当前校验值比对
-test ! -e /usr/local/go.previous || exit 1 # 回退目录已存在就停止，不覆盖旧备份
-# 仅在已核实旧目录是本人维护的手工安装、不是链接或包管理器目录后继续
-if test -e /usr/local/go; then
-  test ! -L /usr/local/go || exit 1 # 遇到符号链接停止，人工确认安装来源
-  sudo mv /usr/local/go /usr/local/go.previous || exit 1 # 移动失败立即停止
-fi
-sudo tar -C /usr/local -xzf go1.26.5.linux-amd64.tar.gz || exit 1 # 解压失败停止并保留旧副本
-export PATH="/usr/local/go/bin:$PATH" # 当前 shell 优先使用已核验的新安装
+curl --fail --location --output go1.26.5.linux-amd64.tar.gz https://go.dev/dl/go1.26.5.linux-amd64.tar.gz || exit 1
+read -r -p '粘贴官方该文件的 SHA256：' go_expected_sha
+[[ "$go_expected_sha" =~ ^[[:xdigit:]]{64}$ ]] || { echo '校验值格式错误'; exit 1; }
+printf '%s  %s\n' "$go_expected_sha" go1.26.5.linux-amd64.tar.gz | sha256sum --check - || exit 1
+go_lab_root="$HOME/.local/opt/go-classroom-1.26.5"
+test ! -e "$go_lab_root" && test ! -L "$go_lab_root" || { echo '实验安装路径已存在'; exit 1; }
+mkdir -p "$go_lab_root" || exit 1
+tar -C "$go_lab_root" --strip-components=1 -xzf go1.26.5.linux-amd64.tar.gz || exit 1
+export PATH="$go_lab_root/bin:$PATH" # 只在当前 shell 优先使用独立课堂工具链
 go version # 验证版本和架构
 ```
 
@@ -240,6 +239,7 @@ go env -w GOPRIVATE=git.example.com/* # 告诉 go 命令哪些 module 是私有�
 ## 第一个 module
 
 ```powershell
+if (Test-Path -LiteralPath .\go-aiops-lab) { throw '目录已存在，请换新目录' }
 New-Item -ItemType Directory go-aiops-lab # 创建实验目录
 Set-Location go-aiops-lab # 进入目录
 go mod init example.com/go-aiops-lab # 创建 go.mod，声明 module path
@@ -265,6 +265,8 @@ go run . # 临时编译并运行 main package
 go build -o aiops-lab.exe . # 构建可重复运行的 Windows 可执行文件
 .\aiops-lab.exe # 预期输出 hello, AIOps
 ```
+
+先按[实验起步说明](../experiment-start.md)区分 Bash 与 PowerShell。每一步出现错误就停止；PowerShell 的原生命令运行后用 `$LASTEXITCODE` 判断，尤其 `go build` 非零时不要继续运行可能残留的旧 `.exe`。`go fmt` 会修改文件，因此这些命令只在自己的课堂 module 中执行。
 
 `go run` 适合快速实验；生产交付应使用 `go build` 生成明确产物，并记录版本、commit 和构建参数。
 
@@ -893,6 +895,7 @@ func runWorkers(ctx context.Context, workers int, jobs <-chan Alert) error {
 					}
 					process(alert)
 				}
+			}
 		}(workerID)
 	}
 
@@ -1028,8 +1031,12 @@ if err != nil {
 }
 defer response.Body.Close() // 归还或释放连接资源
 
-body, err := io.ReadAll(io.LimitReader(response.Body, 1<<20)) // 限制最多读取 1 MiB
+body, err := io.ReadAll(io.LimitReader(response.Body, (1<<20)+1)) // 多读 1 字节识别超限
+if err != nil { return fmt.Errorf("read response: %w", err) }
+if len(body) > 1<<20 { return errors.New("response exceeds 1 MiB") }
 ```
+
+`LimitReader` 达到上限会像正常 EOF 一样结束；只读 1 MiB 就直接解码可能把超长响应误当完整结果。多读一字节再拒绝超限，同时检查读取错误，才建立明确的输入合同。此处仍是函数片段；错误判断成立不代表 HTTP 状态成功，还需按下面的状态策略处理。
 
 不关闭 body 会阻碍连接复用并造成资源泄漏。只关闭但不按协议读取必要 body，也可能影响 HTTP/1 连接复用。还要检查非 2xx 状态、重试幂等性、Retry-After、TLS、代理和 DNS，而不是遇到错误就无限重试。
 
@@ -1362,10 +1369,12 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"io"
 	"log/slog"
 	"net/http"
 	"os"
 	"os/signal"
+	"regexp"
 	"strings"
 	"sync"
 	"syscall"
@@ -1404,11 +1413,16 @@ func (a *Aggregator) Snapshot() map[string]int {
 	return result
 }
 
+var serviceName = regexp.MustCompile(`^[a-z0-9][a-z0-9._-]{0,63}$`)
+
 func normalize(alert Alert) (Alert, error) {
 	alert.Service = strings.TrimSpace(alert.Service)
 	alert.Severity = strings.ToLower(strings.TrimSpace(alert.Severity))
-	if alert.Service == "" || alert.Severity == "" {
-		return Alert{}, errors.New("service and severity are required")
+	if !serviceName.MatchString(alert.Service) {
+		return Alert{}, errors.New("service must be 1-64 lowercase letters, digits, dots, underscores or hyphens")
+	}
+	if alert.Severity != "warning" && alert.Severity != "critical" {
+		return Alert{}, errors.New("severity must be warning or critical")
 	}
 	return alert, nil
 }
@@ -1448,6 +1462,11 @@ func newHandler(jobs chan<- Alert, aggregator *Aggregator) http.Handler {
 		var alert Alert
 		if err := decoder.Decode(&alert); err != nil {
 			http.Error(writer, "invalid JSON", http.StatusBadRequest)
+			return
+		}
+		var extra any
+		if err := decoder.Decode(&extra); !errors.Is(err, io.EOF) {
+			http.Error(writer, "exactly one JSON value is required", http.StatusBadRequest)
 			return
 		}
 
@@ -1511,12 +1530,14 @@ func main() {
 		serverErrors <- server.ListenAndServe()
 	}()
 
+	exitCode := 0
 	select {
 	case <-ctx.Done():
 		slog.Info("shutdown requested")
 	case err := <-serverErrors:
 		if err != nil && !errors.Is(err, http.ErrServerClosed) {
 			slog.Error("server failed", "error", err)
+			exitCode = 1
 		}
 		stop()
 	}
@@ -1525,11 +1546,13 @@ func main() {
 	defer cancel()
 	if err := server.Shutdown(shutdownCtx); err != nil {
 		slog.Error("graceful shutdown failed", "error", err)
+		exitCode = 1
 	}
 
 	stop()
 	workers.Wait()
 	slog.Info("server stopped")
+	if exitCode != 0 { os.Exit(exitCode) } // 已收回 worker；把启动/收尾失败交给调用方
 }
 ```
 
@@ -1603,7 +1626,9 @@ Invoke-RestMethod http://127.0.0.1:8080/summary # 预期看到聚合字段和计
 
 ### 实验边界
 
-为了让小白看清核心链路，示例没有实现持久化、认证、metrics exporter、第二个 JSON value 校验和完整 drain queue 协议。生产版应拆 package、补配置、指标、认证、持久队列或消息系统、幂等键、优雅排空策略和集成测试。
+为了让小白看清核心链路，示例没有实现持久化、认证、metrics exporter 和完整 drain queue 协议。这里 `/readyz` 只返回固定课堂响应，没有随摘流/依赖状态切换，也不保证队列还有空间；队列满仍可能返回 429。生产版应拆 package、补配置、真实就绪状态、指标、认证、持久队列或消息系统、幂等键、优雅排空策略和集成测试。服务名格式限制防止拼接键中的冒号歧义，却不限制不同合法名字的总数；公开接入还需要服务目录白名单、租户配额和状态过期，不能以有界 jobs 证明 counts map 有界。
+
+运行前先查 8080 没有监听者；启动日志 `server listening` 是调用 ListenAndServe 前打印的意图，不是端口已绑定的证据。必须再核对本次进程、HTTP 响应和错误日志。遇到占用应停止或换完整配置，不杀掉未知服务。实验完成用当前前台 Ctrl+C 停止，确认本次 PID 已退出、8080 不再由它监听；本示例计数随进程退出丢失，不把它当数据库。
 
 ### 如果没有成功
 
@@ -2071,6 +2096,16 @@ heap profile 只覆盖 Go heap 采样。还要看 goroutine stack、OS thread、
 假设经过实际测量，一个 worker 平均每秒处理 50 条，四个 worker 理想上限约 200 条每秒；这只是粗估，锁竞争和下游限额会让真实值更低。输入持续每秒 300 条时，每秒净积压约 100 条，容量 100 的队列很快就满。把容量改成一万，只是延后拒绝，不能让稳态吞吐增加。若允许队列等待最多两秒，还要把队列长度与真实处理速率一起限制，并关注高优先级事件是否被低优先级挤住。
 
 面试追问“那就开一百个 worker？”先问瓶颈：CPU 计算可测试并行收益；下游连接池只有十个连接时，多余 worker 可能只是排队；远端有速率限制时，盲加 worker 会产生更多 429 和重试风暴。证据选择是 queue wait、worker busy、下游延迟、锁剖析和 CPU 剖析，不是单看 goroutine 总数。最终回答应带上“这是依据测量得出的参数，目前尚未运行的示例不声称压测通过”。
+
+## 独立通关：把入队、处理和可靠保存分别验收
+
+1. **基础复现。** 在独立目录启动服务，提交 `order-api/CRITICAL` 两次和 `payment-api/warning` 一次。先预测规范化后的键，再在有限时限内查询到计数 2/1；保存每次 POST 的 202 和最终快照。停止并重启后预期为空，这证明本实验只有内存状态，不是故障。不能用一次紧跟 POST 的空查询推断数据已丢。
+2. **改变条件。** 用 `httptest` 建一个容量 1、没有消费者的 jobs：第一次合法 POST 应 202，第二次 429，取走一次后第三次才可 202。另提交第二个 JSON value、未知字段、`severity=banana`、含冒号的服务名，均应 400 且不入队。测试接口行为，不去断言锁类型、私有字段布局或某个 goroutine 调度顺序。
+3. **故障证据。** 运行共享整数 race 实验，记录访问位置、goroutine 创建位置和非零状态；恢复锁后复跑。计数恰好 20000 仍不能推翻 race 证据。另用本次实验进程占用 8080，再启动第二份，第二份应记录绑定失败并非零退出；不要把第一份的健康响应算给第二份。
+4. **设计取舍。** 四个 worker 实测各 50 条/秒，持续输入 300 条/秒，容量 100 的队列在空队列近似条件下约 1 秒填满；扩大到一万只能拖延拒绝。设计最多两秒等待、重试上限、下游十连接、全局去重和单副本退出策略。判据是同时预算吞吐、内存、持久状态、摘流与 drain；不能仅增加 worker 或 goroutine 数。
+5. **口述追问。** 为什么复制 Snapshot 之后再编码？slice 的变量不同为何仍可能 race？typed nil 为什么不等于 nil interface？关闭 channel 为什么不能当暂停？context 取消为什么不等于任务已结束、回滚或队列排空？每题画出所有权与同步边，再给一个错误设计的反例。
+
+返工时按证据定位：202 与计数混淆回到异步链路；race 只凭最终数值判断回到内存模型；取消后直接宣布回收回到 WaitGroup；容量只算队列不算 map 基数回到状态预算。只有提交这些独立判断与复现实验，才勾选通关。
 
 ## 学习证据
 

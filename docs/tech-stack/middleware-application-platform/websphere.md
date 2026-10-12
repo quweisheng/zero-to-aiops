@@ -372,12 +372,13 @@ WAS traditional 通常通过 IBM Installation Manager 安装，介质和仓库�
 
 常见 Linux/UNIX 启停命令：
 
+以下是“按角色选择”的命令字典，不是一台机器按顺序全跑的安装脚本。先由安装清单确认 `WAS_HOME`（产品二进制目录）和 `PROFILE_ROOT`（当前角色的 Profile）；DMgr、Node Agent、业务 Server 可能分别属于不同 Profile。示例 `server1` 必须换成只读清单中的准确名称，启动和停止均按变更审批执行。
+
 ```bash
-$PROFILE_ROOT/bin/startManager.sh                      # 启动 DMgr；成功应看到 ADMU3000I
-$PROFILE_ROOT/bin/startNode.sh                         # 启动 Node Agent；成功应看到 ADMU3000I
-$PROFILE_ROOT/bin/startServer.sh server1              # 启动 server1；成功应看到 ADMU3000I
-$PROFILE_ROOT/bin/serverStatus.sh -all                 # 查询本 Profile 下进程状态
-$PROFILE_ROOT/bin/stopServer.sh server1 -username ... # 受安全配置保护的停止操作，生产需审批
+"$PROFILE_ROOT/bin/startManager.sh"             # 只在 DMgr Profile 使用
+"$PROFILE_ROOT/bin/startNode.sh"                # 只在受管 Node Profile 使用
+"$PROFILE_ROOT/bin/startServer.sh" server1      # 只在该 Server 所属 Profile 使用
+"$PROFILE_ROOT/bin/serverStatus.sh" -all        # 查询本 Profile 下进程状态
 ```
 
 Windows 使用同名 `.bat`。`$PROFILE_ROOT` 是具体 Profile 目录，不是 WAS 安装根目录。不要在不知道 Profile 的情况下从任意 `bin` 执行脚本。
@@ -440,12 +441,12 @@ purge_policy: FailingConnectionOnly  # 连接失败后清理范围，按驱动�
 ### Traditional 只读检查
 
 ```bash
-$PROFILE_ROOT/bin/serverStatus.sh -all                # 查看 Profile 内 DMgr、Node Agent 或 Server 状态
-$PROFILE_ROOT/bin/versionInfo.sh                      # 查看 WAS 安装与版本信息
-$PROFILE_ROOT/bin/historyInfo.sh                      # 查看安装维护历史
-$WAS_HOME/bin/managesdk.sh -listEnabledProfileAll     # 查看各 Profile 启用的 Java SDK
-$PROFILE_ROOT/bin/wsadmin.sh -lang jython -c "print AdminApp.list()" # 列出已安装应用
-$PROFILE_ROOT/bin/wsadmin.sh -lang jython -c "print AdminControl.queryNames('type=Server,*')" # 查询运行 Server MBean
+"$PROFILE_ROOT/bin/serverStatus.sh" -all                # Profile 内运行状态
+"$WAS_HOME/bin/versionInfo.sh"                          # 产品二进制目录里的版本工具
+"$WAS_HOME/bin/historyInfo.sh"                          # 产品安装维护历史
+"$WAS_HOME/bin/managesdk.sh" -listEnabledProfileAll       # 各 Profile 启用的 Java SDK
+"$PROFILE_ROOT/bin/wsadmin.sh" -lang jython -c "print AdminApp.list()"
+"$PROFILE_ROOT/bin/wsadmin.sh" -lang jython -c "print AdminControl.queryNames('type=Server,*')"
 ```
 
 ### 诊断命令
@@ -687,8 +688,9 @@ Update 内部还分四种，选错对象会把一个小变更扩大成整包重�
 
 ```bash
 PROFILE_ROOT=/opt/IBM/WebSphere/AppServer/profiles/AppSrv01
+WAS_HOME=/opt/IBM/WebSphere/AppServer
 
-"$PROFILE_ROOT/bin/versionInfo.sh"       # 查看产品与 Fix Pack；保存完整输出
+"$WAS_HOME/bin/versionInfo.sh"           # 产品安装根目录，不是 Profile/bin
 "$PROFILE_ROOT/bin/serverStatus.sh" -all # 确认当前 Profile 中有哪些进程
 ```
 
@@ -783,11 +785,20 @@ IBM 说明：应用在运行时更新，产品通常会停止、更新并重启�
 
 下面是最小 Jython 逻辑。生产建议放入版本控制脚本，增加参数校验、日志、审批号和失败退出；不要把管理员密码写进脚本或 Shell History。
 
+这不是供本机 Python 3 执行的程序：`AdminApp`、`AdminConfig` 是连接正确管理进程的 `wsadmin -lang jython` 会话提供的对象。先确认该会话没有别人或上一轮的未保存变更，且应用名来自只读清单；EAR 路径是运行 wsadmin 的那台机器可以读取的文件。下面的前置检查失败就停，不会替你自动选择 Install 或弃置别人的工作区。
+
 ```python
 app_name = 'ExampleApp'
 ear_path = '/release/ExampleApp-2026.08.10.ear'
 
-print(AdminApp.list())
+import os
+installed_apps = str(AdminApp.list()).splitlines()
+if app_name not in installed_apps:
+    raise Exception('目标应用不在准确清单中，停止；不能自动改成 Install')
+if not os.path.isfile(ear_path):
+    raise Exception('wsadmin 所在机器读不到 EAR，停止')
+if str(AdminConfig.hasChanges()).strip().lower() not in ('0', 'false'):
+    raise Exception('工作区不干净或无法确认状态，停止；不能一并保存未知变更')
 
 # content type=app 表示更新完整应用；operation=update 表示替换现有内容。
 result = AdminApp.update(
@@ -1437,6 +1448,8 @@ AIOps 不应自动做：删除 BLA/CU、修改配置仓库 XML、执行 `restore
 
 ### 前提
 
+先完成[实验开始前的准备](../experiment-start.md)，再在个人新目录使用 PowerShell。用编辑器保存 UTF-8 的完整 `server.xml`，确认没有隐藏 `.txt` 后缀；不要在真实 WAS Profile 下做本实验。本文没有随实验安装 traditional ND，也没有真实 EAR、CU 或事务参与方，后面的传统发布题只能作为推理练习，不能冒充生产实操。
+
 - 已安装并启动 Docker Desktop。
 - 本机 `9080` 和 `9443` 端口未被占用。
 - 实验使用 Open Liberty 开源镜像，不需要连接生产 WebSphere。
@@ -1447,6 +1460,11 @@ AIOps 不应自动做：删除 BLA/CU、修改配置仓库 XML、执行 `restore
 if (Test-Path -LiteralPath .\websphere-lab) { throw '实验目录已存在，请换新位置。' }
 docker version # 必须成功连到 Server，再继续
 if ($LASTEXITCODE -ne 0) { throw 'Docker 不可用' }
+foreach ($libertyPort in 9080, 9443) {
+  if (Get-NetTCPConnection -State Listen -LocalPort $libertyPort -ErrorAction SilentlyContinue) {
+    throw "端口 $libertyPort 已占用，请先确认归属；不要停止未知服务。"
+  }
+}
 $existingLiberty = docker ps -a --filter 'name=^/openliberty-lab$' --format '{{.Names}}'
 if ($LASTEXITCODE -ne 0 -or $existingLiberty) { throw '无法确认容器名空闲，停止。' }
 New-Item -ItemType Directory -Path .\websphere-lab
@@ -1456,6 +1474,8 @@ Set-Location .\websphere-lab
 ### 第二步：创建 `server.xml`
 
 把“配置详解”中的最小 `server.xml` 保存到当前目录。
+
+启动前执行 `Get-Item -LiteralPath .\server.xml`，确认是非空文件；Docker 的 `--mount` 需要源文件已经存在。XML 未闭合时先修文件，不通过更换容器来掩盖它。
 
 ### 第三步：启动容器
 
@@ -1471,6 +1491,7 @@ docker run --detach `
   --publish 127.0.0.1:9443:9443 `
   --mount "type=bind,source=$((Get-Location).Path)\server.xml,target=/config/server.xml,readonly" `
  $libertyImage
+if ($LASTEXITCODE -ne 0) { throw '容器创建失败；先查端口、文件挂载和日志，不继续验收。' }
 ```
 
 说明：版本未固定的镜像标签适合学习，但生产必须固定经过验证的 Liberty 版本或镜像 Digest，并进入漏洞扫描和发布审批。
@@ -1527,7 +1548,7 @@ docker inspect --format "{{if .State.Health}}{{.State.Health.Status}}{{else}}not
 
 ### 精确步骤
 
-1. 备份：`Copy-Item .\server.xml .\server.good.xml`。
+1. 备份前执行 `if (Test-Path -LiteralPath .\server.good.xml) { throw '备份名已存在，先检查来源，不覆盖。' }`，再执行 `Copy-Item -LiteralPath .\server.xml -Destination .\server.good.xml`。
 2. 停止并删除基线容器：`docker rm --force openliberty-lab`。
 3. 把 `<feature>mpHealth-4.0</feature>` 改成 `<feature>not-a-real-feature-1.0</feature>`。
 4. 使用相同 `docker run` 命令再次启动。
@@ -1809,6 +1830,18 @@ WebSphere 是企业 Java 应用服务器。traditional ND 用 Cell、Deployment 
 **滚动回退最容易漏什么？** 新版本可能往 Session 写入旧版本无法反序列化的对象，也可能已经改变数据库字段或发送新格式消息。此时把 EAR 换回旧包不自动逆转状态。发布前采用兼容的新旧字段与消息协议，说明会话处理策略；回退前确认旧版本仍能读当前数据。对已经发出的业务命令先查结果再补偿，不把“重试一下”当作没有成本的动作。
 
 最后做一份 GitHub 学习证据：画出六张回执的依赖关系，把每张回执的命令、脱敏输出、时间与判定依据并列。记录实验失败和修复，不编造生产案例。`AdminConfig.hasChanges()` 的返回值先转成字符串再比较，避免把非空的 `"0"` 当真；相关语法依据 [IBM AdminConfig 参考](https://www.ibm.com/docs/en/was-nd/9.0.5?topic=scripting-commands-adminconfig-object-using-wsadmin)，BLA/CU 标识与列表参数依据 [IBM BLAManagement 参考](https://www.ibm.com/docs/en/was/8.5.5?topic=aauws-blamanagement-command-group-admintask-object-using-wsadmin-scripting)。实际环境仍须核对安装版本对应帮助。配置 ZIP、事务日志、原始 EAR 与含凭据的转储只放受控备份区，不能进入公开仓库。
+
+## 独立通关：六张发布回执与两种运行时不能混在一起
+
+把基础操作、条件变化、故障定位、架构和口述分别交卷。没有真实 traditional 环境不是问题，隐瞒没有执行才是问题：本地 Liberty 用实际输出，ND 部分标明“设计推演”。
+
+1. **基础复现。** 从自己的空目录启动按摘要固定的 Liberty，提交实际产品版本/镜像摘要、`CWWKF0011I`、HTTP 成功且顶层 `UP`。解释没有自定义检查时 UP 只覆盖当前健康检查集合，不能证明 EAR、数据库和登录。缺少任一项就回到文件挂载或启动步骤。
+2. **改变条件预测。** 将有效 `mpHealth-4.0` 换成不存在的 Feature，先预测 `onError="WARN"` 与 `onError="FAIL"` 的区别再在个人容器验证。答案必须区分“记录错误仍可能 Ready”和“失败后停止”，同时检查 `/health`；只预测进程一定退出不通过。每轮使用同一镜像摘要并恢复良好文件，避免把镜像升级混进变量。
+3. **故障证据。** 给出题卡：DMgr 新版本已 Save，Node A 新版、Node B 旧版，A/B 都 Started，IHS 一半请求仍旧。至少提出按成员身份和构建标识直连、B 同步/分发日志、插件目标三类证据。标准答案先冻结继续滚动、保护容量，再定位 B 的同步/展开；“重启整个集群”或“删 CU”都不符合现有证据。另解释 wsadmin 超时不能直接证明没保存，重试前必须查主仓库与实际状态。
+4. **设计取舍。** 四成员每池 80，上限可能 320；数据库仅给业务 240 条，发布再多一成员会到 400。给出限制池/并存成员的预算、故障域、受控排空与业务回退阈值。说明 Cell 主配置、Session、业务数据库和 XA 事务日志分别如何恢复；不能把配置 ZIP 当成业务数据库备份，也不能把事务日志当清缓存对象。
+5. **口述追问。** 三分钟讲清 Install/Update/Edition，Enterprise Application/BLA/CU/Asset，Save/Sync/Started/路由/业务的差别。追加“CU 删除成功但下步失败，raise 会撤回吗”（不会）、“reset 能回退已保存吗”（不能）、“ND 手工仓库为什么不能改 Node 副本”（主仓库在 DMgr）。必须同时说出停止条件、审批和备份，不背孤立的删除命令。
+
+把预测与实测差异记入 `mastery.md`；答错的关先回到对应阶段返工，再换一个成员/状态题复评。生产验收仍需授权环境中的六张回执，不能由本文本地实验替代。
 
 ## 学习检查清单
 

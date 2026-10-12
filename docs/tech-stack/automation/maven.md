@@ -21,6 +21,8 @@
 
 ## 先记住版本边界
 
+这是一张2026-07-30的历史版本表，不是今天的升级建议；“优先选它”只描述该基线。实际安装先对照官方支持/发布历史和项目插件矩阵，不能因本文固定可复现版本就认定它仍是最新安全版。
+
 截至本文基线日期，官方发布历史给出的边界是：
 
 | 分支 | 状态 | 运行 Maven 所需 JDK | 本文建议 |
@@ -1498,9 +1500,13 @@ error_category
 先确认 JDK：
 
 ```powershell
+Get-Command java,javac,jar -ErrorAction Stop
 java -version
+javac -version
 $env:JAVA_HOME
 ```
+
+没有工具时先安装完整JDK而非只有运行能力的JRE：打开所选发行商官方安装指南（例如[OpenJDK发行说明入口](https://jdk.java.net/)），选择与Windows架构匹配且符合项目支持范围的JDK，校验下载包后按安装器操作；在Windows“编辑系统环境变量→环境变量”里把JAVA_HOME设为实际JDK根目录，并把该目录的bin加入当前用户Path。新开PowerShell重复上面三项；不要将示例路径覆盖成一套实际不存在的JDK。这里不授权修改公司的构建机，Linux/WSL需在其各自系统内准备JDK，不能直接假定Windows安装已覆盖Linux。
 
 Maven 3.9.16 运行需要 JDK 8+，但项目本身常要求 JDK 17 或 21。生产应按项目和插件兼容矩阵选择仍受支持的 JDK。
 
@@ -1575,13 +1581,17 @@ APT、DNF、Homebrew、Chocolatey 和 Scoop 也可安装 Maven，但发行版仓
 - 首次执行可以访问 Maven Central 或企业镜像。
 - 在专门实验目录中运行，不要覆盖已有项目。
 
+以下只在Windows PowerShell同一终端按顺序执行，反引号续行后不能有空格；Linux用bash版本的Wrapper并按其续行语法转换，不能原样粘贴。用`Get-Command mvn -All`确认实际入口，记录`mvn -version`，同时检查已有用户/安装级settings及MAVEN_ARGS/MAVEN_OPTS是否为公司注入（不打印秘密值）；若不确定其作用，先在个人测试环境厘清，不修改全局配置。后面的Maven插件和测试会执行代码，只有可信个人样例才运行。
+
 ### 第 1 步：建立实验目录
 
 PowerShell：
 
 ```powershell
-New-Item -ItemType Directory -Path "$env:USERPROFILE\maven-lab"
-Set-Location "$env:USERPROFILE\maven-lab"
+$mavenLabPath = Join-Path $env:USERPROFILE 'maven-lab'
+if (Test-Path -LiteralPath $mavenLabPath) { throw "实验目录已存在，请另取新名字" }
+New-Item -ItemType Directory -Path $mavenLabPath -ErrorAction Stop | Out-Null
+Set-Location -LiteralPath $mavenLabPath -ErrorAction Stop
 ```
 
 如果目录已存在，不要直接覆盖；换一个新目录名，或先确认里面是否是你自己的可丢弃实验。
@@ -1590,14 +1600,21 @@ Set-Location "$env:USERPROFILE\maven-lab"
 
 ```powershell
 mvn -B -ntp archetype:generate `
-  -DgroupId=dev.aiops.demo `
-  -DartifactId=hello-maven `
-  -DarchetypeArtifactId=maven-archetype-quickstart `
-  -DarchetypeVersion=1.5 `
-  -DinteractiveMode=false
+  '-DgroupId=dev.aiops.demo' `
+  '-DartifactId=hello-maven' `
+  '-Dversion=1.0-SNAPSHOT' `
+  '-Dpackage=dev.aiops.demo' `
+  '-DarchetypeGroupId=org.apache.maven.archetypes' `
+  '-DarchetypeArtifactId=maven-archetype-quickstart' `
+  '-DarchetypeVersion=1.5' `
+  '-DjavaCompilerVersion=17' `
+  '-DjunitVersion=5.11.0' `
+  '-DinteractiveMode=false'
+if ($LASTEXITCODE -ne 0) { throw "骨架生成失败，不进入或复用旧项目" }
 ```
 
 Archetype 是项目骨架模板。
+这里显式固定项目版本、包名、Java目标和JUnit参数，避免默认值或交互影响后续JAR名与BOM故障。Quickstart1.5的[官方模板源码](https://github.com/apache/maven-archetypes/blob/maven-archetype-bundles-1.5/maven-archetype-quickstart/src/main/resources-filtered/archetype-resources/pom.xml)对JUnit5生成import BOM；模板版本不是执行生成动作的archetype插件版本，完整可信重建还要从日志记录生成插件版本并在正式项目固定其坐标。
 预期末尾：
 
 ```text
@@ -1608,14 +1625,17 @@ Project created from Archetype in dir: ...\hello-maven
 进入项目：
 
 ```powershell
-Set-Location .\hello-maven
+Set-Location .\hello-maven -ErrorAction Stop
+if (-not (Test-Path -LiteralPath .\pom.xml)) { throw "当前目录没有生成的pom.xml" }
 ```
 
 ### 第 3 步：固定 Maven Wrapper
 
 ```powershell
-mvn wrapper:wrapper -Dmaven=3.9.16
+mvn wrapper:wrapper '-Dmaven=3.9.16'
+if ($LASTEXITCODE -ne 0) { throw "Wrapper生成失败" }
 .\mvnw.cmd -version
+if ($LASTEXITCODE -ne 0) { throw "Wrapper分发下载或启动失败" }
 ```
 
 把生成的 `mvnw`、`mvnw.cmd` 和 `.mvn/wrapper/` 纳入 Git。
@@ -1625,6 +1645,7 @@ mvn wrapper:wrapper -Dmaven=3.9.16
 
 ```powershell
 .\mvnw.cmd -B -ntp clean verify
+if ($LASTEXITCODE -ne 0) { throw "完整构建未通过，不以旧JAR作为成功证据" }
 ```
 
 预期看到：
@@ -1639,6 +1660,8 @@ BUILD SUCCESS
 ```powershell
 Get-Item .\target\hello-maven-1.0-SNAPSHOT.jar
 jar tf .\target\hello-maven-1.0-SNAPSHOT.jar
+if ($LASTEXITCODE -ne 0) { throw "JAR读取失败" }
+Get-FileHash .\target\hello-maven-1.0-SNAPSHOT.jar -Algorithm SHA256
 ```
 
 `jar tf` 应列出 `META-INF/` 和编译后的 `App.class`。这个 Quickstart JAR 通常不是包含所有依赖的可执行 Fat JAR，不要用“双击是否运行”判断构建是否成功。
@@ -1646,8 +1669,10 @@ jar tf .\target\hello-maven-1.0-SNAPSHOT.jar
 ### 第 5 步：导出生效模型和依赖树
 
 ```powershell
-.\mvnw.cmd -q help:effective-pom -Doutput=target/effective-pom.xml
-.\mvnw.cmd -q dependency:tree -DoutputFile=target/dependency-tree.txt
+.\mvnw.cmd -q help:effective-pom '-Doutput=target/effective-pom.xml'
+if ($LASTEXITCODE -ne 0) { throw "模型导出失败" }
+.\mvnw.cmd -q dependency:tree '-DoutputFile=target/dependency-tree.txt'
+if ($LASTEXITCODE -ne 0) { throw "依赖树导出失败" }
 Get-Content .\target\dependency-tree.txt
 ```
 
@@ -1665,6 +1690,8 @@ Get-Content .\target\dependency-tree.txt
 
 ```powershell
 .\mvnw.cmd -o -B -ntp clean verify
+$offlineExit = $LASTEXITCODE
+if ($offlineExit -ne 0) { throw "离线构建失败，先定位缺少的输入" }
 ```
 
 预期仍然 `BUILD SUCCESS`。
@@ -1691,7 +1718,7 @@ Get-Content .\target\dependency-tree.txt
 
 ### 清理
 
-只清理当前项目生成目录：
+继续后面的镜像与测试故障前先保留项目和基础证据，把日志/模型观察和摘要复制到evidence而不是仅留target。全部实验完成后只清理当前项目生成目录：
 
 ```powershell
 .\mvnw.cmd clean
@@ -1775,8 +1802,10 @@ mirrorOf=* 指向不可达地址
 ```powershell
 .\mvnw.cmd -B -ntp `
   -s .\settings-broken.xml `
-  -Dmaven.repo.local=.m2-fault `
+  '-Dmaven.repo.local=.m2-fault' `
   validate
+$faultExit = $LASTEXITCODE
+if ($faultExit -eq 0) { throw "没有产生预期故障，先查BOM/缓存/settings，不记为注入通过" }
 ```
 
 预期失败，并出现接近以下信息：
@@ -1810,7 +1839,7 @@ Connection refused
 ```powershell
 .\mvnw.cmd -X `
   -s .\settings-broken.xml `
-  -Dmaven.repo.local=.m2-fault `
+  '-Dmaven.repo.local=.m2-fault' `
   validate
 ```
 
@@ -1822,8 +1851,9 @@ Connection refused
 
 ```powershell
 .\mvnw.cmd -B -ntp `
-  -Dmaven.repo.local=.m2-recovered `
+  '-Dmaven.repo.local=.m2-recovered' `
   validate
+if ($LASTEXITCODE -ne 0) { throw "正确仓库路径尚未恢复" }
 ```
 
 预期：
@@ -1832,14 +1862,15 @@ Connection refused
 BUILD SUCCESS
 ```
 
-这证明代码和 POM 在正确仓库路径下可以建立模型，故障点是镜像配置或仓库可达性。
+结合相同POM、不同settings/全新缓存和首条故障日志，这支持镜像路径假设；仅一行绿色不单独证明根因，也不证明源码已编译。若恢复仍失败，要记录实际继承的用户settings/代理/认证，不把它们悄悄替换成未知公共源。
 
 ### 第 5 步：验证修复不是偶然
 
 ```powershell
 .\mvnw.cmd -B -ntp `
-  -Dmaven.repo.local=.m2-recovered `
+  '-Dmaven.repo.local=.m2-recovered' `
   clean verify
+if ($LASTEXITCODE -ne 0) { throw "模型可建但完整构建未恢复" }
 ```
 
 再检查测试、JAR 和依赖树。仅 `validate` 成功只证明模型能建立，不证明完整构建已经恢复。
@@ -2488,6 +2519,18 @@ Git Webhook（源码变更回调）
 面试官问“BOM 能不能治理所有依赖？”先回答它是版本组合，不自动引入库，不保证所有插件依赖也受同样管理，也不保证运行环境没有自带旧 JAR。继续问“怎么证明修复 NoSuchMethodError？”回答对比解析树、最终包内容、类加载来源，再运行命中该方法的回归测试。只看树里版本改了还不够。
 
 问“为何冷构建更有价值？”回答它去掉了某些本机隐藏缓存，有助于检查依赖可获取性，但仍受 settings、工具链、网络和上游状态影响；不是把缓存关掉就天然可复现。好的回答总会说明证据能证明什么、不能证明什么，让面试官看到你会建立可验证的工程结论。
+
+## 独立通关：绿色构建必须说清输入和证据范围
+
+关闭步骤，只保留任务；每项先写预测再执行或推演，输出是教师判据而非本文运行记录。失败回到相应小节重做，不能以字数或记住参数判掌握。
+
+1. **基础复现。**换一个空目录独立生成并验证项目，提交Maven/JDK/插件版本、原始与生效POM差别、测试数量、JAR内容/摘要、命令退出码。判据：能从源码→模型→插件→报告→制品逐层定位，零测试的BUILD SUCCESS不算验证业务；注明只在本机成功还是独立环境重建。结束清理本轮target而非用户缓存。
+2. **改变条件预测。**把JUnit声明从dependencies移到仅dependencyManagement，再预测测试是否仍能编译；另外问直接执行jar:jar能否替代package。判据：管理版本不引入类路径，移走实际依赖后测试可能缺包；直接goal不会自动补齐前序阶段。用个人副本/依赖树与日志验证，再恢复配置；不要误把旧target残留当新构建。
+3. **故障证据。**分别完成本机错镜像和测试断言失败，提交最早错误、退出码、是否已进入测试、恢复后的完整verify。判据：BOM模型解析失败和Surefire真实执行失败是两层，修复镜像不能代替修复断言；离线热缓存成功不反证冷缓存仓库故障。不能为恢复而关闭TLS或删除整个.m2。
+4. **设计取舍。**100个冷构建同时各下载200MB，假设每个需在20秒完成，不计协议开销，需要约1GB/s即8Gbps；只有1Gbps出口时理论传输下界约160秒。答案要补共享依赖缓存、私服并发、限流、执行器隔离与测量，而不是把每个任务-T开满。不能用平均带宽承诺P95，也不能让不可信PR写入发布信任缓存。
+5. **口述追问。**30秒讲生命周期和goal，三分钟画一次冷构建路径。继续回答：BOM影响插件自己的依赖吗？十模块发布第七个超时能直接重试同一Release吗？Wrapper回退会撤销业务数据库变化吗？判据：项目依赖管理与插件依赖分层、超时副作用先查仓库内容/摘要、构建回退与数据恢复分开，并将共同mirror/阶段/提交证据接到AIOps告警归因。
+
+2026-10-12本轮只执行`mvn -version`确认本机Maven3.9.16、Oracle JDK24，核对官方Quickstart1.5模板与PowerShell语法；未运行项目生成、Wrapper下载、编译/离线/故障或制品发布。这些操作需读者在上述个人环境复现，不能将命令可解析冒充构建已通过。
 
 ## 建议提交到 GitHub 的学习证据
 

@@ -1278,19 +1278,17 @@ LISTEN 0      128    0.0.0.0:8000      0.0.0.0:*     users:(("python",pid=1234,f
 
 目标：用一组命令把一次 HTTP 请求拆成 DNS、路由、TCP、TLS、HTTP 五段证据。
 
+这一组命令在获准联网的 Linux 测试机的 Bash 终端执行，需要 `curl`、`dig`、`getent`、`ip`、`openssl` 和 GNU `timeout`。先用 `command -v curl dig getent ip openssl timeout` 确认工具存在；缺哪个就通过本机发行版的软件管理器安装对应包，不在生产机临时装软件。Windows 读者可以先完成后面的“同一服务的 200、404 与连接拒绝”本地实验；不要把 Bash 的重定向和管道原样粘贴到 PowerShell。
+
 ### 1. 选择目标
 
-可以选择你的本地服务：
-
-```text
-http://127.0.0.1:8000/health
-```
-
-也可以选择一个测试域名：
+下面统一使用测试域名；它需要当前环境允许访问公网：
 
 ```text
 https://example.com/
 ```
+
+若只能使用自己的内网测试域名，要把下文的域名、端口和路径一起替换。直接使用 `http://127.0.0.1:8000/health` 不会经过域名解析，也没有 TLS 握手，不能因此填写“DNS 和证书检查通过”。没有可用的 HTTPS 测试目标时，先做本地 HTTP 实验，并把这两项标为未测。
 
 ### 2. DNS 证据
 
@@ -1342,7 +1340,7 @@ HTTP status:
 ### 5. 时间分解
 
 ```bash
-curl -sS -o /dev/null \
+curl -sS --connect-timeout 3 --max-time 10 -o /dev/null \
   -w "dns=%{time_namelookup} connect=%{time_connect} tls=%{time_appconnect} first_byte=%{time_starttransfer} total=%{time_total} code=%{http_code}\n" \
   "https://example.com/"
 ```
@@ -1361,9 +1359,11 @@ code:
 ### 6. TLS 证据
 
 ```bash
-openssl s_client -connect example.com:443 -servername example.com </dev/null 2>/dev/null \
+timeout 10 openssl s_client -connect example.com:443 -servername example.com </dev/null \
   | openssl x509 -noout -subject -issuer -dates
 ```
+
+这里只提取对端证书的名称、签发者和有效期，不构成“证书验证通过”。保留标准错误是为了看到握手或信任链失败；流水线最后一个程序成功，也不代表前一个程序成功。真正的 HTTPS 验收还要验证信任链、主机名和实际 HTTP 结果，后面的 TLS 边界课堂会说明；不要通过 `-k` 跳过校验后宣称恢复。
 
 记录：
 
@@ -1548,17 +1548,30 @@ journalctl -u node_exporter -n 100 --no-pager
 
 这个脚本把一个 URL 拆成基础证据。仅对自己获准探测的测试地址运行，不传入含口令、令牌或业务参数的 URL；它会打印地址与详细响应头。它不是接收任意外部 URL 的公开探测服务。
 
+在上述 Linux 测试机的自有空目录中，把完整代码保存为 `net_probe.sh`，然后执行 `bash net_probe.sh 'https://example.com/'`。除前面工具外还需要 `python3`。这是一种“要求 HTTP 2xx 的诊断策略”，不是通用网页浏览器：重定向也标为未达标，不自动跟随到未知地址。它收集失败证据后以非零退出，不把 `|| true` 吞掉的错误误报成成功。
+
 ```bash
 #!/usr/bin/env bash
 set -euo pipefail
 
 url="${1:-https://example.com/}"
-host="$(python3 - <<'PY' "$url"
+host="$(python3 - "$url" <<'PY'
 import sys
-from urllib.parse import urlparse
-print(urlparse(sys.argv[1]).hostname or "")
+from urllib.parse import urlsplit
+try:
+    target = urlsplit(sys.argv[1])
+    port = target.port  # 读取一次，同时拒绝非法端口
+    if target.scheme not in {"http", "https"} or not target.hostname:
+        raise ValueError("只接受带主机名的 http/https URL")
+    if target.username is not None or target.password is not None:
+        raise ValueError("不要在 URL 中放凭证")
+    print(target.hostname)
+except ValueError as exc:
+    print(f"URL 错误: {exc}", file=sys.stderr)
+    sys.exit(2)
 PY
 )"
+failed=0
 
 echo "== target =="
 echo "url=$url"
@@ -1566,20 +1579,38 @@ echo "host=$host"
 
 echo
 echo "== dns =="
-getent hosts "$host" || true
+if timeout 10 getent hosts "$host"; then
+  : # 继续收集，DNS 查询失败也不能跳过后面的反证
+else
+  failed=1
+fi
 
 echo
 echo "== curl timing =="
-curl -sS -o /dev/null \
-  -w "dns=%{time_namelookup} connect=%{time_connect} tls=%{time_appconnect} first_byte=%{time_starttransfer} total=%{time_total} code=%{http_code}\n" \
-  --connect-timeout 3 \
-  --max-time 10 \
-  "$url" || true
+if result="$(curl -sS -o /dev/null \
+  -w '%{http_code} dns=%{time_namelookup} connect=%{time_connect} tls=%{time_appconnect} first_byte=%{time_starttransfer} total=%{time_total}\n' \
+  --connect-timeout 3 --max-time 10 "$url")"; then
+  printf '%s\n' "$result"
+  case "${result:0:3}" in
+    2??) : ;;
+    *) failed=1 ;;
+  esac
+else
+  printf '%s\n' "$result"
+  failed=1
+fi
 
 echo
 echo "== verbose last check =="
-curl -v --connect-timeout 3 --max-time 10 "$url" -o /dev/null || true
+if curl -v --connect-timeout 3 --max-time 10 "$url" -o /dev/null; then
+  :
+else
+  failed=1
+fi
+exit "$failed"
 ```
+
+`failed` 是本次诊断的汇总状态：DNS 查询、传输或 2xx 策略任一未达标，最终就是 `1`；URL 不合法会提前返回 `2`。普通 curl 收到 404 仍可能以 `0` 退出，因为传输已完成，脚本因此单独判断状态码。[curl 官方手册](https://curl.se/docs/manpage.html)说明了传输错误、HTTP 错误和超时的区别。打印出的 DNS 和耗时来自不同观测，代理环境中本机解析失败而代理访问成功也是有价值的反证，不应把汇总失败直接翻译成“目标服务器宕机”。脚本结束不会修改网络配置；保留脱敏结果后，只删除自己的 `net_probe.sh`。
 
 生产化前要补：
 
@@ -1818,6 +1849,18 @@ HTTP 中幂等指同样请求重复执行的预期服务端效果与执行一次
 ### 观察点本身也要标明位置
 
 最后别漏掉探针的位置。浏览器、网关节点、应用容器和监控服务器看到的 DNS、路由、代理及证书信任库可能不同。一次本机检查成功，只能作为该观察点的证据；跨区域故障需要选择受影响区域的代表性探针。把探针位置、目标名、实际对端地址、时间和超时设置写进记录，避免把不同条件的结果直接相减。探针自身失联时，应区分“目标失败”和“没有拿到观测”，缺数据不能自动填成成功或零延迟。
+
+## 独立通关：同样是失败，必须说出失败在哪一层
+
+先做题，再对照判据。在自有本地 HTTP 实验目录新增 `ready.txt`，内容换成 `ready-v2`，不照抄原来的文件名。证明响应状态、响应体和服务端访问记录属于同一次请求；接着请求不存在的 `/ready-missing.txt`。合格答案是第一项 200 且正文匹配，第二项 404 且服务端收到请求。两项都能完成 TCP 和 HTTP 交互，404 不是“网络断了”。截图只有状态码、没有地址和正文，证据还不够。
+
+先预测再停掉自己启动的服务，重新请求这两个路径：此时连 HTTP 状态都拿不到，常见 curl 退出码为 7，但实际错误仍以本机输出为准。记录错误、时间限制以及监听检查；恢复同一服务后再次得到 `ready-v2`。若端口已被另一进程占用，不终止陌生进程；换空闲端口并同步改两边 URL。清理前先停止自己的服务器，再只删除本次文件和空目录。不能拿 404 的日志解释停机后的连接拒绝。
+
+把探测脚本分别指向存在和不存在的本地路径，再给一个 `file:///etc/hosts` 输入。判据是成功路径退出 0、不存在路径退出 1、非法协议退出 2；不存在路径传输本身可能成功，但不满足脚本的 2xx 策略。若只是打印错误却退出 0，回到“自动化脚本示例”修复失败汇总，不能接到自动恢复动作上。
+
+设计题换一个条件：跨区链路总预算两秒，DNS、连接、TLS 的累计结束时间分别为 0.1、0.4、0.7 秒。连接新增部分是 0.3 秒，TLS 新增部分也是 0.3 秒，不能把累计值相加当总耗时。说明如何为剩余业务时间、少量受控重试和取消传播留预算，以及写操作结果未知时为何先查操作编号。答“多重试几次”却没有幂等边界、总截止时间或放大量，不通过。
+
+最后口述追问：本地 200 能证明公网 DNS 和 TLS 正常吗？SNI 选中了证书能证明主机名校验通过吗？多地区缺数据能填成零延迟吗？三个答案都是否定，分别需要真实域名/证书路径、信任链与主机名校验、探针存活及观测位置证据。把纸面推演和实际运行分栏记录；答不清回到请求路径、TLS 边界和“观察点本身也要标明位置”，重新做一轮有反例的解释。
 
 ## 学习证据
 

@@ -1139,7 +1139,7 @@ docker compose ps
 docker compose logs --tail 100 rabbitmq
 ```
 
-预期 `rabbitmq` 最终显示为 `healthy`。
+预期 `rabbitmq` 最终显示为 `healthy`。最多观察两分钟仍不健康就停在日志排查，不能继续发布；`ping` 健康检查只证明节点响应，还要在本实例执行 `docker compose exec rabbitmq rabbitmq-diagnostics -q check_running` 和 `docker compose exec rabbitmq rabbitmq-diagnostics -q check_local_alarms`，两项无错误后再继续。端口占用时不结束未知服务，项目目录与数据卷必须保持当前独占基线。
 
 打开 `http://localhost:15672`，用户名 `aiops`，密码 `aiops-lab-only`，选择 vhost `aiops`。
 
@@ -1271,9 +1271,12 @@ Invoke-RestMethod `
 
 ```powershell
 python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install pika==1.4.2
+if ($LASTEXITCODE -ne 0) { throw '创建虚拟环境失败' }
+.\.venv\Scripts\python.exe -m pip install pika==1.4.2
+if ($LASTEXITCODE -ne 0) { throw '安装Pika失败，不继续' }
 ```
+
+之后所有示例的 `python` 均指这个环境：Windows 不激活时直接用 `.\.venv\Scripts\python.exe`，Linux 用 `.venv/bin/python`；先核对 `-c "import sys,pika; print(sys.executable,pika.__version__)"`。不要为了运行 Activate.ps1 修改全局执行策略。在同一 `rabbitmq-lab` 目录保存下面四个完整文件；首次实验 `inbox.db` 必须不存在，旧文件应保留核对，不自动迁移、覆盖或删除。
 
 ### 2. 创建 `producer.py`
 
@@ -1341,6 +1344,7 @@ channel.confirm_delivery()
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--event-id", default=None, help="仅重发同一业务事件时复用标识")
+parser.add_argument("--routing-key", default="alert.prod.critical", help="课堂路由条件实验")
 args = parser.parse_args()
 event_id = args.event_id or str(uuid.uuid4())
 if not 1 <= len(event_id) <= 100:
@@ -1354,10 +1358,11 @@ message = {
     "severity": "critical",
 }
 
+print(f"attempt event_id={event_id} routing_key={args.routing_key}", flush=True)
 try:
     channel.basic_publish(
         exchange="alerts.topic",
-        routing_key="alert.prod.critical",
+        routing_key=args.routing_key,
         body=json.dumps(message).encode("utf-8"),
         properties=pika.BasicProperties(
             content_type="application/json",
@@ -1390,15 +1395,23 @@ finally:
 ```python
 import json
 import sqlite3
+import hashlib
+import argparse
+import os
 
 import pika
 
 
+worker_parser = argparse.ArgumentParser()
+worker_parser.add_argument("--crash-after-commit", action="store_true",
+                           help="仅课堂：首个新事件提交本地工单后、ack前退出")
+worker_args = worker_parser.parse_args()
 database = sqlite3.connect("inbox.db")
 database.execute(
     """
     CREATE TABLE IF NOT EXISTS consumer_inbox (
         message_id TEXT PRIMARY KEY,
+        payload_sha256 TEXT NOT NULL,
         processed_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
     )
     """
@@ -1427,6 +1440,10 @@ parameters = pika.ConnectionParameters(
 connection = pika.BlockingConnection(parameters)
 channel = connection.channel()
 channel.basic_qos(prefetch_count=10)
+
+
+class BusinessKeyConflict(Exception):
+    """同一个业务键不允许代表另一份业务内容。"""
 
 
 def handle_message(channel, method, properties, body):
@@ -1465,14 +1482,18 @@ def handle_message(channel, method, properties, body):
         channel.basic_reject(delivery_tag=method.delivery_tag, requeue=False)
         return
 
+    payload_hash = hashlib.sha256(
+        json.dumps(event, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+        .encode("utf-8")
+    ).hexdigest()
     try:
         with database:
             inserted = database.execute(
                 """
-                INSERT OR IGNORE INTO consumer_inbox(message_id)
-                VALUES (?)
+                INSERT OR IGNORE INTO consumer_inbox(message_id, payload_sha256)
+                VALUES (?, ?)
                 """,
-                (message_id,),
+                (message_id, payload_hash),
             ).rowcount
 
             if inserted:
@@ -1480,6 +1501,17 @@ def handle_message(channel, method, properties, body):
                     "INSERT INTO tickets(event_id,event_type,service,severity) VALUES (?,?,?,?)",
                     (message_id, event["event_type"], event["service"], event["severity"]),
                 )
+            else:
+                original = database.execute(
+                    "SELECT payload_sha256 FROM consumer_inbox WHERE message_id=?",
+                    (message_id,),
+                ).fetchone()
+                if original is None or original[0] != payload_hash:
+                    raise BusinessKeyConflict(message_id)
+    except BusinessKeyConflict:
+        print(f"business key conflict, quarantine: {message_id}", flush=True)
+        channel.basic_reject(delivery_tag=method.delivery_tag, requeue=False)
+        return
     except sqlite3.Error as error:
         print(f"temporary database error: {error}")
         channel.basic_nack(
@@ -1491,6 +1523,9 @@ def handle_message(channel, method, properties, body):
 
     if inserted:
         print("create ticket:", event["event_type"], event["service"], event["severity"])
+        if worker_args.crash_after_commit:
+            print("classroom crash after local commit, before ack", flush=True)
+            os._exit(2)
     else:
         print(f"duplicate ignored: {message_id}")
     channel.basic_ack(delivery_tag=method.delivery_tag)
@@ -1512,22 +1547,21 @@ finally:
     database.close()
 ```
 
-SQLite 在这里把 Inbox 和模拟工单表放进同一个事务，验证的是本地数据库的原子性与唯一约束，不是外部工单 API 的恰好一次。日志打印不具备事务性，崩溃后日志条数也不能代替数据库行数。真实系统调用外部 API 时还要使用对方支持的幂等键，或通过事务发件箱继续交付。数据库异常时本例重新入队后停止消费，先修好数据库再人工重启；不能依赖 RabbitMQ 4.3 的 nack 自动耗尽失败投递次数。
+SQLite 在这里把 Inbox 和模拟工单表放进同一个事务，验证的是本地数据库的原子性与唯一约束，不是外部工单 API 的恰好一次。本地 SHA-256 是对排序后的业务 JSON 内容求摘要，用来发现“同一键、不同内容”，不是 Broker 的确认或消息校验输出。相同键且摘要相同才视为合法重试；摘要不同拒绝并隔离，不打印普通 duplicate 成功。额外的尝试时间等传输字段不要随意混进稳定业务内容，否则每次重试都会冲突。旧版实验 Inbox 若无摘要列，须先保留旧库证据，再用新实验目录重新建立，不直接ALTER未知文件。日志打印不具备事务性，崩溃后日志条数也不能代替数据库行数。真实系统调用外部 API 时还要使用对方支持的幂等键，或通过事务发件箱继续交付。数据库异常时本例重新入队后停止消费，先修好数据库再人工重启；不能依赖 RabbitMQ 4.3 的 nack 自动耗尽失败投递次数。
 
 ### 4. 运行
 
 先在终端一运行生产者，创建拓扑并放入第一条消息。消费者代码只订阅，不负责创建队列，颠倒顺序会得到队列不存在错误：
 
 ```powershell
-.\.venv\Scripts\Activate.ps1
-python producer.py
+.\.venv\Scripts\python.exe producer.py
+if ($LASTEXITCODE -ne 0) { throw '发布失败/结果未知，保存attempt业务键与错误，不换新键重试' }
 ```
 
 然后在同一实验目录打开终端二并启动消费者，保持运行。之后从终端一继续发布：
 
 ```powershell
-.\.venv\Scripts\Activate.ps1
-python worker.py
+.\.venv\Scripts\python.exe worker.py
 ```
 
 生产者预期：
@@ -1543,6 +1577,8 @@ create ticket: HighErrorRate order-api critical
 ```
 
 ### 5. 验证
+
+初次只有这一条消息时，除队列指标外还要执行 `.\.venv\Scripts\python.exe -c "import sqlite3; c=sqlite3.connect('file:inbox.db?mode=ro',uri=True); print(c.execute('SELECT event_id,event_type,service,severity FROM tickets').fetchall()); assert c.execute('SELECT COUNT(*) FROM tickets').fetchone()[0]==1; assert c.execute('SELECT COUNT(*) FROM consumer_inbox').fetchone()[0]==1; c.close()"`。如果你另外发布过消息，先按记录的 event_id 查相应行，不用固定总数一掩盖额外数据。队列归零和日志 create ticket 都不能代替数据库验证。
 
 ```powershell
 docker compose exec rabbitmq rabbitmqctl list_queues -p aiops `
@@ -1622,7 +1658,7 @@ channel.start_consuming()
 ### 2. 触发 ack 前崩溃
 
 ```powershell
-python producer.py
+.\.venv\Scripts\python.exe producer.py --event-id rabbitmq-lesson-crash-01
 python crash_worker.py
 ```
 
@@ -1652,6 +1688,20 @@ duplicate ignored: <相同的 message_id>
 ```powershell
 python -c "import sqlite3; c=sqlite3.connect('file:inbox.db?mode=ro',uri=True); n=c.execute('SELECT COUNT(*) FROM tickets WHERE event_id=?',('rabbitmq-lesson-duplicate-01',)).fetchone()[0]; print(n); assert n==1; c.close()"
 ```
+
+### 补充故障点：本地业务提交后、确认前
+
+先补做真正的“本地业务已提交，但确认没发出”窗口。停止正常 worker，确认主队列没有其他消息后，在终端一发送新专用键，再在终端二运行故障模式：
+
+```powershell
+.\.venv\Scripts\python.exe producer.py --event-id rabbitmq-lesson-after-commit-01
+```
+
+```powershell
+.\.venv\Scripts\python.exe worker.py --crash-after-commit
+```
+
+终端二应输出本地提交后的课堂崩溃说明并以2退出，不是机器故障。立刻用前面只读SQLite查询按这个 event_id 验证工单已存在一行；随后正常启动 worker，应收到同键重投并识别合法重复，最终工单仍一行、主队列 ready/unacked 归零。重投何时发生要等连接关闭/故障检测，最多观察两分钟，不通过就查连接/日志。不能第二次仍加故障选项不断退出；先前的 crash_worker 只验证“业务执行前”崩溃，两种故障点必须分别记账。故障选项仅给本课新事件，绝不用于真实工单消费者。
 
 ### 3. 创建 `publish_poison.py`
 
@@ -2321,6 +2371,30 @@ Quorum Queue（多数派复制队列）依赖自己的复制成员与多数派�
 事故题中如果 Ready 不高但 Unacked 一直升，优先查消费者处理时间、线程、连接池和下游等待；如果发布受阻且磁盘告警，检查存储安全线与堆积来源。恢复验证同时看队列状态、业务唯一性、端到端延迟和下游承载。
 
 30 秒回答讲路由和确认，3 分钟用告警通知的完整生命周期讲队列类型、持久化、重投、预取和副本。继续追问“重试越快越可靠吗”，用毒消息和下游故障说明退避、死信与人工修复；讲升级时说明旧协议、客户端、队列类型和元数据兼容，而不是只替换镜像标签。
+
+## 独立通关：路由、接管、事务与多数派分别过关
+
+考试只连独占实验项目。使用新的 `rabbitmq-exam-20261012-*` 事件键，先记录 ready/unacked/死信与两张SQLite表基线。以下答案不代替实测；本次文档没有部署真实Broker。
+
+### 任务一：基础复现，三条消息只建两张工单
+
+自行调用生产者发送事件甲、事件乙、再发送甲，保持相同甲内容，消费者正常运行。答案判据：三个发布尝试均分别有确认、数据库新增两条tickets与两条Inbox、甲只有一行、队列处理后无ready/unacked。`redelivered=false` 也可能是业务重复，因为甲是重新发布的新投递，不能只靠代理重投标志去重。不要固定全库总数二，必须与考试前基线和这两个专用键对照。
+
+### 任务二：改变条件，确认不能补上不存在的路由
+
+新事件用 `--routing-key alert.dev.critical` 发布，当前只有 `alert.prod.*` 绑定。答案：mandatory加confirm应让Pika报不可路由，而不是打印confirmed成功；目标工单没有增加。恢复到正常路由后，沿用原事件键重新发送并验收。再用同一个已处理键发送不同service的业务内容，当前worker应记录business key conflict并拒绝隔离，原工单保持原内容，不能当duplicate成功。保留attempt业务键、异常、绑定和死信差值；不能为让新内容通过而删除旧幂等记录。
+
+### 任务三：故障证据，提交后退出与提交前退出不同
+
+换一个考试事件完成 `--crash-after-commit` 过程，先在消费者退出时查本地工单一行，再正常恢复，验证重复仍一行与队列确认收敛。对照 crash_worker 的退出时本地工单零行。答案必须有数据库事务证据而非仅日志，说明SQLite本地事实与真实外部API不同。额外预测毒JSON的DLX路径；死信目标失效的至少一次保证不在本实验覆盖内，不能据正常一条死信宣称永不丢失。
+
+### 任务四：生产取舍，集群节点不等于队列成员
+
+集群五节点，关键队列只有三个成员；失去其中两个，另外两台非成员仍在线，队列能否提交？答案不能，仅一个成员不足其三成员多数派；Khepri健康和TCP可连都不能补齐队列副本。容量题：入口每秒3,000条，消费者停10分钟，恢复确认每秒4,000条，平均落盘消息含开销按实测假设2KiB，三副本、75%目标水位。积压180万、净清空30分钟、故障起总40分钟；积压原始容量约 `1800000*2048*3/.75` 字节=14.75GB（十进制）或13.73GiB，另外还要日志段、DLQ、正常保留及恢复余量。若数据库只允每秒3,000条，积压不会清空，先修瓶颈，不直接扩消费者。
+
+### 任务五：口述追问，三个反例讲清保障边界
+
+30秒讲Exchange/Binding/Queue/Consumer与两种确认，3分钟从Outbox到Inbox再到Ack。追问：没有路由时confirm为何仍不能独立证明入队？同一普通队列给短信和工单为何不是两份广播？definitions恢复为何不能找回消息正文？再答basic.nack重入在4.3为何不能指望delivery-limit自动终结无限循环、停止一个quorum关键节点前查什么、原地降级为何不能仅换旧镜像。每题给证据和收回步骤，不把队列清空作为恢复手段。
 
 ## 本课 GitHub 学习证据清单
 

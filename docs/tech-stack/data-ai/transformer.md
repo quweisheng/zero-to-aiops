@@ -723,9 +723,9 @@ Hugging Face Transformers 提供动态、静态、量化和可卸载等缓存策
   -> Input IDs（输入词元编号） + Attention Mask（注意力遮罩）
   -> Embedding（向量编码） + Position
   -> 双向 Encoder 层
-  -> Pooling / 特殊位置表示
+  -> Pooling（汇聚序列信息） / 特殊位置表示
   -> 分类头
-  -> severity / category 概率
+  -> severity（严重级别） / category（类别） 概率
 ```
 
 重点证据：截断比例、类别分布、混淆矩阵、置信度校准和漂移。
@@ -734,8 +734,8 @@ Hugging Face Transformers 提供动态、静态、量化和可卸载等缓存策
 
 ```text
 告警 + 日志 + 变更 + Runbook
-  -> Prompt（提示词） Template
-  -> Tokenizer（分词器） / Truncation
+  -> Prompt Template（提示词模板）
+  -> Tokenizer（分词器） / Truncation（按预算截断）
   -> Prefill（预填充）
   -> KV Cache（键值注意力缓存）
   -> Decode（逐词元解码） Token 1
@@ -807,6 +807,8 @@ JSON 不支持注释。生产 Manifest 还应加入文件哈希、许可证、�
 
 本文基础实验只需要 Python 3，不需要联网、GPU 或第三方包。
 
+首次操作先看[实验起步说明](../experiment-start.md)，在自己的空目录 `transformer-aiops-lab` 中用编辑器保存下一节完整程序为 UTF-8 的 `attention_lab.py`。下面两条路线是选择关系：纯 Python 实验不需要安装 Torch、下载权重或开云 GPU。代码中的 Q/K/V 是人为给定向量，不能当作训练好的语言模型。
+
 Windows PowerShell：
 
 ```powershell
@@ -823,23 +825,30 @@ python3 --version      # 确认 Python 可用
 
 ### 路线二：使用 PyTorch 和 Hugging Face
 
-先建立隔离环境：
+这是可选的框架路线，与不安装任何第三方包的纯 Python 注意力实验分开。在个人学习父目录新建专用 `transformer-torch-lab`；先按官方安装页确认当前 Python 版本受所选包支持，不为本课替换系统 Python。全程直接使用环境内解释器，不依赖激活，也不在纯 Python 路线目录留下框架依赖：
 
 ```powershell
+if (Test-Path -LiteralPath 'transformer-torch-lab') { throw '目录已存在，换一个新课堂目录，不覆盖。' }
+New-Item -ItemType Directory -Path transformer-torch-lab -ErrorAction Stop | Out-Null
+Set-Location transformer-torch-lab
 python -m venv .venv # 创建项目级虚拟环境
-.\.venv\Scripts\Activate.ps1 # 进入环境，避免污染系统 Python
-python -m pip install --upgrade pip # 更新当前虚拟环境里的 pip
+if ($LASTEXITCODE -ne 0) { throw '环境创建失败，不使用全局环境继续。' }
+.\.venv\Scripts\python.exe -m pip install --upgrade pip
+if ($LASTEXITCODE -ne 0) { throw '包工具更新失败，停止。' }
 ```
 
-Linux 或 macOS 激活命令是 `source .venv/bin/activate`。
+Linux 或 macOS 在新的专用目录运行 `python3 -m venv .venv || exit 1`，后续安装使用 `.venv/bin/python -m pip ... || exit 1`、执行使用 `.venv/bin/python 脚本名.py || exit 1`；同样不依赖激活，不用全局 `pip` 兜底。
 
-PyTorch 的 CPU、CUDA 和 ROCm 安装命令不同，必须从 [PyTorch Get Started](https://pytorch.org/get-started/locally/) 按操作系统、包管理器和计算后端生成命令。不要随便复制另一台机器的 CUDA Wheel 地址。
+PyTorch 的 CPU、CUDA 和 ROCm 安装命令不同，必须从 [PyTorch Get Started](https://pytorch.org/get-started/locally/) 按操作系统、包管理器和计算后端生成命令。保留页面选择得到的包名、版本与索引参数，只把 `pip`/`pip3` 的执行入口换成本课 `.\.venv\Scripts\python.exe -m pip`；每次安装后立即检查 `$LASTEXITCODE`，非零就停止。不要随便复制另一台机器的 CUDA Wheel 地址。
 
 安装后记录环境：
 
 ```powershell
-python -c "import torch; print(torch.__version__); print(torch.cuda.is_available())" # 打印版本与 CUDA 可见性
-python -m pip freeze | Out-File requirements.lock.txt -Encoding utf8 # 保存精确依赖快照
+.\.venv\Scripts\python.exe -c "import torch; print(torch.__version__); print(torch.cuda.is_available())" # 打印版本与 CUDA 可见性
+if ($LASTEXITCODE -ne 0) { throw 'Torch 导入或设备检查失败，停止。' }
+$lessonPackages = .\.venv\Scripts\python.exe -m pip freeze
+if ($LASTEXITCODE -ne 0) { throw '依赖快照读取失败，不保存空证据。' }
+$lessonPackages | Out-File requirements.lock.txt -Encoding utf8 -NoClobber # 不覆盖已有依赖证据
 ```
 
 如果使用 Hugging Face Transformers，再按当前官方安装页选择稳定版本并固定依赖。本文核验时稳定文档是 5.14.0，最新代码补丁版是 5.14.1；这只是 2026 年 8 月 7 日的快照，不是永久安装建议。教学文档不直接写“永远安装 latest”，因为同一份模型代码可能随主版本改变。
@@ -847,7 +856,7 @@ python -m pip freeze | Out-File requirements.lock.txt -Encoding utf8 # 保存精
 ### 安装失败先查什么
 
 1. Python 版本是否在目标 PyTorch/Transformers 支持范围内。
-2. 当前终端是否真正进入 `.venv`。
+2. 安装和运行是否都明确指向本课 `.venv` 解释器。
 3. Wheel 的平台、Python ABI 与 CPU/CUDA 后端是否匹配。
 4. NVIDIA 驱动是否满足目标 Runtime，注意驱动版本与本地 Toolkit 不是同一个概念。
 5. 企业代理、证书、镜像源和磁盘空间是否正常。
@@ -966,6 +975,20 @@ def softmax(row):
 
 
 def attention(causal=True):
+    if type(causal) is not bool:
+        raise ValueError("causal 必须是布尔值，不接受字符串 false")
+    if not Q or not K or not V or len(K) != len(V):
+        raise ValueError("Q/K/V 不能为空，K 与 V 的位置数必须一致")
+    key_width = len(K[0])
+    value_width = len(V[0])
+    if key_width == 0 or value_width == 0:
+        raise ValueError("向量宽度必须大于零")
+    if any(len(row) != key_width for row in Q + K) or any(len(row) != value_width for row in V):
+        raise ValueError("矩阵必须是规则形状，Q/K 宽度一致")
+    if any(not math.isfinite(value) for matrix in (Q, K, V) for row in matrix for value in row):
+        raise ValueError("Q/K/V 必须是有限数值")
+    if causal and len(Q) != len(K):
+        raise ValueError("本课因果实现只支持等长自注意力，不用于缓存解码")
     scale = math.sqrt(len(K[0]))
     weights = []
     outputs = []
@@ -1021,7 +1044,8 @@ def main():
     leak = future_leak(weights)
     print(f"max_future_attention={leak:.6f}")
 
-    assert all(abs(sum(row) - 1.0) < 1e-9 for row in weights), "每行权重必须归一化为 1"
+    if not all(abs(sum(row) - 1.0) < 1e-9 for row in weights):
+        raise RuntimeError("每行权重必须归一化为 1")
     if leak > 1e-12:
         print("FAULT DETECTED: 自回归注意力读取了未来 Token")
         raise SystemExit(2)
@@ -1059,6 +1083,8 @@ PASS: 权重归一化，未来位置权重为 0
 ### 这个实验证明了什么
 
 它证明代码实现了“缩放、Mask、Softmax、加权求和”这条最小链路。它没有证明模型已经学会语言，也没有训练任何参数。
+
+Q 与 K 的位置数一般可以不同，但本程序因果条件使用“行号就是绝对位置”的等长假设，故主动拒绝不等长因果输入。缓存解码必须另外提供绝对位置，不能删掉校验凑成不报错。K/V 数量不等时，Python 的 zip 会静默丢掉尾部，权重仍可能和为 1，却计算了错误输出；这就是先校验形状和有限值的原因。关键运行门禁用显式异常，避免 `python -O` 关闭 assert 后失去检查。
 
 ### 如果没有成功，先查这些
 
@@ -1148,7 +1174,7 @@ python attention_lab.py
 
 ## 可选 PyTorch Shape 实验
 
-安装好匹配环境后，可以验证一个 Encoder Layer 的 Shape：
+安装好匹配环境后，在 `transformer-torch-lab` 用编辑器将下面完整代码保存为 `encoder_shape.py`，可以验证一个 Encoder Layer 的 Shape：
 
 ```python
 import torch
@@ -1180,6 +1206,15 @@ print(f"mask_shape={tuple(padding_mask.shape)}")
 print(f"output_shape={tuple(output.shape)}")
 assert output.shape == x.shape
 ```
+
+保存后仍在专用框架目录执行：
+
+```powershell
+.\.venv\Scripts\python.exe encoder_shape.py
+if ($LASTEXITCODE -ne 0) { throw '形状实验失败，不继续把输出当作有效证据。' }
+```
+
+Linux/macOS 对应 `.venv/bin/python encoder_shape.py || exit 1`。本例不下载预训练权重，验证的是随机初始化层的形状合同，不是模型质量；结束后保留脚本和脱敏输出，无远端模型资源需要删除。
 
 预期：
 
@@ -1232,11 +1267,11 @@ Transformer 是 RAG 的生成或编码组件。知识时效性、权限过滤、
   -> 权限与脱敏
   -> 采样 / 去重 / 质量检查
   -> Tokenize（切分词元）
-  -> Shard / Batch（批次） / Padding
+  -> Shard（数据分片） / Batch（批次） / Padding（补齐序列长度）
   -> Distributed Training（分布式训练）
   -> Checkpoint（检查点）
   -> 离线评估 / 安全评估
-  -> Model（模型） Registry
+  -> Model Registry（模型版本注册与管理）
   -> 灰度部署
   -> 在线质量与漂移监控
   -> 反馈进入下一版本数据
@@ -1257,10 +1292,10 @@ Transformer 是 RAG 的生成或编码组件。知识时效性、权限过滤、
 
 继续训练通常不仅需要权重，还需要：
 
-- Optimizer State。
-- Learning Rate Scheduler State。
-- Mixed Precision Scaler。
-- 当前 Step/Epoch。
+- Optimizer State（优化器状态，例如动量）。
+- Learning Rate Scheduler State（学习率调度状态）。
+- Mixed Precision Scaler（混合精度缩放器状态）。
+- 当前 Step/Epoch（更新步数与训练轮次）。
 - 随机数状态。
 - 数据采样器或数据游标。
 
@@ -1404,14 +1439,14 @@ KV 字节 ≈ KV 元素 × dtype_bytes
 
 ```text
               +-> Replica（副本） A -> GPU（图形计算处理器） Group（分组） A
-Gateway ------+-> Replica（副本） B -> GPU（图形计算处理器） Group（分组） B
+Gateway（接入网关） ------+-> Replica（副本） B -> GPU（图形计算处理器） Group（分组） B
               +-> Replica（副本） C -> GPU（图形计算处理器） Group（分组） C
                     |
-                    +-> Model Artifact Store（只读）
+                    +-> Model Artifact Store（只读模型制品存储）
 
 Control Plane（控制面）
-  -> Model（模型） Registry
-  -> Deployment（部署） / Autoscaling
+  -> Model Registry（模型版本注册与管理）
+  -> Deployment（部署） / Autoscaling（按负载自动扩缩容）
   -> Config and Secret Management（配置与凭据管理）
   -> Metrics（指标） / Logs（日志） / Traces（链路追踪） / Evaluation（评估）
 ```
@@ -2037,6 +2072,16 @@ Causal Mask（因果掩码）阻止自回归位置看到后续答案，Padding M
 Prefill（预填充）处理输入上下文，Decode（逐步解码）生成后续内容，首 Token 延迟与持续生成速度应分开监控。量化减少权重或缓存的表示成本，也可能改变数值精度与质量，必须回归固定任务。上下文窗口更长只是容量能力，不保证模型能正确使用所有证据。
 
 30 秒回答用“按位置间相关性组合信息的序列模型”说明核心；3 分钟从分词、嵌入、位置、Q/K/V、掩码、前馈到训练目标，再讲 KV 缓存与服务容量。事故题可以是掩码方向反了或上下文突增，先比较形状与输入长度、显存和阶段延迟，再修复契约，不能只降低输出长度掩盖问题。
+
+## 独立通关：能计算，也能找出静默错误
+
+先独立答题并保存输入和结果，再对照下列判据；任一不符都要回到小矩阵实验返工。
+
+1. **基础复现**：正常运行第 0 行权重 `[1,0,0]`、输出 `[1,0]`，未来权重为 0，退出码 0；取消因果遮罩后未来权重非零、退出码 2。能够手算第一行而非只提交 PASS 截图。
+2. **改变条件预测**：只把最后一个 V 从 `[1,1]` 改为 `[100,100]`，有因果遮罩时前两行输出不变，第三行改变；去掉遮罩后前两行也会变。Q/K 不变所以权重本身不变。解释这证明的是可见性，不是某个词的语义或根因。
+3. **故障证据**：删掉一个 V、把某个向量宽度改成 1、注入 NaN，各自必须明确拒绝；对 softmax 输入全 `-inf` 也应拒绝，不能生成 NaN 后继续。恢复原数据再跑正常和故障各一次，保存异常、恢复结果及程序版本。
+4. **设计取舍**：32 层、batch=1、长度4096、8个KV头、头宽128、每元素2字节，KV约512 MiB；batch=8约4 GiB。若其余不变而KV头改为32，则约16 GiB；还没算权重、workspace和碎片。把上下文翻倍时此缓存线性翻倍，朴素全注意力分数元素约四倍。给出长度/并发准入、单副本故障余量和取消请求回收测试，不凭公式直接承诺QPS。
+5. **口述追问**：三分钟讲清 Tokenizer→Prefill→Decode→KV→输出验证；继续答“SDPA与MHA布尔遮罩是否同义”“单Query配5个Key为何不能照搬方阵因果条件”“eval为何还要关注函数式dropout”“回滚为何带Tokenizer/模板/运行时”。必须能指出需要观察的形状、位置、阶段耗时及版本证据。
 
 ## 本课 GitHub 学习证据清单
 

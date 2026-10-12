@@ -437,10 +437,11 @@ Qdrant hybrid queries 文档里展示了 dense（稠密向量）和 sparse（稀
 
 ```text
 source（来源） file（文件） changed
-  -> delete（删除） chunks by source（来源）
-  -> re-split document（文档）
-  -> embed（嵌入） new chunks
-  -> upsert（按键更新或插入） new records
+  -> 在新版本内重新切分文档并生成向量
+  -> 校验数量、权限、模型空间与检索质量
+  -> 受控切换当前可查询版本
+  -> 观察并保留旧版本用于回退
+  -> 保留期结束且确认无旧请求依赖后，按来源与版本回收旧片段
 ```
 
 稳定 ID 设计：
@@ -448,6 +449,8 @@ source（来源） file（文件） changed
 ```text
 {doc_type}:{source}:{section}:{chunk_index}:{content_hash}
 ```
+
+同一内容重复构建可复用这种确定性身份，但内容变化后 `content_hash` 也变化，新的 upsert 不会自动删除旧 ID。必须显式维护来源与版本清单；构建或向量接口失败时继续使用已验收旧版本，不先删后建。下面的课堂是新建集合，不实现生产版本指针的事务切换。
 
 如果不用稳定 ID，重复入库会导致：
 
@@ -507,6 +510,10 @@ user（用户）
 
 Chroma 适合本地学习和 RAG 原型。
 
+先看[实验起步说明](../experiment-start.md)，在自己新建的 `vector-incident-search` 目录保存下列 UTF-8 文件，创建 `.venv` 后用该环境安装 requirements。`.env.example` 内容只写 `OPENAI_API_KEY=replace-locally` 和 `OPENAI_EMBEDDING_MODEL=text-embedding-3-small`；本地复制为 `.env` 后受控编辑，真实密钥不进终端历史。`.gitignore` 至少加入 `.env`、`.venv/`、`chroma_db/`、`milvus_aiops.db*`、`__pycache__/`。API会外发合成文本并可能计费；无权限/不出网时先做后面的标准库实验。
+
+Windows可按 `python -m venv .venv`、`.\.venv\Scripts\python.exe -m pip install -r requirements.txt`、`.\.venv\Scripts\python.exe index_chroma.py`、`.\.venv\Scripts\python.exe search_chroma.py` 逐条执行；每一步检查退出码，失败就停止。不要把后文API字典的单行调用另存成完整程序。记录实际Python/客户端版本，重跑使用新目录或核实后归档自己的集合。
+
 目录：
 
 ```text
@@ -542,6 +549,7 @@ python-dotenv
 ```python
 import json
 import os
+import math
 
 import chromadb
 from dotenv import load_dotenv
@@ -553,7 +561,11 @@ openai_client = OpenAI()
 embedding_model = os.getenv("OPENAI_EMBEDDING_MODEL", "text-embedding-3-small")
 
 chroma_client = chromadb.PersistentClient(path="./chroma_db")
-collection = chroma_client.create_collection(name="aiops_incidents")
+collection = chroma_client.create_collection(
+    name="aiops_incidents",
+    metadata={"embedding_model": embedding_model, "build_ready": False},
+    configuration={"hnsw": {"space": "cosine"}},
+)
 
 ids = []
 documents = []
@@ -562,6 +574,10 @@ metadatas = []
 with open("incidents.jsonl", "r", encoding="utf-8") as f:
     for line in f:
         item = json.loads(line)
+        if not isinstance(item, dict) or any(not isinstance(item.get(key), str) or not item[key].strip() for key in ("id", "text", "service", "severity")):
+            raise ValueError("每行必须包含非空字符串 id/text/service/severity")
+        if item["id"] in ids:
+            raise ValueError("重复事故ID，禁止静默覆盖")
         ids.append(item["id"])
         documents.append(item["text"])
         metadatas.append(
@@ -572,11 +588,18 @@ with open("incidents.jsonl", "r", encoding="utf-8") as f:
             }
         )
 
+if not ids:
+    raise ValueError("空输入不能标成成功入库")
 embedding_response = openai_client.embeddings.create(
     model=embedding_model,
     input=documents,
 )
-embeddings = [item.embedding for item in embedding_response.data]
+ordered = sorted(embedding_response.data, key=lambda item: item.index)
+if [item.index for item in ordered] != list(range(len(documents))):
+    raise RuntimeError("向量响应与输入位置不一一对应")
+embeddings = [item.embedding for item in ordered]
+if any(not vector or not all(math.isfinite(value) for value in vector) for vector in embeddings) or len({len(vector) for vector in embeddings}) != 1:
+    raise RuntimeError("向量为空、非有限或维度不一致")
 
 collection.upsert(
     ids=ids,
@@ -586,6 +609,9 @@ collection.upsert(
 )
 
 print(f"indexed {len(ids)} incidents")
+if collection.count() != len(ids):
+    raise RuntimeError("数量不一致，索引不能标为完成")
+collection.modify(metadata={"embedding_model": embedding_model, "build_ready": True})
 ```
 
 ### search_chroma.py
@@ -604,6 +630,8 @@ embedding_model = os.getenv("OPENAI_EMBEDDING_MODEL", "text-embedding-3-small")
 
 chroma_client = chromadb.PersistentClient(path="./chroma_db")
 collection = chroma_client.get_collection(name="aiops_incidents")
+if (collection.metadata or {}).get("embedding_model") != embedding_model or (collection.metadata or {}).get("build_ready") is not True:
+    raise SystemExit("查询模型不匹配或构建未完成，停止查询")
 
 query = "订单接口发布后错误率升高，并伴随数据库连接超时。"
 
@@ -633,23 +661,31 @@ for doc, metadata, distance in zip(
 运行：
 
 ```bash
-python index_chroma.py
-python search_chroma.py
+.venv/bin/python index_chroma.py || exit 1
+.venv/bin/python search_chroma.py || exit 1
 ```
+
+这是 Linux/macOS 的运行入口；PowerShell 的完整逐次门禁见后面的“命令速查”。两者都在 Chroma 专用目录使用自己的环境，不与下面的 Milvus 路线共用数据库。
 
 ## Milvus Lite 快速实验
 
 Milvus Lite 适合用本地文件快速学习 Milvus API。生产迁移到独立或分布式部署时需要重新验证索引、权限、一致性和容量，不是只改地址就完成。当前官方支持环境列出 Ubuntu 与 macOS，原生 Windows 不在这份支持列表里；Windows 读者可在已有合规 WSL2 Ubuntu 环境练习，或先做下文标准库实验。安装前核对 [Milvus Lite 前提与限制](https://milvus.io/docs/milvus_lite.md)。
 
-安装：
+在 Linux/macOS 或已有合规 WSL2 Ubuntu 的个人学习父目录新建另一份目录，不进入 Chroma 项目，也不使用 Windows 原生解释器。在编辑器保存后文 `milvus_lite_demo.py`、`.env.example`（只含占位密钥和模型名）及忽略 `.env`、`.venv/`、`milvus_aiops.db*` 的 `.gitignore`。安装步骤：
 
 ```bash
-python -m pip install "pymilvus[milvus-lite]" openai python-dotenv
+mkdir milvus-incident-lab || exit 1
+cd milvus-incident-lab || exit 1
+python3 -m venv .venv || exit 1
+.venv/bin/python -m pip install "pymilvus[milvus-lite]" openai python-dotenv || exit 1
 ```
+
+目录已存在就停止，换新的专用目录；不覆盖现有数据库。创建目录后再用编辑器保存文件。安装成功后在编辑器从 `.env.example` 保存本地 `.env`，确认无同名旧密钥文件，填入获批课堂密钥，不进终端历史。记录实际 Python/客户端版本；没获准外发文本或付费时不执行 demo，先做标准库实验。
 
 `milvus_lite_demo.py`：
 
 ```python
+import math
 import os
 
 from dotenv import load_dotenv
@@ -658,18 +694,30 @@ from pymilvus import MilvusClient
 
 load_dotenv()
 
-openai_client = OpenAI()
+openai_client = OpenAI(timeout=30.0, max_retries=0)
 embedding_model = os.getenv("OPENAI_EMBEDDING_MODEL", "text-embedding-3-small")
 
 client = MilvusClient("milvus_aiops.db")
 collection_name = "aiops_incidents"
+dimension = 1536
+
+
+def checked_vectors(response, expected_count):
+    ordered = sorted(response.data, key=lambda item: item.index)
+    if any(type(item.index) is not int for item in ordered) or [item.index for item in ordered] != list(range(expected_count)):
+        raise RuntimeError("向量响应位置必须与输入逐一对应")
+    vectors = [item.embedding for item in ordered]
+    for vector in vectors:
+        if len(vector) != dimension or any(isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value) for value in vector):
+            raise RuntimeError("向量维度、数值类型或有限性不符合本课集合合同")
+    return vectors
 
 if client.has_collection(collection_name):
     raise SystemExit("教学集合已经存在，请核实并归档，禁止启动时自动删除")
 
 client.create_collection(
     collection_name=collection_name,
-    dimension=1536,
+    dimension=dimension,
     metric_type="COSINE",
 )
 
@@ -683,7 +731,7 @@ embedding_response = openai_client.embeddings.create(
     model=embedding_model,
     input=texts,
 )
-vectors = [item.embedding for item in embedding_response.data]
+vectors = checked_vectors(embedding_response, len(texts))
 
 services = ["order-api", "payment-api", "redis"]
 data = [
@@ -696,13 +744,16 @@ data = [
     for index in range(len(texts))
 ]
 
-client.insert(collection_name=collection_name, data=data)
+insert_result = client.insert(collection_name=collection_name, data=data)
+if insert_result.get("insert_count") != len(texts):
+    raise RuntimeError("写入确认数量不一致，不继续查询或宣布成功")
 
 query = "订单服务发布后错误率升高，还出现数据库连接超时。"
-query_vector = openai_client.embeddings.create(
+query_response = openai_client.embeddings.create(
     model=embedding_model,
     input=query,
-).data[0].embedding
+)
+query_vector = checked_vectors(query_response, 1)[0]
 
 results = client.search(
     collection_name=collection_name,
@@ -712,10 +763,14 @@ results = client.search(
     output_fields=["text", "service"],
 )
 
+if len(results) != 1 or len(results[0]) != 1 or results[0][0]["entity"].get("service") != "order-api":
+    raise RuntimeError("合成样本按订单服务过滤应只返回一条，先核对写入与过滤条件")
 for hit in results[0]:
     print(hit["distance"], hit["entity"])
 client.close()
 ```
+
+保存后在 `milvus-incident-lab` 执行 `.venv/bin/python milvus_lite_demo.py || exit 1`。成功应确认写入三条，订单服务筛选只返回一条；分数不是固定常数，也不证明根因一致。本程序按 [MilvusClient.insert 返回约定](https://milvus.io/api-reference/pymilvus/v2.6.x/MilvusClient/Vector/insert.md)检查 `insert_count`，向量响应还按 `index` 重排并核对 1536 维与有限数值。请求超时不会自动撤销远端处理，模型或维度变动须重建并重新验收。这个真实 API/数据库路线本轮未执行，后面的标准库实验不能替代它。
 
 注意：
 
@@ -963,46 +1018,63 @@ Milvus 搜索中的标量过滤表达式。
 
 ## 命令速查
 
+先选择一条路线：Chroma 使用自己的 `vector-incident-search`，Milvus 使用自己的 `milvus-incident-lab`。完整文件已保存、当前目录和 Python 版本已核实后再执行；没有安装授权、外发数据许可或 API 预算就停在标准库实验。
+
 ### 安装 Chroma 实验依赖
 
 ```bash
-pip install chromadb openai python-dotenv
+test ! -e .venv || { echo '已有环境，先核对，不覆盖'; exit 1; }
+python3 -m venv .venv || exit 1
+.venv/bin/python -m pip install -r requirements.txt || exit 1
+```
+
+PowerShell 对应以下入口；已经按前文建好环境时，先确认该 `.venv` 属于本课，再跳过创建两行，不重建或借用全局环境：
+
+```powershell
+if (Test-Path -LiteralPath '.venv') { throw '已有环境，先核对，不覆盖' }
+python -m venv .venv
+if ($LASTEXITCODE -ne 0) { throw '环境创建失败，停止' }
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+if ($LASTEXITCODE -ne 0) { throw 'Chroma 依赖安装失败，停止' }
 ```
 
 ### 安装 Milvus Lite 实验依赖
 
 ```bash
-python -m pip install "pymilvus[milvus-lite]" openai python-dotenv
+.venv/bin/python -m pip install "pymilvus[milvus-lite]" openai python-dotenv || exit 1
 ```
 
-### 设置 API key
+这条命令只能在前文已创建的 Milvus 专用 Linux/macOS/WSL2 环境里运行；原生 Windows 不走这条路线。
 
-```bash
-export OPENAI_API_KEY="你的 key"
-```
+### 受控准备 API key
 
-PowerShell：
-
-```powershell
-$env:OPENAI_API_KEY="你的 key"
-```
+在选定项目的编辑器中，把 `.env.example` 另存为不存在的 `.env` 后填获批课堂密钥。已有 `.env` 不覆盖，真实值不进入终端历史、截图与 Git；脚本的 `load_dotenv()` 负责读取。占位字符串不是有效凭据，两个项目的密钥及调用预算分别核对。
 
 ### 运行 Chroma 入库
 
 ```bash
-python index_chroma.py
+.venv/bin/python index_chroma.py || exit 1
 ```
 
 ### 运行 Chroma 检索
 
 ```bash
-python search_chroma.py
+.venv/bin/python search_chroma.py || exit 1
+```
+
+PowerShell 逐条运行并在入库失败后停止，不能继续把旧集合查询结果算作本轮成功：
+
+```powershell
+.\.venv\Scripts\python.exe index_chroma.py
+if ($LASTEXITCODE -ne 0) { throw 'Chroma 入库失败，停止' }
+.\.venv\Scripts\python.exe search_chroma.py
+if ($LASTEXITCODE -ne 0) { throw 'Chroma 检索失败，停止' }
 ```
 
 ### 运行 Milvus Lite demo
 
 ```bash
-python milvus_lite_demo.py
+.venv/bin/python milvus_lite_demo.py || exit 1
 ```
 
 ### 清理课堂产物
@@ -1096,7 +1168,7 @@ records = [
     {'id':'another-topic','team':'a','v':[0.0,1.0]},
 ]
 def cosine(a,b):
-    if len(a) != len(b):
+    if not a or len(a) != len(b):
         raise ValueError('向量维度不一致')
     if not all(math.isfinite(x) for x in a + b):
         raise ValueError('向量包含非有限值')
@@ -1115,6 +1187,8 @@ try:
     cosine(query, [1.0,0.0,0.0])
 except ValueError as error:
     print('DETECTED:',error)
+else:
+    raise RuntimeError('故障注入失败：维度错误未被拦截')
 print('recovered:',cosine(query,[1.0,0.0]))
 ```
 
@@ -1277,6 +1351,18 @@ IVF 把空间粗分为若干桶，查询只探查部分相关桶；桶分布不�
 运行手册常需要一段讲验证、一段讲禁用条件。只找到验证段落时，首条命中成绩可能很好，完整证据召回仍然不足。因此每题要先定义相关资料与必需资料，区分候选相关、条件完整和答案可安全使用。评估记录同时保存无答案题，不能为了平均分好看只留下有明确命中的问题。
 
 最后把检索失败与数据未授权分开计数。普通用户看不到管理员手册是正确授权结果，不应被统计成需要优化的漏召回；模型无法取得资料时应说明缺少可访问证据，而不是暗示该资料一定不存在。这样指标不会反过来推动团队放宽权限。
+
+## 独立通关：数学近邻与业务证据分别验收
+
+独立完成后再看判据；错一关回到对应合成实验返工，勿通过调整预期结果掩盖错误。
+
+1. **基础复现**：标准库检索按授权范围返回 `public-runbook`、`another-topic`，分别相似度1和0；维度错误被发现，恢复后1。三种度量实验分别选长向量、同方向向量、近点。真实Chroma入库应3条，订单筛选至多1条；此单候选只证明读写过滤，不证明排序质量。
+2. **改变条件预测**：去掉课堂服务筛选后候选可达3条，但仍不能去掉真实权限。对所有向量做相同单位长度归一化，点积与余弦排序一致；非零原向量前提不能省略。查询模型换成同维另一模型也应被模型合同拒绝，维度相同不是空间相同。
+3. **故障证据**：分别测试空向量、零向量、NaN、维度错误，以及重复JSONL ID；前四项用标准库例子检查，重复ID需入库读取门禁，不能覆盖旧事故。把授权列表故意换成全库，应权限断言失败；恢复后通过。不能把没有抛错的负向测试写成成功。
+4. **设计取舍**：1000万×1536×4字节=61.44 GB十进制原始向量；两份版本至少122.88 GB，不含副本/图/文本/回填峰值。原文重建需4小时、RTO15分钟时，仅备份原文不够，需匹配版本的可恢复快照或备用服务。讲清分片容量与副本容错，部分分片缺失不可伪称全库无风险资料。
+5. **口述追问**：三题首命中排名1/2/4，MRR=(1+1/2+1/4)/3≈0.583；第三题未命中则0.5，不能从分母删题。再解释精确近邻召回与业务证据召回、逻辑删除与物理回收、写确认与可检索状态、权限撤销与历史备份恢复的差别，给出匹配模型/索引的回退验收。
+
+本课显式使用余弦配置，依据[Chroma集合配置](https://docs.trychroma.com/docs/collections/configure)。客户端版本不支持该配置时先核对接口，不悄悄删掉配置让距离语义变掉。`build_ready`只标识单进程课堂构建完成，不是事务与多租户授权系统。
 
 ## 本课 GitHub 学习证据
 

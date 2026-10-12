@@ -8,11 +8,11 @@
 
 - [Apache Flink 官网](https://flink.apache.org/)
 - [Apache Flink 下载页](https://flink.apache.org/downloads/)
-- [Flink 2.3 稳定版文档](https://nightlies.apache.org/flink/flink-docs-stable/)
-- [Flink 架构](https://nightlies.apache.org/flink/flink-docs-stable/docs/concepts/flink-architecture/)
-- [Checkpoint](https://nightlies.apache.org/flink/flink-docs-stable/docs/ops/state/checkpoints/)
-- [Checkpoint 与 Savepoint](https://nightlies.apache.org/flink/flink-docs-stable/docs/ops/state/checkpoints_vs_savepoints/)
-- [生产就绪检查单](https://nightlies.apache.org/flink/flink-docs-stable/docs/deployment/production/)
+- [Flink 2.3 固定系列文档](https://nightlies.apache.org/flink/flink-docs-release-2.3/)
+- [Flink 架构](https://nightlies.apache.org/flink/flink-docs-release-2.3/docs/concepts/flink-architecture/)
+- [Checkpoint](https://nightlies.apache.org/flink/flink-docs-release-2.3/docs/ops/state/checkpoints/)
+- [Checkpoint 与 Savepoint](https://nightlies.apache.org/flink/flink-docs-release-2.3/docs/ops/state/checkpoints_vs_savepoints/)
+- [生产就绪检查单](https://nightlies.apache.org/flink/flink-docs-release-2.3/docs/deployment/production/)
 
 版本边界：本文以 Apache Flink 2.3.0 稳定版为主线。Flink 1.20、2.0、2.1、2.2 等存量版本在 API、配置、Connector、State 和升级路径上存在差异，执行命令前必须选择与目标集群完全匹配的文档版本。
 
@@ -264,6 +264,8 @@ restart-strategy.fixed-delay.delay: 5s          # 每次重试等待 5 秒
 
 运行位置是新的 `flink-classroom` 目录，只放下面两个文件；需要 Docker Desktop Linux 容器与 Compose，至少预留约四 GiB 可用内存和数 GiB 磁盘。启动前检查 `docker compose -p flink-classroom ps -a` 没有已有资源，`docker volume ls --filter name=flink-classroom_flink-state` 没有旧状态卷，本机 8081 未被占用。任一命中先确认归属，不覆盖或删除未知对象。
 
+以下命令使用 Windows PowerShell。先执行 `docker version` 与 `docker compose version` 确认可用；在一个不存在同名子目录的新位置创建 `flink-classroom`，进入后用编辑器分别保存下列完整内容为 `compose.yaml`、`job.sql`，不要保存成 `.txt`。从终端执行 `Get-Location` 与 `Get-ChildItem -File`，确认正在这两个文件所在目录；先 `docker compose -p flink-classroom config --quiet`，成功才启动。SQL Client 在容器内运行，不要求宿主机安装 Java。
+
 ### compose.yaml
 
 ```yaml
@@ -294,7 +296,7 @@ services:
         execution.checkpointing.storage: filesystem
         execution.checkpointing.dir: file:///opt/flink/checkpoints
         restart-strategy.type: fixed-delay
-        restart-strategy.fixed-delay.attempts: 3
+        restart-strategy.fixed-delay.attempts: 100 # 只为课堂短停留出有限恢复时间，不是生产无限重启策略
         restart-strategy.fixed-delay.delay: 3s
     volumes:
       - ./job.sql:/opt/flink/usrlib/job.sql:ro
@@ -317,7 +319,7 @@ services:
         execution.checkpointing.storage: filesystem
         execution.checkpointing.dir: file:///opt/flink/checkpoints
         restart-strategy.type: fixed-delay
-        restart-strategy.fixed-delay.attempts: 3
+        restart-strategy.fixed-delay.attempts: 100
         restart-strategy.fixed-delay.delay: 3s
     volumes:
       - flink-state:/opt/flink/checkpoints
@@ -361,12 +363,20 @@ GROUP BY window_start, window_end;
 
 ```powershell
 docker compose -p flink-classroom up --detach
+if ($LASTEXITCODE -ne 0) { throw '启动失败，先检查配置与容器日志。' }
 docker compose -p flink-classroom ps
+curl.exe --fail --silent --show-error --max-time 10 http://localhost:8081/overview
+```
 
-docker compose -p flink-classroom exec --detach jobmanager `
+先确认 REST 可以返回、TaskManager 已注册并有可用 Slot，再提交一次；如果尚未就绪，先查看两个组件日志，不重复提交作业。提交保留前台输出以捕获 SQL、连接器和挂载错误：
+
+```powershell
+docker compose -p flink-classroom exec -T jobmanager `
   ./bin/sql-client.sh `
   -f /opt/flink/usrlib/job.sql
 ```
+
+若所选客户端设置让此窗口保持前台，保留它并另开 PowerShell，进入同一目录做下面观察；不要按未知作业状态反复提交。容器里的命令成功发起也不等于 SQL Job 成功，必须保存客户端给出的 Job ID，并在 `/jobs/overview` 确认同一编号。此前的 `--detach` 只会把命令放后台，隐藏 SQL 错误，不能作为提交验收。
 
 `checkpoint-init` 只以 `root` 运行一次，把新命名卷交给镜像内 UID 9999 的 `flink` 用户；JobManager 和 TaskManager 仍以非 root 用户运行。不要为了绕过权限问题让整个计算集群长期以 root 运行。
 
@@ -397,6 +407,8 @@ TaskManager 日志中的 `+I[...]` 是 Print Sink 的插入结果。生产不要
 
 ### 注入
 
+短停仅观察一次，读完恢复步骤再执行，约一分钟内恢复这个 TaskManager。课堂提高了有限重试次数以给操作留余量，但它不承诺协调器无限等待：超过重试预算作业仍可能进入 FAILED。不要把原作业失败后重新提交的空状态作业称为“成功恢复”。
+
 ```powershell
 docker compose -p flink-classroom stop taskmanager # 只停止本地实验 TaskManager
 curl.exe --fail http://localhost:8081/jobs/overview
@@ -413,6 +425,8 @@ curl.exe --fail http://localhost:8081/jobs/overview
 ```
 
 验证 TaskManager 重新注册、Job/Task 回到 RUNNING、Checkpoint 继续成功、Print Sink 重新产生窗口结果。记录短窗口、缺口或重复输出；Datagen 和 Print Sink 不提供端到端事务一致性，因此它们只用于观察恢复流程，不代表生产 Exactly-once Source/Sink。
+
+先对比原 Job ID；若任务已 FAILED，停止本轮恢复结论，保存首个异常和最后成功检查点路径，按目标版本支持的恢复方式另做新一轮受控验证。不要删状态目录、重新提交后只截图 RUNNING。执行 `/jobs/<原编号>/checkpoints` 时将占位符替换成保存的编号，比较成功计数及最新完成时间；检查点文件位于本课两个计算组件共享的同一个命名卷，不能把两台不同宿主机各自的 `file:///...` 路径误当共享存储。
 
 ### 清理
 
@@ -749,6 +763,40 @@ Datagen（合成数据发生器）与 print sink（打印输出端）方便入�
 追问：升级后为何只有某些服务变慢？比较每实例输入量、键分布、状态访问和接收端目标，不看全局平均。若单一大服务在一个键上形成热点，应确认是否允许分阶段聚合或拆分业务键；拆键会改变顺序和状态边界，不能作为无风险扩容。
 
 最终验收至少回答三件事：结果是否按相同口径正确，故障后是否恢复同一状态历史，端到端时延是否满足目标。报告里把纸面演练、静态配置检查和实际运行分别记录；本文给出可执行课堂步骤，没有声称已经在读者的机器或生产集群通过这些验证。
+
+## 独立通关：运行、时间进度、恢复正确是三份证据
+
+先作答再看判据。真实操作只用本课 `flink-classroom`；纸面水位模型和容量预算不证明 Flink 的精确时序或真实 Source/Sink 一致性。
+
+### 任务一：改输入速率，先预测不该精确到什么程度
+
+在一套新课堂实例中，把 `job.sql` 的 Datagen 改为每秒七条、窗口仍五秒；保存 SQL 与 Job ID，记录至少五个完整窗口的起止、计数和最近成功检查点。旧课堂必须先保存证据并按精确项目清理，不能向现有作业重复提交同名计算。
+
+判据：稳定完整窗口的计数应接近三十五，但起停边界、生成调度和处理时间变化会影响结果，不能要求每窗永远精确三十五；出现计数差异先追时间范围与输入，不直接称丢数据。必须看到持续结果、同一作业与成功检查点，只有客户端提示不足。答错回看“入门实验：Docker Compose 运行持续 SQL Job”“教学实验的读数方法”。
+
+### 任务二：只调换两条到达顺序
+
+用“手工事件实验”的简化规则，输入从 `2,8,6,12,9` 改为 `2,8,6,9,12`，分别填写每步最大事件时间、水位、前窗计数与迟到数。再问如果第二输入通道始终水位为四，实际多输入的前窗是否一定触发？
+
+判据：单输入简化模型里九先到，前窗累积四条，十二推动水位至十后输出四，迟到零；原顺序是三与一。实际多输入合并受较慢有效输入制约，不能只看快通道；空闲检测有业务后果。简化模型刻意忽略毫秒及周期触发，不拿它证明真实算子关闭的精确瞬间。答错回看“时间合同：乱序等待和允许迟到不是同一个参数”“手工事件实验：亲自算出哪些数据晚了”。
+
+### 任务三：作业显示运行，为什么仍不能继续自动结论
+
+执行前述短停 TaskManager，先存原 Job ID、检查点编号和完成时刻；除 Job 状态外，再取 `/overview` 的计算节点/Slot 与原 Job 的检查点响应，比较“没有执行资源”和“SQL 逻辑过滤全部数据”两个假设。按时恢复同一节点，要求新检查点和输出同时继续。
+
+判据：零计算资源、任务执行状态和检查点停滞支持资源假设，单看顶层 RUNNING 无法排除它。恢复验收应是原状态路径接续，不是新编号空状态作业；若重试耗尽要记录 FAILED，不伪造成功。Print 输出不能证明外部幂等。答错回看“故障注入实验：停止 TaskManager”“检查点合同：运行态与恢复介质分别负责什么”。
+
+### 任务四：吞吐够不够，要扣掉实时输入
+
+纸面设计：每秒输入八千条，故障五分钟；状态恢复需四分钟，期间输入持续，之后安全完成每秒一万二千条。算从故障开始到追平的理想下限；再比较增大并行度与先修复慢数据库两种方案，说明热点键、源分区和检查点带宽的限制。
+
+判据：开始处理时积压 `8000 × (300+240)=432万`；净追赶每秒四千，需一千零八十秒即十八分钟；加故障五分钟与恢复四分钟，共二十七分钟。只算五分钟积压会漏恢复期新流量。吞吐条件必须是下游可持续业务完成率，不能以空闲 Slot 代替容量。答错回看“状态恢复和追赶的容量预算”“反压”。
+
+### 任务五：输出重复，先圈定承诺边界
+
+30 秒解释 Flink 的用途，三分钟讲输入位置、按键状态、屏障与输出。追问：检查点已成功，但 HTTP 工单重复；保存点能加载，但去重算子 UID 改了；CPU 很低而检查点上传慢。各缺哪一段证据？
+
+判据：分别查外部幂等/事务和未知响应、旧状态到新 UID 的映射与是否丢弃状态、上传字节/带宽/权限/存储时延。成功快照不证明业务逻辑正确，加载成功不证明全部状态接续，低 CPU 不证明没有 I/O 瓶颈。回答要包含升级回退的旧恢复点、外部副作用和恢复后复测。答错回看“输出合同：更新流不是普通追加流”“升级与回滚”。
 
 ## 本课 GitHub 学习证据
 

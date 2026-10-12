@@ -32,6 +32,12 @@ try {
   $corruptedHash = (Get-FileHash -LiteralPath $restored -Algorithm SHA256).Hash
   if ($sourceHash -eq $corruptedHash) { throw 'fault injection was not detected' }
   Write-Output "fault-injection=DETECTED original=$sourceHash corrupted=$corruptedHash"
+
+  # Restore only this run's known target, then independently verify the repair.
+  Copy-Item -LiteralPath $source -Destination $restored -Force
+  $recoveredHash = (Get-FileHash -LiteralPath $restored -Algorithm SHA256).Hash
+  if ($sourceHash -ne $recoveredHash) { throw 'recovery integrity check failed' }
+  Write-Output "recovery=PASS sha256=$recoveredHash"
 } finally {
   if ($created) {
     $resolvedWork = [System.IO.Path]::GetFullPath($workDirectory)

@@ -297,6 +297,8 @@ Community Build 和普通 Server Edition 不能因为放了两个容器就自动
 
 官方快速体验允许在本地关闭 Elasticsearch bootstrap checks：
 
+这是后面Compose主实验的替代路线，二选一，不同时占用9000。初学建议直接使用PostgreSQL/Compose主线。先按 [Docker Desktop官方安装](https://docs.docker.com/desktop/setup/install/windows-install/) 准备Linux Engine，在PowerShell核对自己的本机 `docker context show`、包含Server的 `docker version` 与可用的 `docker compose version`；失败就停止，不能在远端环境练习。历史固定版本不代表当前最新安全补丁。
+
 ```powershell
 docker run -d --name sonarqube `
   -e SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true `
@@ -483,6 +485,8 @@ curl.exe -s http://localhost:9000/api/ce/activity
 - 使用新建的个人实验目录；确认不存在同名 `sonarqube-lab` Compose 项目、网络和数据卷，若存在先换一套独有名称并同步后续命令，不能复用不明数据。
 - 实验只在本机进行，不绑定公网。
 
+先查询 `docker container ls -a`、`docker network ls`、`docker volume ls`，确认没有项目标签为sonarqube-lab及同名前缀资源；查询失败不等于不存在。重名或9000已监听就停下确认归属，不down/prune陌生环境。按所选版本官方主机要求预留内存/磁盘，Web/CE/Search/数据库和Docker共同占用，不只为Scanner留内存。
+
 ### 第一步：准备目录
 
 ```powershell
@@ -532,11 +536,23 @@ console.log(severity(95), duplicatedSeverity(80));
 
 ```powershell
 docker compose -p sonarqube-lab up -d
+if ($LASTEXITCODE -ne 0) { throw "启动失败，先查Compose和日志" }
 docker compose -p sonarqube-lab ps
-curl.exe -s http://localhost:9000/api/system/status
+function Wait-LabSonarUp {
+  $statusDeadline = (Get-Date).AddMinutes(5)
+  do {
+    try {
+      $statusResult = Invoke-RestMethod -Uri 'http://localhost:9000/api/system/status' -TimeoutSec 5 -ErrorAction Stop
+      if ($statusResult.status -eq 'UP') { return $statusResult }
+    } catch { } # 启动窗口有限重试，超时仍明确失败
+    Start-Sleep -Seconds 2
+  } while ((Get-Date) -lt $statusDeadline)
+  throw "五分钟未到UP，收集日志，不继续扫描"
+}
+Wait-LabSonarUp
 ```
 
-预期最终看到系统状态 `UP`。如果仍是 `STARTING`，继续观察日志，不要重复创建容器。
+预期最终看到系统状态 `UP`；超时后查日志，不重复创建容器。保持同一PowerShell终端，恢复时复用这个函数。UP不证明某次CE/Gate已通过。
 
 ### 第三步：创建项目和 Token
 
@@ -556,15 +572,24 @@ $env:SONAR_TOKEN = $SonarCredential.GetNetworkCredential().Password
 ### 第四步：运行官方 Scanner 容器
 
 ```powershell
+docker pull sonarsource/sonar-scanner-cli:latest
+if ($LASTEXITCODE -ne 0) { throw "Scanner下载失败" }
+$scannerLabDigest = docker image inspect sonarsource/sonar-scanner-cli:latest --format '{{index .RepoDigests 0}}'
+if ($LASTEXITCODE -ne 0 -or $scannerLabDigest -notmatch '^sonarsource/sonar-scanner-cli@sha256:[0-9a-f]{64}$') { throw "Scanner摘要读取失败" }
+$scannerLabDigest # 记录身份，后续恢复扫描也用这个摘要
 docker run --rm `
   --network sonarqube-lab_default `
   -e SONAR_HOST_URL=http://sonarqube:9000 `
   -e SONAR_TOKEN `
   -v "${PWD}:/usr/src" `
-  sonarsource/sonar-scanner-cli:latest
+  $scannerLabDigest `
+  -Dsonar.qualitygate.wait=true `
+  -Dsonar.qualitygate.timeout=180
+$scannerLabExit = $LASTEXITCODE
+if ($scannerLabExit -ne 0) { throw "扫描/上传/门禁失败或等待超时，先看日志和本次任务ID" }
 ```
 
-预期日志包含报告上传成功和后台任务 URL。`latest` 便于学习，生产流水线应固定 Scanner 版本或镜像 Digest。
+预期日志包含报告上传和本次后台任务URL，并等待Gate；Gate确实失败时非零是正常门禁阻断，不等于平台故障。超时是未知，按任务ID继续只读核查。latest仅用于首次发现，实际run固定这次RepoDigest，仍需记录/审核Server与Scanner组合。用编辑器在自己的 `.gitignore` 加 `.scannerwork/`，不提交分析目录、Token和会话转录；保留脱敏任务ID并关联这次Background Task，不能借另一次并发分析的最新页面证明成功。
 
 ### 第五步：验证
 
@@ -586,6 +611,8 @@ docker run --rm `
 7. Scanner 日志给出的 CE 任务是否在后台失败。
 
 ### 清理
+
+如果继续后面数据库故障与任务关联实验，先保留服务/Token，不提前down或删卷。全部完成后先在账户安全设置撤销服务端Token，再清理本地变量；移除变量不等于凭据已失效。
 
 ```powershell
 Remove-Item Env:SONAR_TOKEN -ErrorAction SilentlyContinue
@@ -623,6 +650,7 @@ docker compose -p sonarqube-lab logs --tail 50 sonarqube
 
 ```powershell
 docker compose -p sonarqube-lab stop db
+if ($LASTEXITCODE -ne 0) { throw "无法确认数据库停止，先查现场" }
 ```
 
 刷新项目页或重新触发一次扫描。预期可能出现 API 错误、后台任务失败或连接异常；实际表现取决于连接池和请求时机。
@@ -644,7 +672,7 @@ docker compose -p sonarqube-lab logs --since 5m db
 
 ### 第四步：形成并验证假设
 
-假设：“扫描器网络正常，但 SonarQube 无法把任务结果写入数据库，所以门禁无法完成。”
+候选假设：“数据库停止使Web/CE不能读写，影响报告接收或结果计算。”只有日志证明本次已上传，才能进一步定位CE；若Scanner连接Web失败，不能声称网络正常且任务已入CE。已经完成的任务也不会必然因停DB变成失败，核对本次任务与时间窗。
 
 不要用“页面打不开”直接证明数据库是根因。要同时看到数据库状态、SonarQube JDBC 错误和故障时间线吻合。
 
@@ -652,12 +680,20 @@ docker compose -p sonarqube-lab logs --since 5m db
 
 ```powershell
 docker compose -p sonarqube-lab start db
-docker compose -p sonarqube-lab exec db pg_isready -U sonar -d sonarqube
+if ($LASTEXITCODE -ne 0) { throw "数据库启动失败" }
+$dbReady = $false
+for ($dbProbe = 0; $dbProbe -lt 30; $dbProbe++) {
+  docker compose -p sonarqube-lab exec -T db pg_isready -U sonar -d sonarqube
+  if ($LASTEXITCODE -eq 0) { $dbReady = $true; break }
+  Start-Sleep -Seconds 2
+}
+if (-not $dbReady) { throw "数据库未接受连接，先查日志" }
 docker compose -p sonarqube-lab restart sonarqube
-curl.exe -s http://localhost:9000/api/system/status
+if ($LASTEXITCODE -ne 0) { throw "实验服务重启失败" }
+Wait-LabSonarUp
 ```
 
-系统恢复 `UP` 后重新扫描，确认后台任务成功和 UI 数据可查询。
+系统UP后用相同Scanner摘要重扫，确认新任务成功、Gate有确定结果与UI可查询。pg_isready只证明接受连接，不证明业务schema/数据正确。重启SonarQube是本机课堂步骤，生产先看连接池恢复与支持流程，不把DB每次抖动升级成应用重启。
 
 ### 清理与复盘
 
@@ -993,6 +1029,16 @@ Security Hotspot（安全热点）尤其需要上下文审查：它提示某处�
 老师给你两个子项目，各有 `src/app.ts`。若两份报告都只写这个短路径，扫描整个仓库时可能无法正确区分；应让报告中的源码路径与仓库完整布局一致。故障排查先检查报告时间、来源提交、文件路径和扫描日志，再看排除规则及新代码范围。不能为了消除零覆盖率，把未测目录直接排除。修改路径后用同一提交重新生成报告与分析，比较被识别的文件和数值，才算修复证据。
 
 本节是接入原则，不声称前面的小函数已经具备测试套件，也不承诺它会触发重复代码规则；重复判定还有最小规模等规则条件。实验验收应记录实际结果，包括没有检测到重复这一种可能，随后用业务断言检查阈值行为，不能把静态分析没有问题当作业务正确。
+
+## 独立通关：收到报告、计算成功和门禁通过是三件事
+
+1. **基础复现。** 独立重建Compose/属性/JS，从UP到扫描到本次CE/Gate分别举证。答案判据：镜像身份、项目Key、源码、任务ID与时间对应；不要求小函数必然触发重复规则，不拿无Issue当业务正确。未跑测试不能宣称验证过覆盖率。
+2. **改变条件预测。** 将阈值90改91再扫描，预测Issue数/任务ID/业务结果；A/B并发时A只查项目当前Gate足够吗？答案判据：任务ID不同但Issue未必变，业务另做断言；按A的ceTaskId关联analysis，不能借B成功。Profile/Gate/New Code改变口径须记录。
+3. **故障证据。** 一次只停本机DB，记录DB/Web/CE/JDBC、是否收到报告和首影响时间，有限恢复后重扫。答案判据：不预设一定CE失败；未知与确定ERROR分开，DB接受连接/UP/新任务成功/Gate分别有证据，最后撤销Token再限定清理。
+4. **设计取舍。** 到达6任务/分钟、完成4、积压60能清空吗？到达降2后呢？答案判据：原方案增长2/分钟，降后净处理2/分钟粗估30分钟，任务大小长尾仍需测；加Scanner可能更糟。DCE按支持拓扑/许可规划，单实例快速恢复不是应用多活，索引重建计入RTO。
+5. **口述追问。** 三分钟讲Scanner→Web→CE→DB→Search→Gate，答“Gate失败一定有漏洞吗”“热点能自动关吗”“迁移后仅回旧镜像安全吗”“平台停了要停业务吗”。答案判据：看规则/口径/人工上下文；恢复匹配DB/插件并重建索引；主要影响交付门禁，按预定阻断/审批策略，不静默放行或停运行中业务。
+
+失败回“基础实验”“数据库停止故障”“老师带你读懂一次门禁”重做。本轮未启动SonarQube/PostgreSQL/Scanner，未实测Gate与DB恢复；保留历史版本日期，不冒称当前最新，客户端检查不替代服务端兼容/故障/负向权限验证。
 
 ## 学习证据
 

@@ -1,0 +1,567 @@
+[
+  {
+    "article": "sre-aiops/sli-slo-sla.md",
+    "crossReview": {
+      "reviewer": "foundation-frontend",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "5992cb979ec159fff450a20f0f96129de61441bf567fca52cebd3542ff1b27cd",
+      "result": "pass",
+      "findings": [
+        "已逐段全文复核。纸笔/Node路线前置闭合；实际执行slo正常与故障，0.5/10燃烧率及WITHIN_BUDGET/BUDGET_EXCEEDED与正文一致。",
+        "分子分母、时间/事件口径、滚动窗、异步批次、标签空集合和缺采集边界相互一致；记录规则保留job，不把空序列补成健康。",
+        "五关200000/120得到99.94%、200预算、60%消耗、0.6燃烧率；混入800000探测为99.988%，答案复算通过。真实Prometheus规则/通知未执行，正文明确仅数学和合成演练。"
+      ]
+    },
+    "writer": "systems",
+    "reviewedAt": "2026-10-12",
+    "initialFindings": [
+      "离线实验假设读者已安装 Node.js 并取得仓库，零基础运行入口不完整。",
+      "末尾面试题仅列问题，检查单无法判定新输入与分母变化后的独立能力。"
+    ],
+    "changes": [
+      "补分层阅读路线、HTTP/API/5xx 释义及完整开课准备入口。",
+      "用五项带数值答案、假设、反证、回退和回看小节的独立通关替代裸题列表。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "开篇老师认路及“基础实验：纸笔与程序互相检查”限定本机 Node、根目录和离线范围，并链接实际安装/下载步骤。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "“加权课堂”“燃烧率推导”“PromQL 进阶”解释事件分母、窗口、标签与空集合边界。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "“基础实验：纸笔与程序互相检查”有两条精确命令、期望字段、手算、目录故障与无需服务清理。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "“分母选错”及“标签故障实验”给注入条件、对照、修复、复测与不连接生产范围。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "“依赖与高可用”“治理与安全”覆盖故障域、预算、策略版本及安全要求不能兑换预算。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "“面试课堂”“面试深答”及独立通关第五关含 30 秒、3 分钟、机制与假设追问。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "“独立通关”用 20 万交易、混入探测、空告警、低频异步与依赖乘积检验迁移能力，给出判据。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "“SLO 与 AIOps”“学习证据”把预算用于异常优先级与变更决策，保留口径和规则而非虚构经历。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "全文走读与算例复算；检查事件口径、标签、窗口及五项独立通关答案。",
+        "limits": "不证明真实 Prometheus 采集、告警投递或合同履行。"
+      },
+      {
+        "kind": "executed",
+        "detail": "本机 Node 正常/故障合成课堂已运行；事故证据课堂七项测试通过。",
+        "limits": "只验证合成数据与内存流程，不代表真实产品、网络、持久性或生产验收。"
+      }
+    ],
+    "status": "revised-awaiting-cross-review"
+  },
+  {
+    "article": "sre-aiops/alert-governance.md",
+    "crossReview": {
+      "reviewer": "foundation-frontend",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "e913b05b99eef9d6a04512c976291ef428d7ef741d37ab361faeaa6f388db132",
+      "result": "pass",
+      "findings": [
+        "已逐段全文复核。实际执行alert正常3组与故障1组/unsafeTenantMerge=true，正文结果一致，明确不验证真实Alertmanager投递。",
+        "说明子路由顺序/continue、for时间而非样本数、动态标签重置身份、缺标签抑制风险；配置片段被明确限制为需接收器及租户环境校验的进阶示意。",
+        "五关含新增租户/级别分组的必要依赖条件、第三分钟重新计时到第六分钟触发、四类通知失效证据、限流设计及通知精确率20%/事故召回60%统计单位，判据充分。无真实渠道、HA或权限写入验证。"
+      ]
+    },
+    "writer": "systems",
+    "reviewedAt": "2026-10-12",
+    "initialFindings": [
+      "离线实验未说明工具安装和仓库取得。",
+      "分组间隔表述易被读成每个新事件独立倒计时，固定动作表格直接建议自动化。",
+      "路由片段缺针对实际输入的接收者判据，末尾裸题无法检验跨统计单位判断。"
+    ],
+    "changes": [
+      "补可执行开课准备入口。",
+      "修正周期通知语义和外部渠道配额边界，把机械动作改为受控自动化评估。",
+      "在片段旁追踪 payment/page 的首命中结果，新增五项含反证与统计单位的通关。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "“基础实验与故障实验”链接 Node 安装与根目录，说明不发送真实通知。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "“时间状态课堂”“路由合同课堂”及 Routing 片段逐层解释身份、状态、匹配顺序与去重边界。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "四事件合成实验有正常三组、故障一组与拒绝判断，精确命令、失败检查和无资源清理。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "分组丢租户、动态标签重置与路由四卡片含注入、复测及不触生产范围。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "“一万条规则如何安全演进”覆盖计算/通知容量、HA非严格一次、租户权限、版本及回退。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "30秒、3分钟及漏报反例解释症状、风险、机制和模型建议不可直接删规则。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "“独立通关”增加租户、时间线、路由故障、渠道容量和通知/事故两种分母判断。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "“AIOps 如何参与”及“学习证据”保留合成回放、标签规范、风险与漏报审查。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "全文走读；官方 Alertmanager configuration 经网页阅读核对 continue 首命中及 group_interval 周期语义。",
+        "limits": "纸面与源码规则推理，不等于运行 Alertmanager 或投递渠道验收。"
+      },
+      {
+        "kind": "executed",
+        "detail": "本机 Node 正常/故障合成课堂已运行；事故证据课堂七项测试通过。",
+        "limits": "只验证合成数据与内存流程，不代表真实产品、网络、持久性或生产验收。"
+      }
+    ],
+    "status": "revised-awaiting-cross-review"
+  },
+  {
+    "article": "sre-aiops/incident-response.md",
+    "crossReview": {
+      "reviewer": "foundation-frontend",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "418bc9672b901ecca3af22dbb24572e63e8f39aa1277fe8fa289e64c4c087daa",
+      "result": "pass",
+      "findings": [
+        "已逐段全文复核。实际运行incident正常与故障：发现4分钟、业务恢复15分钟；缺验收为null/KEEP_INCIDENT_OPEN而非回滚完成即恢复。",
+        "1000笔被分成900已告知成功、60未写入、40已提交但丢响应，总数及接口10%与接受940口径闭合；补偿超时先查询任务和业务状态，不盲重试。",
+        "五关新增时间线发现6分钟、确认2分钟、恢复19分钟准确；无流量地区不算恢复，未知切流、三人双事故职责、紧急权限和残余影响接管有答案。纸面/合成不冒充真实事故指挥或补偿验收。"
+      ]
+    },
+    "writer": "systems",
+    "reviewedAt": "2026-10-12",
+    "initialFindings": [
+      "基础实验依赖已安装 Node 与已下载仓库。",
+      "内嵌 incident 模板仅写用户反馈停止增加，可能弱化正文主动业务验收要求。",
+      "原检查单与题目缺新时间线、未知操作及并发事故下的独立判据。"
+    ],
+    "changes": [
+      "接入零基础实验准备。",
+      "恢复模板增加代表性业务路径与历史未知请求/补偿接管。",
+      "补五项时间口径、部分恢复、失联切流、三人双事故及恢复承诺通关。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "“从零搭建响应台”讲角色与受控记录，离线实验链接 Node/目录前置。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "“同一句超时”与生命周期区分提交、回包、发生/采集/录入时间及恢复状态。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "incident 正常与故障命令有4分钟发现、15分钟验收/null未知、检查与清理。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "“回滚以后，还剩四十笔订单”给完整合成输入、数量守恒、未知补偿、恢复范围和清理。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "“事故平台自己不可用”讲独立依赖、应急权限、容量、交接与共同依赖动作协调。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "30秒、3分钟、回滚未恢复及五项追问均包含答案和边界。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "“独立通关”换时间线、地区缺流量、切流未知状态与并发事故角色分配，给判据。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "“从事故记录到 AIOps”只允许证据可追溯草稿，学习证据保留时间线与模拟标记。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "全文走读、时间差与合成订单守恒复核。",
+        "limits": "没有真实通知、切流、回滚或补偿；课堂不能证明真实重大事故指挥能力。"
+      },
+      {
+        "kind": "executed",
+        "detail": "本机 Node 正常/故障合成课堂已运行；事故证据课堂七项测试通过。",
+        "limits": "只验证合成数据与内存流程，不代表真实产品、网络、持久性或生产验收。"
+      }
+    ],
+    "status": "revised-awaiting-cross-review"
+  },
+  {
+    "article": "sre-aiops/change-management.md",
+    "crossReview": {
+      "reviewer": "foundation-frontend",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "b1101d728a91a116c8376d78c33cc268384df59e4ec6470f32e6a2d7e7fade3c",
+      "result": "pass",
+      "findings": [
+        "已逐段全文复核。实际运行change正常0.001与故障0.059超额错误率，分别继续观察和停止评估，与课堂1个百分点门槛一致；继续观察未被夸大成可全量。",
+        "批准对象/制品/配置绑定、客户端超时不取消发布、部署修订不恢复数据库、双写/回填覆盖新值与缩容阶段讲清状态边界；只读kubectl前置和超时含义明确。",
+        "五关闭区间时间候选、发布再故障余500不足560、10副本连接500超450、兼容迁移与空监控停止条件答案成立。Python候选正文脚本用内存替换文件输入实际执行：正常候选、下界包含、下界前排除、缺时区拒绝四项通过；真实集群与数据迁移未运行。"
+      ]
+    },
+    "writer": "systems",
+    "reviewedAt": "2026-10-12",
+    "initialFindings": [
+      "离线实验隐藏工具和目录准备。",
+      "变更候选伪代码引用未定义 changes，缺文件名、读取、运行与结果检查。",
+      "原检查单不能检验时间边界、容量叠加与数据演进场景。"
+    ],
+    "changes": [
+      "接入开课准备并区分隔离集群进阶前提。",
+      "提供完整三文件 Python 实验、时区拒绝、闭区间过滤、预期与清理。",
+      "补独立通关的边界输入、容量/连接预算、缺数据门禁、金额迁移和未知任务追问。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "开课准备与“最小启动检查”区分离线和现有集群前提、上下文权限与命名空间。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "“提交、执行与生效”“数据演进”解释漂移、中间状态、双写/回填风险。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "Node 正常/故障及完整候选脚本有输入文件、精确命令、输出、失败分支与清理。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "“被修改过的批准单”含批次漂移、超时未知、无指标三故障与停止/恢复/收回。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "“容量算术”“安全与制品身份”覆盖剩余容量、数据库连接、兼容、权限与不可逆回退。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "高阶面试与独立通关有代表性灰度、哈希身份、数据库回退及因果反例答案。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "五关要求真实保存并运行新文件、测试边界、解释共享故障和数据兼容，不靠绿色状态放行。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "AIOps关联按时间/范围/机制给候选，学习证据保留记录、兼容矩阵及课堂边界。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "全文走读、灰度与容量算例复算，三文件实验参数与清理审查。",
+        "limits": "真实集群发布、数据库迁移及生产回退未运行。"
+      },
+      {
+        "kind": "executed",
+        "detail": "本机 Node 正常/故障合成课堂已运行；事故证据课堂七项测试通过。 本文 Python 脚本 AST 与11项内存输入断言通过。",
+        "limits": "只验证合成数据与内存流程，不代表真实产品、网络、持久性或生产验收。"
+      }
+    ],
+    "status": "revised-awaiting-cross-review"
+  },
+  {
+    "article": "sre-aiops/aiops-loop.md",
+    "crossReview": {
+      "reviewer": "foundation-frontend",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "44b81fa8beb27e67b4575b41e3f9c7f1821f507dc070f2d0878ec56e3ca83f1f",
+      "result": "pass",
+      "findings": [
+        "已全文复核并执行aiops正常与时间泄漏：TP3/FP1/FN1、精确率/召回0.75，故障时间12>=10拒绝；仅检查时间分离、不假装训练模型。",
+        "持久接收后确认、Outbox双写缺口、租户事件身份、乱序当前状态、租约旧执行器隔离与批准内容绑定讲清机制；集成目录明确为蓝图而非现成启动工程。",
+        "五关容量600/分钟、20秒×并发10为30/分钟，十分钟净积压5700准确；回答60对54为90%且覆盖60%，过期引用/干扰文本/模型失效旁路与旧批准不重放均有可判定答案。真实事务、鉴权、API及队列未执行。"
+      ]
+    },
+    "writer": "systems",
+    "reviewedAt": "2026-10-12",
+    "initialFindings": [
+      "场景开头列全套工具易被当作零基础必需前置。",
+      "最小作品集实为未实现的多产品蓝图，且仅 Redis fingerprint 去重描述弱化持久正确性。",
+      "缺技术专属新输入下的全链路通关判据。"
+    ],
+    "changes": [
+      "补初学分层路线与指标/日志/链路/模型释义、工具准备。",
+      "蓝图明确非开箱工程，增加实际课堂入口，改为持久身份约束与事务发件箱/消费幂等边界。",
+      "增加容量、乱序/旧手册、丢响应/模型失效和覆盖率五关。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "开篇不要求先拥有所有产品；Node入口链接根目录与安装，蓝图区分实际存在的例子与待实现工程。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "“事件契约”“有限状态机”说明重复、乱序、跨系统缝隙、批准、租约与结果未知。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "分类正常/泄漏课堂有精确命令、TP/FP/FN、手算与检查清理。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "生产模拟给重复回调、资料过期/干扰文本、模型超时与业务验收失败，恢复与清理明确。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "容量成本、独立基础响应、租户权限、版本组合升级回退及外部副作用分开处理。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "30秒/3分钟、队列不等于不重不丢、自评分不是概率、权限不是模型语气等递进答案。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "独立通关要求最小切片、队列净增算术、旧证据反例和两租户可靠接收设计。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "全篇以观测到反馈主链组织，GitHub证据含真实与模拟标记、拒绝危险建议及独立验证。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "全文走读，队列吞吐与分类/覆盖率算例复算；检查蓝图与现有实验的实现边界。",
+        "limits": "没有运行真实模型、队列、数据库或生产自动化，未声称运维成效。"
+      },
+      {
+        "kind": "executed",
+        "detail": "本机 Node 正常/故障合成课堂已运行；事故证据课堂七项测试通过。",
+        "limits": "只验证合成数据与内存流程，不代表真实产品、网络、持久性或生产验收。"
+      }
+    ],
+    "status": "revised-awaiting-cross-review"
+  },
+  {
+    "article": "sre-aiops/rca.md",
+    "crossReview": {
+      "reviewer": "foundation-frontend",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "3df8625cfa718f88a09a192061320e69e90af402b8f31b57478d4b0405fee980",
+      "result": "pass",
+      "findings": [
+        "已全文复核，实际运行RCA课堂正常/因果证据不足与缺失机房，incident-evidence七项测试全通过；缺after/west时为INSUFFICIENT_COVERAGE而非全站好转。",
+        "分组前1.8%、后4.55%而组内均改善，改等权5000后5%/2.75%答案复算正确；请求/尝试/用户、采样覆盖、时钟误差、相关性与反事实边界明确。",
+        "五关机制反证、缺失分母、预防/检测/缓解正反测试、未知原因和MTTR起止定义均可核对。证据摘要不冒充真实性证明，模型草稿不回写权威知识，无真实生产因果复现。"
+      ]
+    },
+    "writer": "systems",
+    "reviewedAt": "2026-10-12",
+    "initialFindings": [
+      "Node离线前置缺具体下载/目录入口。",
+      "学习证据硬性要求一个直接原因，可能诱导证据不足时编确定结论。",
+      "已含独立交付，但缺改变权重/对照条件后的明确数值及拒绝判据。"
+    ],
+    "changes": [
+      "补实验准备入口。",
+      "学习证据允许未定原因、反证与补采任务。",
+      "增加分组权重、混杂、缺数据、防线验收与跨团队时间口径通关。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "开篇课堂从连接等待解释概念，离线前提链接准备，机房实验明确Node22及不需要数据库。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "“沿一次请求”“因果推理”区分等待/执行、必要条件、反馈、触发与促成因素。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "正常/缺因果/四行机房实验含输入、预期、手算、命令、失败保护与清理。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "缺失机房实验拒绝全站结论；冲突批次、非法计数和重复导入测试覆盖故障分支。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "RCA助手设计覆盖证据版本、权限、模型失效、查询预算、影子升级回退与行动防线正反验收。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "30秒/3分钟及因果、恢复、平均口径追问有机制与反例答案。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "独立通关改变两机房权重后得到5%与2.75%，要求反证、未知出口与措施验收。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "事故知识库只收可追溯证据和审核结论，学习证据不强迫编造原因或生产履历。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "全文走读、四行权重与新任务计算复核，核对原因未定与业务恢复可分开管理。",
+        "limits": "不连接真实监控或重现生产事故；因果课堂模型不能确认实际根因。"
+      },
+      {
+        "kind": "executed",
+        "detail": "本机 Node 正常/故障合成课堂已运行；事故证据课堂七项测试通过。",
+        "limits": "只验证合成数据与内存流程，不代表真实产品、网络、持久性或生产验收。"
+      }
+    ],
+    "status": "revised-awaiting-cross-review"
+  },
+  {
+    "article": "sre-aiops/runbook.md",
+    "crossReview": {
+      "reviewer": "foundation-frontend",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "f8b443ce9cabe3d558b84a12bddfabe8e8fa199775125985094da31f895ccb77",
+      "result": "pass",
+      "findings": [
+        "已全文复核，实际运行基础runbook正常1次模拟动作/重复跳过、错owner零动作，以及lost-response控制状态核对与七项状态测试均通过。",
+        "明确Node离线路线与Bash/kubectl需授权隔离集群；变量空值停止、上下文/命名空间显式、目标版本/容量/审批条件、命令完成与业务验收分离。",
+        "五关lost-response和lost-receipt相同副本但不同回执归属、陈旧计划、持久幂等、隔离令牌、取消/补偿和旧任务升级语义答案成立。只读也限制成本范围，任意shell不承诺恰好一次。真实集群及AWS执行未运行。"
+      ]
+    },
+    "writer": "systems",
+    "reviewedAt": "2026-10-12",
+    "initialFindings": [
+      "离线工具获取和Bash进阶执行路径缺少零基础入口。",
+      "内嵌模板只列投诉与曲线，未显式保留主动业务验证及未知结果接管。",
+      "通用检查单缺计划漂移、回执缺失和执行器升级下的独立判据。"
+    ],
+    "changes": [
+      "链接开课准备并限定真实kubectl前提。",
+      "模板补主动业务路径与残余任务接管，说明脚本保存、语法检查、运行参数和清理。",
+      "补五项含交接、对象漂移、两种回执、并发预算及取消/补偿的通关。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "开课准备明确Node/目录；Bash脚本要求现有隔离集群、kubectl和只读身份，不提供生产默认值。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "执行契约、持久执行、操作编号/对象编号、租约隔离、超时/取消/补偿分层解释。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "内存防重课堂与lost-response模型含精确命令、写入次数/状态、预期、失败检查与清理。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "lost-receipt/changed-plan/version-drift要求不盲重发，七项断言验证零写入或等待核对边界。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "一百服务平台、扩容预算、身份/权限、状态持久性、执行器升级与手册生命周期均讲适用边界。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "30秒/3分钟与批准后换目标、无回执、重启防重、LLM资料不授予权限等连续答案。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "独立通关要求换人执行、版本漂移、同目标不同回执、公共执行器预算与失败出口。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "手册进入AIOps检索与受控动作，提交合成计划/审批/脱敏回执，不把控制状态称业务恢复。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "全文走读，检查模板与正文验收含义一致、只读脚本的保存/运行位置及故障停止。",
+        "limits": "真实AWS/Kubernetes权限、并发、落盘与网络分区未运行，JSON状态复制仅为模拟。"
+      },
+      {
+        "kind": "executed",
+        "detail": "本机 Node 正常/故障合成课堂已运行；事故证据课堂七项测试通过。",
+        "limits": "只验证合成数据与内存流程，不代表真实产品、网络、持久性或生产验收。"
+      }
+    ],
+    "status": "revised-awaiting-cross-review"
+  }
+]

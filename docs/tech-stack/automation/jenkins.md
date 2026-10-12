@@ -484,18 +484,34 @@ Agent Workspace 是执行状态，不应作为唯一事实来源。源码来自 
 - 本实验只监听 `127.0.0.1`，不暴露公网。
 - 创建前分别检查同名容器 `jenkins-lab` 和卷 `jenkins_home` 不存在；若已存在，停止并选独有实验名称，同步全部命令，不能复用不明旧卷。创建同名卷不会自动清空或隔离旧数据。
 
+Windows 先按 [Docker Desktop 官方安装](https://docs.docker.com/desktop/setup/install/windows-install/) 准备 Linux Engine；在 PowerShell 而非容器终端执行本节。只使用自己的本机 Docker context，远端服务器 context 不能拿来练习。新建个人目录保存脚本和下载证据；命名与端口预检放在创建之前：
+
+```powershell
+docker context show
+docker version
+if ($LASTEXITCODE -ne 0) { throw "Docker 引擎不可用，先停止" }
+$labContainerNames = @(docker container ls -a --format '{{.Names}}')
+if ($LASTEXITCODE -ne 0) { throw "容器查询失败" }
+$labVolumeNames = @(docker volume ls --format '{{.Name}}')
+if ($LASTEXITCODE -ne 0) { throw "卷查询失败" }
+if ($labContainerNames -contains 'jenkins-lab' -or $labVolumeNames -contains 'jenkins_home') { throw "实验名称已存在，不覆盖" }
+if (Get-NetTCPConnection -State Listen -LocalPort 8080 -ErrorAction SilentlyContinue) { throw "8080 已被占用，先确认归属" }
+```
+
 ### 创建学习环境
 
 PowerShell：
 
 ```powershell
 docker volume create jenkins_home
+if ($LASTEXITCODE -ne 0) { throw "卷创建失败" }
 
 docker run -d --name jenkins-lab `
   --restart unless-stopped `
   -p 127.0.0.1:8080:8080 `
   -v jenkins_home:/var/jenkins_home `
   jenkins/jenkins:2.568.1-jdk21
+if ($LASTEXITCODE -ne 0) { throw "容器创建失败，保留卷并检查日志" }
 ```
 
 本文基础实验没有远程 Inbound Agent，因此不发布 `50000`。使用 WebSocket Agent 时也不需要该端口；生产只开放实际使用的入口。
@@ -516,7 +532,7 @@ docker exec jenkins-lab `
   cat /var/jenkins_home/secrets/initialAdminPassword
 ```
 
-打开 `http://localhost:8080`，安装建议插件并创建管理员账号。实验后也不要保留初始密码或弱密码。
+打开 `http://localhost:8080`，安装建议插件并创建管理员账号。初始密码仅在本机解锁时查看，不放截图、学习证据或 Git。固定的是历史 Core 镜像，不是现在下载的插件集合：检查 Pipeline、JUnit、Timestamper 等插件的最低 Core/依赖与安装结果，记录最终插件清单；遇到需要更高 Core 的插件不要强装。可选择受支持兼容组合重做或在隔离环境按升级路径更新 Core，但不能静默换版本继续宣称本课固定组合已通过。实验后也不要保留初始密码或弱密码。
 
 ### 确认版本
 
@@ -851,7 +867,7 @@ Get-FileHash .\jenkins-evidence.txt -Algorithm SHA256
 
 ### 清理
 
-先停止并删除容器：
+若还要做下一节 Label 故障或 JUnit 实验，先保留环境，完成全部验证后才清理。先停止并删除容器：
 
 ```powershell
 docker stop --time 30 jenkins-lab # 先允许实验 Controller 正常退出
@@ -1256,6 +1272,8 @@ Workspace、可重新下载的 Cache 和外部已有的 Artifact 可以按 RPO/R
 
 优先使用能保证一致性的文件系统或存储快照。在线逐文件复制可能跨越多个写入时刻，恢复后出现 Job 配置、Build 状态和 Pipeline 文件不一致。
 
+同一时刻的存储快照主要解决跨文件时间漂移，不自动等于 Jenkins 应用一致性。为强恢复目标，在停止新任务后确认运行中步骤与外部副作用的处置方式，正常停止 Controller，再取得数据与匹配加密材料的恢复点；不能把 quietDown 当作所有运行中 Pipeline 已停。在线快照若仅承诺崩溃一致性，必须在隔离环境实际验证其恢复能力，并记录可能丢失的运行状态。恢复实例先隔离 webhook、Agent 与生产网络，避免备份中的定时任务自动重复部署。
+
 ### 恢复验证
 
 恢复到隔离环境后验证：
@@ -1586,6 +1604,16 @@ stage('模拟一项失败测试') {
 “为什么加 Executor 没用？”因为 Label、锁、Quiet Down 或 Pod 调度条件不满足时，空槽位不是瓶颈；“插件为什么不能只退一个？”因为依赖与已迁移配置可能需要匹配的一整套版本；“大 Map 为何拖慢 Controller？”因为 Groovy 计算和可恢复对象图都在控制侧，序列化与 GC 受影响；“外部 Secret Manager 是否解决恶意 PR？”只能改善凭据分发与轮换，不能阻止拿到使用权的恶意代码外传。
 
 最后追问“恢复 Jenkins 后流水线显示运行中，能否直接重跑？”先查外部部署编号、制品版本和业务状态，区分尚未发送、已确认成功、明确失败、结果未知。这个回答把 Jenkins 的运行记录与生产事实分开，也就真正进入了平台工程的深度。
+
+## 独立通关：队列里的任务与目标上的变化分别举证
+
+1. **基础复现。** 从空白个人目录启动专用容器，自己写出第一条 Pipeline，不接外部凭据。答案判据：Core/Java/插件版本、Build号、两阶段日志、下载文件和 SHA-256 同时对应；容器 running 或首页能打开都不替代 Pipeline 验证。实验尚未执行时明确写 unrun。
+2. **改变条件预测。** 把顶层 agent 改成不存在的独有 label，保留顶层十分钟 timeout，预测会不会十分钟必然停止；再把等待改成 stage 级 agent/options 推理差异。答案判据：顶层 agent 分配可发生在顶层 timeout 之前，Queue Age 需单独监控；编辑 Job 不改已开始脚本，取消旧实验再运行新 Build。禁止把生产统一改 any。
+3. **故障证据。** 独立复现一次 label 排队，再用合成 JUnit 报告观察 UNSTABLE 与 skipStagesAfterUnstable。答案判据：Queue why/Nodes/Executor 证据支持调度假设；JUnit 失败不是 sh exit 42 的同类状态；未经过后续阶段不等于部署成功，恢复新 Build 并核对 artifact。保留首次失败，最后才清理专用环境。
+4. **设计取舍。** 16核/32GiB Agent 保留4GiB给系统，每构建4核/6GiB，配置8个Executor合理吗？答案判据：CPU最多4、内存最多4，故上限至多4且需其他开销/峰值余量，8不是有效容量。把普通PR、生产部署、签名分信任域；disableConcurrentBuilds 只约束同一Job，同环境多个入口要共同锁/代次与幂等控制。
+5. **口述追问。** 三分钟解释 Trigger→Queue→CPS→Agent→状态/制品，再答“@NonCPS 能把计算搬去 Agent 吗”“两个 Controller 共享卷能多活吗”“备份恢复后 Running 就重跑吗”。答案判据：不能/不支持通用双写/先查目标实际副作用。给出匹配 Core、Java、Plugin、状态、密钥的恢复单元，并说明 snapshot、JCasC、摘要与凭据掩码各自不能证明什么。
+
+未通过返回“内部数据路径”“基础实验”“故障注入实验”或“备份与恢复”重做。本轮仅审校和客户端语法检查，没有可连接的 Docker daemon，未实际启动固定镜像、安装插件或运行 Jenkins；文中的成功、排队、UNSTABLE 均是待验证预期，不是本轮实测记录。
 
 ## 学习证据
 

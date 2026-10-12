@@ -4,7 +4,7 @@
 
 ## 版本边界
 
-本文使用以下版本边界：
+本文固定以下教学版本，不把它们当作部署当天的最新安全补丁清单：
 
 - TensorFlow：`2.21.0`。
 - Python：`3.10` 到 `3.13`。
@@ -799,18 +799,21 @@ validation metric
 
 ### Windows CPU
 
-安装受支持的 Python 后：
+先完成[实验开始前的准备](../experiment-start.md)。在个人学习目录新建不存在的 `tensorflow-aiops-lab` 并进入，编辑器保存本节完整文件为 UTF-8；不要在现有项目或来源不明的 artifacts/logs 下执行。先用 `py -0p` 确认 Python 3.13 已安装；命令找不到就先安装官方支持的解释器，不用当前系统 Python 3.14 强行替换版本。安装受支持的 Python 后：
 
 ```powershell
 py -3.13 -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-python -m pip install tensorflow==2.21.0 tensorboard
-python -c "import tensorflow as tf; print(tf.__version__); print(tf.config.list_physical_devices())"
+if ($LASTEXITCODE -ne 0) { throw '环境创建失败，停止。' }
+.\.venv\Scripts\python.exe -m pip install --upgrade pip
+if ($LASTEXITCODE -ne 0) { throw 'pip 更新失败，停止。' }
+.\.venv\Scripts\python.exe -m pip install tensorflow==2.21.0 tensorboard
+if ($LASTEXITCODE -ne 0) { throw '依赖安装失败，停止。' }
+.\.venv\Scripts\python.exe -c "import tensorflow as tf; print(tf.__version__); print(tf.config.list_physical_devices())"
+if ($LASTEXITCODE -ne 0) { throw '版本或设备检查失败，停止。' }
 ```
 
 - `venv`：创建项目独立 Python 环境。
-- `Activate.ps1`：让当前 PowerShell 使用该环境。
+- 显式调用 `.venv` 解释器：无需修改 PowerShell 执行策略，也避免激活失败后误用全局环境。
 - `pip install --upgrade pip`：先升级包安装工具。
 - 显式安装 `tensorboard`：TensorFlow `2.21` 不再自动带上它。
 - 最后一条命令验证版本和设备。
@@ -820,11 +823,10 @@ python -c "import tensorflow as tf; print(tf.__version__); print(tf.config.list_
 ### Linux 或 WSL2 NVIDIA GPU
 
 ```bash
-python3.13 -m venv .venv
-source .venv/bin/activate
-python -m pip install --upgrade pip
-python -m pip install "tensorflow[and-cuda]==2.21.0" tensorboard
-python -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"
+python3.13 -m venv .venv || exit 1
+.venv/bin/python -m pip install --upgrade pip || exit 1
+.venv/bin/python -m pip install "tensorflow[and-cuda]==2.21.0" tensorboard || exit 1
+.venv/bin/python -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))" || exit 1
 ```
 
 如果 GPU 列表为空，按官方 pip 安装页核对 NVIDIA 驱动、WSL2、动态库路径和兼容矩阵。不要随机安装多个 CUDA 版本反复覆盖。
@@ -888,6 +890,8 @@ def set_reproducible_seed(seed: int) -> None:
 
 
 def make_synthetic_data(sample_count: int = 6000) -> tuple[np.ndarray, np.ndarray]:
+    if type(sample_count) is not int or sample_count < 20:
+        raise ValueError("sample_count must be an integer >= 20")
     rng = np.random.default_rng(SEED)
 
     cpu = rng.uniform(10, 100, sample_count)
@@ -1001,7 +1005,7 @@ def main() -> None:
         keras.callbacks.TensorBoard(log_dir="logs"),
     ]
 
-    model.fit(
+    history = model.fit(
         train_ds,
         validation_data=validation_ds,
         epochs=40,
@@ -1012,6 +1016,12 @@ def main() -> None:
     test_metrics = model.evaluate(test_ds, return_dict=True, verbose=0)
     probabilities = model.predict(test_ds, verbose=0).reshape(-1)
     threshold = 0.50
+    if any(not np.isfinite(values).all() for values in history.history.values()):
+        raise RuntimeError("训练或验证指标出现非有限值，禁止导出")
+    if not all(np.isfinite(weight).all() for weight in model.get_weights()):
+        raise RuntimeError("权重或归一化状态非有限，禁止导出")
+    if len(probabilities) != len(y_test) or not np.isfinite(probabilities).all() or not ((0 <= probabilities) & (probabilities <= 1)).all():
+        raise RuntimeError("测试输出形状或概率范围不合法，禁止导出")
 
     metadata = {
         "model_name": model.name,
@@ -1026,6 +1036,9 @@ def main() -> None:
     }
 
     model.save("artifacts/alert_model.keras")
+    restored = keras.models.load_model("artifacts/alert_model.keras")
+    golden = x_test[:8]
+    np.testing.assert_allclose(model(golden, training=False).numpy(), restored(golden, training=False).numpy(), rtol=1e-5, atol=1e-6)
     model.export("serving_model/1")
 
     Path("artifacts/metadata.json").write_text(
@@ -1060,8 +1073,9 @@ if __name__ == "__main__":
 ### 运行
 
 ```powershell
-python train.py
-tensorboard --logdir logs
+.\.venv\Scripts\python.exe train.py
+if ($LASTEXITCODE -ne 0) { throw '训练或导出失败，不启动后续查看与推理。' }
+.\.venv\Scripts\tensorboard.exe --logdir logs --host 127.0.0.1
 ```
 
 TensorBoard 默认可从 `http://localhost:6006` 访问。不要把 TensorBoard 无认证暴露到公网。
@@ -1106,6 +1120,8 @@ def validate_features(values: np.ndarray, expected_count: int) -> None:
         )
     if not np.isfinite(values).all():
         raise ValueError("features contain NaN or infinity")
+    if expected_count != 4 or not (0 <= values[0] <= 100 and 0 <= values[1] <= 100 and values[2] >= 0 and 0 <= values[3] <= 1):
+        raise ValueError("expected cpu/memory percent, non-negative milliseconds, error ratio in [0,1]")
 
 
 metadata = json.loads(
@@ -1118,12 +1134,27 @@ features = np.array([82.0, 78.0, 520.0, 0.08], dtype="float32")
 validate_features(features, len(metadata["feature_names"]))
 
 probability = float(model.predict(features[None, :], verbose=0)[0, 0])
+if not np.isfinite(probability) or not 0 <= probability <= 1:
+    raise RuntimeError("invalid model output; do not interpret as normal")
+if metadata["feature_names"] != ["cpu_pct", "memory_pct", "latency_ms", "error_rate"]:
+    raise ValueError("metadata feature contract does not match this program")
+if not np.isfinite(float(metadata["threshold"])) or not 0 <= float(metadata["threshold"]) <= 1:
+    raise ValueError("invalid threshold")
 is_high_risk = probability >= float(metadata["threshold"])
 
 print("feature_names:", metadata["feature_names"])
 print("probability:", probability)
 print("high_risk:", is_high_risk)
 ```
+
+训练入口已成功生成本课 `artifacts` 后，在同一个 `tensorflow-aiops-lab` 目录运行，不再依赖环境激活：
+
+```powershell
+.\.venv\Scripts\python.exe predict.py
+if ($LASTEXITCODE -ne 0) { throw '预测失败，先核对模型和元数据，不继续解释旧结果。' }
+```
+
+Linux/WSL2 对应使用 `.venv/bin/python predict.py || exit 1`；故障实验同样使用 `.venv/bin/python fault_injection.py || exit 1`。预期输出四个约定的 `feature_names`、有限的 `[0,1]` 范围概率及按已保存阈值计算的 `high_risk`。具体分数由本轮训练决定，不以示例固定数字验收。
 
 `features[None, :]` 增加 batch 维，把 shape 从 `(4,)` 变成 `(1, 4)`。模型输入永远按 batch 处理，即使只有一条数据。
 
@@ -1149,9 +1180,15 @@ def repair_or_reject(
     values: np.ndarray,
     medians: np.ndarray,
 ) -> tuple[np.ndarray, list[int]]:
+    if values.shape != (4,) or medians.shape != (4,) or not np.isfinite(medians).all():
+        raise ValueError("invalid feature or training-median contract")
     invalid_positions = np.flatnonzero(~np.isfinite(values)).tolist()
+    if len(invalid_positions) > 1:
+        raise ValueError("this lesson permits at most one missing field; reject insufficient data")
     repaired = values.copy()
     repaired[invalid_positions] = medians[invalid_positions]
+    if not (0 <= repaired[0] <= 100 and 0 <= repaired[1] <= 100 and repaired[2] >= 0 and 0 <= repaired[3] <= 1):
+        raise ValueError("repaired values violate feature ranges")
     return repaired, invalid_positions
 
 
@@ -1180,7 +1217,8 @@ print("probability:", probability)
 ### 运行
 
 ```powershell
-python fault_injection.py
+.\.venv\Scripts\python.exe fault_injection.py
+if ($LASTEXITCODE -ne 0) { throw '故障实验失败，不把旧输出当成本轮恢复证据。' }
 ```
 
 ### 预期结果
@@ -1269,7 +1307,9 @@ Invoke-RestMethod `
   -Method Post `
   -Uri "http://localhost:8501/v1/models/aiops:predict" `
   -ContentType "application/json" `
-  -Body $body
+  -Body $body `
+  -TimeoutSec 30 `
+  -ErrorAction Stop
 ```
 
 - `signature_name`：SavedModel 暴露的调用签名。
@@ -1718,6 +1758,18 @@ Eager（即时执行）便于逐步调试，`tf.function` 将适合的计算追�
 三分钟可以这样讲：“TensorFlow 负责张量、自动微分与执行，Keras 组织模型和训练循环，输入流水线负责及时提供形状与类型正确的批次。我先固定数据合同和无泄漏拆分，再用训练集统计做归一化。每步前向得到预测，损失比较标签，梯度沿计算路径回传，优化器更新权重；验证集选择停止时机，最后独立测试。”
 
 “上线要同时交付预处理、签名、模型、阈值和环境，输入与输出都检查有限性。性能先分数据等待、计算、通信和重新追踪；扩卡与扩副本会增加内存和通信成本。恢复训练关注权重、优化器和数据位置，恢复服务关注版本匹配与业务校验。模型概率还需校准，不能代替审批；我能说明课堂已经验证哪些路径，也保留真实设备与分布式运行未验证的边界。”
+
+## 独立通关：训练、推理、导出三种成功分别证明
+
+先预测再操作，独立完成五关。无 TensorFlow 运行环境时保留纸面推演，明确训练/GPU/Serving未执行，不把语法检查当成这些关的实测。
+
+1. **基础复现。** 交付实际依赖、CPU设备、梯度9/-18、6000条的4200/900/900拆分、有限训练指标和900项混淆矩阵合计。加载 `.keras` 与保存前固定8条输入比较，说明容差。仅文件存在或“40轮跑完”不通过，程序本身应拒绝非有限指标/权重/输出。
+2. **改变条件。** batch由64改128，先算4200训练样本在不丢尾批时每轮由66步变33步；4副本各64时全局256，不是64。改变tf.function批长度与改变第二维4→5分别预测：前者符合 `[None,4]`，后者应拒绝，不能每次改签名遮错误。
+3. **故障证据与收回。** 对memory注入NaN，证明检测索引1、替换值来自训练统计、输出有限；再试全部缺失、负延迟和错误率8，均应拒绝，不能填成“正常服务”。恢复原输入后复测。只验证输入不够，另解释模型输出NaN在 `>=` 中可能被当假，为何必须拦截。
+4. **设计取舍。** 每分钟两万服务约333次评分/秒，这是平均量不是尖峰；分别预算特征读取、队列、组批、模型、发布耗时，给出微批等待与p95约束、无状态副本与窗口状态恢复、技术/业务停止条件。Serving2.20和训练2.21组合未经实际验证时，只能列为候选，不声称兼容已通过。
+5. **口述追问。** 三分钟讲Tape→梯度→优化器、Eager/Graph、训练统计/数据泄漏、`.keras`/Checkpoint/SavedModel。追问“恢复最佳权重能否无缝继续原训练”，说明优化器与步数可能不匹配；“UP是否代表模型业务有效”，还需金样本、单位、阈值与延迟标签。答不清先回对应小节返工，再用新状态题复评。
+
+提交 `mastery.md`，标明实测、推演、环境缺失及下一次补测。结束后先停止自己的TensorBoard/Serving，再归档本课目录；不要递归删除通用 logs/artifacts 或共享模型。
 
 ## 本课 GitHub 学习证据清单
 

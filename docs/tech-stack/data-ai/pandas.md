@@ -206,6 +206,8 @@ DataFrame 不只是 list of dict。它还带有：
 
 建议在虚拟环境里安装：
 
+先按[实验开始前的准备](../experiment-start.md)确认 Python 和终端，以下安装在个人全新实验目录进行，不复用未知 `.venv`。前半篇的小段落是 API 观察片段，变量需接着当前小节建立，不能把全文片段依次拼成一个程序；后面的 `analyze_alerts.py` 才是独立日报程序。初学先做内存合成实验和 CSV 日报，不需要 MySQL，SQL 示例里的地址/账号不是可连接的公共服务。
+
 ```bash
 python -m venv .venv
 . .venv/bin/activate
@@ -582,7 +584,7 @@ hourly = time_df.resample("1h").size().reset_index(name="alert_count")
 hourly["rolling_3h_alerts"] = hourly["alert_count"].rolling(window=3).mean()
 ```
 
-这可以生成异常检测特征：过去 3 小时平均告警量。
+这可以生成异常检测特征：当前小时桶与前两个小时桶的平均告警量。这里默认包含当前行，最初两行不足三项时结果为缺失值；如果当前小时还没结束，它还不是完整一小时的数据。做预测特征时，要先按预测发生的时间排除尚未完成的小时桶，或在适合的时间索引上先移位再计算，不能把这列自动当成“完全来自过去”的特征。
 
 ## 缺失值
 
@@ -924,6 +926,8 @@ WHERE created_at >= NOW() - INTERVAL 7 DAY;
 
 ## AIOps 入门实验：告警日报
 
+在个人目录新建一个不存在的 `pandas-alert-report`，进入后用编辑器保存下面四个完整文件。创建目录前先检查同名目录，已有则换名；Python 创建环境失败或安装依赖失败时停止，不继续调用系统另一个解释器。PowerShell 可不激活环境，始终使用 `.\.venv\Scripts\python.exe`；Linux/macOS 对应 `.venv/bin/python`。此实验只需 pandas、tabulate；保存实际 Python/pandas 版本和安装后的依赖清单，输入数据均为合成。
+
 目录：
 
 ```text
@@ -966,14 +970,34 @@ payment-api,2.1.0,def5678,2026-07-01 10:00:00
 ```python
 import pandas as pd
 
-alerts = pd.read_csv(
-    "alerts.csv",
-    parse_dates=["created_at", "resolved_at"],
-)
-deployments = pd.read_csv(
-    "deployments.csv",
-    parse_dates=["deployed_at"],
-)
+alerts = pd.read_csv("alerts.csv", dtype={"alert_id": "string", "service": "string", "severity": "string"})
+deployments = pd.read_csv("deployments.csv", dtype={"service": "string"})
+required_alerts = {"alert_id", "service", "severity", "alert_name", "created_at", "resolved_at"}
+required_changes = {"service", "version", "commit_sha", "deployed_at"}
+if not required_alerts.issubset(alerts.columns) or not required_changes.issubset(deployments.columns):
+    raise ValueError("CSV 缺少必需列，停止生成报告")
+for frame, keys in [(alerts, ["alert_id", "service"]), (deployments, ["service"])]:
+    for key in keys:
+        if frame[key].isna().any() or frame[key].str.strip().eq("").any():
+            raise ValueError("关联键为空：" + key)
+if alerts["alert_id"].duplicated().any():
+    raise ValueError("alert_id 重复，先确认生命周期身份与去重规则")
+if not alerts["severity"].isin(["info", "warning", "critical"]).all():
+    raise ValueError("严重程度不在允许枚举中")
+
+# CSV 中无偏移的时间按本课约定为上海当地时间，再转成统一 UTC 时间轴。
+def parse_local(series):
+    return pd.to_datetime(series, format="%Y-%m-%d %H:%M:%S", errors="raise").dt.tz_localize("Asia/Shanghai").dt.tz_convert("UTC")
+
+alerts["created_at"] = parse_local(alerts["created_at"])
+alerts["resolved_at"] = parse_local(alerts["resolved_at"])
+deployments["deployed_at"] = parse_local(deployments["deployed_at"])
+if alerts["created_at"].isna().any() or deployments["deployed_at"].isna().any():
+    raise ValueError("发生/发布时间不能为空")
+if (alerts["resolved_at"] < alerts["created_at"]).any():
+    raise ValueError("恢复时间早于发生时间")
+if deployments.duplicated(["service", "deployed_at"]).any():
+    raise ValueError("同服务同一时刻存在多条发布，必须先确认权威记录")
 
 alerts["duration_min"] = (
     alerts["resolved_at"] - alerts["created_at"]
@@ -1015,33 +1039,35 @@ open_alerts = alerts[alerts["resolved_at"].isna()][
     ["alert_id", "service", "severity", "alert_name", "created_at"]
 ]
 
+if len(with_deploy) != len(alerts):
+    raise ValueError("关联前后行数不守恒")
+sections = [
+    "# 告警日报（时间显示为 UTC）",
+    "## 按服务统计", by_service.to_markdown(index=False),
+    "## 按小时统计", by_hour.to_markdown(index=False),
+    "## 未恢复告警", open_alerts.to_markdown(index=False),
+    "## 告警关联最近 30 分钟发布",
+    with_deploy[["alert_id", "service", "alert_name", "created_at", "version", "commit_sha", "deployed_at"]].to_markdown(index=False),
+]
+report = "\n\n".join(sections) + "\n" # 先完成渲染，缺 tabulate 时不会先创建半份报告
 with open("report.md", "x", encoding="utf-8") as f:
-    f.write("# 告警日报\n\n")
-    f.write("## 按服务统计\n\n")
-    f.write(by_service.to_markdown(index=False))
-    f.write("\n\n## 按小时统计\n\n")
-    f.write(by_hour.to_markdown(index=False))
-    f.write("\n\n## 未恢复告警\n\n")
-    f.write(open_alerts.to_markdown(index=False))
-    f.write("\n\n## 告警关联最近 30 分钟发布\n\n")
-    f.write(
-        with_deploy[
-            ["alert_id", "service", "alert_name", "created_at", "version", "commit_sha", "deployed_at"]
-        ].to_markdown(index=False)
-    )
-    f.write("\n")
+    f.write(report) # 独占创建拒绝覆盖；磁盘写入失败仍可能留下不完整文件，不能当已发布结果
+print("accepted rows:", len(alerts))
 ```
 
 运行：
 
 ```bash
-pip install -r requirements.txt
-python analyze_alerts.py
+python -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+.venv/bin/python analyze_alerts.py
 ```
 
 学习点：
 
-- `parse_dates` 让时间字段直接变成 datetime。
+上面是 Linux/macOS；PowerShell 用 `.\.venv\Scripts\python.exe -m pip install -r requirements.txt` 和 `.\.venv\Scripts\python.exe analyze_alerts.py`。预期服务告警数 order=2、payment=1、gateway=1，已恢复均值分别 15、28、5 分钟，未恢复只有编号 2。发布关联只命中编号 1 和 3；编号 2 的旧发布超过 30 分钟，编号 4 无同服务发布。UTC 小时显示比 CSV 上海时间早八小时，这是显式转换，不是数据少了一天。`parse_dates` 是尝试解析，不保证每种坏输入都变成正确日期，本程序因此另做严格解析和业务范围检查；参数边界见 [官方 read_csv 说明](https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html)。输出已有时明确失败，在新实验目录重跑或先归档自己确认的旧报告。
+
+- `read_csv` 先保留原始时间字段；`parse_local` 按规定格式严格解析，明确按上海本地时间解释，再转为 UTC，避免把格式错误或时区歧义悄悄带进结果。
 - `duration_min` 是从两个时间列计算出来的。
 - `groupby().agg()` 生成服务级指标。
 - `merge_asof` 把告警和最近发布关联。
@@ -1494,6 +1520,18 @@ print("wrong=4 accepted=0 quarantine=2")
 “随后我为每一步保留数量守恒证据：原始数等于接收数加隔离数，普通维表连接前后告警数不变，已恢复耗时与未恢复年龄分开解释。输出先写到独立运行目录，校验后再发布；失败保留上一份可信结果并明确新鲜度，不把空表当正常零告警。依赖升级用固定输入对比结果、列类型和峰值内存，回退依赖和产物版本可以分别执行。”
 
 追问“测试都通过为什么还会错”，回答测试只覆盖写出的合同，合同本身也可能有业务错误；需要值班人员抽查真实样本和历史事故对照。追问“什么时候改用分布式处理”，回答先确认瓶颈在数据规模、并行需求还是错误的数据路径，再比较数据库下推、列式查询引擎与分布式框架的运维成本，不以行数作为唯一分界线。
+
+## 独立通关：行数、时间和统计分母都要守恒
+
+独立交付五关，不以“脚本没报错”代替业务正确。每关先写预测再运行；故障只能改自己合成文件的副本。
+
+1. **基础复现。** 从四行 CSV 生成日报，复算 2/1/1、15/28/5、未恢复编号 2、发布命中编号 1/3，并解释 UTC 显示。通过判据是能从原始行复算每个数，不能把未恢复填零让 order 平均变成 7.5。
+2. **改变条件。** 把 order 发布从 08:55 改成 09:15，先预测：编号 1 的 09:10 告警不应看到未来发布，编号 2 的 10:05 又超出 30 分钟，因此二者都不关联。另将两个 Series 的标签顺序对调，仍应按标签得到 order=2/pay=5。答案必须区分时间方向与位置，而不是靠排序截图猜测。
+3. **故障证据。** 运行重复负责人和空键实验，记录 2→拒绝→2 与错误4/接受0/隔离2；随后分别给日报副本注入坏日期、重复 alert_id、早于发生的恢复时间。标准答案是输出前明确失败，保留原始输入，不能任意去重或将坏日期静默丢失。已有 `report.md` 应拒绝覆盖，不能拿旧报告冒充这轮成功。
+4. **设计取舍。** 两块已恢复耗时：第一块 1 条均值10，第二块9条均值20，整体均值应为19，不是15。给出保留和/有效数的分块方案，说明跨块去重状态、空桶与零值、内存峰值和发布互斥。超出预算先考虑源端过滤，不宣称 chunksize 会自动限制所有中间结果。
+5. **口述追问。** 三分钟解释 Index≠数据库主键、size/count、agg/transform、merge/asof、CoW≠事务。追问平均 P99 能否当整体 P99（不能）、写文件成功能否证明合同正确（不能）、日报翻倍怎么查（逐步行数与键基数）。把错误答案对应小节返工，用新数据再评。
+
+保存 `mastery.md`，注明运行版本、实际结果和未执行的 SQL/Parquet/定时发布部分。内存实验退出即释放，日报实验只回收自己的文件；原始生产数据、共享环境和历史报告不在清理范围。
 
 ## 本课 GitHub 学习证据
 

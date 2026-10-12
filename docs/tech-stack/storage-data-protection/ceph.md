@@ -18,11 +18,13 @@
 - [Prometheus Manager 模块](https://docs.ceph.com/en/tentacle/mgr/prometheus/)
 - [Cephadm 升级指南](https://docs.ceph.com/en/tentacle/cephadm/upgrade/)
 
-> 时点说明：截至 2026 年 7 月，官方发布页列出的活跃版本包括 Tentacle 20.2.2 和 Squid 19.2.4。本文实验固定使用 Tentacle 20.2.2 以便复现，但生产选型应重新检查活跃版本、发行说明、操作系统与容器运行时兼容性。`latest` 文档可能指向开发版本，生产操作必须切换到自己的版本文档。
+> 版本核对：2026-10-12，官方发布页列出的活跃分支最新补丁为 Tentacle 20.2.4 和 Squid 19.2.6。本文实验基线更新为 Tentacle 20.2.4，命令经文档与源码核对但本轮未安装实跑；生产选型仍要检查发行说明、操作系统与容器运行时兼容性。`latest` 文档可能指向开发版本，生产操作必须切换到自己的版本文档。
 
 ## 官方知识地图
 
-Ceph 官方文档可以先拆成五层：
+先读[实验准备课](../experiment-start.md)，区分 Windows PowerShell 与 Linux Bash。本篇真实集群实验必须在可重装的专用 Linux 虚拟机内做，空盘交给 Ceph 后会被写入，不能使用个人资料或业务盘；没有环境时先做下文纸面放置模型，真实部署明确保持未完成。Kubernetes 只是应用场景，不是理解 Ceph 的前置要求。块是给系统使用的虚拟硬盘，文件是目录/权限接口，对象是通过名字和网络 API 访问的数据单元。
+
+Ceph 官方文档可以先拆成五层；以下是本课程重组的路线，不是官方发布的一张统一原图：
 
 ```text
 基础存储层
@@ -338,19 +340,20 @@ podman --version || docker --version     # 确认至少有一个兼容的容器�
 
 ### 安装 cephadm
 
-下面固定 Tentacle 20.2.2。版本变化后先回到官方 releases 页面更新变量：
+下面固定 Tentacle 20.2.4。版本变化后先回到官方 releases 页面更新变量：
 
 ```bash
-CEPH_RELEASE=20.2.2 # 固定实验版本，避免每次下载不同构建
+CEPH_RELEASE=20.2.4 # 固定实验版本，避免每次下载不同构建
+[ ! -e cephadm ] || { echo '当前目录已有 cephadm，换空学习目录'; exit 1; }
 curl --fail --silent --show-error --remote-name --location \
-  "https://download.ceph.com/rpm-${CEPH_RELEASE}/el9/noarch/cephadm" # 从 Ceph 官方下载 cephadm
-chmod +x cephadm                         # 赋予当前用户执行权限
-sudo ./cephadm add-repo --release tentacle # 添加 Tentacle 软件仓库
-sudo ./cephadm install                   # 把 cephadm 安装到系统 PATH
+  "https://download.ceph.com/rpm-${CEPH_RELEASE}/el9/noarch/cephadm" || exit 1
+chmod +x cephadm || exit 1               # 下载失败不能接着执行旧文件
+sudo ./cephadm add-repo --release tentacle || exit 1
+sudo ./cephadm install || exit 1         # 把 cephadm 安装到系统 PATH
 cephadm version                          # 验证版本和命令可用
 ```
 
-注意：下载文件使用了精确版本，但 `add-repo --release tentacle` 与后续包安装选择的是该分支仓库中的可用软件包，不保证仍为 20.2.2。继续前检查 `cephadm version`，按发行版包管理器锁定经过核对的版本；引导集群时也要显式使用已批准的 Ceph 容器镜像版本，不能把客户端版本当成所有 daemon 的运行版本。若目标精确包已经不可得，先修订实验版本记录，不伪称仍完全固定。下载失败先检查 DNS、代理、TLS、操作系统架构和容器运行时兼容性。
+注意：下载文件使用了精确版本，但 `add-repo --release tentacle` 与后续包安装选择的是该分支仓库中的可用软件包，不保证仍为 20.2.4。继续前检查 `cephadm version`，按发行版包管理器锁定经过核对的版本；引导集群时也要显式使用已批准的 Ceph 容器镜像版本，不能把客户端版本当成所有 daemon 的运行版本。若目标精确包已经不可得，先修订实验版本记录，不伪称仍完全固定。下载失败先检查 DNS、代理、TLS、操作系统架构和容器运行时兼容性。
 
 ### bootstrap
 
@@ -358,7 +361,7 @@ cephadm version                          # 验证版本和命令可用
 
 ```bash
 MON_IP=192.168.56.10 # MON 对集群和客户端可达的地址，不要填 127.0.0.1
-sudo cephadm --image quay.io/ceph/ceph:v20.2.2 bootstrap \
+sudo cephadm --image quay.io/ceph/ceph:v20.2.4 bootstrap \
   --mon-ip "$MON_IP" \
   --single-host-defaults # 只用于单主机实验，生产集群不要使用这个选项
 ```
@@ -384,10 +387,10 @@ sudo cephadm shell -- ceph orch device ls --wide # 三块空盘应显示 Availab
 再逐块显式添加，避免误吞系统中的其他空盘：
 
 ```bash
-HOST=$(hostname -s) # 使用 ceph orch host ls 中登记的准确主机名
-sudo cephadm shell -- ceph orch daemon add osd "${HOST}:/dev/sdb" # 创建第一个 OSD
-sudo cephadm shell -- ceph orch daemon add osd "${HOST}:/dev/sdc" # 创建第二个 OSD
-sudo cephadm shell -- ceph orch daemon add osd "${HOST}:/dev/sdd" # 创建第三个 OSD
+CEPH_LAB_HOST=$(hostname -s) # 必须与 ceph orch host ls 中登记名一致
+sudo cephadm shell -- ceph orch daemon add osd "${CEPH_LAB_HOST}:/dev/sdb" || exit 1
+sudo cephadm shell -- ceph orch daemon add osd "${CEPH_LAB_HOST}:/dev/sdc" || exit 1
+sudo cephadm shell -- ceph orch daemon add osd "${CEPH_LAB_HOST}:/dev/sdd" || exit 1
 ```
 
 这些命令会清空目标设备。只有确认三块盘是实验空盘后才能执行。生产环境优先使用经过评审、带 `service_id` 的 OSD service spec 和 `--dry-run`。
@@ -419,9 +422,11 @@ spec:
 把上面的内容保存为当前目录下的 `osd-spec.yaml`，先执行 dry run；只有预览中的主机和设备都正确，才可以去掉 `--dry-run`：
 
 ```bash
-sudo cephadm shell --mount "$PWD" -- \
+sudo cephadm shell --mount "${PWD}:/mnt" -- \
   ceph orch apply -i /mnt/osd-spec.yaml --dry-run # 只预览，不创建和清空 OSD
 ```
+
+`--mount` 把宿主路径映射给容器；这里显式指定容器目录 `/mnt`，因此文件是 `/mnt/osd-spec.yaml`。只写 `--mount "$PWD"` 时，20.2.4 工具会按宿主目录的最后一段名称放到 `/mnt/目录名`，不是直接把文件放在 `/mnt`；路径写错会报找不到规范。这个参数行为可在[固定版本 cephadm 源码](https://github.com/ceph/ceph/blob/v20.2.4/src/cephadm/cephadm.py)的 `command_shell` 查看，先区分宿主路径与容器路径再查 YAML。
 
 | 字段 | 含义 | 新手容易错在哪里 |
 |---|---|---|
@@ -452,7 +457,7 @@ sudo cephadm shell -- ceph osd pool get aiops-lab all  # 查看 size、min_size�
 sudo cephadm shell -- ceph -s                          # 确认集群最终回到稳定状态
 ```
 
-`--single-host-defaults` 会调整单机实验的副本和 CRUSH 默认值，使副本可以落在同一主机的不同 OSD。这个设置不能证明主机级高可用，不能复制到生产方案。
+先用 `ceph osd pool ls` 核对 `aiops-lab` 尚不存在；若存在就停下来确认归属，不接管同名旧池。以上写命令每一步返回非零都要停止，不能拿最后一次 `ceph -s` 成功掩盖前面的创建失败。`--single-host-defaults` 会调整单机实验的副本和 CRUSH 默认值，使副本可以落在同一主机的不同 OSD。这个设置不能证明主机级高可用，不能复制到生产方案。
 
 ### 预期结果
 
@@ -720,6 +725,14 @@ S3 compatible 不等于支持 AWS S3 的全部行为。应用依赖特性要对�
 
 ## 升级与变更
 
+### 2026-10-12 安全补课：升级包之外还有密钥与站点顺序
+
+20.2.4 不只是功能更新。[官方发行说明](https://docs.ceph.com/en/latest/releases/tentacle/#v20-2-4-tentacle)包含 Cephx 认证、MON 秘密存储与 RGW 签名相关修复。CVE 是公开漏洞编号，不是现场已经遭入侵的证据。旧版有风险时先由安全与平台负责人评估暴露面、保存审计、安排受支持升级，不能因为升级后健康页绿色就宣布泄露的凭据自动失效。
+
+[Cephx 公告](https://docs.ceph.com/en/latest/security/CVE-2025-30156/)要求核对全部 daemon 升级与密钥类型迁移。新装与旧集群升级不同；cephadm 可自动处理相应 daemon 流程，但客户端密钥仍需单独按指导迁移，客户端/内核兼容也要核对。出现迁移类健康告警应按官方流程处理，不长期静默或盲目删除身份。
+
+[MON config-key 公告](https://docs.ceph.com/en/latest/security/CVE-2026-50152/)还提示可能暴露管理 SSH 等秘密，修补代码不能让已泄露秘密重新保密。cephadm SSH 密钥轮换与其他秘密的暴露评估分别处理；不能一次性随机改掉所有密钥导致集群失联。若使用 RGW multisite（多站点对象复制），[SigV4 公告](https://docs.ceph.com/en/latest/security/CVE-2026-54330/)另有跨站升级期间兼容开关及全部升级后的关闭要求，必须由负责人按公告安排窗口、范围与复验，不把暂时放宽验证变成长久配置。本篇不把这类生产安全写操作当零基础练习命令。
+
 Cephadm 支持编排滚动升级，但“滚动”不等于没有风险。升级前至少完成：
 
 - 当前版本仍在支持期，目标版本的升级路径受官方支持。
@@ -889,6 +902,16 @@ BlueStore 的数据设备与元数据、日志相关设备可以存在不同布�
 本轮只完成文档与离线推理核对，未下载或安装 Ceph、未使用空盘、未启动集群、未停 OSD。下一次取得隔离环境后，应把工具、容器镜像、各 daemon 版本、缓存设置和工作负载一起写入记录。真实的服务恢复、冗余恢复与性能恢复分别验收，三者都完成才关闭一次存储事故。
 
 进一步阅读[BlueStore 设备布局](https://docs.ceph.com/en/tentacle/rados/configuration/bluestore-config-ref/)时，DB 指的是该存储引擎的元数据设备，不是业务数据库；WAL 是引擎预写日志，也不是客户机数据库日志。台账中必须带组件归属，才能避免把同名术语关联到错误的故障路径。
+
+## 换条件独立通关：多数派、历史与空间不是一个概念
+
+1. 三个 MON 剩两个、数据池 `size=3/min_size=2` 也剩两个 OSD，可否一律答“都正常”？校准：MON 能否有多数派与互通要查；数据 PG 还需有效历史、放置及可服务状态，满足最低条件也不代表副本完整。假设唯一新版本在失联 OSD，不能用数量投票丢弃它。
+2. 三个 host 各 10 TiB、三副本，掉一台后空间还有 20 TiB，为什么不能恢复三个不同 host 的副本？校准：只剩两个故障域，空间不能补出第三个 host。加第四台也要验证容量、CRUSH 和数据同步，不把故障域降成 OSD 伪造保护等级。
+3. 集群平均 70%，一个目标 OSD 已到 `backfillfull`，回填不动是否矛盾？校准：全局均值掩盖局部与规则约束；先查最满设备、目标 PG/CRUSH、失败设备与增长。提高阈值不会增加空间，还会削弱安全边界。
+4. RBD 元数据可读、PG `active+degraded`、业务写 P99 升高，能否关事故？校准：服务/冗余/性能分别验收；给出恢复流量竞争与单盘慢两种假设和对照证据。限制恢复速度要同时预算风险窗口，不能永久关恢复或 scrub。
+5. 三分钟设计三机架存储并回答“共享 DB/WAL 快盘坏了、MGR 挂了、升级后旧镜像还能回退吗”。校准：记录 OSD 数据盘和共同快盘依赖，区分控制/管理/数据面，按机架容量和副本放置验证；升级回退取决于格式、特性和支持路径，客户端缓存快速返回也不证明持久化。说明 Cephx、独立备份和业务恢复证据。
+
+提交预测、数据路径、反证、修复取舍与停止条件。这里的校准不替代真实集群操作；未做的空盘部署、单 OSD 停启和恢复压测保持未验证，不从文字评审推导已经掌握生产运维。
 
 ## 学习证据
 

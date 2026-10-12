@@ -786,10 +786,12 @@ UserParameter、external script、webhook 和 remote command 都可能执行代�
 
 ### 前置条件
 
-- Docker 与 Docker Compose。
+- Windows PowerShell、Docker Desktop 的 Linux 容器模式与 Docker Compose。命令在新建的本机实验目录执行，不是在 Agent 容器的终端或 Python 交互窗口执行。
 - 至少 4 GB 可用内存。
 - 本机端口 `8080` 和 `10051` 未被占用。
 - 实验目录为空，不保存生产密码。
+
+容器是隔离运行程序的环境，Compose 文件描述多个容器如何连接；进程是运行中的程序，端口是接收连接的编号。这里 Server、网页、数据库、Agent 都是不同容器，`localhost` 只代表当前所在的那个环境。今天只需 [Docker](../cloud-native/docker.md) 的容器、端口和数据卷知识，不要求先学 Kubernetes。以下教学步骤本轮未实际启动产品，正常结果是待实验确认的预期。
 
 新建目录：
 
@@ -797,6 +799,8 @@ UserParameter、external script、webhook 和 remote command 都可能执行代�
 if (Test-Path -LiteralPath .\zabbix-lab) { throw '实验目录已存在，请换新位置。' }
 docker version # 必须正常连接 Server
 if ($LASTEXITCODE -ne 0) { throw 'Docker 不可用，停止。' }
+docker compose version # 必须能识别 Compose 子命令
+if ($LASTEXITCODE -ne 0) { throw '缺少 Compose，停止。' }
 docker compose ls -a # 确认没有已有的 zabbix-lab 项目；有则换隔离环境，不复用
 docker volume ls --filter 'name=zabbix-lab_postgres-data' # 若已存在同名卷，不继续本实验
 New-Item -ItemType Directory -Path .\zabbix-lab\agent2.d
@@ -856,7 +860,7 @@ services:
     environment:
       ZBX_HOSTNAME: linux-lab
       ZBX_SERVER_HOST: zabbix-server
-      ZBX_SERVER_ACTIVE: zabbix-server
+      ZBX_ACTIVE_ALLOW: "false" # 本课堂只创建被动监控项，关闭另一条主动检查路径
     depends_on:
       zabbix-server:
         condition: service_started
@@ -873,12 +877,14 @@ volumes:
 |---|---|
 | `DB_SERVER_HOST` | Zabbix 组件通过服务名 `postgres` 访问数据库 |
 | `ZBX_SERVER_HOST` | Web 或 Agent 使用服务名 `zabbix-server` 找到 Server |
-| `ZBX_SERVER_ACTIVE` | Agent 2 主动检查要连接的 Server 地址 |
+| `ZBX_ACTIVE_ALLOW` | 是否启用容器 Agent 的主动检查；本例明确关闭，避免未配置主动项的日志混淆 |
 | `PHP_TZ` | 前端 PHP 使用上海时区显示时间 |
 | `postgres-data` | 保存数据库文件，容器重建后数据仍存在 |
 | `condition: service_healthy` | 等 PostgreSQL 健康检查通过后再启动依赖服务 |
 
 实验密码只适用于本机。生产环境应使用 secret 管理、限制数据库网络并定期轮换。
+
+容器环境变量与原生配置字段并非简单加前缀。原生 Agent 的 `ServerActive` 对应镜像提供的主动服务器设置 `ZBX_ACTIVESERVERS`，不是自造 `ZBX_SERVER_ACTIVE`；本课用被动 `Zabbix agent` 类型，Server 按接口访问 Agent，故不需要配置主动服务器。以后切换主动项时按 [官方 Agent 2 镜像环境变量](https://hub.docker.com/r/zabbix/zabbix-agent2) 核对目标镜像版本，并读取实际生效配置，不能凭未知变量“没有报错”认为已经生效。
 
 创建 `agent2.d/aiops.conf`：
 
@@ -938,6 +944,8 @@ docker compose exec zabbix-agent2 zabbix_agent2 -t aiops.demo.latency
 
 ### Server 运行时命令
 
+下面是已在 Linux 上安装 Server、拥有受控配置与权限的本机命令，不是 PowerShell 宿主机已有的程序。课堂容器可改为 `docker compose exec zabbix-server zabbix_server -R ha_status` 观察；本课堂没有启用 Server HA，不能把该输出当故障切换验证。
+
 ```bash
 zabbix_server -R config_cache_reload
 zabbix_server -R diaginfo
@@ -976,7 +984,7 @@ zabbix_sender -z zabbix.example.com -s order-api-01 -k deploy.result -o 1
 - `-k`：trapper 类型监控项的 key。
 - `-o`：发送的值，这里 `1` 可代表部署成功。
 
-Sender 适合批处理结果和业务事件，不适合无约束地替代常规采集。发送失败必须重试并记录，否则监控数据会悄悄缺失。
+Sender 适合批处理结果和业务事件，不适合无约束地替代常规采集。发送端应检查 processed/failed 结果并有限重试；丢失响应时不能确定对端是否已处理，重发可能产生重复测量。它提交的是监控值，不提供业务部署操作的恰好一次保证；若触发自动化，要在执行平台另按事件/业务键做幂等。示例域名和主机仅说明参数，不是现成实验目标。
 
 ### API 请求结构
 
@@ -1090,6 +1098,8 @@ last(/linux-lab/aiops.demo.latency)<300
 ### 基础实验清理
 
 完成下一节故障实验后执行：
+
+先确认当前仍在自己刚创建的 `zabbix-lab` 目录，执行 `docker compose ps` 和 `docker volume inspect zabbix-lab_postgres-data` 核对项目与卷。仅当它们确属本课堂且已保存证据时，才继续；路径或项目不一致就停下，不在未知目录执行清理。只想暂停则用 `docker compose stop`，不要加删除卷的选项。
 
 ```powershell
 docker compose down -v
@@ -1513,6 +1523,40 @@ Zabbix 更擅长传统基础设施、SNMP、资产和事件动作；Prometheus �
 - [ ] 能完成基础实验和故障注入实验。
 - [ ] 能设计 Zabbix 到 AIOps 事件平台的集成。
 - [ ] 能回答生产架构题和大面积不可达事故题。
+
+## 独立通关：页面还绿着，数据是否仍然新鲜
+
+五题只使用本篇新建课堂项目；纸面题不要求对生产做改动。完成条件不是勾选清单，而是别人能用你的请求、时间线与解释复核。本文本轮未实测 Docker/Zabbix，提交时应准确区分实测、合成和纸面证据。
+
+### 任务一：在边界值上验证回差
+
+把基础实验值依次设为 500、501、400、300、299，每次只修改 Agent 容器中的课堂文件，沿用 `docker compose exec zabbix-agent2 sh -c "echo 数值 > /tmp/aiops-latency-ms"`，将“数值”替换成当前数字。每次等待 Latest data 真的更新后，再记录问题状态和事件时间；不按自己输入时间臆测采集已完成。
+
+判据：初始正常时五百不满足 `>500`，五百零一进入问题；四百使问题表达式为假，但独立恢复表达式尚不成立，所以仍未恢复；三百也不满足严格 `<300`，二百九十九才恢复。事件存在不代表已经外发通知。答错回看“Trigger：触发器”“第 4 步：创建触发器”，检查恢复模式是否真的选中。
+
+### 任务二：窗口五分钟不是已经等了五分钟
+
+纸面条件：新建 item 每 60 秒采一次，第一条数据 900，问题表达式 `min(...,5m)>500`。预测能否在第一条数据后满足；又如何区分“窗口内全高”和“完整覆盖五分钟且一直高”？提出需要保留的样本数量、实际时间覆盖和无数据策略。
+
+判据：仅一个高值就可能令窗口最小值高于阈值，不能宣称持续完整五分钟；`count` 样本约束、采集间隔与时间覆盖需要共同设计，`nodata` 另负责新鲜度，不替代高值条件。漏采与不规则采集是反例，不能以预期五个点冒充实际五个点。答错回看“Trigger：触发器”。
+
+### 任务三：旧正常值留下来了
+
+先恢复到一百并确认新值，再只停止课堂 Agent：`docker compose stop zabbix-agent2`。记录停止时刻、Latest data 最后更新时间、监控项/接口错误与 Server 日志；比较“业务确实正常”和“采集停止但旧值仍显示”两个假设。收回故障用 `docker compose start zabbix-agent2`，再次设置一百，确认至少两个新的采集时刻出现后再清理。
+
+判据：旧 `last()` 值不自动变成采集链健康证明；没有专门无数据触发器时，原延迟问题可以不出现，反而应据时间证据识别盲区。这个实验停止的是容器内模拟指标采集，不是业务服务，不能称为真实应用宕机。若启动后 key 失败，先重建课堂 `/tmp` 数值文件、测试 key，再查网络；不要关闭监控项掩盖故障。答错回看“监控 Zabbix 自己”“常见故障与证据链”。
+
+### 任务四：把 Proxy 的断链与排空算清楚
+
+纸面设计：三千项每三十秒一个值，另六百项每五秒一个值，忽略其他类型；站点断链四小时，恢复后 Server 接收该站点总能力每秒四百值。算 NVPS、四小时缓冲记录下限、理想排空时间，并比较 `disk`、`memory`、`hybrid` 对断电和延迟的取舍。
+
+判据：合计 220 NVPS，四小时原始记录约 3,168,000；扣除继续到达的二百二十，净排空一百八十值/秒，约 17,600 秒即 4 小时 53 分 20 秒。行数不是字节，还要加依赖项、索引和数据库开销；混合缓冲不承诺突发断电前内存无损。数据库主备与 Server HA 都不能替代 Proxy 端队列保护。答错回看“Proxy 缓冲”“容量与性能规划”。
+
+### 任务五：用同一条事件回答五次追问
+
+先 30 秒解释 Host/Item/Trigger/Action，再用三分钟讲本课一百到九百再恢复的证据。依次追问：本地 Agent 测试成功而 Latest data 不更新；有事件却没通知；两个 Server 都运行但数据库不可达；降回旧镜像却遇到新 schema。这四种情况各自最后成功点在哪里，修复和回退依据是什么？
+
+判据：分别追接口与许可来源、事件动作媒介渠道、共享数据库故障域、匹配升级前数据库与程序配置；不得对四种情况统一“重启 Agent”。说明哪些是你真的观察过的课堂事实，哪些是设计推演；自动处置须检查事件身份、授权、幂等、复测和人工接管。答错回看“数据从采集到告警的完整路径”“升级与回滚”“Zabbix 在 AIOps 中的落地方式”。
 
 ## GitHub 学习证据
 

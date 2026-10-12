@@ -36,7 +36,7 @@
 | Apply | 新 release 默认 Server-Side Apply | Helm 3 创建的 release 默认保留原方法，不会随 CLI 自动全量切换 |
 | 失败回滚参数 | `--rollback-on-failure` | 旧教程常写 `--atomic`，迁移脚本要核对当前帮助 |
 | 强制替换参数 | `--force-replace` | 强制替换可能造成资源短暂删除，不是通用修复 |
-| 服务端预检 | `--dry-run=server` | 普通 `--dry-run` 不等于经过 apiserver、admission 和权限校验 |
+| 联机渲染预检 | `--dry-run=server` | 可以连接集群，但不等于把每个对象以 Kubernetes 服务端 dry-run 提交给 admission |
 | Chart API | 稳定生产 Chart 仍可用 `apiVersion: v2` | 不要因为 Helm 4 就把所有 Chart 盲改实验性 v3 |
 
 Helm 4 对新 release 默认使用 Server-Side Apply（SSA，服务端应用），会记录 field ownership。若别的 controller 或人工也管理同一字段，升级可能产生 ownership conflict。迁移前要在测试集群检查 `managedFields`、插件、hooks、CRD 和数据库副作用。
@@ -834,9 +834,11 @@ helm install aiops-api ./aiops-api \
 | `helm lint` | 不一定需要 | Chart 结构和常见问题检查 |
 | `helm template` | 默认本地渲染 | 看最终 YAML |
 | `helm install --dry-run=client --debug` | 不把资源提交给 API Server | 本地安装流程调试 |
-| `helm install --dry-run=server --debug` | 连接 API Server 做服务端模拟，可暴露部分权限、Admission 和集群 API 问题 | 上线前预检；仍不会创建资源 |
+| `helm install --dry-run=server --debug` | 连接 API Server 获取能力、允许模板 lookup，并做既有资源等检查 | 联机预检；不证明对象创建/更新授权或准入一定通过 |
 
 排查模板问题时，先让 Helm 把最终 YAML 打出来，不要凭模板猜。
+
+特别纠正一个容易误解的名字：Helm 的 `--dry-run=server` 不等于 Kubernetes API 请求里的 `dryRun=All`。[Helm 4.2.4 安装源码](https://github.com/helm/helm/blob/v4.2.4/pkg/action/install.go)会在真正创建资源之前结束 dry-run，因此成功不证明所有准入规则与写入权限都已通过。需要进一步预检时，先把本轮无秘密的渲染结果保存为 `rendered.yaml`，再在明确的隔离集群执行 `kubectl apply --dry-run=server -f rendered.yaml`；该命令也会联系真实 API 和支持 dry-run 的准入链，必须确认 context。它仍不能证明调度、镜像拉取或业务成功，Helm Hook、CRD 新类型的时序也不能由一份清单自动完整模拟。
 
 ## helm get：看已安装 release
 
@@ -1254,6 +1256,10 @@ helm dependency build ./aiops-api
 
 ### 1. 创建 Chart
 
+先分清两条路线：本地 `lint/template` 只需 Helm 客户端，不需集群；从安装步骤开始才需 `kubectl`、有效 kubeconfig 和自己的可丢弃集群。Windows 可以在 PowerShell 用 `winget install --id Helm.Helm --exact` 安装客户端，再重新打开终端运行 `helm version`；其他系统按[官方安装指南](https://helm.sh/docs/intro/install/)选择与系统和处理器相符的签名/校验发行包。文章固定的历史参考版本不代表包管理器今天安装同一版本，必须核对 `helm install --help` 中的参数。本文多行反斜杠命令是 Bash 写法；PowerShell 可将其写成单行。
+
+在新空父目录运行创建命令，不在现有 Chart 上重跑覆盖。真实安装前执行 `kubectl config current-context`、`kubectl cluster-info`、`helm list -n aiops --all`，确认目标不是生产且同名 release 不存在；命名空间若共享，改用自己专属名称并同步所有 `-n`，不要以 `upgrade --install` 意外升级别人的 release。本实验需要拉取两份历史 nginx 标签，若仓库已不可用则先选择并固定可取得的受支持测试镜像，不能把网络失败归因于模板。
+
 ```bash
 helm create aiops-web
 ```
@@ -1430,7 +1436,9 @@ kubectl describe pod -n aiops -l app.kubernetes.io/instance=aiops-web
 
 你应该能看到 ImagePullBackOff 相关事件。
 
-### 8. 清理
+### 8. 先恢复，再清理
+
+先从 `helm history aiops-web -n aiops` 选择本轮确实健康的修订号；若按本文从新 release 连续操作，第一次安装是 1，回滚操作也已产生新编号，不按“最大编号减一”猜。执行 `helm rollback aiops-web 1 -n aiops --wait --timeout 5m` 后，检查新 Pod 使用健康镜像，运行 `kubectl port-forward -n aiops service/aiops-web 18080:80`，在另一终端执行 `curl http://127.0.0.1:18080/`，预期 HTTP 200 和 nginx 页面。结束按 Ctrl+C 收回转发，然后才卸载；卸载后以相同标签查询确认本轮 Deployment、Pod、Service 已移除。这里只恢复无状态课堂服务，不证明数据库可逆。
 
 ```bash
 helm uninstall aiops-web -n aiops
@@ -1550,6 +1558,8 @@ helm rollback aiops-api '<good-revision>' -n aiops --wait --timeout 5m
 - 应用日志。
 
 ## AIOps 自动化诊断脚本
+
+下面脚本仅适合合成课堂 release，**不能原样用于生产或把输出自动发送给模型**：`get values --all` 与 manifest 可能包含 Secret，`|| true` 还会把采集失败隐藏为脚本成功。用于真实平台时先改为字段白名单和脱敏输出，为每个采集项记录成功/失败/无权限，整体状态必须保留“不完整”，不能把权限不足的空清单解释为不存在。执行身份只需读取批准的 namespace，不授予发布权限。
 
 ```bash
 #!/usr/bin/env bash
@@ -1928,6 +1938,18 @@ Hook Job 通过生命周期事件执行任务。排序权重只是同一流程�
 发现失败时，先保留可安全读取的状态摘要，再获取必要详情。`helm get values --all` 和 manifest 可能包含秘密，默认全量转发给模型或工单是不合适的。采集程序应白名单选取镜像、资源请求、对象状态、脱敏错误与配置版本，遇到不认识字段先标记待人工检查。采集权限不足时输出“证据未覆盖”，不要用空结果声称对象不存在。
 
 最后的设计追问是：既然有 Helm，为什么还要业务探针和人工批准？回答要落到责任边界：包工具知道 Kubernetes 资源及发布记录，不知道订单是否正确结算，也不能代替业务决定数据库迁移是否可逆。AIOps 可以缩短整理证据和发现异常的时间，批准、停止条件与不可逆操作仍必须有清晰责任人。能把这些边界写进一份 Chart 的交付说明，才具备从使用者走向平台维护者的能力。
+
+## 独立通关：配置合同能否经受反例
+
+先做题再核对判据。基础渲染可在本地完成；安装、回滚和坏镜像注入需专用集群，缺平台就明确标“未运行”，不得用本机 CLI 能执行替代集群验收。
+
+1. **基础复现：**从空目录制作只有 Deployment 与 Service 的 Chart，用 `lint` 和 `template` 检查，再在实验集群安装、转发并请求。合格证据包含输入、最终对象、镜像身份、就绪状态和 HTTP 响应，能指出 release、revision、Pod 不是同一个对象。
+2. **改变条件：**把 `replicaCount` 设为零，先预测使用 `default 1` 的模板与直接引用 values 的模板各生成什么；再让 schema 分别接受零、拒绝负数。判据：能找到渲染后的整数，而不是只展示输入文件；解释布尔 false 也可能触发空值默认语义。没有 schema 的旧 Chart 不会凭空校验范围。
+3. **故障证据：**用坏镜像升级后，不先删 release；保存失败修订、事件及镜像拉取错误，选择已验证的健康修订恢复并请求。判据：回滚产生新修订，健康状态与业务响应均恢复；不能把 `deployed` 或 Helm dry-run 成功当成业务成功。
+4. **设计取舍：**一条 pre-upgrade Hook 删除数据库旧列，随后新镜像拉取失败，是否批准自动回滚？判据：旧清单可逆不等于数据可逆；提出先扩展兼容、迁移、后收缩，明确备份、停止门槛、发布锁以及 CRD/Hook 独立生命周期。不使用删除 release Secret 强行解锁。
+5. **口述追问：**30 秒讲 Chart→values→模板→release，三分钟讲用户输入、渲染、API、控制器、应用读取链。继续问“本地渲染没有 Ingress 为什么”“HPA 与 Helm 同时管理副本数怎么办”“server dry-run 到底验证了什么”。合格答案须给字段与状态证据、管理权边界和反例，并说明哪些输出不得进入公开 GitHub/AIOps 知识库。
+
+任何预测与结果不符，都回“values 覆盖优先级”“dry-run、debug、template、lint”或“生命周期精讲”找到原因再复评。读完与复制成功不计为独立掌握。
 
 ## 学习证据
 

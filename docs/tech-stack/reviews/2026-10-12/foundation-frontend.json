@@ -1,0 +1,2305 @@
+[
+  {
+    "article": "foundation/git.md",
+    "crossReview": {
+      "reviewer": "data-observability",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "7d2fcda4c3be61d8effc7ccc165f4ce90673f4eba534ccc5d80015cc97cc4b09",
+      "result": "pass",
+      "findings": [
+        "全文1252行审校：index快照时点、restore默认来源、diff/log两点三点差异和冲突stage边界准确；离线mktemp局部作者不改全局",
+        "5/10/15暂存实验、双方20/30冲突选25、abort与自有目录回收完整；公共历史回退不撤销数据库和平台状态",
+        "独立通关要求三证据/新20预测/冲突父关系/生产加载版本，reflog、bundle、LFS灾备限制明确；本轮未实际创建Git教学仓库"
+      ]
+    },
+    "reviewedAt": "2026-10-12",
+    "initialFindings": [
+      "首次配置默认要求 code 编辑器但未交代安装条件",
+      "入门实验标题要求5次提交但步骤只形成一次记录",
+      "独立检查以自评和提交数量为主，缺少改变保存时点的判据"
+    ],
+    "changes": [
+      "说明编辑器可省略及Bash与PowerShell边界",
+      "入门实验改为自己仓库的一次记录并补目录与远端权限条件",
+      "新增三状态、改变条件、冲突证据、公共历史回退和实际加载验证通关任务"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "安装和首次配置、入门实验：给自己的知识库增加一次可审查记录：编辑器、Shell、目录与远端权限已明确"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "三棵树：工作区、暂存区、本地仓库；冲突期间，暂存区不是只有一个待提交版本：说明索引与冲突阶段"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "基础与故障实验：离线练会暂存，再解决合并冲突：临时仓库可按步骤观察5/10/15"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "基础与故障实验：离线练会暂存，再解决合并冲突：人为冲突、修为25或abort、保留历史再回收"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "生产课堂：变更可信、协作一致和故障可恢复：公共历史、LFS、备份、密钥与跨平台风险"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "面试课堂：30 秒、3 分钟和事故推理：参考答案连接对象模型与发布证据"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "独立通关：用三个状态证明自己真的理解暂存：四段任务明确预测、证据和不通过条件"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "AIOps 学习仓库的 Git 工作流、独立通关：告警变更与真实加载版本分开核验"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "逐篇全文阅读并核对三状态、冲突和远端层次的前后语义",
+        "limits": "本轮未执行Git临时仓库操作，不宣称实际服务加载"
+      }
+    ],
+    "status": "revised-awaiting-cross-review",
+    "writer": "foundation-frontend"
+  },
+  {
+    "article": "foundation/github.md",
+    "crossReview": {
+      "reviewer": "data-observability",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "ac0f825dda52faa1ea0a1e6f59e1a7109d838da2596f76ba5a887b323a9e6e9f",
+      "result": "pass",
+      "findings": [
+        "全文1383行审校：Git推送、PR评审/检查、部署与页面验证分层，base/head、压缩合并后部署SHA与平台备份边界清楚",
+        "全新个人仓库threshold5→99失败→8恢复工作流含read权限、十进制解析和具体提交日志；清理练习PR/分支不改正式仓库",
+        "独立题检查名称/绕过身份、新SHA、分页、重复回调及告警关联，Webhook重投非自动和短期身份信任约束明确；未创建远端资源或运行Actions"
+      ]
+    },
+    "reviewedAt": "2026-10-12",
+    "initialFindings": [
+      "初阶远端实验使用作者真实仓库地址，读者写权限前提不明",
+      "最终材料固定10次提交/5个Issue/3个PR，与后文不按数量评估冲突",
+      "缺少批准、检查、部署SHA及规则绕过的独立评分题"
+    ],
+    "changes": [
+      "明确仅自己的仓库/Fork，复制自身地址后执行远端写入",
+      "移除固定数量掌握暗示，改为可关联问题与验证的证据",
+      "新增失败step、新SHA复核、必需检查与绕过权限、告警关联及模拟边界通关"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "入门实验：把 AIOps 知识库做成 GitHub 作品集：补本人仓库、权限与地址条件"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "Issue、PR、Release 与部署是不同对象；重复、遗漏和乱序不能靠一个绿色响应解决：对象和事件分开"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "基础实验与故障实验：看到红灯后能解释原因：全新练习仓库阈值workflow闭环"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "基础实验与故障实验：看到红灯后能解释原因：99失败、8修复、关闭PR及分支清理"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "Fork 与自动化的信任边界、平台数据的备份与可迁移性：最小权限和平台资产边界"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "面试：30 秒、3 分钟与追问；生产设计题：让告警自动关联最近变更：连续回答"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "独立通关：把一次失败检查追到真实发布：具体SHA、step、门禁及无权限推演判据"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "生产设计题：让告警自动关联最近变更：重复事件和部署生效证据约束根因候选"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "全文审校工作流、鉴权、事件去重和页面验收边界",
+        "limits": "本轮未创建远端仓库/PR、未运行该文章云端实验"
+      }
+    ],
+    "status": "revised-awaiting-cross-review",
+    "writer": "foundation-frontend"
+  },
+  {
+    "article": "foundation/linux.md",
+    "crossReview": {
+      "reviewer": "data-observability",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "28f430c8443a1a032f57326447b4c312191cf6c5b66852945033857fcbde2333",
+      "result": "pass",
+      "findings": [
+        "全文1204行审校；机制覆盖用户/内核、CPU配额与放置、memory高水位/硬限、PSI、inode/FD、原子路径与持久化差异",
+        "返修复核：Bash/Python/ps/curl/ss/grep/mktemp逐项前置，ss单独捕获失败停止、只有成功空结果判空闲，mktemp失败停止；新增门禁本轮为静态审查，未运行Linux",
+        "其余STOP故障明确T非D，端口存活不证明HTTP，CONT→TERM/wait归属清理和独立新PID/正文判据完整；未执行Linux/WSL实验"
+      ]
+    },
+    "reviewedAt": "2026-10-12",
+    "initialFindings": [
+      "固定18765端口未预查，可能把别人的响应误作实验成功",
+      "后续只读观察要求复用已在前文停止的PID",
+      "缺少综合判定端口存活、进程暂停与实际内容的独立任务"
+    ],
+    "changes": [
+      "启动前检查端口占用并禁止停止未知服务；交叉反馈后补逐项工具检查、ss失败停止和mktemp失败门禁",
+      "明确追加观察在收尾前做，已收尾则重建并取得新PID",
+      "新增三证据、STOP/CONT预测、配额范围与df/du假设通关"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "基础与故障实验：用受限进程观察暂停故障和恢复：Linux/WSL、Bash、Python、curl边界明确；交叉反馈后逐项检查ss/grep等工具，ss失败停止而非当作空闲。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "资源边界深讲：主机没满，服务为什么已经到顶：配额、父组、PSI与持久性区分"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "基础与故障实验：用受限进程观察暂停故障和恢复：PID/监听/正文共同验收且先查占用"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "基础与故障实验：用受限进程观察暂停故障和恢复：STOP/CONT/TERM/wait限定本次进程"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "生产推理：指标变坏以后，先排队还是先扩容：容量、安全、故障域、升级回退"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "面试课堂：用证据回答，而不是背命令：30秒、3分钟及异常案例答案"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "独立通关：端口、进程、内容三份证据要对得上：预测和不通过条件具体"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "在 AIOps 中的作用、资源边界深讲：采集范围、单位与模型输入约束"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "逐篇全文走读，按读者顺序复核实验前置、证据与收尾；修订后复评",
+        "limits": "本轮未运行该篇Linux服务或编辑器预览，不以静态走读冒充真实环境验证"
+      }
+    ],
+    "status": "revised-awaiting-cross-review",
+    "writer": "foundation-frontend"
+  },
+  {
+    "article": "foundation/markdown.md",
+    "crossReview": {
+      "reviewer": "data-observability",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "87e3a60ca8bc2be8ae04a1dbaa3f6a738e6e7def166ad927e377a645586b6c13",
+      "result": "pass",
+      "findings": [
+        "全文1441行独立审读：CommonMark/GFM/平台方言、围栏闭合、列表归属、表格缺多列与转义、引用标签首次定义机制准确",
+        "临时笔记围栏3→4失配故障有修复/目录正文复测/仅自有清理；当前React/marked链与历史VitePress区分，不把构建通过当结构意图正确",
+        "独立题以解析结构/代码复制/新管道符/跨平台与RAG风险前置为判据；不可信HTML不天然净化、版本权限撤回与整包索引回滚明确；本轮未执行渲染器"
+      ]
+    },
+    "reviewedAt": "2026-10-12",
+    "initialFindings": [
+      "构建命令缺少真实项目根目录、Node/npm和锁定依赖条件",
+      "自评复选框不能检验解析结构和渲染差异",
+      "语法成功与网站链接/知识库权限需要独立验收题"
+    ],
+    "changes": [
+      "补项目文件、运行环境参考、npm ci及编辑器预览验证边界",
+      "新增标题/代码块/三列表格与管道转义独立作业",
+      "新增围栏故障收回及GitHub/本站/RAG设计判据"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "入门实验：写一篇可提交的学习记录：第3步补站点根目录与依赖条件"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "解析边界课堂：为什么标点相同，文档结构却不同：列表/表格/引用/复制语义"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "可回收故障实验：亲眼看见围栏失配：先建正确标题和代码块基线"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "可回收故障实验：亲眼看见围栏失配：单一围栏故障、复原和临时文件清理"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "生产知识库：谁是源文件，谁是发布结果：当前React链路、安全、索引与回退"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "面试递进回答：从格式到工程约束：30秒、3分钟、治理与构建误判追问"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "独立通关：让解析结构而不是截图决定答案：明确结构、复制、转义和故障判据"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "从文章切片到知识回答，安全前提不能被切走：RAG来源、权限与前置保留"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "逐篇全文走读，按读者顺序复核实验前置、证据与收尾；修订后复评",
+        "limits": "本轮未运行该篇Linux服务或编辑器预览，不以静态走读冒充真实环境验证"
+      }
+    ],
+    "status": "revised-awaiting-cross-review",
+    "writer": "foundation-frontend"
+  },
+  {
+    "article": "foundation/networking.md",
+    "crossReview": {
+      "reviewer": "data-observability",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "73a1d358a1c42ba030141258b2ee7416c42f490de99f38841cf8f295672e0f99",
+      "result": "pass",
+      "findings": [
+        "全文1873行独立审读：DNS/NSS/负缓存、双连接网关、TCP字节/应用提交、累计curl时间、SNI与主机名/信任链校验分层准确",
+        "本地HTTP200/404/停止连接拒绝/恢复明确未覆盖DNS和TLS；net_probe汇总2xx/传输/非法URL退出0/1/2，代理反证与不可信URL边界清楚",
+        "独立新ready-v2输入、三层重试27倍/两秒预算、缺观测非零延迟、共享出口/MTU/容量回退有技术判据；本轮未运行公网或本地服务"
+      ]
+    },
+    "reviewedAt": "2026-10-12",
+    "writer": "foundation-frontend",
+    "initialFindings": [
+      "分层入门实验未先说明Linux工具依赖，选择本地HTTP后后续却继续执行公网DNS/TLS步骤。",
+      "自动化脚本用|| true吞掉全部失败，任务可能返回0；URL未约束协议或凭证。",
+      "证书元数据流水线隐藏标准错误，容易误认为证书校验成功；时间探测缺少总超时。"
+    ],
+    "changes": [
+      "补齐Linux工具/联网权限前提，分开本地HTTP与真实DNS/TLS的验证范围。",
+      "重写探测脚本：校验URL，限定http/https，拒绝内嵌凭证，限定DNS等待，汇总传输与2xx策略失败并非零退出。",
+      "保留TLS错误并明确日期提取不等于身份验证，补请求总超时；新增分层失败与计时预算独立通关。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "“AIOps 入门实验”交代Linux/Bash、工具和公网许可；“可复现本地实验：同一服务的 200、404 与连接拒绝”提供本地替代且不冒充DNS/TLS验证。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "“一次 HTTPS 请求到底发生了什么”及后续TCP、DNS、TLS、NAT课堂按路径和状态边界解释；累计时间与阶段增量区分。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "“可复现本地实验：同一服务的 200、404 与连接拒绝”给定文件、双终端、状态/正文、恢复和自有文件清理。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "同一本地实验通过停止自己的服务器对照404与连接拒绝；独立通关要求请求证据与监听证据对应、恢复复测。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "生产设计、重试预算、MTU/NAT/观测位置课堂覆盖超时放大、容量、安全校验及受控修复，未把单探针当全局健康。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "“面试怎么讲”与生产事故/追问将请求路径、拒绝/超时、502/504和设计取舍连接，不只背工具。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "“独立通关：同样是失败，必须说出失败在哪一层”使用新文件、非法协议、404与停机、累计时间新输入，有退出码和反例判据。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "“AIOps 自动化脚本示例”“观察点本身也要标明位置”“学习证据”连接探测指标、告警与证据采集，缺观测不填成功。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "全文走读并逐分支检查脚本URL验证、失败汇总、2xx策略及实验恢复逻辑；对照curl官方手册确认HTTP状态与传输退出码不同。",
+        "limits": "未在Linux运行Bash探测，未联通公网目标或验证真实TLS/跨区链路。"
+      }
+    ],
+    "status": "revised-awaiting-cross-review"
+  },
+  {
+    "article": "foundation/python.md",
+    "crossReview": {
+      "reviewer": "data-observability",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "ff026ec676842715e36e4e5606a4b6ccbbb0b0085909ce3e23fcb6fcb6dde4d8",
+      "result": "pass",
+      "findings": [
+        "全文2033行独立审读：输入数组/必填字符串/时区校验、空观察非健康、输入输出不同路径和独占创建安全合同完整",
+        "返修复核：知识映射表与实现一致，Path.open('x')独占创建再write，已存报告失败不覆盖",
+        "可变默认参数与错形状/坏时间故障有反证修复清理，五题新5条/阈值3→4/重复保护、分页总预算/依赖状态回滚有判据；未运行完整日报脚本"
+      ]
+    },
+    "reviewedAt": "2026-10-12",
+    "writer": "foundation-frontend",
+    "initialFindings": [
+      "文章先要求检查Python却缺少首次安装入口及Windows/Linux解释器选择前置。",
+      "日报CLI直接覆盖已有输出，输入输出同路径会毁坏练习数据；负阈值较晚才失败。",
+      "原结尾以能讲清项目暗示掌握，没有新数据、失败状态和不覆盖证据的独立判据。"
+    ],
+    "changes": [
+      "补官方安装入口、受管设备许可、系统Python保护和无第三方依赖最短路径。",
+      "参数阶段拒绝非正阈值和相同输入输出路径；独占创建输出，明确旧报告、符号链接和非原子写入边界。",
+      "新增五条新告警、阈值变化、坏时间、覆盖保护、共享对象与分页失败的独立通关；弱化数量式掌握承诺。",
+      "交叉返修：学习点表与实际代码对齐为Path.open('x')及file.write，说明独占创建而不是覆盖写入。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "“第一次安装时，从解释器开始”“AIOps 入门实验：告警噪声日报”给Python版本、运行目录、标准库、文件和平台差异。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "“名字不是盒子：共享对象为什么会污染下一次任务”“工程机制课堂：函数结束，不代表资源和任务都结束”解释绑定、生命周期、生成器、时间与取消边界。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "“AIOps 入门实验：告警噪声日报”包含完整输入与脚本、执行和预期报告，新增拒绝覆盖与清理说明。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "“日报故障实验：空数据不是程序崩溃，错误数据不是正常日报”有空、错形状、坏时间、退出码、修复复测及旧产物边界。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "“生产设计题：日报不能每天悄悄漏掉一页数据”与工程机制课堂覆盖分页水位、容量、有界并发、权限、依赖和状态兼容回滚。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "“面试递进：把语法题接回工程”含30秒/3分钟、浅深拷贝、运行时验证、故障证据追问与事故设计。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "“独立通关：用新输入判断脚本有没有按合同完成”改变服务分布/阈值/失败位置，要求退出码、文件不变、分页发布和口述反例。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "“Python 在 AIOps 链路中的位置”“学习证据”将告警输入、验证、聚合、产物与受控自动化衔接，不提交真实敏感数据。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "executed",
+        "detail": "本机Python 3.14对文章完整日报代码做AST解析；内存执行三种聚合/阈值/空数据用例及缺时区负向用例，均通过。",
+        "limits": "没有写入测试文件；CLI路径/已有文件拒绝按代码审阅，未对真实API、网络、生产容量或多平台安装验证。"
+      }
+    ],
+    "status": "revised-awaiting-cross-review"
+  },
+    {
+      "article": "foundation/shell-powershell.md",
+    "crossReview": {
+      "reviewer": "data-observability",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "0d61916ed74e3ff0c366d7a7b0f3cdf70c45a266f5f3800df0aa73082c7976b5",
+      "result": "pass",
+      "findings": [
+        "全文1600行审读：Bash字节流/展开/重定向与PowerShell对象/成功输出/原生退出码区别清楚；管道失败和布尔返回两故障有局部清理",
+        "返修复核：知识映射表已与noclobber/Out-File -NoClobber及ps --sort=-pcpu | sed一致，注明CPU百分比不同PowerShell累计CPU时间",
+        "独立新三服务/零一多结果、true|false|true显式exit、3类grep状态和重复保护判据完整；本轮未执行平台采集或完整两版脚本"
+      ]
+    },
+      "reviewedAt": "2026-10-12",
+      "writer": "foundation-frontend",
+      "initialFindings": [
+        "Bash健康采集用grep管道|| true把读取失败当空结果；两个版本直接覆盖旧报告，与文字边界冲突。",
+        "初次实验未明确工具发现、练习根目录及单平台可先完成；缺少新输入的独立验收。"
+      ],
+      "changes": [
+        "Bash分类grep状态并启用noclobber；PowerShell改为NoClobber输出，明确半份报告和失败验收。",
+      "补各平台工具检查/运行位置链接，改吞错示例为反例；新增对象布尔、管道退出、输出保护与并发触发通关。",
+      "交叉返修：学习点改为Out-File -NoClobber与ps --sort=-pcpu加sed；PowerShell累计CPU时间不混同瞬时CPU百分比。"
+      ],
+      "criteria": [
+        {
+          "id": "prerequisites",
+          "result": "pass",
+          "evidence": "“AIOps 入门实验”明确Windows/Linux分支、工具发现、根目录和执行策略限制。"
+        },
+        {
+          "id": "mechanism",
+          "result": "pass",
+          "evidence": "“边界机制课堂：脚本的环境和输出也属于接口”说明重定向顺序、作用域、参数、编码与集合形状；对象不是显示文本。"
+        },
+        {
+          "id": "foundation",
+          "result": "pass",
+          "evidence": "“AIOps 入门实验”提供双版本完整脚本/运行、缺日志状态、拒绝覆盖、验收清理。"
+        },
+        {
+          "id": "fault",
+          "result": "pass",
+          "evidence": "“一个完整的布尔返回故障实验”“不接触生产的失败实验”给安全注入、预期分支、修复和作用域收回。"
+        },
+        {
+          "id": "production",
+          "result": "pass",
+          "evidence": "“脚本工程课堂：从能运行走到能放心重复运行”覆盖有界并发、总预算、幂等、权限、输出接口和清理限制。"
+        },
+        {
+          "id": "interview",
+          "result": "pass",
+          "evidence": "“面试递进与生产场景”含30秒/3分钟及缺10台、定时任务环境、重复执行的因果追问。"
+        },
+        {
+          "id": "mastery",
+          "result": "pass",
+          "evidence": "“独立通关：别让显示结果替代返回合同”使用三条新对象、三段管道、日志三状态和报告不覆盖判据。"
+        },
+        {
+          "id": "aiops",
+          "result": "pass",
+          "evidence": "“Shell / PowerShell 在 AIOps 链路中的位置”“学习证据”连接采集、结构化结果、受控恢复，公开内容须脱敏。"
+        }
+      ],
+      "validation": [
+        {
+          "kind": "syntax",
+          "detail": "本机Windows PowerShell解析文章全部PowerShell围栏，无语法错误。",
+          "limits": "语法通过不证明真实采集或Bash跨平台行为。"
+        },
+        {
+          "kind": "executed",
+          "detail": "本机独立作用域复现双输出数组被当真、修正版返回Boolean false的故障与恢复。",
+          "limits": "未运行生成报告或Linux Bash脚本；输出覆盖保护为静态审阅。"
+        }
+      ],
+      "status": "revised-awaiting-cross-review"
+    },
+    {
+      "article": "foundation/systemd.md",
+    "crossReview": {
+      "reviewer": "data-observability",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "dedda98aa9704599954d3e9c28df4b2038212805010a46d60bf59222fbb85084",
+      "result": "pass",
+      "findings": [
+        "全文2386行审读：manager/client、job事务非业务事务、拉起与排序、Type启动非业务就绪、enable/daemon-reload/应用reload分层准确",
+        "用户级0→42→0真实路线与系统级自有HTTP/timer故障闭合，名称占用/端口/仅新对象清理；journal属性不冒充EnvironmentFile最终秘密",
+        "独立新17退出码、90秒每分钟与Persistent补一次、active503/inactive成功、path/socket触发和跨机协调边界完整；未执行systemd/用户总线实验"
+      ]
+    },
+      "reviewedAt": "2026-10-12",
+      "writer": "foundation-frontend",
+      "initialFindings": [
+        "系统级实验缺少可用健康目标且可能覆盖同名巡检；管理员前提和文件创建不明确。",
+        "故障timer仍运行、恢复与回收说明太晚且不完整；set-default示例未就近说明系统模式影响。",
+        "自动化重启片段可直接执行真实写操作，诊断脚本忽略状态的退出语义未说明。"
+      ],
+      "changes": [
+        "补Linux/systemd/sudo前提、名称冲突检查、独立回环HTTP目标与编辑器保存操作；推荐先做用户级实验。",
+        "系统级故障先暂停timer，恢复URL并复测，显式禁用/停止/删除本次文件和HTTP目标。",
+        "默认target变更加风险与原值回退；诊断单元名限制，自动重启改为只打印候选；新增状态/触发/就绪通关。"
+      ],
+      "criteria": [
+        {
+          "id": "prerequisites",
+          "result": "pass",
+          "evidence": "“AIOps 入门实验”“用户级安全实验：一条命令退出 42 时留下了什么”分清Linux/PID1、用户管理器、权限与运行位置。"
+        },
+        {
+          "id": "mechanism",
+          "result": "pass",
+          "evidence": "“systemd 如何启动服务”“依赖事务不是数据库事务”“触发机制课堂”解释job、依赖排序、cgroup、触发与业务状态边界。"
+        },
+        {
+          "id": "foundation",
+          "result": "pass",
+          "evidence": "系统级实验给出可用本地HTTP目标及日志成功证据；用户级实验以Result/ExecMainStatus验收而非running。"
+        },
+        {
+          "id": "fault",
+          "result": "pass",
+          "evidence": "系统级故障暂停timer再换空端口，恢复复测清理；用户级exit42独立复现、恢复与精确回收。"
+        },
+        {
+          "id": "production",
+          "result": "pass",
+          "evidence": "“生产设计：进程管理的边界与安全回滚”覆盖单机HA边界、重启预算、资源、权限沙箱、drop-in和制品/数据回滚。"
+        },
+        {
+          "id": "interview",
+          "result": "pass",
+          "evidence": "“面试递进：会说命令以后再说因果”含启动关系、业务探针、系统启动图的递进答案。"
+        },
+        {
+          "id": "mastery",
+          "result": "pass",
+          "evidence": "“独立通关：退出、触发和就绪不能混成一种状态”使用exit17、新单元、未重读变化、90秒任务与停机条件，给状态和证据判据。"
+        },
+        {
+          "id": "aiops",
+          "result": "pass",
+          "evidence": "“systemd 在 AIOps 链路中的位置”“AIOps 自动化脚本示例”先收证再生成候选动作，明确诊断退出不等于业务健康。"
+        }
+      ],
+      "validation": [
+        {
+          "kind": "reasoned",
+          "detail": "全文走读并核对两条实验的目标、权限、命名、状态、恢复及清理链。",
+          "limits": "当前Windows没有本次Linux systemd用户/系统管理器实测；未验证真实timer、cgroup、journal或启动兼容性。"
+        }
+      ],
+      "status": "revised-awaiting-cross-review"
+    },
+    {
+      "article": "foundation/vitepress.md",
+    "crossReview": {
+      "reviewer": "data-observability",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "1491e39a62113d2e9c28644f989d67cea5525636ba958efe6dc80901ce73f71c",
+      "result": "pass",
+      "findings": [
+        "全文1479行独立审读：历史VitePress v1与当前React分离；源码/路由/base资源三地图、构建/托管/水合三环境职责准确",
+        "固定1.6.4独立新目录含两文件构建预览/死链故障/恢复清理，不误改当前站点；半套产物为清单模拟，未冒充远端原子部署实验",
+        "独立新queue页/base变式/真实死链与纸面混版不同判据，搜索索引非授权、public公开面、缓存旧资源与依赖整包回滚完整；本轮未安装构建或浏览器运行"
+      ]
+    },
+      "reviewedAt": "2026-10-12",
+      "writer": "foundation-frontend",
+      "initialFindings": [
+        "历史教学workflow仍示例Node20且发布权限覆盖构建作业；版本/权限边界没有就近说明。",
+        "最小独立实验假定Node和新目录就绪；面试/检查单仍暗示当前仓库使用VitePress。",
+        "缺新路径/base/产物状态的独立掌握判据。"
+      ],
+      "changes": [
+        "workflow示例改Node22并声明复现边界，发布权限收窄到deploy作业，链接官方运行时发布周期。",
+        "补实验起步、创建目录/切换/当前位置与本地npx前提；改当前架构混淆与虚构生产经历措辞。",
+        "新增页面/路由/base、死链与半套产物、权限和水合的独立通关。"
+      ],
+      "criteria": [
+        {
+          "id": "prerequisites",
+          "result": "pass",
+          "evidence": "“独立基础实验与死链故障注入”补Node/npm准备、独立目录创建和当前位置；“历史架构示例：不要覆盖当前仓库配置”限定范围。"
+        },
+        {
+          "id": "mechanism",
+          "result": "pass",
+          "evidence": "“深入课堂：不要把三个执行环境混成一台服务器”及水合/缓存/搜索章节解释构建、托管、浏览器与状态归属。"
+        },
+        {
+          "id": "foundation",
+          "result": "pass",
+          "evidence": "独立实验提供两份Markdown、固定依赖、构建与预览、点击及刷新验收、精确清理。"
+        },
+        {
+          "id": "fault",
+          "result": "pass",
+          "evidence": "“独立基础实验与死链故障注入”改单一链接、记录非零与目标、恢复复建；“第二个生产模拟”明确纸面不是真实托管验收。"
+        },
+        {
+          "id": "production",
+          "result": "pass",
+          "evidence": "“生产设计题：十万篇文档不只是‘多放几个文件’”“升级与迁移”覆盖容量、权限、缓存、制品/路径兼容和回滚。"
+        },
+        {
+          "id": "interview",
+          "result": "pass",
+          "evidence": "“面试递进：从‘我会部署’到‘我能解释故障’”及安全手册追问含30秒/3分钟、环境与发布证据。"
+        },
+        {
+          "id": "mastery",
+          "result": "pass",
+          "evidence": "“独立通关：让页面、路由和产物三张地图闭合”改变目录/base/失败位置，要求实际URL、产物和刷新证据。"
+        },
+        {
+          "id": "aiops",
+          "result": "pass",
+          "evidence": "“VitePress 在 AIOps 知识库中的位置”“搜索索引不是权限系统，也不是数据库副本”连接runbook交付、检索与受控知识使用。"
+        }
+      ],
+      "validation": [
+        {
+          "kind": "reasoned",
+          "detail": "全文走读；对照VitePress v1 Getting Started确认1.6.4的目录/运行时说明，对照Node官方周期选择示例并保留版本验证边界。",
+          "limits": "未安装或执行独立VitePress项目，未部署Pages；现有React站构建不能替代该产品实验。"
+        }
+      ],
+      "status": "revised-awaiting-cross-review"
+  },
+  {
+    "article": "foundation/restful-api.md",
+    "crossReview": {
+      "reviewer": "data-observability",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "73d26194519f563ff5edeb3afc167b040df6c59dbdb90a8f1d98d9bf8bf0cd07",
+      "result": "pass",
+      "findings": [
+        "全文2100行审读：REST约束非HTTP/JSON、方法预期效果幂等、428/412/409、CORS预检与执行未知、缓存与授权边界准确",
+        "标准库本机实验完整源码/PowerShell7.3前置/端口归属/ETag及重复键合同；await正文后提交前二次版本检查避免单线程异步穿插，多实例须DB条件更新",
+        "独立语义字段换序/同键异载荷/条件GET新旧/并发一胜一冲突/36万记录360MB及跨区幂等有判据；任务只queued无真实删除，重启v1世代碰撞与代码回滚非业务撤销明确；本轮未运行服务"
+      ]
+    },
+    "reviewedAt": "2026-10-12",
+    "writer": "foundation-frontend",
+    "initialFindings": [
+      "安装与终端版本只有检查命令，缺少初次准备指引；端口占用可能让客户端误测旧服务。",
+      "真正并发测试无客户端等待上限；进程重启后的ETag计数撞值边界未明示。",
+      "已有丰富实验/答案但缺改变幂等请求字段顺序、缓存验证与容量输入的独立判据。"
+    ],
+    "changes": [
+      "补实验起步、命令来源、PowerShell版本和无真实worker边界；启动前查监听且不停止陌生进程。",
+      "并发fetch加AbortSignal观测超时，说明取消等待不撤销写入；解释重启计数不是持久资源验证器。",
+      "新增幂等字段顺序、新ETag/304/428、并发证据、两区域与360MB容量预算通关。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "“入门实验：运行一个可观察的 REST API”补Node/客户端工具与版本、隔离目录、端口冲突和本地监听前提。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "“一次请求的内部数据路径”“为什么 Node.js 单线程仍需要重新检查”解释请求路径、await竞争、条件原子提交和状态边界。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "入门实验完整服务、客户端输入、ETag/重放与预期；无worker、内存状态与清理明确。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "“故障注入实验：两个值班员并发修改同一告警”“故障实验：让两个请求真正竞争”有旧版本证据、恢复与真正竞争断言。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "“生产架构与高可用”“容量与性能”“安全边界”“生产设计题：设计 10 万 RPS 的多租户告警 API”覆盖共享状态、隔离、容量、灰度与数据回滚。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "“面试回答”包含定义、3分钟设计和12组连续答案追问，解释幂等、条件请求、授权与超时。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "“独立通关：旧版本、重复意图和未知结果分别处理”用字段顺序、新ETag、428、并发、容量和区域变化给明确可观察判据。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "“可观测性与 AIOps”“GitHub 学习证据”连接低基数指标、脱敏日志、Trace和受控执行，不冒充真实修复。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "syntax",
+        "detail": "Node对文章所有JavaScript代码围栏做module模式语法检查，通过。",
+        "limits": "没有启动HTTP实验、发送真实并发请求或验证PowerShell 7.3+报文；生产鉴权、数据库和跨区一致性未实测。"
+      }
+    ],
+    "status": "revised-awaiting-cross-review"
+  },
+  {
+    "article": "foundation/java.md",
+    "crossReview": {
+      "reviewer": "data-observability",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "003af2544ed40d79dae4cd7eb3299fc9046f3d4eb8034cf5db53b7e0bbc38cf1",
+      "result": "pass",
+      "findings": [
+        "全文2102行审读：发行方/LTS许可/历史补丁与当前路线、class身份/初始化/JIT/JMM、Heap/native/RSS口径分层准确",
+        "返修已读：包目录与DeadlockFixed两路线均加编译/运行LASTEXITCODE停止门禁，避免旧class假成功；摘要/JFR/确定性死锁/去闩锁统一顺序修复及精确PID清理完整",
+        "独立五条手算5/2/3与>60变2、major65/旧class反证/等待环/2GiB预算/超时非撤销判据明确；本轮未重跑历史JDK24验证"
+      ]
+    },
+    "reviewedAt": "2026-10-12",
+    "writer": "foundation-frontend",
+    "initialFindings": [
+      "8月版本快照仍使用当前/最新称呼，Oracle JDK21许可变化时间表述需与9月官方路线图区分。",
+      "完整告警记录未拒绝负时长，固定1970时间未解释采集与事件时间边界。",
+      "编译失败可能继续运行旧class；隐藏死锁进程没有错误日志，排障步骤却要求查看标准错误；只改锁顺序可能保留栅栏制造新等待。",
+      "缺少改变阈值、旧制品身份与死锁环形证据的独立任务。"
+    ],
+    "changes": [
+      "版本表标明历史快照并根据9月15日Oracle路线图说明27版本线和21更新许可计划边界。",
+      "补空目录/片段范围、编译退出码门禁、record构造校验、固定时间口径与JFR拒绝覆盖。",
+      "后台死锁改为同一完整JDK工具链、独立输出错误日志、进程存活检查与精确PID回收，解释统一锁顺序后不能保留原栅栏。",
+      "新增五层独立通关与返工标准。",
+      "交叉返修：包/目录短路线与DeadlockFixed串讲均补javac和java逐次退出码门禁，防止编译失败后运行旧class。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "“安装与环境确认”“第一个 Java 程序”“前置条件”区分PATH/JAVA_HOME、完整JDK工具、空目录与片段/完整程序。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "“类加载生命周期”“Java Memory Model 与 happens-before”“老师串讲：先知道程序等什么，再决定调哪一个参数”解释类加载、同步、线程池、超时与内存口径。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "“AIOps 入门实验：告警摘要器”有完整源码、目标21编译、major65、预期统计、JFR、排错与清理；新增构造校验。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "“故障注入实验：制造并定位 Java 死锁”确定性锁环、日志与jcmd证据、进程检查、精确PID收回和修复边界。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "“容器里的 Java”“Java 服务的高可用边界”“安全边界”“升级与回滚”“生产系统设计题：设计高吞吐告警处理平台”覆盖容量、状态、升级、安全与回退。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "“核心面试题与连续追问”从定义、值传递到JMM、GC、生产设计给答案与反例，非题目清单。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "“独立通关：输出正确还要证明运行的是本次制品”给五条新输入/边界预测/旧制品/锁环/2GiB预算及口述判据。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "“Java 在 AIOps 链路中的位置”“结构化日志、指标与 Trace”“GitHub 学习证据”连接采集、关联、受控修复和脱敏证据。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "executed",
+        "detail": "Windows Oracle JDK24的JShell实际执行全文AlertDigest类（移除package声明适应REPL），输出4/2/2及服务3/1，负时长被构造器拒绝。",
+        "limits": "未重新执行javac目标字节码、JFR和死锁进程；原文章JDK24历史实测记录不当作本轮全量复验。未验证25/26/27、容器和生产负载。"
+      },
+      {
+        "kind": "syntax",
+        "detail": "文章19个PowerShell围栏经PowerShell Parser解析无错误。",
+        "limits": "语法不证明JAVA_HOME权限、attach或后台进程行为。"
+      }
+    ],
+    "status": "revised-awaiting-cross-review"
+  },
+  {
+    "article": "foundation/golang.md",
+    "crossReview": {
+      "reviewer": "data-observability",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "7cbde48607c5487a941b2ad104dc09d65437e92439e9eddfb0b59fee1042aa6b",
+      "result": "pass",
+      "findings": [
+        "全文2126行审读；返修已读runWorkers的select→for→func三层闭合，作者gofmt语法检查，不冒充运行；module校验非锁、slice共享/typednil、GMP/Timer版本边界/协作取消准确",
+        "完整内存告警API1MiB/未知字段/单JSON/快照复制/202入队非持久/ready固定非容量/worker取消不drain/合法key总基数不受队列限制均明确",
+        "五关新2/1/重启空、容量1队列202/429/取出再入、race非数值证明/第二进程端口非零/净积压1秒及归属取消具判据；本轮未运行Go/C工具链"
+      ]
+    },
+    "reviewedAt": "2026-10-12",
+    "writer": "foundation-frontend",
+    "initialFindings": [
+      "Linux安装流程移动全局旧Go目录，SHA256只有显示没有失败门禁。",
+      "HTTP客户端LimitReader恰好1MiB会把超长响应当正常EOF；告警接口未拒绝第二JSON值与无效severity，拼接键允许冒号歧义。",
+      "绑定失败只写日志而正常返回，可能让调用方误判成功；有界jobs不等于无界counts map有容量上限。",
+      "需要针对异步202、429、race证据与排空协议的独立评测。"
+    ],
+    "changes": [
+      "Linux改独立用户课堂工具链，下载失败与SHA校验失败立即停止；补空目录与构建退出状态说明。",
+      "客户端多读1字节拒绝超限，接口校验单一JSON值、服务名格式与有限severity。",
+      "启动/Shutdown失败退出码1；明确固定readyz、启动意图日志、内存状态和counts基数的课堂边界及收回步骤。",
+      "新增入队/处理/可靠保存五层通关任务与返工判据。",
+      "交叉返修：补worker pool协程内for循环遗漏的闭合；原文函数提取后gofmt解析通过。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "“安装 Go 1.26”“第一个 module”“前置条件与目录”交代工具链、架构、校验、shell与-race/C编译器，不动全局旧安装。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "“Go 内存模型与 happens-before”“G-M-P 调度模型”“老师带你把告警 API 从‘会运行’讲到‘讲得清承诺’”解释所有权、同步、入队与排空。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "“AIOps 入门项目：告警聚合 API”完整main与测试、启动查询、校验、期望、故障回路和清理。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "“故障实验一：制造并修复 data race”“故障实验二：有限复现 goroutine 阻塞堆积”有限注入，取证、恢复锁/close与Wait回收清楚。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "“生产设计检查单”“HTTP client、连接复用与泄漏”“取消不是排空，优雅退出要画出顺序”“一道容量题，练会推理而不是背参数”覆盖容量、过载、可靠状态、安全、升级交付。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "“核心面试题参考答案与连续追问”17题含同步、调度、GC、timeout与架构选择答案，区分规范和版本实现。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "“独立通关：把入队、处理和可靠保存分别验收”含202/最终计数、容量1的429、输入负例、race/绑定失败、300条每秒预算与口述追问。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "“Go 在 AIOps 链路中的位置”“runtime metrics 与进程指标”“学习证据”关联采集/队列/指标/trace与脱敏profile，不把课堂压力当生产。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "executed",
+        "detail": "临时自有module提取文章完整main/test，用本机Go1.23.5实际go test -count=1及go vet通过；追加第二JSON值、非法severity、冒号服务名、未知字段与容量1的202/429行为测试全部通过。临时3文件目录已核对身份并移除。",
+        "limits": "为使用本机已有工具链，临时go.mod设1.23.0；未验证文章1.26.0工具链门禁、-race（本机CGO_ENABLED=0）、真实监听服务/SIGTERM或Linux安装。没有下载替换Go。"
+      }
+    ],
+    "status": "revised-awaiting-cross-review"
+  },
+  {
+    "article": "frontend/html.md",
+    "crossReview": {
+      "reviewer": "data-observability",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "1b28d0f77626e480c3357389985ba4760fd513e08d446dc7bd923a84952dc391",
+      "result": "pass",
+      "findings": [
+        "全文779行独立阅读：基础实验有新目录/UTF8/浏览器/本地不保存契约；故障修复源文件而非临时DOM",
+        "独立通关五题覆盖FormData成功控件、布尔属性、焦点和源码/DOM差异；生产层含跨租户缓存、幂等未知结果与整包回滚",
+        "未执行浏览器交互；原文共享实验历史测试与读者本机验收已区分"
+      ]
+    },
+    "reviewedAt": "2026-10-12",
+    "writer": "foundation-frontend",
+    "initialFindings": [
+      "离线表单按钮叫保存但没有后端，默认GET导航可能把合成处置文字放进URL。",
+      "初学者文件扩展名/开发者工具入口缺失，文档生命周期把字体与业务完成混为load就绪。",
+      "缺少表单条目改变条件、DOM修正和授权边界的独立判据。"
+    ],
+    "changes": [
+      "基础表单改为阻止默认导航、仅报告本地校验不保存；补UTF-8/扩展名/面板入口和安全回收。",
+      "修正文档生命周期与字体/异步业务边界并链接WHATWG解析结束步骤。",
+      "新增外观/提交数据/业务成功分层的五项通关。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "“基础实验：做一个无需框架的事件页面”给空目录、扩展名、UTF-8、开发者工具入口，区分离线与HTTP。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "“HTML、DOM、CSSOM 与渲染路径”“进阶层三：表单是一台状态机”解释源码/树与提交、未知结果。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "“基础实验：做一个无需框架的事件页面”有完整文件、键盘/校验预期和清理，不冒充后端保存。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "“故障实验：故意破坏表单并形成证据链”有label/button单点注入、无障碍证据、源文件恢复与回归。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "“进阶层五：HTML 层的安全模型”“生产设计：事件控制台怎样不成为新的事故源”“事故场景：发布后部分用户看到旧页面”覆盖授权、缓存/资源一致、容量与回退。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "“面试表达”“语义与交互课堂：把真实用户路径走完”给答案、结构/表单/生命周期继续追问。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "“独立通关：外观、提交数据与业务成功要分别证明”用FormData条件、DOM修正、十万事件和布尔属性给明确判据。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "“AIOps 中 HTML 的位置”“GitHub 学习证据”连接事件/Trace/版本及脱敏键盘证据。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "syntax",
+        "detail": "两段内嵌script经Node语法检查通过。WHATWG表单与解析结束原始规范已复核。",
+        "limits": "未实跑浏览器原生约束校验、键盘、屏幕阅读器或真实后端；历史共享实验记录不当作本轮验收。"
+      }
+    ],
+    "status": "revised-awaiting-cross-review"
+  },
+  {
+    "article": "frontend/css.md",
+    "crossReview": {
+      "reviewer": "data-observability",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "e972095a9fecf8cd4bfbfd73b721e5356fb579a44c47196f709609f797aae1e0",
+      "result": "pass",
+      "findings": [
+        "全文854行独立阅读，HTML前置与CSS引用/副本/移除旧表单监听完整，故障选择器明确需要app祖先",
+        "变量计算值失效三态、分层反转、内在尺寸、包含块与堆叠上下文机制正确；五项通关要求测量并写回源文件",
+        "生产侧覆盖令牌兼容迁移、原子制品、主题/放大/焦点与性能预算；未执行浏览器回归"
+      ]
+    },
+    "reviewedAt": "2026-10-12",
+    "writer": "foundation-frontend",
+    "initialFindings": [
+      "基础实验要求三个article但没有完整替换结构，沿用HTML脚本替换表单后会querySelector空节点报错。",
+      "file://失败与HTTP404/MIME边界未交代；缩短animation示例容易误读为完整减少动效策略。",
+      "缺少计算值无效与层叠迁移、布局容量的独立通过判据。"
+    ],
+    "changes": [
+      "补可直接替换的三卡片main与移除旧表单脚本说明；按钮明确纯演示。",
+      "补离线/HTTP前提、减少动效局限、强制颜色/对比度及仅个人副本回收。",
+      "新增三视口测量、变量三结果、获胜规则、十万事件治理与口述通关。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "“基础实验：自适应事件卡片”交代HTML副本、CSS文件/link与HTTP/离线区别，给完整替换结构。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "“进阶层一：级联不是只比较选择器分数”“进阶层三：内在尺寸与‘为什么 min-width:0 能救命’”“最后一堂机制课：变量存在，声明为什么仍然失效”解释竞争、计算阶段与布局。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "“基础实验：自适应事件卡片”完整CSS/HTML、视口、缩放、主题预期和排错/回收。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "“故障实验：制造横向溢出与样式覆盖失败”固定宽/匹配祖先/important注入，盒模型与获胜来源取证，恢复与回归。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "“进阶层八：CSS 工程治理与发布”“生产设计题：多团队仪表盘 CSS 怎样治理”“事故题：发布后弹窗被图表遮住”含资源版本、性能、主题、隔离与整包回退。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "“面试表达”“布局进阶课堂：用测量解释，而不是不断加 !important”解释答案与测量追问。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "“独立通关：用计算值和布局证据解释页面”规定变量蓝/紫/红、390/768/1440宽、获胜来源与治理取舍，不以截图代替因果。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "“AIOps 场景”“GitHub 学习证据清单”连接CLS/LCP/INP、发布版本、语义状态与可信结构。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "逐段核对HTML接线、CSS层叠/变量/盒模型实验条件与收回；W3C级联层规范已复核。",
+        "limits": "未在真实浏览器测量布局、强制颜色、键盘/屏幕阅读器或CLS/INP；未宣称视觉回归通过。"
+      }
+    ],
+    "status": "revised-awaiting-cross-review"
+  },
+  {
+    "article": "frontend/javascript.md",
+    "crossReview": {
+      "reviewer": "data-observability",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "e6c38ecbe83c245764b3b192b36bf13e8b7efba74b18d2de45821fb0c6448c0b",
+      "result": "pass",
+      "findings": [
+        "全文868行独立阅读；筛选CLI校验根形状、唯一ID和有限非负数，Node忙等与浏览器INP证据明确区分",
+        "独立五题含阈值边界、倒置请求时序、监听器引用、缓冲转移/队列与写入幂等；机制涵盖微任务、身份/引用和Promise失败不取消",
+        "本轮执行原文竞态、监听器引用和四字节转移三个离线片段，输出均符合预期；未测试真实浏览器/Fetch/服务端副作用"
+      ]
+    },
+    "reviewedAt": "2026-10-12",
+    "writer": "foundation-frontend",
+    "initialFindings": [
+      "基础实验名为可取消筛选器，实际是无网络CLI；参数缺失只抛底层错误。",
+      "normalize只查typeof而未拒绝负数/非有限/空或重复身份；IncidentStore只在add复制，get暴露内部对象。",
+      "两个不同ESM文件放同一代码块直接执行语法失败；故障同时注入数据与忙等不利归因。"
+    ],
+    "changes": [
+      "改名只读CLI并明确Node/文件/网络取消边界；补参数合同、有限非负数、非空唯一ID校验。",
+      "get返回副本防内部状态被修改；拆分classifier/main两文件围栏。",
+      "单独注入坏输入与忙等，区分Node耗时和浏览器INP；新增值/竞态/所有权五层通关。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "“基础实验：只读事件筛选 CLI”“模块与依赖图”交代Node、文件名、参数及分文件/HTTP前提。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "“事件循环：异步代码真正怎样排队”“工程进阶课堂：时间、身份与失败传播”“深一层的课堂：把对象交给 Worker 后谁拥有它”解释绑定、任务、资格与转移。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "“基础实验：只读事件筛选 CLI”完整输入/程序、输出/退出状态、语法与数据检查、只读回收。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "“故障实验：制造事件循环阻塞和脏数据”“不依赖网络的完整竞态实验”单因注入、期限/错误证据、恢复与反向延迟验证。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "“生产设计题：事件搜索怎样避免竞态与雪崩”“安全与供应链”“事故题：重复确认事件”覆盖容量、缓存/租户、幂等、版本、安全与回滚。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "“面试表达”“面试中的三个进一步追问”给闭包、Promise、异步边界与长期生命周期答案。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "“独立通关：把值、异步结果与资源所有权讲到可验证”给四延迟/五坏输入、反转延迟、监听引用、Worker与副作用设计判据。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "“AIOps 场景”“GitHub 学习证据”连接合成告警规则、部分证据、Trace/版本和受控自动化。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "syntax",
+        "detail": "21段js/javascript围栏以Node module语法模式检查通过；发现并拆分原先两文件混块的语法冲突。",
+        "limits": "机制片段不等于可独立运行的完整页面。"
+      },
+      {
+        "kind": "executed",
+        "detail": "Node26.8.2实际执行normalize边界0/999/1000/1001与空ID/负数/字符串/Infinity/重复ID五负例；执行全文定时器竞态示例，故障旧搜索/修复新搜索符合预期。",
+        "limits": "只运行内存纯函数和定时器；未运行CLI文件读写、真实Fetch/取消、浏览器INP、Worker或持久化接口。"
+      }
+    ],
+    "status": "revised-awaiting-cross-review"
+  },
+  {
+    "article": "frontend/ajax.md",
+    "crossReview": {
+      "reviewer": "data-observability",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "3ca33b7118eba3bd08c86a2dac060ce011913630cf067a2443d3e8e5526f74d4",
+      "result": "pass",
+      "findings": [
+        "全文814行独立阅读：两个完整文件、Node前置、4177归属和回环监听、Ctrl+C清理闭合",
+        "真实本地模式为同源503/慢响应/非法JSON形状，CORS、写幂等、自动重试明确是后续设计而非已实现",
+        "独立五题含9秒预算变式、旧错误资格、总尝试27倍放大以及Expose-Headers/注销刷新世代；未运行真实浏览器/API"
+      ]
+    },
+    "reviewedAt": "2026-10-12",
+    "writer": "foundation-frontend",
+    "initialFindings": [
+      "基础服务按完整URL匹配API，加入?mode后反而返回HTML；故障章节没有可复制的分支/超时/取消实现。",
+      "异步readFile失败未受控，端口占用与原有服务误测缺门禁。",
+      "未明确同源/合成延迟/自动重试的实验边界与独立判据。"
+    ],
+    "changes": [
+      "重写完整server，支持normal/error/slow/bad、方法/路由边界、受控500与绑定失败非零状态。",
+      "完整HTML加入模式、取消、2秒时限、旧结果/旧错误资格、类型与结构校验。",
+      "补运行时/端口/清理与模拟/真实边界；新增五层通关。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "“基础实验：本地事件 API 与页面”有Node、空目录、端口归属、完整两文件。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "“一次 Fetch 的完整网络路径”“CORS 预检逐步拆解”区分传输、状态、读取授权与Schema。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "“基础实验：本地事件 API 与页面”有完整同源服务/页面、200输出、检查与Ctrl+C收回。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "“故障实验：注入 503、慢响应和过期结果”给现成模式、明确状态、恢复和模拟边界。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "“生产设计题：多租户事件 API 客户端”“超时预算、重试放大与背压”覆盖身份、容量、灰度与兼容回退。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "“面试表达”“进阶老师追问：看得见响应，为什么取不到追踪号”有CORS/头过滤/重试答案。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "“独立通关：HTTP、正文与业务结果分层验收”含2→9秒、非法结构、预检、新旧结果与5000QPS/27倍取舍。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "“AIOps 场景”“前后端可观测关联”连接六层结果、trace、证据源与受控写入。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "syntax",
+        "detail": "6个JS围栏与完整HTML中的module script经Node语法检查通过。",
+        "limits": "未启动本文4177服务或浏览器；Fetch/CORS/Cookie、真实取消和服务端业务写入未实测。"
+      }
+    ],
+    "status": "revised-awaiting-cross-review"
+  },
+  {
+    "article": "frontend/typescript.md",
+    "crossReview": {
+      "reviewer": "data-observability",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "601a88888e67c85a60d746a70b88a07d8227a651996c5c9f88b7a0dbf8b7681c",
+      "result": "pass",
+      "findings": [
+        "全文独立审读后发现根目录parse-sample.ts不在项目include/start范围；作者已补本地6.0.3 --ignoreConfig独立检查/编译/运行，复核修订段和逐步退出码门禁通过",
+        "严格NodeNext主实验、未知输入守卫、noEmitOnError与旧制品拒绝、越界变式和专属输出清理完整；静态类型不冒充运行时授权",
+        "未执行TypeScript SDK；本轮为全文机制及命令路径审校，作者语法记录不替代真实运行"
+      ]
+    },
+    "reviewedAt": "2026-10-12",
+    "writer": "foundation-frontend",
+    "initialFindings": [
+      "基础实验没有独立package/安装/执行路径，要求新手自行调整模块配置且只做noEmit。",
+      "基础Incident三字段与四字段isIncident守卫不一致，故障修复缺完整衔接。",
+      "缺少非法调用、旧dist和运行时样本三种独立证据的评测。"
+    ],
+    "changes": [
+      "补固定6.0.3的package、安装/lockfile、NodeNext配置、build/start与失败停止。",
+      "基础契约统一四字段，补完整守卫和unknown失败替换段。",
+      "新增静态负例/运行时负例/运行产物的五层通关与回收边界。",
+      "交叉复核返修：parse-sample.ts不在src include且start只跑index，改为本地6.0.3单文件ignoreConfig检查、独立新目录编译、准确Node执行与逐步失败停止；变式用新目录避免旧制品，回收只限本次文件。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "“基础实验：类型安全的告警聚合器”空目录到package/lockfile/config/src完整，区分Bundler与NodeNext。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "“编译器做什么、不做什么”“运行时校验：静态类型的信任边界”解释类型擦除与校验。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "“基础实验：类型安全的告警聚合器”有完整四字段程序、编译/运行预期和门禁。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "“故障实验：用 any 和断言制造‘假安全’”“基础与故障合一的类型测试”可复现错误、拒绝与恢复。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "“生产系统设计：跨团队前端类型契约”“容量、性能、安全和升级”覆盖兼容、性能、安全与整套回退。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "“面试表达”“函数类型的安全边界有例外”有类型/模块/回调机制与连续追问。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "“独立通关：静态拒绝、运行时拒绝与实际执行三份证据”具体计数、never/负例退化、旧dist与契约设计。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "“AIOps 场景”“输入类型与领域类型应隔着一道校验门”连接模型/告警外部输入与可信边界。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "executed",
+        "detail": "本地TypeScript6.0.3 Compiler API对4个完整TS程序独立strict检查通过；增加遗漏error状态产生2345，放宽批准状态产生2578；parseSample实际输出true/false/false并拒绝空服务/2/Infinity。",
+        "limits": "内存虚拟源编译/执行；未在新目录npm install或真实生成dist，浏览器和跨团队发布未验证。"
+      }
+    ],
+    "status": "revised-awaiting-cross-review"
+  },
+  {
+    "article": "frontend/vue.md",
+    "crossReview": {
+      "reviewer": "data-observability",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "68b887c861427798700b34882101d759fd1aac84c6a7e28d30599afaf9efadff",
+      "result": "pass",
+      "findings": [
+        "全文955行独立审校：固定共享路线与独立脚手架路线分开，实际脚本/原脚手架测试不冒充新App行为测试",
+        "完整300/20ms合成竞态区分guarded故障/恢复与真实Fetch；清理watch/onUnmounted，KeepAlive、浅响应与3.5 props编译转换边界清楚",
+        "五项通关有响应触发预测、列表身份、SSR请求隔离、缓冲/旧chunk与整包回滚；未执行Vue SDK或浏览器"
+      ]
+    },
+    "reviewedAt": "2026-10-12",
+    "writer": "foundation-frontend",
+    "initialFindings": [
+      "脚手架路径/实际脚本与原测试范围未交代清，易在本仓库覆盖App或误称新组件已测试。",
+      "旧请求故障只要求自行写mock，无完整注入/取消/回收实现。",
+      "缺少响应连接、编译宏、浅响应和异步资格的独立判据。"
+    ],
+    "changes": [
+      "补个人空项目路线、src/App替换、npm run核对与Vitest一次运行，说明脚手架旧测试非新App验收。",
+      "新增完整300/20ms可切guarded的竞态SFC，支持取消、资格与卸载回收并明确模拟边界。",
+      "新增五层通关覆盖响应、key、生命周期、SSR/容量与版本。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "“基础实验：Vue 3 + TypeScript 事件看板”交代独立项目/共享路线、运行时、文件与实际脚本。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "“响应式依赖图怎样建立”“版本边界课堂：同样写解构，为什么结果不同”解释track/trigger与3.5宏范围。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "“基础实验：Vue 3 + TypeScript 事件看板”完整筛选App、输入/0条预期、检查与恢复。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "“故障实验：响应丢失、竞态与 cleanup”含可运行解构及完整竞态SFC，单条件故障/修复/回收。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "“生产设计题：多团队 Vue 事件控制台”“SSR、hydration 与跨请求隔离”“升级、发布与回滚”覆盖状态、安全、容量与制品。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "“面试表达”“Vue 项目答辩课堂：从一个组件走到可维护的系统”有watch/nextTick/所有权深入答案。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "“独立通关：响应连接、异步资格和组件身份三条线”有快照/toRef、反转延迟、资源十次、SSR/宏判据。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "“AIOps 场景”“可观测性”连接实时告警缓冲、errorHandler/release/trace与受控操作。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "syntax",
+        "detail": "用仓库共享实验的@vue/compiler-sfc对新增完整竞态SFC的script setup和template编译通过。",
+        "limits": "未运行vue-tsc或浏览器点击/卸载；编译不等于真实竞态、网络取消、SSR或性能测试。"
+      }
+    ],
+    "status": "revised-awaiting-cross-review"
+  },
+  {
+    "article": "frontend/react.md",
+    "crossReview": {
+      "reviewer": "data-observability",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "98e28d1c119a8057848e9d87b172b3d3ad88a408e040fbdc4c68c0d93b41424b",
+      "result": "pass",
+      "findings": [
+        "全文881行独立阅读：render/commit/Effect顺序及StrictMode开发检查、状态队列1与3、type/key/position身份、订阅快照与SSR请求隔离解释完整",
+        "独立Vite入口与两份完整App替换路径闭合，旧脚手架测试不代表新页面行为；五题覆盖新输入/队列/资源清理/容量与未知写入",
+        "未执行React SDK或浏览器；定时器合成竞态、真实Fetch取消、服务端幂等与生产审批边界没有混为一谈"
+      ]
+    },
+    "reviewedAt": "2026-10-12",
+    "writer": "foundation-frontend",
+    "initialFindings": [
+      "核心组件只有named export且无新项目挂载路径，默认Vite入口不能直接使用；误称默认模板都有test/type-check。",
+      "Effect failed.error与reducer failed.message不一致，缺Action定义且默认静默吞新动作。",
+      "后段图把passive Effect固定画在paint之后，与正文边界冲突；独立通关不足。"
+    ],
+    "changes": [
+      "补安全个人Vite创建/依赖路径、默认App导出与实际脚本核对，保留本仓库主页。",
+      "统一failed.message、补Action联合与never穷尽，说明请求ID/运行时校验边界。",
+      "修绘制/Effect图的调度边界，新增五层快照/身份/订阅/设计通关与安全回收。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "“基础实验：React 19 + TypeScript 事件看板”从空目录模板到src/App默认导出与实际脚本。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "“render、reconciliation 与 commit”“Effect 的生命周期与闭包”解释快照、身份与外部同步。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "“基础实验：React 19 + TypeScript 事件看板”“完整课堂实验：同样三行为什么只加一”有完整App与明确结果。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "“故障实验：缺 cleanup、key 错位与 hydration”“完整课堂实验：同样三行为什么只加一”给快照故障/修复和资源/身份回归，SSR缺环境不声称验证。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "“生产设计题：实时告警 React 控制台”“可观测性和发布”“Server Components 与 Server Actions 边界”涵盖容量、权限、兼容与回退。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "“面试表达”“React 工程课堂：减少需要同步的状态，增加可验证的边界”含Effect、Context、错误与性能答案。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "“独立通关：快照、身份、同步与真实业务分别验收”规定1/3、草稿重排、单有效资源、迟到错误与系统取舍。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "“AIOps 场景”“可观测性和发布”连接Profiler/业务结果/release/trace和服务端审计。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "syntax",
+        "detail": "本机TypeScript6.0.3对筛选App和快照实验两份完整TSX独立strict检查通过，解析实际React类型。",
+        "limits": "未运行浏览器/React组件测试、Effect资源序列、SSR/RSC或生产构建；静态检查不当运行验收。"
+      }
+    ],
+    "status": "revised-awaiting-cross-review"
+  },
+  {
+    "article": "middleware-application-platform/tomcat.md",
+    "crossReview": {
+      "reviewer": "data-observability",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "41dd22fa30aa31dfb38eb760d5dddcdd457551e48793bb55d00252d320f2c4ec",
+      "result": "pass",
+      "findings": [
+        "全文1417行审读：Coyote/Catalina/Jasper/Valve过滤器与容器层级、线程连接OSbacklog、应用类加载委派例外及JNDI池预算准确",
+        "完整只读ROOTJSP/本机端口与Compose归属，坏web.xml嵌套挂载故障及撤覆盖重建复测；启动完成不等Context可用/AccessLog缓冲有排查，未声称Docker实跑",
+        "独立请求ID/ROOT改orders/部署失败证据/三实例90并存180超过120/JavaSE javax.sql不可盲改/粘性非备份均有判据；回滚不撤数据库数据，shutdown端口=-1边界明确"
+      ]
+    },
+    "reviewedAt": "2026-10-12",
+    "writer": "foundation-frontend",
+    "initialFindings": [
+      "固定7月补丁快照易被误当当前安全版本；安装configtest失败后命令仍可继续。",
+      "多实例拓扑画成串联；ss子串匹配8080可能混入18080；故障文件创建与Compose归属前置不完整。",
+      "缺少独立条件变化、连接预算和口述判据。"
+    ],
+    "changes": [
+      "标明历史版本边界、校验失败停止、前台Windows启停与Linux日志跟随不同。",
+      "重画并列实例，精确端口过滤，补新目录/项目/端口/文件准备与故障文件操作。",
+      "新增挂载改变Context、XML故障收回、并存JDBC预算和命名空间口述五关。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "“入门实验：运行一个可观测的 Tomcat 应用”的前提检查Docker/端口/Compose归属、文件名和共用准备。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "“核心原理”“生产拓扑”区分请求路由、并列副本与独立状态。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "“入门实验：运行一个可观测的 Tomcat 应用”给完整Compose/XML/JSP和响应/日志判据。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "“故障注入实验：让 Tomcat 进程活着但应用部署失败”给覆盖、同次日志、恢复与项目级回收。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "“容量与性能”“安全”“升级、回滚与兼容性”覆盖队列、依赖预算、状态兼容和受控回退。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "“面试题与递进追问”“老师带你串起来：从第一次 JSP 请求到生产发布”有机制与事故答案。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "“独立通关：把‘容器活着’和‘应用可用’分开验收”含200/挂载路径变化/故障/90→180预算/三分钟判据。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "“在 AIOps 中的作用”连接请求、线程、依赖、日志链路与受控自动化。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "syntax",
+        "detail": "14个PowerShell代码围栏用本机PowerShell解析器检查无语法错误；差异空白检查通过。",
+        "limits": "未拉取固定Tomcat镜像、启动Docker/JSP或实际注入XML故障；配置语义和预期按文中边界审理，不声明生产验收。"
+      }
+    ],
+    "status": "revised-awaiting-cross-review"
+  },
+  {
+    "article": "middleware-application-platform/websphere.md",
+    "crossReview": {
+      "reviewer": "data-observability",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "d8601a8da2e1382cb9942c831820694763328d030417159a5f5b704f82702dbe",
+      "result": "pass",
+      "findings": [
+        "全文1888行审读：traditional ND与Liberty分离；EAR分析/Save/Sync/分发展开/逐成员运行/插件入口/业务六回执，DMgr主仓库与Node副本状态边界清楚",
+        "本机Liberty同摘要mpHealth→无效Feature→恢复闭环，WARN仍Ready不等Feature成功；传统CU受支持删CU再空BLA/save，raise非撤回/reset仅未提交/save超时未知，手工隔离限定两绝对路径/父级链接/非原子移动及全Cell审批",
+        "独立题成员版本差异/四池320并存400超240/未决XA日志非缓存/配置ZIP非业务备份具技术判据；本轮未运行Docker、ND、真实EAR或仓库修复，不混用压缩EAR与平台展开目录哈希"
+      ]
+    },
+    "reviewedAt": "2026-10-12",
+    "writer": "foundation-frontend",
+    "initialFindings": [
+      "产品versionInfo/historyInfo误写在Profile/bin，角色命令看似在同一Profile顺序执行。",
+      "最小更新脚本未验证准确应用/文件和工作区干净；Liberty端口与备份防覆盖缺命令。",
+      "缺ND状态题和本地Liberty/真实传统生产的独立通关界限。"
+    ],
+    "changes": [
+      "修正产品二进制工具路径、引用路径与按角色选命令。",
+      "更新脚本补文件、应用清单、未保存变更门禁，说明wsadmin Jython非Python3；补Liberty准备/端口/创建失败/备份检查。",
+      "新增六张回执、WARN/FAIL、部分节点旧版、连接预算与CU失败工作区口述五关。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "“Traditional 安装边界”“入门实验：运行 Open Liberty 健康端点”区分产品/Profile、角色、终端/文件和Docker端口。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "“核心原理”“小白必须先懂的部署对象”区分请求/主仓库同步/发布及BLA/CU/Asset。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "“入门实验：运行 Open Liberty 健康端点”有完整server.xml、固定摘要、Ready和health验证。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "“故障注入实验：制造 Feature 配置错误”有备份、错误Feature证据、相同摘要恢复与清理；不冒充ND实验。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "“EAR 更新与部署：从发布门禁到故障闭环”“容量与性能”“升级、回滚与现代化”覆盖状态、安全、恢复审批。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "“面试题与递进追问”“老师带你验收一次 EAR 更新：六张回执不能缺”有应用身份/事务/绑定答案。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "“独立通关：六张发布回执与两种运行时不能混在一起”要求本地实测与ND推演分栏，含预测/故障/320与400预算/工作区口述。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "“把 EAR 发布接入 AIOps”“在 AIOps 中的作用”按stage和版本收敛关联观测，不自动删除仓库对象。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "syntax",
+        "detail": "8个PowerShell围栏解析无错误；检查路径及Jython工作区前置控制流程。",
+        "limits": "无授权traditional ND/IBM Java环境，未执行EAR更新、删除、同步或手工恢复；未启动Liberty容器。Jython未在wsadmin解释器运行。"
+      }
+    ],
+    "status": "revised-awaiting-cross-review"
+  },
+  {
+    "article": "data-ai/machine-learning.md",
+    "crossReview": {
+      "reviewer": "data-observability",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "9624e02d0cde724df43a10df81d6c0a21c62a7fa3c511e2d8edb9483bf6727ec",
+      "result": "pass",
+      "findings": [
+        "全文828行独立阅读：Python新目录/独立解释器、合成160行分类及标准库单样本梯度实验齐全；预期满分非验收门槛",
+        "学习率发散与标签泄漏两种故障有恢复、反证与清理；时间/事故拆分、概率校准/成熟标签、单位契约与pickle加载安全明确",
+        "独立五题的TP/FP/FN与低基率分母、阈值集合单调不保证精确率单调、每班预算/影子发布/回滚合理；本轮未运行第三方模型"
+      ]
+    },
+    "reviewedAt": "2026-10-12",
+    "writer": "foundation-frontend",
+    "initialFindings": [
+      "新建目录/环境未防覆盖，激活失败后可能调用错误Python；模型概率第2列假设未解释。",
+      "示例满分未明确测试集规模与概率校准界限；恢复梯度实验缺断言。",
+      "已有自测缺分层可判定五关。"
+    ],
+    "changes": [
+      "补新目录/明确虚拟环境解释器、安装失败停止和版本证据；显式标签顺序及事故类定位。",
+      "区分160/112/48及36/12样本、合成满分与真实概率，补恢复断言。",
+      "新增梯度手算、分母/阈值预测、泄漏、多低基率设计与口述通关。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "“安装与启动”给个人新目录、明确venv解释器与文件准备；无GPU依赖。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "“机制精讲：先不用框架，亲手理解模型为什么会改变”“泛化精讲：模型为什么在历史上优秀，在明天失败”解释梯度与数据时间边界。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "“入门实验”“预测函数、参数、损失、梯度、学习率”分别给完整分类和无依赖手算程序。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "“可回收故障实验：发现偷偷混入的答案”及梯度发散提供检测、恢复和清理。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "“从实验到生产的连续设计题”“模型发布物也是需要防护的软件”覆盖特征状态、预算、安全与版本回退。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "“面试连续追问：把选择讲成证据”“三分钟完整回答示范”解释简单基线、漂移与数据诊断。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "“独立通关：不靠满分截图证明模型有效”有第一步1.9/4.6、TP/FP/FN、8.26%低基率与回退判据。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "“在 AIOps 中的作用”及连续设计题从指标/标签到候选、反馈、规则兜底与受控动作。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "syntax",
+        "detail": "3个Python围栏AST检查通过；核对scikit-learn官方常见陷阱。",
+        "limits": "本机两套Python均无scikit-learn，分类/泄漏框架实验未执行；不以文中预期满分作为运行成绩。"
+      },
+      {
+        "kind": "executed",
+        "detail": "实际执行无依赖梯度程序，正常下降、weight≈2、0.2发散及恢复断言通过。",
+        "limits": "仅单样本课堂数学实验，不是生产训练、校准或模型上线。"
+      }
+    ],
+    "status": "revised-awaiting-cross-review"
+  },
+  {
+    "article": "data-ai/pandas.md",
+    "crossReview": {
+      "reviewer": "data-observability",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "de47f7d9e78b51a1500787ed8d6cc576a33a827688b444ac0c466621a88deef0",
+      "result": "pass",
+      "findings": [
+        "全文1546行审读：行粒度/标签对齐/size-count/多对多空键与SQL差异/CoW对象身份非事务、加权均值与不可平均分位数机制准确",
+        "主日报严格键/枚举/上海本地时间转UTC/时间方向/重复发布/行数守恒/渲染后独占写，重复维表/未来nearest/空键三故障闭环；交叉返修read_csv保留原时间且parse_local严格解析、rolling包含当前桶/最初两行缺失与预测排除未完成桶说明，已核对修后正文",
+        "独立4行金数/发布改未来/反例输入输出不覆盖/分块均值19/归属清理与原始证据保留明确；本轮未执行pandas、SQL、Parquet或生产定时报表"
+      ]
+    },
+    "reviewedAt": "2026-10-12",
+    "writer": "foundation-frontend",
+    "initialFindings": [
+      "独立日报只parse_dates无严格Schema/主键/枚举/时间边界，异常输入可能生成错误报告。",
+      "报告先打开再to_markdown，缺tabulate会留下半份文件；CSV时区和精确验收数未说明。",
+      "缺独立分母、条件变化与拒绝覆盖通关。"
+    ],
+    "changes": [
+      "日报补键/ID/枚举/时间/同刻发布校验，上海时间显式转UTC，守恒断言。",
+      "先完成Markdown渲染再独占创建，说明磁盘写入仍非原子；补个人环境/文件步骤和四行期望数。",
+      "新增五关，覆盖未来发布、空键、重复维表、坏日期、重复ID、恢复逆序、加权均值和版本发布。",
+      "交叉返修：日报学习点对应read_csv原始字段与parse_local严格解析/上海时区/UTC；rolling说明包含当前桶、前两行缺失及预测不得混入未完成当前桶。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "“安装和环境”“AIOps 入门实验：告警日报”说明新目录/venv、四文件、平台解释器及无数据库前提。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "“Index 课堂：pandas 会按标签对齐，不只是按位置相加”“写时复制是对象语义，不是数据库事务”解释标签/对象与状态边界。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "“AIOps 入门实验：告警日报”完整CSV/程序与2/1/1、15/28/5、编号2、关联1/3验收。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "“关联课堂：一次错误合并可以把告警翻十倍”“空关联键不是‘不可能匹配’”“第三站：基础实验补课——别把未来发布关联给过去告警”有断言及收回。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "“第五站：单机内存里的容量与恢复”“从一张表到可信批任务还差什么”覆盖分块、唯一发布、失败保留、权限与依赖回退。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "“面试黑板题：日报变好，值班同学却更忙”“三分钟答案：如何证明这份告警日报值得信任”有分母/键基数/任务取舍答案。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "“独立通关：行数、时间和统计分母都要守恒”含输入变更预测、三类拒绝、现存输出保护与整体19而非15均值判据。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "“pandas 在 AIOps 链路中的位置”及日报关联把指标/告警/变更转成有时间边界特征，禁止相关性直接当根因。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "syntax",
+        "detail": "77个Python围栏AST检查通过；核对pandas官方read_csv和CoW指南。",
+        "limits": "语法不证明所有片段能脱离上下文运行；未连SQL/Parquet。"
+      },
+      {
+        "kind": "executed",
+        "detail": "bundled pandas3.0.1/NumPy2.3.5用StringIO注入文中CSV执行完整日报到渲染前，验证三服务统计、未恢复2、关联1/3；坏日期/重复ID/逆序恢复3例全部拒绝；改发布09:15只关联3；重复维表/未来/空键三个完整内存实验通过。",
+        "limits": "bundled环境无tabulate，未执行to_markdown和真实report.md文件创建；未声称独占创建/磁盘失败/定时生产发布已实测。"
+      }
+    ],
+    "status": "revised-awaiting-cross-review"
+  },
+  {
+    "article": "data-ai/scikit-learn.md",
+    "crossReview": {
+      "reviewer": "data-observability",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "8a9be557aee3f1f0dfae4f7ca0c7357afbf4735d125d6f01e234a5179b43edc6",
+      "result": "pass",
+      "findings": [
+        "全文1297行独立审读：fit/transform/predict状态、训练折内预处理与时间/事故分组泄漏、IsolationForest原始分数/offset/阈值非概率、LOF默认与novelty边界、fit/partial_fit/warm_start差异均有机制解释",
+        "八行合成数据明确仅同批离群检测与可信Pipeline持久化闭环；数据合同拒绝缺列/空表/空服务/重复时间/非有限值/单位范围，独占模型目录与输出表拒覆盖，恢复列顺序/单位故障不作生产修复",
+        "独立五题含阈值手算1与4条、score_samples-offset关系、四进程至少800MiB模型驻留及完整包回滚；本轮实际运行原文无依赖阈值实验得normal1/overflow4/recovered1，6个完整Python代码块AST通过；第一次AST管道中文编码失败后改UTF8 Base64输入通过，不把传输编码错误当文章语法错；未安装/运行scikit-learn模型、pandas或在线服务"
+      ]
+    },
+    "reviewedAt": "2026-10-12",
+    "writer": "foundation-frontend",
+    "initialFindings": [
+      "CSV入口未拦截时间重复、非有限值、比例单位错误",
+      "模型及复核表重跑可覆盖旧证据，学习环境与完整文件步骤有跳跃",
+      "缺少独立状态/阈值/数据合同通关判据"
+    ],
+    "changes": [
+      "补独立环境与完整data_contract.py，训练检测复用严格读取",
+      "模型目录独占创建、制品xb与复核CSV mode=x拒绝覆盖",
+      "增加估计器状态、contamination与策略阈值的五关任务"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "安装：解释隔离环境、UTF-8文件与失败停步"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "Estimator API、Pipeline、IsolationForest 深讲：解释fit状态和异常分数/阈值边界"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "AIOps 入门实验：指标异常检测器：完整读取、训练、检测与拒绝覆盖"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "第二轮精讲：从一个分数追问到上线决策：增加有限值/负延迟拒绝，保存失败证据而非填补冒充成功"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "训练集、测试集和数据泄漏、模型保存和加载、独立通关：把估计器状态与业务策略分开：数据泄漏、模型可信来源与进程/线程内存预算"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "面试题、增量学习课堂：多次 fit 不等于逐批学习：状态、泛化、LOF与增量学习追问"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "独立通关：把估计器状态与业务策略分开：五道任务给答案判据"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "AIOps 入门实验：指标异常检测器：结果进入人工复核而非自动归因"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "syntax",
+        "detail": "40段Python AST、1段PowerShell语法通过",
+        "limits": "语法检查不证明估计器运行成功"
+      },
+      {
+        "kind": "executed",
+        "detail": "bundled pandas 3.0.1/NumPy 2.3.5实际执行data_contract，正常CSV与5类坏输入通过判据",
+        "limits": "内存CSV合成数据；scikit-learn未安装，未执行fit/joblib链路"
+      },
+      {
+        "kind": "reasoned",
+        "detail": "逐篇全文审读，核对Pipeline泄漏和IsolationForest官方API",
+        "limits": "无生产流量/发布实测"
+      }
+    ],
+    "status": "revised-awaiting-cross-review"
+  },
+  {
+    "article": "data-ai/tensorflow.md",
+    "crossReview": {
+      "reviewer": "cloud-automation",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "95438ccab8583af7c94f2481362eb27fa14badd1b8de2a2661a755880768aa4d",
+      "result": "pass",
+      "findings": [
+        "完整阅读全文；Tensor、Variable、GradientTape、Dataset、Eager/Graph 与训练请求路径按作用、观测和失败边界展开；Normalization 仅在训练集适配，合成独立同分布切分没有伪称生产时间序列验证。",
+        "逐项核对训练、predict.py 和 fault_injection.py：有限值门禁、训练期中位数与明确的拒绝条件、重载制品的固定探针和阈值均有因果说明。返修后 Windows/Linux 安装与运行显式使用本课虚拟环境，逐步失败停止，不再依赖激活或全局解释器；Serving 请求有有限超时。",
+        "检查“生产设计”“事故题”和独立通关：区分权重恢复与优化器恢复、Serving 候选版本与已验证兼容组合、模型/特征/阈值/运行时共同回滚、容量平均值与故障余量，以及自动化授权边界，答案能支持递进追问。",
+        "本次交叉审校为正文、配置与代码路径复核；未执行 TensorFlow 训练、GPU、Serving 或生产部署，不用其他文章的标准库运行结果替代这些验证。"
+      ]
+    },
+    "reviewedAt": "2026-10-12",
+    "writer": "foundation-frontend",
+    "initialFindings": [
+      "NaN概率可被比较为低风险，训练和导出缺少数值及重载验收门禁",
+      "缺失值修复未限制缺失数量及数值范围",
+      "虚拟环境失败停步与独立掌握证明不完整"
+    ],
+    "changes": [
+      "补安装失败停步、版本日期边界和数据生成数量校验",
+      "训练history/权重/预测有限值与概率范围门禁，keras重载golden样本比对",
+      "输入比例/百分比合同、最多一项缺失修复及五道独立任务",
+      "交叉返修：预测与故障脚本统一专用venv解释器和失败停止；补预测入口与期望，Linux安装逐次门禁、设备检查退出码与Serving30秒超时"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "安装：独立目录、Python选择与显式环境解释"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "自动微分、tf.function 与计算图、模型保存与交付：Eager/Graph、梯度与优化、SavedModel状态边界"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "基础实验：训练 AIOps 故障风险分类器：完整文件和导出前验收"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "故障注入实验：让输入包含 NaN：单字段修复、全缺失拒绝及回退"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "升级、灰度与回滚：版本与预处理匹配，Serving兼容不假定"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "面试速答：训练服务偏差、分布式、恢复状态追问"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "独立通关：训练、推理、导出三种成功分别证明：五关含答案"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "TensorFlow 在 AIOps 中的生产落地：评分与人工/规则回退边界"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "syntax",
+        "detail": "返修后重新解析19段Python AST、6段PowerShell围栏，全部通过",
+        "limits": "没有加载TensorFlow执行图"
+      },
+      {
+        "kind": "executed",
+        "detail": "NumPy实际执行6000x4生成、输入合同、单字段修复与10类负向检查",
+        "limits": "TensorFlow未安装，训练/keras重载/export/Serving未执行"
+      },
+      {
+        "kind": "reasoned",
+        "detail": "全篇核对数值门禁、batch计算、保存与恢复边界",
+        "limits": "生产GPU及服务容量均未实测"
+      }
+    ],
+    "status": "revised-awaiting-cross-review"
+  },
+  {
+    "article": "data-ai/pytorch.md",
+    "crossReview": {
+      "reviewer": "cloud-automation",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "fbdbb302f299348776cf26020c893fc005e0a23e7745b689f8d3bb4e5830122d",
+      "result": "pass",
+      "findings": [
+        "完整阅读全文；复核张量视图/复制、梯度累加、Module 参数与缓冲区、BCEWithLogitsLoss、eval 与 no_grad、DataLoader 和 CPU/CUDA 依赖的机制，不把执行模式和求导控制混为一谈。",
+        "逐项检查训练/预测/NaN 故障注入以及 best state 的复制、有限输入输出、加载固定探针和旧制品保护；返修后训练立即检查退出码，compile 调试显式使用本课环境且说明默认 eager 实验不会自动产生编译行为。",
+        "核对 DDP 的 DistributedSampler/set_epoch 与全局指标边界、FSDP2 汇集分片参数及归约分散梯度、Checkpoint 和完整训练恢复、原子替换与断电/NFS/多写者边界；独立通关的梯度、批量与 16GB 状态容量题具有可计算判据。",
+        "文章明确区分历史真实输出、本轮静态修订和未运行环境；本次未执行 Torch 训练、torch.compile、GPU 或分布式实验，生产质量与执行权限仍需分别验收。"
+      ]
+    },
+    "reviewedAt": "2026-10-12",
+    "writer": "foundation-frontend",
+    "initialFindings": [
+      "评估阶段未拒绝空数据、NaN、标签形状与标签范围",
+      "固定检查点临时名可能覆盖他人未完成文件",
+      "故障程序未核对元数据特征合同，旧运行记录易误认本次验证"
+    ],
+    "changes": [
+      "评估增加输入/logits/loss/空集合同，生成数量拒绝无效类型",
+      "独占临时检查点、同步后加载再原子替换，仅清理本次临时文件",
+      "元数据特征单位校验、安装失败停步、归档清理与独立五关",
+      "交叉返修：train后先验退出码再读artifacts；compile调试统一环境及新目录，明确eager不会因日志变量自动编译；FSDP2通信图加技术语境中文"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "安装与环境验证：隔离目录、完整UTF-8脚本与固定历史版本"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "核心概念三：Autograd 动态计算图、核心概念七：训练模式、评估模式与梯度上下文：梯度累计、eval与inference_mode分离"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "基础实验：训练一个 AIOps 故障风险分类器：形状有限值、保存重载门禁"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "故障注入实验：NaN 在进入模型前被拒绝：合同、拒绝和可信回放"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "保存过程也会出现半成品：独占临时文件与单发布者、持久性边界"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "从实验到生产面试：状态恢复、通信挂起与输入数据证据"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "独立通关：梯度、评估和制品分别举证：五任务和数值判据"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "基础实验：训练一个 AIOps 故障风险分类器、AIOps 生产用例：合成高分不代表真实生产质量，失效回退规则/人工"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "syntax",
+        "detail": "交叉返修后重新解析32段Python AST、8段PowerShell围栏全部通过",
+        "limits": "未安装PyTorch；AST不验证Tensor API运行行为"
+      },
+      {
+        "kind": "reasoned",
+        "detail": "逐篇全文审读评估NaN比较、空集、形状及检查点清理路径",
+        "limits": "2026-08-13旧CPU运行证据保留历史标签，不冒充当前修订重跑"
+      },
+      {
+        "kind": "unrun",
+        "detail": "当前修订的训练/评估/故障注入/检查点重载",
+        "limits": "无Torch依赖和GPU环境，须由读者按本课隔离环境实际执行"
+      }
+    ],
+    "status": "revised-awaiting-cross-review"
+  },
+  {
+    "article": "data-ai/transformer.md",
+    "crossReview": {
+      "reviewer": "cloud-automation",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "fb8d26165ed7f54ac4e4ea6ed173775b1b69b68e117b398b574ed5d53712cf8e",
+      "result": "pass",
+      "findings": [
+        "完整阅读全文；核对 Q/K/V 投影、位置与排列等变性、因果遮罩、SDPA/MHA 布尔语义差异、全遮罩数值失败，以及不等长缓存解码的绝对位置边界，没有把小矩阵程序当成训练好的模型。",
+        "实际执行正文 attention_lab.py 的标准库完整程序：正常路径退出 0、首行权重 [1,0,0] 与输出 [1,0]、未来权重 0；关闭因果遮罩未来权重约 0.351383、退出 2。验证范围仅是该确定性矩阵逻辑，不是 Torch/Hugging Face 或模型质量。",
+        "返修后可选框架路线使用独立新目录、专用虚拟环境、逐步退出码门禁与准确 encoder_shape.py 入口；路径图的 Pooling、Prompt Template、截断、模型登记/制品存储及调度等英文分支均有符合上下文的中文解释。",
+        "复核 Prefill/Decode/KV 生命周期、FlashAttention 的 IO 改善与计算量边界、512MiB/4GiB/16GiB 缓存计算、取消回收、单副本故障余量和整体制品回滚；五项独立通关能检出形状、有限值和静默未来泄漏，未声称真实推理平台已部署。"
+      ]
+    },
+    "reviewedAt": "2026-10-12",
+    "writer": "foundation-frontend",
+    "initialFindings": [
+      "注意力实验K/V数量不等会被zip静默截短，规则形状/有限值/因果位置边界未完整校验",
+      "运行验收assert可被-O禁用，完整目录文件准备仍有跳跃",
+      "缺少技术独立五关答案"
+    ],
+    "changes": [
+      "补空矩阵/形状/有限值与等长因果假设显式拒绝",
+      "运行归一化门禁改显式异常，补标准库与框架路线边界",
+      "增加未来V不变性、KV容量和布尔Mask迁移五关",
+      "交叉返修：框架路线与纯Python分目录，专用venv解释器/逐次失败停止、依赖证据拒覆盖、encoder_shape.py精确运行入口；完整注释Pooling/截断/注册表/高可用/检查点术语"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "安装与实验环境：纯Python/框架路线分离，独立UTF-8文件步骤"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "核心概念三：Query、Key、Value 与缩放点积注意力、核心概念四：Mask：形状和位置边界"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "基础实验：亲手算一次 Causal Self-Attention：完整程序与正常权重"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "故障注入实验：移除 Causal Mask，检测未来信息泄漏：退出2、恢复0与证据"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "容量与性能、高可用与故障域：KV与二次分数/故障余量区分"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "高频面试题与连续追问：API Mask、状态恢复及优化边界"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "独立通关：能计算，也能找出静默错误：五任务有数值答案与返工"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "Transformer 在 AIOps 中的作用：证据摘要与确定性审批执行分层"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "syntax",
+        "detail": "交叉返修后2段Python AST与8段PowerShell围栏重新解析通过",
+        "limits": "可选Torch Shape未实跑"
+      },
+      {
+        "kind": "executed",
+        "detail": "标准库注意力正常/故障/恢复退出码，未来V不变性及5类坏矩阵实际通过",
+        "limits": "手工向量不代表语言模型、GPU或生产推理"
+      }
+    ],
+    "status": "revised-awaiting-cross-review"
+  },
+  {
+    "article": "data-ai/rag.md",
+    "crossReview": {
+      "reviewer": "cloud-automation",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "e395ff752655bb701285f00de33ffef25febfb808a6816fbfb25011952249550",
+      "result": "pass",
+      "findings": [
+        "完整阅读全文；核对资料覆盖/解析入库/召回/上下文/生成的分层路径，服务过滤与真实授权、引用属于候选与主张受到支持、同维向量与同一语义空间、build_ready 课堂标记与生产版本切换均明确区分。",
+        "实际执行正文标准库授权证据门禁：正常返回 pool-v1，移除唯一授权片段后证据不足，恢复后重新命中；保留的其他团队相关资料不成为越权兜底。未调用外部向量或生成接口。",
+        "返修后创建环境、安装、ingest/inspect/ask 速查与早期入口统一为本课虚拟环境并失败停止；真实密钥改由受控 .env 编辑，不留终端历史示例；故障表明确提示资料不可信只是辅助，不能代替工具侧授权和参数校验。",
+        "核对五片段、模型合同/数量门禁、候选引用检查的代码路径，以及 6.144GB 原始向量、双版本容量、并发/延迟预算、权限撤销和回退不复活旧权限的设计题；独立通关区分离线门禁实跑、付费问答未跑与事实支持仍需验证。"
+      ]
+    },
+    "reviewedAt": "2026-10-12",
+    "writer": "foundation-frontend",
+    "initialFindings": [
+      "索引存在不代表构建完成，查询模型环境变量可与旧索引混用",
+      "向量响应没有校验位置、维度/有限值，评估来源路径与示例不一致",
+      "零基础付费/密钥/文件步骤与独立验收不足"
+    ],
+    "changes": [
+      "入库写build_ready与模型合同，查询前拒绝不匹配/未完成",
+      "embedding响应按index核对一一对应与数值维度，修正评估来源",
+      "补独立目录、API费用边界及五道证据/容量/权限任务",
+      "交叉返修：速查及前文运行入口统一专用环境，创建/安装/入库/检索检查/问答逐次失败停止；改受控.env而非密钥进历史，故障表说明提示声明不是硬安全防护"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "入门实验：Runbook RAG、从零补课：一次完整实验究竟要证明什么：文件/环境/API外发边界"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "两条主链路、索引不是文件夹的自动镜像：向量模型与索引成对状态"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "基础实验与故障注入：先证明证据门禁，再连接大模型：标准库完整可复算"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "基础实验与故障注入：先证明证据门禁，再连接大模型：缺唯一授权证据拒答、恢复"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "生产容量与故障预算课堂：容量、排队、只读降级及权限撤销"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "三分钟回答与递进追问：覆盖到生成分层，冲突来源与版本"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "独立通关：从证据门禁到真实问答：五任务/召回与完整题覆盖答案"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "RAG 在 AIOps 链路中的位置、RAG 与自动化：推荐资料不越权执行"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "syntax",
+        "detail": "交叉返修后12段Python AST与2段PowerShell围栏重新解析通过",
+        "limits": "未调用API"
+      },
+      {
+        "kind": "executed",
+        "detail": "标准库证据门禁正常/删除唯一授权资料/恢复全部通过",
+        "limits": "非向量非生成模拟；Chroma/外部embedding/Responses未执行"
+      },
+      {
+        "kind": "reasoned",
+        "detail": "全文审读索引生命周期与当前补充完成标记路径",
+        "limits": "课堂单进程标记不承诺生产事务"
+      }
+    ],
+    "status": "revised-awaiting-cross-review"
+  },
+  {
+    "article": "data-ai/vector-database.md",
+    "crossReview": {
+      "reviewer": "cloud-automation",
+      "reviewedAt": "2026-10-12",
+      "articleSha256": "6f71b299f2de24ba34371364cb8769dd9bb6af3d09f1e6724293223f7a3b21f5",
+      "result": "pass",
+      "findings": [
+        "完整阅读全文；复核 embedding 合同、余弦/点积/L2 排序方向、归一化前提、HNSW/IVF 近似召回、业务证据与数学近邻的区别、写确认与可查询、逻辑删除与物理回收的状态边界。",
+        "实际执行正文两个标准库程序：授权检索返回 public-runbook/another-topic，维度错误被拦截并恢复；三种度量分别选长向量、同方向向量和近点，归一化后点积与余弦排序一致。未实跑 Chroma、Milvus 或外部 API。",
+        "返修后文档更新图为新版本构建验收、切换、保留回退再回收，不再先删旧数据；说明 content_hash 变化后的 upsert 不会自动清除旧 ID。Chroma 双平台和 Milvus 独立 Linux/WSL 路线有专用环境、失败门禁与受控 .env。",
+        "复核 Milvus checked_vectors 的位置重排、整数 index、1536 维/有限数值检查、insert_count 与单条过滤验收，以及 61.44GB 原始容量/双版本/15分钟 RTO 取舍、MRR 分母及权限恢复边界；五项通关具有正反判据，不以单候选过滤宣称排序质量。"
+      ]
+    },
+    "reviewedAt": "2026-10-12",
+    "writer": "foundation-frontend",
+    "initialFindings": [
+      "JSONL重复ID/空输入可静默覆盖或失败，embedding响应位置和数值未校验",
+      "查询模型与集合没有合同，缺少.env/忽略文件的完整准备",
+      "负向实验无else失败门禁、缺独立通关"
+    ],
+    "changes": [
+      "JSONL非空字段/重复ID、响应位置/维度/有限值门禁",
+      "显式Chroma余弦配置、构建完成与模型合同、补环境文件准备",
+      "维度故障未触发时显式失败，新增数学/权限/容量五关",
+      "交叉返修：更新图改新版本验收后切换/保留回退/再回收，说明内容哈希改变不会自动删旧ID；精确Chroma双平台与Milvus独立Linux环境入口、失败门禁及受控.env",
+      "Milvus补响应index/1536维/有限数值、写入insert_count和订单筛选一条门禁；邻链官方API且保留真实客户端未运行边界"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "Chroma 快速实验：UTF-8目录、.env/.gitignore、隔离解释器、费用"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "向量机制继续讲：距离、索引和业务相关性：数学近邻与业务相关分离"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "零 API 费用的基础实验与故障注入、第二个离线实验：三个分数为什么选了三个邻居：完整标准库实验"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "零 API 费用的基础实验与故障注入：维度/零向量/NaN与授权负向"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "更新与恢复设计：删除不能只改一列名字：版本、权限、备份与部分分片边界"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "三分钟完整回答示范、面试故障题：数据库正常，但十个问题全部找错资料：递进诊断"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "独立通关：数学近邻与业务证据分别验收：五关含MRR和容量答案"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "AIOps 检索设计：相似事故是候选，去重还看时间和拓扑"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "syntax",
+        "detail": "交叉返修后15段Python AST与2段PowerShell围栏重新解析通过",
+        "limits": "未运行客户端产品"
+      },
+      {
+        "kind": "executed",
+        "detail": "标准库向量排序、三度量赢家、4类非法向量与越权故障断言实际通过；新增Milvus原文checked_vectors抽取执行2正常与10类负向，含逆序重排/缺失重复越界位置/布尔index/维度/NaN/Inf/布尔与字符串元素，全部符合",
+        "limits": "非ANN数据库/复制/持久性验证"
+      },
+      {
+        "kind": "reasoned",
+        "detail": "官方Chroma配置文档核对余弦字段，全文核对更新删除/权限/模型成对回退",
+        "limits": "Chroma/Milvus/API未安装执行"
+      }
+    ],
+    "status": "revised-awaiting-cross-review"
+  }
+]
