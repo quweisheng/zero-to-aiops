@@ -35,6 +35,13 @@ export const generatedDocs = [
     "excerpt": "目标：针对“5 年以上 Kubernetes 运维、IaaS、容器平台、微服务、CI/CD、脚本、NGINX、架构和方案设计”岗位，按投递优先级补齐知识、实验和面试证据。 老师带你把岗位要求变成学习顺序 先读一个完整请求：用户访问域名，入口..."
   },
   {
+    "path": "../docs/interview/nengke-ai-platform-operations-role.md",
+    "route": "/interview/nengke-ai-platform-operations-role",
+    "title": "北京能科瑞元 AI 运维工程师岗位专项面试路线",
+    "section": "面试",
+    "excerpt": "对应岗位：北京能科瑞元“AI 运维工程师”，乐搭 AI Agent 平台运维方向。 招聘快照：2026 10 14，用户提供的完整招聘截图与 BOSS 直聘网页正文交叉核对。 页面标注：天津、20–30K、3–5 年、本科；这些是当时的招聘..."
+  },
+  {
     "path": "../docs/resources.md",
     "route": "/resources",
     "title": "资料清单",

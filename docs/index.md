@@ -208,3 +208,4 @@
 33. [Dify](./tech-stack/data-ai/dify.md)
 34. [n8n](./tech-stack/automation/n8n.md)
 35. [Ollama](./tech-stack/data-ai/ollama.md)
+36. [北京能科瑞元 AI 运维工程师岗位专项面试路线](./interview/nengke-ai-platform-operations-role.md)：模型与智能体长任务、SSE（服务端发送事件）流式响应、RAG（检索增强生成）、Kubernetes 存量治理和可观测性，以已运行平台的稳定性为主线。

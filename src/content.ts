@@ -303,6 +303,10 @@ export const navGroups: NavGroup[] = [
       {
         text: '河北鹰眼智能运维岗',
         route: '/interview/hebei-eagle-eye-operations-engineer-role'
+      },
+      {
+        text: '北京能科瑞元 AI 运维岗',
+        route: '/interview/nengke-ai-platform-operations-role'
       }
     ]
   }
@@ -349,8 +353,12 @@ export function markdownLinkToRoute(href: string, currentRoute = '/'): string {
     return `${normalizeDocPath(`docs${withoutHash}`)}${hashSuffix}`
   }
 
-  const baseSegments =
-    currentRoute === '/'
+  // README/index routes omit their filenames; relative links still use the
+  // Markdown file's actual directory, not the shortened browser route.
+  const sourcePath = getDocByRoute(currentRoute)?.path
+  const baseSegments = sourcePath
+    ? sourcePath.replaceAll('\\', '/').replace(/^(\.\.\/)?docs\//, '').split('/').slice(0, -1)
+    : currentRoute === '/'
       ? []
       : normalizeRoute(currentRoute).split('/').filter(Boolean).slice(0, -1)
   const resolvedSegments = [...baseSegments]

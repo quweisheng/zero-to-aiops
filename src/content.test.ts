@@ -51,6 +51,25 @@ describe('markdownLinkToRoute', () => {
       markdownLinkToRoute('./roadmap/README.md#学习主线', '/')
     ).toBe('/roadmap#学习主线')
   })
+
+  it('resolves interview README sibling links from the source directory', () => {
+    expect(markdownLinkToRoute('./nengke-ai-platform-operations-role.md', '/interview'))
+      .toBe('/interview/nengke-ai-platform-operations-role')
+    expect(markdownLinkToRoute('../tech-stack/foundation/python.md', '/interview'))
+      .toBe('/tech-stack/foundation/python')
+  })
+
+  it('preserves source-relative index links, trailing routes and anchors', () => {
+    expect(markdownLinkToRoute('./00-skill-map.md#先认路', '/roadmap/'))
+      .toBe('/roadmap/00-skill-map#先认路')
+    expect(markdownLinkToRoute('./interview/README.md', '/')).toBe('/interview')
+    expect(markdownLinkToRoute('./foundation/python.md', '/tech-stack'))
+      .toBe('/tech-stack/foundation/python')
+  })
+
+  it('keeps file-route behavior for unknown document routes', () => {
+    expect(markdownLinkToRoute('./next.md', '/unlisted/topic')).toBe('/unlisted/next')
+  })
 })
 
 describe('getDocByRoute', () => {
@@ -73,6 +92,27 @@ describe('getDocByRoute', () => {
       expect(doc?.raw.trim().length, metadata.route).toBeGreaterThan(0)
       expect(doc?.title, metadata.route).toBe(extractTitle(doc?.raw ?? ''))
     }
+  })
+
+  it('loads the Nengke AI platform operations interview route from the interview navigation', async () => {
+    const route = '/interview/nengke-ai-platform-operations-role'
+    const title = '北京能科瑞元 AI 运维工程师岗位专项面试路线'
+    const interviewNavigation = navGroups.find(group => group.text === '面试')
+
+    expect(interviewNavigation?.items).toContainEqual({
+      text: '北京能科瑞元 AI 运维岗',
+      route
+    })
+    expect(getDocByRoute(route)?.title).toBe(title)
+
+    const doc = await loadDocByRoute(route)
+    expect(doc?.title).toBe(title)
+    expect(doc?.raw).toContain(`# ${title}`)
+    for (const evidence of ['存量服务稳定性', '流式响应', '独立通关']) {
+      expect(doc?.raw, evidence).toContain(evidence)
+    }
+    expect(doc?.raw).toContain('https://github.com/quweisheng/zero-to-aiops/tree/main/examples/ai-platform-operations-lab')
+    expect(doc?.raw).not.toContain('(../../examples/ai-platform-operations-lab/README.md)')
   })
 
   it('exposes the teacher-led coverage report in navigation and content', async () => {

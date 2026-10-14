@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
+import { loadDocByRoute } from './content'
 import { extractMarkdownHeadings, renderMarkdown } from './markdown'
 
 describe('renderMarkdown', () => {
@@ -29,6 +30,15 @@ describe('renderMarkdown', () => {
 
     expect(html).toContain('href="/tech-stack/writing-standard"')
     expect(html).toContain('href="https://example.com"')
+  })
+
+  it('renders the real interview index link to the new role at its full route', async () => {
+    const index = await loadDocByRoute('/interview')
+    expect(index).toBeDefined()
+    const html = await renderMarkdown(index!.raw, '/interview')
+
+    expect(html).toContain('href="/interview/nengke-ai-platform-operations-role"')
+    expect(html).not.toContain('href="/nengke-ai-platform-operations-role"')
   })
 
   it('wraps markdown tables in a keyboard-scrollable region', async () => {

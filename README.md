@@ -44,6 +44,7 @@ npm run build
 - [零基础实验准备](./docs/tech-stack/experiment-start.md)：下载、目录、终端、运行工具、记录与安全清理。
 - [Kubernetes 平台运维岗位专项路线](./docs/interview/kubernetes-platform-operations-role.md)：按招聘要求补技术、项目和面试证据。
 - [河北鹰眼智能运维工程师岗位专项面试路线](./docs/interview/hebei-eagle-eye-operations-engineer-role.md)：按岗位原文准备网络、Linux、中间件、数据库、CI/CD、Kubernetes、应急与备份，并安排两天冲刺。
+- [北京能科瑞元 AI 运维工程师岗位专项面试路线](./docs/interview/nengke-ai-platform-operations-role.md)：针对乐搭 AI Agent 平台的存量运维，训练模型与智能体长任务、SSE（服务端发送事件）流式响应、RAG（检索增强生成）、Kubernetes 存量治理和可观测性，不以新服务部署上线为主线。
 - [FDE 岗位技术栈与实战路线](./docs/interview/forward-deployed-engineer-role.md)：串联需求发现、全栈、数据、AI 评测、生产交付、安全、采用和产品反馈，并明确 AIOps 只是可选应用方向。
 - [前端事件看板实验](./examples/frontend-incident-lab/README.md)：用同一套合成 API 对照原生页面、Vue 和 React，并复现空结果、503、慢响应、取消和契约错误。
 
