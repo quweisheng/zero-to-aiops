@@ -254,16 +254,21 @@ ingress:
 第一轮在 Windows PowerShell 的新空目录操作，只需 Helm 客户端，不需要 Rancher、Kubernetes 或 kubeconfig。未安装时可按[Helm 官方安装入口](https://helm.sh/docs/intro/install/)执行 `winget install --id Helm.Helm --exact`，重新打开终端后确认 `helm version`。用 `New-Item -ItemType Directory rancher-render-lab`、`Set-Location rancher-render-lab` 创建并进入自己的新目录；重名则换名，不覆盖原结果。后续 agent 故障是另一条需要真实授权平台的进阶路线，渲染成功不会自动得到 Rancher 实例。
 
 ```powershell
+helm repo list # 已有 rancher-stable 别名时先核对地址，不强行覆盖他人配置
 helm repo add rancher-stable https://releases.rancher.com/server-charts/stable # 添加官方稳定仓库
+if ($LASTEXITCODE -ne 0) { throw '添加仓库失败，先核对别名与网络' }
 helm repo update                                                              # 刷新 Chart 索引
+if ($LASTEXITCODE -ne 0) { throw '更新索引失败，不能继续假定版本可用' }
 $chartVersion = '2.15.0'                                                       # 固定本次学习基线
 helm show chart rancher-stable/rancher --version $chartVersion                # 查看固定 Chart 元数据
+if ($LASTEXITCODE -ne 0) { throw '固定 Chart 元数据不可读，停止渲染' }
 # 续行反引号后不能加注释或空格；下列命令只渲染，不创建资源。
 helm template rancher rancher-stable/rancher `
   --version $chartVersion `
   --namespace cattle-system `
   --set hostname=rancher.lab.local `
   --set replicas=3 > rancher-rendered.yaml
+if ($LASTEXITCODE -ne 0) { throw '渲染失败，输出文件存在也不算成功' }
 Select-String -Path rancher-rendered.yaml -Pattern 'rancher.lab.local|replicas: 3' # 验证关键值
 ```
 
@@ -280,7 +285,7 @@ Select-String -Path rancher-rendered.yaml -Pattern 'rancher.lab.local|replicas: 
 
 ### 清理
 
-这个实验没有创建集群资源。检查并提交脱敏后的 `rancher-rendered.yaml`；若不保留，只在确认它是本轮新建文件后删除它，不删除 Helm 共享缓存。不要把真实 hostname、密码、Token 或 CA 私钥替换进公开证据。
+这个实验没有创建集群资源。原始 `rancher-rendered.yaml` 只在受控本地保存，并加入学习仓库的 `.gitignore`；公开证据另写 `render-review.md`，仅摘录 Chart 版本、虚构域名、副本数和验证结论。Chart 可能生成敏感字段，不能因为自己没输入密码就认为全部输出安全；Secret 的 base64 也不是脱敏。若不保留原始文件，只在确认它是本轮新建文件后删除它，不删除 Helm 共享缓存。不要把真实 hostname、密码、Token 或 CA 私钥替换进公开证据。
 
 ## 故障注入实验：cluster-agent 中断时业务是否还活着
 
@@ -295,12 +300,22 @@ Select-String -Path rancher-rendered.yaml -Pattern 'rancher.lab.local|replicas: 
 ```powershell
 kubectl config current-context
 kubectl get --raw=/readyz
+if ($LASTEXITCODE -ne 0) { throw '原生 API 基线失败，不创建资源' }
+$existingNamespace = kubectl get namespace rancher-probe-lab --ignore-not-found -o name
+if ($LASTEXITCODE -ne 0) { throw '无法确认命名空间是否存在，停止' }
+if ($existingNamespace) { throw '命名空间已存在，不复用未知对象' }
 kubectl create namespace rancher-probe-lab
+if ($LASTEXITCODE -ne 0) { throw '命名空间创建失败，停止' }
 kubectl -n rancher-probe-lab create deployment web --image=nginx:1.27-alpine
+if ($LASTEXITCODE -ne 0) { throw '探针 Deployment 创建失败，停止' }
 kubectl -n rancher-probe-lab expose deployment web --port=80
+if ($LASTEXITCODE -ne 0) { throw '探针 Service 创建失败，停止' }
 kubectl -n rancher-probe-lab rollout status deployment/web --timeout=120s
+if ($LASTEXITCODE -ne 0) { throw '探针尚未就绪，不注入故障' }
 kubectl -n cattle-system get deployment cattle-cluster-agent -o wide
-$agentReplicas = [int](kubectl -n cattle-system get deployment cattle-cluster-agent -o jsonpath='{.spec.replicas}')
+$replicaOutput = kubectl -n cattle-system get deployment cattle-cluster-agent -o jsonpath='{.spec.replicas}'
+if ($LASTEXITCODE -ne 0) { throw '无法保存 agent 原始副本数，不注入故障' }
+$agentReplicas = [int]$replicaOutput
 if ($agentReplicas -lt 1) { throw 'cluster-agent 基线异常，停止实验' }
 kubectl -n rancher-probe-lab get deploy,pod,service
 ```
@@ -311,6 +326,7 @@ kubectl -n rancher-probe-lab get deploy,pod,service
 
 ```powershell
 kubectl -n cattle-system scale deployment cattle-cluster-agent --replicas=0
+if ($LASTEXITCODE -ne 0) { throw '故障变更未成功，不声称 agent 已停止' }
 kubectl -n cattle-system get pods -l app=cattle-cluster-agent -w
 ```
 
@@ -318,7 +334,9 @@ kubectl -n cattle-system get pods -l app=cattle-cluster-agent -w
 
 ```powershell
 kubectl -n cattle-system scale deployment cattle-cluster-agent --replicas=$agentReplicas
+if ($LASTEXITCODE -ne 0) { throw '恢复副本数失败，保留现场并查权限与 API' }
 kubectl -n cattle-system rollout status deployment/cattle-cluster-agent --timeout=5m
+if ($LASTEXITCODE -ne 0) { throw '恢复尚未就绪，不能宣布管理链路恢复' }
 kubectl -n cattle-system logs deployment/cattle-cluster-agent --since=10m
 kubectl get --raw=/readyz
 ```
@@ -525,6 +543,8 @@ RTO 要包括发现故障、获取审批、准备环境、下载备份、恢复�
 
 前文离线渲染前请使用本轮独立目录，并确认 `rancher-rendered.yaml` 尚不存在，防止输出重定向覆盖学习者已有文件。渲染会访问仓库或缓存，但不代表缓存全部属于本实验；无需猜测或删除 Helm 共享缓存。本文没有实际运行渲染、迁移或恢复，新增矩阵均为纸面推演边界。
 
+老师再检查一个容易误判的反例：查询命名空间失败与查到“没有命名空间”相同吗？不相同。`--ignore-not-found` 只把对象不存在视为可接受结果，权限、连接等错误仍应停止；`AlreadyExists` 更不意味着你可以把别人的对象当实验对象继续修改。上面逐条检查 `$LASTEXITCODE`，就是把这条口头规则落实为执行门禁。2026-11-11 的修订完成了静态审校，没有连接真实 Rancher，也没有缩容任何 agent。
+
 ### 交接检查：谁拥有最终决定权
 
 迁移或恢复交接时，写清当前唯一有效的平台入口、负责值班的人、仍未重连的下游、已暂停的交付任务和下一次复查时间。原始故障已经缓解，但仍有失联集群时，结论应是“部分恢复”，不能用总览页多数绿色掩盖遗漏。对每个未恢复对象给出业务影响和受控原生访问方式，避免下一班再次执行全局修复。
@@ -546,7 +566,7 @@ RTO 要包括发现故障、获取审批、准备环境、下载备份、恢复�
 ## 学习证据
 
 - `labs/rancher/product-map.md`
-- `labs/rancher/rancher-rendered.yaml`
+- `labs/rancher/render-review.md`（仅公开白名单字段摘要，不提交原始渲染清单）
 - `labs/rancher/management-downstream-topology.md`
 - `labs/rancher/runbook-cluster-unavailable.md`
 - `labs/rancher/backup-restore-checklist.md`

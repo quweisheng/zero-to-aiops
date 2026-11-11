@@ -2076,19 +2076,23 @@ if printf '%s\n' "$existing_clusters" | grep -Fxq teaching-k8s; then
   printf '%s\n' '同名集群已存在；停止，不接管' >&2
   exit 1
 fi
-kind create cluster --name teaching-k8s --kubeconfig "$PWD/lab.kubeconfig" --wait 120s || exit 1
+lab_node_image='kindest/node:v1.36.4@sha256:099e049362a1526b2db71494e1947aae99bd16290d7c895f2b7ea312e3cbfaed'
+kind create cluster --name teaching-k8s --image "$lab_node_image" --kubeconfig "$PWD/lab.kubeconfig" --wait 120s || exit 1
 export KUBECONFIG="$PWD/lab.kubeconfig"
 test "$(kubectl config current-context)" = kind-teaching-k8s || exit 1
 kubectl wait --for=condition=Ready nodes --all --timeout=120s || exit 1
-kubectl get namespace aiops-lab --ignore-not-found || exit 1
+existing_namespace="$(kubectl get namespace aiops-lab --ignore-not-found -o name)" || exit 1
+test -z "$existing_namespace" || { printf '%s\n' '实验命名空间已存在；停止，不接管' >&2; exit 1; }
 ```
 
-最后一次查询应没有任何对象输出；若有对象停止。独立 kubeconfig 只在这个终端生效，不覆盖默认文件；后续沿用同一终端，不能换到单位集群上下文。kind 使用其匹配节点镜像，不声称等于历史版本快照。已有授权测试集群的读者应另行保存集群身份与权限，不照搬本段创建/销毁命令。每条普通命令失败就停止；故障步骤中的预期失败另行解释。
+独立 kubeconfig 只在这个终端生效，不覆盖默认文件；后续沿用同一终端，不能换到单位集群上下文。本轮 2026-11-11 将实验节点固定为 [kind v0.33.0 发布说明提供的 Kubernetes 1.36.4 镜像及摘要](https://github.com/kubernetes-sigs/kind/releases/tag/v0.33.0)，使用该 kind 版本配套构建；它与上文 8 月的 1.36.3 历史快照不同。这样跟学 Istio 1.30、Calico 3.32、Cilium 1.19 章节时，不会因 kind 默认节点已进入 1.37 而悄悄越过它们的声明支持范围。固定版本是为了教学复现，不是永久安全推荐；实际安装前仍要核对目标插件、节点、客户端和补丁支持矩阵。
+
+老师请你预测：同样一条不带 `--image` 的命令，隔几个月是否一定创建相同集群？不一定；kind 二进制自己的默认镜像会变。记录 `kind version`、`kubectl version`、`docker image inspect` 中实际节点摘要，再说明“我固定了哪些部分，哪些仍是外部前提”。镜像摘要证明你引用哪个构建，不证明当前 Docker、内核、网络或插件已经通过兼容测试。已有授权测试集群的读者应另行保存集群身份与权限，不照搬本段创建/销毁命令。每条普通命令失败就停止；故障步骤中的预期失败另行解释。
 
 ### 1. 创建 namespace
 
 ```bash
-kubectl create namespace aiops-lab
+kubectl create namespace aiops-lab || exit 1
 ```
 
 ### 2. 写 Deployment 和 Service
@@ -2151,9 +2155,9 @@ spec:
 ### 3. 应用并观察
 
 ```bash
-kubectl apply -f aiops-lab.yaml
-kubectl get deploy,rs,pod,svc -n aiops-lab -o wide
-kubectl rollout status deployment/aiops-web -n aiops-lab --timeout=120s
+kubectl apply -f aiops-lab.yaml || exit 1
+kubectl get deploy,rs,pod,svc -n aiops-lab -o wide || exit 1
+kubectl rollout status deployment/aiops-web -n aiops-lab --timeout=120s || exit 1
 ```
 
 记录：
@@ -2203,11 +2207,11 @@ ImagePullBackOff
 ErrImagePull
 ```
 
-恢复镜像后：
+先把文件中的镜像恢复成已保存 `aiops-lab.good.yaml` 中的值，不改任何其他字段，再执行：
 
 ```bash
-kubectl apply -f aiops-lab.yaml
-kubectl rollout status deployment/aiops-web -n aiops-lab
+kubectl apply -f aiops-lab.yaml || exit 1
+kubectl rollout status deployment/aiops-web -n aiops-lab --timeout=120s || exit 1
 ```
 
 恢复后还要重跑第 4 步，证明同一 Service 请求成功，再进入下一项。`rollout status` 只检查发布状态，不验证 Service。若镜像实验中旧副本仍提供 HTTP，这是默认滚动策略保留可用副本的结果，不是故障没有发生。
@@ -3294,7 +3298,7 @@ Deployment 管 ReplicaSet，ReplicaSet 管 Pod。你通常操作 Deployment，�
 
 ### Service 为什么访问不到？
 
-最常见原因是 selector 和 Pod label 不匹配，导致没有 EndpointSlice。其次是 targetPort 错、Pod 不 ready、应用没监听正确地址、NetworkPolicy 阻断。
+常见原因是 selector 和 Pod label 不匹配，导致没有匹配的后端地址；仍可能看到一个空 EndpointSlice 对象，不能把“对象存在”当“有可用后端”。其次是 targetPort 错、Pod 不 ready、应用没监听正确地址、NetworkPolicy 阻断。
 
 ### CrashLoopBackOff 是 Kubernetes 的错误吗？
 

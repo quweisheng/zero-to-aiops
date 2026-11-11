@@ -1126,7 +1126,7 @@ terraform plan
 | validate 失败 | 错误行 | HCL 语法、变量类型、引用错 | `terraform fmt` + validate |
 | plan 要删除很多资源 | state/address | resource 重命名、backend 错、workspace 错 | 先停，查 state list 和 backend |
 | apply 认证失败 | provider auth | 环境变量/role/key 错 | 查 provider 文档和 env |
-| state lock | backend lock | 其他 apply 中断 | 确认后 unlock |
+| state lock | backend lock | 活跃任务持锁或中断后残留 | 先联系持有者并查任务；确认原操作已结束且锁归属正确，才评估解锁 |
 | drift | plan 输出 | 控制台手动改 | 决定接收还是改回 |
 | import 后仍要改 | config 不完整 | 配置没匹配真实资源 | 补齐配置 |
 | destroy 被阻止 | lifecycle | prevent_destroy | 确认风险后调整 |
@@ -1143,11 +1143,7 @@ terraform plan
 terraform workspace show
 ```
 
-检查 backend：
-
-```bash
-terraform init
-```
+检查 backend：先只读核对当前目录中的 `backend` 声明、CI 使用的 `-backend-config` 参数来源与上次成功运行的脱敏后端标识；不要为了“查看连接目标”就重新初始化或接受迁移提示。`terraform init` 是初始化操作，不是纯粹的状态查看命令。后端身份不清时先停下向维护者核实，不能运行 `-migrate-state` 或 `-reconfigure` 来消除提示。
 
 检查 state：
 
@@ -1192,7 +1188,7 @@ cat versions.tf
 
 ## 排障流程：state 冲突和锁
 
-远程 backend 通常有锁。
+远程 backend 是否有锁取决于实现和配置，存到远端本身不证明已启用并发保护。
 
 如果看到 lock：
 
@@ -1231,6 +1227,8 @@ terraform plan -refresh-only
 
 ## AIOps 自动化诊断脚本
 
+下面仅在已经完成 `init`、确认当前目录/后端/工作区和执行身份的授权学习项目运行。用 Git Bash 或 Linux Bash，不在 PowerShell 直接粘贴 Bash 语法。`plan` 会通过 provider 读取平台，可能调用配置中的外部查询；它不是对陌生仓库无条件安全的扫描器。输出可能含未被标记为敏感的配置值，仅留在受控终端/日志，不直接交给模型或公开 CI 日志。
+
 ```bash
 #!/usr/bin/env bash
 set -euo pipefail
@@ -1256,8 +1254,21 @@ terraform state list
 
 echo
 echo "== plan =="
-terraform plan -no-color
+# if 分支允许先接住特殊退出码；set -e 不应把“有差异”误当工具故障。
+if terraform plan -no-color -detailed-exitcode; then
+  plan_status=0
+else
+  plan_status=$?
+fi
+case "$plan_status" in
+  0) echo 'result=no_changes; apply_authorized=false' ;;
+  2) echo 'result=changes_need_review; apply_authorized=false' ;;
+  *) echo "result=plan_failed; exit_code=$plan_status" >&2 ;;
+esac
+exit "$plan_status"
 ```
+
+老师让你预测三个输入：配置与现实一致应返回 0；手改学习文件应返回 2；provider 认证失败应返回 1。调用它的 CI 必须显式接住这三类：2 创建审阅任务，1 报告检查失败，不能都写成“无异常”，也不能因 2 就自动 apply。`fmt` 或 `validate` 在前面失败时脚本会提前结束，日志阶段能帮助区别它们；不能把整个脚本的任何退出码 2 都笼统归为 plan 差异。2026-11-11 本轮只审校这条状态合同，没有执行 Terraform 或改变 state。
 
 生产化前要补：
 

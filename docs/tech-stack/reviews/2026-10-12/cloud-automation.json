@@ -1,831 +1,2202 @@
 [
   {
     "article": "cloud-native/docker.md",
-    "crossReview": {
-      "reviewer": "systems",
-      "reviewedAt": "2026-10-12",
-      "articleSha256": "032aaf64fef908de58ed3820cf91f9f97d02201a5feaeb7897064063999cb206",
-      "result": "pass",
-      "findings": [
-        "全文独立复核后退回缺失HEALTHCHECK问题；已重读返修：标准库探针被COPY进入镜像、有限等待读取State.Health，无字段明确不是健康证据。",
-        "探针错误端口使用独立容器与回环18082，业务仍成功但unhealthy不会触发Engine退出重启；取证与只清理本轮容器形成闭环。",
-        "命名空间/cgroups/镜像层/持久化与端口路径说明一致；137不单独等于OOM、socket/privileged权限和单机故障域边界明确。本轮探针Python合成实跑不替代Docker Engine验收。"
-      ]
-    },
-    "writer": "cloud-automation",
-    "reviewedAt": "2026-10-12",
-    "initialFindings": ["基础实验只给目录树，没有创建与进入目录、终端续行和同名容器检查", "实际健康服务及 README 向全部宿主接口发布端口，与本地学习隔离目标不一致", "末尾用能解释 demo 推断理解，缺少改变端口后的独立判据", "交叉审校发现独立题要求Health日志但基础镜像未配置HEALTHCHECK"],
-    "changes": ["补本地引擎 context、Server、Bash/WSL、空目录与容器重名检查", "将健康服务实践和 README 的宿主发布限制为 127.0.0.1，同步预期端口输出", "新增独立通关五项，覆盖 APP_PORT 与转发目标错位、健康与 OOM、数据回退和 socket 权限", "撤销读懂原实验即掌握的推断", "交叉返修新增标准库HTTP/JSON/超时探针、Dockerfile HEALTHCHECK、有限等待及独立错探针故障，区分无字段/健康/运行/重启"],
+    "writer": "refresh-cloud-delivery",
+    "reviewedAt": "2026-11-11",
+    "initialFindings": [
+      "开头要求已经可用的容器环境，但没有从未安装到客户端与服务端验收的具体入口。",
+      "入门实验目标承诺挂载配置，但实际步骤主要验证HTTP服务与探针。"
+    ],
+    "changes": [
+      "增加Windows WSL/Desktop与Linux Engine分流安装路径及context/Client/Server/OSType验收和失败回路。",
+      "修正入门实验目标，区分未做的挂载与真实步骤。"
+    ],
     "criteria": [
-      {"id":"prerequisites","result":"pass","evidence":"AIOps 入门实验：容器化健康检查服务 / 第 1 步：准备目录：说明终端、引擎位置、空目录与名称冲突处理。"},
-      {"id":"mechanism","result":"pass","evidence":"老师带你把健康服务讲成一条完整交付链：区分镜像、运行、业务证据；健康变红，为什么容器没有自动重启说明探针不是自愈。"},
-      {"id":"foundation","result":"pass","evidence":"AIOps 入门实验：容器化健康检查服务：完整 app.py/healthcheck.py、Dockerfile、忽略文件、构建、发布、响应/Health有限等待及容器清理。"},
-      {"id":"fault","result":"pass","evidence":"故障注入实验：看懂 OOMKilled：限制、退出码与 OOM 标记交叉取证，恢复内存预算并回收专用容器；独立通关增加监听错位反例。"},
-      {"id":"production","result":"pass","evidence":"老师带你把健康服务讲成一条完整交付链与生产事故：覆盖数据兼容、容量、权限和宿主故障域，拒绝全局清理作修复。"},
-      {"id":"interview","result":"pass","evidence":"独立通关：不看步骤，能否解释并修好新条件：定义、请求路径与 restart、镜像拉取、Docker socket 三个反例追问。"},
-      {"id":"mastery","result":"pass","evidence":"独立通关：不看步骤，能否解释并修好新条件：五项题均给可复核证据与答案判据，缺引擎明确不算实操通过。"},
-      {"id":"aiops","result":"pass","evidence":"学习证据和独立通关：日志、内存限制、健康与业务信号进入告警和受人工确认的运行手册。"}
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "电脑还没有 Docker：官方安装路径、Desktop启动、WSL集成、context/Client/Server/OSType与终端区别；正文实验有目录、命名冲突、回环端口边界。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "老师带你把健康服务讲成一条完整交付链：区分镜像、运行、业务证据；健康变红，为什么容器没有自动重启说明探针不是自愈。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "AIOps 入门实验：容器化健康检查服务：完整 app.py/healthcheck.py、Dockerfile、忽略文件、构建、发布、响应/Health有限等待及容器清理。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "故障注入实验：看懂 OOMKilled：限制、退出码与 OOM 标记交叉取证，恢复内存预算并回收专用容器；独立通关增加监听错位反例。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "老师带你把健康服务讲成一条完整交付链与生产事故：覆盖数据兼容、容量、权限和宿主故障域，拒绝全局清理作修复。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "独立通关：不看步骤，能否解释并修好新条件：定义、请求路径与 restart、镜像拉取、Docker socket 三个反例追问。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "独立通关：不看步骤，能否解释并修好新条件：五项题均给可复核证据与答案判据，缺引擎明确不算实操通过。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "学习证据和独立通关：日志、内存限制、健康与业务信号进入告警和受人工确认的运行手册。"
+      }
     ],
     "validation": [
-      {"kind":"executed","detail":"本轮 docker version 诊断返回本机 Linux Engine 管道不存在。","limits":"只证明当前引擎不可连接，不能验证容器运行。"},
-      {"kind":"executed","detail":"Python3.14.5临时回环HTTP服务验证探针：200/status=ok退出0，HTTP503/错误status/不可达超时退出1。","limits":"非容器运行，不验证HEALTHCHECK调度或State.Health。"},
-      {"kind":"syntax","detail":"git diff --check 对本篇通过。","limits":"空白检查不执行 Dockerfile、Python 或引擎 API。"},
-      {"kind":"reasoned","detail":"全文逐段审阅；检查端口左右、上下文、清理范围和新增题答案。","limits":"不是安全认证或读者能力认证。"},
-      {"kind":"unrun","detail":"健康服务构建运行、独立错探针与 OOM 注入未运行。","limits":"Docker daemon 未连接，预期输出仅为教学判据。"}
+      {
+        "kind": "reasoned",
+        "detail": "全文阅读 Docker 本文全部章节，核对健康/OOM实验、生命周期、重启与镜像/数据回退边界；安装入口对照Docker官方Windows页面。",
+        "limits": "未安装Docker、切换后端或执行容器构建/OOM；不把历史客户端记录当当前daemon证明。"
+      }
     ],
-    "status":"revised-awaiting-cross-review"
-  },
-  {
-    "article":"cloud-native/docker-compose.md",
+    "status": "cross-reviewed",
+    "disposition": "revised",
     "crossReview": {
-      "reviewer": "systems",
-      "reviewedAt": "2026-10-12",
+      "reviewer": "root-independent-2026-11-11",
+      "reviewedAt": "2026-11-11",
+      "articleSha256": "77f24b0b6a24281e820302951958e9569d663858fa488a748f9b51b950c6d5b6",
       "result": "pass",
       "findings": [
-        "完整读取正文，基础三服务有创建目录、固定项目、回环发布及四层采集证据；故障源是本轮datasource文件，恢复后同式up复验，不以Running替代成功。",
-        "核算内部demo-app:8000不随宿主18000改变，两个不同发布端口合并后保留两条；external卷及run --rm副作用边界明确。",
-        "追问明确restart与依赖restart区别、变量解析与创建时配置、单机故障域；缺getent/wget按工具缺失分支，不宣称Docker运行通过。"
-      ],
-      "articleSha256": "a26511d875a1a9e6ded16ae3c77eddcf93d4eab41121a52f183bde9cfaaab44c"
-    },
-    "writer":"cloud-automation",
-    "reviewedAt":"2026-10-12",
-    "initialFindings":["三服务实验没有空目录、子目录、终端与项目重名的实际准备步骤", "缺少独立改变宿主端口、共享 external volume、合并模型的综合验收", "诊断示例默认 getent/wget 存在，工具缺失容易被判为网络故障"],
-    "changes":["补完整目录创建、当前目录、Docker/Compose/context、端口及项目名检查", "说明依赖在镜像构建安装及宿主端口变化不改服务内部 URL", "新增技术专属五项通关和工具缺失的取证分支", "撤销截图与别人照做成功自动代表掌握的说法"],
-    "criteria":[
-      {"id":"prerequisites","result":"pass","evidence":"AIOps 入门实验：Prometheus + Grafana + Demo App / 第 1 步：准备目录：明确 Bash/WSL、引擎、目录和端口。"},
-      {"id":"mechanism","result":"pass","evidence":"Compose 的内部调和路径与依赖课堂：区分插值/模型/实际对象、服务 restart 和依赖 restart，非持续调和。"},
-      {"id":"foundation","result":"pass","evidence":"AIOps 入门实验：Prometheus + Grafana + Demo App：三组件完整文件、启动及四层采集查询验收。"},
-      {"id":"fault","result":"pass","evidence":"故障注入实验：Grafana 把 Prometheus 写成 localhost：备份、注入、日志/DNS、恢复文件与重建查询；独立通关增加工具缺失分支。"},
-      {"id":"production","result":"pass","evidence":"实验质量课堂：可用性、观测性与清理要一起验收：单机故障域、共享卷、配额、基数、容量和默认凭据边界。"},
-      {"id":"interview","result":"pass","evidence":"老师带你把实验解释成工程能力 / 五、面试从 30 秒讲到 3 分钟：解释请求链、单机 HA 及 Grafana 数据恢复反例。"},
-      {"id":"mastery","result":"pass","evidence":"独立通关：交付的是最终模型，不是 YAML 截图：内部端口、合并、诊断、共享卷和配置时间点五项判据。"},
-      {"id":"aiops","result":"pass","evidence":"实验质量课堂与学习证据：区分 up 与业务错误，保存应用、Targets、表达式及 Grafana 证据链。"}
+        "独立复评本轮差异、相关机制及实验/通关上下文，不声称再次全文重审；结合既有评测与本轮作者全文复评。",
+        "新Docker Desktop/WSL入口分Client/Server/context/OSType，修改目标与实际健康实验一致；探针错误端口与主服务正常两证据分开。",
+        "未安装/切换后端、构建镜像或运行真实容器；本次独立审查不继承旧实跑为本轮结果。"
+      ]
+    }
+  },
+  {
+    "article": "cloud-native/docker-compose.md",
+    "writer": "refresh-cloud-delivery",
+    "reviewedAt": "2026-11-11",
+    "initialFindings": [
+      "第一条Compose命令之前缺少Docker运行环境与Compose插件分别安装验收的零基础入口。"
     ],
-    "validation":[
-      {"kind":"syntax","detail":"本篇 git diff --check 通过。","limits":"不证明 Compose 模型或镜像功能实际通过。"},
-      {"kind":"reasoned","detail":"全文阅读并审查相对路径、服务内部 URL、重建与恢复步骤及五项判据。","limits":"历史版本行为保留其原日期，不声称更新为当前版本。"},
-      {"kind":"unrun","detail":"三服务基础实验、数据源故障与合并命令未运行。","limits":"本机 Docker daemon 不可连接；静态推理与真实运行分开。"}
+    "changes": [
+      "新增开课章节链接Docker安装验收，并区分插件缺失、后端连通、只读渲染与实际三服务运行。"
     ],
-    "status":"revised-awaiting-cross-review"
-  },
-  {
-    "article":"cloud-native/helm.md",
-    "crossReview": {
-      "reviewer": "systems",
-      "reviewedAt": "2026-10-12",
-      "articleSha256": "cd856b9b72259f6c48a420adfd7e9210581a6d2bf2ace7a57826c62a193aa5c7",
-      "result": "pass",
-      "findings": [
-        "全文复核最小Chart仅两模板、Service标签和命名端口一致，schema负数失败/恢复与坏镜像history/健康修订/HTTP复验齐全，shared namespace清理和历史镜像不可取分支明确。",
-        "回滚产生新revision但不撤数据库/CRD/Hook/PVC副作用，default把0/false视空、properties非必填、列表整体替换和HPA字段管理权解释一致；四份配置定位链可操作。",
-        "Helm4 SSA/rollback-on-failure与server dry-run非Kubernetes dryRun=All边界有固定源码依据，独立复核values源码分组覆盖顺序。高级发布锁、秘密输出、容量过渡及五项追问齐全；本轮未连接集群。"
-      ]
-    },
-    "writer":"cloud-automation",
-    "reviewedAt":"2026-10-12",
-    "initialFindings":["错误声称 Helm server dry-run 可证明 admission 预检", "基础入口缺客户端安装与本地/集群路线区分，坏镜像实验直接卸载而未完整业务恢复验收", "诊断脚本直接输出 values/manifest 且吞掉失败，与生产敏感与采集完整性要求冲突", "没有独立边界输入、管理权与外部迁移通关判据"],
-    "changes":["按官方 v4.2.4 安装源码纠正 dry-run 在真正 Create 前结束，区分 kubectl 服务端 dry-run", "补 Windows 客户端入口、空目录、context、release 重名检查和 Bash/PowerShell 区别", "坏镜像后补健康修订选择、port-forward、HTTP 复验及清理", "将诊断脚本限定为合成课堂，要求生产字段白名单与采集失败标记", "新增五项独立通关，覆盖零副本/schema、revision、Hook 数据副作用、字段管理与预检边界"],
-    "criteria":[
-      {"id":"prerequisites","result":"pass","evidence":"AIOps 入门实验 / 1. 创建 Chart：区分本地 Helm 与集群 kubectl/kubeconfig 路线，明确安装与权限范围。"},
-      {"id":"mechanism","result":"pass","evidence":"dry-run、debug、template、lint：纠正联机渲染与 API dryRun=All 的区别；Release 状态模型与真实回滚边界解释状态漂移。"},
-      {"id":"foundation","result":"pass","evidence":"AIOps 入门实验：完整两个模板、values、渲染、安装、升级；8. 先恢复，再清理补业务探针和回收验证。"},
-      {"id":"fault","result":"pass","evidence":"故障注入实验：坏镜像与自动回滚：专用集群、健康基线、失败现场与真实请求恢复，数据库不随清单回退。"},
-      {"id":"production","result":"pass","evidence":"生命周期精讲：CRD、Hook 和数据库各自留下什么及发布并发段落：覆盖迁移、发布锁、字段归属、容量和敏感记录。"},
-      {"id":"interview","result":"pass","evidence":"面试深追问：发布平台该以什么作为成功条件与独立通关：定义、路径、HPA 管理权、数据库迁移及服务端预检反例。"},
-      {"id":"mastery","result":"pass","evidence":"独立通关：配置合同能否经受反例：五项均含输入变化、具体可观察结果、拒绝条件及返工章节。"},
-      {"id":"aiops","result":"pass","evidence":"AIOps 自动化诊断脚本：新增秘密输出与 || true 风险限制；发布记录如何成为可用的事故证据连接 revision 与观测时间线。"}
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "老师先帮你跨过安装这一关：Docker后端和Compose插件分别验收，终端/上下文隔离；入门实验声明路径与目录、端口和下载空间。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "Compose 的内部调和路径与依赖课堂：区分插值/模型/实际对象、服务 restart 和依赖 restart，非持续调和。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "AIOps 入门实验：Prometheus + Grafana + Demo App：三组件完整文件、启动及四层采集查询验收。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "故障注入实验：Grafana 把 Prometheus 写成 localhost：备份、注入、日志/DNS、恢复文件与重建查询；独立通关增加工具缺失分支。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "实验质量课堂：可用性、观测性与清理要一起验收：单机故障域、共享卷、配额、基数、容量和默认凭据边界。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "老师带你把实验解释成工程能力 / 五、面试从 30 秒讲到 3 分钟：解释请求链、单机 HA 及 Grafana 数据恢复反例。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "独立通关：交付的是最终模型，不是 YAML 截图：内部端口、合并、诊断、共享卷和配置时间点五项判据。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "实验质量课堂与学习证据：区分 up 与业务错误，保存应用、Targets、表达式及 Grafana 证据链。"
+      }
     ],
-    "validation":[
-      {"kind":"executed","detail":"运行本机 helm version --short，得到 v4.1.3+gc94d381。","limits":"仅客户端版本，不证明文中 4.2.4 或 Kubernetes 行为运行。"},
-      {"kind":"reasoned","detail":"通过 GitHub API 阅读官方 helm/helm v4.2.4 pkg/action/install.go，确认 dry-run 在 KubeClient.Create 前返回；官方安装页确认 Winget 包。","limits":"源码核对不代替特定集群、准入组件与 plugin 组合回归。"},
-      {"kind":"syntax","detail":"本篇 git diff --check 通过。","limits":"未执行 Chart 模板。"},
-      {"kind":"unrun","detail":"Chart 安装、坏镜像、回滚、Hook、SSA 与 Kubernetes 服务端预检未运行。","limits":"没有连接专用 Kubernetes 实验集群。"}
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "全文阅读Compose配置、实验、合并、变量、依赖与独立通关，核对启动条件非持续修复、restart非重新配置、卷非备份。",
+        "limits": "本轮未运行三个服务、数据源故障、合并模型；CLI版本检查仅证明本机Compose v5.6.1存在。"
+      }
     ],
-    "status":"revised-awaiting-cross-review"
-  },
-  {
-    "article":"cloud-native/harbor.md",
+    "status": "cross-reviewed",
+    "disposition": "revised",
     "crossReview": {
-      "reviewer": "systems",
-      "reviewedAt": "2026-10-12",
-      "articleSha256": "ff4e53d5e030e073724d0b494d7b88c5aba4a5b35f8e689a9b3578013de9b060",
+      "reviewer": "root-independent-2026-11-11",
+      "reviewedAt": "2026-11-11",
+      "articleSha256": "dc572775fc98a4da74b799c2ce94d8a0124e91dd5a1b51bd19c614170052fa08",
       "result": "pass",
       "findings": [
-        "全文独立复核：pull的401挑战与后续scope授权区分，顶层多架构索引与平台摘要差异不误报替换；Core元数据不被描述成每层必经数据库。",
-        "基础渲染按appVersion选择Chart，不声称启动；真实Push/Pull逐步检查退出码、Token不入Git，错误Token恢复使用同一隔离客户端配置。",
-        "保留规则或集合题得A1/A2/A3/B2/B3；复制/代理缓存与备份、标签删除与GC、DB+Blob+密钥恢复均有清晰边界。真实仓库未运行如实声明。"
+        "独立复评本轮差异、相关机制及实验/通关上下文，不声称再次全文重审；结合既有评测与本轮作者全文复评。",
+        "Docker与Compose插件安装检查闭合，纯解析与真实三服务链分层；context不是本地目录隔离；保留充分已有深度不灌水。",
+        "未启动Compose三服务或数据源故障；当前为本轮差异和相关实验静态复核。"
       ]
-    },
-    "writer":"cloud-automation",
-    "reviewedAt":"2026-10-12",
-    "initialFindings":["离线渲染入口隐含 Helm 安装与目录准备，直接选索引最新 Chart 可能不匹配产品锚点", "Push/Pull 多步原生命令未逐步检查退出码，失败后可能继续写成功凭据", "没有五项独立通关且渲染与真实仓库环境门槛需要前置说明"],
-    "changes":["新增从零准备，明确 Windows PowerShell、Helm 安装、空目录与无需仓库的首轮路线", "按 app_version=2.15.2 筛选候选 Chart，缺候选明确停止而不是猜最新版", "为 login/pull/tag/push/pull-by-digest 加失败停止，缩短明文变量停留并说明非内存擦除", "新增别名引用、认证对照、五份保留集合与供应链口述五项通关判据"],
-    "criteria":[
-      {"id":"prerequisites","result":"pass","evidence":"入门实验：离线渲染 Harbor Helm Chart / 从零准备：本课先不搭一整套仓库：区分客户端首轮与需管理员供给的真实实践。"},
-      {"id":"mechanism","result":"pass","evidence":"状态一致性：Tag、Digest、数据库和 Blob 与一次 pull 为什么先得到 401：解释引用、认证挑战及两类持久状态。"},
-      {"id":"foundation","result":"pass","evidence":"入门实验：离线渲染 Harbor Helm Chart和基础实验：完整 Push、Pull 与 Digest 证据链：输入、版本选择、退出码及摘要证据明确。"},
-      {"id":"fault","result":"pass","evidence":"故障注入实验：错误 Robot Token及带练事故：独立配置目录认证对照、同作用域修复和 logout 收回；保留规则课堂有无删除模拟。"},
-      {"id":"production","result":"pass","evidence":"生产高可用、容量与安全、升级与真正的回滚边界、复制与备份课堂：覆盖冷缓存、异步 RPO、DB/Blob/密钥成套恢复和 GC 预演。"},
-      {"id":"interview","result":"pass","evidence":"三分钟面试回答：仓库怎样变成可靠的发布依赖与系统设计题：双站点企业制品仓库：定义、协议、扫描、恢复与设计取舍可追问。"},
-      {"id":"mastery","result":"pass","evidence":"独立通关：仓库里有镜像，不等于恢复时拿得到：五项具体输入、判据、反例与返工章节，缺平台不编造。"},
-      {"id":"aiops","result":"pass","evidence":"运维状态课堂：任务完成、策略通过和可发布分别看什么：按 digest 关联构建、扫描、批准、复制与运行；学习证据限制秘密。"}
+    }
+  },
+  {
+    "article": "cloud-native/helm.md",
+    "writer": "refresh-cloud-delivery",
+    "reviewedAt": "2026-11-11",
+    "initialFindings": [
+      "values图把--set、--set-string、--set-file画成普适线性优先级，容易误解不同类型按命令行位置互相覆盖。",
+      "诊断脚本全部|| true吞错且全量打印values/manifest；警告不能代替安全示例。"
     ],
-    "validation":[
-      {"kind":"reasoned","detail":"全文逐段审查；官方 Helm 安装页核对 Winget 来源，复查 Chart/appVersion、失败停止及保留集合计算。","limits":"Harbor 版本锚点保持历史日期，本轮未刷新所有发行信息。"},
-      {"kind":"syntax","detail":"git diff --check 对本篇通过；PowerShell 原生退出码检查按流水线后的 LASTEXITCODE 设计。","limits":"未执行脚本、下载 Chart 或调用真实 Registry。"},
-      {"kind":"unrun","detail":"Harbor 安装、Push/Pull、扫描、复制、GC、升级与备份恢复未运行。","limits":"没有授权 Harbor 实例，离线渲染本轮也未执行。"}
+    "changes": [
+      "改图为来源层级，明确同类右侧覆盖与不同入口不应混用同键。",
+      "以字段缩小的只读元数据采集替换全量脚本，记录失败并最终非零退出，明确业务健康未验证、空清单与标签边界。"
     ],
-    "status":"revised-awaiting-cross-review"
-  },
-  {
-    "article":"cloud-native/etcd.md",
-    "crossReview": {
-      "reviewer": "systems",
-      "reviewedAt": "2026-10-12",
-      "articleSha256": "c1904b4b3dd280d1c368c62ea782e43dd5163b3ad1100490fdba851054772051",
-      "result": "pass",
-      "findings": [
-        "全文独立复核：Raft index/MVCC revision/单键version、线性读与Watch缓存、租约与外部fencing边界一致；三/四/五成员多数派复算无误。",
-        "Watch故障保留当前修订、压缩旧历史后重新List/R+1监听four，明确compact非删当前值；恢复副本匹配default成员名并读回v3，不停在目录生成。",
-        "endpoint health源码只读/告警不被当写入压测；单节点与Kubernetes灾备、修订回退/缓存重同步、成员降级时不可机械套先提升口诀均明确。"
-      ]
-    },
-    "writer":"cloud-automation",
-    "reviewedAt":"2026-10-12",
-    "initialFindings":["单节点安装未说明 PowerShell/context/专用卷，错误把未发布的宿主 2380 当端口冲突候选", "恢复只生成数据目录，没有启动恢复实例读回的完整步骤", "Watch 压缩故障只有恢复思路，没有新监听事件与精确键清理闭环", "事务交互末段结束和独立条件变化判据不足"],
-    "changes":["补运行位置、Docker 前置链接、专用实例/卷/目录、2379 与 2380 发布区别", "补事务第三段空行与失败分支反例", "补 Watch 新修订监听、写 four 验证及精确键回收", "按官方 3.7.1 恢复默认身份补隔离恢复容器、健康与 v3 读回、容器/卷分层清理", "新增多数派、Lease、Watch、维护与外部 fencing 五项独立通关"],
-    "criteria":[
-      {"id":"prerequisites","result":"pass","evidence":"安装与启动：单节点学习环境：PowerShell、Linux 引擎、context、空目录及容器卷身份逐项明确。"},
-      {"id":"mechanism","result":"pass","evidence":"一次写请求怎样完成、MVCC、revision 和 version、租约与隔离深讲：解释多数派、版本与外部动作边界，读写与 Watch 保证分开。"},
-      {"id":"foundation","result":"pass","evidence":"基础实验：KV、Watch、Lease 和事务以及不停止在生成目录的恢复副本段：完整输入、观测、末段交互与读回。"},
-      {"id":"fault","result":"pass","evidence":"故障实验：Watch 落后于 compact：旧修订拒绝、重新 List、下一修订事件、键清理，明确压缩历史不可撤销。"},
-      {"id":"production","result":"pass","evidence":"生产架构检查单和运维深讲：状态探针与真实恢复验收分层：多数派维护、TLS、低延迟磁盘、配额、恢复与上层缓存边界。"},
-      {"id":"interview","result":"pass","evidence":"核心面试题与递进追问、Kubernetes 控制面事故推演：从定义到共识、容量和恢复选择，包含超时未知结果反例。"},
-      {"id":"mastery","result":"pass","evidence":"独立通关：把一致性保证画到正确边界：五项具体条件与判据，单节点不宣称多节点容灾。"},
-      {"id":"aiops","result":"pass","evidence":"在 AIOps 中的作用与学习证据：fsync→提案→API→控制器链，敏感快照不公开，禁止自动重启多数派。"}
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "AIOps 入门实验 / 1. 创建 Chart：区分本地 Helm 与集群 kubectl/kubeconfig 路线，明确安装与权限范围。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "values覆盖优先级区分文件/同类参数/不同设值入口；发布路径、SSA、Hook、CRD及数据回滚边界完整。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "AIOps 入门实验：完整两个模板、values、渲染、安装、升级；8. 先恢复，再清理补业务探针和回收验证。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "故障注入实验：坏镜像与自动回滚：专用集群、健康基线、失败现场与真实请求恢复，数据库不随清单回退。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "生命周期精讲：CRD、Hook 和数据库各自留下什么及发布并发段落：覆盖迁移、发布锁、字段归属、容量和敏感记录。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "面试深追问：发布平台该以什么作为成功条件与独立通关：定义、路径、HPA 管理权、数据库迁移及服务端预检反例。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "独立通关：配置合同能否经受反例：五项均含输入变化、具体可观察结果、拒绝条件及返工章节。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "AIOps自动化诊断脚本不采集values、manifest、日志或事件原文；失败显式incomplete，成功也标business_health=not_verified。"
+      }
     ],
-    "validation":[
-      {"kind":"reasoned","detail":"全文审阅；GitHub API 核对官方 v3.7.1 etcdutl/etcdutl/snapshot_command.go 默认 name=default、peer=http://localhost:2380。","limits":"仅恢复参数静态匹配，未启动恢复容器。"},
-      {"kind":"syntax","detail":"git diff --check 对本篇通过。","limits":"未执行 PowerShell 教学脚本或检查镜像内部程序。"},
-      {"kind":"unrun","detail":"etcd 单节点、Watch 压缩、Lease、恢复与 Kubernetes 多成员演练未运行。","limits":"Docker daemon 不可连接，无专用 Kubernetes 集群。"}
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "全文审校模板、发布链、实验、回滚、数据副作用和输入合同，核对官方helm install覆盖语义。",
+        "limits": "没有Kubernetes实验集群，不验证真实发布、认证/准入、坏镜像回滚。"
+      },
+      {
+        "kind": "executed",
+        "detail": "本机Helm v4.1.3只读版本检查；对正文Bash采集脚本注入假helm/kubectl，正常退出0，release不可读与pods读取失败均退出1。",
+        "limits": "这是Git Bash函数模拟，不证明真实Helm/Kubernetes命令执行、权限、服务健康或版本迁移。"
+      }
     ],
-    "status":"revised-awaiting-cross-review"
-  },
-  {
-    "article":"cloud-native/calico.md","writer":"cloud-automation","reviewedAt":"2026-10-12",
+    "status": "cross-reviewed",
+    "disposition": "revised",
     "crossReview": {
-      "reviewer": "systems",
-      "reviewedAt": "2026-10-12",
-      "articleSha256": "16d39358110d0a995350b59ddd0ef316e1b679f0c10b66229da7b6eb68cb4511",
+      "reviewer": "root-independent-2026-11-11",
+      "reviewedAt": "2026-11-11",
+      "articleSha256": "009a2647e400cfb7fcd388c288f3c967ae245d519baa4c2cd54021def2086b30",
       "result": "pass",
       "findings": [
-        "全文复核退回NAT被误称应用层问题；已重读改为源/目的地址转换，并保留Pod通信、插件/封装和出站边界。",
-        "默认拒绝同时隔离两端，DNS与业务放行分步、selector AND/OR与标准策略并集区别正确；负例被两端拦不能单独证明入站selector，正文已提醒对照。",
-        "CNI/IPAM/Felix路径、Typha与路由反射器不同控制规模、4950邻接、HostEndpoint本地/转发及disabled池不改旧Pod均一致；校对官方calicoctl转换策略诊断，真实集群明确未运行。"
+        "独立复评本轮差异、相关机制及实验/通关上下文，不声称再次全文重审；结合既有评测与本轮作者全文复评。",
+        "values来源层级不误画不同set入口右侧优先；新采集器不采values/manifest，失败计数并最终非零，空标签结果不当资源不存在。",
+        "独立复跑mock正常/缺release/无权3分支全部符合退出码和状态；未连接真实集群或验证业务健康。"
       ]
-    },
-    "initialFindings":["安装隐含运行终端、kind/kubectl 安装和同名集群检查", "直接应用官方 custom-resources 同时启用未解释的 Goldmane/Whisker", "负例只说另建不同标签 Pod，缺实际输入与失败归因边界", "缺五项独立通关判据"],
-    "changes":["补 Bash/WSL、本地引擎、客户端安装入口和空目录/集群身份", "改用本地最小 Installation/APIServer，明确 VXLAN 模式不按 BGP 状态误判", "补 outsider 创建、就绪、测试、清理及 DNS/双端隔离的对照", "新增 selector 交并集、地址迁移、反射器/Typha 取舍五项通关", "按交叉反馈修正 NAT 非应用层机制，明确 Pod 地址可达模型与模式/出站地址转换边界"],
-    "criteria":[
-      {"id":"prerequisites","result":"pass","evidence":"安装实验：kind + Calico 3.32 / 前置条件：运行终端、工具入口、实际版本、集群身份与网段检查。"},
-      {"id":"mechanism","result":"pass","evidence":"一个包怎样跨节点、NetworkPolicy 的隔离语义、路由精讲课堂：区分控制路由、封装、双端策略与实际数据转发。"},
-      {"id":"foundation","result":"pass","evidence":"安装实验与基础实验：默认拒绝和精确放行：完整本地配置及 outsider 输入，正负请求分开验收。"},
-      {"id":"fault","result":"pass","evidence":"故障实验：selector 写错导致策略不放行：保留基线、单字段注入、标签/策略/请求对照、恢复与专用资源清理。"},
-      {"id":"production","result":"pass","evidence":"生产设计题、地址迁移课堂、主机边界课堂：地址余量、故障域、MTU、管理恢复通道及受控升级矩阵。"},
-      {"id":"interview","result":"pass","evidence":"核心面试题与递进追问：CNI 创建阶段、模式选择、标准策略并集、反射器和 Service 诊断均给因果答案。"},
-      {"id":"mastery","result":"pass","evidence":"独立通关：安全规则要有成功与拒绝的对照：五项有新条件、结果判据、反证及返工章节。"},
-      {"id":"aiops","result":"pass","evidence":"从证据到 AIOps：不要让网络模型只学到故障后的动作：配置/节点/流量/收敛时间关联，不自动清空策略。"}
+    }
+  },
+  {
+    "article": "cloud-native/harbor.md",
+    "writer": "refresh-cloud-delivery",
+    "reviewedAt": "2026-11-11",
+    "initialFindings": [
+      "学习证据直接列harbor-rendered.yaml，但Helm渲染可能含Secret、生成口令与私钥。",
+      "PowerShell在repo add/update/show/template失败后仍可能继续，渲染文件存在容易被误读成成功。",
+      "独立交叉反馈：错误凭据实验恢复步骤未在主代码保持同一--config，可能借默认缓存假通过；Force复用目录、OR文本检查和记录写入失败也有缺口。"
     ],
-    "validation":[
-      {"kind":"reasoned","detail":"全文审阅；通过 GitHub API 核对 v3.32.1 manifests/custom-resources.yaml 的 VXLAN 模式与额外 Goldmane/Whisker 定义。","limits":"最小配置为静态修订，没有验证 operator 创建结果。"},
-      {"kind":"unrun","detail":"kind、Calico、策略、IPAM 与 MTU 实验未运行。","limits":"Docker 引擎不可连接；不证明物理网络或生产性能。"}
-    ],"status":"revised-awaiting-cross-review"
-  },
-  {
-    "article":"cloud-native/cilium.md","writer":"cloud-automation","reviewedAt":"2026-10-12",
-    "crossReview": {
-      "reviewer": "systems",
-      "reviewedAt": "2026-10-12",
-      "articleSha256": "ad74185cb3080653a619c6f52ee53dc4386aaf85f01be260eda2d0d4cd7a00d0",
-      "result": "pass",
-      "findings": [
-        "全文独立复核后退回缺失永久禁止组问题；重读返修：独立outsider不改身份，先查不存在和Ready，正常client成功，禁止请求非零并核对同源时间窗policy denied。",
-        "修复client-broken后仍须正常组与修复组成功、outsider拒绝，再只清理本轮两Pod；非零不等于策略拒绝、FORWARDED不等于端到端成功，节点agent定位与观测丢失边界明确。",
-        "复核Service/Pod/Node三地址、identity传播、map容量、DNS学习、主机审计与升级回滚语义，五项独立任务覆盖反证与积压五万算术。本轮仅语法和推演，不声称运行Cilium。"
-      ]
-    },
-    "initialFindings":["工具与运行环境只列名称，遗漏 Hubble 独立客户端和同名集群检查", "kind podSubnet 已设置却未显式固定 Cilium IPAM 模式，读者可能混淆两套分配", "需要五项独立迁移条件与观测证据判据"],
-    "changes":["补 Bash/WSL、版本与本地引擎检查、工具官方入口、Hubble 客户端和实际节点镜像兼容边界", "安装明确 ipam.mode=kubernetes，补 Node PodCIDR 与 Pod IP 对照及保留默认 kube-proxy 的首轮边界", "新增身份不换 IP、三类故障反证、事件积压计算、主机审计与安全取舍通关", "按交叉反馈补固定app=outsider负例：名称不存在、Ready、有限请求、退出码与Hubble策略证据、修复后正负复验和精确Pod清理"],
-    "criteria":[
-      {"id":"prerequisites","result":"pass","evidence":"安装实验：kind + Cilium 1.20.0 / 前置条件：操作系统、客户端、Hubble、空目录和内核/节点镜像依赖明确。"},
-      {"id":"mechanism","result":"pass","evidence":"eBPF 前置知识、Service 负载均衡数据路径与身份与策略课堂：区分 program/map、三层地址、身份和代理路径。"},
-      {"id":"foundation","result":"pass","evidence":"基础实验：身份策略和 Hubble：独立工作负载、默认拒绝与精确允许，新增明确 IPAM 来源与访问路径。"},
-      {"id":"fault","result":"pass","evidence":"故障实验：标签改变导致身份和策略变化及实验复盘升级：定位具体 agent、有限收敛窗口、标签恢复与测试 Pod/转发清理。"},
-      {"id":"production","result":"pass","evidence":"生产设计检查单、升级深讲、观测容量课堂：内核、map 内存、L7、升级状态与观测缺失分层。"},
-      {"id":"interview","result":"pass","evidence":"核心面试题与递进追问、系统设计题：从 hook/map 到 Service、身份、观测与规模迁移的答案梯度。"},
-      {"id":"mastery","result":"pass","evidence":"独立通关：把网络事实与观测事实分开：五项新条件与五万事件积压判据，要求反证而非只交成功图。"},
-      {"id":"aiops","result":"pass","evidence":"在 AIOps 中的作用和观测容量课堂：关联 drop reason、policy revision、节点与应用 trace，覆盖不足标未知。"}
+    "changes": [
+      "公开证据改为render-review.md白名单摘要，原始清单本地保存并忽略；说明base64不是脱敏。",
+      "增加各原生命令退出码门禁，既有仓库别名先检查不强制覆盖；补文件存在不证明渲染有效反例。",
+      "返工为新目录冲突阻断、错误凭据意外成功即停止；同一配置目录正确login/pull逐步验证并finally logout，凭据收回失败不验收。",
+      "渲染两项文本分别强制断言并注明非完整语义验证；JSON解析/版本与摘要记录/推送输出写入加ErrorAction Stop。"
     ],
-    "validation":[
-      {"kind":"reasoned","detail":"全文审阅；GitHub API 核对 v1.20.0 官方 kind.rst 的 ipam.mode=kubernetes；flow.proto 确认该版本包含 REDIRECTED verdict，未按旧版本印象误改。","limits":"源码/文档一致不证明 CLI、内核与节点组合已运行。"},
-      {"kind":"unrun","detail":"Cilium 安装、Hubble、标签策略、主机防火墙、升级及 map 压测未运行。","limits":"没有可连接 Docker 引擎或支持的专用集群。"}
-    ],"status":"revised-awaiting-cross-review"
-  },
-  {
-    "article":"cloud-native/istio.md","writer":"cloud-automation","reviewedAt":"2026-10-12",
-    "crossReview": {
-      "reviewer": "systems",
-      "reviewedAt": "2026-10-12",
-      "articleSha256": "18c51824cead1f2da3f469f9a6192147e5fb4b0b1c85c3230ad345fe9bc5e7a1",
-      "result": "pass",
-      "findings": [
-        "全文复核固定完整发行包含samples/sleep路径，已查1.30.3官方样例确有sleep容器与curl；离线渲染不同于安装，Ambient L4/HBONE/waypoint L7与Sidecar subset故障路线明确分开。",
-        "空subset仍有Service后端但请求503，删除精确两资源后同请求200，再收回独占空间；SYNCED/分析无错不推翻运行时失败，恢复失败停止purge留取双端证据。",
-        "认证/加密/授权分层、ALLOW不抵DENY、JWT缺失与无效分开、最初Service或Pod地址影响waypoint路径、四实例失两容量超限与三层27次重试解释一致；真实网格未运行明示。"
-      ]
-    },
-    "initialFindings":["离线第一课只说安装 istioctl，后续却引用完整发行包 samples，缺校验、目录和 PATH 步骤", "安装与 purge 前未在入口强调已有网格和实验空间冲突阻断", "缺五项独立灰度、安全、数据面和容量判据"],
-    "changes":["按官方 release asset 补 Windows x64 完整包、SHA256 比较、解压目录、临时 PATH 与样例存在性", "补真实集群前 context、cluster-info、namespace 身份与共享安装禁用边界", "新增权重非固定发牌、Service/Pod waypoint 路径、空 subset、容量剔除及授权控制面追问"],
-    "criteria":[
-      {"id":"prerequisites","result":"pass","evidence":"入门实验：离线生成 Istio 安装清单 / 实验步骤：完整包与校验、PowerShell 路径、样例与临时 PATH；基础实验明确真实平台身份。"},
-      {"id":"mechanism","result":"pass","evidence":"架构和数据流、xDS 配置到底怎样送到现场、Ambient 精讲：Sidecar/ztunnel/waypoint 与 Service/Pod 流量边界明确。"},
-      {"id":"foundation","result":"pass","evidence":"离线生成实验与基础实验：Ambient L4、waypoint 与真实请求：输入、200、HBONE、Gateway API 前置及回收分层。"},
-      {"id":"fault","result":"pass","evidence":"故障注入实验：不存在的 subset 导致 503：专用 Sidecar 基线、空标签注入、Endpoint/请求证据、精确删除恢复与失败时保留现场。"},
-      {"id":"production","result":"pass","evidence":"生产高可用、容量、安全与升级和生产设计课堂：CA/代理故障域、重试/剔除容量、revision 与数据回滚边界。"},
-      {"id":"interview","result":"pass","evidence":"三分钟面试回答与课堂作业、系统设计题及独立通关：定义、路径、授权反例、控制面失联与容量设计有答案梯度。"},
-      {"id":"mastery","result":"pass","evidence":"独立通关：配置同步、请求成功和安全达标要分开：五项具体变化、可观察结果与返工章节；不编造运行。"},
-      {"id":"aiops","result":"pass","evidence":"在 AIOps 中的作用及路由精讲：版本、响应标志、代理配置与业务 SLI 关联，精确审批后回退。"}
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "入门实验：离线渲染 Harbor Helm Chart / 从零准备：本课先不搭一整套仓库：区分客户端首轮与需管理员供给的真实实践。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "状态一致性：Tag、Digest、数据库和 Blob 与一次 pull 为什么先得到 401：解释引用、认证挑战及两类持久状态。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "离线Chart实验明确实例未创建，选择appVersion候选并固定Chart；repo/show/template逐步失败停止；真实Push/Pull另有授权前提。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "错误Robot Token故障使用新独立目录，正确恢复login/pull始终同--config，退出码门禁+finally同目录logout；DNS/TLS与认证错误分离，默认缓存不能证明恢复。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "生产高可用、容量与安全、升级与真正的回滚边界、复制与备份课堂：覆盖冷缓存、异步 RPO、DB/Blob/密钥成套恢复和 GC 预演。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "三分钟面试回答：仓库怎样变成可靠的发布依赖与系统设计题：双站点企业制品仓库：定义、协议、扫描、恢复与设计取舍可追问。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "独立通关：仓库里有镜像，不等于恢复时拿得到：五项具体输入、判据、反例与返工章节，缺平台不编造。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "学习证据改为脱敏render-review.md，不公开原始rendered YAML；制品摘要串CI/部署/Pod，清理/GC必须审批。"
+      }
     ],
-    "validation":[
-      {"kind":"reasoned","detail":"全文审阅；GitHub release API 核对 1.30.3 win-amd64 完整包与 sha256 资产，样例 sleep.yaml 的 Deployment/container 名；官方 1.30 waypoint 页面核对 Gateway API 1.5.1 实验清单。","limits":"未下载或运行发行包，不证明该旧版本仍适合新生产选型。"},
-      {"kind":"unrun","detail":"清单生成、安装、waypoint、503、mTLS 与网格升级未运行。","limits":"本轮无专用 Kubernetes 集群；解压与 PATH 教学命令未执行。"}
-    ],"status":"revised-awaiting-cross-review"
-  },
-  {
-    "article":"cloud-native/rancher.md","writer":"cloud-automation","reviewedAt":"2026-10-12",
-    "crossReview": {
-      "reviewer": "systems",
-      "reviewedAt": "2026-10-12",
-      "articleSha256": "057b4f571f638c65a1f89904bfa8a89a709b6e4984fb57b0687a06ac10abba87",
-      "result": "pass",
-      "findings": [
-        "全文独立复核：管理集群、下游和发行版区分，业务路径不必经Rancher；agent长连接/页面缓存与原生API证据可分别证伪。",
-        "故障实验限定一次性下游和独立probe namespace，保存原副本与原生kubeconfig；自动调和或node-agent兜底不扩大破坏，恢复/清理顺序完整。",
-        "Fleet状态、配置与数据回退分离，恢复副本禁止与旧平台同时接管；备份不恢复已删除机器或自动回流旧权限，五项迁移题覆盖这些反例。"
-      ]
-    },
-    "initialFindings":["离线渲染缺 Helm 客户端与运行目录入口", "agent 故障引用不存在的 demo 工作负载和未定义业务探针，无法从零复现与清理", "缺五项独立应急路径、备份与权限判据"],
-    "changes":["补 Windows PowerShell、Helm 官方安装和独立目录，区分渲染与实际实例", "新增 rancher-probe-lab 完整无状态 Deployment/Service、原生端口转发与 curl.exe 探针，明确非真实 LB 全链路", "补恢复 agent 后专用探针清理与 controller/兜底行为边界", "新增代理 kubeconfig、三层恢复、Fleet 与管理故障五项通关"],
-    "criteria":[
-      {"id":"prerequisites","result":"pass","evidence":"入门实验：离线渲染 Rancher Helm Chart / 实验步骤：客户端、终端、目录与平台需求分层；故障实验要求独立原生 kubeconfig。"},
-      {"id":"mechanism","result":"pass","evidence":"架构和数据流、身份精讲课堂、Fleet 交付精讲：管理反向通道、身份路径、期望与下游状态分层。"},
-      {"id":"foundation","result":"pass","evidence":"离线渲染实验与故障实验前置条件与基线：固定 Chart、完整专用探针输入、请求方法及成功判据。"},
-      {"id":"fault","result":"pass","evidence":"故障注入实验：cluster-agent 中断时业务是否还活着：保留副本数、原生 API/UI/探针对照、恢复及专用 namespace 清理。"},
-      {"id":"production","result":"pass","evidence":"一致性、生产高可用与容量、管理平台恢复精讲、平台迁移课堂：重连尖峰、唯一管理权、三层备份及当前授权复核。"},
-      {"id":"interview","result":"pass","evidence":"三分钟面试回答：用两个探针解释一场事故与大厂设计题作答：定义、管理链、恢复和两百集群设计有答案。"},
-      {"id":"mastery","result":"pass","evidence":"独立通关：红色管理页不等于两百套业务一起停止：五项新条件与判断规则，要求路径证据而非截图。"},
-      {"id":"aiops","result":"pass","evidence":"在 AIOps 中的作用、权限恢复课堂：管理和业务 SLI 分开，状态新鲜度、授权差异只读报告与写操作审批。"}
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "全文阅读身份、认证、扫描、复制、保留、GC与HA章节，核对离线渲染和真实实例验证边界；对照Helm官方敏感输出提醒。",
+        "limits": "未拉取Chart、安装/登录Harbor、Push/Pull、扫描、复制或GC，PowerShell改动为静态审校。"
+      },
+      {
+        "kind": "syntax",
+        "detail": "按独立交叉反馈返工后，Harbor全部5个PowerShell代码块AST检查通过，git diff --check通过。",
+        "limits": "未真实登录Harbor，未运行认证/拉取/退出登录，静态控制流不证明真实权限。"
+      }
     ],
-    "validation":[
-      {"kind":"syntax","detail":"PowerShell AST 解析全部 4 个代码块无语法错误。","limits":"解析不连接 API，不证明 Rancher Chart、版本与权限。"},
-      {"kind":"reasoned","detail":"全文审阅并补全原缺失探针输入，区分 API port-forward 与真实业务 LB 验收。","limits":"历史支持矩阵未作为本轮当前版本重报。"},
-      {"kind":"unrun","detail":"Helm 渲染、Rancher 安装/导入、agent 缩容、平台恢复未运行。","limits":"无授权 Rancher 与下游实验环境。"}
-    ],"status":"revised-awaiting-cross-review"
-  },
-  {
-    "article":"cloud-native/kubesphere.md","writer":"cloud-automation","reviewedAt":"2026-10-12",
+    "status": "cross-reviewed",
+    "disposition": "revised",
     "crossReview": {
-      "reviewer": "systems",
-      "reviewedAt": "2026-10-12",
-      "articleSha256": "2d28dde924bd0e13351dfee467541c03d54069ef1c86550d17476408d6c4a15d",
+      "reviewer": "root-independent-2026-11-11",
+      "reviewedAt": "2026-11-11",
+      "articleSha256": "d7f1ae7810215ad24c23445e02db28fee6e4a0b8e254f7c6271bc940eaae0d75",
       "result": "pass",
       "findings": [
-        "全文独立复核：产品patch/OSS/Edition/License分别记录，不混写开源最新版；工作空间、Namespace与真正网络隔离边界明确。",
-        "快照逐查询退出码和范围，ConfigMap data不是标签；RBAC实验先拒绝、最小授权且Secret仍拒绝、回退、最后清理，避免先删空间再修复。",
-        "扩展菜单/后端/CRD/PVC/License分层，resourceVersion非墙钟；恢复和故障题不盲删CRD/PVC，无合法平台环境明确标未验证。"
+        "独立复评本轮差异、相关机制及实验/通关上下文，不声称再次全文重审；结合既有评测与本轮作者全文复评。",
+        "初审发现故障独立config而恢复可能用默认缓存、目录复用及渲染OR弱验收；作者返工后同config login/pull/finally logout与退出码闭合，原始Secret渲染不公开。",
+        "独立提取恢复代码，以假Docker核对正常/login失败/pull失败/logout失败4组及统一config调用序列；没有实际认证、拉镜像或部署Harbor。"
       ]
-    },
-    "initialFindings":["快照脚本仅写输出文件，未把原生命令失败转成明确停止，容易以空文件验收", "需要前置客户端、身份与巡检只读权限不含创建 Project 的说明", "RBAC 初轮立即清理与后文修复轮有顺序跳跃", "缺五项独立平台与原生状态、许可和扩展生命周期判据"],
-    "changes":["补 PowerShell/kubectl/授权 context 与无产品环境的基础路线", "重写快照为逐项退出码检查 Save-LabQuery，缺平台在原生四项后停止", "在清理前明确连接后文最小权限修复与回退轮，不删除后继续执行", "新增 UID、配额/GPU、RBAC 四阶段、日志查询/采集和证据新鲜度通关"],
-    "criteria":[
-      {"id":"prerequisites","result":"pass","evidence":"入门实验：生成集群健康快照 / 实验步骤：终端、客户端、context、浏览器与 API 身份及读写授权分清。"},
-      {"id":"mechanism","result":"pass","evidence":"状态模型、高可用与容量及平台工程课堂：页面、API、spec/status、控制器与就绪结果分层。"},
-      {"id":"foundation","result":"pass","evidence":"入门实验：生成集群健康快照：退出码、范围覆盖、原生四项与平台三项、UI ConfigMap 同 UID 交叉验证及回收。"},
-      {"id":"fault","result":"pass","evidence":"故障注入实验：用最小 RBAC 复现拒绝与 RBAC 故障实验的修复闭环：拒绝、最小授权、Secret 仍拒绝、撤回与清理。"},
-      {"id":"production","result":"pass","evidence":"扩展运维课堂、扩展生命周期课堂、授权容量课堂：供应链、CRD/PVC、不可逆 schema、历史与新数据及三类容量限制。"},
-      {"id":"interview","result":"pass","evidence":"三分钟面试表达：平台化的价值和代价与面试追问：扩展故障会不会影响核心资源创建：调用链、隔离、影响传播均有答案。"},
-      {"id":"mastery","result":"pass","evidence":"独立通关：平台入口方便，不意味着证据可以省略：五项具体输入、失败/恢复证据与答案判据，缺 License 不编造。"},
-      {"id":"aiops","result":"pass","evidence":"故障课堂：为什么看到的是昨天的数据和独立通关：数据年龄、上下文、核心/扩展/业务四句结论及受控写动作。"}
+    }
+  },
+  {
+    "article": "cloud-native/etcd.md",
+    "writer": "refresh-cloud-delivery",
+    "reviewedAt": "2026-11-11",
+    "initialFindings": [
+      "实例/卷归属只有文字核对，没有失败停止门禁；恢复容器可复用已存在命名卷。",
+      "快照保存/检查/复制/恢复失败后代码可能继续使用旧文件或半成品。"
     ],
-    "validation":[
-      {"kind":"executed","detail":"用无副作用的本地 cmd exit 5 验证 scriptblock 调用后 LASTEXITCODE 可被函数读取。","limits":"只验证 PowerShell 退出码作用域，不调用 Kubernetes。"},
-      {"kind":"syntax","detail":"PowerShell AST 解析全部 6 个代码块无语法错误。","limits":"不证明权限、License、Console 或 API 运行结果。"},
-      {"kind":"reasoned","detail":"全文逐段审查并重写快照失败语义、实验顺序与五项判据。","limits":"产品条款保持原证据日期，本轮未激活或认证产品。"},
-      {"kind":"unrun","detail":"Kubernetes/KubeSphere 快照、Console、RBAC、扩展及升级未运行。","limits":"没有授权产品实例或专用集群。"}
-    ],"status":"revised-awaiting-cross-review"
+    "changes": [
+      "新增容器/卷清单读取错误与名称冲突停止、快照目标覆盖阻断。",
+      "快照与恢复链逐步检查退出码、备份目录只读挂载；加入命名卷复用与失败半成品的教师反例。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "安装与启动：单节点学习环境：PowerShell、Linux 引擎、context、空目录及容器卷身份逐项明确。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "一次写请求怎样完成、MVCC、revision 和 version、租约与隔离深讲：解释多数派、版本与外部动作边界，读写与 Watch 保证分开。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "单节点教学入口阻断旧容器/卷和旧快照文件，KV/Lease/事务/Watch完整；容器创建与健康失败停止。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "compacted Watch→重新List→下一revision→新事件；快照保存/检查/复制/恢复/读回逐步失败停止，恢复卷不复用、源快照只读。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "生产架构检查单和运维深讲：状态探针与真实恢复验收分层：多数派维护、TLS、低延迟磁盘、配额、恢复与上层缓存边界。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "核心面试题与递进追问、Kubernetes 控制面事故推演：从定义到共识、容量和恢复选择，包含超时未知结果反例。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "独立通关：把一致性保证画到正确边界：五项具体条件与判据，单节点不宣称多节点容灾。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "在 AIOps 中的作用与学习证据：fsync→提案→API→控制器链，敏感快照不公开，禁止自动重启多数派。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "本轮逐段全文阅读所有章节，保留已有原理、实验、生产与递进追问；补具体失败、安全、兼容或证据反例。",
+        "limits": "无真实etcd/Calico/Cilium/Nexus/SonarQube实例运行，未执行数据库/网络/快照变更；保留历史版本边界。"
+      },
+      {
+        "kind": "syntax",
+        "detail": "etcd/Nexus/SonarQube共29个PowerShell代码块通过AST语法解析。",
+        "limits": "不证明容器、HTTP、凭据、快照和真实数据库结果；SonarQube新就绪分支本轮仅静态验证。"
+      }
+    ],
+    "status": "cross-reviewed",
+    "disposition": "revised",
+    "crossReview": {
+      "reviewer": "data-independent-2026-11-11",
+      "reviewedAt": "2026-11-11",
+      "articleSha256": "7f2cdb85e76cf52828ce2f5748586b1937c270f9d9106b4ab2adcd3bd42bfc85",
+      "result": "pass",
+      "findings": [
+        "独立复评本轮全部差异、相关机制上下文、基础/故障实验与独立通关；不是再次全文重审。",
+        "复核专用容器/恢复卷/快照防复用、源快照目录只读挂载、restore默认成员与启动相符；Watch压缩→重新读R→R+1→four、恢复读回及清理闭合。",
+        "复核MVCC/事务、租约不等副作用撤销、多数派3失1与4失2、fencing及恢复边界；PowerShell语法通过，未启动etcd/快照/多成员恢复。"
+      ]
+    }
   },
   {
-    "article":"cloud-native/tke-on-tce.md","writer":"cloud-automation","reviewedAt":"2026-10-12",
+    "article": "cloud-native/calico.md",
+    "writer": "refresh-cloud-delivery",
+    "reviewedAt": "2026-11-11",
+    "initialFindings": [
+      "固定Calico 3.32却未固定kind节点，当前kind默认1.37超出文内1.34–1.36范围。",
+      "安装未失败停止且用默认kubeconfig，kind创建失败可能继续向原集群安装CRD。",
+      "默认拒绝后笼统承诺wget超时，忽略DNS先被拒绝的错误类型。",
+      "交叉审校要求版本兼容来源固定，latest链接会漂移。"
+    ],
+    "changes": [
+      "依据官方kind v0.33.0发布清单固定1.36.4节点镜像摘要。",
+      "安装脚本失败即停、冲突阻断、独立kubeconfig、CRD就绪等待，明确子脚本环境不会继承回父终端，限定清理context。",
+      "补DNS错误与TCP超时分层及有限五分钟安装验收。",
+      "将兼容入口改为官方/3.32/固定页面。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "Linux/WSL工具入口与独占kind，固定kind0.33.0/节点1.36.4 digest对应3.32声明兼容范围；独立kubeconfig和新终端路径说明。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "一个包怎样跨节点、NetworkPolicy 的隔离语义、路由精讲课堂：区分控制路由、封装、双端策略与实际数据转发。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "完整kind/安装/策略文件，安装失败停止和名称冲突阻断，节点/组件有界验收；默认拒绝区分DNS先失败。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "故障实验：selector 写错导致策略不放行：保留基线、单字段注入、标签/策略/请求对照、恢复与专用资源清理。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "生产设计题、地址迁移课堂、主机边界课堂：地址余量、故障域、MTU、管理恢复通道及受控升级矩阵。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "核心面试题与递进追问：CNI 创建阶段、模式选择、标准策略并集、反射器和 Service 诊断均给因果答案。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "独立通关：安全规则要有成功与拒绝的对照：五项有新条件、结果判据、反证及返工章节。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "从证据到 AIOps：不要让网络模型只学到故障后的动作：配置/节点/流量/收敛时间关联，不自动清空策略。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "本轮逐段全文阅读所有章节，保留已有原理、实验、生产与递进追问；补具体失败、安全、兼容或证据反例。",
+        "limits": "无真实etcd/Calico/Cilium/Nexus/SonarQube实例运行，未执行数据库/网络/快照变更；保留历史版本边界。"
+      },
+      {
+        "kind": "executed",
+        "detail": "安装Bash脚本语法通过；假kind/kubectl/cilium模拟正常、创建失败、名称冲突三组，失败或冲突时未调用下游安装。官方kind releases API核对v0.33.0与1.36.4完整摘要。",
+        "limits": "仅Shell流程模拟，不创建集群、不下载镜像，也不证明插件/内核/节点组合在本机可用。"
+      },
+      {
+        "kind": "executed",
+        "detail": "2026-11-11作者与data交叉审校分别经Jina读取官方固定3.32页，核对tested1.34/1.35/1.36与kernel5.10；仍非兼容实跑。",
+        "limits": "本轮返工仅限明确列出的本地合成、静态和来源检查，不替代实际产品或生产验收。"
+      }
+    ],
+    "status": "cross-reviewed",
+    "disposition": "revised",
     "crossReview": {
-      "reviewer": "systems",
-      "reviewedAt": "2026-10-12",
-      "articleSha256": "63a9191e9f02575e4d6b0441876fa8f0145136e76eb81c8a2bdc29e4d6b57a00",
+      "reviewer": "data-independent-2026-11-11",
+      "reviewedAt": "2026-11-11",
+      "articleSha256": "0bb1886a140ff9deb4638912563147b9af6a7d698c7581dc2bb1d1554c99ef25",
       "result": "pass",
       "findings": [
-        "全文独立复核并退回容量口径矛盾；修复后每台已扣系统/代理，不再重复扣，失AZ36核144GiB、再维护24核96GiB的反例一致。",
-        "基础/故障/恢复脚本和仓库两份YAML对照：同一80入口仅targetPort变8080，Pod本机成功与Service失败分离，退出码失败即停，集群预检查及精确清理齐全。",
-        "EndpointSlice仅控制清单非报文下一跳；云任务未知结果、PVC/CSI层次与两套授权不混写，本地单节点kind不冒充跨AZ/CLB/CBS验收。"
+        "独立复评本轮全部差异、相关机制上下文、基础/故障实验与独立通关；不是再次全文重审。",
+        "复核kind0.33.0的官方1.36.4摘要及经Jina读取的官方Calico3.32测试范围1.34–1.36；独立kubeconfig防错集群，DNS拒绝不等入站拒绝。",
+        "独立Bash语法与替身测试list失败/create失败/已有kubeconfig均不执行下游kubectl，正常路径继续；复核默认拒绝、DNS/双向允许、单入站selector故障及正负复验，未运行CNI或数据包。"
       ]
-    },
-    "initialFindings":["数据路径把 EndpointSlice 控制对象画成报文必经设备", "本机实验工具/仓库文件位置前置不够，PowerShell 错误后仍可能继续故障和清理", "缺三条链交叉判断的五项独立通关"],
-    "changes":["重画请求路径并解释 EndpointSlice 是转发依据不是设备", "核对两个真实 examples 文件，补 OS/工具/本机上下文/文件存在前置", "为基线、注入、局部验证、修复、清理增加退出码停止条件", "新增端口反例、云任务未知结果、AZ 容量计算和两套授权判据", "按独立交叉反馈修正通关容量口径：系统与代理已扣除，尚需突发与恢复余量，不重复扣系统"],
-    "criteria":[
-      {"id":"prerequisites","result":"pass","evidence":"基础实验：运行两个副本并验证 Service / 前提与边界：明确 Windows PowerShell、本机引擎、工具官方入口及真实实验文件。"},
-      {"id":"mechanism","result":"pass","evidence":"网络路径：容器通了不等于用户通了与云集成状态课堂：EndpointSlice 控制信息、云任务异步调和、对象 UID 边界。"},
-      {"id":"foundation","result":"pass","evidence":"基础实验：运行两个副本并验证 Service：两个副本、命名 targetPort、HTTP 与失败停止，读取仓库实际 YAML。"},
-      {"id":"fault","result":"pass","evidence":"故障注入实验：Pod 正常但 Service 不通：8080 单变量、预期失败退出、本机成功对照、修复 HTTP 后清理。"},
-      {"id":"production","result":"pass","evidence":"容量与故障域的可复算设计题、升级交付课堂、存储拓扑精讲：AZ 预留、BOM、WFFC 与回滚状态边界。"},
-      {"id":"interview","result":"pass","evidence":"面试回答与连续追问和独立通关：定义、机制、云超时未知、PVC UID、CAM/RBAC 有答案与证据要求。"},
-      {"id":"mastery","result":"pass","evidence":"独立通关：三条链不能互相替代：五项预测/反例/容量变式、失败返工位置与云实验未运行规则。"},
-      {"id":"aiops","result":"pass","evidence":"AIOps：把告警关联到真实依赖和跨层事故复盘：云/集群/业务时间线及因果假设。"}
-    ],"validation":[
-      {"kind":"reasoned","detail":"全文审阅，读取 app.yaml 与 service-broken.yaml，并核对官方 EndpointSlice 控制信息模型。","limits":"不以静态读 YAML 证明集群状态。"},
-      {"kind":"unrun","detail":"kind 两副本、端口故障与 TCE 云集成/跨 AZ 容量均未运行。","limits":"本机 Docker daemon 未连接，没有授权 TCE 测试租户。"}
-    ],"status":"revised-awaiting-cross-review"
+    }
   },
   {
-    "article":"cloud-native/microservices.md","writer":"cloud-automation","reviewedAt":"2026-10-12",
+    "article": "cloud-native/cilium.md",
+    "writer": "refresh-cloud-delivery",
+    "reviewedAt": "2026-11-11",
+    "initialFindings": [
+      "固定Cilium1.20但kind默认节点可超出测试范围，仅 prose 提醒无法确保第一条创建命令可复现。",
+      "kind创建失败后安装仍可能连接旧当前集群，未使用独立kubeconfig。"
+    ],
+    "changes": [
+      "固定kind0.33.0官方1.36.4镜像摘要，安装脚本set-e及名称/kubeconfig冲突阻断。",
+      "明确子脚本环境作用域及所有后续终端重新绑定实验配置，凭据文件不公开，清理显式context。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "Linux/WSL客户端及Hubble独立安装、kind0.33.0/1.36.4官方digest、独占kubeconfig与新终端绑定，旧集群不改CNI。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "eBPF 前置知识、Service 负载均衡数据路径与身份与策略课堂：区分 program/map、三层地址、身份和代理路径。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "三节点kind/Cilium安装脚本失败停止，固定IPAM与节点镜像，Hubble路径、允许组及固定禁止组分别验证；CLI成功不冒充完整实测。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "故障实验：标签改变导致身份和策略变化及实验复盘升级：定位具体 agent、有限收敛窗口、标签恢复与测试 Pod/转发清理。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "生产设计检查单、升级深讲、观测容量课堂：内核、map 内存、L7、升级状态与观测缺失分层。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "核心面试题与递进追问、系统设计题：从 hook/map 到 Service、身份、观测与规模迁移的答案梯度。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "独立通关：把网络事实与观测事实分开：五项新条件与五万事件积压判据，要求反证而非只交成功图。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "在 AIOps 中的作用和观测容量课堂：关联 drop reason、policy revision、节点与应用 trace，覆盖不足标未知。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "本轮逐段全文阅读所有章节，保留已有原理、实验、生产与递进追问；补具体失败、安全、兼容或证据反例。",
+        "limits": "无真实etcd/Calico/Cilium/Nexus/SonarQube实例运行，未执行数据库/网络/快照变更；保留历史版本边界。"
+      },
+      {
+        "kind": "executed",
+        "detail": "安装Bash脚本语法通过；假kind/kubectl/cilium模拟正常、创建失败、名称冲突三组，失败或冲突时未调用下游安装。官方kind releases API核对v0.33.0与1.36.4完整摘要。",
+        "limits": "仅Shell流程模拟，不创建集群、不下载镜像，也不证明插件/内核/节点组合在本机可用。"
+      }
+    ],
+    "status": "cross-reviewed",
+    "disposition": "revised",
     "crossReview": {
-      "reviewer": "systems",
-      "reviewedAt": "2026-10-12",
-      "articleSha256": "0bc57d78bb348904b0967efb144789ea3812a6147187632133bf0b11be6b0e2d",
+      "reviewer": "data-independent-2026-11-11",
+      "reviewedAt": "2026-11-11",
+      "articleSha256": "4cac98d113aeb18e0cfbf6775d42e44ed2bf7bec7ea478a0b2516a0d0864ad4d",
       "result": "pass",
       "findings": [
-        "全文独立复核：概念片段与两个完整Spring项目明确分开，Initializr固定版本撤下即停步，不悄换Boot/Cloud；JDK/javac/Wrapper和三终端路径具体。",
-        "故障503通过四调用窗口判熔断，半开两次恢复并复验业务；降级Map可返回200，不把HTTP成功当业务成功，真正编译运行明确未执行。",
-        "Outbox重复窗口、可靠幂等及未知支付对账、线程/连接/舱壁、停机与数据库兼容回退均有机制和反例；100×2×3=600仅为单层尝试上限。"
+        "独立复评本轮全部差异、相关机制上下文、基础/故障实验与独立通关；不是再次全文重审。",
+        "复核官方1.20兼容源码1.33–1.36与kind摘要、IPAM和节点PodCIDR、父子shell配置继承；Hubble观测不等端到端，身份变化不要求IP变化。",
+        "独立Bash语法及安装前置失败不得下游执行；复核入站空允许集合、精确client许可、固定outsider负例、标签修复和观测缺失假设，未运行eBPF/集群。"
       ]
-    },
-    "initialFindings":["Java 运行环境未区分 JDK 编译器，Initializr 固定历史版本可能已撤下", "实验目录强制覆盖及多终端相对路径易错", "熔断恢复只等 10 秒发一次请求不足以证明 CLOSED", "缺业务状态与 HTTP 200 分离的五项独立通关"],
-    "changes":["补 JDK/javac、生成服务版本撤下时暂停与完整源码边界", "禁止覆盖已有项目，统一两个窗口绝对目录与测试失败停止", "显式半开探测次数为 2，恢复后四次请求与状态复查，窗口样本不死记请求序号", "新增端口变式、降级 200、重试放大、Outbox 重复窗口与副作用通关"],
-    "criteria":[
-      {"id":"prerequisites","result":"pass","evidence":"可复现基础实验 / 前置条件与第 1 步：JDK、端口、包源、独立目录、在线生成版本边界及完整源文件定位。"},
-      {"id":"mechanism","result":"pass","evidence":"核心概念五件套与业务状态课堂：自动配置、调用/发现、熔断窗口、Outbox、未知支付结果和线程/连接池边界。"},
-      {"id":"foundation","result":"pass","evidence":"可复现基础实验：两个服务、一次调用、三个证据面：完整 Java/YAML/POM 编辑入口，健康/业务/指标验证。"},
-      {"id":"fault","result":"pass","evidence":"故障注入实验：下游 503 与熔断状态：单一故障开关、窗口证据、半开恢复与环境变量/进程清理。"},
-      {"id":"production","result":"pass","evidence":"生产请求路径、状态与容量模型以及优雅停机课堂：deadline/重试/幂等、隔离、HA、schema 兼容及不可逆状态。"},
-      {"id":"interview","result":"pass","evidence":"六、面试从定义追问到架构取舍与独立通关：模块化单体、容错机制、数据回滚各有答案边界。"},
-      {"id":"mastery","result":"pass","evidence":"独立通关：业务结果不能藏在 HTTP 200 后面：五类独立复现和变式、600 次尝试容量计算、失败回读位置。"},
-      {"id":"aiops","result":"pass","evidence":"AIOps 观测设计与五、从实验读出正确的监控结论：指标/trace/版本关联，不把降级 200 当业务健康。"}
-    ],"validation":[
-      {"kind":"reasoned","detail":"全文审阅并读取 Resilience4j 官方状态/参数说明，修正恢复条件和实验前置。","limits":"没有生成、编译或解析这两个项目的实际依赖。"},
-      {"kind":"unrun","detail":"Spring 项目生成/构建/启动、指标与熔断故障未运行。","limits":"不借文章中的预期值冒称实测。"}
-    ],"status":"revised-awaiting-cross-review"
+    }
   },
   {
-    "article":"cloud-native/nginx-ingress.md","writer":"cloud-automation","reviewedAt":"2026-10-12",
+    "article": "cloud-native/istio.md",
+    "writer": "refresh-cloud-delivery",
+    "reviewedAt": "2026-11-11",
+    "initialFindings": [
+      "curl未启-f只打印状态但不验证；恢复503后粘贴代码仍会继续删除namespace和purge。",
+      "真实实验多数安装/创建失败仍继续，离线生成只在 prose 要求退出码。"
+    ],
+    "changes": [
+      "新增Assert-LabHttp同时验证退出码与阶段预期200/503，十次上限容纳传播并在失败时停止。",
+      "安装/命名空间/样例/故障注入/修复/卸载加明确失败门禁，安装预览标为非直接入门入口，补HTTP状态反例。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "入门实验：离线生成 Istio 安装清单 / 实验步骤：完整包与校验、PowerShell 路径、样例与临时 PATH；基础实验明确真实平台身份。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "架构和数据流、xDS 配置到底怎样送到现场、Ambient 精讲：Sidecar/ztunnel/waypoint 与 Service/Pod 流量边界明确。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "官方完整包离线生成与Ambient真实实验分层，生成/安装逐项停止，Assert-LabHttp必须返回预期200但不冒充mTLS证据。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "Sidecar空subset请求503，函数区分工具退出码与HTTP状态，精确删除后200门禁通过才清理；最多十次观察后保留现场。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "生产高可用、容量、安全与升级和生产设计课堂：CA/代理故障域、重试/剔除容量、revision 与数据回滚边界。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "三分钟面试回答与课堂作业、系统设计题及独立通关：定义、路径、授权反例、控制面失联与容量设计有答案梯度。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "独立通关：配置同步、请求成功和安全达标要分开：五项具体变化、可观察结果与返工章节；不编造运行。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "在 AIOps 中的作用及路由精讲：版本、响应标志、代理配置与业务 SLI 关联，精确审批后回退。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "本轮逐段全文审阅；保留已有请求/状态/生产/面试与独立通关深度，修订具体执行和证据缺口。kubectl ignore-not-found与PowerShell退出码语义核对官方参考。",
+        "limits": "未连接真实Rancher/KubeSphere/TCE/Istio，未执行Terraform或变更真实state；历史版本不重报为当前推荐。"
+      },
+      {
+        "kind": "syntax",
+        "detail": "本组五篇共24个PowerShell代码块通过AST语法检查。",
+        "limits": "语法检查不证明平台、权限、渲染或资源运行。"
+      },
+      {
+        "kind": "executed",
+        "detail": "从正文提取Assert-LabHttp，以假kubectl和无等待函数验证200、503、连接失败、恢复错误状态、延迟恢复五组，调用次数1/1/10/10/3均符合预期。",
+        "limits": "仅PowerShell控制逻辑模拟，没有真实HTTP、Istio或Kubernetes。"
+      }
+    ],
+    "status": "cross-reviewed",
+    "disposition": "revised",
     "crossReview": {
-      "reviewer": "systems",
-      "reviewedAt": "2026-10-12",
-      "articleSha256": "0476d6f7707bf730491186018655668d91f510fb81c9161d30953769e26d33ba",
+      "reviewer": "data-independent-2026-11-11",
+      "reviewedAt": "2026-11-11",
+      "articleSha256": "b0d46e580a2139a9b277fcda680e559420cfe0ab46102c971ae701a9954c5a0e",
       "result": "pass",
       "findings": [
-        "全文独立复核：社区ingress-nginx退役与Ingress API冻结、F5项目分开；Gateway CRD非controller，程序/规则/流量证据不混用。",
-        "零基础Docker代理限定新目录、回环18081及两个专用容器，pause只一个后端、读状态码/阶段日志后unpause同式复验；故障不为凑504篡改记录。",
-        "proxy_pass斜杠URI、相邻read超时非总期限、两段TLS与可信forwarded头说明准确；Gateway父状态/代次、allowedRoutes与ReferenceGrant、长连接排空和真实控制器未验收边界完整。"
+        "独立复评本轮全部差异、相关机制上下文、基础/故障实验与独立通关；不是再次全文重审。",
+        "复核离线完整发行包、Ambient/waypoint前置及Sidecar空subset的200→503→200闭环，恢复失败先保留现场；HTTP状态与命令退出码不能互相替代。",
+        "独立执行正文Assert-LabHttp的合成即时/延迟成功、非零退出但HTTP200、持续状态错配四分支；有界重试符合合同。未创建网格或调用kubectl。"
       ]
-    },
-    "initialFindings":["零基础实验全部依赖已有 controller，不能从本机空环境开始", "请求路径将 EndpointSlice 画成流量设备", "CRD 覆盖命令未充分限制已有 controller 的版本所有权", "缺 URI/状态/TLS/迁移独立通关"],
-    "changes":["增加完整本机双容器 NGINX 代理配置、基线日志、暂停后端故障、恢复与精确回收", "解释主机/容器端口、conf.d 上下文及 curl 无 -f 可在 HTTP 504 时退出零", "重画 EndpointSlice 语义，限制 Gateway CRD 版本支持矩阵与空白集群条件", "新增 URI 斜杠变式、故障阶段、三团队所有权与长连接迁移判据"],
-    "criteria":[
-      {"id":"prerequisites","result":"pass","evidence":"零基础本机实验：先看到反向代理，再故意断开后端：Windows/Docker、本机上下文、工具入口、文件与专属对象要求。"},
-      {"id":"mechanism","result":"pass","evidence":"学习边界、核心配置、Gateway 状态课堂：控制信息/报文、URI 改写、父关系/代次、两段 TLS 明确。"},
-      {"id":"foundation","result":"pass","evidence":"零基础本机实验：完整 proxy.conf、网络/容器、配置检测、请求/两端日志与失败停止。"},
-      {"id":"fault","result":"pass","evidence":"零基础本机实验及后端引用故障：暂停实验后端、连接/读取证据、同探针恢复；集群条件另列。"},
-      {"id":"production","result":"pass","evidence":"从 ingress-nginx 迁移、更新与排空课堂及日志与容量课堂：双入口、标准与实现差异、长连接、容量与回退。"},
-      {"id":"interview","result":"pass","evidence":"老师带练的 30 秒、3 分钟与生产事故答案及独立通关：状态码来源、TLS/timeout/副作用有回答指导。"},
-      {"id":"mastery","result":"pass","evidence":"独立通关：入口配置与实际报文能否相互印证：五项独立任务、精确 URI 答案、故障差异和设计判据。"},
-      {"id":"aiops","result":"pass","evidence":"NGINX / Ingress 在 AIOps 链路中的位置与日志容量课堂：上游尝试、状态与请求 ID、敏感信息和采集未知边界。"}
-    ],"validation":[
-      {"kind":"reasoned","detail":"全文审阅并核对 NGINX 官方 proxy_pass/timeout 模块，新增完整本机实验。","limits":"尚未由容器解析该新配置或产生实际 504。"},
-      {"kind":"unrun","detail":"本机双容器、Gateway、TLS、迁移与容量实验未运行。","limits":"Docker daemon 未连接，也没有选定授权 Gateway controller。"}
-    ],"status":"revised-awaiting-cross-review"
+    }
   },
   {
-    "article":"cloud-native/traefik.md","writer":"cloud-automation","reviewedAt":"2026-10-12",
+    "article": "cloud-native/rancher.md",
+    "writer": "refresh-cloud-delivery",
+    "reviewedAt": "2026-11-11",
+    "initialFindings": [
+      "Helm渲染命令失败可继续且原始清单被推荐为公开证据。",
+      "agent故障前命名空间/工作负载创建没有执行门禁，可能误复用已有namespace。"
+    ],
+    "changes": [
+      "新增Helm逐命令失败停止、渲染白名单摘要与原始清单忽略。",
+      "新增namespace查无和查错分支、创建/缩容/恢复退出码检查，副本数成功读出后才转换；加入AlreadyExists反例。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "入门实验：离线渲染 Rancher Helm Chart / 实验步骤：客户端、终端、目录与平台需求分层；故障实验要求独立原生 kubeconfig。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "架构和数据流、身份精讲课堂、Fleet 交付精讲：管理反向通道、身份路径、期望与下游状态分层。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "离线渲染与完整探针：固定Chart、逐步退出检查、原始清单不公开、可观察目标和安全命名空间预检。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "cluster-agent实验先确认独占namespace、保存副本数、基线就绪与HTTP；注入和恢复失败停止，管理/API/探针结果分层。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "一致性、生产高可用与容量、管理平台恢复精讲、平台迁移课堂：重连尖峰、唯一管理权、三层备份及当前授权复核。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "三分钟面试回答：用两个探针解释一场事故与大厂设计题作答：定义、管理链、恢复和两百集群设计有答案。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "独立通关：红色管理页不等于两百套业务一起停止：五项新条件与判断规则，要求路径证据而非截图。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "在 AIOps 中的作用、权限恢复课堂：管理和业务 SLI 分开，状态新鲜度、授权差异只读报告与写操作审批。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "本轮逐段全文审阅；保留已有请求/状态/生产/面试与独立通关深度，修订具体执行和证据缺口。kubectl ignore-not-found与PowerShell退出码语义核对官方参考。",
+        "limits": "未连接真实Rancher/KubeSphere/TCE/Istio，未执行Terraform或变更真实state；历史版本不重报为当前推荐。"
+      },
+      {
+        "kind": "syntax",
+        "detail": "本组五篇共24个PowerShell代码块通过AST语法检查。",
+        "limits": "语法检查不证明平台、权限、渲染或资源运行。"
+      }
+    ],
+    "status": "cross-reviewed",
+    "disposition": "revised",
     "crossReview": {
-      "reviewer": "systems",
-      "reviewedAt": "2026-10-12",
-      "articleSha256": "15d7986b9bd523fbc022a2e8b6c442c02cf2fc65535da7b108d4b556d96ab30f",
+      "reviewer": "data-independent-2026-11-11",
+      "reviewedAt": "2026-11-11",
+      "articleSha256": "cb2901e056cd123f6157f84b3ba10f06c487eca92cad9c0e47a606c17d3ac15f",
       "result": "pass",
       "findings": [
-        "全文独立复核Compose四层路由/错误Host404/端口9999连接拒绝/恢复curl-f，loopback、共享网络容器80非宿主端口、固定project查重及本轮清理均明确；后端无日志不能单独作反证。",
-        "Gateway教学含完整whoami基线/Service8080到80/命名Gateway及allowedRoutes授权，BackendRef缺失与恢复检查conditions generation；Route挂载非ReferenceGrant、转发入口不证明公网LB/TLS边界准确。",
-        "独立查Traefik官方v3.7迁移证实TCPRoute v1alpha2与1.6标准通道组合陷阱，官方中间件文档证实Router后Service执行；OSS本地限流/多副本无Raft/ACME文件非分布式协调、2000×3=6000并发及五项追问成立。真实产品未运行明示。"
+        "独立复评本轮全部差异、相关机制上下文、基础/故障实验与独立通关；不是再次全文重审。",
+        "复核固定Chart离线渲染、原始清单敏感字段白名单输出、原生下游kubeconfig与独占namespace；保存agent副本数、恢复及业务探针边界完整。",
+        "独立复核本轮命令失败门禁、node-agent兜底不扩大故障、管理/业务状态及旧备份权限恢复反例；PowerShell语法通过，未运行Helm/Rancher/agent变更。"
       ]
-    },
-    "initialFindings":["CRD 示例默认 force-conflicts 易被机械复制", "跨 Bash/PowerShell 示例可能直接使用 curl 别名", "恢复请求未把 HTTP 错误转为失败停止", "正文无日志断言与后文日志边界冲突，缺独立五项通关"],
-    "changes":["移除默认强占 CRD 所有权，增加冲突停止/managedFields 与管道退出码边界", "补本地 Linux 引擎、官方安装入口、终端语法及 curl.exe 约束", "修复实验 PowerShell/Bash 同探针 HTTP 非零停止，明确 Provider 收敛窗口", "删除 whoami 无日志即未到达断言，新增发现过滤/端口变式/OSS ACME/配额/逐副本故障通关"],
-    "criteria":[
-      {"id":"prerequisites","result":"pass","evidence":"基础实验 / 前置条件：本机引擎、终端区别、端口与项目网络重名检查；Kubernetes 主线需独占集群。"},
-      {"id":"mechanism","result":"pass","evidence":"核心请求路径、两类配置与状态一致性：Provider/Router/Service、独立副本监听、本地运行时状态和 ACME 边界。"},
-      {"id":"foundation","result":"pass","evidence":"Docker Compose 完整基础配置及基础实验：完整本机绑定配置、Provider/API、Host 正负对照、日志与清理。"},
-      {"id":"fault","result":"pass","evidence":"故障注入实验：错误后端端口：备份、单字段变更、API/连接拒绝证据、HTTP 恢复失败停止再清理。"},
-      {"id":"production","result":"pass","evidence":"高可用、容量、ACME、生产发布与 Helm CRD 升级：跨区、FD/遥测、证书单写、字段所有权和兼容回退。"},
-      {"id":"interview","result":"pass","evidence":"递进面试题与回答指导：12 类机制/架构/故障追问与答案，独立题进一步检查反例。"},
-      {"id":"mastery","result":"pass","evidence":"独立通关：动态发现不是自动正确：五项专属任务，发现消失与 9999 故障对照、本地配额及 CRD 强占禁区。"},
-      {"id":"aiops","result":"pass","evidence":"AIOps 实战：5xx/P99、证书/配置年龄/连接、告警富化与模型事实推断分开。"}
-    ],"validation":[
-      {"kind":"reasoned","detail":"全文逐段审阅，修复命令风险与正文证据冲突；保留已有带日期官方版本来源。","limits":"没有重新宣称当前最新或本轮产品实测。"},
-      {"kind":"unrun","detail":"Compose、200/404/502、Chart、Gateway、ACME、压测未运行。","limits":"Docker daemon 未连接，缺专用 Kubernetes 集群。"}
-    ],"status":"revised-awaiting-cross-review"
+    }
   },
   {
-    "article":"cloud-native/kubeflow.md","writer":"cloud-automation","reviewedAt":"2026-10-12",
+    "article": "cloud-native/kubesphere.md",
+    "writer": "refresh-cloud-delivery",
+    "reviewedAt": "2026-11-11",
+    "initialFindings": [
+      "快照函数被描述为不输出秘密，但节点/事件原文可能包含内部敏感信息。",
+      "UI验证没使用退出码门禁，RBAC实验创建失败可继续且缺同名namespace阻断。"
+    ],
+    "changes": [
+      "明确原始快照受控保存、公开白名单health-review摘要，UI查询复用Save-LabQuery。",
+      "添加namespace预检和所有角色创建失败门禁；讲清预期Forbidden、真正创建失败与impersonate拒绝三者差别。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "入门实验：生成集群健康快照 / 实验步骤：终端、客户端、context、浏览器与 API 身份及读写授权分清。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "状态模型、高可用与容量及平台工程课堂：页面、API、spec/status、控制器与就绪结果分层。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "健康快照逐查询保留退出码，原始内部信息不公开；UI ConfigMap查询也进入相同门禁。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "RBAC实验先阻断已有namespace、角色创建失败停止，预期拒绝与身份模拟权限失败分离，再最小授权、Secret仍拒绝、回退及清理。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "扩展运维课堂、扩展生命周期课堂、授权容量课堂：供应链、CRD/PVC、不可逆 schema、历史与新数据及三类容量限制。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "三分钟面试表达：平台化的价值和代价与面试追问：扩展故障会不会影响核心资源创建：调用链、隔离、影响传播均有答案。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "独立通关：平台入口方便，不意味着证据可以省略：五项具体输入、失败/恢复证据与答案判据，缺 License 不编造。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "故障课堂：为什么看到的是昨天的数据和独立通关：数据年龄、上下文、核心/扩展/业务四句结论及受控写动作。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "本轮逐段全文审阅；保留已有请求/状态/生产/面试与独立通关深度，修订具体执行和证据缺口。kubectl ignore-not-found与PowerShell退出码语义核对官方参考。",
+        "limits": "未连接真实Rancher/KubeSphere/TCE/Istio，未执行Terraform或变更真实state；历史版本不重报为当前推荐。"
+      },
+      {
+        "kind": "syntax",
+        "detail": "本组五篇共24个PowerShell代码块通过AST语法检查。",
+        "limits": "语法检查不证明平台、权限、渲染或资源运行。"
+      }
+    ],
+    "status": "cross-reviewed",
+    "disposition": "revised",
     "crossReview": {
-      "reviewer": "systems",
-      "reviewedAt": "2026-10-12",
-      "articleSha256": "a3f343799d3d143187ec58f1352759c987e2864fe319f8acfb2218e295933614",
+      "reviewer": "data-independent-2026-11-11",
+      "reviewedAt": "2026-11-11",
+      "articleSha256": "d6c4dc211b6ae8b89a7dc6d25760cbc4834ca149e98b41c34b2b8fb4737409fe",
       "result": "pass",
       "findings": [
-        "完整独立阅读，KCD组合版本与独立子项目/生态治理、Trainer v1/v2、Profile基础隔离非全组件强隔离边界明确，rank译为训练进程编号而非名次。",
-        "KFP本地编译/STRING到整数故障/新文件恢复与历史实测分开，唯一目录及解析父路径/名称/链接保护清理齐全；compile只生成IR，不运行容器/GPU/backend，默认值-3预测0/normal正确。",
-        "五类状态分别恢复，Registry URI非权重、缓存输入须不可变版本、Katib20×2×3=120卡时与并发峰值分开；Pending按队列/Runtime/JobSet/Pod/设备证据取证，回滚不撤外部副作用。本轮未重跑历史环境明示。"
+        "独立复评本轮全部差异、相关机制上下文、基础/故障实验与独立通关；不是再次全文重审。",
+        "复核快照函数、UI/API ConfigMap对应、只读许可不含创建权限；原始快照不得公开。RBAC创建失败和预期Forbidden区分正确。",
+        "复核ConfigMap可读/Pod拒绝→最小Pod授权/Secret仍拒绝→撤回闭环，身份模拟失败不是受测身份拒绝；PowerShell语法通过，未运行平台/License或API。"
       ]
-    },
-    "initialFindings":["Python 安装与解释器选择是隐藏前置", "PowerShell 安装失败可继续编译并读取产物", "numNodes 注释把整体准入说成自动保证", "验证边界日期过时，缺编译/运行/制品/发布独立任务"],
-    "changes":["补 Python 官方安装、Windows 商店别名与声明支持范围内版本选择", "venv/pip/check/compile 增加逐项退出码及产物存在检查", "纠正 numNodes 不自动开启 gang scheduling 的机制", "更新本轮日期、保留历史证据，新增 IR、类型故障、缓存反例、GPU 卡时与五类恢复通关"],
-    "criteria":[
-      {"id":"prerequisites","result":"pass","evidence":"基础实验 / 前置条件：Python 安装、解释器/包源/venv、支持范围与历史 3.14 观察分离。"},
-      {"id":"mechanism","result":"pass","evidence":"KFP、Trainer v2 与状态一致性：DSL 通道、IR/后端、参数/Artifact、numNodes 与 gang 的不同控制责任。"},
-      {"id":"foundation","result":"pass","evidence":"基础实验：不装集群也能编译第一条 KFP Pipeline：完整源码、解释器、lock/hash、退出码与精确清理。"},
-      {"id":"fault","result":"pass","evidence":"故障注入实验：让组件类型契约不一致：独立坏文件、非零/无 YAML、声明与实际值修复及新产物。"},
-      {"id":"production","result":"pass","evidence":"五类状态备份、GPU 队列、HA、升级回滚与 20 团队设计：恢复真正字节、负向隔离、schema/CRD/外部副作用。"},
-      {"id":"interview","result":"pass","evidence":"面试回答：从 30 秒到架构追问：12 类答案与继续追问，覆盖组合版本、状态、调度及回滚。"},
-      {"id":"mastery","result":"pass","evidence":"独立通关：编译、训练、制品和发布是四份不同证据：五项专属任务、120 GPU 小时与并发变式、失败返工位置。"},
-      {"id":"aiops","result":"pass","evidence":"AIOps 实战与老师带练：时间泄漏、数据版本/缓存、模型门禁、Run/Model/Artifact 谱系和受控处置。"}
-    ],"validation":[
-      {"kind":"reasoned","detail":"全文逐段审阅，保持 2026-08-14 的 KFP 实跑为历史证据，不归属本轮。","limits":"本轮未重跑 pip、KFP 编译与渲染。"},
-      {"kind":"unrun","detail":"KFP 本轮复跑、KCD 安装、GPU、训练/推理、HA 和灾备均未运行。","limits":"历史源码/输出不证明本轮环境或真实集群能力。"}
-    ],"status":"revised-awaiting-cross-review"
+    }
   },
   {
-    "article":"cloud-native/kubernetes.md","writer":"cloud-automation","reviewedAt":"2026-10-12",
+    "article": "cloud-native/tke-on-tce.md",
+    "writer": "refresh-cloud-delivery",
+    "reviewedAt": "2026-11-11",
+    "initialFindings": [
+      "实验硬编码作者D盘路径，不适合从零读者的实际下载目录。",
+      "API提交后第一次HTTP与数据面传播存在时间差，缺观测过早的分支解释。"
+    ],
+    "changes": [
+      "替换为仓库目录识别与experiment-start入口、文件存在检查不可绕过。",
+      "补最多十轮有界传播观察、Service/EndpointSlice端口对照和工具缺失/DNS/拒连分层，恢复失败保留现场；注明静态边界。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "Windows PowerShell、本机Docker/工具官方入口、自己的真实仓库位置与两份实际实验文件存在检查。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "网络路径：容器通了不等于用户通了与云集成状态课堂：EndpointSlice 控制信息、云任务异步调和、对象 UID 边界。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "基础实验：运行两个副本并验证 Service：两个副本、命名 targetPort、HTTP 与失败停止，读取仓库实际 YAML。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "8080单变量故障，Pod本地80与Service对照；补异步传播观察上限及错误分层，恢复失败停在清理前。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "容量与故障域的可复算设计题、升级交付课堂、存储拓扑精讲：AZ 预留、BOM、WFFC 与回滚状态边界。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "面试回答与连续追问和独立通关：定义、机制、云超时未知、PVC UID、CAM/RBAC 有答案与证据要求。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "独立通关：三条链不能互相替代：五项预测/反例/容量变式、失败返工位置与云实验未运行规则。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "AIOps：把告警关联到真实依赖和跨层事故复盘：云/集群/业务时间线及因果假设。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "本轮逐段全文审阅；保留已有请求/状态/生产/面试与独立通关深度，修订具体执行和证据缺口。kubectl ignore-not-found与PowerShell退出码语义核对官方参考。",
+        "limits": "未连接真实Rancher/KubeSphere/TCE/Istio，未执行Terraform或变更真实state；历史版本不重报为当前推荐。"
+      },
+      {
+        "kind": "syntax",
+        "detail": "本组五篇共24个PowerShell代码块通过AST语法检查。",
+        "limits": "语法检查不证明平台、权限、渲染或资源运行。"
+      }
+    ],
+    "status": "cross-reviewed",
+    "disposition": "revised",
     "crossReview": {
-      "reviewer": "systems",
-      "reviewedAt": "2026-10-12",
-      "articleSha256": "bbd062c707305786932e9062bfe29856a0b784f716cf2a7399eed93cc3b2d0ed",
+      "reviewer": "data-independent-2026-11-11",
+      "reviewedAt": "2026-11-11",
+      "articleSha256": "64d697671cd4322623b5f6bb4b7f34cf4a8b52230ef6b13cfa3e5190c7310732",
       "result": "pass",
       "findings": [
-        "全文独立复核 API/List-Watch/控制器/调度/CRI-CNI-CSI/探针端点/存储/容量/安全/升级恢复；SSA共享字段、就绪端点、PDB和拓扑分布边界未被简化成保证。",
-        "课堂独立kind和kubeconfig、两Pod业务基线、错误镜像与选择器故障、同请求恢复及finalizer带UID删除证据形成闭环；不把port-forward或Running当全数据路径成功。",
-        "退回并重读1.36运行时兼容和cgroup v1迁移边界，使用官方release-1.36支持回退而非绝对禁用说法；只读采集||true明确保留逐项未知、权限、完整性与敏感证据边界。当前未运行真实集群。"
+        "独立复评本轮全部差异、相关机制上下文、基础/故障实验与独立通关；不是再次全文重审。",
+        "复核仓库实验app.yaml与service-broken.yaml：命名http/监听80对照targetPort8080，恢复声明80、HTTP恢复后才删除专用kind；目录前置不依赖作者D盘。",
+        "控制面传播等待与curl不存在/DNS/连接拒绝分层恰当，独立通关入口port与targetPort变化、故障域CPU/内存算术成立；PowerShell语法通过，未运行kind或TCE集成。"
       ]
-    },
-    "initialFindings":["概念段写命令与真正实验容易混用", "创建集群文字出现在重名检查前且默认 kubeconfig 污染已有环境", "Service 基线 curl 没有限时/HTTP 失败判断，镜像恢复未要求业务复验", "finalizer 删除异步状态和五项独立掌握证据需补"],
-    "changes":["明确概念片段与授权操作边界", "重写 Bash/WSL 前置、先查后建与专用 kubeconfig 路线，区分单节点/HA", "补 curl -f 与有限等待、声明备份、滚动旧副本存活和恢复 Service 验证", "finalizer 恢复增加 wait delete 与 ignore-not-found 区分 API 错误", "新增 replica/template、readiness、两类故障、故障容量及幂等/Secret 越权独立通关", "交叉返修：按 1.36 官方源码修正 containerd RuntimeConfig 回退及 cgroup v1 默认拒绝/过渡开关边界，诊断骨架明确逐项退出码、未知状态和敏感日志禁发模型"],
-    "criteria":[
-      {"id":"prerequisites","result":"pass","evidence":"AIOps 入门实验与核心思想开头：终端、工具官方入口、本机引擎、独占目录/集群/kubeconfig、重名与权限边界完整。"},
-      {"id":"mechanism","result":"pass","evidence":"API 请求完整链路、List-Watch/Informer、SSA、调度器及网络存储完整路径：状态并发、缓存、端点与运行责任分层。"},
-      {"id":"foundation","result":"pass","evidence":"AIOps 入门实验：完整 YAML、就绪/owner/端口、限时集群内 HTTP、专属资源清理与失败停点。"},
-      {"id":"fault","result":"pass","evidence":"AIOps 入门实验 5/6 与进阶 finalizer 实验：错镜像、错 selector、删除状态机分轮恢复，等待最终删除而非命令返回。"},
-      {"id":"production","result":"pass","evidence":"高可用、容量/APF、安全、升级回滚与老师推理：N+1 requests、PDB 边界、etcd 恢复及非通用降级。"},
-      {"id":"interview","result":"pass","evidence":"核心面试题参考答案与连续追问：12 类全链路机制、故障、架构答案，含 unknown result/缓存/Schema。"},
-      {"id":"mastery","result":"pass","evidence":"独立通关：从控制循环一直解释到真实请求：五项专属任务、revision 变式、负向探针、容量计算和返工范围。"},
-      {"id":"aiops","result":"pass","evidence":"Kubernetes 在 AIOps 链路中的位置、诊断脚本与容量表：对象/事件/日志/指标/变更关联，采集失败不等于空状态。"}
-    ],"validation":[
-      {"kind":"reasoned","detail":"全文逐段审阅，重写实验创建顺序与客户端/故障/恢复证据。","limits":"保留原官方生态快照日期，没有宣布本轮最新版本。"},
-      {"kind":"unrun","detail":"kind、业务故障、finalizer、CNI/CSI、HA、升级和 etcd 恢复均未运行。","limits":"本机无已连接 Docker daemon/一次性集群，预期不冒称实际。"}
-    ],"status":"revised-awaiting-cross-review"
-  }
-  ,{
-    "article":"automation/ansible.md","writer":"cloud-automation","reviewedAt":"2026-10-12",
+    }
+  },
+  {
+    "article": "cloud-native/microservices.md",
+    "writer": "refresh-cloud-delivery",
+    "reviewedAt": "2026-11-11",
+    "initialFindings": [
+      "固定Spring Boot4.0.7依赖在线Initializr，当前元数据不再列此版；硬编码作者D盘路径；服务默认监听共享网卡，基础检查只输出未断言。",
+      "交叉审校发现健康和订单根/字段数组会被宽松比较误放行。"
+    ],
+    "changes": [
+      "增加基于固定Maven坐标的手动POM/目录/测试类/Wrapper分支，不随Initializr漂移；个人空目录/端口预检/回环监听；HTTP与业务断言。",
+      "原始HTTP200文本转换单对象，顶层状态与payment状态要求标量字符串、payment必须对象，补故障反例。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "Java17/Maven、服务端口/目录、两个终端、手动固定工程完整入口。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "同步/异步、注册发现、超时重试/熔断/隔离、一致性与数据库边界。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "双Spring服务业务接口、健康与指标；新增状态和业务值门禁。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "支付停止与降级/恢复、多实例网络与数据库事务推演，明确本机模拟。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "超时预算、幂等/Outbox/Saga、可观测、部署/回滚/安全与容量。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "支付双扣/级联故障/架构题有证据、取舍与追问。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "HTTP200不等订单成功，独立改变条件和业务断言；降级值明确。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "Trace/日志/指标关联订单请求和变更，自动修复需授权。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "全文阅读；实时Initializr元数据确认无4.0.7，MavenCentral核对固定webmvc4.0.7坐标存在。",
+        "limits": "未下载全部依赖或Java编译/启动；手工POM与源码仅静态核对。"
+      },
+      {
+        "kind": "syntax",
+        "detail": "本批Maven/n8n/microservices/Kubeflow共73个PowerShell块AST通过；git diff --check通过。",
+        "limits": "只语法与格式，未模拟网络/产品运行；Kubernetes Bash人工静态检查。"
+      },
+      {
+        "kind": "executed",
+        "detail": "tmp/cloud-cross-rework-checks-2026-11-11.mjs 原文块7正常/根数组/字段数组/payment数组案例通过；不是Java编译或真实业务运行。",
+        "limits": "本轮返工仅限明确列出的本地合成、静态和来源检查，不替代实际产品或生产验收。"
+      }
+    ],
+    "status": "cross-reviewed",
+    "disposition": "revised",
     "crossReview": {
-      "reviewer": "systems",
-      "reviewedAt": "2026-10-12",
-      "articleSha256": "f042a4d501ffd92130b3d72a4da6314d0dfec720b08e2d35dee8837e3a3c781b",
+      "reviewer": "root-independent-2026-11-11",
+      "reviewedAt": "2026-11-11",
+      "articleSha256": "218c3aae2b352eb4a8f3c3cea342a8e8920e1b02228d749c2a3bea1dcb6332b3",
       "result": "pass",
       "findings": [
-        "全文独立复核；退回五项英文教学列表并重读相邻中文修订。基础个人目录/配置指向与两轮正式运行闭环，首次check跳过不计真实验收，模板validate与handler边界明确。",
-        "故障实验区分grep的0/1/2、systemctl inactive与未知、阈值小数/越界；两别名同机的部分成功、定点恢复与第二次幂等均有判据，rescue显式fail不吞未恢复失败。",
-        "高级层分清serial/forks/throttle、每批run_once、async提交不等于完成及清理不终止；Vault/no_log和check非无副作用、三千容量摘十台不够两千二均正确，未运行Ansible产品明确。"
+        "独立复评本轮全部差异及所列必要机制/实验/通关上下文，不声称再次全文重审；结合作者全文八维复评。",
+        "本轮完整差异、手工固定POM/双服务完整源码与基础/503故障、业务状态/生产/独立通关复核。提出PowerShell集合比较误通关问题，返工顶层单对象和标量状态后复评通过。",
+        "独立复跑Microservices7合成HTTP体：正常通过、健康根/字段数组、订单根/状态数组、payment对象/状态数组拒绝；官方Cloud2025.1.2发布组件核对。不编译Java、不声称Spring真实运行。",
+        "本组当前84个PowerShell块独立AST通过；语法或合成测试不替代产品、业务或生产验收。"
       ]
-    },
-    "initialFindings":["Linux/WSL 已装兼容 Ansible 是隐藏前置，首次空目录先 check mode 会缺少真实前置文件", "rescue 只打印提示可把未恢复部署按已救援推进", "证据剧本忽略失败且仅打印 stdout，读取失败与健康易混", "阈值直接 int 转换可能截断非法格式，缺专属独立通关"],
-    "changes":["补 Ubuntu 24.04 发行版安装、独占目录/配置与明确终端，重排 list-hosts/语法/正式/幂等/check 顺序", "rescue 显式保留失败，解释不可达和语法错误边界并核对官方原文", "状态/日志保留 rc、stderr，解释健康/异常/采集失败三态", "阈值先验证整数格式再查范围，新增 2200 RPS 容量及部分恢复五项通关", "交叉反馈补配置管理、应用部署、编排、资源准备与临时操作五项相邻中文解释"],
-    "criteria":[
-      {"id":"prerequisites","result":"pass","evidence":"AIOps 入门实验：Ubuntu/WSL Bash、软件安装、config file、独占目录、本机唯一目标与系统动作片段边界。"},
-      {"id":"mechanism","result":"pass","evidence":"进阶带练：先看清 Ansible 的五个决定，再批量执行：目标别名、变量、模块/handler、分批及异步/委派状态边界。"},
-      {"id":"foundation","result":"pass","evidence":"AIOps 入门实验：完整本机 inventory/play/template、真实执行与幂等、输出验证和限定清理。"},
-      {"id":"fault","result":"pass","evidence":"本地双层带练：验证参数，再修改文件；一个只改本地文件的部分失败实验：写前拒绝、状态保持、限定修复与完整再验。"},
-      {"id":"production","result":"pass","evidence":"生产与面试：把 30 台机器的风险讲清楚；第五个决定：跨机非事务、批次/容量、秘密/锁、版本及恢复验证。"},
-      {"id":"interview","result":"pass","evidence":"生产与面试及进阶带练：30 秒/3 分钟答案、幂等/批次/故障追问，新增异步未知/check/Vault 反例。"},
-      {"id":"mastery","result":"pass","evidence":"独立通关：报告、目标状态与业务状态分别举证：五项专属复现/预测/证据/设计/口述及失败返工，2200 RPS 小批容量判据。"},
-      {"id":"aiops","result":"pass","evidence":"AIOps 自动化诊断脚本：采集退出码/错误、三态输出、身份/许可/互斥和健康验证，不因绿色 recap 自动重启。"}
-    ],"validation":[
-      {"kind":"reasoned","detail":"全文阅读与修订，rescue 状态核对 ansible-documentation 官方 Blocks 原文。","limits":"发行版安装只记录实际版本，不承诺上游最新；未运行 Ansible。"},
-      {"kind":"unrun","detail":"Ubuntu 软件安装、模板/幂等、阈值拒绝、双别名部分失败、远端 systemd 与升级未执行。","limits":"当前 Windows 环境无本轮可用 Linux Ansible 控制节点，所有输出预期而非实测。"}
-    ],"status":"revised-awaiting-cross-review"
-  }
-  ,{
-    "article":"automation/cicd.md","writer":"cloud-automation","reviewedAt":"2026-10-12",
+    }
+  },
+  {
+    "article": "cloud-native/nginx-ingress.md",
+    "writer": "refresh-cloud-delivery",
+    "reviewedAt": "2026-11-11",
+    "initialFindings": [
+      "本地专用网络只文字防复用而Docker网络允许同名，基线curl无时间边界；暂停故障中途异常可能跳过恢复。"
+    ],
+    "changes": [
+      "补容器/网络/端口预检及查询失败门禁、有限基线请求；故障finally解除暂停、原始curl退出和HTTP码并列；修复端点未就绪语义。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "本机Desktop/Linux引擎与独占目录/对象先检查；Gateway有控制器前提。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "NGINX上下文/路径/URI/转发头/TLS/缓冲/连接与Gateway控制数据面。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "完整本机反代网络和配置、两层日志/请求验收/专属清理。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "暂停后端及遗留selector/targetPort、Gateway后端引用故障恢复；新退出28与504反例。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "退役边界、三可用区/多租户、证书/容量/排空/迁移与回滚。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "机制/事故/架构回答指导，支付重试与双入口升级追问。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "五项独立通关，URI合同/两段TLS/多父条件/暂停恢复边界。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "入口上游日志/时序/配置/请求ID与未知采集，自动修复不凭状态码。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "本轮逐段全文阅读；保留已有完整生产和递进深度，仅修具体教学/安全/验收缺口。",
+        "limits": "无真实NGINX/Traefik/Tomcat/Liberty/WAS实例；未部署/删除/更新任何业务对象，不继承历史实跑结果。"
+      },
+      {
+        "kind": "syntax",
+        "detail": "四篇共29个PowerShell块AST通过，diff --check通过。",
+        "limits": "只静态语法，不证明产品/API/网络。"
+      }
+    ],
+    "status": "cross-reviewed",
+    "disposition": "revised",
     "crossReview": {
-      "reviewer": "systems",
-      "reviewedAt": "2026-10-12",
-      "articleSha256": "96017d7d2e205c90d6d526cfb637673009dca6d125730ed7c615c1fbcb053579",
+      "reviewer": "refresh-foundation-platform",
+      "reviewedAt": "2026-11-11",
+      "articleSha256": "a262137a94d7c27e60ab433f3478c23fa1f32768fdf3bdbfa55dfcd9dd694b61",
       "result": "pass",
       "findings": [
-        "全文复核 CI/交付/部署与同制品晋级，模拟echo明确不是真部署；SHA、摘要、审批对象和目标环境分别固定，缓存/签名/来源证明不混同。",
-        "本地Python三模式正常0/v2、篡改2/v1、业务失败回滚3/v1源码闭环，远端exit42仅限个人PR且新提交恢复；没有流量或观测未知不得灰度通过。",
-        "进阶含发布状态unknown查远端、环境锁与取消副作用、数据库expand-contract/合法新写保护、控制面灾备与5项DORA口径；灰度83样本和2/20失败率计算正确。"
+        "审阅范围：完整本轮diff（含独立审校返工）、作者记录与必要核心机制/完整基础故障实验/独立通关上下文；不是本轮对旧版全文重复审读。",
+        "本轮修订的未ready端点保留地址语义已对照Kubernetes官方EndpointSlice文档；基线容器/网络不复用、HTTP有限等待与传输码/HTTP码分离正确。",
+        "完整本机基础/暂停故障、遗留Ingress与Gateway双实验，以及独立五关/两段TLS/URI/排空必要上下文已审。finally在采日志失败时仍尝试unpause，失败不继续正常验收；强关终端不保证恢复的限制明确。",
+        "独立执行原文故障块的4组Docker/curl桩：正常、logs失败、unpause失败、pause失败；核对恢复调用次数和后续请求次数。未运行Docker/NGINX、入口迁移或Gateway集群。",
+        "独立测试tmp/cross-cloud-last4-checks-2026-11-11.ps1：31组行为反例和30段PowerShell AST在Windows PowerShell5.1与PowerShell7均通过；tmp/cross-cloud-last4-admin-checks-2026-11-11.mjs通过10逻辑/4成员集合/6容量断言。diff --check通过。合成验证不能替代产品实验、性能/HA或生产发布验收。"
       ]
-    },
-    "initialFindings":["个人实验与生产命令词典边界、Git/Node/仓库前置不完整", "最小 CI 未纳入当前项目测试，检查通过不自动成为合并门禁", "模拟事件写 success 会污染真实发布口径", "本地模拟未给 Windows/WSL 解释器选择，缺独立通关"],
-    "changes":["补个人 Fork/分支/Actions 额度与本地三道检查，说明 Rulesets 才形成必需门禁", "最小和入门 CI 增加 npm test，模拟事件显式 simulated/is_simulation", "补 Python 安装/别名/终端/独占目录并实际执行三种状态模拟", "新增审批漂移、unknown、灰度样本、采集失败和 DORA 口径五项独立通关"],
-    "criteria":[
-      {"id":"prerequisites","result":"pass","evidence":"CI 阶段深讲及入门实验 1、本地基础与故障实验：个人仓库/权限/运行时/终端与生产命令边界。"},
-      {"id":"mechanism","result":"pass","evidence":"老师带练：发布系统首先是一台状态机；发布信任课堂：不可变输入、审批对象、unknown/重试、签名/证明/摘要分层。"},
-      {"id":"foundation","result":"pass","evidence":"本地基础与故障实验：制品通过测试后，被改过还会不会发布：完整源码、三种模式、退出码、验证与限定清理。"},
-      {"id":"fault","result":"pass","evidence":"入门实验 4 与本地状态模拟：exit 42、篡改拦截、合法坏制品回滚，分别保存失败/恢复凭证。"},
-      {"id":"production","result":"pass","evidence":"发布策略、数据迁移、并发发布和控制面灾备：容量/小样本/观测未知、数据兼容、锁/执行器隔离与恢复边界。"},
-      {"id":"interview","result":"pass","evidence":"DORA 与面试、交付答辩：定义/状态/安全/灰度/数据库递进答案与 follow-up。"},
-      {"id":"mastery","result":"pass","evidence":"独立通关：一条绿色流水线到底证明了什么：五项专属任务、83 样本估算与 10% 失败率、答案和返工章节。"},
-      {"id":"aiops","result":"pass","evidence":"可观测性和变更关联、金丝雀判断：事件与版本/窗口/指标关联，模拟事件不得计生产，采集未知不得自动扩流。"}
-    ],"validation":[
-      {"kind":"executed","detail":"Windows / Python 3.14.5 执行正文完整 delivery_lab 源码，normal v2/0、tamper v1/2、bad-release v1/3。","limits":"纯内存状态与临时文件模拟，不是真实发布、数字签名或服务器回滚。"},
-      {"kind":"reasoned","detail":"逐段全文审阅，核对当前 package.json 的 test、docs:build 和 dist 关系。","limits":"本轮不重新核验 GitHub/DORA 最新产品套餐或版本。"},
-      {"kind":"unrun","detail":"远端 GitHub 工作流、环境审批、真实制品晋级/灰度/数据恢复未执行。","limits":"未写学习以外远端仓库或生产资源。"}
-    ],"status":"revised-awaiting-cross-review"
-  }
-  ,{
-    "article":"automation/github-actions.md","writer":"cloud-automation","reviewedAt":"2026-10-12",
+    }
+  },
+  {
+    "article": "cloud-native/traefik.md",
+    "writer": "refresh-cloud-delivery",
+    "reviewedAt": "2026-11-11",
+    "initialFindings": [
+      "基础/恢复请求只人工检查状态且Provider收敛无有限机制；TLS示例默认-k绕过身份，恢复配置未验证运行时服务端口。",
+      "交叉审校发现name可被环境/-p覆盖、同名标签检查不足。"
+    ],
+    "changes": [
+      "增加有界HTTP200/404/502精确门禁，失败区分传输与HTTP；恢复API核对唯一whoami及80端口；基线副本防覆盖；默认保留证书校验。",
+      "新增最终项目/网络/服务身份门禁与挂载人工核对；清理前重核容器归属，未知orphan停止。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "Docker/Compose与Kubernetes分路、专有项目/端口/上下文、精确版本矩阵。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "Provider/入口/路由/中间件/服务/后端传输，独立副本收敛和ACME状态。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "Compose完整动态路由，API对象与真实Host正负探针、清理。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "错误后端9999恢复80与API同探针，Gateway缺后端负例；有限等待不盲改。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "三可用区/证书外管/连接容量/套接字和RBAC边界/CRD升级回退。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "12组递进题和500Route设计、部分404升级事故。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "五关与本地限流/ACME共享文件/支付未知副作用教师反例。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "入口指标日志Trace与变更证据、告警富化和受控Runbook。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "本轮逐段全文阅读；保留已有完整生产和递进深度，仅修具体教学/安全/验收缺口。",
+        "limits": "无真实NGINX/Traefik/Tomcat/Liberty/WAS实例；未部署/删除/更新任何业务对象，不继承历史实跑结果。"
+      },
+      {
+        "kind": "syntax",
+        "detail": "四篇共29个PowerShell块AST通过，diff --check通过。",
+        "limits": "只静态语法，不证明产品/API/网络。"
+      },
+      {
+        "kind": "executed",
+        "detail": "tmp/cloud-delivery-sixth-checks-2026-11-11.ps1提取新增函数，Traefik5种HTTP/传输/收敛样本与Tomcat5种JSON/传输样本全部通过。",
+        "limits": "HTTP为本地桩，无真实请求和产品运行。"
+      },
+      {
+        "kind": "executed",
+        "detail": "tmp/cloud-cross-rework-checks-2026-11-11.mjs 4种合成身份门禁通过，真实Compose config验证原名/环境覆盖改变name两分支，无服务启动。",
+        "limits": "本轮返工仅限明确列出的本地合成、静态和来源检查，不替代实际产品或生产验收。"
+      }
+    ],
+    "status": "cross-reviewed",
+    "disposition": "revised",
     "crossReview": {
-      "reviewer": "systems",
-      "reviewedAt": "2026-10-12",
-      "articleSha256": "d1c925f3b6652a9cf1d9baff782e74881d52aeb3a4d7607a039272458bb3bbf3",
+      "reviewer": "refresh-foundation-platform",
+      "reviewedAt": "2026-11-11",
+      "articleSha256": "8c807709a232723ec2de15ee0fb04b4f429931df3fce2561398926f0058bd08a",
       "result": "pass",
       "findings": [
-        "全文复核事件与PR合并SHA、merge_group、输出与文件跨job边界；artifact课堂关闭/开启/关闭故障42+失败保留证据，不把文件与声明一致夸大成可信供应链。",
-        "核对官方timezone示例及GHES>=3.22声明，gh watch --exit-status与默认退出差异、rerun保留原提交及Pages真实验收；默认单等待槽不承诺每个请求执行。",
-        "权限、OIDC云信任、表达式注入、self-hosted信任域、动作运行时与项目Node分层、复用权限只收窄讲解准确；20k次/天×2分钟平均27.8槽，无远端课堂执行声明。"
+        "审阅范围：完整本轮diff（含独立审校返工）、作者记录与必要核心机制/完整基础故障实验/独立通关上下文；不是本轮对旧版全文重复审读。",
+        "交叉发现固定Compose name仍被环境变量/-p覆盖，可能使预检与清理身份不同；已交作者返工，现新增Assert-TraefikLessonProject，检查环境覆盖/最终name/网络/服务集合并要求清理前重核归属，未知orphan停止。对照Docker官方项目名优先级复核。",
+        "完整Compose基础/错端口恢复、可选Gateway后端引用故障和独立五关已审；运行时whoami唯一服务端口80、同Host探针、200/404/502与传输失败不混同，TLS默认保留证书验证；单次响应不能证明所有副本已收敛。",
+        "独立6组HTTP/传输和8组项目模型/环境覆盖/渲染失败反例通过；只在测试子进程设置并恢复合成环境变量，Docker与HTTP均为桩，未实际启动/删除项目或执行TLS网络验收。",
+        "独立测试tmp/cross-cloud-last4-checks-2026-11-11.ps1：31组行为反例和30段PowerShell AST在Windows PowerShell5.1与PowerShell7均通过；tmp/cross-cloud-last4-admin-checks-2026-11-11.mjs通过10逻辑/4成员集合/6容量断言。diff --check通过。合成验证不能替代产品实验、性能/HA或生产发布验收。"
       ]
-    },
-    "initialFindings":["UTC 定时说明缺当前 timezone 功能及版本边界", "gh run watch 默认退出语义不能作为发布门禁", "静态站示例仍用历史框架名称且 paths 易漏 React 输入，Runbook 无需 Issue 写权限", "部分触发/锁文件排障过于绝对，缺独立通关"],
-    "changes":["补网页零依赖个人仓库路线，核对官方 timezone 示例及 GHES>=3.22 范围", "watch 增加 --exit-status 与 headSha/event/conclusion 和网页资源验收", "主构建示例去路径过滤、加 npm test/空产物报错，Pages 写权限只给 deploy，诊断只读", "修正 push 不一定默认分支与 npm ci 不应无锁绕过，新增文件/环境输出变式和 20000 请求容量通关"],
-    "criteria":[
-      {"id":"prerequisites","result":"pass","evidence":"仓库边界后的零基础路线、基础与故障实验：个人网页仓库、默认分支、Actions 权限/额度、无 Node 元数据实验和 npm 前置区分。"},
-      {"id":"mechanism","result":"pass","evidence":"老师带练与平台进阶课堂：表达式/shell、job 生命周期、输出/文件通道、事件 SHA、并发槽/复用权限边界。"},
-      {"id":"foundation","result":"pass","evidence":"基础与故障实验：跨任务传递提交证据，再主动让验证失败：完整 workflow、三次输入、制品/提交验证与清理。"},
-      {"id":"fault","result":"pass","evidence":"跨任务实验及入门实验 2：exit 42、证据收尾、新提交恢复，结合 watch 非零结论不吞失败。"},
-      {"id":"production","result":"pass","evidence":"生产设计、平台进阶课堂与 Pages：信任域/临时 runner、OIDC/环境、容量/请求持久化、模板/执行器升级与外部副作用。"},
-      {"id":"interview","result":"pass","evidence":"面试的三层表达与平台事故题：needs/页面旧版/PR 权限、merge_group/并发/模板状态的答案与追问。"},
-      {"id":"mastery","result":"pass","evidence":"独立通关：把事件、提交、作业和页面一一对齐：五项专属任务及答案、27.8 平均槽估算、失败返工。"},
-      {"id":"aiops","result":"pass","evidence":"AIOps Runbook workflow 示例与生产设计：输入/窗口/run/提交上下文，placeholder 非诊断健康、去重及采集未知边界。"}
-    ],"validation":[
-      {"kind":"reasoned","detail":"全文逐段审阅，GitHub 官方源码核对 schedule timezone 与版本范围、CLI 源码核对 watch --exit-status。","limits":"没有冒称工作流真实运行，也未验证所有套餐和 GHES 环境功能。"},
-      {"kind":"unrun","detail":"远端三次 artifact 课堂、PR/merge queue、Pages、OIDC、runner 容量和环境审批未执行。","limits":"未触发远端写操作或发布；预期需个人隔离仓库验收。"}
-    ],"status":"revised-awaiting-cross-review"
-  }
-  ,{
-    "article":"automation/gitlab.md","writer":"cloud-automation","reviewedAt":"2026-10-12",
+    }
+  },
+  {
+    "article": "cloud-native/kubeflow.md",
+    "writer": "refresh-cloud-delivery",
+    "reviewedAt": "2026-11-11",
+    "initialFindings": [
+      "安装循环对所有错误盲重试且默认force-conflicts；Bash依赖失败可继续；编译只搜索词未核对结构，pip freeze错误未阻断。"
+    ],
+    "changes": [
+      "改单次受限请求提交，失败非零停止，明确部分成功/CRD依赖与冲突辨别；补所有安装错误门禁；新增IR结构正反例脚本及锁文件门禁。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "本地Python隔离与完整KCD分路、精确版本组合和无GPU/集群边界。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "Profile/KFP/Artifact/Trainer/Katib/Hub/KServe控制数据执行路径与状态。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "完整两组件本地编译、IR名称类型任务结构验收和受限清理。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "STRING→NUMBER_INTEGER编译故障与修复，Runtime模拟前提；新增IR负例。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "五类状态HA/多租户/GPU队列/成本/升级schema与恢复。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "12组递进题及20团队设计与新任务GPU Pending事故。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "编译/训练/制品/发布四份证据，数据泄漏/缓存/checkpoint等老师带练。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "异常检测模型生命周期、元数据/运行/对象证据关联与高风险动作审批。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "executed",
+        "detail": "提取verify_ir.py用Python3.15/PyYAML6.0.3合成IR四案例通过。",
+        "limits": "未安装KFP、未重编译Pipeline、未装KCD/GPU；保留历史运行记录，不冒称本轮执行。"
+      },
+      {
+        "kind": "syntax",
+        "detail": "本批Maven/n8n/microservices/Kubeflow共73个PowerShell块AST通过；git diff --check通过。",
+        "limits": "只语法与格式，未模拟网络/产品运行；Kubernetes Bash人工静态检查。"
+      }
+    ],
+    "status": "cross-reviewed",
+    "disposition": "revised",
     "crossReview": {
-      "reviewer": "systems",
-      "reviewedAt": "2026-10-12",
-      "articleSha256": "0a30be0e440efcbe0ea3ff375adfe39a2d4948918b726bb5b2de8ca9cde46961",
+      "reviewer": "root-independent-2026-11-11",
+      "reviewedAt": "2026-11-11",
+      "articleSha256": "cbe3e2324e56492bfbbbbf0cd9572520bfa1b9c8f37e545c54fd572fab7e477c",
       "result": "pass",
       "findings": [
-        "全文复核平台创建/Runner领取/Executor环境/脚本/目标验收多层；needs依赖与artifact通道、rules创建、manual默认差异及下游状态传播都有回答和反例。",
-        "独立三阶段LF阈值文件与制品SHA实验、threshold50阻断上游和999篡改下游两种故障位置明确；恢复新提交、摘要、制品和清理完整，明确本轮未登录GitLab。",
-        "concurrent4与两limit3不误加6，request_concurrency是领取并发；masked非恶意脚本防线、互斥不管外部手工、旧任务重试/unknown先查、平台备份边界齐备。"
+        "独立复评本轮全部差异及所列必要机制/实验/通关上下文，不声称再次全文重审；结合作者全文八维复评。",
+        "本轮完整差异、单次SSA/双本地实验/IR契约和生产面试通关上下文复核。部分提交失败非原子撤销、不默认force-conflicts；IR校验与编译/Run/模型业务四层不同。",
+        "独立运行正文verify_ir.py的正确/名称错误/类型错误/缺任务4个合成样本，历史编译与本轮IR测试分开。未安装KFP/KCD、提交集群或运行GPU。",
+        "本组当前84个PowerShell块独立AST通过；语法或合成测试不替代产品、业务或生产验收。"
       ]
-    },
-    "initialFindings":["用户电脑与 Runner 主机诊断混列，缺零安装个人项目/可用 Runner 前置", "最初 README 测试和 Linux 精确文本匹配有隐藏文件/换行要求", "下游失败默认不留下载副本，短期 artifact 易被当回滚包", "缺独立五项验收"],
-    "changes":["补网页个人项目初始化、实例/权限/额度/Runner 范围以及 verify 非执行验收", "补 README 存在、网页分支编辑、UTF-8 无 BOM/LF 格式及准确字节诊断", "verify 添加 when: always 学习制品与上传/取消/秘密边界", "新增 tags/Executor 变式、两个失败层、concurrent/limit/request_concurrency 容量、子流水线/人工状态通关"],
-    "criteria":[
-      {"id":"prerequisites","result":"pass","evidence":"安装与启动、双层带练先准备什么：个人网页项目/README、可用 Linux 执行器、权限/额度与终端/文件格式明确。"},
-      {"id":"mechanism","result":"pass","evidence":"平台工程精讲、控制面补课：规则创建/依赖数据、Executor、领取并发、人工/子状态传播与外部未知。"},
-      {"id":"foundation","result":"pass","evidence":"双层带练：从可运行检查到可回收失败：完整规则文件/YAML、SHA/摘要、上传下载/验证与限定清理。"},
-      {"id":"fault","result":"pass","evidence":"注入一次失败，然后证明门禁确实挡住了它；追加故障模拟：规则拒绝和下载副本摘要失败、不同层证据与恢复新提交。"},
-      {"id":"production","result":"pass","evidence":"生产课堂、大厂设计追问：信任域/资源/HA、对象存储/密钥恢复、模板升级、过期发布/互斥和保留策略。"},
-      {"id":"interview","result":"pass","evidence":"面试课堂与控制面补课：30 秒/3 分钟及 Runner/needs/重试/架构/覆盖事故的递进答案。"},
-      {"id":"mastery","result":"pass","evidence":"独立通关：同一个平台里的五种成功不能混用：五项任务与具体答案、全局4槽反例、变式/失败返工。"},
-      {"id":"aiops","result":"pass","evidence":"在 AIOps 中的作用与生产课堂：失败阶段/队列/制品/提交/环境关联，采集/父触发不冒充目标恢复。"}
-    ],"validation":[
-      {"kind":"reasoned","detail":"全文逐段审阅，补实验入口和失败制品证据，保留已有官方规则/Runner/下游文档入口。","limits":"没有更新固定产品版本或宣称平台当前最新。"},
-      {"kind":"unrun","detail":"GitLab 项目、CI Lint、Runner/摘要故障、HA、人工/子流水线和灾备均未运行。","limits":"当前无登录的授权测试实例，输出是待复现预期而非实测。"}
-    ],"status":"revised-awaiting-cross-review"
-  }
-  ,{
-    "article":"automation/jenkins.md","writer":"cloud-automation","reviewedAt":"2026-10-12",
+    }
+  },
+  {
+    "article": "cloud-native/kubernetes.md",
+    "writer": "refresh-cloud-delivery",
+    "reviewedAt": "2026-11-11",
+    "initialFindings": [
+      "kind默认节点已漂移1.37与相邻Istio/Calico/Cilium固定范围不匹配；命名空间存在仅人工检查；个别问答把无后端写成无EndpointSlice对象。"
+    ],
+    "changes": [
+      "固定官方kind0.33.0的1.36.4镜像摘要，解释固定/支持/实测区别；命名空间空值断言和基础/恢复退出门禁；纠正空端点对象语义。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "Bash/WSL/本机Docker/kind/kubectl专属目录与kubeconfig、版本组合。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "全对象链、API/etcd/Informer/调度/网络存储/SSA/finalizer。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "两副本Web/Service/内部请求完整YAML、基线与专属集群清理。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "错镜像/selector及finalizer三故障分层恢复，不以port-forward替Service。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "HA/三故障域/etcd恢复/安全/升级/API公平性与容量。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "45题含12组参考答案、30秒/3分钟、架构与多类事故。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "五项通关、N+1算术/UID/观测代数/Secret间接读取与默认版本漂移反例。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "控制/执行/数据面指标日志事件Trace与只读诊断、未知状态边界。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "逐段全文阅读3490行；复用本轮已核对kind官方节点摘要，校验相邻固定组件版本组合。",
+        "limits": "没有创建Kubernetes集群或执行kubectl写操作；固定组合不是实际兼容验收。"
+      },
+      {
+        "kind": "syntax",
+        "detail": "本批Maven/n8n/microservices/Kubeflow共73个PowerShell块AST通过；git diff --check通过。",
+        "limits": "只语法与格式，未模拟网络/产品运行；Kubernetes Bash人工静态检查。"
+      }
+    ],
+    "status": "cross-reviewed",
+    "disposition": "revised",
     "crossReview": {
-      "reviewer": "systems",
-      "reviewedAt": "2026-10-12",
-      "articleSha256": "f3eadab018dc62c455c9a3e9e8273539151e1b0122390492eb2526873a2381e6",
+      "reviewer": "root-independent-2026-11-11",
+      "reviewedAt": "2026-11-11",
+      "articleSha256": "86c4a5f0048e32f47df2a4f1f7cb266dddb7173ca1205a28e4eebaeae5128ffe",
       "result": "pass",
       "findings": [
-        "全文复核Controller/Queue/Agent/Executor/CPS与JENKINS_HOME单写，@NonCPS不搬到Agent、顶层timeout不包含分配等待、stash/制品/工作区边界明确。",
-        "专用容器/卷名称预检、固定历史Core与插件兼容停止、回环端口、完整两Stage摘要基线；label故障取消旧脚本新Build恢复，合成JUnit UNSTABLE与FAILURE分离，清理最后进行。",
-        "生产含信任域隔离/秘密掩码非沙箱、动态Pod两路径、并发CPU与内存至多4、单Job禁并发≠环境锁、快照非应用一致恢复、Core-Java-Plugin-状态匹配回退；未启动Engine如实说明。"
+        "独立复评本轮全部差异及所列必要机制/实验/通关上下文，不声称再次全文重审；结合作者全文八维复评。",
+        "本轮完整差异、专用kubeconfig/基础/镜像及selector故障、请求路径/独立通关上下文复核；固定节点配套版本而非默认漂移，空EndpointSlice对象不等可用地址。",
+        "独立运行正文namespace门禁的不存在/已存在/无权3分支，失败均不继续；独立读取kind0.33.0官方发布页核对1.36.4完整摘要。未创建集群或验证CNI实际兼容。",
+        "本组当前84个PowerShell块独立AST通过；语法或合成测试不替代产品、业务或生产验收。"
       ]
-    },
-    "initialFindings":["Docker context/名称/端口创建前检查只有文字、创建失败未停止", "固定历史 Core 与当前建议插件组合未明确兼容边界", "基础实验清理排在后续故障前可能破坏前置", "存储快照不等于应用一致性，缺独立掌握判据"],
-    "changes":["补官方安装/PowerShell/本机 context、先查后建与逐项退出停止", "说明插件最低 Core/依赖及版本记录，初始密码不得作为证据公开", "后续实验前保留环境，恢复实例隔离副作用并区分在线崩溃快照", "新增顶层 timeout 变式、JUnit/Queue 双故障、16核容量及恢复五项通关"],
-    "criteria":[
-      {"id":"prerequisites","result":"pass","evidence":"安装与启动：工具官方入口、Linux Engine/本机 context/名称/卷/端口、插件组合与完整创建命令停止点。"},
-      {"id":"mechanism","result":"pass","evidence":"内部数据路径、状态一致性与老师带你精讲：Queue/CPS/Remoting、持久对象图、timeout 顺序、单写与外部状态。"},
-      {"id":"foundation","result":"pass","evidence":"基础实验：完成第一条可验证 Pipeline：完整脚本、UI创建、版本/Build/下载摘要验证及限定清理。"},
-      {"id":"fault","result":"pass","evidence":"Label 不匹配故障与测试红灯实验：健康基线、Queue why、旧运行取消、新 Build 恢复、JUnit 合成状态/归档边界。"},
-      {"id":"production","result":"pass","evidence":"容量性能、安全、高可用、备份和升级：信任域/最小权限、有效并发、单写、应用恢复点/隔离和匹配版本回退。"},
-      {"id":"interview","result":"pass","evidence":"面试题与递进追问、把原有追问答完整：八类答案和深追问，结合500队列事故与300仓库架构。"},
-      {"id":"mastery","result":"pass","evidence":"独立通关：队列里的任务与目标上的变化分别举证：五项专属任务、4并发上限、timeout变式与返工位置。"},
-      {"id":"aiops","result":"pass","evidence":"在 AIOps 中的作用与四层可观测性：变更/why/Agent/Build 分类、平台SLI不混业务测试、未知副作用先查目标。"}
-    ],"validation":[
-      {"kind":"syntax","detail":"9个PowerShell代码块通过Parser AST语法检查。","limits":"不执行Docker、Jenkins或插件。"},
-      {"kind":"reasoned","detail":"全文逐段审阅，补创建失败与插件/恢复边界，保留历史版本日期而非宣布当前最新。","limits":"不替代真实平台兼容性验证。"},
-      {"kind":"unrun","detail":"Docker Jenkins启动、插件、Pipeline/Label/JUnit、Agent、备份和升级未执行。","limits":"无已连接 Docker daemon，示例状态均为预期。"}
-    ],"status":"revised-awaiting-cross-review"
-  }
-  ,{
-    "article":"automation/nexus-repository.md","writer":"cloud-automation","reviewedAt":"2026-10-12",
+    }
+  },
+  {
+    "article": "automation/ansible.md",
+    "writer": "refresh-cloud-delivery",
+    "reviewedAt": "2026-11-11",
+    "initialFindings": [
+      "诊断样例将任意service_name拼进command参数；无条件忽略错误后打印含原始日志的完整证据，容易泄露并误判成功。"
+    ],
+    "changes": [
+      "补服务名格式断言、argv逐参数传递、关闭无用facts，原始输出no_log且仅打印退出码，最终assert阻断采集未知。",
+      "增加参数附加选项反例、无Shell不等于参数安全、no_log不等于自动脱敏及本地授权查证路径。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "Ubuntu/WSL控制端安装、目录/ANSIBLE_CONFIG/本地inventory和Python，区分SSH/systemd远端前提。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "inventory/变量/facts/模块/handler/check及serial、delegate、async、rescue讲解，零changed不等幂等。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "本地file/template完整项目、首次/二次/check验收和阈值assert/slurp，明确无真实重启。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "两别名独立文件的serial局部失败及只恢复lab_b，说明批任务不是事务；采集失败不再只显示绿色recap。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "批次/权限/Vault/控制面与执行状态、部分成功恢复、事实新鲜度和幂等边界。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "定义到执行路径、check局限、handler/rescue/async、并发和故障追问有答案与反例。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "独立通关以重建/变量预测/故障证据/设计/口述五项判据要求返工；新增单元名反例。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "runbook证据采集只读且保留未知、日志隐私边界，业务健康需额外验收。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "本轮全文阅读；Ansible官方command文档核对argv和非Shell参数行为。",
+        "limits": "未安装/执行Ansible、SSH或systemd任务；新YAML仅人工静态检查，不声称远端通过。"
+      }
+    ],
+    "status": "cross-reviewed",
+    "disposition": "revised",
     "crossReview": {
-      "reviewer": "systems",
-      "reviewedAt": "2026-10-12",
-      "articleSha256": "15035cfa8e25f7ceaf234f1fa83ed3795c1c7bb7022d045c32881eb0f8afdfe1",
+      "reviewer": "data-independent-2026-11-11",
+      "reviewedAt": "2026-11-11",
+      "articleSha256": "e6e3c826b6569d92c5bd640f0cd2c249ae9bd5135018b221f1a807be0b684ae0",
       "result": "pass",
       "findings": [
-        "全文复核格式协议、hosted/proxy/group写能力不跨格式泛化，Component/Asset/blob、负缓存与多层缓存、内容选择器授权并集均有机制/反例。",
-        "首次latest发现后固定RepoDigest并校验、空卷/本机8081预算；Raw受限用户PUT与独立GET SHA验证，路径缺失和本地副本篡改两个故障及恢复/120秒停止/保留卷边界齐全。",
-        "上传超时先查路径摘要、删除与物理回收分层、DB/blob/配置/密钥一致恢复、禁止无支持双写；200×300MB=60GB/60秒约8Gbps仅数据下界，不宣称真实Nexus已运行。"
+        "独立复评本轮全部差异、相关机制上下文、基础/故障实验与独立通关；不是再次全文重审。",
+        "复核采集command argv和service_name格式门禁，no_log不等脱敏、仅打印rc；采集0/3与日志0是完整性而非业务健康，未知不能授权修复。",
+        "复核本机模板两次幂等、双别名部分失败/只修lab_b/最终收敛、容量分批与额外变量反例；本次为静态语义/安全复核，未执行Ansible或连接远端。"
       ]
-    },
-    "initialFindings":["latest 直接 run 不可固定一次学习内容，工具/内存/终端有隐藏前置", "学习账号权限创建缺步骤，上传/下载失败会继续比较旧文件", "只展示Hash不阻断不一致，凭据清理非finally", "默认容器停止时间不足数据库关闭建议，缺独立通关"],
-    "changes":["改首次pull后固定可靠RepoDigest再run，补本机context/官方安装/资源支持矩阵与失败停止", "补Raw专属角色/用户动作，上传下载限时/旧目标停止/摘要断言/ finally清理凭据", "按Sonatype官方镜像README改stop120秒，补专属角色清理", "新增来源/权限变式、两种故障、60GB/8Gbps容量与元数据/blob恢复五项通关"],
-    "criteria":[
-      {"id":"prerequisites","result":"pass","evidence":"安装与启动、入门实验：Docker/PowerShell/context/资源/摘要/独占数据、Raw角色/用户/文件前置。"},
-      {"id":"mechanism","result":"pass","evidence":"老师带你把一次依赖下载拆开；协议与权限进阶：坐标/格式、缓存、group来源、元数据/blob与授权并集。"},
-      {"id":"foundation","result":"pass","evidence":"入门实验：上传并下载Raw制品：完整凭据处理、HTTP限时/错误停止、独立下载摘要断言及限定清理。"},
-      {"id":"fault","result":"pass","evidence":"双层实验：不存在版本与本地副本改字节，状态/路径/Hash对照、重新下载与独立版本恢复。"},
-      {"id":"production","result":"pass","evidence":"生产设计题、仓库管理员课堂：保留/候选/回收、吞吐/资源、受支持HA、数据库/blob/配置密钥匹配和升级。"},
-      {"id":"interview","result":"pass","evidence":"面试课堂与协议进阶：30秒/3分钟及group写入、404、覆盖、备份/清理的递进回答。"},
-      {"id":"mastery","result":"pass","evidence":"独立通关：按坐标找得到，还要按摘要认得出：五项专属任务/答案，8Gbps估算、权限并集变式与返工位置。"},
-      {"id":"aiops","result":"pass","evidence":"在AIOps中的作用、事故课堂：状态/回源/磁盘/流水线/版本关联与脱敏，不因下载失败自动清缓存/删除。"}
-    ],"validation":[
-      {"kind":"syntax","detail":"2个PowerShell代码块通过Parser AST语法检查。","limits":"不执行镜像/HTTP/权限操作。"},
-      {"kind":"reasoned","detail":"全文审阅，官方sonatype/docker-nexus3 README核对持久目录、镜像和数据库停止120秒建议。","limits":"没有固定某个未经拉取的版本或冒称latest安全。"},
-      {"kind":"unrun","detail":"Docker镜像拉取、Nexus初始化、角色/上传下载、故障/清理/恢复未运行。","limits":"无已连接Docker daemon，输出是需复现预期。"}
-    ],"status":"revised-awaiting-cross-review"
-  }
-  ,{
-    "article":"automation/terraform.md","writer":"cloud-automation","reviewedAt":"2026-10-12",
+    }
+  },
+  {
+    "article": "automation/cicd.md",
+    "writer": "refresh-cloud-delivery",
+    "reviewedAt": "2026-11-11",
+    "initialFindings": [
+      "本地交付模拟校验后再次读取文件，存在校验对象和实际使用字节不一致的教学隐患；蓝绿图中文注释不相邻。",
+      "交叉审校发现历史完整源码执行记录可被误读为当前deployment_bytes版本。"
+    ],
+    "changes": [
+      "校验与JSON解析使用同一deployment_bytes，补检查使用时间差与批准摘要可信度的不同边界；蓝绿图就地中文解释。",
+      "区分2026-10-12当日源码与11-11独立交叉Python3.12.14新三模式和读取后替换反例。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "个人Fork/空仓库与Node项目区分，本地Python安装/空目录、两种Shell退出码。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "CI/持续交付/部署、制品身份、状态机和审批绑定，检查字节与可信批准分层。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "delivery_lab完整Python源码normal模式、版本/输出/退出0、自动临时目录清理。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "tamper拦截退出2、bad-release业务失败恢复v1退出3，另有个人PR exit42与纸面审批漂移。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "灰度样本/观测未知、数据库扩展收缩、同环境锁/幂等、执行器隔离与控制面灾备。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "30秒/3分钟与绿色仍事故、超时重试、千万用户发布等追问有证据回答路径。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "五项独立通关含审批漂移、灰度样本、DORA分母与失败证据，要求返工。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "发布事件提交/制品/环境关联错误率延迟，时间相关不能代替因果；模型无直接授权。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "本轮全文阅读，当前package.json确认docs:build是build别名。",
+        "limits": "未触发GitHub CI或实际部署。"
+      },
+      {
+        "kind": "executed",
+        "detail": "tmp/cloud-delivery-fourth-checks-2026-11-11.mjs提取本文完整Python，Python3.15本地三模式得到0/v2、2/v1、3/v1。",
+        "limits": "仅内存与临时文件交付模拟，不是真实制品审批服务。"
+      },
+      {
+        "kind": "executed",
+        "detail": "当前三模式与post-read替换由独立data审校实际执行；作者不冒认独立审校是自身实跑。",
+        "limits": "本轮返工仅限明确列出的本地合成、静态和来源检查，不替代实际产品或生产验收。"
+      }
+    ],
+    "status": "cross-reviewed",
+    "disposition": "revised",
     "crossReview": {
-      "reviewer": "systems",
-      "reviewedAt": "2026-10-12",
-      "articleSha256": "a15ec70dc42e7c5ef9d1501312f02d29827bce3a06a554944659877b91b4a3b0",
+      "reviewer": "data-independent-2026-11-11",
+      "reviewedAt": "2026-11-11",
+      "articleSha256": "ddf0ed00d43312e2552fda557568c827f4009e3175016bccf11a2c7890e6fdd9",
       "result": "pass",
       "findings": [
-        "全文复核配置/state/真实资源三本账、依赖图/未知/null/空集合与provider/module/锁文件的区别；plan不预留事务、部分失败不会自动回滚。",
-        "local-only文件漂移及moved实验有新目录/退出码/同计划审核/真实文件state无差异验收和限定销毁；local provider会建父目录、不假设漂移原地改，未执行云资源。",
-        "S3概念示例未启锁、backend/provider授权独立、锁不锁控制台、workspace非账号隔离和prevent_destroy删除配置失效边界准确；check警告非硬门禁，证据及5任务有推理追问。"
+        "独立复评本轮全部差异、相关机制上下文、基础/故障实验与独立通关；不是再次全文重审。",
+        "复核同一deployment_bytes校验及使用的时间差修复，摘要相等不代表批准来源可信；发现旧日期把当前源码称已执行，作者已分开2026-10-12历史与2026-11-11真实交叉实跑范围，返工后复评通过。",
+        "独立Python3.12.14执行normal0/v2、tamper2/v1、bad-release3/v1和读字节后替换磁盘的反例，仍只使用获验内存字节；PR故障与制品/门禁/灰度通关静态复核，未运行真实CI或部署。"
       ]
-    },
-    "initialFindings":["CLI安装/终端/独立目录/backend环境参数隐藏前置", "基础命令失败可继续应用遗留plan，第二轮无差异缺严格退出验证", "基础destroy会破坏后续漂移/重命名前置", "不存在目录不可靠作为local provider故障，缺独立通关"],
-    "changes":["补Windows官方ZIP校验/PATH/CLI和只列TF变量名的前置，区分概念云命令和本地实验", "初始化/校验/计划/读取/执行加停止点与人工审阅，detailed-exitcode三态验收", "延后统一清理，审核销毁计划/地址和state，移除不确定权限路径实验", "核对local provider MkdirAll实现，新增地址迁移/空集合/故障恢复/state边界五项通关"],
-    "criteria":[
-      {"id":"prerequisites","result":"pass","evidence":"HCL基础边界、AIOps入门实验：官方安装/真实tf文件/PowerShell/独占目录/TF环境名和registry依赖。"},
-      {"id":"mechanism","result":"pass","evidence":"三本账、进阶精讲与配置契约课堂：求值/unknown/依赖图、API/state、地址/锁/输入与权限边界。"},
-      {"id":"foundation","result":"pass","evidence":"AIOps入门实验：四个完整tf文件、锁文件/计划/真实内容/state/output与第二次退出0检查。"},
-      {"id":"fault","result":"pass","evidence":"将本地文件实验补成可验收的故障课堂：内容漂移、repair计划审阅、实际文件和无差异恢复、限定销毁。"},
-      {"id":"production","result":"pass","evidence":"生产设计课堂、状态锁/工作区与事故答辩：故障/权限state边界、限流容量/模块升级、部分失败/未知和数据恢复。"},
-      {"id":"interview","result":"pass","evidence":"生产设计课堂和事故答辩：30秒/3分钟、锁/地址/半失败/数据库/超时的答案与反例追问。"},
-      {"id":"mastery","result":"pass","evidence":"独立通关：三本账一致，不代表执行可以无限重试：五项专属任务、moved/空集合变式、三态退出/锁与返工位置。"},
-      {"id":"aiops","result":"pass","evidence":"AIOps链路与配置契约课堂：plan/drift/资源地址关联告警，错误查询不转空集合，差异检测不等于执行授权。"}
-    ],"validation":[
-      {"kind":"syntax","detail":"3个PowerShell代码块通过Parser AST语法检查。","limits":"本机未找到Terraform，未执行HCL/provider验证。"},
-      {"kind":"reasoned","detail":"全文审阅，官方terraform-provider-local源码核对创建父目录行为。","limits":"没有实际执行state或资源变更。"},
-      {"kind":"unrun","detail":"CLI安装、init/plan/apply、local漂移/moved/清理及云状态/恢复未执行。","limits":"没有真实state或云资源变更，输出为复现目标。"}
-    ],"status":"revised-awaiting-cross-review"
-  }
-  ,{
-    "article":"automation/sonarqube.md","writer":"cloud-automation","reviewedAt":"2026-10-12",
+    }
+  },
+  {
+    "article": "automation/github-actions.md",
+    "writer": "refresh-cloud-delivery",
+    "reviewedAt": "2026-11-11",
+    "initialFindings": [
+      "两处元数据示例将分支引用直接拼入Shell，与后文不可信输入要求矛盾；cat命令替换吞末尾换行，完整文件契约可被多空行绕过。"
+    ],
+    "changes": [
+      "分支引用通过env再printf输出；跨Job验证改整文件cmp，补与exit42不同的坏内容变式和教师纠错。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "个人空白仓库网页创建、不需要Node的元数据主线、默认分支/权限/额度；npm另需Fork完整项目。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "事件/工作流/任务/执行器/步骤、表达式与Shell两层、output与artifact/cache生命周期。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "artifact-classroom完整YAML，上游生成/传输出/上传，下游先证明无文件再下载比较，保留一天与清理。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "布尔输入exit42失败仍上传证据、恢复第三次运行；新增坏换行比较失败与无下载反例。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "OIDC权限/runner信任域/审批/合并队列/并发等待槽/模板升级与取消副作用分层。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "3分钟链路与绿色页面旧、PR合并SHA、模板/runtime兼容等追问答案。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "五项独立通关含准确run/headSHA、27.8并发容量估算与未验证范围，缺证据返工。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "手动诊断报告只记录元数据不冒充真实巡检；工作流失败分类进入受控自动化。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "本轮全文阅读，安全表达式与参数传递、整文件契约人工检查；复用首批cmp字节合同测试原理。",
+        "limits": "本批未实际触发Actions、权限修改、Pages发布；未重新验证既有时区/额外队列新产品行为。"
+      }
+    ],
+    "status": "cross-reviewed",
+    "disposition": "revised",
     "crossReview": {
-      "reviewer": "systems",
-      "reviewedAt": "2026-10-12",
-      "articleSha256": "0debf97880846f2033e4f9d862403c88e1f6d2394cff809135dabe9ef1fd1d43",
+      "reviewer": "root-independent-2026-11-11",
+      "reviewedAt": "2026-11-11",
+      "articleSha256": "92faf6c7c59a1e4607e94816b431d3361e73472011eec63a742f19a79a55681c",
       "result": "pass",
       "findings": [
-        "全文复核Scanner→Web→CE→DB/Search→Gate，按本次ceTaskId关联分析而非最新项目结果；Profile/Gate/New Code/Hotspot和覆盖率报告界限准确。",
-        "数据库停止实验不预设必然CE失败，有限恢复DB/UP/新任务/Gate分别举证、撤销Token先于down；只在回环课堂禁bootstrap，镜像摘要和私有网络明确。",
-        "6到达/4完成积压不会清空，降至2后60任务粗算30分钟；DCE支持拓扑/停集群升级/主DB派生索引及完整回滚界限清楚。本轮无Engine实跑。"
+        "独立复评本轮全部差异及所列必要机制/实验/通关上下文，不声称再次全文重审；结合作者全文八维复评。",
+        "完整本轮差异、表达式/跨Job生命周期、artifact双实验、生产/面试与通关上下文复核。环境变量避免直接插入Shell，完整cmp拒绝额外换行；文件与声明一致不是独立可信来源。",
+        "独立执行正文cmp行的相等/额外换行/不同字节3例，GitHub官方secure-use支持中间env路线；没有触发远端工作流或修改权限。",
+        "本组当前84个PowerShell块独立AST通过；语法或合成测试不替代产品、业务或生产验收。"
       ]
-    },
-    "initialFindings":["快速体验和Compose复用9000易冲突，固定历史Server与latest Scanner混用", "上传/门禁/CE任务状态混淆，未固定Scanner与失败停止", "清理在故障前破坏环境，停止DB却预断上传成功/CE失败", "恢复只看pg_isready而无UP有限等待，缺独立通关"],
-    "changes":["补官方工具/资源/本机context/端口/专属卷前置，保留版本历史日期和兼容支持边界", "首次pull固定Scanner摘要，等待Gate并分类非零/超时/任务ID，保护Token与.scannerwork", "基础保留环境至故障结束，DB恢复有限轮询后应用UP复验与新扫描Gate证据", "新增双提交/双失败层、CE积压30分钟估算、数据库schema回退五项通关"],
-    "criteria":[
-      {"id":"prerequisites","result":"pass","evidence":"安装与启动、基础实验：Linux Engine/PowerShell/Compose/资源/名称卷端口、历史版本与Token/完整目录文件。"},
-      {"id":"mechanism","result":"pass","evidence":"核心原理、老师带你读懂一次门禁：Scanner上传、CE异步计算、DB事实/Search派生、Profile/Gate/New Code与taskId归属。"},
-      {"id":"foundation","result":"pass","evidence":"基础实验：Compose启动、UP有限等待、固定Scanner摘要/退出、任务和Gate验证、凭据与专属资源清理。"},
-      {"id":"fault","result":"pass","evidence":"故障注入实验：停止数据库：基线/单故障、接收和计算分层证据、DB轮询/UP/新任务恢复，不断言未证明报告入队。"},
-      {"id":"production","result":"pass","evidence":"容量与性能、安全、高可用与灾备、升级与回滚：版本/授权架构、数据库恢复点、索引重建、schema边界与队列控制。"},
-      {"id":"interview","result":"pass","evidence":"面试题与递进追问、事故场景：Scanner/CE、两种Quality、搜索/DB、积压/HA/升级答案和进一步追问。"},
-      {"id":"mastery","result":"pass","evidence":"独立通关：收到报告、计算成功和门禁通过是三件事：五项专属任务、A/B任务归属、积压估算与失败返工判据。"},
-      {"id":"aiops","result":"pass","evidence":"日志与可观测性、事故场景：CI提交/CE任务/DB/队列关联，门禁失败不冒充业务中断、未知等待不自动放行。"}
-    ],"validation":[
-      {"kind":"syntax","detail":"13个PowerShell代码块通过Parser AST语法检查。","limits":"不执行Docker/Scanner/HTTP。"},
-      {"kind":"reasoned","detail":"全文逐段审阅与状态/恢复推演，未将原历史版本写成当前最新。","limits":"未拉取镜像，固定摘要由读者现场取得；不承诺组合受支持。"},
-      {"kind":"unrun","detail":"SonarQube/PostgreSQL、扫描/门禁、DB故障与恢复/升级未执行。","limits":"Docker daemon未连接，所有产品输出是待复现预期。"}
-    ],"status":"revised-awaiting-cross-review"
-  }
-  ,{
-    "article":"automation/maven.md","writer":"cloud-automation","reviewedAt":"2026-10-12",
+    }
+  },
+  {
+    "article": "automation/gitlab.md",
+    "writer": "refresh-cloud-delivery",
+    "reviewedAt": "2026-11-11",
+    "initialFindings": [
+      "validate-rule使用grep -qx只要求存在一条完整匹配行，额外threshold=999仍可通过，与单行精确字节合同不符。"
+    ],
+    "changes": [
+      "门禁改为printf生成唯一允许字节后交cmp比较整文件，解释标准输入/静默/退出码。",
+      "新增正确行加错误行的条件变化、预期失败、恢复与错因反馈，限定只用于本课堂格式。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "安装与启动、双层带练先准备什么：个人网页项目/README、可用 Linux 执行器、权限/额度与终端/文件格式明确。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "平台工程精讲、控制面补课：规则创建/依赖数据、Executor、领取并发、人工/子状态传播与外部未知。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "双层带练：单行LF输入、三阶段YAML、制品下载SHA和摘要验证；完整字节合同替换仅一行匹配。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "threshold=50失败、正确行追加threshold=999失败、下游篡改失败分开；恢复文件/提交、保留原始产物与清理边界。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "生产课堂、大厂设计追问：信任域/资源/HA、对象存储/密钥恢复、模板升级、过期发布/互斥和保留策略。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "面试课堂与控制面补课：30 秒/3 分钟及 Runner/needs/重试/架构/覆盖事故的递进答案。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "独立通关及新增重复配置题要求预测、失败阶段、整文件合同和不同应用重复值语义，不以grep搜到值判正确。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "在 AIOps 中的作用与生产课堂：失败阶段/队列/制品/提交/环境关联，采集/父触发不冒充目标恢复。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "全文阅读GitLab触发、Runner、制品、环境、信任、容量、状态传播、双层实验和通关，核对官方after_script/allow_failure说明。",
+        "limits": "未登录GitLab或运行真实Runner，未验证实例许可证、标签调度和生产部署。"
+      },
+      {
+        "kind": "executed",
+        "detail": "Git Bash验证cmp正常单行退出0，错误值/重复配置/额外空行/CRLF均退出1；旧grep对重复配置退出0，实际复现门禁漏洞。",
+        "limits": "本地Shell语义验证，未运行Alpine镜像和GitLab流水线；BOM依据字节合同推理而非本轮单独实跑。"
+      }
+    ],
+    "status": "cross-reviewed",
+    "disposition": "revised",
     "crossReview": {
-      "reviewer": "systems",
-      "reviewedAt": "2026-10-12",
-      "articleSha256": "4ea8c77ce2a14248cab7d9733438ccec3f9e5c6820fd3853ab2b8fef9db26d97",
+      "reviewer": "root-independent-2026-11-11",
+      "reviewedAt": "2026-11-11",
+      "articleSha256": "5f16796241745dcd5dc39d9af6c464b1fcdf2555ee4227e4cb9cc70efb9152b3",
       "result": "pass",
       "findings": [
-        "全文复核模型/父与聚合/BOM/dependencyManagement/插件执行区别，近路径非最高版本、离线不禁止插件自己联网、effective-pom依赖模型已可建立，没有把诊断goal当万能。",
-        "Quickstart1.5固定17/5.11.0及项目1.0-SNAPSHOT、Wrapper与每步退出停点；错镜像使用新缓存/本地9端口和项目settings，模型恢复后再clean verify，断言故障定位真实测试层；未编译边界明确。",
-        "Release部分上传与unknown查精确摘要、不覆盖正式坐标；源码/JDK/镜像/插件/来源/缓存分权、Reactor与并行/私服容量、8Gbps与160秒算式可复核，Maven4历史RC表不冒充最新。"
+        "独立复评本轮差异、相关机制及实验/通关上下文，不声称再次全文重审；结合既有评测与本轮作者全文复评。",
+        "cmp校验整份单行LF文件，grep存在正确行不等于完整配置正确；制品SHA与运行SHA验证、失败/恢复实验有明确层次。",
+        "独立复跑5字节输入及旧grep反例：正确、错值、重复、空行、CRLF；未运行真实Runner。"
       ]
-    },
-    "initialFindings":["JDK安装只看java而未确认javac/jar，模板默认值影响JAR名和BOM实验", "项目目录存在仍可能继续、各步失败后可拿旧JAR或模型当证据", "PowerShell原生-D参数未统一保护，模型恢复一行成功过度推断根因", "缺独立五项通关"],
-    "changes":["补完整JDK/终端/可信项目/全局settings和MAVEN变量前置，历史版本不冒充当前推荐", "生成明确GAV/package/Java17/JUnit5.11，核对官方Quickstart1.5 BOM模板", "目录/Wrapper/verify/导出/故障/恢复逐项退出停止，摘要和完整验证分层，保留证据后清理", "新增dependencyManagement/goal变式、双层故障、20GB/8Gbps容量与发布未知五项通关"],
-    "criteria":[
-      {"id":"prerequisites","result":"pass","evidence":"安装与启动、入门实验前置条件：完整JDK/CLI/PowerShell/目录/settings/网络与可信代码前置。"},
-      {"id":"mechanism","result":"pass","evidence":"九项核心原理、内部请求与数据路径、老师串讲：模型/Resolver/Reactor/goal、BOM/插件依赖、发布部分成功。"},
-      {"id":"foundation","result":"pass","evidence":"入门实验：完整骨架参数/Wrapper/verify/测试/JAR摘要/生效模型/离线边界和限定清理。"},
-      {"id":"fault","result":"pass","evidence":"错误镜像BOM实验与确定性测试断言实验：全新缓存/首错/退出码、模型与测试分层、恢复完整verify。"},
-      {"id":"production","result":"pass","evidence":"生产架构、容量、安全供应链、升级回滚：外围HA/不可变Release/凭据缓存信任/并行资源与状态回退。"},
-      {"id":"interview","result":"pass","evidence":"面试怎么讲、十项递进问答：定义/依赖/模型/缓存/大仓架构与部分发布故障答案。"},
-      {"id":"mastery","result":"pass","evidence":"独立通关：绿色构建必须说清输入和证据范围：五项专属任务、nearest管理边界与8Gbps估算/返工判据。"},
-      {"id":"aiops","result":"pass","evidence":"AIOps位置、全部流水线解析事故：Git/镜像/阶段/坐标/摘要关联，禁止无条件清缓存/绕过证书。"}
-    ],"validation":[
-      {"kind":"executed","detail":"mvn -version返回本机Maven3.9.16、Oracle JDK24、Windows11。","limits":"只验证安装入口，不证明项目兼容或构建。"},
-      {"kind":"syntax","detail":"43个PowerShell块通过Parser AST检查。","limits":"不执行Maven插件/Java。"},
-      {"kind":"reasoned","detail":"全文逐段审阅，官方maven-archetype-bundles-1.5模板核对JUnit5生成import BOM及Java参数。","limits":"没有把历史Maven4预发布描述当今天的发布断言。"},
-      {"kind":"unrun","detail":"项目生成、Wrapper、编译测试/离线/镜像故障、制品发布和独立重建未执行。","limits":"未更改本机Maven项目/缓存或远程制品。"}
-    ],"status":"revised-awaiting-cross-review"
-  }
-  ,{
-    "article":"automation/n8n.md","writer":"cloud-automation","reviewedAt":"2026-10-12",
+    }
+  },
+  {
+    "article": "automation/jenkins.md",
+    "writer": "refresh-cloud-delivery",
+    "reviewedAt": "2026-11-11",
+    "initialFindings": [
+      "日志跟随没有退出指引；Queue API假设凭据环境变量已设置，无获取Token入口、超时和清理，空输出易被当空队列。",
+      "交叉审校发现HTTP200但缺items或null/数组根时会被错解队列空。"
+    ],
+    "changes": [
+      "解释Ctrl+C退出日志不停止容器；补个人Token入口、Get-Credential临时输入/空值检查/HTTP错误门禁/超时/finally释放引用和撤销。",
+      "教师反例区分401/403与可见队列为空、Base64非加密、清变量非内存擦除。",
+      "先验HTTP200和原始单对象，items必须数组且成员必须对象；不以权限相关字段缺失补零。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "Linux Engine/context/容器卷端口防复用、固定历史Core/插件兼容，UI解锁与API Token准备。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "Controller/Agent/Executor/Queue与CPS/durability/状态路径，timeout分配顺序。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "固定容器、完整Pipeline、两阶段输出/下载摘要/版本插件证据与专用卷清理。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "不存在Label排队why证据、取消旧定义/新Build恢复；JUnit UNSTABLE与skipStagesAfterUnstable。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "单写状态与Controller隔离、按信任域容量、匹配Core/Java/Plugin/状态备份及恢复副作用。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "8组机制/故障/设计答案与递进，300仓库设计题、500任务升级事故。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "五项通关含资源上限4、不同Job锁边界与恢复未授权重跑，缺证据重做。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "Queue/Controller/Agent/Build指标与变更事件、根因候选和受控Runbook。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "本轮全文阅读保留完整已有平台深度，审查新增API流程与输入/输出边界。",
+        "limits": "未启动Jenkins或生成Token、运行Pipeline；旧历史版本不是当前安全推荐。"
+      },
+      {
+        "kind": "syntax",
+        "detail": "Jenkins与Runbook共11个PowerShell块AST解析通过。",
+        "limits": "语法不证明HTTP接口、凭据或插件兼容。"
+      },
+      {
+        "kind": "executed",
+        "detail": "tmp/cloud-cross-rework-checks-2026-11-11.mjs 原文块7合成响应通过，凭据/API皆替身，不接触真实Jenkins。",
+        "limits": "本轮返工仅限明确列出的本地合成、静态和来源检查，不替代实际产品或生产验收。"
+      }
+    ],
+    "status": "cross-reviewed",
+    "disposition": "revised",
     "crossReview": {
-      "reviewer": "systems",
-      "reviewedAt": "2026-10-12",
-      "articleSha256": "6ec192e0090e7dc13ef18eafb44f894c2526f088fa037a20ab5824286b32b084",
+      "reviewer": "root-independent-2026-11-11",
+      "reviewedAt": "2026-11-11",
+      "articleSha256": "b39c3778698768e666dff35af8d06a4fc466ca34bd1c85fc50d05d4203a5f39d",
       "result": "pass",
       "findings": [
-        "全文复核Item linking/发布vs草稿/Production与Test执行、错误Workflow/Wait持久阈值/未知结果幂等及Queue数据库事实链；基础与故障均有事件ID关联及撤回。",
-        "按当前官方FAQ退回并重读修订：替换失效SUL链接，许可复核10-12区别8月版本快照，客户触发预建流程与客户可配置逻辑分开，不以收费/凭据来源一概判断。",
-        "每worker Runner连接/共享加密key/Redis在途与main单点、计划能力界限明确；30/20十分钟6000及恢复十分钟复算。没有Docker/UI/真实服务执行，不冒称业务完成。"
+        "独立复评本轮全部差异及所列必要机制/实验/通关上下文，不声称再次全文重审；结合作者全文八维复评。",
+        "本轮差异、Pipeline/Queue基础与Label故障、CPS状态/生产取舍及通关复核；提出HTTP200坏形状仍空输出问题，作者返工成原文顶层、items数组与对象条目门禁后重读通过。",
+        "独立复跑Jenkins7合成响应：正常空/单条通过，缺items/null/顶层数组/数字条目/对象代替数组拒绝；凭据为虚构夹具，无HTTP/Jenkins/插件实跑。",
+        "本组当前84个PowerShell块独立AST通过；语法或合成测试不替代产品、业务或生产验收。"
       ]
-    },
-    "initialFindings":["独立空目录/Compose项目名/工具安装隐藏前置，查询失败可被误当空", "HTTP回环登录未说明secure-cookie默认保护差异", "启动/重启无有限ready等待或退出停止，HTTP请求无限等待", "Normalize连接/字段保留与Expression类型不够明确，缺独立通关"],
-    "changes":["补PowerShell7/Docker官方入口、当前context、专属目录/项目/卷查询与gitignore", "仅回环HTTP实验设置secure-cookie=false并对照官方默认true和生产TLS边界", "逐步错误停止、两分钟readiness和HTTP限时；新execution复验不擦除原失败", "补字段模式/连接顺序，新增发布草稿变式、Error双状态、6000积压和幂等未知五项通关", "10月12日复核官方Community license与License FAQ，替换失效链接，区分客户触发预建流程与创建/编辑/配置逻辑，不再把收费托管或客户凭据一概判禁止"],
-    "criteria":[
-      {"id":"prerequisites","result":"pass","evidence":"安装与启动：PowerShell7/LinuxEngine/context/项目资产/空目录/密钥/精确文件与本机端口前置。"},
-      {"id":"mechanism","result":"pass","evidence":"八项核心概念、内部数据流、老师再走一遍：Item linking、发布/执行、DB/Redis/Runner、Wait、业务账本未知与栅栏。"},
-      {"id":"foundation","result":"pass","evidence":"基础实验：完整Compose/有限ready、UI各节点字段连接、两分支Test/Production、重启持久与清理。"},
-      {"id":"fault","result":"pass","evidence":"Stop And Error故障与契约实验：发布注入/主error/错误处理ID、恢复新发布新事件与专属副本收回。"},
-      {"id":"production","result":"pass","evidence":"容量、HA/灾备、安全、升级回滚：下游限流/计划边界、DB-key-binary一致恢复、schema/key回退与队列隔离限制。"},
-      {"id":"interview","result":"pass","evidence":"面试题与递进追问、50万告警设计：Queue路径/幂等/健康/HA/Runner/恢复答案与架构取舍。"},
-      {"id":"mastery","result":"pass","evidence":"独立通关：画布、发布版、执行和业务结果逐一举证：五项专属任务、草稿变式/积压10分钟与失败返工。"},
-      {"id":"aiops","result":"pass","evidence":"AIOps场景、业务SLI/事故：告警补全/审批/Runbook/模型假设/业务对账，平台绿色不等恢复。"}
-    ],"validation":[
-      {"kind":"syntax","detail":"17个PowerShell块通过Parser AST检查。","limits":"不执行Compose/HTTP/UI。"},
-      {"kind":"reasoned","detail":"全文逐段审阅，官方n8n-docs安全变量核对N8N_SECURE_COOKIE默认true/HTTPS语义。","limits":"版本/权益保持历史快照，不声明现时最新或法律结论。"},
-      {"kind":"unrun","detail":"Docker登录/Workflow/Test/Publish/Error/Redis/Runner/恢复均未执行。","limits":"本轮没有可连接daemon，预期结果是待复现判据。"}
-    ],"status":"revised-awaiting-cross-review"
-  }
-  ,{
-    "article":"automation/runbook-automation.md","writer":"cloud-automation","reviewedAt":"2026-10-12",
+    }
+  },
+  {
+    "article": "automation/nexus-repository.md",
+    "writer": "refresh-cloud-delivery",
+    "reviewedAt": "2026-11-11",
+    "initialFindings": [
+      "Maven mirror片段没明确settings.xml层级，易误贴到pom。",
+      "基础Hash比对只验证当前两份文件相同，缺先前批准摘要的独立信任反例。"
+    ],
+    "changes": [
+      "注明settings/mirrors片段及认证ID对应，链接完整Maven项目。",
+      "增加受信release-record与源/下载同时错误仍彼此相等的反例，仅操作两份新副本，不改服务器。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "安装与启动、入门实验：Docker/PowerShell/context/资源/摘要/独占数据、Raw角色/用户/文件前置。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "坐标→组→具体仓库→元数据/blob→客户端下载链；镜像设置层级与ID匹配明确，摘要一致不等于来源可信。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "入门实验：上传并下载Raw制品：完整凭据处理、HTTP限时/错误停止、独立下载摘要断言及限定清理。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "双层实验：不存在版本与本地副本改字节，状态/路径/Hash对照、重新下载与独立版本恢复。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "生产设计题、仓库管理员课堂：保留/候选/回收、吞吐/资源、受支持HA、数据库/blob/配置密钥匹配和升级。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "面试课堂与协议进阶：30秒/3分钟及group写入、404、覆盖、备份/清理的递进回答。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "五项独立通关外新增当前两份文件同时错误的反例；必须匹配故障前批准摘要，不能改摘要迁就错误文件。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "在AIOps中的作用、事故课堂：状态/回源/磁盘/流水线/版本关联与脱敏，不因下载失败自动清缓存/删除。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "本轮逐段全文阅读所有章节，保留已有原理、实验、生产与递进追问；补具体失败、安全、兼容或证据反例。",
+        "limits": "无真实etcd/Calico/Cilium/Nexus/SonarQube实例运行，未执行数据库/网络/快照变更；保留历史版本边界。"
+      },
+      {
+        "kind": "syntax",
+        "detail": "etcd/Nexus/SonarQube共29个PowerShell代码块通过AST语法解析。",
+        "limits": "不证明容器、HTTP、凭据、快照和真实数据库结果；SonarQube新就绪分支本轮仅静态验证。"
+      },
+      {
+        "kind": "reasoned",
+        "detail": "Maven官方settings参考核对mirrors层级与server标识。",
+        "limits": "未执行Maven或制品上传下载。"
+      }
+    ],
+    "status": "cross-reviewed",
+    "disposition": "revised",
     "crossReview": {
-      "reviewer": "systems",
-      "reviewedAt": "2026-10-12",
-      "articleSha256": "db423e95304675d0edb20ddad1b9cddb6a1cefc09a7146b39414ec684dd550d8",
+      "reviewer": "data-independent-2026-11-11",
+      "reviewedAt": "2026-11-11",
+      "articleSha256": "be5f1e5b0232f798fcd11356d64c9a26e442258692714da137c082d2b4d18d01",
       "result": "pass",
       "findings": [
-        "全文复核L2推荐与执行授权分层，例子只是教学目录且不可变目标/审批版本有效期、状态unknown/幂等/租约与栅栏、补偿非时间倒流解释完整。",
-        "Python完整推荐器限制alerts路径、对象/环境/服务/枚举、可信映射文件存在；正常/未知/目录外/缺手册各退出与UUID新报告不覆盖，故障恢复及专用清理；Actions通过env避免表达式进Shell。",
-        "旧窗口指标不评新动作、无数据不能当健康、只读采集预算脱敏、冲突资源锁而非手册名称；并发3首失败停止派发仍可能三台受影响，云/集群控制未实跑不夸大。"
+        "独立复评本轮全部差异、相关机制上下文、基础/故障实验与独立通关；不是再次全文重审。",
+        "复核Raw受限账号上传/独立下载及先留批准摘要；两份相同错误文件不能证明原批准内容，mirror配置片段与Maven项目/发布ID分清。",
+        "复核404/401、下载副本篡改/恢复、精确仓库与账户清理、group来源与权限并集及带宽算术；PowerShell语法通过，未启动Nexus/上传/真实权限或摘要故障。"
       ]
-    },
-    "initialFindings":["推荐器有目录树无Python安装/目录/真实手册保存步骤", "同类报告覆盖历史，不检查映射手册存在或已知事件必要字段", "Actions缺根目录/默认分支前置且未知非零报告不上传", "概念云重启命令容易混入新手实验，缺独立五项通关"],
-    "changes":["补标准库/PowerShell/维护版本/空目录/UTF8文件与仅L2说明", "每次UUID新报告、已知service/severity类型契约、映射路径/手册存在检查", "补Actions精确文件/项目/默认分支、always短期报告与外部命令授权边界", "新增正常/变式输入/缺手册/旧指标/并发3影响面/未知恢复五项通关并实测推荐器"],
-    "criteria":[
-      {"id":"prerequisites","result":"pass","evidence":"AIOps入门实验：官方Python安装/终端/空目录/精确文件、手册正文保存，无云权限隐藏依赖。"},
-      {"id":"mechanism","result":"pass","evidence":"执行器精讲、控制回路课堂：定义/步骤/审批/外部结果、未知/租约/栅栏、观察窗口与停止派发边界。"},
-      {"id":"foundation","result":"pass","evidence":"AIOps入门实验：完整输入/两手册/脚本、类型/路径/映射验证、UUID报告/退出码与安全清理。"},
-      {"id":"fault","result":"pass","evidence":"本地故障实验与离线时间线实验：未知/数组/路径/缺手册阻断、正常恢复与合成旧窗口重复动作拒绝。"},
-      {"id":"production","result":"pass","evidence":"自动化执行器精讲、控制回路课堂/安全护栏：最小身份、审批时效、互斥/容量、状态审计恢复与补偿。"},
-      {"id":"interview","result":"pass","evidence":"面试递进、控制回路追问：30秒/3分钟、合法事件全网重启、模型越权、取消/锁/回滚失败答案。"},
-      {"id":"mastery","result":"pass","evidence":"独立通关：推荐、授权、执行和恢复分别证明：五项专属任务、五类输入判据、并发3反例与返工。"},
-      {"id":"aiops","result":"pass","evidence":"闭环位置、LLM边界/磁盘事故：证据收集/规则建议/授权动作/业务验证与知识复盘，未知观测暂停高风险。"}
-    ],"validation":[
-      {"kind":"executed","detail":"Python3.14.5临时夹具执行完整推荐器：正常/重复0，未知/路径名1，数组/缺service/错severity类型/缺手册/越界2，共4个唯一报告。","limits":"仅本地L2，不访问云/主机；临时目录自动回收。"},
-      {"kind":"syntax","detail":"2个PowerShell块通过Parser AST检查，完整Python源码解析/执行通过。","limits":"不检查远端Actions或平台策略。"},
-      {"kind":"reasoned","detail":"全文逐段审阅合成时间线、容量/停止/幂等/审批与答案。","limits":"模拟不是分布式执行器认证。"},
-      {"kind":"unrun","detail":"GitHub Actions/Ansible/AWS/Azure/Kubernetes及生产锁/审批/变更/灾备未运行。","limits":"没有新增远程执行或生产权限。"}
-    ],"status":"revised-awaiting-cross-review"
+    }
+  },
+  {
+    "article": "automation/terraform.md",
+    "writer": "refresh-cloud-delivery",
+    "reviewedAt": "2026-11-11",
+    "initialFindings": [
+      "大规模删除排障把terraform init列为检查backend，易把初始化/迁移误当只读查看。",
+      "诊断脚本普通plan不区分无差异/有差异；远程backend通常有锁及锁故障表简化过度。"
+    ],
+    "changes": [
+      "backend改为只读核对配置与CI来源，身份未知不初始化/重配；锁先核对活跃任务和后端支持。",
+      "诊断接detailed-exitcode分支并保留退出码，明确不自动apply、前阶段失败不能当plan差异及输出敏感边界。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "HCL基础边界、AIOps入门实验：官方安装/真实tf文件/PowerShell/独占目录/TF环境名和registry依赖。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "三本账、进阶精讲与配置契约课堂：求值/unknown/依赖图、API/state、地址/锁/输入与权限边界。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "AIOps入门实验：四个完整tf文件、锁文件/计划/真实内容/state/output与第二次退出0检查。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "将本地文件实验补成可验收的故障课堂：内容漂移、repair计划审阅、实际文件和无差异恢复、限定销毁。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "生产设计课堂、状态锁/工作区与事故答辩：故障/权限state边界、限流容量/模块升级、部分失败/未知和数据恢复。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "生产设计课堂和事故答辩：30秒/3分钟、锁/地址/半失败/数据库/超时的答案与反例追问。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "独立通关：三本账一致，不代表执行可以无限重试：五项专属任务、moved/空集合变式、三态退出/锁与返工位置。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "诊断脚本接plan三态0/1/2并明确无自动执行授权，脚本阶段失败不可混淆；plan原文受控，未初始化/未知仓库不扫描。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "本轮逐段全文审阅；保留已有请求/状态/生产/面试与独立通关深度，修订具体执行和证据缺口。kubectl ignore-not-found与PowerShell退出码语义核对官方参考。",
+        "limits": "未连接真实Rancher/KubeSphere/TCE/Istio，未执行Terraform或变更真实state；历史版本不重报为当前推荐。"
+      },
+      {
+        "kind": "syntax",
+        "detail": "本组五篇共24个PowerShell代码块通过AST语法检查。",
+        "limits": "语法检查不证明平台、权限、渲染或资源运行。"
+      }
+    ],
+    "status": "cross-reviewed",
+    "disposition": "revised",
+    "crossReview": {
+      "reviewer": "data-independent-2026-11-11",
+      "reviewedAt": "2026-11-11",
+      "articleSha256": "132dfb88e73fbbf6e167721232fb195dd8cbfd75b6f245e5a9f9bdde40c84c5c",
+      "result": "pass",
+      "findings": [
+        "独立复评本轮全部差异、相关机制上下文、基础/故障实验与独立通关；不是再次全文重审。",
+        "复核local_file四文件实验、漂移/repair/moved与限定清理；状态锁不覆盖控制台、init不是只读后端查询，plan的2不是自动执行许可。",
+        "独立Bash替身测试plan0/1/2分类及fmt2、validate1前置失败停止，不进入plan或apply；不等于Terraform/provider/state实际执行。"
+      ]
+    }
+  },
+  {
+    "article": "automation/sonarqube.md",
+    "writer": "refresh-cloud-delivery",
+    "reviewedAt": "2026-11-11",
+    "initialFindings": [
+      "Compose POSTGRES_USER=sonar实际初始化超级用户，易被误当成最小权限业务账号。",
+      "就绪函数吞掉所有错误直到五分钟，无法区分明确401/403与暂时启动失败。"
+    ],
+    "changes": [
+      "按PostgreSQL官方镜像说明讲清初始化超级用户、pg_isready边界及实验/生产差别。",
+      "就绪函数遇401/403停止，临时错误有限重试并保留最后脱敏类别；补HTTP200非UP和授权不会等待自愈反例。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "安装与启动、基础实验：Linux Engine/PowerShell/Compose/资源/名称卷端口、历史版本与Token/完整目录文件。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "核心原理、老师带你读懂一次门禁：Scanner上传、CE异步计算、DB事实/Search派生、Profile/Gate/New Code与taskId归属。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "完整Compose/源码/属性/Scanner，Wait-LabSonarUp有限等待且401/403显式停止；UP、CE、Gate分离，原始任务与提交绑定。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "故障注入实验：停止数据库：基线/单故障、接收和计算分层证据、DB轮询/UP/新任务恢复，不断言未证明报告入队。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "Web/CE/Search/DB容量和DCE/单实例、数据库/索引恢复与迁移回滚；明确实验PostgreSQL超级用户不能照搬生产。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "面试题与递进追问、事故场景：Scanner/CE、两种Quality、搜索/DB、积压/HA/升级答案和进一步追问。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "独立通关：收到报告、计算成功和门禁通过是三件事：五项专属任务、A/B任务归属、积压估算与失败返工判据。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "日志与可观测性、事故场景：CI提交/CE任务/DB/队列关联，门禁失败不冒充业务中断、未知等待不自动放行。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "本轮逐段全文阅读所有章节，保留已有原理、实验、生产与递进追问；补具体失败、安全、兼容或证据反例。",
+        "limits": "无真实etcd/Calico/Cilium/Nexus/SonarQube实例运行，未执行数据库/网络/快照变更；保留历史版本边界。"
+      },
+      {
+        "kind": "syntax",
+        "detail": "etcd/Nexus/SonarQube共29个PowerShell代码块通过AST语法解析。",
+        "limits": "不证明容器、HTTP、凭据、快照和真实数据库结果；SonarQube新就绪分支本轮仅静态验证。"
+      },
+      {
+        "kind": "reasoned",
+        "detail": "PostgreSQL官方镜像README确认POSTGRES_USER初始化超级用户。",
+        "limits": "没有创建数据库或更改角色。"
+      }
+    ],
+    "status": "cross-reviewed",
+    "disposition": "revised",
+    "crossReview": {
+      "reviewer": "data-independent-2026-11-11",
+      "reviewedAt": "2026-11-11",
+      "articleSha256": "1c501dcc073065d92b155134805c53ab0cc7e334b15c78e8a45fd16e45417398",
+      "result": "pass",
+      "findings": [
+        "独立复评本轮全部差异、相关机制上下文、基础/故障实验与独立通关；不是再次全文重审。",
+        "复核PostgreSQL初始化超级用户风险及pg_isready非业务权限证明；扫描报告/CE/Gate分层、TaskID关联、DB停止与恢复闭环、Token撤销后清理。",
+        "独立合成运行Wait-LabSonarUp：STARTING和503第三次转UP，401/403第一次停止；全部PowerShell语法通过，未执行真实HTTP/数据库/扫描器。"
+      ]
+    }
+  },
+  {
+    "article": "automation/maven.md",
+    "writer": "refresh-cloud-delivery",
+    "reviewedAt": "2026-11-11",
+    "initialFindings": [
+      "下载摘要只要求人工核对无可执行校验，镜像故障目录可复用旧缓存，清理路径缺工作目录与链接边界。"
+    ],
+    "changes": [
+      "补SHA512整值比较、来源身份与签名区别，摘要坏格式拒绝；故障目录防复用；清理验证课程根路径、非重解析点并逐项确认。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "JDK/Maven/Wrapper选择、Windows安装目录与PATH及版本前提，新增下载验证。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "生命周期/阶段/插件目标/依赖调解/BOM/仓库/快照与构建身份层次。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "hello-maven完整源码测试POM、命令结果、Wrapper及制品取证。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "单元测试失败与冷缓存错误mirror故障、同配置恢复及受限清理。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "多模块构建容量、私服/供应链/权限/离线依赖/版本迁移和回滚。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "机制/取舍/事故/300仓库设计题有回答和追问。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "独立通关与摘要伪造反例明确完整性不等可信发布。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "构建日志、测试报告、制品身份和发布变更进入运维证据链。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "全文阅读；Apache官方校验文档核对摘要与签名信任边界。",
+        "limits": "未下载Maven发行包或编译项目；历史版本不当最新安全版本。"
+      },
+      {
+        "kind": "syntax",
+        "detail": "本批Maven/n8n/microservices/Kubeflow共73个PowerShell块AST通过；git diff --check通过。",
+        "limits": "只语法与格式，未模拟网络/产品运行；Kubernetes Bash人工静态检查。"
+      }
+    ],
+    "status": "cross-reviewed",
+    "disposition": "revised",
+    "crossReview": {
+      "reviewer": "root-independent-2026-11-11",
+      "reviewedAt": "2026-11-11",
+      "articleSha256": "5a0b4e8dbd0c76fea8c3b7fbc1ba8c743e0323069a35f96d77f79a84aaae8726",
+      "result": "pass",
+      "findings": [
+        "独立复评本轮全部差异及所列必要机制/实验/通关上下文，不声称再次全文重审；结合作者全文八维复评。",
+        "本轮完整差异、摘要/安装、故障缓存/恢复/精确清理与生产通关上下文复核；摘要完整性与可信公钥签名不同，冷缓存/模型建立/完整测试分层，历史版本非安全推荐。",
+        "独立执行正文SHA512门禁的匹配/不匹配/错误网页/多摘要4例，均符合预期；Apache官方验证文档核对信任边界。未下载安装Maven或编译项目。",
+        "本组当前84个PowerShell块独立AST通过；语法或合成测试不替代产品、业务或生产验收。"
+      ]
+    }
+  },
+  {
+    "article": "automation/n8n.md",
+    "writer": "refresh-cloud-delivery",
+    "reviewedAt": "2026-11-11",
+    "initialFindings": [
+      "契约故障练习只要求增加校验，未给小白可填写表达式/节点连线/响应设置；HTTP拒绝与工作流失败易混。"
+    ],
+    "changes": [
+      "提供If原始类型/非空/枚举短路表达式，合法规范化与非法400分支完整UI步骤，说明有意拒绝不等ErrorWorkflow。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "本机容器/卷/密钥/界面登录与历史版本边界，Webhook测试生产URL分开。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "节点/items/execution/webhook/凭据/队列及幂等与副作用。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "告警输入、Normalize/If/响应完整界面与请求正例和清理。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "StopAndError错误工作流及新增契约400反例，连接错误不混拒绝。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "多worker/SQL/Redis/共享加密键/任务恢复/SSRF/Token等生产边界。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "定义/内部执行/队列重复/设计/事故题与追问。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "独立通关要求正反例、业务状态与外部副作用证据；类型先于字符串化。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "告警富化/受控流程/人工批准，不把流程成功当业务恢复。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "executed",
+        "detail": "新增表达式6个JS合成样本通过，含数组、空白、缺body、大小写；官方Respond to Webhook核对流程。",
+        "limits": "没有启动n8n或操作真实UI/工作流；表达式测试不证明界面版本字段。"
+      },
+      {
+        "kind": "syntax",
+        "detail": "本批Maven/n8n/microservices/Kubeflow共73个PowerShell块AST通过；git diff --check通过。",
+        "limits": "只语法与格式，未模拟网络/产品运行；Kubernetes Bash人工静态检查。"
+      }
+    ],
+    "status": "cross-reviewed",
+    "disposition": "revised",
+    "crossReview": {
+      "reviewer": "root-independent-2026-11-11",
+      "reviewedAt": "2026-11-11",
+      "articleSha256": "57764029ee70e69078c0338b2cfbcbb11e6642714b70dc7098a48a4ce71a809e",
+      "result": "pass",
+      "findings": [
+        "独立复评本轮全部差异及所列必要机制/实验/通关上下文，不声称再次全文重审；结合作者全文八维复评。",
+        "本轮完整差异及item linking/契约副本/未知状态/通关上下文复核。校验发生在String转换前，400有意拒绝可以Execution success，不与StopAndError混淆；原始输入不授批准权。",
+        "独立复跑正文JS表达式6个正常/大小写空白/数组/缺字段样本；核对官方Respond-to-Webhook配置与响应行为。未操作UI、发布工作流或执行Webhook。",
+        "本组当前84个PowerShell块独立AST通过；语法或合成测试不替代产品、业务或生产验收。"
+      ]
+    }
+  },
+  {
+    "article": "automation/runbook-automation.md",
+    "writer": "refresh-cloud-delivery",
+    "reviewedAt": "2026-11-11",
+    "initialFindings": [
+      "推荐器原样导出完整alert可能泄露额外token，未知告警名直接写Markdown可伪造链接；du管道丢弃stderr导致部分扫描假完整。",
+      "交叉审校发现旧完整推荐器记录未注明当日版本。"
+    ],
+    "changes": [
+      "报告只输出已验证允许字段，未知名称不直接渲染，新增虚构token/链接注入反例及L2字段不等于执行授权。",
+      "du只读示例加30秒边界、保留stderr和退出码、区分失败与完整排序。",
+      "区分历史完整推荐器用例与本轮selector5，不追溯冒认新源码完整执行。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "Python安装路径、个人空目录/alerts/runbooks/reports/精确文件，额外平台命令与Windows本地分开。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "推荐/授权/执行/验证分层、幂等/锁/fencing/未知/补偿、控制回路延迟。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "完整本地selector、两事件/手册映射、UUID不覆盖、退出/报告/手册存在验收与清理。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "未知/数组/目录外/缺手册拒绝及恢复；新报告边界输入不导出伪秘密和未知链接。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "迟到重复事件、目标授权复检、互斥资源/隔离代次、批次错误阈值与停止派发、审计脱敏。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "定义/机制/事故/设计递进及合法事件全网重启反例、模型无授权、未知先对账。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "五项独立通关含双报告、入口各退出码、旧指标/三并发最坏影响，失败返工。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "Detect→Diagnose→Decide→Act→Verify→Learn链路，推荐质量/误执行/恢复分别度量。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "本轮全文阅读、限定推荐器而非生产执行器。",
+        "limits": "未运行云/Ansible/Actions或真实磁盘扫描。"
+      },
+      {
+        "kind": "executed",
+        "detail": "本轮脚本提取Python3.15临时夹具：正常0、额外伪秘密0且未导出、未知链接1且未渲染、数组2和缺service2，5项通过；夹具自动回收。",
+        "limits": "只本地合成输入；不证明路径并发安全、实际主机状态或授权。"
+      },
+      {
+        "kind": "syntax",
+        "detail": "Jenkins与Runbook共11个PowerShell块AST解析通过。",
+        "limits": "不证明平台运行。"
+      },
+      {
+        "kind": "executed",
+        "detail": "本轮作者与root独立选择器5案例通过；无云/远程Actions/主机变更。",
+        "limits": "本轮返工仅限明确列出的本地合成、静态和来源检查，不替代实际产品或生产验收。"
+      }
+    ],
+    "status": "cross-reviewed",
+    "disposition": "revised",
+    "crossReview": {
+      "reviewer": "root-independent-2026-11-11",
+      "reviewedAt": "2026-11-11",
+      "articleSha256": "73f15b868225ee645d08c4e1baca2e4b293978d77a76a52e46c082f0a98f8ab6",
+      "result": "pass",
+      "findings": [
+        "独立复评本轮全部差异及所列必要机制/实验/通关上下文，不声称再次全文重审；结合作者全文八维复评。",
+        "本轮完整差异及完整本地选择器/故障、状态与控制回路/面试通关上下文复核。白名单输出不渲染未知Markdown、不导出原始token，du失败不能假完整；提出历史实跑不应追指新源码并已修订。",
+        "独立执行当前Python选择器5例：正常/额外虚构token退出0、未知链接1、数组/缺service2，新增报告数与无秘密/原始链接均校验；未执行主机扫描或生产动作。",
+        "本组当前84个PowerShell块独立AST通过；语法或合成测试不替代产品、业务或生产验收。"
+      ]
+    }
   }
 ]

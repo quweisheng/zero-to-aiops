@@ -190,10 +190,12 @@ BMC/带外
   -> CLB VIP/监听器
   -> 证书与协议（若终止 TLS）
   -> 转发规则
-  -> 健康检查
+  -> 按已取得的健康状态选择合格后端
   -> 后端 CVM/TKE 节点与端口
   -> 应用
 ```
+
+另有一条探测链：`健康探测器 -> 配置的后端协议/端口/路径 -> 更新后端健康状态`。它与用户请求相互关联，却不是每个用户请求都等待一轮新健康检查。探测周期、连续成功/失败阈值会造成状态转换时间；选中时健康，也不保证下一次业务请求一定成功。现场具体调度与摘除行为按相应 CLB 版本核对。
 
 ### 后端不健康
 
@@ -412,7 +414,14 @@ Linux 客户机只读观察可使用 `lsblk -f` 看设备、文件系统和挂�
 
 这个实验只运行在自己的电脑，不需要 TCE 账号。它模拟 HTTP 健康检查语义，不模拟 CLB 内部实现。前置条件是安装 Python 3，终端执行 `python --version` 能显示版本。
 
-在一个新建的空学习目录创建 `healthz` 文本文件，内容是 `ok`，然后打开第一个终端执行：
+在自己的学习位置新建一个未使用的空目录，并在 PowerShell 中进入它。先执行下面两行创建无扩展名的 `healthz` 文件；`-ErrorAction Stop` 表示失败就停止，不继续把旧文件当新结果。`New-Item` 未使用 `-Force`，已有同名文件时不要覆盖，换新空目录重做：
+
+```powershell
+New-Item -ItemType File -Path .\healthz -Value 'ok' -ErrorAction Stop
+Get-Content -LiteralPath .\healthz -ErrorAction Stop # 预期 ok
+```
+
+确认当前目录没有客户资料或秘密，再在这个终端执行；这个简易服务器会提供当前目录中的文件，不只提供 `healthz`：
 
 ```powershell
 python -m http.server 18080 --bind 127.0.0.1 # 只对本机开放当前目录

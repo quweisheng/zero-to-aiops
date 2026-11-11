@@ -330,7 +330,8 @@ rdf_group: rdfg_dr                 # 远程复制链路与设备对的逻辑组
 ```text
 symcfg list                                      # 发现可管理阵列及 SID
 symcfg -sid <SID> list                           # 查看指定阵列配置摘要
-symcfg -sid <SID> list -dir all                  # 查看 Director 与端口状态
+symcfg -sid <SID> list -dir all                  # 查看所有 Director 的状态；不是逐端口在线证明
+symcfg -sid <SID> list -fa all -port             # 查看前端 Director 各端口状态和连接情况
 symcfg -sid <SID> list -srp                      # 查看 SRP 容量与订阅
 symdev -sid <SID> list                           # 查看设备状态
 symaccess -sid <SID> list view                   # 查看 Masking View 清单
@@ -342,6 +343,8 @@ symsnapvx -sid <SID> list                        # 查看 SnapVX 关系
 ```
 
 命令参数大小写和可用选项以本机版本为准。任何 `create`、`delete`、`establish`、`restore`、`failover`、`swap`、`terminate` 都是写操作或数据状态变更，不属于日常只读采集。
+
+老师给你两张观察卡：第一张是所有 Director 都 Online，第二张是某个前端端口离线。它们能同时成立，因为处理节点还在运行，不代表它下面每个连接口都健康。先预测“只查第一张会漏掉什么”，再按 SID、Director 和端口号对照主机丢失的路径。[Dell 的 symcfg 查询说明](https://www.dell.com/support/kbdoc/en-us/000224263/list-of-symcfg-commands-with-examples-a-simplified-guide-to-symcfg-related-operations)区分 Director 总览与 `-fa all -port` 前端端口查询；两张都正常之后，仍须继续核对登录、Masking View 和主机多路径，不能把控制部件在线当成端到端 I/O 验收。这里练习的是观察范围，不连接真实阵列，也不通过开关端口制造故障。
 
 ## 命令 / 对象字典
 

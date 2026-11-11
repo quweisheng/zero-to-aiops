@@ -1871,6 +1871,60 @@ print("recovered: needs_review")
 
 追问“增加提示词能否保证安全”，答案是提示词只能降低某些错误概率，不能替代执行层授权。追问“引用都存在为什么仍误判”，答案是存在性与支持关系不同，还要检查时间对齐、指标口径和反证。设计题最终应交出一条可审计的决策链，而不是一句“我用了更强的模型”。
 
+## 老师批改：两个工具都返回了，为什么证据反而串了
+
+设模型请求查询 order-api 和 payment-api 的发布记录。第二个查询先完成，你把“第一份返回结果”塞给“第一个调用”，两个结果都存在，却可能给错误服务归因。[官方函数调用合同](https://developers.openai.com/api/docs/guides/function-calling)通过 `call_id` 配对请求与工具输出，不能按完成顺序，也不能按相同的函数名配对；输出项目本身的 `id` 也不是这里要回传的 `call_id`。
+
+用以下 Python 3 标准库实验保存为 `tool_pair_feedback.py`，运行 `python tool_pair_feedback.py`。字典是简化的本地调度记录，不是完整 API 响应；它不查询业务系统、不调用模型，也不执行写操作。
+
+```python
+calls = [
+    {'call_id': 'call-order', 'service': 'order-api'},
+    {'call_id': 'call-payment', 'service': 'payment-api'},
+]
+results = [  # 故意让第二个查询先完成。
+    {'call_id': 'call-payment', 'output': 'payment-v2'},
+    {'call_id': 'call-order', 'output': 'order-v7'},
+]
+
+def pair_results(pending, finished):
+    expected = {}
+    for call in pending:
+        key = call['call_id']
+        if not isinstance(key, str) or not key or key in expected:
+            raise ValueError('调用编号缺失或重复')
+        expected[key] = call
+    outputs = {}
+    for result in finished:
+        key = result['call_id']
+        if key not in expected or key in outputs:
+            raise ValueError('未知或重复的工具结果')
+        outputs[key] = result['output']
+    if set(outputs) != set(expected):
+        raise ValueError('结果尚未收齐，不生成完整结论')
+    return [(call['service'], outputs[call['call_id']]) for call in pending]
+
+wrong = [(call['service'], result['output']) for call, result in zip(calls, results)]
+right = pair_results(calls, results)
+print('wrong:', wrong)
+print('right:', right)
+assert right == [('order-api', 'order-v7'), ('payment-api', 'payment-v2')]
+for bad in (results[:1], results + [results[0]],
+            [results[0], {'call_id': 'item-order', 'output': 'order-v7'}]):
+    try:
+        pair_results(calls, bad)
+    except ValueError as exc:
+        print('rejected:', exc)
+    else:
+        raise AssertionError('缺失、重复或错编号必须拒绝')
+assert pair_results(calls, list(reversed(results))) == right
+print('recovered: order and payment evidence stay separate')
+```
+
+先手算错误列表：order-api 会拿到 payment-v2，payment-api 会拿到 order-v7。正确列表保持各自的服务与版本；三种故障分别是尚未收齐、同一结果重复、拿项目编号冒充调用编号。若结果没变，检查是不是仍在使用 `zip` 按位置关联；若重复结果被静默覆盖，检查是否在写字典前检测重复。改变工具完成顺序不能改变业务归属，退出进程即可清理。
+
+再进一层：只配对正确，能证明返回内容确实来自该查询吗？不能。执行器还要绑定经过授权的参数、查询窗口、来源身份和审计记录；一个标签写对、内容却来自另一租户的结果仍不合格。不要让模型自行指定“这条结果属于谁”。最后，把同一业务写动作重新向模型请求，调用编号可能变化；因此 `call_id` 只解决这一轮的配对，不解决跨重试的业务去重。业务幂等键仍由可信操作合同生成，不能借此实验给模型增加写权限。
+
 ## 独立通关：把模型能力和应用责任分开回答
 
 先遮住判据，用离线合成输入作答；真实 API 调用另须权限和预算。每题提交预测、实际输出、错误分支和收回记录。若只跑本地合同，学习记录必须写“无网络/无模型调用”，不能编造 Token 用量或模型质量。

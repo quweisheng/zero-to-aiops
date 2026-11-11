@@ -130,7 +130,7 @@ Data source（数据源）决定去哪查，Query（查询）决定拿什么，P
 
 编辑面板时，按数据源、变量、标签、时间范围、时区、步长、单位、转换依次核对。变量多选与“全部”会改变实际表达式；数据转换可能过滤、合并或计算出新的字段。对不同请求量实例的错误比例不要直接平均，应先汇总失败和总量。
 
-[Query inspector（查询检查器）](https://grafana.com/docs/grafana/latest/datasources/prometheus/query-editor/) 中，Query 看发出的请求，Data 看原始响应，Stats 看耗时和大小。在数据源原生界面执行同样表达式，帮助区分查询和显示问题。为了让曲线连续而默认补零，可能掩盖采集故障。
+[Panel inspector（面板检查器）](https://grafana.com/docs/grafana/latest/visualizations/panels-visualizations/panel-inspector/) 中，Query 看查询请求与响应，Stats 看耗时和大小；Data 里的数据可能已经应用面板转换，不能一概称为数据源的原始响应。先记录是否应用了 Transform data（数据转换）和 Formatted data（格式化显示），再比较结果；具体开关以所用版本为准。在数据源原生界面执行同样表达式、同一时间范围，帮助区分查询和显示问题。为了让曲线连续而默认补零，可能掩盖采集故障。
 
 ### 基础实验与故障实验：空值补零的代价
 
@@ -710,11 +710,13 @@ Field options 控制数据如何显示。
 | Unit | 单位 | seconds、milliseconds、percent |
 | Min / Max | 数值范围 | 0 到 1，0 到 100 |
 | Decimals | 小数位 | 错误率保留 2 位 |
-| Display name | 显示名 | `{{instance}}` |
+| Display name | 字段显示名 | `${__field.labels.instance}`，取该字段的 `instance` 标签值 |
 | Color scheme | 颜色规则 | thresholds |
 | No value | 无数据时显示 | `No data` |
 
 AIOps dashboard 最常见问题之一是没有单位。比如 `0.23` 到底是秒、毫秒、百分比，还是核心数？如果不设置单位，值班人会误判。
+
+这里的 Display name 和 Prometheus 查询编辑器的 Legend（图例模板）不是同一个输入框：前者使用 `${__field.labels.instance}` 这类字段表达式，后者可用 `{{instance}}`。把一种语法粘到另一种框中，可能只显示原样文字或回退默认名称。先确定字段确实带有 `instance` 标签，再按[官方标准选项的 Display name 说明](https://grafana.com/docs/grafana/latest/visualizations/panels-visualizations/configure-standard-options/#display-name)填写；重命名不会修改原指标标签或授权范围。
 
 ## Thresholds
 
@@ -1661,6 +1663,20 @@ Grafana 主要负责可观测性数据展示和告警管理。它通常不直接
 - [ ] 我能说明 Grafana Alerting 的核心对象。
 - [ ] 我能排查 Save & test 失败、panel 无数据、变量为空、dashboard 丢失。
 - [ ] 我能设计一个以用户影响为第一层的 AIOps dashboard。
+
+## 老师批改：你拿到的“原始数据”可能已经被加工
+
+同学做单位故障实验时说：“检查器 Data 里是二百，所以 Prometheus 返回的就是二百。”先停一下，这个结论少了一个前提：Data 展示的究竟是哪一层？查询结果可能已经经过 Transformation（转换）和格式化。把加工后的数再当源数据，你会在错误位置修复，甚至把正确数据二次乘一千。
+
+只在自己的实验面板副本上做以下对照，保持原看板不动。用前面已经连通的 Prometheus 数据源，把查询临时改成 `vector(0.2)`，即构造一个值为零点二的教学样本；单位先选秒，不加转换。保存查询响应和最终显示。预期原值是 `0.2`，显示可能自动选择 `200 ms`，但表达的是同一时长，并不是存储的样本被改写。没有真实 Grafana 环境时可画这两层数值，注明纸面推演。
+
+再在副本里增加“Add field from calculation（用字段计算新字段）”转换，选择 Binary operation（二元运算），用数值字段乘以 `1000`，只显示计算后的结果并设置毫秒单位。此时源查询仍是零点二，转换结果是二百，最终仍应表示二百毫秒。操作前先确认选择的是数值字段而不是时间戳。查看检查器的转换和格式化选项，记录自己观察的是变换前还是变换后；若当前版本没有对应开关，暂时禁用本副本的转换，并对照 Query 响应或同一表达式在 Prometheus 的结果，不假定所有版本的按钮完全一样。
+
+故意把已乘一千的二百再标成秒，老师要你说明为什么会放大一千倍、该在哪层修正。合格答案是拿出源值、转换公式、单位设置三项证据后，只修正造成重复换算的设置；不是凭“看起来更合理”把数值改回去。修好后，两个正确面板都表达零点二秒，但它们内部字段的数值可以不同。这个反例能帮助你理解“数值相同”和“物理量相同”不是一回事。
+
+复测时再看 Display name：查询 Legend 填 `{{instance}}` 的技巧，不能不加区分地搬到字段显示名；本题 `vector(0.2)` 没有实例标签，因此即使用正确字段语法也不应凭空生成一个实例。用带标签的真实自监控查询再练命名，保留原标签作为证据。结束后删除自己的演练副本或恢复原查询与转换，不修改共享看板，也不清理底层指标。
+
+老师会把“只交一张正确颜色截图”判为证据不足。应交两种正确换算、一个重复换算反例、三层数值对照及恢复记录。答错时回到“Field Options”“Transformations”和“单位和聚合会改变你看到的故事”，再解释为什么面板导出的 CSV 也需要注明转换状态。这些证据能支持面试中的排障判断，但不能代替真实权限、性能和告警投递验收。
 
 ## 独立通关：这张绿色面板有没有说错话
 

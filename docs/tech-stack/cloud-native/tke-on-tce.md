@@ -213,10 +213,10 @@ kubectl --context <context> -n <namespace> logs <pod-name> --tail=100
 
 ### 步骤
 
-在仓库根目录执行：
+在你实际下载的仓库根目录执行；不要求电脑存在作者的 `D:` 盘。不会定位目录时，先完成[实验文件与终端入门](../experiment-start.md)，在文件管理器找到同时包含 `package.json`、`docs`、`examples` 的目录，再在该目录打开 PowerShell。下面的文件检查不通过就停止，不能靠新建空文件绕过它。
 
 ```powershell
-Set-Location D:\zero-to-aiops
+Get-Location # 确认这里是自己的仓库根目录
 if (-not (Test-Path examples/tke-on-tce-lab/app.yaml) -or
     -not (Test-Path examples/tke-on-tce-lab/service-broken.yaml)) { throw '缺少本仓库实验文件，停止' }
 $existingClusters = kind get clusters
@@ -266,6 +266,8 @@ Pod 仍 Ready，Service 请求失败，容器本机 80 端口成功。对比 End
 
 这说明 readiness 检测容器自身不等于端到端业务验证。TCE 中还会有 CLB、健康检查、安全组和路由，需要继续向外验证。
 
+老师补一个时间反例：`apply` 刚返回成功，第一次 HTTP 仍成功，能否断言“targetPort 不起作用”？不能。API 已接受期望状态，不代表控制器和每个节点的数据面已同时更新。先保存时刻，再查询 Service 的 `spec.ports` 和 EndpointSlice 的 `ports`；尚未变成 8080 就是观测过早或调和尚未完成。等待两秒后重查并重试一次，最多重复十次，仍不一致就停止，记录“故障尚未稳定复现”，继续查控制器和数据面。不要扩大故障范围来凑预期。HTTP 非零也要读错误：`curl: not found`、DNS 失败、连接拒绝分别在不同层，不能只看退出码就全部归因于端口。
+
 ### 修复、验证和清理
 
 ```powershell
@@ -277,7 +279,9 @@ kind delete cluster --name tce-learning
 if ($LASTEXITCODE -ne 0) { throw '集群清理失败，记录残留并核对本机资源' }
 ```
 
-恢复原声明后 HTTP 再次成功。最后一行只删除本次实验集群及其数据，不可替换成生产集群名。若修复后仍失败，确认控制面已更新、后端是否 Ready、是否还有其他策略或 DNS 问题。
+恢复原声明后 HTTP 再次成功。最后一行只删除本次实验集群及其数据，不可替换成生产集群名。若修复后仍失败，当前代码会停在清理前；先按上面的有界观察办法确认 EndpointSlice 端口恢复为 80，再重试 HTTP，不能删掉现场后声称恢复。确认控制面已更新仍失败时，继续查后端 Ready、策略与 DNS。
+
+2026-11-11 本轮核对了两份仓库实验清单及命令的失败分支，属于静态审校；没有创建 kind 集群，也没有验证真实 TCE 的 CLB、CBS、CNI 或配额。本地实验成功只能证明这里的 Kubernetes 端口路径，不能代替下一节的云集成验收。
 
 ## TCE 专属扩展实验：云集成验收清单
 

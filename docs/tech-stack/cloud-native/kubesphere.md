@@ -228,7 +228,7 @@ KubeSphere 可作为平台运维入口，把集群事件、指标、日志、流
 
 本课终端为 Windows PowerShell。先运行 `kubectl version --client`、`kubectl config current-context` 和 `kubectl cluster-info`，确认已安装客户端、持有本轮授权 kubeconfig，且不是凭管理员身份代替浏览器普通用户。没有客户端按[Kubernetes 官方工具入口](https://kubernetes.io/docs/tasks/tools/)选择本系统发行包；没有真实平台时先完成[Kubernetes 本地实验](./kubernetes.md)，只交原生 API 基线，不声称覆盖 KubeSphere。需要创建 Project/ConfigMap 的权限另行确认，巡检只读授权不自动包含写操作。
 
-每个外部查询都要保留退出状态。下列函数先收集本轮输出，查询失败就停止，不把空文件当健康；它不输出秘密，也不增加权限。失败后保存脱敏错误与未覆盖项，解决身份/连接再重跑到新目录。
+每个外部查询都要保留退出状态。下列函数先收集本轮输出，查询失败就停止，不把空文件当健康；它不主动查询 Secret，也不增加权限，但这不等于输出已脱敏：节点地址、租户名、事件里的应用错误仍可能暴露内部信息。原始 `kubesphere-lab/` 仅本地受控保存并加入学习仓库的 `.gitignore`；公开证据另写 `health-review.md`，用虚构资源名保留状态、时间差和判断，不直接上传整个快照目录。失败后保存脱敏错误与未覆盖项，解决身份/连接再重跑到新目录。
 
 ```powershell
 if (Test-Path -LiteralPath kubesphere-lab) { throw '实验目录已存在，请改用新的独立目录后重做本课路径' }
@@ -257,8 +257,7 @@ Save-LabQuery 'kubesphere-api-resources.txt' { kubectl api-resources --verbs=lis
 再从 Console 创建一个名为 `kubesphere-lab` 的一次性 Project/Namespace，并在里面创建数据字段为 `lab: "true"` 的 `ui-api-proof` ConfigMap，然后用原生 API 交叉验证。此处是 ConfigMap 的数据，不是标签；同名项目已存在时停止并使用独立实验名称：
 
 ```powershell
-kubectl -n kubesphere-lab get configmap ui-api-proof -o yaml |
-  Out-File -Encoding utf8 kubesphere-lab\ui-api-proof.yaml
+Save-LabQuery 'ui-api-proof.yaml' { kubectl -n kubesphere-lab get configmap ui-api-proof -o yaml }
 ```
 
 预期对象名、Namespace、`data.lab` 和资源版本与 Console 对同一对象的最新查询一致。这一步证明一次真实 UI 动作落到了 Kubernetes API；完成后从 Console 删除该实验 ConfigMap 和一次性 Project/Namespace，并用 `kubectl get` 确认 NotFound。不要在业务 Namespace 做实验。
@@ -277,11 +276,18 @@ kubectl -n kubesphere-lab get configmap ui-api-proof -o yaml |
 只在一次性 Namespace 执行；该实验不会修改 KubeSphere 核心组件。执行者须有创建该实验角色和身份模拟（impersonate）的授权；`--as` 不是普通用户绕过权限的方法，缺少模拟权限时会先被拒绝，此时停止并请平台管理员提供隔离实验身份。
 
 ```powershell
+$existingNamespace = kubectl get namespace ks-rbac-lab --ignore-not-found -o name
+if ($LASTEXITCODE -ne 0) { throw '无法确认实验命名空间是否存在，停止' }
+if ($existingNamespace) { throw '命名空间已存在，不复用未知授权与对象' }
 kubectl create namespace ks-rbac-lab
+if ($LASTEXITCODE -ne 0) { throw '实验命名空间创建失败，停止' }
 kubectl -n ks-rbac-lab create serviceaccount limited-viewer
+if ($LASTEXITCODE -ne 0) { throw '实验身份创建失败，停止' }
 kubectl -n ks-rbac-lab create role config-reader --verb=get,list --resource=configmaps
+if ($LASTEXITCODE -ne 0) { throw '只读角色创建失败，停止' }
 kubectl -n ks-rbac-lab create rolebinding config-reader `
   --role=config-reader --serviceaccount=ks-rbac-lab:limited-viewer
+if ($LASTEXITCODE -ne 0) { throw '角色绑定失败，不能继续声称权限基线已建立' }
 
 $identity = 'system:serviceaccount:ks-rbac-lab:limited-viewer'
 kubectl auth can-i list configmaps -n ks-rbac-lab --as=$identity
@@ -290,6 +296,8 @@ kubectl get pods -n ks-rbac-lab --as=$identity
 ```
 
 预期：列 ConfigMap 返回 `yes`，列 Pod 返回 `no`，实际 Pod 查询得到 `Forbidden`。这说明“资源存在”和“当前身份有权看”是两个问题；KubeSphere 页面遇到 403 时也应沿用户 → 工作空间角色 → 项目 → Kubernetes RBAC 取证，而不是重启 ks-core。
+
+老师让你区分两种失败：创建 RoleBinding 失败时应停止，因为实验前提没成立；故意测试不允许的 Pod 操作时，非零退出却是需要记录的预期现象。不能给整个实验套上“任何错误都忽略”，也不能把所有非零退出一律判成实验失败。若错误写的是不能 `impersonate`，被拒绝的是你的身份模拟请求，尚未验证 `limited-viewer` 的 Pod 权限；请回到授权前提，不要把这张截图当本题答案。
 
 恢复与清理：
 
@@ -441,7 +449,9 @@ ResourceQuota（资源配额）限制项目能申请多少资源，LimitRange（
 
 ```powershell
 kubectl -n ks-rbac-lab create role pod-reader --verb=get,list --resource=pods
+if ($LASTEXITCODE -ne 0) { throw '最小修复角色创建失败，停止' }
 kubectl -n ks-rbac-lab create rolebinding pod-reader --role=pod-reader --serviceaccount=ks-rbac-lab:limited-viewer
+if ($LASTEXITCODE -ne 0) { throw '最小授权绑定失败，不能宣布修复成功' }
 kubectl auth can-i list pods -n ks-rbac-lab --as=$identity
 kubectl get pods -n ks-rbac-lab --as=$identity
 kubectl auth can-i get secrets -n ks-rbac-lab --as=$identity
@@ -531,7 +541,7 @@ PowerShell 中输出文件存在不证明前面的外部命令成功。权限不
 
 ## 学习证据
 
-- `kubesphere-lab/` 集群健康快照。
+- `health-review.md` 脱敏集群健康摘要；原始 `kubesphere-lab/` 不公开。
 - 工作空间、项目与角色关系图。
 - 一次扩展安装或升级记录。
 - 一次从页面异常定位到 Kubernetes 事件的排障记录。

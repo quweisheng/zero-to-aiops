@@ -384,7 +384,9 @@ $LASTEXITCODE
 Get-Content -LiteralPath .\evidence\healthy-report.md -Encoding UTF8
 ```
 
-预期：立即读到退出码 0、报告 PASS；报告显示 TCE 产品形态、合成版本、管理节点、CVM/对象存储容量和 CVM/TKE/观测组件摘要。输出必须原先不存在；本次命令失败后即使同名旧报告存在，也不算成功，复跑换新名字。
+预期：立即读到退出码 0、报告 PASS；报告显示 TCE 产品形态、合成版本、CVM/对象存储容量和 CVM/TKE/观测组件摘要。脚本会检查管理节点，但健康报告不逐个列出它们。想看本课的节点角色，打开输入 `fixtures/healthy.json`，在 TCE 的 `managementNodes`（管理节点列表）中核对；不要因为报告没有节点明细就断言平台没有管理节点。输出必须原先不存在；本次命令失败后即使同名旧报告存在，也不算成功，复跑换新名字。
+
+报告中的 `Platform version ledger` 是平台版本台账，`Capacity` 是容量，`Components` 是组件，`Findings` 是发现项。`Used / Total / Usage` 分别表示该样本定义的已用量、总量与比率，不能脱离输入的 `resource`（资源指标名称）把它们全部解释成实时 CPU 利用率；`Ready` 显示就绪数与期望数。`PASS` 只表示输入通过本脚本规则，不是现场验收结论。
 
 实验只验证台账、阈值和报告逻辑，不证明真实 TCE 组件或版本。
 

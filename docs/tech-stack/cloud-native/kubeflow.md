@@ -740,34 +740,32 @@ kubectl get resourcequota,limitrange -A # 查看租户资源边界
 
 ```bash
 git clone --depth 1 --branch 26.03.1 \
-  https://github.com/kubeflow/community-distribution.git
-cd community-distribution
+  https://github.com/kubeflow/community-distribution.git || exit 1
+cd community-distribution || exit 1
 
 git rev-parse HEAD # 26.03.1 应对应固定提交；保存输出作为证据
-kustomize build example >/dev/null # 先做离线渲染，不能证明集群接受
+kustomize build example >/dev/null || exit 1 # 先做离线渲染，不能证明集群接受
 ```
 
-官方单命令示例会反复执行 server-side apply，原因是 CRD 必须先建立，后续 CR 才能被 API Server 识别。下面给学习环境加上最多 5 次重试；错误持续时停止并阅读第一条失败，不无限循环：
+官方单命令示例会反复执行 server-side apply，原因是 CRD 必须先建立，后续 CR 才能被 API Server 识别。课堂先只执行一次，不自动重试、不默认抢占字段。执行前用 `kubectl config current-context` 和 `kubectl cluster-info` 确认正是自己独占、可删除的实验集群；没有把握就停在本地编译实验。
 
 ```bash
 set -o pipefail # 前面的渲染失败也必须算整个管道失败
-installed=false
-for attempt in 1 2 3 4 5; do
-  if kustomize build example | kubectl apply --server-side --force-conflicts -f -; then
-    installed=true
-    break
-  fi
-  echo "第 $attempt 次失败；先读错误，只有依赖尚未就绪才等待重试"
-  if [ "$attempt" -lt 5 ]; then sleep 20; fi
-done
-test "$installed" = true # 失败返回非零；不能继续宣告安装成功
+if kustomize build example | kubectl apply --server-side --request-timeout=30s -f -; then
+  printf '%s\n' '本轮清单提交无错误；尚未完成组件与业务验收'
+else
+  printf '%s\n' '提交失败且可能部分成功；停止，保存第一条错误与对象状态，不自动重试' >&2
+  exit 1
+fi
 ```
 
 这条命令方便实验，却有三个生产风险：
 
-1. `--force-conflicts` 会接管字段所有权，必须先评审 Server-Side Apply managedFields。
-2. 即使限制重试次数，单次 API 调用也可能很慢；生产 Runbook 还应设置总超时、日志和人工停止点。鉴权失败、资源冲突、配额不足不是等待就会好的问题。
+1. 上面刻意不加 `--force-conflicts`。出现字段冲突时，先查对象的 `managedFields`（哪个管理者拥有哪些字段）和现有安装来源，不能把“成功覆盖别人的配置”当修好安装。
+2. `--request-timeout=30s` 只限制单次 API 请求，不是整个安装的总时限。鉴权失败、资源冲突、配额不足应先修其原因；只有确认错误是本轮新增 CRD 尚未 Established 或依赖服务尚未就绪，并观察其已就绪，才手动重做这一条提交。最多记录 5 轮；重复同一错误就停止分析，不循环轰击 API。
 3. 默认 example 包含示例账号、多个依赖和大量资源，不等于企业 overlay。
+
+老师给你一个反例：第一次创建了 CRD，随后某个资源因权限被拒绝，第二次看到更多 `unchanged` 并不说明权限问题消失了。把“首次部分创建”“剩余错误”“重试依据”分开记录。失败分支 `exit 1` 会结束这次专用 Bash 会话或脚本，不能用最后一条 `printf` 的成功退出码当安装结果；需要重试时重新确认上下文、进入同一发行版目录，再执行单次提交。
 
 生产更适合把 upstream tag 当 base，用自己的 Kustomize overlay 修改域名、身份、存储、资源、安全策略和组件选择，并在 Git 中审计差异。
 
@@ -1121,10 +1119,10 @@ Bash：
 ```bash
 lab_original_location="$PWD"
 lab="$(mktemp -d /tmp/kubeflow-kfp-lab.XXXXXXXX)" || exit 1
-python3 -m venv "$lab"
-"$lab/bin/python" -m pip install --upgrade pip
-"$lab/bin/python" -m pip install 'kfp==2.16.1'
-"$lab/bin/python" -m pip check
+python3 -m venv "$lab" || exit 1
+"$lab/bin/python" -m pip install --upgrade pip || exit 1
+"$lab/bin/python" -m pip install 'kfp==2.16.1' || exit 1
+"$lab/bin/python" -m pip check || exit 1
 cd "$lab" || exit 1
 ```
 
@@ -1177,23 +1175,50 @@ print(f"SIZE={output.stat().st_size}")
 
 ### 第 3 步：编译
 
+先在同一目录新建 `verify_ir.py`。它读取 YAML 的结构，不靠搜索到一个英文单词判断通过；`yaml` 模块由本实验 KFP 的依赖提供，缺模块时回查同一个虚拟环境与 `pip check`，不要改用系统 Python。
+
+```python
+from pathlib import Path
+import yaml
+
+ir = yaml.safe_load(Path("pipeline.yaml").read_text(encoding="utf-8"))
+if not isinstance(ir, dict) or ir.get("pipelineInfo", {}).get("name") != "aiops-alert-risk":
+    raise ValueError("流水线名称或 YAML 根结构不正确")
+root = ir["root"]
+inputs = root["inputDefinitions"]["parameters"]
+for name in ("raw_count", "threshold"):
+    if inputs[name].get("parameterType") != "NUMBER_INTEGER":
+        raise ValueError(f"输入类型不正确: {name}")
+outputs = root["outputDefinitions"]["parameters"]
+if not any(value.get("parameterType") == "STRING" for value in outputs.values()):
+    raise ValueError("缺少字符串输出契约")
+if len(root["dag"]["tasks"]) != 2:
+    raise ValueError("本实验应有两个 task 定义")
+print("IR_STRUCTURE_OK; runtime_business_result=not_verified")
+```
+
+`safe_load` 是只解析数据的 YAML 入口；它不执行 Pipeline。这个小门禁核对本实验的名称、两个整数输入、字符串输出和两个任务，不替代完整 IR schema 校验、后端兼容性或运行时业务验收。把名称改错、删一个输入类型再运行，应得到非零退出；恢复原始编译产物后才应通过。不要把校验器也一起改宽松来“消除”失败。
+
 PowerShell：
 
 ```powershell
 & "$lab\Scripts\python.exe" .\pipeline.py
 if ($LASTEXITCODE -ne 0 -or -not (Test-Path .\pipeline.yaml)) { throw '编译未成功，不读取旧产物作为结果' }
-Select-String -Path .\pipeline.yaml -Pattern '^# PIPELINE DEFINITION','parameterType'
-Get-FileHash .\pipeline.yaml -Algorithm SHA256
-& "$lab\Scripts\python.exe" -m pip freeze | Set-Content .\requirements.lock.txt
+& "$lab\Scripts\python.exe" .\verify_ir.py
+if ($LASTEXITCODE -ne 0) { throw 'IR 结构验收失败' }
+Get-FileHash .\pipeline.yaml -Algorithm SHA256 -ErrorAction Stop
+$dependencyLock = & "$lab\Scripts\python.exe" -m pip freeze
+if ($LASTEXITCODE -ne 0) { throw '依赖记录失败，不保存残缺锁文件' }
+$dependencyLock | Set-Content .\requirements.lock.txt -Encoding utf8 -ErrorAction Stop
 ```
 
 Bash：
 
 ```bash
-"$lab/bin/python" pipeline.py
-grep -E '^# PIPELINE DEFINITION|parameterType' pipeline.yaml | head
-sha256sum pipeline.yaml
-"$lab/bin/python" -m pip freeze > requirements.lock.txt
+"$lab/bin/python" pipeline.py || exit 1
+"$lab/bin/python" verify_ir.py || exit 1
+sha256sum pipeline.yaml || exit 1
+"$lab/bin/python" -m pip freeze > requirements.lock.txt || exit 1
 ```
 
 ### 真实运行结果
@@ -1964,6 +1989,7 @@ kubeflow-lab/
   README.md                    # 环境、目标、边界与复现步骤
   versions.md                  # KCD/KFP/Python/Kubernetes 核验日期
   pipeline.py                  # 基础 Pipeline 源码
+  verify_ir.py                 # 本实验 IR 结构的正反例门禁
   pipeline.yaml                # 编译后的 IR
   requirements.lock.txt        # 本次实际依赖解析结果
   pipeline.sha256              # 产物 hash
@@ -1979,6 +2005,8 @@ kubeflow-lab/
 README 至少记录精确命令、预期与实际结果、没有验证的部分、清理结果和敏感信息处理。不要提交 kubeconfig、token、Secret、对象存储密钥、内部域名、真实数据或受限模型权重。截图不是唯一证据；YAML、版本、hash、日志片段和恢复结果更容易复核。
 
 ## 本文验证边界
+
+2026-11-11 复评另外静态核对安装错误门禁，并用合成 IR 数据执行 `verify_ir.py` 的正确、错误名称、错误输入类型、缺任务四项测试；这只证明新验收脚本按设定拒绝坏样本，不是重新执行 KFP 编译或安装 KCD。Bash、PowerShell 的新停止门不继承下面历史环境的运行证明。
 
 下面保留原文在 2026-08-14 编写时记录的历史验证证据，本轮 2026-10-12 审校没有重跑这些环境，不应把它们理解为本轮运行结果：
 

@@ -338,6 +338,7 @@ mysql -h 127.0.0.1 -P 3306 -u aiops -p aiops_lab
 ```sql
 SELECT VERSION();
 SELECT USER();
+SELECT CURRENT_USER();
 SELECT DATABASE();
 SHOW DATABASES;
 SHOW TABLES;
@@ -348,10 +349,13 @@ SHOW TABLES;
 | SQL | 作用 |
 |---|---|
 | `SELECT VERSION()` | 查看 MySQL 版本 |
-| `SELECT USER()` | 查看当前登录用户 |
+| `SELECT USER()` | 查看客户端声明的用户名及连接来源 |
+| `SELECT CURRENT_USER()` | 在本例直接会话查询中，查看服务器实际用于认证和授权的账号 |
 | `SELECT DATABASE()` | 查看当前选择的数据库 |
 | `SHOW DATABASES` | 列出数据库 |
 | `SHOW TABLES` | 列出当前库的表 |
+
+老师提醒：MySQL 账号由“用户名 + Host 匹配范围”共同确定。你输入的用户名像自报姓名，服务器选中的授权账号才像实际发给你的门禁卡，所以 `USER()` 和 `CURRENT_USER()` 不保证相同。直接在本课客户端执行两者并保存脱敏结果，再用 `SHOW GRANTS;` 看自己的授权；不要因为用户名相同就去修改另一条 Host 规则。遇到能登录却不能写，先确认当前库、认证账号、活动角色和对象权限，不直接授予全部权限。定义者权限的存储过程或视图里，`CURRENT_USER()` 还可能体现定义者身份，不能拿那里的结果冒充直接会话身份。参见 [MySQL 身份信息函数](https://dev.mysql.com/doc/refman/8.4/en/information-functions.html#function_current-user)。
 
 ## 第一个 AIOps 数据库实验
 
@@ -1776,7 +1780,7 @@ foreach ($sqlFile in @('schema.sql','seed.sql','queries.sql')) {
 | 现象 | 常见原因 | 怎么查 | 怎么修 |
 |---|---|---|---|
 | `Access denied` | 用户名、密码或来源主机不对 | 检查连接参数和 `SHOW GRANTS` | 修账号或授权 |
-| `Unknown database` | 库不存在或名字错 | `SHOW DATABASES` | `CREATE DATABASE` |
+| `Unknown database` | 名称、目标实例或初始化不符 | 核对连接目标、库名及授权范围内的 `SHOW DATABASES` | 先纠正入口或名称；仅在确认的空课堂实例按初始化步骤建库，不在未知服务器补建同名空库 |
 | `Table already exists` | 表已存在 | `SHOW TABLES`、`SHOW CREATE TABLE` | 停止核对归属与结构；不加 IF NOT EXISTS 掩盖旧模式，也不直接 drop |
 | `Unknown column` | 字段名写错 | `DESCRIBE table` | 修字段名 |
 | `Duplicate entry` | 主键或唯一键冲突 | 看报错键名、业务请求键与原记录 | 区分合法重试、冲突和错误键设计；不为消除错误随意取消唯一约束 |

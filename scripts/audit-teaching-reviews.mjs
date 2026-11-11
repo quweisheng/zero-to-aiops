@@ -35,11 +35,12 @@ export function inspectReview(record, raw) {
   if (checks.some(check => !reviewCriteria.includes(check?.id) || !['pass', 'needs-work'].includes(check?.result))) errors.push('评测维度或结果非法')
   if (!isCalendarDate(record.reviewedAt)) errors.push('评测日期须为真实 ISO 日历日期 YYYY-MM-DD')
   if (!hasText(record.writer)) errors.push('缺少作者审校身份')
+  if (record.disposition !== undefined && !['revised', 'reviewed-preserved'].includes(record.disposition)) errors.push('正文处理方式非法')
   if (Array.isArray(record.validation) && record.validation.some(item => !['executed', 'syntax', 'reasoned', 'unrun'].includes(item?.kind) || !hasText(item?.detail) || !hasText(item?.limits))) errors.push('验证类型或边界不完整')
   if (errors.length) return { status: '记录不完整', complete: false, errors }
   if (checks.some(check => check.result !== 'pass')) return { status: '待返工', complete: false, errors }
   const cross = record.crossReview
-  if (!cross) return { status: '已修订，待交叉审校', complete: false, errors }
+  if (!cross) return { status: record.disposition === 'reviewed-preserved' ? '已复评保留，待交叉审校' : '已修订，待交叉审校', complete: false, errors }
   if (!hasText(cross.reviewer) || !isCalendarDate(cross.reviewedAt) || !Array.isArray(cross.findings) || cross.findings.length === 0 || cross.findings.some(item => !hasText(item))) {
     return { status: '交叉审校记录不完整', complete: false, errors: ['第二位审校者缺少身份、日期或具体结论'] }
   }
@@ -104,10 +105,14 @@ export async function auditTeachingReviews({ root = resolve('docs/tech-stack'), 
     pending: rows.filter(row => !row.complete).map(row => ({ path: row.path, status: row.status })), errors,
   }
   if (write) {
+    const reviewDates = [...new Set(rows.map(row => row.record?.reviewedAt).filter(isCalendarDate))].sort()
+    const changed = rows.filter(row => row.record?.disposition === 'revised').length
+    const preserved = rows.filter(row => row.record?.disposition === 'reviewed-preserved').length
     const lines = [
       '# 技术栈逐篇评测与返工记录', '',
-      '本轮以 2026-10-12 精讲评测标准逐篇审校。这里记录正文的具体问题、修订和第二位审校者结论；不是自动关键词评分，也不表示读者已经掌握或全部真实产品已实跑。篇幅另见[正文统计](./teaching-coverage.md)，评测方法见[写作标准](./writing-standard.md#逐篇评测返工与独立通关)。', '',
-      `当前 ${summary.total} 篇：${summary.revised} 篇已有本轮修订记录，${summary.crossReviewed} 篇当前版本通过正文交叉审校，${summary.pending.length} 篇仍待处理。文章内容变化后旧审校自动失效；版本摘要只统一 UTF-8 文件开头标记及 Windows/Linux 换行，不忽略正文修改。未审校条目不会因字数够长而自动通过。`, '',
+      '依据仓库精讲标准逐篇审校。这里记录正文的具体问题、修订或保留理由，以及第二位审校者结论；不是自动关键词评分，也不表示读者已经掌握或全部真实产品已实跑。篇幅另见[正文统计](./teaching-coverage.md)，评测方法见[写作标准](./writing-standard.md#逐篇评测返工与独立通关)。', '',
+      `作者复评日期：${reviewDates.length ? reviewDates.join('、') : '尚无有效记录'}。当前 ${summary.total} 篇：${summary.revised} 篇已有逐篇评测记录，${summary.crossReviewed} 篇当前版本通过正文交叉审校，${summary.pending.length} 篇仍待处理。文章内容变化后旧审校自动失效；版本摘要只统一 UTF-8 文件开头标记及 Windows/Linux 换行，不忽略正文修改。未审校条目不会因字数够长而自动通过。`, '',
+      `本轮明确记录的正文处理：${changed} 篇修订，${preserved} 篇复评后保留；未记录处理方式的条目不计入这两个数量。已有合格深度予以保留，不为追求修改数量或篇幅重复填充。`, '',
       '验证类型：executed 表示确实执行了所述有限检查；syntax 只检查语法；reasoned 是正文和证据推理；unrun 是尚未运行的环境。它们不能互相替代，运行了模拟也不等于验证了真实产品或生产系统。', '',
       '| 技术栈 | 当前正文评测 | 初评问题数 | 实际验证范围 |', '|---|---|---:|---|',
       ...rows.map(row => `| [${cell(row.title)}](./${row.path}) | ${row.status} | ${Array.isArray(row.record?.initialFindings) ? row.record.initialFindings.length : '—'} | ${cell(list(row.record?.validation).map(item => item?.kind).filter((kind, index, all) => typeof kind === 'string' && all.indexOf(kind) === index).join(' / ') || '尚无记录')} |`), '',

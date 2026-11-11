@@ -1179,10 +1179,12 @@ r = redis.Redis(
 def fingerprint(alert: dict) -> str:
     raw = json.dumps(
         [
+            alert["tenant"],
             alert["service"],
             alert["name"],
             alert["instance"],
             alert["severity"],
+            alert["status"],
         ],
         ensure_ascii=False,
         separators=(",", ":"),
@@ -1198,10 +1200,12 @@ def should_process(alert: dict, ttl_seconds: int = 300) -> bool:
 
 
 sample = {
+    "tenant": "lesson-tenant",
     "service": "order-api",
     "name": "HighErrorRate",
     "instance": "10.0.1.11",
     "severity": "critical",
+    "status": "firing",
 }
 
 if should_process(sample):
@@ -1242,7 +1246,9 @@ Linux 使用 `.venv/bin/python` 替换上面虚拟环境解释器路径；安装
 - `SET NX EX` 是原子去重窗口。
 - TTL 到期后告警会重新处理。
 
-固定顺序的 JSON 数组避免简单分隔符拼接时出现字段边界歧义；生产还应加入租户、规则标识并统一字段规范。该程序假设上面四个字段已通过校验，不能直接接收任意外部结构。Redis 连接异常也不能等同于“重复告警”，需要明确是保守处理、暂存重试还是人工介入，最终工单幂等仍由业务系统保证。
+固定顺序的 JSON 数组避免简单分隔符拼接时出现字段边界歧义。本例加入 tenant（租户）隔离不同团队，加入 status（通知阶段，firing 正在触发、resolved 已恢复）避免把恢复通知当成刚才故障通知的重复。这里计算的是课堂通知去重键，不是照搬 Alertmanager 自身的标签指纹。该程序假设这六个字符串字段已校验，status 限定在上述两种值；生产还应加入稳定规则标识、事件周期身份并统一字段规范，不能直接接收任意外部结构。Redis 连接异常也不能等同于“重复告警”，需要明确是保守处理、暂存重试还是人工介入，最终工单幂等仍由业务系统保证。
+
+老师让你改变一个条件：保持其他字段不变，将 sample 的 status 改成 resolved，运行一次应是 process，再运行应是 duplicate；另一个 tenant 也应独立登记。若仍用只有服务、名称、实例、严重度的旧键，五分钟内的恢复就会被吞掉。再追问：恢复后一分钟又触发，能否沿用原 firing 键？本例还可能压住新周期，所以真正接收器要保存稳定的事件周期编号（例如规范化的 startsAt 和规则身份）与合法状态迁移，并处理迟到、乱序；不能只把 TTL 缩短就声称业务语义完整。按 [Alertmanager Webhook 官方格式](https://prometheus.io/docs/alerting/latest/configuration/#webhook_config) 逐条读取 alerts 中的 status/startsAt，不把通知组顶层状态套给全部告警；tenant 则必须由可信身份或受控映射确定，不能相信外部随意填写。实验只证明通知资格区分，不证明真实通知已发出。
 
 在自己的 `projects/redis-alert-dedup/` 目录保存以上文件后运行；如果缺少依赖，先确认使用的是同一个 Python 环境，可用 `python -m pip install -r requirements.txt`。如果连不上，先看教学容器 PING 和宿主端口；若第一次就是 duplicate，检查是不是上次创建的指纹键仍在五分钟窗口内。实验结束让该键自然过期，或仅删除已核对的本次精确键名，不扫描删除其他告警数据。
 

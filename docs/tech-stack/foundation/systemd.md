@@ -497,7 +497,7 @@ WorkingDirectory=/opt/demo
 Environment=APP_ENV=prod
 EnvironmentFile=-/etc/demo/demo.env
 ExecStart=/usr/bin/python3 /opt/demo/app.py
-ExecReload=/bin/kill -HUP $MAINPID
+# 未确认应用的重载协议时，不设置 ExecReload。
 Restart=on-failure
 RestartSec=5s
 
@@ -735,7 +735,9 @@ reload 命令，通常用于“重新读取配置但不中断服务”。
 ExecReload=/bin/kill -HUP $MAINPID
 ```
 
-能不能 reload 取决于应用是否支持。`systemctl reload nginx` 可行，是因为 NGINX 支持 reload。你的 Python API 如果没实现 reload，写了也没有意义。
+上面的 HUP 写法只适用于明确把 `SIGHUP` 定义为重载的应用，不是任意程序都能复制的通用配置。`systemctl reload nginx` 可行，是因为相应服务配置与 NGINX 的重载协议配合。一个没有处理该信号的 Python API，收到 HUP 可能直接终止；Linux 对 SIGHUP 的默认动作就是终止，因此这不只是“配置没有效果”，还有停服风险。[Linux 信号默认动作](https://man7.org/linux/man-pages/man7/signal.7.html)
+
+老师再追问：`kill -HUP` 返回成功，能证明新配置已加载吗？不能，它主要证明信号已成功发送，应用可能仍在异步重载，或随后拒绝了新配置。需要应用自己的配置校验、重载完成通知或同步等待命令，再核对实际加载版本与业务探针。多个服务需要按顺序重载时，更不能以“信号已发出”当成前一步已完成。反例是语法错误的配置被应用拒绝、旧进程仍正常服务：进程存活证明不了变更生效。先保留旧配置、失败日志与加载摘要，再选择修配置或按受控流程重启，不在生产里盲发信号。[systemd ExecReload 语义](https://www.freedesktop.org/software/systemd/man/latest/systemd.service.html#ExecReload=)
 
 ### ExecStop
 

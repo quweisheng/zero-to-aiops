@@ -257,30 +257,39 @@ trivy:
 
 ### 实验步骤
 
-先在新的专用学习目录操作，确认没有同名版本记录或渲染文件，避免覆盖自己的既有证据。下面索引查询只取得一个候选 Chart，不表示它已经与本文产品版本配对；继续渲染前核对显示的 `appVersion` 与兼容说明，必要时把变量改成已批准的精确 Chart 版本。结束时保留脱敏结果，或只移除这两份本轮生成的文件。仓库索引是客户端配置变化，不会创建 Harbor 实例。
+先在新的专用学习目录操作，确认没有同名版本记录或渲染文件，避免覆盖自己的既有证据。下面索引查询只取得一个候选 Chart，不表示它已经与本文产品版本配对；继续渲染前核对显示的 `appVersion` 与兼容说明，必要时把变量改成已批准的精确 Chart 版本。结束时保留脱敏摘要，原始清单只在本地受控保存。仓库索引是客户端配置变化，不会创建 Harbor 实例；若已存在名为 harbor 的仓库配置，先用 `helm repo list` 确认它确实是下文官方地址，不强制覆盖别人的配置。
+
+**先保护输出再运行。** Helm 渲染可能包含 Kubernetes Secret、自动生成的口令或私钥；base64 只是编码，不是脱敏。即使今天只是离线练习，也不要把整份 `harbor-rendered.yaml` 作为公开学习证据，以免后来有人直接部署了公开凭据。新建 `.gitignore`，至少加入 `harbor-rendered.yaml` 与实验 Docker 凭据目录；公开记录只写 Chart/appVersion、资源种类、脱敏的 externalURL、校验结论和未运行范围。[Helm 官方命令说明](https://helm.sh/docs/helm/helm_install/)也明确提醒调试输出可能包含 Secret。
 
 ```powershell
 helm repo add harbor https://helm.goharbor.io # 添加 Harbor 官方 Helm 仓库
+if ($LASTEXITCODE -ne 0) { throw '添加仓库失败；核对已有名称，不覆盖旧配置' }
 helm repo update                              # 更新 Chart 索引
-$candidates = helm search repo harbor/harbor --versions -o json | ConvertFrom-Json
+if ($LASTEXITCODE -ne 0) { throw '索引更新失败，停止使用未知新鲜度的缓存' }
+$candidateJson = helm search repo harbor/harbor --versions -o json
 if ($LASTEXITCODE -ne 0) { throw '查询索引失败，停止渲染' }
+$candidates = $candidateJson | ConvertFrom-Json -ErrorAction Stop
 $candidate = $candidates | Where-Object { $_.app_version -eq '2.15.2' } | Select-Object -First 1
 if ($null -eq $candidate) { throw '索引没有本文产品版本的候选 Chart；先核对官方 release，不随便选最新版' }
 $chartVersion = $candidate.version
-$chartVersion | Out-File -Encoding utf8 harbor-chart-version.txt # 固化本次实际解析值
+$chartVersion | Out-File -Encoding utf8 harbor-chart-version.txt -ErrorAction Stop # 固化本次实际解析值
 helm show chart harbor/harbor --version $chartVersion # 查看固定 Chart 元数据
+if ($LASTEXITCODE -ne 0) { throw 'Chart 元数据读取失败，停止渲染' }
 # PowerShell 的续行反引号必须是行尾最后一个字符，后面不能接注释或空格。
 helm template harbor harbor/harbor `
   --version $chartVersion `
   --namespace harbor `
   --set externalURL=https://harbor.lab.local `
   --set expose.type=clusterIP > harbor-rendered.yaml
-Select-String harbor-rendered.yaml -Pattern 'harbor.lab.local|PersistentVolumeClaim' # 验证结果
+if ($LASTEXITCODE -ne 0) { throw '渲染失败，输出文件即使存在也不能验收' }
+$hasLabHost = Select-String -Path harbor-rendered.yaml -SimpleMatch 'harbor.lab.local' -Quiet -ErrorAction Stop
+$hasClaim = Select-String -Path harbor-rendered.yaml -SimpleMatch 'PersistentVolumeClaim' -Quiet -ErrorAction Stop
+if (-not $hasLabHost -or -not $hasClaim) { throw '缺少虚构域名或持久卷声明，先检查实际渲染值' }
 ```
 
 ### 验证结果
 
-命令退出码为 0，YAML 中能找到虚构域名和 Harbor 组件。渲染成功不代表存储、TLS、数据库和高可用已设计完成。
+命令退出码为 0，两个文本检查分别找到虚构域名和持久卷声明；还要人工阅读其所属资源与字段，不能把字符串存在当成完整 YAML 语义验证。渲染成功不代表存储、TLS、数据库和高可用已设计完成。
 
 ### 如果没有成功
 
@@ -316,7 +325,7 @@ if ($LASTEXITCODE -ne 0) { throw '基础镜像拉取失败，停止实验' }
 docker tag busybox:1.37.0 "$harborHost/$project/busybox:1.37.0-lab"
 if ($LASTEXITCODE -ne 0) { throw '标签创建失败，停止实验' }
 docker push "$harborHost/$project/busybox:1.37.0-lab" 2>&1 |
-  Tee-Object -FilePath harbor-push.txt
+  Tee-Object -FilePath harbor-push.txt -ErrorAction Stop
 if ($LASTEXITCODE -ne 0) { throw '推送失败，保留脱敏错误而不是继续生成成功凭据' }
 
 $digestMatch = Select-String -Path harbor-push.txt -Pattern 'digest:\s+(sha256:[0-9a-f]{64})' |
@@ -324,7 +333,7 @@ $digestMatch = Select-String -Path harbor-push.txt -Pattern 'digest:\s+(sha256:[
 if (-not $digestMatch) { throw 'push 输出中没有 digest，停止实验' }
 $digest = $digestMatch.Matches[0].Groups[1].Value
 $repoDigest = "$harborHost/$project/busybox@$digest"
-$repoDigest | Out-File -Encoding utf8 harbor-digest.txt
+$repoDigest | Out-File -Encoding utf8 harbor-digest.txt -ErrorAction Stop
 docker pull $repoDigest
 if ($LASTEXITCODE -ne 0) { throw '按摘要拉取未通过，不能验收本轮交付' }
 ```
@@ -346,14 +355,36 @@ if ($LASTEXITCODE -ne 0) { throw '按摘要拉取未通过，不能验收本轮�
 使用独立 Docker 配置目录，避免本机缓存的正确凭据掩盖故障：
 
 ```powershell
-New-Item -ItemType Directory -Force .\harbor-bad-credential-lab | Out-Null
+if (Test-Path -LiteralPath .\harbor-bad-credential-lab) { throw '凭据实验目录已存在，请换新的专用目录并同步后续路径' }
+New-Item -ItemType Directory .\harbor-bad-credential-lab -ErrorAction Stop | Out-Null
 $badToken = 'this-token-is-intentionally-invalid'
 $badToken | docker --config .\harbor-bad-credential-lab login $harborHost `
   --username $robotUser --password-stdin
-$LASTEXITCODE
+$badLoginExit = $LASTEXITCODE
+if ($badLoginExit -eq 0) { throw '错误凭据竟然认证成功，停止并核对真实入口与认证配置' }
+"预期认证失败，退出码=$badLoginExit"
 ```
 
-预期：login 失败，退出码非 0，Core/审计日志出现同时间窗的认证失败；Registry 和存储健康不应被误判为故障。修复时改用受控的正确 Token，确认 login 与 `docker pull $repoDigest` 成功，再执行 `docker --config .\harbor-bad-credential-lab logout $harborHost`。保留失败/成功对照日志；确认目录只含实验 Docker 配置后再由学习者处理。
+预期：login 失败，退出码非 0，Core/审计日志出现同时间窗的认证失败；Registry 和存储健康不应被误判为故障。非零也可能来自 DNS 或 TLS，必须读错误与审计，不把任何失败都当成口令错误。修复只换 Token，地址、机器人、摘要和客户端配置目录保持一致：
+
+```powershell
+$recoveryCredential = Get-Credential -UserName $robotUser -Message '在密码框输入正确的课堂 Robot Token'
+try {
+  $recoveryToken = $recoveryCredential.GetNetworkCredential().Password
+  $recoveryToken | docker --config .\harbor-bad-credential-lab login $harborHost --username $robotUser --password-stdin
+  if ($LASTEXITCODE -ne 0) { throw '同目录正确凭据仍认证失败，停止并保留脱敏错误' }
+  docker --config .\harbor-bad-credential-lab pull $repoDigest
+  if ($LASTEXITCODE -ne 0) { throw '同目录按摘要拉取失败，尚未完成恢复验证' }
+} finally {
+  Remove-Variable recoveryToken, recoveryCredential -ErrorAction SilentlyContinue
+  docker --config .\harbor-bad-credential-lab logout $harborHost
+  $logoutExit = $LASTEXITCODE
+  if ($logoutExit -ne 0) { Write-Warning '实验配置退出登录失败，请核对该目录与凭据清理状态' }
+}
+if ($logoutExit -ne 0) { throw '凭据收回未完成，不宣布实验收尾成功' }
+```
+
+`finally` 表示即使认证或拉取失败，也尝试退出这份实验配置的登录；它不是忽略原始失败。保留失败/成功对照日志，确认目录只含本次 Docker 配置后再由学习者处理；目录和 Token 都不提交。若恢复改用未带 `--config` 的默认目录，可能借用既有凭据得到假成功，不能算本实验通过。
 
 ## 生产事故题：所有新 Pod 都 ImagePullBackOff
 
@@ -559,7 +590,7 @@ AIOps 可按同一制品摘要维护一张状态卡：构建来源、推送时�
 ## 学习证据
 
 - `labs/harbor/artifact-model.md`
-- `labs/harbor/harbor-rendered.yaml`
+- `labs/harbor/render-review.md`：只记录固定版本、资源种类与脱敏字段；原始 `harbor-rendered.yaml` 留在本地并加入忽略规则。
 - `labs/harbor/image-traceability.md`
 - `labs/harbor/retention-gc-runbook.md`
 - `labs/harbor/image-pull-failure.md`
@@ -567,5 +598,7 @@ AIOps 可按同一制品摘要维护一张状态卡：构建来源、推送时�
 公开仓库不要提交 Robot Secret、真实仓库地址、漏洞豁免、客户镜像名、证书私钥和数据库备份。
 
 ## 本文边界与下一步
+
+2026-11-11 复评修正了“渲染文件可直接作为公开证据”的风险，并给 PowerShell 的原生命令增加失败停止点。课堂反例是 Chart 下载或渲染失败却留下同名文件：文件存在不等于内容有效，必须检查命令退出码和本轮资源摘要。本轮未实际拉取 Chart 或上传任何渲染文件。
 
 本文覆盖岗位所需 Harbor 主线。本次更新只做官方资料和命令的静态核对，没有安装 Harbor、登录实例、Push/Pull、更新漏洞库、运行 GC、复制、备份恢复或升级；产品 2.15.2 与目标 Helm Chart、PostgreSQL、Valkey、S3、离线 Trivy DB、签名和准入组件的精确组合必须在授权隔离环境验证。下一步按上面的实验保存真实输出，不能把文档步骤当成跑通证明。

@@ -896,9 +896,11 @@ run: echo "sha=${{ github.sha }}"
 ```yaml
 steps:
   - name: Print run metadata
+    env:
+      RUN_REF: ${{ github.ref }}
     run: |
       echo "repo=${{ github.repository }}"
-      echo "ref=${{ github.ref }}"
+      printf 'ref=%s\n' "$RUN_REF"
       echo "sha=${{ github.sha }}"
       echo "actor=${{ github.actor }}"
 ```
@@ -1821,9 +1823,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Print context
+        env:
+          RUN_REF: ${{ github.ref }}
         run: |
           echo "repository=${{ github.repository }}"
-          echo "ref=${{ github.ref }}"
+          printf 'ref=%s\n' "$RUN_REF"
           echo "sha=${{ github.sha }}"
           echo "runner=${{ runner.os }}"
 ```
@@ -2240,8 +2244,7 @@ jobs:
           EXPECTED_REVISION: ${{ needs.make.outputs.revision }}
           FAIL_VERIFICATION: ${{ inputs.fail_verification }}
         run: |
-          actual=$(cat evidence/revision.txt)
-          test "$actual" = "$EXPECTED_REVISION"
+          printf '%s\n' "$EXPECTED_REVISION" | cmp -s - evidence/revision.txt
           if [ "$FAIL_VERIFICATION" = true ]; then
             echo '课堂故障：主动返回 42'
             exit 42
@@ -2264,6 +2267,12 @@ jobs:
 如果看不到 Run workflow，先确认文件已在默认分支、YAML 解析正常、仓库允许 Actions。找不到制品时，先看上传步骤是否执行、名称是否精确一致、保存期是否到期，再看下载步骤，不要先重跑全部任务。如果上游输出为空，核对步骤 `id`、写入的输出名称以及 job outputs 的映射；`needs` 只声明依赖关系，不会自动传文件。清理时在这个练习仓库删除该工作流文件，已有制品可在运行页面删除或等待一天保存期到期；日志按仓库保存策略管理。没有创建服务器，也无需撤销任何云资源。
 
 这只是“文件与声明一致”的课堂证明，不是防恶意构建的完整供应链证明。若同一受攻击的 job 同时伪造文件和输出，它们仍然能相等。生产还需要可信构建来源、摘要验证、访问控制以及按需求配置的来源证明。
+
+### 老师纠错：看起来相同，字节也相同吗
+
+本课约定 `revision.txt` 是提交摘要加一个换行。Bash 的 `$(cat 文件)` 会去掉末尾换行，因此先读进变量再比较，可能把“多了几个空行”的坏文件也放过。现在用固定格式的 printf 生成预期字节，再交给 `cmp -s` 与整个文件比较；`-` 表示读取管道输入，`-s` 表示只通过退出码报告相同或不同，不把文件打印到日志。GitHub 的这个 Linux 运行步骤会在比较失败时停止，下游成功文字不会出现。
+
+请在个人学习分支另做一个变式：上传前给 `revision.txt` 追加一个空行，预测比较失败，再恢复仅一个换行并重新运行。不要修改预期值去迁就错误文件。原来的 exit 42 实验测试“失败能否传播”，这个变式测试“验收规则能否发现坏内容”，两者不能互相代替。另看前面的元数据示例：分支引用先放到 `RUN_REF` 再由带引号的 printf 打印，避免把可能由贡献者控制的分支名直接插入 Shell 源码。环境变量传递不等于自动授权输入；未来若用其选择生产环境，仍需白名单和权限检查。本轮完成静态修订，未触发这些远端实验。
 
 ### 看懂失败传播，而不是用忽略错误换绿色
 

@@ -313,6 +313,8 @@ APD 是 All Paths Down，所有存储路径暂时不可达但平台尚不能确�
 
 **坏了怎么查**：先确定失败的是主机、vCenter、虚拟机、客户机还是应用。不要把“虚拟机仍然运行”当成“应用可用”，也不要把 FT/HA 当成备份。
 
+这里还要问“谁管理这个 vCenter”。Broadcom 的[部署与适用范围说明](https://knowledge.broadcom.com/external/article/344909)区分适用的独立 vSphere/VVF 环境与 VCF 管理的 vCenter：后者的受支持可用性模型是 vSphere HA，不是直接给它配置 vCenter HA。VCHA 也不是跨远距离站点的灾备工具。学习机制可以放在一起比较，落地设计必须分清产品组合、版本和支持边界；不要因为某个 8.x 实验室有这个按钮，就照搬到另一套 VCF。
+
 ### 11. 权限、SSO、证书与安全边界
 
 **是什么**：vCenter 通过身份源、用户/组、Role、Privilege、Permission 和传播规则控制访问；ESXi 与 vCenter 使用证书保护管理通信。
@@ -759,7 +761,7 @@ VM
 ```powershell
 if (Test-Path -LiteralPath vsphere-lab) { throw '目录已存在，请停止，不覆盖旧证据' }
 New-Item -ItemType Directory -Path vsphere-lab -ErrorAction Stop | Out-Null
-Set-Location vsphere-lab                                  # 进入实验目录
+Set-Location vsphere-lab -ErrorAction Stop                # 进入失败就停止，避免在错误目录创建文件
 ```
 
 2. 创建脱敏指标样本：
@@ -772,7 +774,7 @@ esx-01,cpu_ready_pct,6,5,10,higher,percent
 datastore-prod,used_pct,82,80,90,higher,percent
 vcsa,collection_age_min,18,10,30,higher,minute
 vm-order-api,path_online_pct,100,100,50,lower,percent
-'@ | Set-Content vsphere-health.csv -Encoding utf8 # 只使用虚构对象名，不包含生产信息
+'@ | Set-Content vsphere-health.csv -Encoding utf8 -ErrorAction Stop # 写入失败就停止，只使用虚构对象名
 ```
 
 `higher` 表示数值越高风险越大；`lower` 表示数值越低风险越大。`ha_spare_hosts` 是实验中的容量字段，不代表 vSphere 的单一原生计数器。
@@ -1063,6 +1065,12 @@ Reservation、Shares、Limit 也要分别理解：预留表达保证，份额在
 ### 第二关：原始 Ready 不能直接喂课堂规则
 
 假设同一个 20 秒样本内，8 个 vCPU 的 Ready 总和为 1600 毫秒。按每 vCPU 平均口径是 `1600/(20000×8)×100=1%`，不除以 8 的 VM 累加口径是 8%；二者都不是最大单 vCPU 等待比例，也不等于应用延迟。先核对 counter、单位、采样周期与实例/聚合方式，再比较同口径基线。结合[Broadcom 官方 Ready 换算说明](https://knowledge.broadcom.com/external/article/306576/converting-between-cpu-summation-and-cpu.html)回看“性能指标怎么读”和基础实验的归一化前提，不拿公式覆盖未知计数器定义。
+
+#### 老师加一道反例：平均相同，最忙的 vCPU 也相同吗
+
+先别看答案。仍是 8 个 vCPU、同一个 20 秒窗口：甲的 Ready 毫秒为 `1600,0,0,0,0,0,0,0`，乙为 `200,200,200,200,200,200,200,200`。两者合计都是 1600 毫秒，所以平均都是 1%；但甲的最高单 vCPU Ready 是 8%，乙最高只有 1%。一个平均数不能告诉你等待集中在哪里。
+
+这是纸笔或计算器实验，不查询平台。先分别求和、除以 `20000×8` 得平均，再分别取最大值除以 `20000`；最后把甲第一个数改成 800，预测平均降为 0.5%、最高降为 4%，再复算验证。老师批改时会问：甲的业务就一定比乙慢八倍吗？不能；还缺线程落点、请求关键路径、采样同步和业务延迟证据。合格答案是继续看对应 vCPU 与业务，而不是拿最大 Ready 比例直接换算接口时延。结束只丢弃合成计算记录；若算成 800%，先检查秒和毫秒是否混用了。
 
 ### 第三关：缺一行与采集成功要分开
 

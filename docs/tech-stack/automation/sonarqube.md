@@ -354,6 +354,8 @@ volumes:
   sonarqube_logs:
 ```
 
+先看清这份教学配置的权限：PostgreSQL 官方镜像中的 `POSTGRES_USER: sonar` 用来初始化数据库超级用户，不是只因名字叫 sonar 就成为受限业务账号；`pg_isready` 主要判断是否接受连接，也不证明这个账号的业务权限已正确配置。这份固定口令加超级用户的组合仅限回环入口的一次性课堂。生产应按 SonarQube 目标版本要求由数据库管理员创建专用数据库和所需最小权限角色，再注入凭据，不能把本例改个密码就称为生产加固。[PostgreSQL 官方镜像初始化说明](https://github.com/docker-library/docs/blob/master/postgres/README.md)
+
 启动并观察：
 
 ```powershell
@@ -540,19 +542,33 @@ if ($LASTEXITCODE -ne 0) { throw "启动失败，先查Compose和日志" }
 docker compose -p sonarqube-lab ps
 function Wait-LabSonarUp {
   $statusDeadline = (Get-Date).AddMinutes(5)
+  $lastProbe = '尚未请求'
   do {
+    $fatalProbe = $false
     try {
       $statusResult = Invoke-RestMethod -Uri 'http://localhost:9000/api/system/status' -TimeoutSec 5 -ErrorAction Stop
       if ($statusResult.status -eq 'UP') { return $statusResult }
-    } catch { } # 启动窗口有限重试，超时仍明确失败
+      $lastProbe = 'API 已响应，但尚未得到 UP'
+    } catch {
+      if ($null -ne $_.Exception.Response) {
+        $httpCode = [int]$_.Exception.Response.StatusCode
+        $lastProbe = "HTTP $httpCode"
+        if ($httpCode -eq 401 -or $httpCode -eq 403) { $fatalProbe = $true }
+      } else {
+        $lastProbe = '连接失败、超时或响应无法解析'
+      }
+    }
+    if ($fatalProbe) { throw "状态接口返回 $lastProbe；先查入口/身份，不靠等待或重启解决授权" }
     Start-Sleep -Seconds 2
   } while ((Get-Date) -lt $statusDeadline)
-  throw "五分钟未到UP，收集日志，不继续扫描"
+  throw "五分钟未到 UP；最后证据：$lastProbe。收集日志，不继续扫描"
 }
 Wait-LabSonarUp
 ```
 
 预期最终看到系统状态 `UP`；超时后查日志，不重复创建容器。保持同一PowerShell终端，恢复时复用这个函数。UP不证明某次CE/Gate已通过。
+
+老师再给你一个反例：接口返回 403，连续等五分钟会自动给账号增加权限吗？不会。启动中的临时连接失败可以有界等待，明确的认证/授权拒绝应转入对应排障；函数分别处理这两类，而且不把可能含敏感信息的整份异常响应公开。若 API 200 但状态仍非 UP，记录为未就绪，不能只看 HTTP 成功码就开始扫描。2026-11-11 本轮修订未启动真实服务，这些是执行合同与静态检查，不是平台恢复验收记录。
 
 ### 第三步：创建项目和 Token
 

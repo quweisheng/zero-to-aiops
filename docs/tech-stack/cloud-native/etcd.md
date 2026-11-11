@@ -417,6 +417,13 @@ etcd 保存的是 API Server 序列化后的资源状态
 运行位置是 Windows PowerShell，Docker Desktop 已切到 Linux 容器模式；Linux 读者可将每条续行反引号改为 Bash 反斜杠，或使用单行命令。先运行 `docker context show`、`docker version`，确认 Server 可连接且 context 是自己的本地引擎；若没安装 Docker，先完成[Docker 的运行位置与入门实验](./docker.md)，本课不要求理解 Kubernetes。创建新空目录保存快照，用 `Get-Location` 记录位置，核对 `etcd-lab`、`etcd-restored-lab` 名称及 `etcd-restore-data` 卷没有被旧实验使用。单机无需暴露 peer 2380 给宿主，因此宿主 2380 被占用不是这条命令的端口冲突；2379 才是宿主发布端口。
 
 ```powershell
+$lessonContainers = docker ps -a --format '{{.Names}}'
+if ($LASTEXITCODE -ne 0) { throw '不能读取本地容器清单，停止' }
+if ($lessonContainers -contains 'etcd-lab' -or $lessonContainers -contains 'etcd-restored-lab') { throw '实验容器名已存在，不复用未知实例' }
+$lessonVolumes = docker volume ls --format '{{.Name}}'
+if ($LASTEXITCODE -ne 0) { throw '不能读取卷清单，停止' }
+if ($lessonVolumes -contains 'etcd-restore-data') { throw '恢复卷已存在，不覆盖旧数据' }
+if (Test-Path -LiteralPath .\etcd-snapshot.db) { throw '宿主快照文件已存在，换新的独立实验目录' }
 docker run -d --name etcd-lab `
   -p 127.0.0.1:2379:2379 `
   gcr.io/etcd-development/etcd:v3.7.1 `
@@ -429,12 +436,14 @@ docker run -d --name etcd-lab `
   --initial-advertise-peer-urls http://127.0.0.1:2380 `
   --initial-cluster s1=http://127.0.0.1:2380 `
   --initial-cluster-state new
+if ($LASTEXITCODE -ne 0) { throw '实例未成功创建，不继续对同名容器操作' }
 ```
 
 验证：
 
 ```powershell
 docker exec etcd-lab etcdctl endpoint health # 检查一致性读取与告警，正常应显示 is healthy
+if ($LASTEXITCODE -ne 0) { throw '实例尚未健康，先查启动日志再重做本节验证' }
 docker exec etcd-lab etcdctl endpoint status --write-out=table # 查看 Leader、revision 和 DB 大小
 ```
 
@@ -550,8 +559,11 @@ docker exec etcd-lab etcdctl get /aiops/lab/key --write-out=json # 重新 List �
 
 ```powershell
 docker exec etcd-lab etcdctl snapshot save /tmp/etcd-snapshot.db # 从在线成员保存快照
+if ($LASTEXITCODE -ne 0) { throw '快照保存失败，不继续验证或复制旧文件' }
 docker exec etcd-lab etcdutl snapshot status /tmp/etcd-snapshot.db --write-out=table # 验证 revision、key 数和哈希
+if ($LASTEXITCODE -ne 0) { throw '快照校验失败，停止恢复流程' }
 docker cp etcd-lab:/tmp/etcd-snapshot.db .\etcd-snapshot.db # 把备份复制到宿主机
+if ($LASTEXITCODE -ne 0) { throw '宿主备份复制失败，不能进入恢复' }
 ```
 
 只执行 `snapshot save` 不够，至少还要验证：
@@ -568,13 +580,16 @@ docker cp etcd-lab:/tmp/etcd-snapshot.db .\etcd-snapshot.db # 把备份复制到
 
 ```powershell
 docker run --rm `
-  -v ${PWD}:/backup `
+  -v ${PWD}:/backup:ro `
   -v etcd-restore-data:/restore `
   gcr.io/etcd-development/etcd:v3.7.1 `
   etcdutl snapshot restore /backup/etcd-snapshot.db --data-dir=/restore
+if ($LASTEXITCODE -ne 0) { throw '恢复目录未成功生成，保留错误，不启动恢复实例' }
 ```
 
 实验恢复到新目录后，先隔离验证，不要覆盖正在运行的 `etcd-lab` 数据目录。
+
+这里的 `:ro` 表示把宿主快照目录以只读方式挂入恢复容器，写入只发生在本课专用恢复卷。老师请你预测：命名卷同名且已有数据，Docker 会自动帮你清空并建一份干净副本吗？不会；同名卷会复用，所以必须先拒绝已有卷。若一次恢复失败留下了半成品，保留错误和卷归属记录，评审后仅回收该失败实验卷再重做，不能直接把第二次失败当成快照损坏，更不能改用生产数据目录。
 
 ### 不停在生成目录：启动恢复副本并读回
 
@@ -590,8 +605,11 @@ docker run -d --name etcd-restored-lab `
   --listen-peer-urls http://127.0.0.1:2380 `
   --initial-advertise-peer-urls http://localhost:2380 `
   --initial-cluster default=http://localhost:2380
+if ($LASTEXITCODE -ne 0) { throw '恢复实例创建失败，不继续读回或清理' }
 docker exec etcd-restored-lab etcdctl endpoint health
+if ($LASTEXITCODE -ne 0) { throw '恢复实例尚未健康，先查日志，不宣布恢复完成' }
 docker exec etcd-restored-lab etcdctl get /aiops/config/version
+if ($LASTEXITCODE -ne 0) { throw '恢复实例读回失败，不宣布恢复完成' }
 ```
 
 不发布宿主端口，客户端通过 `docker exec` 在恢复容器内访问。若按前文顺序保存快照，键值应为 v3；实际以保存快照前记录的值为准。检查各条命令退出码和 `docker logs etcd-restored-lab`，健康探针成功但读回内容不符仍不通过。结束先 `docker stop etcd-restored-lab`，再 `docker rm etcd-restored-lab`；确认不再需要恢复数据后才回收该专用卷。该演练只证明单节点教学快照的读回路径，不证明 Kubernetes informer、证书或多成员灾备已恢复。

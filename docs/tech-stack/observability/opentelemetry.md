@@ -1201,7 +1201,7 @@ kubectl run curl-test -n observability --rm -it --image=curlimages/curl:8.10.1 -
 
 | 字段 | 作用 | 常见错误 |
 |---|---|---|
-| `memory_limiter` | 限制 Collector 内存 | limit 太低导致丢数据 |
+| `memory_limiter` | 内存压力下拒绝或减轻接收负担，不是操作系统硬内存上限 | limit 太低可能过早拒绝；上游不正确处理重试或缓冲耗尽时仍可能丢数据 |
 | `batch` | 批量发送 | 未配置导致效率低 |
 | `resource` | 添加 resource 属性 | 覆盖关键字段 |
 | `attributes` | 修改 attributes | 误删属性 |
@@ -1593,6 +1593,48 @@ Collector 自身的可观测性尽量不要完全依赖它正在保护的同一�
 18. trace 串不起来怎么排查？
 19. metrics 高基数问题怎么避免？
 20. OpenTelemetry 在 AIOps 中如何帮助根因分析？
+
+## 老师批改：同样是 HTTP 200，能交出三种不同结论
+
+同学可能会说：“我已经检查了状态码，为什么老师还让我读响应正文？”因为 OTLP 的成功状态还可能带拒绝数量或警告。下面做一项纯 Python 判读实验，只处理合成响应，不启动 Collector、不访问网络，也不保存文件。保存为 `otel-response-check.py`，在本课独立目录用 `python otel-response-check.py` 运行；它不是生产导出器，不处理认证、网络重试或完整协议校验。
+
+```python
+import json
+
+def explain_success(body, sent):
+    partial = body.get("partialSuccess", {})
+    rejected = int(partial.get("rejectedSpans", 0))
+    if not 0 <= rejected <= sent:
+        raise ValueError("拒绝数量越界，不能记录为已全部接收")
+    warning = partial.get("errorMessage", "")
+    if rejected:
+        return f"本跳接受 {sent - rejected}/{sent}；记录拒绝原因，不整批重发"
+    if warning:
+        return f"本跳接受 {sent}/{sent}；保留服务端警告，不因此重发"
+    return f"本跳接受 {sent}/{sent}；仍未证明最终后端保存"
+
+samples = [
+    {},
+    {"partialSuccess": {"rejectedSpans": "0", "errorMessage": "schema warning"}},
+    {"partialSuccess": {"rejectedSpans": "1", "errorMessage": "bad attribute"}},
+]
+for item in samples:
+    print(explain_success(json.loads(json.dumps(item)), sent=2))
+try:
+    explain_success({"partialSuccess": {"rejectedSpans": "3"}}, sent=2)
+except ValueError:
+    print("异常响应被识别，未伪报成功")
+else:
+    raise AssertionError("发送两段却拒绝三段的响应不应通过本课检查")
+```
+
+先不运行，预测三个结果：第一项是本跳接受二段，第二项仍接受二段但带警告，第三项只接受一段。最后的反例要求识别不合理数量，而不是得到负数还标绿。`partialSuccess` 表示响应中的部分成功信息，`rejectedSpans` 是拒绝的跨度数量，`errorMessage` 是服务端说明；这些英文键不能翻译后再发回接口。JSON 中大整数可以用字符串表达，所以本例把拒绝数量转换为整数后比较。
+
+关键追问是“拒绝了一段，我就重发这两段吗？”不能这样处理。OTLP 规范要求收到填写了部分成功信息的响应后，不重新发送原请求；整批重发可能把已接受的部分重复交付。该响应给的是拒绝数量和说明，不保证提供可直接逐条重传的失败 ID 清单。应记录拒绝信号、修正数据或配置原因，并使用新合成输入复测；零拒绝的警告也不是重发理由。具体约束见 [OTLP 部分成功语义](https://opentelemetry.io/docs/specs/otlp/#partial-success-1)。
+
+再把本课流程接回来：哪怕输出“本跳接受二段”，Collector 后面仍可能有批处理、过滤、队列和后端。只有在指定后端用对应 trace ID 查到预期跨度，才能为那段交付增加证据。本课只有 debug 导出，所以只能记录协议接受和调试输出，不填写数据库持久化成功。反之，HTTP 错误、超时和连接拒绝并不属于这个函数的输入，不能拿它的判读代替网络错误处理。
+
+本实验无外部状态可清理，只保留自己的源码、四行输出与一条错误解释。数量判断失败先核对是否修改了 `sent` 与输入 JSON；不要删掉断言来获得绿灯。若把部分拒绝当成全成功，回看“HTTP 成功不等于全部跨度已永久保存”；若把警告等同于丢数据，重新区分数量和说明。面试时给出这些不同结论与后续证据，比一句“看返回码排障”更具体。
 
 ## 独立通关：两段跨度是否真的属于同一次请求
 

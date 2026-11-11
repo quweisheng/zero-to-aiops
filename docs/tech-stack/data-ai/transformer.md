@@ -2073,6 +2073,42 @@ Prefill（预填充）处理输入上下文，Decode（逐步解码）生成后�
 
 30 秒回答用“按位置间相关性组合信息的序列模型”说明核心；3 分钟从分词、嵌入、位置、Q/K/V、掩码、前馈到训练目标，再讲 KV 缓存与服务容量。事故题可以是掩码方向反了或上下文突增，先比较形状与输入长度、显存和阶段延迟，再修复契约，不能只降低输出长度掩盖问题。
 
+## 老师批改：Padding 已经屏蔽，平均向量为什么仍然变了
+
+学生说：“我把补齐位置设成 `key_padding_mask=True`，所以直接对所有输出位置取平均就安全了。”这里混淆了两道工序：注意力读哪些 Key，和最后统计哪些输出位置。前文随机 Encoder 实验已经提示，Padding Key 被忽略不等于对应 Query 的最终输出一定是零；残差、前馈和归一化仍然参与输出计算。PyTorch [版本化 MHA 源码中的 key_padding_mask 说明](https://github.com/pytorch/pytorch/blob/v2.13.0/torch/nn/modules/activation.py) 约束的是被注意力忽略的 Key，不能代替业务层的汇聚规则。
+
+先不安装框架。把下面完整代码保存为 `pooling_feedback.py`，用 `python pooling_feedback.py` 运行。我们手工给出某层的标量输出，检验下游平均值的分母；不是在模拟一个已训练的 Transformer：
+
+```python
+values = [2.0, 4.0, 100.0, 100.0]
+valid = [True, True, False, False]  # 这里只表示业务层有效位置，不是 MHA 的屏蔽布尔值
+
+def valid_mean(numbers, flags):
+    if len(numbers) != len(flags):
+        raise ValueError("输出与有效位置长度不一致")
+    kept = [value for value, keep in zip(numbers, flags) if keep]
+    if not kept:
+        raise ValueError("没有有效位置，不能伪造一个健康的零均值")
+    return sum(kept) / len(kept)
+
+wrong = sum(values) / len(values)
+right = valid_mean(values, valid)
+assert wrong == 51.5 and right == 3.0
+changed_padding = [2.0, 4.0, -1000.0, -1000.0]
+assert valid_mean(changed_padding, valid) == right
+print(f"all_positions={wrong}, valid_positions={right}")
+try:
+    valid_mean(values, [False] * 4)
+except ValueError as error:
+    print("DETECTED:", error)
+else:
+    raise RuntimeError("空有效集合应该被拒绝")
+```
+
+预期打印 `all_positions=51.5, valid_positions=3.0`，随后报告没有有效位置。只修改两个补齐值时，有效均值必须仍是 3；若改变，先查筛选方向和分母，而不是调整模型参数。另一个常见错答是“先把补齐输出设零，再除以总长度四”，那会得到 1.5；除数仍应是有效位置数二。变式：把第二个位置也标成无效，正确结果应为 2，全部无效则应拒绝。
+
+本题只验证平均汇聚这一种读出策略，不宣称所有模型都应该取均值；分类首位置、末个有效位置、模型专用 Pooler 都有各自合同。移到 AIOps 告警向量时，要随模型版本保存读出位置和有效长度，否则相同告警仅因同批次另一条文本更长，就可能得到不同的错误平均值。实验不写外部数据，退出即可清理运行状态，保留脚本和首次错答作为学习证据。
+
 ## 独立通关：能计算，也能找出静默错误
 
 先独立答题并保存输入和结果，再对照下列判据；任一不符都要回到小矩阵实验返工。

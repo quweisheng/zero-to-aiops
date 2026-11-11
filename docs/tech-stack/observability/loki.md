@@ -984,10 +984,10 @@ with urlopen(request, timeout=10) as response:
     print("push status:", response.status)
     assert response.status == 204
 
-def query(selector):
+def query(selector, limit=20):
     parameters = {"query": selector + ' |= "' + marker + '"',
                   "start": str(started - 1_000_000_000),
-                  "end": str(time.time_ns()), "direction": "forward", "limit": 20}
+                  "end": str(time.time_ns()), "direction": "forward", "limit": limit}
     with urlopen(base + "/loki/api/v1/query_range?" + urlencode(parameters),
                  timeout=10) as response:
         result = json.load(response)
@@ -1006,6 +1006,11 @@ assert len(rows) == 3, "先检查写入响应、时钟、标签与 Loki 组件�
 errors = query('{app="checkout-api",env="lab"} |= "ERROR"')
 assert len(errors) == 2, errors
 print("error rows:", len(errors))
+# 对照实验：只允许返回一条，不代表另外两条已经消失。
+limited = query('{app="checkout-api",env="lab"}', limit=1)
+assert len(limited) == 1, limited
+assert len(query('{app="checkout-api",env="lab"}')) == 3
+print("limited rows: 1; full classroom rows: 3")
 # 故障注入只改查询条件，不修改服务器，不删除数据。
 wrong = query('{app="checkout-api-typo",env="lab"}')
 assert wrong == [], wrong
@@ -1382,6 +1387,18 @@ Loki 的存储 Schema 是“哪段时间使用哪种存储解释规则”的地�
 18. Promtail 当前状态是什么？新项目应该用什么？
 19. Loki 如何和 Alertmanager 结合？
 20. Loki 在 AIOps 根因分析中有什么价值？
+
+## 老师批改：只返回一条，为什么不能写“只有一次错误”
+
+我们给基础实验增加了一个对照：相同标签、相同正文标记、同一个包含三条记录的时间窗口，只把 `limit` 从二十改为一。`limit` 是最多返回多少条日志的限制，不是“服务中总共发生多少条”的统计。程序应打印 `limited rows: 1; full classroom rows: 3`；它没有删除任何日志，恢复查询上限后仍读到三条。这个实验验证的是本课三个已知输入，不能由此保证任意大窗口都已完整查询。参数定义见 [Loki 范围查询接口](https://grafana.com/docs/loki/latest/reference/loki-http-api/#query-logs-within-a-range-of-time)。
+
+暂停一下，想想为什么 `direction="forward"`（时间正序）也要记录。它决定先返回较早的匹配记录；改成 `backward`（时间倒序）时，有限结果会偏向较新的部分。本题三条日志的时间戳不同，正序上限一应取到那条 INFO，倒序上限一则应取到最后的 ERROR。请只在自己的脚本副本里改变方向，先预测 `level` 和 `status_code`，打印 `limited` 后核对，再恢复正序。只看“都是一条”会漏掉调查对象已经改变。
+
+老师再给一个反例：“我把上限改成一万，结果九千条，所以九千就是全量。”仍需核对服务端限制、查询是否报错或被截断、各批次时间覆盖、租户和标签、采集是否完整。返回条数没有达到你设置的上限，可以是一条线索，但不是端到端不漏日志的证明。生产导出还要处理同一时间戳多条记录、边界重叠和去重，不能简单把最后时间加一纳秒就承诺不会遗漏。
+
+如果本题一条都没有，先回到基础三条结果检查：本轮 marker 是否一致、时间是否覆盖、查询字段是否写错、写入是否成功。若三条结果都能拿到而限制参数没有生效，保留实际请求 URL 的脱敏版本和响应，核对调用是否真的传了 `limit=1`；不要通过修改输入数据去迎合预期。三条日志与程序都只属于本地课堂，结束按原清理步骤停自己的 Loki，不用删除日志来“重置查询”。
+
+合格证据包含同一轮的全部输入、上限一和上限二十的结果、正序与倒序预测，以及“返回条数不是事件总量”的解释。答错后回看“分页、时间戳与重放如何影响调查结论”。面试里如果能主动说明查询边界、统计单位和未知部分，比报出一个缺少口径的错误次数更可信。
 
 ## 独立通关：查不到日志时能否证明是哪一层
 

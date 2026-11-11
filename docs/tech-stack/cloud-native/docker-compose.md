@@ -2,6 +2,14 @@
 
 > 学习目标：能用一个 `compose.yaml` 启动多容器实验环境，理解 project、service、container、network、volume、config、secret、profile、healthcheck、depends_on、port、environment，并能搭建 Prometheus + Grafana + demo app 本地 AIOps 实验室。
 
+## 老师先帮你跨过安装这一关
+
+如果这是第一次接触容器，先完成 [Docker 的开课检查](./docker.md#电脑还没有-docker先完成这道开课检查)：安装适合自己系统的运行环境，确认 context 是本人的实验后端，`docker version` 有 Server，`docker info --format '{{.OSType}}'` 为 `linux`。这里只需学镜像、容器、宿主端口和容器端口的区别，不需要先学 Kubernetes。YAML 是用缩进表达配置层级的文本，缩进用空格，不能把 Tab 混进来。
+
+接着在同一个终端输入 `docker compose version`。看到 Compose 版本才说明 Compose 插件也可用；Docker CLI 存在不代表该子命令必然存在。Docker Desktop 通常已随附 Compose；Linux Engine 用户若显示未知子命令，按 [Compose 插件安装说明](https://docs.docker.com/compose/install/linux/)为所用发行版安装插件，再重新检查。不要为消除报错随意混装旧 `docker-compose` 与现代插件。
+
+今天走两段路：先只解析配置，理解“我希望创建什么”；再启动本地实验，确认应用产生指标、Prometheus 抓到指标、Grafana 查询到同一指标。第一段不创建容器，第二段会下载镜像并占用资源，两个结果必须分开记录。遇到公司 Docker context 或共享项目名，先停止写入，不把自己的学习目录误当成资源隔离保证。
+
 ## 官方资料
 
 - [Docker Compose overview](https://docs.docker.com/compose/)
@@ -1880,5 +1888,7 @@ Profile 也不是安全隔离。它选择要启用哪些可选服务，不能替
 别人能按 README 复现，说明交付有了可重复的入口；是否掌握，还需独立通关的条件变化、故障证据和设计答案。请保留未通过项与返工记录，不用文章读完或截图数量代替能力评测。
 
 ## 本文验证边界
+
+2026-11-11 复评将 Docker 后端与 Compose 插件的安装验收前置，补齐零基础读者到第一条命令之间的路径；本轮只核对正文和官方安装入口，未启动三个服务或执行数据源故障注入。
 
 本文更新完成了 Compose v5.4.0 行为、配置、镜像标签和 Markdown 静态核验；当前 Docker daemon 未连接，因此没有声称 Prometheus/Grafana、v5 调和差异或故障实验已在本机运行。不同 Docker Desktop/Engine、Buildx/Bake、第三方扩展字段和已有 project 漂移必须在一次性环境先回归。

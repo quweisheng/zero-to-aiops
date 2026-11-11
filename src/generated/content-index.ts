@@ -67,7 +67,7 @@ export const generatedDocs = [
     "route": "/tech-stack",
     "title": "AIOps 技术栈总清单",
     "section": "技术栈",
-    "excerpt": "这个目录记录我从 0 学 AIOps 过程中会接触到的技术栈。它不是一次性背诵清单，而是一个长期学习地图：每学一项，就补充理解、配置、实验和踩坑记录。 精讲写作标准 2026 10 12 起按最新要求重新逐篇评测：不把万字篇幅当作质量结论。..."
+    "excerpt": "这个目录记录我从 0 学 AIOps 过程中会接触到的技术栈。它不是一次性背诵清单，而是一个长期学习地图：每学一项，就补充理解、配置、实验和踩坑记录。 精讲写作标准 2026 11 11 再次完整审读全部 115 篇，107 篇按问题修改，..."
   },
   {
     "path": "../docs/tech-stack/architecture-delivery/architecture-solution-design.md",
@@ -711,7 +711,7 @@ export const generatedDocs = [
     "route": "/tech-stack/progress",
     "title": "技术栈拆分进度",
     "section": "技术栈",
-    "excerpt": "目标：每个技术栈一个 Markdown 文件，并且每个文件都按“官方资料、是什么、原理、架构、配置、入门实验、排障、学习证据”的结构写成原创中文教程。 2026 10 12 新一轮：逐篇评测，不合格返工 本轮重新覆盖全部 115 篇，按学习..."
+    "excerpt": "目标：每个技术栈一个 Markdown 文件，以老师带学生完成真实学习任务的方式，讲清概念、机制、实验、排障、生产取舍和面试表达。允许重组文章，不把固定标题或字数当成掌握证明。 2026 11 11 全站复评：115 篇逐篇审读，按问题返工..."
   },
   {
     "path": "../docs/tech-stack/security-compliance/jumpserver.md",
@@ -851,7 +851,7 @@ export const generatedDocs = [
     "route": "/tech-stack/teaching-review",
     "title": "技术栈逐篇评测与返工记录",
     "section": "技术栈",
-    "excerpt": "本轮以 2026 10 12 精讲评测标准逐篇审校。这里记录正文的具体问题、修订和第二位审校者结论；不是自动关键词评分，也不表示读者已经掌握或全部真实产品已实跑。篇幅另见正文统计，评测方法见写作标准。 当前 115 篇：115 篇已有本轮修..."
+    "excerpt": "依据仓库精讲标准逐篇审校。这里记录正文的具体问题、修订或保留理由，以及第二位审校者结论；不是自动关键词评分，也不表示读者已经掌握或全部真实产品已实跑。篇幅另见正文统计，评测方法见写作标准。 作者复评日期：2026 11 11。当前 115 ..."
   },
   {
     "path": "../docs/tech-stack/virtualization-private-cloud/fusionsphere.md",

@@ -2148,9 +2148,28 @@ Item 是带结构的数据项，Item linking（数据项关联）记录它从哪
 
 使用已经跑通的本地路由，先在画布复制一份为 `n8n-lab-contract`，Webhook 路径改成 `aiops-contract`，避免改变原实验入口。保存并发布。第一条请求使用 `lab-contract-001` 和 `critical`，预期走人工审阅；第二条把严重度改为 `critical `，在未加入规范化前可能错误进入观察。这是明确的数据语义故障，不用停服务或修改数据库。
 
-在 Normalize 节点把严重度表达式改为 `{{ String($json.body.severity ?? '').trim().toLowerCase() }}`，然后在风险分支前增加 If 校验：值只能是 `critical` 或 `warning`，`alertId` 和 `service` 必须非空。校验失败分支使用 Stop And Error，或专门的 Respond to Webhook 返回 400；两种方式对应不同运行状态，选择后把合同写进 README。生产级类型检查应先确认输入是字符串，不能把数组或对象自动 String 后当正常业务值。
+现在老师选定一种完整合同：合法字段继续，非法字段直接返回 HTTP 400，不进入风险路由。先在 Webhook 和 Normalize 之间新增 **If**，命名 `Validate Raw Contract`；添加一个 Boolean（布尔）条件，Value 1 选择 Expression，填下面完整表达式，Operation 选 **is true**，不要把它当 String 条件：
+
+```text
+{{ !!$json.body && !Array.isArray($json.body)
+   && typeof $json.body.alertId === 'string' && $json.body.alertId.trim().length > 0
+   && typeof $json.body.service === 'string' && $json.body.service.trim().length > 0
+   && typeof $json.body.summary === 'string'
+   && typeof $json.body.severity === 'string'
+   && ['critical', 'warning'].includes($json.body.severity.trim().toLowerCase()) }}
+```
+
+`typeof` 检查真实类型，`trim()` 去掉首尾空白，`toLowerCase()` 统一大小写；`&&` 表示条件全部满足，并在前一项不成立时停止求后面的项，所以数组、对象或缺失字段不会被强行转成正常字符串。只在类型通过后调用字符串方法。这里仍是课堂小合同，没有定义长度上限、身份授权或生产告警新鲜度，后续应按业务补齐。
+
+把 true 输出接到原 `Normalize Alert`，其中 severity 表达式改为 `{{ $json.body.severity.trim().toLowerCase() }}`，alertId 和 service 分别改为 `{{ $json.body.alertId.trim() }}`、`{{ $json.body.service.trim() }}`。只需修改本课副本；后面的 Is Critical 和两条正常路由保持不变。
+
+false 输出只连接一个新的 **Respond to Webhook**，命名 `Reject Invalid Alert`：Respond With 选 **JSON**，Response Body 填固定对象 `{"error":"invalid_alert_contract"}`，Options 中 Response Code 填 `400`。不要把原始请求或内部堆栈回显给调用者。原有正常响应节点仍返回 200。每个输入只走一个分支，因此不会同时执行两个响应节点。
+
+这条拒绝分支没有抛工作流异常，所以 HTTP 400 与 Execution 的 success 可以同时出现：节点成功完成了“拒绝非法请求”这件事，并不表示告警已被接受或业务已恢复，也不应期待它触发 Error Workflow。前面的 Stop And Error 实验则有意产生执行错误；把两种合同分别写入 README。
 
 再次发布后重复前两条请求，二者都应得到人工审阅路由；再发送 `severity=unknown`，预期进入明确拒绝分支，不再默默观察。逐次在 Executions 中核对输入原值、规范化值、校验分支和最终响应，用三个不同 alertId 避免串错记录。如果画布修改后生产入口还用旧逻辑，先查是否 Publish，而不是清空执行历史。完成后停用并删除这份实验副本，原 `aiops-alert` 不受影响；保留脱敏导出与三次结果，容器按基础实验 `down` 回收。这里没有真实工单或消息副作用。
+
+再加两个反例：severity 发送数组 `["critical"]`、service 发送全空格，都必须得到 400，不能因为 String 强转或字段“存在”就通过。PowerShell 7 可对这些预期失败请求使用 `Invoke-WebRequest -SkipHttpErrorCheck`，然后分别检查 StatusCode=400 和 Content 中的固定错误；这个参数只用于本课故障取证，不能悄悄用于正常请求门禁。若客户端超时或连不上，这不是合同拒绝成功，先恢复入口，再重测同一数据。此处只给出界面和表达式的复现步骤，本轮没有实际点击或执行 n8n。
 
 ### claim 之后崩溃怎么办：唯一约束还差一张状态表
 

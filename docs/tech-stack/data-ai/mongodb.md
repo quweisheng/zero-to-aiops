@@ -387,8 +387,9 @@ services:
     healthcheck:
       test:
         [
-          "CMD-SHELL",
-          "mongosh --quiet -u root -p mongodb_lab_root --authenticationDatabase admin --eval 'db.adminCommand({ping:1}).ok' | grep 1"
+          "CMD", "mongosh", "--quiet", "-u", "root", "-p", "mongodb_lab_root",
+          "--authenticationDatabase", "admin", "--eval",
+          "quit(db.adminCommand({ping:1}).ok === 1 ? 0 : 1)"
         ]
       interval: 10s
       timeout: 5s
@@ -429,6 +430,8 @@ db.events.createIndex({ createdAt: 1 }, { expireAfterSeconds: 604800 });
 ```
 
 初始化脚本只在空数据目录第一次启动时执行。修改脚本后重启容器不会自动重跑，这是新手最常见的误判之一。
+
+健康检查使用参数数组直接运行 `mongosh`，由 `quit` 返回进程退出码：ping 的 ok 严格等于数字 1 才返回 0，其他结果为 1；连接或命令异常也应失败。它不再通过 `grep 1` 搜输出中是否碰巧含数字 1。这个检查仍只证明服务响应，业务用户、验证器和读写结果要由后面的实验另行证明。
 
 `MONGO_INITDB_DATABASE` 不会凭空替你建立完整业务模型；本例用户、验证器与索引由脚本创建。`--auth` 是访问认证，容器内部 bind_ip_all 并不等于允许公开部署；宿主映射仍限制回环，课堂口令不可复用到真实环境。
 
@@ -805,6 +808,7 @@ if ($primaryService -notin @("mongo1", "mongo2", "mongo3")) {
 
 "停止当前 Primary：$primaryService"
 docker compose -f compose.rs.yaml -p mongodb-rs-lab stop $primaryService
+if ($LASTEXITCODE -ne 0) { throw '停止成员失败，先核对状态，不把它记作已注入故障' }
 ```
 
 后续命令要在同一个 PowerShell 窗口执行，以便继续使用 `$primaryService`。
@@ -821,8 +825,11 @@ $newPrimaryService = $null
 foreach ($candidate in $remainingServices) {
   $isPrimary = docker compose -f compose.rs.yaml -p mongodb-rs-lab exec -T $candidate `
     mongosh --quiet --eval "db.hello().isWritablePrimary"
+  if ($LASTEXITCODE -ne 0) { throw "查询 $candidate 失败，保留错误，不把未查到当作 Secondary" }
+  $primaryReply = ($isPrimary -join "`n").Trim()
+  if ($primaryReply -notin @('true','false')) { throw "查询 $candidate 返回非预期内容，先核对完整输出" }
 
-  if ($isPrimary.Trim() -eq "true") {
+  if ($primaryReply -eq "true") {
     $newPrimaryService = $candidate
     break
   }
@@ -835,7 +842,7 @@ if (-not $newPrimaryService) {
 "新 Primary：$newPrimaryService"
 ```
 
-预期经过选举后，`mongo2` 或 `mongo3` 成为 Primary。应用在 Server Selection 与选举期间可能短暂写失败或等待。
+预期经过选举后，剩余的两个成员中有一个成为 Primary；只有实际停止的是 mongo1 时，候选才是 mongo2 或 mongo3。不要用优先级猜测代替刚读取的成员身份。应用在 Server Selection 与选举期间可能短暂写失败或等待；没有查到主、查询命令失败和返回内容异常必须分别记录。
 
 ### 第五步：验证数据与恢复成员
 

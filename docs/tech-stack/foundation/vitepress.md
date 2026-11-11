@@ -1077,7 +1077,7 @@ npm run docs:dev
 npm run docs:build
 ```
 
-构建通过后，说明页面至少不会破坏文档站。
+构建通过只说明本次输入通过了当前构建门禁；它不能保证导航、搜索、浏览器交互和真实托管路径都正确。继续预览生成产物，分别从导航进入页面、直接打开深层地址并刷新，再核对搜索结果和资源请求。老师会追问：如果首页正常而子页刷新 404，你有什么证据证明是托管映射而不是文件没生成？先对照生成文件与实际请求地址，不能只贴一张构建成功截图。
 
 ### 第 5 步：验证、保留或清理
 
@@ -1254,7 +1254,7 @@ README 是入口，适合介绍仓库。文档站适合承载大量系统化内�
 
 ### VitePress 的路由是怎么从文件变成页面的？
 
-`docs/index.md` 变成首页，`docs/tech-stack/foundation/linux.md` 变成 `/tech-stack/foundation/linux`。文件路径就是页面路径的基础。
+以 `docs` 为源码目录、部署前缀为 `/` 时，`docs/index.md` 生成 `index.html` 并可作为首页访问，`docs/tech-stack/foundation/linux.md` 默认生成 `/tech-stack/foundation/linux.html`。文件路径是页面路径的基础，但不等于所有服务器都会自动省略 `.html`。只有启用 `cleanUrls` 并且托管端支持相应映射时，才应按无扩展名地址验收；若另有 `base`，还要加上部署前缀。Markdown 中推荐的省略扩展名写法，是交给 VitePress 根据配置生成链接，不是任意服务器都接受该 URL 的承诺。[VitePress v1 文件路由](https://vuejs.github.io/vitepress/v1/guide/routing)
 
 ### 侧边栏会自动生成吗？
 

@@ -160,6 +160,8 @@ Ambient（环境式网格）:
 
 学习环境可用 1.30.3 的 `demo` 或 `ambient` profile；`demo` 明确不用于生产。生产环境应按容量和功能显式配置控制面、网关、ztunnel/waypoint 与升级策略。
 
+下面仅是命令用途预览，不是尚未检查环境就执行的入口。第一次学习从后面的“离线生成 Istio 安装清单”开始；真实安装统一在“基础实验”的专用集群和失败检查流程执行。
+
 ```powershell
 istioctl version # 客户端应固定为 1.30.3，并显示可连接集群中的版本
 istioctl install --set profile=ambient -y # 只在一次性学习集群安装 Ambient profile
@@ -256,7 +258,9 @@ Istio 提供服务拓扑、请求率、错误率、延迟和身份信息。告�
 
 ```powershell
 istioctl version --remote=false # 必须显示 1.30.3
+if ($LASTEXITCODE -ne 0) { throw '客户端不可用，停止' }
 istioctl manifest generate --set profile=ambient | Out-File -Encoding utf8 istio-ambient.yaml # 只生成 YAML
+if ($LASTEXITCODE -ne 0) { throw '生成失败，文件存在不代表清单有效' }
 Select-String -Path istio-ambient.yaml -Pattern 'name: istiod|name: ztunnel' # 搜索控制面与节点数据面
 ```
 
@@ -281,20 +285,47 @@ Select-String -Path istio-ambient.yaml -Pattern 'name: istiod|name: ztunnel' # �
 
 进入真实平台步骤前，先执行 `kubectl config current-context`、`kubectl cluster-info`、`kubectl get namespace istio-system istio-lab`，确认是自己新建的实验集群且这些空间没有既有业务；若已有网格，不沿本文覆盖安装。没有 Kubernetes 时先完成[Kubernetes 的本地集群实验](./kubernetes.md)，不把离线生成误记为安装成功。保留本次集群名和创建方式；本文不授予对共享集群安装 CRD、Webhook 或 purge 的权限。后续 `samples/...` 路径均相对完整发行包根目录，在其他目录执行会找不到文件。
 
+先在本终端定义一个验收函数。它只发请求、不改配置，最多尝试十次，每次 HTTP 最长五秒，两次之间等两秒；用来容纳正常配置传播，不是无限掩盖错误。`curl` 不加 `-f` 是因为后面要观察预期的 503；因此必须同时判断命令退出码与准确的 HTTP 状态。函数超时后停止后续步骤，保留现场取证。
+
+```powershell
+function Assert-LabHttp {
+  param([ValidateSet('200','503')][string]$Expected)
+  for ($attempt = 1; $attempt -le 10; $attempt++) {
+    $code = kubectl -n istio-lab exec deployment/sleep -c sleep -- curl -sS --max-time 5 -o /dev/null -w '%{http_code}' http://productpage:9080/productpage
+    $requestExit = $LASTEXITCODE
+    if ($requestExit -eq 0 -and "$code".Trim() -eq $Expected) {
+      Write-Output "attempt=$attempt http=$Expected"
+      return
+    }
+    if ($attempt -lt 10) { Start-Sleep -Seconds 2 }
+  }
+  throw "未观察到预期 HTTP $Expected；最后退出码=$requestExit、状态=$code，不继续注入或清理"
+}
+```
+
+`kubectl exec` 的连接/认证失败也可能让这次请求失败，要读报错，不能把它当应用 503。这里的等待只覆盖重复请求，API 或终端自身卡住时应中止并查连接；不能据此承诺整套实验固定多少秒完成。
+
 ```powershell
 istioctl version --remote=false
 istioctl install --set profile=ambient --skip-confirmation
+if ($LASTEXITCODE -ne 0) { throw 'Ambient 安装失败，不创建应用' }
 kubectl -n istio-system rollout status deployment/istiod --timeout=5m
+if ($LASTEXITCODE -ne 0) { throw '控制面未就绪，停止' }
 kubectl -n istio-system rollout status daemonset/ztunnel --timeout=5m
+if ($LASTEXITCODE -ne 0) { throw '节点数据面未就绪，停止' }
 
 kubectl create namespace istio-lab
+if ($LASTEXITCODE -ne 0) { throw '实验命名空间创建失败，不复用既有空间' }
 kubectl label namespace istio-lab istio.io/dataplane-mode=ambient
+if ($LASTEXITCODE -ne 0) { throw 'Ambient 标签设置失败，停止' }
 kubectl apply -n istio-lab -f samples/bookinfo/platform/kube/bookinfo.yaml
+if ($LASTEXITCODE -ne 0) { throw 'Bookinfo 提交失败，停止' }
 kubectl apply -n istio-lab -f samples/sleep/sleep.yaml
+if ($LASTEXITCODE -ne 0) { throw '请求客户端提交失败，停止' }
 kubectl -n istio-lab wait --for=condition=available deployment --all --timeout=5m
+if ($LASTEXITCODE -ne 0) { throw '实验应用未就绪，不继续' }
 
-kubectl -n istio-lab exec deployment/sleep -c sleep -- `
-  curl -sS -o /dev/null -w '%{http_code}' http://productpage:9080/productpage
+Assert-LabHttp '200'
 istioctl ztunnel-config workloads
 ```
 
@@ -304,9 +335,9 @@ istioctl ztunnel-config workloads
 
 ```powershell
 istioctl waypoint apply -n istio-lab --enroll-namespace --wait
+if ($LASTEXITCODE -ne 0) { throw 'waypoint 未成功建立，不声称七层路径可用' }
 kubectl -n istio-lab get gateway,services,pods
-kubectl -n istio-lab exec deployment/sleep -c sleep -- `
-  curl -sS -o /dev/null -w '%{http_code}' http://productpage:9080/productpage
+Assert-LabHttp '200'
 ```
 
 预期仍为 200，并能看到 waypoint Gateway/Pod。用指标与访问日志确认请求经过 waypoint；只看对象存在还不够。
@@ -319,15 +350,21 @@ kubectl -n istio-lab exec deployment/sleep -c sleep -- `
 
 ```powershell
 kubectl delete namespace istio-lab --wait=true # 只回收上一节专用实验空间
+if ($LASTEXITCODE -ne 0) { throw '上一阶段回收失败，不能继续切换实验' }
 istioctl install --set profile=default --skip-confirmation
+if ($LASTEXITCODE -ne 0) { throw 'Sidecar 控制面安装失败，停止' }
 kubectl create namespace istio-lab
+if ($LASTEXITCODE -ne 0) { throw '命名空间创建失败，不复用未知对象' }
 kubectl label namespace istio-lab istio-injection=enabled
+if ($LASTEXITCODE -ne 0) { throw 'Sidecar 注入标签设置失败，停止' }
 kubectl apply -n istio-lab -f samples/bookinfo/platform/kube/bookinfo.yaml
+if ($LASTEXITCODE -ne 0) { throw 'Bookinfo 提交失败，停止' }
 kubectl apply -n istio-lab -f samples/sleep/sleep.yaml
+if ($LASTEXITCODE -ne 0) { throw '请求客户端提交失败，停止' }
 kubectl -n istio-lab wait --for=condition=available deployment --all --timeout=5m
+if ($LASTEXITCODE -ne 0) { throw '应用未就绪，不能注入故障' }
 kubectl -n istio-lab get pods # 预期应用 Pod 包含 istio-proxy 伴随容器
-kubectl -n istio-lab exec deployment/sleep -c sleep -- `
-  curl -sS -o /dev/null -w '%{http_code}' http://productpage:9080/productpage
+Assert-LabHttp '200'
 ```
 
 基线必须为 200，且 `istioctl proxy-status` 能看到这些应用的代理，再继续。在 `istio-lab` 创建 `subset-fault.yaml`：
@@ -365,11 +402,11 @@ spec:
 
 ```powershell
 kubectl apply -f .\subset-fault.yaml
+if ($LASTEXITCODE -ne 0) { throw '故障规则提交失败，不声称复现 503' }
 istioctl analyze -n istio-lab
 kubectl -n istio-lab get pods -l app=productpage --show-labels
 kubectl -n istio-lab get endpointslice -l kubernetes.io/service-name=productpage
-kubectl -n istio-lab exec deployment/sleep -c sleep -- `
-  curl -sS -o /dev/null -w '%{http_code}' http://productpage:9080/productpage
+Assert-LabHttp '503'
 ```
 
 预期请求为 503：Service 有 Endpoint，但没有 Pod 匹配 `version=does-not-exist`。`analyze` 未必能发现所有运行时标签缺口，所以必须核对数据面、Pod 标签与请求结果。
@@ -378,13 +415,17 @@ kubectl -n istio-lab exec deployment/sleep -c sleep -- `
 
 ```powershell
 kubectl delete -f .\subset-fault.yaml
-kubectl -n istio-lab exec deployment/sleep -c sleep -- `
-  curl -sS -o /dev/null -w '%{http_code}' http://productpage:9080/productpage
+if ($LASTEXITCODE -ne 0) { throw '故障规则未成功删除，不进入卸载' }
+Assert-LabHttp '200'
 kubectl delete namespace istio-lab
+if ($LASTEXITCODE -ne 0) { throw '实验空间删除请求失败，停止' }
 istioctl uninstall --purge -y
+if ($LASTEXITCODE -ne 0) { throw '卸载失败，记录残留，不宣布清理完成' }
 ```
 
 删除故障资源后应恢复 200；确认集群只用于此次实验后再删除 Namespace 和 Istio。若恢复仍为 503，停止卸载，先保存源端与目标端 istio-proxy、Istiod 日志、路由和 Endpoint 证据。
+
+老师的反例检查：`curl` 打印 503 后退出码是 0，实验成功了吗？要看这一阶段的合同。故障阶段希望观察 503，基础与恢复阶段要求 200；同一结果不能跨阶段复用。新增函数把这个区别写成明确门禁，避免 PowerShell 连续执行时在恢复失败后仍卸载现场。2026-11-11 本轮没有创建网格或运行这些真实请求，代码修订属于静态审校，不能记成故障演练已完成。
 
 ## 生产事故题：启用 STRICT 后一半调用 503
 

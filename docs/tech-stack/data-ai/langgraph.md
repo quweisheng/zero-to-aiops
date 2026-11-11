@@ -1021,7 +1021,7 @@ print("review visits:", len(visits))
 
 保存器不可用时，安全策略通常应阻止新的危险动作继续推进，保留可重试的任务和明确错误；不能静默切回内存保存器假装服务正常。否则进程重启以后失去审批与执行记录，恢复时无法判断动作是否已经发生。具体失败策略要按只读取证与外部变更分别设计。
 
-容量从活跃流程数、每步状态大小、每流程步骤数和保留时间估算。假设每天一万次流程，每次二十份平均五十千字节的完整状态，粗略就是每天十吉字节的状态写入量，三十天三百吉字节。保存器可能使用不同写入结构，这只是容量推导练习，必须用实际存储统计校准。
+容量从活跃流程数、每步状态大小、每流程步骤数和保留时间估算。假设每天一万次流程，每次二十份平均 50 KB（十进制，每 KB 为 1000 字节）的完整状态，粗略就是每天 10 GB 的状态写入量，三十天 300 GB；不要把它写成按 1024 换算的 GiB。保存器可能使用不同写入结构，这只是容量推导练习，必须用实际存储统计校准。
 
 状态不应塞入所有原始日志。保存脱敏证据摘要、内容哈希、来源位置和查询时间窗口，把大对象放到有权限和生命周期控制的存储中。否则每轮复制大量日志不仅耗空间，还增加模型输入成本、恢复时间和泄露面。摘要变小之后仍须保留可追溯证据，不能只留模型结论。
 
@@ -1048,6 +1048,77 @@ print("review visits:", len(visits))
 事故题是恢复后重复创建两张工单。先比对图运行编号、线程身份、节点重试、操作编号和工单接口日志，确定是重复入口还是恢复重跑。修复先停止相关写入或转只读，核对已创建结果，再补持久幂等；不能批量删除所有疑似重复工单而不核对人工修改和关联流程。
 
 机制细节请对照 [官方中断规则](https://docs.langchain.com/oss/python/langgraph/interrupts) 与 [持久化说明](https://docs.langchain.com/oss/python/langgraph/persistence)。本课实际中断代码是可运行课堂步骤；是否在你的依赖版本运行成功，需要保留本机结果，不能用静态阅读代替运行证据。
+
+## 老师批改：两路证据同时返回，为什么不能赌最后一个覆盖
+
+学生为指标节点和日志节点都返回 `evidence`，以为框架会留下最后到达的一份。但这不只是丢数据的风险：默认覆盖字段同一步收到多份更新会触发冲突。[官方 Graph API](https://docs.langchain.com/oss/python/langgraph/graph-api)要求按字段定义适合的 reducer（状态归并函数）。简单列表相加能保留两路，却不能识别同一证据重复，也不能发现相同编号被写成互相矛盾的内容。
+
+下面在本课已安装 LangGraph 的环境中保存 `reducer_feedback.py`，运行 `python reducer_feedback.py`。先预测共享证据出现两次，最后应该有三条还是四条。所有证据都是合成字符串，不调用模型、外部指标或数据库。
+
+```python
+from typing import Annotated, TypedDict
+from langgraph.graph import StateGraph, START, END
+from langgraph.errors import InvalidUpdateError
+
+def merge_evidence(left, right):
+    by_id = {}
+    for item in [*left, *right]:
+        if not isinstance(item, dict) or set(item) != {'id', 'text'}:
+            raise ValueError('证据结构错误')
+        if any(not isinstance(item[k], str) or not item[k].strip() for k in ('id', 'text')):
+            raise ValueError('证据编号和正文必须是非空字符串')
+        key = item['id']
+        if key in by_id and by_id[key] != item:
+            raise ValueError('同一证据编号出现不同内容，停止合并')
+        by_id[key] = dict(item)
+    return [by_id[key] for key in sorted(by_id)]
+
+class BrokenState(TypedDict):
+    evidence: list[dict]
+
+class MergedState(TypedDict):
+    evidence: Annotated[list[dict], merge_evidence]
+
+shared = {'id': 'change-1', 'text': 'synthetic deploy record'}
+def metrics(state):
+    return {'evidence': [{'id': 'metric-1', 'text': 'synthetic error rate'}, shared]}
+def logs(state):
+    return {'evidence': [{'id': 'log-1', 'text': 'synthetic timeout'}, shared]}
+def make(schema):
+    builder = StateGraph(schema)
+    builder.add_node('metrics', metrics)
+    builder.add_node('logs', logs)
+    builder.add_edge(START, 'metrics')
+    builder.add_edge(START, 'logs')
+    builder.add_edge('metrics', END)
+    builder.add_edge('logs', END)
+    return builder.compile()
+
+try:
+    make(BrokenState).invoke({'evidence': []})
+except InvalidUpdateError:
+    print('default field: concurrent update rejected')
+else:
+    raise AssertionError('本课默认字段应拒绝同一步并发更新')
+
+result = make(MergedState).invoke({'evidence': []})['evidence']
+assert [item['id'] for item in result] == ['change-1', 'log-1', 'metric-1']
+assert merge_evidence(result, result) == result
+assert merge_evidence(metrics({})['evidence'], logs({})['evidence']) == result
+assert merge_evidence(logs({})['evidence'], metrics({})['evidence']) == result
+try:
+    merge_evidence(result, [dict(shared, text='contradictory record')])
+except ValueError as exc:
+    print('rejected:', exc)
+else:
+    raise AssertionError('相同编号的冲突内容不能静默覆盖')
+assert len(make(MergedState).invoke({'evidence': []})['evidence']) == 3
+print('three distinct records; repeated merge unchanged; recovered')
+```
+
+预期先拒绝默认字段的并发更新，修订后得到三条独立证据；重复归并不增长，交换两路顺序也不改变结果，相同编号的矛盾内容必须报错。这里分别检查幂等性（同一输入重复应用不改变结果）和顺序不敏感；这仍不能证明查询结果真实，只证明本课归并规则自洽。若得到四条，检查是否仍用简单拼接；若矛盾内容覆盖旧值，检查写字典前的冲突判断。
+
+变式只修改 `logs` 函数的返回行为 `return {'evidence': [{'id': 'log-1', 'text': 'synthetic timeout'}, dict(shared, id='change-2')]}`，`metrics` 和全局 `shared` 都保持不变；两路因此分别返回 change-1 和 change-2，应该得到四条。相应把结果编号断言的列表改成 `['change-1', 'change-2', 'log-1', 'metric-1']`，末尾 `len(...) == 3` 改为 `== 4`，输出中的 three 改为 four。恢复原 logs 返回行、断言及输出后应重新得到三条。如果只改全局 shared.id，两路仍共享同一编号，结果仍是三条，这不是去重失败。若两个编号实际表示同一事实，却因每次重试生成随机编号而变成四条，应修证据身份合同，不是让 reducer 猜语义相似就删除。生产编号还须纳入来源、租户和查询窗口，不可跨租户去重。本例没有检查点和持久数据库，结束进程即清理；不能由内存合并幂等推导外部重启或工单写入只执行一次。
 
 ## 独立通关：图走完、审批通过、动作完成是三张收据
 

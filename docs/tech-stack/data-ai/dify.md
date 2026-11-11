@@ -996,7 +996,7 @@ L0 仅检索证据
 }
 ```
 
-消费者必须再次做 JSON Schema 校验，不能因为输出来自 Dify 就默认可信。
+消费者必须再次做 JSON Schema 校验，不能因为输出来自 Dify 就默认可信。这里的 `confidence: 0.72` 只是合成格式示例，不代表经过统计校准的“根因为真概率”；模型自报分数不能替代证据支持度、反例验证或审批。
 
 ## 入门实验：不用模型跑通第一个 AIOps Workflow
 
@@ -1152,7 +1152,8 @@ $result = Invoke-RestMethod `
   -TimeoutSec 30
 
 $result | ConvertTo-Json -Depth 10
-if (-not $result.workflow_run_id -or $result.data.status -ne 'succeeded') {
+if ($result.workflow_run_id -isnot [string] -or [string]::IsNullOrWhiteSpace($result.workflow_run_id) -or
+    $result.data.status -cne 'succeeded') {
   throw '入口响应不等于运行成功：保留 Run ID，检查运行状态与首个失败节点'
 }
 $normalized = $result.data.outputs.normalized_alert
@@ -1160,11 +1161,29 @@ if ($normalized -isnot [string] -or [string]::IsNullOrWhiteSpace($normalized)) {
   throw 'normalized_alert 应为非空字符串，检查 Output 绑定'
 }
 # 此校验只适用于上面的 JSON 模板；选了纯文本退路时按文本约定验收。
-$alert = $normalized | ConvertFrom-Json -ErrorAction Stop
-if ($alert.severity -ne 'critical' -or $alert.alert_text -ne 'payment-api p99 latency is 2.8s' -or
-    $alert.needs_human_review -isnot [bool] -or $alert.needs_human_review -ne $true) {
-  throw '工作流成功但业务输出不符合本课契约'
+function Assert-LessonAlert([string]$Text, [string]$ExpectedText, [string]$ExpectedSeverity) {
+  # 限定顶层为对象，避免把单元素数组当对象；这是本课四字段合同，不是通用 Schema 引擎。
+  if (-not $Text.TrimStart().StartsWith('{') -or -not $Text.TrimEnd().EndsWith('}')) {
+    throw 'Expected a JSON object'
+  }
+  $value = $Text | ConvertFrom-Json -ErrorAction Stop
+  $fields = @('source', 'severity', 'alert_text', 'needs_human_review')
+  $actual = @($value.PSObject.Properties.Name)
+  if ($actual.Count -ne $fields.Count) { throw 'Missing or additional field' }
+  foreach ($field in $fields) {
+    if ($actual -cnotcontains $field) { throw "Wrong field name: $field" }
+  }
+  foreach ($field in @('source', 'severity', 'alert_text')) {
+    if ($value.$field -isnot [string]) { throw "Expected string: $field" }
+  }
+  if ($value.source -cne 'dify-lab' -or $value.severity -cne $ExpectedSeverity -or
+      $value.alert_text -cne $ExpectedText -or $value.needs_human_review -isnot [bool] -or
+      $value.needs_human_review -ne $true) {
+    throw '工作流成功但业务输出不符合本课契约'
+  }
+  return $value
 }
+$alert = Assert-LessonAlert $normalized 'payment-api p99 latency is 2.8s' 'critical'
 ```
 
 预期结果：
@@ -2230,6 +2249,35 @@ Dify 是一个生成式 AI 应用开发与运行平台，把模型提供方、�
 生产升级需一起考虑应用 DSL（工作流定义）、数据库迁移、插件版本、模型接口、存储与知识索引。DSL 导出便于追踪图结构，但不必然包含所有外部凭据、模型资产和数据，所以它不是完整备份。恢复后应重新验证固定问题与权限，而不是只确认容器全部启动。
 
 面试 30 秒说低代码 AI 应用平台的编排、知识与发布能力；3 分钟用一条请求和一次索引任务画两条数据流，再讲后台积压、版本、持久状态与权限。事故题“新手册上传仍答旧操作”，先定位索引与版本，保留旧版本回退，验证来源和答案支持关系；不要通过重启所有组件来掩盖断点。
+
+## 老师批改：布尔值和字段名不能靠“看起来差不多”通过
+
+学生看到 `status=succeeded` 后就把输出送给下游。老师给他四份反例：`Severity` 大写字段、`CRITICAL` 大写枚举、额外的 `approved=true`、字符串 `"true"`。为什么不能都算同一件事？JSON 字段名区分大小写；本课枚举合同只允许约定写法；额外字段可能改变下游解释；字符串和布尔值也不是同一类型。PowerShell 默认比较通常不区分大小写，所以本课显式检查字段名，并在需要精确合同的地方使用 `-cne`、`-cnotcontains`。
+
+无需 Dify、Docker 或密钥也能检查这道题。把上面 `Assert-LessonAlert` 的完整函数定义复制到一个新建的 `contract-feedback.ps1`，不要复制网络请求；紧接着追加下面代码。Windows PowerShell 5.1 请保存为 UTF-8 带 BOM，或使用 PowerShell 7 运行。执行 `powershell -File .\contract-feedback.ps1`，应正常接受第一份、拒绝四份，再接受恢复后的原始合同。
+
+```powershell
+$good = '{"source":"dify-lab","severity":"critical","alert_text":"synthetic alert","needs_human_review":true}'
+$null = Assert-LessonAlert $good 'synthetic alert' 'critical'
+$cases = @(
+  $good.Replace('"severity"', '"Severity"'),
+  $good.Replace('"critical"', '"CRITICAL"'),
+  $good.Replace('}', ',"approved":true}'),
+  $good.Replace(':true', ':"true"')
+)
+foreach ($candidate in $cases) {
+  $rejected = $false
+  try { $null = Assert-LessonAlert $candidate 'synthetic alert' 'critical' }
+  catch { $rejected = $true; Write-Output "REJECTED: $($_.Exception.Message)" }
+  if (-not $rejected) { throw '坏合同被错误接受' }
+}
+$null = Assert-LessonAlert $good 'synthetic alert' 'critical'
+Write-Output 'CONTRACT_RECOVERED'
+```
+
+如果大小写反例通过，先查是否漏了带 `c` 的比较；如果额外字段通过，核对实际字段总数；若字符串真值通过，检查是否先做了布尔类型判断。变式把正常对象包成单元素数组，应拒绝；把文本改成另一条告警，即使其他字段正确，也不能混淆为本次输入的成功结果。使用包含双引号、反斜杠和换行的文本时，应由 `ConvertTo-Json` 或模板 `tojson` 正确转义，而不是手工拼接。
+
+最后一问：“全部通过，就允许执行了吗？”仍然不允许。这只证明本课的四字段输出和输入相符，`needs_human_review=true` 是业务数据，不是一份可信审批。审批人、授权目标、有效期与操作内容必须在模型之外核对。本实验只处理内存字符串，无网络和持久数据；关闭终端即可收回，不能把它记成 Dify 平台已运行。
 
 ## 独立通关：画布、运行与业务结果各自验收
 

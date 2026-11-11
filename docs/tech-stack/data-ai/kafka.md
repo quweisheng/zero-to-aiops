@@ -417,7 +417,7 @@ ISR 是 in-sync replicas，同步副本集合。
 
 ## 安装和启动
 
-Kafka 官方 quickstart 当前给了两种学习方式：下载二进制包运行脚本，或使用官方 Docker 镜像。
+本课固定 Kafka 4.3.1，用下载包或官方 Docker 镜像学习；固定版本是为了复现，不表示它仍是最新发布或长期安全基线。上线前重新核对官方支持、安全公告与升级路径，不自动把课堂镜像滚动为 latest。
 
 ### Docker 启动
 
@@ -799,9 +799,9 @@ bin/kafka-consumer-groups.sh \
 |---|---|
 | `TOPIC` | topic |
 | `PARTITION` | 分区 |
-| `CURRENT-OFFSET` | group 已提交 offset |
-| `LOG-END-OFFSET` | partition 最新 offset |
-| `LAG` | 积压量 |
+| `CURRENT-OFFSET` | 组已提交的下一读取位置，不是最后已处理记录的位置 |
+| `LOG-END-OFFSET` | 日志末端的下一追加位置，不是最后一条记录的位置 |
+| `LAG` | 两个位置之差；压实、事务等条件下不等于可读记录条数或未完成工单数 |
 | `CONSUMER-ID` | 当前消费者 |
 
 ### lag 变大说明什么
@@ -1171,12 +1171,12 @@ bin/kafka-delete-records.sh --bootstrap-server localhost:9092 --offset-json-file
 | 客户端连不上 | Kafka 未启动、地址错 | `kafka-topics.sh --list` | 启动 broker、修地址 |
 | Docker 外部连不上 | `advertised.listeners` 错 | 看客户端报错地址 | 修 advertised 地址 |
 | topic 不存在 | 未创建或名字错 | `--list` | 创建 topic |
-| 读不到历史 | group 已有 offset | `consumer-groups --describe` | 换 group 或 reset offset |
+| 读不到历史 | 已有提交位置、历史过期或事务不可见 | 查组位置、日志范围、隔离级别 | 新教学组可演示重放；生产 reset 须先停消费、审批范围和幂等/补偿，不能把已删除历史变回来 |
 | lag 变大 | 消费慢或下游慢 | 查看 lag | 扩 consumer、优化处理 |
-| consumer 空闲 | consumer 数 > partition 数 | 看 partition 分配 | 增 partition 或减少 consumer |
+| consumer 空闲 | 常规消费组成员数超过分区数，也可能未成功加入组 | 看成员状态、分区分配和热点 | 先确认是否真的缺处理能力；扩分区会改变键路由且不能原地缩回，不为消除空闲直接扩分区 |
 | 顺序错乱 | key 选择不当或加分区 | 看 key/partition | 固定 key，谨慎扩分区 |
 | 消息重复 | at-least-once 重试 | 查业务幂等 | 用 event_id 去重 |
-| 消息丢失 | acks 太低或提交太早 | 查 producer/consumer 配置 | 调 `acks=all`、手动提交 |
+| 消息丢失 | 发送结果未知、提交太早、保留清理或错误跳过等 | 沿业务键查生产确认、日志范围、组位置和业务事务 | 修提交与幂等、确认/副本组合并按批准范围补偿；改配置不会恢复已经缺失的数据 |
 | 磁盘满 | retention 太长、积压或流量大 | 查 log.dirs、每分区增长与恢复窗口 | 先止增长/安全扩容；缩短保留须批准并确认未消费与恢复数据损失，不能当无风险修复 |
 | ISR 缩小 | replica 跟不上 | `--describe` | 查 broker、磁盘、网络 |
 | rebalance 频繁 | consumer 超时或处理太慢 | consumer 日志 | 调 poll 和处理逻辑 |

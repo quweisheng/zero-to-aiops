@@ -66,6 +66,12 @@ describe('version-bound teaching reviews', () => {
     item.crossReview = { reviewer: 'second-reader', reviewedAt: '2026-10-12', result: 'pass', articleSha256: articleDigest(raw), findings: [] }
     expect(inspectReview(item, raw).complete).toBe(false)
   })
+  it('does not describe a retained lesson as rewritten while waiting for cross review', () => {
+    const item = record(); item.disposition = 'reviewed-preserved'; delete item.crossReview
+    expect(inspectReview(item, raw).status).toBe('已复评保留，待交叉审校')
+    item.disposition = 'invalid'
+    expect(inspectReview(item, raw).complete).toBe(false)
+  })
   it('reports malformed evidence without throwing or passing it', () => {
     for (const field of ['validation', 'initialFindings', 'changes']) {
       const item = record(); item[field] = 'not-an-array'
@@ -81,6 +87,15 @@ describe('version-bound teaching reviews', () => {
 })
 
 describe('teaching review reports', () => {
+  it('reports actual review dates and distinguishes retained lessons from revised ones', async () => {
+    const item = record(); item.reviewedAt = '2026-11-11'; item.disposition = 'reviewed-preserved'
+    const root = await reviewFixture(raw, [item])
+    await auditTeachingReviews({ root, write: true, quiet: true })
+    const report = await readFile(join(root, 'teaching-review.md'), 'utf8')
+    expect(report).toContain('作者复评日期：2026-11-11')
+    expect(report).toContain('0 篇修订，1 篇复评后保留')
+    expect(report).not.toContain('本轮以 2026-10-12')
+  })
   it.each([
     '\uFEFF# 标题课程\n\n```text\n# HELP fake_metric A code comment\n```',
     '~~~text\n# 不是标题\n~~~\n\n# 标题课程\n\n正文',

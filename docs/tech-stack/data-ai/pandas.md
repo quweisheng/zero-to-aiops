@@ -644,7 +644,7 @@ combine: 合并结果
 
 ```python
 service_counts = (
-    df.groupby("service")
+    df.groupby("service", dropna=False)
       .size()
       .reset_index(name="alert_count")
       .sort_values("alert_count", ascending=False)
@@ -655,7 +655,7 @@ service_counts = (
 
 ```python
 by_service_severity = (
-    df.groupby(["service", "severity"])
+    df.groupby(["service", "severity"], dropna=False)
       .size()
       .reset_index(name="alert_count")
 )
@@ -665,9 +665,9 @@ by_service_severity = (
 
 ```python
 summary = (
-    df.groupby("service")
+    df.groupby("service", dropna=False)
       .agg(
-          alert_count=("alert_name", "count"),
+          alert_count=("alert_name", "size"),
           critical_count=("is_critical", "sum"),
           avg_duration_min=("duration_min", "mean"),
           max_duration_min=("duration_min", "max"),
@@ -682,11 +682,11 @@ summary = (
 
 ```python
 df["service_alert_count"] = (
-    df.groupby("service")["alert_name"].transform("count")
+    df.groupby("service", dropna=False)["alert_name"].transform("size")
 )
 ```
 
-用途：给每一行补充所在服务的总告警数。
+用途：给每一行补充所在服务的总告警行数，即使 `alert_name` 缺失也不漏计。`dropna=False` 保留未知服务组，便于披露数据质量；这不代表已经查明它属于哪个服务，更不能把未知组自动分派给负责人。
 
 ## 合并数据
 
@@ -775,8 +775,7 @@ pivot = pd.pivot_table(
     df,
     index="service",
     columns="severity",
-    values="alert_name",
-    aggfunc="count",
+    aggfunc="size",
     fill_value=0,
 )
 ```
@@ -827,10 +826,10 @@ deduped = df.drop_duplicates(
 ### sample
 
 ```python
-df.sample(10, random_state=42)
+df.sample(n=min(10, len(df)), random_state=42)
 ```
 
-用于抽样检查数据质量。
+用于抽样检查数据质量。最多取十行，避免前面的四行课堂数据因不允许重复抽样而报“样本量大于总体”；抽样通过不证明未抽中的行都正确。
 
 ## apply 和向量化
 
@@ -1228,7 +1227,7 @@ df.to_markdown(index=False)
 | 日期字段是 `object` | 没解析时间 | `df.info()` | `pd.to_datetime` 或 `parse_dates` |
 | 中文乱码 | 编码不匹配 | 打开文件或试读 | 指定 `encoding` |
 | 链式赋值不生效，或旧版本出现 `SettingWithCopyWarning` | 对筛选结果再赋值，误以为修改了原表 | 看版本与实际原表值 | 需要改原表时使用一次 `.loc` 赋值；独立处理则显式创建结果 |
-| groupby 结果少了空值 | 默认可能排除 NA 分组 | 看缺失值 | 先 `fillna` |
+| groupby 结果少了空值 | 默认可能排除 NA 分组 | 比较输入总行数与各组行数之和 | 按合同用 `dropna=False` 披露未知组，或明确隔离；不盲目填成已有服务 |
 | 数字排序像字符串 | 数字列是 object | `df.dtypes` | `pd.to_numeric` |
 | merge 后行数暴涨 | join key 不唯一 | 检查重复 key | 去重或确认一对多 |
 | merge 后很多 NaN | key 不匹配 | 比较 key 值 | 清洗空格、大小写、类型 |
@@ -1522,6 +1521,36 @@ print("wrong=4 accepted=0 quarantine=2")
 追问“测试都通过为什么还会错”，回答测试只覆盖写出的合同，合同本身也可能有业务错误；需要值班人员抽查真实样本和历史事故对照。追问“什么时候改用分布式处理”，回答先确认瓶颈在数据规模、并行需求还是错误的数据路径，再比较数据库下推、列式查询引擎与分布式框架的运维成本，不以行数作为唯一分界线。
 
 ## 独立通关：行数、时间和统计分母都要守恒
+
+### 老师批改：四条告警为什么只统计出三条
+
+有位同学说：“我用 `count` 统计告警，结果少一条，肯定是去重了。”先别猜原因。`count` 统计所选列的非空值，`size` 统计组内行数；分组键为空又是另一种漏项来源。这两种情况可以同时存在，不能靠在表尾加一条“其他”糊弄过去。
+
+保存下面为 `count_feedback.py`，使用本课 pandas 环境运行。没有文件输入输出，也不连接数据库。先预测原始四行、默认按服务分组的行数之和、保留空服务后总行数、非空告警名数量，再看断言。
+
+```python
+import pandas as pd
+
+events = pd.DataFrame({
+    "service": ["a", "a", "b", None],
+    "alert_name": ["Timeout", None, "HighLatency", "Unowned"],
+})
+default_rows = int(events.groupby("service").size().sum())
+audit = events.groupby("service", dropna=False).agg(
+    row_count=("alert_name", "size"),
+    named_count=("alert_name", "count"),
+)
+assert len(events) == 4 and default_rows == 3
+assert int(audit["row_count"].sum()) == 4
+assert int(audit["named_count"].sum()) == 3
+assert audit.loc["a", "row_count"] == 2 and audit.loc["a", "named_count"] == 1
+print(audit)
+print("原始4行；默认分组只覆盖3行；完整分组4行；有名称3行")
+```
+
+老师的判词是：甲服务没有丢行，只是其中一条缺名称；未知服务那行被默认分组排除，但它的告警名其实存在。两个“三”相等只是巧合，背后的记录不是同一组。若你只保存汇总总数，就分不清这两个原因。完整报告应同时披露行数、关键字段缺失数和未知服务数；未知身份进入待核实清单，不擅自分给甲或乙。[官方分组缺失键与计数规则](https://pandas.pydata.org/docs/user_guide/groupby.html)。
+
+独立变式：再加一条“服务名和告警名都为空”的记录，预测完整分组五行、有名称仍三行、默认分组仍三行，再运行验证。如果不符，先看空字符串与真正缺失值的差别，以及输入有没有被前面的片段修改；不要通过填上一个虚构告警名来通过断言。退出脚本即可，保存输入、输出和两种三行集合的解释作为证据。面试追问“正式日报为什么允许 `alert_id` 用 count”，应指出它先严格验证主键非空；前提变了，算式的含义就要重新检查。
 
 独立交付五关，不以“脚本没报错”代替业务正确。每关先写预测再运行；故障只能改自己合成文件的副本。
 

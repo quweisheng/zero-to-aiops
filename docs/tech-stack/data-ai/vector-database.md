@@ -882,8 +882,9 @@ database timeout errors
 
 | 指标 | 含义 |
 |---|---|
-| recall@k | 正确结果是否在前 k 个里 |
-| precision@k | 前 k 个结果有多少相关 |
+| recall@k | 前 k 个结果找回的相关记录数 / 该问题全部已标注相关记录数；不是只问是否命中一条 |
+| hit@k | 前 k 个中至少命中一条相关记录则为1，否则为0；多题平均后才是命中率 |
+| precision@k | 前 k 个位置中的相关记录数 / k；不足 k 条时须事先约定分母，不能临时改口径 |
 | MRR | 各查询首个正确结果排名倒数的平均值；没有命中记零 |
 | p95 latency | 查询延迟 |
 | index build time | 索引构建耗时 |
@@ -1353,6 +1354,45 @@ IVF 把空间粗分为若干桶，查询只探查部分相关桶；桶分布不�
 最后把检索失败与数据未授权分开计数。普通用户看不到管理员手册是正确授权结果，不应被统计成需要优化的漏召回；模型无法取得资料时应说明缺少可访问证据，而不是暗示该资料一定不存在。这样指标不会反过来推动团队放宽权限。
 
 ## 独立通关：数学近邻与业务证据分别验收
+
+### 老师批改：第一名正确，召回率为什么只有一半
+
+你要处理数据库连接故障，需要两段材料：`check` 讲只读验证，`limits` 讲何时禁止重启。评估题已经把两段都标为相关；检索返回 `check` 和一段不相干的 `other`。学生说：“第一名就对了，召回百分百。”他算的是是否命中，而不是所有相关证据找回了多少。
+
+先写三个分母：hit@2 只判断有没有，结果为1；recall@2 用两段相关材料作分母，结果为1/2；precision@2 用两个返回位置作分母，也为1/2。第一条相关排名的倒数为1，因此这题的倒数排名满分也不能证明禁用条件已找到。[检索评估的精确率与召回率定义](https://nlp.stanford.edu/IR-book/html/htmledition/evaluation-of-unranked-retrieval-sets-1.html)。
+
+保存为 `retrieval_feedback.py`，用 Python 运行；全部是手写标识，不调用模型和数据库，也没有 API 费用。
+
+```python
+relevant = {"check", "limits"}
+k = 2
+
+def evaluate(ranked):
+    top = ranked[:k]
+    if len(top) != len(set(top)):
+        raise ValueError("重复片段占用候选位置，先记录去重问题，不重复计分")
+    hits = len(relevant.intersection(top))
+    reciprocal_rank = next((1 / rank for rank, item in enumerate(top, 1)
+                            if item in relevant), 0)
+    return (int(hits > 0), hits / len(relevant), hits / k, reciprocal_rank)
+
+incomplete = evaluate(["check", "other"])
+complete = evaluate(["limits", "check"])
+assert incomplete == (1, 0.5, 0.5, 1.0)
+assert complete == (1, 1.0, 1.0, 1.0)
+print("hit, recall, precision, reciprocal_rank:", incomplete)
+print("after evidence repair:", complete)
+try:
+    evaluate(["check", "check"])
+except ValueError as error:
+    print("DETECTED:", error)
+else:
+    raise AssertionError("重复候选未被识别")
+```
+
+老师的反馈是：两次 hit 与首条排名完全一样，证据完整度却不同；重复返回同一段不能冒充找到两段。这个课堂固定 `k=2`，不足两条仍用二作精确率分母，相关集合也非空；真实评估需另约定无答案题、候选不足和授权范围内的标注，不对空相关集合直接相除。
+
+独立变式把第一组改成 `other, limits`：命中、召回、精确率不变，倒数排名变为二分之一。再删掉 `limits` 的访问权限，应重新定义该身份的可访问评估范围，并把缺少安全执行条件标出来；不能为了提高召回放宽权限，更不能用“首条命中”批准重启。输出不符先查集合去重、k与分母、排名从一开始的约定，退出脚本即结束。保存标注合同、候选、四项数值和错误解释，才是可复查的 GitHub 证据。
 
 独立完成后再看判据；错一关回到对应合成实验返工，勿通过调整预期结果掩盖错误。
 

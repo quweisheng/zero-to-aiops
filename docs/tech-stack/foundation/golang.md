@@ -1476,11 +1476,14 @@ func newHandler(jobs chan<- Alert, aggregator *Aggregator) http.Handler {
 			return
 		}
 
+		if request.Context().Err() != nil { // 已知取消就不再尝试入队
+			return
+		}
 		select {
 		case jobs <- alert:
 			writer.WriteHeader(http.StatusAccepted)
 		case <-request.Context().Done():
-			http.Error(writer, "request canceled", http.StatusRequestTimeout)
+			return // 客户端可能已经断开，不能承诺还能送回某个 HTTP 状态
 		default:
 			http.Error(writer, "alert queue is full", http.StatusTooManyRequests)
 		}
@@ -1562,6 +1565,7 @@ func main() {
 package main
 
 import (
+	"context"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -1595,6 +1599,20 @@ func TestAlertLifecycle(t *testing.T) {
 	}
 	if !strings.Contains(recorder.Body.String(), `"order-api:critical":1`) {
 		t.Fatalf("unexpected summary: %s", recorder.Body.String())
+	}
+}
+
+func TestAlreadyCanceledDoesNotEnqueue(t *testing.T) {
+	jobs := make(chan Alert, 1)
+	handler := newHandler(jobs, NewAggregator())
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel() // 在进入处理函数以前就确定取消，结果不依赖调度运气
+	request := httptest.NewRequest(http.MethodPost, "/alerts", strings.NewReader(
+		`{"service":"order-api","severity":"critical"}`,
+	)).WithContext(ctx)
+	handler.ServeHTTP(httptest.NewRecorder(), request)
+	if len(jobs) != 0 {
+		t.Fatal("already canceled request must not enter queue")
 	}
 }
 ```
@@ -2080,6 +2098,10 @@ heap profile 只覆盖 Go heap 采样。还要看 goroutine stack、OS thread、
 代价也要讲：记录越多，复制与编码越耗 CPU 和内存；字段值若将来变成指针或 slice，浅复制 map 不一定让嵌套对象独立。生产可以评估分页、预聚合或不可变快照，但每种方案都要说明查询看见的是哪个时间点，以及写入与读出的延迟是否可接受。
 
 ### 取消不是排空，优雅退出要画出顺序
+
+先做一个小反例：`jobs` 有空位，`ctx.Done()` 也已经关闭，`select` 会不会永远先走取消分支？不会；多个通信分支都就绪时，没有“写在前面优先”的保证，见 [Go 语言规范的 select 规则](https://go.dev/ref/spec#Select_statements)。所以 handler 在选择前先拒绝已经知道的取消，新增测试只断言这个确定前提；但检查之后仍可能发生取消，不能因此宣称取消与入队已经原子绑定。要求严格“取消后绝不受理”时，必须设计受理状态和取消状态的共同提交协议，而不是继续堆几次 `ctx.Err()`。
+
+老师再问：“取消分支统一回 408，可以证明客户端没成功吗？”不可以。[Request.Context 官方说明](https://pkg.go.dev/net/http#Request.Context)中的取消也可能来自连接关闭或 HTTP/2 请求取消，客户端甚至无法接收响应；408 不是所有业务取消的通用标签。课堂在已取消分支停止工作，不用 Recorder 默认状态或没有收到响应推导业务未提交。若事件已经入队，后来的取消不会撤回它；查询任务与幂等设计才负责消除客户端的未知。请保留“进入前取消不入队”和“受理后取消不能当回滚”两条相反判据，答错回到请求与队列的所有权边界。
 
 示例把 worker 的 context 与进程停止信号关联，因此信号到达后 worker 可以立刻退出，HTTP 的 Shutdown 并不会替你把队列里的告警处理完。这是明确的课堂简化，不是“优雅退出零丢失”。要排空，通常先让 readiness 表示暂不接流量，停止新的 producer，确认没有 handler 继续发送后，由唯一协调者关闭 jobs，让 worker 用接收循环处理剩余事件，然后等待 worker 完成。整个过程还要有总超时，超时之后对未处理事件作持久化或重投安排。
 

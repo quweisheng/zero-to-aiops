@@ -365,15 +365,36 @@ GROUP BY window_start, window_end;
 docker compose -p flink-classroom up --detach
 if ($LASTEXITCODE -ne 0) { throw '启动失败，先检查配置与容器日志。' }
 docker compose -p flink-classroom ps
-curl.exe --fail --silent --show-error --max-time 10 http://localhost:8081/overview
+$overviewResponse = Invoke-WebRequest -UseBasicParsing -Uri 'http://localhost:8081/overview' -TimeoutSec 10 -ErrorAction Stop
+$overviewBody = ([string]$overviewResponse.Content).Trim()
+if ($overviewResponse.StatusCode -ne 200 -or -not $overviewBody.StartsWith('{') -or -not $overviewBody.EndsWith('}')) {
+    throw '就绪接口必须返回 HTTP 200 和单个 JSON 对象，数组不符合本课合同。'
+}
+$overview = $overviewBody | ConvertFrom-Json -ErrorAction Stop
+if ($overview -isnot [pscustomobject]) { throw '就绪响应不是对象，停止提交。' }
+foreach ($field in @('taskmanagers', 'slots-total', 'slots-available')) {
+    if ($overview.$field -isnot [int] -and $overview.$field -isnot [long]) {
+        throw "就绪响应的 $field 缺失或不是整数，不能当作计算资源可用。"
+    }
+}
+if ($overview.taskmanagers -ne 1 -or $overview.'slots-total' -lt 2 -or
+    $overview.'slots-available' -lt 1 -or $overview.'slots-available' -gt $overview.'slots-total') {
+    throw '本课计算节点/Slot 尚未就绪，保存日志，暂不提交 SQL。'
+}
+$overview | Select-Object taskmanagers, slots-total, slots-available
 ```
 
 先确认 REST 可以返回、TaskManager 已注册并有可用 Slot，再提交一次；如果尚未就绪，先查看两个组件日志，不重复提交作业。提交保留前台输出以捕获 SQL、连接器和挂载错误：
+
+先用 `Invoke-WebRequest` 保留原始响应，检查 HTTP 200 和最外层对象，再由 `ConvertFrom-Json` 读取字段；十秒超时和 `-ErrorAction Stop` 让请求失败时停止。为什么多检查一次形状？PowerShell 可能自动展开单元素数组，即使三个字段都是整数，`[{...}]` 也不是本接口约定的单个对象。请用顶层数组、缺字段、空闲槽大于总槽三个合成反例检查验收器，都应拒绝，而不是把坏响应当资源充足。
+
+三个数字分别是注册计算节点数、总槽数、空闲槽数。本课初始拓扑恰好一个 TaskManager、两个槽，首次提交前至少应有一个空槽，且不能超过总数。这个门槛不能直接套给共享生产集群。若还在注册，最多观察三分钟，查日志后只重试这段就绪检查；不能通过删掉条件或反复提交 SQL 来制造成功。
 
 ```powershell
 docker compose -p flink-classroom exec -T jobmanager `
   ./bin/sql-client.sh `
   -f /opt/flink/usrlib/job.sql
+if ($LASTEXITCODE -ne 0) { throw '客户端执行失败，先核对已有 Job ID 与首个错误，不盲目重提。' }
 ```
 
 若所选客户端设置让此窗口保持前台，保留它并另开 PowerShell，进入同一目录做下面观察；不要按未知作业状态反复提交。容器里的命令成功发起也不等于 SQL Job 成功，必须保存客户端给出的 Job ID，并在 `/jobs/overview` 确认同一编号。此前的 `--detach` 只会把命令放后台，隐藏 SQL 错误，不能作为提交验收。
@@ -411,6 +432,7 @@ TaskManager 日志中的 `+I[...]` 是 Print Sink 的插入结果。生产不要
 
 ```powershell
 docker compose -p flink-classroom stop taskmanager # 只停止本地实验 TaskManager
+if ($LASTEXITCODE -ne 0) { throw '停止失败，本轮尚不能判定故障已注入。' }
 curl.exe --fail http://localhost:8081/jobs/overview
 ```
 
@@ -420,6 +442,7 @@ curl.exe --fail http://localhost:8081/jobs/overview
 
 ```powershell
 docker compose -p flink-classroom start taskmanager
+if ($LASTEXITCODE -ne 0) { throw '恢复启动失败，保存日志，不另提空状态作业。' }
 docker compose -p flink-classroom logs --tail 120 taskmanager
 curl.exe --fail http://localhost:8081/jobs/overview
 ```

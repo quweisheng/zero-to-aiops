@@ -57,7 +57,7 @@
 
 ```text
 主机多路径：8 条路径中只有 4 条在线
-存储池：已分配容量达到 82%
+存储池：已使用容量达到 82%（先核对当前容量模式与字段口径）
 LUN：平均响应时间比平时高 3 倍
 ```
 
@@ -494,13 +494,18 @@ iscsiadm -m session                       # iSCSI 场景查看当前登录会话
 
 - raw capacity：物理介质原始容量。
 - usable capacity：扣除冗余等开销后可用容量。
-- allocated capacity：已经分配给 LUN 或文件系统的逻辑容量。
-- used capacity：真实写入并占用的容量。
+- total subscribed capacity：池中 LUN 和文件系统的配置容量总和，即已承诺的逻辑上限。
+- allocated capacity：不能一律译为“承诺的逻辑容量”。在 Dorado 6.1.2 的容量说明中，它对应 LUN/文件系统已经分配的容量；LUN 层指实际写入用户数据量，还要核对传统/可得容量模式。
+- used capacity：池级已使用量，在上述版本的口径中包含已分配容量和数据保护容量，不只是业务文件大小。
 - snapshot capacity：快照变化数据或元数据占用。
 - data reduction ratio：重删压缩带来的逻辑/物理比值。
 - subscription ratio：thin provisioning 的逻辑承诺与物理容量关系。
 
 数据缩减率不是常数。备份文件、加密数据、压缩包和数据库压缩数据可能几乎无法再次缩减，容量预测必须使用实际业务趋势。
+
+老师用一张简化账本纠正一个常见错因：某池可用总量 100 TiB，给各卷承诺 150 TiB，已分配 40 TiB，保护数据占 10 TiB。假设采用上述池口径、同一容量模式且无其他需要另计项，订阅比是 150%，已使用是 50 TiB；不能把 150 TiB 当成已经写满，更不能把保护占用漏掉后说只用了 40%。把条件改成保护占用增长到 30 TiB，即使业务配置容量没变，池已使用也变为 70 TiB。请先独立算再核对，并解释为何“删了业务文件”仍需观察实际回收与快照依赖。这个算例是口径练习，不是厂商压缩算法模拟。
+
+字段须带“产品版本、对象层级、容量模式、单位、采样时刻”一起记录。[华为 Dorado 6.1.2 系统容量术语](https://info.support.huawei.com/storage/docs/zh-cn/dorado-6.1.2/basic-storage-service-configuration-guide-for-file/bas_nas_service_007.html)分别定义总订阅、已分配和数据保护容量；别把一张表里的 `allocated` 直接套成所有型号和对象的统一指标。接入 AIOps 时先保留原字段再建立归一化映射，口径没核实的数字标待确认，不参与采购或耗尽时间计算。
 
 ## OceanStor 在 AIOps 中的位置
 

@@ -1411,7 +1411,7 @@ curl -X GET "http://localhost:9200/_cluster/allocation/explain?pretty"
 | cluster red | `_cluster/health`、allocation explain | primary 未分配 | 先恢复 primary |
 | 字段查不到 | `_mapping` | 字段类型不对、没 refresh、时间范围错 | 查 mapping 和 query |
 | term 查 text 查不到 | mapping/analyzer | text 被分词，term 不分析 | 对 text 用 match，对 keyword 用 term |
-| 聚合报错或结果怪 | field type | 对 text 聚合、keyword 缺失 | 用 `.keyword` 或 keyword 字段 |
+| 聚合报错或结果怪 | 实际 mapping 与字段覆盖率 | 对 text 聚合、keyword 缺失 | 使用已声明的可聚合字段；先确认 `.keyword` 子字段确实存在，不能机械追加后缀 |
 | mapping conflict | 写入错误 | 同字段多类型 | 规范 schema，建 template |
 | 写入慢 | thread pool、refresh、bulk | 单条写入多、refresh 太频繁、磁盘慢 | bulk、调 refresh、看节点 |
 | 查询慢 | query、shard、heap | 时间范围大、正则重、高基数聚合 | 限范围，优化 query |
@@ -1707,6 +1707,49 @@ Elasticsearch 是近实时搜索，写入后要等 refresh。实验可以手动 
 给定时间线：发布前有稳定错误日志，发布后新增结构化对象字段，采集队列持续增长，仪表盘错误率下降。参考推理是先比较成功写入与逐项失败，核对字段合同是否从字符串变成对象；再判断错误日志是不是被拒绝，而非业务真的恢复。修复选择回退生产者字段或按兼容方案建立新索引，隔离并重放确有失败的记录，限制重放速度，保留撤销条件。最后对故障窗口重新核对计数，让自动摘要明确这段数据曾不完整。
 
 ## 独立通关：搜到了，是否真的回答了业务问题
+
+### 老师先批改：HTTP 成功，为什么只收下一半日志
+
+前文讲过 Bulk 要逐项检查，今天把口头答案变成一组可复查请求。先完成 `teacher-logs` 基础实验，暂不清理容器；只向这个隔离索引发两条合成记录，不访问真实日志。预测：第二条耗时为 `slow`，第一条是否会被一起撤销？答案是否定的，Bulk 不是把整批操作包成一个全有或全无的事务。
+
+在原 PowerShell 窗口执行一次。随机前缀用于避免重复练习覆盖上次文档；保留变量直到本课结束。NDJSON（按行分隔的 JSON）要求动作一行、该动作的文档一行，最后也要有换行；它不是一个 JSON 数组。[Bulk 官方格式与逐项响应](https://www.elastic.co/docs/api/doc/elasticsearch/operation/operation-bulk)。
+
+```powershell
+$bulkPrefix = 'class-' + [Guid]::NewGuid().ToString('N')
+$bulkLines = @(
+  (@{ index = @{ _id = "$bulkPrefix-ok" } } | ConvertTo-Json -Compress)
+  '{"service":"bulk-class","message":"valid duration","duration_ms":200}'
+  (@{ index = @{ _id = "$bulkPrefix-bad" } } | ConvertTo-Json -Compress)
+  '{"service":"bulk-class","message":"invalid duration","duration_ms":"slow"}'
+)
+$bulkBody = ($bulkLines -join "`n") + "`n"
+$bulkResult = Invoke-RestMethod -Method Post `
+  -Uri "$esClass/teacher-logs/_bulk?refresh=wait_for" `
+  -ContentType 'application/x-ndjson' -Body $bulkBody
+$bulkResult | ConvertTo-Json -Depth 12
+if ($bulkResult.errors -ne $true -or $bulkResult.items.Count -ne 2) {
+  throw '没有得到预期的两项混合结果，先检查完整响应'
+}
+if ($bulkResult.items[0].index.status -ne 201 -or $bulkResult.items[1].index.status -ne 400) {
+  throw '逐项状态不符，不能凭 HTTP 成功继续'
+}
+Invoke-RestMethod "$esClass/teacher-logs/_doc/$bulkPrefix-ok"
+```
+
+正常预期是顶层 `errors: true`，第一项创建成功，第二项字段解析失败；按第一项标识读取仍应找到 `duration_ms: 200`。若第一项是 `200` 而不是新建的 `201`，先查是否重用了前缀；若两个都失败，检查实际映射、权限和请求格式，不要让断言失败被“网页正常”盖过去。本轮只检查了教学请求的结构与语法，没有启动 Elasticsearch 验证这些返回值。
+
+现在只修复失败的那一项，不重新提交成功项：
+
+```powershell
+$bulkRepair = '{"service":"bulk-class","message":"repaired duration","duration_ms":800}'
+Invoke-RestMethod -Method Put -Uri "$esClass/teacher-logs/_doc/$bulkPrefix-bad?refresh=wait_for" `
+  -ContentType 'application/json' -Body $bulkRepair
+Invoke-RestMethod "$esClass/teacher-logs/_doc/$bulkPrefix-bad"
+```
+
+核对同一个失败标识现在可读、值为八百，同时成功项仍为二百。保存两项身份、原失败原因、修复请求与结果后，按原实验步骤停止或删除唯一课堂容器。不要删索引重做来掩盖失败，也不在生产对任意文档用覆盖写入试错。
+
+合格的面试回答需要指出：HTTP 层是否成功、整批是否存在失败、每一项是否成功是三个问题；类型错误应先修合同，限流才考虑受控退避重试；稳定标识能约束重复文档，却也意味着覆盖语义，不能自动满足不可篡改审计要求。老师会据此判断你是真的读过响应，还是只背了“检查 errors”这句口诀。
 
 先合上对应答案，只在自己的 `aiops-es-class` 课堂容器操作。本文真实产品步骤尚未在本轮执行；若无 Elasticsearch 环境，请提交明确标注“纸面推演”的请求和预测，不能声称已验证真实索引行为。
 

@@ -388,13 +388,31 @@ networking:
 
 安装：
 
+2026-11-11 按 [kind v0.33.0 官方发布清单](https://github.com/kubernetes-sigs/kind/releases/tag/v0.33.0)固定下列 Kubernetes 1.36.4 镜像摘要，避免该 kind 版本默认的 1.37 超出本文 Cilium 1.20 声明的测试范围。先确认 `kind version` 为 v0.33.0；这固定了可审阅输入，不代表本轮已经跑过此组合。
+
 ```bash
-kind create cluster --name cilium-lab --config kind-cilium.yaml # 创建无默认 CNI 的三节点集群
+# 保存为 install-cilium-lab.sh，再用 bash install-cilium-lab.sh 运行。
+set -euo pipefail
+if test -e ./cilium-lab.kubeconfig; then
+  echo '独立 kubeconfig 已存在，停止以免覆盖' >&2
+  exit 1
+fi
+clusters=$(kind get clusters)
+if printf '%s\n' "$clusters" | grep -qx cilium-lab; then
+  echo '同名集群已存在，停止' >&2
+  exit 1
+fi
+kind create cluster --name cilium-lab --config kind-cilium.yaml \
+  --image kindest/node:v1.36.4@sha256:099e049362a1526b2db71494e1947aae99bd16290d7c895f2b7ea312e3cbfaed \
+  --kubeconfig "$PWD/cilium-lab.kubeconfig"
+export KUBECONFIG="$PWD/cilium-lab.kubeconfig"
 cilium install --version 1.20.0 --set ipam.mode=kubernetes # 明确使用 kind 分配的节点 PodCIDR
 cilium status --wait # 等 agent、operator 和 endpoint 健康
 cilium connectivity test # 运行官方连通性和策略测试
 kubectl get nodes -o wide # 节点应为 Ready
 ```
+
+脚本一步失败就停止，不让 CNI 安装落到旧的当前集群。子脚本的环境变量不会自动留在父终端；脚本成功后，在同一目录执行 `export KUBECONFIG="$PWD/cilium-lab.kubeconfig"`，再用 `kubectl config current-context` 确认是 `kind-cilium-lab`。后续 `kubectl`、`cilium` 和每个新开的端口转发终端都使用这份配置；文件含集群访问凭据，加入学习仓库 `.gitignore`，不公开。老师的反例是：`kind create` 下载失败，但原终端仍选着公司集群，此时直接继续 `cilium install` 会发生什么？它可能向错误目标写入，因此“安装命令没问题”不等于“安装对象正确”。
 
 `ipam.mode=kubernetes` 与[1.20 官方 kind 安装说明](https://github.com/cilium/cilium/blob/v1.20.0/Documentation/installation/kind.rst)一致，让 Pod 地址来自 kind 已分配给各节点的网段，避免只改 kind podSubnet 却让另一个默认地址池继续分配。安装后检查 `kubectl get nodes -o jsonpath='{range .items[*]}{.metadata.name}{" "}{.spec.podCIDR}{"\n"}{end}'`，再与实验 Pod IP 对照；不匹配先查 IPAM 模式，不用扩大池掩盖网段冲突。首轮保留 kind 默认 kube-proxy，不在同一次安装中另做 kube-proxy-free 迁移。
 
@@ -752,8 +770,10 @@ Cilium 是基于 eBPF 的 Kubernetes CNI、Service、网络策略和可观测方
 
 ## 清理实验
 
+先确认当前终端仍使用本课独立 kubeconfig，且命名空间中的对象全部由本实验创建；恢复后的允许/拒绝对照已完成才回收。不要在换过终端却未重新绑定实验配置的情况下直接粘贴删除命令。
+
 ```bash
-kubectl delete namespace cilium-lab # 清理策略和工作负载
+kubectl --context kind-cilium-lab delete namespace cilium-lab # 清理策略和工作负载
 kind delete cluster --name cilium-lab # 删除学习集群
 ```
 

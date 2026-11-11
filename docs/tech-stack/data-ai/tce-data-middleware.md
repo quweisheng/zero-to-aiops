@@ -443,13 +443,24 @@ A 的版本 7 已存在于恢复库，搜索缺一版，可以从权威记录重
 
 ```python
 states = {}
-seen = set()
+seen = {}  # 事件编号 -> 已接受的合同内容，不能只记编号
 
 def consume(event):
+    if set(event) != {'id', 'ticket', 'version', 'deleted'}:
+        raise ValueError('缺字段或出现未约定字段')
+    if any(not isinstance(event[k], str) or not event[k].strip() for k in ('id', 'ticket')):
+        raise ValueError('事件与工单编号必须是非空字符串')
+    if type(event['version']) is not int or event['version'] < 1 or type(event['deleted']) is not bool:
+        raise ValueError('版本必须为正整数，删除标记必须为布尔值')
+    payload = (event['ticket'], event['version'], event['deleted'])
     if event['id'] in seen:
+        if seen[event['id']] != payload:
+            raise ValueError('同一事件编号的内容发生变化，不能当重复成功')
         return 'duplicate'
     current = states.get(event['ticket'])
-    seen.add(event['id'])
+    if current is not None and event['version'] == current['version'] and event['deleted'] != current['deleted']:
+        raise ValueError('同一工单版本出现相反的删除状态，需核对权威源')
+    seen[event['id']] = payload
     if current is not None and event['version'] <= current['version']:
         return 'stale'
     states[event['ticket']] = dict(event)
@@ -465,11 +476,30 @@ assert consume(deleted) == 'applied'
 assert consume(dict(old, id='old-replay')) == 'stale'
 assert states['A']['version'] == 8 and states['A']['deleted']
 print('duplicate blocked; old version blocked; deletion retained')
+
+for bad in (dict(deleted, deleted=False), dict(deleted, id='conflict-v8', deleted=False),
+            dict(deleted, id='bad-version', version=True)):
+    try:
+        consume(bad)
+    except ValueError as exc:
+        print('rejected:', exc)
+    else:
+        raise AssertionError('契约冲突必须拒绝')
+assert states['A']['version'] == 8 and states['A']['deleted']
+assert consume(deleted) == 'duplicate'
 ```
 
 预期最后保留版本八的删除标记，重复和旧版本分别被识别。故障注入可以临时去掉版本比较的两行，末尾断言应失败；恢复比较后再次运行，应通过。若删除后又出现旧工单，先检查是否只保留了去重集合、没有保存版本与删除标记。清理结束进程即可，没有文件数据和服务遗留。
 
 不要把这个内存函数直接搬进多个生产消费者。真实并发中“读版本、比较、写结果”需要目标数据库的条件更新、事务或相应原子接口保护；去重状态与结果提交也需要一致边界。否则两个消费者各自读到旧版本，仍可能由最后到达的旧写覆盖新写。进程重启后的去重、版本和删除事实必须可恢复，事件保留期之外的重放策略也要明确。
+
+### 老师批改：认出了编号，为什么还不能确认成功
+
+学生说：“a8 已经处理过，所以后来任何 a8 都直接返回 duplicate。”请先看反例：首次 a8 是版本八的删除，第二次 a8 却是未删除。若只查集合，系统会把两份互相矛盾的事实当成一份成功重投，上游错误被藏起来。这不是一般网络重试，而是合同冲突。本例把事件编号对应的工单、版本和删除状态一起保存；只有内容一致才按重复处理，冲突不修改既有状态，留给隔离与人工核对流程。
+
+再问：“换个新编号不就能绕过了吗？”不能。第二个反例使用新编号，却把同一工单同一版本的删除状态翻转，因此仍被拒绝。第三个反例把版本写成 `True`；Python 中布尔值是整数的子类，单用 `isinstance(version, int)` 会误收它，所以教学合同用精确类型检查。运行后应看到三条 `rejected`，工单仍停留在版本八删除状态，原事件重放仍是 duplicate。若没有拒绝，先核对是否保留内容比较、同版本矛盾检查与检查顺序，不能在验证之前更新去重记录。
+
+独立变式：提交新编号、版本九、未删除状态，先预测会怎样。按本例约定它是合法更新；但真实业务若禁止工单复活，就必须另加状态转换规则，不能以“版本更大”代替业务授权。这也提醒你，事件身份、版本顺序、业务状态机和执行权限是四道不同检查。保存两种合同的判断与理由，而不是把这段单线程字典演示直接当成生产消息系统。此变式仍只有内存状态，结束进程即可收回。
 
 ## 把厂商能力核验变成具体交付问题
 

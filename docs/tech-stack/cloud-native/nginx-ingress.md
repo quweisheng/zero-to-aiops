@@ -72,7 +72,7 @@ https://aiops.example.com/api/alerts
 
 - NGINX 找不到或连不上 upstream。
 - Service selector 选不到 Pod。
-- Pod 没 ready，EndpointSlice 为空。
+- Pod 没 ready，EndpointSlice 没有可用就绪后端（地址可能仍在，只是 `ready: false`）。
 - targetPort 写错。
 - 后端只监听 `127.0.0.1`。
 - 后端主动关闭连接。
@@ -1074,6 +1074,15 @@ server {
 ```powershell
 if (-not (Test-Path ./proxy.conf)) { throw '先保存 proxy.conf' }
 $labDir = (Get-Location).Path
+$existingContainers = @(docker ps -a --format '{{.Names}}')
+if ($LASTEXITCODE -ne 0) { throw '容器清单读取失败，不能当作名称未占用' }
+$existingNetworks = @(docker network ls --format '{{.Name}}')
+if ($LASTEXITCODE -ne 0) { throw '网络清单读取失败，停止' }
+if ($existingContainers -contains 'nginx-proxy-lab' -or $existingContainers -contains 'nginx-backend-lab' -or
+    $existingNetworks -contains 'nginx-course-net') { throw '已有同名实验对象，停止，不复用或删除' }
+if (Get-NetTCPConnection -State Listen -LocalPort 18081 -ErrorAction SilentlyContinue) {
+    throw '18081 已有监听，停止并确认所属程序'
+}
 docker network create nginx-course-net
 if ($LASTEXITCODE -ne 0) { throw '网络未创建，先查名称与引擎' }
 docker run -d --name nginx-backend-lab --network nginx-course-net nginx:1.30.4
@@ -1082,7 +1091,7 @@ docker run -d --name nginx-proxy-lab --network nginx-course-net -p 127.0.0.1:180
 if ($LASTEXITCODE -ne 0) { throw '代理未启动，保留错误' }
 docker exec nginx-proxy-lab nginx -t
 if ($LASTEXITCODE -ne 0) { throw '配置未通过，不声称代理成功' }
-curl.exe -fsS -H 'Host: aiops.local' http://127.0.0.1:18081/
+curl.exe -fsS --connect-timeout 3 --max-time 8 -H 'Host: aiops.local' http://127.0.0.1:18081/
 if ($LASTEXITCODE -ne 0) { throw '基线 HTTP 未成功，不注入故障' }
 ```
 
@@ -1093,15 +1102,25 @@ if ($LASTEXITCODE -ne 0) { throw '基线 HTTP 未成功，不注入故障' }
 ```powershell
 docker pause nginx-backend-lab
 if ($LASTEXITCODE -ne 0) { throw '暂停未成功，不把后续结果归因于本次注入' }
-curl.exe -sS --max-time 8 -o NUL -w 'code=%{http_code} total=%{time_total}\n' -H 'Host: aiops.local' http://127.0.0.1:18081/
-docker logs nginx-proxy-lab --tail 30
-docker unpause nginx-backend-lab
-if ($LASTEXITCODE -ne 0) { throw '后端未恢复，停止清理并排查' }
+try {
+    $faultHttp = curl.exe -sS --max-time 8 -o NUL -w 'code=%{http_code} total=%{time_total}\n' -H 'Host: aiops.local' http://127.0.0.1:18081/
+    $faultCurlExit = $LASTEXITCODE
+    "curl_exit=$faultCurlExit $faultHttp"
+    docker logs nginx-proxy-lab --tail 30
+    if ($LASTEXITCODE -ne 0) { throw '日志读取失败，此轮证据不完整' }
+} finally {
+    docker unpause nginx-backend-lab
+    if ($LASTEXITCODE -ne 0) { Write-Warning '解除暂停失败；保留对象并人工检查，不继续正常验收' }
+    $unpauseExit = $LASTEXITCODE
+}
+if ($unpauseExit -ne 0) { throw '后端未恢复，停止清理并排查' }
 curl.exe -fsS --max-time 8 -H 'Host: aiops.local' http://127.0.0.1:18081/
 if ($LASTEXITCODE -ne 0) { throw '恢复 HTTP 仍失败，保留实验对象查证' }
 ```
 
 暂停期间请求常出现等待上游响应超时及 504；具体连接状态可能改变失败表现，最终以 error log 的连接/读取阶段和实际状态为证，不能为了凑 504 改写记录。这里 curl 没用 `-f`，因此成功收到 HTTP 504 时退出码仍可能为零，必须读取 `code`；故障判断不是“终端执行结束”。恢复需同一请求重新成功。
+
+老师再给你两个结果比较：`curl_exit=0 code=504` 表示客户端收到了网关的 HTTP 响应；`curl_exit=28 code=000` 表示 curl 自己耗尽等待时间，不能声称已经收到 504。两者都可能说明实验链路出问题，但取证层不同。`finally` 保证正常异常路径也会尝试解除本课后端暂停；强制关闭终端或 Docker 引擎故障仍可能阻止恢复，因此下次先检查该容器的 Paused 状态，不重新创建同名环境来覆盖现场。
 
 结束后依次执行 `docker rm -f nginx-proxy-lab nginx-backend-lab`，确认两项均删除，再执行 `docker network rm nginx-course-net`。只清理本段自己创建的两个容器和专用网络，保留 `proxy.conf` 与脱敏日志，不用全局 prune。失败先查目录挂载、Docker 文件共享权限、容器运行状态与日志；配置测试成功并不能代替实际 HTTP。当前编写环境未连接 Docker 引擎，本段没有被冒称为实跑通过。
 

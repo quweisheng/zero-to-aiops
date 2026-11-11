@@ -2267,6 +2267,69 @@ Chat（对话）请求里的消息历史由客户端按 API 语义管理，不�
 
 团队共享服务还需要身份认证、配额、队列上限、模型白名单和审计。模型输出是候选分析，不获得生产修改权限。升级回归流式解析、结构化输出、固定问题质量和显存峰值；回退包含程序、模型与参数组合，而不是只安装旧客户端。
 
+## 老师批改：网络收到一块，为什么不等于读到一行
+
+学生把“流式块”理解成“一次网络读取就是一个 JSON”，于是每收到一块字节就解析。这个假设不成立：同一行可能被拆成几次读取，一次读取也可能带来几行；中文的 UTF-8 字节也可能正好跨块。NDJSON 的应用边界是换行，不是传输层这次交来的字节数。[官方流式说明](https://docs.ollama.com/api/streaming)定义逐行 JSON，[错误说明](https://docs.ollama.com/api/errors)另外要求处理流中的错误对象，即使 HTTP 已经返回 200。
+
+先不下载模型，用 Python 3 标准库做一个只处理本课 Chat 文本的离线验收器。保存为 `stream_feedback.py`，运行 `python stream_feedback.py`。它不处理工具调用、thinking、多媒体或真正网络超时，不可直接充当完整 SDK；课堂只练“字节→行→对象→正常结束”四层合同。
+
+```python
+import json
+
+def collect(chunks):
+    pending = b''
+    pieces = []
+    completed = False
+    for chunk in chunks:
+        pending += chunk
+        while b'\n' in pending:
+            line, pending = pending.split(b'\n', 1)
+            if not line.strip():
+                continue
+            if completed:
+                raise ValueError('完成标记后又出现数据')
+            item = json.loads(line.decode('utf-8'))
+            if not isinstance(item, dict) or 'error' in item:
+                raise ValueError('流中错误或非对象响应')
+            if type(item.get('done')) is not bool:
+                raise ValueError('done 必须是布尔值')
+            message = item.get('message')
+            if not isinstance(message, dict) or not isinstance(message.get('content'), str):
+                raise ValueError('本课要求 Chat 文本消息')
+            pieces.append(message['content'])
+            if item['done']:
+                if item.get('done_reason') != 'stop':
+                    raise ValueError('并非正常停止，不能接受截断答案')
+                completed = True
+    if pending.strip() or not completed:
+        raise ValueError('存在未结束行或缺少完成标记')
+    return ''.join(pieces)
+
+def encode(items):
+    return ''.join(json.dumps(x, ensure_ascii=False) + '\n' for x in items).encode('utf-8')
+
+part = {'message': {'content': '告警'}, 'done': False}
+end = {'message': {'content': '摘要'}, 'done': True, 'done_reason': 'stop'}
+wire = encode([part, end])
+# 每次只交一个字节，故意切开中文字符与 JSON 行；也要能接收一次交来的多行。
+assert collect([wire[i:i+1] for i in range(len(wire))]) == '告警摘要'
+assert collect([wire]) == '告警摘要'
+for bad in (encode([part]), encode([part, {'error': 'synthetic failure'}]),
+            encode([part, dict(end, done_reason='length')]), wire[:-1]):
+    try:
+        collect([bad])
+    except ValueError as exc:
+        print('rejected:', exc)
+    else:
+        raise AssertionError('坏流不能通过')
+assert collect([wire]) == '告警摘要'
+print('byte boundaries ignored; four bad streams rejected; recovered')
+```
+
+预期有四条 `rejected`，最后恢复成功。第一个坏流虽然有文本，却没有完成证明；第二个是流内错误；第三个明确因长度结束；第四个缺末行分隔符，本课严格按逐行合同拒绝。不要自动补一个成功结束标记。若中文解码失败，先检查是否过早在半个 UTF-8 字符上解码；若只有最后两个字，检查是否把片段覆盖而没有累积。
+
+变式把两行一次交来，或按任意不同字节长度分组，结果应不变；把正常结束后的另一条消息追加进去，应拒绝。课堂把内容先收在内存、整体通过后才返回；真实网页可以先展示“尚未完成”的文字，但不能因此把它送入自动化动作。设置请求总时限、单行与总响应大小上限还属于生产客户端责任。此实验无联网、无模型、无文件输出，结束进程即清理，不能把通过解释成 Ollama 或 GPU 已验证。
+
 ## 独立通关：别让磁盘模型、推理完成和业务可信混在一起
 
 每题先预测再取证，用本课合成数据和专用模型引用。没有 Ollama 时可以完成纸面计算及验证器测试，但真实下载、加载和推理关保持未运行，不能用 API 模拟替代 GPU 验收。

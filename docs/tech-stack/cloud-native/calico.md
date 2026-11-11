@@ -16,7 +16,7 @@
 - [故障排查命令](https://docs.tigera.io/calico/latest/operations/troubleshoot/commands)
 - [Calico 指标](https://docs.tigera.io/calico/latest/operations/monitor/monitor-component-metrics)
 - [Calico 3.32.1 发布](https://github.com/projectcalico/calico/releases/tag/v3.32.1)
-- [Calico 兼容要求](https://docs.tigera.io/calico/latest/getting-started/kubernetes/requirements)
+- [Calico 3.32 固定版本兼容要求](https://docs.tigera.io/calico/3.32/getting-started/kubernetes/requirements)
 - [组件版本](https://docs.tigera.io/calico/latest/reference/component-versions)
 
 截至 2026-08-14，当前稳定补丁为 Calico Open Source 3.32.1，官方 3.32 测试 Kubernetes 1.34、1.35、1.36，并要求 Linux kernel 5.10 或受支持的等价 backport。实验固定版本是为了可复现，生产部署前仍须核对托管平台、发行版、Windows 节点、安装方式和数据平面兼容矩阵。
@@ -366,6 +366,8 @@ Calico 可以按版本和环境选择基于 Linux 规则的传统数据平面或
 - 至少 4 CPU、8 GB 可用内存更稳妥。
 - PodCIDR `192.168.0.0/16` 不与本机 VPN 或局域网冲突。
 
+2026-11-11 复核发现不能再依赖 kind 的默认 Kubernetes 镜像：官方 kind v0.33.0 默认是 1.37，而本文固定的 Calico 3.32 测试范围止于 1.36。本课改用 [kind v0.33.0 发布页](https://github.com/kubernetes-sigs/kind/releases/tag/v0.33.0)列出的 1.36.4 镜像和完整摘要；先按其官方安装入口准备 v0.33.0，并记录 `kind version`。这只固定教学组合，不代表已做平台兼容实测或推荐生产版本。
+
 创建 `kind-calico.yaml`：
 
 ```yaml
@@ -407,13 +409,31 @@ spec: {}
 ```
 
 ```bash
-kind create cluster --name calico-lab --config kind-calico.yaml # 节点暂时 NotReady 是正常现象
-kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.32.1/manifests/v1_crd_projectcalico_org.yaml # 先安装 Calico CRD
-kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.32.1/manifests/tigera-operator.yaml # 再安装 operator
-kubectl create -f calico-installation.yaml # 仅创建本课网络与 API 组件
-watch kubectl get tigerastatus # 等 apiserver、calico 等状态 Available=True
-kubectl get nodes -o wide # Calico 就绪后节点应变为 Ready
+# 保存为 install-calico-lab.sh，用 bash install-calico-lab.sh 运行。
+set -euo pipefail
+if test -e ./calico-lab.kubeconfig; then
+  echo '独立 kubeconfig 已存在，停止以免覆盖' >&2
+  exit 1
+fi
+clusters=$(kind get clusters)
+if printf '%s\n' "$clusters" | grep -qx calico-lab; then
+  echo '同名集群已存在，停止' >&2
+  exit 1
+fi
+kind create cluster --name calico-lab --config kind-calico.yaml \
+  --image kindest/node:v1.36.4@sha256:099e049362a1526b2db71494e1947aae99bd16290d7c895f2b7ea312e3cbfaed \
+  --kubeconfig "$PWD/calico-lab.kubeconfig"
+# 节点暂时 NotReady 是正常现象；只连接刚创建的课堂集群。
+export KUBECONFIG="$PWD/calico-lab.kubeconfig"
+kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.32.1/manifests/v1_crd_projectcalico_org.yaml
+kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.32.1/manifests/tigera-operator.yaml
+kubectl wait --for=condition=Established crd/installations.operator.tigera.io crd/apiservers.operator.tigera.io --timeout=120s
+kubectl create -f calico-installation.yaml
+kubectl get tigerastatus
+kubectl get nodes -o wide
 ```
+
+脚本任何一步失败都会停止，不会在 kind 创建失败后向旧当前集群安装 CRD。退出脚本后，在同一个实验目录的 Bash 执行 `export KUBECONFIG="$PWD/calico-lab.kubeconfig"`，再执行 `kubectl config current-context`，必须为 `kind-calico-lab`；后续每个新终端都重复这一步。`calicoctl` 也使用这份明确的 Kubernetes 配置，不加载另一套未知 datastore 参数。kubeconfig 含访问凭据，不上传公开仓库。现在每十秒查询一次 `kubectl get tigerastatus` 与 `kubectl get nodes`，最长五分钟；全部所需组件 Available=True、节点 Ready 才进入下一课，超时转下面排障，不因为脚本返回 0 就声称网络安装验收成功。
 
 如果没有成功：
 
@@ -454,7 +474,7 @@ spec:
     - Egress       # 隔离出方向，包括 DNS
 ```
 
-应用后再次 `wget`，预期超时。这是策略生效，不是 Service 消失。
+应用后再次 `wget`，预期访问失败；因为 DNS 也被出站策略隔离，BusyBox 可能显示名称解析失败，而不一定打印“连接超时”。先记录原始错误与退出码，下一步单独恢复 DNS 后再看 TCP 连接，不能把任何失败都直接当成已证明 web 入站被拒绝。
 
 ### 放行 DNS
 
@@ -724,8 +744,10 @@ Calico 是 Kubernetes 常用 CNI 和网络策略实现。CNI 在 Pod 创建时�
 
 ## 清理实验
 
+先确认 `KUBECONFIG` 指向本课生成的文件、当前上下文为 `kind-calico-lab`，并完成允许组恢复与禁止组仍被拒绝的复验。以下动作只回收本次独占资源，不清理全局 kubeconfig 或其他 kind 集群：
+
 ```bash
-kubectl delete namespace policy-lab # 删除策略实验资源
+kubectl --context kind-calico-lab delete namespace policy-lab # 删除策略实验资源
 kind delete cluster --name calico-lab # 删除整个学习集群
 ```
 

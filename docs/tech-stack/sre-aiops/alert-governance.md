@@ -540,13 +540,15 @@ inhibit_rules:
   - source_matchers:
       - alertname="OrderApiDown"
       - tenant=~".+"
+      - env=~".+"
       - service=~".+"
     target_matchers:
       - alertname="OrderApiLatencyHigh"
       - severity="ticket"
       - tenant=~".+"
+      - env=~".+"
       - service=~".+"
-    equal: ["tenant", "service"]
+    equal: ["tenant", "env", "service"]
 ```
 
 含义：
@@ -759,7 +761,7 @@ PaymentApiLatencyHigh,payment-api,page,8,4,true,false,
 |---|---|
 | `HighCPU` | 42 次触发、0 次已记录事故，先核对事故样本与风险，再评估降级或改规则；不能仅凭这两列删除 |
 | `OrderApiHighErrorRate` | 保留 page，确认 runbook 完整 |
-| `DiskWillFill` | 保留 ticket，不 page |
+| `DiskWillFill` | 先核实增长速率、预计耗尽时间、可用缓解和响应窗口；能等到排期处理才保留 ticket，即将耗尽且需立即介入时应升级 page |
 | `PaymentApiLatencyHigh` | 保留或改 SLO burn-rate，并补 runbook |
 
 ## 常见错误
@@ -853,20 +855,30 @@ inhibit_rules:
   - source_matchers:
       - alertname="OrderApiDown"
       - tenant=~".+"
+      - env=~".+"
       - service=~".+"
     target_matchers:
       - alertname="OrderApiLatencyHigh"
       - severity="ticket"
       - tenant=~".+"
+      - env=~".+"
       - service=~".+"
-    equal: ["tenant", "service"]
+    equal: ["tenant", "env", "service"]
 ```
 
 高层告警出现时抑制低层衍生告警。
 
 ## 面试怎么讲
 
-告警治理的核心是把噪声变成信号。好的 page 必须紧急、可行动、用户可见，并且需要人的判断。Google SRE 强调 page 很昂贵，如果告警可以被忽略、不能行动、只是有点异常，或者只是机械处理，就不应该叫醒人。
+告警治理的核心是把噪声变成可行动的信号。好的 page 对应正在发生或迫近的用户、安全或数据风险，需要立即介入，并能说明下一步。不能等磁盘写满、证书过期或数据损坏已经发生才通知；也不能只凭资源数值高就叫醒人。固定动作能否自动化仍取决于授权、前置条件与验收，不能仅凭“每次都做同一件事”取消人工防线。
+
+## 老师批改：测试环境告警为什么压住了生产告警
+
+请先看前面的抑制规则，再回答：同一租户的测试订单服务出现 `OrderApiDown`，生产订单服务出现 `OrderApiLatencyHigh`，两条都有相同 `service`，能抑制吗？不能。`equal` 指定必须相同的标签集合；只比较租户和服务名，会把测试故障当成生产告警的抑制依据。本文将 `env`（环境）加入比较，源、目标还分别要求这三个标签非空。按[官方抑制规则说明](https://prometheus.io/docs/alerting/latest/configuration/#inhibit_rule)，缺失与空值在相等比较中等价，所以只加 `equal` 而不检查标签完整性仍不够。
+
+用四张合成卡做一次纸面回归：同租户同环境同服务且两侧满足名称与等级条件，应抑制；环境不同，不抑制；租户不同，不抑制；两侧都缺环境，不抑制。先逐项写匹配结果，再核对最终决定。所有输入都只在笔记中，不发送通知；清理只标记演练结束。真实规则还要在隔离 Alertmanager 中加载、用测试接收器验证通知结果，纸面判定不能替代真实投递验收。
+
+继续追问：三个标签相同，就证明故障有因果关系吗？仍不能。标签只是限制允许作用的范围，业务依赖关系和抑制条件还需负责人验证；分片、地区或集群相互独立时，应加入相应边界，不能照搬三个字段作为所有系统的完整隔离。若答错，回看“抑制”及“生产设计题”，交一份包含误抑制反例、受影响范围、停止扩大和恢复旧规则方法的记录。
 
 我会优先围绕 SLO 和用户症状做 page，把原因类告警放到 ticket 或 dashboard。落地上，Prometheus 负责规则判断，Alertmanager 负责 grouping、routing、inhibition、silence 和通知。每条告警都要有规范标签，比如 severity、service、owner、slo，以及 annotations 里的 runbook_url 和 dashboard_url。治理时要追踪 pages per shift、误报率、重复率、flapping、无 owner、无 runbook 等指标，并在事故复盘后持续删除、降级、合并或自动化坏告警。AIOps 的告警聚类、降噪和摘要，应该建立在这些规范化告警数据上。
 

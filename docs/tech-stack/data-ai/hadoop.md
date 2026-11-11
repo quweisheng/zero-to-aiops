@@ -298,9 +298,11 @@ hdfs dfsadmin -safemode wait # 等待自动退出，适合启动脚本而不是�
 
 HDFS 面向 write-once-read-many。一个文件同一时刻只有一个 writer，支持 append，但不适合像数据库那样频繁随机修改文件中间内容。
 
-客户端的 `hflush()` 与 `hsync()` 控制可见性和持久性边界。应用不能把“API 返回”笼统等同于“所有副本已永久落盘”，要结合调用语义和故障模型判断。
+客户端的 `hflush()` 与 `hsync()` 不能只记成两个“刷新”按钮。对支持这些能力的输出流，`hflush()` 把客户端缓冲的数据推出去，让调用成功后新打开的读者能看到；`hsync()` 进一步要求同步到磁盘设备，但设备自身仍可能有缓存。可见性回答“别人现在能不能读”，持久性回答“指定故障后还保不保得住”，是两张不同的成绩单。设备缓存、掉电保护、跨块写入以及底层文件系统能力仍要单独核对，不能把一次 API 返回笼统说成“所有历史数据永不丢失”。见 [3.5.0 Syncable 接口语义](https://hadoop.apache.org/docs/r3.5.0/api/org/apache/hadoop/fs/Syncable.html)。
 
-删除通常先进入 Trash，是否启用和保留多久由配置决定。Trash 不是备份，管理员删除、跳过 Trash、保留期结束或集群级灾难仍可能造成数据损失。
+老师问：“刚才 `hflush()` 成功，另一终端也读到了，能宣布通过整机掉电演练吗？”不能；你证明了可见性，没有执行掉电故障。再换条件：Hadoop 3.5.0 的 EC 条带输出流中，`hflush()`、`hsync()` 是 no-op（空操作，不提供上述同步保障）；只看没有抛异常会误判成功。应用应检查 `StreamCapabilities`（输出流能力查询）并为依赖这类语义的数据选择受支持的复制文件。这里是依据 [3.5.0 EC 限制](https://hadoop.apache.org/docs/r3.5.0/hadoop-project-dist/hadoop-hdfs/HDFSErasureCoding.html#Limitations) 的推理题，不要求小白断电或修改生产存储策略。排查时交出实际文件策略、调用方法、能力判断和具体故障模型，不能只交一张“写成功”截图。
+
+删除也不能默认有后悔药：Hadoop 3.5.0 的 Trash（回收站）默认未启用；普通 `hdfs dfs -rm` 只有在 Trash 生效时才先移入回收站，本课后面显式配置了 60 分钟。删除前核对目标文件系统与有效配置，删除后观察是否确实移入 Trash；不要把应用直接调用删除 API、跳过 Trash 或保留期结束的情形都当成可恢复。Trash 仍在本集群内，不是独立备份。见 [FS Shell 的 rm 规则](https://hadoop.apache.org/docs/r3.5.0/hadoop-project-dist/hadoop-common/FileSystemShell.html#rm)。
 
 ### Checksum 与损坏恢复
 

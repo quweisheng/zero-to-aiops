@@ -335,10 +335,13 @@ Get-NetTCPConnection -LocalPort 15432 -State Listen -ErrorAction SilentlyContinu
 docker run --name pg-aiops-lesson -e POSTGRES_PASSWORD=lesson-only -e POSTGRES_DB=lesson -p 127.0.0.1:15432:5432 -d postgres:17.11
 if ($LASTEXITCODE -ne 0) { throw '容器创建未成功，不能继续进入同名对象。' }
 docker exec pg-aiops-lesson pg_isready -U postgres -d lesson
+if ($LASTEXITCODE -ne 0) { throw '服务尚未接受连接，先查课堂容器日志再重新检查' }
+docker exec pg-aiops-lesson psql -U postgres -d lesson -v ON_ERROR_STOP=1 -c 'SELECT current_database(), current_user;'
+if ($LASTEXITCODE -ne 0) { throw '身份与目标库查询未通过，不继续建表' }
 docker exec -it pg-aiops-lesson psql -U postgres -d lesson
 ```
 
-第二条预期包含 `accepting connections`；如果启动尚未完成，先查看 `docker logs pg-aiops-lesson` 再重试检查。第三条成功后提示符变为 `lesson=#`，现在输入的是 SQL，不是 PowerShell。分号代表一句 SQL 结束，`\q` 退出客户端。
+`pg_isready` 预期包含 `accepting connections`；如果启动尚未完成，先查看 `docker logs pg-aiops-lesson` 再重试检查。它探测的是服务器是否接受连接，即使指定了错误用户或库名，也可能获得服务器状态，因此不能用这个词证明业务认证成功。紧随其后的 `psql -c` 才实际执行查询，应返回 `lesson` 和 `postgres`；`-v ON_ERROR_STOP=1` 要求 SQL 错误让这次非交互检查失败，而不是继续执行下一条。最后进入交互客户端，提示符变为 `lesson=#`，现在输入的是 SQL，不是 PowerShell。分号代表一句 SQL 结束，`\q` 退出客户端。探测边界见 [pg_isready 官方说明](https://www.postgresql.org/docs/17/app-pg-isready.html)。这套容器内本地连接检查也不证明宿主端口、远程 TLS 或生产应用账号已验证。
 
 ```sql
 CREATE TABLE lesson_incidents (

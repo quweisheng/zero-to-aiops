@@ -525,6 +525,8 @@ docker logs -f jenkins-lab
 
 正常时日志最终会显示 Jenkins 已完成初始化，并监听 8080。容器处于 `running` 不等于应用已就绪，要等启动日志和 HTTP 页面都正常。
 
+`-f` 是持续跟随日志，所以它不会自己退出。看到初始化完成后按 Ctrl+C 结束这次日志查看，再执行下一条命令；这不会停止已在后台运行的容器。若五分钟仍未就绪，先保存最近启动错误并检查插件下载、磁盘和内存，不要反复新建同名容器。
+
 获取首次解锁密码：
 
 ```powershell
@@ -671,24 +673,45 @@ JCasC 只管理可声明的 Controller 配置，不负责安装 Plugin，也不�
 | Script Console | 执行管理员 Groovy | Manage Jenkins > Script Console | 返回脚本结果 | 等同 Controller 远程代码执行 |
 | `jenkins-plugin-cli` | 在镜像构建时解析插件 | `--plugin-file plugins.txt` | 安装兼容依赖 | 不固定版本导致漂移 |
 
-使用 API Token 查询 Queue：
+使用 API Token 查询 Queue。先在本地实验 Jenkins 右上角打开自己的用户菜单，进入安全/配置中的 API Token 区域，生成一个仅供本课使用、带可识别名称的令牌；不同界面版本入口文字可能略有变化。复制时不要截图。没有生成令牌不能照抄空环境变量继续尝试；正式环境应由管理员给实验账户配置最小读取权限，而不是借用他人的管理员令牌。下面用 PowerShell 的凭据输入框临时接收用户名和令牌，密码框填的是 API Token，不是登录密码：
 
 ```powershell
-$jenkinsUser = $env:JENKINS_USER
-$jenkinsToken = $env:JENKINS_TOKEN
-$plain = "${jenkinsUser}:${jenkinsToken}"
-$basic = [Convert]::ToBase64String(
-  [Text.Encoding]::ASCII.GetBytes($plain)
-)
-
-$headers = @{ Authorization = "Basic $basic" }
-
-Invoke-RestMethod `
-  -Headers $headers `
-  -Uri "http://localhost:8080/queue/api/json?tree=items[id,why,inQueueSince,task[name,url]]"
+$jenkinsCredential = Get-Credential -Message '本地 Jenkins 用户名；密码框填本课 API Token'
+try {
+  if (-not $jenkinsCredential) { throw '已取消输入，不发送请求' }
+  $jenkinsUser = $jenkinsCredential.UserName
+  $jenkinsToken = $jenkinsCredential.GetNetworkCredential().Password
+  if ([string]::IsNullOrWhiteSpace($jenkinsToken)) { throw 'Token 为空' }
+  # 这堂课使用 ASCII 用户名，避免不同 HTTP Basic 服务端字符集约定造成混淆。
+  if ($jenkinsUser -notmatch '^[A-Za-z0-9_.-]+$') { throw '请使用本课 ASCII 实验用户名' }
+  $plain = "${jenkinsUser}:${jenkinsToken}"
+  $basic = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes($plain))
+  $headers = @{ Authorization = "Basic $basic" }
+  $queueResponse = Invoke-WebRequest -UseBasicParsing -ErrorAction Stop -TimeoutSec 15 `
+    -Headers $headers `
+    -Uri 'http://localhost:8080/queue/api/json?tree=items[id,why,inQueueSince,task[name,url]]'
+  $queueBody = ([string]$queueResponse.Content).Trim()
+  if ($queueResponse.StatusCode -ne 200 -or -not $queueBody.StartsWith('{') -or -not $queueBody.EndsWith('}')) {
+    throw 'Queue 响应必须是 HTTP 200 和单个 JSON 对象'
+  }
+  $queueEvidence = $queueBody | ConvertFrom-Json -ErrorAction Stop
+  if ($queueEvidence -isnot [pscustomobject] -or $queueEvidence.items -isnot [array]) {
+    throw 'Queue 响应缺少 items 数组，不能解释为队列为空'
+  }
+  foreach ($item in $queueEvidence.items) {
+    if ($item -isnot [pscustomobject]) { throw 'items 含非对象条目，停止解释队列结果' }
+  }
+  $queueEvidence.items | Select-Object id, why, inQueueSince
+} finally {
+  $jenkinsToken = $plain = $basic = $headers = $jenkinsCredential = $null
+}
 ```
 
 不要把 Token 直接写进命令历史或 Git。API Token 认证通常优先于用户名密码；权限不足返回 403 时，应补最小读取权限，而不是改成管理员 Token。
+
+老师检查的反例是：令牌错误导致 HTTP 401/403，终端没打印队列条目，能否说“队列为空”？不能。只有请求成功并返回有效响应，空 `items` 才表示本次可见范围内没有队列项。这里 HTTP 错误会终止查询；权限也可能限制看到的 Job 范围，不能推断全平台为空。Basic 的 Base64 只是编码，不是加密，所以明文 HTTP 仅用于这一台本机回环实验；远端必须使用验证证书的 HTTPS。finally 释放变量引用不是承诺擦除所有内存副本，结束本课还要到个人令牌页面撤销该令牌。保存 `why` 前检查其中的节点名、任务名等内部信息，脱敏后才放进 GitHub。
+
+再试四种合成响应：`{}`、`{"items":null}`、`[{"items":[]}]`、`{"items":[42]}` 都应被拒绝；只有形状正确的 `{"items":[]}` 才可表示本次读取范围内的空队列。这里先检查原始文本顶层，避免 PowerShell 把单元素数组自动展开；条目还必须为对象。id、why 等字段可能随权限和接口版本变化，本课只显示而不对缺失值强行补零，也不把这个最小形状检查当完整 Jenkins API Schema。
 
 ## 在 AIOps 中的作用
 

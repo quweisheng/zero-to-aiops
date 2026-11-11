@@ -927,7 +927,7 @@ async def ack_alert(alert_id: str, background_tasks: BackgroundTasks):
 
 适合：
 
-- 写审计日志。
+- 写允许丢失的教学日志或尽力而为的遥测；必须可靠保留的审计记录不应只依赖进程后台任务。
 - 发送轻量通知。
 - 触发一个很短的小动作。
 
@@ -2309,6 +2309,46 @@ CORS 是浏览器是否允许网页读取跨来源响应的规则，不是服务
 
 事故题：发布后健康检查和查询一起变慢，处理器 CPU 并不高。先检查事件循环滞后、同步阻塞调用、线程池和连接池等待，再关联新版本。若证据指向异步路径内调用阻塞 SDK，修复为合适异步客户端或受控隔离；验证要包含并发健康请求、超时、取消和下游负载，单请求变快不足以结案。
 
+## 老师批改：都是模型校验失败，为什么一个是 422、另一个是 500
+
+先看责任归属：请求模型是检查调用方交来的数据，响应模型是检查服务自己承诺返回的数据。[FastAPI 响应模型说明](https://fastapi.tiangolo.com/tutorial/response-model/) 把错误响应结构当作服务实现问题，不会将它伪装成调用方传错字段。否则客户端可能不断修改一个本来正确的请求，真正坏掉的服务却被当成正常。
+
+在已安装本篇依赖的环境保存 `response_feedback.py`，运行 `python response_feedback.py`。下面是独立应用，不要合并进主实验同名路由；只在进程内测试，不启动端口：
+
+```python
+from fastapi import FastAPI
+from fastapi.testclient import TestClient
+from pydantic import BaseModel, Field
+
+app = FastAPI()
+app.state.broken = True
+
+class Count(BaseModel):
+    count: int = Field(ge=0)
+
+@app.post("/lesson/count", response_model=Count)
+def echo_count(request: Count):
+    if app.state.broken:
+        return {"count": "broken-output"}  # 有效请求进入后，故意破坏响应合同
+    return {"count": request.count, "internal_note": "not-for-client"}
+
+with TestClient(app, raise_server_exceptions=False) as client:
+    bad_input = client.post("/lesson/count", json={"count": -1})
+    bad_output = client.post("/lesson/count", json={"count": 2})
+    assert bad_input.status_code == 422
+    assert bad_output.status_code == 500
+    assert "broken-output" not in bad_output.text
+    app.state.broken = False
+    recovered = client.post("/lesson/count", json={"count": 2})
+    assert recovered.status_code == 200
+    assert recovered.json() == {"count": 2}
+    print("invalid request=422; invalid response=500; recovered=200")
+```
+
+预期负数输入得到 422，合法输入遇到故意损坏的输出得到 500，恢复后原样请求得到 200，未声明的内部字段不返回。`raise_server_exceptions=False` 只是让 TestClient 把服务错误作为响应交给测试；默认模式可能直接抛出服务异常，便于开发调试。它不是关闭服务端错误，也不是生产的异常吞噬开关。
+
+老师追问：“把所有校验异常统一改为 422 行不行？”不行，必须保留输入和输出两个责任边界；服务端响应合同破坏应进入内部告警与脱敏日志，按请求 ID 定位，不把原始模型输出或堆栈暴露给客户端。再做变式：恢复状态下传 `{"count":0}`，应返回 200；去掉必填字段则仍为 422。若结果不符，先确认正在运行这份独立应用、响应模型和 TestClient 设置，不能改测试去接受错误状态码。结束时上下文关闭客户端，内存故障开关随进程消失；没有生产请求或持久数据需要回收。
+
 ## 独立通关：从接口能访问，到合同能经受新输入
 
 先遮住参考判据，使用本课合成数据。每题留下预测、请求状态与脱敏响应、解释和收回记录；TestClient 只验证进程内接口，不能替代真实网络、反向代理或持久队列验收。
@@ -2325,7 +2365,9 @@ CORS 是浏览器是否允许网页读取跨来源响应的规则，不是服务
 
 2026-10-12 在独立虚拟环境中，用 Python 3.14.5、FastAPI 0.143.0、Starlette 1.7.0、Pydantic 2.14.1、httpx 0.28.1 执行正文完整内存 API 的 25 项契约检查，并运行单位错误小实验：正常创建/查询/分析、分页边界、空白/额外/非法枚举字段、非有限数及错误响应、缺失资源均符合上述判据。用重新加载的应用模块验证旧 ID 不存在，验证的是两份进程内状态的隔离，不是实际服务器重启。
 
-这一组合提示 Starlette 的 httpx 测试适配将弃用，但本次 TestClient 检查仍通过；以后升级要按[Starlette TestClient 官方说明](https://www.starlette.io/testclient/)核对依赖迁移并重跑，不能仅消除警告就当兼容。没有运行网络服务器、Docker、Kubernetes、数据库、队列、并发压力、断电恢复或生产部署。本文的 Python 3.12 镜像也未在本轮运行，不能用较新解释器的进程内通过代替它的验证。
+这一历史组合提示 Starlette 的 httpx 测试适配将弃用，但当时 TestClient 检查仍通过；以后升级要按[Starlette TestClient 官方说明](https://www.starlette.io/testclient/)核对依赖迁移并重跑，不能仅消除警告就当兼容。
+
+2026-11-11 再用独立环境 Python 3.12.14、FastAPI 0.162.4、Starlette 1.10.0、Pydantic 2.14.3、httpx 0.28.1，执行当前正文的完整内存 API、单位合同和请求/响应校验课堂：正常创建查询分析、分页越界、空白/额外/非法枚举/非有限输入、资源缺失、两模块状态隔离以及 `422→500→修复后200` 均通过；53 个 Python 代码块通过语法检查，非独立片段不因此成为完整程序。以上是进程内 TestClient 实测，没有运行网络服务器、Docker、Kubernetes、数据库、队列、并发压力、断电恢复或生产部署。Python 3.12 容器镜像仍未运行，本机解释器通过不能代替镜像验收。
 
 ## 本课 GitHub 学习证据
 

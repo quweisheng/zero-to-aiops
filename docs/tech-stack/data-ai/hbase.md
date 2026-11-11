@@ -143,17 +143,23 @@ RegionServer 故障后，Master 根据 WAL 和元数据把 Region 重新分配�
 
 ## 一次写入路径
 
+下面画普通 Put 在启用同步 WAL 持久性策略时的主线，不包括跳过日志、异步日志或批量导入 HFile 的特殊路径。
+
 ```text
 Client 定位 Region
   -> RegionServer 校验行和权限
-  -> 追加 WAL（Write-Ahead Log，预写日志）
+  -> 追加并按持久性策略同步 WAL（Write-Ahead Log，预写日志）
   -> 写入 MemStore
-  -> 返回成功
+  -> 完成可见性控制，返回成功
   -> MemStore 达到阈值后 Flush 成 HFile
   -> 后台 Compaction 合并 HFile
 ```
 
-WAL 先于 MemStore 成功是为了 RegionServer 崩溃后恢复尚未 Flush 的写入。WAL 和 HFile 都在 HDFS 上，但生命周期不同，不能手工删除“占空间的旧日志”。
+WAL 为 RegionServer 崩溃后恢复尚未 Flush 的写入提供依据，前提是这次写入确实达到所选持久性策略的确认边界，底层日志仍可恢复。WAL 和 HFile 都在 HDFS 上，但生命周期不同，不能手工删除“占空间的旧日志”。上图是简化流程；2.6.6 的批次路径先追加并按策略同步日志，再更新内存和完成可见性控制，见 [HRegion 官方实现](https://github.com/apache/hbase/blob/rel/2.6.6/hbase-server/src/main/java/org/apache/hadoop/hbase/regionserver/HRegion.java)。
+
+Durability（持久性策略）具体承诺什么，要逐项读：`SKIP_WAL` 不写预写日志；`ASYNC_WAL` 异步写日志；`SYNC_WAL` 等待日志同步到文件系统，对 HDFS 是推送到相应数据节点，但不等于所有物理设备已抗掉电；`FSYNC_WAL` 进一步要求强制同步到磁盘。`USE_DEFAULT` 在一次修改上继承表设置，表未另设时使用全局默认 `SYNC_WAL`。名称相近不代表保障相同，实际 WAL 实现、文件系统和设备缓存保护仍须验证。依据 [2.6.6 Durability 定义](https://github.com/apache/hbase/blob/rel/2.6.6/hbase-client/src/main/java/org/apache/hadoop/hbase/client/Durability.java)。
+
+老师给你两份“写成功”截图：甲使用正常 HDFS 与同步 WAL，乙使用本课 `file://` 且关闭能力检查。它们能证明同样的崩溃恢复吗？不能。乙适合练表操作，不能拿来批准生产持久性；甲还要说明是 RegionServer 进程故障、数据节点故障还是整站掉电，并按对应方案验证日志、数据和恢复时间。排查写超时时，记录有效 Durability、WAL 同步延迟、HDFS 状态和请求业务键；响应丢失仍可能已经写入，不要为了“变快”直接关闭 WAL。
 
 ## 一次读取路径
 
@@ -220,7 +226,9 @@ Region 变大后按 Split Key 拆成两个 Region。Split 不等于马上完成�
 
 ## BlockCache 与 Bloom Filter
 
-BlockCache 缓存常用 HFile Block，提高热点读取命中率。Bloom Filter 用较小内存判断“某个文件大概率没有这个 Row/RowCol”，减少无效磁盘读取；它可能有假阳性，但不应有假阴性。
+BlockCache 缓存常用 HFile Block，提高热点读取命中率。Bloom Filter 用较小内存判断候选文件中是否可能包含目标 Row/RowCol（行或行列组合）：正常构建与使用时，阴性表示该候选肯定不含目标，阳性只表示可能含有，还要查数据；它可能有假阳性，但没有假阴性。不要把这个方向记反成“大概率没有”，也不能从一个 HFile 的阴性推断整个表不存在这行。见 [HBase 2.6 BloomFilter 语义](https://hbase.apache.org/2.6/devapidocs/org/apache/hadoop/hbase/util/BloomFilter.html)。
+
+做一个不用启动数据库的反例题：三个候选 HFile 的过滤结果是“否、否、可能”，第三个实际也没有目标，这并不叫漏数据，而是一次允许的假阳性。接着把目标放在 MemStore，三个 HFile 都返回“否”，查询仍可能从内存读到新值。错因在于把“候选文件排除器”当成“整表存在性裁判”。独立练习时换成 `ROWCOL`，写出同一行不同列为何不能共用一次未经核对的判断，并记录过滤类型、候选文件、内存与版本条件；候选减少也不等于实际磁盘读取次数固定，缓存和元数据读取还会影响结果。
 
 调优要看命中率、工作集、GC/Off-heap、HFile 数和访问模式，不能只把缓存调大。
 

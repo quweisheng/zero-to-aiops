@@ -834,11 +834,11 @@ old（旧版） old（旧版） old（旧版） old（旧版）
 蓝绿发布是同时保留两套环境：
 
 ```text
-blue: old version, serving traffic
-green: new version, no traffic
+blue（蓝环境）: old version（旧版）, serving traffic（承接流量）
+green（绿环境）: new version（新版）, no traffic（尚未接流量）
 
-validate green
-switch traffic to green
+validate green（验证绿环境）
+switch traffic to green（把流量切到绿环境）
 ```
 
 优点：
@@ -1621,10 +1621,11 @@ def main():
         previous = dict(current)
         if mode == "tamper":
             artifact.write_text('{"version":"v2","threshold":99}', encoding="utf-8")
-        if digest(artifact) != approved_digest:
+        deployment_bytes = artifact.read_bytes()
+        if hashlib.sha256(deployment_bytes).hexdigest() != approved_digest:
             print("blocked: artifact changed; current=v1")
             return 2
-        current = json.loads(artifact.read_text(encoding="utf-8"))
+        current = json.loads(deployment_bytes)
         try:
             verify(current)
         except ValueError as error:
@@ -1643,7 +1644,9 @@ if __name__ == "__main__":
 
 这只是本地状态模拟，不是真实服务器部署，也不是数字签名实验。`TemporaryDirectory` 只清理自己新建的临时目录；运行结束没有后台进程。保留源码与三次输出作为证据，要结束学习仅删除自己创建的 `delivery_lab.py` 和空目录即可。若输出不符，先核对 mode 拼写、保存的阈值和是否用了完整文件；若写临时目录失败，检查当前账户临时目录权限，不改系统根目录权限。
 
-本轮核验（2026-10-12）：Windows / Python 3.14.5 下执行这段完整源码的三种模式，实际得到 v2/0、拦截 v1/2、恢复 v1/3，与上述预期相符。这只验证本地 Python 模拟；GitHub Actions、真实制品晋级、环境审批和生产恢复没有在本轮执行。
+老师再问一个容易漏掉的细节：“先校验磁盘文件，然后重新打开它部署，够不够？”两次读取之间文件可能被替换。这叫检查与使用之间的时间差；本实验先读成 `deployment_bytes`（本次准备部署的字节），校验与解析都使用同一份内存内容，避免把校验甲、使用乙写进示例。不过 `approved_digest` 仍只是这个进程里生成的教学记录，不是受保护的审批数据库；有人同时篡改产物和批准摘要时，单靠二者相等发现不了。独立答辩时分别指出“使用同一份字节”和“批准来源可信”两道不同的门禁，不能用第一个答案代替第二个。
+
+历史核验（2026-10-12）针对当时源码：Windows / Python 3.14.5 下三种模式得到 v2/0、拦截 v1/2、恢复 v1/3。2026-11-11 改为读取一次 deployment_bytes 后，独立交叉审校在 Python 3.12.14 重新执行当前三模式，并加入读取后替换磁盘文件的反例，均通过；它不把历史执行记录当作新源码证据。这些都只验证本地 Python 模拟；GitHub Actions、真实制品晋级、环境审批和生产恢复没有在本轮执行。
 
 ### 金丝雀判断：没有流量时，错误率为零也不算通过
 

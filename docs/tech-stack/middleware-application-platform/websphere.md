@@ -808,9 +808,14 @@ result = AdminApp.update(
 )
 print(result)
 
-# 只有前面的更新任务成功后，才保存配置。
-if str(AdminConfig.hasChanges()).strip().lower() in ('1', 'true'):
+# 只有明确存在本会话新变更时才保存；未知返回值不能当作“没有变化”。
+pending_state = str(AdminConfig.hasChanges()).strip().lower()
+if pending_state in ('1', 'true'):
     AdminConfig.save()
+elif pending_state in ('0', 'false'):
+    raise Exception('更新返回但工作区无待保存变更；停止核对任务结果，不宣称新版本已提交')
+else:
+    raise Exception('工作区状态无法识别，停止；不能忽略未知状态继续同步')
 ```
 
 正常输出通常包含 `ADMA5078I`（更新开始）、目标版本校验、解包、文件合并和配置写入消息。消息编号会因版本和更新类型不同而变化，判断标准是任务无异常、配置已保存、节点已同步且业务验证通过。
@@ -833,6 +838,10 @@ print(AdminControl.queryNames('type=Application,name=' + app_name + ',*'))
 ```
 
 这三项分别回答“文件准备好了吗”“分发到哪里、是否展开成功”“JVM 里真的运行了吗”。它们仍不能替代 HTTP 和业务验证。参考 [IBM 安装应用的异步分发说明](https://www.ibm.com/docs/en/was/9.0.5?topic=scripting-installing-enterprise-applications-using-wsadmin)与[运行状态查询](https://www.ibm.com/docs/en/was-zos/9.0.5?topic=scripting-querying-application-state-using-wsadmin)。
+
+老师再检查你是否真的覆盖“全部成员”：发布目标清单里有四个 `(Node, Server)`，查询只返回两个 Application MBean，即使这两条都正常也不能验收。把目标清单作为分母，逐行填写成员名、查询是否成功、应用对象是否存在、构建标识、直连探针、入口探针和时间；未启动、无权限和查询失败分别记录，不合并成“没问题”。同一个应用名可在多个成员出现，不能只看第一条，更不能只数返回行数而不比对身份。目标外成员返回正常也不能替目标内缺失成员补数。
+
+`hasChanges` 的前后检查也不是跨管理员的发布锁：另一个会话仍可能同时修改 Cell。必须由发布流程落实单一变更所有者，冻结同一应用的并发操作。上面新增的未知状态停止门只防止脚本误判，不保证工作区已经回滚，也不替代主仓库重新取证。
 
 ### 为什么不推荐直接改 `installedApps`
 
@@ -1467,8 +1476,8 @@ foreach ($libertyPort in 9080, 9443) {
 }
 $existingLiberty = docker ps -a --filter 'name=^/openliberty-lab$' --format '{{.Names}}'
 if ($LASTEXITCODE -ne 0 -or $existingLiberty) { throw '无法确认容器名空闲，停止。' }
-New-Item -ItemType Directory -Path .\websphere-lab
-Set-Location .\websphere-lab
+New-Item -ItemType Directory -Path .\websphere-lab -ErrorAction Stop
+Set-Location .\websphere-lab -ErrorAction Stop
 ```
 
 ### 第二步：创建 `server.xml`
@@ -1513,10 +1522,23 @@ CWWKF0011I: The defaultServer server is ready to run a smarter planet.
 ### 第五步：验证健康端点
 
 ```powershell
-curl.exe --fail --show-error http://localhost:9080/health
+function Get-LessonLibertyHealth {
+    $response = Invoke-WebRequest -UseBasicParsing -Uri http://127.0.0.1:9080/health -TimeoutSec 10 -ErrorAction Stop
+    $body = ([string]$response.Content).Trim()
+    if ($response.StatusCode -ne 200 -or -not $body.StartsWith('{') -or -not $body.EndsWith('}')) {
+        throw '健康端点必须返回 HTTP 200 和单个 JSON 对象'
+    }
+    $health = $body | ConvertFrom-Json -ErrorAction Stop
+    if ($health -isnot [pscustomobject] -or $health.status -isnot [string] -or $health.status -cne 'UP') {
+        throw '顶层 status 必须是标量字符串 UP，数组、缺字段与其他状态不能通过'
+    }
+    return $health
+}
+$libertyHealth = Get-LessonLibertyHealth
+$libertyHealth
 ```
 
-预期返回总体状态 `UP`。不同版本的 JSON 格式可能略有不同，判断标准是 HTTP 成功且顶层状态为 `UP`。
+预期返回总体状态 `UP`。不同版本的 JSON 格式可能略有不同，本课判断标准是 HTTP 200、单个 JSON 对象且顶层 status 是字符串 `UP`。先读取原始文本是为了避免 PowerShell 自动枚举数组成员，把 `[{"status":"UP"}]` 误作一个对象；`{"status":["UP"]}` 也必须拒绝。保留同一 PowerShell 窗口，后续恢复继续用这个函数；这些检查不是所有健康 API 的通用合同，也不是服务身份认证。
 
 ### 验证结果
 
@@ -1553,7 +1575,7 @@ docker inspect --format "{{if .State.Health}}{{.State.Health.Status}}{{else}}not
 3. 把 `<feature>mpHealth-4.0</feature>` 改成 `<feature>not-a-real-feature-1.0</feature>`。
 4. 使用相同 `docker run` 命令再次启动。
 5. 执行 `docker logs openliberty-lab`。
-6. 执行 `curl.exe --fail --show-error http://localhost:9080/health`。
+6. 执行 `curl.exe --fail --show-error --max-time 10 http://127.0.0.1:9080/health`，立刻记录 `$LASTEXITCODE`；非零仅表示请求失败，仍需前一步日志证明 Feature 根因。
 
 ### 预期现象与证据
 
@@ -1575,9 +1597,12 @@ Compare-Object (Get-Content .\server.good.xml) (Get-Content .\server.xml)
 
 ```powershell
 docker rm --force openliberty-lab
-Copy-Item .\server.good.xml .\server.xml -Force
+if ($LASTEXITCODE -ne 0) { throw '故障容器未移除，停止并核对，不重建同名对象' }
+Copy-Item .\server.good.xml .\server.xml -Force -ErrorAction Stop
 # 再次执行基础实验中的 docker run 命令
-curl.exe --fail --show-error http://localhost:9080/health
+# 等本次新容器 Ready 日志后再执行下面验收，不能跳过重建
+$libertyHealth = Get-LessonLibertyHealth
+$libertyHealth
 ```
 
 预期重新返回 `UP`。

@@ -1,27 +1,13 @@
 [
   {
     "article": "virtualization-private-cloud/kvm.md",
-    "crossReview": {
-      "reviewer": "foundation-frontend",
-      "reviewedAt": "2026-10-12",
-      "articleSha256": "6d77be600bcb23ad96c66174ae84398ed9733af4e49d2fa6582cc627e260b487",
-      "result": "pass",
-      "findings": [
-        "全文复核。Ubuntu24.04硬件检查、重新登录权限组、网络、独立密钥、云镜像摘要、基础层/overlay权限到SSH验收链闭合；已有Domain查询失败会停止、同名对象/路径不覆盖，故障只改单VM链路。",
-        "清理先退出客户机、确认shut off、精确目录realpath/非链接、undefine成功后逐文件删盘/独立密钥，非递归rmdir拒绝未知文件；没有关闭共享网络。解释live/config、两级页表、Virtio、存储flush、pre/post-copy与fencing，不把进程活当业务健康。",
-        "五关稳定UUID映射、3×112=336GiB不足350、持久down重启回退、32/0.8=40秒首轮但脏页1不收敛及单写者接管判据成立。无Linux KVM环境，本次仅全文/命令静态与算例复核，未创建VM、迁移、故障注入或清理真实对象。"
-      ]
-    },
-    "writer": "systems",
-    "reviewedAt": "2026-10-12",
+    "writer": "root-refresh-2026-11-11",
+    "reviewedAt": "2026-11-11",
     "initialFindings": [
-      "pgrep短名截断及模糊匹配第一条PID易观测错误VM；安装失败未停止，同名VM仅靠人工列表判断。",
-      "网卡实验猜第一张接口，运行/持久参数易被误加到不支持的命令；缺新条件独立通关。"
+      "精简Ubuntu未明示curl/ssh-keygen所需包；hostnamectl注释把Domain名等同客户机名。"
     ],
     "changes": [
-      "补初学分层路线和准备入口，按UUID核对PID而非自动选第一条。",
-      "软件包失败停止、同名Domain检查失败即停；单网卡/运行态前置断言和domif-setlink参数解释。",
-      "补稳定身份、N+1内存、双状态重启、迁移不收敛与失联接管五关。"
+      "安装补curl/openssh-client并讲明用途；区分Domain/客户机主机名，以MAC租约核对目标且保留SSH可信指纹检查。"
     ],
     "criteria": [
       {
@@ -57,7 +43,7 @@
       {
         "id": "mastery",
         "result": "pass",
-        "evidence": "五关新身份/336GiB故障容量/双状态/40秒首轮非完成承诺/失联写盘反例。"
+        "evidence": "既有五关身份/336GiB/双状态/迁移与fencing充分；新增不能凭提示符名字认定目标。"
       },
       {
         "id": "aiops",
@@ -68,34 +54,38 @@
     "validation": [
       {
         "kind": "reasoned",
-        "detail": "全文走读与容量/迁移算例复算；官方virsh手册核对domif-getlink/setlink的--config边界。",
-        "limits": "未创建KVM宿主/VM、迁移或接管，实验预期不视为实跑。"
+        "detail": "2026-11-11分段完整读至EOF；依据八维标准保留已充分的双实验、机制、生产与面试层，并针对真实缺口修订。",
+        "limits": "全文审读与离线验证不保证个人完全掌握或录用；商业平台专属操作需要授权环境和匹配版本。"
+      },
+      {
+        "kind": "reasoned",
+        "detail": "全文核对Ubuntu单机与单网卡故障前后置、安全清理和四条内部路径；安装和VM运行保持未实测。",
+        "limits": "tmp/check-root-virtualization-2026-11-11.mjs共50检查含23个PS围栏语法；仅合成/本机验证，不含真实云API、账号、VM、硬件、迁移、HA或厂商验收。PowerShell实际运行7，不声称5.1已实跑。"
       }
     ],
-    "status": "revised-awaiting-cross-review"
+    "status": "cross-reviewed",
+    "disposition": "revised",
+    "crossReview": {
+      "reviewer": "refresh-foundation-platform",
+      "reviewedAt": "2026-11-11",
+      "articleSha256": "ca18f795803ef928817feb4b18af4e591423e416683b56bcd9258807b5389c5e",
+      "result": "pass",
+      "findings": [
+        "审阅范围：完整本轮diff、作者记录、检查脚本与核心机制/基础故障实验/独立通关必要上下文；不是本轮对旧版全篇重复审读。",
+        "安装补齐curl/openssh-client依赖，Domain名与客户机hostname不混同；MAC/lease和可信SSH指纹形成身份核对链。完整复核新建目录、镜像摘要、overlay、单网卡故障/恢复和准确清理上下文；未运行Linux/KVM创建、SSH或链路注入，不把静态审读当兼容实测。",
+        "独立执行tmp/check-root-virtualization-2026-11-11.mjs，50项检查含23段PowerShell AST、合成规则/关系/地址/容量及本机HTTP200/404/200通过。主脚本用PowerShell7，共享verify内部子进程用5.1；无真实VM、云API、凭据、迁移或HA注入。"
+      ]
+    }
   },
   {
     "article": "virtualization-private-cloud/vsphere.md",
-    "crossReview": {
-      "reviewer": "foundation-frontend",
-      "reviewedAt": "2026-10-12",
-      "articleSha256": "34881745d11ba55b067aeb6e9ca9ed2907e65448d32df77878c9ec2ecb1dbeaa",
-      "result": "pass",
-      "findings": [
-        "全文复核。正文PowerShell规则在WindowsPowerShell5.1子进程用内存CSV实际执行7项：WARN1、CRITICAL2、OK0、空/NaN/反方向/重复UNKNOWN3均符合。归一Ready与原始累计单位分开；缺证据不冒充健康。",
-        "只读PowerCLI用NotDefault和显式Server绑定本次连接，finally不误断已有连接；4000上限明确分范围查询而非自创分页，vMotion栈/标签区别、APD/PDL、快照合并与许可/版本边界清楚。",
-        "五关1600/(20000×8)=1%与8%累计、维护故障剩300扣30=270不足280、缺行与失鲜分别判定、未知迁移先核对实际所有权成立。未登录vCenter、运行PowerCLI或验证HA/迁移/硬件与许可；规则执行不证明真实平台。"
-      ]
-    },
-    "writer": "systems",
-    "reviewedAt": "2026-10-12",
+    "writer": "root-refresh-2026-11-11",
+    "reviewedAt": "2026-11-11",
     "initialFindings": [
-      "零基础实验的终端、.ps1真实扩展名和Windows5.1编码隐含，APD/PDL在释义前用于排障。",
-      "原面试/检查表缺改变采样聚合、缺数据、维护叠加故障等条件的独立判据。"
+      "CSV创建错误未Stop；Ready平均数虽讲定义但欠集中等待反例；VCHA产品组合支持界线不足。"
     ],
     "changes": [
-      "补离线→在线课堂→授权采集分层与准备入口，解释文件编码及APD/PDL信号边界。",
-      "新增五关，明确Ready毫秒总和/平均/热点不同、UNKNOWN与失鲜不同、维护故障预算不能关准入掩盖。"
+      "新增Stop，补8vCPU同均值不同峰值的教师算例；链接Broadcom区分独立VVF与VCF受管vCenter的HA支持边界。"
     ],
     "criteria": [
       {
@@ -131,7 +121,7 @@
       {
         "id": "mastery",
         "result": "pass",
-        "evidence": "五关换新值、8vCPU/20秒Ready算例、缺证据/旧数据、270不足预算与状态未知处置。"
+        "evidence": "1600集中与8个200平均均1%而最高8%/1%，改800后0.5%/4%；不能换算业务慢几倍。"
       },
       {
         "id": "aiops",
@@ -142,39 +132,38 @@
     "validation": [
       {
         "kind": "reasoned",
-        "detail": "全文走读；Broadcom Ready换算与vVols版本说明复核，容量/采样算例复算。",
-        "limits": "未登录vCenter或实测迁移/HA/许可/兼容组合。"
+        "detail": "2026-11-11分段完整读至EOF；依据八维标准保留已充分的双实验、机制、生产与面试层，并针对真实缺口修订。",
+        "limits": "全文审读与离线验证不保证个人完全掌握或录用；商业平台专属操作需要授权环境和匹配版本。"
       },
       {
         "kind": "executed",
-        "detail": "正文PowerShell规则用内存CSV运行8项：WARN/CRITICAL/OK、缺行、NaN、反方向、逆阈值、重复身份拒绝。",
-        "limits": "模拟Import-Csv只证明规则分支，不证明实际文件保存/平台采集或真实指标口径。"
+        "detail": "执行原样CSV规则14种正常/故障/缺失/无效/恢复输入与3组Ready断言；PS7语法；核对官方Ready、vVols与VCHA说明。",
+        "limits": "tmp/check-root-virtualization-2026-11-11.mjs共50检查含23个PS围栏语法；仅合成/本机验证，不含真实云API、账号、VM、硬件、迁移、HA或厂商验收。PowerShell实际运行7，不声称5.1已实跑。"
       }
     ],
-    "status": "revised-awaiting-cross-review"
+    "status": "cross-reviewed",
+    "disposition": "revised",
+    "crossReview": {
+      "reviewer": "refresh-foundation-platform",
+      "reviewedAt": "2026-11-11",
+      "articleSha256": "7e11d92e86254614095ef1556dd472596a36f439cc3dd395470a9f70e4f8f12a",
+      "result": "pass",
+      "findings": [
+        "审阅范围：完整本轮diff、作者记录、检查脚本与核心机制/基础故障实验/独立通关必要上下文；不是本轮对旧版全篇重复审读。",
+        "Broadcom344909再次核对支持独立vSphere/VVF而VCF管理vCenter用vSphereHA，非远距灾备；306576确认Ready累加与按vCPU观察边界。两组总1600ms同平均1%但最大8%/1%，改800后0.5%/4%复算正确；14组CSV与恢复0/1/2/3状态验证通过。",
+        "独立执行tmp/check-root-virtualization-2026-11-11.mjs，50项检查含23段PowerShell AST、合成规则/关系/地址/容量及本机HTTP200/404/200通过。主脚本用PowerShell7，共享verify内部子进程用5.1；无真实VM、云API、凭据、迁移或HA注入。"
+      ]
+    }
   },
   {
     "article": "virtualization-private-cloud/fusionsphere.md",
-    "crossReview": {
-      "reviewer": "foundation-frontend",
-      "reviewedAt": "2026-10-12",
-      "articleSha256": "f0caf74d26fe436779bcbc811c232ee69f19790b7607345d50577567d5671841",
-      "result": "pass",
-      "findings": [
-        "全文复核并完整阅读共用审计/验证脚本。实际执行verify.ps1，健康0/PASS、退化2/六发现、拒绝覆盖并保持摘要、九种非法输入拒绝通过；仅清理本轮GUID目录四个明确文件，无递归删除。",
-        "产品全名/VRM-CNA/闭源与通用QEMU边界清楚；报告同名会拒绝，恢复使用新文件名；解释分配率不等于使用率、同数异集台账、主备可登录不等于安全接管、迁移网络和数据标识不能按名称猜。",
-        "五关A/A/C漏B、维护故障200扣30=170不足180、VRM不可达与业务仍活、同名异VLAN/卷身份、HA备份容灾和RPO/RTO有可反驳答案。真实FusionCompute版本/许可、安装、迁移、HA及恢复未验证。"
-      ]
-    },
-    "writer": "systems",
-    "reviewedAt": "2026-10-12",
+    "writer": "root-refresh-2026-11-11",
+    "reviewedAt": "2026-11-11",
     "initialFindings": [
-      "合成报告恢复步骤未更换输出名会触发防覆盖；共用故障样例六发现被简写，分配率易误认为利用率。",
-      "补丁/BOM等前置术语与仓库目录隐含，知识地图未注明课程重组，缺变条件独立通关。"
+      "健康报告误称逐个列出管理节点；VRM主备与计算集群浮动地址边界含混。"
     ],
     "changes": [
-      "补离线准备、版本与产品边界、地图来源；增加读报告/退出码和精确恢复输出。",
-      "明确六项发现与教学阈值、分配率口径；新增资产/维护容量/管理断连/迁移身份/恢复口述五关。"
+      "修正报告实际栏目/节点观测范围及英文旁注；明确VRM主备；新增总空闲60但单机放不下50GiB的教师碎片反例。"
     ],
     "criteria": [
       {
@@ -210,7 +199,7 @@
       {
         "id": "mastery",
         "result": "pass",
-        "evidence": "五项变条件任务有判据：A重复漏B、170<180、管理断连反证、同名异路径、恢复多层验收。"
+        "evidence": "独立通关新增三宿主各余20与单机50GiB、改变一台余量再核验其他约束，不把总量当合法落点。"
       },
       {
         "id": "aiops",
@@ -220,36 +209,39 @@
     ],
     "validation": [
       {
+        "kind": "reasoned",
+        "detail": "2026-11-11分段完整读至EOF；依据八维标准保留已充分的双实验、机制、生产与面试层，并针对真实缺口修订。",
+        "limits": "全文审读与离线验证不保证个人完全掌握或录用；商业平台专属操作需要授权环境和匹配版本。"
+      },
+      {
         "kind": "executed",
-        "detail": "实际执行共用PowerShell合成审计，健康0/PASS无发现，故障2/DEGRADED六项发现并读回报告。",
-        "limits": "只读取仓库合成JSON并写本轮独立本地报告；未连接FusionCompute/TCE或执行平台恢复。"
+        "detail": "执行private-cloud-evidence-lab健康/六发现/覆盖拒绝/九类无效输入；复算60GiB总量与候选0到1。",
+        "limits": "tmp/check-root-virtualization-2026-11-11.mjs共50检查含23个PS围栏语法；仅合成/本机验证，不含真实云API、账号、VM、硬件、迁移、HA或厂商验收。PowerShell实际运行7，不声称5.1已实跑。"
       }
     ],
-    "status": "revised-awaiting-cross-review"
+    "status": "cross-reviewed",
+    "disposition": "revised",
+    "crossReview": {
+      "reviewer": "refresh-foundation-platform",
+      "reviewedAt": "2026-11-11",
+      "articleSha256": "52bca97e8e61210d56a728518e3360bcca5ccba2427d0adb1a3a87f0bdf37c96",
+      "result": "pass",
+      "findings": [
+        "审阅范围：完整本轮diff、作者记录、检查脚本与核心机制/基础故障实验/独立通关必要上下文；不是本轮对旧版全篇重复审读。",
+        "确认VRM浮动地址归属与CNA集群不混同；健康报告缺管理节点行不误读为没有VRM；分配量不等于实时利用率。三宿主各余20合计60仍无50单机候选，换第三台余60仅满足本题内存条件；两级实验、恢复新输出及剩余风险自洽。",
+        "独立执行tmp/check-root-virtualization-2026-11-11.mjs，50项检查含23段PowerShell AST、合成规则/关系/地址/容量及本机HTTP200/404/200通过。主脚本用PowerShell7，共享verify内部子进程用5.1；无真实VM、云API、凭据、迁移或HA注入。"
+      ]
+    }
   },
   {
     "article": "virtualization-private-cloud/openstack.md",
-    "crossReview": {
-      "reviewer": "foundation-frontend",
-      "reviewedAt": "2026-10-12",
-      "articleSha256": "a0d8fc504819201a5c5887d71a93abbcbab911bd9cc7bb5821d2b8fbb88a7663",
-      "result": "pass",
-      "findings": [
-        "全文复核。正文Placement离线PowerShell实际执行，基础host-c、故障NoValidHost、恢复host-a与预期一致；云客户端独立环境/配置选择、GUID输出目录、原OS_CLOUD存在性与finally恢复及逐次退出码检查闭合。",
-        "Placement库存/分配与实际运行、NUMA/traits、cell/AZ、Neutron端口与TCP端口、卷attach与客户机文件系统均区分；异步API接受不当作业务完成，双写者需隔离而不盲释放Allocation。",
-        "五关CPU/内存互补仍无合格主机、加GPU约束再次失败、单域故障余200不足210、403旧文件不能证明新查询成功，以及ACTIVE后按地址/安全规则/返回路验证有答案。真实OpenStack API、安装与故障接管未运行。"
-      ]
-    },
-    "writer": "systems",
-    "reviewedAt": "2026-10-12",
+    "writer": "root-refresh-2026-11-11",
+    "reviewedAt": "2026-11-11",
     "initialFindings": [
-      "只读查询管道只凭文件存在验收，原生命令失败可被掩盖且复跑覆盖旧证据；OS_CLOUD未恢复。",
-      "客户端安装无停止检查、激活与真实云前置隐含，缺新条件下独立判断。"
+      "通用课仍残留特定岗位指代；token issue入门会打印完整令牌；NoValidHost与配额拒绝混用。"
     ],
     "changes": [
-      "新虚拟环境和安装失败停止，补无云模型优先、配置搜索路径、完整客户端路径与范围。",
-      "逐次检查退出码，新随机报告目录、失败保留不完整证据、finally恢复环境变量。",
-      "新增资源碎片/GPU、N+1、403旧文件、网络反证和失联疏散五关。"
+      "移除未给来源岗位断言，认证命令仅显示expires；明确配额分支与调度候选/竞争证据。"
     ],
     "criteria": [
       {
@@ -285,7 +277,7 @@
       {
         "id": "mastery",
         "result": "pass",
-        "evidence": "五关改输入/约束与反证，真实未知保持未验证，不以ACTIVE或总量代替验收。"
+        "evidence": "五关新约束、只读采集失败、源写者隔离仍充分；NoValidHost追问要求实际错误而非所有创建失败混称。"
       },
       {
         "id": "aiops",
@@ -296,44 +288,39 @@
     "validation": [
       {
         "kind": "reasoned",
-        "detail": "全文走读并核对官方客户端clouds.yaml搜索与Nova异步架构；调度/N+1算例复算。",
-        "limits": "未安装客户端或连接OpenStack，命令退出与权限/网络真实效果尚待授权环境。"
+        "detail": "2026-11-11分段完整读至EOF；依据八维标准保留已充分的双实验、机制、生产与面试层，并针对真实缺口修订。",
+        "limits": "全文审读与离线验证不保证个人完全掌握或录用；商业平台专属操作需要授权环境和匹配版本。"
+      },
+      {
+        "kind": "executed",
+        "detail": "实际执行正文Placement基线host-c、故障无候选、恢复host-a；PS围栏AST；官方Nova调度及应用凭据机制复核。",
+        "limits": "tmp/check-root-virtualization-2026-11-11.mjs共50检查含23个PS围栏语法；仅合成/本机验证，不含真实云API、账号、VM、硬件、迁移、HA或厂商验收。PowerShell实际运行7，不声称5.1已实跑。"
       }
     ],
-    "status": "revised-awaiting-cross-review"
+    "status": "cross-reviewed",
+    "disposition": "revised",
+    "crossReview": {
+      "reviewer": "refresh-foundation-platform",
+      "reviewedAt": "2026-11-11",
+      "articleSha256": "bd99289a5fe194f79959f2a32c0c6b7a566592d5fa6d7690db231d73003ff59e",
+      "result": "pass",
+      "findings": [
+        "审阅范围：完整本轮diff、作者记录、检查脚本与核心机制/基础故障实验/独立通关必要上下文；不是本轮对旧版全篇重复审读。",
+        "token只输出expires减少令牌公开风险，保存查询立即检查退出码且报告新目录；配额拒绝和NoValidHost调度无候选分支合理区分。Placement模型CPU与内存同宿主且-and，故障移除c/恢复a与容量反例成立；官方token页面本次抓取失败，不声称本次在线核实了该页。",
+        "独立执行tmp/check-root-virtualization-2026-11-11.mjs，50项检查含23段PowerShell AST、合成规则/关系/地址/容量及本机HTTP200/404/200通过。主脚本用PowerShell7，共享verify内部子进程用5.1；无真实VM、云API、凭据、迁移或HA注入。"
+      ]
+    }
   },
   {
     "article": "virtualization-private-cloud/tce-iaas.md",
-    "crossReview": {
-      "reviewer": "foundation-frontend",
-      "reviewedAt": "2026-10-12",
-      "articleSha256": "377b1fb037746f184d145b6e9c621408ca5005232451976e0d5ead843b1734b9",
-      "result": "pass",
-      "findings": [
-        "全文复核。实际执行原文Python网段模型，NETWORK_PLAN=OK、OVERLAP=True后恢复；执行内存任务模型得到未结束disk-b不可当垃圾、错误重试制造vm-b/vm-c，再按正文恢复两任务。共用私有云离线验证此前通过，未把模型当真实TCE。",
-        "产品BOM/许可/公有云接口区别、GPU配额与物理容量、CLB探测/业务路径、扩盘多层以及意图/任务/资源生命周期讲清。交叉指出RPO目标歧义后已重读返修，明确放宽是允许更长丢失窗口而非降低RPO数值。",
-        "五关有配额无可用规格、云盘200而文件系统100、100台按20台/分钟至少5分钟、超时先查任务不删除未终态盘、绿色CLB不证明数据库与完整业务有判据。HTTP本地实验、真实云创建/扩盘/网络/HA及Terraform未执行；仅代码模型与静态路径复核。"
-      ]
-    },
+    "writer": "root-refresh-2026-11-11",
+    "reviewedAt": "2026-11-11",
     "initialFindings": [
-      "术语/仓库前置隐含，合成基础只有验证器不便保留个人证据；HTTP请求无限等待且404退出语义不清。",
-      "未设置配额/专用规格、供应速度与RTO等换条件独立通关。"
+      "CLB路径图把健康检查画成每次用户请求同步步骤；本地HTTP文件创建对零基础不够精确。"
     ],
     "changes": [
-      "补本地先学路线、产品缩写/交付边界和课程地图来源。",
-      "补三轮独立报告及六项故障发现；HTTP限时保留错误，明确404不能只看退出码。",
-      "新增规格候选、云盘三层、供应下界、意图补偿与CLB业务五关。",
-      "独立交叉返修RPO方向：放宽意味着允许更长丢失窗口，数值越小越严格；补复制/改架构或经业务批准放宽，不能让平台HA代替数据承诺。"
+      "拆开周期健康探测与按已有健康状态选后端；补精确创建healthz、失败停止及当前目录文件暴露边界。"
     ],
-    "validation": [
-      {
-        "kind": "executed",
-        "detail": "Python ipaddress模型实际运行包含/不重叠、故障重叠、恢复断言；共用合成审计健康0/故障2六项发现。",
-        "limits": "未运行HTTP或真实TCE资源/网络/CLB/CBS；集合数学与合成报告不证明平台实现。"
-      }
-    ],
-    "writer": "systems",
-    "reviewedAt": "2026-10-12",
     "criteria": [
       {
         "id": "prerequisites",
@@ -368,7 +355,7 @@
       {
         "id": "mastery",
         "result": "pass",
-        "evidence": "五关新约束、100/20=5分钟、不同设备/文件系统层与未知任务判据。"
+        "evidence": "五关既有云盘分层/容量/未知意图充分；新增单次业务成功不能由选中时健康担保的机制。"
       },
       {
         "id": "aiops",
@@ -376,38 +363,42 @@
         "evidence": "请求任务资源稳定ID、业务探针与审计联动，不能混淆公有云与TCE。"
       }
     ],
-    "status": "revised-awaiting-cross-review"
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "2026-11-11分段完整读至EOF；依据八维标准保留已充分的双实验、机制、生产与面试层，并针对真实缺口修订。",
+        "limits": "全文审读与离线验证不保证个人完全掌握或录用；商业平台专属操作需要授权环境和匹配版本。"
+      },
+      {
+        "kind": "executed",
+        "detail": "执行共享verify、原样Python地址规划/重叠/恢复与PowerShell重复意图模型；真实本地PythonHTTP服务动态端口验证200/404/200并停止自建进程。",
+        "limits": "tmp/check-root-virtualization-2026-11-11.mjs共50检查含23个PS围栏语法；仅合成/本机验证，不含真实云API、账号、VM、硬件、迁移、HA或厂商验收。PowerShell实际运行7，不声称5.1已实跑。"
+      }
+    ],
+    "status": "cross-reviewed",
+    "disposition": "revised",
+    "crossReview": {
+      "reviewer": "refresh-foundation-platform",
+      "reviewedAt": "2026-11-11",
+      "articleSha256": "c1787d188fa8fa80b4359abc336928990dbf800c4c2d09a8078e065ff220d172",
+      "result": "pass",
+      "findings": [
+        "审阅范围：完整本轮diff、作者记录、检查脚本与核心机制/基础故障实验/独立通关必要上下文；不是本轮对旧版全篇重复审读。",
+        "CLB探针与业务请求不串成逐请求强制探测；HTTP教学在新空目录且127.0.0.1绑定，故障是路径改变不是服务崩溃，退出码与HTTP状态分清。副作用未知先查任务、意图重复模型、IP网段重叠恢复及通关边界完整。",
+        "独立执行tmp/check-root-virtualization-2026-11-11.mjs，50项检查含23段PowerShell AST、合成规则/关系/地址/容量及本机HTTP200/404/200通过。主脚本用PowerShell7，共享verify内部子进程用5.1；无真实VM、云API、凭据、迁移或HA注入。"
+      ]
+    }
   },
   {
     "article": "virtualization-private-cloud/tce-operations-security.md",
-    "crossReview": {
-      "reviewer": "foundation-frontend",
-      "reviewedAt": "2026-10-12",
-      "articleSha256": "f9004512efd3452c382bd54281d56c8dc1323c78b549388c6df0b036bbdb88f6",
-      "result": "pass",
-      "findings": [
-        "全文复核。共用private-cloud-evidence-lab实际验证健康、退化、拒绝覆盖与非法输入；本篇固定采样时间只用于演示，明确不能证明当前在线健康或真实鉴权。",
-        "CAM角色名称与有效权限、拒绝证据与故障证据、摘要与真实性、轮询/重试放大、批准对象绑定、租约/隔离旧执行器、恢复密钥循环依赖讲清；403不一律给管理员，模型建议不直接获得执行权限。",
-        "五关6000资源每分钟双查询200RPS、重试五轮1000RPS、20GiB按净流量5MiB/s约68.27分钟、预算1000已用600剩400与短凭据续期未知需停止答案成立。未调用真实TCE API、验证角色撤权、轮换密钥或执行灾备；生产有效性须现场许可与双向测试。"
-      ]
-    },
+    "writer": "root-refresh-2026-11-11",
+    "reviewedAt": "2026-11-11",
     "initialFindings": [
-      "基础命令后未即时读取退出码，旧报告存在可能误验；清理命令在复跑失败后可能删除旧证据。",
-      "合成快照不检查失鲜、恢复步骤不具体；缺预算与缓冲换条件评估。"
+      "五轮立即重试和五倍请求量混淆初次与重试；凭据轮换默认并存没区分疑似泄露。"
     ],
     "changes": [
-      "加入即时退出码/时效边界、恢复新输出名，清理改为先核对成功生成与所有权。",
-      "补零基础入口与CVM/TKE前置、课程地图来源；新增未知任务/预算/采集放大/缓冲/权限轮换五关。"
+      "明确初次加五次重试共六次，同60秒1200QPS；总五次才1000；新增计划轮换与紧急吊销/已发会话验证分支。"
     ],
-    "validation": [
-      {
-        "kind": "executed",
-        "detail": "共用合成私有云审计实际健康0/PASS、退化2/DEGRADED六发现；容量与预算算例复算。",
-        "limits": "未调用真实TCE、发放凭据或修改策略、密钥/组件；脚本不验证现场时效。"
-      }
-    ],
-    "writer": "systems",
-    "reviewedAt": "2026-10-12",
     "criteria": [
       {
         "id": "prerequisites",
@@ -442,7 +433,7 @@
       {
         "id": "mastery",
         "result": "pass",
-        "evidence": "五关60%预算、200到1000调用、68.27/34.13分钟、未知任务与轮换正反验证。"
+        "evidence": "重试题限定全部尝试同一窗口且不等于瞬时峰值；轮换题改条件为泄露后不机械维持双凭据。"
       },
       {
         "id": "aiops",
@@ -450,31 +441,41 @@
         "evidence": "观测/执行身份分离、日志不授新权限、稳定脱敏ID与交接剩余风险。"
       }
     ],
-    "status": "revised-awaiting-cross-review"
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "2026-11-11分段完整读至EOF；依据八维标准保留已充分的双实验、机制、生产与面试层，并针对真实缺口修订。",
+        "limits": "全文审读与离线验证不保证个人完全掌握或录用；商业平台专属操作需要授权环境和匹配版本。"
+      },
+      {
+        "kind": "executed",
+        "detail": "运行共享巡检verify并断言200/1200/1000；核对CAM官方评估逻辑，紧急处置按授权而非通用承诺。",
+        "limits": "tmp/check-root-virtualization-2026-11-11.mjs共50检查含23个PS围栏语法；仅合成/本机验证，不含真实云API、账号、VM、硬件、迁移、HA或厂商验收。PowerShell实际运行7，不声称5.1已实跑。"
+      }
+    ],
+    "status": "cross-reviewed",
+    "disposition": "revised",
+    "crossReview": {
+      "reviewer": "refresh-foundation-platform",
+      "reviewedAt": "2026-11-11",
+      "articleSha256": "dcbe481e1c3bb282727741e84d4c9bf5e4267f62a62923f182e6c5f04f1cdaea",
+      "result": "pass",
+      "findings": [
+        "审阅范围：完整本轮diff、作者记录、检查脚本与核心机制/基础故障实验/独立通关必要上下文；不是本轮对旧版全篇重复审读。",
+        "计划轮换与疑似泄露紧急吊销分支已区分，长期密钥与已签发会话不臆断同步撤销。每次初始+5重试=6次，全部同60秒窗口平均1200而非1000；缓冲20GiB净增5MiB/s=4096秒，与基础故障/未知输入语义一致。",
+        "独立执行tmp/check-root-virtualization-2026-11-11.mjs，50项检查含23段PowerShell AST、合成规则/关系/地址/容量及本机HTTP200/404/200通过。主脚本用PowerShell7，共享verify内部子进程用5.1；无真实VM、云API、凭据、迁移或HA注入。"
+      ]
+    }
   },
   {
     "article": "virtualization-private-cloud/tencent-tce.md",
-    "crossReview": {
-      "reviewer": "foundation-frontend",
-      "reviewedAt": "2026-10-12",
-      "articleSha256": "9a71fdba44997e822c5cf08d88d9cabaf332302ff39f5293a6035afa1641b98d",
-      "result": "pass",
-      "findings": [
-        "全文复核。实际执行原文关系模型，先输出vol-c引用不闭合，补入漏页后为0；共用私有云报告验证通过。没有把关系缺失变成删盘许可，也不把0异常当物理存储健康。",
-        "总览与专题层次明确，TCE/TCS/TStack、四份能力证据、BOM/License/版本构建、管理/控制/数据面和请求/任务/资源ID分开；Provider开发示例与生产制品、state秘密/映射及计划授权边界讲清。",
-        "五关100-10-20-60=10与故障预留30后0、漏页/权限/时间对照、跨产品相关性非确认根因，以及重复回调/旧站仍写/state丢失三种独立状态均有答案。未登录TCE、调用API、验证授权或双AZ恢复，全文没有用公有云能力冒充现场验收。"
-      ]
-    },
-    "writer": "systems",
-    "reviewedAt": "2026-10-12",
+    "writer": "root-refresh-2026-11-11",
+    "reviewedAt": "2026-11-11",
     "initialFindings": [
-      "总览前置产品缩写集中后置，地图来源未说明；Terraform图将API调用与交付步骤混排。",
-      "合成报告缺即时退出码与具体恢复输出，缺跨能力证据/容量/未知关系的独立通关。"
+      "基础实验误称健康报告显示管理节点明细，英文报告口径需要准确解释。"
     ],
     "changes": [
-      "补零基础与交付证据路线、缩写职责和课程重组说明。",
-      "重画plan/审批/apply流程并解释读取调用，补三轮报告防覆盖/六发现与阈值口径。",
-      "新增授权能力交集、预留、漏页引用、共同故障反证与三类状态五关。"
+      "逐项对照脚本修正为输入managementNodes核对角色；补报告英文栏目、resource口径、Ready实际/期望数和PASS边界。"
     ],
     "criteria": [
       {
@@ -510,7 +511,7 @@
       {
         "id": "mastery",
         "result": "pass",
-        "evidence": "五关10→0承诺、能力证据交集、引用闭合≠健康、相关≠因果和重复状态取舍。"
+        "evidence": "既有三账/双区/关系与重复请求五关充分；报告无节点行不能推断没有管理节点。"
       },
       {
         "id": "aiops",
@@ -520,307 +521,340 @@
     ],
     "validation": [
       {
+        "kind": "reasoned",
+        "detail": "2026-11-11分段完整读至EOF；依据八维标准保留已充分的双实验、机制、生产与面试层，并针对真实缺口修订。",
+        "limits": "全文审读与离线验证不保证个人完全掌握或录用；商业平台专属操作需要授权环境和匹配版本。"
+      },
+      {
         "kind": "executed",
-        "detail": "共用合成私有云脚本实跑健康0/PASS、退化2六发现，已读回报告；容量数字复算。",
-        "limits": "未登录TCE或运行Provider，合成台账不探测版本/许可/真实网络与数据。"
+        "detail": "运行共享巡检verify；原样执行vol-c引用缺失与补入对象恢复PowerShell模型。",
+        "limits": "tmp/check-root-virtualization-2026-11-11.mjs共50检查含23个PS围栏语法；仅合成/本机验证，不含真实云API、账号、VM、硬件、迁移、HA或厂商验收。PowerShell实际运行7，不声称5.1已实跑。"
       }
     ],
-    "status": "revised-awaiting-cross-review"
+    "status": "cross-reviewed",
+    "disposition": "revised",
+    "crossReview": {
+      "reviewer": "refresh-foundation-platform",
+      "reviewedAt": "2026-11-11",
+      "articleSha256": "32c2ef2505e27de8826824314070887c8405aeabcee13683ebee3ccee282f727",
+      "result": "pass",
+      "findings": [
+        "审阅范围：完整本轮diff、作者记录、检查脚本与核心机制/基础故障实验/独立通关必要上下文；不是本轮对旧版全篇重复审读。",
+        "核对共享合成报告与fixture管理节点职责、实际报告字段；关系缺失vol-c只是当前样本引用不闭合，补漏页后0也不证明物理健康。请求ID不保证幂等、容量100-10-20-60=10及保护备份/数据权威边界明确。",
+        "独立执行tmp/check-root-virtualization-2026-11-11.mjs，50项检查含23段PowerShell AST、合成规则/关系/地址/容量及本机HTTP200/404/200通过。主脚本用PowerShell7，共享verify内部子进程用5.1；无真实VM、云API、凭据、迁移或HA注入。"
+      ]
+    }
   },
   {
     "article": "storage-data-protection/tce-storage.md",
-    "crossReview": {
-      "reviewer": "foundation-frontend",
-      "reviewedAt": "2026-10-12",
-      "articleSha256": "61c08b8303fd6b2438082893f0802f6d92ef20a1d9aaa0a8b79af5583c9dc2d6",
-      "result": "pass",
-      "findings": [
-        "全文及verify.ps1/README完整复核，实际运行Windows PowerShell5.1脚本：baseline=PASS、单比特损坏DETECTED、recovery=PASS和专用临时数据移除全部通过。清理限定新GUID目录、拒绝链接且只删两已知文件/空目录，不递归触碰旧证据。",
-        "块/文件/对象、挂接/客户机/文件系统、字节/集合/事务、快照请求/就绪/恢复与多卷一致性分别讲清；ETag不普遍等于MD5、唯一版本模型发布仍需条件切换、密钥与恢复依赖独立。",
-        "五关4KiB与64KiB对应78.125/1250MiB每秒、999/1000不能全验收、20TiB按500MiB每秒约11.65小时、超时/ETag不能断言失败及多卷/历史密钥/并发发布判据成立。未执行真实CBS/CFS/COS、CSI、快照、权限或性能恢复。"
-      ]
-    },
-    "writer": "systems",
-    "reviewedAt": "2026-10-12",
+    "writer": "refresh-foundation-platform",
+    "reviewedAt": "2026-11-11",
     "initialFindings": [
-      "哈希故障实验只检测后清理，没有恢复再验证；早期模型发布答案易暗示对象元数据跨对象原子切换。",
-      "对象整体读写表述忽略范围读边界、仓库前置隐含，缺集合完整/恢复下界等独立通关。"
+      "两处把I/O队列深度仅定义为等待处理数，混淆已提交未完成在途量、正在服务、配置值和实际达到值。"
     ],
     "changes": [
-      "脚本补本轮源文件恢复本轮目标、再算哈希断言并同步README和课程。",
-      "明确对象接口≠POSIX、版本发布条件更新依赖真实系统；补零基础入口与五关。"
+      "两处改为明确观察边界的在途量；补配置32实际1、在途32含服务8反例，引用fio实际depth/同步引擎限制，不增加真实写盘压测。"
     ],
     "criteria": [
       {
         "id": "prerequisites",
         "result": "pass",
-        "evidence": "WindowsPowerShell本地实验优先，无云账号/容器前置，产品缩写职责和地图来源。"
+        "evidence": "完整仓库根目录与PS5.1随机文件实验，不需云/K8s；TCE BOM/CBS/CFS/COS与公有云边界。"
       },
       {
         "id": "mechanism",
         "result": "pass",
-        "evidence": "块/文件/对象路径、持久化与事务、分配/写入/回收、快照控制与多卷一致性。"
+        "evidence": "块/文件/对象路径及确认层次、snapshot控制面状态、ETag非统一MD5、I/O深度与真实等待分离。"
       },
       {
         "id": "foundation",
         "result": "pass",
-        "evidence": "固定仓库脚本生成1MiB并复制SHA256基线，有预期/失败/精确清理。"
+        "evidence": "现有verify.ps1生成自有1MiB文件、复制SHA256，唯一临时目录不覆盖历史材料。"
       },
       {
         "id": "fault",
         "result": "pass",
-        "evidence": "确定翻转位发现不同摘要，重新复制并独立校验恢复，未知文件不递归删除。"
+        "evidence": "首字节XOR必变化、检测差异、仅可信源回填、恢复相同、精确范围清理，四阶段分别断言。"
       },
       {
         "id": "production",
         "result": "pass",
-        "evidence": "故障域/副本备份区别、性能/增长/重建、权限密钥/不可变、升级格式与回切权威。"
+        "evidence": "AZ/账号故障域、数据与密钥恢复、多卷一致点、格式升级不可随意降级、版本key+条件发布。"
       },
       {
         "id": "interview",
         "result": "pass",
-        "evidence": "AIOps存储设计、重建争用事故与逐层证据/最小动作/业务验收连续追问。"
+        "evidence": "30秒/3分钟、容量60%仍慢、20TiB恢复设计及重建竞争事故，证据/影响/回滚。"
       },
       {
         "id": "mastery",
         "result": "pass",
-        "evidence": "五关78.125→1250MiB、999/1000集合缺失、11.65小时下界、未知PUT/ETag、多卷与并发发布。"
+        "evidence": "1000缺1各自hash匹配仍失败、20TiB500MiB/s11.65h、32配置不等于32实测反例等独立练习。"
       },
       {
         "id": "aiops",
         "result": "pass",
-        "evidence": "容量/性能/备份演练年龄与稳定对象关系进入AIOps，禁止未经批准数据动作。"
-      }
-    ],
-    "validation": [
-      {
-        "kind": "executed",
-        "detail": "实际执行更新后的verify.ps1：baseline=PASS、fault-injection=DETECTED、recovery=PASS，精确清理本轮两个临时文件和空目录。",
-        "limits": "只验证1MiB本地随机字节；未连接TCE或验证多卷数据库、云产品、密钥与CSI实现。"
-      }
-    ],
-    "status": "revised-awaiting-cross-review"
-  },
-  {
-    "article": "storage-data-protection/ceph.md",
-    "crossReview": {
-      "reviewer": "foundation-frontend",
-      "reviewedAt": "2026-10-12",
-      "articleSha256": "d5d2b6828a502adf9aa4e361111c8d82ff1efbd03b07500ebb27b0c2c76747bd",
-      "result": "pass",
-      "findings": [
-        "全文复核。官方releases和三份安全公告独立核实20.2.4/19.2.6、Cephx密钥迁移、MON秘密暴露与RGW多站升级兼容窗口；文章不以代码升级代替泄露秘密轮换。精确下载与分支包不一定同版本、容器镜像单独固定亦讲明。",
-        "真实单机三空盘路线显式设备、单主机保护局限、同名pool归属、每步失败停止；故障先建立size3/min_size2与clean基线，仅停一个确认OSD并立即恢复，清理只删测试RBD。MON多数与PG历史不混同，DB/WAL共同设备、缓存flush、局部full及格式回退边界成立。",
-        "五关故障域数量不足不能靠空间弥补、平均70%不能覆盖局部backfillfull、元数据可读不证明业务/冗余恢复等答案可判定。本次没有Linux Ceph空盘环境，bootstrap/OSD/RBD/停启/压测均未实跑，只有全文静态、算例和官方来源复核；文中对此保持明确未验证。"
-      ]
-    },
-    "writer": "systems",
-    "reviewedAt": "2026-10-12",
-    "initialFindings": [
-      "cephadm --mount默认容器路径带源目录basename，原规范命令指向错误/mnt/osd-spec.yaml。",
-      "下载失败可续执行旧文件，安装未失败停止；版本快照旧，缺明确五关与初学路线。"
-    ],
-    "changes": [
-      "明确宿主到/mnt挂载并对固定版本源码说明；下载/安装与逐盘OSD失败停止、旧文件拒绝。",
-      "官方版本核对后更新20.2.4基线及未实跑声明；同名池归属防护、独立通关与前置入口。"
-    ],
-    "criteria": [
-      {
-        "id": "prerequisites",
-        "result": "pass",
-        "evidence": "Bash/专用可重装VM/三空盘和前置运行时，没环境先离线模型不假装部署。"
-      },
-      {
-        "id": "mechanism",
-        "result": "pass",
-        "evidence": "RADOS到pool/PG/CRUSH/OSD、MON/MGR/MDS/RGW、peering历史与缓存确认分开。"
-      },
-      {
-        "id": "foundation",
-        "result": "pass",
-        "evidence": "精确20.2.4容器与工具、显式盘规范、RBD基线与预期/路径失败/清理。"
-      },
-      {
-        "id": "fault",
-        "result": "pass",
-        "evidence": "单实验OSD停止/恢复、副本3/min2基线和业务元数据边界，纸面版本反例。"
-      },
-      {
-        "id": "production",
-        "result": "pass",
-        "evidence": "故障域/EC容量/局部满/恢复竞争、Cephx秘密、备份/升级格式、DBWAL共同依赖。"
-      },
-      {
-        "id": "interview",
-        "result": "pass",
-        "evidence": "30秒到三分钟、生产机架容量与扩容slowops事故均有递进答案和停止边界。"
-      },
-      {
-        "id": "mastery",
-        "result": "pass",
-        "evidence": "五关多数派≠历史、两host放不下三副本、均值≠局部、元数据≠性能、共享依赖与回退。"
-      },
-      {
-        "id": "aiops",
-        "result": "pass",
-        "evidence": "健康代码/拓扑/时效/升级事件进入AIOps，不执行模型建议的purge/lost/降minsize。"
+        "evidence": "tenant/resource/AZ/backend/change关联、增长/恢复链/演练年龄与受控写操作，脱敏证据。"
       }
     ],
     "validation": [
       {
         "kind": "reasoned",
-        "detail": "全文走读并复算故障容量；官方发布页20.2.4/19.2.6及20.2.4 command_shell挂载源码核对。",
-        "limits": "未下载cephadm/容器、未启动集群或写空盘、停OSD；文本预期不等于运行验证。"
+        "detail": "全文416行阅读；fio官方I/O depth定义核对，本轮原样运行仓库PS完整性实验并检查基础/故障/恢复/清理四阶段。",
+        "limits": "没有CBS/CFS/COS/CSI资源或真实TCE权限，不证明后端实现、性能/持久性/恢复目标；fio仅术语不实盘压测。"
+      },
+      {
+        "kind": "executed",
+        "detail": "node tmp/check-storage-refresh-2026-11-11.mjs：91项本地合成CSV、字节完整性、容量算术与反例检查通过。Python 3.15.2；多数PowerShell用5.1.26100.9818，TCE完整性实验用7.6.9。",
+        "limits": "TCE首次在Node子进程中的PS5.1遇Get-FileHash自动加载失败，改用PS7通过，未据此断言5.1兼容。未连接真实阵列/FC交换机/Ceph/FastDFS服务/TCE API，未验证真实故障切换与性能。"
       }
     ],
-    "status": "revised-awaiting-cross-review"
+    "status": "cross-reviewed",
+    "disposition": "revised",
+    "crossReview": {
+      "reviewer": "root-independent-2026-11-11",
+      "reviewedAt": "2026-11-11",
+      "articleSha256": "60fd26a99c55ba639e2721ff64187e41210e73c2ea4172f2512c5ced664de735",
+      "result": "pass",
+      "findings": [
+        "本轮独立评审针对当前diff和相关机制、实验、故障及面试上下文；除明确注明全文的文章外，不声称第二次全文重读。独立复跑存储检查脚本91项通过，证据保存在本轮tmp/storage-refresh-tests-DdibK9。",
+        "独立全文审读本篇及本轮diff；块/文件/对象访问、清单完整性/事务/密钥、快照异步状态和BOM支持边界明确。fio官方独立核实iodepth是在途未完成请求，设置值不等于实际深度，同步引擎通常不因调大获得并发。",
+        "独立PS7.6.9运行完整性脚本，baseline→翻位检测→恢复→精确临时清理通过；20TiB/500MiB/s约11.65h。未声称PS5.1本次已实跑、未调用TCE/CSI/云盘API或真实恢复压测。"
+      ]
+    }
+  },
+  {
+    "article": "storage-data-protection/ceph.md",
+    "writer": "refresh-foundation-platform",
+    "reviewedAt": "2026-11-11",
+    "initialFindings": [
+      "全文复评未发现必须改写的新增缺口；已有三副本降级、MON与数据条件、peering历史、缓存确认、DB/WAL共同依赖和换条件通关，不能因本轮更新要求重复铺写。"
+    ],
+    "changes": [
+      "保留原有技术专属教师反馈与反例；保留固定20.2.4学习基线和2026-10-12资料核对时点，不冒充本轮部署或最新版核验。"
+    ],
+    "criteria": [
+      {
+        "id": "prerequisites",
+        "result": "pass",
+        "evidence": "先区分Linux/空白实验机、三块确知空盘、cephadm与单机限制，安装逐步检查镜像、设备与失败停止。"
+      },
+      {
+        "id": "mechanism",
+        "result": "pass",
+        "evidence": "对象→pool/PG→CRUSH/OSD路径；MON共识不是数据副本投票，peering看有效历史，active不等于clean。"
+      },
+      {
+        "id": "foundation",
+        "result": "pass",
+        "evidence": "固定镜像单机部署、显式盘路径、pool/RBD验证与精确测试镜像清理，不给通配清盘。"
+      },
+      {
+        "id": "fault",
+        "result": "pass",
+        "evidence": "仅隔离环境停osd.0，size3/min_size2基线先clean；再up/in与PGclean验证，不能停第二个或降低阈值。"
+      },
+      {
+        "id": "production",
+        "result": "pass",
+        "evidence": "host故障域三机不能在两机恢复三份；共享DB/WAL盘故障、容量水位、恢复竞争、升级格式和Cephx边界。"
+      },
+      {
+        "id": "interview",
+        "result": "pass",
+        "evidence": "30秒/3分钟回答、全局70%但backfillfull、扩容slow ops及升级不可直接降镜像的追问。"
+      },
+      {
+        "id": "mastery",
+        "result": "pass",
+        "evidence": "唯一版本七在失联OSD反例、空间与故障域分开、服务/冗余/性能分别验收，有迁移条件。"
+      },
+      {
+        "id": "aiops",
+        "result": "pass",
+        "evidence": "healthcode→PG→acting set→OSD/主机/盘/网络与变更关联，脱敏架构、状态、容量和事故记录。"
+      }
+    ],
+    "validation": [
+      {
+        "kind": "reasoned",
+        "detail": "全文943行已分段阅读；复核双实验前提/清理、容量算式与反例。仅原文规范/逻辑复评与本轮算术检查，不把旧引用当成本轮全量在线检查。",
+        "limits": "未部署Ceph、未使用空盘、未停OSD、未测缓存持久性/恢复流量；文档判通过不代表生产熟练度。"
+      },
+      {
+        "kind": "executed",
+        "detail": "node tmp/check-storage-refresh-2026-11-11.mjs：91项本地合成CSV、字节完整性、容量算术与反例检查通过。Python 3.15.2；多数PowerShell用5.1.26100.9818，TCE完整性实验用7.6.9。",
+        "limits": "TCE首次在Node子进程中的PS5.1遇Get-FileHash自动加载失败，改用PS7通过，未据此断言5.1兼容。未连接真实阵列/FC交换机/Ceph/FastDFS服务/TCE API，未验证真实故障切换与性能。"
+      }
+    ],
+    "status": "cross-reviewed",
+    "disposition": "reviewed-preserved",
+    "crossReview": {
+      "reviewer": "root-independent-2026-11-11",
+      "reviewedAt": "2026-11-11",
+      "articleSha256": "d5d2b6828a502adf9aa4e361111c8d82ff1efbd03b07500ebb27b0c2c76747bd",
+      "result": "pass",
+      "findings": [
+        "本轮独立评审针对当前diff和相关机制、实验、故障及面试上下文；除明确注明全文的文章外，不声称第二次全文重读。独立复跑存储检查脚本91项通过，证据保存在本轮tmp/storage-refresh-tests-DdibK9。",
+        "独立审读起步/核心图、真实基础与OSD故障完整步骤、生产和独立通关相关上下文。显式空盘/隔离环境、size3/min_size2、先clean再单OSD动作，rbd info不声称真实数据I/O；清理不zap磁盘。",
+        "核对peering依历史权威副本而非简单数多数、host故障域三变二不能仍满足三独立域，以及共享DB/WAL依赖。仅审读与容量推理，未安装Ceph、停止OSD或验证真实恢复。"
+      ]
+    }
   },
   {
     "article": "storage-data-protection/huawei-oceanstor.md",
-    "crossReview": {
-      "reviewer": "foundation-frontend",
-      "reviewedAt": "2026-10-12",
-      "articleSha256": "aff337afadebadda2e3c4d7e10996fc117aa2f20efbcd78d4fdc05e25ea169af",
-      "result": "pass",
-      "findings": [
-        "全文复核。原文阈值脚本仅以内存CSV替换文件输入，在PS5.1实际运行十项：WARN1/CRITICAL2/OK0、路径50为2和51为1、缺行/NaN/错方向/错单位/重复均UNKNOWN3，结果符合正文；不执行阵列命令或采集本机信息。",
-        "产品族、WWID/WWPN/HostID、双控/多路径、数量/独立fabric、逻辑分配/物理使用/缩减率与LUN/NAS两链分开；克隆独立性按机制确认、总体异常继续只读取证而停止变更、HyperMetro权威先于强制启动讲清。",
-        "五关50/51边界、8剩4的不同故障域、标识不匹配禁止格式化、8KiB×10000约78.125MiB/s与QoS排队、双活仍需历史备份答案成立。真实型号许可、路径切换、性能、快照和HyperMetro未验证，文章不以离线四指标代表整台阵列。"
-      ]
-    },
-    "writer": "systems",
-    "reviewedAt": "2026-10-12",
+    "writer": "refresh-foundation-platform",
+    "reviewedAt": "2026-11-11",
     "initialFindings": [
-      "克隆逐步形成独立数据的泛化表述可能误导链接/精简克隆故障域；前置终端/扩展名与FC映射词汇隐含。",
-      "检查表与裸题不能替代新条件判断，缺路径数量相同但故障域不同等独立通关。"
+      "capacity段将allocated一律解释为卷逻辑承诺，与Dorado6.1.2官方总订阅/已分配/数据保护口径冲突，会误导容量判断。"
     ],
     "changes": [
-      "解释克隆独立性依赖具体机制/状态，补零基础离线路线/编码/扩展名和路径词汇。",
-      "新增lower等号/缺行、8路4路故障域、稳定WWID、性能QoS和双活备份五关。"
+      "分开total subscribed、allocated、used，修正开场池使用字段；增加100TiB池150订阅40已分配10保护的教师账本及保护增长反例，要求版本/对象/模式/单位/时点。"
     ],
     "criteria": [
       {
         "id": "prerequisites",
         "result": "pass",
-        "evidence": "无需阵列的WindowsCSV先行，文件保存编码/目录与产品型号边界明确。"
+        "evidence": "WindowsPS5.1/BOM和CSV/脚本前置课，不需阵列权限；产品Dorado/Pacific/保护边界清楚。"
       },
       {
         "id": "mechanism",
         "result": "pass",
-        "evidence": "主机到介质/文件服务、池LUN映射、多路径/缓存、快照复制双活及克隆边界。"
+        "evidence": "控制器/池/LUN/映射/文件/双活五要素齐全；本轮按Dorado6.1.2修正容量口径而非跨域硬译。"
       },
       {
         "id": "foundation",
         "result": "pass",
-        "evidence": "完整四行样本与规则校验，WARN1、UNKNOWN3，预期/排障与单文件清理。"
+        "evidence": "四项阈值脚本、全量输入验证、2WARN2OK退出1，方向/单位/NaN/缺行UNKNOWN3。"
       },
       {
         "id": "fault",
         "result": "pass",
-        "evidence": "92容量CRITICAL2、缺行UNKNOWN3、恢复70/100全部OK0，有基线回归。"
+        "evidence": "池92故障2、恢复70/3.6/100/0为0；路径50/51边界及精确两文件清理。"
       },
       {
         "id": "production",
         "result": "pass",
-        "evidence": "双fabric故障域/容量缩减/性能QoS、权限、HyperMetro数据权威、型号升级兼容和备份。"
+        "evidence": "HyperMetro数据权威/三网、快照克隆独立性、QoS资源竞争、兼容矩阵和保护条件门禁。"
       },
       {
         "id": "interview",
         "result": "pass",
-        "evidence": "生产共享池争用及路径部件事故含对照、最小动作、冗余业务验收和升级边界。"
+        "evidence": "30秒/3分钟、共享池数据库竞争设计、部件恢复/冗余/业务三次验收和无强启动猜测。"
       },
       {
         "id": "mastery",
         "result": "pass",
-        "evidence": "五关50/51阈值、数量≠域、稳定身份、78.125MiB/s与QoS、双活恢复反证。"
+        "evidence": "路径域分布反例、WWID不匹配停止、78.125MiB/s算例、150%订阅不代表已用150%教师反证。"
       },
       {
         "id": "aiops",
         "result": "pass",
-        "evidence": "稳定WWN到主机owner拓扑、时效与告警、只读自动化禁止未经批数据操作。"
+        "evidence": "原字段/版本/对象→归一化模型、业务/owner/端口/LUN/池/保护关系与变更，脱敏证据清单。"
       }
     ],
     "validation": [
       {
+        "kind": "reasoned",
+        "detail": "全文901行阅读；2026-11-11读取华为官方Dorado6.1.2系统容量术语与浏览池信息，按其对象层和模式重写；PowerShell阈值脚本本轮离线运行。",
+        "limits": "未访问Huawei设备、真实容量回收/HyperMetro/恢复；早先英文入口403，最终以可读取官方中文容量页核验。"
+      },
+      {
         "kind": "executed",
-        "detail": "正文完整PowerShell规则用内存CSV实际运行10项：WARN/CRITICAL/OK、50/51边界、缺行、NaN、方向/阈值错与重复身份。",
-        "limits": "模拟Import-Csv只验证规则，未登录OceanStor、发现真实盘、采集文件或验证故障切换/恢复。"
+        "detail": "node tmp/check-storage-refresh-2026-11-11.mjs：91项本地合成CSV、字节完整性、容量算术与反例检查通过。Python 3.15.2；多数PowerShell用5.1.26100.9818，TCE完整性实验用7.6.9。",
+        "limits": "TCE首次在Node子进程中的PS5.1遇Get-FileHash自动加载失败，改用PS7通过，未据此断言5.1兼容。未连接真实阵列/FC交换机/Ceph/FastDFS服务/TCE API，未验证真实故障切换与性能。"
       }
     ],
-    "status": "revised-awaiting-cross-review"
+    "status": "cross-reviewed",
+    "disposition": "revised",
+    "crossReview": {
+      "reviewer": "root-independent-2026-11-11",
+      "reviewedAt": "2026-11-11",
+      "articleSha256": "c31e0dd8387190d14d01e4d208b043b59a29b1a920078f5be7758faa2a078983",
+      "result": "pass",
+      "findings": [
+        "本轮独立评审针对当前diff和相关机制、实验、故障及面试上下文；除明确注明全文的文章外，不声称第二次全文重读。独立复跑存储检查脚本91项通过，证据保存在本轮tmp/storage-refresh-tests-DdibK9。",
+        "独立核对全部本轮diff、块/文件/HyperMetro路径、完整样例/故障回归、设计与通关。已分配与认购/超配口径按具体界面分开，不跨型号硬译；WWPN/WWID/Host ID不互换，双控不能替路径冗余。",
+        "独立复跑PowerShell11类输入，基线WARN1、严重2、恢复0及输入UNKNOWN3均符合。华为所引官方容量页本次直连超时、Jina返回504，未声称本次抓取成功；未连接阵列或验证HyperMetro/恢复。"
+      ]
+    }
   },
   {
     "article": "storage-data-protection/fastdfs.md",
-    "crossReview": {
-      "reviewer": "foundation-frontend",
-      "reviewedAt": "2026-10-12",
-      "articleSha256": "1780770c2db251db06de5281c92c1297b475e4f29d1bec8734547041ee6edfd6",
-      "result": "pass",
-      "findings": [
-        "全文、lab.py与实验README完整复核。实跑demo三阶段、fault六阶段、80TB三份25%预留得320；十项参数/输出负向全部拒绝，包含NaN/无穷/零负量/零或小数副本/100%/溢出/已存在文件/父目录缺失，已有README摘要不变。临时数据清理断言成立。",
-        "真实Linux路线的固定依赖、非回环Tracker地址、专用账户路径、显式配置、file_id形状与cmp字节验证闭合；明确file_info/download部分错误退出0，不能靠set-e伪成功。Exporter回环与服务地址、负同步值、Gauge累计语义、NAS同容量/同故障域与路径标记均分别解释。",
-        "五关容量320、无新写入不以最后同步时间断言积压、进程内幂等不跨重启、退出0/HTTP200登录页不能验照片，以及迁移IP/丢挂载/切流后新写入有具体答案。真实Linux编译、双Storage复制、Nginx/HTTP、Exporter与升级迁移未实跑；本地手工复制不被当生产修复。"
-      ]
-    },
-    "writer": "systems",
-    "reviewedAt": "2026-10-12",
+    "writer": "refresh-foundation-platform",
+    "reviewedAt": "2026-11-11",
     "initialFindings": [
-      "原文实验、机制和生产边界已有较强教学内容，但独立任务缺变更副本/空闲比例、进程重启和HTTP200错误正文等换条件校准。",
-      "首次学习缺统一准备入口，易先卡在Linux编译而未走低前置Python路线。"
+      "全文以固定V6.18.1及依赖版本讲安装，已有回环Tracker限制、工具失败退出0、Exporter负值、异步确认/幂等/错挂载反例，无需为更新重写。"
     ],
     "changes": [
-      "补统一准备与先本地后真实服务的分层选择。",
-      "新增320TB与共享NAS、无新写入旧时间、跨重启幂等、200登录页、迁移新写入五关。"
+      "保留源码版本化课程、真实Linux未执行声明、可复现Python双实验和换条件通关；不把固定历史基线写成当前最新。"
     ],
     "criteria": [
       {
         "id": "prerequisites",
         "result": "pass",
-        "evidence": "Python3.9无第三方依赖与仓库ZIP/根目录逐步讲，Bash/Ubuntu空白VM路线单列。"
+        "evidence": "进程/端口/文件系统/副本从零讲；可先Python3.9无依赖，再独立Ubuntu学习机，账号和地址防混用。"
       },
       {
         "id": "mechanism",
         "result": "pass",
-        "evidence": "Tracker选址不传字节、组内异步、fileID/身份路径、事务补偿与binlog范围。"
+        "evidence": "Tracker调度与字节流分离、group组内复制组间分担、file_id非授权、路径身份及异步确认窗口。"
       },
       {
         "id": "foundation",
         "result": "pass",
-        "evidence": "真实服务固定依赖、非回环Tracker/库路径/配置包含边界；本地demo完整预期/独占输出/清理。"
+        "evidence": "固定依赖编译顺序、三配置、专户、真标识上传下载cmp；本地demo展示ACK早于副本。"
       },
       {
         "id": "fault",
         "result": "pass",
-        "evidence": "故障确定性缺失/损坏、可信源修复和复测，模拟ACTIVE与真实状态清楚区分。"
+        "evidence": "本地fault真删自有副本/翻比特、可信源先验再恢复；临时目录自动清理、证据不覆盖。"
       },
       {
         "id": "production",
         "result": "pass",
-        "evidence": "容量分母/故障域/共享NAS/NFS错挂/安全、迁移台账与升级数据兼容回切。"
+        "evidence": "175TB副本与20%分母、故障域/NAS共同依赖、保留身份和迁移引用、超时未知、权限与升级数据兼容。"
       },
       {
         "id": "interview",
         "result": "pass",
-        "evidence": "30秒/3分钟及三组追问、70TB设计与入口偶发404事故有假设反证与最小动作。"
+        "evidence": "30秒/3分钟与三组递进题、70TB设计、上午新图404教学事故给两可证伪假设。"
       },
       {
         "id": "mastery",
         "result": "pass",
-        "evidence": "五关320TB、新写入条件、持久幂等、退出/HTTP/字节/业务多层和迁移新数据。"
+        "evidence": "80×3/0.75=320、无新写最后同步旧不等于积压、重启不保内存幂等、200登录页非照片校准。"
       },
       {
         "id": "aiops",
         "result": "pass",
-        "evidence": "官方Exporter版本字段/类型/缺失负值与业务探针、拓扑审计联动，写修复需授权。"
+        "evidence": "官方Exporter/source指标语义、四层探针、OTel业务链、低基数标签与受控只读取证。"
       }
     ],
     "validation": [
       {
+        "kind": "reasoned",
+        "detail": "全文714行分段阅读并补读工具截断段；本轮demo/fault/两容量值/非法输入/证据独占创建实跑。",
+        "limits": "未编译或启动FastDFS、未真实多节点同步/HTTP/NFS/Exporter；本地文件和算术不冒充生产验收。"
+      },
+      {
         "kind": "executed",
-        "detail": "本轮verify-fastdfs-doc实际本地demo/fault/175TB与非法副本数拒绝；另跑80TB三份25%得到320TB；15个Bash块语法及13本地链接检查通过。",
-        "limits": "本地模拟临时副本自动清理；未编译/启动真实FastDFS、测试多节点同步或网页下载/生产NAS。"
+        "detail": "node tmp/check-storage-refresh-2026-11-11.mjs：91项本地合成CSV、字节完整性、容量算术与反例检查通过。Python 3.15.2；多数PowerShell用5.1.26100.9818，TCE完整性实验用7.6.9。",
+        "limits": "TCE首次在Node子进程中的PS5.1遇Get-FileHash自动加载失败，改用PS7通过，未据此断言5.1兼容。未连接真实阵列/FC交换机/Ceph/FastDFS服务/TCE API，未验证真实故障切换与性能。"
       }
     ],
-    "status": "revised-awaiting-cross-review"
+    "status": "cross-reviewed",
+    "disposition": "reviewed-preserved",
+    "crossReview": {
+      "reviewer": "root-independent-2026-11-11",
+      "reviewedAt": "2026-11-11",
+      "articleSha256": "1780770c2db251db06de5281c92c1297b475e4f29d1bec8734547041ee6edfd6",
+      "result": "pass",
+      "findings": [
+        "本轮独立评审针对当前diff和相关机制、实验、故障及面试上下文；除明确注明全文的文章外，不声称第二次全文重读。独立复跑存储检查脚本91项通过，证据保存在本轮tmp/storage-refresh-tests-DdibK9。",
+        "独立核对核心六概念、双实验、容量/故障域/NFS/迁移、事故与换条件通关。Tracker调度与文件字节分开，组内异步ACK窗口、ACTIVE不保证文件、内存幂等不跨重启、来源不明停止覆盖。",
+        "独立实跑仓库demo/fault，内容缺失与翻位均检测并恢复，自有临时数据清理；175/320容量模型、非法参数和已有证据拒覆盖通过。真实字节哈希不等于真实FastDFS同步、HTTP、跨进程事务或灾备验收。"
+      ]
+    }
   }
 ]

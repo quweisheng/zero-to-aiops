@@ -296,7 +296,7 @@ scikit-learn 官方异常检测文档区分：
 | novelty detection | 训练数据基本干净 | 学正常模式，再判断新数据是否异常 |
 | outlier detection | 训练数据中混有异常 | 从污染数据里识别离群点 |
 
-AIOps 更常见的是 outlier detection，因为真实历史指标里往往已经混有故障点。
+若历史指标已经混有故障点，可以从 outlier detection 入手；若已审核出相对干净的正常训练期、目标是判断之后的新窗口，则应按 novelty detection 的前提选接口和评估方式。AIOps 这个名称本身不能决定训练数据是否干净。
 
 ## 安装
 
@@ -443,12 +443,26 @@ IsolationForest 的直觉：
 
 ### 告警窗口特征
 
+下面仍是使用已有 `df` 的特征片段，不是独立程序。先按服务和时间排序，再在各服务内部计算；三行窗口表示三个观测值，并不自动代表三分钟。间隔不规则时，应另定义按事件时间的窗口与缺测策略。
+
 ```python
-df["error_rate_rolling_mean_3"] = df["error_rate"].rolling(window=3).mean()
-df["latency_rolling_max_3"] = df["p95_latency_ms"].rolling(window=3).max()
-df["request_rate_pct_change"] = df["request_rate"].pct_change()
-df = df.dropna()
+import numpy as np
+
+df = df.sort_values(["service", "timestamp"]).copy()
+groups = df.groupby("service", sort=False)
+df["error_rate_rolling_mean_3"] = groups["error_rate"].transform(
+    lambda values: values.rolling(window=3, min_periods=3).mean()
+)
+df["latency_rolling_max_3"] = groups["p95_latency_ms"].transform(
+    lambda values: values.rolling(window=3, min_periods=3).max()
+)
+df["request_rate_pct_change"] = groups["request_rate"].pct_change(fill_method=None)
+window_features = ["error_rate_rolling_mean_3", "latency_rolling_max_3", "request_rate_pct_change"]
+df["window_ready"] = np.isfinite(df[window_features].to_numpy(dtype=float)).all(axis=1)
+feature_rows = df.loc[df["window_ready"]].copy()
 ```
+
+`min_periods=3` 要求至少三个值才产出窗口统计；前两行不是健康零值，而是历史不足。前一个请求速率为零时，相对变化可能非有限，所以保留 `window_ready`（窗口可用标记），不要把所有错误简单填零。原 `df` 留下不合格行供排查，`feature_rows` 才是本片段筛出的候选；候选为空应明确停止训练，仍需前文的数据合同和无泄漏拆分。分组窗口行为见 [pandas 官方 rolling](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.api.typing.SeriesGroupBy.rolling.html)。
 
 ### 变更特征
 
@@ -1009,8 +1023,8 @@ joblib.load("model.joblib")
 | NaN 报错 | 特征有缺失 | `df.isna().sum()` | SimpleImputer |
 | 训练好测试差 | 过拟合或数据泄漏 | 对比训练/测试指标 | Pipeline、交叉验证 |
 | 每次结果不同 | 随机性 | 看 random_state | 固定 random_state |
-| 异常太多 | contamination 太高 | 看异常比例 | 调低 contamination |
-| 异常太少 | contamination 太低 | 人工 review | 调高或改特征 |
+| 异常太多 | 单位/分组/数据分布改变，或阈值与预算不符 | 对照输入合同、原始分数、offset与成熟标签 | 先排除输入故障，再在验证数据上调阈值，不用调小 contamination 掩盖事故 |
+| 异常太少 | 特征不足、真实数据缺测，或阈值漏掉目标事件 | 核对采集覆盖和未入选事件的人工标签 | 修复数据与特征后评估阈值，不能仅凭输出比例认定召回 |
 | accuracy 很高但没用 | 类别极不平衡 | 看混淆矩阵 | 看 precision/recall |
 | 线上预测报维度错 | 特征列不一致 | 打印 columns | 保存特征列表，Pipeline |
 | 加载模型失败 | 版本不兼容 | 看 sklearn 版本 | 固定 requirements，重训 |
@@ -1274,6 +1288,37 @@ IsolationForest 等异常检测输出相对异常程度，不应通过随意线�
 “回退必须恢复匹配的输入语义与模型配置，历史样本回放只走影子通道，不重复创建真实工单。若需要增量学习，要额外管理状态与数据位置，不能循环调用 fit 冒充持续学习。这个框架帮助发现模式，最终告警和修复仍需业务证据与授权。”追问“能否直接扩大模型”，回答先用同一评估集证明数据与简单基线已经充分利用，再权衡复杂模型增加的训练、解释和运维成本。
 
 ## 独立通关：把估计器状态与业务策略分开
+
+### 老师批改：模型没有出错，特征已经串了服务
+
+小王把多个服务的行放在一起，直接调用 `rolling(2)`，看见程序没有报错就交给模型。我们用四条合成记录复查：甲服务延迟为一百、一百一十；乙服务为一千、一千一百。先预测每个服务自己的两点平均值，应该分别是一百零五和一千零五十，而不是把相邻两行当成同一个服务。
+
+保存为 `group_window_feedback.py`，在安装 pandas 的课堂环境运行。它只在内存构造数据，不加载模型或真实指标：
+
+```python
+import pandas as pd
+
+sample = pd.DataFrame({
+    "service": ["a", "b", "a", "b"],
+    "time": [0, 0, 1, 1],
+    "latency_ms": [100, 1000, 110, 1100],
+})
+sample["wrong_mean"] = sample["latency_ms"].rolling(2).mean()
+ordered = sample.sort_values(["service", "time"])
+sample["correct_mean"] = ordered.groupby("service")["latency_ms"].transform(
+    lambda values: values.rolling(2, min_periods=2).mean()
+)
+assert sample.loc[2, "wrong_mean"] == 555
+assert sample.loc[2, "correct_mean"] == 105
+assert sample.loc[3, "correct_mean"] == 1050
+assert sample.loc[[0, 1], "correct_mean"].isna().all()
+print(sample.to_string(index=False))
+print("分组和原行身份已核对；历史不足仍保留为缺失")
+```
+
+这里 `transform` 返回带原行索引的结果，赋回 `sample` 时按索引对齐；所以排序后不能随意丢掉身份，再把裸数组按当前位置塞回原表。预期甲的第二条错误均值为五百五十五，正确值为一百零五；两个服务第一条都缺少第二个历史值，不能冒充零延迟。输出不符先查分组键、时间排序和索引，而不是重训或调异常比例。
+
+独立变式：将原四行打乱，再按服务和时间计算，正确的同一事件特征应保持不变。若变了，交卷应标为失败并回查排序与身份，不只提交最终分数。实验退出即可，无清理资源；保存两组输入、错误/正确特征和解释。面试追问“Pipeline 能阻止串服务吗”，答案是否定的：它只执行你交给它的转换，错误的窗口合同仍会被稳定执行。
 
 五关分别验收。先写预测，再用个人合成数据运行；没有 scikit-learn 时把框架相关关记为未执行，不能用无依赖阈值演示代替训练证明。
 

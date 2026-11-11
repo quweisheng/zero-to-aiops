@@ -1411,31 +1411,54 @@ Ansible 可以作为 runbook 执行器，下面是一个收集服务证据的 pl
 - name: Collect AIOps service evidence
   hosts: web
   become: true
-  gather_facts: true
+  gather_facts: false
   vars:
     service_name: aiops-api
 
   tasks:
+    - name: Validate one service name before privileged reads
+      ansible.builtin.assert:
+        that:
+          - service_name is string
+          - service_name is match('^[A-Za-z0-9_][A-Za-z0-9_.@-]*$')
+        fail_msg: "Use one approved service name, not options or a command."
+
     - name: Get service status
-      ansible.builtin.command: "systemctl status {{ service_name }} --no-pager"
+      ansible.builtin.command:
+        argv: [systemctl, status, "{{ service_name }}", --no-pager]
       register: service_status
       changed_when: false
       failed_when: false
+      no_log: true
 
     - name: Get recent logs
-      ansible.builtin.command: "journalctl -u {{ service_name }} -n 100 --no-pager"
+      ansible.builtin.command:
+        argv: [journalctl, -u, "{{ service_name }}", -n, "100", --no-pager]
       register: service_logs
       changed_when: false
       failed_when: false
+      no_log: true
 
-    - name: Print evidence
+    - name: Print collection metadata, not raw logs
       ansible.builtin.debug:
         msg:
-          - "status_rc={{ service_status.rc | default('unknown') }} stdout={{ service_status.stdout_lines | default([]) }} stderr={{ service_status.stderr | default('') }}"
-          - "logs_rc={{ service_logs.rc | default('unknown') }} stdout={{ service_logs.stdout_lines | default([]) }} stderr={{ service_logs.stderr | default('') }}"
+          - "status_rc={{ service_status.rc | default('unknown') }}"
+          - "logs_rc={{ service_logs.rc | default('unknown') }}"
+          - "business_health=not_verified"
+
+    - name: Fail the collection when command results are unknown
+      ansible.builtin.assert:
+        that:
+          - (service_status.rc | default(-1)) in [0, 3]
+          - (service_logs.rc | default(-1)) == 0
+        fail_msg: "Evidence collection is incomplete; do not authorize recovery."
 ```
 
-这里 `failed_when: false` 是为了尽量收集完两类证据，不能让上层把 recap 当成服务健康。保留退出码和标准错误：服务 inactive、单元不存在、权限不足和命令读取失败要分开；空日志也不等于从未报错。这个样例适用于已确认使用 systemd 的授权 Linux 测试机，WSL 若未启用 systemd 不能套用。正式采集器应返回“已采集且健康 / 已采集且异常 / 采集失败未知”三态，未知不能自动授权重启。
+这里 `failed_when: false` 只让本机的两项查询尽量执行完，最后的 assert 再把采集失败变成失败任务；SSH 不可达仍可能使该主机提前退出，不能保证总能收齐。`systemctl status` 的 0/3 分别可能代表运行中/未运行，但都不是业务健康结论；其他退出码或缺少 rc，按采集不完整处理。日志查询返回 0 只证明查询执行成功，空日志不等于从未报错。这个样例适用于已确认使用 systemd 的授权 Linux 测试机，WSL 若未启用 systemd 不能套用。
+
+老师让你做一个不接触服务器的反例检查：把 `service_name` 写成 `aiops-api --all`。预期在第一个 assert 就停止，而不是把它拆成新的命令选项。`command` 不经过 Shell，不代表任意字符串都适合拼进参数；`argv` 把参数逐项传递，名称白名单再限制这一堂课允许的输入形状。白名单是格式检查，不能代替生产服务授权清单。[Ansible command 官方参数说明](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/command_module.html)
+
+`no_log: true` 避免把可能含令牌、用户信息的原始输出自动打进控制端日志；它不是对内容的自动脱敏，更不能阻止后续 debug 再次泄露变量，所以这里只打印退出码。需要查原始错误时，由授权人员在测试机本地查看同一单元的 systemctl/journalctl 输出，先脱敏再归档，不把整个注册变量提交 GitHub。正式采集器再区分“证据完整且业务健康 / 证据完整但业务异常 / 采集失败未知”，未知不能自动授权重启。本轮仅做静态审查，未连接远端主机执行此 playbook。
 
 生产化前要补：
 

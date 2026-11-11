@@ -32,7 +32,7 @@ LangChain、LangGraph 和 LangSmith SDK 仓库采用 MIT 许可证；LangSmith �
 
 本文没有调用真实云模型，没有把密钥发给 LangSmith，没有部署 LangSmith Deployment，也没有进行多副本、数据库故障、模型限流或生产压测。文中涉及这些场景时，会写成设计、预期或验证方法，不冒充现场实测。
 
-2026 年 10 月 12 日逐篇审校说明：上表安装与实跑是原文的历史基线记录，不是本轮重新执行的结果。本轮加强了工具证据比对、环境失败停止、同进程拒绝/批准续跑和独立考题；当前只完成静态语法验证，新增路径需要在固定依赖环境重跑。不要把旧输出用于证明改后代码已执行。
+2026 年 10 月 12 日审校当时只做了新增路径的语法检查。2026 年 11 月 11 日在另一个隔离组合 Python 3.12.14、LangChain 1.4.10、langchain-core 1.7.7、LangGraph 1.2.20、LangSmith SDK 0.14.17 中，实际重跑了基础工具循环、参数拒绝、工具证据比对、同进程拒绝/批准续跑及本课新增状态实验。上表固定依赖仍是历史安装基线，不把这次不同版本的成功冒充该固定组合重新验收；真实模型和外部服务仍未连接。
 
 ## 官方资料
 
@@ -603,10 +603,11 @@ def handle_known_tool_errors(request, handler):
         return ToolMessage(
             content=f"invalid tool input: {exc}",
             tool_call_id=request.tool_call["id"],
+            status="error",
         )
 ```
 
-这里只把可预期的输入错误转换给模型。网络失败应交给有边界的重试策略；代码 Bug 应暴露并报警，不能全部吞成“请重试”。
+这里只把可预期的输入错误转换给模型。`status="error"` 表示这次工具调用失败；只在正文写 error 不会自动改变默认的成功状态。示例异常不含敏感字段；生产代码还要把数据库连接串、原始查询和内部路径替换成安全错误码，不能把任意异常全文发给模型。网络失败应交给有边界的重试策略；代码 Bug 应暴露并报警，不能全部吞成“请重试”。
 
 **坏了怎么查：** 输出 Middleware 顺序和每个 Hook 的开始/结束事件；检查某层是否悄悄改了 Prompt、Tool 集合或模型；区分原始异常、重试后异常和被包装后的 ToolMessage；确认日志层不会记录已被脱敏前的敏感内容。
 
@@ -1114,7 +1115,7 @@ if ($LASTEXITCODE -ne 0) { throw '基础断言失败，保留首个错误，不�
 
 ### 基线输出与本轮验证边界
 
-下面是原基线曾记录的输出形状。本轮增加了实际 ToolMessage 的调用 ID、来源和操作清单比对，以及不支持服务的拒绝条件；这些修订只做了语法审查，需在固定 SDK 环境重新运行后才能记为通过。最终报告仍由 Fake Model 预写，不能用这些断言证明真实模型会根据证据推理，或已经使用 `response_format` 的框架级结构化策略。
+下面保留原基线的输出形状。2026 年 11 月 11 日使用开头所列的新隔离组合实际重跑，ToolMessage 的调用 ID、来源和操作清单比对通过，四条消息保存在同进程状态；把请求的服务改为 inventory-api 后，工具抛出预期 ValueError。文章固定安装组合没有在本次重新安装。最终报告仍由 Fake Model 预写，不能用这些断言证明真实模型会根据证据推理，或已经使用 `response_format` 的框架级结构化策略。
 
 ```text
 tool_loop=passed
@@ -1284,7 +1285,7 @@ if ($LASTEXITCODE -ne 0) { throw '拒绝路径失败，停止并保留证据' }
 if ($LASTEXITCODE -ne 0) { throw '批准路径失败，停止并保留证据' }
 ```
 
-中断部分的原基线曾实跑；以下收窄审批选项及新增两条续跑路径是本轮修订的预期，尚未在 SDK 环境重跑：
+2026 年 11 月 11 日在开头的新隔离组合中，两条续跑路径均实际执行：审批前计数 0，拒绝后仍为 0，批准后为 1，图的待执行节点为空。下面的中断 ID 是占位示例，每次实际运行不同：
 
 ```text
 approval_gate=interrupted
@@ -2410,6 +2411,55 @@ LangChain 是一个 LLM 应用框架。当前 Python v1 主线用 `create_agent`
 
 30 秒回答讲应用组件、工具循环与生产边界；3 分钟以告警取证串起模型、工具、结构化报告、检查点、审批和审计。追问“为什么有了 Agent 还需要固定流程”，说明高风险动作和业务校验必须有确定的约束；事故题“只见一次成功却执行两次”，从调用 ID、业务操作 ID、检查点和外部结果建立因果链。
 
+## 老师批改：错误写在消息里，为什么成功率还是百分之百
+
+先预测：工具返回 `content="invalid tool input"`，这次调用的 `status` 是什么？许多同学会说 error，但这里没有自动的英文关键词识别器。`ToolMessage` 的正文和状态是两个字段；不传状态，默认就是 `success`。依据是[官方消息参考与源码](https://reference.langchain.com/python/langchain-core/messages/tool/ToolMessage)。把这两件事混在一起，模型可能看到报错，按状态统计的工具成功率却仍是绿色。
+
+在前面的隔离环境创建 `tool_status_lesson.py`，使用同一个 `$labPython` 运行。下面只构造本地消息，不调用模型、不访问日志平台、不触发任何变更。
+
+```python
+import json
+from langchain.messages import ToolMessage
+
+wrong = ToolMessage(content="invalid tool input", tool_call_id="call-1")
+failed = ToolMessage(
+    content="invalid tool input", tool_call_id="call-1", status="error"
+)
+empty = ToolMessage(
+    content=json.dumps({"rows": []}), tool_call_id="call-2", status="success"
+)
+found = ToolMessage(
+    content=json.dumps({"rows": [{"id": "log-1"}]}),
+    tool_call_id="call-3", status="success",
+)
+
+def classify(message):
+    if message.status == "error":
+        return "tool_failed"
+    payload = json.loads(message.content)
+    if set(payload) != {"rows"} or not isinstance(payload["rows"], list):
+        raise ValueError("result contract mismatch")
+    return "no_evidence" if not payload["rows"] else "evidence_candidate"
+
+assert wrong.status == "success"  # 故意保留错误写法，观察默认值
+try:
+    classify(wrong)
+except json.JSONDecodeError:
+    print("wrong_status_exposes_contract_failure")
+else:
+    raise AssertionError("error text must not become usable evidence")
+assert classify(failed) == "tool_failed"
+assert classify(empty) == "no_evidence"
+assert classify(found) == "evidence_candidate"
+print("statuses=success,error; outcomes=tool_failed,no_evidence,evidence_candidate")
+```
+
+运行 `& $labPython .\tool_status_lesson.py` 后，应该看到两行输出且退出码为 0。第一行不是程序坏了，而是我们故意注入“错误正文配成功状态”，再证明它不能通过正常结果合同。修复不是在消费者里搜索 error 单词，而是由真正执行工具的服务端设置状态，并验证结果结构。若导入失败，先确认这里使用的是安装 LangChain 的 `$labPython`；若断言失败，记录实际 SDK 版本和对象的 `model_dump()`，不要删掉断言强行通过。
+
+老师接着追问：“查询成功却没有日志，能说系统健康吗？”不能。`success` 只说明工具按自己的合同完成了调用；`rows=[]` 可能是窗口太短、租户过滤不匹配或确实没有记录。`evidence_candidate` 也只是待核对证据，仍须核对来源、租户、时间窗口和完整性，绝不等于执行批准。课堂函数只检查这一个合成 `rows` 合同，不是通用工具输出验证器。
+
+改变条件再做：把空结果改成一行，预测分类从 `no_evidence` 变成 `evidence_candidate`；把失败消息正文改成中文，分类仍应是 `tool_failed`。这两个反例检查你理解的是字段合同，而不是背英文错误词。清理只需关闭脚本进程；它没有创建外部资源，保留代码和脱敏输出作为证据。
+
 ## 独立通关：工具请求、审批和业务事实不能混为一谈
 
 为每题保存先验预测、实际观测、失败原因与恢复记录；复制脚本输出、背出术语或写满篇幅都不是掌握证明。
@@ -2495,7 +2545,7 @@ langsmith==0.10.18
 - 审批前写 Tool 执行次数为 0；
 - 页面回到顶部按钮属于站点功能验证，不是 LangChain 实验的一部分。
 
-本轮新增的参数拒绝、工具来源/清单比对、拒绝与批准续跑尚未在固定 SDK 环境执行，当前只通过语法审查。以下也没有真实验证：
+2026 年 11 月 11 日另以开头列出的新隔离组合重跑参数拒绝、工具来源/清单比对、拒绝与批准续跑，以及消息状态与结果合同实验，全部断言通过，13 个 Python 代码块完成语法检查。没有重装原固定版本，也没有验证 Windows PowerShell 安装步骤或下面这些外部能力：
 
 - 任何真实模型 Provider 的 Tool Calling、Structured Output、限流、费用和内容策略；
 - LangSmith 云端 Trace、Eval、Deployment；

@@ -726,8 +726,9 @@ if ($LASTEXITCODE -ne 0) { throw 'Docker Engine 不可用，先停止。' }
 if (Get-NetTCPConnection -State Listen -LocalPort 18080 -ErrorAction SilentlyContinue) {
   throw '18080 已有监听者，不要停止未知进程；为自己的实验换端口并同步 URL。'
 }
-$projects = docker compose ls --all --format json | ConvertFrom-Json
+$projectsJson = docker compose ls --all --format json
 if ($LASTEXITCODE -ne 0) { throw '无法查询 Compose 项目，先核对 Compose 是否可用。' }
+$projects = $projectsJson | ConvertFrom-Json -ErrorAction Stop
 if ($projects | Where-Object Name -EQ 'tomcat-aiops-lab') {
   throw '同名 Compose 项目已存在，请换个人实验目录名；不要 down 别人的项目。'
 }
@@ -739,8 +740,8 @@ if ($projects | Where-Object Name -EQ 'tomcat-aiops-lab') {
 
 ```powershell
 if (Test-Path -LiteralPath .\tomcat-aiops-lab) { throw '实验目录已存在，请换新位置。' }
-New-Item -ItemType Directory -Path .\tomcat-aiops-lab\webapps\ROOT\WEB-INF | Out-Null
-Set-Location .\tomcat-aiops-lab
+New-Item -ItemType Directory -Path .\tomcat-aiops-lab\webapps\ROOT\WEB-INF -ErrorAction Stop | Out-Null
+Set-Location .\tomcat-aiops-lab -ErrorAction Stop
 ```
 
 ```text
@@ -756,6 +757,7 @@ tomcat-aiops-lab/
 ### 第二步：创建 `compose.yaml`
 
 ```yaml
+name: tomcat-aiops-lab
 services:
   tomcat:
     image: tomcat:11.0.24-jdk21-temurin-noble
@@ -767,6 +769,8 @@ services:
 ```
 
 官方镜像默认不会自动启用示例应用。这里显式挂载自己的 `ROOT` 应用。
+
+项目名固定为 `tomcat-aiops-lab`，应与前面的防复用检查一致；本课不要设置 `COMPOSE_PROJECT_NAME` 或额外使用 `-p` 改项目名。先用 `docker compose config` 查看最终模型的 `name` 与挂载源，确认没有来自终端环境的覆盖，再启动。Compose 项目身份决定哪些容器会被 `down` 清理，不只是目录的显示名称。
 
 ### 第三步：创建 `webapps/ROOT/WEB-INF/web.xml`
 
@@ -805,9 +809,13 @@ services:
 
 ```powershell
 docker compose up -d # 后台启动
+if ($LASTEXITCODE -ne 0) { throw '启动命令失败，不读取旧容器作为本次成功证据' }
 docker compose ps # 状态应为 Up
+if ($LASTEXITCODE -ne 0) { throw '容器状态未知，停止' }
 docker compose logs --no-color tomcat # 应看到 Server startup 和 ROOT 应用部署信息
+if ($LASTEXITCODE -ne 0) { throw '启动日志未取到，先查项目身份与引擎' }
 docker compose exec tomcat /usr/local/tomcat/bin/version.sh # 查看容器内实际 Tomcat 与 Java 版本
+if ($LASTEXITCODE -ne 0) { throw '版本未取到，停止' }
 ```
 
 后台启动命令返回不代表部署完成。观察启动和 ROOT 部署日志后再访问；若一分钟内仍未出现完成信息，先查日志和容器状态，不把启动期间的连接拒绝当作应用故障的预期结果。
@@ -815,7 +823,33 @@ docker compose exec tomcat /usr/local/tomcat/bin/version.sh # 查看容器内实
 ### 第六步：访问与验证
 
 ```powershell
-curl.exe -i -H "X-Request-ID: lab-001" http://127.0.0.1:18080/
+function Wait-TomcatJsp {
+    param([string]$RequestId)
+    if ($RequestId -notmatch '^[A-Za-z0-9._-]{1,64}$') { throw '请求 ID 不符合 JSP 实验契约' }
+    $lastReason = '尚未请求'
+    for ($attempt = 1; $attempt -le 12; $attempt++) {
+        try {
+            $response = Invoke-WebRequest -UseBasicParsing -Uri http://127.0.0.1:18080/ -Headers @{'X-Request-ID'=$RequestId} -TimeoutSec 5 -ErrorAction Stop
+            $body = ([string]$response.Content).Trim()
+            if ($response.StatusCode -ne 200 -or -not $body.StartsWith('{') -or -not $body.EndsWith('}')) {
+                throw '本课要求 HTTP 200 和单个 JSON 对象，不能用数组或普通网页代替'
+            }
+            $result = $body | ConvertFrom-Json -ErrorAction Stop
+            if ($result -is [pscustomobject] -and $result.status -is [string] -and
+                $result.requestId -is [string] -and $result.server -is [string] -and
+                $result.status -ceq 'UP' -and $result.requestId -ceq $RequestId -and
+                $result.server -ceq 'Apache Tomcat/11.0.24') {
+                $result
+                return
+            }
+            $lastReason = 'HTTP 返回了内容，但不是本次请求 ID 和目标 Tomcat 的 JSP 合同'
+        } catch { $lastReason = $_.Exception.Message }
+        if ($attempt -lt 12) { Start-Sleep -Seconds 2 }
+    }
+    throw "JSP 验收未通过：$lastReason；先看 ROOT 部署日志，不清理证据"
+}
+Wait-TomcatJsp -RequestId lab-001
+curl.exe -i --max-time 5 -H "X-Request-ID: lab-001" http://127.0.0.1:18080/
 ```
 
 预期结果：
@@ -834,6 +868,10 @@ docker compose exec tomcat sh -lc "tail -n 5 /usr/local/tomcat/logs/localhost_ac
 ```
 
 预期能看到 `GET / HTTP/1.1` 和状态码 `200`。默认访问日志可能缓冲写出，刚请求完暂时看不到时稍后重查；连续一分钟没有记录再核对日志配置、文件日期和实际容器，不能立即断定请求没有到达。
+
+老师让你做个反例：另一个程序占据相同端口返回 `200 OK`，是否能通过本课？上面的函数还核对 JSON 的 `UP`、本次请求 ID 和固定 Tomcat 版本，普通首页不能通过。它最多尝试 12 次，每次请求最多 5 秒，中间等待最多 22 秒；仍未成功就停下分析，不无限等。反过来，即使三字段正确也只证明这个 JSP 可用，因为它根本没有查询数据库；订单健康还需要真实依赖探针。这个版本字段不是防伪认证，不用于证明服务器可信身份。后续保持同一 PowerShell 窗口，复用函数做恢复验收。
+
+这里先保留原始响应文本再解析，是为了拒绝顶层数组。PowerShell 会对集合做属性枚举：把 status、requestId、server 分放在三个对象里，宽松比较也可能意外通过。请用单对象包在数组里、三个对象分别给字段、以及 `status:["UP"]` 三种反例测试；它们都不是本课 JSP 的单对象、标量字符串合同，应拒绝。此处是特定课堂合同，不是通用 JSON Schema 校验器。
 
 ### 验证结果
 
@@ -913,6 +951,7 @@ services:
 
 ```powershell
 docker compose -f compose.yaml -f compose.fault.yaml up -d --force-recreate
+if ($LASTEXITCODE -ne 0) { throw '故障声明没有应用成功，不把其他失败算成预期 XML 故障' }
 docker compose -f compose.yaml -f compose.fault.yaml ps
 # 先按下一步日志检查确认本次启动已完成、ROOT 部署已失败，再执行请求
 curl.exe -i http://127.0.0.1:18080/
@@ -964,9 +1003,12 @@ docker compose -f compose.yaml -f compose.fault.yaml logs --no-color tomcat |
 
 ```powershell
 docker compose -f compose.yaml -f compose.fault.yaml down
+if ($LASTEXITCODE -ne 0) { throw '带故障覆盖的项目未正常停止，先核对现场' }
 docker compose -f compose.yaml up -d --force-recreate
+if ($LASTEXITCODE -ne 0) { throw '基础声明恢复失败，停止' }
 # 与基础实验一样等待启动及 ROOT 部署完成，再请求恢复后的应用
-curl.exe -i -H "X-Request-ID: lab-recovered" http://127.0.0.1:18080/
+Wait-TomcatJsp -RequestId lab-recovered
+curl.exe -i --max-time 5 -H "X-Request-ID: lab-recovered" http://127.0.0.1:18080/
 ```
 
 预期重新得到 200 和 `"status":"UP"`。

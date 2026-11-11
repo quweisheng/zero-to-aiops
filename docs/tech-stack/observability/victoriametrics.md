@@ -730,6 +730,9 @@ $rangeExpr = [Uri]::EscapeDataString('aiops_class_queue{service="order-api"}[2m]
 $nowWindow = Invoke-RestMethod "$vmClass/api/v1/query?query=$rangeExpr&time=$vmNow"
 $pastTime = $vmEvent + 30
 $pastWindow = Invoke-RestMethod "$vmClass/api/v1/query?query=$rangeExpr&time=$pastTime"
+if ($nowWindow.status -ne 'success' -or $pastWindow.status -ne 'success') {
+  throw '至少一个查询未成功，不能把失败响应当作没有样本'
+}
 $nowWindow.data.result | ConvertTo-Json -Depth 8
 $pastWindow.data.result | ConvertTo-Json -Depth 8
 ```
@@ -739,6 +742,16 @@ $pastWindow.data.result | ConvertTo-Json -Depth 8
 修复课堂查询的方法是选择覆盖事件时间的窗口；生产修复还应处理为什么样本迟到，例如网络、队列或时钟错误。不能把样本时间改成现在来掩盖延迟，这会把历史故障错放到当前时间，也会污染容量预测和异常检测。已经错过的实时告警是否重放，需要单独设计规则回放与通知去重，存储后来有数据并不自动补发通知。
 
 验收记录四项：导入时间、样本时间、两个查询窗口及结果。把这四项画成时间线，再用自己的话说明“存储可查到历史”与“实时检测及时”两种能力。这个实验没有模拟真实网络断连、磁盘损坏或集群故障，不应在简历中描述为线上高可用切换经验。
+
+### 老师批改：查询返回的时间，是采样时间吗
+
+有位同学交来的结论是：“基础实验里 `value[0]` 接近现在，所以采集没有迟到。”先不要给他打勾。即时查询是在某个评估时刻计算结果；其输出点的时间可能代表评估时刻，不是原始输入样本的采样时刻。本课基础实验已经把示例时间解释为评估时刻，不能在故障报告中又把它当作数据新鲜度证据。[官方即时查询时间语义](https://docs.victoriametrics.com/victoriametrics/keyconcepts/#instant-query)。
+
+现在用刚才固定的十分钟前样本来批改这份答案，不再导入第二份数据。在原始响应中找到历史窗口的 `values`：区间选择器返回的原始样本对，第一项应对应 `$vmEvent` 的秒时间，第二项应是字符串 `"88"`。它不同于 `$pastTime`：后者是我们选择的评估时刻，比样本晚三十秒。预期先写在纸上，再查响应，避免看见一个“当前数字”就反过来编解释。
+
+交卷时必须同时说明三件事：两个 API 状态都是成功，当前窗口的结果数量为零，历史窗口包含本次样本的时间和值。若只看到空白屏幕，先用 `@($nowWindow.data.result).Count` 确认是否为空数组；若状态失败，先处理查询错误；若历史窗口有别的样本，说明重复实验已经污染了“只有一个点”的假设，要按本次 `$vmEvent` 精确核对，不能随手取第一条。不要通过清空数据目录来让断言变绿。
+
+面试追问：“返回得很快、时间戳也很新，可以证明采集健康吗？”合格回答是区分查询延迟、结果评估时间和原始样本时间，再查采集、队列及补传链路。修复时间窗口只能让你找回历史证据，不能消除十分钟迟到；本课没有运行采集器，甚至不能据此证明采集器存在。该批改沿用原实验资源与清理步骤，不新增生产规则或故障操作。
 
 ### 清理与证据保留
 

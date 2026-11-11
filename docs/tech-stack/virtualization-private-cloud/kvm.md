@@ -516,11 +516,11 @@ test -e /dev/kvm && echo '/dev/kvm ready' || echo '/dev/kvm missing' # 直接确
 
 ```bash
 sudo apt update || exit 1 # 刷新失败先排查仓库/网络，不继续安装
-sudo apt install -y qemu-kvm libvirt-daemon-system libvirt-clients virtinst qemu-utils libosinfo-bin || exit 1
+sudo apt install -y qemu-kvm libvirt-daemon-system libvirt-clients virtinst qemu-utils libosinfo-bin curl openssh-client || exit 1
 sudo usermod -aG libvirt,kvm "$USER" || exit 1 # 当前用户加入管理组后重新登录；libvirt 管理权限不是普通只读权限
 ```
 
-重新登录后验证：
+这里也安装了后面下载镜像所用的 `curl`，以及提供 `ssh`、`ssh-keygen` 的 `openssh-client`。服务器能联网不代表这些命令已经存在；精简系统尤其要补齐依赖。重新登录后验证：
 
 ```bash
 id                                         # 输出中应包含 libvirt 和 kvm 组
@@ -789,7 +789,7 @@ ssh -i "$DOWNLOAD_DIR/lab_ed25519" ubuntu@VM_IP # 使用本轮独立实验密钥
 进入客户机后：
 
 ```bash
-hostnamectl                       # 确认正在 kvm-lab 客户机中，而不是宿主机
+hostnamectl                       # 查看客户机自己的系统与主机名；它不一定叫 libvirt 中的 kvm-lab
 systemd-detect-virt               # 预期输出 kvm
 find /sys/bus/virtio/devices -maxdepth 1 -mindepth 1 -printf '%f\n' # 不依赖额外软件包，查看客户机发现的 Virtio 设备
 ip -br address                    # 查看客户机地址
@@ -797,6 +797,8 @@ cat /proc/cpuinfo | grep -m1 name # 查看客户机暴露的 CPU 模型
 ```
 
 ### 验证结果
+
+`kvm-lab` 是管理平台中的 Domain 名，客户机主机名由镜像和初始化配置决定，两者不会天然相同。登录前按 `domiflist` 的 MAC 与 DHCP lease 对应地址核对目标，登录后再看操作系统与虚拟化结果；只看提示符里一个名字不能证明登录了正确对象。首次 SSH 的服务器指纹要通过可信的实验控制台或预先留存的主机公钥核对，不能因为它在私网就关闭主机身份检查。
 
 实验成功必须同时满足：
 

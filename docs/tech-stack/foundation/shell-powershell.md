@@ -716,10 +716,12 @@ done
 逐行读文件：
 
 ```bash
-while IFS= read -r line; do
-  echo "$line"
+while IFS= read -r line || [[ -n "$line" ]]; do
+  printf '%s\n' "$line"
 done < app.log
 ```
+
+`IFS=` 不裁掉字段分隔空白，`-r` 不把反斜杠当转义；右侧判断保留“最后一段有内容、却没有结尾换行”的记录。老师会给你两个自有样本：`ok` 后有换行，与 `ok` 后立刻文件结束，预测两者都应输出一次 `ok`。如果只写 `while read`，后者可能在读到 EOF（文件结束）时以非零返回，循环体没有机会处理已读内容，漏掉最后一条告警。这里用 `printf '%s\n'` 把输入当数据输出；文件读不到仍应作为采集错误单独处理，不能把这个 EOF 补偿当成忽略所有失败的办法。[Bash read 内建命令](https://www.gnu.org/software/bash/manual/html_node/Bash-Builtins.html)
 
 ### PowerShell
 

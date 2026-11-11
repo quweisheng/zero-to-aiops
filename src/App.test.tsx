@@ -28,7 +28,7 @@ describe('App', () => {
       '/tech-stack/foundation/linux'
     )
     expect(screen.getByText(/从完全零基础开始，跟老师读懂中文知识地图/)).toBeInTheDocument()
-    expect(screen.getByText(/累计 115 篇技术栈达到万字中文正文/)).toHaveTextContent('真实环境实验仍需独立完成')
+    expect(screen.getByText(/2026-11-11 全站复评：115 篇技术栈/)).toHaveTextContent('实际验证范围与未实跑项目逐篇公开')
     expect(screen.getByText('学习过程示意 · 以下不是终端命令')).toBeInTheDocument()
     expect(screen.getByRole('link', { name: '查看精讲复核' })).toHaveAttribute(
       'href', '/tech-stack/teaching-review'

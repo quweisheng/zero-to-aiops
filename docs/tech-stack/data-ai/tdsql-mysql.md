@@ -176,20 +176,25 @@ Docker 可用，至少 1 GiB 可用内存和 1 GiB 磁盘；端口 `127.0.0.1:13
 docker version
 if ($LASTEXITCODE -ne 0) { throw 'Docker 引擎不可用，先修复环境' }
 $existingLab = docker ps -aq --filter 'name=^/tdsql-learning-mysql$'
+if ($LASTEXITCODE -ne 0) { throw '容器清单查询失败，不能把未知状态当作没有容器' }
 if ($existingLab) { throw '同名容器已存在，先核对归属，不覆盖或删除未知对象' }
 if (Get-NetTCPConnection -LocalPort 13306 -State Listen -ErrorAction SilentlyContinue) { throw '13306 已占用，先核对进程' }
-if (-not (Test-Path -LiteralPath .\examples\tdsql-mysql-lab\init.sql)) { throw '请回到仓库根目录，先阅读初始化 SQL' }
+if (-not (Test-Path -LiteralPath .\examples\tdsql-mysql-lab\init.sql -PathType Leaf)) { throw '请回到仓库根目录，先阅读初始化 SQL' }
+$lessonSql = Get-Content -LiteralPath .\examples\tdsql-mysql-lab\init.sql -Raw -Encoding utf8 -ErrorAction Stop
+if ([string]::IsNullOrWhiteSpace($lessonSql)) { throw '初始化 SQL 为空，停止' }
 docker run --name tdsql-learning-mysql -e MYSQL_ROOT_PASSWORD=lab-only-password -p 127.0.0.1:13306:3306 -d mysql:8.4.6
 if ($LASTEXITCODE -ne 0) { throw '容器创建失败，不继续导入' }
 docker exec tdsql-learning-mysql mysqladmin ping -uroot -plab-only-password --wait=60
 if ($LASTEXITCODE -ne 0) { throw '数据库尚不可响应，查看本课容器日志' }
-Get-Content examples/tdsql-mysql-lab/init.sql -Raw | docker exec -i tdsql-learning-mysql mysql -uroot -plab-only-password
+$lessonSql | docker exec -i tdsql-learning-mysql mysql -uroot -plab-only-password
 if ($LASTEXITCODE -ne 0) { throw '初始化失败，保存 SQL 错误，不把部分成功当完整通过' }
 docker exec tdsql-learning-mysql mysql -uroot -plab-only-password -e "SELECT VERSION(); SELECT * FROM aiops_lab.incident_ticket;"
+if ($LASTEXITCODE -ne 0) { throw '业务查询验证失败，不能宣布初始化成功' }
 docker inspect tdsql-learning-mysql --format "{{json .Image}}"
+if ($LASTEXITCODE -ne 0) { throw '镜像标识读取失败，证据尚不完整' }
 ```
 
-第一个命令只用于一次性本地教学，固定历史教学补丁以便复现，不是当前生产安全版本建议，生产不要把密码放命令行；第二个等待数据库可响应；第三个创建 InnoDB 表、用 `FOR UPDATE` 锁定并更新后提交；最后记录版本/镜像标识作为实验证据。导入路径相对于本仓库根目录，执行前先阅读该 SQL：其中重复初始化会把教学记录重置，不能指向已有业务库。
+`docker run` 只用于一次性本地教学，固定历史教学补丁以便复现，不是当前生产安全版本建议，生产不要把密码放命令行。`mysqladmin ping` 等待服务器响应，但不能证明账号和业务 SQL 均可用；之后的导入及查询还要分别验收。导入内容先用 `Get-Content -ErrorAction Stop` 完整读入变量，读取失败或空文件立即停止，再将这份内容交给客户端；否则读取文件失败、客户端却成功处理空输入时，末尾退出码可能制造“初始化成功”的假象。最后记录版本/镜像标识作为实验证据。路径相对于本仓库根目录，执行前先阅读该 SQL：其中重复初始化会把教学记录重置，不能指向已有业务库。
 
 预期 `status=ACKED`、`version_no=2`。如果容器未启动，查 `docker logs tdsql-learning-mysql`；镜像失败检查网络；端口冲突只改主机侧 `13306`，容器仍是 3306。
 

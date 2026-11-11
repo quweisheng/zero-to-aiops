@@ -166,10 +166,10 @@ WITH (
   orientation = parquet,                                -- 本文 HAWQ 2.2 基线使用 Parquet 列式文件
   compresstype = snappy                                 -- 压缩算法必须与版本能力核对
 )
-DISTRIBUTED BY (alert_id);                              -- 按 alert_id 哈希分布到 Segment
+DISTRIBUTED BY (alert_id);                              -- 按 alert_id 定义哈希分布策略，不是永久绑定某台物理主机
 ```
 
-`DISTRIBUTED BY` 决定同一分布键落到哪个 Segment。若选择低基数字段，例如只有三种值的 `severity`，可能让少数 Segment 承担大部分数据。
+`DISTRIBUTED BY` 定义数据的哈希分布策略。入门可以先理解为按键分桶，但 HAWQ 的用户文件位于 HDFS，查询时还会动态分配虚拟执行单元；不能据此推断一条记录永久绑定某台物理主机。若选择低基数字段，例如只有三种值的 `severity`，可能让少数分布位置承担大部分数据，并限制有效并行。
 
 ### Random Distribution
 
@@ -261,7 +261,7 @@ HAWQ 已进入 Apache Attic。为了学习而下载并运行不再维护的服�
 
 ### 准备 CSV
 
-把下面内容保存为本课堂目录中的 `segment-rows.csv`，把后一段脚本保存为 `measure-hawq-skew.ps1`，在同一目录执行 `powershell -File .\measure-hawq-skew.ps1`。它只读取合成文件并计算，不包含数据库连接。已有同名文件时先保留，不覆盖别人留下的盘点记录。
+把下面内容保存为本课堂目录中的 `segment-rows.csv`，把后一段脚本保存为 `measure-hawq-skew.ps1`，在同一目录执行 `powershell -File .\measure-hawq-skew.ps1`。若使用 Windows 自带的 Windows PowerShell 5.1，请在编辑器选择 **UTF-8 with BOM** 保存 `.ps1`；否则含中文的脚本可能按本地旧编码误读，甚至产生看似引号不匹配的语法错误。PowerShell 7 的 `pwsh -File .\measure-hawq-skew.ps1` 可读取普通 UTF-8。它只读取合成文件并计算，不包含数据库连接。已有同名文件时先保留，不覆盖别人留下的盘点记录。
 
 `segment-rows.csv`：
 
@@ -284,6 +284,7 @@ if ('segment_id' -notin $rows[0].PSObject.Properties.Name -or
   throw 'CSV 必须包含 segment_id,row_count 表头。'
 }
 $seen = @{}
+$expectedBuckets = @(0, 1, 2, 3)                        # 本课固定四桶，预期清单独立于收到的 CSV
 [decimal]$total = 0
 [decimal]$maximum = 0
 foreach ($row in $rows) {
@@ -299,6 +300,10 @@ foreach ($row in $rows) {
   }
   $total += $count                                      # decimal 保留本课整数加总精度
   if ($count -gt $maximum) { $maximum = $count }
+}
+if ($seen.Count -ne $expectedBuckets.Count -or
+    @($expectedBuckets | Where-Object { -not $seen.ContainsKey($_.ToString()) }).Count -gt 0) {
+  throw '预期桶 0、1、2、3 未完整上报，或出现清单外桶；不能判断全量均衡。'
 }
 if ($total -eq 0) { throw '总量为零，没有负载可用于倾斜判断。' }
 $average = $total / $rows.Count                         # 理想平均行数
@@ -696,6 +701,16 @@ MPP（大规模并行处理）的核心不是“有很多机器”，而是把�
 重新运行均匀、热点、再均匀三次输入，预期比值分别一附近、三点六、一附近。再复述连接放大的两行三十与三行四十，说明为何性能修复不能替代结果修复。最后挑一份合成报表写出数据、目录、函数、权限和调度五类依赖。
 
 没有得到预期时先确认当前目录、CSV 表头、数值解析与输入是否保存。脚本没有访问集群，不应通过调整真实 HAWQ 参数排错。保存脚本和结果后，只删除本课三份明确命名的合成文件即可；保留迁移盘点模板时注明它不是现场资产清单。
+
+## 老师批改：最忙的桶没报数，为什么不能显示绿色
+
+使用前文热点 CSV，先预测：如果整个 `segment_id=0,row_count=900000` 这一行丢失，仅留下 30000、35000、35000，会看到什么？若程序只信“收到几行就是几个桶”，平均约 33333.33，最大 35000，比例仅 1.05，看起来均衡。可是丢失的正是最重的九十万行，绿色只说明剩余三桶接近，完全不能代表四桶总量。
+
+本轮脚本因此增加独立于 CSV 的预期桶清单 `0、1、2、3`。它不是从收到的数据反推清单，否则少了一桶仍发现不了；本课只支持四桶，不是自动发现真实 HAWQ 拓扑的工具。把热点文件保留一份，在工作副本删掉桶 0 后执行，预期明确报告“未完整上报”而不输出 `balanced`。恢复该行后应重新得到 3.6、`critical`；再恢复最初均匀 CSV，得到 1.02。
+
+变式：把桶 3 错写成桶 4，即使仍有四行也应拒绝，因为“数量相同”不等于“身份齐全”。若错误输入没有拒绝，核对是否运行修改后的完整脚本、是否在比例计算前执行清单门禁，不要为通过验收把缺失桶补成零。生产场景还需从可信资产与本次查询计划得到真实预期范围，区分未参与查询、未采集、采集失败和确实零行；不能直接将课堂清单带入现场。
+
+老师对面试答案的要求是同时给出完整性与分布两份证据：先知道该来的是否都来了，再比较负载。AIOps 监控也遵循这个逻辑，缺测不能自动解释成健康。记录删前、缺失拒绝、恢复后三次结果；实验只修改自己的合成 CSV，没有连接、修改或恢复 HAWQ 服务。
 
 ## 独立通关：同样总行数，为什么结论可以相反
 

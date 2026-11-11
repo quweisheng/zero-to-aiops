@@ -251,7 +251,11 @@ reducer 集中描述事件到状态的转换，适合复杂状态机和测试。
 
 上面请求片段与reducer统一用 `message` 表达失败；不要一个地方dispatch.error、另一个地方读action.message。穷尽检查保护已声明的静态Action，外部消息仍需运行时校验；实际异步结果还应携带请求ID，由结果资格或reducer检查，不能默认每个loaded都代表当前条件。
 
-Hook 必须在组件或自定义 Hook 顶层按稳定顺序调用，不能放条件、循环和普通回调里；React 依赖调用顺序关联 Hook 状态。
+`useState`、`useEffect`、`useReducer` 等普通 Hook 必须在组件或自定义 Hook 顶层按稳定顺序调用，不能放条件、循环和普通回调里；React 依赖调用顺序关联这些 Hook 的状态。
+
+React 19 的 `use(resource)` 是需要单独认识的例外：它能读取 Promise 或 Context，允许在条件和循环中调用，但仍只能在组件或 Hook 内使用，也不能套在 `try/catch` 里把挂起当普通异常吞掉。读取 Promise 时的等待与失败交给相应 Suspense 和 Error Boundary；这不是把 `useState` 改名，也没有取消普通 Hook 的稳定顺序规则。[React use 官方规则](https://react.dev/reference/react/use)
+
+老师的反例题是：“条件里允许 `use`，所以把 `useState` 放进去也合法吗？”不合法，先识别调用的是哪个接口，再应用对应规则；不能靠名字都以 use 开头来类推。进一步追问“在客户端每次 render 都新建请求 Promise 再 use 是否可靠”，应先核对数据源/框架对 Promise 的缓存与稳定身份契约，而不是给每次渲染制造新的等待。没有采用支持的数据层时，保留本课明确取消、错误和状态资格的请求方案，不为使用新接口而把网络可靠性省略掉。
 
 ## 错误边界与错误分层
 

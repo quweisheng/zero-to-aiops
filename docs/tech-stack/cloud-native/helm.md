@@ -431,13 +431,11 @@ Helm values 可以来自多个地方。
 ```text
 Chart 内 values.yaml
   -> 父 Chart values
-  -> helm install/upgrade -f my-values.yaml（用文件覆盖默认配置）
-  -> --set key=value（命令行设值，会推断值类型）
-  -> --set-string key=value（命令行设值，强制按字符串处理）
-  -> --set-file key=path（把文件内容作为某个配置项的值）
+  -> 用户 -f 文件（同类多份文件按指定顺序覆盖）
+  -> 命令行设值（选择与字段类型匹配的一种入口）
 ```
 
-越靠后的优先级越高。
+这张图表达来源层级，不把 `--set`、`--set-string`、`--set-file` 画成一条通用的命令行位置优先级。`--set` 会推断类型，`--set-string` 强制字符串，`--set-file` 读取文件内容；同一键不要混用多种入口去赌“写在右边必定赢”。不同参数种类的处理顺序由对应 Helm 版本实现决定，排查要看最终值与渲染结果，而不是只看 Shell 里的排列。多份 `-f` 文件中靠后的同名配置优先；重复使用同类 `--set` 时也要检查最终结果。
 
 示例：
 
@@ -1559,46 +1557,57 @@ helm rollback aiops-api '<good-revision>' -n aiops --wait --timeout 5m
 
 ## AIOps 自动化诊断脚本
 
-下面脚本仅适合合成课堂 release，**不能原样用于生产或把输出自动发送给模型**：`get values --all` 与 manifest 可能包含 Secret，`|| true` 还会把采集失败隐藏为脚本成功。用于真实平台时先改为字段白名单和脱敏输出，为每个采集项记录成功/失败/无权限，整体状态必须保留“不完整”，不能把权限不足的空清单解释为不存在。执行身份只需读取批准的 namespace，不授予发布权限。
+下面是一个有意缩小范围的 Bash 课堂采集器，只读取本人的隔离实验 release。它不收集 values、manifest、应用日志和事件原文，因为这些内容可能含 Secret 或业务数据；它也不再用 `|| true` 把失败变成成功。保存为新文件 `helm-evidence.sh`，在已安装 Helm、kubectl 且核对过 context 的 Bash 中执行 `bash helm-evidence.sh aiops-web aiops`。Windows PowerShell 不直接解释这个脚本，应在已配置相同实验 kubeconfig 的 WSL/Bash 中运行。
+
+脚本中的 `capture` 是我们自己定义的函数，不是 Helm 命令。它给每项检查打上标签，失败时记录退出码并继续收集其他证据，最终用非零退出码表示记录不完整。为避免意外打印原始错误中的敏感内容，错误正文不输出；只能在获准的本地终端针对失败项进一步查看，不能把缺失证据算成正常。
 
 ```bash
 #!/usr/bin/env bash
 set -euo pipefail
 
-release="${1:-aiops-api}"
+release="${1:-aiops-web}"
 ns="${2:-aiops}"
+# 本课堂仅接收简单小写名称，避免把输入当选项或正则表达式。
+[[ "$release" =~ ^[a-z0-9]([-a-z0-9]*[a-z0-9])?$ ]] || exit 2
+[[ "$ns" =~ ^[a-z0-9]([-a-z0-9]*[a-z0-9])?$ ]] || exit 2
+failed=0
 
-echo "== helm status =="
-helm status "$release" -n "$ns" || true
+capture() {
+  label="$1"
+  shift
+  printf '\n[%s]\n' "$label"
+  if "$@" 2>/dev/null; then
+    printf 'collection=ok\n'
+  else
+    code=$?
+    printf 'collection=incomplete exit_code=%s\n' "$code"
+    failed=$((failed + 1))
+  fi
+}
 
-echo
-echo "== helm history =="
-helm history "$release" -n "$ns" || true
+# 检查具体 release 是否可读；不打印可能含 NOTES 的 status 原文。
+if ! helm status "$release" -n "$ns" --output json >/dev/null 2>&1; then
+  printf 'release_check=incomplete; verify name, namespace and read permission\n'
+  failed=$((failed + 1))
+fi
 
-echo
-echo "== helm values all =="
-helm get values "$release" -n "$ns" --all || true
+# list 的 JSON 是发布元数据，不包含 values 和清单。
+capture release_metadata helm list --all -n "$ns" --filter "^${release}$" --output json
+capture pods kubectl get pods -n "$ns" -l "app.kubernetes.io/instance=$release" \
+  -o 'custom-columns=NAME:.metadata.name,PHASE:.status.phase,READY:.status.containerStatuses[*].ready,RESTARTS:.status.containerStatuses[*].restartCount'
+capture services kubectl get services -n "$ns" -l "app.kubernetes.io/instance=$release" \
+  -o 'custom-columns=NAME:.metadata.name,TYPE:.spec.type,PORT:.spec.ports[*].port'
 
-echo
-echo "== helm manifest =="
-helm get manifest "$release" -n "$ns" || true
-
-echo
-echo "== kubernetes objects =="
-kubectl get all -n "$ns" -l "app.kubernetes.io/instance=$release" -o wide || true
-
-echo
-echo "== events =="
-kubectl get events -n "$ns" --sort-by=.lastTimestamp || true
+if [ "$failed" -gt 0 ]; then
+  printf '\nresult=incomplete failed_checks=%s\n' "$failed"
+  exit 1
+fi
+printf '\nresult=collected; business_health=not_verified\n'
 ```
 
-生产化前要补：
+正常预期是各项 `collection=ok`，最后 `result=collected`；这只说明采集成功，不代表业务健康。`PHASE=Running` 也不等于所有容器就绪，必须同时读 `READY`。若 labels 不符合本 Chart 约定，列表可能为空，不能声称 release 没有资源；回到模板核对标签。针对不存在的课堂 release 运行，应得到 `release_check=incomplete` 和最终退出码 1；恢复为正确名称重试，记录前后差异即可，故障没有修改任何集群对象。
 
-- 输出目录。
-- 敏感 values 脱敏。
-- manifest 单独保存。
-- 自动识别 Deployment/StatefulSet rollout。
-- 和 CI/CD 发布编号关联。
+生产化前还需身份授权、字段脱敏、超时、输出访问控制、集群标识、发布编号和真实业务探针。需要补充 history、事件或错误日志时，逐项授权并检查内容，不恢复成全量发送给模型。脚本结束没有创建 Kubernetes 对象；清理只处理自己保存的脚本或脱敏输出，不能因此执行 `uninstall`。
 
 ## Helm 最佳实践入门
 

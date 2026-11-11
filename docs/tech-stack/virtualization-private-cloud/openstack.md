@@ -47,7 +47,7 @@ OpenStack 把数据中心的计算、网络和存储包装成带租户隔离的 
 
 ## 为什么要学
 
-岗位点名 IaaS，并要求 Rancher、Kubernetes 和存储经验。OpenStack 常承载 Kubernetes 节点、负载均衡器和持久卷；其告警、日志、资源拓扑与变更记录也是 AIOps 根因分析的重要上下文。
+学习 IaaS 能帮助你理解 Kubernetes 节点、负载均衡与持久卷的底层资源从哪里来。OpenStack 可以承载这些资源；其告警、日志、资源拓扑与变更记录也是 AIOps 根因分析的重要上下文。是否属于某个岗位的必需产品，仍要核对具体职位要求，不能从本篇通用课程反推招聘条件。
 
 ## OpenStack 是什么
 
@@ -68,7 +68,7 @@ OpenStack 是一组互相配合的开源云服务。它不是单个进程：Keys
 - **是什么**：Keystone 负责认证、Token、Project、Role 和服务目录。
 - **为什么需要**：多租户云必须知道“谁以什么权限访问哪个项目”。
 - **怎么工作**：客户端提交凭据换取 Token，再从服务目录找到 Nova、Neutron 等 API 地址。
-- **怎么看或怎么用**：用 `openstack token issue`、`openstack catalog list` 验证身份和目录。
+- **怎么看或怎么用**：用 `openstack token issue -f value -c expires` 只显示令牌到期时间，用 `openstack catalog list` 看目录；不要把完整 Token 打印进录屏或公开证据。
 - **坏了怎么查**：先查凭据、Project、Domain、时间同步和 endpoint，再查 Keystone 日志。
 
 ### Nova 与 Placement
@@ -77,7 +77,7 @@ OpenStack 是一组互相配合的开源云服务。它不是单个进程：Keys
 - **为什么需要**：创建实例需要从众多计算节点中找到满足规格的目标。
 - **怎么工作**：Nova API 接收请求，调度器查询 Placement，选定计算节点后由 nova-compute 执行。
 - **怎么看或怎么用**：看 server event、调度器日志、hypervisor 资源和 allocation candidate。
-- **坏了怎么查**：出现 NoValidHost 时检查配额、库存、聚合、trait、资源超售与 Placement 同步。
+- **坏了怎么查**：出现 NoValidHost 时检查库存、聚合、trait、资源超售与 Placement 同步；配额拒绝属于另一个检查分支，不要把所有创建失败都叫调度失败。
 
 ### Neutron 网络
 
@@ -152,7 +152,7 @@ YAML 是配置文本，保存到客户端支持的配置搜索位置，例如学
 
 | 名称 | 作用 | 常用写法 | 正常结果 | 常见坑 |
 |---|---|---|---|---|
-| `token issue` | 验证认证链路 | `openstack --os-cloud lab token issue` | 返回 Token 与 Project | 本机时间偏差或 Domain 错误 |
+| `token issue` | 验证认证链路而不公开令牌 | `openstack --os-cloud lab token issue -f value -c expires` | 返回到期时间，进程退出 0 | 默认完整输出含访问令牌；到期时间不证明权限最小化 |
 | `server list` | 列云主机 | `openstack server list --long` | 返回状态、网络和规格 | 查错 Project |
 | `network list` | 列逻辑网络 | `openstack network list` | 返回网络 ID 和状态 | 只看网络，不看 Port 绑定 |
 | `volume list` | 列块存储卷 | `openstack volume list` | 返回卷状态与大小 | `available` 与 `in-use` 含义混淆 |
@@ -211,7 +211,7 @@ try {
 | 现象 | 先检查 | 处理思路 |
 |---|---|---|
 | 实例长期 BUILD | request ID、任务状态、消息队列 | 沿 Nova 请求链路定位停点 |
-| NoValidHost | 配额、Placement、规格、聚合、容量 | 找出未满足的调度条件 |
+| NoValidHost | Placement、规格、聚合、容量 | 找未满足的调度条件；配额拒绝另查具体错误 |
 | 实例有 IP 但不通 | Port、DHCP、路由、安全组、底层网络 | 按二层到七层排查 |
 | 卷卡在 attaching | Cinder 后端、连接协议、计算节点日志 | 修复后端或残留连接状态 |
 | API 间歇超时 | HAProxy、API worker、数据库、消息队列 | 关联延迟、连接数和队列积压 |
@@ -287,7 +287,7 @@ Request ID（请求标识）是跨日志追查的线索，但各服务间不一�
 
 Flavor（规格）除了 vCPU、内存和磁盘，还可能有 extra specs（额外约束）。Trait（特征）表示资源提供者具有的能力；Aggregate（聚合）把具有共同属性的宿主组织起来；Availability Zone（可用区，AZ）是给用户选择的故障或调度范围，具体物理含义由运营者设计。不能仅凭 AZ 名称认为它们位于不同机房。
 
-`NoValidHost` 应理解成“所有候选都没通过条件”，不是“CPU 一定满了”。先看配额，再看目标 AZ 和规格，再看 Placement 库存、分配和特征，最后才分析过滤器与宿主故障。资源账本异常时要使用对应版本支持的修复流程；直接删数据库记录可能留下真实虚拟机而账本认为资源空闲。
+`NoValidHost` 应理解成“这次调度没有找到合适目标”，不是“CPU 一定满了”。先读实际错误：配额不足通常在配额检查分支被拒绝，不等同于调度无候选。若确为 `NoValidHost`，核对目标 AZ 和规格、Placement 库存/分配/特征、过滤器与宿主状态；请求重试或竞争也可能消耗原本可用的候选，不能只看事后一张容量图。资源账本异常时要使用对应版本支持的修复流程；直接删数据库记录可能留下真实虚拟机而账本认为资源空闲。
 
 ## 网络课堂：能分清四件事，就能少走很多弯路
 

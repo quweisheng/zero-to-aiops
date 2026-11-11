@@ -8,6 +8,24 @@
 
 执行第一条创建命令之前，先用 `docker context show` 确认当前连接目标，再用 `docker version` 看是否能联系服务端。同一个终端可以切换到不同 Docker 后端，客户端在自己电脑上，不代表后续命令一定作用于本机。本文只允许在你自己的教学环境执行创建、停止和删除；如果目标指向公司主机或远程集群，应停下并切回明确的实验环境。Bash 示例里的反斜杠是续行符，PowerShell 读者可合并为一行执行，不能原样当成 PowerShell 续行。
 
+### 电脑还没有 Docker，先完成这道开课检查
+
+老师不会让你在“已经有运行环境”这句话上卡住。Windows 新手可选择 Docker Desktop 的 Linux 容器路线：先在 PowerShell 输入 `wsl --version`，确认 Windows Subsystem for Linux（在 Windows 上运行 Linux 环境的组件）可用；没有安装或版本不满足要求时，按 [Docker Windows 安装页](https://docs.docker.com/desktop/setup/install/windows-install/)链接的 Microsoft 指南安装或更新。首次启用系统组件可能需要管理员批准和重启，公司电脑应先遵守软件与许可要求，不为了实验绕过管理策略。
+
+然后从该官方页面下载适合处理器的安装包，双击安装，选择 WSL 2 后端；完成后从开始菜单打开 Docker Desktop，阅读并自行确认使用条款，等待引擎启动。安装完成和后台引擎已启动是两件事。Linux 本机则按 [Engine 安装入口](https://docs.docker.com/engine/install/)选择自己的发行版；不要把 Ubuntu 的包管理命令贴到其他系统，更不要在同一 WSL 发行版里不经判断同时维护独立 Engine 与 Desktop 后端。
+
+重新打开终端，依次执行下面三条只读检查。每条都通过，才进入后面的创建容器实验：
+
+```powershell
+docker context show
+docker version
+docker info --format '{{.OSType}}'
+```
+
+第一条显示当前连接配置的名称，要和你自己的实验后端对应；第二条应同时有 Client（客户端）与 Server（后台引擎）版本；第三条在本文路线应输出 `linux`。`docker` 无法识别时检查安装和新终端，只有 Client 时检查 Desktop 是否启动及 context，输出 `windows` 时需切换 Linux containers（Linux 容器模式），不能继续拉本文的 Linux 镜像。WSL 里找不到 Docker 而 PowerShell 正常时，在 Desktop 的 Settings → Resources → WSL Integration（设置→资源→WSL 集成）核对自己使用的发行版。不同版本界面可能变化，以官方安装页为准。
+
+先记下版本、context 和操作系统，不记真实凭据。后面的 Bash 实验还需要一个可用的 WSL/Linux Bash 终端；不知道怎样进入目录和保存文件时，补读[零基础实验开课准备](../experiment-start.md)的终端与目录部分即可。这道检查只证明工具可连接，镜像下载、构建、端口转发仍要由后面的实验各自验收。
+
 ## 官方资料
 
 - [Docker overview](https://docs.docker.com/get-started/docker-overview/)
@@ -1371,7 +1389,7 @@ CMD ["python", "app.py"]
 
 ## AIOps 入门实验：容器化健康检查服务
 
-目标：写一个最小 HTTP 服务，打包成 Docker 镜像，运行容器，查看日志，验证端口映射，再挂载配置。
+目标：写一个最小 HTTP 服务，打包成 Docker 镜像，运行容器，查看日志，验证端口映射和健康检查。挂载概念在前文讲解，后面的代码变更排障会展示只读绑定挂载；本实验不把未做的配置挂载算作已完成。
 
 ### 第 1 步：准备目录
 
@@ -1986,6 +2004,8 @@ docker rm aiops-health
 这些文件证明实验可以复现，不自动证明已经掌握。把独立通关中失败过的预测、证据与修正一并提交，才方便老师检查你是否能迁移到新的端口、限制和故障条件。
 
 ## 本文验证边界
+
+2026-11-11 复评补齐从未安装到客户端/服务端连通的开课路径，并修正实验目标与实际步骤不一致的问题。安装步骤对照官方页面核读；本轮没有安装或切换 Docker 后端，也没有把上述预期输出写作实测结果。
 
 2026-10-12额外用本机Python3.14.5和仅绑定127.0.0.1的临时标准库HTTP服务执行了本文探针：正常200/status=ok退出0，HTTP503、status字段错误和不可达/超时均退出1。这里只验证Python判定，不证明镜像已构建、Engine已安排探针或容器健康状态已变更。
 

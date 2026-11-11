@@ -483,7 +483,7 @@ channel.basic_qos(prefetch_count=10)
 
 **它是什么**
 
-Publisher Confirm 是 RabbitMQ 对生产者的异步或同步确认，表示目标队列已经按其语义接管消息。
+Publisher Confirm 是 RabbitMQ 对生产者的发布处理确认。对于成功路由的消息，要结合目标队列接管语义理解；对于根本没有路由目标的消息，代理也可能返回 confirm。因此单独收到 confirm，不足以证明消息进入了你想要的队列。
 
 **为什么需要**
 
@@ -505,7 +505,9 @@ channel.basic_publish(
 )
 ```
 
-`mandatory=True` 要求消息无法路由到任何队列时通知生产者。生产者应记录消息标识、确认结果和耗时。
+`mandatory=True` 要求消息无法路由到任何队列时通知生产者。生产者应记录消息标识、确认结果和耗时。协议上，不可路由消息启用 mandatory 时先返回 `basic.return`，随后仍可有发布 `basic.ack`；Pika 的阻塞确认模式会把对应退回报告为 `UnroutableError`。不是“收到 return 就永远不会再收到协议 ack”，而是应用必须综合两种信号判断本次发布。[官方确认时机说明](https://www.rabbitmq.com/docs/confirms#when-will-published-messages-be-confirmed-by-the-broker)
+
+老师给你两张结果卡：甲为“没有匹配绑定、mandatory=false、confirm ack”，乙为“没有匹配绑定、mandatory=true、return后confirm ack”。二者都不能写成“工单队列成功入队”。把乙的路由键修到已验证绑定后再发布同一业务键，才继续核对目标队列与业务结果。这里只做协议推演；真实可回收验证使用文末任务二的既有 Pika 实验，不关闭生产 mandatory 来试错。若把 confirm 与消费 ack 混用，回到消息路径重新画出发送方向和双方各自知道的信息。
 
 **坏了怎么排**
 
@@ -2356,7 +2358,7 @@ unacked 固定为 500，正好等于 50 个消费者乘以 prefetch 10，说明�
 
 Exchange（交换机）按 Binding（绑定规则）与 Routing Key（路由键）决定消息进入哪些 Queue（队列）。生产者把消息发给交换机，不是随便给一个名字就一定进入目标队列。消息成功到达服务器、成功路由、持久保存和消费者业务处理，是需要分别取证的阶段。
 
-学生：“队列深度零，所以没有积压？”老师：“还要看 Unacked（已投递未确认）。”大量消息可能已预取到消费者，但数据库还没处理完；只有 Ready（待投递）为零不能证明业务及时。Prefetch（预取上限）决定消费者同时握住多少未确认消息，太大可能放大内存与恢复重投，太小也可能限制吞吐。
+学生：“Ready 显示零，所以没有积压？”老师：“还要看 Unacked（已投递未确认）。”大量消息可能已预取到消费者，但数据库还没处理完；只有 Ready（待投递）为零不能证明业务及时。不要把总消息数 `messages` 与 Ready 混称同一个“队列深度”，总数已经包含 Ready 和 Unacked，不能再加一次。Prefetch（预取上限）决定消费者同时握住多少未确认消息，太大可能放大内存与恢复重投，太小也可能限制吞吐。
 
 ### 两种确认不要混为一谈
 

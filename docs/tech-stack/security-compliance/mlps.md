@@ -485,12 +485,12 @@ PowerShell 创建目录：
 ```powershell
 $Lab = 'labs/mlps-baseline'                         # 实验根目录，不要指向生产配置目录
 if (Test-Path -LiteralPath $Lab) { throw '同名目录已存在，请选择新的学习位置。' }
-New-Item -ItemType Directory -Force "$Lab/evidence/system" | Out-Null
-New-Item -ItemType Directory -Force "$Lab/evidence/network" | Out-Null
-New-Item -ItemType Directory -Force "$Lab/evidence/identity" | Out-Null
-New-Item -ItemType Directory -Force "$Lab/evidence/logging" | Out-Null
-New-Item -ItemType Directory -Force "$Lab/evidence/backup" | Out-Null
-New-Item -ItemType Directory -Force "$Lab/reports" | Out-Null
+New-Item -ItemType Directory -Force "$Lab/evidence/system" -ErrorAction Stop | Out-Null
+New-Item -ItemType Directory -Force "$Lab/evidence/network" -ErrorAction Stop | Out-Null
+New-Item -ItemType Directory -Force "$Lab/evidence/identity" -ErrorAction Stop | Out-Null
+New-Item -ItemType Directory -Force "$Lab/evidence/logging" -ErrorAction Stop | Out-Null
+New-Item -ItemType Directory -Force "$Lab/evidence/backup" -ErrorAction Stop | Out-Null
+New-Item -ItemType Directory -Force "$Lab/reports" -ErrorAction Stop | Out-Null
 ```
 
 预期结果：目录创建成功，里面还没有真实生产数据。提交 GitHub 前要脱敏 IP、账号、拓扑、漏洞、日志、密钥和测评材料，必要时只提交模板和明确标注的合成示例。合成材料不能伪装成真实测评证据。
@@ -592,7 +592,7 @@ kubectl get pods -A -o custom-columns='NAMESPACE:.metadata.namespace,NAME:.metad
 
 ### 实验目标
 
-以自己的 Windows 学习机为对象，完成一次只读盘点，生成带时间、原始输出和哈希清单的证据包，再写出至少三个发现。这个实验不代表正式定级或测评。
+以自己的 Windows 学习机为对象，完成一次只读盘点，生成带时间、原始输出和哈希清单的证据包，再据实区分正常观察、待确认项和风险发现。不规定必须发现几个问题，不能为凑数把未知判成缺陷。这个实验不代表正式定级或测评。
 
 ### 实验步骤
 
@@ -639,9 +639,13 @@ Save-LabEvidence 'time-sync.txt' {
 }
 $CollectionStatus | Export-Csv "$Out/collection-status.csv" -NoTypeInformation -Encoding utf8 -ErrorAction Stop
 
-Get-ChildItem $Out -File | Get-FileHash -Algorithm SHA256 |
-  Select-Object Path, Hash | Export-Csv "$Out/sha256-manifest.csv" -NoTypeInformation -Encoding utf8 # 为证据生成完整性清单
+$EvidenceFiles = @(Get-ChildItem -LiteralPath $Out -File -ErrorAction Stop) # 先固定清单，避免把正在生成的清单也枚举进去
+$HashRows = @($EvidenceFiles | Get-FileHash -Algorithm SHA256 -ErrorAction Stop)
+$HashRows | Select-Object Path, Hash |
+  Export-Csv "$Out/sha256-manifest.csv" -NoTypeInformation -Encoding utf8 -ErrorAction Stop
 ```
+
+目录建立、枚举、哈希或清单写入失败时，`-ErrorAction Stop` 让该段停止，不把半份证据包当作完整成果。`$EvidenceFiles` 是本批待计算文件的快照，`$HashRows` 保存全部计算成功后的结果；这样生成中的清单不会被当作自己的输入。文件采集失败仍会在状态表标出，可能留下部分输出，不能因部分文件也有哈希就判定采集成功。排障先看失败步骤、路径权限和磁盘空间，保留失败批次并另建新批次重采，不覆盖原证据。
 
 ### 预期结果
 
@@ -806,6 +810,14 @@ sha256-manifest.csv
 外包可以转移执行工作，通常不能把主体责任一起外包。合同应写明权限、日志、事件报告、漏洞、证据、退出和数据销毁要求。
 
 ## 什么时候要重新评估
+
+### 老师批改：负责人签了例外，就能把控制项改成通过吗
+
+给你一张合成工单：关键系统暂时不能升级，负责人接受延期两周，临时限制了入口。学生把漏洞控制项填成“已通过”，老师要求分开记录技术状态和治理决定。风险接受是有人在其权限内承担特定范围、时间和条件的风险，不会让漏洞自动消失；补偿控制也必须有实施与有效性证据。正式合规结论仍需按适用要求由有职责的人员或机构判断，不由这份学习台账替代。
+
+请重写为“原问题未修复、例外有效至某日、限制入口已验证哪些路径、尚未覆盖哪些路径、到期责任人和处理动作”。两周后还没修，不能让日期自动顺延；触发升级处置并重新评审。若随后新增公网入口，原批准条件已改变，应立即复核，不等到到期。验收交原错误记录、修订记录和一个新增入口反例，不需要真实扫描或修改任何系统；保留合成标记即可清理课堂。
+
+追问“扫描器没再报就关闭吗”，应先查资产是否仍在扫描范围、凭据是否可用、规则与版本是否一致，再拿对应修复或控制验证证据判断。答错回到“漏洞治理”和“证据链”，不要把一个绿灯同时当作技术修复、风险批准与正式合规三个结论。
 
 出现下面变化时，不要等下一次测评才处理：
 

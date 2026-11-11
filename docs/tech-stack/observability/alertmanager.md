@@ -372,7 +372,7 @@ Exporter / App metrics（指标导出器或应用指标）
 |---|---|
 | 分组 | 把同一故障引发的大量告警合成一条通知 |
 | 路由 | 按 team、service、severity 发给不同团队 |
-| 去重 | 相同告警不重复通知 |
+| 去重 | 按身份、分组及通知记录减少不必要的重复；仍允许配置的重复提醒，故障时也可能重复投递 |
 | 重复提醒 | 故障持续时按 repeat_interval 再提醒 |
 | 静默 | 维护窗口或已知问题临时不通知 |
 | 抑制 | 高级别根因告警存在时，压制低级别噪音 |
@@ -766,7 +766,7 @@ group_wait: 30s
 
 ### group_interval
 
-同一 group 已经发过通知后，若有新的 alert 加入组，至少等多久再发下一次。
+首次分组等待后，按照这个周期检查同一组是否出现需要通知的变化。它不是每来一条新告警就重新启动的独立倒计时；新告警、恢复、发送失败与去重状态都可能影响下一次实际通知。
 
 ```yaml
 group_interval: 5m
@@ -1164,7 +1164,7 @@ curl -s http://alertmanager:9093/api/v2/receivers
 | `receiver` | 默认 receiver | 根 route 没 receiver |
 | `group_by` | 分组 labels | 太多导致刷屏，太少导致混杂 |
 | `group_wait` | 首次通知等待 | 太短导致通知碎片化 |
-| `group_interval` | 新 alert 加组后的通知间隔 | 太短刷屏 |
+| `group_interval` | 首次等待后的组级周期检查节奏 | 误当成每条新告警单独等待的时间；太短可能增加通知量 |
 | `repeat_interval` | 持续 firing 重复提醒间隔 | 太短噪声大 |
 | `matchers` | route 匹配条件 | label 名写错 |
 | `continue` | 匹配后是否继续 sibling routes | 多 receiver 场景忘记设置 |
@@ -1255,6 +1255,17 @@ amtool check-config alertmanager.yml
 目标：本地启动 Alertmanager 和一个 webhook receiver，手工发送 alert，观察路由、分组、resolved 通知和 silence。
 
 前置条件：在同一台隔离学习机上准备 Python 3，以及从官方发布渠道取得、记录版本并核对完整性的 Alertmanager 和配套 amtool。先运行各自的 `--version` 确认能够启动，再新建只放本实验文件的目录。本节按本机二进制运行说明，不能把 `127.0.0.1` 原样用于分开的容器；容器里的回环地址指容器自身。
+
+第一次下载程序的同学，先打开 [Prometheus 官方下载入口](https://prometheus.io/download/#alertmanager)，选择 Alertmanager 而不是 Prometheus Server。按自己的操作系统与处理器架构选包：`windows`、`linux`、`darwin` 分别对应 Windows、Linux、macOS；`amd64` 面向常见 x86-64 处理器，`arm64` 面向相应 ARM 处理器。不要凭文件名里的数字大小猜架构。解压到本次新建目录后，确认里面同时有 `alertmanager` 和 `amtool`，Windows 文件后缀为 `.exe`。用官方公布的校验值核对下载文件，记录版本与来源；无法取得或核对下载内容时停在此步，不把第三方同名程序当成已安装成功。Python 安装与终端入口可看[实验起步准备](../experiment-start.md)，本课只需能执行标准库脚本，不需要机器学习环境。
+
+Windows PowerShell 在解压目录先执行 `./alertmanager.exe --version`、`./amtool.exe --version`；Bash 用 `./alertmanager --version`、`./amtool --version`。开头的 `./` 表示“运行当前目录里的这个文件”，不能省略后就假定程序已经进入系统的命令搜索路径。后文的短命令 `alertmanager`、`amtool` 如果提示找不到命令，请在同一目录按此规则补前缀，或使用已核对的完整路径。Windows 启动本课进程的完整写法是：
+
+```powershell
+./amtool.exe check-config ./alertmanager.yml
+./alertmanager.exe --config.file=./alertmanager.yml --web.listen-address=127.0.0.1:9093 --cluster.listen-address= --storage.path=./alertmanager-lab-data
+```
+
+这两条要等下文配置保存完成后再执行；版本检查不会启动服务，第二条启动命令会持续占用终端。它把网页接口只绑定本机，关闭本课不需要的集群监听，并把状态放进本次目录。若提示二进制格式不支持，回头核对操作系统与架构；若提示配置不存在，先检查当前目录和文件名，而不是重新下载安装。
 
 检查本机 8080、9093 没有被占用，且没有配置真实邮件或值班渠道。保存下方 Python 为 `webhook_receiver.py`，保存本节专用 YAML 为 `alertmanager.yml`，不要覆盖已有服务配置。Python 标准库无需额外安装依赖；该接收器只用于受控合成载荷，不提供生产鉴权或持久化。
 
@@ -1645,6 +1656,18 @@ receiver 需要支持并设置 `send_resolved: true`。
 18. HA Alertmanager 为什么不会正常情况下重复通知？
 19. `amtool check-config` 有什么用？
 20. Alertmanager 在 AIOps 自动化闭环里扮演什么角色？
+
+## 老师批改：没有第二条通知，能证明静默成功吗
+
+先看一道容易拿到“假通过”的实验答案：同学发送告警，接收器打印一次；创建静默后马上重发，接收器没有第二条消息，于是记录“静默验证成功”。这段证据还不够，因为分组等待、去重、重复间隔也可能让第二条消息暂时不出现。你只看到了结果，没有排除竞争解释。
+
+请把本课实验的记录改成三列：同一条课堂标签集合、查询到的告警状态、接收端实际载荷与时间。创建静默后，先通过 `amtool silence query` 找到本轮返回的编号，核对匹配字段、开始结束时间；再在 `/api/v2/alerts` 中定位相同标签的告警，检查其 `status.silencedBy` 是否包含该编号。`silencedBy` 是“使这条告警静默的静默规则标识列表”，不是布尔健康值。只看到列表非空也要核对编号，避免把另一条静默误当成自己的实验成果。接口字段以本轮版本的 [API v2 定义](https://github.com/prometheus/alertmanager/blob/main/api/v2/openapi.yaml) 为准。
+
+接着只让自己的静默提前到期，保持事件仍有效，再观察对应标识是否从 `silencedBy` 消失。不要要求消息在点击到期的那一秒立即出现，通知还要经过组调度和去重；需要验证恢复通知时，再按实验规定停止续发，等事件结束。老师会接受“已证实静默匹配并解除，后续通知尚待观察”的记录，不接受把未观察到的投递补写为成功。
+
+现在换一个面试条件：接口返回 `HTTP 200`，但接收器被停掉。你的证据应该预测为“入口可以接受告警，渠道发送仍会失败”，而不是“HTTP 成功，所以消息丢在手机”。先以 Alertmanager 查询定位事件，再查看通知错误，最后核对接收端监听与日志；恢复只针对本课接收器，不改生产静默。若接口里根本没有本轮标签，先回到发送端确认事件是否过期或请求是否被接收，不能跨过这段证据直接调渠道。
+
+这组练习检验的是区分接收、过滤和投递的能力。保存静默编号时同时保存范围与有效期，不把令牌、内部地址或真实值班消息提交公开仓库。解释不清 `silencedBy`，回看“Silences 静默”；把去重当成永不重发，回看“Deduplication 去重”和三个等待参数。实验结束仍按原步骤解除自己的静默、停止自己的进程，不处理其他团队的状态。
 
 ## 独立通关：证明告警为什么走到这个接收器
 

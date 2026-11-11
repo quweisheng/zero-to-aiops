@@ -500,11 +500,13 @@ final class AlertService {
 
 ```java
 interface TicketClient {
-    String create(String summary);
+    String create(String summary) throws java.util.concurrent.TimeoutException;
 }
 ```
 
 interface 定义调用方需要的契约；不同实现可以连接真实工单、测试桩或本地文件。abstract class 还能复用部分状态和实现，但会引入单继承约束。
+
+这里的 `throws` 也是契约：创建工单可能抛出受检的 `TimeoutException`（等待超时异常），因此后面的调用方必须捕获或继续声明它。实现类可以不抛该异常，但不能随意扩大为接口没有允许的其他受检异常。这个类型名只描述等待结果，不证明工单未创建；实际接口仍需要任务身份和幂等查询。
 
 多态不是“为了设计模式而设计”。它的价值是让上层依赖稳定能力，而不是绑死某个基础设施实现。坏了时先确认实际注入了哪一个实现、代理层做了什么、调用是否跨线程或网络。
 
@@ -556,6 +558,8 @@ try {
 - `Error`：JVM 或系统级严重问题，如 `OutOfMemoryError`；通常不应把它当普通业务异常吞掉继续运行。
 
 ### 正确处理原则
+
+老师先批改一段常见拼接错误：如果把前面接口的 `throws TimeoutException` 删除，又在只调用该接口的 `try` 后专门捕获这个受检异常，编译器会发现这段调用契约并不允许它，不能靠“线上可能超时”说服编译器。应按真实客户端 API 调整声明或捕获类型，而不是把所有错误都改为 `catch (Exception)`。规则依据 [JLS 受检异常分析](https://docs.oracle.com/javase/specs/jls/se21/html/jls-11.html#jls-11.2.3)。请分别预测“接口声明超时”“实现不抛超时”“调用方漏处理”的编译结果，再解释为什么编译通过仍不证明网络动作没副作用；这是编译契约与业务结果两层证据。
 
 1. 在有能力补充上下文、恢复、转换边界或清理资源的层处理。
 2. 保留原始 `cause`，否则证据链断裂。

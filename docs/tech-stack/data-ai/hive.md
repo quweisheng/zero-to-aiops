@@ -348,11 +348,14 @@ docker logs --follow hive-lab # 看到 HiveServer2 启动完成后按 Ctrl+C 退
 ```powershell
 docker exec -it hive-lab `
   /opt/hive/bin/beeline -u 'jdbc:hive2://localhost:10000/default'
+if ($LASTEXITCODE -ne 0) { throw 'Beeline 会话异常结束，先保留错误，不把退出当查询成功。' }
 ```
 
 `-it` 会为 Beeline 分配交互终端。Hive 4.2.0 镜像中的 JLine 在无终端批处理环境里可能报 `Unable to create a terminal`；自动化脚本可使用 `docker exec -t` 配合 Beeline 的 `-f` 文件参数，并始终检查退出码。
 
 参数中的名称只标识本课容器，两个端口分别供 SQL 和服务页面使用，回环绑定使它们仅从本机访问。该快捷环境使用嵌入式元数据配置，不代表生产已实现 Metastore 高可用。出现首次初始化错误时保存日志，不要把生产元数据库地址填进实验命令试图解决。
+
+进入提示符后先执行 `SELECT 1;`，确认得到一行 `1`，再创建本课对象。端口已监听、Web 页面能开、JDBC 会话建立和 SQL 执行成功是四层证据；它们不能互相替代。若日志三分钟内始终没有启动完成，就停止等待并查首个初始化异常，不重复建容器。本段 PowerShell 退出码在离开 Beeline 后检查；交互期间某条 SQL 出错仍必须当场停止后续插入，不能以最后客户端正常退出掩盖先前失败。
 
 在 Beeline 中执行前面的建库、建表、写入与聚合 SQL，再执行：
 
@@ -383,6 +386,7 @@ DESCRIBE FORMATTED aiops.alerts;                             -- 记录表类型�
 
 ```powershell
 docker stop hive-lab # 仅停止本地实验容器
+if ($LASTEXITCODE -ne 0) { throw '停止未成功，不能宣称已注入入口故障。' }
 Test-NetConnection localhost -Port 10000 -InformationLevel Quiet
 ```
 
@@ -394,11 +398,14 @@ Test-NetConnection localhost -Port 10000 -InformationLevel Quiet
 
 ```powershell
 docker start hive-lab
+if ($LASTEXITCODE -ne 0) { throw '启动未成功，先保留容器状态与日志。' }
 docker logs hive-lab | Select-Object -Last 80
 Test-NetConnection localhost -Port 10000 -InformationLevel Quiet
 ```
 
 等待端口探针恢复为 `True`，再连接并查询 `COUNT(*)`。如果数据仍为 3，说明本次故障影响服务可用性，没有破坏实验数据。生产环境还要验证负载均衡摘除、会话重连、执行中查询和 Metastore 是否独立可用。
+
+这里恢复的是原容器，不是删除后新建一个同名对象。原容器停止再启动时，其可写层通常还在；移除容器后这一条件就不成立，不能由本实验推导出“没有持久化也能灾备”。Hive 4.2.0 的[官方容器入口脚本](https://github.com/apache/hive/blob/rel/release-4.2.0/packaging/src/docker/entrypoint.sh)在启动阶段使用元数据库初始化或升级检查；它不是让你把 `IS_RESUME=true` 当作修复按钮。没有确认现有 schema 与数据前，不跳过检查、重置元数据或重建表。恢复同样最多观察三分钟；仍不可用就保存失败证据，本轮不判通过。
 
 ### 清理
 

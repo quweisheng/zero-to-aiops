@@ -716,7 +716,7 @@ Sharding 需要数据模型和路由键设计，不是给现有单库加一个�
 | 观测点 | 代表什么 | 异常含义 |
 |---|---|---|
 | active sessions | 活跃会话 | 并发升高、SQL 卡住、连接池放大 |
-| wait events | 等待事件 | CPU、IO、锁、网络或日志写入瓶颈 |
+| wait events | 等待事件 | IO、锁、网络或日志等待；CPU 使用时间要另看，不能当成普通等待事件 |
 | tablespace usage | 表空间使用率 | 容量风险、自动扩展失败 |
 | temp usage | 临时表空间 | 排序、hash join、大查询压力 |
 | undo usage | undo 压力 | 长事务、回滚、快照过旧风险 |
@@ -816,7 +816,7 @@ ORDER BY alert_count DESC;
 
 1. 是否所有接口慢，还是某个 SQL 慢。
 2. active sessions 是否升高。
-3. top wait events 是 IO、锁、CPU 还是 log file sync。
+3. 区分 CPU 执行时间与非空闲等待，再看等待主要是 IO、锁还是 log file sync。
 4. 慢 SQL 执行计划是否变化。
 5. 最近是否发布、统计信息刷新、索引变更。
 6. 下游存储、归档、备份任务是否抢资源。
@@ -944,6 +944,8 @@ CDB（容器数据库）和 PDB（可插拔数据库）提供多租户组织方�
 数据库会话可能等行锁、数据块读取、日志刷写、集群块传递或客户端继续发送数据。Wait Event（等待事件）告诉你正在等哪类事情，不直接给出唯一根因。例如日志同步等待增加，可能涉及日志存储延迟、提交频率或系统负载，需要把等待时长、事务量与底层 I/O 对齐。
 
 学生：“看到某等待最多就改参数吗？”老师：“先看它占用的业务时间与发生上下文。”空闲等待与非空闲等待不同；总次数很高但每次极短，也未必比少量极长等待更重要。AWR（自动工作负载资料库）与 ASH（活动会话历史）还涉及具体版本和许可边界；只使用现场已授权的诊断能力，原始 SQL 参数要脱敏。
+
+再问一个容易答错的细节：`V$SESSION.EVENT` 写着行锁等待，这一秒就一定还在等吗？不一定。先看 `STATE`：为 `WAITING` 时 EVENT 描述当前等待；不在等待时，EVENT 可能只是最近一次等待。`STATUS='ACTIVE'` 表示会话正在处理数据库调用，也不等于此刻一直占用 CPU。请有权限的 DBA 同时提供时间、实例号、SID/SERIAL#、STATUS、STATE、EVENT 与阻塞关系；前后两次观测再结合 CPU 时间增量和操作系统证据，而不是仅凭一个旧事件名字终止会话。课堂反例是同一 EVENT 保持不变，但 STATE 从 WAITING 变成 WAITED SHORT TIME：只能说上次等待已结束，不能继续累计为当前锁阻塞，也不能直接认定已经成功提交。字段定义见 [Oracle V$SESSION](https://docs.oracle.com/en/database/oracle/oracle-database/26/refrn/V-SESSION.html)。
 
 ### 一条事务如何跨过断电时刻
 

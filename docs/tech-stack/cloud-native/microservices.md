@@ -951,23 +951,99 @@ scrape_configs:
 ### 第 1 步：生成两个项目
 
 ```powershell
-Set-Location D:\zero-to-aiops
-if (Test-Path labs\spring-microservices-aiops) { throw '目录已存在；先备份或另取实验目录，不覆盖既有项目' }
-New-Item -ItemType Directory labs\spring-microservices-aiops | Out-Null
-Set-Location labs\spring-microservices-aiops
+$microservicesLab = Join-Path $env:USERPROFILE 'spring-microservices-zero-lab'
+if (Test-Path -LiteralPath $microservicesLab) { throw '目录已存在，换新名字，不覆盖既有项目' }
+foreach ($labPort in @(8081, 8082)) {
+  if (Get-NetTCPConnection -State Listen -LocalPort $labPort -ErrorAction SilentlyContinue) { throw "端口 $labPort 已被占用，先核对归属" }
+}
+New-Item -ItemType Directory -Path $microservicesLab -ErrorAction Stop | Out-Null
+Set-Location -LiteralPath $microservicesLab -ErrorAction Stop
 
 $paymentUrl = 'https://start.spring.io/starter.zip?type=maven-project&language=java&bootVersion=4.0.7&baseDir=payment-service&groupId=lab.aiops&artifactId=payment-service&name=payment-service&packageName=lab.aiops.payment&packaging=jar&javaVersion=17&dependencies=web,actuator,prometheus'
 $orderUrl = 'https://start.spring.io/starter.zip?type=maven-project&language=java&bootVersion=4.0.7&baseDir=order-service&groupId=lab.aiops&artifactId=order-service&name=order-service&packageName=lab.aiops.order&packaging=jar&javaVersion=17&dependencies=web,actuator,prometheus'
 
-Invoke-WebRequest $paymentUrl -OutFile payment-service.zip
-Invoke-WebRequest $orderUrl -OutFile order-service.zip
-Expand-Archive payment-service.zip -DestinationPath .
-Expand-Archive order-service.zip -DestinationPath .
+Invoke-WebRequest $paymentUrl -OutFile payment-service.zip -TimeoutSec 60 -ErrorAction Stop
+Invoke-WebRequest $orderUrl -OutFile order-service.zip -TimeoutSec 60 -ErrorAction Stop
+Expand-Archive payment-service.zip -DestinationPath . -ErrorAction Stop
+Expand-Archive order-service.zip -DestinationPath . -ErrorAction Stop
 ```
 
 正常结果：当前目录出现 `payment-service` 和 `order-service`，两个目录都有 `mvnw.cmd`。如果下载到的是 JSON 错误而不是 ZIP，先检查 URL、代理和 Initializr 是否仍提供固定版本。
 
-这一步是在线生成，不是永久可用的历史包仓库。若 Initializr 已撤下 4.0.7，实验在此暂停：不要把 URL 悄悄换成最新 Boot 再继续沿用旧 Cloud BOM。应选择官方兼容表中的一对版本，记录新 POM、依赖树和重新测试结果，或使用你已保存并核验过的本次完整源项目。生成后的 POM 必须确实写着本文版本；本文不会把“生成网站返回了文件”当作编译通过。
+这一步是在线生成，不是永久可用的历史包仓库。2026-11-11 查询 [Initializr 公开 metadata](https://start.spring.io/metadata/client)，返回可选清单没有 4.0.7，所以本轮不能再把这两个在线地址当成可用的固定版入口。不要把 URL 悄悄换成最新 Boot 再沿用旧 Cloud BOM；改用下一段手工固定项目，或在官方兼容表中重新选择并完整测试一对版本。生成网站返回文件也不等于编译通过。
+
+### 在线模板不再保留历史版本时：手工建立同一模型
+
+本分支与在线生成二选一，不要在已生成的项目上混写。先按 [Maven 安装与启动](../automation/maven.md#安装与启动) 准备 Maven，确认 `mvn -version` 与 `javac -version`；使用上一步新建的个人实验根目录，同名服务目录已存在就停止检查。以下只创建目录：
+
+```powershell
+foreach ($serviceName in @('payment', 'order')) {
+  $serviceDirectory = Join-Path $microservicesLab "$serviceName-service"
+  if (Test-Path -LiteralPath $serviceDirectory) { throw "已有目录：$serviceDirectory，不覆盖" }
+  New-Item -ItemType Directory -Path (Join-Path $serviceDirectory "src/main/java/lab/aiops/$serviceName"), (Join-Path $serviceDirectory 'src/main/resources'), (Join-Path $serviceDirectory "src/test/java/lab/aiops/$serviceName") -ErrorAction Stop | Out-Null
+}
+```
+
+用编辑器新建 `payment-service/pom.xml`，填完整内容；另在 `order-service/pom.xml` 放同样内容，只把当前项目的 `artifactId` 中 `payment-service` 改为 `order-service`，父依赖不动。下一节再给 order 加 Cloud 属性、依赖和 BOM；payment 不加不需要的熔断依赖。
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>4.0.7</version>
+    <relativePath/>
+  </parent>
+  <groupId>lab.aiops</groupId>
+  <artifactId>payment-service</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <properties><java.version>17</java.version></properties>
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-webmvc</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.micrometer</groupId>
+      <artifactId>micrometer-registry-prometheus</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  <build><plugins><plugin>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-maven-plugin</artifactId>
+  </plugin></plugins></build>
+</project>
+```
+
+在 `payment-service/src/test/java/lab/aiops/payment/PaymentContextTest.java` 新建真实上下文测试；order 对应文件是 `order-service/src/test/java/lab/aiops/order/OrderContextTest.java`，同样代码只改 package 为 `lab.aiops.order`、类名为 `OrderContextTest`：
+
+```java
+package lab.aiops.payment;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class PaymentContextTest {
+  @Test
+  void contextLoads() { }
+}
+```
+
+它验证应用上下文能建立，不验证支付业务；HTTP 调用仍在第 5 步做。完成后面两份启动类/YAML、order BOM 后，在每个服务目录分别执行 `mvn wrapper:wrapper '-Dmaven=3.9.16'`，立即检查 `$LASTEXITCODE` 为 0，再执行 `./mvnw.cmd -version`，记录实际 Wrapper 插件/Maven/JDK。生成失败就停止，不借用别的项目脚本。此分支不依赖 Initializr 保留旧版，但 Maven Central、JDK 和插件兼容仍要实际构建验收；本轮没有编译或启动这两个项目。
 
 下文 Java 都是完整启动文件；前面概念区的 Controller、Feign 和 Prometheus 片段只是解释，不要一并复制到本次两个项目。编辑可用 VS Code/记事本；保持目录、`package` 和公开类名一一对应。若已有 `application.properties`，核对它没有与新增 YAML 冲突的同名值；同一位置混用两种配置容易让你以为 YAML 没生效。
 
@@ -1023,6 +1099,7 @@ spring:
     name: payment-service
 server:
   port: 8082
+  address: 127.0.0.1
 management:
   endpoints:
     web:
@@ -1138,8 +1215,10 @@ spring:
     name: order-service
 server:
   port: 8081
+  address: 127.0.0.1
 payment:
-  base-url: http://localhost:8082
+  # 该客户端只访问本机的课堂支付服务。
+  base-url: http://127.0.0.1:8082
 management:
   endpoints:
     web:
@@ -1163,7 +1242,7 @@ resilience4j:
 
 ```powershell
 # 窗口 1
-Set-Location D:\zero-to-aiops\labs\spring-microservices-aiops\payment-service
+Set-Location -LiteralPath (Join-Path $env:USERPROFILE 'spring-microservices-zero-lab\payment-service') -ErrorAction Stop
 .\mvnw.cmd test
 if ($LASTEXITCODE -ne 0) { throw '测试失败，不启动 payment；保留构建错误' }
 .\mvnw.cmd spring-boot:run
@@ -1171,7 +1250,7 @@ if ($LASTEXITCODE -ne 0) { throw '测试失败，不启动 payment；保留构�
 
 ```powershell
 # 窗口 2
-Set-Location D:\zero-to-aiops\labs\spring-microservices-aiops\order-service
+Set-Location -LiteralPath (Join-Path $env:USERPROFILE 'spring-microservices-zero-lab\order-service') -ErrorAction Stop
 .\mvnw.cmd test
 if ($LASTEXITCODE -ne 0) { throw '测试失败，不启动 order；检查 BOM 与 Java' }
 .\mvnw.cmd spring-boot:run
@@ -1179,16 +1258,35 @@ if ($LASTEXITCODE -ne 0) { throw '测试失败，不启动 order；检查 BOM �
 
 第三个窗口验证：
 
+若前面改了实验目录名，这两个新窗口也必须使用对应的绝对路径；普通 PowerShell 变量不会自动跨窗口共享。`spring-boot:run` 是前台长期运行命令，两个服务各占一个窗口；等两边日志均显示启动完成再发请求。给两个服务的 `server` 块都设置 `address: 127.0.0.1`，把未配置认证的实验接口和 Actuator 限在本机。未来容器化要另按容器网络配置，不能机械照搬本机监听地址。
+
 ```powershell
-Invoke-RestMethod http://localhost:8081/actuator/health
-Invoke-RestMethod http://localhost:8082/actuator/health
-Invoke-RestMethod -Method Post -Uri http://localhost:8081/orders `
-  -ContentType 'application/json' -Body '{"amount":100}'
-(Invoke-WebRequest http://localhost:8081/actuator/prometheus).Content |
-  Select-String 'http_server_requests'
+function Convert-LessonResponseObject($Response) {
+    $body = ([string]$Response.Content).Trim()
+    if ($Response.StatusCode -ne 200 -or -not $body.StartsWith('{') -or -not $body.EndsWith('}')) {
+        throw '本课响应必须是 HTTP 200 和单个 JSON 对象'
+    }
+    $value = $body | ConvertFrom-Json -ErrorAction Stop
+    if ($value -isnot [pscustomobject]) { throw '顶层必须为对象，不能用数组代替' }
+    return $value
+}
+$orderHealth = Convert-LessonResponseObject (Invoke-WebRequest -UseBasicParsing http://127.0.0.1:8081/actuator/health -TimeoutSec 10 -ErrorAction Stop)
+$paymentHealth = Convert-LessonResponseObject (Invoke-WebRequest -UseBasicParsing http://127.0.0.1:8082/actuator/health -TimeoutSec 10 -ErrorAction Stop)
+if ($orderHealth.status -isnot [string] -or $paymentHealth.status -isnot [string] -or
+    $orderHealth.status -cne 'UP' -or $paymentHealth.status -cne 'UP') { throw '健康端点未通过' }
+$orderResult = Convert-LessonResponseObject (Invoke-WebRequest -UseBasicParsing -Method Post -Uri http://127.0.0.1:8081/orders `
+  -ContentType 'application/json' -Body '{"amount":100}' -TimeoutSec 10 -ErrorAction Stop)
+if ($orderResult.status -isnot [string] -or $orderResult.status -cne 'CREATED' -or
+    $orderResult.payment -isnot [pscustomobject] -or $orderResult.payment.status -isnot [string] -or
+    $orderResult.payment.status -cne 'PAID') { throw 'HTTP成功但业务未完成' }
+$metricText = (Invoke-WebRequest -UseBasicParsing http://127.0.0.1:8081/actuator/prometheus -TimeoutSec 10 -ErrorAction Stop).Content
+if ($metricText -notmatch 'http_server_requests') { throw '未找到HTTP指标，检查实际registry与是否产生请求' }
+$orderHealth; $paymentHealth; $orderResult
 ```
 
 预期：两个健康端点都是 `UP`；订单响应包含 `CREATED` 和 `PAID`；Prometheus 文本里出现 HTTP 请求指标。三个证据分别证明进程活着、业务调用成功、机器可采集指标，不要只保存一个绿色页面。
+
+为什么先读原始文本？PowerShell 会枚举集合成员；顶层 `[{"status":"UP"}]`、字段 `{"status":["UP"]}`，或者 payment 为数组，都不符合本课单对象、标量状态的合同，不能靠宽松比较误判成功。用这些反例检查验收器，再恢复原响应，确保“返回了 JSON”与“完成本次业务”分别验收。这是本课 Java 控制器的固定合同；其他接口合法返回 201 时应按其合同另写，不盲目套 200。
 
 ### 没跑通先查这些
 
@@ -1216,7 +1314,7 @@ $env:LAB_PAYMENT_FAIL='true'
 1..6 | ForEach-Object {
   $elapsed = Measure-Command {
     $result = Invoke-RestMethod -Method Post -Uri http://localhost:8081/orders `
-      -ContentType 'application/json' -Body '{"amount":100}'
+      -ContentType 'application/json' -Body '{"amount":100}' -TimeoutSec 10 -ErrorAction Stop
   }
   [pscustomobject]@{ Attempt = $_; Status = $result.status; Milliseconds = $elapsed.TotalMilliseconds }
 }

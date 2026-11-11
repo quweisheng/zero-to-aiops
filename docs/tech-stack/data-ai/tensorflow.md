@@ -954,7 +954,7 @@ def confusion_counts(
     probabilities: np.ndarray,
     threshold: float,
 ) -> dict[str, int]:
-    predictions = probabilities >= threshold
+    predictions = probabilities > threshold
     truth = labels.astype(bool)
     return {
         "tp": int(np.sum(predictions & truth)),
@@ -1031,6 +1031,7 @@ def main() -> None:
         "feature_units": ["percent", "percent", "milliseconds", "ratio"],
         "feature_medians": np.median(x_train, axis=0).astype(float).tolist(),
         "threshold": threshold,
+        "threshold_operator": ">",
         "test_metrics": {name: float(value) for name, value in test_metrics.items()},
         "confusion_matrix": confusion_counts(y_test, probabilities, threshold),
     }
@@ -1127,6 +1128,13 @@ def validate_features(values: np.ndarray, expected_count: int) -> None:
 metadata = json.loads(
     Path("artifacts/metadata.json").read_text(encoding="utf-8")
 )
+if metadata.get("feature_names") != ["cpu_pct", "memory_pct", "latency_ms", "error_rate"] or metadata.get("feature_units") != ["percent", "percent", "milliseconds", "ratio"]:
+    raise ValueError("metadata field names or units do not match this program")
+if metadata.get("threshold_operator") != ">":
+    raise ValueError("threshold comparison contract does not match this program")
+threshold = float(metadata["threshold"])
+if not np.isfinite(threshold) or not 0 <= threshold <= 1:
+    raise ValueError("invalid threshold")
 model = keras.models.load_model("artifacts/alert_model.keras")
 
 # 顺序必须与 metadata.feature_names 完全一致。
@@ -1136,11 +1144,7 @@ validate_features(features, len(metadata["feature_names"]))
 probability = float(model.predict(features[None, :], verbose=0)[0, 0])
 if not np.isfinite(probability) or not 0 <= probability <= 1:
     raise RuntimeError("invalid model output; do not interpret as normal")
-if metadata["feature_names"] != ["cpu_pct", "memory_pct", "latency_ms", "error_rate"]:
-    raise ValueError("metadata feature contract does not match this program")
-if not np.isfinite(float(metadata["threshold"])) or not 0 <= float(metadata["threshold"]) <= 1:
-    raise ValueError("invalid threshold")
-is_high_risk = probability >= float(metadata["threshold"])
+is_high_risk = probability > threshold
 
 print("feature_names:", metadata["feature_names"])
 print("probability:", probability)
@@ -1195,6 +1199,8 @@ def repair_or_reject(
 metadata = json.loads(
     Path("artifacts/metadata.json").read_text(encoding="utf-8")
 )
+if metadata.get("feature_names") != ["cpu_pct", "memory_pct", "latency_ms", "error_rate"] or metadata.get("feature_units") != ["percent", "percent", "milliseconds", "ratio"]:
+    raise ValueError("metadata field names or units do not match this program")
 model = keras.models.load_model("artifacts/alert_model.keras")
 
 # memory_pct 故意注入 NaN，模拟采集或解析故障。
@@ -1206,8 +1212,8 @@ if not invalid_positions:
     raise RuntimeError("fault injection failed: no invalid feature was detected")
 
 probability = float(model.predict(repaired[None, :], verbose=0)[0, 0])
-if not np.isfinite(probability):
-    raise RuntimeError("model returned a non-finite probability")
+if not np.isfinite(probability) or not 0 <= probability <= 1:
+    raise RuntimeError("model returned an invalid probability")
 
 print("invalid_positions:", invalid_positions)
 print("repaired_features:", repaired.tolist())
@@ -1758,6 +1764,45 @@ Eager（即时执行）便于逐步调试，`tf.function` 将适合的计算追�
 三分钟可以这样讲：“TensorFlow 负责张量、自动微分与执行，Keras 组织模型和训练循环，输入流水线负责及时提供形状与类型正确的批次。我先固定数据合同和无泄漏拆分，再用训练集统计做归一化。每步前向得到预测，损失比较标签，梯度沿计算路径回传，优化器更新权重；验证集选择停止时机，最后独立测试。”
 
 “上线要同时交付预处理、签名、模型、阈值和环境，输入与输出都检查有限性。性能先分数据等待、计算、通信和重新追踪；扩卡与扩副本会增加内存和通信成本。恢复训练关注权重、优化器和数据位置，恢复服务关注版本匹配与业务校验。模型概率还需校准，不能代替审批；我能说明课堂已经验证哪些路径，也保留真实设备与分布式运行未验证的边界。”
+
+## 老师批改：都是阈值零点五，为什么报表对不上
+
+先暂停训练，拿三个合成样本手算：真实标签是 `[1, 0, 1]`，预测分数是 `[0.5, 0.5, 0.6]`。如果业务用 `>= 0.5`，三条都报高风险，得到 TP=2、FP=1、FN=0，精确率为 2/3、召回率为 1；若用 `> 0.5`，只有最后一条入选，TP=1、FP=0、FN=1，精确率为 1、召回率为 1/2。
+
+两个计算都自洽，错的是训练报告用一套、在线决策用另一套却声称口径一致。[Keras Precision 的阈值定义](https://www.tensorflow.org/api_docs/python/tf/keras/metrics/Precision) 使用严格超过阈值的正类判定。本课因此把手算混淆矩阵、预测程序和元数据统一成 `>`，并记录 `threshold_operator`。零点五仍只是固定教学阈值；改变比较符也属于策略变更，需要重新评价，不能默默替生产规则改符号。
+
+用已安装的 TensorFlow 环境保存 `threshold_feedback.py` 并运行 `.\.venv\Scripts\python.exe threshold_feedback.py`：
+
+```python
+import tensorflow as tf
+
+labels = tf.constant([1.0, 0.0, 1.0])
+scores = tf.constant([0.5, 0.5, 0.6])
+precision = tf.keras.metrics.Precision(thresholds=0.5)
+recall = tf.keras.metrics.Recall(thresholds=0.5)
+precision.update_state(labels, scores)
+recall.update_state(labels, scores)
+assert float(precision.result()) == 1.0
+assert float(recall.result()) == 0.5
+print("strict threshold: precision=1.0 recall=0.5")
+
+# 指标对象会累计状态；第二批全是误报，不能把两批精确率简单平均。
+precision.update_state([0.0, 0.0], [0.9, 0.9])
+tf.debugging.assert_near(precision.result(), tf.constant(1.0 / 3.0))
+print("two batches precision:", float(precision.result()))
+precision.reset_state()
+precision.update_state([0.0, 0.0], [0.9, 0.9])
+assert float(precision.result()) == 0.0
+print("after reset precision=0.0")
+```
+
+老师再追问第二个错因：为什么第二行不是 `(1+0)/2=0.5`？因为累计的是 TP/FP 两个计数，不是每批精确率；第一批 1 次正确预测，第二批 2 次错误预测，总体应是 1/3。第三行只评价新窗口，要先 `reset_state()`，否则会混入历史窗口。变式把第二批增加到 9 次误报，总体应为 1/10。保存每批计数、累计计数和首次误算，比只截一个漂亮指标更有价值。代码只改当前进程内指标状态，不创建模型文件，退出即可清理；若没有框架环境，仅手算应标为推演，不声称已经运行 Keras。
+
+### 本轮复跑的证据和边界
+
+2026-11-11 在独立的 Python 3.12.14、TensorFlow 2.21.0、Keras 3.15.1、NumPy 2.5.4 CPU 环境执行当前完整训练程序、`.keras` 保存重载比较、SavedModel 导出、预测、NaN 修复和上面的阈值批改。测试集 900 条得到 TP=122、FP=37、TN=688、FN=53，精确率约 0.7673、召回率约 0.6971；缺失过多、负延迟、错误率 8 均被拒绝。严格阈值例得到精确率 1/召回率 0.5，累计两批为 1/3，重置后为 0。这些是合成数据与 CPU 的当次证据，不是固定生产指标；不同版本与设备可出现数值差别，应按有限性、计数和容差验收。
+
+模型文件和导出目录真实生成在专用临时目录，但没有启动 TensorBoard、TensorFlow Serving、容器或网络接口，没有执行 GPU 和分布式实验。成功导出只证明该进程能生成制品，不证明目标服务版本已加载并正确处理业务请求。
 
 ## 独立通关：训练、推理、导出三种成功分别证明
 

@@ -948,7 +948,13 @@ Markdown runbook（文档形式的操作手册）
 ```bash
 df -h
 df -i
-du -xhd1 /var 2>/dev/null | sort -h | tail -20
+# GNU/Linux 的授权只读示例：保留失败，不把部分扫描误当完整清单。
+if timeout 30s du -xhd1 /var > disk-usage.txt 2> disk-usage-errors.txt; then
+  sort -h disk-usage.txt | tail -20
+else
+  scan_rc=$?
+  printf '扫描不完整，退出码=%s；先检查本地错误文件\n' "$scan_rc"
+fi
 journalctl --disk-usage
 ```
 
@@ -1186,7 +1192,7 @@ def main() -> int:
                     "",
                     f"- generated_at: {now}",
                     f"- execution_id: {execution_id}",
-                    f"- alertname: {alertname or 'unknown'}",
+                    "- alertname: unrecognized (raw name withheld)",
                     "- status: no matching runbook",
                     "",
                     "Escalate to human responder.",
@@ -1214,11 +1220,10 @@ def main() -> int:
         "",
         selected["recommendation"],
         "",
-        "## Raw Alert",
+        "## Evidence boundary",
         "",
-        "```json",
-        json.dumps(alert, ensure_ascii=False, indent=2),
-        "```",
+        "Only allowlisted metadata is included; raw alert fields are not exported.",
+        "This report recommends a runbook; it does not validate live state or authorize actions.",
     ]
 
     report_path.write_text("\n".join(lines), encoding="utf-8")
@@ -1250,6 +1255,14 @@ reports/HighErrorRate-<execution_id>-report.md
 上面尖括号是解释占位，不是要创建的字面文件名：每次运行生成新的UUID执行标识，不能再把同类告警报告覆盖成“最后一次成功”。脚本打印解析后的绝对路径；打开这次文件，核对execution_id、环境、L2、风险与runbook路径，手工打开对应手册。报告存在只证明已生成建议，不证明告警仍有效或操作已获批准。读写磁盘失败仍可能抛异常并非统一输入退出2，调用者需保留错误且停止，不能继续执行。这个实验只做到L2，不执行动作。
 
 这很重要，因为新手项目先要证明“选择正确、摘要清楚、风险可控”，再谈自动修复。
+
+### 老师纠错：建议报告为什么不原样附上告警 JSON
+
+原始事件可能多带一个 `api_token` 字段，也可能在未知告警名里藏一个 Markdown 图片链接。即使我们从不执行 Shell，把它们写进公开报告仍可能泄露秘密或误导阅读者。本示例只导出已校验的服务、环境、级别以及受控映射中的手册名；未知名称不直接渲染，报告仅写“无法识别”，保留执行编号以便授权人员回查本地输入。这是允许字段清单，不是声称自动识别并清除了所有敏感信息。
+
+请复制正常样例为 `alerts/report-boundary.json`，额外加上 `"api_token": "classroom-fake-secret-123"`，它只是虚构值，不能放真实令牌。运行应仍得到 L2 建议，但新报告不得出现 `api_token` 或该值；再把未知样例名称换成 `[课堂链接](https://example.invalid/)`，应退出 1、生成升级报告且不呈现原始链接。如果报告仍包含这些内容，说明运行的脚本没有应用字段收窄，先修脚本再上传。恢复正常样例后重新验证；清理只删这份新输入和它生成的具体 UUID 报告，保留基线。
+
+不要由此推断磁盘占用、主机身份、告警新鲜度已经验证：这个 L2 推荐器只验证选择手册所需字段，额外字段不会参与生产授权。真正执行前要按手册补齐资源 ID、数值范围、数据时间和权限契约。前面的磁盘扫描示例也保留错误文件，超时或权限不足不能用部分 `du` 输出证明完整目录已检查；该片段要求 GNU/Linux 的 timeout/du/sort，不是 Windows PowerShell 命令，错误文件含内部路径时也只能先本地审阅脱敏。
 
 ## GitHub Actions 手动 runbook 实验
 
@@ -1780,7 +1793,7 @@ Fencing token（隔离代次）是一种把“哪一代执行者仍有效”交�
 
 本文本地推荐器可以独立验证输入/输出契约；云平台、Actions、Ansible、Kubernetes和生产控制回路仍需各自授权环境演练。实际运行结果只按本文末尾验证记录说明，不把模拟写成生产经历。
 
-2026-10-12验证记录：本机Python3.14.5在自动回收的临时目录执行了本文完整推荐器，正常及重复输入均退出0且产生不同报告；未知/路径样名称退出1，数组、缺service、错误severity类型、缺手册和目录外路径退出2。共4份预期报告，夹具退出时清理。两个PowerShell块通过语法解析；没有连接云账号或运行远程Actions、主机变更、锁/审批/恢复平台。
+2026-10-12 历史验证记录针对当日推荐器版本：本机 Python 3.14.5 在自动回收的临时目录执行，正常及重复输入均退出 0 且产生不同报告；未知/路径样名称退出 1，数组、缺 service、错误 severity 类型、缺手册和目录外路径退出 2。共 4 份预期报告，夹具退出时清理；两个 PowerShell 块通过语法解析。2026-11-11 修订选择器后，作者和独立交叉审校重新运行当前选择器的 5 个正常/异常案例通过；这不等于重跑完整推荐器的全部历史用例，也不将当日记录追溯成新源码证据。两轮都没有连接云账号或运行远程 Actions、主机变更、锁/审批/恢复平台。
 
 ## 学习证据
 

@@ -807,6 +807,32 @@ print('recovered:', recovered[-1] < recovered[0])
 
 ## 独立通关：不靠满分截图证明模型有效
 
+### 老师批改：阈值更高，精确率就一定更高吗
+
+学生说：“把阈值从 0.8 提到 0.92，留下的都是高分，肯定更准。”这句话把模型排序当成真实答案了。我们拿一张只有三个窗口的验证题卡检查：A 的分数是 0.95，但事后确认正常；B 为 0.90、C 为 0.80，二者都是事故。规则明确为“分数大于等于阈值才提醒”，等号不能悄悄换掉。
+
+先手算再运行下面完整脚本，保存为 `threshold_feedback.py`；只用 Python 标准能力，没有依赖、文件读写、网络或真实通知。输入是老师编的已成熟标签，不是训练结果，也不代表任何模型的性能。
+
+```python
+rows = [("A", 0.95, 0), ("B", 0.90, 1), ("C", 0.80, 1)]
+positives = sum(label == 1 for _, _, label in rows)
+for threshold in (0.80, 0.92, 1.01):
+    selected = [row for row in rows if row[1] >= threshold]
+    tp = sum(label == 1 for _, _, label in selected)
+    fp = len(selected) - tp
+    fn = positives - tp
+    precision = tp / len(selected) if selected else None
+    recall = tp / positives if positives else None
+    print(f"threshold={threshold:.2f}, ids={[row[0] for row in selected]}, "
+          f"TP={tp}, FP={fp}, FN={fn}, precision={precision}, recall={recall}")
+```
+
+运行 `python threshold_feedback.py`。预期三行分别选 A/B/C、只选 A、什么也不选；对应精确率约 0.667、0、`None`，召回率为 1、0、0。这里 `None` 表示没有提醒，精确率的分母为零，不能宣称“没误报所以百分百准确”。`1.01` 只是明确构造“无人入选”的数学反例，不是推荐生产阈值。[官方精确率、召回率与零分母说明](https://developers.google.com/machine-learning/crash-course/classification/accuracy-precision-recall)。
+
+老师的反馈是：固定同一组分数，提高阈值不会新增被选窗口，召回率因此不会变高；精确率却取决于被保留和被去掉的样本是否真是事故，并无逐点上升保证。若你的结果不同，先查 `>=`、标签是否反了、TP/FP/FN 各自分母，不要先调整随机种子——这个脚本根本没有随机过程。
+
+现在交换 A 与 B 的标签，保留分数，重新预测结果再运行。你应能解释同一排序为什么会对应不同业务价值。最后提交两张题卡、两组输出与错题说明，退出脚本即可；不需要清理模型、容器或共享 Python。真实项目仍只能在验证集选阈值，不能反复看最终测试答案调到满意。面试官追问“那高分有何意义”，应回答它是需要评估和可能校准的模型排序信号，不是事实凭证，更不是自动修复授权。
+
 合上本文后独立完成，交付预测、实际结果、差异解释和下一轮修正。未安装依赖时先执行无依赖梯度实验；不能把未运行的分类报告写成实际成绩。
 
 1. **基础复现。** 运行分类实验，说明 160/112/48 和测试集 36/12 的样本分配，交付带标签顺序的混淆矩阵；再运行梯度实验，解释第一步梯度 -18、学习率 0.05 时权重从 1 到 1.9。判据是能从数据与更新式复算，不要求某份依赖得到百分百分类分数。

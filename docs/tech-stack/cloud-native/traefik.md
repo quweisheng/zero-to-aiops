@@ -465,7 +465,7 @@ http:
 用完全相同的 Host、Path、协议和方法复现：
 
 ```bash
-curl -vk --resolve aiops.example.com:443:127.0.0.1 \
+curl -v --resolve aiops.example.com:443:127.0.0.1 \
   https://aiops.example.com/api/v1/alerts
 ```
 
@@ -1639,7 +1639,32 @@ mkdir traefik-lab || exit 1
 cd traefik-lab || exit 1
 ```
 
-把上文“Docker Compose 完整基础配置”保存为 `compose.yaml`。还要执行 `docker ps -a --filter label=com.docker.compose.project=traefik-lab` 和 `docker network ls --filter name=traefik-lab-proxy`：如果发现同名旧项目容器或网络，停止，不接管。目录不同不代表 Compose 项目不同，因为这里固定了 project 名。不要把生产 Docker socket、域名或密码复制进这个公开实验。
+把上文“Docker Compose 完整基础配置”保存为 `compose.yaml`。这里的 `name: traefik-lab` 仍可被命令行 `-p` 或 `COMPOSE_PROJECT_NAME` 覆盖，不能看见 name 就认定最终项目身份。本课禁止使用这些覆盖项，也不引入其他 Compose 文件；若已有环境覆盖，先查来源并在独立课堂终端按需处理，不能悄悄清除用户配置。`.env` 里的覆盖也须核对最终渲染结果。不要把生产 Docker socket、域名或密码复制进这个公开实验。
+
+先在 PowerShell 定义身份门禁，后续始终保留同一终端：
+
+```powershell
+function Assert-TraefikLessonProject {
+    foreach ($name in @('COMPOSE_PROJECT_NAME', 'COMPOSE_FILE')) {
+        if (-not [string]::IsNullOrEmpty([Environment]::GetEnvironmentVariable($name))) {
+            throw "本课不允许 $name 覆盖，先核对来源，暂不操作任何项目"
+        }
+    }
+    $rendered = docker compose config --format json
+    if ($LASTEXITCODE -ne 0) { throw '渲染失败，无法确认项目身份' }
+    $model = ($rendered -join "`n") | ConvertFrom-Json -ErrorAction Stop
+    if ($model.name -isnot [string] -or $model.name -cne 'traefik-lab' -or
+        $model.networks.proxy.name -cne 'traefik-lab-proxy') {
+        throw '最终项目或网络名不是本课目标，停止'
+    }
+    $services = @($model.services.PSObject.Properties.Name | Sort-Object)
+    if (($services -join ',') -cne 'traefik,whoami') { throw '出现非本课服务，停止' }
+    $model # 人工继续核对端口、网络和挂载，不能只凭项目名放行
+}
+Assert-TraefikLessonProject
+```
+
+读完渲染结果，确认两服务都连接 proxy、网络名是 `traefik-lab-proxy`、只有 Traefik 挂载本机 Docker socket，且两个发布端口仍绑定 `127.0.0.1`，没有其他目录/卷挂载。再执行 `docker ps -a --filter label=com.docker.compose.project=traefik-lab` 和 `docker network ls --filter name=traefik-lab-proxy`：任一命令失败、发现同名旧项目或网络、或无法确认归属就停止，不接管。目录不同不代表项目不同。Bash 使用者先检查 `printenv COMPOSE_PROJECT_NAME COMPOSE_FILE`（无变量时会非零），再逐项人工核对 `docker compose config` 的相同身份与挂载要求；不需要为此安装 PowerShell。
 
 ### 第 2 步：只做静态检查
 
@@ -1689,7 +1714,25 @@ curl http://127.0.0.1:8080/api/http/services
 PowerShell：
 
 ```powershell
-curl.exe -v -H "Host: whoami.localhost" http://127.0.0.1:8088/
+function Wait-TraefikResponse {
+    param([string]$RequestHost = 'whoami.localhost', [int]$ExpectedCode = 200)
+    if ($ExpectedCode -notin 200,404,502) { throw '课堂只接受明确的 200/404/502 预期' }
+    $lastEvidence = '尚未请求'
+    for ($attempt = 1; $attempt -le 10; $attempt++) {
+        $actualCode = curl.exe -sS --connect-timeout 2 --max-time 5 -o NUL -w '%{http_code}' -H "Host: $RequestHost" http://127.0.0.1:8088/
+        $curlExit = $LASTEXITCODE
+        $lastEvidence = "attempt=$attempt curl_exit=$curlExit http=$actualCode"
+        if ($curlExit -eq 0 -and "$actualCode" -ceq "$ExpectedCode") {
+            $lastEvidence
+            return
+        }
+        if ($attempt -lt 10) { Start-Sleep -Seconds 2 }
+    }
+    throw "未在有限观察窗口得到 HTTP $ExpectedCode；$lastEvidence；保留状态查 Provider，不改更多变量"
+}
+Wait-TraefikResponse -ExpectedCode 200
+curl.exe -fsS --max-time 5 -H "Host: whoami.localhost" http://127.0.0.1:8088/
+if ($LASTEXITCODE -ne 0) { throw '回显正文读取失败，记录这次变化' }
 ```
 
 Bash：
@@ -1707,6 +1750,8 @@ curl -i -H 'Host: wrong.localhost' http://127.0.0.1:8088/
 ```
 
 预期：404。这个 404 是“没有 Router rule 匹配”的教学结果，不是 whoami 挂了。
+
+PowerShell 还可执行 `Wait-TraefikResponse -RequestHost wrong.localhost -ExpectedCode 404`，让预期错误也成为严格断言。这不是把所有异常当作通过：网络断开时 curl 非零、HTTP 为 `000`，即使目标是 404 也不算命中；收到 200 则说明负向用例并未成立。函数每次最多等 5 秒、最多 10 次，中间最多等待 18 秒，不无限循环。它只证明该请求在某次观察得到预期状态；是否来自正确 Router、有没有落到预期 whoami，仍需前后的 API 和日志交叉确认。后续保持同一 PowerShell 窗口以保留此函数。
 
 ### 第 6 步：用日志闭环
 
@@ -1746,7 +1791,7 @@ docker compose logs traefik --since 5m
 docker compose down --remove-orphans
 ```
 
-下一节需要本实验继续运行，暂时跳过清理。两个实验完成后确认只删除当前 Compose project 的容器和网络；本实验没有声明持久卷。镜像缓存仍保留，是否删除由使用者自行决定。
+下一节需要本实验继续运行，暂时跳过清理。两个实验完成后，清理前在同一目录重新运行 `Assert-TraefikLessonProject`（Bash 重做上述环境与渲染人工核对），并检查 `docker compose ps -a` 与该项目标签下的容器，确认均为本次创建；任何未知 orphan（配置外的同项目容器）都先停止调查，不直接 `--remove-orphans`。不得临时加 `-p`、换目录、改环境或配置后沿用旧核对。本实验没有声明持久卷，镜像缓存仍保留。
 
 ## 故障注入实验：把后端端口写错，制造可恢复的 502
 
@@ -1771,7 +1816,8 @@ docker compose down --remove-orphans
 PowerShell：
 
 ```powershell
-Copy-Item compose.yaml compose.good.yaml
+if (Test-Path -LiteralPath compose.good.yaml) { throw '基线副本已存在；先核实来源，不覆盖' }
+Copy-Item compose.yaml compose.good.yaml -ErrorAction Stop
 ```
 
 Bash：
@@ -1848,11 +1894,16 @@ same Host request（保持相同域名的请求）
 PowerShell：
 
 ```powershell
-Copy-Item -Force compose.good.yaml compose.yaml
+Copy-Item -Force compose.good.yaml compose.yaml -ErrorAction Stop
 docker compose up -d --force-recreate whoami
 if ($LASTEXITCODE -ne 0) { throw '恢复声明未应用，保留现场' }
-curl.exe -f -i --max-time 5 -H "Host: whoami.localhost" http://127.0.0.1:8088/
-if ($LASTEXITCODE -ne 0) { throw '恢复 HTTP 未通过，先检查 Provider 收敛，不清理' }
+Wait-TraefikResponse -ExpectedCode 200
+$runtimeServices = Invoke-RestMethod http://127.0.0.1:8080/api/http/services -TimeoutSec 5 -ErrorAction Stop
+$whoamiRuntime = @($runtimeServices | Where-Object name -eq 'whoami@docker')
+if ($whoamiRuntime.Count -ne 1 -or $whoamiRuntime[0].loadBalancer.servers.Count -ne 1 -or
+    $whoamiRuntime[0].loadBalancer.servers[0].url -notmatch '^http://[^/]+:80/?$') {
+    throw '运行时服务未恢复到唯一容器的 80 端口；保留 API/Provider 证据'
+}
 ```
 
 Bash：
@@ -1866,6 +1917,8 @@ curl -f -i --max-time 5 -H 'Host: whoami.localhost' http://127.0.0.1:8088/ || ex
 预期：同一请求恢复 200；API 中 Service 回到端口 80；新日志不再出现 9999 连接失败。
 
 ### 第 7 步：清理
+
+先重复基础实验的项目身份门禁与容器归属检查，确认恢复后的 compose.yaml、最终 name、网络和本次资源一致；未知对象或覆盖变量存在时不执行下面命令。
 
 ```bash
 docker compose down --remove-orphans
@@ -1982,12 +2035,14 @@ client total（客户端总耗时）
 
 ```bash
 dig +short alerts.example.com
-curl -vk https://alerts.example.com/
+curl -v https://alerts.example.com/
 openssl s_client -connect alerts.example.com:443 \
   -servername alerts.example.com -showcerts </dev/null
 ```
 
 对齐：DNS -> LB -> EntryPoint -> SNI -> Router -> TLS store/Secret/resolver -> 证书链。常见错误包括 AAAA 指向旧入口、Router 没启用 TLS、Secret namespace/引用错误、默认自签证书、后端 TLS SNI 错和 ACME rate limit。
+
+默认保留证书校验。`curl -k` 会跳过服务器证书检查，只能在已授权隔离诊断中帮助区分“路由可达”和“身份不可信”，不能作为恢复验收，更不能带真实凭据去测试未知服务器。学习自建 CA 时，把正确 CA 用 `--cacert` 指定给客户端并维持名称校验；浏览器能打开或 `-k` 得到 200 都不证明 TLS 安全恢复。
 
 ## Provider/配置未生效排障
 

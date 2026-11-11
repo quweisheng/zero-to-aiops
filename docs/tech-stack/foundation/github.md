@@ -60,6 +60,8 @@ GitHub 是基于 Git 的云端协作平台：它托管仓库，也提供 Issues�
 
 Git 命令的内部机制已经在 Git 篇讲过。这一篇会使用一些 Git 命令，但重点不是重新讲对象模型，而是讲 GitHub 如何把 Git 仓库变成协作和展示平台。
 
+先核对项目版本：本知识库现在是 React/Vite 站点，`package.json` 中的 `docs:build` 只是调用 `build` 的兼容别名，并不表示仍在使用 VitePress。下文出现 VitePress 的示例，是独立历史练习站的示范；不据此在当前仓库创建旧配置或上传旧产物目录。学习 GitHub 时请读自己项目的构建脚本与部署工作流，再决定命令、运行时和产物路径。老师会让你指出三项具体证据，而不是凭文章里出现某个工具名就猜当前架构。
+
 ## 官方知识地图
 
 GitHub Docs 可以按这棵树理解：
@@ -523,7 +525,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
       - name: Install dependencies
         run: npm ci
@@ -531,6 +533,8 @@ jobs:
       - name: Build docs
         run: npm run docs:build
 ```
+
+这里选择 Node.js 22 作为示例，不代表它永远适用于所有依赖。2026 年 11 月核对时 Node.js 20 已结束支持；实际应选官方仍支持且满足项目 `engines` 约束的版本，本地与 CI 对齐并提交锁文件。动作的 `@v4` 也是示例版本标签，不是“最新”承诺，生产按动作兼容信息审查并固定完整提交号。[Node.js 发布状态](https://nodejs.org/en/about/previous-releases)
 
 这个 workflow 的作用：
 
@@ -542,7 +546,7 @@ jobs:
 
 GitHub Pages 用来发布静态网站。
 
-对这个知识库来说，Pages 可以发布 VitePress 文档站：
+对独立 VitePress 练习项目，Pages 可以发布其构建出的静态站点；下面不是当前 React/Vite 知识库的构建架构：
 
 ```text
 Markdown docs（文档源码）
@@ -955,7 +959,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
       - run: npm ci
       - run: npm run docs:build
 ```
@@ -1231,7 +1235,8 @@ jobs:
       - name: Validate threshold
         shell: bash
         run: |
-          value=$(tr -d '\r\n' < threshold.txt)
+          value=$(cat threshold.txt)
+          value=${value%$'\r'} # 允许 Windows 行尾的最后一个回车，不拼接文件中间的换行
           if [[ ! "$value" =~ ^[0-9]{1,2}$ ]]; then
             echo 'threshold must contain one or two digits'
             exit 1
@@ -1244,6 +1249,8 @@ jobs:
 ```
 
 `permissions: contents: read` 只给读取代码权限；`exit 1` 让失败成为可被平台识别的退出状态；范围判断是业务约束，不是 GitHub 内置规则。`checkout@v4` 是本课示例主版本标签，不是宣称最新版本；生产按官方兼容信息升级，并在审查后固定完整提交 SHA（提交标识）。
+
+`$(cat threshold.txt)` 把文件读入变量，Bash 会去掉末尾换行；下一行只移除末尾一个回车以兼容常见 Windows 行尾，中间的换行仍保留。因此这里接受一个数值及末尾换行，而不是严格的原始字节格式校验。老师给一个故意的反例：文件第一行 `1`、第二行 `2`，必须在数字格式检查处失败，不能把所有回车换行删除后误当作 `12` 通过。测试除了正常的 `5`、越界的 `99`，还应加这个多行输入；它检查的是“输入有没有被清洗成另一种合法值”。[Bash 命令替换规则](https://www.gnu.org/software/bash/manual/html_node/Command-Substitution.html)
 
 3. 打开 Actions（工作流页面），找到此次提交对应的运行，确认 `validate-rule` 成功、日志有 `validated threshold=5`。记录提交号，不只截一张绿色图标。
 4. 创建分支 `lab/invalid-threshold`，把文件改为 `99`，发起 PR 指向默认分支。预期检查失败，日志明确指出范围应为 1 到 20。不要添加 `continue-on-error` 绕过实验故障。

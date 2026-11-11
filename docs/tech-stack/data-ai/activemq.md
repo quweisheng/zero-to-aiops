@@ -259,7 +259,7 @@ Artemis 使用自己的 Journal、Bindings Journal、Paging 和 Large Message �
 Prefetch 让 Broker 预先把多条消息推给 Consumer，减少往返、提高吞吐。但 Prefetch 太大时：
 
 - 消息集中到慢消费者。
-- Broker 队列看似变少，实际变成 Consumer 未确认。
+- 等待分发的消息减少，Consumer 未确认消息可能增多；Classic 的 JMX `QueueSize` 本身仍包含已分发但未确认的消息，不能把它误读成“只在 Broker 等待分发”。
 - 故障后重投批量变大。
 - 公平性下降。
 
@@ -902,7 +902,11 @@ Set-Location ..
 
 ### Queue Size 不高但内存很高
 
-消息可能在 Consumer Prefetch/Inflight、Topic Subscription、Cursor 或大消息中。查看 Inflight、Subscription、Temp Store 和 Heap。
+先核对采集的指标是什么。Classic JMX `QueueSize` 统计尚未确认的消息，包含已分发未确认的 `InFlightCount`；不能解释成“消息预取到客户端就从 QueueSize 消失”。数量不高而内存高，还可能是少量大消息、Topic 订阅缓存、Cursor、连接或其他堆对象。客户端缓存压力与 Broker 堆压力也分开取证。[官方队列指标定义](https://activemq.apache.org/components/classic/documentation/how-do-i-find-the-size-of-a-queue)
+
+老师给你一张合成状态卡：某专用 Queue 有 100 条未确认消息，其中 60 条已分发但未确认，没有过期、重投和并发发布。先预测，再对照：`QueueSize=100`、`InFlightCount=60`，不是 QueueSize=40；把两者相加成 160 又重复计数了。若其中 20 条完成确认，下一张稳定快照是 QueueSize=80、Inflight=40。若只是把 10 条从待分发转为未确认，则是 QueueSize 仍 100、Inflight=70。
+
+这项纸面反例只验证两个集合的包含关系。恢复初始卡后再独立换成 70/25 做同样推演，清理只移除笔记。真实监控值可能来自不同采样时刻、累计计数或导出器换名，先核对原始 MBean、对象、时间与聚合定义，再作减法。面试中“队列降了”必须说明降的是待分发、未确认总量，还是业务未完成数，三者不能互换。
 
 ### 消息重复
 
@@ -1200,7 +1204,7 @@ ActiveMQ Classic 与 Apache Artemis 是两个独立 Apache 顶级项目，但有
 
 继续追问：
 
-- Queue Size 低为什么仍有大量未处理？
+- QueueSize 与 InFlightCount 是相加关系还是包含关系？消息少为什么仍可能内存高？
 - Prefetch 为 1 的代价是什么？
 - 多消费者顺序如何保证？
 

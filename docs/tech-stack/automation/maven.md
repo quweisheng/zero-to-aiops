@@ -1521,6 +1521,24 @@ Maven 3.9.16 运行需要 JDK 8+，但项目本身常要求 JDK 17 或 21。生�
 C:\maven\apache-maven-3.9.16
 ```
 
+先别跳过第 3 步。SHA-512 是由文件内容算出的指纹，不是压缩包名称。假设 ZIP 和官方同名 `.sha512` 文件都保存在当前用户的 Downloads（下载）目录，在解压前执行下面的本地比较；若浏览器另存到其他目录，只改这两个精确路径，不用通配符选“看起来差不多”的包：
+
+```powershell
+$mavenArchive = Join-Path $env:USERPROFILE 'Downloads\apache-maven-3.9.16-bin.zip'
+$mavenChecksumFile = "$mavenArchive.sha512"
+$checksumText = Get-Content -LiteralPath $mavenChecksumFile -Raw -ErrorAction Stop
+$checksumMatches = [regex]::Matches($checksumText, '(?i)\b[0-9a-f]{128}\b')
+if ($checksumMatches.Count -ne 1) { throw '校验文件不是唯一一个 SHA-512 值，先检查下载内容' }
+$expectedChecksum = $checksumMatches[0].Value
+$actualChecksum = (Get-FileHash -LiteralPath $mavenArchive -Algorithm SHA512 -ErrorAction Stop).Hash
+if ($actualChecksum -ne $expectedChecksum) { throw '下载内容与官方校验值不同，停止解压/执行' }
+'SHA512 matched; signature not verified by this command'
+```
+
+最后一句的意思是“摘要相同，但这条命令没有验证签名”。`.asc` 的验证还需要可信的签名工具及核对 Apache 发布者公钥指纹，按 [Apache 发布签名验证说明](https://www.apache.org/info/verification.html) 单独完成，不能把下载到一份 KEYS 文件等同于已确认其来源。固定历史版本若不在当前下载页，可从官方发布历史进入归档入口；不要换未知网盘，也不要悄悄用另一个版本继续记录为 3.9.16。
+
+老师的反例题：攻击者同时换了 ZIP 和旁边的 SHA-512 文件，两者仍能相同，所以“摘要一致”不独立证明发布者可信。另一种普通失败是把网页错误页存成 `.sha512`：本例应先因没有唯一的 128 位十六进制摘要而停止，而不是继续解压。记录你实际完成的是下载校验还是另有签名验证，二者分开留证。
+
 5. 配置：
 
 ```powershell
@@ -1781,6 +1799,17 @@ mirrorOf=* 指向不可达地址
 
 在项目根目录新建 `settings-broken.xml`：
 
+```powershell
+foreach ($faultTarget in @('settings-broken.xml', '.m2-fault', '.m2-recovered')) {
+  if (Test-Path -LiteralPath (Join-Path $PWD.Path $faultTarget)) {
+    throw "实验目标已存在：$faultTarget；先停止，不复用未知缓存"
+  }
+}
+if (Get-NetTCPConnection -State Listen -LocalPort 9 -ErrorAction SilentlyContinue) {
+  throw '本机 9 端口已有监听者，先选择并核实新的实验端口'
+}
+```
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <settings xmlns="http://maven.apache.org/SETTINGS/1.2.0">
@@ -1880,12 +1909,23 @@ if ($LASTEXITCODE -ne 0) { throw "模型可建但完整构建未恢复" }
 先确认当前目录是实验项目，然后：
 
 ```powershell
-Remove-Item -LiteralPath .\settings-broken.xml
-Remove-Item -LiteralPath .\.m2-fault -Recurse
-Remove-Item -LiteralPath .\.m2-recovered -Recurse
+$mavenExpectedProject = [IO.Path]::GetFullPath((Join-Path $mavenLabPath 'hello-maven'))
+$mavenCurrentProject = (Resolve-Path -LiteralPath . -ErrorAction Stop).Path
+if ($mavenCurrentProject -ne $mavenExpectedProject) { throw '不在本课创建的 hello-maven 中，停止清理' }
+foreach ($faultTarget in @('settings-broken.xml', '.m2-fault', '.m2-recovered')) {
+  $faultPath = Join-Path $mavenCurrentProject $faultTarget
+  if (-not (Test-Path -LiteralPath $faultPath)) { continue }
+  $faultItem = Get-Item -LiteralPath $faultPath -Force -ErrorAction Stop
+  if ($faultItem.Attributes -band [IO.FileAttributes]::ReparsePoint) { throw '目标是链接，停止并人工检查' }
+  $faultItem | Select-Object FullName, PSIsContainer
+  # 只清理已确认由本课创建的三个精确目标；先看上方绝对路径。
+  Remove-Item -LiteralPath $faultPath -Recurse -Confirm -ErrorAction Stop
+}
 ```
 
 这些目标都是本实验在项目目录内创建的精确路径。执行前仍应先用 `Resolve-Path` 或 `Get-Item` 验证；不要把路径替换成用户的 `.m2` 根目录。
+
+清理脚本依赖最初的 `$mavenLabPath`，新开终端忘了它时应停止并重新核对实际实验根目录，不为通过比较随手填当前目录。`-Confirm` 会逐个询问是否删除，确认前核对显示的绝对路径；这不是把用户仓库移入回收站，删除后恢复依赖你另存的实验文件或重新构建。目录中若被其他人放入新文件或链接，也先人工检查归属，不扩大递归目标。
 
 ### 如果实验没有按预期失败
 

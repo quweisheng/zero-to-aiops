@@ -841,7 +841,7 @@ def evaluate(
     model: nn.Module,
     data_loader: DataLoader,
     loss_function: nn.Module,
-) -> dict[str, float | int]:
+) -> dict[str, float | int | None]:
     model.eval()
     total_loss = 0.0
     total = 0
@@ -877,8 +877,8 @@ def evaluate(
     if total == 0:
         raise ValueError("evaluation loader must not be empty")
     accuracy = (tp + tn) / total
-    precision = tp / max(tp + fp, 1)
-    recall = tp / max(tp + fn, 1)
+    precision = tp / (tp + fp) if tp + fp else None
+    recall = tp / (tp + fn) if tp + fn else None
     return {
         "loss": total_loss / total,
         "accuracy": accuracy,
@@ -1022,6 +1022,8 @@ if __name__ == "__main__":
 
 `BCEWithLogitsLoss` 把 Sigmoid 和二元交叉熵合在一起，数值上通常比“先手工 Sigmoid，再算损失”更稳定。因此训练时把原始 `logits` 交给 loss，只有评估概率时才调用 `torch.sigmoid()`。
 
+评估代码还区分“零分”和“无法定义”：若一个高风险预测都没有，精确率分母 `tp+fp` 是零，返回 `None`，保存成 JSON 后是 `null`；若测试集没有真实高风险样本，召回率分母 `tp+fn` 是零，也返回 `None`。这不是满分，也不是模型已证实为零分，要连同 TP/FP/TN/FN 披露并检查该切片是否具备评价条件。不要用把分母强行改为 1 的方式悄悄掩盖没有评价样本的问题。
+
 ### 运行和验收
 
 ```powershell
@@ -1072,7 +1074,7 @@ model_state.pt=4293 bytes
 metadata.json=595 bytes
 ```
 
-这是 2026-08-13 版本的历史实跑记录。本次终审补充了拒绝覆盖目录、有限值检查和验收后输出元数据等保护，未重新运行训练；不能把旧输出当成本次修改后代码的新实测。满分来自刻意可分的合成数据，不能外推到真实告警数据，更不能证明 GPU、分布式或生产性能。
+上面保留的是 2026-08-13 版本的历史实跑记录。2026-11-11 在新的隔离环境以 Python 3.12.14、PyTorch 2.13.0+cpu、NumPy 2.5.4 重新执行了当前正文的完整训练、保存、重载、预测与 NaN 拒绝/回放程序：测试 TP=294、TN=306、FP=FN=0，重载最大差异为 0，预测概率约 0.999119。另行验证评估 NaN、标签 `[N,1]`、空加载器均明确拒绝，以及后文状态快照反例。测试工具将正文代码装入独立模块并在新临时目录运行，不是重用历史制品；没有启动 GPU 或网络推理服务。满分仍来自刻意可分的合成数据，不能外推到真实告警数据，更不能证明分布式或生产性能。
 
 ### 如果没有成功，先查这些
 
@@ -1235,7 +1237,7 @@ model_version= 1
 probability= 一个 0 到 1 之间的有限数字
 ```
 
-本文同一隔离环境的实际输出是：
+以下是 2026-08-13 同一隔离环境的历史实际输出，并非本次修改后重新运行的结果：
 
 ```text
 rejected_dirty_sample= features contain NaN or infinity
@@ -2385,6 +2387,39 @@ Tensor 的 shape（形状）、stride（步幅）与 storage（底层存储）�
 
 30 秒解释张量、自动微分与训练循环；3 分钟用本篇风险分类实验走数据、模型、损失、优化、验证与发布，接着用单参数例子解释为何反向传播不等于更新。事故题“GPU 忙但效果变差”，先查标签、数据划分、单位、梯度与模式，再查吞吐；性能提升不能代替质量验证。
 
+## 老师批改：保存了最佳状态，为什么后来它也跟着变
+
+学生把 `best = model.state_dict()` 放在验证损失下降的分支里，以为获得了当时权重的独立照片。老师先让他预测：下一次更新模型参数后，`best` 里的数会不会变？会，因为 [PyTorch 2.13 的 state_dict 实现说明](https://github.com/pytorch/pytorch/blob/v2.13.0/torch/nn/modules/module.py) 明确描述它是浅拷贝，其中张量仍引用模块的参数和 Buffer。字典是新对象，不代表字典里的每块张量存储也被复制。
+
+在本篇已经装好 Torch 的 CPU 环境，将下列完整代码保存成 `snapshot_feedback.py`，运行 `.\.venv\Scripts\python.exe snapshot_feedback.py`。不训练大模型、不写权重文件：
+
+```python
+import torch
+from torch import nn
+
+model = nn.Linear(1, 1, bias=False)
+with torch.no_grad():
+    model.weight.fill_(2.0)
+
+reference = model.state_dict()
+detached = {name: value.detach() for name, value in reference.items()}
+snapshot = {name: value.detach().cpu().clone() for name, value in reference.items()}
+with torch.no_grad():
+    model.weight.add_(1.0)  # 模拟后续一次参数更新
+
+assert reference["weight"].item() == 3.0
+assert detached["weight"].item() == 3.0
+assert snapshot["weight"].item() == 2.0
+print("reference=3.0 detached=3.0 snapshot=2.0")
+model.load_state_dict(snapshot)
+assert model.weight.item() == 2.0
+print("recovered weight=2.0")
+```
+
+只写 `detach()` 仍然错，因为它切断梯度关系，不切断存储共享；在本题 CPU 上加 `.cpu()` 也可能还是原张量，不自动形成照片。`clone()` 才让这份普通张量快照拥有独立数据，主实验的 `best_state` 因此逐项使用 `detach().cpu().clone()`。预期两行输出如代码所示，若第一轮结果不同，先检查初值、原地更新及是否遗漏 `clone`，不要改断言来迎合输出。
+
+变式：连续把模型加两次 1，引用应是 4，快照仍是 2；重新加载后再跑一条固定输入，输出应恢复。追问“这个方法就是完整可恢复训练检查点吗”：不是，它没有保存优化器、调度器、随机状态和数据进度；对有自定义额外状态的 Module，也不能假定每个状态值都能按本例当普通 Tensor 处理。课堂退出后无持久产物；提交预测、实际输出和错因笔记，不把它写成文件断电恢复或 GPU 验证。
+
 ## 独立通关：梯度、评估和制品分别举证
 
 先独立完成，再对照判据。任何一关不满足，回到对应实验返工；完成阅读和达到字数都不是通过证据。
@@ -2443,8 +2478,8 @@ README 至少记录：
 本文的正式验收分开记录：
 
 - 静态事实：以 PyTorch 官方文档、教程、release 和源码页面交叉核对。
-- 基础实验：只在本文记录的 Windows、Python 与 CPU Wheel 环境运行。
-- 故障实验：只验证 NaN 输入在模型前被拒绝并能以干净样本回放。
+- 基础实验：仅在本文记录的 Windows、Python 与 CPU Wheel 环境运行；历史与 2026-11-11 复跑环境分别列出。
+- 故障实验：验证 NaN 输入拒绝并以干净样本回放，另验证评估输入 NaN、标签形状错误、空加载器，以及内存快照与引用的差别；不代表断电恢复。
 - 未验证：本文不声称在本机跑通 CUDA、MPS、ROCm、AMP、`torch.compile`、DDP、FSDP2、TP、PP、DCP 或生产推理集群。
 
 真实生产环境仍要按目标硬件、驱动、数据、网络、存储、框架组合和安全要求重新压测、演练和审批。

@@ -30,7 +30,7 @@
 
 ```text
 Apache Spark（分布式数据处理引擎）
-  -> API：PySpark、Scala、Java、R（不同语言的编程接口）
+  -> API：PySpark、Scala、Java、R（不同语言的编程接口；SparkR 已标弃用，存量迁移须单独评估）
   -> RDD（弹性分布式数据集）、DataFrame（带列结构的数据表）、Dataset（类型化数据集）
   -> Driver（驱动进程）、DAG Scheduler（阶段调度器）、Task Scheduler（任务调度器）、Executor（执行进程）
   -> Logical Plan（逻辑计划）、Catalyst（结构化查询优化器）、Physical Plan（物理计划）
@@ -143,10 +143,12 @@ Dataset 主要在 Scala/Java 提供编译期类型能力。PySpark 常用 DataFr
 
 ## Narrow 与 Wide Dependency
 
-- Narrow Dependency：父 Partition 通常只被少量子 Partition 使用，例如 `map`、多数 `filter`。
+- Narrow Dependency：从子分区往回看，它只依赖少量确定的父分区，例如普通 `map`、`filter` 的对应分区，可以沿依赖连续处理。
 - Wide Dependency：多个父 Partition 的数据要重分布到多个子 Partition，例如 `groupByKey`、`join`、`repartition`。
 
 Wide Dependency 通常形成 Shuffle 和新 Stage，是网络、磁盘和倾斜的重点。
+
+这里的方向不要背反。[官方 NarrowDependency 定义](https://spark.apache.org/docs/4.2.0/api/scala/org/apache/spark/NarrowDependency.html)是在问“这个子分区需要哪些父分区”，不是笼统数一份父数据被几个地方引用。老师让你把两个父分区各自过滤：两份过滤互不等对方；再改成按同一服务汇总，该服务的记录可能来自两份父输入，就需要按键交换或利用已有兼容分布。判断依据是实际依赖与执行计划，不是方法名里有没有 `By`。
 
 ## Catalyst、Tungsten 与 AQE
 
@@ -231,16 +233,22 @@ from pyspark.sql import functions as F
 spark = (
     SparkSession.builder.appName("aiops-alert-summary")
     .config("spark.sql.session.timeZone", "UTC")      # 固定课堂时间解释，避免机器时区差异
+    .config("spark.sql.caseSensitive", "true")         # 本课列名大小写也属于输入合同
     .getOrCreate()
 )
 
 alerts = (
     spark.read
     .option("header", True)                         # 第一行是列名
+    .option("enforceSchema", False)                  # 核对表头位置，不忽略错列名
+    .option("mode", "FAILFAST")                      # 解析器认定的坏记录使读取失败
     .schema("service_name STRING, severity STRING, event_time STRING")
     .csv("/opt/spark/work-dir/alerts.csv")
     .withColumn("parsed_time", F.try_to_timestamp(F.col("event_time")))
 )
+
+if alerts.limit(1).count() == 0:
+    raise ValueError("empty input: refuse to publish an unverified empty report")
 
 invalid = (
     F.col("service_name").isNull() | (F.trim(F.col("service_name")) == "")
@@ -271,6 +279,10 @@ spark.stop()
 ```
 
 这里的 Schema 是列名与类型约定，原始时间先保留字符串，`try_to_timestamp` 尝试解析，失败给出空值以便质量门禁集中处理。`isNull` 显式检查空值，避免 SQL 三值逻辑中的未知值悄悄绕过过滤；`isin` 限定本课允许的两种级别，生产名单由业务合同定义。统一使用 UTC，即协调世界时，样本没有时区后缀时按该会话时区解释，不把本地时间与统一时间混算。
+
+再问一句：“空文件里没有坏行，是不是就能发布？”不能由此推出。脚本先取最多一行确认本课输入非空，再统计坏行；合法输入全部是 warning 时，严重告警汇总仍可以为空，因为“没有严重告警”和“没有收到输入”是两件事。生产可能允许真正零事件的批次，但必须由来源清单、批次结束标志与预期数量证明，不能把采集断流当作零故障。
+
+`enforceSchema=false` 的含义也容易读反：它不表示放弃校验，而是在 `header=true` 时按列位置核对表头；配合本课大小写设置，错列名或列顺序不能悄悄套入固定结构。`FAILFAST` 只覆盖读取器认定的解析错误，不能代替业务字段校验；CSV 少列、多列等情况的处理还受解析规则影响，不宣称这三项设置证明来源完整或任意 CSV 都合法。按[官方 CSV 选项](https://spark.apache.org/docs/4.2.0/sql-data-sources-csv.html)核对，再用自己的坏输入测试。多次 Action 可能重新读取文件，本课运行期间不得修改 CSV；生产应绑定不可变输入版本。
 
 ## Spark SQL 示例
 
@@ -386,6 +398,8 @@ inventory-api,BROKEN,not-a-time
 记录退出码、Driver 日志和坏数据数量。修复可以是隔离坏行、修正上游或显式 Schema 加质量规则；本实验直接删除坏行后重跑。
 
 验证输出恢复且结果仍为 `order-api=2`。生产不能为了“让作业绿”直接吞掉所有坏行，应记录 quarantine 路径、数据质量指标和告警。
+
+再做一个独立反例：先保存当前三行 CSV 的个人副本，只保留原表头重跑，预期出现 `empty input` 并非零退出，旧 output 不应被这次运行覆盖。恢复完整三行后再次成功。另在副本里交换两个表头名字但不移动正文列，预期读取/表头校验失败，而不是凭位置继续统计；测试完恢复原表头。每次都同时记录退出码与旧结果摘要，不能只记录目录还在。
 
 ### 清理
 

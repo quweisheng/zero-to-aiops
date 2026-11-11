@@ -1,27 +1,13 @@
 [
   {
     "article": "security-compliance/mlps.md",
-    "crossReview": {
-      "reviewer": "foundation-frontend",
-      "reviewedAt": "2026-10-12",
-      "articleSha256": "6f079d00eb97578ea73ea4dda482ab7e2976b67bb0d1d4881db1138583369be5",
-      "result": "pass",
-      "findings": [
-        "全文复核。网信办修正法全文核实第二十三条等级保护及不少于六个月网络日志、第二十七条应急义务，文章没有沿用旧条号或把自查当正式测评。五等级按侵害客体区分，云平台报告和租户责任不混淆。",
-        "正文Save-LabEvidence函数实际执行，用内存输出替换Out-File避免采集本机敏感信息；正常、模拟无权限、后续正常分别collected/failed/collected，失败未抹成成功。全部PowerShell段语法解析通过；目录、批次GUID、哈希清单自引用/来源真实性和脱敏再摘要边界合理。",
-        "五关覆盖新供应商边界、90/120=75%和90/150=60%、采集失败、同改文件清单的反例、调岗新连接/存量会话/绕过路径。未执行真实本机证据采集或正式测评，Linux/Kubernetes控制有效性亦未运行。"
-      ]
-    },
-    "writer": "systems",
-    "reviewedAt": "2026-10-12",
+    "writer": "root-refresh-2026-11-11",
+    "reviewedAt": "2026-11-11",
     "initialFindings": [
-      "采集脚本部分PowerShell命令失败后仍生成文件与哈希，需人工才能发现缺口。",
-      "WAF/IAM等前置术语与平台命令混入零基础路线；缺技术专属独立迁移判据。"
+      "基础采集强迫三发现；目录与哈希生成失败可能非终止；管道枚举可能含生成中的清单。"
     ],
     "changes": [
-      "补分层路线、准备入口和安全工具类别释义，核对修正法和现行定级/基本要求入口。",
-      "采集函数逐项捕获终止与非终止错误，另存状态/原因，不把空文件计成功。",
-      "增加边界变动、覆盖分母、合成采集失败、可信摘要与撤权事故五关。"
+      "目录/枚举/哈希/导出均Stop；先固定文件再算完全部哈希后导出；按事实分类，新增风险例外不等于控制通过。"
     ],
     "criteria": [
       {
@@ -57,7 +43,7 @@
       {
         "id": "mastery",
         "result": "pass",
-        "evidence": "五关按120/150源算75%/60%，哈希同改反例与权限链核验可判定。"
+        "evidence": "风险例外课堂要求到期、新入口与补偿控制证据，不能扫描绿灯等同修复、批准和正式合规。"
       },
       {
         "id": "aiops",
@@ -68,46 +54,40 @@
     "validation": [
       {
         "kind": "reasoned",
-        "detail": "全文走读，官方修正网络安全法第二十三/二十七条与GB/T22239/22240状态入口复核；覆盖率复算。",
-        "limits": "未逐条法律审查或正式定级测评，不替代行业/属地/责任人意见。"
-      },
-      {
-        "kind": "syntax",
-        "detail": "安全两篇合计3个PowerShell围栏解析及10个Bash围栏语法检查通过。",
-        "limits": "语法不证明产品配置或真实权限有效。"
+        "detail": "2026-11-11逐段阅读全文，八维复评，保留已充分的机制、双实验、生产设计和递进面试层；目录/枚举/哈希/导出均Stop；先固定文件再算完全部哈希后导出；按事实分类，新增风险例外不等于控制通过。",
+        "limits": "不保证阅读后完全掌握或获得录用；未运行真实生产服务与外部变更。"
       },
       {
         "kind": "executed",
-        "detail": "正文采集函数使用模拟输出写入，正常、throw、非终止Write-Error三分支验证状态与失败原因。",
-        "limits": "未采集本机安全数据，模拟文件I/O不证明真实落盘、访问控制与防篡改。"
+        "detail": "PowerShell7实际合成collected/failed/failed/collected与文件哈希清单无自引用；全部相关PS围栏解析；官方修正法第二十三/二十七条核对。",
+        "limits": "仅合成文件与模拟采集错误；未读取本机账号/端口等安全数据或执行正式测评。"
       }
     ],
-    "status": "revised-awaiting-cross-review"
+    "status": "cross-reviewed",
+    "disposition": "revised",
+    "crossReview": {
+      "reviewer": "refresh-foundation-platform",
+      "reviewedAt": "2026-11-11",
+      "articleSha256": "944231bccdd0d1b471c26350c4036fed9b2b51f5159a8cb3c765d66deefb3250",
+      "result": "pass",
+      "findings": [
+        "审阅范围：完整本轮diff、双实验及独立通关的必要正文/代码上下文；不是本轮全文重复审读。",
+        "证据收集失败仍保留状态和部分文件，哈希不把失败变成功；清单生成前固定输入、哈希全部完成再导出避免自引用；例外审批不等于风险修复/正式合规。",
+        "独立重跑合成PowerShell采集：正常/throw/非终止错误/正常得到collected/failed/failed/collected，摘要不含自身；未采本机真实安全清单，未作正式测评。",
+        "独立执行 tmp/check-root-refresh-2026-11-11.mjs：40项检查、11段PowerShell语法与7项事故断言全部通过；证据为本地合成验证，不能代替生产验收。"
+      ]
+    }
   },
   {
     "article": "security-compliance/jumpserver.md",
-    "crossReview": {
-      "reviewer": "foundation-frontend",
-      "reviewedAt": "2026-10-12",
-      "articleSha256": "5f912194d27b662fef45b2a24ee5abb8b1da29aded5fdc74039195aa4512d074",
-      "result": "pass",
-      "findings": [
-        "全文复核。官方GHSA-6rp5-ff2m-qfrm核实v4修复下界4.10.19-lts及疑似泄露需轮换；固定v4安装器与v5/许可边界分开，没有把固定版当永远安全。下载安装使用新临时目录，旧安装/数据和同名目标账号存在时停止，不覆盖或改密。",
-        "基础SSH身份-授权-账号-连接-审计与错误端口恢复路径闭合，说明普通js-lab仍能写自身家目录不是强制只读沙箱；精确ss端口、主机名不等于资产名、存量会话撤权待实测。数据库/Redis/密钥/录像恢复单元和维护窗口数据库迁移而非零停机回滚讲清。",
-        "五关角色与连接分离、节点3扩5潜在扩权、单网区超时证据、录像日16.48GiB/180日2.90TiB/两完整副本5.79TiB复算通过，以及旧凭据不作安全回滚目标。无两台隔离Linux虚拟机，安装器、资产访问、故障恢复与商业功能均未实跑；本次为全文机制/命令静态审查和官方公告核对。"
-      ]
-    },
-    "writer": "systems",
-    "reviewedAt": "2026-10-12",
+    "writer": "root-refresh-2026-11-11",
+    "reviewedAt": "2026-11-11",
     "initialFindings": [
-      "固定v4.10.18已落入后来官方Access Key泄露公告影响范围，旧安全下限不足。",
-      "准备默认已会Linux虚拟机；grep ':22'可能误把2223计为22端口监听，apt更新失败未停止。",
-      "原检查单不能验证授权范围扩大、协议容量和泄露后的恢复决策。"
+      "旧v4入口跳v5；版本表当前字样误导；wget/nc前置隐藏；个人恢复生产备份风险。"
     ],
     "changes": [
-      "升隔离课堂到v4.10.19-ce，标出v5已发布但本文不套用v5，核验installer发布资产、静态版本和服务组/Socket源码。",
-      "补入口与SSH/RDP/WebSocket基础，精确ss过滤两端口并在更新失败停止。",
-      "补用户角色/节点扩权/单区失败/录像容量/泄露轮换五关。"
+      "补文档版本跳转警示与固定标签源码入口，明确旧快照；补下载/探测工具；恢复授权和合成备份隔离课堂。",
+      "交叉审校返工：明确总两份与原始外另备两份分别为两份/三份，复算5.79TiB与8.69TiB，不再含混副本数量。"
     ],
     "criteria": [
       {
@@ -143,7 +123,7 @@
       {
         "id": "mastery",
         "result": "pass",
-        "evidence": "五关改变用户/节点/网区与录像数据，新容量给单位和副本定义，不许镜像回退掩盖泄露。"
+        "evidence": "恢复课堂画出站依赖、识别克隆任务副作用，分清旧密钥恢复与泄露后安全轮换。"
       },
       {
         "id": "aiops",
@@ -154,15 +134,28 @@
     "validation": [
       {
         "kind": "reasoned",
-        "detail": "全文走读；gh核对2026-10-12发布与GHSA-6rp5公告及v4.10.19安装器资产、static.env、service.sh、core.yml。",
-        "limits": "固定版本只解决已核对公告的影响线，不保证无其他漏洞或所有平台兼容。"
+        "detail": "2026-11-11逐段阅读全文，八维复评，保留已充分的机制、双实验、生产设计和递进面试层；补文档版本跳转警示与固定标签源码入口，明确旧快照；补下载/探测工具；恢复授权和合成备份隔离课堂。",
+        "limits": "不保证阅读后完全掌握或获得录用；未运行真实生产服务与外部变更。"
       },
       {
-        "kind": "syntax",
-        "detail": "本文10个Bash围栏经Git Bash -n语法检查通过。",
-        "limits": "未运行Linux安装器、JumpServer、目标SSH或真实网络与审计；预期仍待隔离实跑。"
+        "kind": "reasoned",
+        "detail": "读取官方v4.10.19安装器配置与GHSA公告，确认旧文档入口现跳v5；全文静态核对两VM实验及工具用法。",
+        "limits": "未安装JumpServer、创建两VM或运行真实SSH/审计/升级；产品实验待隔离实跑。"
       }
     ],
-    "status": "revised-awaiting-cross-review"
+    "status": "cross-reviewed",
+    "disposition": "revised",
+    "crossReview": {
+      "reviewer": "refresh-foundation-platform",
+      "reviewedAt": "2026-11-11",
+      "articleSha256": "0f260ab7641a3609075158f811e6624540a1e25d0996b89929123e2d958ec7bd",
+      "result": "pass",
+      "findings": [
+        "审阅范围：完整本轮diff、双实验及独立通关的必要正文/代码上下文；不是本轮全文重复审读。",
+        "发现独立通关原文“另存两份”与5.79TiB仅两份总量不符，已反馈作者返工并逐字复查：原始一份加另备一份共5.79TiB，原始外另两份共8.69TiB。",
+        "复核SSH基础实验、错误端口注入、恢复和清理全路径及备份恢复出网限制。账号重名、精确端口和授权范围有保护；没有安装JumpServer、连接真实资产或执行凭据轮换。",
+        "独立执行 tmp/check-root-refresh-2026-11-11.mjs：40项检查、11段PowerShell语法与7项事故断言全部通过；证据为本地合成验证，不能代替生产验收。"
+      ]
+    }
   }
 ]
